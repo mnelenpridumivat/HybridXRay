@@ -24,10 +24,10 @@ inline_ BOOL RayCollider::RayTriOverlap(const Point& vert0, const Point& vert1, 
     Point edge2 = vert2 - vert0;
 
     // Begin calculating determinant - also used to calculate U parameter
-    Point pvec = mDir ^ edge2;
+    Point pvec  = mDir ^ edge2;
 
     // If determinant is near zero, ray lies in plane of triangle
-    float det = edge1 | pvec;
+    float det   = edge1 | pvec;
 
     if (mCulling)
     {
@@ -36,7 +36,7 @@ inline_ BOOL RayCollider::RayTriOverlap(const Point& vert0, const Point& vert1, 
         // From here, det is > 0. So we can use integer cmp.
 
         // Calculate distance from vert0 to ray origin
-        Point tvec = mOrigin - vert0;
+        Point tvec      = mOrigin - vert0;
 
         // Calculate U parameter and test bounds
         mStabbedFace.mU = tvec | pvec;
@@ -45,7 +45,7 @@ inline_ BOOL RayCollider::RayTriOverlap(const Point& vert0, const Point& vert1, 
             return FALSE;
 
         // Prepare to test V parameter
-        Point qvec = tvec ^ edge1;
+        Point qvec      = tvec ^ edge1;
 
         // Calculate V parameter and test bounds
         mStabbedFace.mV = mDir | qvec;
@@ -64,10 +64,10 @@ inline_ BOOL RayCollider::RayTriOverlap(const Point& vert0, const Point& vert1, 
         // the non-culling branch
         if (det > -LOCAL_EPSILON && det < LOCAL_EPSILON)
             return FALSE;
-        float inv_det = 1.0f / det;
+        float inv_det   = 1.0f / det;
 
         // Calculate distance from vert0 to ray origin
-        Point tvec = mOrigin - vert0;
+        Point tvec      = mOrigin - vert0;
 
         // Calculate U parameter and test bounds
         mStabbedFace.mU = (tvec | pvec) * inv_det;
@@ -76,7 +76,7 @@ inline_ BOOL RayCollider::RayTriOverlap(const Point& vert0, const Point& vert1, 
             return FALSE;
 
         // prepare to test V parameter
-        Point qvec = tvec ^ edge1;
+        Point qvec      = tvec ^ edge1;
 
         // Calculate V parameter and test bounds
         mStabbedFace.mV = (mDir | qvec) * inv_det;

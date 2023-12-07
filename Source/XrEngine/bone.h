@@ -5,12 +5,12 @@
 // refs
 class CBone;
 
-#define BI_NONE (u16(-1))
+#define BI_NONE            (u16(-1))
 
 #define OGF_IKDATA_VERSION 0x0001
-#define MAX_BONE_PARAMS 4
+#define MAX_BONE_PARAMS    4
 
-class ENGINE_API CBoneInstance;
+class ENGINE_API              CBoneInstance;
 // callback
 typedef void _BCL             BoneCallbackFunction(CBoneInstance* P);
 typedef BoneCallbackFunction* BoneCallback;
@@ -24,6 +24,7 @@ public:
     // data
     Fmatrix mTransform;         // final x-form matrix (local to model)
     Fmatrix mRenderTransform;   // final x-form matrix (model_base -> bone -> model)
+
 private:
     BoneCallback Callback;
     void*        Callback_Param;
@@ -34,6 +35,7 @@ public:
     float param[MAX_BONE_PARAMS];   //
                                     //
                                     // methods
+
 public:
     IC BoneCallback _BCL callback()
     {
@@ -55,7 +57,7 @@ public:
 public:
     IC void _BCL construct();
 
-    void _BCL set_callback(u32 Type, BoneCallback C, void* Param, BOOL overwrite = FALSE)
+    void _BCL    set_callback(u32 Type, BoneCallback C, void* Param, BOOL overwrite = FALSE)
     {
         Callback           = C;
         Callback_Param     = Param;
@@ -78,7 +80,7 @@ public:
     void  set_param(u32 idx, float data);
     float get_param(u32 idx);
 
-    u32 mem_usage()
+    u32   mem_usage()
     {
         return sizeof(*this);
     }
@@ -251,8 +253,7 @@ struct ENGINE_API SBoneShape
             case stSphere:
                 return !fis_zero(sphere.R);
             case stCylinder:
-                return !fis_zero(cylinder.m_height) && !fis_zero(cylinder.m_radius) &&
-                    !fis_zero(cylinder.m_direction.square_magnitude());
+                return !fis_zero(cylinder.m_height) && !fis_zero(cylinder.m_radius) && !fis_zero(cylinder.m_direction.square_magnitude());
         };
         return true;
     }
@@ -273,7 +274,7 @@ struct ENGINE_API SJointIKData
     float   break_force;    // [0..+INF]
     float   break_torque;   // [0..+INF]
 
-    float friction;
+    float   friction;
 
     SJointIKData()
     {
@@ -294,17 +295,16 @@ struct ENGINE_API SJointIKData
     void clamp_by_limits(Fvector& dest_xyz);
     void Export(IWriter& F);
     bool Import(IReader& F, u16 vers);
-
 };
 #pragma pack(pop)
 
 class IBoneData
 {
 public:
-    virtual IBoneData& _BCL       GetChild(u16 id)       = 0;
-    virtual const IBoneData& _BCL GetChild(u16 id) const = 0;
-    virtual u16 _BCL              GetSelfID() const      = 0;
-    virtual u16 _BCL              GetNumChildren() const = 0;
+    virtual IBoneData& _BCL          GetChild(u16 id)           = 0;
+    virtual const IBoneData& _BCL    GetChild(u16 id) const     = 0;
+    virtual u16 _BCL                 GetSelfID() const          = 0;
+    virtual u16 _BCL                 GetNumChildren() const     = 0;
 
     virtual const SJointIKData& _BCL get_IK_data() const        = 0;
     virtual const Fmatrix& _BCL      get_bind_transform() const = 0;
@@ -331,21 +331,23 @@ class ENGINE_API CBone: public CBoneInstance, public IBoneData
     Fvector    rest_offset;
     float      rest_length;
 
-    Fvector mot_offset;
-    float   mot_length;
+    Fvector    mot_offset;
+    float      mot_length;
 
-    Fmatrix mot_transform;
+    Fmatrix    mot_transform;
 
-    Fmatrix local_rest_transform;
-    Fmatrix rest_transform;
-    Fmatrix rest_i_transform;
+    Fmatrix    local_rest_transform;
+    Fmatrix    rest_transform;
+    Fmatrix    rest_i_transform;
 
     // Fmatrix			    last_transform;
 
     // Fmatrix				render_transform;
+
 public:
     Fvector rest_rotate;   // XYZ format (Game format)
     Fvector mot_rotate;    // XYZ format (Game format)
+
 public:
     int     SelfID;
     CBone*  parent;
@@ -362,8 +364,8 @@ public:
     shared_str   game_mtl;
     SBoneShape   shape;
 
-    float   mass;
-    Fvector center_of_mass;
+    float        mass;
+    Fvector      center_of_mass;
 
 public:
     CBone();
@@ -481,9 +483,9 @@ public:
     }
 
     // IO
-    void Save(IWriter& F);
-    void Load_0(IReader& F);
-    void Load_1(IReader& F);
+    void          Save(IWriter& F);
+    void          Load_0(IReader& F);
+    void          Load_1(IReader& F);
 
     IC float _BCL engine_lo_limit(u8 k) const
     {
@@ -529,6 +531,7 @@ public:
 
     bool ExportOGF(IWriter& F, float scale, BOOL adjust_mass);
 #endif
+
 private:
     IBoneData& _BCL GetChild(u16 id)
     {
@@ -592,16 +595,16 @@ class CBoneData;
 typedef xr_vector<CBoneData*> vecBones;
 typedef vecBones::iterator    vecBonesIt;
 
-class ENGINE_API CBoneData: public IBoneData
+class ENGINE_API              CBoneData: public IBoneData
 {
 protected:
     u16 SelfID;
     u16 ParentID;
 
 public:
-    shared_str name;
+    shared_str   name;
 
-    Fobb obb;
+    Fobb         obb;
 
     Fmatrix      bind_transform;
     Fmatrix      m2b_transform;   // model to bone conversion transform
@@ -612,11 +615,12 @@ public:
     float        mass;
     Fvector      center_of_mass;
 
-    vecBones children;   // bones which are slaves to this
+    vecBones     children;   // bones which are slaves to this
 
     DEFINE_VECTOR(u16, FacesVec, FacesVecIt);
     DEFINE_VECTOR(FacesVec, ChildFacesVec, ChildFacesVecIt);
     ChildFacesVec child_faces;   // shared
+
 public:
     CBoneData(u16 ID): SelfID(ID)
     {

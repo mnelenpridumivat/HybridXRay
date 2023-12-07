@@ -23,6 +23,7 @@ public:
 
     base_color_c          c_scale;
     base_color_c          c_bias;
+
 public:
     xrMU_Reference(): model(0), sector(u16(-1)), flags(Flags32().assign(0)), xform(Fidentity) {}
 
@@ -47,6 +48,6 @@ public:
 typedef vector_serialize<t_read<xrMU_Reference, get_id_standart<xrMU_Reference>>>  tread_mu_refs;
 typedef vector_serialize<t_write<xrMU_Reference, get_id_standart<xrMU_Reference>>> twrite_mu_refs;
 
-extern tread_mu_refs*  read_mu_refs;
-extern twrite_mu_refs* write_mu_refs;
+extern tread_mu_refs*                                                              read_mu_refs;
+extern twrite_mu_refs*                                                             write_mu_refs;
 #endif

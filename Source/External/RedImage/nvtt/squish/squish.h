@@ -22,54 +22,55 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #ifndef NV_SQUISH_H
 #define NV_SQUISH_H
 #ifdef WINDOWS
-#pragma warning(disable: 4201 4100 4458 4456 4189 4701 4244 4703 4503 4505 4702 4091 4740 4457 4389 4456 )
+#pragma warning(disable:4201 4100 4458 4456 4189 4701 4244 4703 4503 4505 4702 4091 4740 4457 4389 4456)
 #elif LINUX
 
 #endif
 //! All squish API functions live in this namespace.
-namespace nvsquish {
-
-// -----------------------------------------------------------------------------
-
-//! Typedef a quantity that is a single unsigned byte.
-typedef unsigned char u8;
-
-// -----------------------------------------------------------------------------
-
-enum
+namespace nvsquish
 {
-	//! Use DXT1 compression.
-	kDxt1 = ( 1 << 0 ), 
-	
-	//! Use DXT3 compression.
-	kDxt3 = ( 1 << 1 ), 
-	
-	//! Use DXT5 compression.
-	kDxt5 = ( 1 << 2 ), 
-	
-	//! Use a slow but high quality colour compressor (the default).
-	kColourClusterFit = ( 1 << 3 ),	
-	
-	//! Use a fast but low quality colour compressor.
-	kColourRangeFit	= ( 1 << 4 ),
-	
-	//! Use a perceptual metric for colour error (the default).
-	kColourMetricPerceptual = ( 1 << 5 ),
 
-	//! Use a uniform metric for colour error.
-	kColourMetricUniform = ( 1 << 6 ),
-	
-	//! Weight the colour by alpha during cluster fit (disabled by default).
-	kWeightColourByAlpha = ( 1 << 7 )
-};
+    // -----------------------------------------------------------------------------
 
-// -----------------------------------------------------------------------------
+    //! Typedef a quantity that is a single unsigned byte.
+    typedef unsigned char u8;
 
-/*! @brief Compresses a 4x4 block of pixels.
+    // -----------------------------------------------------------------------------
+
+    enum
+    {
+        //! Use DXT1 compression.
+        kDxt1                   = (1 << 0),
+
+        //! Use DXT3 compression.
+        kDxt3                   = (1 << 1),
+
+        //! Use DXT5 compression.
+        kDxt5                   = (1 << 2),
+
+        //! Use a slow but high quality colour compressor (the default).
+        kColourClusterFit       = (1 << 3),
+
+        //! Use a fast but low quality colour compressor.
+        kColourRangeFit         = (1 << 4),
+
+        //! Use a perceptual metric for colour error (the default).
+        kColourMetricPerceptual = (1 << 5),
+
+        //! Use a uniform metric for colour error.
+        kColourMetricUniform    = (1 << 6),
+
+        //! Weight the colour by alpha during cluster fit (disabled by default).
+        kWeightColourByAlpha    = (1 << 7)
+    };
+
+    // -----------------------------------------------------------------------------
+
+    /*! @brief Compresses a 4x4 block of pixels.
 
 	@param rgba		The rgba values of the 16 source pixels.
 	@param block	Storage for the compressed DXT block.
@@ -98,11 +99,11 @@ enum
 	rendered using alpha blending, this can significantly increase the 
 	perceived quality.
 */
-void Compress( u8 const* rgba, void* block, int flags );
+    void Compress(u8 const* rgba, void* block, int flags);
 
-// -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
 
-/*! @brief Compresses a 4x4 block of pixels.
+    /*! @brief Compresses a 4x4 block of pixels.
 
 	@param rgba		The rgba values of the 16 source pixels.
 	@param mask		The valid pixel mask.
@@ -139,11 +140,11 @@ void Compress( u8 const* rgba, void* block, int flags );
 	rendered using alpha blending, this can significantly increase the 
 	perceived quality.
 */
-void CompressMasked( u8 const* rgba, int mask, void* block, int flags );
+    void CompressMasked(u8 const* rgba, int mask, void* block, int flags);
 
-// -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
 
-/*! @brief Decompresses a 4x4 block of pixels.
+    /*! @brief Decompresses a 4x4 block of pixels.
 
 	@param rgba		Storage for the 16 decompressed pixels.
 	@param block	The compressed DXT block.
@@ -158,11 +159,11 @@ void CompressMasked( u8 const* rgba, int mask, void* block, int flags );
 	however, DXT1 will be used by default if none is specified. All other flags 
 	are ignored.
 */
-void Decompress( u8* rgba, void const* block, int flags );
+    void Decompress(u8* rgba, void const* block, int flags);
 
-// -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
 
-/*! @brief Computes the amount of compressed storage required.
+    /*! @brief Computes the amount of compressed storage required.
 
 	@param width	The width of the image.
 	@param height	The height of the image.
@@ -176,11 +177,11 @@ void Decompress( u8* rgba, void const* block, int flags );
 	function supports arbitrary size images by allowing the outer blocks to
 	be only partially used.
 */
-int GetStorageRequirements( int width, int height, int flags );
+    int  GetStorageRequirements(int width, int height, int flags);
 
-// -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
 
-/*! @brief Compresses an image in memory.
+    /*! @brief Compresses an image in memory.
 
 	@param rgba		The pixels of the source.
 	@param width	The width of the source image.
@@ -215,11 +216,11 @@ int GetStorageRequirements( int width, int height, int flags );
 	much memory is required in the compressed image, use
 	squish::GetStorageRequirements.
 */
-void CompressImage( u8 const* rgba, int width, int height, void* blocks, int flags );
+    void CompressImage(u8 const* rgba, int width, int height, void* blocks, int flags);
 
-// -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
 
-/*! @brief Decompresses an image in memory.
+    /*! @brief Decompresses an image in memory.
 
 	@param rgba		Storage for the decompressed pixels.
 	@param width	The width of the source image.
@@ -238,11 +239,10 @@ void CompressImage( u8 const* rgba, int width, int height, void* blocks, int fla
 
 	Internally this function calls squish::Decompress for each block.
 */
-void DecompressImage( u8* rgba, int width, int height, void const* blocks, int flags );
+    void DecompressImage(u8* rgba, int width, int height, void const* blocks, int flags);
 
-// -----------------------------------------------------------------------------
+    // -----------------------------------------------------------------------------
 
-} // namespace squish
+}   // namespace nvsquish
 
-#endif // ndef SQUISH_H
-
+#endif   // ndef SQUISH_H

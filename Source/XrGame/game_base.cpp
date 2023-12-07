@@ -5,23 +5,23 @@
 #include "level.h"
 #include "xrMessages.h"
 
-u64   g_qwStartGameTime  = 12 * 60 * 60 * 1000;
-float g_fTimeFactor      = pSettings->r_float("alife", "time_factor");
-u64   g_qwEStartGameTime = 12 * 60 * 60 * 1000;
+u64      g_qwStartGameTime  = 12 * 60 * 60 * 1000;
+float    g_fTimeFactor      = pSettings->r_float("alife", "time_factor");
+u64      g_qwEStartGameTime = 12 * 60 * 60 * 1000;
 
 EGameIDs ParseStringToGameType(LPCSTR str);
 
 game_PlayerState::game_PlayerState(NET_Packet* account_info)
 {
-    skin            = 0;
-    m_online_time   = 0;
-    team            = 0;
-    money_for_round = 0;
+    skin                 = 0;
+    m_online_time        = 0;
+    team                 = 0;
+    money_for_round      = 0;
 
-    experience_Real = 0;
-    rank            = 0;
-    af_count        = 0;
-    experience_New  = 0;
+    experience_Real      = 0;
+    rank                 = 0;
+    af_count             = 0;
+    experience_New       = 0;
 
     flags__              = 0;
     m_bCurrentVoteAgreed = 2;
@@ -283,9 +283,7 @@ ALife::_TIME_ID game_GameState::GetStartGameTime()
 
 ALife::_TIME_ID game_GameState::GetGameTime()
 {
-    return (
-        m_qwStartGameTime +
-        ALife::_TIME_ID(m_fTimeFactor * float(Level().timeServer_Async() - m_qwStartProcessorTime)));
+    return (m_qwStartGameTime + ALife::_TIME_ID(m_fTimeFactor * float(Level().timeServer_Async() - m_qwStartProcessorTime)));
 }
 
 float game_GameState::GetGameTimeFactor()
@@ -309,9 +307,7 @@ void game_GameState::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTi
 
 ALife::_TIME_ID game_GameState::GetEnvironmentGameTime()
 {
-    return (
-        m_qwEStartGameTime +
-        ALife::_TIME_ID(m_fETimeFactor * float(Level().timeServer_Async() - m_qwEStartProcessorTime)));
+    return (m_qwEStartGameTime + ALife::_TIME_ID(m_fETimeFactor * float(Level().timeServer_Async() - m_qwEStartProcessorTime)));
 }
 
 float game_GameState::GetEnvironmentGameTimeFactor()

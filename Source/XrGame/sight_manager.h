@@ -83,38 +83,28 @@ private:
 
 public:
     CSightManager(CAI_Stalker* object);
-    virtual void Load(LPCSTR section);
-    virtual void reinit();
-    virtual void reload(LPCSTR section);
-    void         remove_links(CObject* object);
-    void         Exec_Look(float dt);
-    void         SetPointLookAngles(
-                const Fvector&     tPosition,
-                float&             yaw,
-                float&             pitch,
-                Fvector const&     look_position,
-                const CGameObject* object = 0);
-    void SetFirePointLookAngles(
-        const Fvector&     tPosition,
-        float&             yaw,
-        float&             pitch,
-        Fvector const&     look_position,
-        const CGameObject* object = 0);
-    void    SetDirectionLook();
-    void    SetLessCoverLook(const LevelGraph::CVertex* tpNode, bool bDifferenceLook);
-    void    SetLessCoverLook(const LevelGraph::CVertex* tpNode, float fMaxHeadTurnAngle, bool bDifferenceLook);
-    void    vfValidateAngleDependency(float x1, float& x2, float x3);
-    IC bool GetDirectionAnglesByPrevPositions(float& yaw, float& pitch);
-    bool    GetDirectionAngles(float& yaw, float& pitch);
-    IC bool use_torso_look() const;
-    template <typename T1, typename T2, typename T3> IC void setup(T1 _1, T2 _2, T3 _3);
-    template <typename T1, typename T2> IC void              setup(T1 _1, T2 _2);
-    template <typename T1> IC void                           setup(T1 _1);
-    void                                                     setup(const CSightAction& sight_action);
-    virtual void                                             update();
-    IC bool                                                  turning_in_place() const;
-    IC bool                                                  enabled() const;
-    void                                                     enable(bool value);
+    virtual void                                            Load(LPCSTR section);
+    virtual void                                            reinit();
+    virtual void                                            reload(LPCSTR section);
+    void                                                    remove_links(CObject* object);
+    void                                                    Exec_Look(float dt);
+    void                                                    SetPointLookAngles(const Fvector& tPosition, float& yaw, float& pitch, Fvector const& look_position, const CGameObject* object = 0);
+    void                                                    SetFirePointLookAngles(const Fvector& tPosition, float& yaw, float& pitch, Fvector const& look_position, const CGameObject* object = 0);
+    void                                                    SetDirectionLook();
+    void                                                    SetLessCoverLook(const LevelGraph::CVertex* tpNode, bool bDifferenceLook);
+    void                                                    SetLessCoverLook(const LevelGraph::CVertex* tpNode, float fMaxHeadTurnAngle, bool bDifferenceLook);
+    void                                                    vfValidateAngleDependency(float x1, float& x2, float x3);
+    IC bool                                                 GetDirectionAnglesByPrevPositions(float& yaw, float& pitch);
+    bool                                                    GetDirectionAngles(float& yaw, float& pitch);
+    IC bool                                                 use_torso_look() const;
+    template<typename T1, typename T2, typename T3> IC void setup(T1 _1, T2 _2, T3 _3);
+    template<typename T1, typename T2> IC void              setup(T1 _1, T2 _2);
+    template<typename T1> IC void                           setup(T1 _1);
+    void                                                    setup(const CSightAction& sight_action);
+    virtual void                                            update();
+    IC bool                                                 turning_in_place() const;
+    IC bool                                                 enabled() const;
+    void                                                    enable(bool value);
 
 private:
     void adjust_orientation();
@@ -132,10 +122,7 @@ public:
 
 public:
     IC void bone_aiming();
-    IC void bone_aiming(
-        shared_str const&          animation_id,
-        animation_frame_type const animation_frame,
-        aiming_type const          aiming_type);
+    IC void bone_aiming(shared_str const& animation_id, animation_frame_type const animation_frame, aiming_type const aiming_type);
 };
 
 #include "sight_manager_inline.h"

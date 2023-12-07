@@ -20,7 +20,7 @@ static xrCriticalSection logCS;
 xr_vector<shared_str>* LogFile = NULL;
 static LogCallback     LogCB   = 0;
 
-void FlushLog()
+void                   FlushLog()
 {
     if (!no_log)
     {
@@ -166,10 +166,7 @@ void Log(const char* msg, const Fmatrix& dop)
     u32  buffer_size = (xr_strlen(msg) + 2 + 4 * (4 * (64 + 1) + 1) + 1) * sizeof(char);
     PSTR buf         = (PSTR)_alloca(buffer_size);
 
-    xr_sprintf(
-        buf, buffer_size, "%s:\n%f,%f,%f,%f\n%f,%f,%f,%f\n%f,%f,%f,%f\n%f,%f,%f,%f\n", msg, dop.i.x, dop.i.y, dop.i.z,
-        dop._14_, dop.j.x, dop.j.y, dop.j.z, dop._24_, dop.k.x, dop.k.y, dop.k.z, dop._34_, dop.c.x, dop.c.y, dop.c.z,
-        dop._44_);
+    xr_sprintf(buf, buffer_size, "%s:\n%f,%f,%f,%f\n%f,%f,%f,%f\n%f,%f,%f,%f\n%f,%f,%f,%f\n", msg, dop.i.x, dop.i.y, dop.i.z, dop._14_, dop.j.x, dop.j.y, dop.j.z, dop._24_, dop.k.x, dop.k.y, dop.k.z, dop._34_, dop.c.x, dop.c.y, dop.c.z, dop._44_);
     Log(buf);
 }
 

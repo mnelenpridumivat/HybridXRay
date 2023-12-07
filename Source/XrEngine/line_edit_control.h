@@ -29,11 +29,11 @@ namespace text_editor
         ks_RAlt     = u32(1) << 5,
         ks_CapsLock = u32(1) << 6,
 
-        ks_Shift = u32(ks_LShift | ks_RShift),
-        ks_Ctrl  = u32(ks_LCtrl | ks_RCtrl),
-        ks_Alt   = u32(ks_LAlt | ks_RAlt),
+        ks_Shift    = u32(ks_LShift | ks_RShift),
+        ks_Ctrl     = u32(ks_LCtrl | ks_RCtrl),
+        ks_Alt      = u32(ks_LAlt | ks_RAlt),
 
-        ks_force = u32(-1)
+        ks_force    = u32(-1)
 
     };   // enum key_state
 
@@ -58,15 +58,15 @@ namespace text_editor
         void init(u32 str_buffer_size, init_mode mode = im_standart);
         ~line_edit_control();
 
-        void clear_states();
-        void on_key_press(int dik);
-        void on_key_hold(int dik);
-        void on_key_release(int dik);
-        void on_frame();
+        void    clear_states();
+        void    on_key_press(int dik);
+        void    on_key_hold(int dik);
+        void    on_key_release(int dik);
+        void    on_frame();
 
-        void assign_callback(u32 const dik, key_state state, Callback const& callback);
+        void    assign_callback(u32 const dik, key_state state, Callback const& callback);
 
-        void insert_character(char c);
+        void    insert_character(char c);
 
         IC bool get_key_state(key_state mask) const
         {
@@ -121,42 +121,42 @@ namespace text_editor
         line_edit_control(line_edit_control const&);
         line_edit_control const& operator=(line_edit_control const&);
 
-        void update_key_states();
-        void update_bufs();
+        void                     update_key_states();
+        void                     update_bufs();
 
-        void xr_stdcall undo_buf();
-        void xr_stdcall select_all_buf();
-        void xr_stdcall flip_insert_mode();
+        void xr_stdcall          undo_buf();
+        void xr_stdcall          select_all_buf();
+        void xr_stdcall          flip_insert_mode();
 
-        void xr_stdcall copy_to_clipboard();
-        void xr_stdcall paste_from_clipboard();
-        void xr_stdcall cut_to_clipboard();
+        void xr_stdcall          copy_to_clipboard();
+        void xr_stdcall          paste_from_clipboard();
+        void xr_stdcall          cut_to_clipboard();
 
-        void xr_stdcall move_pos_home();
-        void xr_stdcall move_pos_end();
-        void xr_stdcall move_pos_left();
-        void xr_stdcall move_pos_right();
-        void xr_stdcall move_pos_left_word();
-        void xr_stdcall move_pos_right_word();
+        void xr_stdcall          move_pos_home();
+        void xr_stdcall          move_pos_end();
+        void xr_stdcall          move_pos_left();
+        void xr_stdcall          move_pos_right();
+        void xr_stdcall          move_pos_left_word();
+        void xr_stdcall          move_pos_right_word();
 
-        void xr_stdcall delete_selected_back();
-        void xr_stdcall delete_selected_forward();
-        void xr_stdcall delete_word_back();
-        void xr_stdcall delete_word_forward();
-        void xr_stdcall SwitchKL();
+        void xr_stdcall          delete_selected_back();
+        void xr_stdcall          delete_selected_forward();
+        void xr_stdcall          delete_word_back();
+        void xr_stdcall          delete_word_forward();
+        void xr_stdcall          SwitchKL();
 
-        void assign_char_pairs(init_mode mode);
-        void create_key_state(u32 const dik, key_state state);
-        void create_char_pair(u32 const dik, char c, char c_shift, bool translate = false);
+        void                     assign_char_pairs(init_mode mode);
+        void                     create_key_state(u32 const dik, key_state state);
+        void                     create_char_pair(u32 const dik, char c, char c_shift, bool translate = false);
 
-        void clear_inserted();
-        bool empty_inserted();
+        void                     clear_inserted();
+        bool                     empty_inserted();
 
-        void add_inserted_text();
+        void                     add_inserted_text();
 
-        void delete_selected(bool back);
-        void compute_positions();
-        void clamp_cur_pos();
+        void                     delete_selected(bool back);
+        void                     compute_positions();
+        void                     clamp_cur_pos();
 
     private:
         enum
@@ -178,29 +178,29 @@ namespace text_editor
             MIN_BUF_SIZE = 8,
             MAX_BUF_SIZE = 4096
         };
-        int m_buffer_size;
+        int     m_buffer_size;
 
-        int m_cur_pos;
-        int m_select_start;
-        int m_p1;
-        int m_p2;
+        int     m_cur_pos;
+        int     m_select_start;
+        int     m_p1;
+        int     m_p2;
 
-        float m_accel;
-        float m_cur_time;
-        float m_rep_time;
-        float m_last_key_time;
-        u32   m_last_frame_time;
-        u32   m_last_changed_frame;
+        float   m_accel;
+        float   m_cur_time;
+        float   m_rep_time;
+        float   m_last_key_time;
+        u32     m_last_frame_time;
+        u32     m_last_changed_frame;
 
         Flags32 m_key_state;
 
-        bool m_hold_mode;
-        bool m_insert_mode;
-        bool m_repeat_mode;
-        bool m_mark;
-        bool m_cursor_view;
-        bool m_need_update;
-        bool m_unselected_mode;
+        bool    m_hold_mode;
+        bool    m_insert_mode;
+        bool    m_repeat_mode;
+        bool    m_mark;
+        bool    m_cursor_view;
+        bool    m_need_update;
+        bool    m_unselected_mode;
     };   // class line_edit_control
 
 }   // namespace text_editor

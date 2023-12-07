@@ -30,16 +30,7 @@ Matrix3::Matrix3(const Matrix3& rkMatrix)
     memcpy(m_aafEntry, rkMatrix.m_aafEntry, 9 * sizeof(Real));
 }
 //----------------------------------------------------------------------------
-Matrix3::Matrix3(
-    Real fEntry00,
-    Real fEntry01,
-    Real fEntry02,
-    Real fEntry10,
-    Real fEntry11,
-    Real fEntry12,
-    Real fEntry20,
-    Real fEntry21,
-    Real fEntry22)
+Matrix3::Matrix3(Real fEntry00, Real fEntry01, Real fEntry02, Real fEntry10, Real fEntry11, Real fEntry12, Real fEntry20, Real fEntry21, Real fEntry22)
 {
     m_aafEntry[0][0] = fEntry00;
     m_aafEntry[0][1] = fEntry01;
@@ -116,8 +107,7 @@ Matrix3 Matrix3::operator*(const Matrix3& rkMatrix) const
     {
         for (int iCol = 0; iCol < 3; iCol++)
         {
-            kProd.m_aafEntry[iRow][iCol] = m_aafEntry[iRow][0] * rkMatrix.m_aafEntry[0][iCol] +
-                m_aafEntry[iRow][1] * rkMatrix.m_aafEntry[1][iCol] + m_aafEntry[iRow][2] * rkMatrix.m_aafEntry[2][iCol];
+            kProd.m_aafEntry[iRow][iCol] = m_aafEntry[iRow][0] * rkMatrix.m_aafEntry[0][iCol] + m_aafEntry[iRow][1] * rkMatrix.m_aafEntry[1][iCol] + m_aafEntry[iRow][2] * rkMatrix.m_aafEntry[2][iCol];
         }
     }
     return kProd;
@@ -128,8 +118,7 @@ Vector3 Matrix3::operator*(const Vector3& rkPoint) const
     Vector3 kProd;
     for (int iRow = 0; iRow < 3; iRow++)
     {
-        kProd[iRow] =
-            m_aafEntry[iRow][0] * rkPoint[0] + m_aafEntry[iRow][1] * rkPoint[1] + m_aafEntry[iRow][2] * rkPoint[2];
+        kProd[iRow] = m_aafEntry[iRow][0] * rkPoint[0] + m_aafEntry[iRow][1] * rkPoint[1] + m_aafEntry[iRow][2] * rkPoint[2];
     }
     return kProd;
 }
@@ -139,8 +128,7 @@ Vector3 Mgc::operator*(const Vector3& rkPoint, const Matrix3& rkMatrix)
     Vector3 kProd;
     for (int iRow = 0; iRow < 3; iRow++)
     {
-        kProd[iRow] = rkPoint[0] * rkMatrix.m_aafEntry[0][iRow] + rkPoint[1] * rkMatrix.m_aafEntry[1][iRow] +
-            rkPoint[2] * rkMatrix.m_aafEntry[2][iRow];
+        kProd[iRow] = rkPoint[0] * rkMatrix.m_aafEntry[0][iRow] + rkPoint[1] * rkMatrix.m_aafEntry[1][iRow] + rkPoint[2] * rkMatrix.m_aafEntry[2][iRow];
     }
     return kProd;
 }
@@ -238,8 +226,7 @@ bool Matrix3::Inverse(Matrix3& rkInverse, Real fTolerance) const
     rkInverse[2][1] = m_aafEntry[0][1] * m_aafEntry[2][0] - m_aafEntry[0][0] * m_aafEntry[2][1];
     rkInverse[2][2] = m_aafEntry[0][0] * m_aafEntry[1][1] - m_aafEntry[0][1] * m_aafEntry[1][0];
 
-    Real fDet =
-        m_aafEntry[0][0] * rkInverse[0][0] + m_aafEntry[0][1] * rkInverse[1][0] + m_aafEntry[0][2] * rkInverse[2][0];
+    Real fDet       = m_aafEntry[0][0] * rkInverse[0][0] + m_aafEntry[0][1] * rkInverse[1][0] + m_aafEntry[0][2] * rkInverse[2][0];
 
     if (Math::FAbs(fDet) <= fTolerance)
         return false;
@@ -267,7 +254,7 @@ Real Matrix3::Determinant() const
     Real fCofactor10 = m_aafEntry[1][2] * m_aafEntry[2][0] - m_aafEntry[1][0] * m_aafEntry[2][2];
     Real fCofactor20 = m_aafEntry[1][0] * m_aafEntry[2][1] - m_aafEntry[1][1] * m_aafEntry[2][0];
 
-    Real fDet = m_aafEntry[0][0] * fCofactor00 + m_aafEntry[0][1] * fCofactor10 + m_aafEntry[0][2] * fCofactor20;
+    Real fDet        = m_aafEntry[0][0] * fCofactor00 + m_aafEntry[0][1] * fCofactor10 + m_aafEntry[0][2] * fCofactor20;
 
     return fDet;
 }
@@ -400,14 +387,14 @@ void Matrix3::Bidiagonalize(Matrix3& kA, Matrix3& kL, Matrix3& kR)
 //----------------------------------------------------------------------------
 void Matrix3::GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR)
 {
-    Real fT11   = kA[0][1] * kA[0][1] + kA[1][1] * kA[1][1];
-    Real fT22   = kA[1][2] * kA[1][2] + kA[2][2] * kA[2][2];
-    Real fT12   = kA[1][1] * kA[1][2];
-    Real fTrace = fT11 + fT22;
-    Real fDiff  = fT11 - fT22;
-    Real fDiscr = Math::Sqrt(fDiff * fDiff + 4.0f * fT12 * fT12);
-    Real fRoot1 = 0.5f * (fTrace + fDiscr);
-    Real fRoot2 = 0.5f * (fTrace - fDiscr);
+    Real fT11       = kA[0][1] * kA[0][1] + kA[1][1] * kA[1][1];
+    Real fT22       = kA[1][2] * kA[1][2] + kA[2][2] * kA[2][2];
+    Real fT12       = kA[1][1] * kA[1][2];
+    Real fTrace     = fT11 + fT22;
+    Real fDiff      = fT11 - fT22;
+    Real fDiscr     = Math::Sqrt(fDiff * fDiff + 4.0f * fT12 * fT12);
+    Real fRoot1     = 0.5f * (fTrace + fDiscr);
+    Real fRoot2     = 0.5f * (fTrace - fDiscr);
 
     // adjust right
     Real fY         = kA[0][0] - (Math::FAbs(fRoot1 - fT22) <= Math::FAbs(fRoot2 - fT22) ? fRoot1 : fRoot2);
@@ -416,11 +403,11 @@ void Matrix3::GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR)
     Real fSin       = fZ * fInvLength;
     Real fCos       = -fY * fInvLength;
 
-    Real fTmp0 = kA[0][0];
-    Real fTmp1 = kA[0][1];
-    kA[0][0]   = fCos * fTmp0 - fSin * fTmp1;
-    kA[0][1]   = fSin * fTmp0 + fCos * fTmp1;
-    kA[1][0]   = -fSin * kA[1][1];
+    Real fTmp0      = kA[0][0];
+    Real fTmp1      = kA[0][1];
+    kA[0][0]        = fCos * fTmp0 - fSin * fTmp1;
+    kA[0][1]        = fSin * fTmp0 + fCos * fTmp1;
+    kA[1][0]        = -fSin * kA[1][1];
     kA[1][1] *= fCos;
 
     int iRow;
@@ -439,12 +426,12 @@ void Matrix3::GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR)
     fSin       = fZ * fInvLength;
     fCos       = -fY * fInvLength;
 
-    kA[0][0] = fCos * kA[0][0] - fSin * kA[1][0];
-    fTmp0    = kA[0][1];
-    fTmp1    = kA[1][1];
-    kA[0][1] = fCos * fTmp0 - fSin * fTmp1;
-    kA[1][1] = fSin * fTmp0 + fCos * fTmp1;
-    kA[0][2] = -fSin * kA[1][2];
+    kA[0][0]   = fCos * kA[0][0] - fSin * kA[1][0];
+    fTmp0      = kA[0][1];
+    fTmp1      = kA[1][1];
+    kA[0][1]   = fCos * fTmp0 - fSin * fTmp1;
+    kA[1][1]   = fSin * fTmp0 + fCos * fTmp1;
+    kA[0][2]   = -fSin * kA[1][2];
     kA[1][2] *= fCos;
 
     int iCol;
@@ -463,12 +450,12 @@ void Matrix3::GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR)
     fSin       = fZ * fInvLength;
     fCos       = -fY * fInvLength;
 
-    kA[0][1] = fCos * kA[0][1] - fSin * kA[0][2];
-    fTmp0    = kA[1][1];
-    fTmp1    = kA[1][2];
-    kA[1][1] = fCos * fTmp0 - fSin * fTmp1;
-    kA[1][2] = fSin * fTmp0 + fCos * fTmp1;
-    kA[2][1] = -fSin * kA[2][2];
+    kA[0][1]   = fCos * kA[0][1] - fSin * kA[0][2];
+    fTmp0      = kA[1][1];
+    fTmp1      = kA[1][2];
+    kA[1][1]   = fCos * fTmp0 - fSin * fTmp1;
+    kA[1][2]   = fSin * fTmp0 + fCos * fTmp1;
+    kA[2][1]   = -fSin * kA[2][2];
     kA[2][2] *= fCos;
 
     for (iRow = 0; iRow < 3; iRow++)
@@ -486,11 +473,11 @@ void Matrix3::GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR)
     fSin       = fZ * fInvLength;
     fCos       = -fY * fInvLength;
 
-    kA[1][1] = fCos * kA[1][1] - fSin * kA[2][1];
-    fTmp0    = kA[1][2];
-    fTmp1    = kA[2][2];
-    kA[1][2] = fCos * fTmp0 - fSin * fTmp1;
-    kA[2][2] = fSin * fTmp0 + fCos * fTmp1;
+    kA[1][1]   = fCos * kA[1][1] - fSin * kA[2][1];
+    fTmp0      = kA[1][2];
+    fTmp1      = kA[2][2];
+    kA[1][2]   = fCos * fTmp0 - fSin * fTmp1;
+    kA[2][2]   = fSin * fTmp0 + fCos * fTmp1;
 
     for (iCol = 0; iCol < 3; iCol++)
     {
@@ -503,7 +490,7 @@ void Matrix3::GolubKahanStep(Matrix3& kA, Matrix3& kL, Matrix3& kR)
 //----------------------------------------------------------------------------
 void Matrix3::SingularValueDecomposition(Matrix3& kL, Vector3& kS, Matrix3& kR) const
 {
-    int iRow, iCol;
+    int     iRow, iCol;
 
     Matrix3 kA = *this;
     Bidiagonalize(kA, kL, kR);
@@ -650,44 +637,35 @@ void Matrix3::Orthonormalize()
     // product of vectors A and B.
 
     // compute q0
-    Real fInvLength = Math::InvSqrt(
-        m_aafEntry[0][0] * m_aafEntry[0][0] + m_aafEntry[1][0] * m_aafEntry[1][0] +
-        m_aafEntry[2][0] * m_aafEntry[2][0]);
+    Real fInvLength = Math::InvSqrt(m_aafEntry[0][0] * m_aafEntry[0][0] + m_aafEntry[1][0] * m_aafEntry[1][0] + m_aafEntry[2][0] * m_aafEntry[2][0]);
 
     m_aafEntry[0][0] *= fInvLength;
     m_aafEntry[1][0] *= fInvLength;
     m_aafEntry[2][0] *= fInvLength;
 
     // compute q1
-    Real fDot0 =
-        m_aafEntry[0][0] * m_aafEntry[0][1] + m_aafEntry[1][0] * m_aafEntry[1][1] + m_aafEntry[2][0] * m_aafEntry[2][1];
+    Real fDot0 = m_aafEntry[0][0] * m_aafEntry[0][1] + m_aafEntry[1][0] * m_aafEntry[1][1] + m_aafEntry[2][0] * m_aafEntry[2][1];
 
     m_aafEntry[0][1] -= fDot0 * m_aafEntry[0][0];
     m_aafEntry[1][1] -= fDot0 * m_aafEntry[1][0];
     m_aafEntry[2][1] -= fDot0 * m_aafEntry[2][0];
 
-    fInvLength = Math::InvSqrt(
-        m_aafEntry[0][1] * m_aafEntry[0][1] + m_aafEntry[1][1] * m_aafEntry[1][1] +
-        m_aafEntry[2][1] * m_aafEntry[2][1]);
+    fInvLength = Math::InvSqrt(m_aafEntry[0][1] * m_aafEntry[0][1] + m_aafEntry[1][1] * m_aafEntry[1][1] + m_aafEntry[2][1] * m_aafEntry[2][1]);
 
     m_aafEntry[0][1] *= fInvLength;
     m_aafEntry[1][1] *= fInvLength;
     m_aafEntry[2][1] *= fInvLength;
 
     // compute q2
-    Real fDot1 =
-        m_aafEntry[0][1] * m_aafEntry[0][2] + m_aafEntry[1][1] * m_aafEntry[1][2] + m_aafEntry[2][1] * m_aafEntry[2][2];
+    Real fDot1 = m_aafEntry[0][1] * m_aafEntry[0][2] + m_aafEntry[1][1] * m_aafEntry[1][2] + m_aafEntry[2][1] * m_aafEntry[2][2];
 
-    fDot0 =
-        m_aafEntry[0][0] * m_aafEntry[0][2] + m_aafEntry[1][0] * m_aafEntry[1][2] + m_aafEntry[2][0] * m_aafEntry[2][2];
+    fDot0      = m_aafEntry[0][0] * m_aafEntry[0][2] + m_aafEntry[1][0] * m_aafEntry[1][2] + m_aafEntry[2][0] * m_aafEntry[2][2];
 
     m_aafEntry[0][2] -= fDot0 * m_aafEntry[0][0] + fDot1 * m_aafEntry[0][1];
     m_aafEntry[1][2] -= fDot0 * m_aafEntry[1][0] + fDot1 * m_aafEntry[1][1];
     m_aafEntry[2][2] -= fDot0 * m_aafEntry[2][0] + fDot1 * m_aafEntry[2][1];
 
-    fInvLength = Math::InvSqrt(
-        m_aafEntry[0][2] * m_aafEntry[0][2] + m_aafEntry[1][2] * m_aafEntry[1][2] +
-        m_aafEntry[2][2] * m_aafEntry[2][2]);
+    fInvLength = Math::InvSqrt(m_aafEntry[0][2] * m_aafEntry[0][2] + m_aafEntry[1][2] * m_aafEntry[1][2] + m_aafEntry[2][2] * m_aafEntry[2][2]);
 
     m_aafEntry[0][2] *= fInvLength;
     m_aafEntry[1][2] *= fInvLength;
@@ -724,18 +702,16 @@ void Matrix3::QDUDecomposition(Matrix3& kQ, Vector3& kD, Vector3& kU) const
     // U stores the entries U[0] = u01, U[1] = u02, U[2] = u12
 
     // build orthogonal matrix Q
-    Real fInvLength = Math::InvSqrt(
-        m_aafEntry[0][0] * m_aafEntry[0][0] + m_aafEntry[1][0] * m_aafEntry[1][0] +
-        m_aafEntry[2][0] * m_aafEntry[2][0]);
-    kQ[0][0] = m_aafEntry[0][0] * fInvLength;
-    kQ[1][0] = m_aafEntry[1][0] * fInvLength;
-    kQ[2][0] = m_aafEntry[2][0] * fInvLength;
+    Real fInvLength = Math::InvSqrt(m_aafEntry[0][0] * m_aafEntry[0][0] + m_aafEntry[1][0] * m_aafEntry[1][0] + m_aafEntry[2][0] * m_aafEntry[2][0]);
+    kQ[0][0]        = m_aafEntry[0][0] * fInvLength;
+    kQ[1][0]        = m_aafEntry[1][0] * fInvLength;
+    kQ[2][0]        = m_aafEntry[2][0] * fInvLength;
 
-    Real fDot  = kQ[0][0] * m_aafEntry[0][1] + kQ[1][0] * m_aafEntry[1][1] + kQ[2][0] * m_aafEntry[2][1];
-    kQ[0][1]   = m_aafEntry[0][1] - fDot * kQ[0][0];
-    kQ[1][1]   = m_aafEntry[1][1] - fDot * kQ[1][0];
-    kQ[2][1]   = m_aafEntry[2][1] - fDot * kQ[2][0];
-    fInvLength = Math::InvSqrt(kQ[0][1] * kQ[0][1] + kQ[1][1] * kQ[1][1] + kQ[2][1] * kQ[2][1]);
+    Real fDot       = kQ[0][0] * m_aafEntry[0][1] + kQ[1][0] * m_aafEntry[1][1] + kQ[2][0] * m_aafEntry[2][1];
+    kQ[0][1]        = m_aafEntry[0][1] - fDot * kQ[0][0];
+    kQ[1][1]        = m_aafEntry[1][1] - fDot * kQ[1][0];
+    kQ[2][1]        = m_aafEntry[2][1] - fDot * kQ[2][0];
+    fInvLength      = Math::InvSqrt(kQ[0][1] * kQ[0][1] + kQ[1][1] * kQ[1][1] + kQ[2][1] * kQ[2][1]);
     kQ[0][1] *= fInvLength;
     kQ[1][1] *= fInvLength;
     kQ[2][1] *= fInvLength;
@@ -754,8 +730,7 @@ void Matrix3::QDUDecomposition(Matrix3& kQ, Vector3& kD, Vector3& kU) const
     kQ[2][2] *= fInvLength;
 
     // guarantee that orthogonal matrix has determinant 1 (no reflections)
-    Real fDet = kQ[0][0] * kQ[1][1] * kQ[2][2] + kQ[0][1] * kQ[1][2] * kQ[2][0] + kQ[0][2] * kQ[1][0] * kQ[2][1] -
-        kQ[0][2] * kQ[1][1] * kQ[2][0] - kQ[0][1] * kQ[1][0] * kQ[2][2] - kQ[0][0] * kQ[1][2] * kQ[2][1];
+    Real fDet = kQ[0][0] * kQ[1][1] * kQ[2][2] + kQ[0][1] * kQ[1][2] * kQ[2][0] + kQ[0][2] * kQ[1][0] * kQ[2][1] - kQ[0][2] * kQ[1][1] * kQ[2][0] - kQ[0][1] * kQ[1][0] * kQ[2][2] - kQ[0][0] * kQ[1][2] * kQ[2][1];
 
     if (fDet < 0.0f)
     {
@@ -768,17 +743,17 @@ void Matrix3::QDUDecomposition(Matrix3& kQ, Vector3& kD, Vector3& kU) const
 
     // build "right" matrix R
     Matrix3 kR;
-    kR[0][0] = kQ[0][0] * m_aafEntry[0][0] + kQ[1][0] * m_aafEntry[1][0] + kQ[2][0] * m_aafEntry[2][0];
-    kR[0][1] = kQ[0][0] * m_aafEntry[0][1] + kQ[1][0] * m_aafEntry[1][1] + kQ[2][0] * m_aafEntry[2][1];
-    kR[1][1] = kQ[0][1] * m_aafEntry[0][1] + kQ[1][1] * m_aafEntry[1][1] + kQ[2][1] * m_aafEntry[2][1];
-    kR[0][2] = kQ[0][0] * m_aafEntry[0][2] + kQ[1][0] * m_aafEntry[1][2] + kQ[2][0] * m_aafEntry[2][2];
-    kR[1][2] = kQ[0][1] * m_aafEntry[0][2] + kQ[1][1] * m_aafEntry[1][2] + kQ[2][1] * m_aafEntry[2][2];
-    kR[2][2] = kQ[0][2] * m_aafEntry[0][2] + kQ[1][2] * m_aafEntry[1][2] + kQ[2][2] * m_aafEntry[2][2];
+    kR[0][0]    = kQ[0][0] * m_aafEntry[0][0] + kQ[1][0] * m_aafEntry[1][0] + kQ[2][0] * m_aafEntry[2][0];
+    kR[0][1]    = kQ[0][0] * m_aafEntry[0][1] + kQ[1][0] * m_aafEntry[1][1] + kQ[2][0] * m_aafEntry[2][1];
+    kR[1][1]    = kQ[0][1] * m_aafEntry[0][1] + kQ[1][1] * m_aafEntry[1][1] + kQ[2][1] * m_aafEntry[2][1];
+    kR[0][2]    = kQ[0][0] * m_aafEntry[0][2] + kQ[1][0] * m_aafEntry[1][2] + kQ[2][0] * m_aafEntry[2][2];
+    kR[1][2]    = kQ[0][1] * m_aafEntry[0][2] + kQ[1][1] * m_aafEntry[1][2] + kQ[2][1] * m_aafEntry[2][2];
+    kR[2][2]    = kQ[0][2] * m_aafEntry[0][2] + kQ[1][2] * m_aafEntry[1][2] + kQ[2][2] * m_aafEntry[2][2];
 
     // the scaling component
-    kD[0] = kR[0][0];
-    kD[1] = kR[1][1];
-    kD[2] = kR[2][2];
+    kD[0]       = kR[0][0];
+    kD[1]       = kR[1][1];
+    kD[2]       = kR[2][2];
 
     // the shear component
     Real fInvD0 = 1.0f / kD[0];
@@ -858,12 +833,8 @@ Real Matrix3::SpectralNorm() const
     }
 
     Real afCoeff[3];
-    afCoeff[0] =
-        -(kP[0][0] * (kP[1][1] * kP[2][2] - kP[1][2] * kP[2][1]) +
-          kP[0][1] * (kP[2][0] * kP[1][2] - kP[1][0] * kP[2][2]) +
-          kP[0][2] * (kP[1][0] * kP[2][1] - kP[2][0] * kP[1][1]));
-    afCoeff[1] = kP[0][0] * kP[1][1] - kP[0][1] * kP[1][0] + kP[0][0] * kP[2][2] - kP[0][2] * kP[2][0] +
-        kP[1][1] * kP[2][2] - kP[1][2] * kP[2][1];
+    afCoeff[0] = -(kP[0][0] * (kP[1][1] * kP[2][2] - kP[1][2] * kP[2][1]) + kP[0][1] * (kP[2][0] * kP[1][2] - kP[1][0] * kP[2][2]) + kP[0][2] * (kP[1][0] * kP[2][1] - kP[2][0] * kP[1][1]));
+    afCoeff[1] = kP[0][0] * kP[1][1] - kP[0][1] * kP[1][0] + kP[0][0] * kP[2][2] - kP[0][2] * kP[2][0] + kP[1][1] * kP[2][2] - kP[1][2] * kP[2][1];
     afCoeff[2] = -(kP[0][0] + kP[1][1] + kP[2][2]);
 
     Real fRoot = MaxCubicRoot(afCoeff);
@@ -979,15 +950,15 @@ void Matrix3::FromAxisAngle(const Vector3& rkAxis, Real fRadians)
     Real fYSin        = rkAxis.y * fSin;
     Real fZSin        = rkAxis.z * fSin;
 
-    m_aafEntry[0][0] = fX2 * fOneMinusCos + fCos;
-    m_aafEntry[0][1] = fXYM - fZSin;
-    m_aafEntry[0][2] = fXZM + fYSin;
-    m_aafEntry[1][0] = fXYM + fZSin;
-    m_aafEntry[1][1] = fY2 * fOneMinusCos + fCos;
-    m_aafEntry[1][2] = fYZM - fXSin;
-    m_aafEntry[2][0] = fXZM - fYSin;
-    m_aafEntry[2][1] = fYZM + fXSin;
-    m_aafEntry[2][2] = fZ2 * fOneMinusCos + fCos;
+    m_aafEntry[0][0]  = fX2 * fOneMinusCos + fCos;
+    m_aafEntry[0][1]  = fXYM - fZSin;
+    m_aafEntry[0][2]  = fXZM + fYSin;
+    m_aafEntry[1][0]  = fXYM + fZSin;
+    m_aafEntry[1][1]  = fY2 * fOneMinusCos + fCos;
+    m_aafEntry[1][2]  = fYZM - fXSin;
+    m_aafEntry[2][0]  = fXZM - fYSin;
+    m_aafEntry[2][1]  = fYZM + fXSin;
+    m_aafEntry[2][2]  = fZ2 * fOneMinusCos + fCos;
 }
 //----------------------------------------------------------------------------
 bool Matrix3::ToEulerAnglesXYZ(Real& rfXAngle, Real& rfYAngle, Real& rfZAngle) const
@@ -1318,12 +1289,12 @@ void Matrix3::Tridiagonal(Real afDiag[3], Real afSubDiag[3])
     //     diag, diagonal entries of T
     //     subd, subdiagonal entries of T (T is symmetric)
 
-    Real fA = m_aafEntry[0][0];
-    Real fB = m_aafEntry[0][1];
-    Real fC = m_aafEntry[0][2];
-    Real fD = m_aafEntry[1][1];
-    Real fE = m_aafEntry[1][2];
-    Real fF = m_aafEntry[2][2];
+    Real fA      = m_aafEntry[0][0];
+    Real fB      = m_aafEntry[0][1];
+    Real fC      = m_aafEntry[0][2];
+    Real fD      = m_aafEntry[1][1];
+    Real fE      = m_aafEntry[1][2];
+    Real fF      = m_aafEntry[2][2];
 
     afDiag[0]    = fA;
     afSubDiag[2] = 0.0f;

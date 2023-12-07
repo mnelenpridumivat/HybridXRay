@@ -13,18 +13,18 @@ public:
     virtual LPCSTR GetText();
 
     // CUIOptionsItem
-    virtual void SetCurrentOptValue();        // opt->current
-    virtual void SaveBackUpOptValue();        // current->backup
-    virtual void SaveOptValue();              // current->opt
-    virtual void UndoOptValue();              // backup->current
-    virtual bool IsChangedOptValue() const;   // backup!=current
+    virtual void   SetCurrentOptValue();        // opt->current
+    virtual void   SaveBackUpOptValue();        // current->backup
+    virtual void   SaveOptValue();              // current->opt
+    virtual void   UndoOptValue();              // backup->current
+    virtual bool   IsChangedOptValue() const;   // backup!=current
 
-    void CreateCDKeyEntry();
-    void assign_callbacks();
+    void           CreateCDKeyEntry();
+    void           assign_callbacks();
 
-    virtual void Show(bool status);
-    virtual void Draw();
-    virtual void OnFocusLost();
+    virtual void   Show(bool status);
+    virtual void   Draw();
+    virtual void   OnFocusLost();
 
 private:
     void paste_from_clipboard();

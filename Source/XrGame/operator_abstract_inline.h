@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _world_property, typename _edge_value_type>
+#define TEMPLATE_SPECIALIZATION template<typename _world_property, typename _edge_value_type>
 
-#define CAbstractOperator COperatorAbstract<_world_property, _edge_value_type>
+#define CAbstractOperator       COperatorAbstract<_world_property, _edge_value_type>
 
 TEMPLATE_SPECIALIZATION
 IC CAbstractOperator::COperatorAbstract()
@@ -94,10 +94,7 @@ IC void CAbstractOperator::remove_effect(const typename COperatorCondition::_con
 }
 
 TEMPLATE_SPECIALIZATION
-IC bool CAbstractOperator::applicable_reverse(
-    const CSConditionState& condition,
-    const CSConditionState& start,
-    const CSConditionState& self_condition) const
+IC bool CAbstractOperator::applicable_reverse(const CSConditionState& condition, const CSConditionState& start, const CSConditionState& self_condition) const
 {
     xr_vector<COperatorCondition>::const_iterator i  = self_condition.conditions().begin();
     xr_vector<COperatorCondition>::const_iterator e  = self_condition.conditions().end();
@@ -147,11 +144,7 @@ IC bool CAbstractOperator::applicable_reverse(
 }
 
 TEMPLATE_SPECIALIZATION
-IC bool CAbstractOperator::apply_reverse(
-    const CSConditionState& condition,
-    const CSConditionState& start,
-    CSConditionState&       result,
-    const CSConditionState& self_condition) const
+IC bool CAbstractOperator::apply_reverse(const CSConditionState& condition, const CSConditionState& start, CSConditionState& result, const CSConditionState& self_condition) const
 {
     result.clear();
     bool                                          changed = false;
@@ -226,11 +219,7 @@ IC bool CAbstractOperator::apply_reverse(
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC bool CAbstractOperator::applicable(
-    const CSConditionState& current,
-    const CSConditionState& start,
-    const CSConditionState& conditions,
-    T&                      problem_solver) const
+template<typename T> IC bool CAbstractOperator::applicable(const CSConditionState& current, const CSConditionState& start, const CSConditionState& conditions, T& problem_solver) const
 {
     xr_vector<COperatorCondition>::const_iterator I  = current.conditions().begin();
     xr_vector<COperatorCondition>::const_iterator E  = current.conditions().end();
@@ -291,12 +280,7 @@ template <typename T> IC bool CAbstractOperator::applicable(
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC const typename CAbstractOperator::CSConditionState& CAbstractOperator::apply(
-    const CSConditionState& current,
-    const CSConditionState& effects,
-    CSConditionState&       result,
-    CSConditionState&       start,
-    T&                      problem_solver) const
+template<typename T> IC const typename CAbstractOperator::CSConditionState& CAbstractOperator::apply(const CSConditionState& current, const CSConditionState& effects, CSConditionState& result, CSConditionState& start, T& problem_solver) const
 {
     result.clear();
     xr_vector<COperatorCondition>::const_iterator I  = current.conditions().begin();
@@ -364,10 +348,7 @@ template <typename T> IC const typename CAbstractOperator::CSConditionState& CAb
 }
 
 TEMPLATE_SPECIALIZATION
-IC const typename CAbstractOperator::CSConditionState& CAbstractOperator::apply(
-    const CSConditionState& condition,
-    const CSConditionState& self_condition,
-    CSConditionState&       result) const
+IC const typename CAbstractOperator::CSConditionState& CAbstractOperator::apply(const CSConditionState& condition, const CSConditionState& self_condition, CSConditionState& result) const
 {
     result.clear();
     xr_vector<COperatorCondition>::const_iterator i = self_condition.conditions().begin();
@@ -408,8 +389,7 @@ IC const typename CAbstractOperator::CSConditionState& CAbstractOperator::apply(
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CAbstractOperator::_edge_value_type
-    CAbstractOperator::weight(const CSConditionState& condition0, const CSConditionState& condition1) const
+IC typename CAbstractOperator::_edge_value_type CAbstractOperator::weight(const CSConditionState& condition0, const CSConditionState& condition1) const
 {
     return (min_weight());
 }

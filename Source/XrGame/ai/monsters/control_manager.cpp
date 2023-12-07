@@ -63,7 +63,7 @@ char* make_xrstr(ControlCom::EControlType e)
 
 CControl_Manager::CControl_Manager(CBaseMonster* obj)
 {
-    m_object = obj;
+    m_object    = obj;
 
     m_animation = xr_new<CControlAnimation>();
     m_movement  = xr_new<CControlMovement>();
@@ -152,8 +152,7 @@ void CControl_Manager::update_frame()
             (*it)->update_frame();
     }
 
-    m_active_elems.erase(
-        std::remove_if(m_active_elems.begin(), m_active_elems.end(), predicate_remove()), m_active_elems.end());
+    m_active_elems.erase(std::remove_if(m_active_elems.begin(), m_active_elems.end(), predicate_remove()), m_active_elems.end());
 }
 
 void CControl_Manager::update_schedule()
@@ -168,8 +167,7 @@ void CControl_Manager::update_schedule()
             (*it)->update_schedule();
     }
 
-    m_active_elems.erase(
-        std::remove_if(m_active_elems.begin(), m_active_elems.end(), predicate_remove()), m_active_elems.end());
+    m_active_elems.erase(std::remove_if(m_active_elems.begin(), m_active_elems.end(), predicate_remove()), m_active_elems.end());
 }
 
 ControlCom::EControlType CControl_Manager::com_type(CControl_Com* com)
@@ -217,7 +215,7 @@ void CControl_Manager::unsubscribe(CControl_Com* com, ControlCom::EEventType typ
 
 ControlCom::IComData* CControl_Manager::data(CControl_Com* who, ControlCom::EControlType type)
 {
-    CControl_Com* target = m_control_elems[type];
+    CControl_Com* target   = m_control_elems[type];
 
     // get_capturer
     CControl_Com* capturer = target->ced()->capturer();
@@ -262,7 +260,7 @@ bool CControl_Manager::is_locked(CControl_Com* com)
 // capture
 void CControl_Manager::capture(CControl_Com* com, ControlCom::EControlType type)   // who, type
 {
-    CControl_Com* target = m_control_elems[type];
+    CControl_Com* target   = m_control_elems[type];
 
     // 1. Check if can capture
     CControl_Com* capturer = target->ced()->capturer();
@@ -395,9 +393,7 @@ bool CControl_Manager::is_captured(ControlCom::EControlType type)
 
 bool CControl_Manager::is_captured_pure()
 {
-    return (
-        is_captured(ControlCom::eControlPath) || is_captured(ControlCom::eControlAnimation) ||
-        is_captured(ControlCom::eControlMovement) || is_captured(ControlCom::eControlDir));
+    return (is_captured(ControlCom::eControlPath) || is_captured(ControlCom::eControlAnimation) || is_captured(ControlCom::eControlMovement) || is_captured(ControlCom::eControlDir));
 }
 
 void CControl_Manager::lock(CControl_Com* com, ControlCom::EControlType type)
@@ -490,8 +486,7 @@ void CControl_Manager::add_debug_info(debug::text_tree& root_s)
 
         if (it->second->ced())
         {
-            con_s.add_line(
-                "Capturer", it->second->ced()->capturer() ? make_xrstr(com_type(it->second->ced()->capturer())) : "-");
+            con_s.add_line("Capturer", it->second->ced()->capturer() ? make_xrstr(com_type(it->second->ced()->capturer())) : "-");
             con_s.add_line("Locked", it->second->ced()->is_locked());
         }
         else

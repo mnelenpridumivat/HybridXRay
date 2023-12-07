@@ -41,6 +41,7 @@ class ENGINE_API SGameMtl
 
 protected:
     int ID;   // auto number
+
 public:
     enum
     {
@@ -85,6 +86,7 @@ public:
     float      fVisTransparencyFactor;   // 0.f - 1.f	(1.f-��������� ����������)
     float      fSndOcclusionFactor;      // 0.f - 1.f    (1.f-��������� ������)
     float      fDensityFactor;
+
 public:
     SGameMtl();
     virtual ~SGameMtl();

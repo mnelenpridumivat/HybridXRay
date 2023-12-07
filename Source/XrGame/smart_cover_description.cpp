@@ -29,7 +29,7 @@ namespace smart_cover
     static LPCSTR s_enter_loophole_id = "<__ENTER__>";
     static LPCSTR s_exit_loophole_id  = "<__EXIT__>";
 
-    shared_str transform_vertex(shared_str const& vertex_id, bool const& in)
+    shared_str    transform_vertex(shared_str const& vertex_id, bool const& in)
     {
         if (*vertex_id.c_str())
             return (vertex_id);
@@ -51,7 +51,7 @@ class id_predicate
     loophole const* m_loophole;
 
 public:
-    IC id_predicate(loophole const& loophole): m_loophole(&loophole) {}
+    IC      id_predicate(loophole const& loophole): m_loophole(&loophole) {}
 
     IC bool operator()(loophole* const& loophole) const
     {
@@ -126,9 +126,7 @@ void description::load_loopholes(shared_str const& table_id)
     }
 
     VERIFY2(!m_loopholes.empty(), make_string("smart_cover [%s] doesn't have loopholes", m_table_id.c_str()));
-    VERIFY2(
-        std::find_if(m_loopholes.begin(), m_loopholes.end(), usable_predicate()) != m_loopholes.end(),
-        make_string("smart_cover [%s] doesn't have usable loopholes", m_table_id.c_str()));
+    VERIFY2(std::find_if(m_loopholes.begin(), m_loopholes.end(), usable_predicate()) != m_loopholes.end(), make_string("smart_cover [%s] doesn't have usable loopholes", m_table_id.c_str()));
 }
 
 void description::process_loopholes()
@@ -143,13 +141,9 @@ void description::process_loopholes()
         current->exitable(m_transitions.edge(current->id(), transform_vertex("", false)) != 0);
     }
 
-    VERIFY2(
-        std::find_if(m_loopholes.begin(), m_loopholes.end(), enterable_predicate()) != m_loopholes.end(),
-        make_string("smart_cover [%s] doesn't have enterable loopholes", m_table_id.c_str()));
+    VERIFY2(std::find_if(m_loopholes.begin(), m_loopholes.end(), enterable_predicate()) != m_loopholes.end(), make_string("smart_cover [%s] doesn't have enterable loopholes", m_table_id.c_str()));
 
-    VERIFY2(
-        std::find_if(m_loopholes.begin(), m_loopholes.end(), exitable_predicate()) != m_loopholes.end(),
-        make_string("smart_cover [%s] doesn't have exitable loopholes", m_table_id.c_str()));
+    VERIFY2(std::find_if(m_loopholes.begin(), m_loopholes.end(), exitable_predicate()) != m_loopholes.end(), make_string("smart_cover [%s] doesn't have exitable loopholes", m_table_id.c_str()));
 }
 
 void description::load_transitions(shared_str const& table_id)
@@ -204,17 +198,16 @@ void description::load_actions(luabind::object const& table, description::Action
     }
 }
 
-template <typename _data_type, typename _edge_weight_type, typename _vertex_id_type, typename _edge_data_type>
-IC void delete_data(const CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type, _edge_data_type>& graph_)
+template<typename _data_type, typename _edge_weight_type, typename _vertex_id_type, typename _edge_data_type> IC void delete_data(const CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type, _edge_data_type>& graph_)
 {
     typedef CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type, _edge_data_type> Graph;
 
-    Graph& graph = const_cast<Graph&>(graph_);
+    Graph&                                                                                  graph = const_cast<Graph&>(graph_);
 
-    typedef Graph::VERTICES Vertices;
-    typedef Graph::EDGES    Edges;
+    typedef Graph::VERTICES                                                                 Vertices;
+    typedef Graph::EDGES                                                                    Edges;
 
-    Vertices& verts = graph.vertices();
+    Vertices&                                                                               verts = graph.vertices();
 
     for (Vertices::iterator vi = verts.begin(); vi != verts.end(); ++vi)
     {
@@ -243,7 +236,7 @@ loophole const* description::loophole(shared_str const& loophole_id) const
         shared_str m_id;
 
     public:
-        IC id_predicate(shared_str const& id): m_id(id) {}
+        IC      id_predicate(shared_str const& id): m_id(id) {}
 
         IC bool operator()(smart_cover::loophole const* loophole) const
         {

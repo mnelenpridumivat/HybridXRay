@@ -3,7 +3,7 @@
 #pragma once
 
 struct st_SVERT;
-void RegisterSVERT(st_SVERT* v);
+void        RegisterSVERT(st_SVERT* v);
 
 const DWORD BONE_NONE = 0xffffffff;
 

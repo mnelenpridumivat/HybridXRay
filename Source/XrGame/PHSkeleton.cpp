@@ -17,7 +17,7 @@
 
 #define F_MAX 3.402823466e+38F
 
-u32 CPHSkeleton::existence_time = 5000;
+u32     CPHSkeleton::existence_time = 5000;
 
 bool IC CheckObjectSize(IKinematics* K)
 {
@@ -398,11 +398,11 @@ void        CPHSkeleton::RecursiveBonesCheck(u16 id)
 {
     if (!removable)
         return;
-    CPhysicsShellHolder* obj = PPhysicsShellHolder();
-    IKinematics*         K   = smart_cast<IKinematics*>(obj->Visual());
-    CBoneData&           BD  = K->LL_GetData(u16(id));
+    CPhysicsShellHolder* obj  = PPhysicsShellHolder();
+    IKinematics*         K    = smart_cast<IKinematics*>(obj->Visual());
+    CBoneData&           BD   = K->LL_GetData(u16(id));
     //////////////////////////////////////////
-    BonesVisible mask = K->LL_GetBonesVisible();
+    BonesVisible         mask = K->LL_GetBonesVisible();
     ///////////////////////////////////////////
     if (mask.is(id) && !(BD.shape.flags.is(SBoneShape::sfRemoveAfterBreak)))
     {

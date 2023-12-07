@@ -43,7 +43,7 @@ public:
     EFunction F;
     float     arg[4];
 
-    IC float Calculate(float t)
+    IC float  Calculate(float t)
     {
         // y = arg0 + arg1*func( (time+arg2)*arg3 )
         float x = (t + arg[2]) * arg[3];

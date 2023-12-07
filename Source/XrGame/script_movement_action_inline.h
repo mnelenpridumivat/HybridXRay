@@ -8,12 +8,7 @@
 
 #pragma once
 
-IC CScriptMovementAction::CScriptMovementAction(
-    MonsterSpace::EBodyState           tBodyState,
-    MonsterSpace::EMovementType        tMovementType,
-    DetailPathManager::EDetailPathType tPathType,
-    CScriptGameObject*                 tpObjectToGo,
-    float                              fSpeed)
+IC CScriptMovementAction::CScriptMovementAction(MonsterSpace::EBodyState tBodyState, MonsterSpace::EMovementType tMovementType, DetailPathManager::EDetailPathType tPathType, CScriptGameObject* tpObjectToGo, float fSpeed)
 {
     SetBodyState(tBodyState);
     SetMovementType(tMovementType);
@@ -22,12 +17,7 @@ IC CScriptMovementAction::CScriptMovementAction(
     SetSpeed(fSpeed);
 }
 
-IC CScriptMovementAction::CScriptMovementAction(
-    MonsterSpace::EBodyState           tBodyState,
-    MonsterSpace::EMovementType        tMovementType,
-    DetailPathManager::EDetailPathType tPathType,
-    Fvector*                           tPosition,
-    float                              fSpeed)
+IC CScriptMovementAction::CScriptMovementAction(MonsterSpace::EBodyState tBodyState, MonsterSpace::EMovementType tMovementType, DetailPathManager::EDetailPathType tPathType, Fvector* tPosition, float fSpeed)
 {
     SetBodyState(tBodyState);
     SetMovementType(tMovementType);
@@ -45,11 +35,7 @@ IC CScriptMovementAction::CScriptMovementAction(const EInputKeys tInputKeys, flo
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // Monsters
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-IC CScriptMovementAction::CScriptMovementAction(
-    MonsterSpace::EScriptMonsterMoveAction tAct,
-    Fvector*                               tPosition,
-    float                                  dist_to_end,
-    MonsterSpace::EScriptMonsterSpeedParam speed_param)
+IC CScriptMovementAction::CScriptMovementAction(MonsterSpace::EScriptMonsterMoveAction tAct, Fvector* tPosition, float dist_to_end, MonsterSpace::EScriptMonsterSpeedParam speed_param)
 {
     m_tMoveAction = tAct;
     SetPosition(*tPosition);
@@ -57,11 +43,7 @@ IC CScriptMovementAction::CScriptMovementAction(
     m_fDistToEnd  = dist_to_end;
 }
 
-IC CScriptMovementAction::CScriptMovementAction(
-    MonsterSpace::EScriptMonsterMoveAction tAct,
-    CScriptGameObject*                     tpObjectToGo,
-    float                                  dist_to_end,
-    MonsterSpace::EScriptMonsterSpeedParam speed_param)
+IC CScriptMovementAction::CScriptMovementAction(MonsterSpace::EScriptMonsterMoveAction tAct, CScriptGameObject* tpObjectToGo, float dist_to_end, MonsterSpace::EScriptMonsterSpeedParam speed_param)
 {
     m_tMoveAction = tAct;
     SetObjectToGo(tpObjectToGo);

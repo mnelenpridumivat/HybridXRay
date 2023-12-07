@@ -22,21 +22,21 @@ Please see the GameSpy Presence SDK documentation for more information
 /////////
 // Operation Types.
 ///////////////////
-#define GPI_CONNECT 0
-#define GPI_NEW_PROFILE 1
-#define GPI_GET_INFO 2
-#define GPI_PROFILE_SEARCH 3
+#define GPI_CONNECT             0
+#define GPI_NEW_PROFILE         1
+#define GPI_GET_INFO            2
+#define GPI_PROFILE_SEARCH      3
 #define GPI_REGISTER_UNIQUENICK 4
-#define GPI_DELETE_PROFILE 5
-#define GPI_REGISTER_CDKEY 6
+#define GPI_DELETE_PROFILE      5
+#define GPI_REGISTER_CDKEY      6
 // Operation States.
 ////////////////////
-#define GPI_START 0
+#define GPI_START               0
 // #define GPI_CONNECTING               1
-#define GPI_LOGIN 2
-#define GPI_REQUESTING 3
-#define GPI_WAITING 4
-#define GPI_FINISHING 5
+#define GPI_LOGIN               2
+#define GPI_REQUESTING          3
+#define GPI_WAITING             4
+#define GPI_FINISHING           5
 
 // TYPES
 ///////
@@ -69,22 +69,15 @@ typedef struct
 
 // FUNCTIONS
 ///////////
-GPResult gpiAddOperation(
-    GPConnection*  connection,
-    int            type,
-    void*          data,
-    GPIOperation** op,
-    GPEnum         blocking,
-    GPCallback     callback,
-    void*          param);
+GPResult gpiAddOperation(GPConnection* connection, int type, void* data, GPIOperation** op, GPEnum blocking, GPCallback callback, void* param);
 
-void gpiRemoveOperation(GPConnection* connection, GPIOperation* operation);
+void     gpiRemoveOperation(GPConnection* connection, GPIOperation* operation);
 
-void gpiDestroyOperation(GPConnection* connection, GPIOperation* operation);
+void     gpiDestroyOperation(GPConnection* connection, GPIOperation* operation);
 
-GPIBool gpiFindOperationByID(const GPConnection* connection, GPIOperation** operation, int id);
+GPIBool  gpiFindOperationByID(const GPConnection* connection, GPIOperation** operation, int id);
 
-GPIBool gpiOperationsAreBlocking(const GPConnection* connection);
+GPIBool  gpiOperationsAreBlocking(const GPConnection* connection);
 
 GPResult gpiProcessOperation(GPConnection* connection, GPIOperation* operation, const char* input);
 

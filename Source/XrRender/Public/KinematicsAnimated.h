@@ -43,6 +43,7 @@ public:
     }
 
     // Calculation
+
 public:
     virtual void OnCalculateBones() = 0;
 

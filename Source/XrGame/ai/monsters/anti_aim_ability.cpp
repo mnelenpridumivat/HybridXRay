@@ -145,8 +145,7 @@ void anti_aim_ability::activate()
 
     m_last_activated_tick = Device->dwTimeGlobal;
 
-    m_animation_hit_tick =
-        Device->dwTimeGlobal + (TTime)(m_object->anim().get_animation_hit_time(eAnimAntiAimAbility, 0) * 1000);
+    m_animation_hit_tick  = Device->dwTimeGlobal + (TTime)(m_object->anim().get_animation_hit_time(eAnimAntiAimAbility, 0) * 1000);
 
     MotionID motion;
     float    anim_length;
@@ -158,7 +157,7 @@ void anti_aim_ability::activate()
     ctrl_data->global.set_motion(motion);
     ctrl_data->global.actual = false;
 
-    m_animation_end_tick = Device->dwTimeGlobal + (TTime)(anim_length * 1000);
+    m_animation_end_tick     = Device->dwTimeGlobal + (TTime)(anim_length * 1000);
 
     m_object->set_force_anti_aim(false);
 }
@@ -167,9 +166,9 @@ void anti_aim_ability::start_camera_effector()
 {
     VERIFY(!m_effector_id);
     VERIFY(m_effectors.size());
-    pcstr const effector_name = m_effectors[rand() % m_effectors.size()].c_str();
+    pcstr const effector_name     = m_effectors[rand() % m_effectors.size()].c_str();
 
-    m_effector_id = Actor()->Cameras().RequestCamEffectorId();
+    m_effector_id                 = Actor()->Cameras().RequestCamEffectorId();
 
     CAnimatorCamEffector* cam_eff = xr_new<CAnimatorCamEffector>();
     cam_eff->SetType((ECamEffectorType)m_effector_id);
@@ -242,9 +241,9 @@ float anti_aim_ability::calculate_angle() const
 
     Fvector const self_dir = Actor()->Cameras().Direction();
 
-    Fvector monster_center;
+    Fvector       monster_center;
     m_object->Center(monster_center);
-    Fvector monster_head = get_head_position(m_object);
+    Fvector       monster_head      = get_head_position(m_object);
 
     Fvector const actor_head        = get_head_position(Actor());
     Fvector const to_monster_center = monster_center - actor_head;
@@ -260,7 +259,7 @@ float anti_aim_ability::calculate_angle() const
 
 extern CActor* g_actor;
 
-bool anti_aim_ability::check_update_condition() const
+bool           anti_aim_ability::check_update_condition() const
 {
     if (!m_object->g_Alive() || !g_actor || !Actor()->g_Alive())
         return false;
@@ -332,8 +331,8 @@ void anti_aim_ability::update_schedule()
         m_last_detection_tick = Device->dwTimeGlobal;
     }
 
-    float const detect_delta = (Device->dwTimeGlobal - m_last_detection_tick) / 1000.f;
-    m_last_detection_tick    = Device->dwTimeGlobal;
+    float const detect_delta   = (Device->dwTimeGlobal - m_last_detection_tick) / 1000.f;
+    m_last_detection_tick      = Device->dwTimeGlobal;
 
     float const angle          = calculate_angle();
     float const average_angle  = _min(m_max_angle, (angle + m_last_angle) / 2);

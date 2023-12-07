@@ -12,19 +12,19 @@
 #ifndef __ICEFPU_H__
 #define __ICEFPU_H__
 
-#define SIGN_BITMASK 0x80000000
+#define SIGN_BITMASK         0x80000000
 
 //! Integer representation of a floating-point value.
-#define IR(x) ((udword&)(x))
+#define IR(x)                ((udword&)(x))
 
 //! Signed integer representation of a floating-point value.
-#define SIR(x) ((sdword&)(x))
+#define SIR(x)               ((sdword&)(x))
 
 //! Absolute integer representation of a floating-point value
-#define AIR(x) (IR(x) & 0x7fffffff)
+#define AIR(x)               (IR(x) & 0x7fffffff)
 
 //! Floating-point representation of an integer value.
-#define FR(x) ((float&)(x))
+#define FR(x)                ((float&)(x))
 
 //! Integer-based comparison of a floating point value.
 //! Don't use it blindly, it can be faster or slower than the FPU comparison, depends on the context.
@@ -48,8 +48,8 @@ inline_ float fsat(float f)
 //! Computes 1.0f / sqrtf(x).
 inline_ float frsqrt(float f)
 {
-    float  x = f * 0.5f;
-    udword y = 0x5f3759df - ((udword&)f >> 1);
+    float  x  = f * 0.5f;
+    udword y  = 0x5f3759df - ((udword&)f >> 1);
     // Iteration...
     (float&)y = (float&)y * (1.5f - (x * (float&)y * (float&)y));
     // Result
@@ -72,12 +72,12 @@ inline_ float RSqrt(float number)
     float       x2, y;
     const float threehalfs = 1.5f;
 
-    x2 = number * 0.5f;
-    y  = number;
-    i  = *(long*)&y;
-    i  = 0x5f3759df - (i >> 1);
-    y  = *(float*)&i;
-    y  = y * (threehalfs - (x2 * y * y));
+    x2                     = number * 0.5f;
+    y                      = number;
+    i                      = *(long*)&y;
+    i                      = 0x5f3759df - (i >> 1);
+    y                      = *(float*)&i;
+    y                      = y * (threehalfs - (x2 * y * y));
 
     return y;
 }
@@ -153,19 +153,19 @@ inline_ bool IsFloatZero(float x, float epsilon = 1e-6f)
     return x * x < epsilon;
 }
 
-#define FCOMI_ST0 _asm _emit 0xdb _asm _emit 0xf0
-#define FCOMIP_ST0 _asm _emit 0xdf _asm _emit 0xf0
-#define FCMOVB_ST0 _asm _emit 0xda _asm _emit 0xc0
+#define FCOMI_ST0   _asm _emit 0xdb _asm _emit 0xf0
+#define FCOMIP_ST0  _asm _emit 0xdf _asm _emit 0xf0
+#define FCMOVB_ST0  _asm _emit 0xda _asm _emit 0xc0
 #define FCMOVNB_ST0 _asm _emit 0xdb _asm _emit 0xc0
 
-#define FCOMI_ST1 _asm _emit 0xdb _asm _emit 0xf1
-#define FCOMIP_ST1 _asm _emit 0xdf _asm _emit 0xf1
-#define FCMOVB_ST1 _asm _emit 0xda _asm _emit 0xc1
+#define FCOMI_ST1   _asm _emit 0xdb _asm _emit 0xf1
+#define FCOMIP_ST1  _asm _emit 0xdf _asm _emit 0xf1
+#define FCMOVB_ST1  _asm _emit 0xda _asm _emit 0xc1
 #define FCMOVNB_ST1 _asm _emit 0xdb _asm _emit 0xc1
 
-#define FCOMI_ST2 _asm _emit 0xdb _asm _emit 0xf2
-#define FCOMIP_ST2 _asm _emit 0xdf _asm _emit 0xf2
-#define FCMOVB_ST2 _asm _emit 0xda _asm _emit 0xc2
+#define FCOMI_ST2   _asm _emit 0xdb _asm _emit 0xf2
+#define FCOMIP_ST2  _asm _emit 0xdf _asm _emit 0xf2
+#define FCMOVB_ST2  _asm _emit 0xda _asm _emit 0xc2
 #define FCMOVNB_ST2 _asm _emit 0xdb _asm _emit 0xc2
 
 //! A global function to find MAX(a,b,c) using FCOMI/FCMOV
@@ -225,16 +225,16 @@ FUNCTION ICECORE_API void    SetFPUFloorMode();
 FUNCTION ICECORE_API void    SetFPUCeilMode();
 FUNCTION ICECORE_API void    SetFPUBestMode();
 
-FUNCTION ICECORE_API void SetFPUPrecision24();
-FUNCTION ICECORE_API void SetFPUPrecision53();
-FUNCTION ICECORE_API void SetFPUPrecision64();
-FUNCTION ICECORE_API void SetFPURoundingChop();
-FUNCTION ICECORE_API void SetFPURoundingUp();
-FUNCTION ICECORE_API void SetFPURoundingDown();
-FUNCTION ICECORE_API void SetFPURoundingNear();
+FUNCTION ICECORE_API void    SetFPUPrecision24();
+FUNCTION ICECORE_API void    SetFPUPrecision53();
+FUNCTION ICECORE_API void    SetFPUPrecision64();
+FUNCTION ICECORE_API void    SetFPURoundingChop();
+FUNCTION ICECORE_API void    SetFPURoundingUp();
+FUNCTION ICECORE_API void    SetFPURoundingDown();
+FUNCTION ICECORE_API void    SetFPURoundingNear();
 
-FUNCTION ICECORE_API int intChop(const float& f);
-FUNCTION ICECORE_API int intFloor(const float& f);
-FUNCTION ICECORE_API int intCeil(const float& f);
+FUNCTION ICECORE_API int     intChop(const float& f);
+FUNCTION ICECORE_API int     intFloor(const float& f);
+FUNCTION ICECORE_API int     intCeil(const float& f);
 
 #endif   // __ICEFPU_H__

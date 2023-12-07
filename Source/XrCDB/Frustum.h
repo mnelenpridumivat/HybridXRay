@@ -22,21 +22,21 @@ enum EFC_Visible
 };
 
 #define FRUSTUM_MAXPLANES 12
-#define FRUSTUM_P_LEFT (1 << 0)
-#define FRUSTUM_P_RIGHT (1 << 1)
-#define FRUSTUM_P_TOP (1 << 2)
-#define FRUSTUM_P_BOTTOM (1 << 3)
-#define FRUSTUM_P_NEAR (1 << 4)
-#define FRUSTUM_P_FAR (1 << 5)
+#define FRUSTUM_P_LEFT    (1 << 0)
+#define FRUSTUM_P_RIGHT   (1 << 1)
+#define FRUSTUM_P_TOP     (1 << 2)
+#define FRUSTUM_P_BOTTOM  (1 << 3)
+#define FRUSTUM_P_NEAR    (1 << 4)
+#define FRUSTUM_P_FAR     (1 << 5)
 
-#define FRUSTUM_P_LRTB (FRUSTUM_P_LEFT | FRUSTUM_P_RIGHT | FRUSTUM_P_TOP | FRUSTUM_P_BOTTOM)
-#define FRUSTUM_P_ALL (FRUSTUM_P_LRTB | FRUSTUM_P_NEAR | FRUSTUM_P_FAR)
+#define FRUSTUM_P_LRTB    (FRUSTUM_P_LEFT | FRUSTUM_P_RIGHT | FRUSTUM_P_TOP | FRUSTUM_P_BOTTOM)
+#define FRUSTUM_P_ALL     (FRUSTUM_P_LRTB | FRUSTUM_P_NEAR | FRUSTUM_P_FAR)
 
-#define FRUSTUM_SAFE (FRUSTUM_MAXPLANES * 16)
+#define FRUSTUM_SAFE      (FRUSTUM_MAXPLANES * 16)
 typedef svector<Fvector, FRUSTUM_SAFE> sPoly;
 extern u32                             frustum_aabb_remap[8][6];
 
-class XRCDB_API CFrustum
+class XRCDB_API                        CFrustum
 {
 public:
     struct fplane: public Fplane
@@ -51,7 +51,7 @@ public:
     ICF EFC_Visible AABB_OverlapPlane(const fplane& P, const float* mM) const
     {
         // calc extreme pts (neg,pos) along normal axis (pos in dir of norm, etc.)
-        u32* id = frustum_aabb_remap[P.aabb_overlap_id];
+        u32*    id = frustum_aabb_remap[P.aabb_overlap_id];
 
         Fvector Neg;
         Neg.set(mM[id[3]], mM[id[4]], mM[id[5]]);
@@ -71,25 +71,22 @@ public:
     {
         p_count = 0;
     }
-    void _add(Fplane& P);
-    void _add(Fvector& P1, Fvector& P2, Fvector& P3);
+    void   _add(Fplane& P);
+    void   _add(Fvector& P1, Fvector& P2, Fvector& P3);
 
-    void SimplifyPoly_AABB(sPoly* P, Fplane& plane);
+    void   SimplifyPoly_AABB(sPoly* P, Fplane& plane);
 
-    void CreateOccluder(Fvector* p, int count, Fvector& vBase, CFrustum& clip);
-    BOOL CreateFromClipPoly(
-        Fvector*  p,
-        int       count,
-        Fvector&  vBase,
-        CFrustum& clip);   // returns 'false' if creation failed
-    void CreateFromPoints(Fvector* p, int count, Fvector& vBase);
-    void CreateFromMatrix(Fmatrix& M, u32 mask);
-    void CreateFromPortal(sPoly* P, Fvector& vPN, Fvector& vBase, Fmatrix& mFullXFORM);
-    void CreateFromPlanes(Fplane* p, int count);
+    void   CreateOccluder(Fvector* p, int count, Fvector& vBase, CFrustum& clip);
+    BOOL   CreateFromClipPoly(Fvector* p, int count, Fvector& vBase,
+          CFrustum& clip);   // returns 'false' if creation failed
+    void   CreateFromPoints(Fvector* p, int count, Fvector& vBase);
+    void   CreateFromMatrix(Fmatrix& M, u32 mask);
+    void   CreateFromPortal(sPoly* P, Fvector& vPN, Fvector& vBase, Fmatrix& mFullXFORM);
+    void   CreateFromPlanes(Fplane* p, int count);
 
     sPoly* ClipPoly(sPoly& src, sPoly& dest) const;
 
-    u32 getMask() const
+    u32    getMask() const
     {
         return (1 << p_count) - 1;
     }
@@ -100,7 +97,7 @@ public:
     EFC_Visible testSAABB(Fvector& c, float r, const float* mM, u32& test_mask) const;
     BOOL        testPolyInside_dirty(Fvector* p, int count) const;
 
-    IC BOOL testPolyInside(sPoly& src) const
+    IC BOOL     testPolyInside(sPoly& src) const
     {
         sPoly d;
         return !!ClipPoly(src, d);

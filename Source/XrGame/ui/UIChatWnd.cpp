@@ -32,7 +32,7 @@ void CUIChatWnd::PendingMode(bool const is_pending_mode)
     pendingGameMode = false;
 }
 
-#define CHAT_PREFIX_PENDING "chat_prefix_pending"
+#define CHAT_PREFIX_PENDING  "chat_prefix_pending"
 #define CHAT_EDITBOX_PENDING "chat_editbox_pending"
 
 void CUIChatWnd::Init(CUIXml& uiXml)
@@ -40,8 +40,8 @@ void CUIChatWnd::Init(CUIXml& uiXml)
     UIPrefix               = UIHelper::CreateTextWnd(uiXml, "chat_prefix", this);
     inprogress_prefix_rect = UIPrefix->GetWndRect();
 
-    UIEditBox            = UIHelper::CreateEditBox(uiXml, "chat_edit_box", this);
-    inprogress_edit_rect = UIEditBox->GetWndRect();
+    UIEditBox              = UIHelper::CreateEditBox(uiXml, "chat_edit_box", this);
+    inprogress_edit_rect   = UIEditBox->GetWndRect();
     UIEditBox->SetWindowName("chat_edit_box");
 
     pendingGameMode = false;

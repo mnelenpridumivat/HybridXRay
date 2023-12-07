@@ -44,10 +44,12 @@ public:
     //	Functions which override value even if new state was set up.
     //	Reset value to current state's value if override is disabled.
     void OverrideScissoring(bool bOverride = true, BOOL bValue = TRUE);
+
 private:
     void ValidateRDesc();
     void ValidateDSDesc();
     void ValidateBDesc();
+
 private:
     //	All states are supposed to live along all application lifetime
     ID3DRasterizerState*   m_pRState;              //	Weak link

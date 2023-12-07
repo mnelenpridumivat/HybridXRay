@@ -19,7 +19,7 @@ public:
     virtual void Load(LPCSTR section);
 
 protected:
-    virtual void UpdateCLChild();
+    virtual void    UpdateCLChild();
 
     // время последнего обновления поведения шара
     ALife::_TIME_ID m_timeLastUpdate;
@@ -27,8 +27,8 @@ protected:
     ALife::_TIME_ID m_timeToUpdate;
 
     // диапазон импульсов катания шара
-    float m_fImpulseMin;
-    float m_fImpulseMax;
+    float           m_fImpulseMin;
+    float           m_fImpulseMax;
 };
 
 /*

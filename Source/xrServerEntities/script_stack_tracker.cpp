@@ -81,16 +81,11 @@ void CScriptStackTracker::print_stack(lua_State* L)
     {
         lua_Debug l_tDebugInfo = *m_stack[j];
         if (!l_tDebugInfo.name)
-            ai().script_engine().script_log(
-                ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", k, l_tDebugInfo.what,
-                l_tDebugInfo.short_src, l_tDebugInfo.currentline, "");
+            ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", k, l_tDebugInfo.what, l_tDebugInfo.short_src, l_tDebugInfo.currentline, "");
         else if (!xr_strcmp(l_tDebugInfo.what, "C"))
-            ai().script_engine().script_log(
-                ScriptStorage::eLuaMessageTypeError, "%2d : [C  ] %s", k, l_tDebugInfo.name);
+            ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "%2d : [C  ] %s", k, l_tDebugInfo.name);
         else
-            ai().script_engine().script_log(
-                ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", k, l_tDebugInfo.what,
-                l_tDebugInfo.short_src, l_tDebugInfo.currentline, l_tDebugInfo.name);
+            ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", k, l_tDebugInfo.what, l_tDebugInfo.short_src, l_tDebugInfo.currentline, l_tDebugInfo.name);
     }
     m_current_stack_level = 0;
 }

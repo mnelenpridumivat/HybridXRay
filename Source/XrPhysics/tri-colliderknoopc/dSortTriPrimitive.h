@@ -13,31 +13,18 @@
 #include "../debug_output.h"
 #endif
 
-IC bool
-    negative_tri_set_ignored_by_positive_tri(const Triangle& neg_tri, const Triangle& pos_tri, const Fvector* V_array)
+IC bool negative_tri_set_ignored_by_positive_tri(const Triangle& neg_tri, const Triangle& pos_tri, const Fvector* V_array)
 {
-    bool common0 = neg_tri.T->verts[0] == pos_tri.T->verts[0] || neg_tri.T->verts[0] == pos_tri.T->verts[1] ||
-        neg_tri.T->verts[0] == pos_tri.T->verts[2];
+    bool common0 = neg_tri.T->verts[0] == pos_tri.T->verts[0] || neg_tri.T->verts[0] == pos_tri.T->verts[1] || neg_tri.T->verts[0] == pos_tri.T->verts[2];
 
-    bool common1 = neg_tri.T->verts[1] == pos_tri.T->verts[0] || neg_tri.T->verts[1] == pos_tri.T->verts[1] ||
-        neg_tri.T->verts[1] == pos_tri.T->verts[2];
+    bool common1 = neg_tri.T->verts[1] == pos_tri.T->verts[0] || neg_tri.T->verts[1] == pos_tri.T->verts[1] || neg_tri.T->verts[1] == pos_tri.T->verts[2];
 
-    bool common2 = neg_tri.T->verts[2] == pos_tri.T->verts[0] || neg_tri.T->verts[2] == pos_tri.T->verts[1] ||
-        neg_tri.T->verts[2] == pos_tri.T->verts[2];
+    bool common2 = neg_tri.T->verts[2] == pos_tri.T->verts[0] || neg_tri.T->verts[2] == pos_tri.T->verts[1] || neg_tri.T->verts[2] == pos_tri.T->verts[2];
 
-    return (common0 && common1 && common2) ||
-        !common0 && !(dDOT(neg_tri.norm, (dReal*)&V_array[pos_tri.T->verts[0]]) > neg_tri.pos) ||
-        !common1 && !(dDOT(neg_tri.norm, (dReal*)&V_array[pos_tri.T->verts[1]]) > neg_tri.pos) ||
-        !common2 && !(dDOT(neg_tri.norm, (dReal*)&V_array[pos_tri.T->verts[2]]) > neg_tri.pos);
+    return (common0 && common1 && common2) || !common0 && !(dDOT(neg_tri.norm, (dReal*)&V_array[pos_tri.T->verts[0]]) > neg_tri.pos) || !common1 && !(dDOT(neg_tri.norm, (dReal*)&V_array[pos_tri.T->verts[1]]) > neg_tri.pos) || !common2 && !(dDOT(neg_tri.norm, (dReal*)&V_array[pos_tri.T->verts[2]]) > neg_tri.pos);
 }
 
-int SetBackTrajectoryCnt(
-    const dReal*  p,
-    const dReal*  last_pos,
-    Triangle&     neg_tri,
-    dxGeom*       o1,
-    dxGeom*       o2,
-    dContactGeom* Contacts)
+int SetBackTrajectoryCnt(const dReal* p, const dReal* last_pos, Triangle& neg_tri, dxGeom* o1, dxGeom* o2, dContactGeom* Contacts)
 {
     Contacts->g1        = const_cast<dxGeom*>(o2);
     Contacts->g2        = const_cast<dxGeom*>(o1);
@@ -45,7 +32,7 @@ int SetBackTrajectoryCnt(
     Contacts->normal[1] = -(last_pos[1] - p[1]);
     Contacts->normal[2] = -(last_pos[2] - p[2]);
 
-    dReal sq_mag = dDOT(Contacts->normal, Contacts->normal);
+    dReal sq_mag        = dDOT(Contacts->normal, Contacts->normal);
     if (sq_mag < EPS_S)
     {
         Contacts->normal[0] = 0;
@@ -62,9 +49,9 @@ int SetBackTrajectoryCnt(
         Contacts->normal[2] *= r_mag;
     }
 
-    Contacts->pos[0] = p[0];
-    Contacts->pos[1] = p[1];
-    Contacts->pos[2] = p[2];
+    Contacts->pos[0]           = p[0];
+    Contacts->pos[1]           = p[1];
+    Contacts->pos[2]           = p[2];
 
     SURFACE(Contacts, 0)->mode = neg_tri.T->material;
 
@@ -73,21 +60,14 @@ int SetBackTrajectoryCnt(
     return 1;
 }
 
-template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
-    T              primitive,
-    dxGeom*        o1,
-    dxGeom*        o2,
-    int            flags,
-    dContactGeom*  contact,
-    int            skip,
-    const Fvector& AABB)
+template<class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(T primitive, dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int skip, const Fvector& AABB)
 {
     dxGeomUserData* data        = dGeomGetUserData(o1);
     dReal*          last_pos    = data->last_pos;
     bool            no_last_pos = last_pos[0] == -dInfinity;
     const dReal*    p           = dGeomGetPosition(o1);
 
-    Fbox last_box;
+    Fbox            last_box;
     last_box.setb(data->last_aabb_pos, data->last_aabb_size);
     Fbox box;
     box.setb(cast_fv(p), AABB);
@@ -150,12 +130,9 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
     if (*pushing_neg)
     {
         CalculateTri(data->neg_tri, p, neg_tri, V_array);
-        const dReal* neg_vertices[3] = {
-            cast_fp(V_array[neg_tri.T->verts[0]]), cast_fp(V_array[neg_tri.T->verts[1]]),
-            cast_fp(V_array[neg_tri.T->verts[2]])};
-        neg_tri_contains_point = TriContainPoint(
-            neg_vertices[0], neg_vertices[1], neg_vertices[2], neg_tri.norm, neg_tri.side0, neg_tri.side1, p);
-        bool b_neg_dist = neg_tri.dist < 0.f;
+        const dReal* neg_vertices[3] = {cast_fp(V_array[neg_tri.T->verts[0]]), cast_fp(V_array[neg_tri.T->verts[1]]), cast_fp(V_array[neg_tri.T->verts[2]])};
+        neg_tri_contains_point       = TriContainPoint(neg_vertices[0], neg_vertices[1], neg_vertices[2], neg_tri.norm, neg_tri.side0, neg_tri.side1, p);
+        bool b_neg_dist              = neg_tri.dist < 0.f;
         if (b_neg_dist || (!neg_tri_contains_point && !no_last_pos))
         {
             dReal sidePr  = primitive.Proj(o1, neg_tri.norm);
@@ -205,9 +182,7 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
 #endif
         // if(ignored_tries[I-B])continue;
         CDB::TRI*   T           = T_array + *I;
-        const Point vertices[3] = {
-            Point((dReal*)&V_array[T->verts[0]]), Point((dReal*)&V_array[T->verts[1]]),
-            Point((dReal*)&V_array[T->verts[2]])};
+        const Point vertices[3] = {Point((dReal*)&V_array[T->verts[0]]), Point((dReal*)&V_array[T->verts[1]]), Point((dReal*)&V_array[T->verts[2]])};
         if (!aabb_tri_aabb(Point(p), Point((float*)&AABB), vertices))
             continue;
 #ifdef DEBUG
@@ -238,10 +213,9 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
 #endif
                     SGameMtl* material = GMLibrary().GetMaterialByIdx(T->material);
                     VERIFY(material);
-                    bool b_passable = !!material->Flags.test(SGameMtl::flPassable);
-                    bool contain_pos =
-                        TriContainPoint(vertices[0], vertices[1], vertices[2], tri.norm, tri.side0, tri.side1, p);
-                    bool b_pased = false;
+                    bool b_passable  = !!material->Flags.test(SGameMtl::flPassable);
+                    bool contain_pos = TriContainPoint(vertices[0], vertices[1], vertices[2], tri.norm, tri.side0, tri.side1, p);
+                    bool b_pased     = false;
                     if (!b_pushing && !gb_pased)
                     {
                         if (!no_last_pos && !b_passable)
@@ -257,12 +231,9 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
                                 debug_output().DBG_DrawPoint(cast_fv(tri_point), 0.01f, D3DCOLOR_XRGB(255, 0, 255));
 #endif
                             bool was_intersect = intersect;
-                            intersect =
-                                intersect ||
-                                TriContainPoint(
-                                    vertices[0], vertices[1], vertices[2], tri.norm, tri.side0, tri.side1, tri_point);
-                            b_pased  = intersect && !was_intersect;
-                            gb_pased = b_pased || gb_pased;
+                            intersect          = intersect || TriContainPoint(vertices[0], vertices[1], vertices[2], tri.norm, tri.side0, tri.side1, tri_point);
+                            b_pased            = intersect && !was_intersect;
+                            gb_pased           = b_pased || gb_pased;
 #ifdef DEBUG
                             if (b_pased && debug_output().ph_dbg_draw_mask().test(phDbgDrawTriPoint))
                             {
@@ -288,12 +259,8 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
                     {
                         dReal sidePr = primitive.Proj(o1, tri.norm);
                         tri.depth    = sidePr - tri.dist;
-                        if (neg_depth > tri.depth &&
-                            (!(*pushing_neg || spushing_neg) || dDOT(neg_tri.norm, tri.norm) > -M_SQRT1_2) &&
-                            (!(*pushing_b_neg || spushing_b_neg) ||
-                             dDOT(b_neg_tri.norm, tri.norm) >
-                                 -M_SQRT1_2))   // exclude switching on opposite side
-                                                // &&(!*pushing_b_neg||dDOT(b_neg_tri->norm,tri.norm)>-M_SQRT1_2)
+                        if (neg_depth > tri.depth && (!(*pushing_neg || spushing_neg) || dDOT(neg_tri.norm, tri.norm) > -M_SQRT1_2) && (!(*pushing_b_neg || spushing_b_neg) || dDOT(b_neg_tri.norm, tri.norm) > -M_SQRT1_2))   // exclude switching on opposite side
+                                                                                                                                                                                                                               // &&(!*pushing_b_neg||dDOT(b_neg_tri->norm,tri.norm)>-M_SQRT1_2)
                         {
                             neg_depth     = tri.depth;
                             neg_tri       = tri;
@@ -308,9 +275,7 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
                         ++b_count;
                         dReal sidePr = primitive.Proj(o1, tri.norm);
                         tri.depth    = sidePr - tri.dist;
-                        if (b_neg_depth > tri.depth &&
-                            (!(*pushing_b_neg || spushing_b_neg) || dDOT(b_neg_tri.norm, tri.norm) > -M_SQRT1_2) &&
-                            ((!*pushing_neg || !spushing_neg) || dDOT(neg_tri.norm, tri.norm) > -M_SQRT1_2))
+                        if (b_neg_depth > tri.depth && (!(*pushing_b_neg || spushing_b_neg) || dDOT(b_neg_tri.norm, tri.norm) > -M_SQRT1_2) && ((!*pushing_neg || !spushing_neg) || dDOT(neg_tri.norm, tri.norm) > -M_SQRT1_2))
                         {   // exclude switching on opposite side
                             // &&(!*pushing_neg||dDOT(neg_tri->norm,tri.norm)>-M_SQRT1_2)
                             b_neg_depth     = tri.depth;
@@ -331,8 +296,7 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
             if (ret > flags - 10)
                 continue;
             if (!b_pushing && (!intersect || no_last_pos))
-                ret += primitive.Collide(
-                    vertices[0], vertices[1], vertices[2], &tri, o1, o2, 3, CONTACT(contact, ret * skip), skip);
+                ret += primitive.Collide(vertices[0], vertices[1], vertices[2], &tri, o1, o2, 3, CONTACT(contact, ret * skip), skip);
             if (no_last_pos)
                 pos_tries.push_back(tri);
         }
@@ -350,9 +314,7 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
                 for (i = pos_tries.begin(); pos_tries.end() != i; ++i)
                 {
                     VERIFY(neg_tri.T);
-                    if (TriContainPoint(
-                            (dReal*)&V_array[i->T->verts[0]], (dReal*)&V_array[i->T->verts[1]],
-                            (dReal*)&V_array[i->T->verts[2]], i->norm, i->side0, i->side1, p))
+                    if (TriContainPoint((dReal*)&V_array[i->T->verts[0]], (dReal*)&V_array[i->T->verts[1]], (dReal*)&V_array[i->T->verts[2]], i->norm, i->side0, i->side1, p))
                         if (negative_tri_set_ignored_by_positive_tri(neg_tri, *i, V_array))
                         {
                             include = false;
@@ -369,9 +331,7 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
                 // neg_tri.norm,neg_tri.side0, neg_tri.side1,p);
                 if (neg_tri_contains_point)
                 {
-                    int bret = primitive.CollidePlain(
-                        neg_tri.side0, neg_tri.side1, neg_tri.norm, neg_tri.T, neg_tri.dist, o1, o2, flags,
-                        CONTACT(contact, 0), skip);
+                    int bret     = primitive.CollidePlain(neg_tri.side0, neg_tri.side1, neg_tri.norm, neg_tri.T, neg_tri.dist, o1, o2, flags, CONTACT(contact, 0), skip);
                     *pushing_neg = !!bret;
                     if (*pushing_neg)
                         ret = bret;
@@ -417,9 +377,7 @@ template <class T> IC int dcTriListCollider::dSortTriPrimitiveCollide(
             VERIFY(b_neg_tri.T);
             int bret = 0;
             if (ret < flags - 10)
-                bret = primitive.CollidePlain(
-                    b_neg_tri.side0, b_neg_tri.side1, b_neg_tri.norm, b_neg_tri.T, b_neg_tri.dist, o1, o2, flags,
-                    CONTACT(contact, *pushing_neg ? ret * skip : 0), skip);
+                bret = primitive.CollidePlain(b_neg_tri.side0, b_neg_tri.side1, b_neg_tri.norm, b_neg_tri.T, b_neg_tri.dist, o1, o2, flags, CONTACT(contact, *pushing_neg ? ret * skip : 0), skip);
             *pushing_b_neg = !!bret;
             if (*pushing_neg)
                 ret += bret;

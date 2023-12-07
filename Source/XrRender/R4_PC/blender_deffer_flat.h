@@ -26,6 +26,7 @@ public:
 
     CBlender_deffer_flat();
     virtual ~CBlender_deffer_flat();
+
 private:
     xrP_TOKEN oTessellation;
 };

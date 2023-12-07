@@ -15,6 +15,7 @@ public:
     ~dx103DFluidObstacles();
 
     void ProcessObstacles(const dx103DFluidData& FluidData, float timestep);
+
 private:
     enum ObstacleShader
     {
@@ -22,6 +23,7 @@ private:
         OS_DynamicOOBB,
         OS_NumShaders
     };
+
 private:
     void InitShaders();
     void DestroyShaders();
@@ -36,6 +38,7 @@ private:
     void RenderStaticOOBB(const Fmatrix& Transform);
     // void	RenderDynamicOOBB( const IPhysicsElement &Element, const Fmatrix &WorldToFluid, float timestep);
     void RenderDynamicOOBB(const IPhysicsGeometry& Geometry, const Fmatrix& WorldToFluid, float timestep);
+
 private:
     Fvector3                          m_vGridDim;
 

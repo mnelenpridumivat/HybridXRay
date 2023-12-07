@@ -32,10 +32,10 @@ CCameraBase::~CCameraBase() {}
 
 void CCameraBase::Load(LPCSTR section)
 {
-    rot_speed = pSettings->r_fvector3(section, "rot_speed");
+    rot_speed   = pSettings->r_fvector3(section, "rot_speed");
 
-    lim_yaw   = pSettings->r_fvector2(section, "lim_yaw");
-    lim_pitch = pSettings->r_fvector2(section, "lim_pitch");
+    lim_yaw     = pSettings->r_fvector2(section, "lim_yaw");
+    lim_pitch   = pSettings->r_fvector2(section, "lim_pitch");
 
     bClampPitch = (0 != lim_pitch[0]) || (0 != lim_pitch[1]);
     bClampYaw   = (0 != lim_yaw[0]) || (0 != lim_yaw[1]);

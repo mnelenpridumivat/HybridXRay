@@ -52,8 +52,7 @@ bool CAgentCorpseManager::process_corpse(CMemberOrder& member)
         float dist_sqr = (*I).corpse()->Position().distance_to_sqr(member.object().Position());
         if (dist_sqr < min_dist_sqr)
         {
-            if ((*I).reactor() &&
-                ((*I).reactor()->Position().distance_to_sqr((*I).corpse()->Position()) <= min_dist_sqr))
+            if ((*I).reactor() && ((*I).reactor()->Position().distance_to_sqr((*I).corpse()->Position()) <= min_dist_sqr))
                 continue;
             min_dist_sqr = dist_sqr;
             best_corpse  = &*I;
@@ -90,22 +89,19 @@ void CAgentCorpseManager::react_on_member_death()
             if (!(*I).reactor())
                 continue;
 
-            CMemberOrder::CMemberDeathReaction& reaction =
-                object().member().member((*I).reactor()).member_death_reaction();
-            reaction.m_member     = (*I).corpse();
-            reaction.m_time       = (*I).time();
-            reaction.m_processing = true;
+            CMemberOrder::CMemberDeathReaction& reaction = object().member().member((*I).reactor()).member_death_reaction();
+            reaction.m_member                            = (*I).corpse();
+            reaction.m_time                              = (*I).time();
+            reaction.m_processing                        = true;
         }
 
-        m_corpses.erase(
-            std::remove_if(m_corpses.begin(), m_corpses.end(), CRemoveMemberCorpsesPredicate()), m_corpses.end());
+        m_corpses.erase(std::remove_if(m_corpses.begin(), m_corpses.end(), CRemoveMemberCorpsesPredicate()), m_corpses.end());
     }
 }
 
 void CAgentCorpseManager::remove_links(CObject* object)
 {
-    m_corpses.erase(
-        std::remove_if(m_corpses.begin(), m_corpses.end(), CRemoveOfflineCorpsesPredicate(object)), m_corpses.end());
+    m_corpses.erase(std::remove_if(m_corpses.begin(), m_corpses.end(), CRemoveOfflineCorpsesPredicate(object)), m_corpses.end());
 }
 
 void CAgentCorpseManager::update() {}

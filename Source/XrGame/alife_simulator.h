@@ -13,7 +13,7 @@
 #include "script_export_space.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 
 class CALifeSimulator: public CALifeUpdateManager, public CALifeInteractionManager
 {

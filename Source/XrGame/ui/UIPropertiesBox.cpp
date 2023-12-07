@@ -4,8 +4,8 @@
 #include "UIListBoxItem.h"
 #include "UIXmlInit.h"
 
-#define OFFSET_X (5.0f)
-#define OFFSET_Y (5.0f)
+#define OFFSET_X    (5.0f)
+#define OFFSET_Y    (5.0f)
 #define ITEM_HEIGHT (GetFont()->CurrentHeight() + 2.0f)
 
 CUIPropertiesBox::CUIPropertiesBox(CUIPropertiesBox* sub_property_box)
@@ -22,9 +22,7 @@ CUIPropertiesBox::CUIPropertiesBox(CUIPropertiesBox* sub_property_box)
 
 CUIPropertiesBox::~CUIPropertiesBox()
 {
-    R_ASSERT2(
-        !m_sub_property_box || (!m_sub_property_box->IsShown()),
-        "child sub menu is in shown mode - he'll tries to hide this menu");
+    R_ASSERT2(!m_sub_property_box || (!m_sub_property_box->IsShown()), "child sub menu is in shown mode - he'll tries to hide this menu");
 }
 
 void CUIPropertiesBox::InitPropertiesBox(Fvector2 pos, Fvector2 size)
@@ -72,9 +70,9 @@ void CUIPropertiesBox::ShowSubMenu()
     R_ASSERT(!m_sub_property_box->IsShown());
     m_item_sub_menu_initiator = GetClickedItem();
 
-    Frect tmp_pbox_rect = m_last_show_rect;
+    Frect    tmp_pbox_rect    = m_last_show_rect;
 
-    Fvector2 tmp_pbox_pos = GetWndPos();
+    Fvector2 tmp_pbox_pos     = GetWndPos();
     tmp_pbox_pos.y += m_item_sub_menu_initiator->GetWndPos().y + (m_item_sub_menu_initiator->GetHeight() / 2);
 
     float right_limit = tmp_pbox_pos.x + GetWidth() + m_sub_property_box->GetWidth();
@@ -109,8 +107,7 @@ bool CUIPropertiesBox::AddItem(LPCSTR str, void* pData, u32 tag_value)
     itm->SetData(pData);
     if (m_sub_property_box)
     {
-        AddCallback(
-            itm, WINDOW_FOCUS_RECEIVED, CUIWndCallback::void_function(this, &CUIPropertiesBox::OnItemReceivedFocus));
+        AddCallback(itm, WINDOW_FOCUS_RECEIVED, CUIWndCallback::void_function(this, &CUIPropertiesBox::OnItemReceivedFocus));
         Register(itm);
     }
     return true;

@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2007 nVidia, Inc.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. 
 
@@ -17,25 +17,30 @@ See the License for the specific language governing permissions and limitations 
 #include <math.h>
 #include "avpcl_utils.h"
 
-namespace AVPCL {
-
-// extract a tile of pixels from an array
-
-class Tile
+namespace AVPCL
 {
-public:
-	static const int TILE_H = 4;
-	static const int TILE_W = 4;
-	static const int TILE_TOTAL = TILE_H * TILE_W;
-	nv::Vector4 data[TILE_H][TILE_W];
-    float importance_map[TILE_H][TILE_W];
-	int	size_x, size_y;			// actual size of tile
 
-	Tile() {};
-	~Tile(){};
-	Tile(int xs, int ys) {size_x = xs; size_y = ys;}
-};
+    // extract a tile of pixels from an array
 
-}
+    class Tile
+    {
+    public:
+        static const int TILE_H     = 4;
+        static const int TILE_W     = 4;
+        static const int TILE_TOTAL = TILE_H * TILE_W;
+        nv::Vector4      data[TILE_H][TILE_W];
+        float            importance_map[TILE_H][TILE_W];
+        int              size_x, size_y;   // actual size of tile
+
+        Tile(){};
+        ~Tile(){};
+        Tile(int xs, int ys)
+        {
+            size_x = xs;
+            size_y = ys;
+        }
+    };
+
+}   // namespace AVPCL
 
 #endif

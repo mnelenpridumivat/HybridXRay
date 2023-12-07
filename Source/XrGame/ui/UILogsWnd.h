@@ -33,45 +33,45 @@ class CUILogsWnd: public CUIWindow, public CUIWndCallback
 private:
     typedef CUIWindow inherited;
 
-    CUIFrameWindow* m_background;
-    CUIFrameWindow* m_center_background;
+    CUIFrameWindow*   m_background;
+    CUIFrameWindow*   m_center_background;
 
-    CUITextWnd* m_center_caption;
+    CUITextWnd*       m_center_caption;
     //	CUICharacterInfo*	m_actor_ch_info;
 
-    CUICheckButton* m_filter_news;
-    CUICheckButton* m_filter_talk;
+    CUICheckButton*   m_filter_news;
+    CUICheckButton*   m_filter_talk;
 
     //	CUITextWnd*			m_date_caption;
     //	CUITextWnd*			m_date;
 
-    CUITextWnd* m_period_caption;
-    CUITextWnd* m_period;
+    CUITextWnd*       m_period_caption;
+    CUITextWnd*       m_period;
 
-    ALife::_TIME_ID m_start_game_time;
-    ALife::_TIME_ID m_selected_period;
+    ALife::_TIME_ID   m_start_game_time;
+    ALife::_TIME_ID   m_selected_period;
 
-    CUI3tButton* m_prev_period;
-    CUI3tButton* m_next_period;
-    bool         m_ctrl_press;
+    CUI3tButton*      m_prev_period;
+    CUI3tButton*      m_next_period;
+    bool              m_ctrl_press;
 
-    CUIScrollView* m_list;
-    u32            m_previous_time;
-    bool           m_need_reload;
-    WINDOW_LIST    m_items_cache;
-    WINDOW_LIST    m_items_ready;
-    xr_vector<u32> m_news_in_queue;
+    CUIScrollView*    m_list;
+    u32               m_previous_time;
+    bool              m_need_reload;
+    WINDOW_LIST       m_items_cache;
+    WINDOW_LIST       m_items_ready;
+    xr_vector<u32>    m_news_in_queue;
 
-    CUIWindow* CreateItem();
-    CUIWindow* ItemFromCache();
+    CUIWindow*        CreateItem();
+    CUIWindow*        ItemFromCache();
     //	void				ItemToCache			(CUIWindow* w);
-    CUIXml m_uiXml;
+    CUIXml            m_uiXml;
 
 public:
     CUILogsWnd();
     virtual ~CUILogsWnd();
 
-    void Init();
+    void         Init();
 
     virtual void Show(bool status);
     virtual void Update();
@@ -80,7 +80,7 @@ public:
     virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
     virtual bool OnKeyboardHold(int dik);
 
-    IC void UpdateNews()
+    IC void      UpdateNews()
     {
         m_need_reload = true;
     }
@@ -91,11 +91,11 @@ protected:
     void            AddNewsItem(GAME_NEWS_DATA& news_data);
     ALife::_TIME_ID GetShiftPeriod(ALife::_TIME_ID datetime, int shift_day);
 
-    void UpdateChecks(CUIWindow* w, void* d);
-    void PrevPeriod(CUIWindow* w, void* d);
-    void NextPeriod(CUIWindow* w, void* d);
+    void            UpdateChecks(CUIWindow* w, void* d);
+    void            PrevPeriod(CUIWindow* w, void* d);
+    void            NextPeriod(CUIWindow* w, void* d);
 
-    void on_scroll_keys(int dik);
+    void            on_scroll_keys(int dik);
 
     /*
     protected:

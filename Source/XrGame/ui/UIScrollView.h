@@ -10,6 +10,7 @@ class CUIScrollView: public CUIWindow, public CUIWndCallback
 {
     typedef CUIWindow inherited;
     friend class CUIXmlInit;   // for init
+
 protected:
     enum
     {
@@ -22,25 +23,25 @@ protected:
     CUIScrollBar* m_VScrollBar;
     CUIWindow*    m_pad;
 
-    float m_rightIndent;
-    float m_leftIndent;
-    float m_upIndent;
-    float m_downIndent;
+    float         m_rightIndent;
+    float         m_leftIndent;
+    float         m_upIndent;
+    float         m_downIndent;
 
-    float m_vertInterval;
+    float         m_vertInterval;
 
-    Flags16    m_flags;
-    shared_str m_scrollbar_profile;
-    Ivector2   m_visible_rgn;
+    Flags16       m_flags;
+    shared_str    m_scrollbar_profile;
+    Ivector2      m_visible_rgn;
 
-    virtual void RecalcSize();
-    void         UpdateScroll();
-    void         OnScrollV(CUIWindow*, void*);
-    void         SetRightIndention(float val);
-    void         SetLeftIndention(float val);
-    void         SetUpIndention(float val);
-    void         SetDownIndention(float val);
-    void         SetVertFlip(bool val)
+    virtual void  RecalcSize();
+    void          UpdateScroll();
+    void          OnScrollV(CUIWindow*, void*);
+    void          SetRightIndention(float val);
+    void          SetLeftIndention(float val);
+    void          SetUpIndention(float val);
+    void          SetDownIndention(float val);
+    void          SetVertFlip(bool val)
     {
         m_flags.set(eVertFlip, val);
     }

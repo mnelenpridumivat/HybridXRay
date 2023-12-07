@@ -39,7 +39,7 @@
 #endif
 
 #define Log
-#define SetIceError false
+#define SetIceError    false
 #define EC_OUTOFMEMORY "Out of memory"
 #define Alignment
 

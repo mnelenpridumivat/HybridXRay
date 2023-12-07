@@ -17,7 +17,7 @@ const u32   color_bone_sel_cm     = 0xFFFF0000;
 const u32   color_bone_norm_cm    = 0xFF700000;
 const float joint_size            = 0.025f;
 
-void CEditableObject::ResetBones()
+void        CEditableObject::ResetBones()
 {
     BoneVec& lst = m_Bones;
     for (BoneIt b_it = lst.begin(); b_it != lst.end(); b_it++)
@@ -133,9 +133,9 @@ void CEditableObject::RenderBones(const Fmatrix& _parent)
     Fvector scale;
     Fmatrix parent = _parent;
 
-    scale.x = parent.i.normalize_magn();
-    scale.y = parent.j.normalize_magn();
-    scale.z = parent.k.normalize_magn();
+    scale.x        = parent.i.normalize_magn();
+    scale.y        = parent.j.normalize_magn();
+    scale.z        = parent.k.normalize_magn();
 
     if (IsSkeleton())
     {
@@ -220,9 +220,7 @@ void CEditableObject::RenderBones(const Fmatrix& _parent)
                             DU_impl.DrawSphere(mat, (*b_it)->shape.sphere, c, c, TRUE, TRUE);
                             break;
                         case SBoneShape::stCylinder:
-                            DU_impl.DrawCylinder(
-                                mat, (*b_it)->shape.cylinder.m_center, (*b_it)->shape.cylinder.m_direction,
-                                (*b_it)->shape.cylinder.m_height, (*b_it)->shape.cylinder.m_radius, c, c, TRUE, TRUE);
+                            DU_impl.DrawCylinder(mat, (*b_it)->shape.cylinder.m_center, (*b_it)->shape.cylinder.m_direction, (*b_it)->shape.cylinder.m_height, (*b_it)->shape.cylinder.m_radius, c, c, TRUE, TRUE);
                             break;
                     }
                 }
@@ -300,7 +298,7 @@ void ComputeSphere(Fsphere& B, FvectorVec& V)
     // 1: calc first variation
     Fsphere S1;
     Fsphere_compute(S1, V.data(), V.size());
-    BOOL B1 = SphereValid(V, S1);
+    BOOL    B1 = SphereValid(V, S1);
 
     // 2: calc ordinary algorithm (2nd)
     Fsphere S2;
@@ -317,8 +315,8 @@ void ComputeSphere(Fsphere& B, FvectorVec& V)
         if (d > S2.R)
             S2.R = d;
     }
-    S2.R    = _sqrt(_abs(S2.R));
-    BOOL B2 = SphereValid(V, S2);
+    S2.R            = _sqrt(_abs(S2.R));
+    BOOL        B2  = SphereValid(V, S2);
 
     // 3: calc magic-fm
     Mgc::Sphere _S3 = Mgc::MinSphere(V.size(), (const Mgc::Vector3*)V.data());
@@ -390,13 +388,13 @@ void ComputeCylinder(Fcylinder& C, Fobb& B, FvectorVec& V)
         min_hI   = _min(min_hI, pI);
         max_hI   = _max(max_hI, pI);
         tmp.mad(c, axisI, axisI.dotproduct(pt_c));
-        max_rI = _max(max_rI, tmp.distance_to(pt));
+        max_rI   = _max(max_rI, tmp.distance_to(pt));
 
         float pJ = axisJ.dotproduct(pt);
         min_hJ   = _min(min_hJ, pJ);
         max_hJ   = _max(max_hJ, pJ);
         tmp.mad(c, axisJ, axisJ.dotproduct(pt_c));
-        max_rJ = _max(max_rJ, tmp.distance_to(pt));
+        max_rJ   = _max(max_rJ, tmp.distance_to(pt));
 
         float pK = axisK.dotproduct(pt);
         min_hK   = _min(min_hK, pK);
@@ -480,9 +478,7 @@ bool CEditableObject::GenerateBoneShape(bool bSelOnly)
             {
                 st_SVert& sv = MESH->m_SVertices[f_id * 3 + k];
                 VERIFY(sv.bones.size() == 1);
-                u16 b_id =
-                    sv.bones[0]
-                        .id;   //(sv.bones.size()>1)?(sv.bones[0].w>sv.bones[1].w?sv.bones[0].id:sv.bones[1].id):sv.bones[0].id;
+                u16         b_id   = sv.bones[0].id;   //(sv.bones.size()>1)?(sv.bones[0].w>sv.bones[1].w?sv.bones[0].id:sv.bones[1].id):sv.bones[0].id;
                 FvectorVec& P      = bone_points[b_id];
                 bool        bFound = false;
                 Fvector     p;

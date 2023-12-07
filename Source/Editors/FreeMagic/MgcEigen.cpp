@@ -19,7 +19,7 @@ using namespace Mgc;
 Eigen::Eigen(int iSize)
 {
     assert(iSize >= 2);
-    m_iSize = iSize;
+    m_iSize  = iSize;
 
     m_aafMat = new Real*[m_iSize];
     for (int i = 0; i < m_iSize; i++)
@@ -53,12 +53,12 @@ void Eigen::Tridiagonal2(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
 //----------------------------------------------------------------------------
 void Eigen::Tridiagonal3(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
 {
-    Real fM00 = m_aafMat[0][0];
-    Real fM01 = m_aafMat[0][1];
-    Real fM02 = m_aafMat[0][2];
-    Real fM11 = m_aafMat[1][1];
-    Real fM12 = m_aafMat[1][2];
-    Real fM22 = m_aafMat[2][2];
+    Real fM00   = m_aafMat[0][0];
+    Real fM01   = m_aafMat[0][1];
+    Real fM02   = m_aafMat[0][2];
+    Real fM11   = m_aafMat[1][1];
+    Real fM12   = m_aafMat[1][2];
+    Real fM22   = m_aafMat[2][2];
 
     m_afDiag[0] = fM00;
     m_afSubd[2] = 0.0f;
@@ -104,19 +104,19 @@ void Eigen::Tridiagonal3(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
 void Eigen::Tridiagonal4(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
 {
     // save matrix M
-    Real fM00 = m_aafMat[0][0];
-    Real fM01 = m_aafMat[0][1];
-    Real fM02 = m_aafMat[0][2];
-    Real fM03 = m_aafMat[0][3];
-    Real fM11 = m_aafMat[1][1];
-    Real fM12 = m_aafMat[1][2];
-    Real fM13 = m_aafMat[1][3];
-    Real fM22 = m_aafMat[2][2];
-    Real fM23 = m_aafMat[2][3];
-    Real fM33 = m_aafMat[3][3];
+    Real fM00      = m_aafMat[0][0];
+    Real fM01      = m_aafMat[0][1];
+    Real fM02      = m_aafMat[0][2];
+    Real fM03      = m_aafMat[0][3];
+    Real fM11      = m_aafMat[1][1];
+    Real fM12      = m_aafMat[1][2];
+    Real fM13      = m_aafMat[1][3];
+    Real fM22      = m_aafMat[2][2];
+    Real fM23      = m_aafMat[2][3];
+    Real fM33      = m_aafMat[3][3];
 
-    m_afDiag[0] = fM00;
-    m_afSubd[3] = 0.0f;
+    m_afDiag[0]    = fM00;
+    m_afSubd[3]    = 0.0f;
 
     m_aafMat[0][0] = 1.0f;
     m_aafMat[0][1] = 0.0f;
@@ -135,26 +135,26 @@ void Eigen::Tridiagonal4(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
         Real fQ31, fQ32, fQ33;
 
         // build column Q1
-        fLength    = Math::Sqrt(fM01 * fM01 + fM02 * fM02 + fM03 * fM03);
-        fInvLength = 1.0f / fLength;
-        fQ11       = fM01 * fInvLength;
-        fQ21       = fM02 * fInvLength;
-        fQ31       = fM03 * fInvLength;
+        fLength     = Math::Sqrt(fM01 * fM01 + fM02 * fM02 + fM03 * fM03);
+        fInvLength  = 1.0f / fLength;
+        fQ11        = fM01 * fInvLength;
+        fQ21        = fM02 * fInvLength;
+        fQ31        = fM03 * fInvLength;
 
         m_afSubd[0] = fLength;
 
         // compute S*Q1
-        Real fV0 = fM11 * fQ11 + fM12 * fQ21 + fM13 * fQ31;
-        Real fV1 = fM12 * fQ11 + fM22 * fQ21 + fM23 * fQ31;
-        Real fV2 = fM13 * fQ11 + fM23 * fQ21 + fM33 * fQ31;
+        Real fV0    = fM11 * fQ11 + fM12 * fQ21 + fM13 * fQ31;
+        Real fV1    = fM12 * fQ11 + fM22 * fQ21 + fM23 * fQ31;
+        Real fV2    = fM13 * fQ11 + fM23 * fQ21 + fM33 * fQ31;
 
         m_afDiag[1] = fQ11 * fV0 + fQ21 * fV1 + fQ31 * fV2;
 
         // build column Q3 = Q1x(S*Q1)
-        fQ13    = fQ21 * fV2 - fQ31 * fV1;
-        fQ23    = fQ31 * fV0 - fQ11 * fV2;
-        fQ33    = fQ11 * fV1 - fQ21 * fV0;
-        fLength = Math::Sqrt(fQ13 * fQ13 + fQ23 * fQ23 + fQ33 * fQ33);
+        fQ13        = fQ21 * fV2 - fQ31 * fV1;
+        fQ23        = fQ31 * fV0 - fQ11 * fV2;
+        fQ33        = fQ11 * fV1 - fQ21 * fV0;
+        fLength     = Math::Sqrt(fQ13 * fQ13 + fQ23 * fQ23 + fQ33 * fQ33);
         if (fLength > 0.0f)
         {
             fInvLength = 1.0f / fLength;
@@ -163,9 +163,9 @@ void Eigen::Tridiagonal4(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
             fQ33 *= fInvLength;
 
             // build column Q2 = Q3xQ1
-            fQ12 = fQ23 * fQ31 - fQ33 * fQ21;
-            fQ22 = fQ33 * fQ11 - fQ13 * fQ31;
-            fQ32 = fQ13 * fQ21 - fQ23 * fQ11;
+            fQ12        = fQ23 * fQ31 - fQ33 * fQ21;
+            fQ22        = fQ33 * fQ11 - fQ13 * fQ31;
+            fQ32        = fQ13 * fQ21 - fQ23 * fQ11;
 
             fV0         = fQ12 * fM11 + fQ22 * fM12 + fQ32 * fM13;
             fV1         = fQ12 * fM12 + fQ22 * fM22 + fQ32 * fM23;
@@ -184,18 +184,18 @@ void Eigen::Tridiagonal4(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
             // S*Q1 parallel to Q1, choose any valid Q2 and Q3
             m_afSubd[1] = 0.0f;
 
-            fLength = fQ21 * fQ21 + fQ31 * fQ31;
+            fLength     = fQ21 * fQ21 + fQ31 * fQ31;
             if (fLength > 0.0f)
             {
-                fInvLength = 1.0f / fLength;
-                Real fTmp  = fQ11 - 1.0f;
-                fQ12       = -fQ21;
-                fQ22       = 1.0f + fTmp * fQ21 * fQ21 * fInvLength;
-                fQ32       = fTmp * fQ21 * fQ31 * fInvLength;
+                fInvLength  = 1.0f / fLength;
+                Real fTmp   = fQ11 - 1.0f;
+                fQ12        = -fQ21;
+                fQ22        = 1.0f + fTmp * fQ21 * fQ21 * fInvLength;
+                fQ32        = fTmp * fQ21 * fQ31 * fInvLength;
 
-                fQ13 = -fQ31;
-                fQ23 = fQ32;
-                fQ33 = 1.0f + fTmp * fQ31 * fQ31 * fInvLength;
+                fQ13        = -fQ31;
+                fQ23        = fQ32;
+                fQ33        = 1.0f + fTmp * fQ31 * fQ31 * fInvLength;
 
                 fV0         = fQ12 * fM11 + fQ22 * fM12 + fQ32 * fM13;
                 fV1         = fQ12 * fM12 + fQ22 * fM22 + fQ32 * fM23;
@@ -211,12 +211,12 @@ void Eigen::Tridiagonal4(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
             else
             {
                 // Q1 = (+-1,0,0)
-                fQ12 = 0.0f;
-                fQ22 = 1.0f;
-                fQ32 = 0.0f;
-                fQ13 = 0.0f;
-                fQ23 = 0.0f;
-                fQ33 = 1.0f;
+                fQ12        = 0.0f;
+                fQ22        = 1.0f;
+                fQ32        = 0.0f;
+                fQ13        = 0.0f;
+                fQ23        = 0.0f;
+                fQ33        = 1.0f;
 
                 m_afDiag[2] = fM22;
                 m_afDiag[3] = fM33;
@@ -248,7 +248,7 @@ void Eigen::Tridiagonal4(Real** m_aafMat, Real* m_afDiag, Real* m_afSubd)
             fInvLength = 1.0f / fLength;
             fM12 *= fInvLength;
             fM13 *= fInvLength;
-            Real fQ = 2.0f * fM12 * fM23 + fM13 * (fM33 - fM22);
+            Real fQ        = 2.0f * fM12 * fM23 + fM13 * (fM33 - fM22);
 
             m_afDiag[2]    = fM22 + fM13 * fQ;
             m_afDiag[3]    = fM33 - fM13 * fQ;

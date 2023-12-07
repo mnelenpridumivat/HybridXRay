@@ -24,10 +24,7 @@ void ESceneWayTool::RemoveControls()
     inherited::RemoveControls();
 }
 
-TUI_ControlWayPointAdd::TUI_ControlWayPointAdd(int st, int act, ESceneToolBase* parent):
-    TUI_CustomControl(st, act, parent)
-{
-}
+TUI_ControlWayPointAdd::TUI_ControlWayPointAdd(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent) {}
 
 bool TUI_ControlWayPointAdd::Start(TShiftState Shift)
 {

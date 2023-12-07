@@ -2,7 +2,7 @@
 #define FixedVectorH
 #pragma once
 
-template <class T, const int dim> class svector
+template<class T, const int dim> class svector
 {
 public:
     typedef size_t            size_type;

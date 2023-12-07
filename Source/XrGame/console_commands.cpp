@@ -68,49 +68,47 @@ extern void show_smart_cast_stats();
 extern void clear_smart_cast_stats();
 extern void release_smart_cast_stats();
 
-extern u64 g_qwStartGameTime;
-extern u64 g_qwEStartGameTime;
+extern u64  g_qwStartGameTime;
+extern u64  g_qwEStartGameTime;
 
 ENGINE_API
 extern float psHUD_FOV;
 extern float psSqueezeVelocity;
 extern int   psLUA_GCSTEP;
 
-extern int  x_m_x;
-extern int  x_m_z;
-extern BOOL net_cl_inputguaranteed;
-extern BOOL net_sv_control_hit;
-extern int  g_dwInputUpdateDelta;
+extern int   x_m_x;
+extern int   x_m_z;
+extern BOOL  net_cl_inputguaranteed;
+extern BOOL  net_sv_control_hit;
+extern int   g_dwInputUpdateDelta;
 #ifdef DEBUG
 extern BOOL g_ShowAnimationInfo;
 #endif   // DEBUG
-extern BOOL g_bShowHitSectors;
+extern BOOL                  g_bShowHitSectors;
 // extern	BOOL	g_bDebugDumpPhysicsStep	;
 extern ESingleGameDifficulty g_SingleGameDifficulty;
 extern BOOL                  g_show_wnd_rect2;
 //-----------------------------------------------------------
-extern float g_fTimeFactor;
-extern BOOL  b_toggle_weapon_aim;
+extern float                 g_fTimeFactor;
+extern BOOL                  b_toggle_weapon_aim;
 // extern  BOOL	g_old_style_ui_hud;
 
-extern float g_smart_cover_factor;
-extern int   g_upgrades_log;
-extern float g_smart_cover_animation_speed_factor;
+extern float                 g_smart_cover_factor;
+extern int                   g_upgrades_log;
+extern float                 g_smart_cover_animation_speed_factor;
 
-extern BOOL g_ai_use_old_vision;
-float       g_aim_predict_time  = 0.44f;
-int         g_keypress_on_start = 1;
+extern BOOL                  g_ai_use_old_vision;
+float                        g_aim_predict_time  = 0.44f;
+int                          g_keypress_on_start = 1;
 
-ENGINE_API extern float g_console_sensitive;
+ENGINE_API extern float      g_console_sensitive;
 
-void register_mp_console_commands();
+void                         register_mp_console_commands();
 //-----------------------------------------------------------
 
-BOOL    g_bCheckTime           = FALSE;
-int     net_cl_inputupdaterate = 50;
-Flags32 g_mt_config            = {
-    mtLevelPath | mtDetailPath | mtObjectHandler | mtSoundPlayer | mtAiVision | mtBullets | mtLUA_GC | mtLevelSounds |
-    mtALife | mtMap};
+BOOL                         g_bCheckTime           = FALSE;
+int                          net_cl_inputupdaterate = 50;
+Flags32                      g_mt_config            = {mtLevelPath | mtDetailPath | mtObjectHandler | mtSoundPlayer | mtAiVision | mtBullets | mtLUA_GC | mtLevelSounds | mtALife | mtMap};
 #ifdef DEBUG
 Flags32 dbg_net_Draw_Flags = {0};
 #endif
@@ -122,7 +120,7 @@ u32         g_dwDebugNodeDest   = 0;
 extern BOOL g_bDrawBulletHit;
 extern BOOL g_bDrawFirstBulletCrosshair;
 
-float debug_on_frame_gather_stats_frequency = 0.f;
+float       debug_on_frame_gather_stats_frequency = 0.f;
 #endif
 #ifdef DEBUG
 extern LPSTR dbg_stalker_death_anim;
@@ -152,10 +150,10 @@ CUIOptConCom g_OptConCom;
 extern u32 game_lua_memory_usage();
 #endif   // SEVERAL_ALLOCATORS
 
-typedef void (*full_memory_stats_callback_type)();
+typedef void                                      (*full_memory_stats_callback_type)();
 XRCORE_API extern full_memory_stats_callback_type g_full_memory_stats_callback;
 
-static void full_memory_stats()
+static void                                       full_memory_stats()
 {
     Memory.mem_compact();
     u32 _crt_heap     = mem_usage_impl((HANDLE)_get_heap_handle(), 0, 0);
@@ -180,8 +178,7 @@ static void full_memory_stats()
 #ifndef SEVERAL_ALLOCATORS
     Msg("* [x-ray]: crt heap[%d K], process heap[%d K]", _crt_heap / 1024, _process_heap / 1024);
 #else    // SEVERAL_ALLOCATORS
-    Msg("* [x-ray]: crt heap[%d K], process heap[%d K], game lua[%d K], render[%d K]", _crt_heap / 1024,
-        _process_heap / 1024, _game_lua / 1024, _render / 1024);
+    Msg("* [x-ray]: crt heap[%d K], process heap[%d K], game lua[%d K], render[%d K]", _crt_heap / 1024, _process_heap / 1024, _game_lua / 1024, _render / 1024);
 #endif   // SEVERAL_ALLOCATORS
 
     Msg("* [x-ray]: economy: strings[%d K], smem[%d K]", _eco_strings / 1024, _eco_smem);
@@ -325,7 +322,7 @@ public:
     {
         if (!OnServer())
             return;
-        float v = Level().GetGameTimeFactor();
+        float   v = Level().GetGameTimeFactor();
 
         TStatus str;
         xr_sprintf(str, sizeof(str), "%3.5f  (current)  [0.0,1000.0]", v);
@@ -450,8 +447,7 @@ class CCC_DemoRecordSetPos: public CCC_Vector3
     static Fvector p;
 
 public:
-    CCC_DemoRecordSetPos(LPCSTR N):
-        CCC_Vector3(N, &p, Fvector().set(-FLT_MAX, -FLT_MAX, -FLT_MAX), Fvector().set(FLT_MAX, FLT_MAX, FLT_MAX)){};
+    CCC_DemoRecordSetPos(LPCSTR N): CCC_Vector3(N, &p, Fvector().set(-FLT_MAX, -FLT_MAX, -FLT_MAX), Fvector().set(FLT_MAX, FLT_MAX, FLT_MAX)){};
     virtual void Execute(LPCSTR args)
     {
 #ifndef DEBUG
@@ -543,10 +539,10 @@ void get_files_list(xr_vector<shared_str>& files, LPCSTR dir, LPCSTR file_ext)
 
     FS_FileSet files_set;
     FS.file_list(files_set, dir, FS_ListFiles, fext);
-    u32 len_str_ext = xr_strlen(file_ext);
+    u32          len_str_ext = xr_strlen(file_ext);
 
-    FS_FileSetIt itb = files_set.begin();
-    FS_FileSetIt ite = files_set.end();
+    FS_FileSetIt itb         = files_set.begin();
+    FS_FileSetIt ite         = files_set.end();
 
     for (; itb != ite; ++itb)
     {
@@ -849,8 +845,7 @@ protected:
     int* value_blin;
 
 public:
-    CCC_Net_CL_InputUpdateRate(LPCSTR N, int* V, int _min = 0, int _max = 999):
-        CCC_Integer(N, V, _min, _max), value_blin(V){};
+    CCC_Net_CL_InputUpdateRate(LPCSTR N, int* V, int _min = 0, int _max = 999): CCC_Integer(N, V, _min, _max), value_blin(V){};
 
     virtual void Execute(LPCSTR args)
     {
@@ -1067,8 +1062,8 @@ public:
     {
         typedef CSafeMapIterator<ALife::_OBJECT_ID, CSE_ALifeDynamicObject>::_REGISTRY::const_iterator const_iterator;
 
-        const_iterator I = ai().alife().graph().level().objects().begin();
-        const_iterator E = ai().alife().graph().level().objects().end();
+        const_iterator                                                                                 I = ai().alife().graph().level().objects().begin();
+        const_iterator                                                                                 E = ai().alife().graph().level().objects().end();
         for (; I != E; ++I)
         {
             CSE_ALifeCreatureAbstract* obj = smart_cast<CSE_ALifeCreatureAbstract*>(I->second);
@@ -1589,7 +1584,7 @@ public:
     }
     virtual void Execute(LPCSTR args);
 
-    IC void Set(BOOL V)
+    IC void      Set(BOOL V)
     {
         value->set(mask, V);
     }
@@ -1669,7 +1664,7 @@ public:
 
         CObject* obj = Level().CurrentViewEntity();
         VERIFY(obj);
-        shared_str ssss = args;
+        shared_str        ssss  = args;
 
         CAttachmentOwner* owner = smart_cast<CAttachmentOwner*>(obj);
         CAttachableItem*  itm   = owner->attachedItem(ssss);
@@ -1693,9 +1688,7 @@ public:
 
     virtual void Info(TInfo& I)
     {
-        xr_sprintf(
-            I,
-            "allows to change bind rotation and position offsets for attached item, <section_name> given as arguments");
+        xr_sprintf(I, "allows to change bind rotation and position offsets for attached item, <section_name> given as arguments");
     }
 };
 
@@ -1937,8 +1930,7 @@ protected:
     int* value_blin;
 
 public:
-    CCC_Net_SV_GuaranteedPacketMode(LPCSTR N, int* V, int _min = 0, int _max = 2):
-        CCC_Integer(N, V, _min, _max), value_blin(V){};
+    CCC_Net_SV_GuaranteedPacketMode(LPCSTR N, int* V, int _min = 0, int _max = 2): CCC_Integer(N, V, _min, _max), value_blin(V){};
 
     virtual void Execute(LPCSTR args)
     {
@@ -2233,9 +2225,7 @@ void CCC_RegisterCommands()
     CMD3(CCC_Mask, "dbg_draw_car_plots_all_trans", &ph_dbg_draw_mask, phDbgDrawCarAllTrnsm);
     CMD3(CCC_Mask, "dbg_draw_ph_zbuffer_disable", &ph_dbg_draw_mask, phDbgDrawZDisable);
     CMD3(CCC_Mask, "dbg_ph_obj_collision_damage", &ph_dbg_draw_mask, phDbgDispObjCollisionDammage);
-    CMD_RADIOGROUPMASK2(
-        "dbg_ph_ai_always_phmove", &ph_dbg_draw_mask, phDbgAlwaysUseAiPhMove, "dbg_ph_ai_never_phmove",
-        &ph_dbg_draw_mask, phDbgNeverUseAiPhMove);
+    CMD_RADIOGROUPMASK2("dbg_ph_ai_always_phmove", &ph_dbg_draw_mask, phDbgAlwaysUseAiPhMove, "dbg_ph_ai_never_phmove", &ph_dbg_draw_mask, phDbgNeverUseAiPhMove);
     CMD3(CCC_Mask, "dbg_ph_ik", &ph_dbg_draw_mask, phDbgIK);
     CMD3(CCC_Mask, "dbg_ph_ik_off", &ph_dbg_draw_mask1, phDbgIKOff);
     CMD3(CCC_Mask, "dbg_draw_ph_ik_goal", &ph_dbg_draw_mask, phDbgDrawIKGoal);
@@ -2360,9 +2350,7 @@ void CCC_RegisterCommands()
     CMD3(CCC_Mask, "ai_use_torch_dynamic_lights", &g_uCommonFlags, flAiUseTorchDynamicLights);
 
 #ifndef MASTER_GOLD
-    CMD4(
-        CCC_Vector3, "psp_cam_offset", &CCameraLook2::m_cam_offset, Fvector().set(-1000, -1000, -1000),
-        Fvector().set(1000, 1000, 1000));
+    CMD4(CCC_Vector3, "psp_cam_offset", &CCameraLook2::m_cam_offset, Fvector().set(-1000, -1000, -1000), Fvector().set(1000, 1000, 1000));
 #endif   // MASTER_GOLD
 
     CMD1(CCC_GSCheckForUpdates, "check_for_updates");

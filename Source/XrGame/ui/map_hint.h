@@ -10,7 +10,7 @@ class CMapSpot;
 
 class CUIMapLocationHint: public CUIFrameWindow
 {
-    typedef CUIFrameWindow inherited;
+    typedef CUIFrameWindow                     inherited;
 
     CUIWindow*                                 m_owner;
     associative_vector<shared_str, CUIStatic*> m_info;
@@ -20,11 +20,11 @@ public:
     CUIMapLocationHint(): m_owner(NULL){};
     virtual ~CUIMapLocationHint(){};
 
-    void Init(CUIXml& uiXml, LPCSTR path);
+    void         Init(CUIXml& uiXml, LPCSTR path);
 
-    void SetInfoStr(LPCSTR text);
-    void SetInfoMSpot(CMapSpot* spot);
-    void SetInfoTask(CGameTask* task);
+    void         SetInfoStr(LPCSTR text);
+    void         SetInfoMSpot(CMapSpot* spot);
+    void         SetInfoTask(CGameTask* task);
 
     virtual void Draw()
     {

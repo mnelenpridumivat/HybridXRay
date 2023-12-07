@@ -18,10 +18,10 @@ private:
     void                      HideLib();
     static UISoundEditorForm* Form;
 
-    void              InitItemList();
-    void              OnItemsFocused(ListItem* item);
-    UIPropertiesForm* m_ItemProps;
-    UIItemListForm*   m_ItemList;
+    void                      InitItemList();
+    void                      OnItemsFocused(ListItem* item);
+    UIPropertiesForm*         m_ItemProps;
+    UIItemListForm*           m_ItemList;
 
 private:
     enum
@@ -37,18 +37,18 @@ private:
     void             SaveUsedTHM();
     void             DestroyUsedTHM();
 
-    void RegisterModifiedTHM();
+    void             RegisterModifiedTHM();
 
-    void OnModified();
-    void UpdateLib();
+    void             OnModified();
+    void             UpdateLib();
 
-    bool bFormLocked;
-    BOOL bAutoPlay;
+    bool             bFormLocked;
+    BOOL             bAutoPlay;
 
-    FS_FileSet modif_map;
-    ref_sound  m_Snd;
+    FS_FileSet       modif_map;
+    ref_sound        m_Snd;
 
-    void AppendModif(LPCSTR nm);
+    void             AppendModif(LPCSTR nm);
 
 private:
     void OnControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);

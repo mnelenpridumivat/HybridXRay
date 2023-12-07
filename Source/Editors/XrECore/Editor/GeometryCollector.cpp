@@ -37,7 +37,7 @@ VCPacked::VCPacked(const Fbox& bb, float _eps, u32 _sx, u32 _sy, u32 _sz, int ap
 
 u32 VCPacked::add_vert(const Fvector& V)
 {
-    u32 P = 0xffffffff;
+    u32 P    = 0xffffffff;
 
     u32 clpX = sx - 1, clpY = sy - 1, clpZ = sz - 1;
     u32 ix, iy, iz;
@@ -97,7 +97,7 @@ u32 VCPacked::add_vert(const Fvector& V)
 void VCPacked::clear()
 {
     verts.clear_and_free();
-    for (GCHashIt it=VM.begin(); it!=VM.end(); it++)
+    for (GCHashIt it = VM.begin(); it != VM.end(); it++)
         it->clear_and_free();
 }
 

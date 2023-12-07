@@ -30,26 +30,22 @@ XRGAMESPY_API SAKEStartRequestResult xrGS_sakeGetStartRequestResult(SAKE sake)
     return sakeGetStartRequestResult(sake);
 }
 
-XRGAMESPY_API SAKERequest
-    xrGS_sakeGetMyRecords(SAKE sake, SAKEGetMyRecordsInput* input, SAKERequestCallback callback, void* userData)
+XRGAMESPY_API SAKERequest xrGS_sakeGetMyRecords(SAKE sake, SAKEGetMyRecordsInput* input, SAKERequestCallback callback, void* userData)
 {
     return sakeGetMyRecords(sake, input, callback, userData);
 }
 
-XRGAMESPY_API SAKERequest
-    xrGS_sakeCreateRecord(SAKE sake, SAKECreateRecordInput* input, SAKERequestCallback callback, void* userdata)
+XRGAMESPY_API SAKERequest xrGS_sakeCreateRecord(SAKE sake, SAKECreateRecordInput* input, SAKERequestCallback callback, void* userdata)
 {
     return sakeCreateRecord(sake, input, callback, userdata);
 }
 
-XRGAMESPY_API SAKERequest
-    xrGS_sakeUpdateRecord(SAKE sake, SAKEUpdateRecordInput* input, SAKERequestCallback callback, void* userdata)
+XRGAMESPY_API SAKERequest xrGS_sakeUpdateRecord(SAKE sake, SAKEUpdateRecordInput* input, SAKERequestCallback callback, void* userdata)
 {
     return sakeUpdateRecord(sake, input, callback, userdata);
 }
 
-XRGAMESPY_API SAKERequest
-    xrGS_sakeSearchForRecords(SAKE sake, SAKESearchForRecordsInput* input, SAKERequestCallback callback, void* userData)
+XRGAMESPY_API SAKERequest xrGS_sakeSearchForRecords(SAKE sake, SAKESearchForRecordsInput* input, SAKERequestCallback callback, void* userData)
 {
     return sakeSearchForRecords(sake, input, callback, userData);
 }

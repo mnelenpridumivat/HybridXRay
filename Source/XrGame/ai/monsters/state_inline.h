@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION template<typename _Object>
 
-#define CStateAbstract CState<_Object>
+#define CStateAbstract          CState<_Object>
 
 TEMPLATE_SPECIALIZATION
 CStateAbstract::CState(_Object* obj, void* data)
@@ -36,8 +36,8 @@ void CStateAbstract::initialize()
 {
     time_state_started = Device->dwTimeGlobal;
 
-    current_substate = u32(-1);   // means need reselect state
-    prev_substate    = u32(-1);
+    current_substate   = u32(-1);   // means need reselect state
+    prev_substate      = u32(-1);
 }
 
 TEMPLATE_SPECIALIZATION

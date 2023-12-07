@@ -7,7 +7,7 @@
 
 CPolterSpecialAbility::CPolterSpecialAbility(CPoltergeist* polter)
 {
-    m_object = polter;
+    m_object                   = polter;
 
     m_particles_object         = 0;
     m_particles_object_electro = 0;
@@ -48,10 +48,8 @@ void CPolterSpecialAbility::on_hide()
     if (!m_object->g_Alive())
         return;
 
-    m_particles_object =
-        m_object->PlayParticles(m_particles_hidden, m_object->Position(), Fvector().set(0.0f, 0.1f, 0.0f), false);
-    m_particles_object_electro =
-        m_object->PlayParticles(m_particles_idle, m_object->Position(), Fvector().set(0.0f, 0.1f, 0.0f), false);
+    m_particles_object         = m_object->PlayParticles(m_particles_hidden, m_object->Position(), Fvector().set(0.0f, 0.1f, 0.0f), false);
+    m_particles_object_electro = m_object->PlayParticles(m_particles_idle, m_object->Position(), Fvector().set(0.0f, 0.1f, 0.0f), false);
 }
 
 void CPolterSpecialAbility::on_show()
@@ -88,10 +86,10 @@ void CPolterSpecialAbility::on_hit(SHit* pHDS)
         if (BI_NONE != pHDS->bone())
         {
             // вычислить координаты попадания
-            IKinematics* V = smart_cast<IKinematics*>(m_object->Visual());
+            IKinematics* V         = smart_cast<IKinematics*>(m_object->Visual());
 
-            Fvector  start_pos = pHDS->bone_space_position();
-            Fmatrix& m_bone    = V->LL_GetBoneInstance(pHDS->bone()).mTransform;
+            Fvector      start_pos = pHDS->bone_space_position();
+            Fmatrix&     m_bone    = V->LL_GetBoneInstance(pHDS->bone()).mTransform;
             m_bone.transform_tiny(start_pos);
             m_object->XFORM().transform_tiny(start_pos);
 
@@ -106,9 +104,9 @@ void CPolterSpecialAbility::on_hit(SHit* pHDS)
 // Other
 //////////////////////////////////////////////////////////////////////////
 
-#define IMPULSE 10.f
-#define IMPULSE_RADIUS 5.f
-#define TRACE_DISTANCE 10.f
+#define IMPULSE             10.f
+#define IMPULSE_RADIUS      5.f
+#define TRACE_DISTANCE      10.f
 #define TRACE_ATTEMPT_COUNT 3
 
 void CPoltergeist::PhysicalImpulse(const Fvector& position)
@@ -119,9 +117,9 @@ void CPoltergeist::PhysicalImpulse(const Fvector& position)
     if (m_nearest.empty())
         return;
 
-    u32 index = Random.randI(m_nearest.size());
+    u32                  index = Random.randI(m_nearest.size());
 
-    CPhysicsShellHolder* obj = smart_cast<CPhysicsShellHolder*>(m_nearest[index]);
+    CPhysicsShellHolder* obj   = smart_cast<CPhysicsShellHolder*>(m_nearest[index]);
     if (!obj || !obj->m_pPhysicsShell)
         return;
 
@@ -129,8 +127,7 @@ void CPoltergeist::PhysicalImpulse(const Fvector& position)
     dir.sub(obj->Position(), position);
     dir.normalize();
 
-    CPhysicsElement* E =
-        obj->m_pPhysicsShell->get_ElementByStoreOrder(u16(Random.randI(obj->m_pPhysicsShell->get_ElementsNumber())));
+    CPhysicsElement* E = obj->m_pPhysicsShell->get_ElementByStoreOrder(u16(Random.randI(obj->m_pPhysicsShell->get_ElementsNumber())));
     // E->applyImpulse(dir,IMPULSE * obj->m_pPhysicsShell->getMass());
     E->applyImpulse(dir, IMPULSE * E->getMass());
 }
@@ -151,9 +148,8 @@ void CPoltergeist::StrangeSounds(const Fvector& position)
             if (l_rq.range < TRACE_DISTANCE)
             {
                 // Получить пару материалов
-                CDB::TRI*     pTri = Level().ObjectSpace.GetStaticTris() + l_rq.element;
-                SGameMtlPair* mtl_pair =
-                    GameMaterialLibrary->GetMaterialPair(material().self_material_idx(), pTri->material);
+                CDB::TRI*     pTri     = Level().ObjectSpace.GetStaticTris() + l_rq.element;
+                SGameMtlPair* mtl_pair = GameMaterialLibrary->GetMaterialPair(material().self_material_idx(), pTri->material);
                 if (!mtl_pair)
                     continue;
 

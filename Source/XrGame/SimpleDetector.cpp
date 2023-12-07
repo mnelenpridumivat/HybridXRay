@@ -29,12 +29,12 @@ void CSimpleDetector::UpdateAf()
     if (m_artefacts.m_ItemInfos.size() == 0)
         return;
 
-    CAfList::ItemsMapIt it_b     = m_artefacts.m_ItemInfos.begin();
-    CAfList::ItemsMapIt it_e     = m_artefacts.m_ItemInfos.end();
-    CAfList::ItemsMapIt it       = it_b;
-    float               min_dist = flt_max;
+    CAfList::ItemsMapIt it_b         = m_artefacts.m_ItemInfos.begin();
+    CAfList::ItemsMapIt it_e         = m_artefacts.m_ItemInfos.end();
+    CAfList::ItemsMapIt it           = it_b;
+    float               min_dist     = flt_max;
 
-    Fvector detector_pos = Position();
+    Fvector             detector_pos = Position();
 
     for (; it_b != it_e; ++it_b)   // only nearest
     {
@@ -55,13 +55,13 @@ void CSimpleDetector::UpdateAf()
         }
     }
 
-    ITEM_INFO& af_info = it->second;
+    ITEM_INFO& af_info   = it->second;
 
     ITEM_TYPE* item_type = af_info.curr_ref;
 
-    float dist = min_dist;
+    float      dist      = min_dist;
 
-    float fRelPow = (dist / m_fAfDetectRadius);
+    float      fRelPow   = (dist / m_fAfDetectRadius);
     clamp(fRelPow, 0.f, 1.f);
 
     // определить текущую частоту срабатывания сигнала
@@ -70,7 +70,7 @@ void CSimpleDetector::UpdateAf()
     float min_snd_freq = 0.9f;
     float max_snd_freq = 1.4f;
 
-    float snd_freq = min_snd_freq + (max_snd_freq - min_snd_freq) * (1.0f - fRelPow);
+    float snd_freq     = min_snd_freq + (max_snd_freq - min_snd_freq) * (1.0f - fRelPow);
 
     if (af_info.snd_time > af_info.cur_period)
     {

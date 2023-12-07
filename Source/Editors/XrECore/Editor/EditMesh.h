@@ -20,8 +20,8 @@ class CCustomObject;
 #include <bone.h>
 
 #pragma pack(push, 1)
-const u8 vmtUV     = 0;
-const u8 vmtWeight = 1;
+const u8         vmtUV     = 0;
+const u8         vmtWeight = 1;
 
 struct ECORE_API st_WB
 {
@@ -96,14 +96,15 @@ struct ECORE_API st_VMapPt
 class ECORE_API st_VMap
 {
     FloatVec vm;   // u,v - координаты или weight
+
 public:
     shared_str name;   // vertex uv map name
     struct
     {
-        u8 type : 2;
-        u8 polymap : 1;
-        u8 dim : 2;
-        u8 reserved : 3;
+        u8 type    :2;
+        u8 polymap :1;
+        u8 dim     :2;
+        u8 reserved:3;
     };
     IntVec vindices;
     IntVec pindices;
@@ -334,16 +335,17 @@ class ECORE_API CEditableMesh
     friend class CXRayObjectExport;
     friend class CXRaySkinExport;
 
-    shared_str m_Name;
+    shared_str       m_Name;
 
     CEditableObject* m_Parent;
 
-    void GenerateCFModel();
-    void GenerateRenderBuffers();
-    void UnloadCForm();
+    void             GenerateCFModel();
+    void             GenerateRenderBuffers();
+    void             UnloadCForm();
 #if 1
     void UnloadRenderBuffers();
 #endif
+
 public:
     static BOOL m_bDraftMeshMode;
     void        GenerateFNormals();
@@ -352,7 +354,7 @@ public:
     void        GenerateSVerticesFast(u32 influence);
     void        GenerateAdjacency();
 
-    bool IsGeneratedSVertices(u32 influence)
+    bool        IsGeneratedSVertices(u32 influence)
     {
         return (m_SVertices && (m_SVertInfl == influence));
     }
@@ -388,17 +390,17 @@ public:
     st_MeshOptions m_Ops;
 
 protected:
-    Fbox m_Box;
+    Fbox      m_Box;
 
-    int m_FNormalsRefs;
-    int m_VNormalsRefs;
-    int m_AdjsRefs;
-    int m_SVertRefs;
+    int       m_FNormalsRefs;
+    int       m_VNormalsRefs;
+    int       m_AdjsRefs;
+    int       m_SVertRefs;
 
-    u32 m_SVertInfl;
+    u32       m_SVertInfl;
 
-    u32 m_VertCount;
-    u32 m_FaceCount;
+    u32       m_VertCount;
+    u32       m_FaceCount;
 
     Fvector*  m_Vertices;        // |
     AdjVec*   m_Adjs;            // + some array size!!!
@@ -435,8 +437,8 @@ public:
         Construct();
     }
     virtual ~CEditableMesh();
-    void Construct();
-    void Clear();
+    void    Construct();
+    void    Clear();
 
     IC void SetName(LPCSTR name)
     {
@@ -463,7 +465,7 @@ public:
     }
 
     // mesh modify routine
-    void Transform(const Fmatrix& parent);
+    void                Transform(const Fmatrix& parent);
 
     IC CEditableObject* Parent()
     {
@@ -522,12 +524,7 @@ public:
     }
 
     // pick routine
-    bool RayPick(
-        float&         dist,
-        const Fvector& start,
-        const Fvector& dir,
-        const Fmatrix& inv_parent,
-        SRayPickInfo*  pinf = NULL);
+    bool RayPick(float& dist, const Fvector& start, const Fvector& dir, const Fmatrix& inv_parent, SRayPickInfo* pinf = NULL);
 #if 1
     void RayQuery(SPickQuery& pinf);
     void RayQuery(const Fmatrix& parent, const Fmatrix& inv_parent, SPickQuery& pinf);
@@ -547,8 +544,8 @@ public:
     void RenderEdge(const Fmatrix& parent, CSurface* s, u32 color);
 
     // statistics methods
-    int GetFaceCount(bool bMatch2Sided = true, bool bIgnoreOCC = true);
-    int GetVertexCount()
+    int  GetFaceCount(bool bMatch2Sided = true, bool bIgnoreOCC = true);
+    int  GetVertexCount()
     {
         return m_VertCount;
     }
@@ -557,11 +554,11 @@ public:
     float CalculateSurfacePixelArea(CSurface* surf, bool bMatch2Sided);
 
     // IO - routine
-    void SaveMesh(IWriter&);
-    bool LoadMesh(IReader&);
+    void  SaveMesh(IWriter&);
+    bool  LoadMesh(IReader&);
 
     // debug
-    void DumpAdjacency();
+    void  DumpAdjacency();
 
     // convert
 #ifdef _MAX_EXPORT

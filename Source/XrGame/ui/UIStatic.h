@@ -108,14 +108,14 @@ public:
     }
 
     // own
-    void SetXformLightAnim(LPCSTR lanim, bool bCyclic);
-    void ResetXformAnimation();
+    void           SetXformLightAnim(LPCSTR lanim, bool bCyclic);
+    void           ResetXformAnimation();
 
-    virtual void DrawTexture();
-    virtual void DrawText();
+    virtual void   DrawTexture();
+    virtual void   DrawText();
 
-    void AdjustHeightToText();
-    void AdjustWidthToText();
+    void           AdjustHeightToText();
+    void           AdjustWidthToText();
 
     void           SetShader(const ui_shader& sh);
     CUIStaticItem& GetUIStaticItem()
@@ -162,17 +162,17 @@ public:
     virtual void ColorAnimationSetTextColor(u32 color, bool only_alpha);
 
 protected:
-    CUILines* m_pTextControl;
+    CUILines*     m_pTextControl;
 
     bool          m_bStretchTexture;
     bool          m_bTextureEnable;
     CUIStaticItem m_UIStaticItem;
 
-    bool  m_bHeading;
-    bool  m_bConstHeading;
-    float m_fHeading;
+    bool          m_bHeading;
+    bool          m_bConstHeading;
+    float         m_fHeading;
 
-    Fvector2 m_TextureOffset;
+    Fvector2      m_TextureOffset;
 
 public:
     CUILines*  TextItemControl();
@@ -192,10 +192,10 @@ public:
     virtual void Draw();
     virtual void Update();
 
-    void AdjustHeightToText();
-    void AdjustWidthToText();
+    void         AdjustHeightToText();
+    void         AdjustWidthToText();
 
-    void SetText(LPCSTR txt)
+    void         SetText(LPCSTR txt)
     {
         TextItemControl().SetText(txt);
     }
@@ -251,7 +251,7 @@ public:
 
     virtual void ColorAnimationSetTextColor(u32 color, bool only_alpha);
 
-    CUILines& TextItemControl()
+    CUILines&    TextItemControl()
     {
         return m_lines;
     }

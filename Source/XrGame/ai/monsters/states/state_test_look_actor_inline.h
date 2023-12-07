@@ -2,7 +2,7 @@
 
 #include "../../../level.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION        template<typename _Object>
 
 #define CStateMonsterLookActorAbstract CStateMonsterLookActor<_Object>
 

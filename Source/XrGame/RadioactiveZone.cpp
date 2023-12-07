@@ -38,10 +38,10 @@ void CRadioactiveZone::Affect(SZoneObjectInfo* O)
     Fvector pos;
     XFORM().transform_tiny(pos, CFORM()->getSphere().P);
 
-    Fvector dir   = {0, 0, 0};
-    float   power = Power(O->object->Position().distance_to(pos), nearest_shape_radius(O));
+    Fvector dir     = {0, 0, 0};
+    float   power   = Power(O->object->Position().distance_to(pos), nearest_shape_radius(O));
 
-    float impulse = 0.0f;
+    float   impulse = 0.0f;
     if (power < EPS)
     {
         O->f_time_affected = tg;
@@ -52,9 +52,7 @@ void CRadioactiveZone::Affect(SZoneObjectInfo* O)
 
     while (O->f_time_affected + one < tg)
     {
-        CreateHit(
-            O->object->ID(), ID(), dir, send_power, BI_NONE, Fvector().set(0.0f, 0.0f, 0.0f), impulse,
-            m_eHitTypeBlowout);
+        CreateHit(O->object->ID(), ID(), dir, send_power, BI_NONE, Fvector().set(0.0f, 0.0f, 0.0f), impulse, m_eHitTypeBlowout);
 #ifdef DEBUG
 //		if(bDebug)
 /*		Msg			(	"Zone[%s]-hit->[%s] Power=%3.3f Frame=%d Time=%3.3f",
@@ -76,8 +74,7 @@ void CRadioactiveZone::feel_touch_new(CObject* O)
     {
         if (smart_cast<CActor*>(O))
         {
-            CreateHit(
-                O->ID(), ID(), Fvector().set(0, 0, 0), 0.0f, BI_NONE, Fvector().set(0, 0, 0), 0.0f,
+            CreateHit(O->ID(), ID(), Fvector().set(0, 0, 0), 0.0f, BI_NONE, Fvector().set(0, 0, 0), 0.0f,
                 m_eHitTypeBlowout);   // ALife::eHitTypeRadiation
         }
     };
@@ -116,7 +113,7 @@ void CRadioactiveZone::UpdateWorkload(u32 dt)
                 float dist  = (*it).object->Position().distance_to(pos);
                 float power = Power(dist, nearest_shape_radius(&*it)) * dt / 1000;
 
-                SHit HS;
+                SHit  HS;
                 HS.GenHeader(GE_HIT, (*it).object->ID());
                 HS.whoID           = ID();
                 HS.weaponID        = ID();

@@ -76,8 +76,7 @@ bool CLevelTool::MouseStart(TShiftState Shift)
     inherited::MouseStart(Shift);
     if (pCurTool && pCurTool->pCurControl)
     {
-        if ((pCurTool->pCurControl->Action() != etaSelect) &&
-            (!pCurTool->IsEditable() || !pCurTool->AllowMouseStart() || (pCurTool->FClassID == OBJCLASS_DUMMY)))
+        if ((pCurTool->pCurControl->Action() != etaSelect) && (!pCurTool->IsEditable() || !pCurTool->AllowMouseStart() || (pCurTool->FClassID == OBJCLASS_DUMMY)))
             return false;
 
         return pCurTool->pCurControl->Start(Shift);
@@ -405,7 +404,6 @@ void CLevelTool::OnFrame()
         // TfrmEditLightAnim::OnIdle();
     }
 
-
     if (IsCompilerRunning())
     {
         DWORD ExitCode = 0;
@@ -486,7 +484,7 @@ void CLevelTool::Render()
     // draw cursor
     LUI->m_Cursor->Render();
 
-   inherited::Render();
+    inherited::Render();
 }
 
 void CLevelTool::ShowObjectList()
@@ -619,17 +617,16 @@ void CLevelTool::RunGame(const char* Params)
     xr_sprintf(CommandLine, "Xr3DA.exe %s", Params);
     Msg("~ Run Game %s.\n", CommandLine);
     // Start the child process.
-    if (!CreateProcess(
-            NULL,             // No module name (use command line)
-            CommandLine,      // Command line
-            NULL,             // Process handle not inheritable
-            NULL,             // Thread handle not inheritable
-            FALSE,            // Set handle inheritance to FALSE
-            0,                // No creation flags
-            NULL,             // Use parent's environment block
-            NULL,             // Use parent's starting directory
-            &si,              // Pointer to STARTUPINFO structure
-            &m_GameProcess)   // Pointer to PROCESS_INFORMATION structure
+    if (!CreateProcess(NULL,   // No module name (use command line)
+            CommandLine,       // Command line
+            NULL,              // Process handle not inheritable
+            NULL,              // Thread handle not inheritable
+            FALSE,             // Set handle inheritance to FALSE
+            0,                 // No creation flags
+            NULL,              // Use parent's environment block
+            NULL,              // Use parent's starting directory
+            &si,               // Pointer to STARTUPINFO structure
+            &m_GameProcess)    // Pointer to PROCESS_INFORMATION structure
     )
     {
         Msg("! PlayPC:CreateProcess failed (%d).\n", GetLastError());
@@ -655,8 +652,7 @@ void CLevelTool::RunXrLC()
     xr_sprintf(CommandLine, "XrLC.exe -f %s", Scene->m_LevelOp.m_FNLevelPath.c_str());
     Msg("~ Run %s.\n", CommandLine);
     // Start the child process.
-    if (!CreateProcess(
-            NULL,                 // No module name (use command line)
+    if (!CreateProcess(NULL,      // No module name (use command line)
             CommandLine,          // Command line
             NULL,                 // Process handle not inheritable
             NULL,                 // Thread handle not inheritable
@@ -690,8 +686,7 @@ void CLevelTool::RunXrDO()
     xr_sprintf(CommandLine, "xrDO_light.exe -f %s", Scene->m_LevelOp.m_FNLevelPath.c_str());
     Msg("~ Run %s.\n", CommandLine);
     // Start the child process.
-    if (!CreateProcess(
-            NULL,                 // No module name (use command line)
+    if (!CreateProcess(NULL,      // No module name (use command line)
             CommandLine,          // Command line
             NULL,                 // Process handle not inheritable
             NULL,                 // Thread handle not inheritable
@@ -725,8 +720,7 @@ void CLevelTool::RunXrAI_Spawn(bool current_level)
     xr_sprintf(CommandLine, "xrAI.exe -no_separator_check -s %s -out all", current_level ? Scene->m_LevelOp.m_FNLevelPath.c_str() : "");
     Msg("~ Run %s.\n", CommandLine);
     // Start the child process.
-    if (!CreateProcess(
-            NULL,                 // No module name (use command line)
+    if (!CreateProcess(NULL,      // No module name (use command line)
             CommandLine,          // Command line
             NULL,                 // Process handle not inheritable
             NULL,                 // Thread handle not inheritable
@@ -760,8 +754,7 @@ void CLevelTool::RunXrAI_AIMap(bool draw)
     xr_sprintf(CommandLine, "xrAI.exe -f %s %s", Scene->m_LevelOp.m_FNLevelPath.c_str(), draw ? "-draft" : "");
     Msg("~ Run %s.\n", CommandLine);
     // Start the child process.
-    if (!CreateProcess(
-            NULL,                 // No module name (use command line)
+    if (!CreateProcess(NULL,      // No module name (use command line)
             CommandLine,          // Command line
             NULL,                 // Process handle not inheritable
             NULL,                 // Thread handle not inheritable
@@ -795,8 +788,7 @@ void CLevelTool::RunXrAI_Verify()
     xr_sprintf(CommandLine, "xrAI.exe -verify %s", Scene->m_LevelOp.m_FNLevelPath.c_str());
     Msg("~ Run %s.\n", CommandLine);
     // Start the child process.
-    if (!CreateProcess(
-            NULL,                 // No module name (use command line)
+    if (!CreateProcess(NULL,      // No module name (use command line)
             CommandLine,          // Command line
             NULL,                 // Process handle not inheritable
             NULL,                 // Thread handle not inheritable

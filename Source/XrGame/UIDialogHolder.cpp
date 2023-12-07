@@ -113,8 +113,7 @@ void CDialogHolder::AddDialogToRender(CUIWindow* pDialog)
     dlgItem itm(pDialog);
     itm.enabled = true;
 
-    bool bAdd =
-        (m_dialogsToRender_new.end() == std::find(m_dialogsToRender_new.begin(), m_dialogsToRender_new.end(), itm));
+    bool bAdd   = (m_dialogsToRender_new.end() == std::find(m_dialogsToRender_new.begin(), m_dialogsToRender_new.end(), itm));
     if (!bAdd)
         return;
 
@@ -192,10 +191,8 @@ void CDialogHolder::SetMainInputReceiver(CUIDialogWnd* ir, bool _find_remove)
             for (; cnt > 0; --cnt)
                 if (m_input_receivers[cnt - 1].m_item == ir)
                 {
-                    m_input_receivers[cnt].m_flags.set(
-                        recvItem::eCrosshair, m_input_receivers[cnt - 1].m_flags.test(recvItem::eCrosshair));
-                    m_input_receivers[cnt].m_flags.set(
-                        recvItem::eIndicators, m_input_receivers[cnt - 1].m_flags.test(recvItem::eIndicators));
+                    m_input_receivers[cnt].m_flags.set(recvItem::eCrosshair, m_input_receivers[cnt - 1].m_flags.test(recvItem::eCrosshair));
+                    m_input_receivers[cnt].m_flags.set(recvItem::eIndicators, m_input_receivers[cnt - 1].m_flags.test(recvItem::eIndicators));
                     xr_vector<recvItem>::iterator it = m_input_receivers.begin();
                     std::advance(it, cnt - 1);
                     m_input_receivers.erase(it);
@@ -271,9 +268,7 @@ bool CDialogHolder::IR_UIOnKeyboardPress(int dik)
     if (dik == MOUSE_1 || dik == MOUSE_2 || dik == MOUSE_3)
     {
         Fvector2    cp     = GetUICursor().GetCursorPosition();
-        EUIMessages action = (dik == MOUSE_1) ? WINDOW_LBUTTON_DOWN :
-            (dik == MOUSE_2)                  ? WINDOW_RBUTTON_DOWN :
-                                                WINDOW_CBUTTON_DOWN;
+        EUIMessages action = (dik == MOUSE_1) ? WINDOW_LBUTTON_DOWN : (dik == MOUSE_2) ? WINDOW_RBUTTON_DOWN : WINDOW_CBUTTON_DOWN;
         if (TIR->OnMouseAction(cp.x, cp.y, action))
             return true;
     }
@@ -291,8 +286,7 @@ bool CDialogHolder::IR_UIOnKeyboardPress(int dik)
             //				IR->IR_OnKeyboardPress(get_binded_action(dik));
             {
                 EGameActions action = get_binded_action(dik);
-                if (action != kQUICK_USE_1 && action != kQUICK_USE_2 && action != kQUICK_USE_3 &&
-                    action != kQUICK_USE_4)
+                if (action != kQUICK_USE_1 && action != kQUICK_USE_2 && action != kQUICK_USE_3 && action != kQUICK_USE_4)
                     IR->IR_OnKeyboardPress(action);
             }
             return (false);
@@ -313,9 +307,7 @@ bool CDialogHolder::IR_UIOnKeyboardRelease(int dik)
     if (dik == MOUSE_1 || dik == MOUSE_2 || dik == MOUSE_3)
     {
         Fvector2    cp     = GetUICursor().GetCursorPosition();
-        EUIMessages action = (dik == MOUSE_1) ? WINDOW_LBUTTON_UP :
-            (dik == MOUSE_2)                  ? WINDOW_RBUTTON_UP :
-                                                WINDOW_CBUTTON_UP;
+        EUIMessages action = (dik == MOUSE_1) ? WINDOW_LBUTTON_UP : (dik == MOUSE_2) ? WINDOW_RBUTTON_UP : WINDOW_CBUTTON_UP;
         if (TIR->OnMouseAction(cp.x, cp.y, action))
             return true;
     }

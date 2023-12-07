@@ -37,7 +37,7 @@ void CUIProgressBar::UpdateProgressBar()
 
     float progressbar_unit = 1 / (m_MaxPos - m_MinPos);
 
-    float fCurrentLength = m_ProgressPos.x * progressbar_unit;
+    float fCurrentLength   = m_ProgressPos.x * progressbar_unit;
 
     if (m_orient_mode == om_horz || m_orient_mode == om_back)
     {
@@ -78,12 +78,12 @@ void CUIProgressBar::Update()
     {
         if (fsimilar(m_MaxPos, m_MinPos))
             m_MaxPos += EPS;   // hack ^(
-        float _diff = m_ProgressPos.y - m_ProgressPos.x;
+        float _diff   = m_ProgressPos.y - m_ProgressPos.x;
 
         float _length = (m_MaxPos - m_MinPos);
         float _val    = _length * (1.0f - m_inertion) * Device->fTimeDelta;
 
-        _val = _min(_abs(_val), _abs(_diff));
+        _val          = _min(_abs(_val), _abs(_diff));
         _val *= _sign(_diff);
         m_ProgressPos.x += _val;
         UpdateProgressBar();

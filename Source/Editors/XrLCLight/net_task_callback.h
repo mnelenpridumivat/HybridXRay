@@ -8,11 +8,10 @@ class net_task_callback
     IAgent&          _agent;
     DWORD            _session;
     u16              _beak_count;
+
 public:
-    net_task_callback(IAgent* agent, DWORD session):
-        _agent(*agent), _session(session), _beak_count(_break_connection_times)
-    {
-    }
+    net_task_callback(IAgent* agent, DWORD session): _agent(*agent), _session(session), _beak_count(_break_connection_times) {}
+
 public:
     IC bool break_all() const
     {

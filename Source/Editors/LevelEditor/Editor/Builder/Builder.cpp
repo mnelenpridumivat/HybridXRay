@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-SceneBuilder Builder;
+SceneBuilder    Builder;
 
 ICF static void simple_hemi_callback(float x, float y, float z, float E, LPVOID P)
 {
@@ -64,8 +64,7 @@ BOOL SceneBuilder::Compile(bool b_selected_only, bool show_message)
             // check debug
             bool bTestPortal = Scene->ObjCount(OBJCLASS_SECTOR) || Scene->ObjCount(OBJCLASS_PORTAL);
             // validate scene
-            VERIFY_COMPILE(
-                Scene->Validate(false, bTestPortal, true, true, true, true), "Validation failed.", "Invalid scene.");
+            VERIFY_COMPILE(Scene->Validate(false, bTestPortal, true, true, true, true), "Validation failed.", "Invalid scene.");
             // fill simple hemi
             simple_hemi.clear();
             xrHemisphereBuild(1, 2.f, simple_hemi_callback, &simple_hemi);
@@ -101,7 +100,8 @@ BOOL SceneBuilder::Compile(bool b_selected_only, bool show_message)
                 }
             }
             Clear();
-        } while (0);
+        }
+        while (0);
 
         if (!error_text.empty())
             ELog.DlgMsg(mtError, error_text.c_str());
@@ -144,7 +144,8 @@ BOOL SceneBuilder::MakeGame()
             VERIFY_COMPILE(RenumerateSectors(), "Failed to renumerate sectors", "");
             VERIFY_COMPILE(BuildLTX(), "Failed to build level description.", "");
             VERIFY_COMPILE(BuildGame(), "Failed to build game.", "");
-        } while (0);
+        }
+        while (0);
 
         if (!error_text.empty())
             ELog.DlgMsg(mtError, error_text.c_str());
@@ -170,7 +171,8 @@ BOOL SceneBuilder::MakeAIMap()
     {
         VERIFY_COMPILE(PreparePath(), "Failed to prepare level path.", "");
         VERIFY_COMPILE(BuildAIMap(), "Failed to build AI-Map.", "");
-    } while (0);
+    }
+    while (0);
     if (!error_text.empty())
         ELog.DlgMsg(mtError, error_text.c_str());
     else if (UI->NeedAbort())
@@ -189,7 +191,8 @@ BOOL SceneBuilder::MakeDetails()
         VERIFY_COMPILE(PreparePath(), "Failed to prepare level path.", "");
         // save details
         VERIFY_COMPILE(Scene->GetTool(OBJCLASS_DO)->Export(m_LevelPath), "Export failed.", "");
-    } while (0);
+    }
+    while (0);
     if (!error_text.empty())
         ELog.DlgMsg(mtError, error_text.c_str());
     else if (UI->NeedAbort())
@@ -216,7 +219,8 @@ BOOL SceneBuilder::MakeHOM()
             // build
             VERIFY_COMPILE(PreparePath(), "Failed to prepare level path.", "");
             VERIFY_COMPILE(BuildHOMModel(), "Failed to build HOM model.", "");
-        } while (0);
+        }
+        while (0);
 
         if (!error_text.empty())
             ELog.DlgMsg(mtError, error_text.c_str());
@@ -251,7 +255,8 @@ BOOL SceneBuilder::MakeSOM()
             // build
             VERIFY_COMPILE(PreparePath(), "Failed to prepare level path.", "");
             VERIFY_COMPILE(BuildSOMModel(), "Failed to build SOM model.", "");
-        } while (0);
+        }
+        while (0);
 
         if (!error_text.empty())
             ELog.DlgMsg(mtError, error_text.c_str());

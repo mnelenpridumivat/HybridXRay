@@ -107,9 +107,7 @@ void CHitMemoryManager::add(float amount, const Fvector& vLocalDir, const CObjec
         m_last_hit_time      = Device->dwTimeGlobal;
     }
 
-    object().callback(GameObject::eHit)(
-        m_object->lua_game_object(), amount, vLocalDir, smart_cast<const CGameObject*>(who)->lua_game_object(),
-        element);
+    object().callback(GameObject::eHit)(m_object->lua_game_object(), amount, vLocalDir, smart_cast<const CGameObject*>(who)->lua_game_object(), element);
 
     Fvector direction;
     m_object->XFORM().transform_dir(direction, vLocalDir);
@@ -123,9 +121,7 @@ void CHitMemoryManager::add(float amount, const Fvector& vLocalDir, const CObjec
     {
         CHitObject hit_object;
 
-        hit_object.fill(
-            entity_alive, m_object,
-            !m_stalker ? squad_mask_type(-1) : m_stalker->agent_manager().member().mask(m_stalker));
+        hit_object.fill(entity_alive, m_object, !m_stalker ? squad_mask_type(-1) : m_stalker->agent_manager().member().mask(m_stalker));
 
 #ifdef USE_FIRST_GAME_TIME
         hit_object.m_first_game_time = Level().GetGameTime();
@@ -146,10 +142,7 @@ void CHitMemoryManager::add(float amount, const Fvector& vLocalDir, const CObjec
     }
     else
     {
-        (*J).fill(
-            entity_alive, m_object,
-            (!m_stalker ? (*J).m_squad_mask.get() :
-                          ((*J).m_squad_mask.get() | m_stalker->agent_manager().member().mask(m_stalker))));
+        (*J).fill(entity_alive, m_object, (!m_stalker ? (*J).m_squad_mask.get() : ((*J).m_squad_mask.get() | m_stalker->agent_manager().member().mask(m_stalker))));
         (*J).m_amount = _max(amount, (*J).m_amount);
     }
 }
@@ -280,7 +273,7 @@ void CHitMemoryManager::save(NET_Packet& packet) const
         packet.w_float((*I).m_object_params.m_orientation.yaw);
         packet.w_float((*I).m_object_params.m_orientation.pitch);
         packet.w_float((*I).m_object_params.m_orientation.roll);
-#endif   // USE_ORIENTATION
+#endif   // USE_ORIENTATION \
          // self params
         packet.w_u32((*I).m_self_params.m_level_vertex_id);
         packet.w_vec3((*I).m_self_params.m_position);
@@ -296,8 +289,7 @@ void CHitMemoryManager::save(NET_Packet& packet) const
         packet.w_u32((Device->dwTimeGlobal >= (*I).m_level_time) ? (Device->dwTimeGlobal - (*I).m_last_level_time) : 0);
 #endif   // USE_LAST_LEVEL_TIME
 #ifdef USE_FIRST_LEVEL_TIME
-        packet.w_u32(
-            (Device->dwTimeGlobal >= (*I).m_level_time) ? (Device->dwTimeGlobal - (*I).m_first_level_time) : 0);
+        packet.w_u32((Device->dwTimeGlobal >= (*I).m_level_time) ? (Device->dwTimeGlobal - (*I).m_first_level_time) : 0);
 #endif   // USE_FIRST_LEVEL_TIME
         packet.w_vec3((*I).m_direction);
         packet.w_u16((*I).m_bone_index);
@@ -318,10 +310,10 @@ void CHitMemoryManager::load(IReader& packet)
     for (int i = 0; i < count; ++i)
     {
         CDelayedHitObject delayed_object;
-        delayed_object.m_object_id = packet.r_u16();
+        delayed_object.m_object_id               = packet.r_u16();
 
-        CHitObject& object = delayed_object.m_hit_object;
-        object.m_object    = smart_cast<CEntityAlive*>(Level().Objects.net_Find(delayed_object.m_object_id));
+        CHitObject& object                       = delayed_object.m_hit_object;
+        object.m_object                          = smart_cast<CEntityAlive*>(Level().Objects.net_Find(delayed_object.m_object_id));
         // object params
         object.m_object_params.m_level_vertex_id = packet.r_u32();
         packet.r_fvector3(object.m_object_params.m_position);
@@ -365,8 +357,7 @@ void CHitMemoryManager::load(IReader& packet)
 
         m_delayed_objects.push_back(delayed_object);
 
-        const CClientSpawnManager::CSpawnCallback* spawn_callback =
-            Level().client_spawn_manager().callback(delayed_object.m_object_id, m_object->ID());
+        const CClientSpawnManager::CSpawnCallback* spawn_callback = Level().client_spawn_manager().callback(delayed_object.m_object_id, m_object->ID());
         if (!spawn_callback || !spawn_callback->m_object_callback)
             if (!g_dedicated_server)
                 Level().client_spawn_manager().add(delayed_object.m_object_id, m_object->ID(), callback);

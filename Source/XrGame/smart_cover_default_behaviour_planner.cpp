@@ -20,10 +20,7 @@ using namespace StalkerDecisionSpace;
 using smart_cover::animation_planner;
 using smart_cover::default_behaviour_planner;
 
-default_behaviour_planner::default_behaviour_planner(animation_planner* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+default_behaviour_planner::default_behaviour_planner(animation_planner* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void default_behaviour_planner::setup(animation_planner* object, CPropertyStorage* storage)
 {
@@ -52,23 +49,11 @@ void default_behaviour_planner::finalize()
 
 void default_behaviour_planner::add_evaluators()
 {
-    add_evaluator(
-        eWorldPropertyPlannerHasTarget,
-        xr_new<evaluators::loophole_planner_const_evaluator>(&object(), "default behaviour planner has target", false));
-    add_evaluator(
-        eWorldPropertyLoopholeCanStayIdle,
-        xr_new<evaluators::is_action_available_evaluator>(&object(), "can stay idle", "idle"));
-    add_evaluator(
-        eWorldPropertyLoopholeCanLookout,
-        xr_new<evaluators::is_action_available_evaluator>(&object(), "can lookout", "lookout"));
-    add_evaluator(
-        eWorldPropertyReadyToLookout,
-        xr_new<evaluators::lookout_time_interval_passed_evaluator>(
-            &object(), "ready to lookout", object().default_lookout_interval()));
-    add_evaluator(
-        eWorldPropertyReadyToIdle,
-        xr_new<evaluators::idle_time_interval_passed_evaluator>(
-            &object(), "stay idle", object().default_idle_interval()));
+    add_evaluator(eWorldPropertyPlannerHasTarget, xr_new<evaluators::loophole_planner_const_evaluator>(&object(), "default behaviour planner has target", false));
+    add_evaluator(eWorldPropertyLoopholeCanStayIdle, xr_new<evaluators::is_action_available_evaluator>(&object(), "can stay idle", "idle"));
+    add_evaluator(eWorldPropertyLoopholeCanLookout, xr_new<evaluators::is_action_available_evaluator>(&object(), "can lookout", "lookout"));
+    add_evaluator(eWorldPropertyReadyToLookout, xr_new<evaluators::lookout_time_interval_passed_evaluator>(&object(), "ready to lookout", object().default_lookout_interval()));
+    add_evaluator(eWorldPropertyReadyToIdle, xr_new<evaluators::idle_time_interval_passed_evaluator>(&object(), "stay idle", object().default_idle_interval()));
 }
 
 void default_behaviour_planner::add_actions()

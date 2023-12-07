@@ -22,7 +22,7 @@
         m_collision_damage_info.m_dmc_type         = SCollisionDamageInfo::ctStatic;
         m_collision_damage_info.m_damege_contact   = *c;
         // m_collision_damage_info.m_object			=	0;
-        m_collision_damage_info.m_obj_id = u16(-1);
+        m_collision_damage_info.m_obj_id           = u16(-1);
     }
 }
 
@@ -43,21 +43,19 @@ void CPHSimpleCharacter::UpdateDynamicDamage(dContact* c, u16 obj_material_idx, 
     if ((bo1 && norm_vel > norm_obj_vel) || (!bo1 && norm_obj_vel > norm_vel))
         return;
 
-    dVector3 Pc = {
-        vel[0] * m_mass + obj_vel[0] * m.mass, vel[1] * m_mass + obj_vel[1] * m.mass,
-        vel[2] * m_mass + obj_vel[2] * m.mass};
+    dVector3 Pc              = {vel[0] * m_mass + obj_vel[0] * m.mass, vel[1] * m_mass + obj_vel[1] * m.mass, vel[2] * m_mass + obj_vel[2] * m.mass};
     // dVectorMul(Vc,1.f/(m_mass+m.mass));
     // dVector3 vc_obj={obj_vel[0]-Vc[0],obj_vel[1]-Vc[1],obj_vel[2]-Vc[2]};
     // dVector3 vc_self={vel[0]-Vc[0],vel[1]-Vc[1],vel[2]-Vc[2]};
     // dReal vc_obj_norm=dDOT(vc_obj,norm);
     // dReal vc_self_norm=dDOT(vc_self,norm);
 
-    dReal Kself = norm_vel * norm_vel * m_mass / 2.f;
-    dReal Kobj  = norm_obj_vel * norm_obj_vel * m.mass / 2.f;
+    dReal    Kself           = norm_vel * norm_vel * m_mass / 2.f;
+    dReal    Kobj            = norm_obj_vel * norm_obj_vel * m.mass / 2.f;
 
-    dReal Pcnorm          = dDOT(Pc, norm);
-    dReal KK              = Pcnorm * Pcnorm / (m_mass + m.mass) / 2.f;
-    dReal accepted_energy = Kself * m_collision_damage_factor + Kobj * object_damage_factor - KK;
+    dReal    Pcnorm          = dDOT(Pc, norm);
+    dReal    KK              = Pcnorm * Pcnorm / (m_mass + m.mass) / 2.f;
+    dReal    accepted_energy = Kself * m_collision_damage_factor + Kobj * object_damage_factor - KK;
     // DeltaK=m1*m2*(v1-v2)^2/(2*(m1+m2))
     if (accepted_energy > 0.f)
     {
@@ -67,8 +65,7 @@ void CPHSimpleCharacter::UpdateDynamicDamage(dContact* c, u16 obj_material_idx, 
     else
         c_vel = 0.f;
 #ifdef DEBUG
-    if (debug_output().ph_dbg_draw_mask().test(phDbgDispObjCollisionDammage) &&
-        c_vel > debug_output().dbg_vel_collid_damage_to_display())
+    if (debug_output().ph_dbg_draw_mask().test(phDbgDispObjCollisionDammage) && c_vel > debug_output().dbg_vel_collid_damage_to_display())
     {
         float  dbg_my_norm_vell    = norm_vel;
         float  dbg_obj_norm_vell   = norm_obj_vel;
@@ -139,10 +136,9 @@ IC void CPHSimpleCharacter::foot_material_update(u16 contact_material_idx, u16 f
 {
     if (m_elevator_state.UpdateMaterial(*p_lastMaterialIDX))
         return;
-    if (*p_lastMaterialIDX != u16(-1) &&
-        GMLibrary().GetMaterialByIdx(*p_lastMaterialIDX)->Flags.test(SGameMtl::flPassable) && !b_foot_mtl_check)
+    if (*p_lastMaterialIDX != u16(-1) && GMLibrary().GetMaterialByIdx(*p_lastMaterialIDX)->Flags.test(SGameMtl::flPassable) && !b_foot_mtl_check)
         return;
-    b_foot_mtl_check = false;
+    b_foot_mtl_check                 = false;
 
     const SGameMtl* contact_material = GMLibrary().GetMaterialByIdx(contact_material_idx);
 

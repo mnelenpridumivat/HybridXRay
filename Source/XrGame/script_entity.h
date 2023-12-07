@@ -31,10 +31,7 @@ public:
         Fvector m_position;
         float   m_sound_power;
 
-        IC CSavedSound(u16 game_object_id, int sound_type, const Fvector& position, float sound_power):
-            m_game_object_id(game_object_id), m_sound_type(sound_type), m_position(position), m_sound_power(sound_power)
-        {
-        }
+        IC      CSavedSound(u16 game_object_id, int sound_type, const Fvector& position, float sound_power): m_game_object_id(game_object_id), m_sound_type(sound_type), m_position(position), m_sound_power(sound_power) {}
     };
 
 protected:
@@ -45,7 +42,7 @@ private:
     CCustomMonster* m_monster;
     bool            m_initialized;
 
-    bool m_can_capture;
+    bool            m_can_capture;
 
 protected:
     ACTIONS              m_tpActionQueue;
@@ -104,19 +101,19 @@ public:
     virtual bool                 bfAssignObject(CScriptEntityAction* tpEntityAction);
     virtual bool                 bfAssignMonsterAction(CScriptEntityAction* tpEntityAction);
 
-    virtual void sound_callback(const CObject* object, int sound_type, const Fvector& position, float sound_power);
+    virtual void                 sound_callback(const CObject* object, int sound_type, const Fvector& position, float sound_power);
 
-    virtual LPCSTR             GetPatrolPathName();
-    bool                       bfScriptAnimation();
-    u32                        GetActionCount() const;
-    const CScriptEntityAction* GetActionByIndex(u32 action_index) const;
+    virtual LPCSTR               GetPatrolPathName();
+    bool                         bfScriptAnimation();
+    u32                          GetActionCount() const;
+    const CScriptEntityAction*   GetActionByIndex(u32 action_index) const;
 
-    virtual CEntity* GetCurrentEnemy();
-    virtual CEntity* GetCurrentCorpse();
-    virtual int      get_enemy_strength();
-    void             process_sound_callbacks();
+    virtual CEntity*             GetCurrentEnemy();
+    virtual CEntity*             GetCurrentCorpse();
+    virtual int                  get_enemy_strength();
+    void                         process_sound_callbacks();
 
-    void set_script_capture(bool val = true)
+    void                         set_script_capture(bool val = true)
     {
         m_can_capture = val;
     }

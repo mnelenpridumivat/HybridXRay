@@ -6,41 +6,41 @@
 
 #pragma pack(push, 1)
 
-const u32 NET_PacketSizeLimit = 16 * 1024;
+const u32         NET_PacketSizeLimit = 16 * 1024;
 
 struct XRCORE_API IIniFileStream
 {
-    virtual void move_begin() = 0;
+    virtual void move_begin()                        = 0;
 
-    virtual void w_float(float a)          = 0;
-    virtual void w_vec3(const Fvector& a)  = 0;
-    virtual void w_vec4(const Fvector4& a) = 0;
-    virtual void w_u64(u64 a)              = 0;
-    virtual void w_s64(s64 a)              = 0;
-    virtual void w_u32(u32 a)              = 0;
-    virtual void w_s32(s32 a)              = 0;
-    virtual void w_u16(u16 a)              = 0;
-    virtual void w_s16(s16 a)              = 0;
-    virtual void w_u8(u8 a)                = 0;
-    virtual void w_s8(s8 a)                = 0;
-    virtual void w_stringZ(LPCSTR S)       = 0;
+    virtual void w_float(float a)                    = 0;
+    virtual void w_vec3(const Fvector& a)            = 0;
+    virtual void w_vec4(const Fvector4& a)           = 0;
+    virtual void w_u64(u64 a)                        = 0;
+    virtual void w_s64(s64 a)                        = 0;
+    virtual void w_u32(u32 a)                        = 0;
+    virtual void w_s32(s32 a)                        = 0;
+    virtual void w_u16(u16 a)                        = 0;
+    virtual void w_s16(s16 a)                        = 0;
+    virtual void w_u8(u8 a)                          = 0;
+    virtual void w_s8(s8 a)                          = 0;
+    virtual void w_stringZ(LPCSTR S)                 = 0;
 
-    virtual void r_vec3(Fvector&)  = 0;
-    virtual void r_vec4(Fvector4&) = 0;
-    virtual void r_float(float&)   = 0;
-    virtual void r_u8(u8&)         = 0;
-    virtual void r_u16(u16&)       = 0;
-    virtual void r_u32(u32&)       = 0;
-    virtual void r_u64(u64&)       = 0;
-    virtual void r_s8(s8&)         = 0;
-    virtual void r_s16(s16&)       = 0;
-    virtual void r_s32(s32&)       = 0;
-    virtual void r_s64(s64&)       = 0;
+    virtual void r_vec3(Fvector&)                    = 0;
+    virtual void r_vec4(Fvector4&)                   = 0;
+    virtual void r_float(float&)                     = 0;
+    virtual void r_u8(u8&)                           = 0;
+    virtual void r_u16(u16&)                         = 0;
+    virtual void r_u32(u32&)                         = 0;
+    virtual void r_u64(u64&)                         = 0;
+    virtual void r_s8(s8&)                           = 0;
+    virtual void r_s16(s16&)                         = 0;
+    virtual void r_s32(s32&)                         = 0;
+    virtual void r_s64(s64&)                         = 0;
 
     virtual void r_string(LPSTR dest, u32 dest_size) = 0;
     //	virtual void		r_tell			()							= 0;
     //	virtual void		r_seek			(u32 pos)					= 0;
-    virtual void skip_stringZ() = 0;
+    virtual void skip_stringZ()                      = 0;
 };
 
 #define INI_W(what_to_do)      \
@@ -66,7 +66,7 @@ class XRCORE_API NET_Packet
 public:
     IIniFileStream* inistream;
 
-    void construct(const void* data, unsigned size)
+    void            construct(const void* data, unsigned size)
     {
         memcpy(B.data, data, size);
         B.count = size;
@@ -293,10 +293,10 @@ public:
     }
 
     // reading
-    void read_start();
-    u32  r_begin(u16& type);
-    void r_seek(u32 pos);
-    u32  r_tell();
+    void    read_start();
+    u32     r_begin(u16& type);
+    void    r_seek(u32 pos);
+    u32     r_tell();
 
     IC void r(void* p, u32 count)
     {
@@ -306,54 +306,54 @@ public:
         r_pos += count;
         VERIFY(r_pos <= B.count);
     }
-    BOOL r_eof();
-    u32  r_elapsed();
-    void r_advance(u32 size);
+    BOOL                           r_eof();
+    u32                            r_elapsed();
+    void                           r_advance(u32 size);
 
     // reading - utilities
-    void r_vec3(Fvector& A);
-    void r_vec4(Fvector4& A);
-    void r_float(float& A);
-    void r_u64(u64& A);
-    void r_s64(s64& A);
-    void r_u32(u32& A);
-    void r_s32(s32& A);
-    void r_u16(u16& A);
-    void r_s16(s16& A);
-    void r_u8(u8& A);
-    void r_s8(s8& A);
+    void                           r_vec3(Fvector& A);
+    void                           r_vec4(Fvector4& A);
+    void                           r_float(float& A);
+    void                           r_u64(u64& A);
+    void                           r_s64(s64& A);
+    void                           r_u32(u32& A);
+    void                           r_s32(s32& A);
+    void                           r_u16(u16& A);
+    void                           r_s16(s16& A);
+    void                           r_u8(u8& A);
+    void                           r_s8(s8& A);
 
     // IReader compatibility
-    Fvector  r_vec3();
-    Fvector4 r_vec4();
-    float    r_float_q8(float min, float max);
-    float    r_float_q16(float min, float max);
-    float    r_float();
-    u64      r_u64();
-    s64      r_s64();
-    u32      r_u32();
-    s32      r_s32();
-    u16      r_u16();
-    s16      r_s16();
-    u8       r_u8();
-    s8       r_s8();
+    Fvector                        r_vec3();
+    Fvector4                       r_vec4();
+    float                          r_float_q8(float min, float max);
+    float                          r_float_q16(float min, float max);
+    float                          r_float();
+    u64                            r_u64();
+    s64                            r_s64();
+    u32                            r_u32();
+    s32                            r_s32();
+    u16                            r_u16();
+    s16                            r_s16();
+    u8                             r_u8();
+    s8                             r_s8();
 
-    void r_float_q16(float& A, float min, float max);
-    void r_float_q8(float& A, float min, float max);
-    void r_angle16(float& A);
-    void r_angle8(float& A);
-    void r_dir(Fvector& A);
+    void                           r_float_q16(float& A, float min, float max);
+    void                           r_float_q8(float& A, float min, float max);
+    void                           r_angle16(float& A);
+    void                           r_angle8(float& A);
+    void                           r_dir(Fvector& A);
 
-    void r_sdir(Fvector& A);
-    void r_stringZ(LPSTR S);
-    void r_stringZ(xr_string& dest);
-    void r_stringZ(shared_str& dest);
+    void                           r_sdir(Fvector& A);
+    void                           r_stringZ(LPSTR S);
+    void                           r_stringZ(xr_string& dest);
+    void                           r_stringZ(shared_str& dest);
 
-    void skip_stringZ();
+    void                           skip_stringZ();
 
-    void r_stringZ_s(LPSTR string, u32 size);
+    void                           r_stringZ_s(LPSTR string, u32 size);
 
-    template <u32 size> inline void r_stringZ_s(char (&string)[size])
+    template<u32 size> inline void r_stringZ_s(char (&string)[size])
     {
         r_stringZ_s(string, size);
     }

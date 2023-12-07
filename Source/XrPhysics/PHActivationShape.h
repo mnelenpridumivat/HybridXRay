@@ -33,19 +33,9 @@ public:
     };
     CPHActivationShape();
     ~CPHActivationShape();
-    void Create(
-        const Fvector        start_pos,
-        const Fvector        start_size,
-        IPhysicsShellHolder* ref_obj,
-        EType                type  = etBox,
-        u16                  flags = 0);
-    void Destroy();
-    bool Activate(
-        const Fvector need_size,
-        u16           steps,
-        float         max_displacement,
-        float         max_rotation,
-        bool          un_freeze_later = false);
+    void           Create(const Fvector start_pos, const Fvector start_size, IPhysicsShellHolder* ref_obj, EType type = etBox, u16 flags = 0);
+    void           Destroy();
+    bool           Activate(const Fvector need_size, u16 steps, float max_displacement, float max_rotation, bool un_freeze_later = false);
     const Fvector& Position();
     void           Size(Fvector& size);
     dBodyID        ODEBody()

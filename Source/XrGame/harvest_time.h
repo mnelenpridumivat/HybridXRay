@@ -23,11 +23,7 @@ namespace award_system
         };
         virtual void reset_game();
 
-        virtual void OnPlayerKilled(
-            u16                                     killer_id,
-            u16                                     target_id,
-            u16                                     weapon_id,
-            std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
+        virtual void OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
         virtual void OnPlayerSpawned(game_PlayerState const* ps);
 
     protected:

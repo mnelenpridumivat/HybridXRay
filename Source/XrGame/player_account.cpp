@@ -35,8 +35,8 @@ void player_account::load_account()
         m_online_account = false;
         m_profile_id     = 0;
     }
-    m_clan_name   = "";
-    m_clan_leader = false;
+    m_clan_name                                     = "";
+    m_clan_leader                                   = false;
 
     gamespy_profile::all_awards_t const& tmp_awards = tmp_store->get_awards();
     for (gamespy_profile::all_awards_t::const_iterator i = tmp_awards.begin(), ie = tmp_awards.end(); i != ie; ++i)
@@ -58,8 +58,7 @@ void player_account::net_Import(NET_Packet& P)
     {
         u16 award_id = P.r_u16();
         u16 acount   = P.r_u16();
-        m_awards.insert(std::make_pair(
-            static_cast<gamespy_profile::enum_awards_t>(award_id), gamespy_profile::award_data(acount, time_t())));
+        m_awards.insert(std::make_pair(static_cast<gamespy_profile::enum_awards_t>(award_id), gamespy_profile::award_data(acount, time_t())));
     }
 }
 

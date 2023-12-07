@@ -14,11 +14,9 @@ class recalculation
     bool                recalculate;
     bool                partial_calculate;
     bool                force_recalculate;
+
 public:
-    recalculation(const DetailHeader& _dtH):
-        dtH(_dtH), calculation_rect(Frect().invalidate()), recalculate(false), partial_calculate(false), force_recalculate(false), dtFS(0), slots_flags(0)
-    {
-    }   //
+    recalculation(const DetailHeader& _dtH): dtH(_dtH), calculation_rect(Frect().invalidate()), recalculate(false), partial_calculate(false), force_recalculate(false), dtFS(0), slots_flags(0) {}   //
     IC bool recalculating() const
     {
         return recalculate;
@@ -53,6 +51,7 @@ public:
     void close();
     void read(INetReader& r);
     void write(IWriter& w) const;
+
 private:
     void load_calculation_params();
     void setup_recalculationflags_file(u32 check_sum);

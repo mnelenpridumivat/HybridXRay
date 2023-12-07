@@ -4,7 +4,7 @@
 #include "chimera_state_threaten_walk.h"
 #include "chimera_state_threaten_roar.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION       template<typename _Object>
 
 #define CStateChimeraThreatenAbstract CStateChimeraThreaten<_Object>
 
@@ -28,8 +28,8 @@ void CStateChimeraThreatenAbstract::reinit()
 }
 
 #define MIN_DIST_TO_ENEMY 3.f
-#define MORALE_THRESHOLD 0.8f
-#define THREATEN_DELAY 10000
+#define MORALE_THRESHOLD  0.8f
+#define THREATEN_DELAY    10000
 
 TEMPLATE_SPECIALIZATION
 bool CStateChimeraThreatenAbstract::check_start_conditions()

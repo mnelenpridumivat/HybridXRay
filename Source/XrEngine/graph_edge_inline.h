@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _edge_weight_type, typename _vertex_type>
+#define TEMPLATE_SPECIALIZATION template<typename _edge_weight_type, typename _vertex_type>
 
-#define CSGraphEdge CEdgeBase<_edge_weight_type, _vertex_type>
+#define CSGraphEdge             CEdgeBase<_edge_weight_type, _vertex_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSGraphEdge::CEdgeBase(const _edge_weight_type& weight, _vertex_type* vertex)
@@ -45,9 +45,9 @@ IC const typename CSGraphEdge::_vertex_id_type& CSGraphEdge::vertex_id() const
 // class CEdge
 ////////////////////////////////////////////////////////////////////////////
 
-#define TEMPLATE_SPECIALIZATION template <typename _edge_weight_type, typename _vertex_type, typename _edge_data_type>
+#define TEMPLATE_SPECIALIZATION template<typename _edge_weight_type, typename _vertex_type, typename _edge_data_type>
 
-#define CSGraphEdge CEdge<_edge_weight_type, _vertex_type, _edge_data_type>
+#define CSGraphEdge             CEdge<_edge_weight_type, _vertex_type, _edge_data_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSGraphEdge::CEdge(const _edge_weight_type& weight, _vertex_type* vertex): inherited(weight, vertex) {}
@@ -86,9 +86,9 @@ IC _edge_data_type& CSGraphEdge::data()
 // class CEdge<..., Loki::EmptyType>
 ////////////////////////////////////////////////////////////////////////////
 
-#define TEMPLATE_SPECIALIZATION template <typename _edge_weight_type, typename _vertex_type>
+#define TEMPLATE_SPECIALIZATION template<typename _edge_weight_type, typename _vertex_type>
 
-#define CSGraphEdge CEdge<_edge_weight_type, _vertex_type, Loki::EmptyType>
+#define CSGraphEdge             CEdge<_edge_weight_type, _vertex_type, Loki::EmptyType>
 
 TEMPLATE_SPECIALIZATION
 IC CSGraphEdge::CEdge(const _edge_weight_type& weight, _vertex_type* vertex): inherited(weight, vertex) {}

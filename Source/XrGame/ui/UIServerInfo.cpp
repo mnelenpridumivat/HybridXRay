@@ -17,7 +17,7 @@ CUIServerInfo::CUIServerInfo()
 {
     m_dds_file_created = false;
 
-    m_background = xr_new<CUIStatic>();
+    m_background       = xr_new<CUIStatic>();
     AttachChild(m_background);
     m_background->SetAutoDelete(true);
 
@@ -33,7 +33,7 @@ CUIServerInfo::CUIServerInfo()
     AttachChild(m_text_desc);
     m_text_desc->SetAutoDelete(true);
 
-    m_text_body = xr_new<CUITextWnd>();
+    m_text_body     = xr_new<CUITextWnd>();
     // m_text_desc->AttachChild		(m_text_body);
     // m_text_body->SetAutoDelete		(true);
 
@@ -88,8 +88,7 @@ void CUIServerInfo::InitCallbacks()
     Register(m_btn_spectator);
 
     AddCallback(m_btn_next, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIServerInfo::OnNextBtnClick));
-    AddCallback(
-        m_btn_spectator, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIServerInfo::OnSpectatorBtnClick));
+    AddCallback(m_btn_spectator, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIServerInfo::OnSpectatorBtnClick));
     // AddCallback	(this,				WINDOW_KEY_PRESSED,	CUIWndCallback::void_function(this,
     // &CUIServerInfo::OnNextBtnClick));
 }
@@ -130,7 +129,7 @@ void CUIServerInfo::SetServerRules(u8 const* data_ptr, u32 const data_size)
 
     // std::replace(tmp_string, tmp_string + new_size, '\r', '\\');
     // std::replace(tmp_string, tmp_string + new_size, '\n', 'n');
-    char* tmp_iter = strstr(tmp_string, "\r\n");
+    char* tmp_iter       = strstr(tmp_string, "\r\n");
     while (tmp_iter != NULL)
     {
         *tmp_iter       = '\\';
@@ -166,7 +165,8 @@ bool CUIServerInfo::OnKeyboardAction(int dik, EUIMessages keyboard_action)
     switch (dik)
     {
         case DIK_SPACE:
-        case DIK_RETURN: {
+        case DIK_RETURN:
+        {
             OnNextBtnClick(NULL, 0);
             return true;
         }

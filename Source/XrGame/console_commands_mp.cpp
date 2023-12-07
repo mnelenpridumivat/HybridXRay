@@ -22,10 +22,10 @@
 #include "account_manager_console.h"
 #include "gamespy/GameSpy_GP.h"
 
-EGameIDs ParseStringToGameType(LPCSTR str);
-LPCSTR   GameTypeToString(EGameIDs gt, bool bShort);
-LPCSTR   AddHyphens(LPCSTR c);
-LPCSTR   DelHyphens(LPCSTR c);
+EGameIDs        ParseStringToGameType(LPCSTR str);
+LPCSTR          GameTypeToString(EGameIDs gt, bool bShort);
+LPCSTR          AddHyphens(LPCSTR c);
+LPCSTR          DelHyphens(LPCSTR c);
 
 extern float    g_cl_lvInterp;
 extern int      g_cl_InterpolationType;   // 0 - Linear, 1 - BSpline, 2 - HSpline
@@ -39,79 +39,79 @@ extern int      g_iWeaponRemove;
 extern int      g_iCorpseRemove;
 extern BOOL     g_bCollectStatisticData;
 // extern	BOOL	g_bStatisticSaveAuto	;
-extern BOOL g_SV_Disable_Auth_Check;
+extern BOOL     g_SV_Disable_Auth_Check;
 
-extern int   g_sv_mp_iDumpStatsPeriod;
-extern BOOL  g_SV_Force_Artefact_Spawn;
-extern int   g_Dump_Update_Write;
-extern int   g_Dump_Update_Read;
-extern u32   g_sv_base_dwRPointFreezeTime;
-extern int   g_sv_base_iVotingEnabled;
-extern BOOL  g_sv_mp_bSpectator_FreeFly;
-extern BOOL  g_sv_mp_bSpectator_FirstEye;
-extern BOOL  g_sv_mp_bSpectator_LookAt;
-extern BOOL  g_sv_mp_bSpectator_FreeLook;
-extern BOOL  g_sv_mp_bSpectator_TeamCamera;
-extern BOOL  g_sv_mp_bCountParticipants;
-extern float g_sv_mp_fVoteQuota;
-extern float g_sv_mp_fVoteTime;
-extern u32   g_sv_dm_dwForceRespawn;
-extern s32   g_sv_dm_dwFragLimit;
-extern s32   g_sv_dm_dwTimeLimit;
-extern BOOL  g_sv_dm_bDamageBlockIndicators;
-extern u32   g_sv_dm_dwDamageBlockTime;
-extern BOOL  g_sv_dm_bAnomaliesEnabled;
-extern u32   g_sv_dm_dwAnomalySetLengthTime;
-extern BOOL  g_sv_dm_bPDAHunt;
-extern u32   g_sv_dm_dwWarmUp_MaxTime;
-extern BOOL  g_sv_dm_bDMIgnore_Money_OnBuy;
-extern BOOL  g_sv_tdm_bAutoTeamBalance;
-extern BOOL  g_sv_tdm_bAutoTeamSwap;
-extern BOOL  g_sv_tdm_bFriendlyIndicators;
-extern BOOL  g_sv_tdm_bFriendlyNames;
-extern float g_sv_tdm_fFriendlyFireModifier;
-extern int   g_sv_tdm_iTeamKillLimit;
-extern int   g_sv_tdm_bTeamKillPunishment;
-extern u32   g_sv_ah_dwArtefactRespawnDelta;
-extern int   g_sv_ah_dwArtefactsNum;
-extern u32   g_sv_ah_dwArtefactStayTime;
-extern int   g_sv_ah_iReinforcementTime;
-extern BOOL  g_sv_ah_bBearerCantSprint;
-extern BOOL  g_sv_ah_bShildedBases;
-extern BOOL  g_sv_ah_bAfReturnPlayersToBases;
-extern u32   g_sv_dwMaxClientPing;
-extern int   g_be_message_out;
+extern int      g_sv_mp_iDumpStatsPeriod;
+extern BOOL     g_SV_Force_Artefact_Spawn;
+extern int      g_Dump_Update_Write;
+extern int      g_Dump_Update_Read;
+extern u32      g_sv_base_dwRPointFreezeTime;
+extern int      g_sv_base_iVotingEnabled;
+extern BOOL     g_sv_mp_bSpectator_FreeFly;
+extern BOOL     g_sv_mp_bSpectator_FirstEye;
+extern BOOL     g_sv_mp_bSpectator_LookAt;
+extern BOOL     g_sv_mp_bSpectator_FreeLook;
+extern BOOL     g_sv_mp_bSpectator_TeamCamera;
+extern BOOL     g_sv_mp_bCountParticipants;
+extern float    g_sv_mp_fVoteQuota;
+extern float    g_sv_mp_fVoteTime;
+extern u32      g_sv_dm_dwForceRespawn;
+extern s32      g_sv_dm_dwFragLimit;
+extern s32      g_sv_dm_dwTimeLimit;
+extern BOOL     g_sv_dm_bDamageBlockIndicators;
+extern u32      g_sv_dm_dwDamageBlockTime;
+extern BOOL     g_sv_dm_bAnomaliesEnabled;
+extern u32      g_sv_dm_dwAnomalySetLengthTime;
+extern BOOL     g_sv_dm_bPDAHunt;
+extern u32      g_sv_dm_dwWarmUp_MaxTime;
+extern BOOL     g_sv_dm_bDMIgnore_Money_OnBuy;
+extern BOOL     g_sv_tdm_bAutoTeamBalance;
+extern BOOL     g_sv_tdm_bAutoTeamSwap;
+extern BOOL     g_sv_tdm_bFriendlyIndicators;
+extern BOOL     g_sv_tdm_bFriendlyNames;
+extern float    g_sv_tdm_fFriendlyFireModifier;
+extern int      g_sv_tdm_iTeamKillLimit;
+extern int      g_sv_tdm_bTeamKillPunishment;
+extern u32      g_sv_ah_dwArtefactRespawnDelta;
+extern int      g_sv_ah_dwArtefactsNum;
+extern u32      g_sv_ah_dwArtefactStayTime;
+extern int      g_sv_ah_iReinforcementTime;
+extern BOOL     g_sv_ah_bBearerCantSprint;
+extern BOOL     g_sv_ah_bShildedBases;
+extern BOOL     g_sv_ah_bAfReturnPlayersToBases;
+extern u32      g_sv_dwMaxClientPing;
+extern int      g_be_message_out;
 
-extern int g_sv_Skip_Winner_Waiting;
-extern int g_sv_Wait_For_Players_Ready;
-extern int G_DELAYED_ROUND_TIME;
-extern int g_sv_Pending_Wait_Time;
-extern u32 g_sv_Client_Reconnect_Time;
-int        g_dwEventDelay = 0;
+extern int      g_sv_Skip_Winner_Waiting;
+extern int      g_sv_Wait_For_Players_Ready;
+extern int      G_DELAYED_ROUND_TIME;
+extern int      g_sv_Pending_Wait_Time;
+extern u32      g_sv_Client_Reconnect_Time;
+int             g_dwEventDelay = 0;
 
 extern u32      g_sv_adm_menu_ban_time;
 extern xr_token g_ban_times[];
 
-extern int g_sv_adm_menu_ping_limit;
-extern u32 g_sv_cta_dwInvincibleTime;
+extern int      g_sv_adm_menu_ping_limit;
+extern u32      g_sv_cta_dwInvincibleTime;
 // extern	u32		g_sv_cta_dwAnomalySetLengthTime;
-extern u32 g_sv_cta_artefactReturningTime;
-extern u32 g_sv_cta_activatedArtefactRet;
+extern u32      g_sv_cta_artefactReturningTime;
+extern u32      g_sv_cta_activatedArtefactRet;
 // extern	s32		g_sv_cta_ScoreLimit;
-extern u32 g_sv_cta_PlayerScoresDelayTime;
-extern u32 g_sv_cta_rankUpToArtsCountDiv;
+extern u32      g_sv_cta_PlayerScoresDelayTime;
+extern u32      g_sv_cta_rankUpToArtsCountDiv;
 
-extern BOOL g_draw_downloads;
-extern BOOL g_sv_mp_save_proxy_screenshots;
-extern BOOL g_sv_mp_save_proxy_configs;
+extern BOOL     g_draw_downloads;
+extern BOOL     g_sv_mp_save_proxy_screenshots;
+extern BOOL     g_sv_mp_save_proxy_configs;
 
 #ifdef DEBUG
 extern s32 lag_simmulator_min_ping;
 extern s32 lag_simmulator_max_ping;
 #endif
 
-extern BOOL g_sv_write_updates_bin;
-extern u32  g_sv_traffic_optimization_level;
+extern BOOL          g_sv_write_updates_bin;
+extern u32           g_sv_traffic_optimization_level;
 
 void XRNETSERVER_API DumpNetCompressorStats(bool brief);
 BOOL                 XRNETSERVER_API extern g_net_compressor_enabled;
@@ -284,16 +284,14 @@ public:
                 CObject*      pObj    = Level().Objects.net_Find(CObjID[CO]);
                 char          color   = (pObj->ID() == pEntity->ID) ? '-' : '!';
 
-                Msg("%c%4d: Client - %20s[%5d] <===> Server - %s [%d]", color, CO + 1, *(pObj->cNameSect()), pObj->ID(),
-                    pEntity->s_name.c_str(), pEntity->ID);
+                Msg("%c%4d: Client - %20s[%5d] <===> Server - %s [%d]", color, CO + 1, *(pObj->cNameSect()), pObj->ID(), pEntity->s_name.c_str(), pEntity->ID);
             }
             else
             {
                 if (CO < CLObjNum)
                 {
                     CObject* pObj = Level().Objects.net_Find(CObjID[CO]);
-                    Msg("! %2d: Client - %s [%d] <===> Server - -----------------", CO + 1, *(pObj->cNameSect()),
-                        pObj->ID());
+                    Msg("! %2d: Client - %s [%d] <===> Server - -----------------", CO + 1, *(pObj->cNameSect()), pObj->ID());
                 }
                 else
                 {
@@ -480,8 +478,7 @@ public:
             if (sscanf_s(args, "%u", &tmp_client_id) != 1)
             {
                 Msg("! ERROR: bad command parameters.");
-                Msg("Kick player. Format: \"sv_kick_id <player session id | \'%s\'>\". To receive list of players ids see sv_listplayers",
-                    LAST_PRINTED_PLAYER_STR);
+                Msg("Kick player. Format: \"sv_kick_id <player session id | \'%s\'>\". To receive list of players ids see sv_listplayers", LAST_PRINTED_PLAYER_STR);
                 return;
             }
             client_id.set(tmp_client_id);
@@ -576,8 +573,7 @@ public:
             if (sscanf_s(args_, "%u", &tmp_client_id) != 1)
             {
                 Msg("! ERROR: bad command parameters.");
-                Msg("Make screenshot. Format: \"make_screenshot <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers",
-                    LAST_PRINTED_PLAYER_STR);
+                Msg("Make screenshot. Format: \"make_screenshot <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers", LAST_PRINTED_PLAYER_STR);
                 return;
             }
             client_id.set(tmp_client_id);
@@ -592,12 +588,7 @@ public:
     }
     virtual void Info(TInfo& I)
     {
-        xr_strcpy(
-            I,
-            make_string(
-                "Make screenshot. Format: \"make_screenshot <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers",
-                LAST_PRINTED_PLAYER_STR)
-                .c_str());
+        xr_strcpy(I, make_string("Make screenshot. Format: \"make_screenshot <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers", LAST_PRINTED_PLAYER_STR).c_str());
     }
 
 };   // class CCC_MakeScreenshot
@@ -628,8 +619,7 @@ public:
             if (sscanf_s(args_, "%u", &tmp_client_id) != 1)
             {
                 Msg("! ERROR: bad command parameters.");
-                Msg("Make screenshot. Format: \"make_config_dump <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers",
-                    LAST_PRINTED_PLAYER_STR);
+                Msg("Make screenshot. Format: \"make_config_dump <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers", LAST_PRINTED_PLAYER_STR);
                 return;
             }
             client_id.set(tmp_client_id);
@@ -644,12 +634,7 @@ public:
     }
     virtual void Info(TInfo& I)
     {
-        xr_strcpy(
-            I,
-            make_string(
-                "Make config dump. Format: \"make_config_dump <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers",
-                LAST_PRINTED_PLAYER_STR)
-                .c_str());
+        xr_strcpy(I, make_string("Make config dump. Format: \"make_config_dump <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers", LAST_PRINTED_PLAYER_STR).c_str());
     }
 
 };   // class CCC_MakeConfigDump
@@ -759,9 +744,7 @@ public:
     virtual void Info(TInfo& I)
     {
         LPCSTR info_str = NULL;
-        STRCONCAT(
-            info_str, "Play demo until specified event (then pause playing). Format: mpdemoplay_pause_on ",
-            DemoPlayControlArgParser::GetInfoString());
+        STRCONCAT(info_str, "Play demo until specified event (then pause playing). Format: mpdemoplay_pause_on ", DemoPlayControlArgParser::GetInfoString());
         xr_strcpy(I, info_str);
     }
 };   // class CCC_DemoPlayPauseOn
@@ -820,9 +803,7 @@ public:
     virtual void Info(TInfo& I)
     {
         LPCSTR info_str = NULL;
-        STRCONCAT(
-            info_str, "Rewind demo until specified event (then pause playing). Format: mpdemoplay_rewind_until ",
-            DemoPlayControlArgParser::GetInfoString());
+        STRCONCAT(info_str, "Rewind demo until specified event (then pause playing). Format: mpdemoplay_rewind_until ", DemoPlayControlArgParser::GetInfoString());
         xr_strcpy(I, info_str);
     }
 };   // class CCC_DemoPlayRewindUntil
@@ -1043,8 +1024,7 @@ public:
             if (sscanf_s(args_ + sizeof(LAST_PRINTED_PLAYER_STR), "%d", &ban_time) != 1)
             {
                 Msg("! ERROR: bad command parameters.");
-                Msg("Ban player. Format: \"sv_banplayer <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers",
-                    LAST_PRINTED_PLAYER_STR);
+                Msg("Ban player. Format: \"sv_banplayer <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers", LAST_PRINTED_PLAYER_STR);
                 return;
             }
         }
@@ -1054,8 +1034,7 @@ public:
             if (sscanf_s(args_, "%u %d", &tmp_client_id, &ban_time) != 2)
             {
                 Msg("! ERROR: bad command parameters.");
-                Msg("Ban player. Format: \"sv_banplayer <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers",
-                    LAST_PRINTED_PLAYER_STR);
+                Msg("Ban player. Format: \"sv_banplayer <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers", LAST_PRINTED_PLAYER_STR);
                 return;
             }
             client_id.set(tmp_client_id);
@@ -1073,12 +1052,7 @@ public:
     }
     virtual void Info(TInfo& I)
     {
-        xr_strcpy(
-            I,
-            make_string(
-                "Ban player. Format: \"sv_banplayer <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers",
-                LAST_PRINTED_PLAYER_STR)
-                .c_str());
+        xr_strcpy(I, make_string("Ban player. Format: \"sv_banplayer <player session id | \'%s\'> <ban_time_in_sec>\". To receive list of players ids see sv_listplayers", LAST_PRINTED_PLAYER_STR).c_str());
     }
 };
 
@@ -1114,9 +1088,7 @@ public:
     }
     virtual void Info(TInfo& I)
     {
-        xr_strcpy(
-            I,
-            "Ban player by hex digest (CAREFULLY: low level command). Format: \"sv_banplayer_by_digest <hex digest> <ban_time_in_sec>\". To get player hex digest you can enter: sv_listplayers_banned");
+        xr_strcpy(I, "Ban player by hex digest (CAREFULLY: low level command). Format: \"sv_banplayer_by_digest <hex digest> <ban_time_in_sec>\". To get player hex digest you can enter: sv_listplayers_banned");
     }
 };
 
@@ -1148,8 +1120,7 @@ public:
             if (sscanf_s(args_, "%u", &player_index) != 1)
             {
                 Msg("! ERROR: bad command parameters.");
-                Msg(" Unban player. Format: \"sv_unbanplayer <banned player index | \'%s\'>. To receive list of banned players se sv_listplayers_banned",
-                    LAST_PRINTED_PLAYER_BANNED_STR);
+                Msg(" Unban player. Format: \"sv_unbanplayer <banned player index | \'%s\'>. To receive list of banned players se sv_listplayers_banned", LAST_PRINTED_PLAYER_BANNED_STR);
                 return;
             }
             tmp_sv_game->UnBanPlayer(player_index);
@@ -1157,12 +1128,7 @@ public:
     }
     virtual void Info(TInfo& I)
     {
-        xr_strcpy(
-            I,
-            make_string(
-                "Unban player. Format: \"sv_unbanplayer <banned player index | \'%s\'>. To receive list of banned players see sv_listplayers_banned",
-                LAST_PRINTED_PLAYER_BANNED_STR)
-                .c_str());
+        xr_strcpy(I, make_string("Unban player. Format: \"sv_unbanplayer <banned player index | \'%s\'>. To receive list of banned players see sv_listplayers_banned", LAST_PRINTED_PLAYER_BANNED_STR).c_str());
     }
 };
 
@@ -1359,9 +1325,7 @@ public:
                 DWORD      dwPort = 0;
                 Level().Server->GetClientAddress(client->ID, Address, &dwPort);
                 string512 tmp_string;
-                xr_sprintf(
-                    tmp_string, "- (player session id : %u), (name : %s), (ip: %s), (ping: %u);", client->ID.value(),
-                    l_pC->ps->getName(), Address.to_string().c_str(), l_pC->ps->ping);
+                xr_sprintf(tmp_string, "- (player session id : %u), (name : %s), (ip: %s), (ping: %u);", client->ID.value(), l_pC->ps->getName(), Address.to_string().c_str(), l_pC->ps->ping);
                 if (filter_string)
                 {
                     if (strstr(tmp_string, filter_string))
@@ -1528,9 +1492,7 @@ public:
         string256 GameType;
         GameType[0] = 0;
 
-        sscanf_s(
-            args, "%255s %255s %255s", LevelName, sizeof(LevelName), LevelVersion, sizeof(LevelVersion), GameType,
-            sizeof(GameType));
+        sscanf_s(args, "%255s %255s %255s", LevelName, sizeof(LevelName), LevelVersion, sizeof(LevelVersion), GameType, sizeof(GameType));
 
         EGameIDs GameTypeID = ParseStringToGameType(GameType);
         if (GameTypeID == eGameIDNoGame)

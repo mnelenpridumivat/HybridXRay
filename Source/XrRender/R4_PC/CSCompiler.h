@@ -20,11 +20,13 @@ public:
     CSCompiler& defOutput(LPCSTR ResourceName, ref_rt rt);
     CSCompiler& defTexture(LPCSTR ResourceName, ref_texture texture);
     void        end();
+
 private:
     // suppress warning
     CSCompiler& operator=(const CSCompiler& other);
 
     void        compile(const char* name);
+
 private:
     ComputeShader&                        m_Target;
     ID3D11ComputeShader*                  m_cs;

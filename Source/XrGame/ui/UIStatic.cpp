@@ -26,9 +26,7 @@ void lanim_cont_xf::set_defaults()
     m_origSize.set(0, 0);
 }
 
-CUIStatic::CUIStatic():
-    m_bTextureEnable(true), m_bStretchTexture(false), m_bHeading(false), m_bConstHeading(false), m_fHeading(0.0f),
-    m_pTextControl(NULL)
+CUIStatic::CUIStatic(): m_bTextureEnable(true), m_bStretchTexture(false), m_bHeading(false), m_bConstHeading(false), m_fHeading(0.0f), m_pTextControl(NULL)
 {
     m_TextureOffset.set(0.0f, 0.0f);
     m_lanim_xform.set_defaults();
@@ -161,8 +159,7 @@ void CUIStatic::Update()
 
         float t = Device->dwTimeGlobal / 1000.0f;
 
-        if (m_lanim_xform.m_lanimFlags.test(LA_CYCLIC) ||
-            t - m_lanim_xform.m_lanim_start_time < m_lanim_xform.m_lanim->Length_sec())
+        if (m_lanim_xform.m_lanimFlags.test(LA_CYCLIC) || t - m_lanim_xform.m_lanim_start_time < m_lanim_xform.m_lanim->Length_sec())
         {
             int frame;
             u32 clr = m_lanim_xform.m_lanim->CalculateRGB(t - m_lanim_xform.m_lanim_start_time, frame);
@@ -171,7 +168,7 @@ void CUIStatic::Update()
             float heading = (PI_MUL_2 / 255.0f) * color_get_A(clr);
             SetHeading(heading);
 
-            float _value = (float)color_get_R(clr);
+            float    _value  = (float)color_get_R(clr);
 
             float    f_scale = _value / 64.0f;
             Fvector2 _sz;
@@ -185,8 +182,7 @@ void CUIStatic::Update()
         }
     }
 
-    if (CursorOverWindow() && m_stat_hint_text.size() && !g_statHint->Owner() &&
-        Device->dwTimeGlobal > m_dwFocusReceiveTime + 700)
+    if (CursorOverWindow() && m_stat_hint_text.size() && !g_statHint->Owner() && Device->dwTimeGlobal > m_dwFocusReceiveTime + 700)
     {
         g_statHint->SetHintText(this, m_stat_hint_text.c_str());
 

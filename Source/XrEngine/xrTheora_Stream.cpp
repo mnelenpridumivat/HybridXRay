@@ -146,7 +146,7 @@ BOOL CTheoraStream::ParseHeaders()
     // init decode
     theora_decode_init(&t_state, &t_info);
     // calculate frame per ms
-    fpms = ((float)t_info.fps_numerator / (float)t_info.fps_denominator) / 1000.f;
+    fpms                    = ((float)t_info.fps_numerator / (float)t_info.fps_denominator) / 1000.f;
 
     //. XXX hack (maybe slow)
     // calculate frame count & total length in ms & key rate
@@ -204,9 +204,7 @@ BOOL CTheoraStream::Decode(u32 in_tm_play)
                     if (d_frame < k_frame)
                     {
                         //.						dbg_log				((stderr,"%04d: preroll\n",d_frame));
-                        VERIFY(
-                            (0 != d_frame % key_rate) ||
-                            (0 == d_frame % key_rate) && theora_packet_iskeyframe(&o_packet));
+                        VERIFY((0 != d_frame % key_rate) || (0 == d_frame % key_rate) && theora_packet_iskeyframe(&o_packet));
                         continue;
                     }
                     BOOL is_key = theora_packet_iskeyframe(&o_packet);

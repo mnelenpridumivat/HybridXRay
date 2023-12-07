@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "control_animation_base.h"
 #include "control_direction_base.h"
 #include "control_movement_base.h"
@@ -10,294 +10,272 @@
 #include "control_path_builder_base.h"
 
 // DEBUG purpose only
-char *dbg_anim_name_table[] = {
-	"eAnimStandIdle",
-	"eAnimStandTurnLeft",
-	"eAnimStandTurnRight",
+char* dbg_anim_name_table[] = {"eAnimStandIdle", "eAnimStandTurnLeft", "eAnimStandTurnRight",
 
-	"eAnimSitIdle",
-	"eAnimLieIdle",
+    "eAnimSitIdle", "eAnimLieIdle",
 
-	"eAnimSitToSleep",
-	"eAnimLieToSleep",
-	"eAnimStandSitDown",
-	"eAnimStandLieDown",
-	"eAnimLieStandUp",
-	"eAnimSitStandUp",
-	"eAnimStandLieDownEat",
-	"eAnimSitLieDown",
-	"eAnimLieSitUp",
-	"eAnimSleepStandUp",
+    "eAnimSitToSleep", "eAnimLieToSleep", "eAnimStandSitDown", "eAnimStandLieDown", "eAnimLieStandUp", "eAnimSitStandUp", "eAnimStandLieDownEat", "eAnimSitLieDown", "eAnimLieSitUp", "eAnimSleepStandUp",
 
-	"eAnimWalkFwd",
-	"eAnimWalkBkwd",
-	"eAnimWalkTurnLeft",
-	"eAnimWalkTurnRight",
+    "eAnimWalkFwd", "eAnimWalkBkwd", "eAnimWalkTurnLeft", "eAnimWalkTurnRight",
 
-	"eAnimRun",
-	"eAnimRunTurnLeft",
-	"eAnimRunTurnRight",
-	"eAnimFastTurn",
+    "eAnimRun", "eAnimRunTurnLeft", "eAnimRunTurnRight", "eAnimFastTurn",
 
-	"eAnimAttack",
-	"eAnimAttackFromBack",
-	"eAnimAttackRun",
+    "eAnimAttack", "eAnimAttackFromBack", "eAnimAttackRun",
 
-	"eAnimEat",
-	"eAnimSleep",
-	"eAnimDie",
+    "eAnimEat", "eAnimSleep", "eAnimDie",
 
-	"eAnimDragCorpse",
-	"eAnimCheckCorpse",
-	"eAnimScared",
-	"eAnimAttackJump",
+    "eAnimDragCorpse", "eAnimCheckCorpse", "eAnimScared", "eAnimAttackJump",
 
-	"eAnimLookAround",
-	
-	"eAnimJump",
-	"eAnimSteal",
+    "eAnimLookAround",
 
-	"eAnimJumpStart",
-	"eAnimJumpGlide",		
-	"eAnimJumpFinish",
-	
-	"eAnimJumpLeft",
-	"eAnimJumpRight",
-	
-	"eAnimStandDamaged",
-	"eAnimWalkDamaged",
-	"eAnimRunDamaged",
-	
-	"eAnimSniff",
-	"eAnimHowling",
-	"eAnimThreaten",
-	
-	"eAnimMiscAction_00",
-	"eAnimMiscAction_01",
-	
-	"eAnimUpperStandIdle",
-	"eAnimUpperStandTurnLeft",
-	"eAnimUpperStandTurnRight",
-	
-	"eAnimStandToUpperStand",
-	"eAnimUppperStandToStand",
+    "eAnimJump", "eAnimSteal",
 
-	"eAnimUpperWalkFwd",
-	"eAnimUpperThreaten",
-	"eAnimUpperAttack",
-	
-	"eAnimAttackPsi",
-	
-	"eAnimTeleRaise",
-	"eAnimTeleFire",
-	"eAnimGraviPrepare",
-	"eAnimGraviFire",
-	
-	"eAnimCount",
-	"eAnimUndefined"
-};
+    "eAnimJumpStart", "eAnimJumpGlide", "eAnimJumpFinish",
 
+    "eAnimJumpLeft", "eAnimJumpRight",
 
+    "eAnimStandDamaged", "eAnimWalkDamaged", "eAnimRunDamaged",
+
+    "eAnimSniff", "eAnimHowling", "eAnimThreaten",
+
+    "eAnimMiscAction_00", "eAnimMiscAction_01",
+
+    "eAnimUpperStandIdle", "eAnimUpperStandTurnLeft", "eAnimUpperStandTurnRight",
+
+    "eAnimStandToUpperStand", "eAnimUppperStandToStand",
+
+    "eAnimUpperWalkFwd", "eAnimUpperThreaten", "eAnimUpperAttack",
+
+    "eAnimAttackPsi",
+
+    "eAnimTeleRaise", "eAnimTeleFire", "eAnimGraviPrepare", "eAnimGraviFire",
+
+    "eAnimCount", "eAnimUndefined"};
 
 //////////////////////////////////////////////////////////////////////////
 // m_tAction processing
 //////////////////////////////////////////////////////////////////////////
 
-void CControlAnimationBase::update_frame()
+void  CControlAnimationBase::update_frame()
 {
-	update();
+    update();
 
-	// raise event on velocity bounce
-	CheckVelocityBounce	();
+    // raise event on velocity bounce
+    CheckVelocityBounce();
 }
 
 void CControlAnimationBase::update()
 {
-	if (m_state_attack) return;
-	
-	// Óñòàíîâêà Yaw
-	if (m_object->control().path_builder().is_moving_on_path() && m_object->path().enabled()) m_object->dir().use_path_direction( ((spec_params & ASP_MOVE_BKWD) == ASP_MOVE_BKWD) );
+    if (m_state_attack)
+        return;
 
-	SelectAnimation		();
-	SelectVelocities	();
+    // Ð£ÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Yaw
+    if (m_object->control().path_builder().is_moving_on_path() && m_object->path().enabled())
+        m_object->dir().use_path_direction(((spec_params & ASP_MOVE_BKWD) == ASP_MOVE_BKWD));
 
-	// ïðèìåíèòü
-	if (prev_motion	!= cur_anim_info().motion) {
-		prev_motion	= cur_anim_info().motion;
-		select_animation();
-	}
+    SelectAnimation();
+    SelectVelocities();
+
+    // Ð¿Ñ€Ð¸Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ
+    if (prev_motion != cur_anim_info().motion)
+    {
+        prev_motion = cur_anim_info().motion;
+        select_animation();
+    }
 }
-
 
 //////////////////////////////////////////////////////////////////////////
 // SelectAnimation
 // In:	path, target_yaw, m_tAction
-// Out:	óñòàíîâèòü àíèìàöèþ â cur_anim_info().motion
+// Out:	ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸ÑŽ Ð² cur_anim_info().motion
 void CControlAnimationBase::SelectAnimation()
 {
-	EAction							action = m_tAction;
-	if (m_object->control().path_builder().is_moving_on_path() && m_object->path().enabled()) action = GetActionFromPath();
+    EAction action = m_tAction;
+    if (m_object->control().path_builder().is_moving_on_path() && m_object->path().enabled())
+        action = GetActionFromPath();
 
-	cur_anim_info().motion			= m_tMotions[action].anim;
+    cur_anim_info().motion = m_tMotions[action].anim;
 
-	m_object->CheckSpecParams		(spec_params);	
-	if (prev_motion	!= cur_anim_info().motion) 
-		if (CheckTransition(prev_motion, cur_anim_info().motion)) return;
+    m_object->CheckSpecParams(spec_params);
+    if (prev_motion != cur_anim_info().motion)
+        if (CheckTransition(prev_motion, cur_anim_info().motion))
+            return;
 
-	CheckReplacedAnim				();
-	SetTurnAnimation				();
+    CheckReplacedAnim();
+    SetTurnAnimation();
 }
 
-#define MOVE_TURN_ANGLE		deg(30)
+#define MOVE_TURN_ANGLE deg(30)
 
 void CControlAnimationBase::SetTurnAnimation()
 {
-	float yaw_current, yaw_target;
-	m_man->direction().get_heading(yaw_current, yaw_target);
-	float delta_yaw	= angle_difference(yaw_target, yaw_current);
+    float yaw_current, yaw_target;
+    m_man->direction().get_heading(yaw_current, yaw_target);
+    float delta_yaw = angle_difference(yaw_target, yaw_current);
 
-	bool turn_left = true;
-	if (from_right(yaw_target, yaw_current)) turn_left = false; 
+    bool  turn_left = true;
+    if (from_right(yaw_target, yaw_current))
+        turn_left = false;
 
-	EPState	anim_state = GetState(cur_anim_info().motion);
-	if (IsStandCurAnim() && (anim_state == PS_STAND) && (!fis_zero(delta_yaw))) {
-		m_object->SetTurnAnimation(turn_left);
-		return;
-	}
+    EPState anim_state = GetState(cur_anim_info().motion);
+    if (IsStandCurAnim() && (anim_state == PS_STAND) && (!fis_zero(delta_yaw)))
+    {
+        m_object->SetTurnAnimation(turn_left);
+        return;
+    }
 
-	if (m_object->control().path_builder().is_moving_on_path() && m_object->path().enabled() && (delta_yaw > MOVE_TURN_ANGLE)) {
-		m_object->SetTurnAnimation(turn_left);
-		return;
-	}
+    if (m_object->control().path_builder().is_moving_on_path() && m_object->path().enabled() && (delta_yaw > MOVE_TURN_ANGLE))
+    {
+        m_object->SetTurnAnimation(turn_left);
+        return;
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////
 // SelectVelocities
-// In:	path, target_yaw, àíèìàöèÿ
-// Out:	óñòàíîâèòü linear è angular velocities, 
-//		ïî ñêîðîñòè äâèæåíèÿ âûáðàòü ôèíàëüíóþ àíèìàöèþ èç Velocity_Chain
-//		óñòàíîâèòü ñêîðîñòü àíèìàöèè â ñîîòâåòñòâèå ñ ôèç ñêîðîñòüþ
+// In:	path, target_yaw, Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸Ñ
+// Out:	ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ linear Ð¸ angular velocities,
+//		Ð¿Ð¾ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð²Ñ‹Ð±Ñ€Ð°Ñ‚ÑŒ Ñ„Ð¸Ð½Ð°Ð»ÑŒÐ½ÑƒÑŽ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸ÑŽ Ð¸Ð· Velocity_Chain
+//		ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸Ð¸ Ð² ÑÐ¾Ð¾Ñ‚Ð²ÐµÑ‚ÑÑ‚Ð²Ð¸Ðµ Ñ Ñ„Ð¸Ð· ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒÑŽ
 void CControlAnimationBase::SelectVelocities()
 {
-	// ïîëó÷èòü ñêîðîñòè äâèæåíèÿ ïî ïóòè
-	bool		b_moving = m_object->control().path_builder().is_moving_on_path();
-	SMotionVel	path_vel;	path_vel.set(0.f,0.f);
-	SMotionVel	anim_vel;	anim_vel.set(0.f,0.f);
+    // Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¿Ð¾ Ð¿ÑƒÑ‚Ð¸
+    bool       b_moving = m_object->control().path_builder().is_moving_on_path();
+    SMotionVel path_vel;
+    path_vel.set(0.f, 0.f);
+    SMotionVel anim_vel;
+    anim_vel.set(0.f, 0.f);
 
-	if (b_moving) {
+    if (b_moving)
+    {
+        u32 cur_point_velocity_index  = m_object->movement().detail().path()[m_object->movement().detail().curr_travel_point_index()].velocity;
 
-		u32 cur_point_velocity_index = m_object->movement().detail().path()[m_object->movement().detail().curr_travel_point_index()].velocity;
+        u32 next_point_velocity_index = u32(-1);
+        if (m_object->movement().detail().path().size() > m_object->movement().detail().curr_travel_point_index() + 1)
+            next_point_velocity_index = m_object->movement().detail().path()[m_object->movement().detail().curr_travel_point_index() + 1].velocity;
 
-		u32 next_point_velocity_index = u32(-1);
-		if (m_object->movement().detail().path().size() > m_object->movement().detail().curr_travel_point_index() + 1) 
-			next_point_velocity_index = m_object->movement().detail().path()[m_object->movement().detail().curr_travel_point_index() + 1].velocity;
+        // ÐµÑÐ»Ð¸ ÑÐµÐ¹Ñ‡Ð°Ñ ÑÑ‚Ð¾Ð¸Ñ‚ Ð½Ð° Ð¼ÐµÑÑ‚Ðµ Ð¸ ÐµÑÑ‚ÑŒ ÑÐ»ÐµÐ´ Ñ‚Ð¾Ñ‡ÐºÐ° (Ñ‚.Ðµ. Ð´Ð¾Ð»Ð¶ÐµÐ½ Ð±Ñ‹Ñ‚ÑŒ Ð² Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ð¸),
+        // Ñ‚Ð¾ Ñ€ÐµÐ°Ð»Ð¸Ð·Ð¾Ð²Ð°Ñ‚ÑŒ Ð¿Ð¾Ð²Ð¾Ñ€Ð¾Ñ‚ Ð½Ð° Ð¼ÐµÑÑ‚Ðµ, Ð° Ð´Ð°Ð»ÑŒÑˆÐµ Ñ„Ð¾Ñ€ÑÐ¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ ÑÐ¾ ÑÐ»ÐµÐ´ÑƒÑŽÑ‰ÐµÐ¹ Ñ‚Ð¾Ñ‡ÐºÐ¸
+        if ((cur_point_velocity_index == MonsterMovement::eVelocityParameterStand) && (next_point_velocity_index != u32(-1)))
+        {
+            if (!m_object->control().direction().is_turning())
+                cur_point_velocity_index = next_point_velocity_index;
+        }
 
-		// åñëè ñåé÷àñ ñòîèò íà ìåñòå è åñòü ñëåä òî÷êà (ò.å. äîëæåí áûòü â äâèæåíèè),
-		// òî ðåàëèçîâàòü ïîâîðîò íà ìåñòå, à äàëüøå ôîðñèðîâàòü ñêîðîñòü ñî ñëåäóþùåé òî÷êè
-		if ((cur_point_velocity_index == MonsterMovement::eVelocityParameterStand) && (next_point_velocity_index != u32(-1))) {
-			if (!m_object->control().direction().is_turning()) 
-				cur_point_velocity_index = next_point_velocity_index;
-		} 
+        const CDetailPathManager::STravelParams& current_velocity = m_object->movement().detail().velocity(cur_point_velocity_index);
+        path_vel.set(_abs(current_velocity.linear_velocity), current_velocity.real_angular_velocity);
+    }
 
-		const CDetailPathManager::STravelParams &current_velocity = m_object->movement().detail().velocity(cur_point_velocity_index);
-		path_vel.set(_abs(current_velocity.linear_velocity), current_velocity.real_angular_velocity);
-	}
+    SAnimItem* item_it = m_anim_storage[cur_anim_info().motion];
+    VERIFY(item_it);
 
-	SAnimItem *item_it = m_anim_storage[cur_anim_info().motion];
-	VERIFY(item_it);
-	
-	// ïîëó÷èòü ñêîðîñòè äâèæåíèÿ ïî àíèìàöèè
-	anim_vel.set(item_it->velocity.velocity.linear, item_it->velocity.velocity.angular_real);
+    // Ð¿Ð¾Ð»ÑƒÑ‡Ð¸Ñ‚ÑŒ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸ Ð´Ð²Ð¸Ð¶ÐµÐ½Ð¸Ñ Ð¿Ð¾ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸Ð¸
+    anim_vel.set(item_it->velocity.velocity.linear, item_it->velocity.velocity.angular_real);
 
-	//	// ïðîâåðèòü íà ñîâïàäåíèå
-	//	R_ASSERT(fsimilar(path_vel.linear,	anim_vel.linear));
-	//	R_ASSERT(fsimilar(path_vel.angular,	anim_vel.angular));
-	
-	// óñòàíîâêà ëèíåéíîé ñêîðîñòè	
-	if (m_object->state_invisible) {
-		// åñëè íåâèäèìûé, òî óñòàíîâèòü ñêîðîñòü èç ïóòè
-		m_object->move().set_velocity(_abs(path_vel.linear));
-	} else {
-		
-		if (fis_zero(_abs(anim_vel.linear))) stop_now();
-		else {
-			// - ïðîâåðèòü íà âîçìîæíîñòü òîðìîæåíèÿ
-			if (!accel_check_braking(-2.f, _abs(anim_vel.linear))) {
-				m_object->move().set_velocity(_abs(anim_vel.linear));
-				//no braking mode
-			} else {
-				m_object->move().stop_accel();
-				//braking mode
-			}
-		}
-	}
-	
-	// ôèíàëüíàÿ êîððåêòèðîâêà ñêîðîñòè àíèìàöèè ïî ôèçè÷åñêîé ñêîðîñòè
+    //	// Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ Ð½Ð° ÑÐ¾Ð²Ð¿Ð°Ð´ÐµÐ½Ð¸Ðµ
+    //	R_ASSERT(fsimilar(path_vel.linear,	anim_vel.linear));
+    //	R_ASSERT(fsimilar(path_vel.angular,	anim_vel.angular));
 
+    // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° Ð»Ð¸Ð½ÐµÐ¹Ð½Ð¾Ð¹ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸
+    if (m_object->state_invisible)
+    {
+        // ÐµÑÐ»Ð¸ Ð½ÐµÐ²Ð¸Ð´Ð¸Ð¼Ñ‹Ð¹, Ñ‚Ð¾ ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚ÑŒ Ð¸Ð· Ð¿ÑƒÑ‚Ð¸
+        m_object->move().set_velocity(_abs(path_vel.linear));
+    }
+    else
+    {
+        if (fis_zero(_abs(anim_vel.linear)))
+            stop_now();
+        else
+        {
+            // - Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ Ð½Ð° Ð²Ð¾Ð·Ð¼Ð¾Ð¶Ð½Ð¾ÑÑ‚ÑŒ Ñ‚Ð¾Ñ€Ð¼Ð¾Ð¶ÐµÐ½Ð¸Ñ
+            if (!accel_check_braking(-2.f, _abs(anim_vel.linear)))
+            {
+                m_object->move().set_velocity(_abs(anim_vel.linear));
+                //no braking mode
+            }
+            else
+            {
+                m_object->move().stop_accel();
+                //braking mode
+            }
+        }
+    }
 
-	if (!m_object->state_invisible && !fis_zero(anim_vel.linear)) {
-			
-		EMotionAnim new_anim;
-		float		a_speed;
+    // Ñ„Ð¸Ð½Ð°Ð»ÑŒÐ½Ð°Ñ ÐºÐ¾Ñ€Ñ€ÐµÐºÑ‚Ð¸Ñ€Ð¾Ð²ÐºÐ° ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸Ð¸ Ð¿Ð¾ Ñ„Ð¸Ð·Ð¸Ñ‡ÐµÑÐºÐ¾Ð¹ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸
 
-		if (accel_chain_get(m_man->movement().real_velocity(), cur_anim_info().motion, new_anim, a_speed)) {
-			cur_anim_info().motion			= new_anim;
-			
-			if (a_speed < 0.5f) a_speed		+= 0.5f;
+    if (!m_object->state_invisible && !fis_zero(anim_vel.linear))
+    {
+        EMotionAnim new_anim;
+        float       a_speed;
 
-			cur_anim_info().speed._set_target	(a_speed);
-		} else 
-			cur_anim_info().speed._set_target	(-1.f);
-	} else 
-		cur_anim_info().speed._set_target		(-1.f);
+        if (accel_chain_get(m_man->movement().real_velocity(), cur_anim_info().motion, new_anim, a_speed))
+        {
+            cur_anim_info().motion = new_anim;
 
-	set_animation_speed	();
+            if (a_speed < 0.5f)
+                a_speed += 0.5f;
 
-	// óñòàíîâêà óãëîâîé ñêîðîñòè
-	if (m_object->state_invisible) 
-		m_object->dir().set_heading_speed(path_vel.angular);
-	else { 
-		item_it = m_anim_storage[cur_anim_info().motion];
-		VERIFY(item_it);
-		
-		// Melee?
-		if (m_tAction == ACT_ATTACK) {
-			float vel = item_it->velocity.velocity.angular_real;
-			m_object->dir().set_heading_speed(vel * m_object->m_melee_rotation_factor); // todo: make as an external factor
-		} else 
-			m_object->dir().set_heading_speed(item_it->velocity.velocity.angular_real);
-	}
+            cur_anim_info().speed._set_target(a_speed);
+        }
+        else
+            cur_anim_info().speed._set_target(-1.f);
+    }
+    else
+        cur_anim_info().speed._set_target(-1.f);
+
+    set_animation_speed();
+
+    // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²ÐºÐ° ÑƒÐ³Ð»Ð¾Ð²Ð¾Ð¹ ÑÐºÐ¾Ñ€Ð¾ÑÑ‚Ð¸
+    if (m_object->state_invisible)
+        m_object->dir().set_heading_speed(path_vel.angular);
+    else
+    {
+        item_it = m_anim_storage[cur_anim_info().motion];
+        VERIFY(item_it);
+
+        // Melee?
+        if (m_tAction == ACT_ATTACK)
+        {
+            float vel = item_it->velocity.velocity.angular_real;
+            m_object->dir().set_heading_speed(vel * m_object->m_melee_rotation_factor);   // todo: make as an external factor
+        }
+        else
+            m_object->dir().set_heading_speed(item_it->velocity.velocity.angular_real);
+    }
 }
 
 #define VELOCITY_BOUNCE_THRESHOLD 1.5f
 
 void CControlAnimationBase::CheckVelocityBounce()
 {
-	Fvector		temp_vec;
-	m_object->character_physics_support()->movement()->GetCharacterVelocity(temp_vec);
-	float		prev_speed	= m_prev_character_velocity;
-	float		cur_speed	= temp_vec.magnitude();
+    Fvector temp_vec;
+    m_object->character_physics_support()->movement()->GetCharacterVelocity(temp_vec);
+    float prev_speed = m_prev_character_velocity;
+    float cur_speed  = temp_vec.magnitude();
 
-	// prepare 
-	if (fis_zero(prev_speed))	prev_speed	= 0.01f;
-	if (fis_zero(cur_speed))	cur_speed	= 0.01f;
+    // prepare
+    if (fis_zero(prev_speed))
+        prev_speed = 0.01f;
+    if (fis_zero(cur_speed))
+        cur_speed = 0.01f;
 
-	float ratio = ((prev_speed > cur_speed) ? (prev_speed / cur_speed) : (cur_speed / prev_speed));
+    float ratio = ((prev_speed > cur_speed) ? (prev_speed / cur_speed) : (cur_speed / prev_speed));
 
-	if (ratio > VELOCITY_BOUNCE_THRESHOLD) {
-		if (prev_speed > cur_speed) ratio = -ratio;
+    if (ratio > VELOCITY_BOUNCE_THRESHOLD)
+    {
+        if (prev_speed > cur_speed)
+            ratio = -ratio;
 
-		// prepare event
-		SEventVelocityBounce		event(ratio);
-		m_man->notify				(ControlCom::eventVelocityBounce, &event);
-
-	}
-	m_prev_character_velocity = cur_speed;
+        // prepare event
+        SEventVelocityBounce event(ratio);
+        m_man->notify(ControlCom::eventVelocityBounce, &event);
+    }
+    m_prev_character_velocity = cur_speed;
 }
-
 
 void CControlAnimationBase::ScheduledInit()
 {
-	spec_params			= 0;
-	accel_deactivate	();
+    spec_params = 0;
+    accel_deactivate();
 }

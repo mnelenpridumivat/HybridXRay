@@ -38,8 +38,8 @@ void UIInvUpgradeInfo::init_from_xml(LPCSTR xml_name)
     ui_xml.Load(CONFIG_PATH, UI_PATH, xml_name);
     CUIXmlInit xml_init;
 
-    XML_NODE* stored_root = ui_xml.GetLocalRoot();
-    XML_NODE* node        = ui_xml.NavigateToNode("upgrade_info", 0);
+    XML_NODE*  stored_root = ui_xml.GetLocalRoot();
+    XML_NODE*  node        = ui_xml.NavigateToNode("upgrade_info", 0);
     ui_xml.SetLocalRoot(node);
 
     xml_init.InitWindow(ui_xml, "main_frame", 0, this);
@@ -120,35 +120,23 @@ bool UIInvUpgradeInfo::init_upgrade(Upgrade_type* upgr, CInventoryItem* inv_item
         }
         else if (upg_res == inventory::upgrade::result_e_unknown)
         {
-            xr_sprintf(
-                str_res, sizeof(str_res), "%s:\\n - %s", CStringTable().translate("st_upgr_disable").c_str(),
-                CStringTable().translate("st_upgr_unknown").c_str());
+            xr_sprintf(str_res, sizeof(str_res), "%s:\\n - %s", CStringTable().translate("st_upgr_disable").c_str(), CStringTable().translate("st_upgr_unknown").c_str());
             m_cost->Show(false);
         }
         else if (upg_res == inventory::upgrade::result_e_group)
-            xr_sprintf(
-                str_res, sizeof(str_res), "%s:\\n - %s", CStringTable().translate("st_upgr_disable").c_str(),
-                CStringTable().translate("st_upgr_group").c_str());
+            xr_sprintf(str_res, sizeof(str_res), "%s:\\n - %s", CStringTable().translate("st_upgr_disable").c_str(), CStringTable().translate("st_upgr_group").c_str());
         else if (upg_res_script == inventory::upgrade::result_e_precondition_money)
-            xr_sprintf(
-                str_res, sizeof(str_res), "%s:\\n - %s", CStringTable().translate("st_upgr_disable").c_str(),
-                CStringTable().translate("st_upgr_cant_do").c_str());
+            xr_sprintf(str_res, sizeof(str_res), "%s:\\n - %s", CStringTable().translate("st_upgr_disable").c_str(), CStringTable().translate("st_upgr_cant_do").c_str());
         else
         {
             if (upg_res != inventory::upgrade::result_ok)
             {
-                xr_sprintf(
-                    str_res, sizeof(str_res), "%s:\\n%s", CStringTable().translate("st_upgr_disable").c_str(),
-                    m_upgrade->get_prerequisites());
+                xr_sprintf(str_res, sizeof(str_res), "%s:\\n%s", CStringTable().translate("st_upgr_disable").c_str(), m_upgrade->get_prerequisites());
                 if (upg_res == inventory::upgrade::result_e_parents)
-                    xr_sprintf(
-                        str_res, sizeof(str_res), "%s\\n - %s", str_res,
-                        CStringTable().translate("st_upgr_parents").c_str());
+                    xr_sprintf(str_res, sizeof(str_res), "%s\\n - %s", str_res, CStringTable().translate("st_upgr_parents").c_str());
 
                 if (upg_res == inventory::upgrade::result_e_precondition_money)
-                    xr_sprintf(
-                        str_res, sizeof(str_res), "%s:\\n - %s", CStringTable().translate("st_upgr_disable").c_str(),
-                        CStringTable().translate("st_upgr_cant_do").c_str());
+                    xr_sprintf(str_res, sizeof(str_res), "%s:\\n - %s", CStringTable().translate("st_upgr_disable").c_str(), CStringTable().translate("st_upgr_cant_do").c_str());
             }
         }
         m_prereq->SetText(str_res);

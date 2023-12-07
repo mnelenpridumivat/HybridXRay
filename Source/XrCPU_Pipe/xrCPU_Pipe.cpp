@@ -1,14 +1,14 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-extern xrSkin1W xrSkin1W_x86;
-extern xrSkin2W xrSkin2W_x86;
-extern xrSkin3W xrSkin3W_x86;
-extern xrSkin4W xrSkin4W_x86;
+extern xrSkin1W    xrSkin1W_x86;
+extern xrSkin2W    xrSkin2W_x86;
+extern xrSkin3W    xrSkin3W_x86;
+extern xrSkin4W    xrSkin4W_x86;
 
-extern xrSkin4W xrSkin4W_thread;
+extern xrSkin4W    xrSkin4W_thread;
 
-xrSkin4W* skin4W_func = NULL;
+xrSkin4W*          skin4W_func = NULL;
 
 extern xrPLC_calc3 PLC_calc3_x86;
 extern xrPLC_calc3 PLC_calc3_SSE;

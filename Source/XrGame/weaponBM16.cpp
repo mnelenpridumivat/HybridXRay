@@ -84,8 +84,7 @@ void CWeaponBM16::PlayAnimReload()
 
     VERIFY(GetState() == eReload);
 
-    if ((m_magazine.size() == 1 || !b_both) &&
-        (m_set_next_ammoType_on_reload == undefined_ammo_type || m_ammoType == m_set_next_ammoType_on_reload))
+    if ((m_magazine.size() == 1 || !b_both) && (m_set_next_ammoType_on_reload == undefined_ammo_type || m_ammoType == m_set_next_ammoType_on_reload))
         PlayHUDMotion("anm_reload_1", TRUE, this, GetState());
     else
         PlayHUDMotion("anm_reload_2", TRUE, this, GetState());
@@ -132,15 +131,18 @@ void CWeaponBM16::PlayAnimIdle()
     {
         switch (m_magazine.size())
         {
-            case 0: {
+            case 0:
+            {
                 PlayHUDMotion("anm_idle_aim_0", TRUE, NULL, GetState());
             }
             break;
-            case 1: {
+            case 1:
+            {
                 PlayHUDMotion("anm_idle_aim_1", TRUE, NULL, GetState());
             }
             break;
-            case 2: {
+            case 2:
+            {
                 PlayHUDMotion("anm_idle_aim_2", TRUE, NULL, GetState());
             }
             break;
@@ -150,15 +152,18 @@ void CWeaponBM16::PlayAnimIdle()
     {
         switch (m_magazine.size())
         {
-            case 0: {
+            case 0:
+            {
                 PlayHUDMotion("anm_idle_0", TRUE, NULL, GetState());
             }
             break;
-            case 1: {
+            case 1:
+            {
                 PlayHUDMotion("anm_idle_1", TRUE, NULL, GetState());
             }
             break;
-            case 2: {
+            case 2:
+            {
                 PlayHUDMotion("anm_idle_2", TRUE, NULL, GetState());
             }
             break;

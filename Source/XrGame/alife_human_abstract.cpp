@@ -27,8 +27,7 @@ bool CSE_ALifeHumanAbstract::bfPerformAttack()
     return (brain().perform_attack());
 }
 
-ALife::EMeetActionType
-    CSE_ALifeHumanAbstract::tfGetActionType(CSE_ALifeSchedulable* schedulable, int iGroupIndex, bool bMutualDetection)
+ALife::EMeetActionType CSE_ALifeHumanAbstract::tfGetActionType(CSE_ALifeSchedulable* schedulable, int iGroupIndex, bool bMutualDetection)
 {
     return (brain().action_type(schedulable, iGroupIndex, bMutualDetection));
 }
@@ -88,9 +87,7 @@ void CSE_ALifeHumanAbstract::add_online(const bool& update_registries)
     brain().on_switch_online();
 }
 
-void CSE_ALifeHumanAbstract::add_offline(
-    const xr_vector<ALife::_OBJECT_ID>& saved_children,
-    const bool&                         update_registries)
+void CSE_ALifeHumanAbstract::add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries)
 {
     CSE_ALifeTraderAbstract::add_offline(saved_children, update_registries);
     brain().on_switch_offline();

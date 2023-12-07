@@ -19,11 +19,11 @@
 #else
 #ifndef NO_ENGINE_API
 #ifdef ENGINE_BUILD
-#define DLL_API __declspec(dllimport)
+#define DLL_API    __declspec(dllimport)
 #define ENGINE_API __declspec(dllexport)
 #else
 #undef DLL_API
-#define DLL_API __declspec(dllexport)
+#define DLL_API    __declspec(dllexport)
 #define ENGINE_API __declspec(dllimport)
 #endif
 #else
@@ -63,5 +63,4 @@ extern ENGINE_API CInifile* pGameIni;
 
 #define LUABIND_DONT_COPY_STRINGS
 
-#define READ_IF_EXISTS(ltx, method, section, name, default_value) \
-    (((ltx)->line_exist(section, name)) ? ((ltx)->method(section, name)) : (default_value))
+#define READ_IF_EXISTS(ltx, method, section, name, default_value) (((ltx)->line_exist(section, name)) ? ((ltx)->method(section, name)) : (default_value))

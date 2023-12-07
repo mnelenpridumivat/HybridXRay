@@ -9,15 +9,7 @@
 #include "pch.hpp"
 #include "property_integer_limited.hpp"
 
-property_integer_limited::property_integer_limited(
-    integer_getter_type const& getter,
-    integer_setter_type const& setter,
-    int const % min,
-    int const % max):
-    inherited(getter, setter),
-    m_min(min), m_max(max)
-{
-}
+property_integer_limited::property_integer_limited(integer_getter_type const& getter, integer_setter_type const& setter, int const % min, int const % max): inherited(getter, setter), m_min(min), m_max(max) {}
 
 System::Object ^ property_integer_limited::get_value()
 {

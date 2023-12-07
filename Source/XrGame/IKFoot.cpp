@@ -16,15 +16,12 @@
 #include "PHDebug.h"
 #endif
 
-CIKFoot::CIKFoot():
-    m_bind_b2_to_b3(Fidentity), m_ref_bone(u16(-1)), m_foot_bone_id(BI_NONE), m_toe_bone_id(BI_NONE), m_K(0)
-{
-}
+CIKFoot::CIKFoot(): m_bind_b2_to_b3(Fidentity), m_ref_bone(u16(-1)), m_foot_bone_id(BI_NONE), m_toe_bone_id(BI_NONE), m_K(0) {}
 
 void CIKFoot::Create(IKinematics* K, LPCSTR section, u16 bones[4])
 {
     VERIFY(K);
-    m_K = K;
+    m_K        = K;
 
     /// defaults
     m_ref_bone = 2;
@@ -54,8 +51,8 @@ void CIKFoot::Create(IKinematics* K, LPCSTR section, u16 bones[4])
         m_foot_normal.bone    = m_ref_bone;
         m_foot_direction.bone = m_ref_bone;
 
-        m_foot_normal.v    = Kinematics()->LL_UserData()->r_fvector3(section, "foot_normal");
-        m_foot_direction.v = Kinematics()->LL_UserData()->r_fvector3(section, "foot_direction");
+        m_foot_normal.v       = Kinematics()->LL_UserData()->r_fvector3(section, "foot_normal");
+        m_foot_direction.v    = Kinematics()->LL_UserData()->r_fvector3(section, "foot_direction");
     }
     set_toe(bones);
 }
@@ -66,8 +63,7 @@ struct envc: private boost::noncopyable, public SEnumVerticesCallback
     Fvector        start_pos;
     const Fmatrix& i_bind_transform;
     const Fvector& ax;
-    envc(const Fmatrix& _i_bind_transform, const Fvector& _ax, Fvector& _pos):
-        SEnumVerticesCallback(), i_bind_transform(_i_bind_transform), ax(_ax), pos(_pos)
+    envc(const Fmatrix& _i_bind_transform, const Fvector& _ax, Fvector& _pos): SEnumVerticesCallback(), i_bind_transform(_i_bind_transform), ax(_ax), pos(_pos)
     {
         start_pos.set(0, 0, 0);
     }
@@ -93,14 +89,14 @@ void CIKFoot::set_toe(u16 bones[4])
     const Fmatrix bind_ref  = binds[bones[m_ref_bone]];
     const Fmatrix ibind_ref = Fmatrix().invert(bind_ref);
 
-    const Fmatrix bind2  = binds[bones[2]];
-    const Fmatrix ibind2 = Fmatrix().invert(bind2);
+    const Fmatrix bind2     = binds[bones[2]];
+    const Fmatrix ibind2    = Fmatrix().invert(bind2);
 
     // const Fmatrix ref_to_b2	= Fmatrix().mul_43( ibind2, bind_ref );
-    const Fmatrix b2to_ref = Fmatrix().mul_43(ibind_ref, bind2);
+    const Fmatrix b2to_ref  = Fmatrix().mul_43(ibind_ref, bind2);
 
-    const Fmatrix bind3  = binds[bones[3]];
-    const Fmatrix ibind3 = Fmatrix().invert(bind3);
+    const Fmatrix bind3     = binds[bones[3]];
+    const Fmatrix ibind3    = Fmatrix().invert(bind3);
 
     m_bind_b2_to_b3.mul_43(ibind2, bind3);
     ///////////////////////////////////////////////////////
@@ -155,8 +151,7 @@ Fmatrix& CIKFoot::foot_to_ref_bone_transform(Fmatrix& m) const
         m.set(Fidentity);
         return m;
     }
-    m.mul_43(
-        Fmatrix().invert(Kinematics()->LL_GetTransform(m_foot_bone_id)), Kinematics()->LL_GetTransform(m_toe_bone_id));
+    m.mul_43(Fmatrix().invert(Kinematics()->LL_GetTransform(m_foot_bone_id)), Kinematics()->LL_GetTransform(m_toe_bone_id));
     return m;
 }
 
@@ -213,14 +208,7 @@ Fmatrix& CIKFoot::ref_bone_to_foot(Fmatrix& m) const
     return ref_bone_to_foot(m, Fmatrix().set(m));
 }
 int                             ik_allign_free_foot = 0;
-ik_goal_matrix::e_collide_state CIKFoot::CollideFoot(
-    float          angle,
-    float&         out_angle,
-    const Fvector& global_toe,
-    const Fvector& foot_normal,
-    const Fvector& global_bone_pos,
-    const Fplane&  p,
-    const Fvector& ax) const
+ik_goal_matrix::e_collide_state CIKFoot::CollideFoot(float angle, float& out_angle, const Fvector& global_toe, const Fvector& foot_normal, const Fvector& global_bone_pos, const Fplane& p, const Fvector& ax) const
 {
     float   dfoot_tri = -p.d - p.n.dotproduct(global_bone_pos);   // dist from foot bone pos to tri plain
     Fvector axp;
@@ -232,7 +220,7 @@ ik_goal_matrix::e_collide_state CIKFoot::CollideFoot(
     axp.sub(Fvector().mul(ax, axp.dotproduct(ax)));   // vector from nc_toe to ax
     float dtoe_ax = axp.magnitude();
 
-    out_angle = 0.f;
+    out_angle     = 0.f;
 
     if (dtoe_ax < EPS_S)
         return ik_goal_matrix::cl_free;
@@ -249,8 +237,7 @@ ik_goal_matrix::e_collide_state CIKFoot::CollideFoot(
 
 static const float min_dot = 0.9f;   // M_SQRT1_2;//M_SQRT1_2;
 
-bool CIKFoot::make_shift(Fmatrix& xm, const Fvector& cl_point, bool collide, const Fplane& p, const Fvector& pick_dir)
-    const
+bool               CIKFoot::make_shift(Fmatrix& xm, const Fvector& cl_point, bool collide, const Fplane& p, const Fvector& pick_dir) const
 {
     Fvector shift = pick_dir;
 
@@ -281,19 +268,12 @@ bool CIKFoot::make_shift(Fmatrix& xm, const Fvector& cl_point, bool collide, con
     return true;
 }
 
-bool CIKFoot::GetFootStepMatrix(
-    ik_goal_matrix&       m,
-    const SCalculateData& cd,
-    const SIKCollideData& cld,
-    bool                  collide,
-    bool                  rotate) const
+bool CIKFoot::GetFootStepMatrix(ik_goal_matrix& m, const SCalculateData& cd, const SIKCollideData& cld, bool collide, bool rotate) const
 {
     return GetFootStepMatrix(m, cd.state.anim_pos, cld, collide, rotate);
 }
 
-ik_goal_matrix::e_collide_state
-    CIKFoot::rotate(Fmatrix& xm, const Fplane& p, const Fvector& foot_normal, const Fvector& global_point, bool collide)
-        const
+ik_goal_matrix::e_collide_state CIKFoot::rotate(Fmatrix& xm, const Fplane& p, const Fvector& foot_normal, const Fvector& global_point, bool collide) const
 {
     Fvector ax;
     ax.crossproduct(p.n, foot_normal);
@@ -319,13 +299,7 @@ ik_goal_matrix::e_collide_state
     return cl_state;
 }
 
-bool CIKFoot::GetFootStepMatrix(
-    ik_goal_matrix&       m,
-    const Fmatrix&        g_anim,
-    const SIKCollideData& cld,
-    bool                  collide,
-    bool                  rotation,
-    bool                  b_make_shift /*=true*/) const
+bool CIKFoot::GetFootStepMatrix(ik_goal_matrix& m, const Fmatrix& g_anim, const SIKCollideData& cld, bool collide, bool rotation, bool b_make_shift /*=true*/) const
 {
     const Fmatrix global_anim = g_anim;
     Fvector       local_point;
@@ -420,8 +394,7 @@ u16 CIKFoot::get_ref_bone(const Fmatrix& foot_transform, const Fmatrix& toe_tran
 }
 void CIKFoot::set_ref_bone()
 {
-    set_ref_bone(
-        get_ref_bone(Kinematics()->LL_GetTransform(m_foot_bone_id), Kinematics()->LL_GetTransform(m_toe_bone_id)));
+    set_ref_bone(get_ref_bone(Kinematics()->LL_GetTransform(m_foot_bone_id), Kinematics()->LL_GetTransform(m_toe_bone_id)));
 }
 void CIKFoot::SetFootGeom(ik_foot_geom& fg, const Fmatrix& ref_bone, const Fmatrix& object_matrix) const
 {
@@ -438,7 +411,7 @@ void CIKFoot::SetFootGeom(ik_foot_geom& fg, const Fmatrix& ref_bone, const Fmatr
     foot.transform_tiny(pos_hill, HeelPosition(heel));
     const Fvector v_m = Fvector().add(pos_toe, pos_hill).mul(0.5f);
 
-    Fvector normal, direction;
+    Fvector       normal, direction;
     get_local_vector(normal, m_foot_normal);
     get_local_vector(direction, m_foot_direction);
 
@@ -450,13 +423,7 @@ void CIKFoot::SetFootGeom(ik_foot_geom& fg, const Fmatrix& ref_bone, const Fmatr
 
     fg.set(pos_toe, pos_hill, Fvector().add(v_m, v_side));
 }
-void CIKFoot::Collide(
-    SIKCollideData&   cld,
-    ik_foot_collider& collider,
-    const Fmatrix&    ref_bone,
-    const Fmatrix&    object_matrix,
-    CGameObject*      O,
-    bool              foot_step) const
+void CIKFoot::Collide(SIKCollideData& cld, ik_foot_collider& collider, const Fmatrix& ref_bone, const Fmatrix& object_matrix, CGameObject* O, bool foot_step) const
 {
     VERIFY(O->Visual()->dcast_PKinematics() == Kinematics());
 

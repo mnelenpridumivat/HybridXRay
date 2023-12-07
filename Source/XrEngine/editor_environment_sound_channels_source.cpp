@@ -30,10 +30,7 @@ void source::fill(XrWeatherEditor::property_holder_collection* collection)
     VERIFY(!m_property_holder);
     m_property_holder = ::ide().create_property_holder(m_source.c_str(), collection, this);
 
-    m_property_holder->add_property(
-        "sound", "properties", "this option is resposible for sound", m_source.c_str(), m_source, ".ogg",
-        "Sound files (*.ogg)|*.ogg", detail::real_path("$game_sounds$", "").c_str(), "Select sound...",
-        XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
+    m_property_holder->add_property("sound", "properties", "this option is resposible for sound", m_source.c_str(), m_source, ".ogg", "Sound files (*.ogg)|*.ogg", detail::real_path("$game_sounds$", "").c_str(), "Select sound...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
 }
 
 source::property_holder_type* source::object()

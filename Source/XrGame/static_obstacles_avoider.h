@@ -40,9 +40,9 @@ protected:
     IC const CAI_Stalker&                        object() const;
 
 public:
-    IC             static_obstacles_avoider();
-    IC void        construct(stalker_movement_manager_obstacles* movement_manager, const bool& failed_to_build_path);
-    IC const bool& need_path_to_rebuild() const;
+    IC                  static_obstacles_avoider();
+    IC void             construct(stalker_movement_manager_obstacles* movement_manager, const bool& failed_to_build_path);
+    IC const bool&      need_path_to_rebuild() const;
     IC obstacles_query& active_query();
     IC obstacles_query& inactive_query();
     IC obstacles_query& current_iteration();

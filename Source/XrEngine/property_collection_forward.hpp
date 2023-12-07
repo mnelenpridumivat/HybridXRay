@@ -9,6 +9,6 @@
 #ifndef PROPERTY_COLLECTION_FORWARD_HPP_INCLUDED
 #define PROPERTY_COLLECTION_FORWARD_HPP_INCLUDED
 
-template <typename container_type, typename holder_type> class property_collection;
+template<typename container_type, typename holder_type> class property_collection;
 
 #endif   // #define PROPERTY_COLLECTION_FORWARD_HPP_INCLUDED

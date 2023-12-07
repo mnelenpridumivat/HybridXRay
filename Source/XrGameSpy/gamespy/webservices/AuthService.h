@@ -25,9 +25,9 @@ extern "C"
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#define WSLogin_PARTNERCODE_GAMESPY 0
+#define WSLogin_PARTNERCODE_GAMESPY        0
 #define WSLogin_NAMESPACE_SHARED_NONUNIQUE 0
-#define WSLogin_NAMESPACE_SHARED_UNIQUE 1
+#define WSLogin_NAMESPACE_SHARED_UNIQUE    1
 
     typedef enum WSLoginValue
     {
@@ -60,21 +60,21 @@ extern "C"
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#define WS_LOGIN_SIGKEY_LEN_BITS (GS_CRYPT_RSA_BINARY_SIZE)
-#define WS_LOGIN_PEERKEY_LEN_BITS (GS_CRYPT_RSA_BINARY_SIZE)
+#define WS_LOGIN_SIGKEY_LEN_BITS      (GS_CRYPT_RSA_BINARY_SIZE)
+#define WS_LOGIN_PEERKEY_LEN_BITS     (GS_CRYPT_RSA_BINARY_SIZE)
 
-#define WS_LOGIN_NICK_LEN (30 + 1)
-#define WS_LOGIN_EMAIL_LEN (50 + 1)
-#define WS_LOGIN_PASSWORD_LEN (30 + 1)
-#define WS_LOGIN_UNIQUENICK_LEN (20 + 1)
-#define WS_LOGIN_CDKEY_LEN (64 + 1)
-#define WS_LOGIN_PEERKEYMOD_LEN (WS_LOGIN_PEERKEY_LEN_BITS / 8)
-#define WS_LOGIN_PEERKEYEXP_LEN (WS_LOGIN_PEERKEY_LEN_BITS / 8)
-#define WS_LOGIN_PEERKEYPRV_LEN (WS_LOGIN_PEERKEY_LEN_BITS / 8)
-#define WS_LOGIN_KEYHASH_LEN (33)   // 16 byte hash in hexstr +1 for NULL
-#define WS_LOGIN_SIGNATURE_LEN (WS_LOGIN_SIGKEY_LEN_BITS / 8)
-#define WS_LOGIN_SERVERDATA_LEN (WS_LOGIN_PEERKEY_LEN_BITS / 8)
-#define WS_LOGIN_AUTHTOKEN_LEN (256)
+#define WS_LOGIN_NICK_LEN             (30 + 1)
+#define WS_LOGIN_EMAIL_LEN            (50 + 1)
+#define WS_LOGIN_PASSWORD_LEN         (30 + 1)
+#define WS_LOGIN_UNIQUENICK_LEN       (20 + 1)
+#define WS_LOGIN_CDKEY_LEN            (64 + 1)
+#define WS_LOGIN_PEERKEYMOD_LEN       (WS_LOGIN_PEERKEY_LEN_BITS / 8)
+#define WS_LOGIN_PEERKEYEXP_LEN       (WS_LOGIN_PEERKEY_LEN_BITS / 8)
+#define WS_LOGIN_PEERKEYPRV_LEN       (WS_LOGIN_PEERKEY_LEN_BITS / 8)
+#define WS_LOGIN_KEYHASH_LEN          (33)   // 16 byte hash in hexstr +1 for NULL
+#define WS_LOGIN_SIGNATURE_LEN        (WS_LOGIN_SIGKEY_LEN_BITS / 8)
+#define WS_LOGIN_SERVERDATA_LEN       (WS_LOGIN_PEERKEY_LEN_BITS / 8)
+#define WS_LOGIN_AUTHTOKEN_LEN        (256)
 #define WS_LOGIN_PARTNERCHALLENGE_LEN (256)
 
     // A user's login certificate, signed by the GameSpy AuthService
@@ -82,7 +82,7 @@ extern "C"
     // Avoid use of pointer members so that structure may be easily copied
     typedef struct GSLoginCertificate
     {
-        gsi_bool mIsValid;
+        gsi_bool      mIsValid;
 
         gsi_u32       mLength;
         gsi_u32       mVersion;
@@ -157,11 +157,11 @@ extern "C"
     // PS3 login callback format
     typedef struct WSLoginPs3CertResponse
     {
-        WSLoginValue mLoginResult;                               // SDK high level result, e.g. LoginFailed
-        WSLoginValue mResponseCode;                              // server's result code,  e.g. BadPassword
-        char         mRemoteAuthToken[WS_LOGIN_AUTHTOKEN_LEN];   // Show this to others
-        char mPartnerChallenge[WS_LOGIN_PARTNERCHALLENGE_LEN];   // keep this secret! (It's a "password" for the token.)
-        void* mUserData;
+        WSLoginValue mLoginResult;                                       // SDK high level result, e.g. LoginFailed
+        WSLoginValue mResponseCode;                                      // server's result code,  e.g. BadPassword
+        char         mRemoteAuthToken[WS_LOGIN_AUTHTOKEN_LEN];           // Show this to others
+        char         mPartnerChallenge[WS_LOGIN_PARTNERCHALLENGE_LEN];   // keep this secret! (It's a "password" for the token.)
+        void*        mUserData;
     } WSLoginPs3CertResponse;
 
     typedef void (*WSLoginPs3CertCallback)(GHTTPResult httpResult, WSLoginPs3CertResponse* response, void* userData);
@@ -169,48 +169,19 @@ extern "C"
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     // Services to obtain a certificate
-    gsi_u32 wsLoginProfile(
-        int             partnerCode,
-        int             namespaceId,
-        const gsi_char* profileNick,
-        const gsi_char* email,
-        const gsi_char* password,
-        const gsi_char* cdkeyhash,
-        WSLoginCallback callback,
-        void*           userData);
-    gsi_u32 wsLoginUnique(
-        int             partnerCode,
-        int             namespaceId,
-        const gsi_char* uniqueNick,
-        const gsi_char* password,
-        const gsi_char* cdkeyhash,
-        WSLoginCallback callback,
-        void*           userData);
-    gsi_u32 wsLoginRemoteAuth(
-        int             partnerCode,
-        int             namespaceId,
-        const gsi_char  authtoken[WS_LOGIN_AUTHTOKEN_LEN],
-        const gsi_char  partnerChallenge[WS_LOGIN_PARTNERCHALLENGE_LEN],
-        WSLoginCallback callback,
-        void*           userData);
+    gsi_u32      wsLoginProfile(int partnerCode, int namespaceId, const gsi_char* profileNick, const gsi_char* email, const gsi_char* password, const gsi_char* cdkeyhash, WSLoginCallback callback, void* userData);
+    gsi_u32      wsLoginUnique(int partnerCode, int namespaceId, const gsi_char* uniqueNick, const gsi_char* password, const gsi_char* cdkeyhash, WSLoginCallback callback, void* userData);
+    gsi_u32      wsLoginRemoteAuth(int partnerCode, int namespaceId, const gsi_char authtoken[WS_LOGIN_AUTHTOKEN_LEN], const gsi_char partnerChallenge[WS_LOGIN_PARTNERCHALLENGE_LEN], WSLoginCallback callback, void* userData);
 
     // Services to obtain a remote auth token
-    gsi_u32 wsLoginPs3Cert(
-        int                    gameId,
-        int                    partnerCode,
-        int                    namespaceId,
-        const gsi_u8*          ps3cert,
-        int                    certLen,
-        WSLoginPs3CertCallback callback,
-        void*                  userData);
+    gsi_u32      wsLoginPs3Cert(int gameId, int partnerCode, int namespaceId, const gsi_u8* ps3cert, int certLen, WSLoginPs3CertCallback callback, void* userData);
 
     // Certificate Utilities, for use after obtaining a certificate
-    gsi_bool wsLoginCertIsValid(const GSLoginCertificate* cert);
-    gsi_bool wsLoginCertWriteXML(const GSLoginCertificate* cert, const char* anamespace, GSXmlStreamWriter writer);
-    gsi_bool
-        wsLoginCertWriteBinary(const GSLoginCertificate* cert, char* bufout, unsigned int maxlen, unsigned int* lenout);
-    gsi_bool wsLoginCertReadBinary(GSLoginCertificate* certOut, char* bufin, unsigned int maxlen);
-    gsi_bool wsLoginCertReadXML(GSLoginCertificate* cert, GSXmlStreamReader reader);
+    gsi_bool     wsLoginCertIsValid(const GSLoginCertificate* cert);
+    gsi_bool     wsLoginCertWriteXML(const GSLoginCertificate* cert, const char* anamespace, GSXmlStreamWriter writer);
+    gsi_bool     wsLoginCertWriteBinary(const GSLoginCertificate* cert, char* bufout, unsigned int maxlen, unsigned int* lenout);
+    gsi_bool     wsLoginCertReadBinary(GSLoginCertificate* certOut, char* bufin, unsigned int maxlen);
+    gsi_bool     wsLoginCertReadXML(GSLoginCertificate* cert, GSXmlStreamReader reader);
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

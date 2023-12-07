@@ -54,7 +54,7 @@ bool CCustomObject::IsRender()
     Fbox bb;
     GetBox(bb);
 
-    float distance = 0.f;
+    float   distance = 0.f;
     Fvector center;
 
     bb.getcenter(center);

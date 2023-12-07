@@ -33,11 +33,7 @@ game_sv_CaptureTheArtefact::MyTeam::MyTeam(const MyTeam& clone)
     last_activator_id           = clone.last_activator_id;
 }
 
-game_sv_CaptureTheArtefact::MyTeam::MyTeam(
-    TEAM_DATA_LIST::size_type indexInTeamList,
-    u16                       pCount,
-    const shared_str&         tName,
-    const shared_str&         aName)
+game_sv_CaptureTheArtefact::MyTeam::MyTeam(TEAM_DATA_LIST::size_type indexInTeamList, u16 pCount, const shared_str& tName, const shared_str& aName)
 {
     indexOfTeamInList           = indexInTeamList;
     playersCount                = pCount;
@@ -70,12 +66,7 @@ void game_sv_CaptureTheArtefact::MyTeam::OnPlayerAttachArtefact(CSE_ActorMP* new
 void game_sv_CaptureTheArtefact::MyTeam::OnPlayerDetachArtefact(CSE_ActorMP* oldArtefactOwner)
 {
     VERIFY(oldArtefactOwner && artefactOwner);
-    VERIFY2(
-        oldArtefactOwner == artefactOwner,
-        make_string(
-            "artefacts owners not equal: firstOwnerId = %d, secondOwnerId = %d", oldArtefactOwner->ID,
-            artefactOwner->ID)
-            .c_str());
+    VERIFY2(oldArtefactOwner == artefactOwner, make_string("artefacts owners not equal: firstOwnerId = %d, secondOwnerId = %d", oldArtefactOwner->ID, artefactOwner->ID).c_str());
     artefactOwner         = NULL;
     freeArtefactTimeStart = Level().timeServer();
 }

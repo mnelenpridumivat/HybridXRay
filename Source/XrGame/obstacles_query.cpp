@@ -14,7 +14,7 @@
 #include "level_graph.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -24,9 +24,7 @@ void obstacles_query::set_intersection(const obstacles_query& query)
     u32                    buffer_size = n * sizeof(OBSTACLES::value_type);
     OBSTACLES::value_type* temp        = (OBSTACLES::value_type*)_alloca(buffer_size);
     Memory.mem_copy(temp, &*obstacles().begin(), buffer_size);
-    m_obstacles.erase(
-        std::set_intersection(temp, temp + n, query.obstacles().begin(), query.obstacles().end(), m_obstacles.begin()),
-        m_obstacles.end());
+    m_obstacles.erase(std::set_intersection(temp, temp + n, query.obstacles().begin(), query.obstacles().end(), m_obstacles.begin()), m_obstacles.end());
 
     if (obstacles().size() == n)
         return;
@@ -42,8 +40,7 @@ void obstacles_query::merge(const AREA& object_area)
     u32* temp             = (u32*)_alloca(buffer_size);
     Memory.mem_copy(temp, &*m_area.begin(), area_size * sizeof(u32));
     m_area.resize(destination_size);
-    m_area.erase(
-        std::set_union(temp, temp + area_size, object_area.begin(), object_area.end(), m_area.begin()), m_area.end());
+    m_area.erase(std::set_union(temp, temp + area_size, object_area.begin(), object_area.end(), m_area.begin()), m_area.end());
 }
 
 void obstacles_query::compute_area()
@@ -113,7 +110,7 @@ struct too_far_predicate
     Fvector m_position;
     float   m_radius_sqr;
 
-    IC too_far_predicate(const Fvector& position, const float& radius)
+    IC      too_far_predicate(const Fvector& position, const float& radius)
     {
         m_position   = position;
         m_radius_sqr = _sqr(radius);

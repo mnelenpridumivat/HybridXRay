@@ -26,19 +26,19 @@ public:
         flPositionRigid  = (1 << 1),
         flDirectionRigid = (1 << 2),
     };
-    Flags32 m_Flags;
+    Flags32             m_Flags;
 
     EUIToolsCameraStyle style;
     Fvector2            lim_yaw, lim_pitch, lim_roll;
     Fvector             rot_speed;
 
-    Fvector vPosition;
-    Fvector vDirection;
-    Fvector vNormal;
-    float   f_fov;
-    float   f_aspect;
+    Fvector             vPosition;
+    Fvector             vDirection;
+    Fvector             vNormal;
+    float               f_fov;
+    float               f_aspect;
 
-    IC Fvector Position() const
+    IC Fvector          Position() const
     {
         return vPosition;
     }
@@ -123,8 +123,7 @@ public:
     virtual float CheckLimRoll();
 };
 
-template <typename T>
-IC void tviewport_size(XrDeviceInterface& D, float _viewport_near, const T& cam_info, float& h_w, float& h_h)
+template<typename T> IC void tviewport_size(XrDeviceInterface& D, float _viewport_near, const T& cam_info, float& h_w, float& h_h)
 {
     h_h = _viewport_near * tan(deg2rad(cam_info.Fov()) / 2.f);
     VERIFY2(_valid(h_h), make_string("invalide viewporrt params fov: %f ", cam_info.Fov()));
@@ -133,7 +132,7 @@ IC void tviewport_size(XrDeviceInterface& D, float _viewport_near, const T& cam_
     h_w = h_h / aspect;
 }
 
-template <typename T> IC void viewport_size(float _viewport_near, const T& cam_info, float& h_w, float& h_h)
+template<typename T> IC void viewport_size(float _viewport_near, const T& cam_info, float& h_w, float& h_h)
 {
     tviewport_size<T>(*Device, _viewport_near, cam_info, h_w, h_h);
 }

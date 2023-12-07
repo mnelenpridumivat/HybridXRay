@@ -192,8 +192,7 @@ void CBuild::ResolveMaterials()
 
         // analyze bb size
         size.sub(bb.max, bb.min);
-        if ((size.y > g_params.c_SS_maxsize) || (size.x > g_params.c_SS_maxsize) || (size.z > g_params.c_SS_maxsize) ||
-            (int(g_XSplit[X].size()) > c_SS_HighVertLimit))
+        if ((size.y > g_params.c_SS_maxsize) || (size.x > g_params.c_SS_maxsize) || (size.z > g_params.c_SS_maxsize) || (int(g_XSplit[X].size()) > c_SS_HighVertLimit))
         {
             // perform split
             b1.set(bb);

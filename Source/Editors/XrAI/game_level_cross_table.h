@@ -10,7 +10,7 @@
 
 #ifdef AI_COMPILER
 #include "../../XrGame/xrLevel.h"
-#else    // AI_COMPILER
+#else   // AI_COMPILER
 #include "../../xrEngine/xrLevel.h"
 #endif   // AI_COMPILER
 
@@ -30,6 +30,7 @@ class CGameLevelCrossTable
     friend class CRenumbererConverter;
     friend class CGameGraphBuilder;
 #endif   // AI_COMPILER
+
 public:
 #pragma pack(push, 2)
     class CHeader
@@ -39,6 +40,7 @@ public:
         u32    dwGraphPointCount;
         xrGUID m_level_guid;
         xrGUID m_game_guid;
+
     public:
         IC u32           version() const;
         IC u32           level_vertex_count() const;
@@ -58,6 +60,7 @@ public:
     {
         GameGraph::_GRAPH_ID tGraphIndex;
         float                fDistance;
+
     public:
         IC GameGraph::_GRAPH_ID game_vertex_id() const;
         IC float                distance() const;
@@ -69,20 +72,24 @@ public:
 #endif   // AI_COMPILER
     };
 #pragma pack(pop)
+
 private:
     CHeader m_tCrossTableHeader;
     CCell*  m_tpaCrossTable;
 
 #ifdef AI_COMPILER
+
 private:
     IReader* m_tpCrossTableVFS;
     IReader* m_chunk;
 #endif   // AI_COMPILER
+
 public:
     IC CGameLevelCrossTable(const void* buffer, const u32& buffer_size);
 #ifdef AI_COMPILER
     IC CGameLevelCrossTable(LPCSTR fName);
 #endif   // AI_COMPILER
+
 public:
     IC virtual ~CGameLevelCrossTable();
     IC const CCell&   vertex(u32 level_vertex_id) const;

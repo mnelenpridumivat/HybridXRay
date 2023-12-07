@@ -26,9 +26,9 @@ private:
     shared_str           m_invite_str;
     bool                 m_b_enabled;
 
-    void update_actor_invitation();
-    bool m_bSilentMode;
-    bool get_reject_pos(Fvector& p, Fvector& r);
+    void                 update_actor_invitation();
+    bool                 m_bSilentMode;
+    bool                 get_reject_pos(Fvector& p, Fvector& r);
 
 public:
     virtual ~CLevelChanger();
@@ -40,7 +40,7 @@ public:
     virtual void  feel_touch_new(CObject* O);
     virtual BOOL  feel_touch_contact(CObject* O);
 
-    virtual bool IsVisibleForZones()
+    virtual bool  IsVisibleForZones()
     {
         return false;
     }

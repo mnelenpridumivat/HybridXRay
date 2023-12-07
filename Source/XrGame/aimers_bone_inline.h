@@ -9,17 +9,11 @@
 #ifndef AIMERS_BONE_INLINE_H_INCLUDED
 #define AIMERS_BONE_INLINE_H_INCLUDED
 
-#define TEMPLATE_SPECIALIZATION template <u32 bone_count>
-#define BONE aimers::bone<bone_count>
+#define TEMPLATE_SPECIALIZATION template<u32 bone_count>
+#define BONE                    aimers::bone<bone_count>
 
 TEMPLATE_SPECIALIZATION
-inline BONE::bone(
-    CGameObject*   object,
-    LPCSTR         animation_id,
-    bool           animation_start,
-    Fvector const& target,
-    LPCSTR (&bones)[bone_count]):
-    inherited(object, animation_id, animation_start, target)
+inline BONE::bone(CGameObject* object, LPCSTR animation_id, bool animation_start, Fvector const& target, LPCSTR (&bones)[bone_count]): inherited(object, animation_id, animation_start, target)
 {
     for (u32 i = 0; i < bone_count; ++i)
         m_bones_ids[i] = m_kinematics.LL_BoneID(bones[i]);
@@ -90,7 +84,7 @@ void BONE::compute_bone(u32 const bone_id)
 	float const sin_alpha				= cross_product.magnitude();
 	float const cos_alpha				= current_direction.dotproduct(target_direction);
 	m_result[bone_id].rotation			(cross_product.normalize(), atan2f(sin_alpha, cos_alpha));
-#else    // #if 0
+#else   // #if 0
     m_result[bone_id] = Fidentity;
 #endif   // #if 0
 }

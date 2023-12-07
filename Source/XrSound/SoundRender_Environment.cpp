@@ -4,7 +4,7 @@
 #include "soundrender.h"
 #include "soundrender_environment.h"
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include "eax.h"
 #pragma warning(pop)
 
@@ -42,20 +42,20 @@ void CSoundRender_Environment::set_identity()
 
 void CSoundRender_Environment::lerp(CSoundRender_Environment& A, CSoundRender_Environment& B, float f)
 {
-    float fi = 1.f - f;
+    float fi             = 1.f - f;
 
-    Room                 = fi * A.Room                 + f * B.Room;
-    RoomHF               = fi * A.RoomHF               + f * B.RoomHF;
-    RoomRolloffFactor    = fi * A.RoomRolloffFactor    + f * B.RoomRolloffFactor;
-    DecayTime            = fi * A.DecayTime            + f * B.DecayTime;
-    DecayHFRatio         = fi * A.DecayHFRatio         + f * B.DecayHFRatio;
-    Reflections          = fi * A.Reflections          + f * B.Reflections;
-    ReflectionsDelay     = fi * A.ReflectionsDelay     + f * B.ReflectionsDelay;
-    Reverb               = fi * A.Reverb               + f * B.Reverb;
-    ReverbDelay          = fi * A.ReverbDelay          + f * B.ReverbDelay;
-    EnvironmentSize      = fi * A.EnvironmentSize      + f * B.EnvironmentSize;
+    Room                 = fi * A.Room + f * B.Room;
+    RoomHF               = fi * A.RoomHF + f * B.RoomHF;
+    RoomRolloffFactor    = fi * A.RoomRolloffFactor + f * B.RoomRolloffFactor;
+    DecayTime            = fi * A.DecayTime + f * B.DecayTime;
+    DecayHFRatio         = fi * A.DecayHFRatio + f * B.DecayHFRatio;
+    Reflections          = fi * A.Reflections + f * B.Reflections;
+    ReflectionsDelay     = fi * A.ReflectionsDelay + f * B.ReflectionsDelay;
+    Reverb               = fi * A.Reverb + f * B.Reverb;
+    ReverbDelay          = fi * A.ReverbDelay + f * B.ReverbDelay;
+    EnvironmentSize      = fi * A.EnvironmentSize + f * B.EnvironmentSize;
     EnvironmentDiffusion = fi * A.EnvironmentDiffusion + f * B.EnvironmentDiffusion;
-    AirAbsorptionHF      = fi * A.AirAbsorptionHF      + f * B.AirAbsorptionHF;
+    AirAbsorptionHF      = fi * A.AirAbsorptionHF + f * B.AirAbsorptionHF;
 
     clamp();
 }
@@ -81,18 +81,18 @@ void CSoundRender_Environment::get(EAXLISTENERPROPERTIES& ep)
 */
 void CSoundRender_Environment::clamp()
 {
-    ::clamp(Room, (float)         EAXLISTENER_MINROOM, (float)         EAXLISTENER_MAXROOM);
-    ::clamp(RoomHF, (float)       EAXLISTENER_MINROOMHF, (float)       EAXLISTENER_MAXROOMHF);
-    ::clamp(RoomRolloffFactor,    EAXLISTENER_MINROOMROLLOFFFACTOR,    EAXLISTENER_MAXROOMROLLOFFFACTOR);
-    ::clamp(DecayTime,            EAXLISTENER_MINDECAYTIME,            EAXLISTENER_MAXDECAYTIME);
-    ::clamp(DecayHFRatio,         EAXLISTENER_MINDECAYHFRATIO,         EAXLISTENER_MAXDECAYHFRATIO);
-    ::clamp(Reflections, (float)  EAXLISTENER_MINREFLECTIONS, (float)  EAXLISTENER_MAXREFLECTIONS);
-    ::clamp(ReflectionsDelay,     EAXLISTENER_MINREFLECTIONSDELAY,     EAXLISTENER_MAXREFLECTIONSDELAY);
-    ::clamp(Reverb, (float)       EAXLISTENER_MINREVERB, (float)       EAXLISTENER_MAXREVERB);
-    ::clamp(ReverbDelay,          EAXLISTENER_MINREVERBDELAY,          EAXLISTENER_MAXREVERBDELAY);
-    ::clamp(EnvironmentSize,      EAXLISTENER_MINENVIRONMENTSIZE,      EAXLISTENER_MAXENVIRONMENTSIZE);
+    ::clamp(Room, (float)EAXLISTENER_MINROOM, (float)EAXLISTENER_MAXROOM);
+    ::clamp(RoomHF, (float)EAXLISTENER_MINROOMHF, (float)EAXLISTENER_MAXROOMHF);
+    ::clamp(RoomRolloffFactor, EAXLISTENER_MINROOMROLLOFFFACTOR, EAXLISTENER_MAXROOMROLLOFFFACTOR);
+    ::clamp(DecayTime, EAXLISTENER_MINDECAYTIME, EAXLISTENER_MAXDECAYTIME);
+    ::clamp(DecayHFRatio, EAXLISTENER_MINDECAYHFRATIO, EAXLISTENER_MAXDECAYHFRATIO);
+    ::clamp(Reflections, (float)EAXLISTENER_MINREFLECTIONS, (float)EAXLISTENER_MAXREFLECTIONS);
+    ::clamp(ReflectionsDelay, EAXLISTENER_MINREFLECTIONSDELAY, EAXLISTENER_MAXREFLECTIONSDELAY);
+    ::clamp(Reverb, (float)EAXLISTENER_MINREVERB, (float)EAXLISTENER_MAXREVERB);
+    ::clamp(ReverbDelay, EAXLISTENER_MINREVERBDELAY, EAXLISTENER_MAXREVERBDELAY);
+    ::clamp(EnvironmentSize, EAXLISTENER_MINENVIRONMENTSIZE, EAXLISTENER_MAXENVIRONMENTSIZE);
     ::clamp(EnvironmentDiffusion, EAXLISTENER_MINENVIRONMENTDIFFUSION, EAXLISTENER_MAXENVIRONMENTDIFFUSION);
-    ::clamp(AirAbsorptionHF,      EAXLISTENER_MINAIRABSORPTIONHF,      EAXLISTENER_MAXAIRABSORPTIONHF);
+    ::clamp(AirAbsorptionHF, EAXLISTENER_MINAIRABSORPTIONHF, EAXLISTENER_MAXAIRABSORPTIONHF);
 }
 
 bool CSoundRender_Environment::load(IReader* fs)

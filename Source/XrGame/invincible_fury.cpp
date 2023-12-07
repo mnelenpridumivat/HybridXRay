@@ -24,9 +24,7 @@ namespace award_system
 
     struct fury_killer
     {
-        fury_killer(shared_str const& killer_name, u32 after_time): m_killer_name(killer_name), m_after_time(after_time)
-        {
-        }
+        fury_killer(shared_str const& killer_name, u32 after_time): m_killer_name(killer_name), m_after_time(after_time) {}
 
         fury_killer& operator=(fury_killer const& copy)
         {
@@ -46,11 +44,7 @@ namespace award_system
         u32        m_after_time;
     };   // struct fury_killer
 
-    void player_state_invincible_fury::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void player_state_invincible_fury::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
 
@@ -60,20 +54,15 @@ namespace award_system
         if (killer_id != tmp_local_player->GameID)
             return;
 
-        fury_killer       tmp_predicate(tmp_local_player->getName(), Device->dwTimeGlobal - max_fury_time);
-        kills_store::kill tmp_kills_store[kills_store::max_kills_count];
+        fury_killer                      tmp_predicate(tmp_local_player->getName(), Device->dwTimeGlobal - max_fury_time);
+        kills_store::kill                tmp_kills_store[kills_store::max_kills_count];
         buffer_vector<kills_store::kill> tmp_buffer(tmp_kills_store, kills_store::max_kills_count);
 
         m_owner->get_kills_store().fetch_kills(tmp_predicate, tmp_buffer);
         m_last_kills = 0;
-        for (buffer_vector<kills_store::kill>::const_iterator i = tmp_buffer.begin(), ie = tmp_buffer.end(); i != ie;
-             ++i)
+        for (buffer_vector<kills_store::kill>::const_iterator i = tmp_buffer.begin(), ie = tmp_buffer.end(); i != ie; ++i)
         {
-            if (m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_assault) ||
-                m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_sniper_rifels) ||
-                m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_shotguns) ||
-                m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_pistols) ||
-                m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_knife))
+            if (m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_assault) || m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_sniper_rifels) || m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_shotguns) || m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_pistols) || m_owner->is_item_in_group(i->m_weapon_id, ammunition_group::gid_knife))
             {
                 ++m_last_kills;
             }

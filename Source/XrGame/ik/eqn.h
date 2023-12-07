@@ -66,10 +66,10 @@ struct PsiEquation
     float          crit_pts[2], root_pts[2];
 
     // store temporary computations
-    float a2b2;
-    float atan2ba;
+    float          a2b2;
+    float          atan2ba;
 
-    void Reset(float a, float b, float x)
+    void           Reset(float a, float b, float x)
     {
         alpha     = a;
         beta      = b;

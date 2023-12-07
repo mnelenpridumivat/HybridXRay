@@ -33,11 +33,7 @@ void CControlMovementBase::load(LPCSTR section)
     // add idle velocity
     SVelocityParam velocity_param;
     m_velocities.insert(mk_pair(eVelocityParameterIdle, velocity_param));
-    m_man->path_builder().detail().add_velocity(
-        eVelocityParameterIdle,
-        CDetailPathManager::STravelParams(
-            velocity_param.velocity.linear, velocity_param.velocity.angular_path,
-            velocity_param.velocity.angular_real));
+    m_man->path_builder().detail().add_velocity(eVelocityParameterIdle, CDetailPathManager::STravelParams(velocity_param.velocity.linear, velocity_param.velocity.angular_path, velocity_param.velocity.angular_real));
 }
 
 void CControlMovementBase::load_velocity(LPCSTR section, LPCSTR line, u32 velocity_id)
@@ -47,11 +43,7 @@ void CControlMovementBase::load_velocity(LPCSTR section, LPCSTR line, u32 veloci
         velocity_param.Load(section, line);
     m_velocities.insert(mk_pair(velocity_id, velocity_param));
 
-    m_man->path_builder().detail().add_velocity(
-        velocity_id,
-        CDetailPathManager::STravelParams(
-            velocity_param.velocity.linear, velocity_param.velocity.angular_path,
-            velocity_param.velocity.angular_real));
+    m_man->path_builder().detail().add_velocity(velocity_id, CDetailPathManager::STravelParams(velocity_param.velocity.linear, velocity_param.velocity.angular_path, velocity_param.velocity.angular_real));
 }
 
 SVelocityParam& CControlMovementBase::get_velocity(u32 velocity_id)
@@ -79,9 +71,7 @@ void CControlMovementBase::set_velocity(float val, bool max_acc)
         m_accel = flt_max;
     else
     {
-        m_accel =
-            ((m_man->movement().velocity_current() > m_velocity) ? m_object->anim().accel_get(eAV_Braking) :
-                                                                   m_object->anim().accel_get(eAV_Accel));
+        m_accel = ((m_man->movement().velocity_current() > m_velocity) ? m_object->anim().accel_get(eAV_Braking) : m_object->anim().accel_get(eAV_Accel));
     }
 }
 
@@ -94,7 +84,7 @@ void CControlMovementBase::stop()
 void CControlMovementBase::stop_accel()
 {
     m_velocity = 0.f;
-    m_accel = ((m_man->movement().velocity_current() > m_velocity) ? m_object->anim().accel_get(eAV_Braking) : flt_max);
+    m_accel    = ((m_man->movement().velocity_current() > m_velocity) ? m_object->anim().accel_get(eAV_Braking) : flt_max);
 }
 
 float CControlMovementBase::get_velocity_from_path()
@@ -105,12 +95,12 @@ float CControlMovementBase::get_velocity_from_path()
         return 0.f;
 
     // get target velocity from path
-    float velocity = 0.f;
+    float               velocity                  = 0.f;
 
-    CDetailPathManager& detail = m_man->path_builder().detail();
+    CDetailPathManager& detail                    = m_man->path_builder().detail();
 
-    u32 cur_point_velocity_index  = detail.path()[detail.curr_travel_point_index()].velocity;
-    u32 next_point_velocity_index = u32(-1);
+    u32                 cur_point_velocity_index  = detail.path()[detail.curr_travel_point_index()].velocity;
+    u32                 next_point_velocity_index = u32(-1);
 
     if (detail.path().size() > detail.curr_travel_point_index() + 1)
         next_point_velocity_index = detail.path()[detail.curr_travel_point_index() + 1].velocity;

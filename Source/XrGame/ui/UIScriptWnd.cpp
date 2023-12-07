@@ -25,7 +25,7 @@ void CUIDialogWndEx::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
 {
     event_comparer ec(pWnd, msg);
 
-    CALLBACK_IT it = std::find_if(m_callbacks.begin(), m_callbacks.end(), ec);
+    CALLBACK_IT    it = std::find_if(m_callbacks.begin(), m_callbacks.end(), ec);
     if (it == m_callbacks.end())
         return inherited::SendMessage(pWnd, msg, pData);
 
@@ -46,11 +46,7 @@ SCallbackInfo* CUIDialogWndEx::NewCallback()
     return m_callbacks.back();
 }
 
-void CUIDialogWndEx::AddCallback(
-    LPCSTR                        control_id,
-    s16                           evt,
-    const luabind::functor<void>& functor,
-    const luabind::object&        object)
+void CUIDialogWndEx::AddCallback(LPCSTR control_id, s16 evt, const luabind::functor<void>& functor, const luabind::object& object)
 {
     SCallbackInfo* c = NewCallback();
     c->m_callback.set(functor, object);

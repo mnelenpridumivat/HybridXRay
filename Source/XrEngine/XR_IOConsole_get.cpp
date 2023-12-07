@@ -55,7 +55,7 @@ int CConsole::GetInteger(LPCSTR cmd, int& min, int& max) const
     max                  = 1;
     IConsole_Command* cc = GetCommand(cmd);
 
-    CCC_Integer* cf = dynamic_cast<CCC_Integer*>(cc);
+    CCC_Integer*      cf = dynamic_cast<CCC_Integer*>(cc);
     if (cf)
     {
         cf->GetBounds(min, max);
@@ -91,7 +91,7 @@ xr_token* CConsole::GetXRToken(LPCSTR cmd) const
 {
     IConsole_Command* cc = GetCommand(cmd);
 
-    CCC_Token* cf = dynamic_cast<CCC_Token*>(cc);
+    CCC_Token*        cf = dynamic_cast<CCC_Token*>(cc);
     if (cf)
     {
         return cf->GetToken();

@@ -6,7 +6,7 @@
 #include "../../../../xrCore/_vector3d_ext.h"
 #include "../../../level_graph.h"
 
-#define TEMPLATE_SIGNATURE template <typename _Object>
+#define TEMPLATE_SIGNATURE  template<typename _Object>
 
 #define ATTACK_ON_RUN_STATE CStateMonsterAttackOnRun<_Object>
 
@@ -35,8 +35,8 @@ void ATTACK_ON_RUN_STATE::initialize()
     object->m_time_last_attack_success = 0;
     object->path().prepare_builder();
 
-    m_target_vertex = (u32)(-1);
-    m_attacking     = false;
+    m_target_vertex            = (u32)(-1);
+    m_attacking                = false;
 
     m_attack_side              = !(rand() % 2) ? left : right;
     m_prepare_side_chosen_time = 0;
@@ -50,7 +50,7 @@ void ATTACK_ON_RUN_STATE::initialize()
     m_last_update_time         = 0;
 
     set_movement_phaze(go_close);
-    m_attack_end_time = 0;
+    m_attack_end_time         = 0;
 
     m_is_jumping              = object->is_jumping();
     m_reach_old_target        = false;
@@ -116,8 +116,8 @@ void ATTACK_ON_RUN_STATE::set_movement_phaze(phaze const new_phaze)
         Fvector const             self2enemy = enemy_pos - object->Position();
         Fvector const             self_dir   = object->Direction();
 
-        bool left_side = ((self2enemy.x * self_dir.z) - (self2enemy.z * self_dir.x)) > 0.f;
-        m_prepare_side = left_side ? left : right;
+        bool                      left_side  = ((self2enemy.x * self_dir.z) - (self2enemy.z * self_dir.x)) > 0.f;
+        m_prepare_side                       = left_side ? left : right;
         //		m_prepare_side					=   (rand() % 2) ? left : right;
     }
 }
@@ -125,13 +125,13 @@ void ATTACK_ON_RUN_STATE::set_movement_phaze(phaze const new_phaze)
 TEMPLATE_SIGNATURE
 void ATTACK_ON_RUN_STATE::calculate_predicted_enemy_pos()
 {
-    float const prediction_factor = object->get_attack_on_move_prediction_factor();
+    float const               prediction_factor = object->get_attack_on_move_prediction_factor();
 
-    float const               epsilon        = 0.0001f;
-    CEntityAlive const* const enemy          = object->EnemyMan.get_enemy();
-    Fvector const             enemy_pos      = enemy->Position();
-    float const               self2enemy_mag = magnitude(enemy_pos - object->Position());
-    float const               far_radius     = object->get_attack_on_move_far_radius();
+    float const               epsilon           = 0.0001f;
+    CEntityAlive const* const enemy             = object->EnemyMan.get_enemy();
+    Fvector const             enemy_pos         = enemy->Position();
+    float const               self2enemy_mag    = magnitude(enemy_pos - object->Position());
+    float const               far_radius        = object->get_attack_on_move_far_radius();
 
     if (self2enemy_mag > far_radius * 2)
     {
@@ -139,8 +139,8 @@ void ATTACK_ON_RUN_STATE::calculate_predicted_enemy_pos()
         return;
     }
 
-    float const self_velocity   = object->movement().speed();
-    float const self2enemy_time = self_velocity > epsilon ? self2enemy_mag / self_velocity : 0;
+    float const self_velocity         = object->movement().speed();
+    float const self2enemy_time       = self_velocity > epsilon ? self2enemy_mag / self_velocity : 0;
 
     float const predictiton_delta_sec = (current_time() - m_last_prediction_time) / 1000.f;
     if (predictiton_delta_sec > 1.f)
@@ -178,14 +178,14 @@ void ATTACK_ON_RUN_STATE::calculate_predicted_enemy_pos()
 TEMPLATE_SIGNATURE
 void ATTACK_ON_RUN_STATE::update_aim_side()
 {
-    CEntityAlive const* const enemy = m_attacking ? m_enemy_to_attack : object->EnemyMan.get_enemy();
+    CEntityAlive const* const enemy              = m_attacking ? m_enemy_to_attack : object->EnemyMan.get_enemy();
 
-    Fvector const self_dir      = object->Direction();
-    Fvector const self_to_enemy = enemy->Position() - object->Position();
+    Fvector const             self_dir           = object->Direction();
+    Fvector const             self_to_enemy      = enemy->Position() - object->Position();
 
-    aim_side const new_attack_side = (self_dir.x * self_to_enemy.z - self_dir.z * self_to_enemy.x > 0) ? right : left;
+    aim_side const            new_attack_side    = (self_dir.x * self_to_enemy.z - self_dir.z * self_to_enemy.x > 0) ? right : left;
 
-    TTime const update_side_period = (TTime)(object->get_attack_on_move_update_side_period() * 1000);
+    TTime const               update_side_period = (TTime)(object->get_attack_on_move_update_side_period() * 1000);
 
     if (current_time() > m_attack_side_chosen_time + update_side_period)
     {
@@ -239,16 +239,16 @@ void ATTACK_ON_RUN_STATE::update_movement_target()
     text_tree.add_line("attacking", m_attacking);
 #endif   // DEBUG_STATE
 
-    TTime const max_go_close_time = (TTime)(1000 * object->get_attack_on_move_max_go_close_time());
-    float const far_radius        = object->get_attack_on_move_far_radius();
-    float const attack_radius     = object->get_attack_on_move_attack_radius();
-    float const prepare_time      = object->get_attack_on_move_prepare_time();
+    TTime const               max_go_close_time = (TTime)(1000 * object->get_attack_on_move_max_go_close_time());
+    float const               far_radius        = object->get_attack_on_move_far_radius();
+    float const               attack_radius     = object->get_attack_on_move_attack_radius();
+    float const               prepare_time      = object->get_attack_on_move_prepare_time();
 
-    CEntityAlive const* const enemy          = object->EnemyMan.get_enemy();
-    Fvector const             enemy_pos      = enemy->Position();
-    Fvector const             self_pos       = object->Position();
-    Fvector const             self2enemy     = enemy_pos - self_pos;
-    float const               self2enemy_mag = self2enemy.magnitude();
+    CEntityAlive const* const enemy             = object->EnemyMan.get_enemy();
+    Fvector const             enemy_pos         = enemy->Position();
+    Fvector const             self_pos          = object->Position();
+    Fvector const             self2enemy        = enemy_pos - self_pos;
+    float const               self2enemy_mag    = self2enemy.magnitude();
 
     if (self2enemy_mag > far_radius * 2)
     {
@@ -260,7 +260,7 @@ void ATTACK_ON_RUN_STATE::update_movement_target()
 
     Fvector const self_dir = Fvector(object->Direction()).normalize();
 
-    Fvector self2target;
+    Fvector       self2target;
 
     Fvector const self2predicted     = m_predicted_enemy_pos - self_pos;
     float const   self2predicted_mag = self2predicted.magnitude();
@@ -286,8 +286,7 @@ void ATTACK_ON_RUN_STATE::update_movement_target()
     }
     else if (m_phaze == go_close)
     {
-        if (angle_between_vectors(object->Direction(), self2enemy) > deg2rad(140.f) && self2predicted_mag < 4.f &&
-            current_time() > m_phaze_chosen_time + 3000)
+        if (angle_between_vectors(object->Direction(), self2enemy) > deg2rad(140.f) && self2predicted_mag < 4.f && current_time() > m_phaze_chosen_time + 3000)
         {
             set_movement_phaze(go_prepare);
         }
@@ -314,17 +313,15 @@ void ATTACK_ON_RUN_STATE::update_movement_target()
     }
     else if (m_phaze == go_prepare)
     {
-        float const offs_length = 5.f;
-        float const offs_angle  = _max(deg2rad(30.f), offs_length / far_radius) * (m_prepare_side == left ? -1 : +1);
+        float const   offs_length      = 5.f;
+        float const   offs_angle       = _max(deg2rad(30.f), offs_length / far_radius) * (m_prepare_side == left ? -1 : +1);
 
-        float const cos_alpha = _cos(offs_angle);
-        float const sin_alpha = _sin(offs_angle);
+        float const   cos_alpha        = _cos(offs_angle);
+        float const   sin_alpha        = _sin(offs_angle);
 
-        Fvector const predicted2self = -self2predicted;
+        Fvector const predicted2self   = -self2predicted;
 
-        Fvector const predicted2part = cr_fvector3(
-            predicted2self.x * cos_alpha - predicted2self.z * sin_alpha, 0,
-            predicted2self.x * sin_alpha + predicted2self.z * cos_alpha);
+        Fvector const predicted2part   = cr_fvector3(predicted2self.x * cos_alpha - predicted2self.z * sin_alpha, 0, predicted2self.x * sin_alpha + predicted2self.z * cos_alpha);
 
         Fvector const predicted2target = normalize(predicted2part) * far_radius;
         self2target                    = self2predicted + predicted2target;
@@ -332,21 +329,19 @@ void ATTACK_ON_RUN_STATE::update_movement_target()
     else if (self2predicted_mag > attack_radius)
     {
         // 90 deg triangle: (self, enemy, atack-point)
-        float const dist2atack_point = _sqrt(self2predicted_mag * self2predicted_mag - attack_radius * attack_radius);
+        float const   dist2atack_point  = _sqrt(self2predicted_mag * self2predicted_mag - attack_radius * attack_radius);
 
         // alpha is the angle between (self, enemy) and (self, atack-point)
-        float const cos_alpha = dist2atack_point / self2predicted_mag;
-        float const sin_alpha = (attack_radius / self2predicted_mag) * (m_attack_side == right ? -1.f : 1.f);
+        float const   cos_alpha         = dist2atack_point / self2predicted_mag;
+        float const   sin_alpha         = (attack_radius / self2predicted_mag) * (m_attack_side == right ? -1.f : 1.f);
 
-        Fvector const self2atack_point = cr_fvector3(
-            self2predicted.x * cos_alpha - self2predicted.z * sin_alpha, 0,
-            self2predicted.x * sin_alpha + self2predicted.z * cos_alpha);
+        Fvector const self2atack_point  = cr_fvector3(self2predicted.x * cos_alpha - self2predicted.z * sin_alpha, 0, self2predicted.x * sin_alpha + self2predicted.z * cos_alpha);
 
-        float const self2atack_mag    = self2atack_point.magnitude();
-        float const attack2target_mag = 3;
+        float const   self2atack_mag    = self2atack_point.magnitude();
+        float const   attack2target_mag = 3;
 
-        float self2target_mag = self2atack_mag + attack2target_mag;
-        self2target           = normalize(self2atack_point) * self2target_mag;
+        float         self2target_mag   = self2atack_mag + attack2target_mag;
+        self2target                     = normalize(self2atack_point) * self2target_mag;
     }
     else
     {
@@ -363,13 +358,13 @@ void ATTACK_ON_RUN_STATE::update_movement_target()
         self2target                 = normalize(dir2target) * self2target_mag;
     }
 
-    m_target = self_pos + self2target;
+    m_target                            = self_pos + self2target;
 
-    u32 const     enemy_vertex     = enemy->ai_location().level_vertex_id();
-    Fvector const enemy_vertex_pos = ai().level_graph().vertex_position(enemy_vertex);
-    u32 const target_vertex = ai().level_graph().check_position_in_direction(enemy_vertex, enemy_vertex_pos, m_target);
+    u32 const     enemy_vertex          = enemy->ai_location().level_vertex_id();
+    Fvector const enemy_vertex_pos      = ai().level_graph().vertex_position(enemy_vertex);
+    u32 const     target_vertex         = ai().level_graph().check_position_in_direction(enemy_vertex, enemy_vertex_pos, m_target);
 
-    bool const target_to_enemy_clear = ai().level_graph().valid_vertex_id(target_vertex);
+    bool const    target_to_enemy_clear = ai().level_graph().valid_vertex_id(target_vertex);
 
     if ((m_phaze == go_close && !target_to_enemy_clear) || !is_valid_point_to_move(m_target, &m_target_vertex))
     {
@@ -392,12 +387,12 @@ void ATTACK_ON_RUN_STATE::update_movement_target()
 TEMPLATE_SIGNATURE
 void ATTACK_ON_RUN_STATE::select_prepare_fallback_target()
 {
-    float const               far_radius = object->get_attack_on_move_far_radius();
-    CEntityAlive const* const enemy      = object->EnemyMan.get_enemy();
-    Fvector const             enemy_pos  = enemy->Position();
+    float const               far_radius       = object->get_attack_on_move_far_radius();
+    CEntityAlive const* const enemy            = object->EnemyMan.get_enemy();
+    Fvector const             enemy_pos        = enemy->Position();
 
-    float const move_scan_points = 8;
-    float const move_scan_angle  = deg2rad(360.f) / move_scan_points;
+    float const               move_scan_points = 8;
+    float const               move_scan_angle  = deg2rad(360.f) / move_scan_points;
 
     for (u32 index = 0; index < move_scan_points; ++index)
     {
@@ -436,7 +431,7 @@ void ATTACK_ON_RUN_STATE::update_attack()
         if (current_time() > m_attack_end_time)
         {
             choose_next_atack_animation();
-            m_attacking = false;
+            m_attacking                    = false;
 
             // set_movement_phaze				(go_prepare);
 
@@ -453,7 +448,7 @@ void ATTACK_ON_RUN_STATE::update_attack()
         CEntityAlive const* const main_enemy = object->EnemyMan.get_enemy();
         m_enemy_to_attack                    = main_enemy;
 
-        bool can_attack = false;
+        bool can_attack                      = false;
         for (ENEMIES_MAP::const_iterator it = memory.begin(); it != memory.end(); ++it)
         {
             CEntityAlive const* const enemy     = it->first;
@@ -463,30 +458,28 @@ void ATTACK_ON_RUN_STATE::update_attack()
             debug::text_tree& text_tree = DBG().get_text_tree().find_or_add("ActorView");
 #endif   // #ifdef DEBUG_STATE
 
-            float   velocity               = object->movement().speed();
-            Fvector self_to_enemy_xz       = enemy_pos - object->Position();
-            self_to_enemy_xz.y             = 0;
-            float const current_atack_dist = magnitude(self_to_enemy_xz);
+            float   velocity                      = object->movement().speed();
+            Fvector self_to_enemy_xz              = enemy_pos - object->Position();
+            self_to_enemy_xz.y                    = 0;
+            float const current_atack_dist        = magnitude(self_to_enemy_xz);
 
-            float const prepare_atack_dist = m_animation_hit_time[m_attack_side] * velocity;
-            float const melee_max_distance = object->MeleeChecker.get_max_distance();
-            float const melee_min_distance = object->MeleeChecker.get_min_distance();
+            float const prepare_atack_dist        = m_animation_hit_time[m_attack_side] * velocity;
+            float const melee_max_distance        = object->MeleeChecker.get_max_distance();
+            float const melee_min_distance        = object->MeleeChecker.get_min_distance();
 
             float const allowed_atack_distance    = (prepare_atack_dist + melee_max_distance) * 0.9f;
             float const disallowed_atack_distance = (prepare_atack_dist + melee_min_distance * 0.5f) * 0.9f;
 
-            Fvector self_direction_xz = object->Direction();
-            self_direction_xz.y       = 0;
-            float const attack_angle  = angle_between_vectors(self_to_enemy_xz, self_direction_xz);
+            Fvector     self_direction_xz         = object->Direction();
+            self_direction_xz.y                   = 0;
+            float const attack_angle              = angle_between_vectors(self_to_enemy_xz, self_direction_xz);
 
-            bool const good_attack_angle = attack_angle < deg2rad(30.f);
+            bool const  good_attack_angle         = attack_angle < deg2rad(30.f);
 
             // bool const see_enemy_now		=	object->EnemyMan.see_enemy_now(enemy);
-            bool const good_attack_dist =
-                current_atack_dist < allowed_atack_distance && current_atack_dist > disallowed_atack_distance;
+            bool const  good_attack_dist          = current_atack_dist < allowed_atack_distance && current_atack_dist > disallowed_atack_distance;
 
-            if (current_atack_dist < disallowed_atack_distance && m_phaze == go_close &&
-                current_time() > m_phaze_chosen_time + 3000 && enemy == main_enemy)
+            if (current_atack_dist < disallowed_atack_distance && m_phaze == go_close && current_time() > m_phaze_chosen_time + 3000 && enemy == main_enemy)
             {
                 set_movement_phaze(go_prepare);
             }
@@ -517,8 +510,7 @@ void ATTACK_ON_RUN_STATE::update_attack()
             float             attack_animation_length = 0;
             MotionID          motion;
             EMotionAnim const anim               = m_attack_side == left ? eAnimAttackOnRunLeft : eAnimAttackOnRunRight;
-            bool const        got_animation_info = object->anim().get_animation_info(
-                anim, m_animation_index[m_attack_side], motion, attack_animation_length);
+            bool const        got_animation_info = object->anim().get_animation_info(anim, m_animation_index[m_attack_side], motion, attack_animation_length);
 
             got_animation_info;
             VERIFY(got_animation_info);

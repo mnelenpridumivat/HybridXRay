@@ -179,14 +179,13 @@ void CPHShell::setMass1(float M)
 void CPHShell::MassAddBox(float mass, const Fvector& full_size)
 {
     dMass m;
-    dMassSetBox(
-        &m, mass, full_size.x, full_size.y, full_size.z);   // mass = m_Shell->getMass()/100.f, full_size (1,1,1)
+    dMassSetBox(&m, mass, full_size.x, full_size.y, full_size.z);   // mass = m_Shell->getMass()/100.f, full_size (1,1,1)
     addEquelInertiaToEls(m);
 }
 
 float CPHShell::getMass()
 {
-    float m = 0.f;
+    float     m = 0.f;
 
     ELEMENT_I i;
 
@@ -203,7 +202,7 @@ void CPHShell::get_spatial_params()
 
 float CPHShell::getVolume()
 {
-    float v = 0.f;
+    float     v = 0.f;
 
     ELEMENT_I i;
 
@@ -707,12 +706,7 @@ bool shape_is_physic(const SBoneShape& shape)
     return !no_physics_shape(shape);
 }
 
-void CPHShell::AddElementRecursive(
-    CPhysicsElement* root_e,
-    u16              id,
-    Fmatrix          global_parent,
-    u16              element_number,
-    bool*            vis_check)
+void CPHShell::AddElementRecursive(CPhysicsElement* root_e, u16 id, Fmatrix global_parent, u16 element_number, bool* vis_check)
 {
     // CBoneInstance& B	= m_pKinematics->LL_GetBoneInstance(u16(id));
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -741,13 +735,12 @@ void CPHShell::AddElementRecursive(
 
     CPhysicsElement* E         = 0;
     CPhysicsJoint*   J         = 0;
-    bool             breakable = joint_data.ik_flags.test(SJointIKData::flBreakable) && root_e &&
-        !(no_physics_shape(bone_data.get_shape()) && joint_data.type == jtRigid);
+    bool             breakable = joint_data.ik_flags.test(SJointIKData::flBreakable) && root_e && !(no_physics_shape(bone_data.get_shape()) && joint_data.type == jtRigid);
 
     ///////////////////////////////////////////////////////////////
-    lvis_check = (check_obb_sise(bone_data.get_obb()));
+    lvis_check                 = (check_obb_sise(bone_data.get_obb()));
 
-    bool* arg_check = vis_check;
+    bool* arg_check            = vis_check;
     if (breakable || !root_e)   //.
     {
         arg_check = &lvis_check;
@@ -787,17 +780,14 @@ void CPHShell::AddElementRecursive(
                 fracture.m_break_force  = joint_data.break_force;
                 fracture.m_break_torque = joint_data.break_torque;
                 root_e->add_Shape(bone_data.get_shape(), vs_root_position);
-                root_e->add_Mass(
-                    bone_data.get_shape(), vs_root_position, bone_data.get_center_of_mass(), bone_data.get_mass(),
-                    &fracture);
+                root_e->add_Mass(bone_data.get_shape(), vs_root_position, bone_data.get_center_of_mass(), bone_data.get_mass(), &fracture);
 
                 fracture_num = E->setGeomFracturable(fracture);
             }
             else
             {
                 root_e->add_Shape(bone_data.get_shape(), vs_root_position);
-                root_e->add_Mass(
-                    bone_data.get_shape(), vs_root_position, bone_data.get_center_of_mass(), bone_data.get_mass());
+                root_e->add_Mass(bone_data.get_shape(), vs_root_position, bone_data.get_center_of_mass(), bone_data.get_mass());
             }
 
             // B.Callback_Param=root_e;
@@ -986,7 +976,7 @@ void CPHShell::EnabledCallbacks(BOOL val)
         ZeroCallbacks();
 }
 
-template <typename T> void for_each_bone_id(IKinematics& K, T op)
+template<typename T> void for_each_bone_id(IKinematics& K, T op)
 {
     u16 bn = K.LL_BoneCount();
     for (u16 i = 0; i < bn; ++i)
@@ -1026,15 +1016,17 @@ void       CPHShell::SetCallbacks()
     std::for_each(elements.begin(), elements.end(), set_bone_callback());
 
     IKinematics& K = *PKinematics();
-    for_each_bone_id(*PKinematics(), [&K](u16 id) {
-        CBoneInstance& bi = K.LL_GetBoneInstance(id);
-        if (!bi.callback() || bi.callback_type() != bctPhysics)
+    for_each_bone_id(*PKinematics(),
+        [&K](u16 id)
         {
-            CPHElement* root_e = get_physics_parent(K, id);
-            if (root_e && K.LL_GetBoneVisible(id))
-                bi.set_callback(bctPhysics, 0, cast_PhysicsElement(root_e));
-        }
-    });
+            CBoneInstance& bi = K.LL_GetBoneInstance(id);
+            if (!bi.callback() || bi.callback_type() != bctPhysics)
+            {
+                CPHElement* root_e = get_physics_parent(K, id);
+                if (root_e && K.LL_GetBoneVisible(id))
+                    bi.set_callback(bctPhysics, 0, cast_PhysicsElement(root_e));
+            }
+        });
 
     // element_position_in_set_calbacks=u16(-1);
 
@@ -1357,8 +1349,8 @@ void CPHShell::SetJointRootGeom(CPhysicsElement* root_e, CPhysicsJoint* J)
 {
     R_ASSERT(root_e);
     R_ASSERT(J);
-    CPHElement* e = cast_PHElement(root_e);
-    CPHJoint*   j = static_cast<CPHJoint*>(J);
+    CPHElement*         e        = cast_PHElement(root_e);
+    CPHJoint*           j        = static_cast<CPHJoint*>(J);
 
     CPHFracturesHolder* f_holder = e->FracturesHolder();
     if (!f_holder)
@@ -1427,8 +1419,7 @@ void CPHShell::PlaceBindToElFormsRecursive(Fmatrix parent, u16 id, u16 element, 
     if (mask.is(id))
     {
         if (no_physics_shape(bone_data.shape) || joint_data.type == jtRigid && element != u16(-1))
-        {
-        }
+        {}
         else
         {
             element++;

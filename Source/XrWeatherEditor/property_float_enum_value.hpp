@@ -26,11 +26,7 @@ private:
     typedef std::pair<float, LPCSTR>       pair;
 
 public:
-    property_float_enum_value(
-        float_getter_type const& getter,
-        float_setter_type const& setter,
-        pair*                    values,
-        u32 const&               value_count);
+    property_float_enum_value(float_getter_type const& getter, float_setter_type const& setter, pair* values, u32 const& value_count);
     virtual Object ^ get_value() override;
     virtual void set_value(Object ^ object) override;
     virtual void increment(float const % increment) override;

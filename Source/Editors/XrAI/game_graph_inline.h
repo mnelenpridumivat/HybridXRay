@@ -52,9 +52,7 @@ IC const CGameGraph::CHeader& CGameGraph::header() const
     return (m_header);
 }
 
-IC bool CGameGraph::mask(
-    const svector<_LOCATION_ID, GameGraph::LOCATION_TYPE_COUNT>& M,
-    const _LOCATION_ID                                           E[GameGraph::LOCATION_TYPE_COUNT]) const
+IC bool CGameGraph::mask(const svector<_LOCATION_ID, GameGraph::LOCATION_TYPE_COUNT>& M, const _LOCATION_ID E[GameGraph::LOCATION_TYPE_COUNT]) const
 {
     for (int i = 0; i < GameGraph::LOCATION_TYPE_COUNT; ++i)
         if ((M[i] != E[i]) && (255 != M[i]))
@@ -62,9 +60,7 @@ IC bool CGameGraph::mask(
     return (true);
 }
 
-IC bool CGameGraph::mask(
-    const _LOCATION_ID M[GameGraph::LOCATION_TYPE_COUNT],
-    const _LOCATION_ID E[GameGraph::LOCATION_TYPE_COUNT]) const
+IC bool CGameGraph::mask(const _LOCATION_ID M[GameGraph::LOCATION_TYPE_COUNT], const _LOCATION_ID E[GameGraph::LOCATION_TYPE_COUNT]) const
 {
     for (int i = 0; i < GameGraph::LOCATION_TYPE_COUNT; ++i)
         if ((M[i] != E[i]) && (255 != M[i]))
@@ -102,8 +98,7 @@ IC bool CGameGraph::valid_vertex_id(u32 const vertex_id) const
 
 IC void CGameGraph::begin(u32 const vertex_id, const_iterator& start, const_iterator& end) const
 {
-    end = (start = (const CEdge*)((BYTE*)m_nodes + vertex(_GRAPH_ID(vertex_id))->edge_offset())) +
-        vertex(_GRAPH_ID(vertex_id))->edge_count();
+    end = (start = (const CEdge*)((BYTE*)m_nodes + vertex(_GRAPH_ID(vertex_id))->edge_offset())) + vertex(_GRAPH_ID(vertex_id))->edge_count();
 }
 
 IC const CGameGraph::_GRAPH_ID& CGameGraph::value(u32 const vertex_id, const_iterator& i) const

@@ -23,11 +23,7 @@ namespace award_system
         m_achilles_kill_was = false;
     }
 
-    void achilles_heel_kill::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void achilles_heel_kill::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
         if (!tmp_local_player)
@@ -56,8 +52,7 @@ namespace award_system
             return;
 
         u16 victim_weapon = m_owner->get_active_weapon_of_player(victim_player);
-        if (m_owner->is_item_in_group(victim_armor, ammunition_group::gid_exo_outfit) &&
-            m_owner->is_item_in_group(victim_weapon, ammunition_group::gid_cool_weapons))
+        if (m_owner->is_item_in_group(victim_armor, ammunition_group::gid_exo_outfit) && m_owner->is_item_in_group(victim_weapon, ammunition_group::gid_cool_weapons))
         {
             m_achilles_kill_was = true;
         }

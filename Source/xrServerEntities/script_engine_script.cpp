@@ -223,15 +223,7 @@ static bool is_enough_address_space_available_impl()
 #pragma optimize("s", on)
 void CScriptEngine::script_register(lua_State* L)
 {
-    module(L)[class_<profile_timer_script>("profile_timer")
-                  .def(constructor<>())
-                  .def(constructor<profile_timer_script&>())
-                  .def(const_self + profile_timer_script())
-                  .def(const_self < profile_timer_script())
-                  .def(tostring(self))
-                  .def("start", &profile_timer_script::start)
-                  .def("stop", &profile_timer_script::stop)
-                  .def("time", &profile_timer_script::time)];
+    module(L)[class_<profile_timer_script>("profile_timer").def(constructor<>()).def(constructor<profile_timer_script&>()).def(const_self + profile_timer_script()).def(const_self < profile_timer_script()).def(tostring(self)).def("start", &profile_timer_script::start).def("stop", &profile_timer_script::stop).def("time", &profile_timer_script::time)];
 
     function(L, "log", LuaLog);
     function(L, "error_log", ErrorLog);

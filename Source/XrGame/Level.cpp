@@ -67,8 +67,8 @@
 extern CUISequencer* g_tutorial;
 extern CUISequencer* g_tutorial2;
 
-float g_cl_lvInterp = 0.1;
-u32   lvInterpSteps = 0;
+float                g_cl_lvInterp = 0.1;
+u32                  lvInterpSteps = 0;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -80,25 +80,25 @@ CLevel::CLevel():
     DemoCS(MUTEX_PROFILE_ID(DemoCS))
 #endif   // PROFILE_CRITICAL_SECTIONS
 {
-    g_bDebugEvents = strstr(Core.Params, "-debug_ge") ? TRUE : FALSE;
+    g_bDebugEvents       = strstr(Core.Params, "-debug_ge") ? TRUE : FALSE;
 
-    Server = NULL;
+    Server               = NULL;
 
-    game        = NULL;
-    game_events = xr_new<NET_Queue_Event>();
+    game                 = NULL;
+    game_events          = xr_new<NET_Queue_Event>();
 
     game_configured      = FALSE;
     m_bGameConfigStarted = FALSE;
     m_connect_server_err = xrServer::ErrNoError;
 
-    eChangeRP    = Engine.Event.Handler_Attach("LEVEL:ChangeRP", this);
-    eDemoPlay    = Engine.Event.Handler_Attach("LEVEL:PlayDEMO", this);
-    eChangeTrack = Engine.Event.Handler_Attach("LEVEL:PlayMusic", this);
-    eEnvironment = Engine.Event.Handler_Attach("LEVEL:Environment", this);
+    eChangeRP            = Engine.Event.Handler_Attach("LEVEL:ChangeRP", this);
+    eDemoPlay            = Engine.Event.Handler_Attach("LEVEL:PlayDEMO", this);
+    eChangeTrack         = Engine.Event.Handler_Attach("LEVEL:PlayMusic", this);
+    eEnvironment         = Engine.Event.Handler_Attach("LEVEL:Environment", this);
 
-    eEntitySpawn = Engine.Event.Handler_Attach("LEVEL:spawn", this);
+    eEntitySpawn         = Engine.Event.Handler_Attach("LEVEL:spawn", this);
 
-    m_pBulletManager = xr_new<CBulletManager>();
+    m_pBulletManager     = xr_new<CBulletManager>();
 
     if (!g_dedicated_server)
     {
@@ -112,11 +112,11 @@ CLevel::CLevel():
     }
 
     //----------------------------------------------------
-    m_bNeed_CrPr          = false;
-    m_bIn_CrPr            = false;
-    m_dwNumSteps          = 0;
-    m_dwDeltaUpdate       = u32(fixed_step * 1000);
-    m_dwLastNetUpdateTime = 0;
+    m_bNeed_CrPr                 = false;
+    m_bIn_CrPr                   = false;
+    m_dwNumSteps                 = 0;
+    m_dwDeltaUpdate              = u32(fixed_step * 1000);
+    m_dwLastNetUpdateTime        = 0;
     // VERIFY						( physics_world() );
     // physics_world()->set_step_time_callback((PhysicsStepTimeCallback*) &PhisStepsCallback);
     // physics_step_time_callback	= (PhysicsStepTimeCallback*) &PhisStepsCallback;
@@ -161,7 +161,7 @@ CLevel::CLevel():
     pObjects4CrPr.clear();
     pActors4CrPr.clear();
     //---------------------------------------------------------
-    pCurrentControlEntity = NULL;
+    pCurrentControlEntity   = NULL;
 
     //---------------------------------------------------------
     m_dwCL_PingLastSendTime = 0;
@@ -169,17 +169,17 @@ CLevel::CLevel():
     m_dwRealPing            = 0;
 
     //---------------------------------------------------------
-    m_writer            = NULL;
-    m_reader            = NULL;
-    m_DemoPlay          = FALSE;
-    m_DemoPlayStarted   = FALSE;
-    m_DemoPlayStoped    = FALSE;
-    m_DemoSave          = FALSE;
-    m_DemoSaveStarted   = FALSE;
-    m_current_spectator = NULL;
-    m_msg_filter        = NULL;
-    m_demoplay_control  = NULL;
-    m_demo_info         = NULL;
+    m_writer                = NULL;
+    m_reader                = NULL;
+    m_DemoPlay              = FALSE;
+    m_DemoPlayStarted       = FALSE;
+    m_DemoPlayStoped        = FALSE;
+    m_DemoSave              = FALSE;
+    m_DemoSaveStarted       = FALSE;
+    m_current_spectator     = NULL;
+    m_msg_filter            = NULL;
+    m_demoplay_control      = NULL;
+    m_demo_info             = NULL;
 
     R_ASSERT(NULL == g_player_hud);
     g_player_hud = xr_new<player_hud>();
@@ -361,9 +361,9 @@ void CLevel::PrefetchSound(LPCSTR name)
     xr_strlwr(tmp);
     if (strext(tmp))
         *strext(tmp) = 0;
-    shared_str snd_name = tmp;
+    shared_str         snd_name = tmp;
     // find in registry
-    SoundRegistryMapIt it = sound_registry.find(snd_name);
+    SoundRegistryMapIt it       = sound_registry.find(snd_name);
     // if find failed - preload sound
     if (it == sound_registry.end())
         sound_registry[snd_name].create(snd_name.c_str(), st_Effect, sg_SourceType);
@@ -432,9 +432,9 @@ void CLevel::cl_Process_Event(u16 dest, u16 type, NET_Packet& P)
         u16 id  = P.r_u16();
         P.r_seek(pos);
 
-        bool ok = true;
+        bool     ok = true;
 
-        CObject* D = Objects.net_Find(id);
+        CObject* D  = Objects.net_Find(id);
         if (0 == D)
         {
 #ifndef MASTER_GOLD
@@ -481,17 +481,20 @@ void CLevel::ProcessGameEvents()
 
             switch (ID)
             {
-                case M_SPAWN: {
+                case M_SPAWN:
+                {
                     u16 dummy16;
                     P.r_begin(dummy16);
                     cl_Process_Spawn(P);
                 }
                 break;
-                case M_EVENT: {
+                case M_EVENT:
+                {
                     cl_Process_Event(dest, type, P);
                 }
                 break;
-                case M_MOVE_PLAYERS: {
+                case M_MOVE_PLAYERS:
+                {
                     u8 Count = P.r_u8();
                     for (u8 i = 0; i < Count; i++)
                     {
@@ -511,21 +514,25 @@ void CLevel::ProcessGameEvents()
                     Send(PRespond, net_flags(TRUE, TRUE));
                 }
                 break;
-                case M_STATISTIC_UPDATE: {
+                case M_STATISTIC_UPDATE:
+                {
                     if (GameID() != eGameIDSingle)
                         Game().m_WeaponUsageStatistic->OnUpdateRequest(&P);
                 }
                 break;
-                case M_FILE_TRANSFER: {
+                case M_FILE_TRANSFER:
+                {
                     if (m_file_transfer)   // in case of net_Stop
                         m_file_transfer->on_message(&P);
                 }
                 break;
-                case M_GAMEMESSAGE: {
+                case M_GAMEMESSAGE:
+                {
                     Game().OnGameMessage(P);
                 }
                 break;
-                default: {
+                default:
+                {
                     VERIFY(0);
                 }
                 break;
@@ -663,12 +670,8 @@ void CLevel::OnFrame()
                 F->SetHeightI(0.015f);
                 F->OutSetI(0.0f, 0.5f);
                 F->SetColor(color_xrgb(0, 255, 0));
-                F->OutNext(
-                    "IN:  %4d/%4d (%2.1f%%)", S->bytes_in_real, S->bytes_in,
-                    100.f * float(S->bytes_in_real) / float(S->bytes_in));
-                F->OutNext(
-                    "OUT: %4d/%4d (%2.1f%%)", S->bytes_out_real, S->bytes_out,
-                    100.f * float(S->bytes_out_real) / float(S->bytes_out));
+                F->OutNext("IN:  %4d/%4d (%2.1f%%)", S->bytes_in_real, S->bytes_in, 100.f * float(S->bytes_in_real) / float(S->bytes_in));
+                F->OutNext("OUT: %4d/%4d (%2.1f%%)", S->bytes_out_real, S->bytes_out, 100.f * float(S->bytes_out_real) / float(S->bytes_out));
                 F->OutNext("client_2_sever ping: %d", net_Statistic.getPing());
                 F->OutNext("SPS/Sended : %4d/%4d", S->dwBytesPerSec, S->dwBytesSended);
                 F->OutNext("sv_urate/cl_urate : %4d/%4d", psNET_ServerUpdate, psNET_ClientUpdate);
@@ -682,13 +685,11 @@ void CLevel::OnFrame()
                     void       operator()(IClient* C)
                     {
                         m_server->UpdateClientStatistic(C);
-                        F->OutNext(
-                            "0x%08x: P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d)",
+                        F->OutNext("0x%08x: P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d)",
                             // Server->game->get_option_s(*C->Name,"name",*C->Name),
                             C->ID.value(), C->stats.getPing(),
                             float(C->stats.getBPS()),   // /1024,
-                            C->stats.getMPS_Receive(), C->stats.getMPS_Send(), C->stats.getRetriedCount(),
-                            C->stats.dwTimesBlocked);
+                            C->stats.getMPS_Receive(), C->stats.getMPS_Send(), C->stats.getRetriedCount(), C->stats.dwTimesBlocked);
                     }
                 };
                 net_stats_functor tmp_functor;
@@ -707,9 +708,7 @@ void CLevel::OnFrame()
                 F->OutNext("sv_urate/cl_urate : %4d/%4d", psNET_ServerUpdate, psNET_ClientUpdate);
 
                 F->SetColor(color_xrgb(255, 255, 255));
-                F->OutNext(
-                    "BReceivedPs(%2d), BSendedPs(%2d), Retried(%2d), Blocked(%2d)", net_Statistic.getReceivedPerSec(),
-                    net_Statistic.getSendedPerSec(), net_Statistic.getRetriedCount(), net_Statistic.dwTimesBlocked);
+                F->OutNext("BReceivedPs(%2d), BSendedPs(%2d), Retried(%2d), Blocked(%2d)", net_Statistic.getReceivedPerSec(), net_Statistic.getSendedPerSec(), net_Statistic.getRetriedCount(), net_Statistic.dwTimesBlocked);
 #ifdef DEBUG
                 if (!pStatGraphR)
                 {
@@ -738,8 +737,7 @@ void CLevel::OnFrame()
 #ifdef DEBUG
     g_pGamePersistent->EnvironmentAsCOP()->m_paused = m_bEnvPaused;
 #endif
-    g_pGamePersistent->EnvironmentAsCOP()->SetGameTime(
-        GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
+    g_pGamePersistent->EnvironmentAsCOP()->SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
 
     // Device->Statistic->cripting.Begin	();
     if (!g_dedicated_server)
@@ -758,8 +756,7 @@ void CLevel::OnFrame()
     if (!g_dedicated_server)
     {
         if (g_mt_config.test(mtLevelSounds))
-            Device->seqParallel.push_back(
-                fastdelegate::FastDelegate0<>(m_level_sound_manager, &CLevelSoundManager::Update));
+            Device->seqParallel.push_back(fastdelegate::FastDelegate0<>(m_level_sound_manager, &CLevelSoundManager::Update));
         else
             m_level_sound_manager->Update();
     }
@@ -798,7 +795,7 @@ extern Flags32 dbg_net_Draw_Flags;
 
 extern void draw_wnds_rects();
 
-void CLevel::OnRender()
+void        CLevel::OnRender()
 {
     inherited::OnRender();
 
@@ -834,7 +831,7 @@ void CLevel::OnRender()
     {
         for (u32 I = 0; I < Level().Objects.o_count(); I++)
         {
-            CObject* _O = Level().Objects.o_get_by_iterator(I);
+            CObject*     _O      = Level().Objects.o_get_by_iterator(I);
 
             CAI_Stalker* stalker = smart_cast<CAI_Stalker*>(_O);
             if (stalker)
@@ -950,8 +947,7 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
         Level().g_cl_Spawn(Name, 0xff, M_SPAWN_OBJECT_LOCAL, Fvector().set(0, 0, 0));
     }
     else if (E == eChangeRP && P1)
-    {
-    }
+    {}
     else if (E == eDemoPlay && P1)
     {
         char*       name = (char*)P1;
@@ -1296,8 +1292,8 @@ CZoneList* CLevel::create_hud_zones_list()
 
 BOOL CZoneList::feel_touch_contact(CObject* O)
 {
-    TypesMapIt it  = m_TypesMap.find(O->cNameSect());
-    bool       res = (it != m_TypesMap.end());
+    TypesMapIt   it    = m_TypesMap.find(O->cNameSect());
+    bool         res   = (it != m_TypesMap.end());
 
     CCustomZone* pZone = smart_cast<CCustomZone*>(O);
     if (pZone && !pZone->IsEnabled())

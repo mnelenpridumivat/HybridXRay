@@ -33,9 +33,9 @@ void compute_moment(moment& M, Fvector& p, Fvector& q, Fvector& r)
         // centroid and second-order components of the triangle's vertices.
 
         // centroid
-        M.m.x = (p.x + q.x + r.x) / 3;
-        M.m.y = (p.y + q.y + r.y) / 3;
-        M.m.z = (p.z + q.z + r.z) / 3;
+        M.m.x       = (p.x + q.x + r.x) / 3;
+        M.m.y       = (p.y + q.y + r.y) / 3;
+        M.m.z       = (p.z + q.z + r.z) / 3;
 
         // second-order components
         M.s.m[0][0] = (p.x * p.x + q.x * q.x + r.x * r.x);
@@ -52,9 +52,9 @@ void compute_moment(moment& M, Fvector& p, Fvector& q, Fvector& r)
     }
 
     // get the centroid
-    M.m.x = (p.x + q.x + r.x) / 3;
-    M.m.y = (p.y + q.y + r.y) / 3;
-    M.m.z = (p.z + q.z + r.z) / 3;
+    M.m.x       = (p.x + q.x + r.x) / 3;
+    M.m.y       = (p.y + q.y + r.y) / 3;
+    M.m.z       = (p.z + q.z + r.z) / 3;
 
     // get the second order components -- note the weighting by the area
     M.s.m[0][0] = M.A * (9 * M.m[0] * M.m[0] + p[0] * p[0] + q[0] * q[0] + r[0] * r[0]) / 12;
@@ -70,7 +70,7 @@ void compute_moment(moment& M, Fvector& p, Fvector& q, Fvector& r)
 
 void compute_moments(moment* M, Fvector* vertices, int num_tris)
 {
-    int i;
+    int   i;
 
     // first collect all the moments, and obtain the area of the
     // smallest nonzero area triangle.
@@ -237,13 +237,13 @@ void reaccum_moments(accum& A, int n, moment* RAPID_moment)
 
 BOOL RAPIDMinBox(Fobb& B, Fvector* vertices, u32 v_count)
 {
-    u32 num_tris = v_count / 3;
+    u32       num_tris = v_count / 3;
 
     // Determine initial orientation, mean point, and splitting axis.
     accum     M;
     Fmatrix33 C;
 
-    moment* RAPID_moment = xr_alloc<moment>(num_tris);
+    moment*   RAPID_moment = xr_alloc<moment>(num_tris);
     VERIFY(RAPID_moment);
 
     compute_moments(RAPID_moment, vertices, num_tris);

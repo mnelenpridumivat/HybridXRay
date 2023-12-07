@@ -51,11 +51,7 @@ namespace award_system
         }
     }
 
-    void player_state_cherub::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void player_state_cherub::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         struct hit_fetcher
         {

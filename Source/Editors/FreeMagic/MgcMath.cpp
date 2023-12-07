@@ -29,7 +29,7 @@ const Real Mgc::Math::DEG_TO_RAD = Mgc::Math::_PI / 180.0f;
 const Real Mgc::Math::RAD_TO_DEG = 1.0f / Mgc::Math::DEG_TO_RAD;
 
 //----------------------------------------------------------------------------
-Real Mgc::Math::UnitRandom(Real fSeed)
+Real       Mgc::Math::UnitRandom(Real fSeed)
 {
     if (fSeed > 0.0f)
         srand((unsigned int)fSeed);

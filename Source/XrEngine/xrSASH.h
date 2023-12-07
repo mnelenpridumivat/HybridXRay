@@ -39,22 +39,22 @@ public:
 
 private:
     //	Internal loops
-    void LoopOA();
-    void LoopNative();
+    void             LoopOA();
+    void             LoopNative();
 
     //	Native specific
-    void ReportNative(LPCSTR pszTestName);
+    void             ReportNative(LPCSTR pszTestName);
 
     //	OA command handlers
-    void GetAllOptions();
-    void GetCurrentOptions();
-    void SetOptions();
-    void GetBenchmarks();
-    void RunBenchmark(LPCSTR pszName);
+    void             GetAllOptions();
+    void             GetCurrentOptions();
+    void             SetOptions();
+    void             GetBenchmarks();
+    void             RunBenchmark(LPCSTR pszName);
 
     //	Effectively restores/releases some engine systems
-    void TryInitEngine(bool bNoRun = true);
-    void ReleaseEngine();
+    void             TryInitEngine(bool bNoRun = true);
+    void             ReleaseEngine();
 
     //	OA option handling
     void             DescribeOption(char* pszOptionName, const oaOptionDependency& Dependency);
@@ -63,18 +63,18 @@ private:
     void             SetOption(oaNamedOption* pOption);
 
     //	OA Error report
-    void Message(oaErrorType MessageType, const char* pszMsg);
-    void Message(oaErrorType MessageType, const char* pszMsg, va_list& mark);
+    void             Message(oaErrorType MessageType, const char* pszMsg);
+    void             Message(oaErrorType MessageType, const char* pszMsg, va_list& mark);
 
 private:
     //	States
-    bool m_bInited;
-    bool m_bOpenAutomate;
-    bool m_bRunning;
-    bool m_bBenchmarkRunning;
-    bool m_bReinitEngine;
+    bool             m_bInited;
+    bool             m_bOpenAutomate;
+    bool             m_bRunning;
+    bool             m_bBenchmarkRunning;
+    bool             m_bReinitEngine;
     //	Guards
-    bool m_bExecutingConsoleCommand;   //	Guard to pass to OA only those command that were issued by OA
+    bool             m_bExecutingConsoleCommand;   //	Guard to pass to OA only those command that were issued by OA
     //	Native benchmarking
     string64         m_strBenchCfgName;
     CTimer           m_FrameTimer;

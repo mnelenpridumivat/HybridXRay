@@ -149,7 +149,8 @@ void PS::CPEDef::OnActionsClick(ButtonValue* B, bool& bDataModified, bool& bSafe
 {
     switch (B->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             m_EditChoose = true;
             UIChooseForm::SelectItem(smCustom, 1, 0, TOnChooseFillItems(this, &PS::CPEDef::FillActionList));
         }
@@ -256,7 +257,7 @@ bool PS::CPEDef::OnAfterActionNameEdit(PropValue* sender, shared_str& edit_val)
 
 xr_string _item_to_select_after_edit;
 
-bool PS::CPEDef::NameOnAfterEdit(PropValue* sender, shared_str& edit_val)
+bool      PS::CPEDef::NameOnAfterEdit(PropValue* sender, shared_str& edit_val)
 {
     for (PS::PGDIt g_it = RImplementation.PSLibrary.FirstPGD(); g_it != RImplementation.PSLibrary.LastPGD(); ++g_it)
     {
@@ -289,8 +290,7 @@ void PS::CPEDef::FillProp(LPCSTR pref, ::PropItemVec& items, ::ListItem* owner)
     ButtonValue* B;
     PropValue*   P = 0;
 
-    B = PHelper().CreateButton(
-        items, PrepareKey(pref, "Control"), "Play(F5),Stop(F6),Stop...(F7)", ButtonValue::flFirstOnly);
+    B              = PHelper().CreateButton(items, PrepareKey(pref, "Control"), "Play(F5),Stop(F6),Stop...(F7)", ButtonValue::flFirstOnly);
     B->OnBtnClickEvent.bind(this, &PS::CPEDef::OnControlClick);
     RTextValue* R = PHelper().CreateRText(items, PrepareKey(pref, "Name"), &m_Name);
     R->OnAfterEditEvent.bind(this, &PS::CPEDef::NameOnAfterEdit);
@@ -323,20 +323,16 @@ void PS::CPEDef::FillProp(LPCSTR pref, ::PropItemVec& items, ::ListItem* owner)
         {
             PHelper().CreateFlag32(items, PrepareKey(pref, "Sprite\\Frame\\Random Init"), &m_Flags, dfRandomFrame);
             PHelper().CreateS32(items, PrepareKey(pref, "Sprite\\Frame\\Count"), &m_Frame.m_iFrameCount, 1, 256);
-            P = PHelper().CreateFloat(
-                items, PrepareKey(pref, "Sprite\\Frame\\Size U (0..1)"), &m_Frame.m_fTexSize.x, EPS_S, 1.f, 0.001f, 8);
+            P = PHelper().CreateFloat(items, PrepareKey(pref, "Sprite\\Frame\\Size U (0..1)"), &m_Frame.m_fTexSize.x, EPS_S, 1.f, 0.001f, 8);
             P->OnChangeEvent.bind(this, &PS::CPEDef::OnFrameResize);
-            PHelper().CreateFloat(
-                items, PrepareKey(pref, "Sprite\\Frame\\Size V (0..1)"), &m_Frame.m_fTexSize.y, EPS_S, 1.f, 0.001f, 8);
+            PHelper().CreateFloat(items, PrepareKey(pref, "Sprite\\Frame\\Size V (0..1)"), &m_Frame.m_fTexSize.y, EPS_S, 1.f, 0.001f, 8);
             // animate
             P = PHelper().CreateFlag32(items, PrepareKey(pref, "Sprite\\Animated"), &m_Flags, dfAnimated);
             P->OnChangeEvent.bind(this, &PS::CPEDef::OnFlagChange);
             if (m_Flags.is(dfAnimated))
             {
-                PHelper().CreateFlag32(
-                    items, PrepareKey(pref, "Sprite\\Animated\\Random Playback"), &m_Flags, dfRandomPlayback);
-                PHelper().CreateFloat(
-                    items, PrepareKey(pref, "Sprite\\Animated\\Speed"), &m_Frame.m_fSpeed, 0.f, 1000.f);
+                PHelper().CreateFlag32(items, PrepareKey(pref, "Sprite\\Animated\\Random Playback"), &m_Flags, dfRandomPlayback);
+                PHelper().CreateFloat(items, PrepareKey(pref, "Sprite\\Animated\\Speed"), &m_Frame.m_fSpeed, 0.f, 1000.f);
             }
         }
     }
@@ -346,36 +342,28 @@ void PS::CPEDef::FillProp(LPCSTR pref, ::PropItemVec& items, ::ListItem* owner)
     if (m_Flags.is(dfAlignToPath))
     {
         PHelper().CreateFlag32(items, PrepareKey(pref, "Movement\\Align To Path\\Face Align"), &m_Flags, dfFaceAlign);
-        PHelper().CreateFlag32(
-            items, PrepareKey(pref, "Movement\\Align To Path\\Default World Align"), &m_Flags, dfWorldAlign);
-        PHelper().CreateAngle3(
-            items, PrepareKey(pref, "Movement\\Align To Path\\Default Rotate"), &m_APDefaultRotation);
+        PHelper().CreateFlag32(items, PrepareKey(pref, "Movement\\Align To Path\\Default World Align"), &m_Flags, dfWorldAlign);
+        PHelper().CreateAngle3(items, PrepareKey(pref, "Movement\\Align To Path\\Default Rotate"), &m_APDefaultRotation);
     }
     // velocity scale
     P = PHelper().CreateFlag32(items, PrepareKey(pref, "Movement\\Velocity Scale"), &m_Flags, dfVelocityScale);
     P->OnChangeEvent.bind(this, &PS::CPEDef::OnFlagChange);
     if (m_Flags.is(dfVelocityScale))
-        PHelper().CreateVector(
-            items, PrepareKey(pref, "Movement\\Velocity Scale\\Value"), &m_VelocityScale, -1000.f, 1000.f);
+        PHelper().CreateVector(items, PrepareKey(pref, "Movement\\Velocity Scale\\Value"), &m_VelocityScale, -1000.f, 1000.f);
     // collision
     P = PHelper().CreateFlag32(items, PrepareKey(pref, "Movement\\Collision"), &m_Flags, dfCollision);
     P->OnChangeEvent.bind(this, &PS::CPEDef::OnFlagChange);
     FloatValue* V = 0;
     if (m_Flags.is(dfCollision))
     {
-        PHelper().CreateFlag32(
-            items, PrepareKey(pref, "Movement\\Collision\\Collide With Dynamic"), &m_Flags, dfCollisionDyn);
-        PHelper().CreateFlag32(
-            items, PrepareKey(pref, "Movement\\Collision\\Destroy On Contact"), &m_Flags, dfCollisionDel);
-        V = PHelper().CreateFloat(
-            items, PrepareKey(pref, "Movement\\Collision\\Friction"), &m_fCollideOneMinusFriction, 0.f, 1.f);
+        PHelper().CreateFlag32(items, PrepareKey(pref, "Movement\\Collision\\Collide With Dynamic"), &m_Flags, dfCollisionDyn);
+        PHelper().CreateFlag32(items, PrepareKey(pref, "Movement\\Collision\\Destroy On Contact"), &m_Flags, dfCollisionDel);
+        V = PHelper().CreateFloat(items, PrepareKey(pref, "Movement\\Collision\\Friction"), &m_fCollideOneMinusFriction, 0.f, 1.f);
         V->OnBeforeEditEvent.bind(this, &PS::CPEDef::CollisionFrictionOnBeforeEdit);
         V->OnAfterEditEvent.bind(this, &PS::CPEDef::CollisionFrictionOnAfterEdit);
         V->Owner()->OnDrawTextEvent.bind(this, &PS::CPEDef::CollisionFrictionOnDraw);
-        PHelper().CreateFloat(
-            items, PrepareKey(pref, "Movement\\Collision\\Resilence"), &m_fCollideResilience, 0.f, 1.f);
-        V = PHelper().CreateFloat(
-            items, PrepareKey(pref, "Movement\\Collision\\Cutoff"), &m_fCollideSqrCutoff, 0.f, P_MAXFLOAT);
+        PHelper().CreateFloat(items, PrepareKey(pref, "Movement\\Collision\\Resilence"), &m_fCollideResilience, 0.f, 1.f);
+        V = PHelper().CreateFloat(items, PrepareKey(pref, "Movement\\Collision\\Cutoff"), &m_fCollideSqrCutoff, 0.f, P_MAXFLOAT);
         V->OnBeforeEditEvent.bind(this, &PS::CPEDef::CollisionCutoffOnBeforeEdit);
         V->OnAfterEditEvent.bind(this, &PS::CPEDef::CollisionCutoffOnAfterEdit);
         V->Owner()->OnDrawTextEvent.bind(this, &PS::CPEDef::CollisionCutoffOnDraw);
@@ -385,9 +373,8 @@ void PS::CPEDef::FillProp(LPCSTR pref, ::PropItemVec& items, ::ListItem* owner)
     B->OnBtnClickEvent.bind(this, &PS::CPEDef::OnActionsClick);
     for (EPAVecIt s_it = m_EActionList.begin(); s_it != m_EActionList.end(); s_it++)
     {
-        u32        clr    = (*s_it)->flags.is(EParticleAction::flEnabled) ? 0xFF000000 : 0xFFC0C0C0;
-        shared_str a_pref = PrepareKey(
-            pref, "Actions", xr_string().sprintf("%s (%s)", *(*s_it)->actionType, *(*s_it)->actionName).c_str());
+        u32          clr       = (*s_it)->flags.is(EParticleAction::flEnabled) ? 0xFF000000 : 0xFFC0C0C0;
+        shared_str   a_pref    = PrepareKey(pref, "Actions", xr_string().sprintf("%s (%s)", *(*s_it)->actionType, *(*s_it)->actionName).c_str());
 
         ButtonValue* B         = PHelper().CreateButton(items, a_pref, "Up,Down,Remove", ButtonValue::flFirstOnly);
         B->tag                 = (s_it - m_EActionList.begin());
@@ -405,7 +392,7 @@ bool PS::CPEDef::Validate(bool bMsg)
 {
     bool have_kill_old = false;
 
-    u32 i = 0;
+    u32  i             = 0;
     for (; i < m_EActionList.size(); ++i)
         if (m_EActionList[i]->type == PAPI::PAKillOldID)
         {

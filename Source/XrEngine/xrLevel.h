@@ -4,7 +4,7 @@
 
 struct xrGUID
 {
-    u64 g[2];
+    u64      g[2];
 
     ICF bool operator==(const xrGUID& o) const
     {
@@ -247,31 +247,35 @@ public:
 struct NodeCompressed
 {
 public:
-    u8 data[12];
+    u8       data[12];
 
     ICF void link(u8 link_index, u32 value)
     {
         value &= 0x007fffff;
         switch (link_index)
         {
-            case 0: {
+            case 0:
+            {
                 value |= (*(u32*)data) & 0xff800000;
                 CopyMemory(data, &value, sizeof(u32));
                 break;
             }
-            case 1: {
+            case 1:
+            {
                 value <<= 7;
                 value |= (*(u32*)(data + 2)) & 0xc000007f;
                 CopyMemory(data + 2, &value, sizeof(u32));
                 break;
             }
-            case 2: {
+            case 2:
+            {
                 value <<= 6;
                 value |= (*(u32*)(data + 5)) & 0xe000003f;
                 CopyMemory(data + 5, &value, sizeof(u32));
                 break;
             }
-            case 3: {
+            case 3:
+            {
                 value <<= 5;
                 value |= (*(u32*)(data + 8)) & 0xf000001f;
                 CopyMemory(data + 8, &value, sizeof(u32));
@@ -286,10 +290,10 @@ public:
 
     struct SCover
     {
-        u16 cover0 : 4;
-        u16 cover1 : 4;
-        u16 cover2 : 4;
-        u16 cover3 : 4;
+        u16     cover0:4;
+        u16     cover1:4;
+        u16     cover2:4;
+        u16     cover3:4;
 
         ICF u16 cover(u8 index) const
         {
@@ -318,7 +322,7 @@ public:
     NodePosition p;
     // 32 + 16 + 40 + 92 = 180 bits = 24.5 bytes => 25 bytes
 
-    ICF u32 link(u8 index) const
+    ICF u32      link(u8 index) const
     {
         switch (index)
         {
@@ -355,10 +359,10 @@ struct SNodePositionOld
 typedef SNodePositionOld NodePosition;
 #endif
 
-const u32 XRCL_CURRENT_VERSION    = 18;   // 17;	// input
-const u32 XRCL_PRODUCTION_VERSION = 14;   // output
-const u32 CFORM_CURRENT_VERSION   = 4;
-const u32 MAX_NODE_BIT_COUNT      = 23;
+const u32 XRCL_CURRENT_VERSION     = 18;   // 17;	// input
+const u32 XRCL_PRODUCTION_VERSION  = 14;   // output
+const u32 CFORM_CURRENT_VERSION    = 4;
+const u32 MAX_NODE_BIT_COUNT       = 23;
 // const u32 XRAI_CURRENT_VERSION		=	10;
 
 const u32 XRAI_CURRENT_VERSION     = 10;

@@ -21,11 +21,7 @@ public:
     typedef System::Object Object;
 
 public:
-    property_integer_limited(
-        integer_getter_type const& getter,
-        integer_setter_type const& setter,
-        int const % min,
-        int const % max);
+    property_integer_limited(integer_getter_type const& getter, integer_setter_type const& setter, int const % min, int const % max);
     virtual Object ^ get_value() override;
     virtual void set_value(System::Object ^ object) override;
 

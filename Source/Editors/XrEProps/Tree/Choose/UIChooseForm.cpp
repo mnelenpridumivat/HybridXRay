@@ -2,11 +2,11 @@
 #include "UIChooseForm.h"
 
 XREPROPS_API extern bool bIsActorEditor = true;
-UIChooseForm::EventsMap UIChooseForm::m_Events;
-UIChooseForm*           UIChooseForm::Form        = 0;
-ImTextureID             UIChooseForm::NullTexture = nullptr;
+UIChooseForm::EventsMap  UIChooseForm::m_Events;
+UIChooseForm*            UIChooseForm::Form        = 0;
+ImTextureID              UIChooseForm::NullTexture = nullptr;
 
-void UIChooseForm::UpdateSelected(UIChooseFormItem* NewSelected)
+void                     UIChooseForm::UpdateSelected(UIChooseFormItem* NewSelected)
 {
     m_SelectedItem = NewSelected;
     if (m_SelectedItem)
@@ -105,9 +105,7 @@ void UIChooseForm::Draw()
             m_Filter.Draw("##Find", -1);
             if (ImGui::BeginChild("Left", ImVec2(0, 0), false))
             {
-                static ImGuiTableFlags flags = ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersH |
-                    ImGuiTableFlags_RowBg | ImGuiTableFlags_NoBordersInBody | ImGuiTableFlags_ScrollY |
-                    ImGuiTableFlags_ScrollX | ImGuiTableFlags_SizingFixedFit;
+                static ImGuiTableFlags flags = ImGuiTableFlags_BordersV | ImGuiTableFlags_BordersH | ImGuiTableFlags_RowBg | ImGuiTableFlags_NoBordersInBody | ImGuiTableFlags_ScrollY | ImGuiTableFlags_ScrollX | ImGuiTableFlags_SizingFixedFit;
 
                 if (ImGui::BeginTable("objects", 1, flags))
                 {
@@ -370,15 +368,7 @@ bool UIChooseForm::GetResult(bool& change, xr_vector<xr_string>& result)
 
     return false;
 }
-void UIChooseForm::SelectItem(
-    u32                 choose_ID,
-    int                 sel_cnt,
-    LPCSTR              init_name,
-    TOnChooseFillItems  item_fill,
-    void*               fill_param,
-    TOnChooseSelectItem item_select,
-    ChooseItemVec*      items,
-    u32                 mask)
+void UIChooseForm::SelectItem(u32 choose_ID, int sel_cnt, LPCSTR init_name, TOnChooseFillItems item_fill, void* fill_param, TOnChooseSelectItem item_select, ChooseItemVec* items, u32 mask)
 {
     VERIFY(!Form);
 
@@ -448,14 +438,7 @@ void UIChooseForm::SelectItem(
     }
 }
 
-void UIChooseForm::AppendEvents(
-    u32                 choose_ID,
-    LPCSTR              caption,
-    TOnChooseFillItems  on_fill,
-    TOnChooseSelectItem on_sel,
-    TGetTexture         on_thm,
-    TOnChooseClose      on_close,
-    u32                 flags)
+void UIChooseForm::AppendEvents(u32 choose_ID, LPCSTR caption, TOnChooseFillItems on_fill, TOnChooseSelectItem on_sel, TGetTexture on_thm, TOnChooseClose on_close, u32 flags)
 {
     EventsMapIt it = m_Events.find(choose_ID);
     VERIFY(it == m_Events.end());

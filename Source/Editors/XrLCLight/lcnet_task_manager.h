@@ -29,6 +29,7 @@ namespace lc_net
         xrCriticalSection pool_lock;
         xrCriticalSection log_lock;
         xrCriticalSection init_lock;
+
     private:
         void                                send_task(IGridUser& user, u32 id);
         void                                receive_result(IGenericStream* inStream);
@@ -38,18 +39,21 @@ namespace lc_net
         net_execution*                      receive_task(u8& pool_id, IAgent* agent, DWORD sessionId, IGenericStream* inStream);
         virtual bool                        run_task(IAgent* agent, DWORD sessionId, IGenericStream* inStream, IGenericStream* outStream);
         xr_vector<net_execution*>::iterator find(u32 id);
+
     public:
         task_manager();
         exec_pool* run(LPCSTR name_pool);
         void       add_task(net_execution* task);
         void       startup();
         void       progress(u32 task);
+
     private:
         void        release_user();
         void        create_user();
         void        user_init_thread();
         // static	void					release_user_thread_proc( void *_this );
         static void user_thread_proc(void* _this);
+
     public:
         void wait_all();
         void release();

@@ -10,14 +10,14 @@ CUI3tButton::CUI3tButton()
     m_bUseTextColor[S_Highlighted] = false;
     m_bUseTextColor[S_Touched]     = false;
 
-    m_dwTextColor[S_Enabled]     = 0xFFFFFFFF;
-    m_dwTextColor[S_Disabled]    = 0xFFAAAAAA;
-    m_dwTextColor[S_Highlighted] = 0xFFFFFFFF;
-    m_dwTextColor[S_Touched]     = 0xFFFFFFFF;
+    m_dwTextColor[S_Enabled]       = 0xFFFFFFFF;
+    m_dwTextColor[S_Disabled]      = 0xFFAAAAAA;
+    m_dwTextColor[S_Highlighted]   = 0xFFFFFFFF;
+    m_dwTextColor[S_Touched]       = 0xFFFFFFFF;
 
-    m_background     = NULL;
-    m_back_frameline = NULL;
-    m_frameline_mode = false;
+    m_background                   = NULL;
+    m_back_frameline               = NULL;
+    m_frameline_mode               = false;
 }
 
 CUI3tButton::~CUI3tButton() {}

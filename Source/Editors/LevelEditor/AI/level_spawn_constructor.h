@@ -38,11 +38,11 @@ public:
     //	typedef xr_map<shared_str,ISE_SpawnGroup*>					SPAWN_GROUPS;
 
 private:
-    IGameGraph::SLevel  m_level;
-    SPAWN_STORAGE       m_spawns;
-    LEVEL_POINT_STORAGE m_level_points;
-    GRAPH_POINT_STORAGE m_graph_points;
-    SPACE_RESTRICTORS   m_space_restrictors;
+    IGameGraph::SLevel      m_level;
+    SPAWN_STORAGE           m_spawns;
+    LEVEL_POINT_STORAGE     m_level_points;
+    GRAPH_POINT_STORAGE     m_graph_points;
+    SPACE_RESTRICTORS       m_space_restrictors;
     //	SPAWN_GRPOUP_OBJECTS				m_spawn_objects;
     //	SPAWN_GROUPS						m_spawn_groups;
     CGameSpawnConstructor*  m_game_spawn_constructor;
@@ -56,26 +56,26 @@ private:
     const IGameLevelCrossTable* m_cross_table;
 
 protected:
-    void init();
-    bool load_objects();
+    void                           init();
+    bool                           load_objects();
     //			void						fill_spawn_groups					();
-    bool          correct_objects();
-    void          generate_artefact_spawn_positions();
-    void          correct_level_changers();
-    bool          verify_space_restrictors();
-    void          fill_level_changers();
-    ISE_Abstract* create_object(IReader* chunk);
-    void          add_graph_point(ISE_Abstract* abstract);
+    bool                           correct_objects();
+    void                           generate_artefact_spawn_positions();
+    void                           correct_level_changers();
+    bool                           verify_space_restrictors();
+    void                           fill_level_changers();
+    ISE_Abstract*                  create_object(IReader* chunk);
+    void                           add_graph_point(ISE_Abstract* abstract);
     //			void						add_spawn_group						(ISE_Abstract			*abstract);
-    void add_story_object(ISE_ALifeDynamicObject* dynamic_object);
-    void add_space_restrictor(ISE_ALifeDynamicObject* dynamic_object);
-    void add_free_object(ISE_Abstract* abstract);
+    void                           add_story_object(ISE_ALifeDynamicObject* dynamic_object);
+    void                           add_space_restrictor(ISE_ALifeDynamicObject* dynamic_object);
+    void                           add_free_object(ISE_Abstract* abstract);
     //			void						add_group_object					(ISE_Abstract			*abstract, shared_str group_section,
     //bool);
     //			void						add_group_object					(ISE_Abstract			*abstract, shared_str
     //group_section);
-    void add_level_changer(ISE_Abstract* abstract);
-    void update_artefact_spawn_positions();
+    void                           add_level_changer(ISE_Abstract* abstract);
+    void                           update_artefact_spawn_positions();
     //	IC		void						normalize_probability				(ISE_ALifeAnomalousZone *zone);
     //	IC		void						free_group_objects					();
     IC const IGameGraph&           game_graph() const;
@@ -86,10 +86,7 @@ protected:
     IC u32                         level_id(shared_str level_name) const;
 
 public:
-    IC CLevelSpawnConstructor(
-        const IGameGraph::SLevel& level,
-        CGameSpawnConstructor*    game_spawn_constructor,
-        bool                      no_separator_check);
+    IC CLevelSpawnConstructor(const IGameGraph::SLevel& level, CGameSpawnConstructor* game_spawn_constructor, bool no_separator_check);
     virtual ~CLevelSpawnConstructor();
     virtual bool               Execute();
     IC ISE_ALifeCreatureActor* actor() const;

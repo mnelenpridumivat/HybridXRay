@@ -33,10 +33,7 @@ const u32   DANGER_INTERVAL = 120000;
 // CStalkerActionDangerUnknownTakeCover
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerUnknownTakeCover::CStalkerActionDangerUnknownTakeCover(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerUnknownTakeCover::CStalkerActionDangerUnknownTakeCover(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerUnknownTakeCover::initialize()
 {
@@ -94,10 +91,7 @@ void CStalkerActionDangerUnknownTakeCover::finalize()
 // CStalkerActionDangerUnknownLookAround
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerUnknownLookAround::CStalkerActionDangerUnknownLookAround(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerUnknownLookAround::CStalkerActionDangerUnknownLookAround(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerUnknownLookAround::initialize()
 {
@@ -138,10 +132,7 @@ void CStalkerActionDangerUnknownLookAround::finalize()
 // CStalkerActionDangerUnknownSearch
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerUnknownSearch::CStalkerActionDangerUnknownSearch(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerUnknownSearch::CStalkerActionDangerUnknownSearch(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerUnknownSearch::initialize()
 {
@@ -154,9 +145,7 @@ void CStalkerActionDangerUnknownSearch::execute()
 
     if (object().agent_manager().member().member(&object()).cover())
     {
-        object().agent_manager().location().add(xr_new<CDangerCoverLocation>(
-            object().agent_manager().member().member(&object()).cover(), Device->dwTimeGlobal, DANGER_INTERVAL,
-            DANGER_DISTANCE));
+        object().agent_manager().location().add(xr_new<CDangerCoverLocation>(object().agent_manager().member().member(&object()).cover(), Device->dwTimeGlobal, DANGER_INTERVAL, DANGER_DISTANCE));
         return;
     }
 

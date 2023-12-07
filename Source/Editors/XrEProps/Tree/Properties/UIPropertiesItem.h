@@ -10,8 +10,10 @@ public:
     void              DrawRoot();
     void              DrawItem();
     void              DrawProp();
+
 protected:
     UITreeItem* CreateItem(shared_str _Name, SLocalizedString _HintText) override;
+
 private:
     void RemoveMixed();
 };

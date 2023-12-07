@@ -9,7 +9,7 @@
 #include "state_custom_action.h"
 #include "monster_state_smart_terrain_task_graph_walk.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION               template<typename _Object>
 
 #define CStateMonsterSmartTerrainTaskAbstract CStateMonsterSmartTerrainTask<_Object>
 
@@ -30,8 +30,7 @@ void CStateMonsterSmartTerrainTaskAbstract::initialize()
     inherited::initialize();
 
     // save current task
-    CSE_ALifeMonsterAbstract* monster =
-        smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
+    CSE_ALifeMonsterAbstract* monster = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
     VERIFY(monster);
     VERIFY(monster->m_smart_terrain_id != 0xffff);
 
@@ -44,8 +43,7 @@ bool CStateMonsterSmartTerrainTaskAbstract::check_start_conditions()
     if (!ai().get_alife())
         return false;
 
-    CSE_ALifeMonsterAbstract* monster =
-        smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
+    CSE_ALifeMonsterAbstract* monster = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
     VERIFY(monster);
 
     CSE_ALifePsyDogPhantom* phantom = smart_cast<CSE_ALifePsyDogPhantom*>(monster);
@@ -68,8 +66,7 @@ bool CStateMonsterSmartTerrainTaskAbstract::check_start_conditions()
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterSmartTerrainTaskAbstract::check_completion()
 {
-    CSE_ALifeMonsterAbstract* monster =
-        smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
+    CSE_ALifeMonsterAbstract* monster = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
     VERIFY(monster);
 
     if (monster->m_smart_terrain_id == 0xffff)
@@ -156,8 +153,7 @@ TEMPLATE_SPECIALIZATION
 void CStateMonsterSmartTerrainTaskAbstract::check_force_state()
 {
     // check smart terrain became busy
-    CSE_ALifeMonsterAbstract* monster =
-        smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
+    CSE_ALifeMonsterAbstract* monster = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
     VERIFY(monster);
 
     if ((monster->m_smart_terrain_id == 0xffff) || monster->m_task_reached)
@@ -176,7 +172,7 @@ void CStateMonsterSmartTerrainTaskAbstract::check_force_state()
         current_substate = u32(-1);
         prev_substate    = u32(-1);
 
-        m_current_task = task;
+        m_current_task   = task;
     }
 }
 

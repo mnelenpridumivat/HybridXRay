@@ -1,9 +1,9 @@
 ﻿#pragma once
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION   template<typename _Object>
 
 #define CStateGroupEatingAbstract CStateGroupEating<_Object>
 
-#define TIME_TO_EAT 20000
+#define TIME_TO_EAT               20000
 
 TEMPLATE_SPECIALIZATION
 CStateGroupEatingAbstract::CStateGroupEating(_Object* obj): inherited(obj) {}

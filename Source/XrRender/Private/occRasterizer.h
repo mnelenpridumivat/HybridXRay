@@ -34,6 +34,7 @@ private:
     occD    bufDepth_1[occ_dim_1][occ_dim_1];
     occD    bufDepth_2[occ_dim_2][occ_dim_2];
     occD    bufDepth_3[occ_dim_3][occ_dim_3];
+
 public:
     IC int df_2_s32(float d)
     {

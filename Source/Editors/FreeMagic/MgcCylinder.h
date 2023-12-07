@@ -32,19 +32,19 @@ namespace Mgc
         Vector3&       Direction();
         const Vector3& Direction() const;
 
-        Real& Height();
-        Real  Height() const;
+        Real&          Height();
+        Real           Height() const;
 
-        Real& Radius();
-        Real  Radius() const;
+        Real&          Radius();
+        Real           Radius() const;
 
         // A value of 'true' means the cylinder caps (the end disks) are included
         // as part of the cylinder.  A value of 'false' means treat the cylinder
         // as hollow--the end disks are not part of the object.
-        bool& Capped();
-        bool  Capped() const;
+        bool&          Capped();
+        bool           Capped() const;
 
-        Segment3 GetSegment() const;
+        Segment3       GetSegment() const;
 
         // Call this function to generate a coordinate system for the cylinder,
         // {U,V,W}, an orthonormal set where W is the unit-length direction of

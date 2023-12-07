@@ -17,18 +17,15 @@
 #include "../xrEngine/bone.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
-const bool use_additional_radius = true;
+const bool           use_additional_radius = true;
 
-static const Fvector local_points[8] = {Fvector().set(-1.f, -1.f, -1.f), Fvector().set(-1.f, -1.f, +1.f),
-                                        Fvector().set(-1.f, +1.f, +1.f), Fvector().set(-1.f, +1.f, -1.f),
-                                        Fvector().set(+1.f, +1.f, +1.f), Fvector().set(+1.f, +1.f, -1.f),
-                                        Fvector().set(+1.f, -1.f, +1.f), Fvector().set(+1.f, -1.f, -1.f)};
+static const Fvector local_points[8]       = {Fvector().set(-1.f, -1.f, -1.f), Fvector().set(-1.f, -1.f, +1.f), Fvector().set(-1.f, +1.f, +1.f), Fvector().set(-1.f, +1.f, -1.f), Fvector().set(+1.f, +1.f, +1.f), Fvector().set(+1.f, +1.f, -1.f), Fvector().set(+1.f, -1.f, +1.f), Fvector().set(+1.f, -1.f, -1.f)};
 
-extern MagicBox3 MagicMinBox(int iQuantity, const Fvector* akPoint);
+extern MagicBox3     MagicMinBox(int iQuantity, const Fvector* akPoint);
 
 struct merge_predicate
 {
@@ -40,7 +37,7 @@ public:
     AREA*              m_area;
     const ILevelGraph* m_level_graph;
 
-    IC merge_predicate(ai_obstacle* object, AREA& area)
+    IC                 merge_predicate(ai_obstacle* object, AREA& area)
     {
         m_object      = object;
         m_area        = &area;
@@ -72,8 +69,7 @@ IC bool ai_obstacle::inside(const Fvector& position, const float& radius) const
     return (true);
 }
 
-IC bool ai_obstacle::inside(const Fvector& position, const float& radius, const float& increment, const u32 step_count)
-    const
+IC bool ai_obstacle::inside(const Fvector& position, const float& radius, const float& increment, const u32 step_count) const
 {
     Fvector temp = position;
     for (u32 i = 0; i < step_count; ++i, temp.y += increment)
@@ -88,12 +84,7 @@ IC bool ai_obstacle::inside(const u32& vertex_id) const
 {
     const Fvector& position = ai().level_graph().vertex_position(vertex_id);
     float          offset   = ai().level_graph().header().cell_size() * .5f - EPS_L;
-    return (
-        inside(construct_position(vertex_id, position.x + offset, position.z + offset), EPS_L, .3f, 6) ||
-        inside(construct_position(vertex_id, position.x + offset, position.z - offset), EPS_L, .3f, 6) ||
-        inside(construct_position(vertex_id, position.x - offset, position.z + offset), EPS_L, .3f, 6) ||
-        inside(construct_position(vertex_id, position.x - offset, position.z - offset), EPS_L, .3f, 6) ||
-        inside(Fvector().set(position.x, position.y, position.z), EPS_L, .3f, 6));
+    return (inside(construct_position(vertex_id, position.x + offset, position.z + offset), EPS_L, .3f, 6) || inside(construct_position(vertex_id, position.x + offset, position.z - offset), EPS_L, .3f, 6) || inside(construct_position(vertex_id, position.x - offset, position.z + offset), EPS_L, .3f, 6) || inside(construct_position(vertex_id, position.x - offset, position.z - offset), EPS_L, .3f, 6) || inside(Fvector().set(position.x, position.y, position.z), EPS_L, .3f, 6));
 }
 
 void ai_obstacle::compute_matrix(Fmatrix& result, const Fvector& additional)
@@ -218,8 +209,8 @@ void ai_obstacle::compute_impl()
     typedef ILevelGraph::CPosition             CPosition;
     typedef ILevelGraph::const_vertex_iterator const_iterator;
 
-    Fvector min_position;
-    Fvector max_position;
+    Fvector                                    min_position;
+    Fvector                                    max_position;
     prepare_inside(min_position, max_position);
 
     correct_position(min_position);
@@ -229,7 +220,7 @@ void ai_obstacle::compute_impl()
     const CPosition&   min_vertex_position = level_graph.vertex_position(min_position);
     const CPosition&   max_vertex_position = level_graph.vertex_position(max_position);
 
-    u32 x_min, z_min;
+    u32                x_min, z_min;
     level_graph.unpack_xz(min_vertex_position, x_min, z_min);
 
     u32 x_max, z_max;

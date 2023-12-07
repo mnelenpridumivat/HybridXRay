@@ -2,7 +2,7 @@
 
 static SPickQuery PQ;
 
-IC void SnapXZ(Fvector& V, float ps)
+IC void           SnapXZ(Fvector& V, float ps)
 {
     V.x = snapto(V.x, ps);
     V.z = snapto(V.z, ps);
@@ -19,7 +19,7 @@ const int   RCAST_Total   = (2 * RCAST_Count + 1) * (2 * RCAST_Count + 1);
 const float RCAST_Depth   = 1.f;
 const float RCAST_VALID   = 0.55f;
 
-BOOL ESceneAIMapTool::CreateNode(Fvector& vAt, SAINode& N, bool bIC)
+BOOL        ESceneAIMapTool::CreateNode(Fvector& vAt, SAINode& N, bool bIC)
 {
     // *** Query and cache polygons for ray-casting
     Fvector PointUp;
@@ -72,7 +72,7 @@ BOOL ESceneAIMapTool::CreateNode(Fvector& vAt, SAINode& N, bool bIC)
 
         if (R->e_obj && R->e_mesh)
         {
-            CSurface* surf = R->e_mesh->GetSurfaceByFaceID(R->tag);
+            CSurface*    surf = R->e_mesh->GetSurfaceByFaceID(R->tag);
             //.			SGameMtl* mtl 		=  GameMaterialLibrary->GetMaterialByID(surf->_GameMtl());
             //.			if (mtl->Flags.is(SGameMtl::flPassable))continue;
 
@@ -95,9 +95,9 @@ BOOL ESceneAIMapTool::CreateNode(Fvector& vAt, SAINode& N, bool bIC)
         tri&     D = tris.back();
         Fvector* V = R->verts;
 
-        D.v[0] = &V[0];
-        D.v[1] = &V[1];
-        D.v[2] = &V[2];
+        D.v[0]     = &V[0];
+        D.v[1]     = &V[1];
+        D.v[2]     = &V[2];
         D.N.mknormal(*D.v[0], *D.v[1], *D.v[2]);
         if (D.N.y <= 0)
             tris.pop_back();
@@ -124,8 +124,8 @@ BOOL ESceneAIMapTool::CreateNode(Fvector& vAt, SAINode& N, bool bIC)
         P.x = vAt.x + coeff * float(x);
         for (int z = -RCAST_Count; z <= RCAST_Count; z++)
         {
-            P.z = vAt.z + coeff * float(z);
-            P.y = vAt.y + 10.f;
+            P.z                 = vAt.z + coeff * float(z);
+            P.y                 = vAt.y + 10.f;
 
             float tri_min_range = flt_max;
             int   tri_selected  = -1;
@@ -240,7 +240,7 @@ BOOL ESceneAIMapTool::CreateNode(Fvector& vAt, SAINode& N, bool bIC)
                 P.z = N.Pos.z + coeff * float(z);
                 P.y = N.Pos.y;
                 N.Plane.intersectRayPoint(P, D, PLP);   // "project" position
-                P.y = PLP.y + RCAST_VALID * 0.01f;
+                P.y                 = PLP.y + RCAST_VALID * 0.01f;
 
                 float tri_min_range = flt_max;
                 int   tri_selected  = -1;
@@ -263,7 +263,7 @@ BOOL ESceneAIMapTool::CreateNode(Fvector& vAt, SAINode& N, bool bIC)
                 }
             }
         }
-        float perc = float(num_successed_rays) / float(RCAST_Total);
+        float perc     = float(num_successed_rays) / float(RCAST_Total);
         // if (!bIC&&(perc < 0.5f)){
         float perc_lim = bIC ? 0.015f : 0.5f;
         if (perc < perc_lim)
@@ -311,7 +311,7 @@ void ESceneAIMapTool::HashRect(const Fvector& v, float radius, Irect& result)
 {
     Fvector VMmin, VMscale, VMeps, scale;
 
-    Fbox& bb = m_AIBBox;
+    Fbox&   bb = m_AIBBox;
     VMscale.set(bb.max.x - bb.min.x, bb.max.y - bb.min.y, bb.max.z - bb.min.z);
     VMmin.set(bb.min);
     VMeps.set(float(VMscale.x / HDIM_X / 2.f), float(0), float(VMscale.z / HDIM_Z / 2.f));
@@ -342,7 +342,7 @@ AINodeVec* ESceneAIMapTool::HashMap(Fvector& V)
     // Calculate offset,scale,epsilon
     Fvector VMmin, VMscale, VMeps, scale;
 
-    Fbox& bb = m_AIBBox;
+    Fbox&   bb = m_AIBBox;
     VMscale.set(bb.max.x - bb.min.x, bb.max.y - bb.min.y, bb.max.z - bb.min.z);
     VMmin.set(bb.min);
     VMeps.set(float(VMscale.x / HDIM_X / 2.f), float(0), float(VMscale.z / HDIM_Z / 2.f));
@@ -376,7 +376,7 @@ SAINode* ESceneAIMapTool::FindNode(Fvector& vAt, float eps)
 
 BOOL ESceneAIMapTool::CanTravel(Fvector _from, Fvector _at)
 {
-    _at.y = _from.y;
+    _at.y         = _from.y;
 
     float   eps   = 0.1f;
     float   eps_y = m_Params.fPatchSize * 1.5f;   // * tan(56) = 1.5
@@ -409,7 +409,7 @@ SAINode* ESceneAIMapTool::BuildNode(Fvector& vFrom, Fvector& vAt, bool bIC, bool
     // *** set up node
     SAINode N;
 
-    BOOL bRes = CreateNode(vAt, N, bIC);
+    BOOL    bRes = CreateNode(vAt, N, bIC);
     if (!bRes && bIC && bSuperIC)
     {
         Fvector D = {0, 1, 0};
@@ -478,9 +478,9 @@ int ESceneAIMapTool::BuildNodes(const Fvector& pos, int sz, bool bIC)
         return 0;
 
     // Estimate nodes
-    float estimated_nodes = (2 * sz - 1) * (2 * sz - 1);
+    float    estimated_nodes = (2 * sz - 1) * (2 * sz - 1);
 
-    SPBItem* pb = 0;
+    SPBItem* pb              = 0;
     if (estimated_nodes > 1024)
         pb = UI->ProgressStart(1, "Building nodes...");
     float radius = sz * m_Params.fPatchSize - EPS_L;
@@ -553,9 +553,9 @@ void ESceneAIMapTool::BuildNodes(bool bFromSelectedOnly)
     // Estimate nodes
     Fvector Pos, LevelSize;
     m_AIBBox.getsize(LevelSize);
-    float estimated_nodes = (LevelSize.x / m_Params.fPatchSize) * (LevelSize.z / m_Params.fPatchSize);
+    float    estimated_nodes = (LevelSize.x / m_Params.fPatchSize) * (LevelSize.z / m_Params.fPatchSize);
 
-    SPBItem* pb = UI->ProgressStart(1, "Building nodes...");
+    SPBItem* pb              = UI->ProgressStart(1, "Building nodes...");
     // General cycle
     for (int k = 0; k < (int)m_Nodes.size(); k++)
     {
@@ -724,7 +724,7 @@ bool ESceneAIMapTool::GenerateMap(bool bFromSelectedOnly)
                 }
             }
 
-            SPBItem* pb = UI->ProgressStart(mesh_cnt, "Prepare collision model...");
+            SPBItem*        pb = UI->ProgressStart(mesh_cnt, "Prepare collision model...");
 
             CDB::Collector* CL = ETOOLS::create_collector();
             Fvector         verts[3];
@@ -741,7 +741,7 @@ bool ESceneAIMapTool::GenerateMap(bool bFromSelectedOnly)
                     const SurfFaces& _sfaces = (*m_it)->GetSurfFaces();
                     for (SurfFaces::const_iterator sp_it = _sfaces.begin(); sp_it != _sfaces.end(); sp_it++)
                     {
-                        CSurface* surf = sp_it->first;
+                        CSurface*    surf = sp_it->first;
                         // test passable
                         //.			        SGameMtl* mtl 		=
                         //GameMaterialLibrary->GetMaterialByID(surf->_GameMtl()); .					if
@@ -758,8 +758,7 @@ bool ESceneAIMapTool::GenerateMap(bool bFromSelectedOnly)
 
                             ETOOLS::collector_add_face_d(CL, verts[0], verts[1], verts[2], surf->_GameMtl() /* *it */);
                             if (surf->m_Flags.is(CSurface::sf2Sided))
-                                ETOOLS::collector_add_face_d(
-                                    CL, verts[2], verts[1], verts[0], surf->_GameMtl() /* *it */);
+                                ETOOLS::collector_add_face_d(CL, verts[2], verts[1], verts[0], surf->_GameMtl() /* *it */);
                         }
                     }
                 }
@@ -970,19 +969,22 @@ void ESceneAIMapTool::MakeLinks(u8 side_flag, EMode mode, bool bIgnoreConstraint
                     continue;
                 switch (mode)
                 {
-                    case mdAppend: {
+                    case mdAppend:
+                    {
                         SAINode* S = FindNeighbor(T, k, bIgnoreConstraints);
                         if (S && S->flags.is(SAINode::flSelected))
                             T->n[k] = S;
                     }
                     break;
-                    case mdRemove: {
+                    case mdRemove:
+                    {
                         SAINode* S = FindNeighbor(T, k, bIgnoreConstraints);
                         if (S && S->flags.is(SAINode::flSelected))
                             T->n[k] = 0;
                     }
                     break;
-                    case mdInvert: {
+                    case mdInvert:
+                    {
                         SAINode* S = FindNeighbor(T, k, bIgnoreConstraints);
                         if (S)
                         {
@@ -1010,9 +1012,9 @@ void ESceneAIMapTool::MakeLinks(u8 side_flag, EMode mode, bool bIgnoreConstraint
 
 void ESceneAIMapTool::ResetNodes()
 {
-    SPBItem* pb = UI->ProgressStart(m_Nodes.size(), "Smoothing nodes...");
+    SPBItem* pb    = UI->ProgressStart(m_Nodes.size(), "Smoothing nodes...");
 
-    int n_cnt = 0;
+    int      n_cnt = 0;
 
     for (AINodeIt it = m_Nodes.begin(); it != m_Nodes.end(); it++)
     {
@@ -1036,7 +1038,7 @@ void ESceneAIMapTool::ResetNodes()
     }
 void ESceneAIMapTool::SmoothNodes()
 {
-    SPBItem* pb = UI->ProgressStart(m_Nodes.size(), "Smoothing nodes...");
+    SPBItem*  pb = UI->ProgressStart(m_Nodes.size(), "Smoothing nodes...");
 
     AINodeVec smoothed;
     smoothed.reserve(m_Nodes.size());
@@ -1060,7 +1062,7 @@ void ESceneAIMapTool::SmoothNodes()
             {
                 bool bCorner = false;
 
-                c = 1;
+                c            = 1;
                 N.PointLF(REF, m_Params.fPatchSize);
                 P1.set(REF);
                 if (N.nLeft())
@@ -1086,7 +1088,7 @@ void ESceneAIMapTool::SmoothNodes()
                     merge(P1);
                     if ((!bCorner) && F.nLeft())
                     {
-                        bCorner = true;
+                        bCorner    = true;
 
                         SAINode& C = *F.nLeft();
                         C.PointRB(P, m_Params.fPatchSize);
@@ -1101,7 +1103,7 @@ void ESceneAIMapTool::SmoothNodes()
             {
                 bool bCorner = false;
 
-                c = 1;
+                c            = 1;
                 N.PointFR(REF, m_Params.fPatchSize);
                 P2.set(REF);
                 if (N.nForward())
@@ -1127,7 +1129,7 @@ void ESceneAIMapTool::SmoothNodes()
                     merge(P2);
                     if ((!bCorner) && R.nForward())
                     {
-                        bCorner = true;
+                        bCorner    = true;
 
                         SAINode& C = *R.nForward();
                         C.PointBL(P, m_Params.fPatchSize);
@@ -1142,7 +1144,7 @@ void ESceneAIMapTool::SmoothNodes()
             {
                 bool bCorner = false;
 
-                c = 1;
+                c            = 1;
                 N.PointRB(REF, m_Params.fPatchSize);
                 P3.set(REF);
                 if (N.nRight())
@@ -1168,7 +1170,7 @@ void ESceneAIMapTool::SmoothNodes()
                     merge(P3);
                     if ((!bCorner) && B.nRight())
                     {
-                        bCorner = true;
+                        bCorner    = true;
 
                         SAINode& C = *B.nRight();
                         C.PointLF(P, m_Params.fPatchSize);
@@ -1183,7 +1185,7 @@ void ESceneAIMapTool::SmoothNodes()
             {
                 bool bCorner = false;
 
-                c = 1;
+                c            = 1;
                 N.PointBL(REF, m_Params.fPatchSize);
                 P4.set(REF);
                 if (N.nBack())
@@ -1209,7 +1211,7 @@ void ESceneAIMapTool::SmoothNodes()
                     merge(P4);
                     if ((!bCorner) && L.nBack())
                     {
-                        bCorner = true;
+                        bCorner    = true;
 
                         SAINode& C = *L.nBack();
                         C.PointFR(P, m_Params.fPatchSize);

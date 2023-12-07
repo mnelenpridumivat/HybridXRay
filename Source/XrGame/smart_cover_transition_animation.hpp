@@ -26,11 +26,7 @@ namespace smart_cover
             MonsterSpace::EMovementType m_movement_type;
 
         public:
-            animation_action(
-                Fvector const&                     position,
-                shared_str const&                  animation_id,
-                MonsterSpace::EBodyState const&    body_state,
-                MonsterSpace::EMovementType const& movement_type);
+            animation_action(Fvector const& position, shared_str const& animation_id, MonsterSpace::EBodyState const& body_state, MonsterSpace::EMovementType const& movement_type);
             IC ~animation_action() {}
             IC bool              has_animation() const;
             IC Fvector const&    position() const;

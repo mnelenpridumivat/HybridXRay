@@ -9,10 +9,7 @@
 #include "pch.hpp"
 #include "property_integer.hpp"
 
-property_integer::property_integer(integer_getter_type const& getter, integer_setter_type const& setter):
-    m_getter(new integer_getter_type(getter)), m_setter(new integer_setter_type(setter))
-{
-}
+property_integer::property_integer(integer_getter_type const& getter, integer_setter_type const& setter): m_getter(new integer_getter_type(getter)), m_setter(new integer_setter_type(setter)) {}
 
 property_integer::~property_integer()
 {

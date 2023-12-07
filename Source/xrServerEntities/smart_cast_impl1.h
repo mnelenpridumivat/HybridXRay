@@ -20,7 +20,7 @@ void add_smart_cast_stats_all(LPCSTR, LPCSTR);
 
 #ifdef MASTER_GOLD
 #define MAX_SEQUENCE_LENGTH 1
-#else    // #ifdef MASTER_GOLD
+#else   // #ifdef MASTER_GOLD
 #define MAX_SEQUENCE_LENGTH 1
 #endif   // #ifdef MASTER_GOLD
 
@@ -215,15 +215,10 @@ namespace SmartDynamicCast
 
                     template<> struct _selector<false>
                     {
-                        typedef Loki::Typelist<
-                            typename PrevHead::Head,
-                            Loki::Typelist<Head, Loki::Typelist<Target, Loki::NullType>>>
-                            result;
+                        typedef Loki::Typelist<typename PrevHead::Head, Loki::Typelist<Head, Loki::Typelist<Target, Loki::NullType>>> result;
                     };
 
-                    typedef
-                        typename _selector<object_type_traits::is_same<Head, typename PrevHead::Head>::value>::result
-                            result;
+                    typedef typename _selector<object_type_traits::is_same<Head, typename PrevHead::Head>::value>::result result;
                 };
 
                 template<> struct selector<false>
@@ -258,9 +253,7 @@ namespace SmartDynamicCast
                 typedef typename CMatchHelper<Tail>::result result;
             };
 
-            typedef typename selector<
-                object_type_traits::is_base_and_derived<typename Head::Head, Source>::value ||
-                object_type_traits::is_same<typename Head::Head, Source>::value>::result result;
+            typedef typename selector<object_type_traits::is_base_and_derived<typename Head::Head, Source>::value || object_type_traits::is_same<typename Head::Head, Source>::value>::result result;
         };
 
         template<> struct CMatchHelper<Loki::NullType>
@@ -281,8 +274,7 @@ namespace SmartDynamicCast
 
             template<typename T, int length, bool use_heritage> struct helper
             {
-                typedef typename conversion_sequence<Target, T, length, use_heritage /**,new_visited/**/>::result
-                    search_result;
+                typedef typename conversion_sequence<Target, T, length, use_heritage /**,new_visited/**/>::result search_result;
 
                 template<bool> struct selector
                 {
@@ -341,9 +333,7 @@ namespace SmartDynamicCast
                 typedef typename _selector<has_conversion<Source, typename Head::Head>::value>::result result;
             };
 
-            typedef typename selector<
-                can_use_heritage && object_type_traits::is_base_and_derived<typename Head::Head, Source>::value>::result
-                result;
+            typedef typename selector<can_use_heritage && object_type_traits::is_base_and_derived<typename Head::Head, Source>::value>::result result;
         };
 
         template<> struct list_iterator<Loki::NullType>
@@ -452,28 +442,20 @@ namespace SmartDynamicCast
 
     template<typename T1, typename T2> IC T1* smart_cast(T2* p)
     {
-        return (
-            CHelper1<T1, T2>::smart_cast < object_type_traits::is_base_and_derived<T1, T2>::value ||
-            object_type_traits::is_same<T1, T2>::value > (p));
+        return (CHelper1<T1, T2>::smart_cast < object_type_traits::is_base_and_derived<T1, T2>::value || object_type_traits::is_same<T1, T2>::value > (p));
     }
 
     template<typename T2> struct CHelper2
     {
         template<typename T1> IC static T1* smart_cast(T2* p)
         {
-            STATIC_CHECK(
-                !object_type_traits::is_const<T2>::value || object_type_traits::is_const<T1>::value,
-                Cannot_use_smart_cast_to_convert_const_to_non_const);
+            STATIC_CHECK(!object_type_traits::is_const<T2>::value || object_type_traits::is_const<T1>::value, Cannot_use_smart_cast_to_convert_const_to_non_const);
             typedef object_type_traits::remove_const<T1>::type _T1;
             typedef object_type_traits::remove_const<T2>::type _T2;
 #ifdef DEBUG
             T1* temp = SmartDynamicCast::smart_cast<_T1>(const_cast<_T2*>(p));
             T1* test = dynamic_cast<T1*>(p);
-            VERIFY2(
-                temp == test,
-                make_string(
-                    "SmartCast<%s*>(%s*) FAILED (result differs from the dynamic_cast) or object is CORRUPTED (0x%08x -> 0x%08x)!",
-                    typeid(T1).name(), typeid(T2).name(), *(u32*)&test, *(u32*)&temp));
+            VERIFY2(temp == test, make_string("SmartCast<%s*>(%s*) FAILED (result differs from the dynamic_cast) or object is CORRUPTED (0x%08x -> 0x%08x)!", typeid(T1).name(), typeid(T2).name(), *(u32*)&test, *(u32*)&temp));
             return (temp);
 #else
             return (SmartDynamicCast::smart_cast<_T1>(const_cast<_T2*>(p)));
@@ -499,10 +481,7 @@ template<typename T1, typename T2> IC T1 smart_cast(T2* p)
 {
 #ifdef PURE_DYNAMIC_CAST_COMPATIBILITY_CHECK
     STATIC_CHECK(object_type_traits::is_pointer<T1>::value, Invalid_target_type_for_Dynamic_Cast);
-    STATIC_CHECK(
-        object_type_traits::is_void<object_type_traits::remove_pointer<T1>::type>::value ||
-            is_polymorphic<object_type_traits::remove_pointer<T1>::type>::result,
-        Invalid_target_type_for_Dynamic_Cast);
+    STATIC_CHECK(object_type_traits::is_void<object_type_traits::remove_pointer<T1>::type>::value || is_polymorphic<object_type_traits::remove_pointer<T1>::type>::result, Invalid_target_type_for_Dynamic_Cast);
     STATIC_CHECK(is_polymorphic<T2>::result, Invalid_source_type_for_Dynamic_Cast);
 #endif
 #ifdef SMART_CAST_STATS_ALL
@@ -517,8 +496,7 @@ template<typename T1, typename T2> IC T1 smart_cast(T2& p)
 {
 #ifdef PURE_DYNAMIC_CAST_COMPATIBILITY_CHECK
     STATIC_CHECK(object_type_traits::is_reference<T1>::value, Invalid_target_type_for_Dynamic_Cast);
-    STATIC_CHECK(
-        is_polymorphic<object_type_traits::remove_reference<T1>::type>::result, Invalid_target_type_for_Dynamic_Cast);
+    STATIC_CHECK(is_polymorphic<object_type_traits::remove_reference<T1>::type>::result, Invalid_target_type_for_Dynamic_Cast);
     STATIC_CHECK(is_polymorphic<T2>::result, Invalid_source_type_for_Dynamic_Cast);
 #endif
 #ifdef SMART_CAST_STATS_ALL

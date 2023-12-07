@@ -11,13 +11,13 @@ struct BulletData
     shared_str FirerName;
     shared_str WeaponName;
 
-    u16 HitRefCount;
-    u16 HitResponds;
+    u16        HitRefCount;
+    u16        HitResponds;
 
-    bool Removed;
+    bool       Removed;
 
-    SBullet Bullet;
-    bool    operator==(u32 BulletID)
+    SBullet    Bullet;
+    bool       operator==(u32 BulletID)
     {
         return BulletID == Bullet.m_dwID;
     };
@@ -46,8 +46,8 @@ struct victims_table
     shared_str get_name_by_id(u8 id) const;
     bool       add_name(shared_str const& player_name);
 
-    void net_save(NET_Packet* P);
-    void net_load(NET_Packet* P);
+    void       net_save(NET_Packet* P);
+    void       net_load(NET_Packet* P);
 };
 struct bone_table
 {
@@ -63,30 +63,30 @@ struct bone_table
     shared_str get_name_by_id(s16 id) const;
     bool       add_bone(shared_str const& bone_name, s16 bone_id);
 
-    void net_save(NET_Packet* P);
-    void net_load(NET_Packet* P);
+    void       net_save(NET_Packet* P);
+    void       net_load(NET_Packet* P);
 };
 
 struct HitData
 {
-    Fvector Pos0;
-    Fvector Pos1;
+    Fvector          Pos0;
+    Fvector          Pos1;
 
-    s16        BoneID;
-    shared_str BoneName;
-    u16        TargetID;
-    shared_str TargetName;
-    u32        BulletID;
-    bool       Deadly;
-    u8         count;
+    s16              BoneID;
+    shared_str       BoneName;
+    u16              TargetID;
+    shared_str       TargetName;
+    u32              BulletID;
+    bool             Deadly;
+    u8               count;
 
-    bool Completed;
+    bool             Completed;
 
     void             net_save(NET_Packet* P, victims_table const& vt, bone_table const& bt);
     void             net_load(NET_Packet* P, victims_table const& vt, bone_table const& bt);
     static const u32 net_packet_size;
 
-    bool operator==(u32 ID)
+    bool             operator==(u32 ID)
     {
         return ID == BulletID;
     };
@@ -109,18 +109,18 @@ struct Weapon_Statistic
     shared_str       InvName;
     u32              NumBought;
     //---------------------------
-    u32 m_dwRoundsFired, m_dwRoundsFired_d;
-    u32 m_dwBulletsFired, m_dwBulletsFired_d;
-    u32 m_dwHitsScored, m_dwHitsScored_d;
-    u32 m_dwKillsScored, m_dwKillsScored_d;
-    u16 m_explosion_kills;
-    u16 m_bleed_kills;
+    u32              m_dwRoundsFired, m_dwRoundsFired_d;
+    u32              m_dwBulletsFired, m_dwBulletsFired_d;
+    u32              m_dwHitsScored, m_dwHitsScored_d;
+    u32              m_dwKillsScored, m_dwKillsScored_d;
+    u16              m_explosion_kills;
+    u16              m_bleed_kills;
     //---------------------------
-    u32 m_Basket[STAT_TEAM_COUNT][MAX_BASKET];
+    u32              m_Basket[STAT_TEAM_COUNT][MAX_BASKET];
 
     // u32				m_dwNumCompleted;
-    HITS_VEC m_Hits;
-    void     add_hit(HitData const& hit);
+    HITS_VEC         m_Hits;
+    void             add_hit(HitData const& hit);
 
     Weapon_Statistic(LPCSTR Name);
     ~Weapon_Statistic();
@@ -143,36 +143,36 @@ DEF_VECTOR(WEAPON_STATS, Weapon_Statistic);
 
 struct Player_Statistic
 {
-    shared_str PName;
-    shared_str PDigest;
-    u32        PID;
+    shared_str   PName;
+    shared_str   PDigest;
+    u32          PID;
 
-    u32 m_dwTotalShots;
-    u32 m_dwTotalShots_d;
+    u32          m_dwTotalShots;
+    u32          m_dwTotalShots_d;
     //-----------------------------------------------
-    u32 last_alive_update_time;
-    u32 m_dwTotalAliveTime[STAT_TEAM_COUNT];
-    s32 m_dwTotalMoneyRound[STAT_TEAM_COUNT];
-    u32 m_dwNumRespawned[STAT_TEAM_COUNT];
-    u8  m_dwArtefacts[STAT_TEAM_COUNT];
+    u32          last_alive_update_time;
+    u32          m_dwTotalAliveTime[STAT_TEAM_COUNT];
+    s32          m_dwTotalMoneyRound[STAT_TEAM_COUNT];
+    u32          m_dwNumRespawned[STAT_TEAM_COUNT];
+    u8           m_dwArtefacts[STAT_TEAM_COUNT];
 
-    u32 m_dwSpecialKills[4];   // headshot, backstab, knifekill, eyeshot
+    u32          m_dwSpecialKills[4];   // headshot, backstab, knifekill, eyeshot
 
-    u8 m_dwCurrentTeam;
+    u8           m_dwCurrentTeam;
 
     WEAPON_STATS aWeaponStats;
     //-----------------------------------------------
-    u32 m_dwCurMoneyRoundDelta;
+    u32          m_dwCurMoneyRoundDelta;
 
     Player_Statistic(LPCSTR Name);
     ~Player_Statistic();
 
     WEAPON_STATS_it FindPlayersWeapon(LPCSTR WeaponName);
 
-    void net_save(NET_Packet* P);
-    void net_load(NET_Packet* P);
+    void            net_save(NET_Packet* P);
+    void            net_load(NET_Packet* P);
 
-    bool operator==(LPCSTR name)
+    bool            operator==(LPCSTR name)
     {
         int res = xr_strcmp(PName.c_str(), name);
         return res == 0;
@@ -181,8 +181,8 @@ struct Player_Statistic
     void Write(FILE* pFile);
     void WriteLtx(CInifile& ini, LPCSTR sect);
 
-    u32 create_victims_table(victims_table& victims_table);   // retutns size in bytes of table
-    u32 create_bone_table(bone_table& bone_table);            // retutns size in bytes of table
+    u32  create_victims_table(victims_table& victims_table);   // retutns size in bytes of table
+    u32  create_bone_table(bone_table& bone_table);            // retutns size in bytes of table
 };
 
 DEF_VECTOR(PLAYERS_STATS, Player_Statistic);
@@ -201,7 +201,7 @@ DEF_VECTOR(BChR, Bullet_Check_Request);
 
 struct Bullet_Check_Array
 {
-    u32 SenderID;
+    u32  SenderID;
 
     BChR Requests;
     u8   NumTrue;
@@ -236,69 +236,69 @@ struct WeaponUsageStatistic
     {
         return m_bCollectStatistic;
     };
-    void SetCollectData(bool Collect);
+    void          SetCollectData(bool Collect);
     //-----------------------------------------------
-    ABULLETS ActiveBullets;
+    ABULLETS      ActiveBullets;
     //-----------------------------------------------
     PLAYERS_STATS aPlayersStatistic;
     //-----------------------------------------------
-    u32 m_dwTotalPlayersAliveTime[STAT_TEAM_COUNT];
-    s32 m_dwTotalPlayersMoneyRound[STAT_TEAM_COUNT];
-    u32 m_dwTotalNumRespawns[STAT_TEAM_COUNT];
+    u32           m_dwTotalPlayersAliveTime[STAT_TEAM_COUNT];
+    s32           m_dwTotalPlayersMoneyRound[STAT_TEAM_COUNT];
+    u32           m_dwTotalNumRespawns[STAT_TEAM_COUNT];
     //-----------------------------------------------
-    u32 m_dwLastUpdateTime;
-    u32 m_dwUpdateTimeDelta;
+    u32           m_dwLastUpdateTime;
+    u32           m_dwUpdateTimeDelta;
     //-----------------------------------------------
     WeaponUsageStatistic();
     ~WeaponUsageStatistic();
 
-    void Clear();
+    void             Clear();
 
     PLAYERS_STATS_it FindPlayer(LPCSTR PlayerName);
     bool             GetPlayer(LPCSTR PlayerName, PLAYERS_STATS_it& pPlayerI);
     void             ChangePlayerName(LPCSTR from, LPCSTR to);
     u8               ConvertToTeamIndex(s16 team);
 
-    bool FindBullet(u32 BulletID, ABULLETS_it& Bullet_it);
-    void RemoveBullet(ABULLETS_it& Bullet_it);
+    bool             FindBullet(u32 BulletID, ABULLETS_it& Bullet_it);
+    void             RemoveBullet(ABULLETS_it& Bullet_it);
     //-----------------------------------------------
-    void         OnWeaponBought(game_PlayerState* ps, LPCSTR WeaponName);
-    void         OnBullet_Fire(SBullet* pBullet, const CCartridge& cartridge);
-    virtual void OnBullet_Hit(SBullet* pBullet, u16 TargetID, s16 element, Fvector HitLocation);
-    void         OnBullet_Remove(SBullet* pBullet);
+    void             OnWeaponBought(game_PlayerState* ps, LPCSTR WeaponName);
+    void             OnBullet_Fire(SBullet* pBullet, const CCartridge& cartridge);
+    virtual void     OnBullet_Hit(SBullet* pBullet, u16 TargetID, s16 element, Fvector HitLocation);
+    void             OnBullet_Remove(SBullet* pBullet);
     //-----------------------------------------------
 
-    u32 m_dwLastRequestSenderID;
+    u32              m_dwLastRequestSenderID;
 
-    BChA m_Requests;
+    BChA             m_Requests;
 
-    void OnBullet_Check_Request(SHit* pHDS);
-    void OnBullet_Check_Result(bool Result);
+    void             OnBullet_Check_Request(SHit* pHDS);
+    void             OnBullet_Check_Result(bool Result);
     //-----------------------------------------------
-    void Send_Check_Respond();
-    void On_Check_Respond(NET_Packet* P);
+    void             Send_Check_Respond();
+    void             On_Check_Respond(NET_Packet* P);
 
-    void OnPlayerKilled(game_PlayerState* ps);
+    void             OnPlayerKilled(game_PlayerState* ps);
 
-    void SVUpdateAliveTimes();
+    void             SVUpdateAliveTimes();
 
-    virtual void OnPlayerSpawned(game_PlayerState* ps);
-    void         OnPlayerAddMoney(game_PlayerState* ps, s32 MoneyAmount);
-    virtual void OnPlayerBringArtefact(game_PlayerState* ps);
-    void         OnPlayerKillPlayer(game_PlayerState* ps, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType);
-    virtual void OnExplosionKill(game_PlayerState* ps, const SHit& hit);
-    void         OnBleedKill(game_PlayerState* killer_ps, game_PlayerState* victim_ps, u16 weapon_id);
+    virtual void     OnPlayerSpawned(game_PlayerState* ps);
+    void             OnPlayerAddMoney(game_PlayerState* ps, s32 MoneyAmount);
+    virtual void     OnPlayerBringArtefact(game_PlayerState* ps);
+    void             OnPlayerKillPlayer(game_PlayerState* ps, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType);
+    virtual void     OnExplosionKill(game_PlayerState* ps, const SHit& hit);
+    void             OnBleedKill(game_PlayerState* killer_ps, game_PlayerState* victim_ps, u16 weapon_id);
     //-----------------------------------------------
-    void Update();
-    void OnUpdateRequest(NET_Packet* P);
-    void OnUpdateRespond(NET_Packet* P, shared_str const& sender_digest, u32 sender_pid);
+    void             Update();
+    void             OnUpdateRequest(NET_Packet* P);
+    void             OnUpdateRespond(NET_Packet* P, shared_str const& sender_digest, u32 sender_pid);
     //-----------------------------------------------
-    string_path mFileName;
-    void        SaveData();
-    void        Write(FILE* pFile);
+    string_path      mFileName;
+    void             SaveData();
+    void             Write(FILE* pFile);
 
-    void SaveDataLtx(CInifile& ini);
-    void WriteLtx(CInifile& ini);
+    void             SaveDataLtx(CInifile& ini);
+    void             WriteLtx(CInifile& ini);
 
 private:
     xrCriticalSection m_mutex;

@@ -8,12 +8,11 @@
             return c;             \
     }
 
-const u32 time_help_sound_remember = 10000;
+const u32         time_help_sound_remember = 10000;
 
 TSoundDangerValue tagSoundElement::ConvertSoundType(ESoundTypes stype)
 {
-    if (((stype & SOUND_TYPE_WEAPON) != SOUND_TYPE_WEAPON) && ((stype & SOUND_TYPE_MONSTER) != SOUND_TYPE_MONSTER) &&
-        ((stype & SOUND_TYPE_WORLD) != SOUND_TYPE_WORLD))
+    if (((stype & SOUND_TYPE_WEAPON) != SOUND_TYPE_WEAPON) && ((stype & SOUND_TYPE_MONSTER) != SOUND_TYPE_MONSTER) && ((stype & SOUND_TYPE_WORLD) != SOUND_TYPE_WORLD))
         return NONE_DANGEROUS_SOUND;
 
     CHECK_SOUND_TYPE(stype, SOUND_TYPE_WEAPON_RECHARGING, WEAPON_RECHARGING);
@@ -60,7 +59,7 @@ void CMonsterSoundMemory::HearSound(const SoundElem& s)
     // поиск в массиве звука
     xr_vector<SoundElem>::iterator it;
 
-    bool b_sound_replaced = false;
+    bool                           b_sound_replaced = false;
     for (it = Sounds.begin(); Sounds.end() != it; ++it)
     {
         if ((s.who == it->who) && (it->type == s.type))
@@ -152,9 +151,7 @@ struct pred_remove_nonactual_sounds
 void CMonsterSoundMemory::UpdateHearing()
 {
     // удаление устаревших звуков
-    Sounds.erase(
-        std::remove_if(Sounds.begin(), Sounds.end(), pred_remove_nonactual_sounds(Device->dwTimeGlobal - time_memory)),
-        Sounds.end());
+    Sounds.erase(std::remove_if(Sounds.begin(), Sounds.end(), pred_remove_nonactual_sounds(Device->dwTimeGlobal - time_memory)), Sounds.end());
 
     // пересчитать value
     for (xr_vector<SoundElem>::iterator I = Sounds.begin(); I != Sounds.end(); ++I)

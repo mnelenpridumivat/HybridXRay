@@ -7,15 +7,15 @@ template<typename typeVertex> struct itterate_adjacents_params_static
     typedef typeVertex                     type_vertex;
     typedef typename typeVertex::type_face type_face;
     typedef xr_vector<type_face*>          vecFace;
+
 private:
     const type_vertex* pTestVertex;
     vecFace&           new_adj_vec;
     const float        sm_cos;
+
 public:
-    itterate_adjacents_params_static(const type_vertex* _pTestVertex, vecFace& _new_adj_vec, float _sm_cos):
-        pTestVertex(_pTestVertex), new_adj_vec(_new_adj_vec), sm_cos(_sm_cos)
-    {
-    }
+    itterate_adjacents_params_static(const type_vertex* _pTestVertex, vecFace& _new_adj_vec, float _sm_cos): pTestVertex(_pTestVertex), new_adj_vec(_new_adj_vec), sm_cos(_sm_cos) {}
+
 private:
     IC static bool has_same_edge(const type_face* F1, const type_face* F2, u16& F1_edge_index, u16& F2_edge_index)
     {
@@ -47,20 +47,14 @@ private:
         return false;
     }
 
-    IC static bool do_connect_faces(
-        const type_face& start,
-        const type_face& test,
-        u16              start_common_edge_idx,
-        u16              test_common_edge_idx,
-        float            sm_cos)
+    IC static bool do_connect_faces(const type_face& start, const type_face& test, u16 start_common_edge_idx, u16 test_common_edge_idx, float sm_cos)
     {
         if (g_using_smooth_groups)
         {
             if (g_smooth_groups_by_faces)
                 return (start.sm_group != u32(-1) && start.sm_group == test.sm_group);
             else
-                return do_connect_faces_by_faces_edge_flags(
-                    start.sm_group, test.sm_group, start_common_edge_idx, test_common_edge_idx);
+                return do_connect_faces_by_faces_edge_flags(start.sm_group, test.sm_group, start_common_edge_idx, test_common_edge_idx);
         }
         else
         {
@@ -68,6 +62,7 @@ private:
             return (cosa > sm_cos);
         }
     }
+
 public:
     IC const u32 current_adjacents_size() const
     {
@@ -96,9 +91,7 @@ public:
         u16 TestFace_common_edge_index  = u16(-1);
         if (has_same_edge(start_face, test_face, StartFace_common_edge_index, TestFace_common_edge_index))
         {
-            if ((start_face == test_face) ||
-                do_connect_faces(
-                    *start_face, *test_face, StartFace_common_edge_index, TestFace_common_edge_index, sm_cos))
+            if ((start_face == test_face) || do_connect_faces(*start_face, *test_face, StartFace_common_edge_index, TestFace_common_edge_index, sm_cos))
             {
                 new_adj_vec.push_back(test_face);
                 test_face->flags.bSplitted = true;

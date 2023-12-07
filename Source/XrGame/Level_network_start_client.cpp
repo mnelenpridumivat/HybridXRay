@@ -17,7 +17,7 @@
 #include "physics_game.h"
 extern pureFrame* g_pNetProcessor;
 
-BOOL CLevel::net_Start_client(LPCSTR options)
+BOOL              CLevel::net_Start_client(LPCSTR options)
 {
     return FALSE;
 }
@@ -85,7 +85,7 @@ bool CLevel::net_start_client3()
         if (psNET_direct_connect)   // single
         {
             shared_str const& server_options = Server->GetConnectOptions();
-            level_name                       = name().c_str();   // Server->level_name		(server_options).c_str();
+            level_name                       = name().c_str();                                  // Server->level_name		(server_options).c_str();
             level_ver                        = Server->level_version(server_options).c_str();   // 1.0
         }
         else   // multiplayer
@@ -102,8 +102,7 @@ bool CLevel::net_start_client3()
             Disconnect();
 
             connected_to_server = FALSE;
-            Msg("! Level (name:%s), (version:%s), not found, try to download from:%s", level_name, level_ver,
-                download_url);
+            Msg("! Level (name:%s), (version:%s), not found, try to download from:%s", level_name, level_ver, download_url);
             map_data.m_name             = level_name;
             map_data.m_map_version      = level_ver;
             map_data.m_map_download_url = download_url;
@@ -118,7 +117,7 @@ bool CLevel::net_start_client3()
         map_data.m_map_download_url = download_url;
         map_data.m_map_loaded       = true;
 
-        deny_m_spawn = FALSE;
+        deny_m_spawn                = FALSE;
         // Load level
         R_ASSERT2(Load(level_id), "Loading failed.");
         map_data.m_level_geom_crc32 = 0;

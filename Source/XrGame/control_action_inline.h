@@ -8,7 +8,7 @@
 
 #pragma once
 
-IC CControlAction::CControlAction() {}
+IC      CControlAction::CControlAction() {}
 
 IC void CControlAction::set_object(CAI_Stalker* object)
 {
@@ -26,11 +26,11 @@ IC bool CControlAction::completed() const
     return (true);
 }
 
-IC void CControlAction::initialize() {}
+IC void         CControlAction::initialize() {}
 
-IC void CControlAction::execute() {}
+IC void         CControlAction::execute() {}
 
-IC void CControlAction::finalize() {}
+IC void         CControlAction::finalize() {}
 
 IC CAI_Stalker& CControlAction::object() const
 {

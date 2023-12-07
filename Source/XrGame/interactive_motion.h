@@ -14,17 +14,17 @@ protected:
         fl_use_death_motion    = 1 << 4,
         fl_switch_dm_toragdoll = 1 << 5,
 
-        fl_started    = 1 << 6,
-        fl_not_played = 1 << 7
+        fl_started             = 1 << 6,
+        fl_not_played          = 1 << 7
     };
 
 public:
     interactive_motion();
     virtual ~interactive_motion();
-    void init();
-    void destroy();
-    void setup(LPCSTR m, CPhysicsShell* s, float angle);
-    void setup(const MotionID& m, CPhysicsShell* s, float angle);
+    void    init();
+    void    destroy();
+    void    setup(LPCSTR m, CPhysicsShell* s, float angle);
+    void    setup(const MotionID& m, CPhysicsShell* s, float angle);
 
     void    update();
     IC bool is_enabled()
@@ -48,6 +48,7 @@ private:
 
     // BoneCallbackFun bone_instance.set_callback(bctPhysics,
     //
+
 protected:
     void switch_to_free();
 

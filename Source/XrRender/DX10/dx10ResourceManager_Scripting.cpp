@@ -38,6 +38,7 @@ class adopt_dx10sampler
 {
     CBlender_Compile* m_pC;
     u32               m_SI;   //	Sampler index
+
 public:
     adopt_dx10sampler(CBlender_Compile* C, u32 SamplerIndex): m_pC(C), m_SI(SamplerIndex)
     {
@@ -112,6 +113,7 @@ class adopt_compiler
             C->r_End();
         m_bFirstPass = false;
     }
+
 public:
     adopt_compiler(CBlender_Compile* _C, bool& bFirstPass): C(_C), m_bFirstPass(bFirstPass)
     {

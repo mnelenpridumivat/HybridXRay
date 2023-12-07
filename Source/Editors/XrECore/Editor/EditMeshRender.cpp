@@ -78,7 +78,7 @@ void CEditableMesh::GenerateRenderBuffers()
             st_RenderBuffer& rb = rb_vec.back();
             if (_S->m_Flags.is(CSurface::sf2Sided))
                 rb.dwNumVertex *= 2;
-            num_face = v_cnt / 3;
+            num_face     = v_cnt / 3;
 
             int buf_size = D3DXGetFVFVertexSize(_S->_FVF()) * rb.dwNumVertex;
             R_ASSERT2(buf_size, "Empty buffer size or bad FVF.");
@@ -119,14 +119,9 @@ void CEditableMesh::UnloadRenderBuffers()
 }
 //----------------------------------------------------
 
-void CEditableMesh::FillRenderBuffer(
-    IntVec&         face_lst,
-    int             start_face,
-    int             num_face,
-    const CSurface* surf,
-    LPBYTE&         src_data)
+void CEditableMesh::FillRenderBuffer(IntVec& face_lst, int start_face, int num_face, const CSurface* surf, LPBYTE& src_data)
 {
-    bool bNormals = (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals));
+    bool   bNormals = (m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals));
     LPBYTE data     = src_data;
     u32    dwFVF    = surf->_FVF();
     u32    dwTexCnt = ((dwFVF & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
@@ -251,7 +246,7 @@ void CEditableMesh::Render(const Fmatrix& parent, CSurface* S)
 static Fvector RB[MAX_VERT_COUNT];
 static int     RB_cnt = 0;
 
-void CEditableMesh::RenderList(const Fmatrix& parent, u32 color, bool bEdge, IntVec& fl)
+void           CEditableMesh::RenderList(const Fmatrix& parent, u32 color, bool bEdge, IntVec& fl)
 {
     //	if (!m_Visible) return;
     //	if (!m_LoadState.is(LS_RBUFFERS)) CreateRenderBuffers();
@@ -375,19 +370,19 @@ void CEditableMesh::RenderSkeleton(const Fmatrix&, CSurface* S)
     _VertexStream* Stream   = &RCache.Vertex;
     u32            vBase;
 
-    svertRender* pv = (svertRender*)Stream->Lock(SKEL_MAX_FACE_COUNT * 3, m_Parent->vs_SkeletonGeom->vb_stride, vBase);
-    Fvector      P0, N0, P1, N1;
+    svertRender*   pv = (svertRender*)Stream->Lock(SKEL_MAX_FACE_COUNT * 3, m_Parent->vs_SkeletonGeom->vb_stride, vBase);
+    Fvector        P0, N0, P1, N1;
 
-    int f_cnt = 0;
+    int            f_cnt = 0;
     for (IntIt i_it = face_lst.begin(); i_it != face_lst.end(); i_it++)
     {
         for (int k = 0; k < 3; k++, pv++)
         {
             st_SVert& SV = m_SVertices[*i_it * 3 + k];
             pv->uv.set(SV.uv);
-            float total = SV.bones[0].w;
+            float          total = SV.bones[0].w;
 
-            const Fmatrix& M = m_Parent->m_Bones[SV.bones[0].id]->_RenderTransform();
+            const Fmatrix& M     = m_Parent->m_Bones[SV.bones[0].id]->_RenderTransform();
             M.transform_tiny(pv->P, SV.offs);
             M.transform_dir(pv->N, SV.norm);
 

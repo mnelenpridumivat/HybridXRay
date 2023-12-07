@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_monster_action_inline.h
 //	Created 	: 30.09.2003
 //  Modified 	: 29.06.2004
@@ -8,21 +8,21 @@
 
 #pragma once
 
-IC	CScriptMonsterAction::CScriptMonsterAction	()
+IC CScriptMonsterAction::CScriptMonsterAction()
 {
-	m_tAction		= MonsterSpace::eGA_None;
-	m_bCompleted	= true;
+    m_tAction    = MonsterSpace::eGA_None;
+    m_bCompleted = true;
 }
 
-IC	CScriptMonsterAction::CScriptMonsterAction	(MonsterSpace::EScriptMonsterGlobalAction action)
+IC CScriptMonsterAction::CScriptMonsterAction(MonsterSpace::EScriptMonsterGlobalAction action)
 {
-	m_tAction		= action;
-	m_bCompleted	= false;
+    m_tAction    = action;
+    m_bCompleted = false;
 }
 
-IC	CScriptMonsterAction::CScriptMonsterAction	(MonsterSpace::EScriptMonsterGlobalAction action, CScriptGameObject *tObj)
+IC CScriptMonsterAction::CScriptMonsterAction(MonsterSpace::EScriptMonsterGlobalAction action, CScriptGameObject* tObj)
 {
-	m_tAction		= action;
-	m_bCompleted	= false;
-	SetObject		(tObj);
+    m_tAction    = action;
+    m_bCompleted = false;
+    SetObject(tObj);
 }

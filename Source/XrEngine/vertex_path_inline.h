@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <bool bEuclidianHeuristics> template <template <typename _T> class _vertex>
+#define TEMPLATE_SPECIALIZATION template<bool bEuclidianHeuristics> template<template<typename _T> class _vertex>
 
-#define CVertexPathBuilder CVertexPath<bEuclidianHeuristics>::CDataStorage<_vertex>
+#define CVertexPathBuilder      CVertexPath<bEuclidianHeuristics>::CDataStorage<_vertex>
 
 TEMPLATE_SPECIALIZATION
 IC CVertexPathBuilder::CDataStorage(const u32 vertex_count) {}
@@ -28,7 +28,7 @@ IC void CVertexPathBuilder::assign_parent(CGraphVertex& neighbour, CGraphVertex*
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC void CVertexPathBuilder::assign_parent(CGraphVertex& neighbour, CGraphVertex* parent, const T&)
+template<typename T> IC void CVertexPathBuilder::assign_parent(CGraphVertex& neighbour, CGraphVertex* parent, const T&)
 {
     assign_parent(neighbour, parent);
 }
@@ -49,9 +49,9 @@ IC void CVertexPathBuilder::get_node_path(xr_vector<_index_type>& path, CGraphVe
 
     path.resize(i);
 
-    t1        = best;
-    path[--i] = best->index();
-    t2        = t1->back();
+    t1                                         = best;
+    path[--i]                                  = best->index();
+    t2                                         = t1->back();
 
     xr_vector<_index_type>::reverse_iterator I = path.rbegin();
     xr_vector<_index_type>::reverse_iterator E = path.rend();

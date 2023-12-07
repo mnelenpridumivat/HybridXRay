@@ -36,6 +36,7 @@ private:
     CAgentManagerPlanner*   m_brain;
 
 #ifndef USE_SCHEDULER_IN_AGENT_MANAGER
+
 private:
     u32 m_last_update_time;
     u32 m_update_rate;
@@ -48,6 +49,7 @@ private:
     void update_impl();
 
 #ifdef USE_SCHEDULER_IN_AGENT_MANAGER
+
 private:
     void remove_scheduler();
 #endif   // USE_SCHEDULER_IN_AGENT_MANAGER

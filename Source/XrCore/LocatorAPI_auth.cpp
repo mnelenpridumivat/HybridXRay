@@ -60,10 +60,10 @@ void CLocatorAPI::auth_runtime(void* params)
     {
         for (files_it it = m_files.begin(); it != m_files.end(); ++it)
         {
-            const ILocatorAPIFile& f = *it;
+            const ILocatorAPIFile& f     = *it;
 
             // test for skip
-            BOOL bSkip = FALSE;
+            BOOL                   bSkip = FALSE;
             for (u32 s = 0; s < _o->ignore.size(); s++)
             {
                 if (strstr(f.name, _o->ignore[s].c_str()))

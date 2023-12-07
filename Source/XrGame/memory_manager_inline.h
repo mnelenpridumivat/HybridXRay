@@ -8,8 +8,7 @@
 
 #pragma once
 
-template <typename T, typename _predicate>
-IC void CMemoryManager::fill_enemies(const xr_vector<T>& objects, const _predicate& predicate) const
+template<typename T, typename _predicate> IC void CMemoryManager::fill_enemies(const xr_vector<T>& objects, const _predicate& predicate) const
 {
     xr_vector<T>::const_iterator I = objects.begin();
     xr_vector<T>::const_iterator E = objects.end();
@@ -25,7 +24,7 @@ IC void CMemoryManager::fill_enemies(const xr_vector<T>& objects, const _predica
     }
 }
 
-template <typename _predicate> IC void CMemoryManager::fill_enemies(const _predicate& predicate) const
+template<typename _predicate> IC void CMemoryManager::fill_enemies(const _predicate& predicate) const
 {
     fill_enemies(visual().objects(), predicate);
     //	fill_enemies			(sound().objects(),predicate);

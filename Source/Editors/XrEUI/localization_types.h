@@ -1,11 +1,10 @@
-#pragma once
+﻿#pragma once
 
 enum class ELocalization
 {
     EN,
     RU
 };
-
 
 struct SEnglishStringToRussify
 {

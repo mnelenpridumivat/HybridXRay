@@ -32,18 +32,14 @@ namespace inventory
             m_parent_group = &parental_group;
 
             // name : StringTable(); icon; description;
-            m_name        = CStringTable().translate(pSettings->r_string(id(), "name"));
-            m_description = CStringTable().translate(pSettings->r_string(id(), "description"));
+            m_name         = CStringTable().translate(pSettings->r_string(id(), "name"));
+            m_description  = CStringTable().translate(pSettings->r_string(id(), "description"));
             m_icon._set(pSettings->r_string(id(), "icon"));
 
             // section --------------------------------------------------------------------------
             LPCSTR section_str = pSettings->r_string(id(), "section");
-            VERIFY2(
-                pSettings->section_exist(section_str),
-                make_string("Upgrade <%s> : settings section [%s] not exist!", id_str(), section_str));
-            VERIFY2(
-                pSettings->line_count(section_str),
-                make_string("Upgrade <%s> : settings section [%s] is empty !", id_str(), section_str));
+            VERIFY2(pSettings->section_exist(section_str), make_string("Upgrade <%s> : settings section [%s] not exist!", id_str(), section_str));
+            VERIFY2(pSettings->line_count(section_str), make_string("Upgrade <%s> : settings section [%s] is empty !", id_str(), section_str));
 
             m_section._set(section_str);
 
@@ -51,11 +47,7 @@ namespace inventory
             LPCSTR precondition_functor_str = pSettings->r_string(id(), "precondition_functor");
             m_preconditions.parameter       = pSettings->r_string(id(), "precondition_parameter");
             m_preconditions.parameter2      = m_section.c_str();
-            R_ASSERT2(
-                ai().script_engine().functor(precondition_functor_str, m_preconditions.functr),
-                make_string(
-                    "Failed to get precondition functor in section[%s], functor[%s]", id_str(),
-                    precondition_functor_str));
+            R_ASSERT2(ai().script_engine().functor(precondition_functor_str, m_preconditions.functr), make_string("Failed to get precondition functor in section[%s], functor[%s]", id_str(), precondition_functor_str));
             m_preconditions();
 
             // effect_functor
@@ -63,21 +55,16 @@ namespace inventory
             m_effects.parameter       = pSettings->r_string(id(), "effect_parameter");
             m_effects.parameter2      = m_section.c_str();
             m_effects.parameter3      = 1;
-            R_ASSERT2(
-                ai().script_engine().functor(effect_functor_str, m_effects.functr),
-                make_string("Failed to get effect functor in section[%s], functor[%s]", id_str(), effect_functor_str));
+            R_ASSERT2(ai().script_engine().functor(effect_functor_str, m_effects.functr), make_string("Failed to get effect functor in section[%s], functor[%s]", id_str(), effect_functor_str));
             m_effects();
 
             // prereq_functor (1,2) : m_prerequisites, m_tooltip
-            LPCSTR prereq_functor_str = pSettings->r_string(id(), "prereq_functor");   // prerequisites_functor
+            LPCSTR prereq_functor_str  = pSettings->r_string(id(), "prereq_functor");   // prerequisites_functor
             //	LPCSTR tooltip_functor_str	= pSettings->r_string( id(), "prereq_tooltip_functor" );
             m_prerequisites.parameter  = pSettings->r_string(id(), "prereq_params");   // prerequisites_params
             m_prerequisites.parameter2 = m_section.c_str();
             //	m_tooltip.parameter			= pSettings->r_string( id(), "prereq_params" );
-            R_ASSERT2(
-                ai().script_engine().functor(prereq_functor_str, m_prerequisites.functr),
-                make_string(
-                    "Failed to get prerequisites functor in section[%s], functor[%s]", id_str(), prereq_functor_str));
+            R_ASSERT2(ai().script_engine().functor(prereq_functor_str, m_prerequisites.functr), make_string("Failed to get prerequisites functor in section[%s], functor[%s]", id_str(), prereq_functor_str));
             m_prerequisites();
 
             /*R_ASSERT2(
@@ -95,7 +82,7 @@ namespace inventory
                 add_dependent_groups(groups_str, manager_r);
             }
 
-            m_known = !!READ_IF_EXISTS(pSettings, r_bool, id(), "known", false);
+            m_known               = !!READ_IF_EXISTS(pSettings, r_bool, id(), "known", false);
 
             shared_str properties = pSettings->r_string(id(), "property");
             VERIFY2(properties.size(), make_string("Upgrade <%s> : property is empty !", id_str()));
@@ -107,18 +94,14 @@ namespace inventory
                 if (prop.size())
                 {
                     m_properties[i] = prop;
-                    VERIFY2(
-                        manager_r.get_property(prop),
-                        make_string(
-                            "Upgrade <%s> : property [%s] is unknown (not found in upgrade manager) !", id_str(),
-                            prop.c_str()));
+                    VERIFY2(manager_r.get_property(prop), make_string("Upgrade <%s> : property [%s] is unknown (not found in upgrade manager) !", id_str(), prop.c_str()));
                 }
             }
 
             m_scheme_index.set(-1, -1);
             m_scheme_index = pSettings->r_ivector2(id(), "scheme_index");
 
-            m_highlight = false;
+            m_highlight    = false;
         }   // Upgrade()
 
 #ifdef DEBUG

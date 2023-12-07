@@ -2,7 +2,7 @@
 
 #include "controller_psy_hit.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION      template<typename _Object>
 
 #define CStateControllerTubeAbstract CStateControllerTube<_Object>
 

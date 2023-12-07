@@ -24,6 +24,7 @@ struct lua_State;
 #endif
 
 #define DECLARE_SCRIPT_REGISTER_FUNCTION \
+                                         \
 public:                                  \
     static void script_register(lua_State*);
 #define DECLARE_SCRIPT_REGISTER_FUNCTION_STRUCT static void script_register(lua_State*);

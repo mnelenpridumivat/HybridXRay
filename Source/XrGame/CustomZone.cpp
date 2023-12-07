@@ -18,8 +18,8 @@
 #include "breakableobject.h"
 #include "GamePersistent.h"
 
-#define WIND_RADIUS (4 * Radius())   // расстояние до актера, когда появляется ветер
-#define FASTMODE_DISTANCE (50.f)     // distance to camera from sphere, when zone switches to fast update sequence
+#define WIND_RADIUS       (4 * Radius())   // расстояние до актера, когда появляется ветер
+#define FASTMODE_DISTANCE (50.f)           // distance to camera from sphere, when zone switches to fast update sequence
 
 CCustomZone::CCustomZone(void)
 {
@@ -45,7 +45,7 @@ CCustomZone::CCustomZone(void)
     m_ef_weapon_type                           = u32(-1);
     m_owner_id                                 = u32(-1);
 
-    m_actor_effector = NULL;
+    m_actor_effector                           = NULL;
     m_zone_flags.set(eIdleObjectParticlesDontStop, FALSE);
     m_zone_flags.set(eBlowoutWindActive, FALSE);
     m_zone_flags.set(eFastMode, TRUE);
@@ -86,7 +86,7 @@ void CCustomZone::Load(LPCSTR section)
     m_StateTime[eZoneStateAccumulate] = pSettings->r_s32(section, "accamulate_time");
 
     //////////////////////////////////////////////////////////////////////////
-    ISpatial* self = smart_cast<ISpatial*>(this);
+    ISpatial* self                    = smart_cast<ISpatial*>(this);
     if (self)
         self->spatial.type |= (STYPE_COLLIDEABLE | STYPE_SHAPE);
     //////////////////////////////////////////////////////////////////////////
@@ -254,13 +254,12 @@ void CCustomZone::Load(LPCSTR section)
     m_zone_flags.set(eBlowoutLight, pSettings->r_bool(section, "blowout_light"));
     if (m_zone_flags.test(eBlowoutLight))
     {
-        sscanf(
-            pSettings->r_string(section, "light_color"), "%f,%f,%f", &m_LightColor.r, &m_LightColor.g, &m_LightColor.b);
+        sscanf(pSettings->r_string(section, "light_color"), "%f,%f,%f", &m_LightColor.r, &m_LightColor.g, &m_LightColor.b);
         m_fLightRange    = pSettings->r_float(section, "light_range");
         m_fLightTime     = pSettings->r_float(section, "light_time");
         m_fLightTimeLeft = 0;
 
-        m_fLightHeight = pSettings->r_float(section, "light_height");
+        m_fLightHeight   = pSettings->r_float(section, "light_height");
     }
 
     // загрузить параметры idle подсветки
@@ -311,7 +310,7 @@ BOOL CCustomZone::net_Spawn(CSE_Abstract* DC)
     m_zone_flags.set(eUseOnOffTime, (m_TimeToDisable != 0) && (m_TimeToEnable != 0));
 
     // добавить источники света
-    bool br1 = (0 == psDeviceFlags.test(rsR2 | rsR3));
+    bool br1                = (0 == psDeviceFlags.test(rsR2 | rsR3));
 
     bool render_ver_allowed = !br1 || (br1 && m_zone_flags.test(eIdleLightR1));
 
@@ -343,7 +342,7 @@ BOOL CCustomZone::net_Spawn(CSE_Abstract* DC)
 
     m_iPreviousStateTime = m_iStateTime = 0;
 
-    m_dwLastTimeMoved = Device->dwTimeGlobal;
+    m_dwLastTimeMoved                   = Device->dwTimeGlobal;
     m_vPrevPos.set(Position());
 
     if (spawn_ini() && spawn_ini()->line_exist("fast_mode", "always_fast"))
@@ -520,9 +519,7 @@ void CCustomZone::shedule_Update(u32 dt)
 
             info.dw_time_in_zone += dt;
 
-            if ((!info.small_object && m_iDisableHitTime != -1 && (int)info.dw_time_in_zone > m_iDisableHitTime) ||
-                (info.small_object && m_iDisableHitTimeSmall != -1 &&
-                 (int)info.dw_time_in_zone > m_iDisableHitTimeSmall))
+            if ((!info.small_object && m_iDisableHitTime != -1 && (int)info.dw_time_in_zone > m_iDisableHitTime) || (info.small_object && m_iDisableHitTimeSmall != -1 && (int)info.dw_time_in_zone > m_iDisableHitTimeSmall))
             {
                 if (!pEntityAlive || !pEntityAlive->g_Alive())
                     info.zone_ignore = true;
@@ -576,9 +573,9 @@ void CCustomZone::feel_touch_new(CObject* O)
     //	if(smart_cast<CActor*>(O) && O == Level().CurrentEntity())
     //					m_pLocalActor	= smart_cast<CActor*>(O);
 
-    CGameObject*  pGameObject  = smart_cast<CGameObject*>(O);
-    CEntityAlive* pEntityAlive = smart_cast<CEntityAlive*>(pGameObject);
-    CArtefact*    pArtefact    = smart_cast<CArtefact*>(pGameObject);
+    CGameObject*    pGameObject  = smart_cast<CGameObject*>(O);
+    CEntityAlive*   pEntityAlive = smart_cast<CEntityAlive*>(pGameObject);
+    CArtefact*      pArtefact    = smart_cast<CArtefact*>(pGameObject);
 
     SZoneObjectInfo object_info;
     object_info.object = pGameObject;
@@ -593,9 +590,7 @@ void CCustomZone::feel_touch_new(CObject* O)
     else
         object_info.small_object = false;
 
-    if ((object_info.small_object && m_zone_flags.test(eIgnoreSmall)) ||
-        (object_info.nonalive_object && m_zone_flags.test(eIgnoreNonAlive)) ||
-        (pArtefact && m_zone_flags.test(eIgnoreArtefact)))
+    if ((object_info.small_object && m_zone_flags.test(eIgnoreSmall)) || (object_info.nonalive_object && m_zone_flags.test(eIgnoreNonAlive)) || (pArtefact && m_zone_flags.test(eIgnoreArtefact)))
         object_info.zone_ignore = true;
     else
         object_info.zone_ignore = false;
@@ -835,16 +830,16 @@ void CCustomZone::PlayEntranceParticles(CGameObject* pObject)
 
 void CCustomZone::PlayBoltEntranceParticles()
 {
-    CCF_Shape*                       Sh = (CCF_Shape*)CFORM();
-    const Fmatrix&                   XF = XFORM();
-    Fmatrix                          PXF;
-    xr_vector<CCF_Shape::shape_def>& Shapes = Sh->Shapes();
-    Fvector                          sP0, sP1, vel;
+    CCF_Shape*                                Sh = (CCF_Shape*)CFORM();
+    const Fmatrix&                            XF = XFORM();
+    Fmatrix                                   PXF;
+    xr_vector<CCF_Shape::shape_def>&          Shapes = Sh->Shapes();
+    Fvector                                   sP0, sP1, vel;
 
-    CParticlesObject* pParticles = NULL;
+    CParticlesObject*                         pParticles = NULL;
 
-    xr_vector<CCF_Shape::shape_def>::iterator it   = Shapes.begin();
-    xr_vector<CCF_Shape::shape_def>::iterator it_e = Shapes.end();
+    xr_vector<CCF_Shape::shape_def>::iterator it         = Shapes.begin();
+    xr_vector<CCF_Shape::shape_def>::iterator it_e       = Shapes.end();
 
     for (; it != it_e; ++it)
     {
@@ -856,8 +851,8 @@ void CCustomZone::PlayBoltEntranceParticles()
                 sP0 = s.data.sphere.P;
                 XF.transform_tiny(sP0);
 
-                float ki = 10.0f * s.data.sphere.R;
-                float c  = 2.0f * s.data.sphere.R;
+                float ki      = 10.0f * s.data.sphere.R;
+                float c       = 2.0f * s.data.sphere.R;
 
                 float quant_h = (PI_MUL_2 / float(ki)) * c;
                 float quant_p = (PI_DIV_2 / float(ki));
@@ -874,7 +869,7 @@ void CCustomZone::PlayBoltEntranceParticles()
                     PXF.k.normalize(vel);
                     Fvector::generate_orthonormal_basis(PXF.k, PXF.j, PXF.i);
 
-                    PXF.c = sP1;
+                    PXF.c      = sP1;
 
                     pParticles = CParticlesObject::Create(m_sBoltEntranceParticles.c_str(), TRUE);
                     pParticles->UpdateParent(PXF, vel);
@@ -1052,8 +1047,7 @@ void CCustomZone::UpdateBlowout()
     if (m_dwBlowoutSoundTime >= (u32)m_iPreviousStateTime && m_dwBlowoutSoundTime < (u32)m_iStateTime)
         m_blowout_sound.play_at_pos(0, Position());
 
-    if (m_zone_flags.test(eBlowoutWind) && m_dwBlowoutWindTimeStart >= (u32)m_iPreviousStateTime &&
-        m_dwBlowoutWindTimeStart < (u32)m_iStateTime)
+    if (m_zone_flags.test(eBlowoutWind) && m_dwBlowoutWindTimeStart >= (u32)m_iPreviousStateTime && m_dwBlowoutWindTimeStart < (u32)m_iStateTime)
         StartWind();
 
     UpdateWind();
@@ -1101,7 +1095,8 @@ void CCustomZone::OnEvent(NET_Packet& P, u16 type)
 {
     switch (type)
     {
-        case GE_ZONE_STATE_CHANGE: {
+        case GE_ZONE_STATE_CHANGE:
+        {
             u8 S;
             P.r_u8(S);
             OnStateSwitch(EZoneState(S));
@@ -1224,16 +1219,12 @@ void CCustomZone::UpdateWind()
 
     if (m_dwBlowoutWindTimePeak > (u32)m_iStateTime)
     {
-        g_pGamePersistent->EnvironmentAsCOP()->wind_strength_factor = m_fBlowoutWindPowerMax +
-            (m_fStoreWindPower - m_fBlowoutWindPowerMax) * float(m_dwBlowoutWindTimePeak - (u32)m_iStateTime) /
-                float(m_dwBlowoutWindTimePeak - m_dwBlowoutWindTimeStart);
+        g_pGamePersistent->EnvironmentAsCOP()->wind_strength_factor = m_fBlowoutWindPowerMax + (m_fStoreWindPower - m_fBlowoutWindPowerMax) * float(m_dwBlowoutWindTimePeak - (u32)m_iStateTime) / float(m_dwBlowoutWindTimePeak - m_dwBlowoutWindTimeStart);
         clamp(g_pGamePersistent->EnvironmentAsCOP()->wind_strength_factor, 0.f, 1.f);
     }
     else
     {
-        g_pGamePersistent->EnvironmentAsCOP()->wind_strength_factor = m_fBlowoutWindPowerMax +
-            (m_fStoreWindPower - m_fBlowoutWindPowerMax) * float((u32)m_iStateTime - m_dwBlowoutWindTimePeak) /
-                float(m_dwBlowoutWindTimeEnd - m_dwBlowoutWindTimePeak);
+        g_pGamePersistent->EnvironmentAsCOP()->wind_strength_factor = m_fBlowoutWindPowerMax + (m_fStoreWindPower - m_fBlowoutWindPowerMax) * float((u32)m_iStateTime - m_dwBlowoutWindTimePeak) / float(m_dwBlowoutWindTimeEnd - m_dwBlowoutWindTimePeak);
         clamp(g_pGamePersistent->EnvironmentAsCOP()->wind_strength_factor, 0.f, 1.f);
     }
 }
@@ -1249,15 +1240,7 @@ u32 CCustomZone::ef_weapon_type() const
     return (m_ef_weapon_type);
 }
 
-void CCustomZone::CreateHit(
-    u16             id_to,
-    u16             id_from,
-    const Fvector&  hit_dir,
-    float           hit_power,
-    s16             bone_id,
-    const Fvector&  pos_in_bone,
-    float           hit_impulse,
-    ALife::EHitType hit_type)
+void CCustomZone::CreateHit(u16 id_to, u16 id_from, const Fvector& hit_dir, float hit_power, s16 bone_id, const Fvector& pos_in_bone, float hit_impulse, ALife::EHitType hit_type)
 {
     if (OnServer())
     {
@@ -1421,8 +1404,8 @@ void CCustomZone::CalcDistanceTo(const Fvector& P, float& dist, float& radius)
     R_ASSERT(CFORM()->Type() == cftShape);
     CCF_Shape* Sh = (CCF_Shape*)CFORM();
 
-    dist     = P.distance_to(Position());
-    float sr = CFORM()->getSphere().R;
+    dist          = P.distance_to(Position());
+    float sr      = CFORM()->getSphere().R;
     // quick test
     if (Sh->Shapes().size() == 1)
     {
@@ -1442,12 +1425,12 @@ void CCustomZone::CalcDistanceTo(const Fvector& P, float& dist, float& radius)
         }
     */
     // full test
-    const Fmatrix&                   XF        = XFORM();
-    xr_vector<CCF_Shape::shape_def>& Shapes    = Sh->Shapes();
-    CCF_Shape::shape_def*            nearest_s = NULL;
-    float                            nearest   = flt_max;
+    const Fmatrix&                            XF        = XFORM();
+    xr_vector<CCF_Shape::shape_def>&          Shapes    = Sh->Shapes();
+    CCF_Shape::shape_def*                     nearest_s = NULL;
+    float                                     nearest   = flt_max;
 
-    Fvector sP;
+    Fvector                                   sP;
 
     xr_vector<CCF_Shape::shape_def>::iterator it   = Shapes.begin();
     xr_vector<CCF_Shape::shape_def>::iterator it_e = Shapes.end();

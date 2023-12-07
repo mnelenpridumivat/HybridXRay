@@ -31,9 +31,13 @@ static const float collide_adwance_delta = 2.f * max_collide_timedelta;
 static const float depth_resolve         = 0.01f;
 
 imotion_position::imotion_position():
-    interactive_motion(), time_to_end(0.f), saved_visual_callback(0), blend(0), shell_motion_has_history(false){
+    interactive_motion(),
+    time_to_end(0.f),
+    saved_visual_callback(0),
+    blend(0),
+    shell_motion_has_history(false){
 
-                                                                                };
+    };
 
 static void interactive_motion_diag(LPCSTR message, const CBlend& b, CPhysicsShell* s, float time_left)
 {
@@ -48,8 +52,7 @@ static void interactive_motion_diag(LPCSTR message, const CBlend& b, CPhysicsShe
     CPhysicsShellHolder* O = smart_cast<CPhysicsShellHolder*>(s->get_ElementByStoreOrder(0)->PhysicsRefObject());
     VERIFY(O);
     LPCSTR motion_name = KA->LL_MotionDefName_dbg(m).first;
-    Msg("death anims - interactive_motion:- %s, motion: %s, blend time %f , total blend time %f , time left: %f , obj: %s, model:  %s ",
-        message, motion_name, b.timeCurrent, b.timeTotal, time_left, O->cName().c_str(), O->cNameVisual().c_str());
+    Msg("death anims - interactive_motion:- %s, motion: %s, blend time %f , total blend time %f , time left: %f , obj: %s, model:  %s ", message, motion_name, b.timeCurrent, b.timeTotal, time_left, O->cName().c_str(), O->cNameVisual().c_str());
 #endif
 }
 
@@ -146,11 +149,9 @@ void imotion_position::state_start()
     VERIFY(get_blend.blend);
     const CBlend& B = *get_blend.blend;
 
-    blend = get_blend.blend;
+    blend           = get_blend.blend;
 
-    VERIFY2(
-        B.stop_at_end,
-        make_string("can not use cyclic anim in death animth motion: %s", KA->LL_MotionDefName_dbg(B.motionID).first));
+    VERIFY2(B.stop_at_end, make_string("can not use cyclic anim in death animth motion: %s", KA->LL_MotionDefName_dbg(B.motionID).first));
     time_to_end = B.timeTotal - (SAMPLE_SPF + EPS) - B.timeCurrent;
     time_to_end /= B.speed;
     shell->add_ObjectContactCallback(get_depth);
@@ -383,8 +384,7 @@ void collide_anim_dbg_draw(CPhysicsShell* shell, float dt)
     if (dbg_imotion_draw_skeleton)
     {
         DBG_OpenCashedDraw();
-        CPhysicsShellHolder* sh =
-            static_cast<CPhysicsShellHolder*>(shell->get_ElementByStoreOrder(0)->PhysicsRefObject());
+        CPhysicsShellHolder* sh = static_cast<CPhysicsShellHolder*>(shell->get_ElementByStoreOrder(0)->PhysicsRefObject());
         DBG_PhysBones(*sh);
         DBG_ClosedCashedDraw(50000);
     }
@@ -563,8 +563,7 @@ float imotion_position::motion_collide(float dt, IKinematicsAnimated& KA)
         if (dbg_imotion_collide_debug)
         {
             // interactive_motion_diagnostic( make_string( " motion_collide collided0: deppth= %f", depth ).c_str() );
-            interactive_motion_diagnostic(
-                make_string("motion_collide 1: stoped: colide: %s, depth %f", collide_diag().c_str(), depth).c_str());
+            interactive_motion_diagnostic(make_string("motion_collide 1: stoped: colide: %s, depth %f", collide_diag().c_str(), depth).c_str());
             DBG_OpenCashedDraw();
             shell->dbg_draw_geometry(0.02, color_argb(255, 0, 255, 0));
             DBG_ClosedCashedDraw(50000);
@@ -588,8 +587,7 @@ float imotion_position::motion_collide(float dt, IKinematicsAnimated& KA)
 
         if (depth > depth0)
         {
-            interactive_motion_diagnostic(
-                make_string("motion_collide 1: stoped: colide: %s, depth %f", collide_diag().c_str(), depth).c_str());
+            interactive_motion_diagnostic(make_string("motion_collide 1: stoped: colide: %s, depth %f", collide_diag().c_str(), depth).c_str());
             flags.set(fl_switch_dm_toragdoll, TRUE);
         }
         else
@@ -608,9 +606,7 @@ float imotion_position::motion_collide(float dt, IKinematicsAnimated& KA)
 #endif
             if (depth > depth_resolve)
             {
-                interactive_motion_diagnostic(
-                    make_string("motion_collide 2: stoped: colide: %s, depth %f", collide_diag().c_str(), depth)
-                        .c_str());
+                interactive_motion_diagnostic(make_string("motion_collide 2: stoped: colide: %s, depth %f", collide_diag().c_str(), depth).c_str());
                 flags.set(fl_switch_dm_toragdoll, TRUE);
             }
         }

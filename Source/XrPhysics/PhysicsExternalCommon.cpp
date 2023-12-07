@@ -4,7 +4,7 @@
 #include "mathutilsode.h"
 bool ContactShotMarkGetEffectPars(dContactGeom* c, dxGeomUserData*& data, float& vel_cret, bool& b_invert_normal)
 {
-    dBodyID b = dGeomGetBody(c->g1);
+    dBodyID b       = dGeomGetBody(c->g1);
 
     b_invert_normal = false;
     if (!b)

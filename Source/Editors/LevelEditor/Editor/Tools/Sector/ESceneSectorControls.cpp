@@ -1,9 +1,7 @@
 ﻿#include "stdafx.h"
 
 // add
-TUI_ControlSectorAdd::TUI_ControlSectorAdd(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent)
-{
-}
+TUI_ControlSectorAdd::TUI_ControlSectorAdd(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent) {}
 
 void TUI_ControlSectorAdd::OnEnter()
 {
@@ -56,8 +54,7 @@ bool TUI_ControlSectorAdd::AddSector()
     Scene->GenObjectName(OBJCLASS_SECTOR, namebuffer);
     CSector*     _O = xr_new<CSector>((LPVOID)0, namebuffer);
     SRayPickInfo pinf;
-    if (Scene->RayPickObject(pinf.inf.range, UI->m_CurrentRStart, UI->m_CurrentRDir, OBJCLASS_SCENEOBJECT, &pinf, 0) &&
-        (_O->AddMesh(dynamic_cast<CSceneObject*>(pinf.s_obj), pinf.e_mesh)))
+    if (Scene->RayPickObject(pinf.inf.range, UI->m_CurrentRStart, UI->m_CurrentRDir, OBJCLASS_SCENEOBJECT, &pinf, 0) && (_O->AddMesh(dynamic_cast<CSceneObject*>(pinf.s_obj), pinf.e_mesh)))
     {
         Scene->SelectObjects(false, OBJCLASS_SECTOR);
         Scene->AppendObject(_O);
@@ -190,8 +187,8 @@ bool TUI_ControlSectorAdd::End(TShiftState _Shift)
             CSceneObject*    O_ref = NULL;
             CEditableObject* O_lib = NULL;
 
-            CFrustum   frustum;
-            ObjectList lst;
+            CFrustum         frustum;
+            ObjectList       lst;
             if (LUI->SelectionFrustum(frustum))
             {
                 ;
@@ -228,8 +225,7 @@ bool TUI_ControlSectorAdd::End(TShiftState _Shift)
 }
 
 //
-TUI_ControlSectorSelect::TUI_ControlSectorSelect(int st, int act, ESceneToolBase* parent):
-    TUI_CustomControl(st, act, parent)
+TUI_ControlSectorSelect::TUI_ControlSectorSelect(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent)
 {
     pFrame = 0;
 }

@@ -17,15 +17,7 @@ CImageManager ImageLib;
 extern bool IsFormatRegister(LPCSTR ext);
 extern FIBITMAP* Stbi_Load(char* full_name);*/
 
-extern "C" __declspec(dllimport) int DXTCompress(
-    LPCSTR          out_name,
-    u8*             raw_data,
-    u8*             ext_data,
-    u32             w,
-    u32             h,
-    u32             pitch,
-    STextureParams* options,
-    u32             depth);
+extern "C" __declspec(dllimport) int DXTCompress(LPCSTR out_name, u8* raw_data, u8* ext_data, u32 w, u32 h, u32 pitch, STextureParams* options, u32 depth);
 
 bool IsValidSize(u32 w, u32 h)
 {
@@ -138,11 +130,7 @@ void CImageManager::MakeThumbnailImage(ETextureThumbnail* THM, u32* data, u32 w,
 //------------------------------------------------------------------------------
 // создает тхм
 //------------------------------------------------------------------------------
-void CImageManager::CreateTextureThumbnail(
-    ETextureThumbnail* THM,
-    const xr_string&   src_name,
-    LPCSTR             initial,
-    bool               bSetDefParam)
+void CImageManager::CreateTextureThumbnail(ETextureThumbnail* THM, const xr_string& src_name, LPCSTR initial, bool bSetDefParam)
 {
     R_ASSERT(src_name.size());
     string_path base_name;
@@ -191,7 +179,7 @@ void CImageManager::CreateGameTexture(LPCSTR src_name, ETextureThumbnail* thumb)
     strcpy(game_name, EFS.ChangeFileExt(src_name, ".dds").c_str());
     FS.update_path(base_name, _textures_, base_name);
     FS.update_path(game_name, _game_textures_, game_name);
-    int base_age = FS.get_file_age(base_name);
+    int    base_age = FS.get_file_age(base_name);
 
     U32Vec data;
     u32    w, h, a;
@@ -369,14 +357,7 @@ void CImageManager::SafeCopyLocalToServer(FS_FileSet& files)
 // source_list - содержит список текстур с расширениями
 // sync_list - реально сохраненные файлы (после использования освободить)
 //------------------------------------------------------------------------------
-void CImageManager::SynchronizeTextures(
-    bool        sync_thm,
-    bool        sync_game,
-    bool        bForceGame,
-    FS_FileSet* source_list,
-    AStringVec* sync_list,
-    FS_FileSet* modif_map,
-    bool        bForceBaseAge)
+void CImageManager::SynchronizeTextures(bool sync_thm, bool sync_game, bool bForceGame, FS_FileSet* source_list, AStringVec* sync_list, FS_FileSet* modif_map, bool bForceBaseAge)
 {
     FS_FileSet M_BASE;
     FS_FileSet M_THUM;
@@ -393,21 +374,21 @@ void CImageManager::SynchronizeTextures(
     if (sync_game)
         FS.file_list(M_GAME, _game_textures_, FS_ListFiles | FS_ClampExt, "*.dds");
 
-    bool bProgress = M_BASE.size() > 1;
+    bool     bProgress = M_BASE.size() > 1;
 
     // lock rescanning
-    int m_age = time(NULL);
+    int      m_age     = time(NULL);
 
     // sync assoc
-    SPBItem* pb = 0;
+    SPBItem* pb        = 0;
     if (bProgress)
         pb = UI->ProgressStart(M_BASE.size(), "Synchronize textures...");
     FS_FileSetIt it = M_BASE.begin();
     FS_FileSetIt _E = M_BASE.end();
     for (; it != _E; it++)
     {
-        U32Vec data;
-        u32    w, h, a;
+        U32Vec    data;
+        u32       w, h, a;
 
         xr_string base_name = EFS.ChangeFileExt(it->name, "");
         xr_strlwr(base_name);
@@ -416,15 +397,15 @@ void CImageManager::SynchronizeTextures(
         if (!FS.exist(fn))
             continue;
 
-        FS_FileSetIt th   = M_THUM.find(base_name);
-        bool         bThm = ((th == M_THUM.end()) || ((th != M_THUM.end()) && (th->time_write != it->time_write)));
-        FS_FileSetIt gm   = M_GAME.find(base_name);
-        bool bGame = bThm || ((gm == M_GAME.end()) || ((gm != M_GAME.end()) && (gm->time_write != it->time_write)));
+        FS_FileSetIt       th       = M_THUM.find(base_name);
+        bool               bThm     = ((th == M_THUM.end()) || ((th != M_THUM.end()) && (th->time_write != it->time_write)));
+        FS_FileSetIt       gm       = M_GAME.find(base_name);
+        bool               bGame    = bThm || ((gm == M_GAME.end()) || ((gm != M_GAME.end()) && (gm->time_write != it->time_write)));
 
-        ETextureThumbnail* THM = 0;
+        ETextureThumbnail* THM      = 0;
 
-        BOOL bUpdated = FALSE;
-        BOOL bFailed  = FALSE;
+        BOOL               bUpdated = FALSE;
+        BOOL               bFailed  = FALSE;
         // check thumbnail
         if (sync_thm && bThm)
         {
@@ -571,7 +552,7 @@ int CImageManager::GetLocalNewTextures(FS_FileSet& files)
 // output: 	соответствие
 //------------------------------------------------------------------------------
 #define SQR(a) ((a) * (a))
-BOOL CImageManager::CheckCompliance(LPCSTR fname, int & compl)
+BOOL CImageManager::CheckCompliance(LPCSTR fname, int & compl )
 {
     compl = 0;
     U32Vec data;
@@ -581,10 +562,10 @@ BOOL CImageManager::CheckCompliance(LPCSTR fname, int & compl)
     if ((1 == w) || (1 == h))
         return TRUE;
 
-    u32 w_2 = (1 == w) ? w : w / 2;
-    u32 h_2 = (1 == h) ? h : h / 2;
+    u32  w_2       = (1 == w) ? w : w / 2;
+    u32  h_2       = (1 == h) ? h : h / 2;
     // scale down(lanczos3) and up (bilinear, as video board)
-    u32* pScaled   = (u32*)(xr_malloc((w_2) * (h_2)*4));
+    u32* pScaled   = (u32*)(xr_malloc((w_2) * (h_2) * 4));
     u32* pRestored = (u32*)(xr_malloc(w * h * 4));
     try
     {
@@ -630,7 +611,7 @@ BOOL CImageManager::CheckCompliance(LPCSTR fname, int & compl)
     return TRUE;
 }
 
-void CImageManager::CheckCompliance(FS_FileSet& files, FS_FileSet & compl)
+void CImageManager::CheckCompliance(FS_FileSet& files, FS_FileSet & compl )
 {
     SPBItem*     pb = UI->ProgressStart(files.size(), "Check texture compliance: ");
     FS_FileSetIt it = files.begin();
@@ -644,7 +625,7 @@ void CImageManager::CheckCompliance(FS_FileSet& files, FS_FileSet & compl)
             ELog.Msg(mtError, "& Bad texture: '%s'", it->name.c_str());
         FS_File F(*it);
         F.attrib = val;
-        compl.insert(F);
+        compl .insert(F);
         pb->Inc();
         if (UI->NeedAbort())
             break;
@@ -729,7 +710,7 @@ void CImageManager::ApplyBorders(U32Vec& tgt_data, u32 w, u32 h)
 
 BOOL CImageManager::CreateOBJThumbnail(LPCSTR tex_name, CEditableObject* obj, int age)
 {
-    BOOL bResult = TRUE;
+    BOOL    bResult  = TRUE;
     // save render params
     Flags32 old_flag = psDeviceFlags;
     // set render params

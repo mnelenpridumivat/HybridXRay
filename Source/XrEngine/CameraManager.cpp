@@ -16,11 +16,11 @@
 #include "gamefont.h"
 #include "render.h"
 
-float psCamInert      = 0.f;
-float psCamSlideInert = 0.25f;
+float    psCamInert      = 0.f;
+float    psCamSlideInert = 0.25f;
 
-SPPInfo pp_identity;
-SPPInfo pp_zero;
+SPPInfo  pp_identity;
+SPPInfo  pp_zero;
 
 SPPInfo& SPPInfo::add(const SPPInfo& ppi)
 {
@@ -114,20 +114,11 @@ SPPInfo& SPPInfo::lerp(const SPPInfo& def, const SPPInfo& to, float factor)
     pp.noise.grain     = to.noise.grain;       //		+ (to.noise.grain		- def.noise.grain)		* factor;
     pp.noise.fps       = to.noise.fps;         //		+ (to.noise.fps			- def.noise.fps)		* factor;
 
-    pp.color_base.set(
-        def.color_base.r + (to.color_base.r - def.color_base.r) * factor,
-        def.color_base.g + (to.color_base.g - def.color_base.g) * factor,
-        def.color_base.b + (to.color_base.b - def.color_base.b) * factor);
+    pp.color_base.set(def.color_base.r + (to.color_base.r - def.color_base.r) * factor, def.color_base.g + (to.color_base.g - def.color_base.g) * factor, def.color_base.b + (to.color_base.b - def.color_base.b) * factor);
 
-    pp.color_gray.set(
-        def.color_gray.r + (to.color_gray.r - def.color_gray.r) * factor,
-        def.color_gray.g + (to.color_gray.g - def.color_gray.g) * factor,
-        def.color_gray.b + (to.color_gray.b - def.color_gray.b) * factor);
+    pp.color_gray.set(def.color_gray.r + (to.color_gray.r - def.color_gray.r) * factor, def.color_gray.g + (to.color_gray.g - def.color_gray.g) * factor, def.color_gray.b + (to.color_gray.b - def.color_gray.b) * factor);
 
-    pp.color_add.set(
-        def.color_add.r + (to.color_add.r - def.color_add.r) * factor,
-        def.color_add.g + (to.color_add.g - def.color_add.g) * factor,
-        def.color_add.b + (to.color_add.b - def.color_add.b) * factor);
+    pp.color_add.set(def.color_add.r + (to.color_add.r - def.color_add.r) * factor, def.color_add.g + (to.color_add.g - def.color_add.g) * factor, def.color_add.b + (to.color_add.b - def.color_add.b) * factor);
 
     pp.cm_tex1 = to.cm_tex1;
     pp.cm_tex2 = to.cm_tex2;
@@ -143,7 +134,7 @@ CCameraManager::CCameraManager(bool bApplyOnUpdate)
     dbg_upd_frame = 0;
 #endif
 
-    m_bAutoApply = bApplyOnUpdate;
+    m_bAutoApply                = bApplyOnUpdate;
 
     pp_identity.blur            = 0;
     pp_identity.gray            = 0;
@@ -279,19 +270,10 @@ void CCameraManager::OnEffectorReleased(SBaseEffector* e)
 
 void CCameraManager::UpdateFromCamera(const CCameraBase* C)
 {
-    Update(
-        C->vPosition, C->vDirection, C->vNormal, C->f_fov, C->f_aspect,
-        g_pGamePersistent->Environment().CurrentEnv->far_plane, C->m_Flags.flags);
+    Update(C->vPosition, C->vDirection, C->vNormal, C->f_fov, C->f_aspect, g_pGamePersistent->Environment().CurrentEnv->far_plane, C->m_Flags.flags);
 }
 
-void CCameraManager::Update(
-    const Fvector& P,
-    const Fvector& D,
-    const Fvector& N,
-    float          fFOV_Dest,
-    float          fASPECT_Dest,
-    float          fFAR_Dest,
-    u32            flags)
+void CCameraManager::Update(const Fvector& P, const Fvector& D, const Fvector& N, float fFOV_Dest, float fASPECT_Dest, float fFAR_Dest, u32 flags)
 {
 #ifdef DEBUG
     if (!Device->Paused())

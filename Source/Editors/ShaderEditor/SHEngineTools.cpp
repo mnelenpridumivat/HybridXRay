@@ -113,10 +113,9 @@ void CSHEngineTools::OnDestroy()
     m_bModified = FALSE;
 }
 
-xr_token preview_obj_token[] = {{"None", pvoNone},     {"Plane", pvoPlane},      {"Box", pvoBox}, {"Sphere", pvoSphere},
-                                {"Teapot", pvoTeapot}, {"Custom...", pvoCustom}, {0, 0}};
+xr_token preview_obj_token[] = {{"None", pvoNone}, {"Plane", pvoPlane}, {"Box", pvoBox}, {"Sphere", pvoSphere}, {"Teapot", pvoTeapot}, {"Custom...", pvoCustom}, {0, 0}};
 
-bool CSHEngineTools::OnPreviewObjectRefChange(PropValue* sender, u32& new_val)
+bool     CSHEngineTools::OnPreviewObjectRefChange(PropValue* sender, u32& new_val)
 {
     LPCSTR fn           = "";
     m_bCustomEditObject = false;
@@ -134,7 +133,8 @@ bool CSHEngineTools::OnPreviewObjectRefChange(PropValue* sender, u32& new_val)
         case pvoTeapot:
             fn = "editor\\ShaderTest_Teapot";
             break;
-        case pvoCustom: {
+        case pvoCustom:
+        {
             m_SetCustomObject = TRUE;
             UIChooseForm::SelectItem(smObject, 1, 0, 0, 0, 0, 0, 0);
             return true;
@@ -168,8 +168,7 @@ void CSHEngineTools::OnPreviewObjectRefChange(const char* fn)
 void CSHEngineTools::OnActivate()
 {
     PropItemVec      items;
-    TokenValue<u32>* V =
-        PHelper().CreateToken32(items, PrepareKey("Object", "Reference"), &m_PreviewObjectType, preview_obj_token);
+    TokenValue<u32>* V = PHelper().CreateToken32(items, PrepareKey("Object", "Reference"), &m_PreviewObjectType, preview_obj_token);
     V->OnAfterEditEvent.bind(this, &CSHEngineTools::OnPreviewObjectRefChange);
     Ext.m_PreviewProps->AssignItems(items);
     // fill items*/
@@ -590,8 +589,7 @@ void CSHEngineTools::AppendItem(LPCSTR path, LPCSTR parent_name)
     CLASS_ID  cls_id;
     if (!parent)
     {
-        UIChooseForm::SelectItem(
-            smCustom, 1, 0, TOnChooseFillItems(this, &CSHEngineTools::FillChooseTemplate), 0, 0, 0, 0);
+        UIChooseForm::SelectItem(smCustom, 1, 0, TOnChooseFillItems(this, &CSHEngineTools::FillChooseTemplate), 0, 0, 0, 0);
         m_CreatingBlender     = TRUE;
         m_CreatingBlenderPath = path;
         return;
@@ -993,7 +991,7 @@ void CSHEngineTools::AppendItem(LPCSTR path, CLASS_ID cls_id, IBlender* parent)
 {
     R_ASSERT2(cls_id, "Invalid CLASS_ID.");
     // append blender
-    IBlender* B = IBlender::Create(cls_id);
+    IBlender*     B = IBlender::Create(cls_id);
     // append matrix& constant
     CMemoryWriter M;
     if (parent)

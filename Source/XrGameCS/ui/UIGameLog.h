@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 //  Filename:   UIGameLog.h
 //	Created by Vitaly 'Mad Max' Maximov, mad-max@gsc-game.kiev.ua
 //	Copyright 2005. GSC Game World
@@ -28,24 +28,23 @@ class CUIStatic;
 class CUIGameLog: public CUIScrollView
 {
 public:
-	CUIGameLog();
-	virtual ~CUIGameLog();
-	CUIStatic*				AddLogMessage	(LPCSTR msg);
-	CUIPdaKillMessage*		AddLogMessage	(KillMessageStruct& msg);
-	CUIPdaMsgListItem*		AddPdaMessage	();
-	void					AddChatMessage	(LPCSTR msg, LPCSTR author);
-	virtual void			Update			();
+    CUIGameLog();
+    virtual ~CUIGameLog();
+    CUIStatic*         AddLogMessage(LPCSTR msg);
+    CUIPdaKillMessage* AddLogMessage(KillMessageStruct& msg);
+    CUIPdaMsgListItem* AddPdaMessage();
+    void               AddChatMessage(LPCSTR msg, LPCSTR author);
+    virtual void       Update();
 
-	void					SetTextAtrib	(CGameFont* pFont, u32 color);
-	u32						GetTextColor	();
+    void               SetTextAtrib(CGameFont* pFont, u32 color);
+    u32                GetTextColor();
 
 private:
-
-	//typedef xr_set<int, std::greater<int> > ToDelIndexes;
-	//typedef ToDelIndexes::iterator			ToDelIndexes_it;
-	xr_vector<CUIWindow*>		toDelList;
-	float						kill_msg_height;
-	u32							txt_color;
+    //typedef xr_set<int, std::greater<int> > ToDelIndexes;
+    //typedef ToDelIndexes::iterator			ToDelIndexes_it;
+    xr_vector<CUIWindow*> toDelList;
+    float                 kill_msg_height;
+    u32                   txt_color;
 };
 
 //////////////////////////////////////////////////////////////////////////

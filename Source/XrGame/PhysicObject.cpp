@@ -18,11 +18,7 @@
 #include "../xrengine/objectdump.h"
 #endif
 BOOL dbg_draw_doors = false;
-CPhysicObject::CPhysicObject(void):
-    m_anim_blend(0), m_type(epotBox), m_mass(10.f), m_collision_hit_callback(0), bones_snd_player(0),
-    m_net_updateData(0)
-{
-}
+CPhysicObject::CPhysicObject(void): m_anim_blend(0), m_type(epotBox), m_mass(10.f), m_collision_hit_callback(0), bones_snd_player(0), m_net_updateData(0) {}
 
 CPhysicObject::~CPhysicObject(void)
 {
@@ -137,7 +133,7 @@ static CPhysicsShellHolder* retrive_collide_object(bool bo1, dContact& c)
 {
     CPhysicsShellHolder* collide_obj = 0;
 
-    dxGeomUserData* ud = 0;
+    dxGeomUserData*      ud          = 0;
     if (bo1)
         ud = PHRetrieveGeomUserData(c.geom.g2);
     else
@@ -202,11 +198,7 @@ void CPhysicObject::RunStartupAnim(CSE_Abstract* D)
             R_ASSERT(visual);
             R_ASSERT2(*visual->startup_animation, "no startup animation");
 
-            VERIFY2(
-                (!!PKinematicsAnimated->LL_MotionID(visual->startup_animation.c_str()).valid()),
-                (make_string(" animation %s not faund ", visual->startup_animation.c_str()) +
-                 dbg_object_base_dump_string(this))
-                    .c_str());
+            VERIFY2((!!PKinematicsAnimated->LL_MotionID(visual->startup_animation.c_str()).valid()), (make_string(" animation %s not faund ", visual->startup_animation.c_str()) + dbg_object_base_dump_string(this)).c_str());
             m_anim_blend = m_anim_script_callback.play_cycle(PKinematicsAnimated, visual->startup_animation);
         }
         smart_cast<IKinematics*>(Visual())->CalculateBones_Invalidate();
@@ -259,11 +251,7 @@ void CPhysicObject::anim_time_set(float time)
     if (time < 0.f || time > m_anim_blend->timeTotal)
     {
 #ifdef DEBUG
-        Msg(" ! can not set blend time %f - it must be in range 0 - %f(timeTotal) obj: %s, model: %s, anim: %s", time,
-            m_anim_blend->timeTotal, cName().c_str(), cNameVisual().c_str(),
-            smart_cast<IKinematicsAnimated*>(PPhysicsShell()->PKinematics())
-                ->LL_MotionDefName_dbg(m_anim_blend->motionID)
-                .first);
+        Msg(" ! can not set blend time %f - it must be in range 0 - %f(timeTotal) obj: %s, model: %s, anim: %s", time, m_anim_blend->timeTotal, cName().c_str(), cNameVisual().c_str(), smart_cast<IKinematicsAnimated*>(PPhysicsShell()->PKinematics())->LL_MotionDefName_dbg(m_anim_blend->motionID).first);
 #endif
         return;
     }
@@ -306,8 +294,7 @@ void CPhysicObject::CreateSkeleton(CSE_ALifeObjectPhysic* po)
     LPCSTR fixed_bones = *po->fixed_bones;
     m_pPhysicsShell    = P_build_Shell(this, !po->_flags.test(CSE_PHSkeleton::flActive), fixed_bones);
     ApplySpawnIniToPhysicShell(&po->spawn_ini(), m_pPhysicsShell, fixed_bones[0] != '\0');
-    ApplySpawnIniToPhysicShell(
-        smart_cast<IKinematics*>(Visual())->LL_UserData(), m_pPhysicsShell, fixed_bones[0] != '\0');
+    ApplySpawnIniToPhysicShell(smart_cast<IKinematics*>(Visual())->LL_UserData(), m_pPhysicsShell, fixed_bones[0] != '\0');
 }
 
 void CPhysicObject::Load(LPCSTR section)
@@ -382,7 +369,7 @@ void CPhysicObject::PHObjectPositionUpdate()
 
 void CPhysicObject::AddElement(CPhysicsElement* root_e, int id)
 {
-    IKinematics* K = smart_cast<IKinematics*>(Visual());
+    IKinematics*     K = smart_cast<IKinematics*>(Visual());
 
     CPhysicsElement* E = P_create_Element();
     CBoneInstance&   B = K->LL_GetBoneInstance(u16(id));
@@ -424,12 +411,14 @@ void CPhysicObject::CreateBody(CSE_ALifeObjectPhysic* po)
     IKinematics* pKinematics = smart_cast<IKinematics*>(Visual());
     switch (m_type)
     {
-        case epotBox: {
+        case epotBox:
+        {
             m_pPhysicsShell = P_build_SimpleShell(this, m_mass, !po->_flags.test(CSE_ALifeObjectPhysic::flActive));
         }
         break;
         case epotFixedChain:
-        case epotFreeChain: {
+        case epotFreeChain:
+        {
             m_pPhysicsShell = P_create_Shell();
             m_pPhysicsShell->set_Kinematics(pKinematics);
             AddElement(0, pKinematics->LL_GetBoneRoot());
@@ -437,13 +426,15 @@ void CPhysicObject::CreateBody(CSE_ALifeObjectPhysic* po)
         }
         break;
 
-        case epotSkeleton: {
+        case epotSkeleton:
+        {
             // pKinematics->LL_SetBoneRoot(0);
             CreateSkeleton(po);
         }
         break;
 
-        default: {
+        default:
+        {
         }
         break;
     }
@@ -827,10 +818,7 @@ void CPhysicObject::Interpolate()
     }
 }
 
-float CPhysicObject::interpolate_states(
-    net_update_PItem const& first,
-    net_update_PItem const& last,
-    SPHNetState&            current)
+float CPhysicObject::interpolate_states(net_update_PItem const& first, net_update_PItem const& last, SPHNetState& current)
 {
     float ret_val = 0.f;
     u32   CurTime = Device->dwTimeGlobal;
@@ -840,7 +828,7 @@ float CPhysicObject::interpolate_states(
 
     float factor = float(CurTime - last.dwTimeStamp) / float(last.dwTimeStamp - first.dwTimeStamp);
 
-    ret_val = factor;
+    ret_val      = factor;
     if (factor > 1.f)
     {
         factor = 1.f;
@@ -879,19 +867,19 @@ bool CPhysicObject::get_door_vectors(Fvector& closed, Fvector& open) const
     Fmatrix start_bone_pos;
     K->Bone_GetAnimPos(start_bone_pos, door_bone, u8(-1), true);
 
-    Fmatrix start_pos = Fmatrix().mul_43(XFORM(), start_bone_pos);
+    Fmatrix     start_pos = Fmatrix().mul_43(XFORM(), start_bone_pos);
 
-    const Fobb& box = shape.box;
+    const Fobb& box       = shape.box;
 
-    Fvector center_pos;
+    Fvector     center_pos;
     start_pos.transform_tiny(center_pos, box.m_translate);
 
     Fvector door_dir;
     start_pos.transform_dir(door_dir, box.m_rotate.i);
-    Fvector door_dir_local = box.m_rotate.i;
+    Fvector       door_dir_local = box.m_rotate.i;
     // Fvector door_dir_bone; start_bone_pos.transform_dir(door_dir_bone, box.m_rotate.i );
 
-    const Fvector det_vector = Fvector().sub(center_pos, start_pos.c);
+    const Fvector det_vector     = Fvector().sub(center_pos, start_pos.c);
 
     if (door_dir.dotproduct(det_vector) < 0.f)
     {

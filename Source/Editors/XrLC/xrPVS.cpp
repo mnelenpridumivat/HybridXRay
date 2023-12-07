@@ -136,9 +136,7 @@ void CBuild::BuildPVS()
                 {
                     Progress(float(dwSlot) / float(dwSlotsTotal));
                     u32 dwCurrentTime = timeGetTime();
-                    Status(
-                        "Sample #%d\nSpeed %3.1f samples per second\nPVS entrys: %d", dwSlot,
-                        1000.f * float(dwSlot) / float(dwCurrentTime - dwStartTime), g_pvs.size());
+                    Status("Sample #%d\nSpeed %3.1f samples per second\nPVS entrys: %d", dwSlot, 1000.f * float(dwSlot) / float(dwCurrentTime - dwStartTime), g_pvs.size());
                 }
             }
         }

@@ -214,7 +214,8 @@ void CPHGeometryOwner::add_Shape(const SBoneShape& shape, const Fmatrix& offset)
 {
     switch (shape.type)
     {
-        case SBoneShape::stBox: {
+        case SBoneShape::stBox:
+        {
             Fobb    box = shape.box;
             Fmatrix m;
             m.set(offset);
@@ -228,14 +229,16 @@ void CPHGeometryOwner::add_Shape(const SBoneShape& shape, const Fmatrix& offset)
             add_Box(box);
             break;
         }
-        case SBoneShape::stSphere: {
+        case SBoneShape::stSphere:
+        {
             Fsphere sphere = shape.sphere;
             offset.transform_tiny(sphere.P);
             add_Sphere(sphere);
             break;
         }
 
-        case SBoneShape::stCylinder: {
+        case SBoneShape::stCylinder:
+        {
             Fcylinder C = shape.cylinder;
             offset.transform_tiny(C.m_center);
             offset.transform_dir(C.m_direction);
@@ -254,16 +257,19 @@ void CPHGeometryOwner::add_Shape(const SBoneShape& shape)
 {
     switch (shape.type)
     {
-        case SBoneShape::stBox: {
+        case SBoneShape::stBox:
+        {
             add_Box(shape.box);
             break;
         }
-        case SBoneShape::stSphere: {
+        case SBoneShape::stSphere:
+        {
             add_Sphere(shape.sphere);
             break;
         }
 
-        case SBoneShape::stCylinder: {
+        case SBoneShape::stCylinder:
+        {
             add_Cylinder(shape.cylinder);
             break;
         }

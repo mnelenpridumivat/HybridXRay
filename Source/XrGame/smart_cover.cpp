@@ -35,15 +35,7 @@ using smart_cover::cover;
 using smart_cover::description;
 using smart_cover::transform_vertex;
 
-cover::cover(
-    smart_cover::object const& object,
-    DescriptionPtr             description,
-    bool const                 is_combat_cover,
-    bool const                 can_fire,
-    luabind::object const&     loopholes_availability):
-    inherited(object.Position(), object.ai_location().level_vertex_id()),
-    m_object(object), m_description(description), m_id(m_object.cName()), m_is_combat_cover(is_combat_cover),
-    m_can_fire(can_fire)
+cover::cover(smart_cover::object const& object, DescriptionPtr description, bool const is_combat_cover, bool const can_fire, luabind::object const& loopholes_availability): inherited(object.Position(), object.ai_location().level_vertex_id()), m_object(object), m_description(description), m_id(m_object.cName()), m_is_combat_cover(is_combat_cover), m_can_fire(can_fire)
 {
     m_is_smart_cover = 1;
 
@@ -78,10 +70,7 @@ cover::cover(
         Fvector position = this->fov_position(**J);
         position.y += 2.0f;
         u32 level_vertex_id = graph.vertex_id(position);
-        VERIFY2(
-            graph.valid_vertex_id(level_vertex_id),
-            make_string(
-                "invalid vertex id: smart cover[%s], loophole [%s]", m_object.cName().c_str(), (*J)->id().c_str()));
+        VERIFY2(graph.valid_vertex_id(level_vertex_id), make_string("invalid vertex id: smart cover[%s], loophole [%s]", m_object.cName().c_str(), (*J)->id().c_str()));
         vertex(**J, (*i).second);
         const_cast<loophole*&>((*i).first) = *J;
     }
@@ -99,10 +88,7 @@ void cover::vertex(smart_cover::loophole const& loophole, smart_cover::loophole_
     Fvector            pos   = fov_position(loophole);
     pos.y += 2.0f;
     loophole_data.m_level_vertex_id = graph.vertex_id(pos);
-    VERIFY2(
-        graph.valid_vertex_id(loophole_data.m_level_vertex_id),
-        make_string(
-            "invalid vertex id: smart cover[%s], loophole [%s]", m_object.cName().c_str(), loophole.id().c_str()));
+    VERIFY2(graph.valid_vertex_id(loophole_data.m_level_vertex_id), make_string("invalid vertex id: smart cover[%s], loophole [%s]", m_object.cName().c_str(), loophole.id().c_str()));
 
     typedef loophole::ActionList::const_iterator const_iterator;
     const_iterator                               I = loophole.actions().begin();
@@ -113,9 +99,7 @@ void cover::vertex(smart_cover::loophole const& loophole, smart_cover::loophole_
             Fvector pos = position((*I).second->target_position());
             pos.y += 2.0f;
             u32 level_vertex_id = graph.vertex_id(pos);
-            VERIFY2(
-                graph.valid_vertex_id(level_vertex_id),
-                make_string("invalid vertex id: loophole [%s]", loophole.id().c_str()));
+            VERIFY2(graph.valid_vertex_id(level_vertex_id), make_string("invalid vertex id: loophole [%s]", loophole.id().c_str()));
             loophole_data.m_action_vertices.push_back(std::make_pair((*I).first, level_vertex_id));
         }
 }
@@ -125,7 +109,7 @@ class id_predicate
     shared_str m_id;
 
 public:
-    IC id_predicate(shared_str const& id): m_id(id) {}
+    IC      id_predicate(shared_str const& id): m_id(id) {}
 
     IC bool operator()(cover::Vertex const& vertex) const
     {
@@ -143,21 +127,16 @@ u32 const& cover::action_level_vertex_id(smart_cover::loophole const& loophole, 
     Vertices::const_iterator found = std::find_if(m_vertices.begin(), m_vertices.end(), id_predicate(loophole.id()));
     VERIFY(found != m_vertices.end());
 
-    loophole_data::ActionVertices::const_iterator found2 = std::find_if(
-        found->second.m_action_vertices.begin(), found->second.m_action_vertices.end(), id_predicate(action_id));
+    loophole_data::ActionVertices::const_iterator found2 = std::find_if(found->second.m_action_vertices.begin(), found->second.m_action_vertices.end(), id_predicate(action_id));
     VERIFY(found2 != found->second.m_action_vertices.end());
     VERIFY(ai().level_graph().valid_vertex_id(found2->second));
 
     return (found2->second);
 }
 
-smart_cover::loophole* cover::best_loophole(
-    Fvector const& position,
-    float&         value,
-    bool const&    use_default_behaviour,
-    bool           is_smart_cover_entered) const
+smart_cover::loophole* cover::best_loophole(Fvector const& position, float& value, bool const& use_default_behaviour, bool is_smart_cover_entered) const
 {
-    value = flt_max;
+    value                            = flt_max;
 
     loophole*                 result = 0;
     Loopholes::const_iterator I      = loopholes().begin();
@@ -174,12 +153,7 @@ smart_cover::loophole* cover::best_loophole(
     return (result);
 }
 
-void cover::evaluate_loophole(
-    Fvector const&          position,
-    smart_cover::loophole*& source,
-    smart_cover::loophole*& result,
-    float&                  value,
-    bool const              is_smart_cover_entered) const
+void cover::evaluate_loophole(Fvector const& position, smart_cover::loophole*& source, smart_cover::loophole*& result, float& value, bool const is_smart_cover_entered) const
 {
     VERIFY(source);
     VERIFY2(_valid(position), make_string("[%f][%f][%f]", VPUSH(position)));
@@ -193,8 +167,7 @@ void cover::evaluate_loophole(
     if (distance_to_target > source->range())
         return;
 
-    float const min_enemy_distance =
-        is_smart_cover_entered ? object().enter_min_enemy_distance() : object().exit_min_enemy_distance();
+    float const min_enemy_distance = is_smart_cover_entered ? object().enter_min_enemy_distance() : object().exit_min_enemy_distance();
     if (distance_to_target <= min_enemy_distance)
         return;
 
@@ -206,7 +179,7 @@ void cover::evaluate_loophole(
     direction.normalize();
     float cos_alpha = this->fov_direction(*source).dotproduct(direction);
 
-    float alpha = _abs(acosf(cos_alpha));
+    float alpha     = _abs(acosf(cos_alpha));
     if (alpha >= source->fov() / 2)
         return;
 
@@ -217,11 +190,7 @@ void cover::evaluate_loophole(
     result = source;
 }
 
-void cover::evaluate_loophole_for_default_usage(
-    Fvector const&          position,
-    smart_cover::loophole*& source,
-    smart_cover::loophole*& result,
-    float&                  value) const
+void cover::evaluate_loophole_for_default_usage(Fvector const& position, smart_cover::loophole*& source, smart_cover::loophole*& result, float& value) const
 {
     VERIFY(source);
 
@@ -244,9 +213,9 @@ struct loophole_predicate
 {
     smart_cover::loophole const* m_loophole;
 
-    IC loophole_predicate(smart_cover::loophole const* loophole): m_loophole(loophole) {}
+    IC                           loophole_predicate(smart_cover::loophole const* loophole): m_loophole(loophole) {}
 
-    IC bool operator()(cover::Vertex const& vertex) const
+    IC bool                      operator()(cover::Vertex const& vertex) const
     {
         return (vertex.first == m_loophole);
     }
@@ -262,18 +231,14 @@ u32 const& cover::level_vertex_id(smart_cover::loophole const& loophole) const
 #ifdef DEBUG
 bool cover::loophole_path(shared_str const& source_raw, shared_str const& target_raw) const
 {
-    shared_str source = transform_vertex(source_raw, true);
-    shared_str target = transform_vertex(target_raw, false);
+    shared_str                                source = transform_vertex(source_raw, true);
+    shared_str                                target = transform_vertex(target_raw, false);
 
     typedef GraphEngineSpace::CBaseParameters CBaseParameters;
     CBaseParameters                           parameters(u32(-1), u32(-1), u32(-1));
-    bool result = ai().graph_engine().search(m_description->transitions(), source, target, 0, parameters);
+    bool                                      result = ai().graph_engine().search(m_description->transitions(), source, target, 0, parameters);
 
-    VERIFY2(
-        result,
-        make_string(
-            "failde to find loophole path [%s]->[%s] in cover [%s]", source.c_str(), target.c_str(),
-            m_description->table_id().c_str()));
+    VERIFY2(result, make_string("failde to find loophole path [%s]->[%s] in cover [%s]", source.c_str(), target.c_str(), m_description->table_id().c_str()));
     return (result);
 }
 
@@ -281,11 +246,11 @@ void cover::check_loopholes_connectivity() const
 {
     VERIFY(!loopholes().empty());
 
-    shared_str enter = transform_vertex("", true);
-    shared_str exit  = transform_vertex("", false);
+    shared_str                enter = transform_vertex("", true);
+    shared_str                exit  = transform_vertex("", false);
 
-    Loopholes::const_iterator I = loopholes().begin();
-    Loopholes::const_iterator E = loopholes().end();
+    Loopholes::const_iterator I     = loopholes().begin();
+    Loopholes::const_iterator E     = loopholes().end();
     for (; I != E; ++I)
     {
         shared_str const&         lhs = (*I)->id();
@@ -293,34 +258,17 @@ void cover::check_loopholes_connectivity() const
         for (; J != E; ++J)
         {
             shared_str const& rhs = (*J)->id();
-            VERIFY2(
-                loophole_path(lhs, rhs),
-                make_string(
-                    "failed to find path [%s -> %s] in smart_cover [%s]", lhs.c_str(), rhs.c_str(),
-                    m_description->table_id().c_str()));
-            VERIFY2(
-                loophole_path(rhs, lhs),
-                make_string(
-                    "failed to find path [%s -> %s] in smart_cover [%s]", rhs.c_str(), lhs.c_str(),
-                    m_description->table_id().c_str()));
+            VERIFY2(loophole_path(lhs, rhs), make_string("failed to find path [%s -> %s] in smart_cover [%s]", lhs.c_str(), rhs.c_str(), m_description->table_id().c_str()));
+            VERIFY2(loophole_path(rhs, lhs), make_string("failed to find path [%s -> %s] in smart_cover [%s]", rhs.c_str(), lhs.c_str(), m_description->table_id().c_str()));
         }
 
-        VERIFY2(
-            loophole_path(lhs, exit),
-            make_string(
-                "failed to find path [%s -> %s] in smart_cover [%s]", lhs.c_str(), exit.c_str(),
-                m_description->table_id().c_str()));
-        VERIFY2(
-            loophole_path(enter, lhs),
-            make_string(
-                "failed to find path [%s -> %s] in smart_cover [%s]", enter.c_str(), lhs.c_str(),
-                m_description->table_id().c_str()));
+        VERIFY2(loophole_path(lhs, exit), make_string("failed to find path [%s -> %s] in smart_cover [%s]", lhs.c_str(), exit.c_str(), m_description->table_id().c_str()));
+        VERIFY2(loophole_path(enter, lhs), make_string("failed to find path [%s -> %s] in smart_cover [%s]", enter.c_str(), lhs.c_str(), m_description->table_id().c_str()));
     }
 }
 #endif   // DEBUG
 
-static bool
-    in_fov(Fvector const& position, Fvector const& fov_position, Fvector const& fov_direction, float const fov_angle)
+static bool in_fov(Fvector const& position, Fvector const& fov_position, Fvector const& fov_direction, float const fov_angle)
 {
     Fvector direction = Fvector().sub(position, fov_position);
     if (direction.magnitude() < 1.f)
@@ -354,10 +302,7 @@ bool cover::is_position_in_range(smart_cover::loophole const& source, Fvector co
     return (true);
 }
 
-bool cover::in_min_acceptable_range(
-    smart_cover::loophole const& source,
-    Fvector const&               position,
-    float const&                 min_range) const
+bool cover::in_min_acceptable_range(smart_cover::loophole const& source, Fvector const& position, float const& min_range) const
 {
     Fvector fov_position = this->fov_position(source);
     if (fov_position.distance_to(position) < min_range)

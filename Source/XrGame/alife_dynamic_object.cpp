@@ -72,9 +72,7 @@ void CSE_ALifeDynamicObject::add_online(const bool& update_registries)
     alife().graph().remove(this, m_tGraphID, false);
 }
 
-void CSE_ALifeDynamicObject::add_offline(
-    const xr_vector<ALife::_OBJECT_ID>& saved_children,
-    const bool&                         update_registries)
+void CSE_ALifeDynamicObject::add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries)
 {
     if (!update_registries)
         return;
@@ -85,8 +83,7 @@ void CSE_ALifeDynamicObject::add_offline(
 
 bool CSE_ALifeDynamicObject::synchronize_location()
 {
-    if (!ai().level_graph().valid_vertex_position(o_Position) ||
-        ai().level_graph().inside(ai().level_graph().vertex(m_tNodeID), o_Position))
+    if (!ai().level_graph().valid_vertex_position(o_Position) || ai().level_graph().inside(ai().level_graph().vertex(m_tNodeID), o_Position))
         return (true);
 
     u32 const new_vertex_id = ai().level_graph().vertex(m_tNodeID, o_Position);
@@ -184,10 +181,9 @@ void CSE_ALifeInventoryBox::add_online(const bool& update_registries)
 {
     CSE_ALifeDynamicObjectVisual* object = (this);
 
-    NET_Packet tNetPacket;
-    ClientID   clientID;
-    clientID.set(
-        object->alife().server().GetServerClient() ? object->alife().server().GetServerClient()->ID.value() : 0);
+    NET_Packet                    tNetPacket;
+    ClientID                      clientID;
+    clientID.set(object->alife().server().GetServerClient() ? object->alife().server().GetServerClient()->ID.value() : 0);
 
     ALife::OBJECT_IT I = object->children.begin();
     ALife::OBJECT_IT E = object->children.end();
@@ -204,9 +200,7 @@ void CSE_ALifeInventoryBox::add_online(const bool& update_registries)
         //		if (psAI_Flags.test(aiALife))
         //			Msg					("[LSS] Spawning item
         //[%s][%s][%d]",l_tpALifeInventoryItem->base()->name_replace(),*l_tpALifeInventoryItem->base()->s_name,l_tpALifeDynamicObject->ID);
-        Msg("[LSS][%d] Going online [%d][%s][%d] with parent [%d][%s] on '%s'", Device->dwFrame, Device->dwTimeGlobal,
-            l_tpALifeInventoryItem->base()->name_replace(), l_tpALifeInventoryItem->base()->ID, ID, name_replace(),
-            "*SERVER*");
+        Msg("[LSS][%d] Going online [%d][%s][%d] with parent [%d][%s] on '%s'", Device->dwFrame, Device->dwTimeGlobal, l_tpALifeInventoryItem->base()->name_replace(), l_tpALifeInventoryItem->base()->ID, ID, name_replace(), "*SERVER*");
 #endif
 
         l_tpALifeDynamicObject->o_Position = object->o_Position;
@@ -219,18 +213,15 @@ void CSE_ALifeInventoryBox::add_online(const bool& update_registries)
     CSE_ALifeDynamicObjectVisual::add_online(update_registries);
 }
 
-void CSE_ALifeInventoryBox::add_offline(
-    const xr_vector<ALife::_OBJECT_ID>& saved_children,
-    const bool&                         update_registries)
+void CSE_ALifeInventoryBox::add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries)
 {
     CSE_ALifeDynamicObjectVisual* object = (this);
 
     for (u32 i = 0, n = saved_children.size(); i < n; ++i)
     {
-        CSE_ALifeDynamicObject* child =
-            smart_cast<CSE_ALifeDynamicObject*>(ai().alife().objects().object(saved_children[i], true));
+        CSE_ALifeDynamicObject* child = smart_cast<CSE_ALifeDynamicObject*>(ai().alife().objects().object(saved_children[i], true));
         R_ASSERT(child);
-        child->m_bOnline = false;
+        child->m_bOnline                       = false;
 
         CSE_ALifeInventoryItem* inventory_item = smart_cast<CSE_ALifeInventoryItem*>(child);
         VERIFY2(inventory_item, "Non inventory item object has parent?!");
@@ -238,8 +229,7 @@ void CSE_ALifeInventoryBox::add_offline(
         //		if (psAI_Flags.test(aiALife))
         //			Msg					("[LSS] Destroying item
         //[%s][%s][%d]",inventory_item->base()->name_replace(),*inventory_item->base()->s_name,inventory_item->base()->ID);
-        Msg("[LSS][%d] Going offline [%d][%s][%d] with parent [%d][%s] on '%s'", Device->dwFrame, Device->dwTimeGlobal,
-            inventory_item->base()->name_replace(), inventory_item->base()->ID, ID, name_replace(), "*SERVER*");
+        Msg("[LSS][%d] Going offline [%d][%s][%d] with parent [%d][%s] on '%s'", Device->dwFrame, Device->dwTimeGlobal, inventory_item->base()->name_replace(), inventory_item->base()->ID, ID, name_replace(), "*SERVER*");
 #endif
 
         ALife::_OBJECT_ID item_id  = inventory_item->base()->ID;

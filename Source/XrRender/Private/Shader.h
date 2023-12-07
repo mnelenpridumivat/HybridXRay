@@ -129,6 +129,7 @@ public:
         u32 bDistort  :1;
         u32 bWmark    :1;
     };
+
 public:
     Sflags                               flags;
     svector<ref_pass, SHADER_PASSES_MAX> passes;

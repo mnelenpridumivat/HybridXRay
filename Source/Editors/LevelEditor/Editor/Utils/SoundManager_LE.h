@@ -21,8 +21,8 @@ public:
 
     virtual void OnFrame();
 
-    void RefreshEnvLibrary();
-    void RefreshEnvGeometry()
+    void         RefreshEnvLibrary();
+    void         RefreshEnvGeometry()
     {
         bNeedRefreshEnvGeom = true;
     }

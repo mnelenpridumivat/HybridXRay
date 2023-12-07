@@ -11,7 +11,7 @@
 #include "phdebug.h"
 #endif
 
-hit_animation_global_params ghit_anims_params;
+hit_animation_global_params        ghit_anims_params;
 
 int                                tune_hit_anims = 0;
 static hit_animation_global_params g_params;
@@ -23,9 +23,9 @@ hit_animation_global_params::hit_animation_global_params()
     side_sensitivity_threshold = 0.200000f;
     anim_channel_factor        = 3.000000f;
 
-    block_blend         = 0.500000f;
-    reduce_blend        = 0.800000f;
-    reduce_power_factor = 0.500000f;
+    block_blend                = 0.500000f;
+    reduce_blend               = 0.800000f;
+    reduce_power_factor        = 0.500000f;
 }
 
 void character_hit_animation_controller::SetupHitMotions(IKinematicsAnimated& ca)
@@ -40,19 +40,19 @@ void character_hit_animation_controller::SetupHitMotions(IKinematicsAnimated& ca
     if (tune_hit_anims)
         g_params = ghit_anims_params;
 
-    bkhit_motion = ca.LL_MotionID("hitback17");   // hitback2.skl
-    fvhit_motion = ca.LL_MotionID("hitfront17");
-    rthit_motion = ca.LL_MotionID("hitf_right17");   // hitright
-    lthit_motion = ca.LL_MotionID("hitf_left17");    // hitleft
+    bkhit_motion   = ca.LL_MotionID("hitback17");   // hitback2.skl
+    fvhit_motion   = ca.LL_MotionID("hitfront17");
+    rthit_motion   = ca.LL_MotionID("hitf_right17");   // hitright
+    lthit_motion   = ca.LL_MotionID("hitf_left17");    // hitleft
 
-    turn_right = ca.LL_MotionID("hit_right_shoulder17");
-    turn_left  = ca.LL_MotionID("hit_left_shoulder17");
+    turn_right     = ca.LL_MotionID("hit_right_shoulder17");
+    turn_left      = ca.LL_MotionID("hit_left_shoulder17");
 
     all_shift_down = ca.LL_MotionID("hitf_down17");
     hit_downl      = ca.LL_MotionID("hit_downl");
     hit_downr      = ca.LL_MotionID("hit_downr");
 
-    base_bone = smart_cast<IKinematics*>(&ca)->LL_BoneID("bip01_spine1");   // bip01_spine1
+    base_bone      = smart_cast<IKinematics*>(&ca)->LL_BoneID("bip01_spine1");   // bip01_spine1
     for (u16 i = 0; num_anims > i; ++i)
         block_blends[i] = 0;
 }
@@ -86,11 +86,7 @@ IC void play_cycle(IKinematicsAnimated* CA, const MotionID& m, u8 channel, CBlen
     blend_block    = B;
 }
 
-void character_hit_animation_controller::PlayHitMotion(
-    const Fvector& dir,
-    const Fvector& bone_pos,
-    u16            bi,
-    CEntityAlive&  ea) const
+void character_hit_animation_controller::PlayHitMotion(const Fvector& dir, const Fvector& bone_pos, u16 bi, CEntityAlive& ea) const
 {
     IRenderVisual*       pV = ea.Visual();
     IKinematicsAnimated* CA = smart_cast<IKinematicsAnimated*>(pV);
@@ -122,10 +118,9 @@ void character_hit_animation_controller::PlayHitMotion(
     m.transform_tiny(hit_point);
     Fvector torqu;
     torqu.crossproduct(dr, hit_point);
-    hit_point.x = 0;
+    hit_point.x              = 0;
 
-    float rotational_ammount =
-        hit_point.magnitude() * g_params.power_factor * g_params.rotational_power_factor;   //_abs(torqu.x)
+    float rotational_ammount = hit_point.magnitude() * g_params.power_factor * g_params.rotational_power_factor;   //_abs(torqu.x)
 
     if (torqu.x < 0)
         play_cycle(CA, hit_downr, 3, block_blends[7], 1);

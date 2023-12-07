@@ -26,7 +26,7 @@ static const float s_fJumpTime       = 0.3f;
 static const float s_fJumpGroundTime = 0.1f;   // для снятия флажка Jump если на земле
 const float        s_fFallTime       = 0.2f;
 
-IC static void generate_orthonormal_basis1(const Fvector& dir, Fvector& updir, Fvector& right)
+IC static void     generate_orthonormal_basis1(const Fvector& dir, Fvector& updir, Fvector& right)
 {
     right.crossproduct(dir, updir);   //. <->
     right.normalize();
@@ -81,14 +81,11 @@ void CActor::g_cl_ValidateMState(float dt, u32 mstate_wf)
         m_bJumpKeyPressed = FALSE;
 
     // Зажало-ли меня/уперся - не двигаюсь
-    if (((character_physics_support()->movement()->GetVelocityActual() < 0.2f) &&
-         (!(mstate_real & (mcFall | mcJump)))) ||
-        character_physics_support()->movement()->bSleep)
+    if (((character_physics_support()->movement()->GetVelocityActual() < 0.2f) && (!(mstate_real & (mcFall | mcJump)))) || character_physics_support()->movement()->bSleep)
     {
         mstate_real &= ~mcAnyMove;
     }
-    if (character_physics_support()->movement()->Environment() == CPHMovementControl::peOnGround ||
-        character_physics_support()->movement()->Environment() == CPHMovementControl::peAtWall)
+    if (character_physics_support()->movement()->Environment() == CPHMovementControl::peOnGround || character_physics_support()->movement()->Environment() == CPHMovementControl::peAtWall)
     {
         // если на земле гарантированно снимать флажок Jump
         if (((s_fJumpTime - m_fJumpTime) > s_fJumpGroundTime) && (mstate_real & mcJump))
@@ -149,8 +146,7 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector& vControlAccel, float& Ju
     mstate_old           = mstate_real;
     vControlAccel.set(0, 0, 0);
 
-    if (!(mstate_real & mcFall) &&
-        (character_physics_support()->movement()->Environment() == CPHMovementControl::peInAir))
+    if (!(mstate_real & mcFall) && (character_physics_support()->movement()->Environment() == CPHMovementControl::peInAir))
     {
         m_fFallTime -= dt;
         if (m_fFallTime <= 0.f)
@@ -223,16 +219,14 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector& vControlAccel, float& Ju
 
         if (mstate_real & mcCrouch)
         {
-            if (!isActorAccelerated(mstate_real, IsZoomAimingMode()) &&
-                isActorAccelerated(mstate_wf, IsZoomAimingMode()))
+            if (!isActorAccelerated(mstate_real, IsZoomAimingMode()) && isActorAccelerated(mstate_wf, IsZoomAimingMode()))
             {
                 character_physics_support()->movement()->EnableCharacter();
                 if (!character_physics_support()->movement()->ActivateBoxDynamic(1))
                     move &= ~mcAccel;
             }
 
-            if (isActorAccelerated(mstate_real, IsZoomAimingMode()) &&
-                !isActorAccelerated(mstate_wf, IsZoomAimingMode()))
+            if (isActorAccelerated(mstate_real, IsZoomAimingMode()) && !isActorAccelerated(mstate_wf, IsZoomAimingMode()))
             {
                 character_physics_support()->movement()->EnableCharacter();
                 if (character_physics_support()->movement()->ActivateBoxDynamic(2))
@@ -250,8 +244,7 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector& vControlAccel, float& Ju
             mstate_real |= mcSprint;
         else
             mstate_real &= ~mcSprint;
-        if (!(mstate_real & (mcFwd | mcLStrafe | mcRStrafe)) || mstate_real & (mcCrouch | mcClimb) ||
-            !isActorAccelerated(mstate_wf, IsZoomAimingMode()))
+        if (!(mstate_real & (mcFwd | mcLStrafe | mcRStrafe)) || mstate_real & (mcCrouch | mcClimb) || !isActorAccelerated(mstate_wf, IsZoomAimingMode()))
         {
             mstate_real &= ~mcSprint;
             mstate_wishful &= ~mcSprint;
@@ -350,7 +343,7 @@ void CActor::g_cl_CheckControls(u32 mstate_wf, Fvector& vControlAccel, float& Ju
     mOrient.transform_dir(vControlAccel);
 }
 
-#define ACTOR_ANIM_SECT "actor_animation"
+#define ACTOR_ANIM_SECT      "actor_animation"
 
 #define ACTOR_LLOOKOUT_ANGLE PI_DIV_4
 #define ACTOR_RLOOKOUT_ANGLE PI_DIV_4
@@ -486,8 +479,7 @@ void CActor::g_cl_Orientate(u32 mstate_rl, float dt)
     unaffected_r_torso.pitch = r_torso.pitch;
     unaffected_r_torso.roll  = r_torso.roll;
 
-    CWeaponMagazined* pWM = smart_cast<CWeaponMagazined*>(
-        inventory().GetActiveSlot() != NO_ACTIVE_SLOT ? inventory().ItemFromSlot(inventory().GetActiveSlot()) : NULL);
+    CWeaponMagazined* pWM    = smart_cast<CWeaponMagazined*>(inventory().GetActiveSlot() != NO_ACTIVE_SLOT ? inventory().ItemFromSlot(inventory().GetActiveSlot()) : NULL);
     if (pWM && pWM->GetCurrentFireMode() == 1 && eacFirstEye != cam_active)
     {
         Fvector dangle = weapon_recoil_last_delta();
@@ -524,14 +516,13 @@ void CActor::g_cl_Orientate(u32 mstate_rl, float dt)
 
 void CActor::g_sv_Orientate(u32 /**mstate_rl/**/, float /**dt/**/)
 {
-    r_model_yaw = NET_Last.o_model;
+    r_model_yaw           = NET_Last.o_model;
 
-    r_torso.yaw   = unaffected_r_torso.yaw;
-    r_torso.pitch = unaffected_r_torso.pitch;
-    r_torso.roll  = unaffected_r_torso.roll;
+    r_torso.yaw           = unaffected_r_torso.yaw;
+    r_torso.pitch         = unaffected_r_torso.pitch;
+    r_torso.roll          = unaffected_r_torso.roll;
 
-    CWeaponMagazined* pWM = smart_cast<CWeaponMagazined*>(
-        inventory().GetActiveSlot() != NO_ACTIVE_SLOT ? inventory().ItemFromSlot(inventory().GetActiveSlot()) : NULL);
+    CWeaponMagazined* pWM = smart_cast<CWeaponMagazined*>(inventory().GetActiveSlot() != NO_ACTIVE_SLOT ? inventory().ItemFromSlot(inventory().GetActiveSlot()) : NULL);
     if (pWM && pWM->GetCurrentFireMode() == 1 /* && eacFirstEye != cam_active*/)
     {
         Fvector dangle = weapon_recoil_last_delta();
@@ -558,8 +549,7 @@ bool isActorAccelerated(u32 mstate, bool ZoomMode)
 
 bool CActor::CanAccelerate()
 {
-    bool can_accel = !conditions().IsLimping() && !character_physics_support()->movement()->PHCapture() &&
-        (m_time_lock_accel < Device->dwTimeGlobal);
+    bool can_accel = !conditions().IsLimping() && !character_physics_support()->movement()->PHCapture() && (m_time_lock_accel < Device->dwTimeGlobal);
 
     return can_accel;
 }
@@ -572,16 +562,14 @@ bool CActor::CanRun()
 
 bool CActor::CanSprint()
 {
-    bool can_Sprint = CanAccelerate() && !conditions().IsCantSprint() && Game().PlayerCanSprint(this) && CanRun() &&
-        !(mstate_real & mcLStrafe || mstate_real & mcRStrafe) && InventoryAllowSprint();
+    bool can_Sprint = CanAccelerate() && !conditions().IsCantSprint() && Game().PlayerCanSprint(this) && CanRun() && !(mstate_real & mcLStrafe || mstate_real & mcRStrafe) && InventoryAllowSprint();
 
     return can_Sprint && (m_block_sprint_counter <= 0);
 }
 
 bool CActor::CanJump()
 {
-    bool can_Jump = !character_physics_support()->movement()->PHCapture() && ((mstate_real & mcJump) == 0) &&
-        (m_fJumpTime <= 0.f) && !m_bJumpKeyPressed && !IsZoomAimingMode();
+    bool can_Jump = !character_physics_support()->movement()->PHCapture() && ((mstate_real & mcJump) == 0) && (m_fJumpTime <= 0.f) && !m_bJumpKeyPressed && !IsZoomAimingMode();
 
     return can_Jump;
 }

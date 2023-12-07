@@ -14,7 +14,7 @@
 moving_object::moving_object(const CEntityAlive* object)
 {
     VERIFY(object);
-    m_object = object;
+    m_object          = object;
 
     m_action          = action_move;
     m_action_position = Fvector().set(flt_max, flt_max, flt_max);

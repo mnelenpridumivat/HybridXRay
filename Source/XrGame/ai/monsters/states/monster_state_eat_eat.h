@@ -1,13 +1,13 @@
 ﻿#pragma once
 #include "../state.h"
 
-template <typename _Object> class CStateMonsterEating: public CState<_Object>
+template<typename _Object> class CStateMonsterEating: public CState<_Object>
 {
 protected:
     typedef CState<_Object> inherited;
 
-    CEntityAlive* corpse;
-    u32           time_last_eat;
+    CEntityAlive*           corpse;
+    u32                     time_last_eat;
 
 public:
     CStateMonsterEating(_Object* obj);

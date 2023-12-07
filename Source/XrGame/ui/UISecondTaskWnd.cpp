@@ -50,7 +50,7 @@ void UITaskListWnd::init_from_xml(CUIXml& xml, LPCSTR path)
     m_background = UIHelper::CreateFrameWindow(xml, "background_frame", this);
     m_caption    = UIHelper::CreateStatic(xml, "t_caption", this);
     //	m_counter    = UIHelper::CreateStatic( xml, "t_counter", this );
-    m_bt_close = UIHelper::Create3tButton(xml, "btn_close", this);
+    m_bt_close   = UIHelper::Create3tButton(xml, "btn_close", this);
 
     Register(m_bt_close);
     AddCallback(m_bt_close, BUTTON_DOWN, CUIWndCallback::void_function(this, &UITaskListWnd::OnBtnClose));
@@ -175,7 +175,7 @@ void UITaskListWnd::UpdateCounter()
 
 UITaskListWndItem::UITaskListWndItem()
 {
-    m_task = NULL;
+    m_task            = NULL;
 
     m_color_states[0] = (u32)(-1);
     m_color_states[1] = (u32)(-1);
@@ -205,10 +205,10 @@ bool UITaskListWndItem::init_task(CGameTask* task, UITaskListWnd* parent)
 
     CUIXmlInit::InitWindow(xml, "second_task_wnd:task_item", 0, this);
 
-    m_name = UIHelper::Create3tButton(xml, "second_task_wnd:task_item:name", this);
+    m_name                     = UIHelper::Create3tButton(xml, "second_task_wnd:task_item:name", this);
     //	m_bt_view  = UIHelper::CreateCheck(      xml, "second_task_wnd:task_item:btn_view", this );
-    m_st_story = UIHelper::CreateStatic(xml, "second_task_wnd:task_item:st_story", this);
-    m_bt_focus = UIHelper::Create3tButton(xml, "second_task_wnd:task_item:btn_focus", this);
+    m_st_story                 = UIHelper::CreateStatic(xml, "second_task_wnd:task_item:st_story", this);
+    m_bt_focus                 = UIHelper::Create3tButton(xml, "second_task_wnd:task_item:btn_focus", this);
 
     m_color_states[stt_activ]  = CUIXmlInit::GetColor(xml, "second_task_wnd:task_item:activ", 0, (u32)(-1));
     m_color_states[stt_unread] = CUIXmlInit::GetColor(xml, "second_task_wnd:task_item:unread", 0, (u32)(-1));
@@ -330,7 +330,8 @@ bool UITaskListWndItem::OnMouseAction(float x, float y, EUIMessages mouse_action
     {
         case WINDOW_LBUTTON_DOWN:
         case WINDOW_RBUTTON_DOWN:
-        case BUTTON_DOWN: {
+        case BUTTON_DOWN:
+        {
             hide_hint();
             break;
         }

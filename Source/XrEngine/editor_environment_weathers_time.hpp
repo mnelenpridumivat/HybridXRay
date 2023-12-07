@@ -27,10 +27,7 @@ namespace XrWeatherEditor
 
             class weather;
 
-            class time:
-                public CEnvDescriptorMixer,
-                public XrWeatherEditor::property_holder_holder,
-                private boost::noncopyable
+            class time: public CEnvDescriptorMixer, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             private:
                 typedef CEnvDescriptorMixer inherited;
@@ -53,13 +50,7 @@ namespace XrWeatherEditor
                 {
                     return m_property_holder;
                 }
-                virtual void lerp(
-                    CEnvironment*   parent,
-                    CEnvDescriptor& A,
-                    CEnvDescriptor& B,
-                    float           f,
-                    CEnvModifier&   M,
-                    float           m_power);
+                virtual void lerp(CEnvironment* parent, CEnvDescriptor& A, CEnvDescriptor& B, float f, CEnvModifier& M, float m_power);
 
             private:
                 LPCSTR const* xr_stdcall ambients_collection();

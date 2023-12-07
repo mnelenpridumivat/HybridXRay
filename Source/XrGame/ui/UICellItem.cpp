@@ -18,10 +18,10 @@ CUICellItem* CUICellItem::m_mouse_selected_item = NULL;
 
 CUICellItem::CUICellItem()
 {
-    m_pParentList = NULL;
-    m_pData       = NULL;
-    m_custom_draw = NULL;
-    m_text        = NULL;
+    m_pParentList     = NULL;
+    m_pData           = NULL;
+    m_custom_draw     = NULL;
+    m_text            = NULL;
     //-	m_mark				= NULL;
     m_upgrade         = NULL;
     m_pConditionState = NULL;
@@ -180,15 +180,15 @@ CUIDragItem* CUICellItem::CreateDragItem()
     if (m_UIStaticItem.GetFixedLTWhileHeading())
     {
         float t1, t2;
-        t1 = r.width();
-        t2 = r.height() * UI().get_current_kx();
+        t1          = r.width();
+        t2          = r.height() * UI().get_current_kx();
 
         Fvector2 cp = GetUICursor().GetCursorPosition();
 
-        r.x1 = (cp.x - t2 / 2.0f);
-        r.y1 = (cp.y - t1 / 2.0f);
-        r.x2 = r.x1 + t2;
-        r.y2 = r.y1 + t1;
+        r.x1        = (cp.x - t2 / 2.0f);
+        r.y1        = (cp.y - t1 / 2.0f);
+        r.x2        = r.x1 + t2;
+        r.y2        = r.y1 + t1;
     }
     tmp->Init(GetShader(), r, GetUIStaticItem().GetTextureRect());
     return tmp;

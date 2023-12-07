@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _VertexEvaluator, typename _vertex_id_type>
+#define TEMPLATE_SPECIALIZATION template<typename _VertexEvaluator, typename _vertex_id_type>
 
-#define CLevelLocationSelector CBaseLocationSelector<ILevelGraph, _VertexEvaluator, _vertex_id_type>
+#define CLevelLocationSelector  CBaseLocationSelector<ILevelGraph, _VertexEvaluator, _vertex_id_type>
 
 TEMPLATE_SPECIALIZATION
 IC CLevelLocationSelector::CBaseLocationSelector(CRestrictedObject* object): inherited(object, selector_manager) {}

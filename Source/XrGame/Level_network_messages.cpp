@@ -84,12 +84,11 @@ void CLevel::ClientReceive()
         P->r_begin(m_type);
         switch (m_type)
         {
-            case M_SPAWN: {
+            case M_SPAWN:
+            {
                 if (!bReady)   //! m_bGameConfigStarted ||
                 {
-                    Msg("! Unconventional M_SPAWN received : map_data[%s] | bReady[%s] | deny_m_spawn[%s]",
-                        (map_data.m_map_sync_received) ? "true" : "false", (bReady) ? "true" : "false",
-                        deny_m_spawn ? "true" : "false");
+                    Msg("! Unconventional M_SPAWN received : map_data[%s] | bReady[%s] | deny_m_spawn[%s]", (map_data.m_map_sync_received) ? "true" : "false", (bReady) ? "true" : "false", deny_m_spawn ? "true" : "false");
                     break;
                 }
                 /*/
@@ -113,7 +112,8 @@ void CLevel::ClientReceive()
                 if (g_bDebugEvents)
                     ProcessGameEvents();
                 break;
-            case M_EVENT_PACK: {
+            case M_EVENT_PACK:
+            {
                 /*if (!game_configured)
                 {
                     Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
@@ -132,11 +132,13 @@ void CLevel::ClientReceive()
                 };
             }
             break;
-            case M_UPDATE: {
+            case M_UPDATE:
+            {
                 game->net_import_update(*P);
             }
             break;
-            case M_UPDATE_OBJECTS: {
+            case M_UPDATE_OBJECTS:
+            {
                 Objects.net_Import(P);
 
                 if (OnClient())
@@ -155,12 +157,14 @@ void CLevel::ClientReceive()
                 SetNumCrSteps(NumSteps);
             }
             break;
-            case M_COMPRESSED_UPDATE_OBJECTS: {
+            case M_COMPRESSED_UPDATE_OBJECTS:
+            {
                 u8 compression_type = P->r_u8();
                 ProcessCompressedUpdate(*P, compression_type);
             }
             break;
-            case M_CL_UPDATE: {
+            case M_CL_UPDATE:
+            {
                 /*if (!game_configured)
                 {
                     Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
@@ -198,7 +202,8 @@ void CLevel::ClientReceive()
                 AddActor_To_Actors4CrPr(O);
             }
             break;
-            case M_MOVE_PLAYERS: {
+            case M_MOVE_PLAYERS:
+            {
                 /*if (!game_configured)
                 {
                     Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
@@ -210,7 +215,8 @@ void CLevel::ClientReceive()
             }
             break;
             // [08.11.07] Alexander Maniluk: added new message handler for moving artefacts.
-            case M_MOVE_ARTEFACTS: {
+            case M_MOVE_ARTEFACTS:
+            {
                 /*if (!game_configured)
                 {
                     Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
@@ -234,7 +240,8 @@ void CLevel::ClientReceive()
             }
             break;
             //------------------------------------------------
-            case M_CL_INPUT: {
+            case M_CL_INPUT:
+            {
                 /*if (!game_configured)
                 {
                     Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
@@ -254,7 +261,8 @@ void CLevel::ClientReceive()
             case M_SV_CONFIG_GAME:
                 game->net_import_state(*P);
                 break;
-            case M_SV_CONFIG_FINISHED: {
+            case M_SV_CONFIG_FINISHED:
+            {
                 game_configured = TRUE;
 #ifdef DEBUG
                 Msg("- Game configuring : Finished ");
@@ -275,7 +283,8 @@ void CLevel::ClientReceive()
                 NODEFAULT;
             }
             break;
-            case M_CHAT: {
+            case M_CHAT:
+            {
                 /*if (!game_configured)
                 {
                     Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
@@ -286,7 +295,8 @@ void CLevel::ClientReceive()
                 Msg("- %s", buffer);
             }
             break;
-            case M_GAMEMESSAGE: {
+            case M_GAMEMESSAGE:
+            {
                 /*if (!game_configured)
                 {
                     Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
@@ -301,7 +311,8 @@ void CLevel::ClientReceive()
             break;
             case M_RELOAD_GAME:
             case M_LOAD_GAME:
-            case M_CHANGE_LEVEL: {
+            case M_CHANGE_LEVEL:
+            {
 #ifdef DEBUG
                 Msg("--- Changing level message received...");
 #endif   // #ifdef DEBUG
@@ -323,24 +334,29 @@ void CLevel::ClientReceive()
                 MakeReconnect();
             }
             break;
-            case M_SAVE_GAME: {
+            case M_SAVE_GAME:
+            {
                 ClientSave();
             }
             break;
-            case M_GAMESPY_CDKEY_VALIDATION_CHALLENGE: {
+            case M_GAMESPY_CDKEY_VALIDATION_CHALLENGE:
+            {
                 OnGameSpyChallenge(P);
             }
             break;
-            case M_AUTH_CHALLENGE: {
+            case M_AUTH_CHALLENGE:
+            {
                 ClientSendProfileData();
                 OnBuildVersionChallenge();
             }
             break;
-            case M_CLIENT_CONNECT_RESULT: {
+            case M_CLIENT_CONNECT_RESULT:
+            {
                 OnConnectResult(P);
             }
             break;
-            case M_CHAT_MESSAGE: {
+            case M_CHAT_MESSAGE:
+            {
                 /*if (!game_configured)
                 {
                     Msg("! WARNING: ignoring game event [%d] - game not configured...", m_type);
@@ -351,26 +367,31 @@ void CLevel::ClientReceive()
                 Game().OnChatMessage(P);
             }
             break;
-            case M_CLIENT_WARN: {
+            case M_CLIENT_WARN:
+            {
                 if (!game)
                     break;
                 Game().OnWarnMessage(P);
             }
             break;
             case M_REMOTE_CONTROL_AUTH:
-            case M_REMOTE_CONTROL_CMD: {
+            case M_REMOTE_CONTROL_CMD:
+            {
                 Game().OnRadminMessage(m_type, P);
             }
             break;
-            case M_SV_MAP_NAME: {
+            case M_SV_MAP_NAME:
+            {
                 map_data.ReceiveServerMapSync(*P);
             }
             break;
-            case M_SV_DIGEST: {
+            case M_SV_DIGEST:
+            {
                 SendClientDigestToServer();
             }
             break;
-            case M_CHANGE_LEVEL_GAME: {
+            case M_CHANGE_LEVEL_GAME:
+            {
                 Msg("- M_CHANGE_LEVEL_GAME Received");
 
                 if (OnClient())
@@ -382,7 +403,7 @@ void CLevel::ClientReceive()
                     const char* m_SO = m_caServerOptions.c_str();
                     //					const char* m_CO = m_caClientOptions.c_str();
 
-                    m_SO = strchr(m_SO, '/');
+                    m_SO             = strchr(m_SO, '/');
                     if (m_SO)
                         m_SO++;
                     m_SO = strchr(m_SO, '/');
@@ -417,34 +438,33 @@ void CLevel::ClientReceive()
                     P->r_stringZ(GameType);*/
 
                     string4096 NewServerOptions = "";
-                    xr_sprintf(
-                        NewServerOptions, "%s/%s/%s%s", LevelName.c_str(), GameType.c_str(), map_ver_string,
-                        LevelVersion.c_str());
+                    xr_sprintf(NewServerOptions, "%s/%s/%s%s", LevelName.c_str(), GameType.c_str(), map_ver_string, LevelVersion.c_str());
 
                     if (m_SO)
                     {
                         string4096 additional_options;
-                        xr_strcat(
-                            NewServerOptions, sizeof(NewServerOptions),
-                            remove_version_option(m_SO, additional_options, sizeof(additional_options)));
+                        xr_strcat(NewServerOptions, sizeof(NewServerOptions), remove_version_option(m_SO, additional_options, sizeof(additional_options)));
                     }
                     m_caServerOptions = NewServerOptions;
                     MakeReconnect();
                 };
             }
             break;
-            case M_CHANGE_SELF_NAME: {
+            case M_CHANGE_SELF_NAME:
+            {
                 net_OnChangeSelfName(P);
             }
             break;
-            case M_BULLET_CHECK_RESPOND: {
+            case M_BULLET_CHECK_RESPOND:
+            {
                 if (!game)
                     break;
                 if (GameID() != eGameIDSingle)
                     Game().m_WeaponUsageStatistic->On_Check_Respond(P);
             }
             break;
-            case M_STATISTIC_UPDATE: {
+            case M_STATISTIC_UPDATE:
+            {
                 Msg("--- CL: On Update Request");
                 if (!game)
                     break;
@@ -461,17 +481,20 @@ void CLevel::ClientReceive()
                     Game().m_WeaponUsageStatistic->OnUpdateRespond(P);*/
             }
             break;
-            case M_FILE_TRANSFER: {
+            case M_FILE_TRANSFER:
+            {
                 game_events->insert(*P);
                 if (g_bDebugEvents)
                     ProcessGameEvents();
             }
             break;
-            case M_SECURE_KEY_SYNC: {
+            case M_SECURE_KEY_SYNC:
+            {
                 OnSecureKeySync(*P);
             }
             break;
-            case M_SECURE_MESSAGE: {
+            case M_SECURE_MESSAGE:
+            {
                 OnSecureMessage(*P);
             }
             break;

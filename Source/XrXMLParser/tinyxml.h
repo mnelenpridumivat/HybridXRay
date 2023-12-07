@@ -27,8 +27,8 @@ distribution.
 
 #ifdef _MSC_VER
 #pragma warning(push)
-#pragma warning(disable : 4530)
-#pragma warning(disable : 4786)
+#pragma warning(disable:4530)
+#pragma warning(disable:4786)
 #endif
 
 #include <ctype.h>
@@ -62,20 +62,20 @@ distribution.
 #if defined(_MSC_VER) && (_MSC_VER >= 1400)
 // Microsoft visual studio, version 2005 and higher.
 #define TIXML_SNPRINTF _snprintf_s
-#define TIXML_SNSCANF _snscanf_s
-#define TIXML_SSCANF sscanf_s
+#define TIXML_SNSCANF  _snscanf_s
+#define TIXML_SSCANF   sscanf_s
 #elif defined(_MSC_VER) && (_MSC_VER >= 1200)
 // Microsoft visual studio, version 6 and higher.
 // #pragma message( "Using _sn* functions." )
 #define TIXML_SNPRINTF _snprintf
-#define TIXML_SNSCANF _snscanf
-#define TIXML_SSCANF sscanf
+#define TIXML_SNSCANF  _snscanf
+#define TIXML_SSCANF   sscanf
 #elif defined(__GNUC__) && (__GNUC__ >= 3)
 // GCC version 3 and higher.s
 // #warning( "Using sn* functions." )
 #define TIXML_SNPRINTF snprintf
-#define TIXML_SNSCANF snscanf
-#define TIXML_SSCANF sscanf
+#define TIXML_SNSCANF  snscanf
+#define TIXML_SSCANF   sscanf
 #else
 #define TIXML_SSCANF sscanf
 #endif
@@ -196,7 +196,7 @@ enum TiXmlEncoding
     TIXML_ENCODING_LEGACY
 };
 
-const TiXmlEncoding TIXML_DEFAULT_ENCODING = TIXML_ENCODING_UNKNOWN;
+const TiXmlEncoding   TIXML_DEFAULT_ENCODING = TIXML_ENCODING_UNKNOWN;
 
 /** TiXmlBase is a base class for every class in TinyXml.
     It does little except to establish that TinyXml classes
@@ -300,13 +300,9 @@ public:
 
     // Table that returs, for a given lead byte, the total number of bytes
     // in the UTF-8 sequence.
-    static const int utf8ByteTable[256];
+    static const int    utf8ByteTable[256];
 
-    virtual const char* Parse(
-        TiXmlDocument*    document,
-        const char*       p,
-        TiXmlParsingData* data,
-        TiXmlEncoding     encoding /*= TIXML_ENCODING_UNKNOWN */) = 0;
+    virtual const char* Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding /*= TIXML_ENCODING_UNKNOWN */) = 0;
 
     enum
     {
@@ -353,21 +349,20 @@ protected:
         a pointer just past the last character of the name,
         or 0 if the function has an error.
     */
-    static const char* ReadName(const char* p, TIXML_STRING* name, TiXmlEncoding encoding);
+    static const char*        ReadName(const char* p, TIXML_STRING* name, TiXmlEncoding encoding);
 
     /*	Reads text. Returns a pointer past the given end tag.
         Wickedly complex options, but it keeps the (sensitive) code in one place.
     */
-    static const char* ReadText(
-        const char*   in,                 // where to start
-        TIXML_STRING* text,               // the string read
-        bool          ignoreWhiteSpace,   // whether to keep the white space
-        const char*   endTag,             // what ends this text
-        bool          ignoreCase,         // whether to ignore case in the end tag
-        TiXmlEncoding encoding);          // the current encoding
+    static const char*        ReadText(const char* in,                 // where to start
+               TIXML_STRING*                       text,               // the string read
+               bool                                ignoreWhiteSpace,   // whether to keep the white space
+               const char*                         endTag,             // what ends this text
+               bool                                ignoreCase,         // whether to ignore case in the end tag
+               TiXmlEncoding                       encoding);                                // the current encoding
 
     // If an entity has been found, transform it into a character.
-    static const char* GetEntity(const char* in, char* value, int* length, TiXmlEncoding encoding);
+    static const char*        GetEntity(const char* in, char* value, int* length, TiXmlEncoding encoding);
 
     // Get a character, while interpreting entities.
     // The length can be from 0 to 4 bytes.
@@ -411,20 +406,20 @@ protected:
     // Return true if the next characters in the stream are any of the endTag sequences.
     // Ignore case only works for english, and should only be relied on when comparing
     // to English words: StringEqual( p, "version", true ) is fine.
-    static bool StringEqual(const char* p, const char* endTag, bool ignoreCase, TiXmlEncoding encoding);
+    static bool        StringEqual(const char* p, const char* endTag, bool ignoreCase, TiXmlEncoding encoding);
 
     static const char* errorString[TIXML_ERROR_STRING_COUNT];
 
-    TiXmlCursor location;
+    TiXmlCursor        location;
 
     /// Field containing a generic user pointer
-    void* userData;
+    void*              userData;
 
     // None of these methods are reliable for any language except English.
     // Good for approximation, not great for accuracy.
-    static int        IsAlpha(unsigned char anyByte, TiXmlEncoding encoding);
-    static int        IsAlphaNum(unsigned char anyByte, TiXmlEncoding encoding);
-    inline static int ToLower(int v, TiXmlEncoding encoding)
+    static int         IsAlpha(unsigned char anyByte, TiXmlEncoding encoding);
+    static int         IsAlphaNum(unsigned char anyByte, TiXmlEncoding encoding);
+    inline static int  ToLower(int v, TiXmlEncoding encoding)
     {
         if (encoding == TIXML_ENCODING_UTF8)
         {
@@ -572,7 +567,7 @@ public:
 #endif
 
     /// Delete all the children of this node. Does not affect 'this'.
-    void Clear();
+    void       Clear();
 
     /// One step up the DOM.
     TiXmlNode* Parent()
@@ -592,10 +587,9 @@ public:
     {
         return firstChild;
     }
-    const TiXmlNode* FirstChild(const char* value)
-        const;   ///< The first child of this node with the matching 'value'. Will be null if none found.
+    const TiXmlNode* FirstChild(const char* value) const;   ///< The first child of this node with the matching 'value'. Will be null if none found.
     /// The first child of this node with the matching 'value'. Will be null if none found.
-    TiXmlNode* FirstChild(const char* _value)
+    TiXmlNode*       FirstChild(const char* _value)
     {
         // Call through to the const version - safe since nothing is changed. Exiting syntax: cast this to a const
         // (always safe) call the method, cast the return back to non-const.
@@ -610,9 +604,8 @@ public:
         return lastChild;
     }
 
-    const TiXmlNode* LastChild(const char* value)
-        const;   /// The last child of this node matching 'value'. Will be null if there are no children.
-    TiXmlNode* LastChild(const char* _value)
+    const TiXmlNode* LastChild(const char* value) const;   /// The last child of this node matching 'value'. Will be null if there are no children.
+    TiXmlNode*       LastChild(const char* _value)
     {
         return const_cast<TiXmlNode*>((const_cast<const TiXmlNode*>(this))->LastChild(_value));
     }
@@ -676,7 +669,7 @@ public:
     }   ///< STL xr_string form.
 #endif
 
-    TiXmlNode* LinkEndChild(TiXmlNode* addThis);
+    TiXmlNode*       LinkEndChild(TiXmlNode* addThis);
 
     /// Navigate to a sibling node.
     const TiXmlNode* PreviousSibling() const
@@ -889,18 +882,18 @@ protected:
     TiXmlNode(NodeType _type);
 
     // Figure out what is at *p, and parse it. Returns null if it is not an xml node.
-    TiXmlNode* Identify(const char* start, TiXmlEncoding encoding);
+    TiXmlNode*   Identify(const char* start, TiXmlEncoding encoding);
 
-    TiXmlNode* parent;
-    NodeType   type;
+    TiXmlNode*   parent;
+    NodeType     type;
 
-    TiXmlNode* firstChild;
-    TiXmlNode* lastChild;
+    TiXmlNode*   firstChild;
+    TiXmlNode*   lastChild;
 
     TIXML_STRING value;
 
-    TiXmlNode* prev;
-    TiXmlNode* next;
+    TiXmlNode*   prev;
+    TiXmlNode*   next;
 
 private:
     TiXmlNode(const TiXmlNode&);             // not implemented.
@@ -959,8 +952,8 @@ public:
         return value;
     }   ///< Return the value of this attribute.
 #endif
-    int    IntValue() const;      ///< Return the value of this attribute, converted to an integer.
-    double DoubleValue() const;   ///< Return the value of this attribute, converted to a double.
+    int                 IntValue() const;      ///< Return the value of this attribute, converted to an integer.
+    double              DoubleValue() const;   ///< Return the value of this attribute, converted to a double.
 
     // Get the tinyxml string representation
     const TIXML_STRING& NameTStr() const
@@ -977,9 +970,9 @@ public:
         A specialized but useful call. Note that for success it returns 0,
         which is the opposite of almost all other TinyXml calls.
     */
-    int QueryIntValue(int* _value) const;
+    int  QueryIntValue(int* _value) const;
     /// QueryDoubleValue examines the value string. See QueryIntValue().
-    int QueryDoubleValue(double* _value) const;
+    int  QueryDoubleValue(double* _value) const;
 
     void SetName(const char* _name)
     {
@@ -1042,8 +1035,8 @@ public:
     //	void SetDocument( TiXmlDocument* doc )	{ document = doc; }
 
 private:
-    TiXmlAttribute(const TiXmlAttribute&);        // not implemented.
-    void operator=(const TiXmlAttribute& base);   // not allowed.
+    TiXmlAttribute(const TiXmlAttribute&);                   // not implemented.
+    void            operator=(const TiXmlAttribute& base);   // not allowed.
 
     //	TiXmlDocument*	document;	// A pointer back to a document, for error reporting.
     TIXML_STRING    name;
@@ -1070,8 +1063,8 @@ public:
     TiXmlAttributeSet();
     ~TiXmlAttributeSet();
 
-    void Add(TiXmlAttribute* attribute);
-    void Remove(TiXmlAttribute* attribute);
+    void                  Add(TiXmlAttribute* attribute);
+    void                  Remove(TiXmlAttribute* attribute);
 
     const TiXmlAttribute* First() const
     {
@@ -1099,8 +1092,8 @@ public:
 private:
     //*ME:	Because of hidden/disabled copy-construktor in TiXmlAttribute (sentinel-element),
     //*ME:	this class must be also use a hidden/disabled copy-constructor !!!
-    TiXmlAttributeSet(const TiXmlAttributeSet&);   // not allowed
-    void operator=(const TiXmlAttributeSet&);      // not allowed (as TiXmlAttribute)
+    TiXmlAttributeSet(const TiXmlAttributeSet&);          // not allowed
+    void           operator=(const TiXmlAttributeSet&);   // not allowed (as TiXmlAttribute)
 
     TiXmlAttribute sentinel;
 };
@@ -1145,11 +1138,11 @@ public:
         an integer, it returns TIXML_WRONG_TYPE. If the attribute
         does not exist, then TIXML_NO_ATTRIBUTE is returned.
     */
-    int QueryIntAttribute(const char* name, int* _value) const;
+    int         QueryIntAttribute(const char* name, int* _value) const;
     /// QueryDoubleAttribute examines the attribute - see QueryIntAttribute().
-    int QueryDoubleAttribute(const char* name, double* _value) const;
+    int         QueryDoubleAttribute(const char* name, double* _value) const;
     /// QueryFloatAttribute examines the attribute - see QueryIntAttribute().
-    int QueryFloatAttribute(const char* name, float* _value) const
+    int         QueryFloatAttribute(const char* name, float* _value) const
     {
         double d;
         int    result = QueryDoubleAttribute(name, &d);
@@ -1201,12 +1194,12 @@ public:
                  similarly named TiXmlHandle::Text() and TiXmlNode::ToText() which are
                  safe type casts on the referenced node.
     */
-    const char* GetText() const;
+    const char*                 GetText() const;
 
     /*	Attribtue parsing starts: next char past '<'
                          returns: next char past '>'
     */
-    virtual const char* Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
+    virtual const char*         Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
 
     virtual const TiXmlElement* ToElement() const
     {
@@ -1222,7 +1215,7 @@ public:
     virtual bool Accept(TiXmlVisitor* visitor) const;
 
 protected:
-    void ClearThis();   // like clear, but initializes 'this' object as well
+    void        ClearThis();   // like clear, but initializes 'this' object as well
 
     /*	[internal use]
         Reads the "value" of the element -- another element, or text.
@@ -1254,7 +1247,7 @@ public:
     /*	Attribtue parsing starts: at the ! of the !--
                          returns: next char past '>'
     */
-    virtual const char* Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
+    virtual const char*         Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
 
     virtual const TiXmlComment* ToComment() const
     {
@@ -1311,7 +1304,7 @@ public:
         cdata = _cdata;
     }
 
-    virtual const char* Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
+    virtual const char*      Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
 
     virtual const TiXmlText* ToText() const
     {
@@ -1328,6 +1321,7 @@ public:
 
 protected:
     bool Blank() const;   // returns true if all white space and new lines
+
 private:
     bool cdata;   // true if this should be input and output as a CDATA style text element
 };
@@ -1380,7 +1374,7 @@ public:
         return standalone.c_str();
     }
 
-    virtual const char* Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
+    virtual const char*             Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
 
     virtual const TiXmlDeclaration* ToDeclaration() const
     {
@@ -1414,7 +1408,7 @@ public:
     TiXmlUnknown(): TiXmlNode(TiXmlNode::UNKNOWN) {}
     virtual ~TiXmlUnknown() {}
 
-    virtual const char* Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
+    virtual const char*         Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding);
 
     virtual const TiXmlUnknown* ToUnknown() const
     {
@@ -1446,11 +1440,7 @@ public:
         method (either TIXML_ENCODING_LEGACY or TIXML_ENCODING_UTF8 will force TinyXml
         to use that encoding, regardless of what TinyXml might otherwise try to detect.
     */
-    virtual const char* Parse(
-        TiXmlDocument*    document,
-        const char*       p,
-        TiXmlParsingData* data     = 0,
-        TiXmlEncoding     encoding = TIXML_DEFAULT_ENCODING);
+    virtual const char* Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data = 0, TiXmlEncoding encoding = TIXML_DEFAULT_ENCODING);
 
     /** Get the root element -- the only top level element -- of the document.
         In well formed XML, there should only be one. TinyXml is tolerant of
@@ -1551,7 +1541,7 @@ public:
         // errorLocation.last = 0;
     }
 
-    void SetError(int err, const char* errorLocation, TiXmlParsingData* prevData, TiXmlEncoding encoding);
+    void                         SetError(int err, const char* errorLocation, TiXmlParsingData* prevData, TiXmlEncoding encoding);
 
     virtual const TiXmlDocument* ToDocument() const
     {

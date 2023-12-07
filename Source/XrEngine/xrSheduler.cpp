@@ -10,7 +10,7 @@ const float psShedulerReaction   = 0.1f;
 BOOL        g_bSheduleInProgress = FALSE;
 
 //-------------------------------------------------------------------------------------
-void CSheduler::Initialize()
+void        CSheduler::Initialize()
 {
     m_current_step_obj = NULL;
     m_processing_now   = false;
@@ -70,15 +70,13 @@ void CSheduler::internal_Registration()
             if (!bFoundAndErased)
             {
 #ifdef DEBUG_SCHEDULER
-                Msg("SCHEDULER: internal register [%s][%x][%s]", *R.Object->shedule_Name(), R.Object,
-                    R.RT ? "true" : "false");
+                Msg("SCHEDULER: internal register [%s][%x][%s]", *R.Object->shedule_Name(), R.Object, R.RT ? "true" : "false");
 #endif   // DEBUG_SCHEDULER
                 internal_Register(R.Object, R.RT);
             }
 #ifdef DEBUG_SCHEDULER
             else
-                Msg("SCHEDULER: internal register skipped, because unregister found [%s][%x][%s]", "unknown", R.Object,
-                    R.RT ? "true" : "false");
+                Msg("SCHEDULER: internal register skipped, because unregister found [%s][%x][%s]", "unknown", R.Object, R.RT ? "true" : "false");
 #endif   // DEBUG_SCHEDULER
         }
         else
@@ -319,10 +317,10 @@ void CSheduler::ProcessStep()
     CTimer eTimer;
     for (int i = 0; !Items.empty() && Top().dwTimeForExecute < dwTime; ++i)
     {
-        u32 delta_ms = dwTime - Top().dwTimeForExecute;
+        u32  delta_ms = dwTime - Top().dwTimeForExecute;
 
         // Update
-        Item T = Top();
+        Item T        = Top();
 #ifdef DEBUG_SCHEDULER
         Msg("SCHEDULER: process step [%s][%x][false]", *T.scheduled_name, T.Object);
 #endif   // DEBUG_SCHEDULER
@@ -335,11 +333,11 @@ void CSheduler::ProcessStep()
             // Erase element
 #ifdef DEBUG_SCHEDULER
             Msg("SCHEDULER: process unregister [%s][%x][%s]", *T.scheduled_name, T.Object, "false");
-#endif      // DEBUG_SCHEDULER
-            //			if (T.Object)
-            //				Msg					("0x%08x UNREGISTERS because shedule_Needed() returned false",T.Object);
-            //			else
-            //				Msg					("UNREGISTERS unknown object");
+#endif   // DEBUG_SCHEDULER                                                                \
+    //			if (T.Object)                                                                     \
+    //				Msg					("0x%08x UNREGISTERS because shedule_Needed() returned false",T.Object); \
+    //			else                                                                              \
+    //				Msg					("UNREGISTERS unknown object");
             Pop();
             continue;
         }
@@ -368,8 +366,7 @@ void CSheduler::ProcessStep()
         if (!m_current_step_obj)
         {
 #ifdef DEBUG_SCHEDULER
-            Msg("SCHEDULER: process unregister (self unregistering) [%s][%x][%s]", *T.scheduled_name, T.Object,
-                "false");
+            Msg("SCHEDULER: process unregister (self unregistering) [%s][%x][%s]", *T.scheduled_name, T.Object, "false");
 #endif   // DEBUG_SCHEDULER
             continue;
         }
@@ -377,7 +374,7 @@ void CSheduler::ProcessStep()
 #ifdef DEBUG
 //				Msg		("! xrSheduler: object '%s' raised an exception", _obj_name);
 //				throw	;
-#endif   // DEBUG
+#endif   // DEBUG \
          //			}
         m_current_step_obj = NULL;
 
@@ -490,7 +487,7 @@ void CSheduler::Update()
     Device->Statistic->fShedulerLoad = psShedulerCurrent;
 
     // Finalize
-    g_bSheduleInProgress = FALSE;
+    g_bSheduleInProgress             = FALSE;
     internal_Registration();
     Device->Statistic->Sheduler.End();
 }

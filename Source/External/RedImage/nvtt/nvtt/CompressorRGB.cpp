@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2011 Ignacio Castano <castano@gmail.com>
+﻿// Copyright (c) 2009-2011 Ignacio Castano <castano@gmail.com>
 // Copyright (c) 2007-2009 NVIDIA Corporation -- Ignacio Castano <icastano@nvidia.com>
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -9,10 +9,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -40,7 +40,7 @@
 using namespace nv;
 using namespace nvtt;
 
-namespace 
+namespace
 {
     /* 11 and 10 bit floating point numbers according to the OpenGL packed float extension:
        http://www.opengl.org/registry/specs/EXT/packed_float.txt
@@ -127,14 +127,17 @@ namespace
 
     // @@ Is this correct? Not tested!
     // 6 bits of mantissa, 5 bits of exponent.
-    static uint toFloat11(float f) {
-        if (f < 0) f = 0;           // Flush to 0 or to epsilon?
-        if (f > 65024) f = 65024;   // Flush to infinity or max?
+    static uint toFloat11(float f)
+    {
+        if (f < 0)
+            f = 0;   // Flush to 0 or to epsilon?
+        if (f > 65024)
+            f = 65024;   // Flush to infinity or max?
 
         Float754 F;
         F.value = f;
 
-        uint E = F.field.biasedexponent - 127 + 15;
+        uint E  = F.field.biasedexponent - 127 + 15;
         nvDebugCheck(E < 32);
 
         uint M = F.field.mantissa >> (23 - 6);
@@ -144,14 +147,17 @@ namespace
 
     // @@ Is this correct? Not tested!
     // 5 bits of mantissa, 5 bits of exponent.
-    static uint toFloat10(float f) {
-        if (f < 0) f = 0;           // Flush to 0 or to epsilon?
-        if (f > 64512) f = 64512;   // Flush to infinity or max?
+    static uint toFloat10(float f)
+    {
+        if (f < 0)
+            f = 0;   // Flush to 0 or to epsilon?
+        if (f > 64512)
+            f = 64512;   // Flush to infinity or max?
 
         Float754 F;
         F.value = f;
 
-        uint E = F.field.biasedexponent - 127 + 15;
+        uint E  = F.field.biasedexponent - 127 + 15;
         nvDebugCheck(E < 32);
 
         uint M = F.field.mantissa >> (23 - 5);
@@ -159,41 +165,47 @@ namespace
         return (E << 5) | M;
     }
 
-
     // IC: Inf/NaN and denormal handling based on DirectXMath.
-    static float fromFloat11(uint u) {
+    static float fromFloat11(uint u)
+    {
         // 5 bit exponent
         // 6 bit mantissa
-        
-        uint E = (u >> 6) & 0x1F;
-        uint M = u & 0x3F;
+
+        uint     E = (u >> 6) & 0x1F;
+        uint     M = u & 0x3F;
 
         Float754 F;
         F.field.negative = 0;
 
-        if (E == 0x1f) { // INF or NAN.
+        if (E == 0x1f)
+        {   // INF or NAN.
             E = 0xFF;
         }
-        else {
-            if (E != 0) {
+        else
+        {
+            if (E != 0)
+            {
                 F.field.biasedexponent = E + 127 - 15;
-                F.field.mantissa = M << (23 - 6);
+                F.field.mantissa       = M << (23 - 6);
             }
-            else if (M != 0) {
+            else if (M != 0)
+            {
                 E = 1;
-                do {
+                do
+                {
                     E--;
                     M <<= 1;
-                } while((M & 0x40) == 0);
+                }
+                while ((M & 0x40) == 0);
 
                 M &= 0x3F;
             }
         }
 
         F.field.biasedexponent = 0xFF;
-        F.field.mantissa = M << (23 - 6);
-        
-		return F.value;
+        F.field.mantissa       = M << (23 - 6);
+
+        return F.value;
 #if 0
         // X Channel (6-bit mantissa)
         Mantissa = pSource->xm;
@@ -234,30 +246,31 @@ namespace
     // https://www.opengl.org/registry/specs/EXT/texture_shared_exponent.txt
     Float3SE toFloat3SE(float r, float g, float b)
     {
-        const int N = 9;                    // Mantissa bits.
-        const int E = 5;                    // Exponent bits.
-        const int Emax = (1 << E) - 1;      // 31
-        const int B = (1 << (E-1)) - 1;     // 15
-        const float sharedexp_max = float((1 << N) - 1) / (1 << N) * (1 << (Emax-B));   // 65408
+        const int   N             = 9;                                                    // Mantissa bits.
+        const int   E             = 5;                                                    // Exponent bits.
+        const int   Emax          = (1 << E) - 1;                                         // 31
+        const int   B             = (1 << (E - 1)) - 1;                                   // 15
+        const float sharedexp_max = float((1 << N) - 1) / (1 << N) * (1 << (Emax - B));   // 65408
 
         // Clamp color components.
-        r = max(0.0f, min(sharedexp_max, r));
-        g = max(0.0f, min(sharedexp_max, g));
-        b = max(0.0f, min(sharedexp_max, b));
+        r                         = max(0.0f, min(sharedexp_max, r));
+        g                         = max(0.0f, min(sharedexp_max, g));
+        b                         = max(0.0f, min(sharedexp_max, b));
 
         // Get max component.
-        float max_c = max3(r, g, b);
+        float max_c               = max3(r, g, b);
 
         // Compute shared exponent.
-        int exp_shared_p = max(-B-1, ftoi_floor(log2f(max_c))) + 1 + B;
+        int   exp_shared_p        = max(-B - 1, ftoi_floor(log2f(max_c))) + 1 + B;
 
-        int max_s = ftoi_round(max_c / (1 << (exp_shared_p - B - N)));
+        int   max_s               = ftoi_round(max_c / (1 << (exp_shared_p - B - N)));
 
-        int exp_shared = exp_shared_p;
-        if (max_s == (1 << N)) exp_shared++;
+        int   exp_shared          = exp_shared_p;
+        if (max_s == (1 << N))
+            exp_shared++;
 
         Float3SE v;
-        v.e = exp_shared;
+        v.e  = exp_shared;
 
         // Compute mantissas.
         v.xm = ftoi_round(r / (1 << (exp_shared - B - N)));
@@ -267,9 +280,10 @@ namespace
         return v;
     }
 
-    Vector3 fromFloat3SE(Float3SE v) {
+    Vector3 fromFloat3SE(Float3SE v)
+    {
         Float754 f;
-        f.raw = 0x33800000 + (v.e << 23);
+        f.raw       = 0x33800000 + (v.e << 23);
         float scale = f.value;
         return scale * Vector3(float(v.xm), float(v.ym), float(v.zm));
     }
@@ -279,13 +293,15 @@ namespace
     {
         float v = max3(r, g, b);
 
-        uint rgbe;
+        uint  rgbe;
 
-        if (v < 1e-32) {
+        if (v < 1e-32)
+        {
             rgbe = 0;
         }
-        else {
-            int e;
+        else
+        {
+            int   e;
             float scale = frexpf(v, &e) * 256.0f / v;
             //Float754 f;
             //f.value = v;
@@ -301,25 +317,25 @@ namespace
         return rgbe;
     }
 
-    Vector3 fromRGBE(uint rgbe) {
+    Vector3 fromRGBE(uint rgbe)
+    {
         uint r = (rgbe >> 0) & 0xFF;
         uint g = (rgbe >> 8) & 0xFF;
         uint b = (rgbe >> 16) & 0xFF;
         uint e = (rgbe >> 24);
 
-        if (e != 0) {
-            float scale = ldexpf(1.0f, e-(int)(128+8));             // +8 to divide by 256. @@ Shouldn't we divide by 255 instead?
+        if (e != 0)
+        {
+            float scale = ldexpf(1.0f, e - (int)(128 + 8));   // +8 to divide by 256. @@ Shouldn't we divide by 255 instead?
             return scale * Vector3(float(r), float(g), float(b));
         }
-        
+
         return Vector3(0);
     }
 
-
     struct BitStream
     {
-        BitStream(uint8 * ptr) : ptr(ptr), buffer(0), bits(0) {
-        }
+        BitStream(uint8* ptr): ptr(ptr), buffer(0), bits(0) {}
 
         void putBits(uint p, int bitCount)
         {
@@ -327,31 +343,31 @@ namespace
             nvDebugCheck(bitCount <= 32);
 
             uint64 buffer = (this->buffer << bitCount) | p;
-            uint bits = this->bits + bitCount;
+            uint   bits   = this->bits + bitCount;
 
             while (bits >= 8)
             {
                 *ptr++ = (buffer & 0xFF);
-                
+
                 buffer >>= 8;
                 bits -= 8;
             }
 
             this->buffer = (uint8)buffer;
-            this->bits = bits;
+            this->bits   = bits;
         }
 
         void putFloat(float f)
         {
-            nvDebugCheck(bits == 0); // @@ Do not require alignment.
-            *((float *)ptr) = f;
+            nvDebugCheck(bits == 0);   // @@ Do not require alignment.
+            *((float*)ptr) = f;
             ptr += 4;
         }
 
         void putHalf(float f)
         {
-            nvDebugCheck(bits == 0); // @@ Do not require alignment.
-            *((uint16 *)ptr) = to_half(f);
+            nvDebugCheck(bits == 0);   // @@ Do not require alignment.
+            *((uint16*)ptr) = to_half(f);
             ptr += 2;
         }
 
@@ -368,10 +384,11 @@ namespace
         void flush()
         {
             nvDebugCheck(bits < 8);
-            if (bits) {
+            if (bits)
+            {
                 *ptr++ = buffer;
                 buffer = 0;
-                bits = 0;
+                bits   = 0;
             }
         }
 
@@ -380,23 +397,22 @@ namespace
             nvDebugCheck(alignment >= 1);
             flush();
             int remainder = (int)((uintptr_t)ptr % alignment);
-            if (remainder != 0) {
+            if (remainder != 0)
+            {
                 putBits(0, (alignment - remainder) * 8);
             }
         }
 
-        uint8 * ptr;
-        uint8 buffer;
-        uint8 bits;
+        uint8* ptr;
+        uint8  buffer;
+        uint8  bits;
     };
 
-} // namespace
+}   // namespace
 
-
-
-void PixelFormatConverter::compress(nvtt::AlphaMode /*alphaMode*/, uint w, uint h, uint d, const float * data, nvtt::TaskDispatcher * dispatcher, const nvtt::CompressionOptions::Private & compressionOptions, const nvtt::OutputOptions::Private & outputOptions)
+void PixelFormatConverter::compress(nvtt::AlphaMode /*alphaMode*/, uint w, uint h, uint d, const float* data, nvtt::TaskDispatcher* dispatcher, const nvtt::CompressionOptions::Private& compressionOptions, const nvtt::OutputOptions::Private& outputOptions)
 {
-    nvDebugCheck (compressionOptions.format == nvtt::Format_RGBA);
+    nvDebugCheck(compressionOptions.format == nvtt::Format_RGBA);
 
     uint bitCount;
     uint rmask, rshift, rsize;
@@ -438,10 +454,10 @@ void PixelFormatConverter::compress(nvtt::AlphaMode /*alphaMode*/, uint w, uint 
         }
         else
         {
-            rsize = compressionOptions.rsize;
-            gsize = compressionOptions.gsize;
-            bsize = compressionOptions.bsize;
-            asize = compressionOptions.asize;
+            rsize    = compressionOptions.rsize;
+            gsize    = compressionOptions.gsize;
+            bsize    = compressionOptions.bsize;
+            asize    = compressionOptions.asize;
 
             bitCount = rsize + gsize + bsize + asize;
             nvCheck(bitCount <= 32);
@@ -451,26 +467,26 @@ void PixelFormatConverter::compress(nvtt::AlphaMode /*alphaMode*/, uint w, uint 
             gshift = bshift + bsize;
             rshift = gshift + gsize;
 
-            rmask = ((1 << rsize) - 1) << rshift;
-            gmask = ((1 << gsize) - 1) << gshift;
-            bmask = ((1 << bsize) - 1) << bshift;
-            amask = ((1 << asize) - 1) << ashift;
+            rmask  = ((1 << rsize) - 1) << rshift;
+            gmask  = ((1 << gsize) - 1) << gshift;
+            bmask  = ((1 << bsize) - 1) << bshift;
+            amask  = ((1 << asize) - 1) << ashift;
         }
     }
 
-    const uint pitch = computeBytePitch(w, bitCount, compressionOptions.pitchAlignment);
-    const uint whd = w * h * d;
+    const uint   pitch = computeBytePitch(w, bitCount, compressionOptions.pitchAlignment);
+    const uint   whd   = w * h * d;
 
     // Allocate output scanline.
-    uint8 * const dst = malloc<uint8>(pitch);
+    uint8* const dst   = malloc<uint8>(pitch);
 
     for (uint z = 0; z < d; z++)
     {
         for (uint y = 0; y < h; y++)
         {
-            const float * src = (const float *)data + (z * h + y) * w;
+            const float* src = (const float*)data + (z * h + y) * w;
 
-            BitStream stream(dst);
+            BitStream    stream(dst);
 
             for (uint x = 0; x < w; x++)
             {
@@ -481,40 +497,63 @@ void PixelFormatConverter::compress(nvtt::AlphaMode /*alphaMode*/, uint w, uint 
 
                 if (compressionOptions.pixelType == nvtt::PixelType_Float)
                 {
-                    if (rsize == 32) stream.putFloat(r);
-                    else if (rsize == 16) stream.putHalf(r);
-                    else if (rsize == 11) stream.putFloat11(r);
-                    else if (rsize == 10) stream.putFloat10(r);
-                    else stream.putBits(0, rsize);
+                    if (rsize == 32)
+                        stream.putFloat(r);
+                    else if (rsize == 16)
+                        stream.putHalf(r);
+                    else if (rsize == 11)
+                        stream.putFloat11(r);
+                    else if (rsize == 10)
+                        stream.putFloat10(r);
+                    else
+                        stream.putBits(0, rsize);
 
-                    if (gsize == 32) stream.putFloat(g);
-                    else if (gsize == 16) stream.putHalf(g);
-                    else if (gsize == 11) stream.putFloat11(g);
-                    else if (gsize == 10) stream.putFloat10(g);
-                    else stream.putBits(0, gsize);
+                    if (gsize == 32)
+                        stream.putFloat(g);
+                    else if (gsize == 16)
+                        stream.putHalf(g);
+                    else if (gsize == 11)
+                        stream.putFloat11(g);
+                    else if (gsize == 10)
+                        stream.putFloat10(g);
+                    else
+                        stream.putBits(0, gsize);
 
-                    if (bsize == 32) stream.putFloat(b);
-                    else if (bsize == 16) stream.putHalf(b);
-                    else if (bsize == 11) stream.putFloat11(b);
-                    else if (bsize == 10) stream.putFloat10(b);
-                    else stream.putBits(0, bsize);
+                    if (bsize == 32)
+                        stream.putFloat(b);
+                    else if (bsize == 16)
+                        stream.putHalf(b);
+                    else if (bsize == 11)
+                        stream.putFloat11(b);
+                    else if (bsize == 10)
+                        stream.putFloat10(b);
+                    else
+                        stream.putBits(0, bsize);
 
-                    if (asize == 32) stream.putFloat(a);
-                    else if (asize == 16) stream.putHalf(a);
-                    else if (asize == 11) stream.putFloat11(a);
-                    else if (asize == 10) stream.putFloat10(a);
-                    else stream.putBits(0, asize);
+                    if (asize == 32)
+                        stream.putFloat(a);
+                    else if (asize == 16)
+                        stream.putHalf(a);
+                    else if (asize == 11)
+                        stream.putFloat11(a);
+                    else if (asize == 10)
+                        stream.putFloat10(a);
+                    else
+                        stream.putBits(0, asize);
                 }
                 else if (compressionOptions.pixelType == nvtt::PixelType_SharedExp)
                 {
-                    if (rsize == 9 && gsize == 9 && bsize == 9 && asize == 5) {
+                    if (rsize == 9 && gsize == 9 && bsize == 9 && asize == 5)
+                    {
                         Float3SE v = toFloat3SE(r, g, b);
                         stream.putBits(v.v, 32);
                     }
-                    else if (rsize == 8 && gsize == 8 && bsize == 8 && asize == 8) {
-                        // @@ 
+                    else if (rsize == 8 && gsize == 8 && bsize == 8 && asize == 8)
+                    {
+                        // @@
                     }
-                    else {
+                    else
+                    {
                         // @@ Not supported. Filling with zeros.
                         stream.putBits(0, bitCount);
                     }
@@ -522,29 +561,33 @@ void PixelFormatConverter::compress(nvtt::AlphaMode /*alphaMode*/, uint w, uint 
                 else
                 {
                     // We first convert to 16 bits, then to the target size. @@ If greater than 16 bits, this will truncate and bitexpand.
-                    
+
                     // @@ Add support for nvtt::PixelType_SignedInt, nvtt::PixelType_SignedNorm, nvtt::PixelType_UnsignedInt
 
                     int ir, ig, ib, ia;
-                    if (compressionOptions.pixelType == nvtt::PixelType_UnsignedNorm) {
+                    if (compressionOptions.pixelType == nvtt::PixelType_UnsignedNorm)
+                    {
                         ir = iround(clamp(r * 65535.0f, 0.0f, 65535.0f));
                         ig = iround(clamp(g * 65535.0f, 0.0f, 65535.0f));
                         ib = iround(clamp(b * 65535.0f, 0.0f, 65535.0f));
                         ia = iround(clamp(a * 65535.0f, 0.0f, 65535.0f));
                     }
-                    else if (compressionOptions.pixelType == nvtt::PixelType_SignedNorm) {
+                    else if (compressionOptions.pixelType == nvtt::PixelType_SignedNorm)
+                    {
                         // @@
                     }
-                    else if (compressionOptions.pixelType == nvtt::PixelType_UnsignedInt) {
+                    else if (compressionOptions.pixelType == nvtt::PixelType_UnsignedInt)
+                    {
                         ir = iround(clamp(r, 0.0f, 65535.0f));
                         ig = iround(clamp(g, 0.0f, 65535.0f));
                         ib = iround(clamp(b, 0.0f, 65535.0f));
                         ia = iround(clamp(a, 0.0f, 65535.0f));
                     }
-                    else if (compressionOptions.pixelType == nvtt::PixelType_SignedInt) {
+                    else if (compressionOptions.pixelType == nvtt::PixelType_SignedInt)
+                    {
                         // @@
                     }
-                    
+
                     uint p = 0;
                     p |= PixelFormat::convert(ir, 16, rsize) << rshift;
                     p |= PixelFormat::convert(ig, 16, gsize) << gshift;

@@ -6,14 +6,9 @@
 
 using namespace luabind;
 
-ESingleGameDifficulty g_SingleGameDifficulty = egdStalker;
+ESingleGameDifficulty g_SingleGameDifficulty  = egdStalker;
 
-xr_token difficulty_type_token[] = {
-    {"gd_novice", egdNovice},
-    {"gd_stalker", egdStalker},
-    {"gd_veteran", egdVeteran},
-    {"gd_master", egdMaster},
-    {0, 0}};
+xr_token              difficulty_type_token[] = {{"gd_novice", egdNovice}, {"gd_stalker", egdStalker}, {"gd_veteran", egdVeteran}, {"gd_master", egdMaster}, {0, 0}};
 
 game_cl_Single::game_cl_Single() {}
 
@@ -99,8 +94,5 @@ void game_cl_Single::SetEnvironmentGameTimeFactor(const float fTimeFactor)
 #pragma optimize("s", on)
 void CScriptGameDifficulty::script_register(lua_State* L)
 {
-    module(L)[class_<enum_exporter<ESingleGameDifficulty>>("game_difficulty")
-                  .enum_("game_difficulty")
-                      [value("novice", int(egdNovice)), value("stalker", int(egdStalker)),
-                       value("veteran", int(egdVeteran)), value("master", int(egdMaster))]];
+    module(L)[class_<enum_exporter<ESingleGameDifficulty>>("game_difficulty").enum_("game_difficulty")[value("novice", int(egdNovice)), value("stalker", int(egdStalker)), value("veteran", int(egdVeteran)), value("master", int(egdMaster))]];
 }

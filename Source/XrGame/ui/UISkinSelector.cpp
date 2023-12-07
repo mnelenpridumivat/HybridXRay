@@ -261,11 +261,11 @@ bool CUISkinSelectorWnd::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 
     if (dik >= DIK_1 && dik < (int)right_border + DIK_1)
     {
-        int NewIndex = dik - DIK_1;
+        int                      NewIndex = dik - DIK_1;
         //		Msg("Selected %d", NewIndex);
         //		for (u32 i=0; i<m_skinsEnabled.size(); i++)
         //			Msg("Enabled - %d", m_skinsEnabled[i]);
-        xr_vector<int>::iterator It = std::find(m_skinsEnabled.begin(), m_skinsEnabled.end(), NewIndex);
+        xr_vector<int>::iterator It       = std::find(m_skinsEnabled.begin(), m_skinsEnabled.end(), NewIndex);
         if (It != m_skinsEnabled.end())
         {
             m_iActiveIndex = NewIndex;

@@ -102,11 +102,11 @@ private:
 
 public:
     // Environments
-    void SelectEnvs(float gt);
+    void         SelectEnvs(float gt);
 
     IEnvAmbient* AppendEnvAmb(const shared_str& sect);
 
-    void Invalidate();
+    void         Invalidate();
 
 public:
     CEnvironmentSOC();
@@ -134,6 +134,7 @@ public:
 
     // editor-related
 #ifdef _EDITOR
+
 public:
     float ed_from_time;
     float ed_to_time;

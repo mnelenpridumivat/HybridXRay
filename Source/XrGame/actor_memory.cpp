@@ -26,14 +26,7 @@ BOOL CActorMemory::feel_vision_isRelevant(CObject* O)
     return (TRUE);
 }
 
-void CActorMemory::camera(
-    Fvector& position,
-    Fvector& direction,
-    Fvector& normal,
-    float&   field_of_view,
-    float&   aspect_ratio,
-    float&   near_plane,
-    float&   far_plane)
+void CActorMemory::camera(Fvector& position, Fvector& direction, Fvector& normal, float& field_of_view, float& aspect_ratio, float& near_plane, float& far_plane)
 {
     CCameraBase& camera = *m_actor->cam_Active();
     camera.Get(position, direction, normal);

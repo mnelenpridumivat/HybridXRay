@@ -80,11 +80,7 @@ namespace smart_cover
             animation_planner* m_planner;
 
         public:
-            loophole_actual_evaluator(
-                CAI_Stalker*       object,
-                LPCSTR             evaluator_name,
-                animation_planner* planner,
-                u32 const&         loophole_value);
+            loophole_actual_evaluator(CAI_Stalker* object, LPCSTR evaluator_name, animation_planner* planner, u32 const& loophole_value);
             virtual _value_type evaluate();
         };
 
@@ -208,10 +204,7 @@ namespace smart_cover
             u32 m_time_interval;
 
         public:
-            idle_time_interval_passed_evaluator(
-                animation_planner* object,
-                LPCSTR             evaluator_name,
-                u32 const&         time_interval);
+            idle_time_interval_passed_evaluator(animation_planner* object, LPCSTR evaluator_name, u32 const& time_interval);
             virtual _value_type evaluate();
         };
 
@@ -228,10 +221,7 @@ namespace smart_cover
             u32 m_time_interval;
 
         public:
-            lookout_time_interval_passed_evaluator(
-                animation_planner* object,
-                LPCSTR             evaluator_name,
-                u32 const&         time_interval);
+            lookout_time_interval_passed_evaluator(animation_planner* object, LPCSTR evaluator_name, u32 const& time_interval);
             virtual _value_type evaluate();
         };
 

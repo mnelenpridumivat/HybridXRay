@@ -1,14 +1,14 @@
 ﻿#include "stdafx.h"
 #include "..\..\xrRender\Private\PSLibrary.h"
 
-#define CPSOBJECT_VERSION 0x0013
+#define CPSOBJECT_VERSION         0x0013
 
-#define CPSOBJECT_CHUNK_VERSION 0x0001
+#define CPSOBJECT_CHUNK_VERSION   0x0001
 #define CPSOBJECT_CHUNK_REFERENCE 0x0002
-#define CPSOBJECT_CHUNK_PARAMS 0x0003
-#define CPSOBJECT_CHUNK_GAMETYPE 0x0004
+#define CPSOBJECT_CHUNK_PARAMS    0x0003
+#define CPSOBJECT_CHUNK_GAMETYPE  0x0004
 
-#define PSOBJECT_SIZE 0.5f
+#define PSOBJECT_SIZE             0.5f
 
 // using namespace PS;
 

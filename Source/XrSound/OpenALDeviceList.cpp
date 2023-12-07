@@ -26,7 +26,7 @@
 #include "OpenALDeviceList.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <objbase.h>
 #pragma warning(pop)
 
@@ -127,13 +127,10 @@ void ALDeviceList::Enumerate()
                         if (alIsExtensionPresent("EAX5.0"))
                             m_devices.back().props.eax = 5;
 
-                        m_devices.back().props.efx  = (alIsExtensionPresent("ALC_EXT_EFX") == TRUE);
-                        m_devices.back().props.xram = (alIsExtensionPresent("EAX_RAM") == TRUE);
+                        m_devices.back().props.efx          = (alIsExtensionPresent("ALC_EXT_EFX") == TRUE);
+                        m_devices.back().props.xram         = (alIsExtensionPresent("EAX_RAM") == TRUE);
 
-                        m_devices.back().props.eax_unwanted = Core.Editor ?
-                            0 :
-                            ((0 == xr_strcmp(actualDeviceName, AL_GENERIC_HARDWARE)) ||
-                             (0 == xr_strcmp(actualDeviceName, AL_GENERIC_SOFTWARE)));
+                        m_devices.back().props.eax_unwanted = Core.Editor ? 0 : ((0 == xr_strcmp(actualDeviceName, AL_GENERIC_HARDWARE)) || (0 == xr_strcmp(actualDeviceName, AL_GENERIC_SOFTWARE)));
                         ++index;
                     }
                     alcDestroyContext(context);
@@ -175,10 +172,7 @@ void ALDeviceList::Enumerate()
     for (u32 j = 0; j < GetNumDevices(); j++)
     {
         GetDeviceVersion(j, &majorVersion, &minorVersion);
-        Msg("%d. %s, Spec Version %d.%d %s eax[%d] efx[%s] xram[%s]", j + 1, GetDeviceName(j), majorVersion,
-            minorVersion, (stricmp(GetDeviceName(j), m_defaultDeviceName) == 0) ? "(default)" : "",
-            GetDeviceDesc(j).props.eax, GetDeviceDesc(j).props.efx ? "yes" : "no",
-            GetDeviceDesc(j).props.xram ? "yes" : "no");
+        Msg("%d. %s, Spec Version %d.%d %s eax[%d] efx[%s] xram[%s]", j + 1, GetDeviceName(j), majorVersion, minorVersion, (stricmp(GetDeviceName(j), m_defaultDeviceName) == 0) ? "(default)" : "", GetDeviceDesc(j).props.eax, GetDeviceDesc(j).props.efx ? "yes" : "no", GetDeviceDesc(j).props.xram ? "yes" : "no");
     }
     if (!strstr(GetCommandLine(), "-editor"))
         CoInitializeEx(NULL, COINIT_MULTITHREADED);
@@ -206,8 +200,7 @@ void ALDeviceList::SelectBestDevice()
                 continue;
 
             GetDeviceVersion(i, &majorVersion, &minorVersion);
-            if ((majorVersion > best_majorVersion) ||
-                (majorVersion == best_majorVersion && minorVersion > best_minorVersion))
+            if ((majorVersion > best_majorVersion) || (majorVersion == best_majorVersion && minorVersion > best_minorVersion))
             {
                 best_majorVersion = majorVersion;
                 best_minorVersion = minorVersion;

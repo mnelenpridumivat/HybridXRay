@@ -1,7 +1,7 @@
 ﻿#ifndef CYCLE_CONST_STORAGE_H
 #define CYCLE_CONST_STORAGE_H
 
-template <class T, int size> class CCycleConstStorage
+template<class T, int size> class CCycleConstStorage
 {
     T      array[size];
     int    first;

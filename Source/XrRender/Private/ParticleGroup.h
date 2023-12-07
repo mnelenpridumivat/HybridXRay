@@ -55,6 +55,7 @@ namespace PS
         BOOL Equal(const CPGDef* pe);
         bool Validate(bool bMsg);
 #endif
+
     public:
         CPGDef();
         ~CPGDef();
@@ -76,6 +77,7 @@ namespace PS
         const CPGDef* m_Def;
         float         m_CurrentTime;
         Fvector       m_InitialPosition;
+
     public:
         DEFINE_VECTOR(dxRender_Visual*, VisualVec, VisualVecIt);
         struct SItem
@@ -83,6 +85,7 @@ namespace PS
             dxRender_Visual* _effect;
             VisualVec        _children_related;
             VisualVec        _children_free;
+
         public:
             void   Set(dxRender_Visual* e);
             void   Clear();
@@ -114,6 +117,7 @@ namespace PS
         };
         DEFINE_VECTOR(SItem, SItemVec, SItemVecIt)
         SItemVec items;
+
     public:
         enum
         {
@@ -121,6 +125,7 @@ namespace PS
             flRT_DefferedStop = (1 << 1),
         };
         Flags8 m_RT_Flags;
+
     public:
         CParticleGroup();
         virtual ~CParticleGroup();

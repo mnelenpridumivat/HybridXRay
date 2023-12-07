@@ -44,6 +44,7 @@ public:
     {
         return m_debugger;
     }
+
 protected:
     CScriptDebugger*      m_debugger;
     static CDbgLuaHelper* m_pThis;

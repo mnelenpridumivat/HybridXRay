@@ -53,6 +53,7 @@ protected:
     void         AnimationCreateKey(float t);
     void         AnimationDeleteKey(float t);
     void         AnimationUpdate(float t);
+
 public:
     enum
     {
@@ -79,6 +80,7 @@ public:
         flRT_SelectedLast    = (1 << 5),
     };
     Flags32 m_RT_Flags;
+
 public:
     shared_str     FName;
     int            save_id;
@@ -106,6 +108,7 @@ public:
 
     void           OnMotionCurrentFrameChange(PropValue* value);
     void           OnMotionCameraViewChange(PropValue* value);
+
 public:
     LPCSTR GetName() const
     {
@@ -160,6 +163,7 @@ public:
     {
         m_RT_Flags.set(flRT_NeedSelfDelete, TRUE);
     }
+
 public:
     CCustomObject(LPVOID data, LPCSTR name);
     virtual ~CCustomObject();

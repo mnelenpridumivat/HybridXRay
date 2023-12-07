@@ -28,12 +28,7 @@ public:
     }
 
 private:
-    bool ConeSphereIntersection(
-        Fvector ConeVertex,
-        float   ConeAngle,
-        Fvector ConeDir,
-        Fvector SphereCenter,
-        float   SphereRadius);
+    bool ConeSphereIntersection(Fvector ConeVertex, float ConeAngle, Fvector ConeDir, Fvector SphereCenter, float SphereRadius);
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION            template<typename _Object>
 #define CStateChimeraThreatenStealAbstract CStateChimeraThreatenSteal<_Object>
 
 TEMPLATE_SPECIALIZATION
@@ -8,11 +8,11 @@ void CStateChimeraThreatenStealAbstract::initialize()
 {
     inherited::initialize();
 
-    data.action.action = ACT_STEAL;
+    data.action.action      = ACT_STEAL;
 
-    data.accelerated = true;
-    data.braking     = false;
-    data.accel_type  = eAT_Calm;
+    data.accelerated        = true;
+    data.braking            = false;
+    data.accel_type         = eAT_Calm;
 
     data.completion_dist    = 2.f;
     data.action.sound_type  = MonsterSound::eMonsterSoundIdle;

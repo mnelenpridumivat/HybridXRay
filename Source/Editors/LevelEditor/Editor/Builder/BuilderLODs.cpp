@@ -23,8 +23,8 @@ BOOL GetPointColor(SPickQuery::SResult* R, u32& alpha)
 
     // calc UV
     Fvector2 uv;
-    uv.x = cuv[0]->x * B.x + cuv[1]->x * B.y + cuv[2]->x * B.z;
-    uv.y = cuv[0]->y * B.x + cuv[1]->y * B.y + cuv[2]->y * B.z;
+    uv.x  = cuv[0]->x * B.x + cuv[1]->x * B.y + cuv[2]->x * B.z;
+    uv.y  = cuv[0]->y * B.x + cuv[1]->y * B.y + cuv[2]->y * B.z;
 
     int U = iFloor(uv.x * float(surf->m_ImageData->w) + .5f);
     int V = iFloor(uv.y * float(surf->m_ImageData->h) + .5f);
@@ -43,7 +43,7 @@ int SceneBuilder::BuildObjectLOD(const Fmatrix& parent, CEditableObject* E, int 
 {
     if (!E->m_objectFlags.is(CEditableObject::eoUsingLOD))
         return -1;
-    xr_string lod_name = E->GetLODTextureName();
+    xr_string  lod_name = E->GetLODTextureName();
 
     b_material mtl;
     mtl.surfidx     = (u16)BuildTexture(LEVEL_LODS_TEX_NAME);

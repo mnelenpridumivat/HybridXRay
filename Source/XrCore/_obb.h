@@ -1,7 +1,7 @@
 ﻿#ifndef FOBB_H
 #define FOBB_H
 
-template <class T> struct _obb
+template<class T> struct _obb
 {
 public:
     typedef _obb<T>     Self;
@@ -40,12 +40,9 @@ protected:
     }
     static bool intersect(const Tvector& start, const Tvector& dir, const Tvector& extent, T& rfT0, T& rfT1)
     {
-        T fSaveT0 = rfT0, fSaveT1 = rfT1;
+        T    fSaveT0 = rfT0, fSaveT1 = rfT1;
 
-        bool bNotEntirelyClipped = clip(+dir.x, -start.x - extent[0], rfT0, rfT1) &&
-            clip(-dir.x, +start.x - extent[0], rfT0, rfT1) && clip(+dir.y, -start.y - extent[1], rfT0, rfT1) &&
-            clip(-dir.y, +start.y - extent[1], rfT0, rfT1) && clip(+dir.z, -start.z - extent[2], rfT0, rfT1) &&
-            clip(-dir.z, +start.z - extent[2], rfT0, rfT1);
+        bool bNotEntirelyClipped = clip(+dir.x, -start.x - extent[0], rfT0, rfT1) && clip(-dir.x, +start.x - extent[0], rfT0, rfT1) && clip(+dir.y, -start.y - extent[1], rfT0, rfT1) && clip(-dir.y, +start.y - extent[1], rfT0, rfT1) && clip(+dir.z, -start.z - extent[2], rfT0, rfT1) && clip(-dir.z, +start.z - extent[2], rfT0, rfT1);
 
         return bNotEntirelyClipped && (rfT0 != fSaveT0 || rfT1 != fSaveT1);
     }
@@ -55,7 +52,7 @@ public:
     Tvector      m_translate;
     Tvector      m_halfsize;
 
-    IC SelfRef invalidate()
+    IC SelfRef   invalidate()
     {
         m_rotate.identity();
         m_translate.set(0, 0, 0);
@@ -148,10 +145,10 @@ public:
     }
 };
 
-typedef _obb<float>  Fobb;
-typedef _obb<double> Dobb;
+typedef _obb<float>    Fobb;
+typedef _obb<double>   Dobb;
 
-template <class T> BOOL _valid(const _obb<T>& m)
+template<class T> BOOL _valid(const _obb<T>& m)
 {
     return _valid(m_rotate) && _valid(m_translate) && _valid(m_halfsize);
 }

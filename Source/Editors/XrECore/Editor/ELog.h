@@ -39,7 +39,7 @@ public:
     void Close();
 };
 
-void ECORE_API ELogCallback(LPCSTR txt);
+void ECORE_API        ELogCallback(LPCSTR txt);
 
 extern ECORE_API CLog ELog;
 

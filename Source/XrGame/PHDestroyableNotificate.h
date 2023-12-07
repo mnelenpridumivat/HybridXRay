@@ -15,5 +15,6 @@ public:
     void                         spawn_notificate(CSE_Abstract*);
 
 protected:
+
 private:
 };

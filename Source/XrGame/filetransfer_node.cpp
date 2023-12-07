@@ -18,9 +18,9 @@ disk_file_reader::~disk_file_reader()
 
 bool disk_file_reader::make_data_packet(NET_Packet& packet, u32 chunk_size)
 {
-    u32 size_to_write = (static_cast<u32>(m_reader->elapsed()) >= chunk_size) ? chunk_size : m_reader->elapsed();
+    u32   size_to_write = (static_cast<u32>(m_reader->elapsed()) >= chunk_size) ? chunk_size : m_reader->elapsed();
 
-    void* pointer = _alloca(size_to_write);
+    void* pointer       = _alloca(size_to_write);
 
     R_ASSERT(size_to_write < (NET_PacketSizeLimit - packet.w_tell()));
 
@@ -59,9 +59,9 @@ memory_reader::~memory_reader()
 
 bool memory_reader::make_data_packet(NET_Packet& packet, u32 chunk_size)
 {
-    u32 size_to_write = (static_cast<u32>(m_reader->elapsed()) >= chunk_size) ? chunk_size : m_reader->elapsed();
+    u32   size_to_write = (static_cast<u32>(m_reader->elapsed()) >= chunk_size) ? chunk_size : m_reader->elapsed();
 
-    void* pointer = _alloca(size_to_write);
+    void* pointer       = _alloca(size_to_write);
 
     R_ASSERT(size_to_write < (NET_PacketSizeLimit - packet.w_tell()));
 
@@ -91,8 +91,7 @@ bool memory_reader::opened() const
 
 // buffers_vector reader
 
-buffers_vector_reader::buffers_vector_reader(buffer_vector<mutable_buffer_t>* buffers):
-    m_current_buf_offs(0), m_complete_buffers_size(0), m_sum_size(0)
+buffers_vector_reader::buffers_vector_reader(buffer_vector<mutable_buffer_t>* buffers): m_current_buf_offs(0), m_complete_buffers_size(0), m_sum_size(0)
 {
     VERIFY(buffers);
     for (buffer_vector<mutable_buffer_t>::iterator i = buffers->begin(), ie = buffers->end(); i != ie; ++i)
@@ -166,7 +165,8 @@ bool buffers_vector_reader::make_data_packet(NET_Packet& packet, u32 chunk_size)
         }
         read_from_current_buf(packet, rest_size);
         chunk_size -= rest_size;
-    } while (chunk_size == 0);
+    }
+    while (chunk_size == 0);
 
     return (size() == tell());
 }
@@ -191,10 +191,7 @@ bool buffers_vector_reader::opened() const
 
 // memory_writer reader
 
-memory_writer_reader::memory_writer_reader(CMemoryWriter* src_writer, u32 const max_size):
-    m_writer_as_src(src_writer), m_writer_pointer(0), m_writer_max_size(max_size)
-{
-}
+memory_writer_reader::memory_writer_reader(CMemoryWriter* src_writer, u32 const max_size): m_writer_as_src(src_writer), m_writer_pointer(0), m_writer_max_size(max_size) {}
 
 memory_writer_reader::~memory_writer_reader() {}
 
@@ -236,47 +233,22 @@ bool memory_writer_reader::opened() const
     return (m_writer_as_src != NULL);
 }
 
-filetransfer_node::filetransfer_node(
-    shared_str const&               file_name,
-    u32 const                       chunk_size,
-    sending_state_callback_t const& callback):
-    m_chunk_size(chunk_size),
-    m_last_peak_throughput(0), m_last_chunksize_update_time(0), m_user_param(0), m_process_callback(callback)
+filetransfer_node::filetransfer_node(shared_str const& file_name, u32 const chunk_size, sending_state_callback_t const& callback): m_chunk_size(chunk_size), m_last_peak_throughput(0), m_last_chunksize_update_time(0), m_user_param(0), m_process_callback(callback)
 {
     m_reader = xr_new<disk_file_reader>(file_name);
 }
 
-filetransfer_node::filetransfer_node(
-    u8*                             data,
-    u32 const                       data_size,
-    u32 const                       chunk_size,
-    sending_state_callback_t const& callback,
-    u32                             user_param):
-    m_chunk_size(chunk_size),
-    m_last_peak_throughput(0), m_last_chunksize_update_time(0), m_user_param(user_param), m_process_callback(callback)
+filetransfer_node::filetransfer_node(u8* data, u32 const data_size, u32 const chunk_size, sending_state_callback_t const& callback, u32 user_param): m_chunk_size(chunk_size), m_last_peak_throughput(0), m_last_chunksize_update_time(0), m_user_param(user_param), m_process_callback(callback)
 {
     m_reader = xr_new<memory_reader>(data, data_size);
 }
 
-filetransfer_node::filetransfer_node(
-    CMemoryWriter*                  src_writer,
-    u32 const                       max_size,
-    u32 const                       chunk_size,
-    sending_state_callback_t const& callback,
-    u32                             user_param):
-    m_chunk_size(chunk_size),
-    m_last_peak_throughput(0), m_last_chunksize_update_time(0), m_user_param(user_param), m_process_callback(callback)
+filetransfer_node::filetransfer_node(CMemoryWriter* src_writer, u32 const max_size, u32 const chunk_size, sending_state_callback_t const& callback, u32 user_param): m_chunk_size(chunk_size), m_last_peak_throughput(0), m_last_chunksize_update_time(0), m_user_param(user_param), m_process_callback(callback)
 {
     m_reader = xr_new<memory_writer_reader>(src_writer, max_size);
 }
 
-filetransfer_node::filetransfer_node(
-    buffer_vector<mutable_buffer_t>* vector_of_buffers,
-    u32 const                        chunk_size,
-    sending_state_callback_t const&  callback,
-    u32                              user_param):
-    m_chunk_size(chunk_size),
-    m_last_peak_throughput(0), m_last_chunksize_update_time(0), m_user_param(user_param), m_process_callback(callback)
+filetransfer_node::filetransfer_node(buffer_vector<mutable_buffer_t>* vector_of_buffers, u32 const chunk_size, sending_state_callback_t const& callback, u32 user_param): m_chunk_size(chunk_size), m_last_peak_throughput(0), m_last_chunksize_update_time(0), m_user_param(user_param), m_process_callback(callback)
 {
     VERIFY(vector_of_buffers);
     m_reader = xr_new<buffers_vector_reader>(vector_of_buffers);
@@ -311,8 +283,7 @@ void filetransfer_node::calculate_chunk_size(u32 peak_throughput, u32 current_th
 
         m_chunk_size = static_cast<u32>(Random.randI(data_min_chunk_size, data_max_chunk_size));
 #ifdef MP_LOGGING
-        Msg("* peak throughout is reached, (current_throughput: %d), (peak_throughput: %d), (m_chunk_size: %d)",
-            current_throughput, peak_throughput, m_chunk_size);
+        Msg("* peak throughout is reached, (current_throughput: %d), (peak_throughput: %d), (m_chunk_size: %d)", current_throughput, peak_throughput, m_chunk_size);
 #endif
     }
     clamp(m_chunk_size, data_min_chunk_size, data_max_chunk_size);

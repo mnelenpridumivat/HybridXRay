@@ -50,8 +50,7 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
 
     // Undo all the collapses, so we start from the maximum mesh.
     while (object->UndoCollapse())
-    {
-    }
+    {}
 
     // How many vertices are we looking at?
     u32 iNumVerts = 0;
@@ -176,8 +175,7 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
 
         // Now undo all the collapses for this level in turn, adding vertices,
         // binned tris, and SlidingWindowRecords as we go.
-        while ((object->pNextCollapse->ListNext() != NULL) &&
-            (object->pNextCollapse->ListNext()->iSlidingWindowLevel == iCurSlidingWindowLevel))
+        while ((object->pNextCollapse->ListNext() != NULL) && (object->pNextCollapse->ListNext()->iSlidingWindowLevel == iCurSlidingWindowLevel))
         {
             GeneralCollapseInfo* pCollapse = object->pNextCollapse->ListNext();
 
@@ -195,8 +193,7 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
                         GeneralTriInfo* pTriInfo = pCollapse->TriCollapsed.item(i);
                         MeshTri*        tri      = pTriInfo->ppt[0]->FindTri(pTriInfo->ppt[1], pTriInfo->ppt[2]);
                         R_ASSERT(tri != NULL);
-                        R_ASSERT(
-                            tri->mytri.dwNewIndex == INVALID_INDEX);   // Should not have been in a collapse this level.
+                        R_ASSERT(tri->mytri.dwNewIndex == INVALID_INDEX);   // Should not have been in a collapse this level.
 
                         R_ASSERT(pTriInfo->ppt[0]->mypt.dwNewIndex < wCurIndex);
                         R_ASSERT(pTriInfo->ppt[1]->mypt.dwNewIndex < wCurIndex);
@@ -209,8 +206,7 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
 
                     // Now try to order them as best you can.
                     if (optimize_vertex_order)
-                        OptimiseVertexCoherencyTriList(
-                            wTempIndices.ptr(), pCollapse->TriCollapsed.size(), optimize_vertex_order);
+                        OptimiseVertexCoherencyTriList(wTempIndices.ptr(), pCollapse->TriCollapsed.size(), optimize_vertex_order);
 
                     // And write them to the index list.
                     result->indices.insert(iCurTriBinned * 3, wTempIndices, 0, 3 * pCollapse->TriCollapsed.size());
@@ -265,8 +261,7 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
 
                 // Now try to order them as best you can.
                 if (optimize_vertex_order)
-                    OptimiseVertexCoherencyTriList(
-                        wTempIndices.ptr(), pCollapse->TriOriginal.size(), optimize_vertex_order);
+                    OptimiseVertexCoherencyTriList(wTempIndices.ptr(), pCollapse->TriOriginal.size(), optimize_vertex_order);
 
                 // And write them to the index list.
                 result->indices.resize((iCurTriAdded + pCollapse->TriOriginal.size()) * 3);
@@ -367,8 +362,7 @@ BOOL CalculateSW(Object* object, VIPM_Result* result, u32 optimize_vertex_order)
         for (int j = 0; j < swr->num_tris * 3; j++)
         {
             R_ASSERT((j + swr->offset) < result->indices.size());
-            swr->num_verts = _max(
-                swr->num_verts, *(result->indices.item(j + swr->offset)));   // fignya index ne doljen bit bolshe!!!
+            swr->num_verts = _max(swr->num_verts, *(result->indices.item(j + swr->offset)));   // fignya index ne doljen bit bolshe!!!
             //.			R_ASSERT ( *(result->indices.item(j+swr->offset)) < swr->num_verts );
             if (*(result->indices.item(j + swr->offset)) >= swr->num_verts)
             {

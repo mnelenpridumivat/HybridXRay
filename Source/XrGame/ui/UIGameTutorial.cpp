@@ -15,7 +15,7 @@
 
 extern ENGINE_API BOOL bShowPauseString;
 
-void CallFunction(shared_str const& func)
+void                   CallFunction(shared_str const& func)
 {
     luabind::functor<void> functor_to_call;
     bool                   functor_exists = ai().script_engine().functor(func.c_str(), functor_to_call);
@@ -62,8 +62,7 @@ void CUISequenceItem::Load(CUIXml* xml, int idx)
 
 bool CUISequenceItem::AllowKey(int dik)
 {
-    xr_vector<int>::iterator it =
-        std::find(m_disabled_actions.begin(), m_disabled_actions.end(), get_binded_action(dik));
+    xr_vector<int>::iterator it = std::find(m_disabled_actions.begin(), m_disabled_actions.end(), get_binded_action(dik));
     if (it == m_disabled_actions.end())
         return true;
     else
@@ -82,8 +81,7 @@ void CUISequenceItem::Start()
     if (m_onframe_lua_function.size())
     {
         bool functor_exists = ai().script_engine().functor(m_onframe_lua_function.c_str(), m_onframe_functor);
-        THROW3(
-            functor_exists, "Cannot find script function described in tutorial item ", m_onframe_lua_function.c_str());
+        THROW3(functor_exists, "Cannot find script function described in tutorial item ", m_onframe_lua_function.c_str());
     }
 }
 
@@ -115,7 +113,7 @@ void CUISequencer::Start(LPCSTR tutor_name)
     m_flags.set(etsPlayEachItem, !!uiXml.ReadInt("play_each_item", 0, 0));
     m_flags.set(etsPersistent, !!uiXml.Read("persistent", 0, 0));
     m_flags.set(etsOverMainMenu, !!uiXml.Read("over_main_menu", 0, 0));
-    int render_prio = uiXml.ReadInt("render_prio", 0, -2);
+    int        render_prio = uiXml.ReadInt("render_prio", 0, -2);
 
     CUIXmlInit xml_init;
     if (UI().is_widescreen() && uiXml.NavigateToNode("global_wnd_16", 0))
@@ -224,7 +222,7 @@ CUISequenceItem* CUISequencer::GetNextItem()
 extern CUISequencer* g_tutorial;
 extern CUISequencer* g_tutorial2;
 
-void CUISequencer::Destroy()
+void                 CUISequencer::Destroy()
 {
     if (m_stop_lua_function.size())
         CallFunction(m_stop_lua_function);
@@ -452,7 +450,8 @@ void CUISequencer::IR_OnActivate()
                 case kACCEL:
                 case kL_LOOKOUT:
                 case kR_LOOKOUT:
-                case kWPN_FIRE: {
+                case kWPN_FIRE:
+                {
                     IR_OnKeyboardPress(i);
                 }
                 break;

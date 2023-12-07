@@ -21,12 +21,10 @@ struct COMMUNITY_DATA
 
 class CHARACTER_COMMUNITY;
 
-class CHARACTER_COMMUNITY:
-    public CIni_IdToIndex<1, COMMUNITY_DATA, CHARACTER_COMMUNITY_ID, CHARACTER_COMMUNITY_INDEX, CHARACTER_COMMUNITY>
+class CHARACTER_COMMUNITY: public CIni_IdToIndex<1, COMMUNITY_DATA, CHARACTER_COMMUNITY_ID, CHARACTER_COMMUNITY_INDEX, CHARACTER_COMMUNITY>
 {
 private:
-    typedef CIni_IdToIndex<1, COMMUNITY_DATA, CHARACTER_COMMUNITY_ID, CHARACTER_COMMUNITY_INDEX, CHARACTER_COMMUNITY>
-        inherited;
+    typedef CIni_IdToIndex<1, COMMUNITY_DATA, CHARACTER_COMMUNITY_ID, CHARACTER_COMMUNITY_INDEX, CHARACTER_COMMUNITY> inherited;
     friend inherited;
 
 public:
@@ -49,23 +47,23 @@ public:
 private:
     CHARACTER_COMMUNITY_INDEX m_current_index;
 
-    static void InitIdToIndex();
+    static void               InitIdToIndex();
 
 public:
     // отношение между группировками
     static CHARACTER_GOODWILL relation(CHARACTER_COMMUNITY_INDEX from, CHARACTER_COMMUNITY_INDEX to);
     CHARACTER_GOODWILL        relation(CHARACTER_COMMUNITY_INDEX to);
 
-    static void set_relation(CHARACTER_COMMUNITY_INDEX from, CHARACTER_COMMUNITY_INDEX to, CHARACTER_GOODWILL goodwill);
+    static void               set_relation(CHARACTER_COMMUNITY_INDEX from, CHARACTER_COMMUNITY_INDEX to, CHARACTER_GOODWILL goodwill);
 
-    static float sympathy(CHARACTER_COMMUNITY_INDEX);
+    static float              sympathy(CHARACTER_COMMUNITY_INDEX);
 
-    static void DeleteIdToIndexData();
+    static void               DeleteIdToIndexData();
 
 private:
     typedef CIni_Table<CHARACTER_GOODWILL, CHARACTER_COMMUNITY> GOODWILL_TABLE;
     friend GOODWILL_TABLE;
-    static GOODWILL_TABLE m_relation_table;
+    static GOODWILL_TABLE                          m_relation_table;
 
     // таблица коэффициентов "сочуствия" между участниками группировки
     typedef CIni_Table<float, CHARACTER_COMMUNITY> SYMPATHY_TABLE;

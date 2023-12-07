@@ -67,23 +67,11 @@ namespace ETOOLS
 
         return true;
     }
-    static bool intersect(
-        const Fvector& start,
-        const Fvector& dir,
-        const Fvector& extent,
-        float&         rfT0,
-        float&         rfT1,
-        box_axis&      ax0,
-        box_axis&      ax1)
+    static bool intersect(const Fvector& start, const Fvector& dir, const Fvector& extent, float& rfT0, float& rfT1, box_axis& ax0, box_axis& ax1)
     {
         // float fSaveT0 = rfT0, fSaveT1 = rfT1;
 
-        bool bNotEntirelyClipped = clip(+dir.x, -start.x - extent[0], rfT0, rfT1, ax0, ax1, a_nx) &&
-            clip(-dir.x, +start.x - extent[0], rfT0, rfT1, ax0, ax1, a_px) &&
-            clip(+dir.y, -start.y - extent[1], rfT0, rfT1, ax0, ax1, a_ny) &&
-            clip(-dir.y, +start.y - extent[1], rfT0, rfT1, ax0, ax1, a_py) &&
-            clip(+dir.z, -start.z - extent[2], rfT0, rfT1, ax0, ax1, a_nz) &&
-            clip(-dir.z, +start.z - extent[2], rfT0, rfT1, ax0, ax1, a_pz);
+        bool bNotEntirelyClipped = clip(+dir.x, -start.x - extent[0], rfT0, rfT1, ax0, ax1, a_nx) && clip(-dir.x, +start.x - extent[0], rfT0, rfT1, ax0, ax1, a_px) && clip(+dir.y, -start.y - extent[1], rfT0, rfT1, ax0, ax1, a_ny) && clip(-dir.y, +start.y - extent[1], rfT0, rfT1, ax0, ax1, a_py) && clip(+dir.z, -start.z - extent[2], rfT0, rfT1, ax0, ax1, a_nz) && clip(-dir.z, +start.z - extent[2], rfT0, rfT1, ax0, ax1, a_pz);
 
         return bNotEntirelyClipped && (ax0 != a_none || ax1 != a_none);   //( rfT0 != fSaveT0 || rfT1 != fSaveT1 );
     }
@@ -94,12 +82,9 @@ namespace ETOOLS
         Fvector kDiff;
         kDiff.sub(origin, box.m_translate);
         Fvector kOrigin;
-        kOrigin.set(
-            kDiff.dotproduct(box.m_rotate.i), kDiff.dotproduct(box.m_rotate.j), kDiff.dotproduct(box.m_rotate.k));
+        kOrigin.set(kDiff.dotproduct(box.m_rotate.i), kDiff.dotproduct(box.m_rotate.j), kDiff.dotproduct(box.m_rotate.k));
         Fvector kDirection;
-        kDirection.set(
-            direction.dotproduct(box.m_rotate.i), direction.dotproduct(box.m_rotate.j),
-            direction.dotproduct(box.m_rotate.k));
+        kDirection.set(direction.dotproduct(box.m_rotate.i), direction.dotproduct(box.m_rotate.j), direction.dotproduct(box.m_rotate.k));
 
         float    fT0 = 0.0f, fT1 = type_max(float);
         box_axis ax0 = a_none;
@@ -179,12 +164,7 @@ namespace ETOOLS
 
         return b_result;
     }
-    bool intersect(
-        const Fcylinder& cylinder,
-        const Fvector&   origin,
-        const Fvector&   direction,
-        float&           dist,
-        Fvector&         norm)
+    bool intersect(const Fcylinder& cylinder, const Fvector& origin, const Fvector& direction, float& dist, Fvector& norm)
     {
         float            afT[2];
         Fcylinder::ecode code[2]  = {Fcylinder::cyl_none, Fcylinder::cyl_none};
@@ -236,13 +216,7 @@ namespace ETOOLS
         return b_result;
     }
 
-    bool bone_intersect(
-        u16                bone,
-        const IKinematics& K,
-        const Fvector&     origin,
-        const Fvector&     direction,
-        float&             dist,
-        Fvector&           norm)
+    bool bone_intersect(u16 bone, const IKinematics& K, const Fvector& origin, const Fvector& direction, float& dist, Fvector& norm)
     {
         const IBoneData& d                     = K.GetBoneData(bone);
         const Fmatrix&   bone_transform        = K.LL_GetTransform(bone);
@@ -279,13 +253,7 @@ namespace ETOOLS
         return result;
     }
 
-    bool intersect(
-        const IKinematics& K,
-        const Fvector&     origin,
-        const Fvector&     direction,
-        u16&               bone_id,
-        float&             dist,
-        Fvector&           norm)
+    bool intersect(const IKinematics& K, const Fvector& origin, const Fvector& direction, u16& bone_id, float& dist, Fvector& norm)
     {
         bool      b_res = false;
         const u16 bc    = K.LL_BoneCount();
@@ -308,14 +276,7 @@ namespace ETOOLS
         return b_res;
     }
 
-    bool intersect(
-        const Fmatrix&     object_transform,
-        const IKinematics& K,
-        const Fvector&     origin,
-        const Fvector&     direction,
-        u16&               bone_id,
-        float&             dist,
-        Fvector&           norm)
+    bool intersect(const Fmatrix& object_transform, const IKinematics& K, const Fvector& origin, const Fvector& direction, u16& bone_id, float& dist, Fvector& norm)
     {
         const Fmatrix inverce_object_transform = Fmatrix().invert(object_transform);
 

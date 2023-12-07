@@ -164,10 +164,9 @@ void UIInvUpgPropertiesWnd::init_from_xml(LPCSTR xml_name)
 
     LPCSTR properties_section = "upgrades_properties";
 
-    VERIFY2(
-        pSettings->section_exist(properties_section), make_string("Section [%s] does not exist !", properties_section));
+    VERIFY2(pSettings->section_exist(properties_section), make_string("Section [%s] does not exist !", properties_section));
     VERIFY2(pSettings->line_count(properties_section), make_string("Section [%s] is empty !", properties_section));
-    shared_str property_id;
+    shared_str        property_id;
 
     CInifile::Sect&   inv_section = pSettings->r_section(properties_section);
     CInifile::SectIt_ ib          = inv_section.Data.begin();
@@ -193,8 +192,8 @@ void UIInvUpgPropertiesWnd::init_from_xml(LPCSTR xml_name)
 void UIInvUpgPropertiesWnd::set_info(ItemUpgrades_type const& item_upgrades)
 {
     Fvector2 new_size;
-    new_size.x = GetWndSize().x;
-    new_size.y = m_Upgr_line->GetWndSize().y + 3.0f;
+    new_size.x                   = GetWndSize().x;
+    new_size.y                   = m_Upgr_line->GetWndSize().y + 3.0f;
 
     Properties_type::iterator ib = m_properties_ui.begin();
     Properties_type::iterator ie = m_properties_ui.end();

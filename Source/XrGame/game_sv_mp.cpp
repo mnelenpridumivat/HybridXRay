@@ -23,23 +23,23 @@
 #include "game_sv_mp_vote_flags.h"
 #include "player_name_modifyer.h"
 
-u32 g_dwMaxCorpses = 10;
+u32             g_dwMaxCorpses                 = 10;
 //-----------------------------------------------------------------
-BOOL  g_sv_mp_bSpectator_FreeFly     = FALSE;
-BOOL  g_sv_mp_bSpectator_FirstEye    = TRUE;
-BOOL  g_sv_mp_bSpectator_LookAt      = TRUE;
-BOOL  g_sv_mp_bSpectator_FreeLook    = TRUE;
-BOOL  g_sv_mp_bSpectator_TeamCamera  = TRUE;
-int   g_sv_mp_iDumpStatsPeriod       = 0;
-int   g_sv_mp_iDumpStats_last        = 0;
-BOOL  g_sv_mp_bCountParticipants     = FALSE;
-float g_sv_mp_fVoteQuota             = VOTE_QUOTA;
-float g_sv_mp_fVoteTime              = VOTE_LENGTH_TIME;
-BOOL  g_sv_mp_save_proxy_screenshots = FALSE;
-BOOL  g_sv_mp_save_proxy_configs     = FALSE;
+BOOL            g_sv_mp_bSpectator_FreeFly     = FALSE;
+BOOL            g_sv_mp_bSpectator_FirstEye    = TRUE;
+BOOL            g_sv_mp_bSpectator_LookAt      = TRUE;
+BOOL            g_sv_mp_bSpectator_FreeLook    = TRUE;
+BOOL            g_sv_mp_bSpectator_TeamCamera  = TRUE;
+int             g_sv_mp_iDumpStatsPeriod       = 0;
+int             g_sv_mp_iDumpStats_last        = 0;
+BOOL            g_sv_mp_bCountParticipants     = FALSE;
+float           g_sv_mp_fVoteQuota             = VOTE_QUOTA;
+float           g_sv_mp_fVoteTime              = VOTE_LENGTH_TIME;
+BOOL            g_sv_mp_save_proxy_screenshots = FALSE;
+BOOL            g_sv_mp_save_proxy_configs     = FALSE;
 //-----------------------------------------------------------------
-u32 g_sv_adm_menu_ban_time   = 1;
-int g_sv_adm_menu_ping_limit = 25;
+u32             g_sv_adm_menu_ban_time         = 1;
+int             g_sv_adm_menu_ping_limit       = 25;
 //-----------------------------------------------------------------
 
 extern xr_token round_end_result_str[];
@@ -74,7 +74,7 @@ void game_sv_mp::Update()
         if (m_CorpseList.size() <= g_dwMaxCorpses)
             break;
 
-        u16 CorpseID = m_CorpseList[i];
+        u16           CorpseID   = m_CorpseList[i];
 
         CSE_Abstract* pCorpseObj = get_entity_from_eid(CorpseID);
 
@@ -308,7 +308,8 @@ void game_sv_mp::OnEvent(NET_Packet& P, u16 type, u32 time, ClientID sender)
             OnPlayerKilled(P);
         }
         break;
-        case GAME_EVENT_PLAYER_HITTED: {
+        case GAME_EVENT_PLAYER_HITTED:
+        {
 #ifdef DEBUG
             xrClientData* l_pC = m_server->ID_to_client(sender);
             if (l_pC && l_pC->ps)
@@ -325,14 +326,16 @@ void game_sv_mp::OnEvent(NET_Packet& P, u16 type, u32 time, ClientID sender)
             OnPlayerReady(l_pC->ID);
         }
         break;
-        case GAME_EVENT_PLAYER_BUY_SPAWN: {
+        case GAME_EVENT_PLAYER_BUY_SPAWN:
+        {
             xrClientData* l_pC = m_server->ID_to_client(sender);
             if (!l_pC)
                 break;
             OnPlayerBuySpawn(l_pC->ID);
         }
         break;
-        case GAME_EVENT_VOTE_START: {
+        case GAME_EVENT_VOTE_START:
+        {
             if (!IsVotingEnabled())
                 break;
             string1024 VoteCommand;
@@ -342,38 +345,45 @@ void game_sv_mp::OnEvent(NET_Packet& P, u16 type, u32 time, ClientID sender)
             OnVoteStart(VoteCommand, sender);
         }
         break;
-        case GAME_EVENT_VOTE_YES: {
+        case GAME_EVENT_VOTE_YES:
+        {
             if (!IsVotingEnabled())
                 break;
             OnVoteYes(sender);
         }
         break;
-        case GAME_EVENT_VOTE_NO: {
+        case GAME_EVENT_VOTE_NO:
+        {
             if (!IsVotingEnabled())
                 break;
             OnVoteNo(sender);
         }
         break;
-        case GAME_EVENT_GET_ACTIVE_VOTE: {
+        case GAME_EVENT_GET_ACTIVE_VOTE:
+        {
             if (!IsVotingActive())
                 break;
             SendActiveVotingTo(sender);
         }
         break;
-        case GAME_EVENT_PLAYER_NAME: {
+        case GAME_EVENT_PLAYER_NAME:
+        {
             OnPlayerChangeName(P, sender);
         }
         break;
-        case GAME_EVENT_SPEECH_MESSAGE: {
+        case GAME_EVENT_SPEECH_MESSAGE:
+        {
             OnPlayerSpeechMessage(P, sender);
         }
         break;
-        case GAME_EVENT_PLAYER_GAME_MENU: {
+        case GAME_EVENT_PLAYER_GAME_MENU:
+        {
             OnPlayerGameMenu(P, sender);
             //			OnPlayerSelectSpectator(P, sender);
         }
         break;
-        case GAME_EVENT_PLAYER_STARTED: {
+        case GAME_EVENT_PLAYER_STARTED:
+        {
 #ifdef DEBUG
             Msg("--- Player 0x%08x started.", sender);
 #endif   // #ifdef DEBUG
@@ -384,7 +394,8 @@ void game_sv_mp::OnEvent(NET_Packet& P, u16 type, u32 time, ClientID sender)
         }
         break;
         // THIS EVENTS PLAYER MUST RISE ONLY IN DEAD STATE
-        case GAME_EVENT_PLAYER_BUYMENU_OPEN: {
+        case GAME_EVENT_PLAYER_BUYMENU_OPEN:
+        {
             xrClientData const* pClient = (xrClientData const*)m_server->ID_to_client(sender);
             if (pClient)
             {
@@ -392,17 +403,15 @@ void game_sv_mp::OnEvent(NET_Packet& P, u16 type, u32 time, ClientID sender)
             }
             else
             {
-                VERIFY2(
-                    pClient,
-                    make_string("unknown client [0x%08x] sended GAME_EVENT_PLAYER_BUYMENU_OPEN message", sender.value())
-                        .c_str());
+                VERIFY2(pClient, make_string("unknown client [0x%08x] sended GAME_EVENT_PLAYER_BUYMENU_OPEN message", sender.value()).c_str());
 #ifndef MASTER_GOLD
                 Msg("! ERROR: unknown client [0x%08x] opens buy menu", sender.value());
 #endif   // #ifndef MASTER_GOLD
             }
         }
         break;
-        case GAME_EVENT_PLAYER_BUYMENU_CLOSE: {
+        case GAME_EVENT_PLAYER_BUYMENU_CLOSE:
+        {
             xrClientData const* pClient = (xrClientData const*)m_server->ID_to_client(sender);
             if (pClient)
             {
@@ -410,10 +419,7 @@ void game_sv_mp::OnEvent(NET_Packet& P, u16 type, u32 time, ClientID sender)
             }
             else
             {
-                VERIFY2(
-                    pClient,
-                    make_string("unknown client [0x%08x] sended GAME_EVENT_PLAYER_BUYMENU_OPEN message", sender.value())
-                        .c_str());
+                VERIFY2(pClient, make_string("unknown client [0x%08x] sended GAME_EVENT_PLAYER_BUYMENU_OPEN message", sender.value()).c_str());
 #ifndef MASTER_GOLD
                 Msg("! ERROR: unknown client [0x%08x] opens buy menu", sender.value());
 #endif   // #ifndef MASTER_GOLD
@@ -442,7 +448,7 @@ bool game_sv_mp::CheckPlayerMapName(ClientID const& clientID, NET_Packet& P)
 
 LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
 
-void game_sv_mp::ReconnectPlayer(ClientID const& clientID)
+void   game_sv_mp::ReconnectPlayer(ClientID const& clientID)
 {
 #ifdef DEBUG
     Msg("--- Reconnecting player 0x%08x", clientID);
@@ -561,9 +567,9 @@ void game_sv_mp::RespawnPlayer(ClientID id_who, bool NoSpectator)
 
 void game_sv_mp::SpawnPlayer(ClientID id, LPCSTR N)
 {
-    xrClientData* CL = m_server->ID_to_client(id);
+    xrClientData* CL         = m_server->ID_to_client(id);
     //-------------------------------------------------
-    CL->net_PassUpdates = TRUE;
+    CL->net_PassUpdates      = TRUE;
     //-------------------------------------------------
     game_PlayerState* ps_who = CL->ps;
     ps_who->setFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD);
@@ -745,11 +751,7 @@ isSilencer)
 
         SpawnWeapon4Actor(actorId, N, addon_flags);
 }*/
-void game_sv_mp::ChargeAmmo(
-    CSE_ALifeItemWeapon*                 weapon,
-    LPCSTR                               ammo_string,
-    game_PlayerState::PLAYER_ITEMS_LIST& playerItems,
-    ammo_diff_t&                         ammo_diff)
+void game_sv_mp::ChargeAmmo(CSE_ALifeItemWeapon* weapon, LPCSTR ammo_string, game_PlayerState::PLAYER_ITEMS_LIST& playerItems, ammo_diff_t& ammo_diff)
 {
     int ammoc_count   = _GetItemCount(ammo_string);
     u16 ammo_magsize  = weapon->get_ammo_magsize();
@@ -764,8 +766,7 @@ void game_sv_mp::ChargeAmmo(
         if (pSettings->line_exist(temp_ammo_class, "box_size"))
             box_size = pSettings->r_u16(temp_ammo_class, "box_size");
 
-        game_PlayerState::PLAYER_ITEMS_LIST::iterator temp_iter =
-            std::find(playerItems.begin(), playerItems.end(), ammo_id);
+        game_PlayerState::PLAYER_ITEMS_LIST::iterator temp_iter = std::find(playerItems.begin(), playerItems.end(), ammo_id);
 
         while (temp_iter != playerItems.end())
         {
@@ -798,25 +799,18 @@ void game_sv_mp::ChargeAmmo(
     }
 }
 
-void game_sv_mp::ChargeGrenades(
-    CSE_ALifeItemWeapon*                 weapon,
-    LPCSTR                               grenade_string,
-    game_PlayerState::PLAYER_ITEMS_LIST& playerItems)
+void game_sv_mp::ChargeGrenades(CSE_ALifeItemWeapon* weapon, LPCSTR grenade_string, game_PlayerState::PLAYER_ITEMS_LIST& playerItems)
 {
     int grenades_count = _GetItemCount(grenade_string);
-    R_ASSERT2(
-        grenades_count <= 4,
-        make_string("weapon [%s] has greater than 4 types of grenade [%s]", weapon->s_name.c_str(), grenade_string)
-            .c_str());
+    R_ASSERT2(grenades_count <= 4, make_string("weapon [%s] has greater than 4 types of grenade [%s]", weapon->s_name.c_str(), grenade_string).c_str());
     weapon->a_elapsed_grenades.unpack_from_byte(0);
     string512 temp_ammo_class;
     for (int i = 0; i < grenades_count; ++i)
     {
         _GetItem(grenade_string, i, temp_ammo_class);
-        u32 const ammo_id = static_cast<u16>(m_strWeaponsData->GetItemIdx(shared_str(temp_ammo_class)));
+        u32 const                                     ammo_id   = static_cast<u16>(m_strWeaponsData->GetItemIdx(shared_str(temp_ammo_class)));
 
-        game_PlayerState::PLAYER_ITEMS_LIST::iterator temp_iter =
-            std::find(playerItems.begin(), playerItems.end(), ammo_id);
+        game_PlayerState::PLAYER_ITEMS_LIST::iterator temp_iter = std::find(playerItems.begin(), playerItems.end(), ammo_id);
         if (temp_iter != playerItems.end())
         {
             playerItems.erase(temp_iter);
@@ -827,18 +821,12 @@ void game_sv_mp::ChargeGrenades(
     }
 }
 
-void game_sv_mp::SetAmmoForWeapon(
-    CSE_ALifeItemWeapon*                 weapon,
-    u8                                   Addons,
-    game_PlayerState::PLAYER_ITEMS_LIST& playerItems,
-    ammo_diff_t&                         ammo_diff)
+void game_sv_mp::SetAmmoForWeapon(CSE_ALifeItemWeapon* weapon, u8 Addons, game_PlayerState::PLAYER_ITEMS_LIST& playerItems, ammo_diff_t& ammo_diff)
 {
     R_ASSERT(weapon);
     R_ASSERT(weapon->s_name.c_str());
     shared_str ammo_classes = pSettings->r_string(weapon->s_name, "ammo_class");
-    R_ASSERT2(
-        ammo_classes.size() < 512,
-        make_string("ammo_class parameter of [%s] is too large", weapon->s_name.c_str()).c_str());
+    R_ASSERT2(ammo_classes.size() < 512, make_string("ammo_class parameter of [%s] is too large", weapon->s_name.c_str()).c_str());
     VERIFY2(ammo_classes.size(), make_string("ammo_class parameter of [%s] not found", weapon->s_name.c_str()).c_str());
 
     if (!ammo_classes.size())
@@ -853,13 +841,10 @@ void game_sv_mp::SetAmmoForWeapon(
         ChargeAmmo(weapon, ammo_classes.c_str(), playerItems, ammo_diff);
     }
 
-    if ((Addons & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) ||
-        (weapon->m_grenade_launcher_status == ALife::eAddonPermanent))
+    if ((Addons & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) || (weapon->m_grenade_launcher_status == ALife::eAddonPermanent))
     {
         shared_str grenade_classes = pSettings->r_string(weapon->s_name, "grenade_class");
-        R_ASSERT2(
-            grenade_classes.size() < 512,
-            make_string("grenade_class parameter of [%s] is too large", weapon->s_name.c_str()).c_str());
+        R_ASSERT2(grenade_classes.size() < 512, make_string("grenade_class parameter of [%s] is too large", weapon->s_name.c_str()).c_str());
         if (!grenade_classes.size())
         {
 #ifdef DEBUG
@@ -984,17 +969,9 @@ struct _votecommands
     u16   flag;
 };
 
-_votecommands votecommands[] = {
-    {"restart", "g_restart", flVoteRestart},
-    {"restart_fast", "g_restart_fast", flVoteRestartFast},
-    {"kick", "sv_kick", flVoteKick},
-    {"ban", "sv_banplayer", flVoteBan},
-    {"changemap", "sv_changelevel", flVoteMap},
-    {"changeweather", "sv_setenvtime", flVoteWeather},
-    {"changegametype", "sv_changegametype", flVoteGameType},
-    {NULL, NULL}};
+_votecommands votecommands[] = {{"restart", "g_restart", flVoteRestart}, {"restart_fast", "g_restart_fast", flVoteRestartFast}, {"kick", "sv_kick", flVoteKick}, {"ban", "sv_banplayer", flVoteBan}, {"changemap", "sv_changelevel", flVoteMap}, {"changeweather", "sv_setenvtime", flVoteWeather}, {"changegametype", "sv_changegametype", flVoteGameType}, {NULL, NULL}};
 
-s32 game_sv_mp::ExcludeBanTimeFromVoteStr(char const* vote_string, char* new_vote_str, u32 new_vote_str_size)
+s32           game_sv_mp::ExcludeBanTimeFromVoteStr(char const* vote_string, char* new_vote_str, u32 new_vote_str_size)
 {
     if (!vote_string || !xr_strlen(vote_string))
         return 0;
@@ -1090,8 +1067,8 @@ void game_sv_mp::OnVoteStart(LPCSTR VoteCommand, ClientID sender)
 #ifdef DEBUG
             Msg("--- Starting vote for changing level to: %s[%s]", LevelName, LevelVersion);
 #endif   // #ifdef DEBUG
-            LevelName[255]    = 0;
-            LevelVersion[255] = 0;
+            LevelName[255]         = 0;
+            LevelVersion[255]      = 0;
 
             LPCSTR sv_vote_command = NULL;
             STRCONCAT(sv_vote_command, votecommands[i].command, " ", LevelName, " ", LevelVersion);
@@ -1114,8 +1091,8 @@ void game_sv_mp::OnVoteStart(LPCSTR VoteCommand, ClientID sender)
         }
         else if (!stricmp(votecommands[i].name, "ban"))
         {
-            string256 tmp_victim_name;
-            s32       ban_time = ExcludeBanTimeFromVoteStr(CommandParams, tmp_victim_name, sizeof(tmp_victim_name));
+            string256            tmp_victim_name;
+            s32                  ban_time = ExcludeBanTimeFromVoteStr(CommandParams, tmp_victim_name, sizeof(tmp_victim_name));
             // if (ban_time)
             //{
             SearcherClientByName tmp_predicate(tmp_victim_name);
@@ -1235,7 +1212,7 @@ void game_sv_mp::UpdateVote()
     vote_stats.NumToCount      = 0;
     m_server->ForEachClientDo(vote_stats);
 
-    u32 NumAgainst = (vote_stats.NumToCount - vote_stats.NumAgreed);
+    u32  NumAgainst  = (vote_stats.NumToCount - vote_stats.NumAgreed);
 
     bool VoteSucceed = false;
     u32  CurTime     = Level().timeServer();
@@ -1254,8 +1231,7 @@ void game_sv_mp::UpdateVote()
     else
     {
         if (g_sv_mp_bCountParticipants)
-            VoteSucceed =
-                (float(vote_stats.NumAgreed) / float(vote_stats.NumParticipated + NumAgainst)) >= g_sv_mp_fVoteQuota;
+            VoteSucceed = (float(vote_stats.NumAgreed) / float(vote_stats.NumParticipated + NumAgainst)) >= g_sv_mp_fVoteQuota;
         else
             VoteSucceed = (float(vote_stats.NumAgreed) / float(vote_stats.NumToCount)) >= g_sv_mp_fVoteQuota;
     };
@@ -1426,16 +1402,16 @@ void game_sv_mp::ClearPlayerState(game_PlayerState* ps)
     if (!ps)
         return;
 
-    ps->m_iRivalKills = 0;
-    ps->m_iSelfKills  = 0;
-    ps->m_iTeamKills  = 0;
-    ps->m_iDeaths     = 0;
+    ps->m_iRivalKills     = 0;
+    ps->m_iSelfKills      = 0;
+    ps->m_iTeamKills      = 0;
+    ps->m_iDeaths         = 0;
 
     ps->m_iKillsInRowCurr = 0;
     ps->m_iKillsInRowMax  = 0;
 
-    ps->lasthitter    = 0;
-    ps->lasthitweapon = 0;
+    ps->lasthitter        = 0;
+    ps->lasthitweapon     = 0;
 
     ClearPlayerItems(ps);
 };
@@ -1448,17 +1424,15 @@ void game_sv_mp::OnPlayerKilled(NET_Packet P)
     u16               WeaponID    = P.r_u16();
     SPECIAL_KILL_TYPE SpecialKill = SPECIAL_KILL_TYPE(P.r_u8());
 
-    game_PlayerState* ps_killer = get_eid(KillerID);
-    game_PlayerState* ps_killed = get_eid(KilledID);
+    game_PlayerState* ps_killer   = get_eid(KillerID);
+    game_PlayerState* ps_killed   = get_eid(KilledID);
 
     if (!ps_killed)
     {
         CEntity* entity = smart_cast<CEntity*>(Level().Objects.net_Find(KilledID));
 
 #ifndef MASTER_GOLD
-        Msg("! ERROR:  killed entity is null ! (entitty [%d][%s]), killer id [%d][%s], Frame [%d]", KilledID,
-            entity ? entity->cName().c_str() : "unknown", KillerID, ps_killer ? ps_killer->getName() : "unknown",
-            Device->dwFrame);
+        Msg("! ERROR:  killed entity is null ! (entitty [%d][%s]), killer id [%d][%s], Frame [%d]", KilledID, entity ? entity->cName().c_str() : "unknown", KillerID, ps_killer ? ps_killer->getName() : "unknown", Device->dwFrame);
 #endif   // #ifndef MASTER_GOLD
         return;
     }
@@ -1474,9 +1448,7 @@ void game_sv_mp::OnPlayerKilled(NET_Packet P)
         Game().m_WeaponUsageStatistic->OnBleedKill(ps_killer, ps_killed, WeaponID);
     }
     //---------------------------------------------------
-    SendPlayerKilledMessage(
-        (ps_killed) ? ps_killed->GameID : KilledID, KillType, (ps_killer) ? ps_killer->GameID : KillerID, WeaponID,
-        SpecialKill);
+    SendPlayerKilledMessage((ps_killed) ? ps_killed->GameID : KilledID, KillType, (ps_killer) ? ps_killer->GameID : KillerID, WeaponID, SpecialKill);
 };
 
 void game_sv_mp::OnPlayerHitted(NET_Packet P)
@@ -1499,12 +1471,7 @@ void game_sv_mp::OnPlayerHitted(NET_Packet P)
     };
 };
 
-void game_sv_mp::SendPlayerKilledMessage(
-    u16               KilledID,
-    KILL_TYPE         KillType,
-    u16               KillerID,
-    u16               WeaponID,
-    SPECIAL_KILL_TYPE SpecialKill)
+void game_sv_mp::SendPlayerKilledMessage(u16 KilledID, KILL_TYPE KillType, u16 KillerID, u16 WeaponID, SPECIAL_KILL_TYPE SpecialKill)
 {
 #ifndef MASTER_GOLD
     Msg("---Server: sending player [%d] killed message...", KillerID);
@@ -1568,15 +1535,18 @@ void game_sv_mp::OnPlayerGameMenu(NET_Packet& P, ClientID sender)
     u8 SubEvent = P.r_u8();
     switch (SubEvent)
     {
-        case PLAYER_SELECT_SPECTATOR: {
+        case PLAYER_SELECT_SPECTATOR:
+        {
             OnPlayerSelectSpectator(P, sender);
         }
         break;
-        case PLAYER_CHANGE_TEAM: {
+        case PLAYER_CHANGE_TEAM:
+        {
             OnPlayerSelectTeam(P, sender);
         }
         break;
-        case PLAYER_CHANGE_SKIN: {
+        case PLAYER_CHANGE_SKIN:
+        {
             OnPlayerSelectSkin(P, sender);
         }
         break;
@@ -1708,7 +1678,7 @@ void game_sv_mp::UpdatePlayersMoney()
         xrServer*   m_server;
         game_sv_mp* m_owner;
 
-        void operator()(IClient* client)
+        void        operator()(IClient* client)
         {
             xrClientData*     l_pC = static_cast<xrClientData*>(client);
             game_PlayerState* ps   = l_pC->ps;
@@ -1783,9 +1753,9 @@ void game_sv_mp::Player_AddMoney(game_PlayerState* ps, s32 MoneyAmount)
 {
     if (!ps)
         return;
-    TeamStruct* pTeam = GetTeamData(u8(ps->team));
+    TeamStruct* pTeam      = GetTeamData(u8(ps->team));
 
-    s64 TotalMoney = ps->money_for_round;
+    s64         TotalMoney = ps->money_for_round;
 
     TotalMoney += MoneyAmount;
     ps->money_added += MoneyAmount;
@@ -1828,9 +1798,9 @@ void       game_sv_mp::ReadOptions(shared_str& options)
 static bool g_bConsoleCommandsCreated_MP = false;
 void        game_sv_mp::ConsoleCommands_Create(){};
 
-void game_sv_mp::ConsoleCommands_Clear(){};
+void        game_sv_mp::ConsoleCommands_Clear(){};
 
-void game_sv_mp::RenewAllActorsHealth()
+void        game_sv_mp::RenewAllActorsHealth()
 {
     struct actor_health_renewer
     {
@@ -1862,9 +1832,7 @@ void game_sv_mp::RenewAllActorsHealth()
                 return;
             }
 
-            VERIFY2(
-                pActor,
-                make_string("client object on server of actor GameID = 0x%08x, not found", l_pC->ps->GameID).c_str());
+            VERIFY2(pActor, make_string("client object on server of actor GameID = 0x%08x, not found", l_pC->ps->GameID).c_str());
             if (pActor)
             {
                 pActor->SetfHealth(pActor->GetMaxHealth());
@@ -1916,15 +1884,10 @@ void game_sv_mp::RejectGameItem(CSE_Abstract* entity)
 
     //	R_ASSERT2( e_parent, make_string( "RejectGameItem: parent not found. entity_id = [%d], parent_id = [%d]",
     //entity->ID, entity->ID_Parent ).c_str() );
-    VERIFY2(
-        e_parent,
-        make_string(
-            "RejectGameItem: parent not found. entity_id = [%d], parent_id = [%d]", entity->ID, entity->ID_Parent)
-            .c_str());
+    VERIFY2(e_parent, make_string("RejectGameItem: parent not found. entity_id = [%d], parent_id = [%d]", entity->ID, entity->ID_Parent).c_str());
     if (!e_parent)
     {
-        Msg("! ERROR (RejectGameItem): parent not found. entity_id = [%d], parent_id = [%d]", entity->ID,
-            entity->ID_Parent);
+        Msg("! ERROR (RejectGameItem): parent not found. entity_id = [%d], parent_id = [%d]", entity->ID, entity->ID_Parent);
         return;
     }
 
@@ -1939,7 +1902,7 @@ void game_sv_mp::DumpOnlineStatistic()
 {
     xrGameSpyServer* srv = smart_cast<xrGameSpyServer*>(m_server);
 
-    string_path fn;
+    string_path      fn;
     FS.update_path(fn, "$logs$", "mp_stats\\");
     xr_strcat(fn, srv->HostName.c_str());
     xr_strcat(fn, "\\online_dump.ltx");
@@ -1978,7 +1941,7 @@ void game_sv_mp::DumpOnlineStatistic()
         u32         player_index;
         CInifile*   ini;
 
-        void operator()(IClient* client)
+        void        operator()(IClient* client)
         {
             xrClientData* l_pC = static_cast<xrClientData*>(client);
 
@@ -2177,7 +2140,7 @@ void game_sv_mp::DumpRoundStatistics()
         u32         player_index;
         CInifile*   ini;
 
-        void operator()(IClient* client)
+        void        operator()(IClient* client)
         {
             xrClientData* l_pC = static_cast<xrClientData*>(client);
 
@@ -2227,18 +2190,14 @@ void game_sv_mp::DestroyAllPlayerItems(ClientID id_who)   // except rukzak
     for (TIItemContainer::const_iterator ii = pActor->inventory().m_all.begin(); ii != iie; ++ii)
     {
         //		VERIFY(*ii);
-        R_ASSERT2(
-            *ii,
-            make_string("PIItem in player`s inventory not found. Destroy all items of actor[%d]", ps->GameID).c_str());
+        R_ASSERT2(*ii, make_string("PIItem in player`s inventory not found. Destroy all items of actor[%d]", ps->GameID).c_str());
 
         u16           object_id  = (*ii)->object().ID();
         CSE_Abstract* tempEntity = m_server->ID_to_entity(object_id);
 
         //		R_ASSERT2( tempEntity, make_string("entity not found [%d]. Destroy all items of actor[%d]", object_id,
         //ps->GameID).c_str() );
-        VERIFY2(
-            tempEntity,
-            make_string("entity not found [%d]. Destroy all items of actor[%d]", object_id, ps->GameID).c_str());
+        VERIFY2(tempEntity, make_string("entity not found [%d]. Destroy all items of actor[%d]", object_id, ps->GameID).c_str());
         if (!tempEntity)
         {
             Msg("! ERROR: entity not found [%d]. Destroy all items of actor[%d]", object_id, ps->GameID);

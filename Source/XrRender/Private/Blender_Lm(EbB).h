@@ -12,6 +12,7 @@ public:
     string64 oT2_Name;    // name of secondary texture
     string64 oT2_xform;   // xform for secondary texture
     xrP_BOOL oBlend;
+
 public:
     virtual LPCSTR getComment()
     {

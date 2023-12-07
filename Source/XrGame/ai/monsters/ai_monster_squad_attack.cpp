@@ -176,9 +176,9 @@ void CMonsterSquad::Attack_AssignTargetDir(ENTITY_VEC& members, const CEntity* e
     float delta_yaw = PI_MUL_2 / members.size();
 
     // обработать ближний элемент
-    first.pE     = members.back();
-    first.p_from = first.pE->Position();
-    first.yaw    = 0;
+    first.pE        = members.back();
+    first.p_from    = first.pE->Position();
+    first.yaw       = 0;
     members.pop_back();
 
     lines.push_back(first);
@@ -278,7 +278,7 @@ Fvector CMonsterSquad::calc_monster_target_dir(CBaseMonster* monster, const CEnt
     const float home2enemy_mag = home2enemy.magnitude();
 
     // enemy pos == home pos?
-    const float near_zero = 0.00001f;
+    const float near_zero      = 0.00001f;
     if (home2enemy_mag < near_zero)
     {
         Fvector enemy2monster = monster->Position();

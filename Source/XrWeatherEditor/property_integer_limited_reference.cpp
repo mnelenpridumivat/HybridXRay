@@ -9,10 +9,7 @@
 #include "pch.hpp"
 #include "property_integer_limited_reference.hpp"
 
-property_integer_limited_reference::property_integer_limited_reference(int& value, int const % min, int const % max):
-    inherited(value), m_min(min), m_max(max)
-{
-}
+property_integer_limited_reference::property_integer_limited_reference(int& value, int const % min, int const % max): inherited(value), m_min(min), m_max(max) {}
 
 System::Object ^ property_integer_limited_reference::get_value()
 {

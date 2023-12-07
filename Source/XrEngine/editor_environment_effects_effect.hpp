@@ -27,10 +27,7 @@ namespace XrWeatherEditor
 
             class manager;
 
-            class effect:
-                public CEnvAmbient::SEffect,
-                public XrWeatherEditor::property_holder_holder,
-                private boost::noncopyable
+            class effect: public CEnvAmbient::SEffect, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             public:
                 effect(manager const& manager, shared_str const& id);
@@ -47,8 +44,8 @@ namespace XrWeatherEditor
                 LPCSTR xr_stdcall id_getter() const;
                 void xr_stdcall   id_setter(LPCSTR value);
 
-                float xr_stdcall wind_blast_longitude_getter() const;
-                void xr_stdcall  wind_blast_longitude_setter(float value);
+                float xr_stdcall  wind_blast_longitude_getter() const;
+                void xr_stdcall   wind_blast_longitude_setter(float value);
 
                 LPCSTR xr_stdcall sound_getter();
                 void xr_stdcall   sound_setter(LPCSTR value);

@@ -10,9 +10,9 @@
 
 #include "profiler.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Graph, typename _VertexEvaluator, typename _vertex_id_type>
+#define TEMPLATE_SPECIALIZATION template<typename _Graph, typename _VertexEvaluator, typename _vertex_id_type>
 
-#define CSelectorTemplate CAbstractLocationSelector<_Graph, _VertexEvaluator, _vertex_id_type>
+#define CSelectorTemplate       CAbstractLocationSelector<_Graph, _VertexEvaluator, _vertex_id_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSelectorTemplate::CAbstractLocationSelector(CRestrictedObject* object)
@@ -104,12 +104,11 @@ IC void CSelectorTemplate::perform_search(const _vertex_id_type vertex_id)
     _vertex_id_type start_vertex_id = vertex_id;
     before_search(start_vertex_id);
 
-    m_last_query_time = Device->dwTimeGlobal;
+    m_last_query_time   = Device->dwTimeGlobal;
 
     m_evaluator->m_path = m_path;
     ai().graph_engine().search(*m_graph, start_vertex_id, start_vertex_id, 0, *m_evaluator);
-    m_failed = !m_graph->valid_vertex_id(m_evaluator->selected_vertex_id()) ||
-        (m_evaluator->selected_vertex_id() == m_selected_vertex_id);
+    m_failed = !m_graph->valid_vertex_id(m_evaluator->selected_vertex_id()) || (m_evaluator->selected_vertex_id() == m_selected_vertex_id);
 
     if (!failed())
         m_selected_vertex_id = m_evaluator->selected_vertex_id();

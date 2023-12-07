@@ -15,6 +15,7 @@ public:
         modeProgrammable = 0,
         modeWaveForm
     };
+
 public:
     Fcolor   const_float;
     u32      const_dword;

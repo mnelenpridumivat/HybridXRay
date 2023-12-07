@@ -10,7 +10,7 @@ inline TTime current_time()
     return Device->dwTimeGlobal;
 }
 
-template <typename _Object> class CStateMonsterAttackOnRun: public CState<_Object>
+template<typename _Object> class CStateMonsterAttackOnRun: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
@@ -45,24 +45,24 @@ private:
         left  = 0,
         right = 1
     };   // coupled
-    aim_side m_attack_side;
-    aim_side m_prepare_side;
-    TTime    m_prepare_side_chosen_time;
-    TTime    m_attack_side_chosen_time;
+    aim_side            m_attack_side;
+    aim_side            m_prepare_side;
+    TTime               m_prepare_side_chosen_time;
+    TTime               m_attack_side_chosen_time;
 
-    bool  m_can_do_rotation_jump;
-    bool  m_attacking;
-    TTime m_attack_end_time;
+    bool                m_can_do_rotation_jump;
+    bool                m_attacking;
+    TTime               m_attack_end_time;
 
-    bool  m_try_min_time;
-    TTime m_try_min_time_period;
-    TTime m_try_min_time_chosen_time;
+    bool                m_try_min_time;
+    TTime               m_try_min_time_period;
+    TTime               m_try_min_time_chosen_time;
 
-    Fvector m_target;
-    u32     m_target_vertex;
+    Fvector             m_target;
+    u32                 m_target_vertex;
 
-    u32   m_animation_index[3];
-    float m_animation_hit_time[3];
+    u32                 m_animation_index[3];
+    float               m_animation_hit_time[3];
 
     TTime               m_last_update_time;
     TTime               m_last_prediction_time;

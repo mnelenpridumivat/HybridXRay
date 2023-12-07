@@ -73,7 +73,7 @@ void CCustomRocket::reinit()
     m_pEngineParticles = NULL;
     m_pFlyParticles    = NULL;
 
-    m_pOwner = NULL;
+    m_pOwner           = NULL;
 
     m_vPrevVel.set(0, 0, 0);
 }
@@ -99,8 +99,8 @@ void CCustomRocket::net_Destroy()
 void CCustomRocket::SetLaunchParams(const Fmatrix& xform, const Fvector& vel, const Fvector& angular_vel)
 {
     VERIFY2(_valid(xform), "SetLaunchParams. Invalid xform argument!");
-    m_LaunchXForm     = xform;
-    m_vLaunchVelocity = vel;
+    m_LaunchXForm            = xform;
+    m_vLaunchVelocity        = vel;
     //	if(m_pOwner->ID()==Actor()->ID())
     //	{
     //		Msg("set p start v:	%f,%f,%f	\n",m_vLaunchVelocity.x,m_vLaunchVelocity.y,m_vLaunchVelocity.z);
@@ -154,12 +154,8 @@ void CCustomRocket::create_physic_shell()
 
     Fvector ax;
     float   radius;
-    CHOOSE_MAX(obb.m_halfsize.x, ax.set(obb.m_rotate.i); ax.mul(obb.m_halfsize.x);
-               radius = _min(obb.m_halfsize.y, obb.m_halfsize.z); obb.m_halfsize.y /= 2.f;
-               obb.m_halfsize.z /= 2.f, obb.m_halfsize.y, ax.set(obb.m_rotate.j); ax.mul(obb.m_halfsize.y);
-               radius = _min(obb.m_halfsize.x, obb.m_halfsize.z); obb.m_halfsize.x /= 2.f;
-               obb.m_halfsize.z /= 2.f, obb.m_halfsize.z, ax.set(obb.m_rotate.k); ax.mul(obb.m_halfsize.z);
-               radius = _min(obb.m_halfsize.y, obb.m_halfsize.x); obb.m_halfsize.y /= 2.f; obb.m_halfsize.x /= 2.f)
+    CHOOSE_MAX(obb.m_halfsize.x, ax.set(obb.m_rotate.i); ax.mul(obb.m_halfsize.x); radius = _min(obb.m_halfsize.y, obb.m_halfsize.z); obb.m_halfsize.y /= 2.f; obb.m_halfsize.z /= 2.f, obb.m_halfsize.y, ax.set(obb.m_rotate.j); ax.mul(obb.m_halfsize.y); radius = _min(obb.m_halfsize.x, obb.m_halfsize.z); obb.m_halfsize.x /= 2.f; obb.m_halfsize.z /= 2.f, obb.m_halfsize.z, ax.set(obb.m_rotate.k); ax.mul(obb.m_halfsize.z); radius = _min(obb.m_halfsize.y, obb.m_halfsize.x); obb.m_halfsize.y /= 2.f;
+               obb.m_halfsize.x /= 2.f)
     // radius*=1.4142f;
     Fsphere sphere1, sphere2;
     sphere1.P.add(obb.m_translate, ax);
@@ -184,19 +180,14 @@ void CCustomRocket::create_physic_shell()
 // Rocket specific functions
 //////////////////////////////////////////////////////////////////////////
 
-void CCustomRocket::ObjectContactCallback(
-    bool&     do_colide,
-    bool      bo1,
-    dContact& c,
-    SGameMtl* material_1,
-    SGameMtl* material_2)
+void CCustomRocket::ObjectContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2)
 {
-    do_colide = false;
+    do_colide               = false;
 
-    dxGeomUserData* l_pUD1 = NULL;
-    dxGeomUserData* l_pUD2 = NULL;
-    l_pUD1                 = PHRetrieveGeomUserData(c.geom.g1);
-    l_pUD2                 = PHRetrieveGeomUserData(c.geom.g2);
+    dxGeomUserData* l_pUD1  = NULL;
+    dxGeomUserData* l_pUD2  = NULL;
+    l_pUD1                  = PHRetrieveGeomUserData(c.geom.g1);
+    l_pUD2                  = PHRetrieveGeomUserData(c.geom.g2);
 
     SGameMtl*      material = 0;
     CCustomRocket* l_this   = l_pUD1 ? smart_cast<CCustomRocket*>(l_pUD1->ph_ref_object) : NULL;
@@ -296,8 +287,7 @@ void CCustomRocket::ObjectContactCallback(
         }
     }
     else
-    {
-    }
+    {}
 }
 
 void CCustomRocket::Load(LPCSTR section)
@@ -310,7 +300,7 @@ void CCustomRocket::Load(LPCSTR section)
 void CCustomRocket::reload(LPCSTR section)
 {
     inherited::reload(section);
-    m_eState = eInactive;
+    m_eState         = eInactive;
 
     m_bEnginePresent = !!pSettings->r_bool(section, "engine_present");
     if (m_bEnginePresent)
@@ -323,9 +313,7 @@ void CCustomRocket::reload(LPCSTR section)
     m_bLightsEnabled = !!pSettings->r_bool(section, "lights_enabled");
     if (m_bLightsEnabled)
     {
-        sscanf(
-            pSettings->r_string(section, "trail_light_color"), "%f,%f,%f", &m_TrailLightColor.r, &m_TrailLightColor.g,
-            &m_TrailLightColor.b);
+        sscanf(pSettings->r_string(section, "trail_light_color"), "%f,%f,%f", &m_TrailLightColor.r, &m_TrailLightColor.g, &m_TrailLightColor.b);
         m_fTrailLightRange = pSettings->r_float(section, "trail_light_range");
     }
 
@@ -454,7 +442,7 @@ void CCustomRocket::StartEngine()
 
 void CCustomRocket::StopEngine()
 {
-    m_eState = eFlying;
+    m_eState       = eFlying;
 
     m_dwEngineTime = 0;
 
@@ -647,7 +635,8 @@ void CCustomRocket::OnEvent(NET_Packet& P, u16 type)
 {
     switch (type)
     {
-        case GE_GRENADE_EXPLODE: {
+        case GE_GRENADE_EXPLODE:
+        {
             if (m_eState != eCollide && OnClient())
             {
                 CCustomRocket::Contact(Position(), Direction());

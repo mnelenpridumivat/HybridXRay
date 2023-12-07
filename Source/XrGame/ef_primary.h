@@ -27,7 +27,7 @@ public:
 
     virtual float ffGetValue();
 
-    virtual u32 dwfGetDiscreteValue(u32 dwDiscretizationValue)
+    virtual u32   dwfGetDiscreteValue(u32 dwDiscretizationValue)
     {
         float fTemp = ffGetValue();
         if (fTemp <= m_fMinResultValue)

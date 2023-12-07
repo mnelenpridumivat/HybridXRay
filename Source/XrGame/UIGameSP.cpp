@@ -112,13 +112,15 @@ bool CUIGameSP::IR_UIOnKeyboardPress(int dik)
 
     switch (get_binded_action(dik))
     {
-        case kACTIVE_JOBS: {
+        case kACTIVE_JOBS:
+        {
             if (!pActor->inventory_disabled())
                 ShowPdaMenu();
             break;
         }
 
-        case kINVENTORY: {
+        case kINVENTORY:
+        {
             if (!pActor->inventory_disabled())
                 ShowActorMenu();
 
@@ -130,8 +132,7 @@ bool CUIGameSP::IR_UIOnKeyboardPress(int dik)
             {
                 m_game_objective = AddCustomStatic("main_task", true);
                 CGameTask* t1    = Level().GameTaskManager().ActiveTask();
-                m_game_objective->m_static->TextItemControl()->SetTextST(
-                    (t1) ? t1->m_Title.c_str() : "st_no_active_task");
+                m_game_objective->m_static->TextItemControl()->SetTextST((t1) ? t1->m_Title.c_str() : "st_no_active_task");
 
                 if (t1 && t1->m_Description.c_str())
                 {
@@ -210,16 +211,7 @@ void CUIGameSP::StartCarBody(CInventoryOwner* pActorInv, CInventoryBox* pBox)   
 }
 
 extern ENGINE_API BOOL bShowPauseString;
-void                   CUIGameSP::ChangeLevel(
-    GameGraph::_GRAPH_ID game_vert_id,
-    u32                  level_vert_id,
-    Fvector              pos,
-    Fvector              ang,
-    Fvector              pos2,
-    Fvector              ang2,
-    bool                 b_use_position_cancel,
-    const shared_str&    message_str,
-    bool                 b_allow_change_level)
+void                   CUIGameSP::ChangeLevel(GameGraph::_GRAPH_ID game_vert_id, u32 level_vert_id, Fvector pos, Fvector ang, Fvector pos2, Fvector ang2, bool b_use_position_cancel, const shared_str& message_str, bool b_allow_change_level)
 {
     if (TopInputReceiver() != UIChangeLevelWnd)
     {
@@ -295,8 +287,7 @@ bool CChangeLevelWnd::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 bool g_block_pause = false;
 void CChangeLevelWnd::Show()
 {
-    m_messageBox->InitMessageBox(
-        m_b_allow_change_level ? "message_box_change_level" : "message_box_change_level_disabled");
+    m_messageBox->InitMessageBox(m_b_allow_change_level ? "message_box_change_level" : "message_box_change_level_disabled");
     SetWndPos(m_messageBox->GetWndPos());
     m_messageBox->SetWndPos(Fvector2().set(0.0f, 0.0f));
     SetWndSize(m_messageBox->GetWndSize());

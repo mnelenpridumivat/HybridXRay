@@ -6,7 +6,7 @@
 #include "../../../level.h"
 #include "../../../level_debug.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION      template<typename _Object>
 #define CStateControllerHideAbstract CStateControlHide<_Object>
 
 TEMPLATE_SPECIALIZATION
@@ -79,9 +79,7 @@ void CStateControllerHideAbstract::critical_finalize()
 TEMPLATE_SPECIALIZATION
 bool CStateControllerHideAbstract::check_completion()
 {
-    return (
-        (object->ai_location().level_vertex_id() == target.node) &&
-        !object->control().path_builder().is_moving_on_path());
+    return ((object->ai_location().level_vertex_id() == target.node) && !object->control().path_builder().is_moving_on_path());
 }
 
 TEMPLATE_SPECIALIZATION

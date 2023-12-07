@@ -1,13 +1,7 @@
 ﻿#ifndef QUEUED_ASYNC_METHOD_FACADE_H_INCLUDED
 #define QUEUED_ASYNC_METHOD_FACADE_H_INCLUDED
 
-template <
-    typename Class,
-    typename ParametersTuple,
-    typename DelegateType,
-    void (Class::*method)(ParametersTuple const&, DelegateType),
-    void (Class::*release_method)(typename DelegateType::param1_type, typename DelegateType::param2_type)>
-class queued_async_method
+template<typename Class, typename ParametersTuple, typename DelegateType, void (Class::*method)(ParametersTuple const&, DelegateType), void (Class::*release_method)(typename DelegateType::param1_type, typename DelegateType::param2_type)> class queued_async_method
 {
 public:
     // delegate parameters
@@ -78,7 +72,7 @@ private:
         current_delegate.clear();
     }
 
-    bool pending_active;
+    bool            pending_active;
 
     Class*          pending_obj;
     ParametersTuple pending_args;
@@ -88,7 +82,7 @@ private:
     ParametersTuple current_args;
     DelegateType    current_delegate;
 
-    DelegateType pending_proxy_exec;
+    DelegateType    pending_proxy_exec;
 };   // class queued_async_method
 
 struct parameters_tuple0
@@ -108,7 +102,7 @@ struct parameters_tuple0
     }
 };   // class parameters_tuple0
 
-template <typename T1> struct parameters_tuple1
+template<typename T1> struct parameters_tuple1
 {
     parameters_tuple1() {}
     parameters_tuple1(T1 t1): m_t1(t1){};
@@ -127,7 +121,7 @@ template <typename T1> struct parameters_tuple1
     T1 m_t1;
 };   // class parameters_tuple1
 
-template <typename T1, typename T2> struct parameters_tuple2
+template<typename T1, typename T2> struct parameters_tuple2
 {
     parameters_tuple2() {}
     parameters_tuple2(T1 t1, T2 t2): m_t1(t1), m_t2(t2){};
@@ -149,7 +143,7 @@ template <typename T1, typename T2> struct parameters_tuple2
     T2 m_t2;
 };   // class parameters_tuple2
 
-template <typename T1, typename T2, typename T3> struct parameters_tuple3
+template<typename T1, typename T2, typename T3> struct parameters_tuple3
 {
     parameters_tuple3() {}
     parameters_tuple3(T1 t1, T2 t2, T3 t3): m_t1(t1), m_t2(t2), m_t3(t3){};
@@ -173,12 +167,11 @@ template <typename T1, typename T2, typename T3> struct parameters_tuple3
     T3 m_t3;
 };   // class parameters_tuple3
 
-template <typename T1, typename T2, typename T3, typename T4> struct parameters_tuple4
+template<typename T1, typename T2, typename T3, typename T4> struct parameters_tuple4
 {
     parameters_tuple4() {}
     parameters_tuple4(T1 t1, T2 t2, T3 t3, T4 t4): m_t1(t1), m_t2(t2), m_t3(t3), m_t4(t4){};
-    parameters_tuple4(parameters_tuple4 const& copy):
-        m_t1(copy.m_t1), m_t2(copy.m_t2), m_t3(copy.m_t3), m_t4(copy.m_t4){};
+    parameters_tuple4(parameters_tuple4 const& copy): m_t1(copy.m_t1), m_t2(copy.m_t2), m_t3(copy.m_t3), m_t4(copy.m_t4){};
 
     parameters_tuple4& operator=(parameters_tuple4 const& copy)
     {

@@ -15,7 +15,7 @@ extern ECORE_API BOOL  g_force16BitTransformQuant;
 extern ECORE_API BOOL  g_forceFloatTransformQuant;
 extern ECORE_API float g_EpsSkelPositionDelta;
 
-struct ECORE_API SSkelVert: public st_SVert
+struct ECORE_API       SSkelVert: public st_SVert
 {
     Fvector tang;
     Fvector binorm;
@@ -81,11 +81,11 @@ protected:
     SkelVertVec m_Verts;
     SkelFaceVec m_Faces;
 
-    Fvector m_VMmin, m_VMscale;
-    U32Vec  m_VM[clpSMX + 1][clpSMY + 1][clpSMZ + 1];
-    Fvector m_VMeps;
+    Fvector     m_VMmin, m_VMscale;
+    U32Vec      m_VM[clpSMX + 1][clpSMY + 1][clpSMZ + 1];
+    Fvector     m_VMeps;
 
-    u16 VPack(SSkelVert& V);
+    u16         VPack(SSkelVert& V);
 
 public:
     u32 invalid_faces;
@@ -172,14 +172,14 @@ class ECORE_API CExportSkeletonCustom
 protected:
     struct ECORE_API SSplit: public CSkeletonCollectorPacked
     {
-        shared_str m_Shader;
-        shared_str m_Texture;
-        u16        m_PartID;
-        Fbox       m_Box;
-        U16Vec     m_UsedBones;
-        u16        m_id;
-        u16        m_sort_id;
-        BOOL       m_bSoC;
+        shared_str              m_Shader;
+        shared_str              m_Texture;
+        u16                     m_PartID;
+        Fbox                    m_Box;
+        U16Vec                  m_UsedBones;
+        u16                     m_id;
+        u16                     m_sort_id;
+        BOOL                    m_bSoC;
 
         // Progressive
         ArbitraryList<VIPM_SWR> m_SWR;   // The records of the collapses.
@@ -214,14 +214,17 @@ protected:
                 m_Box.modify(pV.offs);
             }
         }
-        bool GetVertexBound() { return m_Verts.size() < 60000; }
+        bool GetVertexBound()
+        {
+            return m_Verts.size() < 60000;
+        }
     };
     DEFINE_VECTOR(SSplit, SplitVec, SplitIt);
     SplitVec m_Splits;
     Fbox     m_Box;
     //----------------------------------------------------
-    int  FindSplit(shared_str shader, shared_str texture, u16 part_id, u16 surf_id);
-    void ComputeBounding()
+    int      FindSplit(shared_str shader, shared_str texture, u16 part_id, u16 surf_id);
+    void     ComputeBounding()
     {
         m_Box.invalidate();
         for (SplitIt it = m_Splits.begin(); it != m_Splits.end(); it++)

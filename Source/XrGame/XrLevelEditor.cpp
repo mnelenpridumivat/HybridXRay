@@ -67,7 +67,7 @@ BOOL CLevelEditor::net_Start(LPCSTR op_server, LPCSTR op_client)
         if (psNET_direct_connect)   // single
         {
             shared_str const& server_options = Server->GetConnectOptions();
-            level_name                       = name().c_str();   // Server->level_name		(server_options).c_str();
+            level_name                       = name().c_str();                                  // Server->level_name		(server_options).c_str();
             level_ver                        = Server->level_version(server_options).c_str();   // 1.0
         }
         else   // multiplayer
@@ -83,7 +83,7 @@ BOOL CLevelEditor::net_Start(LPCSTR op_server, LPCSTR op_client)
         map_data.m_map_download_url = download_url;
         map_data.m_map_loaded       = true;
 
-        deny_m_spawn = FALSE;
+        deny_m_spawn                = FALSE;
         Device->seqRender.Add(this);
         Device->seqFrame.Add(this);
         R_ASSERT(Load_GameSpecific_Before());
@@ -166,8 +166,7 @@ BOOL CLevelEditor::net_Start(LPCSTR op_server, LPCSTR op_client)
     {
         // Sync
         while (!synchronize_map_data())
-        {
-        }
+        {}
 
         if (!game_configured)
         {

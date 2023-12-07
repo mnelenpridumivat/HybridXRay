@@ -13,8 +13,7 @@
 #include <boost/noncopyable.hpp>
 #include "object_broker.h"
 
-template <typename container_type, typename holder_type>
-class property_collection: public XrWeatherEditor::property_holder_collection, private boost::noncopyable
+template<typename container_type, typename holder_type> class property_collection: public XrWeatherEditor::property_holder_collection, private boost::noncopyable
 {
 public:
     typedef XrWeatherEditor::property_holder property_holder;

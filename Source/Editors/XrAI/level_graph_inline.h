@@ -87,19 +87,16 @@ ICF const Fvector CLevelGraph::vertex_position(const CLevelGraph::CPosition& sou
     return (dest_position);
 }
 
-ICF const Fvector&
-    CLevelGraph::vertex_position(Fvector& dest_position, const CLevelGraph::CPosition& source_position) const
+ICF const Fvector& CLevelGraph::vertex_position(Fvector& dest_position, const CLevelGraph::CPosition& source_position) const
 {
     return (dest_position = vertex_position(source_position));
 }
 
-IC const CLevelGraph::CPosition&
-         CLevelGraph::vertex_position(CLevelGraph::CPosition& dest_position, const Fvector& source_position) const
+IC const CLevelGraph::CPosition& CLevelGraph::vertex_position(CLevelGraph::CPosition& dest_position, const Fvector& source_position) const
 {
     VERIFY(iFloor((source_position.z - header().box().min.z) / header().cell_size() + .5f) < (int)m_row_length);
-    int pxz = iFloor(((source_position.x - header().box().min.x) / header().cell_size() + .5f)) * m_row_length +
-        iFloor((source_position.z - header().box().min.z) / header().cell_size() + .5f);
-    int py = iFloor(65535.f * (source_position.y - header().box().min.y) / header().factor_y() + EPS_S);
+    int pxz = iFloor(((source_position.x - header().box().min.x) / header().cell_size() + .5f)) * m_row_length + iFloor((source_position.z - header().box().min.z) / header().cell_size() + .5f);
+    int py  = iFloor(65535.f * (source_position.y - header().box().min.y) / header().factor_y() + EPS_S);
     VERIFY(pxz < (1 << MAX_NODE_BIT_COUNT) - 1);
     dest_position.xz(u32(pxz));
     clamp(py, 0, 65535);
@@ -164,14 +161,9 @@ IC bool CLevelGraph::inside(const u32 vertex_id, const Fvector& position) const
     return (b);
 }
 
-IC bool CLevelGraph::inside(
-    const CLevelGraph::CVertex&   vertex,
-    const CLevelGraph::CPosition& _vertex_position,
-    const float                   epsilon) const
+IC bool CLevelGraph::inside(const CLevelGraph::CVertex& vertex, const CLevelGraph::CPosition& _vertex_position, const float epsilon) const
 {
-    return (
-        inside(vertex, _vertex_position) &&
-        (_abs(vertex_position(vertex).y - vertex_position(_vertex_position).y) <= epsilon));
+    return (inside(vertex, _vertex_position) && (_abs(vertex_position(vertex).y - vertex_position(_vertex_position).y) <= epsilon));
 }
 
 IC bool CLevelGraph::inside(const CLevelGraph::CVertex& vertex, const Fvector& position, const float epsilon) const
@@ -181,8 +173,7 @@ IC bool CLevelGraph::inside(const CLevelGraph::CVertex& vertex, const Fvector& p
     return (inside(vertex, vertex_position(position), epsilon));
 }
 
-IC bool
-    CLevelGraph::inside(const CVertex* vertex, const CLevelGraph::CPosition& vertex_position, const float epsilon) const
+IC bool CLevelGraph::inside(const CVertex* vertex, const CLevelGraph::CPosition& vertex_position, const float epsilon) const
 {
     return (inside(*vertex, vertex_position, epsilon));
 }
@@ -192,8 +183,7 @@ IC bool CLevelGraph::inside(const CVertex* vertex, const Fvector& position, cons
     return (inside(*vertex, position, epsilon));
 }
 
-IC bool
-    CLevelGraph::inside(const u32 vertex_id, const CLevelGraph::CPosition& vertex_position, const float epsilon) const
+IC bool CLevelGraph::inside(const u32 vertex_id, const CLevelGraph::CPosition& vertex_position, const float epsilon) const
 {
     return (inside(vertex(vertex_id), vertex_position, epsilon));
 }
@@ -205,8 +195,7 @@ IC bool CLevelGraph::inside(const u32 vertex_id, const Fvector& position, const 
 
 IC bool CLevelGraph::inside(const u32 vertex_id, const Fvector2& position) const
 {
-    int pxz = iFloor(((position.x - header().box().min.x) / header().cell_size() + .5f)) * m_row_length +
-        iFloor((position.y - header().box().min.z) / header().cell_size() + .5f);
+    int pxz = iFloor(((position.x - header().box().min.x) / header().cell_size() + .5f)) * m_row_length + iFloor((position.y - header().box().min.z) / header().cell_size() + .5f);
     VERIFY(pxz < (1 << MAX_NODE_BIT_COUNT) - 1);
     bool b = vertex(vertex_id)->position().xz() == u32(pxz);
     return (b);
@@ -393,14 +382,7 @@ IC Fvector2 CLevelGraph::v2d(const Fvector& vector3d) const
     return (Fvector2().set(vector3d.x, vector3d.z));
 }
 
-template<bool bAssignY, typename T> IC bool CLevelGraph::create_straight_path(
-    u32             start_vertex_id,
-    const Fvector2& start_point,
-    const Fvector2& finish_point,
-    xr_vector<T>&   tpaOutputPoints,
-    const T&        example,
-    bool            bAddFirstPoint,
-    bool            bClearPath) const
+template<bool bAssignY, typename T> IC bool CLevelGraph::create_straight_path(u32 start_vertex_id, const Fvector2& start_point, const Fvector2& finish_point, xr_vector<T>& tpaOutputPoints, const T& example, bool bAddFirstPoint, bool bClearPath) const
 {
     if (!valid_vertex_position(v3d(finish_point)))
         return (false);
@@ -512,9 +494,7 @@ template<bool bAssignY, typename T> IC bool CLevelGraph::create_straight_path(
                 VERIFY(_valid(next2));
                 u32 dwIntersect =
 #endif
-                    intersect_no_check(
-                        start_point.x, start_point.y, finish_point.x, finish_point.y, next1.x, next1.y, next2.x,
-                        next2.y, &tIntersectPoint.x, &tIntersectPoint.z);
+                    intersect_no_check(start_point.x, start_point.y, finish_point.x, finish_point.y, next1.x, next1.y, next2.x, next2.y, &tIntersectPoint.x, &tIntersectPoint.z);
 #ifdef DEBUG
                 VERIFY(dwIntersect);
                 VERIFY(_valid(tIntersectPoint.x));
@@ -545,8 +525,7 @@ template<bool bAssignY, typename T> IC bool CLevelGraph::create_straight_path(
 #ifdef DEBUG
                 if (tpaOutputPoints.size() > 100000)
                 {
-                    Msg("CLevelGraph::create_straight_path : Loop became infinite (%d,[%f][%f][%f],[%f][%f][%f])",
-                        start_vertex_id, VPUSH(v3d(start_point)), VPUSH(v3d(finish_point)));
+                    Msg("CLevelGraph::create_straight_path : Loop became infinite (%d,[%f][%f][%f],[%f][%f][%f])", start_vertex_id, VPUSH(v3d(start_point)), VPUSH(v3d(finish_point)));
                     FlushLog();
                     R_ASSERT2(false, "Loop became infinite :-( call Dima and SAVE YOUR LOG!");
                 }
@@ -591,10 +570,7 @@ IC u32 CLevelGraph::row_length() const
 
 IC bool CLevelGraph::valid_vertex_position(const Fvector& position) const
 {
-    if ((position.x < header().box().min.x - header().cell_size() * .5f) ||
-        (position.x > header().box().max.x + header().cell_size() * .5f) ||
-        (position.z < header().box().min.z - header().cell_size() * .5f) ||
-        (position.z > header().box().max.z + header().cell_size() * .5f))
+    if ((position.x < header().box().min.x - header().cell_size() * .5f) || (position.x > header().box().max.x + header().cell_size() * .5f) || (position.z < header().box().min.z - header().cell_size() * .5f) || (position.z > header().box().max.z + header().cell_size() * .5f))
         return (false);
 
     if (!(iFloor((position.z - header().box().min.z) / header().cell_size() + .5f) < (int)m_row_length))
@@ -660,21 +636,18 @@ IC void CLevelGraph::clear_mask_no_check(u32 vertex_id)
     m_access_mask[vertex_id] = true;
 }
 
-template<typename P> IC void
-    CLevelGraph::iterate_vertices(const Fvector& min_position, const Fvector& max_position, const P& predicate) const
+template<typename P> IC void CLevelGraph::iterate_vertices(const Fvector& min_position, const Fvector& max_position, const P& predicate) const
 {
     CVertex *I, *E;
 
     if (valid_vertex_position(min_position))
-        I = std::lower_bound(
-            m_nodes, m_nodes + header().vertex_count(), vertex_position(min_position).xz(), &vertex::predicate2);
+        I = std::lower_bound(m_nodes, m_nodes + header().vertex_count(), vertex_position(min_position).xz(), &vertex::predicate2);
     else
         I = m_nodes;
 
     if (valid_vertex_position(max_position))
     {
-        E = std::upper_bound(
-            m_nodes, m_nodes + header().vertex_count(), vertex_position(max_position).xz(), &vertex::predicate);
+        E = std::upper_bound(m_nodes, m_nodes + header().vertex_count(), vertex_position(max_position).xz(), &vertex::predicate);
         if (E != (m_nodes + header().vertex_count()))
             ++E;
     }

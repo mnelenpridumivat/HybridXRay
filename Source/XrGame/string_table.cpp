@@ -29,7 +29,7 @@ void CStringTable::Init()
     if (NULL != pData)
         return;
 
-    pData = xr_new<STRING_TABLE_DATA>();
+    pData              = xr_new<STRING_TABLE_DATA>();
 
     // имя языка, если не задано (NULL), то первый <text> в <string> в XML
     pData->m_sLanguage = pSettings->r_string("string_table", "language");
@@ -52,7 +52,7 @@ void CStringTable::Init()
     }
 #ifdef DEBUG
     Msg("StringTable: loaded %d files", fset.size());
-#endif   // #ifdef DEBUG
+#endif   // #ifdef DEBUG \
          //---
     ReparseKeyBindings();
 }
@@ -72,9 +72,7 @@ void CStringTable::Load(LPCSTR xml_file_full)
     {
         LPCSTR string_name = uiXml.ReadAttrib(uiXml.GetRoot(), "string", i, "id", NULL);
 
-        VERIFY3(
-            pData->m_StringTable.find(string_name) == pData->m_StringTable.end(), "duplicate string table id",
-            string_name);
+        VERIFY3(pData->m_StringTable.find(string_name) == pData->m_StringTable.end(), "duplicate string table id", string_name);
 
         LPCSTR string_text = uiXml.Read(uiXml.GetRoot(), "string:text", i, NULL);
 
@@ -83,7 +81,7 @@ void CStringTable::Load(LPCSTR xml_file_full)
 
         VERIFY3(string_text, "string table entry does not has a text", string_name);
 
-        STRING_VALUE str_val = ParseLine(string_text, string_name, true);
+        STRING_VALUE str_val              = ParseLine(string_text, string_name, true);
 
         pData->m_StringTable[string_name] = str_val;
     }
@@ -111,7 +109,7 @@ STRING_VALUE CStringTable::ParseLine(LPCSTR str, LPCSTR skey, bool bFirst)
 #define ACTION_STR "$$ACTION_"
 
     //.	int LEN				= (int)xr_strlen(ACTION_STR);
-#define LEN 9
+#define LEN        9
 
     string256 buff;
     string256 srcbuff;
@@ -122,9 +120,9 @@ STRING_VALUE CStringTable::ParseLine(LPCSTR str, LPCSTR skey, bool bFirst)
         buff[0]    = 0;
         srcbuff[0] = 0;
         res.append(str + k, b - str - k);
-        const char* e = strstr(b + LEN, "$$");
+        const char* e   = strstr(b + LEN, "$$");
 
-        int len = (int)(e - b - LEN);
+        int         len = (int)(e - b - LEN);
 
         strncpy_s(srcbuff, b + LEN, len);
         srcbuff[len] = 0;

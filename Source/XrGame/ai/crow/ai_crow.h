@@ -82,37 +82,37 @@ protected:
     Fvector     vOldPosition;
     ECrowStates st_current, st_target;
     // parameters block
-    Fvector vGoalDir;
-    Fvector vCurrentDir;
-    Fvector vHPB;
-    float   fDHeading;
+    Fvector     vGoalDir;
+    Fvector     vCurrentDir;
+    Fvector     vHPB;
+    float       fDHeading;
 
     // constants
-    float   fGoalChangeDelta;
-    float   fSpeed;
-    float   fASpeed;
-    float   fMinHeight;
-    Fvector vVarGoal;
-    float   fIdleSoundDelta;
+    float       fGoalChangeDelta;
+    float       fSpeed;
+    float       fASpeed;
+    float       fMinHeight;
+    Fvector     vVarGoal;
+    float       fIdleSoundDelta;
 
     // variables
-    float fGoalChangeTime;
-    float fIdleSoundTime;
+    float       fGoalChangeTime;
+    float       fIdleSoundTime;
 
     //
-    bool bPlayDeathIdle;
+    bool        bPlayDeathIdle;
 
-    void switch2_FlyUp();
-    void switch2_FlyIdle();
-    void switch2_DeathFall();
-    void switch2_DeathDead();
+    void        switch2_FlyUp();
+    void        switch2_FlyIdle();
+    void        switch2_DeathFall();
+    void        switch2_DeathDead();
 
-    void state_DeathFall();
-    void state_Flying(float dt);
+    void        state_DeathFall();
+    void        state_Flying(float dt);
 
-    void CreateSkeleton();
+    void        CreateSkeleton();
 
-    void UpdateWorkload(float DT);
+    void        UpdateWorkload(float DT);
 
 public:
     u32 o_workload_frame;
@@ -133,20 +133,20 @@ public:
     {
         return FALSE;
     }
-    virtual void renderable_Render();
-    virtual void shedule_Update(u32 DT);
-    virtual void UpdateCL();
+    virtual void     renderable_Render();
+    virtual void     shedule_Update(u32 DT);
+    virtual void     UpdateCL();
 
     virtual CEntity* cast_entity()
     {
         return this;
     }
 
-    virtual void net_Export(NET_Packet& P);
-    virtual void net_Import(NET_Packet& P);
+    virtual void  net_Export(NET_Packet& P);
+    virtual void  net_Import(NET_Packet& P);
 
-    virtual void g_fireParams(const CHudItem* /**pHudItem/**/, Fvector& /**P/**/, Fvector& /**D/**/){};
-    virtual void g_WeaponBones(int& /**L/**/, int& /**R1/**/, int& /**R2/**/){};
+    virtual void  g_fireParams(const CHudItem* /**pHudItem/**/, Fvector& /**P/**/, Fvector& /**D/**/){};
+    virtual void  g_WeaponBones(int& /**L/**/, int& /**R1/**/, int& /**R2/**/){};
 
     virtual void  HitSignal(float HitAmount, Fvector& local_dir, CObject* who, s16 element);
     virtual void  HitImpulse(float amount, Fvector& vWorldDir, Fvector& vLocalDir);

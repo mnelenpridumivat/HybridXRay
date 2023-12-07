@@ -13,7 +13,7 @@ public:
     virtual void feel_touch_update(Fvector& P, float R);
     // virtual void			feel_touch_deny				(CObject* O, DWORD	T); - implemented in inherited class
 
-    bool is_object_denied(CObject const* O);
+    bool         is_object_denied(CObject const* O);
 };   // class GlobalFeelTouch
 
 #endif   // #ifndef GLOBAL_FEEL_TOUCH_HPP

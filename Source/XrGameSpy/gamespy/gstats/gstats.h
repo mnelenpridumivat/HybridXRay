@@ -30,8 +30,8 @@ extern "C"
 
 #if defined(_WIN32)
     // Warnings are generated because we store function ptrs into a void* array
-#pragma warning(disable : 4152)   // function to data ptr
-#pragma warning(disable : 4055)   // data to function ptr
+#pragma warning(disable:4152)   // function to data ptr
+#pragma warning(disable:4055)   // data to function ptr
 #endif
 
     /********
@@ -74,10 +74,10 @@ extern "C"
     } initstate_t;
 
     /* Used by the bucket operation macros */
-    typedef void* (*BucketFunc)(bucketset_t set, char* name, void* value);
-    typedef int (*SetIntFunc)(statsgame_t game, char* name, BucketFunc func, int value, int index);
-    typedef double (*SetFloatFunc)(statsgame_t game, char* name, BucketFunc func, double value, int index);
-    typedef char* (*SetStringFunc)(statsgame_t game, char* name, BucketFunc func, char* value, int index);
+    typedef void*     (*BucketFunc)(bucketset_t set, char* name, void* value);
+    typedef int       (*SetIntFunc)(statsgame_t game, char* name, BucketFunc func, int value, int index);
+    typedef double    (*SetFloatFunc)(statsgame_t game, char* name, BucketFunc func, double value, int index);
+    typedef char*     (*SetStringFunc)(statsgame_t game, char* name, BucketFunc func, char* value, int index);
     extern BucketFunc bucketfuncs[NUMOPS];
     extern void*      bopfuncs[][3];
 
@@ -85,18 +85,18 @@ extern "C"
 DEFINES
 ********/
 /* Error codes */
-#define GE_NOERROR 0
-#define GE_NOSOCKET 1   /* Unable to create a socket */
-#define GE_NODNS 2      /* Unable to resolve a DNS name */
-#define GE_NOCONNECT 3  /* Unable to connect to stats server, or connection lost */
-#define GE_BUSY 4       /* Not used */
-#define GE_DATAERROR 5  /* Bad data from the stats server */
+#define GE_NOERROR    0
+#define GE_NOSOCKET   1 /* Unable to create a socket */
+#define GE_NODNS      2 /* Unable to resolve a DNS name */
+#define GE_NOCONNECT  3 /* Unable to connect to stats server, or connection lost */
+#define GE_BUSY       4 /* Not used */
+#define GE_DATAERROR  5 /* Bad data from the stats server */
 #define GE_CONNECTING 6 /* Connect did no immediately complete.  Call InitStatsThink() */
-#define GE_TIMEDOUT 7   /* Connect attempt timed out */
+#define GE_TIMEDOUT   7 /* Connect attempt timed out */
 
 /* Types of snapshots, update (any snapshot that is not final) or final */
-#define SNAP_UPDATE 0
-#define SNAP_FINAL 1
+#define SNAP_UPDATE   0
+#define SNAP_FINAL    1
 
 /* If you want to allow disk logging in case the stats server isn't available.
 This has SERIOUS security repercussions, so please read the docs before turning this on */
@@ -124,15 +124,15 @@ This has SERIOUS security repercussions, so please read the docs before turning 
 PROTOTYPES
 ********/
 #ifndef GSI_UNICODE
-#define GenerateAuth GenerateAuthA
+#define GenerateAuth     GenerateAuthA
 #define SendGameSnapShot SendGameSnapShotA
-#define NewPlayer NewPlayerA
-#define NewTeam NewTeamA
+#define NewPlayer        NewPlayerA
+#define NewTeam          NewTeamA
 #else
-#define GenerateAuth GenerateAuthW
+#define GenerateAuth     GenerateAuthW
 #define SendGameSnapShot SendGameSnapShotW
-#define NewPlayer NewPlayerW
-#define NewTeam NewTeamW
+#define NewPlayer        NewPlayerW
+#define NewTeam          NewTeamW
 #endif
 
     /********
@@ -161,9 +161,9 @@ PROTOTYPES
     connection fails. If you have disk logging enabled, these calls will be logged
     for future sending, otherwise they will be discarded.
     *********/
-    int InitStatsConnection(int gameport);
-    int InitStatsAsync(int gameport, gsi_time theInitTimeout);
-    int InitStatsThink();
+    int         InitStatsConnection(int gameport);
+    int         InitStatsAsync(int gameport, gsi_time theInitTimeout);
+    int         InitStatsThink();
 
     /********
     StatsThink
@@ -176,7 +176,7 @@ PROTOTYPES
     RETURNS
     1 if no errors occured during read, 0 on all other errors
     ********/
-    int StatsThink();
+    int         StatsThink();
 
     /********
     IsStatsConnected
@@ -189,7 +189,7 @@ PROTOTYPES
     RETURNS
     1 if connected, 0 otherwise
     *********/
-    int IsStatsConnected();
+    int         IsStatsConnected();
 
     /********
     CloseStatsConnection
@@ -198,7 +198,7 @@ PROTOTYPES
     Closes the connection to the stats server. You should do this when done
     with the connection.
     *********/
-    void CloseStatsConnection(void);
+    void        CloseStatsConnection(void);
 
     /********
     GetChallenge
@@ -217,7 +217,7 @@ PROTOTYPES
     A string to send to clients so they can authorize. If you game is NULL and
     you haven't created a game with NewGame, it returns "NULLGAME".
     *********/
-    char* GetChallenge(statsgame_t game);
+    char*       GetChallenge(statsgame_t game);
 
     /********
     GenerateAuth
@@ -235,7 +235,7 @@ PROTOTYPES
     RETURNS
     A pointer to response
     *********/
-    char* GenerateAuth(const char* challenge, const gsi_char* password, /*[out]*/ char response[33]);
+    char*       GenerateAuth(const char* challenge, const gsi_char* password, /*[out]*/ char response[33]);
 
     /********
     NewGame
@@ -270,7 +270,7 @@ PROTOTYPES
     game: The game you want to free. If set to NULL, it will free the last
         game created with NewGame.
     *********/
-    void FreeGame(statsgame_t game);
+    void        FreeGame(statsgame_t game);
 
     /********
     SendGameSnapShot
@@ -294,7 +294,7 @@ PROTOTYPES
     GE_NOCONNECT: If the connection is lost and disk logging is disabled
     GE_NOERROR: The update was sent, or disk logging is enabled and the game was logged
     *********/
-    int SendGameSnapShot(statsgame_t game, const gsi_char* snapshot, int final);
+    int         SendGameSnapShot(statsgame_t game, const gsi_char* snapshot, int final);
 
 /******************************
 BUCKET FUNCTION PROTOTYPES
@@ -330,12 +330,9 @@ index: For player or team buckets, the game index of the player or team (as pass
     NewTeam). This will be translated to the actual index internally.
     Not used for server buckets (bl_server).
 *********/
-#define BucketIntOp(game, name, operation, value, bucketlevel, index) \
-    (((SetIntFunc)bopfuncs[bucketlevel][bt_int])(game, name, bucketfuncs[operation], value, index))
-#define BucketFloatOp(game, name, operation, value, bucketlevel, index) \
-    (((SetFloatFunc)bopfuncs[bucketlevel][bt_float])(game, name, bucketfuncs[operation], value, index))
-#define BucketStringOp(game, name, operation, value, bucketlevel, index) \
-    (((SetStringFunc)bopfuncs[bucketlevel][bt_string])(game, name, bucketfuncs[operation], value, index))
+#define BucketIntOp(game, name, operation, value, bucketlevel, index)    (((SetIntFunc)bopfuncs[bucketlevel][bt_int])(game, name, bucketfuncs[operation], value, index))
+#define BucketFloatOp(game, name, operation, value, bucketlevel, index)  (((SetFloatFunc)bopfuncs[bucketlevel][bt_float])(game, name, bucketfuncs[operation], value, index))
+#define BucketStringOp(game, name, operation, value, bucketlevel, index) (((SetStringFunc)bopfuncs[bucketlevel][bt_string])(game, name, bucketfuncs[operation], value, index))
 
     /********
     NewPlayer
@@ -398,8 +395,8 @@ index: For player or team buckets, the game index of the player or team (as pass
         with NewGame will be used.
     pnum/tnum: Your internal player or team number (as sent to NewTeam/NewPlayer)
     **********/
-    int GetPlayerIndex(statsgame_t game, int pnum);
-    int GetTeamIndex(statsgame_t game, int tnum);
+    int  GetPlayerIndex(statsgame_t game, int pnum);
+    int  GetTeamIndex(statsgame_t game, int tnum);
 
 #ifdef __cplusplus
 }

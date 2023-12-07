@@ -124,11 +124,11 @@
 
 ***************************************************************************/
 
-#define UNIT_TOLERANCE 0.001f
+#define UNIT_TOLERANCE        0.001f
 // Quaternion magnitude must be closer than this tolerance to 1.0 to be
 // considered a unit quaternion
 
-#define QZERO_TOLERANCE 0.00001f
+#define QZERO_TOLERANCE       0.00001f
 // quaternion magnitude must be farther from this tolerance to 0.0 to be
 // normalized
 
@@ -136,10 +136,10 @@
 // trace of matrix must be greater than this to be used for converting a matrix
 // to a quaternion.
 
-#define AA_QZERO_TOLERANCE 0.0001f
-#define QEPSILON 0.00001f
+#define AA_QZERO_TOLERANCE    0.0001f
+#define QEPSILON              0.00001f
 
-template <class T> struct _quaternion
+template<class T> struct _quaternion
 {
 public:
     typedef T              TYPE;
@@ -166,7 +166,7 @@ private:
     }
 
 public:
-    T x, y, z, w;
+    T          x, y, z, w;
 
     IC SelfRef set(T W, T X, T Y, T Z)   // don't normalize
     {
@@ -326,10 +326,10 @@ public:
         T fSinRoll  = _sin(_z * .5f);
         T fCosRoll  = _cos(_z * .5f);
 
-        x = fSinRoll * fCosPitch * fCosYaw - fCosRoll * fSinPitch * fSinYaw;
-        y = fCosRoll * fSinPitch * fCosYaw + fSinRoll * fCosPitch * fSinYaw;
-        z = fCosRoll * fCosPitch * fSinYaw - fSinRoll * fSinPitch * fCosYaw;
-        w = fCosRoll * fCosPitch * fCosYaw + fSinRoll * fSinPitch * fSinYaw;
+        x           = fSinRoll * fCosPitch * fCosYaw - fCosRoll * fSinPitch * fSinYaw;
+        y           = fCosRoll * fSinPitch * fCosYaw + fSinRoll * fCosPitch * fSinYaw;
+        z           = fCosRoll * fCosPitch * fSinYaw - fSinRoll * fSinPitch * fCosYaw;
+        w           = fCosRoll * fCosPitch * fCosYaw + fSinRoll * fSinPitch * fSinYaw;
         return *this;
     }
 
@@ -429,11 +429,9 @@ public:
     // return TRUE if quaternions differ elementwise by less than Tolerance.
     IC BOOL cmp(SelfCRef Q, T Tolerance = 0.0001f)
     {
-        if (   // they are the same but with opposite signs
-            ((_abs(x + Q.x) <= Tolerance) && (_abs(y + Q.y) <= Tolerance) && (_abs(z + Q.z) <= Tolerance) &&
-             (_abs(w + Q.w) <= Tolerance)) ||   // they are the same with same signs
-            ((_abs(x - Q.x) <= Tolerance) && (_abs(y - Q.y) <= Tolerance) && (_abs(z - Q.z) <= Tolerance) &&
-             (_abs(w - Q.w) <= Tolerance)))
+        if (                                                                                                                                    // they are the same but with opposite signs
+            ((_abs(x + Q.x) <= Tolerance) && (_abs(y + Q.y) <= Tolerance) && (_abs(z + Q.z) <= Tolerance) && (_abs(w + Q.w) <= Tolerance)) ||   // they are the same with same signs
+            ((_abs(x - Q.x) <= Tolerance) && (_abs(y - Q.y) <= Tolerance) && (_abs(z - Q.z) <= Tolerance) && (_abs(w - Q.w) <= Tolerance)))
             return true;
         else
             return false;
@@ -465,7 +463,7 @@ public:
 typedef _quaternion<float>  Fquaternion;
 typedef _quaternion<double> Dquaternion;
 
-template <class T> BOOL _valid(const _quaternion<T>& s)
+template<class T> BOOL      _valid(const _quaternion<T>& s)
 {
     return _valid(s.x) && _valid(s.y) && _valid(s.z) && _valid(s.w);
 }

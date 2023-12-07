@@ -101,7 +101,7 @@ CEnvSOCDescriptor::CEnvSOCDescriptor()
     sky_color.set(1, 1, 1);
     sky_rotation = 0.0f;
 
-    far_plane = 400.0f;
+    far_plane    = 400.0f;
     ;
 
     fog_color.set(1, 1, 1);
@@ -111,8 +111,8 @@ CEnvSOCDescriptor::CEnvSOCDescriptor()
     rain_density = 0.0f;
     rain_color.set(0, 0, 0);
 
-    bolt_period   = 0.0f;
-    bolt_duration = 0.0f;
+    bolt_period    = 0.0f;
+    bolt_duration  = 0.0f;
 
     wind_velocity  = 0.0f;
     wind_direction = 0.0f;
@@ -134,9 +134,7 @@ void CEnvSOCDescriptor::load(LPCSTR exec_tm, LPCSTR S, IEnvironment* parent)
 {
     Ivector3 tm = {0, 0, 0};
     sscanf(exec_tm, "%d:%d:%d", &tm.x, &tm.y, &tm.z);
-    R_ASSERT3(
-        (tm.x >= 0) && (tm.x < 24) && (tm.y >= 0) && (tm.y < 60) && (tm.z >= 0) && (tm.z < 60),
-        "Incorrect weather time", S);
+    R_ASSERT3((tm.x >= 0) && (tm.x < 24) && (tm.y >= 0) && (tm.y < 60) && (tm.z >= 0) && (tm.z < 60), "Incorrect weather time", S);
     exec_time        = tm.x * 3600.f + tm.y * 60.f + tm.z;
     exec_time_loaded = exec_time;
     string_path st, st_env;
@@ -174,11 +172,10 @@ void CEnvSOCDescriptor::load(LPCSTR exec_tm, LPCSTR S, IEnvironment* parent)
     VERIFY2(sun_dir.y < 0, "Invalid sun direction settings while loading");
 
     lens_flare_id = parent->eff_LensFlare->AppendDef(*parent, pSettings, pSettings->r_string(S, "flares"));
-    tb_id = parent->eff_Thunderbolt->AppendDef(*parent, pSettings, nullptr, pSettings->r_string(S, "thunderbolt"));
+    tb_id         = parent->eff_Thunderbolt->AppendDef(*parent, pSettings, nullptr, pSettings->r_string(S, "thunderbolt"));
     bolt_period   = (tb_id.size()) ? pSettings->r_float(S, "bolt_period") : 0.f;
     bolt_duration = (tb_id.size()) ? pSettings->r_float(S, "bolt_duration") : 0.f;
-    env_ambient =
-        pSettings->line_exist(S, "env_ambient") ? parent->AppendEnvAmb(pSettings->r_string(S, "env_ambient")) : 0;
+    env_ambient   = pSettings->line_exist(S, "env_ambient") ? parent->AppendEnvAmb(pSettings->r_string(S, "env_ambient")) : 0;
 
     C_CHECK(clouds_color);
     C_CHECK(sky_color);
@@ -214,13 +211,7 @@ void CEnvSOCDescriptorMixer::clear()
 {
     m_pDescriptorMixer->Clear();
 }
-void CEnvSOCDescriptorMixer::lerp(
-    IEnvironment*,
-    IEnvDescriptor& A,
-    IEnvDescriptor& B,
-    float           f,
-    IEnvModifier&   M,
-    float           m_power)
+void CEnvSOCDescriptorMixer::lerp(IEnvironment*, IEnvDescriptor& A, IEnvDescriptor& B, float f, IEnvModifier& M, float m_power)
 {
     float _power = 1.f / (m_power + 1);   // the environment itself
     float fi     = 1 - f;
@@ -239,8 +230,8 @@ void CEnvSOCDescriptorMixer::lerp(
     fog_far      = 0.99f * fog_distance;
     rain_density = fi * A.rain_density + f * B.rain_density;
     rain_color.lerp(A.rain_color, B.rain_color, f);
-    bolt_period   = fi * A.bolt_period + f * B.bolt_period;
-    bolt_duration = fi * A.bolt_duration + f * B.bolt_duration;
+    bolt_period    = fi * A.bolt_period + f * B.bolt_period;
+    bolt_duration  = fi * A.bolt_duration + f * B.bolt_duration;
     // wind
     wind_velocity  = fi * A.wind_velocity + f * B.wind_velocity;
     wind_direction = fi * A.wind_direction + f * B.wind_direction;
@@ -294,7 +285,7 @@ void CEnvironmentSOC::mods_load()
 }
 void CEnvironmentSOC::mods_unload()
 {
-    for (auto i : Modifiers)
+    for (auto i: Modifiers)
     {
         xr_delete(i);
     }

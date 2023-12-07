@@ -77,7 +77,7 @@ namespace award_system
 
     void player_state_ambassador::OnPlayerBringArtefact(game_PlayerState const* ps)
     {
-        m_art_drop_count = 0;
+        m_art_drop_count                   = 0;
 
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
 

@@ -22,10 +22,10 @@
 
 CUITalkWnd::CUITalkWnd()
 {
-    m_pActor = NULL;
+    m_pActor               = NULL;
 
-    m_pOurInvOwner    = NULL;
-    m_pOthersInvOwner = NULL;
+    m_pOurInvOwner         = NULL;
+    m_pOthersInvOwner      = NULL;
 
     m_pOurDialogManager    = NULL;
     m_pOthersDialogManager = NULL;
@@ -56,8 +56,8 @@ void CUITalkWnd::InitTalkDialog()
     if (m_pActor && !m_pActor->IsTalking())
         return;
 
-    m_pOurInvOwner    = smart_cast<CInventoryOwner*>(m_pActor);
-    m_pOthersInvOwner = m_pActor->GetTalkPartner();
+    m_pOurInvOwner         = smart_cast<CInventoryOwner*>(m_pActor);
+    m_pOthersInvOwner      = m_pActor->GetTalkPartner();
 
     m_pOurDialogManager    = smart_cast<CPhraseDialogManager*>(m_pOurInvOwner);
     m_pOthersDialogManager = smart_cast<CPhraseDialogManager*>(m_pOthersInvOwner);
@@ -139,13 +139,10 @@ void CUITalkWnd::UpdateQuestions()
             if (m_pCurrentDialog && !m_pCurrentDialog->allIsDummy())
             {
                 int number = 0;
-                for (PHRASE_VECTOR::const_iterator it = m_pCurrentDialog->PhraseList().begin();
-                     it != m_pCurrentDialog->PhraseList().end(); ++it, ++number)
+                for (PHRASE_VECTOR::const_iterator it = m_pCurrentDialog->PhraseList().begin(); it != m_pCurrentDialog->PhraseList().end(); ++it, ++number)
                 {
                     CPhrase* phrase = *it;
-                    AddQuestion(
-                        m_pCurrentDialog->GetPhraseText(phrase->GetID()), phrase->GetID(), number,
-                        phrase->IsFinalizer());
+                    AddQuestion(m_pCurrentDialog->GetPhraseText(phrase->GetID()), phrase->GetID(), number, phrase->IsFinalizer());
                 }
             }
             else
@@ -179,8 +176,8 @@ void UpdateCameraDirection(CGameObject* pTo)
 {
     CCameraBase* cam = Actor()->cam_Active();
 
-    Fvector des_dir;
-    Fvector des_pt;
+    Fvector      des_dir;
+    Fvector      des_pt;
     pTo->Center(des_pt);
     des_pt.y += pTo->Radius() * 0.5f;
 
@@ -278,13 +275,10 @@ void CUITalkWnd::AskQuestion()
     // игрок выбрал тему разговора
     if (TopicMode())
     {
-        if ((UITalkDialogWnd->m_ClickedQuestionID == "") ||
-            (!m_pOurDialogManager->HaveAvailableDialog(UITalkDialogWnd->m_ClickedQuestionID)))
+        if ((UITalkDialogWnd->m_ClickedQuestionID == "") || (!m_pOurDialogManager->HaveAvailableDialog(UITalkDialogWnd->m_ClickedQuestionID)))
         {
             string128 s;
-            xr_sprintf(
-                s, "ID = [%s] of selected question is out of range of available dialogs ",
-                UITalkDialogWnd->m_ClickedQuestionID);
+            xr_sprintf(s, "ID = [%s] of selected question is out of range of available dialogs ", UITalkDialogWnd->m_ClickedQuestionID);
             VERIFY2(FALSE, s);
         }
 
@@ -398,9 +392,9 @@ void CUITalkWnd::PlaySnd(LPCSTR text)
 
     string_path fn;
 
-    LPCSTR path  = "characters_voice\\dialogs\\";
-    LPCSTR ext   = ".ogg";
-    u32    tsize = sizeof(fn) - xr_strlen(path) - xr_strlen(ext) - 1;
+    LPCSTR      path  = "characters_voice\\dialogs\\";
+    LPCSTR      ext   = ".ogg";
+    u32         tsize = sizeof(fn) - xr_strlen(path) - xr_strlen(ext) - 1;
     if (text_len > tsize)
     {
         text_len = tsize;

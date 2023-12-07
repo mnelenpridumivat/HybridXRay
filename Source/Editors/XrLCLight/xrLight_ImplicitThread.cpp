@@ -7,9 +7,7 @@ class ImplicitThread: public CThread
 {
 public:
     ImplicitExecute execute;
-    ImplicitThread(u32 ID, ImplicitDeflector* _DATA, u32 _y_start, u32 _y_end): CThread(ID), execute(_y_start, _y_end)
-    {
-    }
+    ImplicitThread(u32 ID, ImplicitDeflector* _DATA, u32 _y_start, u32 _y_end): CThread(ID), execute(_y_start, _y_end) {}
     virtual void Execute();
 };
 

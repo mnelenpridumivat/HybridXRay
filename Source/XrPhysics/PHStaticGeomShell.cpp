@@ -48,11 +48,7 @@ CPHStaticGeomShell::CPHStaticGeomShell()
 
 void _BCL cb(CBoneInstance* B) {}
 
-void P_BuildStaticGeomShell(
-    CPHStaticGeomShell*       pUnbrokenObject,
-    IPhysicsShellHolder*      obj,
-    ObjectContactCallbackFun* object_contact_callback,
-    const Fobb&               b)
+void      P_BuildStaticGeomShell(CPHStaticGeomShell* pUnbrokenObject, IPhysicsShellHolder* obj, ObjectContactCallbackFun* object_contact_callback, const Fobb& b)
 {
     pUnbrokenObject->add_Box(b);
     pUnbrokenObject->Activate(obj->ObjectXFORM());
@@ -62,8 +58,7 @@ void P_BuildStaticGeomShell(
     pUnbrokenObject->set_ObjectContactCallback(object_contact_callback);
     CPHCollideValidator::SetNonDynamicObject(*pUnbrokenObject);
 }
-CPHStaticGeomShell*
-    P_BuildStaticGeomShell(IPhysicsShellHolder* obj, ObjectContactCallbackFun* object_contact_callback, const Fobb& b)
+CPHStaticGeomShell* P_BuildStaticGeomShell(IPhysicsShellHolder* obj, ObjectContactCallbackFun* object_contact_callback, const Fobb& b)
 {
     CPHStaticGeomShell* pUnbrokenObject = xr_new<CPHStaticGeomShell>();
     P_BuildStaticGeomShell(pUnbrokenObject, obj, object_contact_callback, b);
@@ -72,7 +67,7 @@ CPHStaticGeomShell*
 
 IPHStaticGeomShell* P_BuildStaticGeomShell(IPhysicsShellHolder* obj, ObjectContactCallbackFun* object_contact_callback)
 {
-    Fobb b;
+    Fobb         b;
     // IRenderVisual* V=obj->ObjectVisual();
     // R_ASSERT2(V,"need visual to build");
     IKinematics* K = obj->ObjectKinematics();

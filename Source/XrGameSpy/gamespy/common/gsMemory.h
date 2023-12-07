@@ -59,7 +59,7 @@ extern "C"
     typedef void*(__cdecl* gsMemalignCB)(size_t boundary, size_t size);
 #else
 typedef void* (*gsMallocCB)(size_t size);
-typedef void (*gsFreeCB)(void* ptr);
+typedef void  (*gsFreeCB)(void* ptr);
 typedef void* (*gsReallocCB)(void* ptr, size_t size);
 typedef void* (*gsMemalignCB)(size_t boundary, size_t size);
 #endif
@@ -101,8 +101,7 @@ typedef void* (*gsMemalignCB)(size_t boundary, size_t size);
         Call gsMemMgrCreate once at app start with a static buffer.  Make all calls to this.
         Alternatively, call it once per API to sue a seperate pool per API.
     */
-    gsMemMgrContext
-        gsMemMgrCreate(gsMemMgrContext context, const char* PoolName, void* thePoolBuffer, size_t thePoolSize);
+    gsMemMgrContext gsMemMgrCreate(gsMemMgrContext context, const char* PoolName, void* thePoolBuffer, size_t thePoolSize);
 
     // Use this to determine which pool and subsequent allocations will be taken from.
     // exx use
@@ -123,13 +122,13 @@ typedef void* (*gsMemalignCB)(size_t boundary, size_t size);
     gsMemMgrContext gsMemMgrContextPop();
 
     // clear contents, original mempool ptr must still be freed by app.
-    void gsMemMgrDestroy(gsMemMgrContext context);
+    void            gsMemMgrDestroy(gsMemMgrContext context);
 
     // -------------Diagnostics------------------------
     // These functions all run on the current mempool context.
-    void gsMemMgrDumpStats();
-    void gsMemMgrDumpAllocations();
-    void gsMemMgrValidateMemoryPool();   // walk heap and check integrity
+    void            gsMemMgrDumpStats();
+    void            gsMemMgrDumpAllocations();
+    void            gsMemMgrValidateMemoryPool();   // walk heap and check integrity
 
     // -------------Tool use	------------------------
     // find which mempool context this ptr is part of, if any.
@@ -141,28 +140,28 @@ typedef void* (*gsMemalignCB)(size_t boundary, size_t size);
     // this tag is added to each concurrent alloc.  Use this to reference allocations.
     // For example, you can find out the mem used by all ptr with a given tag
     // in order to find out how much mem a module or set of allocs use.
-    void    gsMemMgrTagPush(gsi_u8 tag);
-    void    gsMemMgrTagPop();
-    gsi_u8  gsMemMgrTagGet(void* ptr);
-    gsi_u32 gsMemMgrMemUsedByTagGet(gsi_u8 tag);
+    void            gsMemMgrTagPush(gsi_u8 tag);
+    void            gsMemMgrTagPop();
+    gsi_u8          gsMemMgrTagGet(void* ptr);
+    gsi_u32         gsMemMgrMemUsedByTagGet(gsi_u8 tag);
 
     // return total available memory for the given memory pool context
-    gsi_u32 gsMemMgrMemAvailGet(gsMemMgrContext context);
+    gsi_u32         gsMemMgrMemAvailGet(gsMemMgrContext context);
     // return total used memory for the given memory pool context
-    gsi_u32 gsMemMgrMemUsedGet(gsMemMgrContext context);
+    gsi_u32         gsMemMgrMemUsedGet(gsMemMgrContext context);
     // return largest allocatable chunk within the given memory pool context.  This
     // will be the same or probably smaller then the value returned by gsMemMgrMemAvailGet
     // depending on degree of memory fragmentation.
-    gsi_u32 gsMemMgrMemLargestAvailGet(gsMemMgrContext context);
+    gsi_u32         gsMemMgrMemLargestAvailGet(gsMemMgrContext context);
 
     // The Highwater mark for memory used is the highest memory usage ever gets to for this
     // given heap.  It is the most important stat, as your mempool must be at least this big.
     // Exactly how big your pool needs to be depends on fragmentation.  So it may need to be slightly
     // bigger then this amount.
-    gsi_u32 gsMemMgrMemHighwaterMarkGet(gsMemMgrContext context);
+    gsi_u32         gsMemMgrMemHighwaterMarkGet(gsMemMgrContext context);
 
     // -------------Self Test, not for production use ------------------------
-    void gsMemMgrSelfText();
+    void            gsMemMgrSelfText();
 
 #if defined(__cplusplus)
 }

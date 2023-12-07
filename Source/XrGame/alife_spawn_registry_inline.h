@@ -13,13 +13,10 @@ IC const CALifeSpawnHeader& CALifeSpawnRegistry::header() const
     return (m_header);
 }
 
-IC void
-    CALifeSpawnRegistry::assign_artefact_position(CSE_ALifeAnomalousZone* anomaly, CSE_ALifeDynamicObject* object) const
+IC void CALifeSpawnRegistry::assign_artefact_position(CSE_ALifeAnomalousZone* anomaly, CSE_ALifeDynamicObject* object) const
 {
     object->m_tGraphID = anomaly->m_tGraphID;
-    VERIFY3(
-        anomaly->m_artefact_spawn_count,
-        "Anomaly is outside of the AI-map but is used for artefact generation : ", anomaly->name_replace());
+    VERIFY3(anomaly->m_artefact_spawn_count, "Anomaly is outside of the AI-map but is used for artefact generation : ", anomaly->name_replace());
     u32 index           = anomaly->m_artefact_position_offset + anomaly->randI(anomaly->m_artefact_spawn_count);
     object->o_Position  = m_artefact_spawn_positions[index].level_point();
     object->m_tNodeID   = m_artefact_spawn_positions[index].level_vertex_id();
@@ -27,9 +24,7 @@ IC void
 #ifdef DEBUG
     if (psAI_Flags.test(aiALife))
     {
-        Msg("[LSS] Zone %s[%f][%f][%f] %d: generated artefact position %s[%f][%f][%f]", anomaly->name_replace(),
-            VPUSH(anomaly->o_Position), anomaly->m_artefact_position_offset, object->name_replace(),
-            VPUSH(object->o_Position));
+        Msg("[LSS] Zone %s[%f][%f][%f] %d: generated artefact position %s[%f][%f][%f]", anomaly->name_replace(), VPUSH(anomaly->o_Position), anomaly->m_artefact_position_offset, object->name_replace(), VPUSH(object->o_Position));
     }
 #endif
 }

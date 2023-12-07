@@ -44,10 +44,9 @@ static	const float dynamic_erp				= 1.f / 1000.f;//static_erp;//
 #else
 #define CHECK_POS(pos, msg, br)
 #endif
-extern int dTriListClass;
+extern int  dTriListClass;
 
-static void
-    ActivateTestDepthCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2)
+static void ActivateTestDepthCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2)
 {
     if (!do_colide || material_1->Flags.test(SGameMtl::flPassable) || material_2->Flags.test(SGameMtl::flPassable))
         return;
@@ -122,16 +121,12 @@ void StaticEnvironment(bool& do_colide, bool bo1, dContact& c, SGameMtl* materia
 
     if (bo1)
     {
-        ((CPHActivationShape*)(retrieveGeomUserData(c.geom.g1)->callback_data))
-            ->DActiveIsland()
-            ->ConnectJoint(contact_joint);
+        ((CPHActivationShape*)(retrieveGeomUserData(c.geom.g1)->callback_data))->DActiveIsland()->ConnectJoint(contact_joint);
         dJointAttach(contact_joint, dGeomGetBody(c.geom.g1), 0);
     }
     else
     {
-        ((CPHActivationShape*)(retrieveGeomUserData(c.geom.g2)->callback_data))
-            ->DActiveIsland()
-            ->ConnectJoint(contact_joint);
+        ((CPHActivationShape*)(retrieveGeomUserData(c.geom.g2)->callback_data))->DActiveIsland()->ConnectJoint(contact_joint);
         dJointAttach(contact_joint, 0, dGeomGetBody(c.geom.g2));
     }
     do_colide = false;
@@ -174,12 +169,7 @@ CPHActivationShape::~CPHActivationShape()
 {
     VERIFY(!m_body && !m_geom);
 }
-void CPHActivationShape::Create(
-    const Fvector        start_pos,
-    const Fvector        start_size,
-    IPhysicsShellHolder* ref_obj,
-    EType                _type /*=etBox*/,
-    u16                  flags)
+void CPHActivationShape::Create(const Fvector start_pos, const Fvector start_size, IPhysicsShellHolder* ref_obj, EType _type /*=etBox*/, u16 flags)
 {
     VERIFY(ref_obj);
     R_ASSERT(_valid(start_pos));
@@ -223,12 +213,7 @@ void CPHActivationShape::Destroy()
     dBodyDestroy(m_body);
     m_body = NULL;
 }
-bool CPHActivationShape::Activate(
-    const Fvector need_size,
-    u16           steps,
-    float         max_displacement,
-    float         max_rotation,
-    bool          un_freeze_later /*	=false*/)
+bool CPHActivationShape::Activate(const Fvector need_size, u16 steps, float max_displacement, float max_rotation, bool un_freeze_later /*	=false*/)
 {
 #ifdef DEBUG
     if (debug_output().ph_dbg_draw_mask().test(phDbgDrawDeathActivationBox))
@@ -311,7 +296,8 @@ bool CPHActivationShape::Activate(
                 }
             }
             attempts--;
-        } while (!ret && attempts > 0);
+        }
+        while (!ret && attempts > 0);
 #ifdef DEBUG
 //		Msg("correction attempts %d",10-attempts);
 #endif

@@ -11,7 +11,7 @@
 #include "../../../actor_memory.h"
 #include "../../../visual_memory_manager.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION           template<typename _Object>
 
 #define CStateBloodsuckerPredatorAbstract CStateBloodsuckerPredator<_Object>
 
@@ -100,8 +100,7 @@ bool CStateBloodsuckerPredatorAbstract::check_completion()
 {
     if (object->HitMemory.get_last_hit_time() > time_state_started)
         return true;
-    if (object->EnemyMan.get_enemy() && object->EnemyMan.see_enemy_now() &&
-        (object->Position().distance_to(object->EnemyMan.get_enemy()->Position()) < 4.f))
+    if (object->EnemyMan.get_enemy() && object->EnemyMan.see_enemy_now() && (object->Position().distance_to(object->EnemyMan.get_enemy()->Position()) < 4.f))
         return true;
 
     return false;
@@ -146,7 +145,7 @@ void CStateBloodsuckerPredatorAbstract::setup_substates()
     {
         SStateDataLookToPoint data;
 
-        Fvector dir;
+        Fvector               dir;
         object->CoverMan->less_cover_direction(dir);
 
         data.point.mad(object->Position(), dir, 10.f);
@@ -185,8 +184,8 @@ void CStateBloodsuckerPredatorAbstract::check_force_state()
         if (current_substate != u32(-1))
             get_state_current()->critical_finalize();
 
-        prev_substate    = u32(-1);
-        current_substate = u32(-1);
+        prev_substate        = u32(-1);
+        current_substate     = u32(-1);
 
         CMonsterSquad* squad = monster_squad().get_squad(object);
         squad->unlock_cover(m_target_node);

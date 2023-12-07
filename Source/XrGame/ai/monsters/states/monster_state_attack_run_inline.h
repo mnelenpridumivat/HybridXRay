@@ -3,7 +3,7 @@
 #include "../ai_monster_squad.h"
 #include "../ai_monster_squad_manager.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION        template<typename _Object>
 
 #define CStateMonsterAttackRunAbstract CStateMonsterAttackRun<_Object>
 

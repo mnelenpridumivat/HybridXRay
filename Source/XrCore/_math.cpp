@@ -37,12 +37,12 @@ u16 getFPUsw()
 
 namespace FPU
 {
-    u16 _24  = 0;
-    u16 _24r = 0;
-    u16 _53  = 0;
-    u16 _53r = 0;
-    u16 _64  = 0;
-    u16 _64r = 0;
+    u16  _24  = 0;
+    u16  _24r = 0;
+    u16  _53  = 0;
+    u16  _53r = 0;
+    u16  _64  = 0;
+    u16  _64r = 0;
 
     void initialize()
     {
@@ -53,20 +53,20 @@ namespace FPU
 
 namespace CPU
 {
-    XRCORE_API u64   clk_per_second;
-    XRCORE_API u64   clk_per_milisec;
-    XRCORE_API u64   clk_per_microsec;
-    XRCORE_API u64   clk_overhead;
-    XRCORE_API float clk_to_seconds;
-    XRCORE_API float clk_to_milisec;
-    XRCORE_API float clk_to_microsec;
-    XRCORE_API u64   qpc_freq     = 0;
-    XRCORE_API u64   qpc_overhead = 0;
-    XRCORE_API u32   qpc_counter  = 0;
+    XRCORE_API u64             clk_per_second;
+    XRCORE_API u64             clk_per_milisec;
+    XRCORE_API u64             clk_per_microsec;
+    XRCORE_API u64             clk_overhead;
+    XRCORE_API float           clk_to_seconds;
+    XRCORE_API float           clk_to_milisec;
+    XRCORE_API float           clk_to_microsec;
+    XRCORE_API u64             qpc_freq     = 0;
+    XRCORE_API u64             qpc_overhead = 0;
+    XRCORE_API u32             qpc_counter  = 0;
 
     XRCORE_API _processor_info ID;
 
-    XRCORE_API u64 QPC()
+    XRCORE_API u64             QPC()
     {
         u64 _dest;
         QueryPerformanceCounter((PLARGE_INTEGER)&_dest);
@@ -107,7 +107,8 @@ namespace CPU
         do
         {
             dwStart = timeGetTime();
-        } while (dwTest == dwStart);
+        }
+        while (dwTest == dwStart);
         start = GetCLK();
         while (timeGetTime() - dwStart < 1000)
             ;
@@ -115,8 +116,8 @@ namespace CPU
         clk_per_second = end - start;
 
         // Detect RDTSC Overhead
-        clk_overhead = 0;
-        u64 dummy    = 0;
+        clk_overhead   = 0;
+        u64 dummy      = 0;
         for (int i = 0; i < 256; i++)
         {
             start = GetCLK();
@@ -158,9 +159,7 @@ bool g_initialize_cpu_called = false;
 //------------------------------------------------------------------------------------
 void _initialize_cpu(void)
 {
-    Msg("* Detected CPU: %s [%s], F%d/M%d/S%d, %.2f mhz, %d-clk 'rdtsc'", CPU::ID.model_name, CPU::ID.v_name,
-        CPU::ID.family, CPU::ID.model, CPU::ID.stepping, float(CPU::clk_per_second / u64(1000000)),
-        u32(CPU::clk_overhead));
+    Msg("* Detected CPU: %s [%s], F%d/M%d/S%d, %.2f mhz, %d-clk 'rdtsc'", CPU::ID.model_name, CPU::ID.v_name, CPU::ID.family, CPU::ID.model, CPU::ID.stepping, float(CPU::clk_per_second / u64(1000000)), u32(CPU::clk_overhead));
 
     //	DUMP_PHASE;
 
@@ -214,11 +213,11 @@ void _initialize_cpu_thread() {}
 #else
 // per-thread initialization
 #include <xmmintrin.h>
-#define _MM_DENORMALS_ZERO_MASK 0x0040
-#define _MM_DENORMALS_ZERO_ON 0x0040
-#define _MM_FLUSH_ZERO_MASK 0x8000
-#define _MM_FLUSH_ZERO_ON 0x8000
-#define _MM_SET_FLUSH_ZERO_MODE(mode) _mm_setcsr((_mm_getcsr() & ~_MM_FLUSH_ZERO_MASK) | (mode))
+#define _MM_DENORMALS_ZERO_MASK           0x0040
+#define _MM_DENORMALS_ZERO_ON             0x0040
+#define _MM_FLUSH_ZERO_MASK               0x8000
+#define _MM_FLUSH_ZERO_ON                 0x8000
+#define _MM_SET_FLUSH_ZERO_MODE(mode)     _mm_setcsr((_mm_getcsr() & ~_MM_FLUSH_ZERO_MASK) | (mode))
 #define _MM_SET_DENORMALS_ZERO_MODE(mode) _mm_setcsr((_mm_getcsr() & ~_MM_DENORMALS_ZERO_MASK) | (mode))
 static BOOL _denormals_are_zero_supported = TRUE;
 extern void __cdecl _terminate();
@@ -270,8 +269,7 @@ void thread_name(const char* name)
         RaiseException(0x406D1388, 0, sizeof(tn) / sizeof(DWORD), (ULONG_PTR*)&tn);
     }
     __except (EXCEPTION_CONTINUE_EXECUTION)
-    {
-    }
+    {}
 }
 #pragma pack(pop)
 
@@ -335,10 +333,10 @@ void spline2(float t, Fvector* p, Fvector* ret)
     float t3 = t2 * t;
     float m[4];
 
-    m[0] = s * s * s;
-    m[1] = 3.0f * t3 - 6.0f * t2 + 4.0f;
-    m[2] = -3.0f * t3 + 3.0f * t2 + 3.0f * t + 1;
-    m[3] = t3;
+    m[0]   = s * s * s;
+    m[1]   = 3.0f * t3 - 6.0f * t2 + 4.0f;
+    m[2]   = -3.0f * t3 + 3.0f * t2 + 3.0f * t + 1;
+    m[3]   = t3;
 
     ret->x = (p[0].x * m[0] + p[1].x * m[1] + p[2].x * m[2] + p[3].x * m[3]) / 6.0f;
     ret->y = (p[0].y * m[0] + p[1].y * m[1] + p[2].y * m[2] + p[3].y * m[3]) / 6.0f;
@@ -359,12 +357,10 @@ void spline3(float t, Fvector* p, Fvector* ret)
     float d     = 1.0f / delta;
     float b0    = 2.0f * b13 * d * s * s * s;
     float b3    = 2.0f * t3 * d;
-    float b1    = d *
-        (2 * b13 * t * (t2 - 3 * t + 3) + 2 * b12 * (t3 - 3 * t2 + 2) + 2 * beta1 * (t3 - 3 * t + 2) +
-         beta2 * (2 * t3 - 3 * t2 + 1));
-    float b2 = d * (2 * b12 * t2 * (-t + 3) + 2 * beta1 * t * (-t2 + 3) + beta2 * t2 * (-2 * t + 3) + 2 * (-t3 + 1));
+    float b1    = d * (2 * b13 * t * (t2 - 3 * t + 3) + 2 * b12 * (t3 - 3 * t2 + 2) + 2 * beta1 * (t3 - 3 * t + 2) + beta2 * (2 * t3 - 3 * t2 + 1));
+    float b2    = d * (2 * b12 * t2 * (-t + 3) + 2 * beta1 * t * (-t2 + 3) + beta2 * t2 * (-2 * t + 3) + 2 * (-t3 + 1));
 
-    ret->x = p[0].x * b0 + p[1].x * b1 + p[2].x * b2 + p[3].x * b3;
-    ret->y = p[0].y * b0 + p[1].y * b1 + p[2].y * b2 + p[3].y * b3;
-    ret->z = p[0].z * b0 + p[1].z * b1 + p[2].z * b2 + p[3].z * b3;
+    ret->x      = p[0].x * b0 + p[1].x * b1 + p[2].x * b2 + p[3].x * b3;
+    ret->y      = p[0].y * b0 + p[1].y * b1 + p[2].y * b2 + p[3].y * b3;
+    ret->z      = p[0].z * b0 + p[1].z * b1 + p[2].z * b2 + p[3].z * b3;
 }

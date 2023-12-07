@@ -124,9 +124,7 @@ bool CGameSpy_QR2::Init(int PortID, int Public, void* instance)
     // call qr_init with the query port number and gamename, default IP address, and no user data
 
     //	if (xrGS_qr2_initA(NULL,NULL,PortID, GAMESPY_GAMENAME, m_SecretKey, Public, 0,
-    qr2_error_t err = xrGS_qr2_initA(
-        NULL, NULL, PortID, Public, 0, callback_serverkey, callback_playerkey, callback_teamkey, callback_keylist,
-        callback_count, callback_adderror, instance);
+    qr2_error_t err = xrGS_qr2_initA(NULL, NULL, PortID, Public, 0, callback_serverkey, callback_playerkey, callback_teamkey, callback_keylist, callback_count, callback_adderror, instance);
 #ifndef MASTER_GOLD
     Msg("xrGS::xrGS_qr2_initA returned code is [%d]", err);
 #endif   // #ifndef MASTER_GOLD

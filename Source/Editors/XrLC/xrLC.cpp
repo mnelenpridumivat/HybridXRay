@@ -24,16 +24,15 @@ u32                  version = 0;
 extern void          logThread(void* dummy);
 extern volatile BOOL bClose;
 
-static const char*   h_str =
-    "The following keys are supported / required:\n"
-    "-? or -h	== this help\n"
-    "-o			== modify build options\n"
-    "-nosun		== disable sun-lighting\n"
-    "-f<NAME>	== compile level in GameData\\Levels\\<NAME>\\\n"
-    "\n"
-    "NOTE: The last key is required for any functionality\n";
+static const char*   h_str = "The following keys are supported / required:\n"
+                             "-? or -h	== this help\n"
+                             "-o			== modify build options\n"
+                             "-nosun		== disable sun-lighting\n"
+                             "-f<NAME>	== compile level in GameData\\Levels\\<NAME>\\\n"
+                             "\n"
+                             "NOTE: The last key is required for any functionality\n";
 
-void Help()
+void                 Help()
 {
     MessageBox(0, h_str, "Command line options", MB_OK | MB_ICONINFORMATION);
 }

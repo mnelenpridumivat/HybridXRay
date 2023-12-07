@@ -59,24 +59,24 @@ protected:
     xrCriticalSection    net_csEnumeration;
     xr_vector<HOST_NODE> net_Hosts;
 
-    NET_Compressor net_Compressor;
+    NET_Compressor       net_Compressor;
 
-    ConnectionState net_Connected;
-    BOOL            net_Syncronised;
-    BOOL            net_Disconnected;
+    ConnectionState      net_Connected;
+    BOOL                 net_Syncronised;
+    BOOL                 net_Disconnected;
 
-    INetQueue        net_Queue;
-    IClientStatistic net_Statistic;
+    INetQueue            net_Queue;
+    IClientStatistic     net_Statistic;
 
-    u32 net_Time_LastUpdate;
-    s32 net_TimeDelta;
-    s32 net_TimeDelta_Calculated;
-    s32 net_TimeDelta_User;
+    u32                  net_Time_LastUpdate;
+    s32                  net_TimeDelta;
+    s32                  net_TimeDelta_Calculated;
+    s32                  net_TimeDelta_User;
 
-    void Sync_Thread();
-    void Sync_Average();
+    void                 Sync_Thread();
+    void                 Sync_Average();
 
-    void SetClientID(ClientID const& local_client)
+    void                 SetClientID(ClientID const& local_client)
     {
         net_ClientID = local_client;
     };
@@ -88,11 +88,11 @@ public:
     virtual ~IPureClient();
     HRESULT net_Handler(u32 dwMessageType, PVOID pMessage);
 
-    BOOL Connect(LPCSTR server_name);
-    void Disconnect();
+    BOOL    Connect(LPCSTR server_name);
+    void    Disconnect();
 
-    void net_Syncronize();
-    BOOL net_isCompleted_Connect()
+    void    net_Syncronize();
+    BOOL    net_isCompleted_Connect()
     {
         return net_Connected == EnmConnectionCompleted;
     }
@@ -155,7 +155,7 @@ public:
         return net_ClientID;
     };
 
-    bool GetServerAddress(ip_address& pAddress, DWORD* pPort);
+    bool   GetServerAddress(ip_address& pAddress, DWORD* pPort);
 
     // time management
     IC u32 timeServer()
@@ -174,9 +174,9 @@ public:
     {
         net_TimeDelta_User = d;
     }
-    IC void timeServer_Correct(u32 sv_time, u32 cl_time);
+    IC void        timeServer_Correct(u32 sv_time, u32 cl_time);
 
-    virtual BOOL net_IsSyncronised();
+    virtual BOOL   net_IsSyncronised();
 
     virtual LPCSTR GetMsgId2Name(u16 ID)
     {
@@ -190,7 +190,7 @@ public:
     }
 
 private:
-    ClientID net_ClientID;
+    ClientID     net_ClientID;
 
     virtual void _Recieve(const void* data, u32 data_size, u32 param);
     virtual void _SendTo_LL(const void* data, u32 size, u32 flags, u32 timeout);

@@ -150,15 +150,13 @@ struct ECORE_API SECommand
     bool           global_shortcut;
 
 public:
-    SECommand(LPCSTR n, LPCSTR d, bool edit, bool multi, xr_shortcut default_shortcut, TECommandEvent cmd, u32 i, bool _gs):
-        editable(edit), command(cmd), idx(i), global_shortcut(_gs)
+    SECommand(LPCSTR n, LPCSTR d, bool edit, bool multi, xr_shortcut default_shortcut, TECommandEvent cmd, u32 i, bool _gs): editable(edit), command(cmd), idx(i), global_shortcut(_gs)
     {
         name = xr_strdup(n);
         desc = xr_strdup(d);
 
         if (!multi)
-          AppendSubCommand("", u32(0), u32(0), default_shortcut);
-            
+            AppendSubCommand("", u32(0), u32(0), default_shortcut);
     }
     ~SECommand()
     {
@@ -193,20 +191,16 @@ ECORE_API BOOL          LoadShortcuts(CInifile* ini);
 ECORE_API BOOL          SaveShortcuts(CInifile* ini);
 ECORE_API BOOL          AllowLogCommands();
 
-#define BIND_CMD_EVENT_S(a) TECommandEvent(a)
-#define BIND_CMD_EVENT_C(a, b) TECommandEvent(a, &b)
+#define BIND_CMD_EVENT_S(a)                                 TECommandEvent(a)
+#define BIND_CMD_EVENT_C(a, b)                              TECommandEvent(a, &b)
 
-#define REGISTER_CMD_S(id, cmd) \
-    RegisterCommand(id, xr_new<SECommand>(#id, "", false, false, xr_shortcut(), BIND_CMD_EVENT_S(cmd), id, false));
+#define REGISTER_CMD_S(id, cmd)                             RegisterCommand(id, xr_new<SECommand>(#id, "", false, false, xr_shortcut(), BIND_CMD_EVENT_S(cmd), id, false));
 
-#define REGISTER_CMD_C(id, owner, cmd) \
-    RegisterCommand(id, xr_new<SECommand>(#id, "", false, false, xr_shortcut(), BIND_CMD_EVENT_C(owner, cmd), id, false));
+#define REGISTER_CMD_C(id, owner, cmd)                      RegisterCommand(id, xr_new<SECommand>(#id, "", false, false, xr_shortcut(), BIND_CMD_EVENT_C(owner, cmd), id, false));
 
-#define REGISTER_CMD_SE(id, desc, shortcut, cmd, gs) \
-    RegisterCommand(id, xr_new<SECommand>(#id, desc, true, false, shortcut, BIND_CMD_EVENT_S(cmd), id, gs));
+#define REGISTER_CMD_SE(id, desc, shortcut, cmd, gs)        RegisterCommand(id, xr_new<SECommand>(#id, desc, true, false, shortcut, BIND_CMD_EVENT_S(cmd), id, gs));
 
-#define REGISTER_CMD_CE(id, desc, shortcut, owner, cmd, gs) \
-    RegisterCommand(id, xr_new<SECommand>(#id, desc, true, false, shortcut, BIND_CMD_EVENT_C(owner, cmd), id, gs));
+#define REGISTER_CMD_CE(id, desc, shortcut, owner, cmd, gs) RegisterCommand(id, xr_new<SECommand>(#id, desc, true, false, shortcut, BIND_CMD_EVENT_C(owner, cmd), id, gs));
 
 #define REGISTER_SUB_CMD_SE(id, desc, cmd, gs) \
     {                                          \
@@ -216,11 +210,10 @@ ECORE_API BOOL          AllowLogCommands();
 #define REGISTER_SUB_CMD_CE(id, desc, owner, cmd, gs) \
     {                                                 \
         SECommand* SUB_CMD_HOLDER;                    \
-        RegisterCommand(                              \
-            id, SUB_CMD_HOLDER = xr_new<SECommand>(#id, desc, true, true, xr_shortcut(), BIND_CMD_EVENT_C(owner, cmd), id, gs));
+        RegisterCommand(id, SUB_CMD_HOLDER = xr_new<SECommand>(#id, desc, true, true, xr_shortcut(), BIND_CMD_EVENT_C(owner, cmd), id, gs));
 
 #define APPEND_SUB_CMD(desc, shortcut, p0, p1) RegisterSubCommand(SUB_CMD_HOLDER, desc, shortcut, p0, p1);
 
-#define REGISTER_SUB_CMD_END }
+#define REGISTER_SUB_CMD_END                   }
 
 #endif   // UI_MainCommandH

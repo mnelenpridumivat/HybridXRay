@@ -1,12 +1,7 @@
 ﻿#include "stdafx.h"
 #include "xr_dsa_verifyer.h"
 
-xr_dsa_verifyer::xr_dsa_verifyer(
-    u8 const p_number[crypto::xr_dsa::public_key_length],
-    u8 const q_number[crypto::xr_dsa::private_key_length],
-    u8 const g_number[crypto::xr_dsa::public_key_length],
-    u8 const public_key[crypto::xr_dsa::public_key_length]):
-    m_dsa(p_number, q_number, g_number)
+xr_dsa_verifyer::xr_dsa_verifyer(u8 const p_number[crypto::xr_dsa::public_key_length], u8 const q_number[crypto::xr_dsa::private_key_length], u8 const g_number[crypto::xr_dsa::public_key_length], u8 const public_key[crypto::xr_dsa::public_key_length]): m_dsa(p_number, q_number, g_number)
 {
     STATIC_CHECK(sizeof(m_public_key.m_value) == crypto::xr_dsa::public_key_length, public_key_sizes_not_equal);
     CopyMemory(m_public_key.m_value, public_key, sizeof(m_public_key.m_value));

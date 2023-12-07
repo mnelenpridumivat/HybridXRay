@@ -20,23 +20,19 @@ using XrWeatherEditor::environment::ambients::ambient;
 using XrWeatherEditor::environment::ambients::manager;
 using XrWeatherEditor::environment::detail::logical_string_predicate;
 
-template <> void property_collection<manager::ambient_container_type, manager>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<manager::ambient_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<manager::ambient_container_type, manager>::create()
+template<> XrWeatherEditor::property_holder* property_collection<manager::ambient_container_type, manager>::create()
 {
     ambient* object = xr_new<ambient>(m_holder, generate_unique_id("ambient_unique_id_").c_str());
     object->fill(this);
     return (object->object());
 }
 
-manager::manager(::XrWeatherEditor::environment::manager const& manager):
-    m_manager(manager), m_property_holder(0), m_collection(0), m_changed(true)
+manager::manager(::XrWeatherEditor::environment::manager const& manager): m_manager(manager), m_property_holder(0), m_collection(0), m_changed(true)
 {
     m_collection = xr_new<collection_type>(&m_ambients, this, &m_changed);
 }
@@ -65,8 +61,7 @@ void manager::load()
     for (; i != e; ++i)
     {
         ambient* object = xr_new<ambient>(*this, (*i)->Name);
-        object->load(
-            *m_manager.m_ambients_config, *m_manager.m_sound_channels_config, *m_manager.m_effects_config, (*i)->Name);
+        object->load(*m_manager.m_ambients_config, *m_manager.m_sound_channels_config, *m_manager.m_effects_config, (*i)->Name);
         object->fill(m_collection);
         m_ambients.push_back(object);
     }
@@ -74,12 +69,11 @@ void manager::load()
 
 void manager::save()
 {
-    string_path file_name;
-    CInifile*   config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\ambients.ltx"), FALSE, FALSE, TRUE);
+    string_path                      file_name;
+    CInifile*                        config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\ambients.ltx"), FALSE, FALSE, TRUE);
 
-    ambient_container_type::iterator i = m_ambients.begin();
-    ambient_container_type::iterator e = m_ambients.end();
+    ambient_container_type::iterator i      = m_ambients.begin();
+    ambient_container_type::iterator e      = m_ambients.end();
     for (; i != e; ++i)
         (*i)->save(*config);
 

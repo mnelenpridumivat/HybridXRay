@@ -19,13 +19,13 @@ public:
     virtual void         SetItem(CUICellItem* itm, Ivector2 cell_pos);
     virtual CUICellItem* RemoveItem(CUICellItem* itm, bool force_root);
 
-    void              Initialize();
-    CUICellContainer* GetContainer()
+    void                 Initialize();
+    CUICellContainer*    GetContainer()
     {
         return m_container;
     };
-    void LoadItemTexture(LPCSTR section, Ivector2 cell_pos);
-    void ReloadReferences(CInventoryOwner* pActor);
+    void         LoadItemTexture(LPCSTR section, Ivector2 cell_pos);
+    void         ReloadReferences(CInventoryOwner* pActor);
 
     virtual void OnItemDBClick(CUIWindow* w, void* pData);
     virtual void OnItemDrop(CUIWindow* w, void* pData);

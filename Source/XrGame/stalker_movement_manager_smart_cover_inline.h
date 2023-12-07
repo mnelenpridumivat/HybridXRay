@@ -9,8 +9,7 @@
 #ifndef STALKER_MOVEMENT_MANAGER_SMART_COVER_INLINE_H_INCLUDED
 #define STALKER_MOVEMENT_MANAGER_SMART_COVER_INLINE_H_INCLUDED
 
-IC  stalker_movement_manager_smart_cover::animation_selector_type&
-    stalker_movement_manager_smart_cover::animation_selector() const
+IC stalker_movement_manager_smart_cover::animation_selector_type& stalker_movement_manager_smart_cover::animation_selector() const
 {
     VERIFY(m_animation_selector);
     return (*m_animation_selector);
@@ -21,8 +20,7 @@ IC void stalker_movement_manager_smart_cover::property_storage(CPropertyStorage*
     m_property_storage = storage;
 }
 
-IC  stalker_movement_manager_smart_cover::animation_action const&
-    stalker_movement_manager_smart_cover::current_transition_animation() const
+IC stalker_movement_manager_smart_cover::animation_action const& stalker_movement_manager_smart_cover::current_transition_animation() const
 {
     VERIFY(m_current_transition_animation);
     return (*m_current_transition_animation);

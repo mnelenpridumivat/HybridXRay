@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-template <class T> struct _matrix
+template<class T> struct _matrix
 {
 public:
     typedef T           TYPE;
@@ -308,10 +308,10 @@ public:
         T cosa = _cos(Angle);
         T sina = _sin(Angle);
 
-        R[0] = _mm_set_ps(1, 0, 0, 0);
-        R[1] = _mm_set_ps(0, cosa, sina, 0);
-        R[2] = _mm_set_ps(0, -sina, cosa, 0);
-        R[3] = _mm_set_ps(0, 0, 0, 1);
+        R[0]   = _mm_set_ps(1, 0, 0, 0);
+        R[1]   = _mm_set_ps(0, cosa, sina, 0);
+        R[2]   = _mm_set_ps(0, -sina, cosa, 0);
+        R[3]   = _mm_set_ps(0, 0, 0, 1);
         return *this;
     }
     IC SelfRef rotateY(T Angle)   // rotation about Y axis
@@ -319,10 +319,10 @@ public:
         T cosa = _cos(Angle);
         T sina = _sin(Angle);
 
-        R[0] = _mm_set_ps(cosa, 0, -sina, 0);
-        R[1] = _mm_set_ps(0, 1, 0, 0);
-        R[2] = _mm_set_ps(sina, 0, cosa, 0);
-        R[3] = _mm_set_ps(0, 0, 0, 1);
+        R[0]   = _mm_set_ps(cosa, 0, -sina, 0);
+        R[1]   = _mm_set_ps(0, 1, 0, 0);
+        R[2]   = _mm_set_ps(sina, 0, cosa, 0);
+        R[3]   = _mm_set_ps(0, 0, 0, 1);
 
         return *this;
     }
@@ -331,10 +331,10 @@ public:
         T cosa = _cos(Angle);
         T sina = _sin(Angle);
 
-        R[0] = _mm_set_ps(cosa, sina, 0, 0);
-        R[1] = _mm_set_ps(-sina, cosa, 0, 0);
-        R[2] = _mm_set_ps(0, 0, 1, 0);
-        R[3] = _mm_set_ps(0, 0, 0, 1);
+        R[0]   = _mm_set_ps(cosa, sina, 0, 0);
+        R[1]   = _mm_set_ps(-sina, cosa, 0, 0);
+        R[2]   = _mm_set_ps(0, 0, 1, 0);
+        R[3]   = _mm_set_ps(0, 0, 0, 1);
 
         return *this;
     }
@@ -483,20 +483,20 @@ public:
     {
         __m128 V = _mm_set_ps(v, v, v, v);
 
-        R[0] = _mm_mul_ps(A.R[0], V);
-        R[1] = _mm_mul_ps(A.R[1], V);
-        R[2] = _mm_mul_ps(A.R[2], V);
-        R[3] = _mm_mul_ps(A.R[3], V);
+        R[0]     = _mm_mul_ps(A.R[0], V);
+        R[1]     = _mm_mul_ps(A.R[1], V);
+        R[2]     = _mm_mul_ps(A.R[2], V);
+        R[3]     = _mm_mul_ps(A.R[3], V);
         return *this;
     }
     IC SelfRef mul(T v)
     {
         __m128 V = _mm_set_ps(v, v, v, v);
 
-        R[0] = _mm_mul_ps(R[0], V);
-        R[1] = _mm_mul_ps(R[1], V);
-        R[2] = _mm_mul_ps(R[2], V);
-        R[3] = _mm_mul_ps(R[3], V);
+        R[0]     = _mm_mul_ps(R[0], V);
+        R[1]     = _mm_mul_ps(R[1], V);
+        R[2]     = _mm_mul_ps(R[2], V);
+        R[3]     = _mm_mul_ps(R[3], V);
         return *this;
     }
     IC SelfRef div(const Self& A, T v)
@@ -547,7 +547,7 @@ public:
 
         // Get the dot product, and calculate the projection of the z basis
         // vector3 onto the up vector3. The projection is the y basis vector3.
-        T fDotProduct = vWorldUp.dotproduct(vView);
+        T       fDotProduct = vWorldUp.dotproduct(vView);
 
         Tvector vUp;
         vUp.mul(vView, -fDotProduct).add(vWorldUp).normalize();
@@ -583,7 +583,7 @@ public:
     {
         // Get the dot product, and calculate the projection of the z basis
         // vector3 onto the up vector3. The projection is the y basis vector3.
-        T fDotProduct = vWorldUp.dotproduct(vView);
+        T       fDotProduct = vWorldUp.dotproduct(vView);
 
         Tvector vUp;
         vUp.mul(vView, -fDotProduct).add(vWorldUp).normalize();
@@ -779,10 +779,9 @@ public:
 typedef _matrix<float>  Fmatrix;
 typedef _matrix<double> Dmatrix;
 
-template <class T> BOOL _valid(const _matrix<T>& m)
+template<class T> BOOL  _valid(const _matrix<T>& m)
 {
-    return _valid(m.i) && _valid(m._14_) && _valid(m.j) && _valid(m._24_) && _valid(m.k) && _valid(m._34_) &&
-        _valid(m.c) && _valid(m._44_);
+    return _valid(m.i) && _valid(m._14_) && _valid(m.j) && _valid(m._24_) && _valid(m.k) && _valid(m._34_) && _valid(m.c) && _valid(m._44_);
 }
 
 extern XRCORE_API Fmatrix Fidentity;

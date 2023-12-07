@@ -22,23 +22,19 @@ using XrWeatherEditor::environment::detail::logical_string_predicate;
 using XrWeatherEditor::environment::suns::manager;
 using XrWeatherEditor::environment::suns::sun;
 
-template <> void property_collection<manager::container_type, manager>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<manager::container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<manager::container_type, manager>::create()
+template<> XrWeatherEditor::property_holder* property_collection<manager::container_type, manager>::create()
 {
     sun* object = xr_new<sun>(m_holder, generate_unique_id("sun_unique_id_").c_str());
     object->fill(this);
     return (object->object());
 }
 
-manager::manager(::XrWeatherEditor::environment::manager* environment):
-    m_environment(*environment), m_collection(0), m_changed(true)
+manager::manager(::XrWeatherEditor::environment::manager* environment): m_environment(*environment), m_collection(0), m_changed(true)
 {
     m_collection = xr_new<collection_type>(&m_suns, this, &m_changed);
 }
@@ -53,9 +49,8 @@ manager::~manager()
 
 void manager::load()
 {
-    string_path file_name;
-    CInifile*   config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\suns.ltx"), TRUE, TRUE, FALSE);
+    string_path            file_name;
+    CInifile*              config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\suns.ltx"), TRUE, TRUE, FALSE);
 
     typedef CInifile::Root sections_type;
     sections_type&         sections = config->sections();
@@ -70,12 +65,11 @@ void manager::load()
 
 void manager::save()
 {
-    string_path file_name;
-    CInifile*   config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\suns.ltx"), FALSE, FALSE, TRUE);
+    string_path                    file_name;
+    CInifile*                      config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\suns.ltx"), FALSE, FALSE, TRUE);
 
-    container_type::const_iterator i = m_suns.begin();
-    container_type::const_iterator e = m_suns.end();
+    container_type::const_iterator i      = m_suns.begin();
+    container_type::const_iterator e      = m_suns.end();
     for (; i != e; ++i)
         (*i)->save(*config);
 
@@ -128,7 +122,7 @@ manager::suns_ids_type const& manager::suns_ids() const
     delete_data(m_suns_ids);
 
     m_suns_ids.resize(m_suns.size() + 1);
-    m_suns_ids[0] = xr_strdup("");
+    m_suns_ids[0]                    = xr_strdup("");
 
     container_type::const_iterator i = m_suns.begin();
     container_type::const_iterator e = m_suns.end();
@@ -145,9 +139,9 @@ struct predicate
 {
     shared_str m_id;
 
-    IC predicate(shared_str const& id): m_id(id) {}
+    IC         predicate(shared_str const& id): m_id(id) {}
 
-    IC bool operator()(sun* const& sun) const
+    IC bool    operator()(sun* const& sun) const
     {
         return (sun->id()._get() == m_id._get());
     }

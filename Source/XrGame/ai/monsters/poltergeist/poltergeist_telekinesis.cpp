@@ -12,21 +12,20 @@ void CPolterTele::load(LPCSTR section)
 {
     inherited::load(section);
 
-    m_pmt_radius                  = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Find_Radius", 10.f);
-    m_pmt_object_min_mass         = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Object_Min_Mass", 40.f);
-    m_pmt_object_max_mass         = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Object_Max_Mass", 500.f);
-    m_pmt_object_count            = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Object_Count", 10);
-    m_pmt_time_to_hold            = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Hold_Time", 3000);
-    m_pmt_time_to_wait            = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Wait_Time", 3000);
-    m_pmt_time_to_wait_in_objects = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Delay_Between_Objects_Time", 500);
-    m_pmt_distance                = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Distance", 50.f);
-    m_pmt_object_height           = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Object_Height", 10.f);
-    m_pmt_time_object_keep        = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Time_Object_Keep", 10000);
-    m_pmt_raise_speed             = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Raise_Speed", 3.f);
-    m_pmt_raise_time_to_wait_in_objects =
-        READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Delay_Between_Objects_Raise_Time", 500);
-    m_pmt_fly_velocity            = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Fly_Velocity", 30.f);
-    m_pmt_object_collision_damage = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Collision_Damage", 0.5f);
+    m_pmt_radius                        = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Find_Radius", 10.f);
+    m_pmt_object_min_mass               = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Object_Min_Mass", 40.f);
+    m_pmt_object_max_mass               = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Object_Max_Mass", 500.f);
+    m_pmt_object_count                  = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Object_Count", 10);
+    m_pmt_time_to_hold                  = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Hold_Time", 3000);
+    m_pmt_time_to_wait                  = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Wait_Time", 3000);
+    m_pmt_time_to_wait_in_objects       = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Delay_Between_Objects_Time", 500);
+    m_pmt_distance                      = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Distance", 50.f);
+    m_pmt_object_height                 = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Object_Height", 10.f);
+    m_pmt_time_object_keep              = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Time_Object_Keep", 10000);
+    m_pmt_raise_speed                   = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Raise_Speed", 3.f);
+    m_pmt_raise_time_to_wait_in_objects = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Delay_Between_Objects_Raise_Time", 500);
+    m_pmt_fly_velocity                  = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Fly_Velocity", 30.f);
+    m_pmt_object_collision_damage       = READ_IF_EXISTS(pSettings, r_float, section, "Tele_Collision_Damage", 0.5f);
     ::Sound->create(m_sound_tele_hold, pSettings->r_string(section, "sound_tele_hold"), st_Effect, SOUND_TYPE_WORLD);
     ::Sound->create(m_sound_tele_throw, pSettings->r_string(section, "sound_tele_throw"), st_Effect, SOUND_TYPE_WORLD);
 
@@ -64,9 +63,8 @@ void CPolterTele::update_schedule()
                 if (!tele_raise_objects())
                     m_state = eRaisingObjects;
 
-                m_time = time();
-                m_time_next =
-                    m_pmt_raise_time_to_wait_in_objects / 2 + Random.randI(m_pmt_raise_time_to_wait_in_objects / 2);
+                m_time      = time();
+                m_time_next = m_pmt_raise_time_to_wait_in_objects / 2 + Random.randI(m_pmt_raise_time_to_wait_in_objects / 2);
             }
 
             if (m_state == eStartRaiseObjects)
@@ -195,11 +193,7 @@ void CPolterTele::tele_find_objects(xr_vector<CObject*>& objects, const Fvector&
     {
         CPhysicsShellHolder* obj            = smart_cast<CPhysicsShellHolder*>(m_nearest[i]);
         CCustomMonster*      custom_monster = smart_cast<CCustomMonster*>(m_nearest[i]);
-        if (!obj || !obj->PPhysicsShell() || !obj->PPhysicsShell()->isActive() || custom_monster ||
-            (obj->spawn_ini() && obj->spawn_ini()->section_exist("ph_heavy")) ||
-            (obj->m_pPhysicsShell->getMass() < m_pmt_object_min_mass) ||
-            (obj->m_pPhysicsShell->getMass() > m_pmt_object_max_mass) || (obj == m_object) ||
-            m_object->CTelekinesis::is_active_object(obj) || !obj->m_pPhysicsShell->get_ApplyByGravity())
+        if (!obj || !obj->PPhysicsShell() || !obj->PPhysicsShell()->isActive() || custom_monster || (obj->spawn_ini() && obj->spawn_ini()->section_exist("ph_heavy")) || (obj->m_pPhysicsShell->getMass() < m_pmt_object_min_mass) || (obj->m_pPhysicsShell->getMass() > m_pmt_object_max_mass) || (obj == m_object) || m_object->CTelekinesis::is_active_object(obj) || !obj->m_pPhysicsShell->get_ApplyByGravity())
             continue;
 
         Fvector center;
@@ -233,8 +227,7 @@ bool CPolterTele::tele_raise_objects()
     tele_find_objects(tele_objects, pos);
 
     // сортировать и оставить только необходимое количество объектов
-    std::sort(
-        tele_objects.begin(), tele_objects.end(), best_object_predicate2(m_object->Position(), Actor()->Position()));
+    std::sort(tele_objects.begin(), tele_objects.end(), best_object_predicate2(m_object->Position(), Actor()->Position()));
 
     // оставить уникальные объекты
     tele_objects.erase(std::unique(tele_objects.begin(), tele_objects.end()), tele_objects.end());
@@ -255,13 +248,12 @@ bool CPolterTele::tele_raise_objects()
 
     if (!tele_objects.empty())
     {
-        CPhysicsShellHolder* obj = smart_cast<CPhysicsShellHolder*>(tele_objects[0]);
+        CPhysicsShellHolder* obj      = smart_cast<CPhysicsShellHolder*>(tele_objects[0]);
 
         // применить телекинез на объект
-        bool rotate = false;
+        bool                 rotate   = false;
 
-        CTelekineticObject* tele_obj = m_object->CTelekinesis::activate(
-            obj, m_pmt_raise_speed, m_pmt_object_height, m_pmt_time_object_keep, rotate);
+        CTelekineticObject*  tele_obj = m_object->CTelekinesis::activate(obj, m_pmt_raise_speed, m_pmt_object_height, m_pmt_time_object_keep, rotate);
         tele_obj->set_sound(m_sound_tele_hold, m_sound_tele_throw);
 
         return true;
@@ -276,8 +268,7 @@ struct SCollisionHitCallback: public ICollisionHitCallback
     //;
     CPhysicsShellHolder* m_object;
     float                m_pmt_object_collision_damage;
-    SCollisionHitCallback(CPhysicsShellHolder* object, float pmt_object_collision_damage):
-        m_object(object), m_pmt_object_collision_damage(pmt_object_collision_damage)
+    SCollisionHitCallback(CPhysicsShellHolder* object, float pmt_object_collision_damage): m_object(object), m_pmt_object_collision_damage(pmt_object_collision_damage)
     {
         VERIFY(object);
     }
@@ -305,9 +296,7 @@ void CPolterTele::tele_fire_objects()
 
             VERIFY(hobj);
             hobj->set_collision_hit_callback(xr_new<SCollisionHitCallback>(hobj, m_pmt_object_collision_damage));
-            m_object->CTelekinesis::fire_t(
-                tele_object.get_object(), enemy_pos,
-                tele_object.get_object()->Position().distance_to(enemy_pos) / m_pmt_fly_velocity);
+            m_object->CTelekinesis::fire_t(tele_object.get_object(), enemy_pos, tele_object.get_object()->Position().distance_to(enemy_pos) / m_pmt_fly_velocity);
             return;
         }
     }

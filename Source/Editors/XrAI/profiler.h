@@ -59,18 +59,22 @@ private:
             return (xr_strcmp(*_1, *_2) < 0);
         }
     };
+
 protected:
     typedef xr_vector<CProfileResultPortion>             PORTIONS;
     typedef xr_map<shared_str, CProfileStats, pred_rstr> TIMERS;
+
 protected:
     PORTIONS          m_portions;
     TIMERS            m_timers;
     bool              m_actual;
     xrCriticalSection m_section;
     u32               m_call_count;
+
 protected:
     void    setup_timer(LPCSTR timer_id, const u64& timer_time, const u32& call_count);
     IC void convert_string(LPCSTR str, shared_str& out, u32 max_string_size);
+
 public:
     CProfiler();
     ~CProfiler();

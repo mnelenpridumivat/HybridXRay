@@ -7,7 +7,7 @@
 
 CUIDragItem* CUIDragDropListEx::m_drag_item = NULL;
 
-void CUICell::Clear()
+void         CUICell::Clear()
 {
     m_bMainItem = false;
     if (m_item)
@@ -33,28 +33,15 @@ CUIDragDropListEx::CUIDragDropListEx()
     m_vScrollBar->SetWindowName("scroll_v");
     Register(m_vScrollBar);
     AddCallbackStr("scroll_v", SCROLLBAR_VSCROLL, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnScrollV));
-    AddCallbackStr(
-        "cell_item", DRAG_DROP_ITEM_DRAG, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemStartDragging));
-    AddCallbackStr(
-        "cell_item", DRAG_DROP_ITEM_DROP, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemDrop));
-    AddCallbackStr(
-        "cell_item", DRAG_DROP_ITEM_SELECTED, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemSelected));
-    AddCallbackStr(
-        "cell_item", DRAG_DROP_ITEM_LBUTTON_CLICK,
-        CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemLButtonClick));
-    AddCallbackStr(
-        "cell_item", DRAG_DROP_ITEM_RBUTTON_CLICK,
-        CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemRButtonClick));
-    AddCallbackStr(
-        "cell_item", DRAG_DROP_ITEM_DB_CLICK, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemDBClick));
-    AddCallbackStr(
-        "cell_item", DRAG_DROP_ITEM_FOCUSED_UPDATE,
-        CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemFocusedUpdate));
-    AddCallbackStr(
-        "cell_item", WINDOW_FOCUS_RECEIVED,
-        CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemFocusReceived));
-    AddCallbackStr(
-        "cell_item", WINDOW_FOCUS_LOST, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemFocusLost));
+    AddCallbackStr("cell_item", DRAG_DROP_ITEM_DRAG, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemStartDragging));
+    AddCallbackStr("cell_item", DRAG_DROP_ITEM_DROP, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemDrop));
+    AddCallbackStr("cell_item", DRAG_DROP_ITEM_SELECTED, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemSelected));
+    AddCallbackStr("cell_item", DRAG_DROP_ITEM_LBUTTON_CLICK, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemLButtonClick));
+    AddCallbackStr("cell_item", DRAG_DROP_ITEM_RBUTTON_CLICK, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemRButtonClick));
+    AddCallbackStr("cell_item", DRAG_DROP_ITEM_DB_CLICK, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemDBClick));
+    AddCallbackStr("cell_item", DRAG_DROP_ITEM_FOCUSED_UPDATE, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemFocusedUpdate));
+    AddCallbackStr("cell_item", WINDOW_FOCUS_RECEIVED, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemFocusReceived));
+    AddCallbackStr("cell_item", WINDOW_FOCUS_LOST, CUIWndCallback::void_function(this, &CUIDragDropListEx::OnItemFocusLost));
 
     back_color = 0xFFFFFFFF;
 }
@@ -126,8 +113,7 @@ void CUIDragDropListEx::InitDragDropList(Fvector2 pos, Fvector2 size)
     inherited::SetWndPos(pos);
     inherited::SetWndSize(size);
     m_vScrollBar->InitScrollBar(Fvector2().set(size.x, 0.0f), size.y, false);
-    m_vScrollBar->SetWndPos(
-        Fvector2().set(m_vScrollBar->GetWndPos().x - m_vScrollBar->GetWidth(), m_vScrollBar->GetWndPos().y));
+    m_vScrollBar->SetWndPos(Fvector2().set(m_vScrollBar->GetWndPos().x - m_vScrollBar->GetWidth(), m_vScrollBar->GetWndPos().y));
 }
 
 void CUIDragDropListEx::OnScrollV(CUIWindow* w, void* pData)
@@ -197,7 +183,7 @@ void CUIDragDropListEx::OnItemDrop(CUIWindow* w, void* pData)
     CUIDragDropListEx* old_owner = itm->OwnerList();
     CUIDragDropListEx* new_owner = m_drag_item->BackList();
 
-    bool b = (old_owner == new_owner) && !GetCustomPlacement();
+    bool               b         = (old_owner == new_owner) && !GetCustomPlacement();
 
     if (old_owner && new_owner && !b)
     {
@@ -615,8 +601,7 @@ void CUICellContainer::PlaceItemAtPos(CUICellItem* itm, Ivector2& cell_pos)
     }
     itm->SetWndSize(Fvector2().set((m_cellSize.x * cs.x), (m_cellSize.y * cs.y)));
     if (!m_pParentDragDropList->GetVirtualCells())
-        itm->SetWndPos(Fvector2().set(
-            ((m_cellSpacing.x + m_cellSize.x) * cell_pos.x), ((m_cellSpacing.y + m_cellSize.y) * cell_pos.y)));
+        itm->SetWndPos(Fvector2().set(((m_cellSpacing.x + m_cellSize.x) * cell_pos.x), ((m_cellSpacing.y + m_cellSize.y) * cell_pos.y)));
     else
     {
         Ivector2 alignment_vec = m_pParentDragDropList->GetVirtualCellsAlignment();
@@ -916,9 +901,7 @@ void CUICellContainer::Draw()
     GetAbsolutePos(lt_abs_pos);
 
     Fvector2 drawLT;
-    drawLT.set(
-        lt_abs_pos.x + tgt_cells.lt.x * (cell_sz.x + m_cellSpacing.x),
-        lt_abs_pos.y + tgt_cells.lt.y * (cell_sz.y + m_cellSpacing.y));
+    drawLT.set(lt_abs_pos.x + tgt_cells.lt.x * (cell_sz.x + m_cellSpacing.x), lt_abs_pos.y + tgt_cells.lt.y * (cell_sz.y + m_cellSpacing.y));
     UI().ClientToScreenScaled(drawLT, drawLT.x, drawLT.y);
 
     const Fvector2 pts[6] = {{0.0f, 0.0f}, {1.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 0.0f}, {1.0f, 1.0f}, {0.0f, 1.0f}};
@@ -927,7 +910,7 @@ void CUICellContainer::Draw()
     const Fvector2 uvs[6] = {{0.0f, 0.0f}, {tx, 0.0f}, {tx, ty}, {0.0f, 0.0f}, {tx, ty}, {0.0f, ty}};
 
     // calculate cell size in screen pixels
-    Fvector2 f_len, sp_len;
+    Fvector2       f_len, sp_len;
     UI().ClientToScreenScaled(f_len, float(CellSize().x), float(CellSize().y));
     UI().ClientToScreenScaled(sp_len, float(CellsSpacing().x), float(CellsSpacing().y));
 
@@ -948,9 +931,9 @@ void CUICellContainer::Draw()
             Ivector2 cpos;
             cpos.set(x, y);
             cpos.add(TopVisibleCell());
-            CUICell& ui_cell = GetCellAt(cpos);
+            CUICell& ui_cell     = GetCellAt(cpos);
 
-            u8 select_mode = 0;
+            u8       select_mode = 0;
             if (!ui_cell.Empty())
             {
                 if (ui_cell.m_item->m_cur_mark)
@@ -978,9 +961,7 @@ void CUICellContainer::Draw()
                 // pv->set			(iFloor(drawLT.x + p.x*(f_len.x) + f_len.x*x)-0.5f,
                 //				 iFloor(drawLT.y + p.y*(f_len.y) + f_len.y*y)-0.5f,
                 //				 0xFFFFFFFF,tp.x+uv.x,tp.y+uv.y);
-                UIRender->PushPoint(
-                    iFloor(rect_offset.x + p.x * (f_len.x)) - 0.5f, iFloor(rect_offset.y + p.y * (f_len.y)) - 0.5f, 0,
-                    m_pParentDragDropList->back_color, tp.x + uv.x, tp.y + uv.y);
+                UIRender->PushPoint(iFloor(rect_offset.x + p.x * (f_len.x)) - 0.5f, iFloor(rect_offset.y + p.y * (f_len.y)) - 0.5f, 0, m_pParentDragDropList->back_color, tp.x + uv.x, tp.y + uv.y);
             }   // for k
         }       // for y
     }           // for x

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: stalker_movement_manager_obstacles.cpp
 //	Created 	: 27.03.2007
 //  Modified 	: 27.03.2007
@@ -18,173 +18,157 @@
 #include "stalker_animation_manager.h"
 
 #ifndef MASTER_GOLD
-#	include "ai_debug.h"
-#endif // MASTER_GOLD
+#include "ai_debug.h"
+#endif   // MASTER_GOLD
 
-static const u32	fail_check_time				= 1000;
+static const u32 fail_check_time = 1000;
 
-stalker_movement_manager_obstacles::stalker_movement_manager_obstacles	(CAI_Stalker *object) :
-	inherited						(object),
-	m_last_dest_vertex_id			(u32(-1)),
-	m_last_fail_time				(0),
-	m_failed_to_build_path			(false)
+stalker_movement_manager_obstacles::stalker_movement_manager_obstacles(CAI_Stalker* object): inherited(object), m_last_dest_vertex_id(u32(-1)), m_last_fail_time(0), m_failed_to_build_path(false)
 {
-	m_static_obstacles.construct	(this, m_failed_to_build_path);
-	m_dynamic_obstacles.construct	(this, m_failed_to_build_path);
+    m_static_obstacles.construct(this, m_failed_to_build_path);
+    m_dynamic_obstacles.construct(this, m_failed_to_build_path);
 }
 
-CRestrictedObject *stalker_movement_manager_obstacles::create_restricted_object	()
+CRestrictedObject* stalker_movement_manager_obstacles::create_restricted_object()
 {
-	m_restricted_object				= 
-		xr_new<CRestrictedObjectObstacle>(
-			&object(),
-			m_static_obstacles.active_query(),
-			m_dynamic_obstacles.active_query()
-		);
+    m_restricted_object = xr_new<CRestrictedObjectObstacle>(&object(), m_static_obstacles.active_query(), m_dynamic_obstacles.active_query());
 
-	return							(m_restricted_object);
+    return (m_restricted_object);
 }
 
-void stalker_movement_manager_obstacles::rebuild_path				()
+void stalker_movement_manager_obstacles::rebuild_path()
 {
 #if 1
-	level_path().make_inactual		();
-	
-	set_build_path_at_once			();
-	update_path						();
+    level_path().make_inactual();
+
+    set_build_path_at_once();
+    update_path();
 #else
-	level_path().select_intermediate_vertex();
-	detail().make_inactual			();
+    level_path().select_intermediate_vertex();
+    detail().make_inactual();
 #endif
-	
-	set_build_path_at_once			();
-	update_path						();
+
+    set_build_path_at_once();
+    update_path();
 }
 
-bool stalker_movement_manager_obstacles::apply_border				(const obstacles_query &query)
+bool stalker_movement_manager_obstacles::apply_border(const obstacles_query& query)
 {
-	u32								start_vertex_id = object().ai_location().level_vertex_id();
-	u32								dest_vertex_id = level_path().dest_vertex_id();
-	ILevelGraph						&graph = ai().level_graph();
+    u32          start_vertex_id = object().ai_location().level_vertex_id();
+    u32          dest_vertex_id  = level_path().dest_vertex_id();
+    ILevelGraph& graph           = ai().level_graph();
 
-	restricted_object().CRestrictedObject::add_border(start_vertex_id,dest_vertex_id);
+    restricted_object().CRestrictedObject::add_border(start_vertex_id, dest_vertex_id);
 
-	AREA::const_iterator			B = query.area().begin(), I = B;
-	AREA::const_iterator			E = query.area().end();
-	for ( ; I != E; ++I) {
-		if ((*I == dest_vertex_id))
-			continue;
+    AREA::const_iterator B = query.area().begin(), I = B;
+    AREA::const_iterator E = query.area().end();
+    for (; I != E; ++I)
+    {
+        if ((*I == dest_vertex_id))
+            continue;
 
-		if (*I == start_vertex_id)
-			continue;
-		
-		graph.set_mask_no_check		(*I);
-	}
+        if (*I == start_vertex_id)
+            continue;
 
-	return							(true);
+        graph.set_mask_no_check(*I);
+    }
+
+    return (true);
 }
 
-void stalker_movement_manager_obstacles::remove_border				(const obstacles_query &query)
+void stalker_movement_manager_obstacles::remove_border(const obstacles_query& query)
 {
-	restricted_object().CRestrictedObject::remove_border();
-	ILevelGraph						&graph = ai().level_graph();
-	AREA::const_iterator			I = query.area().begin();
-	AREA::const_iterator			E = query.area().end();
-	for ( ; I != E; ++I)
-		graph.clear_mask_no_check	(*I);
+    restricted_object().CRestrictedObject::remove_border();
+    ILevelGraph&         graph = ai().level_graph();
+    AREA::const_iterator I     = query.area().begin();
+    AREA::const_iterator E     = query.area().end();
+    for (; I != E; ++I)
+        graph.clear_mask_no_check(*I);
 }
 
-bool stalker_movement_manager_obstacles::can_build_restricted_path	(const obstacles_query &query)
+bool stalker_movement_manager_obstacles::can_build_restricted_path(const obstacles_query& query)
 {
-	if (!apply_border(query)) {
-		VERIFY						(!restricted_object().applied());
-		return						(false);
-	}
+    if (!apply_border(query))
+    {
+        VERIFY(!restricted_object().applied());
+        return (false);
+    }
 
-	typedef SBaseParameters<float,u32,u32>	evaluator_type;
+    typedef SBaseParameters<float, u32, u32> evaluator_type;
 
-	m_failed_to_build_path			= 
-		!ai().graph_engine().search(
-			ai().level_graph(),
-			object().ai_location().level_vertex_id(),
-			level_path().dest_vertex_id(),
-			&m_temp_path,
-			evaluator_type(
-				type_max(_dist_type),
-				_iteration_type(-1),
-				4096
-			)
-		);
+    m_failed_to_build_path = !ai().graph_engine().search(ai().level_graph(), object().ai_location().level_vertex_id(), level_path().dest_vertex_id(), &m_temp_path, evaluator_type(type_max(_dist_type), _iteration_type(-1), 4096));
 
-	remove_border					(query);
+    remove_border(query);
 
-	VERIFY							(!restricted_object().applied());
+    VERIFY(!restricted_object().applied());
 
-	return							(!m_failed_to_build_path);
+    return (!m_failed_to_build_path);
 }
 
-void stalker_movement_manager_obstacles::move_along_path_impl				(CPHMovementControl *movement_control, Fvector &dest_position, float time_delta)
+void stalker_movement_manager_obstacles::move_along_path_impl(CPHMovementControl* movement_control, Fvector& dest_position, float time_delta)
 {
 #ifndef MASTER_GOLD
-	if (psAI_Flags.test(aiObstaclesAvoidingStatic))
-#endif // MASTER_GOLD
-	{
-		m_dynamic_obstacles.update		();
-		if (!m_dynamic_obstacles.movement_enabled()) {
-			float						desirable_speed = old_desirable_speed();
-			set_desirable_speed			(0.f);
+    if (psAI_Flags.test(aiObstaclesAvoidingStatic))
+#endif   // MASTER_GOLD
+    {
+        m_dynamic_obstacles.update();
+        if (!m_dynamic_obstacles.movement_enabled())
+        {
+            float desirable_speed = old_desirable_speed();
+            set_desirable_speed(0.f);
 
-			inherited::move_along_path	(movement_control, dest_position, time_delta);
+            inherited::move_along_path(movement_control, dest_position, time_delta);
 
-			set_desirable_speed			(desirable_speed);
-			return;
-		}
-	}
+            set_desirable_speed(desirable_speed);
+            return;
+        }
+    }
 
-	m_static_obstacles.update		();
+    m_static_obstacles.update();
 
-	if (
+    if (
 #ifndef MASTER_GOLD
-		(!psAI_Flags.test(aiObstaclesAvoidingStatic) &&
-			m_dynamic_obstacles.need_path_to_rebuild()
-		) ||
-#endif // MASTER_GOLD
-		m_static_obstacles.need_path_to_rebuild())
-		rebuild_path				();
+        (!psAI_Flags.test(aiObstaclesAvoidingStatic) && m_dynamic_obstacles.need_path_to_rebuild()) ||
+#endif   // MASTER_GOLD
+        m_static_obstacles.need_path_to_rebuild())
+        rebuild_path();
 
-	inherited::move_along_path		(movement_control, dest_position, time_delta);
+    inherited::move_along_path(movement_control, dest_position, time_delta);
 }
 
-void stalker_movement_manager_obstacles::move_along_path					(CPHMovementControl *movement_control, Fvector &dest_position, float time_delta)
+void stalker_movement_manager_obstacles::move_along_path(CPHMovementControl* movement_control, Fvector& dest_position, float time_delta)
 {
 #ifndef MASTER_GOLD
-	if (!psAI_Flags.test(aiObstaclesAvoiding)) {
-		inherited::move_along_path	( movement_control, dest_position, time_delta);
-		return;
-	}
-#endif // MASTER_GOLD
+    if (!psAI_Flags.test(aiObstaclesAvoiding))
+    {
+        inherited::move_along_path(movement_control, dest_position, time_delta);
+        return;
+    }
+#endif   // MASTER_GOLD
 
-	if (Device->dwTimeGlobal < (m_last_fail_time + fail_check_time)) {
-		inherited::move_along_path	( movement_control, dest_position, time_delta);
-		return;
-	}
+    if (Device->dwTimeGlobal < (m_last_fail_time + fail_check_time))
+    {
+        inherited::move_along_path(movement_control, dest_position, time_delta);
+        return;
+    }
 
-	if (!move_along_path()) {
-		inherited::move_along_path	( movement_control, dest_position, time_delta);
-		return;
-	}
+    if (!move_along_path())
+    {
+        inherited::move_along_path(movement_control, dest_position, time_delta);
+        return;
+    }
 
-	move_along_path_impl			( movement_control, dest_position, time_delta);
+    move_along_path_impl(movement_control, dest_position, time_delta);
 }
 
-const float &stalker_movement_manager_obstacles::prediction_speed	() const
+const float& stalker_movement_manager_obstacles::prediction_speed() const
 {
-	return		(object().animation().target_speed());
+    return (object().animation().target_speed());
 }
 
-void stalker_movement_manager_obstacles::remove_links				(CObject *object)
+void stalker_movement_manager_obstacles::remove_links(CObject* object)
 {
-	inherited::remove_links			(object);
-	m_static_obstacles.remove_links	(object);
-	m_dynamic_obstacles.remove_links(object);
+    inherited::remove_links(object);
+    m_static_obstacles.remove_links(object);
+    m_dynamic_obstacles.remove_links(object);
 }

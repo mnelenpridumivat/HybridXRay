@@ -128,7 +128,7 @@ void CSHCompilerTools::OnRenameItem(LPCSTR old_full_name, LPCSTR new_full_name, 
 
             m_LastSelection = m_Shader->Name;
 
-            m_Shader = 0;
+            m_Shader        = 0;
         }
     }
 }

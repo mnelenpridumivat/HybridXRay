@@ -1,15 +1,14 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
 #include "phvalide.h"
 #include "mathutils.h"
 #include "objectdump.h"
 
+extern Fbox phBoundaries;
 
-extern Fbox	phBoundaries;
-
-bool valid_pos( const Fvector &P )
+bool        valid_pos(const Fvector& P)
 {
-	return valid_pos( P, phBoundaries );
+    return valid_pos(P, phBoundaries);
 }
 
 /*
@@ -20,18 +19,13 @@ bool valid_pos( const Fvector &P )
 	Msg("Visual: %s",(obj->cNameVisual().c_str()));\
 */
 
-
-#ifdef	DEBUG
-std::string dbg_valide_pos_string( const Fvector &pos,const Fbox &bounds, const CObject *obj, LPCSTR msg )
+#ifdef DEBUG
+std::string dbg_valide_pos_string(const Fvector& pos, const Fbox& bounds, const CObject* obj, LPCSTR msg)
 {
-	return	std::string( msg ) +
-			make_string( "\n pos: %s , seems to be invalid ", get_string( pos ).c_str() ) +
-			make_string( "\n Level box: %s ", get_string( bounds ).c_str() ) +
-			std::string( "\n object dump: \n" ) +
-			dbg_object_full_dump_string( obj );
+    return std::string(msg) + make_string("\n pos: %s , seems to be invalid ", get_string(pos).c_str()) + make_string("\n Level box: %s ", get_string(bounds).c_str()) + std::string("\n object dump: \n") + dbg_object_full_dump_string(obj);
 }
-std::string dbg_valide_pos_string( const Fvector &pos, const CObject *obj, LPCSTR msg )
+std::string dbg_valide_pos_string(const Fvector& pos, const CObject* obj, LPCSTR msg)
 {
-	return dbg_valide_pos_string( pos, phBoundaries, obj, msg );
+    return dbg_valide_pos_string(pos, phBoundaries, obj, msg);
 }
 #endif

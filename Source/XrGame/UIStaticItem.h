@@ -4,6 +4,7 @@
 class CUIStaticItem
 {
 protected:
+
 public:
     enum
     {
@@ -13,10 +14,10 @@ public:
         flFixedLTWhileHeading = (1 << 3),
     };
 
-    Frect    TextureRect;
-    Fvector2 vHeadingPivot;
-    Fvector2 vHeadingOffset;
-    Flags8   uFlags;
+    Frect     TextureRect;
+    Fvector2  vHeadingPivot;
+    Fvector2  vHeadingOffset;
+    Flags8    uFlags;
 
     ui_shader hShader;
     Fvector2  vPos;
@@ -31,9 +32,9 @@ public:
     {
         hShader = sh;
     };
-    void Init(LPCSTR tex, LPCSTR sh, float left, float top);
-    void Render();
-    void Render(float angle);
+    void    Init(LPCSTR tex, LPCSTR sh, float left, float top);
+    void    Render();
+    void    Render(float angle);
 
     IC void SetPos(float left, float top)
     {

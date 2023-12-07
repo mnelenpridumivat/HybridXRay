@@ -37,8 +37,8 @@ struct CPredicateSideSort
 };
 
 #define CENTER_CIRCLE_DIST 20
-#define CIRCLE_RADIUS_MIN 10
-#define CIRCLE_RADIUS_MAX 15
+#define CIRCLE_RADIUS_MIN  10
+#define CIRCLE_RADIUS_MAX  15
 
 void CMonsterSquad::Idle_AssignAction(ENTITY_VEC& members)
 {
@@ -89,14 +89,14 @@ void CMonsterSquad::Idle_AssignAction(ENTITY_VEC& members)
         command.entity    = leader;
         command.direction = leader->Direction();
 
-        u8 cur_type = 0;
+        u8 cur_type       = 0;
         while (!front.empty())
         {
             float   random_r;
             Fvector random_dir;
 
             random_dir.random_dir();
-            random_r = Random.randF(CIRCLE_RADIUS_MIN, CIRCLE_RADIUS_MAX);
+            random_r              = Random.randF(CIRCLE_RADIUS_MIN, CIRCLE_RADIUS_MAX);
 
             const CEntity* entity = 0;
             switch (cur_type)

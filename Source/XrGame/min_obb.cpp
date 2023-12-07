@@ -65,12 +65,12 @@ static float Volume(const float* afAngle, void* pvUserData)
     int            iQuantity = ((PointArray*)pvUserData)->m_iQuantity;
     const Fvector* akPoint   = ((PointArray*)pvUserData)->m_akPoint;
 
-    float   fCos0 = _cos(afAngle[0]);
-    float   fSin0 = _sin(afAngle[0]);
-    float   fCos1 = _cos(afAngle[1]);
-    float   fSin1 = _sin(afAngle[1]);
-    Fvector kAxis = Fvector().set(fCos0 * fSin1, fSin0 * fSin1, fCos1);
-    Fmatrix kRot;
+    float          fCos0     = _cos(afAngle[0]);
+    float          fSin0     = _sin(afAngle[0]);
+    float          fCos1     = _cos(afAngle[1]);
+    float          fSin1     = _sin(afAngle[1]);
+    Fvector        kAxis     = Fvector().set(fCos0 * fSin1, fSin0 * fSin1, fCos1);
+    Fmatrix        kRot;
     FromAxisAngle(kRot, kAxis, afAngle[2]);
 
     Fvector kMin;
@@ -155,14 +155,14 @@ MagicBox3 MagicMinBox(int iQuantity, const Fvector* akPoint)
     PointArray    kPA(iQuantity, akPoint);
     MinimizeND<3> kMinimizer(Volume, iMaxLevel, iMaxBracket, iMaxIterations, &kPA);
 
-    float afA0[3] = {0.0f, 0.0f, 0.0f};
+    float         afA0[3]    = {0.0f, 0.0f, 0.0f};
 
-    float afA1[3] = {PI, PI_DIV_2, PI};
+    float         afA1[3]    = {PI, PI_DIV_2, PI};
 
     // compute some samples to narrow down the search region
-    float     fMinVolume = flt_max;
-    float     afAngle[3], afAInitial[3];
-    const int iMax = 3;
+    float         fMinVolume = flt_max;
+    float         afAngle[3], afAInitial[3];
+    const int     iMax = 3;
     for (int i0 = 0; i0 <= iMax; i0++)
     {
         afAngle[0] = afA0[0] + i0 * (afA1[0] - afA0[0]) / iMax;

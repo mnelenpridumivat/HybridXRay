@@ -24,16 +24,14 @@ namespace GroupHierarchyHolder
 #endif
 
 #ifdef WRITE_LOG
-#define WRITE_TO_LOG(S)                                                                                     \
-    {                                                                                                       \
-        Msg("%s,%s,%d,p[%.2f,%.2f,%.2f],%.2f,h[%.2f,%.2f],t[%.2f,%.2f]", *cName(), S, Device->dwTimeGlobal, \
-            Position().x, Position().y, Position().z, m_fCurSpeed, m_head.current.yaw, m_head.target.yaw,   \
-            m_body.current.yaw, m_body.target.yaw);                                                         \
-        vfUpdateDynamicObjects();                                                                           \
-        m_bStopThinking = true;                                                                             \
+#define WRITE_TO_LOG(S)                                                                                                                                                                                                                           \
+    {                                                                                                                                                                                                                                             \
+        Msg("%s,%s,%d,p[%.2f,%.2f,%.2f],%.2f,h[%.2f,%.2f],t[%.2f,%.2f]", *cName(), S, Device->dwTimeGlobal, Position().x, Position().y, Position().z, m_fCurSpeed, m_head.current.yaw, m_head.target.yaw, m_body.current.yaw, m_body.target.yaw); \
+        vfUpdateDynamicObjects();                                                                                                                                                                                                                 \
+        m_bStopThinking = true;                                                                                                                                                                                                                   \
     }
 #define WRITE_QUERY_TO_LOG(S) ;   // Msg(S);
-    //	Msg("%d",Level().Teams[g_Team()].Squads[g_Squad()].Groups[g_Group()].m_tpaSuspiciousNodes.size());\
+//	Msg("%d",Level().Teams[g_Team()].Squads[g_Squad()].Groups[g_Group()].m_tpaSuspiciousNodes.size());\
 
 #else
 #define WRITE_QUERY_TO_LOG(S)
@@ -116,24 +114,5 @@ namespace GroupHierarchyHolder
     if (a)                                         \
         GO_TO_NEW_STATE_THIS_UPDATE(b);
 
-extern bool bfGetActionSuccessProbability(
-    GroupHierarchyHolder::MEMBER_REGISTRY& Members,
-    const xr_set<const CEntityAlive*>&     VisibleEnemies,
-    float                                  fMinProbability,
-    CBaseFunction&                         fSuccessProbabilityFunction);
-extern u32 dwfChooseAction(
-    u32      dwActionRefreshRate,
-    float    fMinProbability0,
-    float    fMinProbability1,
-    float    fMinProbability2,
-    float    fMinProbability3,
-    u32      dwTeam,
-    u32      dwSquad,
-    u32      dwGroup,
-    u32      a0,
-    u32      a1,
-    u32      a2,
-    u32      a3,
-    u32      a4,
-    CEntity* tpEntity       = 0,
-    float    fGroupDistance = 100.f);
+extern bool bfGetActionSuccessProbability(GroupHierarchyHolder::MEMBER_REGISTRY& Members, const xr_set<const CEntityAlive*>& VisibleEnemies, float fMinProbability, CBaseFunction& fSuccessProbabilityFunction);
+extern u32  dwfChooseAction(u32 dwActionRefreshRate, float fMinProbability0, float fMinProbability1, float fMinProbability2, float fMinProbability3, u32 dwTeam, u32 dwSquad, u32 dwGroup, u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, CEntity* tpEntity = 0, float fGroupDistance = 100.f);

@@ -32,7 +32,7 @@ void ELibrary::OnCreate()
 void ELibrary::OnDestroy()
 {
     VERIFY(m_bReady);
-    m_bReady = false;
+    m_bReady        = false;
     //	EDevice->seqDevCreate.Remove(this);
     //	EDevice->seqDevDestroy.Remove(this);
 

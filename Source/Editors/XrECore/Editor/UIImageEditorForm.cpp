@@ -9,14 +9,14 @@ UIImageEditorForm::UIImageEditorForm()
     m_ItemList  = xr_new<UIItemListForm>();
     m_ItemList->SetOnItemFocusedEvent(TOnILItemFocused(this, &UIImageEditorForm::OnItemsFocused));
     m_ItemList->SetOnItemRemoveEvent(TOnItemRemove(&ImageLib, &CImageManager::RemoveTexture));
-    m_Texture        = nullptr;
-    m_bFilterImage   = true;
-    m_bFilterCube    = true;
-    m_bFilterBump    = true;
-    m_bFilterNormal  = true;
-    m_bFilterTerrain = true;
+    m_Texture           = nullptr;
+    m_bFilterImage      = true;
+    m_bFilterCube       = true;
+    m_bFilterBump       = true;
+    m_bFilterNormal     = true;
+    m_bFilterTerrain    = true;
     m_bUpdateProperties = false;
-    m_TextureRemove  = nullptr;
+    m_TextureRemove     = nullptr;
 }
 
 UIImageEditorForm::~UIImageEditorForm()
@@ -150,7 +150,7 @@ void UIImageEditorForm::Show(bool bImport)
 {
     if (Form == nullptr)
         Form = xr_new<UIImageEditorForm>();
-    Form->bImportMode = bImport;
+    Form->bImportMode   = bImport;
     //.        form->ebRebuildAssociation->Enabled = !bImport;
     Form->bReadonlyMode = !FS.can_write_to_alias(_textures_);
     if (Form->bReadonlyMode)
@@ -166,7 +166,7 @@ void UIImageEditorForm::ImportTextures()
 {
     VERIFY(!Form);
     FS_FileSet TextureMap;
-    int new_cnt = ImageLib.GetLocalNewTextures(TextureMap);
+    int        new_cnt = ImageLib.GetLocalNewTextures(TextureMap);
     if (new_cnt)
     {
         if (ELog.DlgMsg(mtInformation, "+ Found %d new texture(s)", new_cnt))
@@ -287,7 +287,7 @@ void UIImageEditorForm::UpdateLib()
         // rename with folder
         FS_FileSet files = texture_map;
         texture_map.clear();
-        xr_string fn;
+        xr_string    fn;
         FS_FileSetIt it = files.begin();
         FS_FileSetIt _E = files.end();
 
@@ -368,15 +368,15 @@ void UIImageEditorForm::FilterUpdate()
 {
     const ListItemsVec& items = m_ItemList->GetItems();
 
-    u32 cnt = items.size();
+    u32                 cnt   = items.size();
     for (u32 k = 0; k < cnt; ++k)
     {
-        ListItem* I = items[k];
+        ListItem*          I    = items[k];
 
-        ETextureThumbnail* thm = (ETextureThumbnail*)I->m_Object;
+        ETextureThumbnail* thm  = (ETextureThumbnail*)I->m_Object;
 
-        BOOL bVis = FALSE;
-        int type = thm->_Format().type;
+        BOOL               bVis = FALSE;
+        int                type = thm->_Format().type;
         if (STextureParams::ttImage == type && m_bFilterImage)
             bVis = TRUE;
         else if (STextureParams::ttCubeMap == type && m_bFilterCube)

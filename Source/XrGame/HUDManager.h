@@ -20,13 +20,13 @@ private:
 public:
     CHUDManager();
     virtual ~CHUDManager();
-    virtual void OnEvent(EVENT E, u64 P1, u64 P2);
+    virtual void   OnEvent(EVENT E, u64 P1, u64 P2);
 
-    virtual void Render_First();
-    virtual void Render_Last();
-    virtual void OnFrame();
+    virtual void   Render_First();
+    virtual void   Render_Last();
+    virtual void   OnFrame();
 
-    virtual void RenderUI();
+    virtual void   RenderUI();
 
     //.				CUI*		GetUI				(){return pUI;}
     CUIGameCustom* GetGameUI()
@@ -34,23 +34,23 @@ public:
         return pUIGame;
     }
 
-    void HitMarked(int idx, float power, const Fvector& dir);
-    bool AddGrenade_ForMark(CGrenade* grn);
-    void Update_GrenadeView(Fvector& pos_actor);
-    void net_Relcase(CObject* obj);
+    void                HitMarked(int idx, float power, const Fvector& dir);
+    bool                AddGrenade_ForMark(CGrenade* grn);
+    void                Update_GrenadeView(Fvector& pos_actor);
+    void                net_Relcase(CObject* obj);
 
     // текущий предмет на который смотрит HUD
     collide::rq_result& GetCurrentRayQuery();
 
     // устанвка внешнего вида прицела в зависимости от текущей дисперсии
-    void SetCrosshairDisp(float dispf, float disps = 0.f);
+    void                SetCrosshairDisp(float dispf, float disps = 0.f);
 #ifdef DEBUG
     void SetFirstBulletCrosshairDisp(float fbdispf);
 #endif
-    void ShowCrosshair(bool show);
+    void         ShowCrosshair(bool show);
 
-    void SetHitmarkType(LPCSTR tex_name);
-    void SetGrenadeMarkType(LPCSTR tex_name);
+    void         SetHitmarkType(LPCSTR tex_name);
+    void         SetGrenadeMarkType(LPCSTR tex_name);
 
     virtual void OnScreenResolutionChanged();
     virtual void Load();
@@ -61,7 +61,7 @@ public:
     virtual bool RenderActiveItemUIQuery();
 
     // Lain: added
-    void SetRenderable(bool renderable)
+    void         SetRenderable(bool renderable)
     {
         psHUD_Flags.set(HUD_DRAW_RT2, renderable);
     }

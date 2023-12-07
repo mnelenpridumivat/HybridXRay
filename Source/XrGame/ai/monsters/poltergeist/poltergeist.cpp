@@ -49,12 +49,8 @@ void CPoltergeist::Load(LPCSTR section)
     anim().accel_load(section);
     anim().accel_chain_add(eAnimWalkFwd, eAnimRun);
 
-    invisible_vel.set(
-        pSettings->r_float(section, "Velocity_Invisible_Linear"),
-        pSettings->r_float(section, "Velocity_Invisible_Angular"));
-    movement().detail().add_velocity(
-        MonsterMovement::eVelocityParameterInvisible,
-        CDetailPathManager::STravelParams(invisible_vel.linear, invisible_vel.angular));
+    invisible_vel.set(pSettings->r_float(section, "Velocity_Invisible_Linear"), pSettings->r_float(section, "Velocity_Invisible_Angular"));
+    movement().detail().add_velocity(MonsterMovement::eVelocityParameterInvisible, CDetailPathManager::STravelParams(invisible_vel.linear, invisible_vel.angular));
 
     anim().AddReplacedAnim(&m_bDamaged, eAnimWalkFwd, eAnimWalkDamaged);
     anim().AddReplacedAnim(&m_bDamaged, eAnimRun, eAnimRunDamaged);
@@ -68,46 +64,20 @@ void CPoltergeist::Load(LPCSTR section)
     // SVelocityParam &velocity_steal		= move().get_velocity(MonsterMovement::eVelocityParameterSteal);
     // SVelocityParam &velocity_drag		= move().get_velocity(MonsterMovement::eVelocityParameterDrag);
 
-    anim().AddAnim(
-        eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimRun, "stand_run_fwd_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimAttack, "stand_attack_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimDie, "stand_idle_", 0, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimMiscAction_00, "fall_down_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimMiscAction_01, "fly_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimCheckCorpse, "stand_check_corpse_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimEat, "stand_eat_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimLookAround, "stand_look_around_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimWalkDamaged, "stand_walk_dmg_", -1, &velocity_walk_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimRunDamaged, "stand_walk_dmg_", -1, &velocity_run_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
+    anim().AddAnim(eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRun, "stand_run_fwd_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimAttack, "stand_attack_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimDie, "stand_idle_", 0, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimMiscAction_00, "fall_down_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimMiscAction_01, "fly_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimCheckCorpse, "stand_check_corpse_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimEat, "stand_eat_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimLookAround, "stand_look_around_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimWalkDamaged, "stand_walk_dmg_", -1, &velocity_walk_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRunDamaged, "stand_walk_dmg_", -1, &velocity_run_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
     anim().LinkAction(ACT_STAND_IDLE, eAnimStandIdle);
     anim().LinkAction(ACT_SIT_IDLE, eAnimStandIdle);
@@ -130,19 +100,18 @@ void CPoltergeist::Load(LPCSTR section)
     // READ_IF_EXISTS(pSettings,r_u32,section,"PsyAura_Fake_Delay", 8000);
     // READ_IF_EXISTS(pSettings,r_float,section,"PsyAura_Fake_MaxAddDist", 90.f);
 
-    m_height_change_velocity = READ_IF_EXISTS(pSettings, r_float, section, "Height_Change_Velocity", 0.5f);
-    m_height_change_min_time = READ_IF_EXISTS(pSettings, r_u32, section, "Height_Change_Min_Time", 3000);
-    m_height_change_max_time = READ_IF_EXISTS(pSettings, r_u32, section, "Height_Change_Max_Time", 10000);
-    m_height_min             = READ_IF_EXISTS(pSettings, r_float, section, "Height_Min", 0.4f);
-    m_height_max             = READ_IF_EXISTS(pSettings, r_float, section, "Height_Max", 2.f);
+    m_height_change_velocity           = READ_IF_EXISTS(pSettings, r_float, section, "Height_Change_Velocity", 0.5f);
+    m_height_change_min_time           = READ_IF_EXISTS(pSettings, r_u32, section, "Height_Change_Min_Time", 3000);
+    m_height_change_max_time           = READ_IF_EXISTS(pSettings, r_u32, section, "Height_Change_Max_Time", 10000);
+    m_height_min                       = READ_IF_EXISTS(pSettings, r_float, section, "Height_Min", 0.4f);
+    m_height_max                       = READ_IF_EXISTS(pSettings, r_float, section, "Height_Max", 2.f);
 
-    m_fly_around_level    = READ_IF_EXISTS(pSettings, r_float, section, "detection_fly_around_level", 5.f);
-    m_fly_around_distance = READ_IF_EXISTS(pSettings, r_float, section, "detection_fly_around_distance", 15.f);
+    m_fly_around_level                 = READ_IF_EXISTS(pSettings, r_float, section, "detection_fly_around_level", 5.f);
+    m_fly_around_distance              = READ_IF_EXISTS(pSettings, r_float, section, "detection_fly_around_distance", 15.f);
 
-    m_fly_around_change_direction_time =
-        READ_IF_EXISTS(pSettings, r_float, section, "detection_fly_around_change_direction_time", 7);
+    m_fly_around_change_direction_time = READ_IF_EXISTS(pSettings, r_float, section, "detection_fly_around_change_direction_time", 7);
 
-    LPCSTR polter_type = pSettings->r_string(section, "type");
+    LPCSTR polter_type                 = pSettings->r_string(section, "type");
 
     if (xr_strcmp(polter_type, "flamer") == 0)
     {
@@ -164,9 +133,9 @@ void CPoltergeist::Load(LPCSTR section)
     m_detection_success_level     = READ_IF_EXISTS(pSettings, r_float, section, "detection_success_level", 4.f);
     m_detection_max_level         = READ_IF_EXISTS(pSettings, r_float, section, "detection_max_level", 100.f);
 
-    m_current_detection_level = 0;
-    m_last_detection_time     = 0;
-    m_detection_pp_type_index = 0;
+    m_current_detection_level     = 0;
+    m_last_detection_time         = 0;
+    m_detection_pp_type_index     = 0;
 
     PostLoad(section);
 }
@@ -203,22 +172,21 @@ void CPoltergeist::update_detection()
     //-------------------------------------------------------------------
     // calculate detection level and turn on/off post processing effect
     //-------------------------------------------------------------------
-    Fvector const actor_pos  = Actor()->Position();
-    float const   dist2actor = actor_pos.distance_to(Position());
+    Fvector const actor_pos       = Actor()->Position();
+    float const   dist2actor      = actor_pos.distance_to(Position());
 
-    float const time_passed_sec = float(Device->dwTimeGlobal - m_last_detection_time) / 1000.f;
-    m_last_detection_time       = Device->dwTimeGlobal;
+    float const   time_passed_sec = float(Device->dwTimeGlobal - m_last_detection_time) / 1000.f;
+    m_last_detection_time         = Device->dwTimeGlobal;
 
     if (!get_actor_ignore() && time_passed_sec > 0.f && time_passed_sec < 2.f && dist2actor < get_detection_far_range())
     {
-        float const relative_range = dist2actor / get_detection_far_range();
-        float const range_factor   = relative_range * get_detection_far_range_factor() +
-            (1.f - relative_range) * get_detection_near_range_factor();
+        float const relative_range     = dist2actor / get_detection_far_range();
+        float const range_factor       = relative_range * get_detection_far_range_factor() + (1.f - relative_range) * get_detection_near_range_factor();
 
-        float const speed_factor = get_detection_speed_factor();
-        float const raw_speed    = m_last_actor_pos.distance_to(actor_pos) / time_passed_sec;
+        float const speed_factor       = get_detection_speed_factor();
+        float const raw_speed          = m_last_actor_pos.distance_to(actor_pos) / time_passed_sec;
 
-        float const speed = powf(1.f + raw_speed, speed_factor) - 1.f;
+        float const speed              = powf(1.f + raw_speed, speed_factor) - 1.f;
 
         float const actor_psy_immunity = Actor()->conditions().GetHitImmunity(ALife::eHitTypeTelepatic);
         m_current_detection_level += time_passed_sec * 0.03f * actor_psy_immunity * range_factor * speed;
@@ -239,16 +207,12 @@ void CPoltergeist::update_detection()
     {
         if (!m_detection_pp_type_index)
         {
-            for (m_detection_pp_type_index = (u32)effPoltergeistTeleDetectStartEffect;
-                 Actor()->Cameras().GetPPEffector((EEffectorPPType)m_detection_pp_type_index);
-                 ++m_detection_pp_type_index)
+            for (m_detection_pp_type_index = (u32)effPoltergeistTeleDetectStartEffect; Actor()->Cameras().GetPPEffector((EEffectorPPType)m_detection_pp_type_index); ++m_detection_pp_type_index)
             {
                 ;
             }
 
-            AddEffector(
-                Actor(), m_detection_pp_type_index, m_detection_pp_effector_name,
-                GET_KOEFF_FUNC(this, &CPoltergeist::get_post_process_factor));
+            AddEffector(Actor(), m_detection_pp_type_index, m_detection_pp_effector_name, GET_KOEFF_FUNC(this, &CPoltergeist::get_post_process_factor));
         }
     }
     else if (m_detection_pp_type_index != 0)
@@ -274,7 +238,7 @@ void CPoltergeist::reinit()
     inherited::reinit();
     Energy::reinit();
 
-    m_current_position = Position();
+    m_current_position  = Position();
 
     target_height       = 0.3f;
     time_height_updated = 0;
@@ -282,7 +246,7 @@ void CPoltergeist::reinit()
     Energy::set_auto_activate();
     Energy::set_auto_deactivate();
     Energy::enable();
-    m_actor_ignore = false;
+    m_actor_ignore  = false;
 
     // start hidden
     state_invisible = true;
@@ -520,8 +484,7 @@ CBaseMonster::SDebugInfo CPoltergeist::show_debug_info()
     string128 text;
     xr_sprintf(text, "Invisibility Value = [%f]", Energy::get_value());
     DBG().text(this).add_item(text, info.x, info.y += info.delta_y, info.color);
-    DBG().text(this).add_item(
-        "---------------------------------------", info.x, info.y += info.delta_y, info.delimiter_color);
+    DBG().text(this).add_item("---------------------------------------", info.x, info.y += info.delta_y, info.delimiter_color);
 
     return CBaseMonster::SDebugInfo();
 }

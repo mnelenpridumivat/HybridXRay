@@ -17,20 +17,18 @@ Comments:
 
 #include "Image_DXTC.h"
 
-#define LOW_5 0x001F;
-#define MID_6 0x07E0;
-#define HIGH_5 0xF800;
+#define LOW_5   0x001F;
+#define MID_6   0x07E0;
+#define HIGH_5  0xF800;
 
 #define MID_555 0x03E0;
-#define HI_555 0x7C00;
+#define HI_555  0x7C00;
 
 /////////////////////////////////////
 // should be in ddraw.h
 
 #ifndef MAKEFOURCC
-#define MAKEFOURCC(ch0, ch1, ch2, ch3)                \
-    ((DWORD)(BYTE)(ch0) | ((DWORD)(BYTE)(ch1) << 8) | \
-    ((DWORD)(BYTE)(ch2) << 16) | ((DWORD)(BYTE)(ch3) << 24))
+#define MAKEFOURCC(ch0, ch1, ch2, ch3) ((DWORD)(BYTE)(ch0) | ((DWORD)(BYTE)(ch1) << 8) | ((DWORD)(BYTE)(ch2) << 16) | ((DWORD)(BYTE)(ch3) << 24))
 #endif   // defined(MAKEFOURCC)
 
 /////////////////////////////////////
@@ -92,7 +90,7 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
     char* exts[] = {".DDS"};
     int   next   = 1;
 
-    char fileupper[256];
+    char  fileupper[256];
 
     xr_strcpy(fileupper, filename);
     strupr(fileupper);
@@ -100,7 +98,7 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
     // TRACE( "\n" );
     // TRACE( "\n" );
 
-	int i;
+    int  i;
     bool knownformat = false;
 
     for (i = 0; i < next; i++)
@@ -135,7 +133,7 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
     // from Microsoft's mssdk D3DIM example "Compress"
 
     DDS_HEADER ddsd;
-    DWORD dwMagic;
+    DWORD      dwMagic;
 
     // Read magic number
     fread(&dwMagic, sizeof(DWORD), 1, file);
@@ -161,11 +159,7 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
     // I sure hope pixelformat is valid!
     DecodePixelFormat(m_strFormat, &(ddsd.ddspf));
 
-    if (m_CompFormat == PF_DXT1 ||
-        m_CompFormat == PF_DXT2 ||
-        m_CompFormat == PF_DXT3 ||
-        m_CompFormat == PF_DXT4 ||
-        m_CompFormat == PF_DXT5)
+    if (m_CompFormat == PF_DXT1 || m_CompFormat == PF_DXT2 || m_CompFormat == PF_DXT3 || m_CompFormat == PF_DXT4 || m_CompFormat == PF_DXT5)
     {
         // TRACE("Yay, a recognized format!\n\n");
     }
@@ -208,10 +202,10 @@ bool Image_DXTC::LoadFromFile(LPCSTR filename)
 
         DWORD dwBytesPerRow = ddsd.dwWidth * ddsd.ddspf.dwRGBBitCount / 8;
 
-        m_pCompBytes  = (BYTE*)calloc(ddsd.dwWidth * ddsd.dwHeight, sizeof(BYTE));
+        m_pCompBytes        = (BYTE*)calloc(ddsd.dwWidth * ddsd.dwHeight, sizeof(BYTE));
 
-        m_nCompSize   = ddsd.dwWidth * ddsd.dwHeight;
-        m_nCompLineSz = dwBytesPerRow;
+        m_nCompSize         = ddsd.dwWidth * ddsd.dwHeight;
+        m_nCompLineSz       = dwBytesPerRow;
 
         if (m_pCompBytes == NULL)
         {
@@ -328,18 +322,12 @@ struct Color8888
 
 struct Color565
 {
-    unsigned nBlue : 5;    // order of names changes
-    unsigned nGreen : 6;   //  byte order of output to 32 bit
-    unsigned nRed : 5;
+    unsigned nBlue :5;   // order of names changes
+    unsigned nGreen:6;   //  byte order of output to 32 bit
+    unsigned nRed  :5;
 };
 
-inline void GetColorBlockColors(
-    DXTColBlock* pBlock,
-    Color8888*   col_0,
-    Color8888*   col_1,
-    Color8888*   col_2,
-    Color8888*   col_3,
-    WORD&        wrd)
+inline void GetColorBlockColors(DXTColBlock* pBlock, Color8888* col_0, Color8888* col_1, Color8888* col_2, Color8888* col_3, WORD& wrd)
 {
     // There are 4 methods to use - see the Time_ functions.
     // 1st = shift = does normal approach per byte for color comps
@@ -354,7 +342,7 @@ inline void GetColorBlockColors(
     // This method is fastest
 
     Color565* pCol;
-    pCol = (Color565*)&(pBlock->col0);
+    pCol     = (Color565*)&(pBlock->col0);
 
     col_0->a = 0xff;
     col_0->r = pCol->nRed;
@@ -364,7 +352,7 @@ inline void GetColorBlockColors(
     col_0->b = pCol->nBlue;
     col_0->b <<= 3;
 
-    pCol = (Color565*)&(pBlock->col1);
+    pCol     = (Color565*)&(pBlock->col1);
     col_1->a = 0xff;
     col_1->r = pCol->nRed;
     col_1->r <<= 3;   // shift to full precision
@@ -380,7 +368,7 @@ inline void GetColorBlockColors(
         // These two bit codes correspond to the 2-bit fields
         // stored in the 64-bit block.
 
-        wrd = ((WORD)col_0->r * 2 + (WORD)col_1->r) / 3;
+        wrd      = ((WORD)col_0->r * 2 + (WORD)col_1->r) / 3;
         // no +1 for rounding
         // as bits have been shifted to 888
         col_2->r = (BYTE)wrd;
@@ -427,17 +415,16 @@ inline void GetColorBlockColors(
     }
 }   //  Get color block colors (...)
 
-inline void DecodeColorBlock(DWORD* pImPos, DXTColBlock* pColorBlock, int width,
-    DWORD* col_0, DWORD* col_1, DWORD* col_2, DWORD* col_3)
+inline void DecodeColorBlock(DWORD* pImPos, DXTColBlock* pColorBlock, int width, DWORD* col_0, DWORD* col_1, DWORD* col_2, DWORD* col_3)
 {
     // width is width of image in pixels
 
-    DWORD bits;
-    int r, n;
+    DWORD       bits;
+    int         r, n;
 
     // bit masks = 00000011, 00001100, 00110000, 11000000
-    const DWORD masks[] = { 3, 12, 3 << 4, 3 << 6 };
-    const int   shift[] = { 0, 2, 4, 6 };
+    const DWORD masks[] = {3, 12, 3 << 4, 3 << 6};
+    const int   shift[] = {0, 2, 4, 6};
 
     // r steps through lines in y
     for (r = 0; r < 4; r++, pImPos += width - 4)   // no width*4 as DWORD ptr inc will *4
@@ -488,8 +475,8 @@ inline void DecodeAlphaExplicit(DWORD* pImPos, DXTAlphaBlockExplicit* pAlphaBloc
 
     // decodes to 32 bit format only
 
-    int row, pix;
-    WORD wrd;
+    int       row, pix;
+    WORD      wrd;
 
     Color8888 col;
     col.r = col.g = col.b = 0;
@@ -528,9 +515,9 @@ inline void DecodeAlphaExplicit(DWORD* pImPos, DXTAlphaBlockExplicit* pAlphaBloc
     }
 }
 
-BYTE gBits[4][4];
-WORD gAlphas[8];
-Color8888 gACol[4][4];
+BYTE        gBits[4][4];
+WORD        gAlphas[8];
+Color8888   gACol[4][4];
 
 inline void DecodeAlpha3BitLinear(DWORD* pImPos, DXTAlphaBlock3BitLinear* pAlphaBlock, int width, DWORD alphazero)
 {
@@ -566,9 +553,9 @@ inline void DecodeAlpha3BitLinear(DWORD* pImPos, DXTAlphaBlock3BitLinear* pAlpha
     // pRows = (Alpha3BitRows*) & ( pAlphaBlock->stuff[0] );
     const DWORD mask = 0x00000007;   // bits = 00 00 01 11
 
-    DWORD bits = *((DWORD*)&(pAlphaBlock->stuff[0]));
+    DWORD       bits = *((DWORD*)&(pAlphaBlock->stuff[0]));
 
-    gBits[0][0] = (BYTE)(bits & mask);
+    gBits[0][0]      = (BYTE)(bits & mask);
     bits >>= 3;
     gBits[0][1] = (BYTE)(bits & mask);
     bits >>= 3;
@@ -586,7 +573,7 @@ inline void DecodeAlpha3BitLinear(DWORD* pImPos, DXTAlphaBlock3BitLinear* pAlpha
 
     // now for last two rows:
 
-    bits = *((DWORD*)&(pAlphaBlock->stuff[3]));   // last 3 bytes
+    bits        = *((DWORD*)&(pAlphaBlock->stuff[3]));   // last 3 bytes
 
     gBits[2][0] = (BYTE)(bits & mask);
     bits >>= 3;
@@ -641,21 +628,21 @@ void Image_DXTC::DecompressDXT1()
     // This was hacked up pretty quick & slopily
     // decompresses to 32 bit format 0xARGB
 
-	int xblocks, yblocks;
+    int xblocks, yblocks;
 
     xblocks = m_DDSD.dwWidth / 4;
     yblocks = m_DDSD.dwHeight / 4;
 
-	int i, j;
+    int          i, j;
 
-    DWORD* pBase  = (DWORD*)m_pDecompBytes;
-    DWORD* pImPos = (DWORD*)pBase;          // pos in decompressed data
-    WORD* pPos    = (WORD*)m_pCompBytes;    // pos in compressed data
+    DWORD*       pBase  = (DWORD*)m_pDecompBytes;
+    DWORD*       pImPos = (DWORD*)pBase;         // pos in decompressed data
+    WORD*        pPos   = (WORD*)m_pCompBytes;   // pos in compressed data
     DXTColBlock* pBlock;
 
-    Color8888 col_0, col_1, col_2, col_3;
+    Color8888    col_0, col_1, col_2, col_3;
 
-    WORD wrd;
+    WORD         wrd;
 
     // TRACE("blocks: x: %d    y: %d\n", xblocks, yblocks );
 
@@ -689,28 +676,28 @@ void Image_DXTC::DecompressDXT2()
 
 void Image_DXTC::DecompressDXT3()
 {
-	int xblocks, yblocks;
+    int xblocks, yblocks;
 
     xblocks = m_DDSD.dwWidth / 4;
     yblocks = m_DDSD.dwHeight / 4;
 
-	int i, j;
+    int                    i, j;
 
-    DWORD* pBase  = (DWORD*)m_pDecompBytes;
-    DWORD* pImPos = (DWORD*)pBase;         // pos in decompressed data
-    WORD* pPos    = (WORD*)m_pCompBytes;   // pos in compressed data
+    DWORD*                 pBase  = (DWORD*)m_pDecompBytes;
+    DWORD*                 pImPos = (DWORD*)pBase;         // pos in decompressed data
+    WORD*                  pPos   = (WORD*)m_pCompBytes;   // pos in compressed data
 
-    DXTColBlock* pBlock;
+    DXTColBlock*           pBlock;
     DXTAlphaBlockExplicit* pAlphaBlock;
 
-    Color8888 col_0, col_1, col_2, col_3;
-    WORD wrd;
+    Color8888              col_0, col_1, col_2, col_3;
+    WORD                   wrd;
 
     // fill alphazero with appropriate value to zero out alpha when
     //  alphazero is ANDed with the image color 32 bit DWORD:
     col_0.a = 0;
     col_0.r = col_0.g = col_0.b = 0xff;
-    DWORD alphazero = *((DWORD*)&col_0);
+    DWORD alphazero             = *((DWORD*)&col_0);
 
     //	//TRACE("blocks: x: %d    y: %d\n", xblocks, yblocks );
 
@@ -753,28 +740,28 @@ void Image_DXTC::DecompressDXT4()
 
 void Image_DXTC::DecompressDXT5()
 {
-	int xblocks, yblocks;
+    int xblocks, yblocks;
 
     xblocks = m_DDSD.dwWidth / 4;
     yblocks = m_DDSD.dwHeight / 4;
 
-	int i, j;
+    int                      i, j;
 
-    DWORD* pBase  = (DWORD*)m_pDecompBytes;
-    DWORD* pImPos = (DWORD*)pBase;         // pos in decompressed data
-    WORD*  pPos   = (WORD*)m_pCompBytes;   // pos in compressed data
+    DWORD*                   pBase  = (DWORD*)m_pDecompBytes;
+    DWORD*                   pImPos = (DWORD*)pBase;         // pos in decompressed data
+    WORD*                    pPos   = (WORD*)m_pCompBytes;   // pos in compressed data
 
-	DXTColBlock *pBlock;
-	DXTAlphaBlock3BitLinear *pAlphaBlock;
+    DXTColBlock*             pBlock;
+    DXTAlphaBlock3BitLinear* pAlphaBlock;
 
-    Color8888 col_0, col_1, col_2, col_3;
-    WORD wrd;
+    Color8888                col_0, col_1, col_2, col_3;
+    WORD                     wrd;
 
     // fill alphazero with appropriate value to zero out alpha when
     //  alphazero is ANDed with the image color 32 bit DWORD:
     col_0.a = 0;
     col_0.r = col_0.g = col_0.b = 0xff;
-    DWORD alphazero = *((DWORD*)&col_0);
+    DWORD alphazero             = *((DWORD*)&col_0);
 
     ////////////////////////////////
     // TRACE("blocks: x: %d    y: %d\n", xblocks, yblocks );
@@ -822,18 +809,13 @@ const DWORD ALPHAPREMULT = 0x00008000l;
 //	adapted from microsoft mssdk D3DIM Compress example
 //  PixelFormatToString()
 //-----------------------------------------------------------------------------
-void Image_DXTC::DecodePixelFormat(char* strPixelFormat, DDS_PIXELFORMAT* pddpf)
+void        Image_DXTC::DecodePixelFormat(char* strPixelFormat, DDS_PIXELFORMAT* pddpf)
 {
     switch (pddpf->dwFourCC)
     {
         case 0:
             // This dds texture isn't compressed so write out ARGB format
-            xr_sprintf(strPixelFormat, sizeof(string256), "ARGB-%d%d%d%d%s",
-                GetNumberOfBits(pddpf->dwRGBAlphaBitMask),
-                GetNumberOfBits(pddpf->dwRBitMask),
-                GetNumberOfBits(pddpf->dwGBitMask),
-                GetNumberOfBits(pddpf->dwBBitMask),
-                pddpf->dwBBitMask & ALPHAPREMULT ? "-premul" : "");
+            xr_sprintf(strPixelFormat, sizeof(string256), "ARGB-%d%d%d%d%s", GetNumberOfBits(pddpf->dwRGBAlphaBitMask), GetNumberOfBits(pddpf->dwRBitMask), GetNumberOfBits(pddpf->dwGBitMask), GetNumberOfBits(pddpf->dwBBitMask), pddpf->dwBBitMask & ALPHAPREMULT ? "-premul" : "");
             m_CompFormat = PF_ARGB;
             break;
 
@@ -868,20 +850,14 @@ void Image_DXTC::DecodePixelFormat(char* strPixelFormat, DDS_PIXELFORMAT* pddpf)
     }
 }
 
-inline void GetColorBlockColors_m2(
-    DXTColBlock* pBlock,
-    Color8888*   col_0,
-    Color8888*   col_1,
-    Color8888*   col_2,
-    Color8888*   col_3,
-    WORD&        wrd)
+inline void GetColorBlockColors_m2(DXTColBlock* pBlock, Color8888* col_0, Color8888* col_1, Color8888* col_2, Color8888* col_3, WORD& wrd)
 {
     // method 2
     // freak variable bit structure method
     // normal math
 
     Color565* pCol;
-    pCol = (Color565*)&(pBlock->col0);
+    pCol     = (Color565*)&(pBlock->col0);
 
     col_0->a = 0xff;
     col_0->r = pCol->nRed;
@@ -907,7 +883,7 @@ inline void GetColorBlockColors_m2(
         // These two bit codes correspond to the 2-bit fields
         // stored in the 64-bit block.
 
-        wrd = ((WORD)col_0->r * 2 + (WORD)col_1->r) / 3;
+        wrd      = ((WORD)col_0->r * 2 + (WORD)col_1->r) / 3;
         // no +1 for rounding
         // as bits have been shifted to 888
         col_2->r = (BYTE)wrd;
@@ -954,13 +930,7 @@ inline void GetColorBlockColors_m2(
     }
 }
 
-inline void GetColorBlockColors_m3(
-    DXTColBlock* pBlock,
-    Color8888*   col_0,
-    Color8888*   col_1,
-    Color8888*   col_2,
-    Color8888*   col_3,
-    WORD&        wrd)
+inline void GetColorBlockColors_m3(DXTColBlock* pBlock, Color8888* col_0, Color8888* col_1, Color8888* col_2, Color8888* col_3, WORD& wrd)
 {
     // method 3
     //////////////////////////////////////////////////////
@@ -972,7 +942,7 @@ inline void GetColorBlockColors_m3(
     //  or overflow!! =)
 
     Color565* pCol;
-    pCol = (Color565*)&(pBlock->col0);
+    pCol     = (Color565*)&(pBlock->col0);
 
     col_0->a = 0x00;   // must set to 0 to avoid overflow in DWORD add
     col_0->r = pCol->nRed;
@@ -991,18 +961,18 @@ inline void GetColorBlockColors_m3(
         *((DWORD*)col_3) = ((*((DWORD*)col_0)) + (*((DWORD*)col_1)) * 2);
 
         // now shift to appropriate precision & divide by 3.
-        col_2->r = ((WORD)col_2->r << 3) / (WORD)3;
-        col_2->g = ((WORD)col_2->g << 2) / (WORD)3;
-        col_2->b = ((WORD)col_2->b << 3) / (WORD)3;
+        col_2->r         = ((WORD)col_2->r << 3) / (WORD)3;
+        col_2->g         = ((WORD)col_2->g << 2) / (WORD)3;
+        col_2->b         = ((WORD)col_2->b << 3) / (WORD)3;
 
-        col_3->r = ((WORD)col_3->r << 3) / (WORD)3;
-        col_3->g = ((WORD)col_3->g << 2) / (WORD)3;
-        col_3->b = ((WORD)col_3->b << 3) / (WORD)3;
+        col_3->r         = ((WORD)col_3->r << 3) / (WORD)3;
+        col_3->g         = ((WORD)col_3->g << 2) / (WORD)3;
+        col_3->b         = ((WORD)col_3->b << 3) / (WORD)3;
 
-        col_0->a = 0xff;   // now set appropriate alpha
-        col_1->a = 0xff;
-        col_2->a = 0xff;
-        col_3->a = 0xff;
+        col_0->a         = 0xff;   // now set appropriate alpha
+        col_1->a         = 0xff;
+        col_2->a         = 0xff;
+        col_3->a         = 0xff;
     }
     else
     {
@@ -1011,15 +981,15 @@ inline void GetColorBlockColors_m3(
         // now shift to appropriate precision & divide by 2.
         // << 3 ) / 2 == << 2
         // << 2 ) / 2 == << 1
-        col_2->r = ((WORD)col_2->r << 2);
-        col_2->g = ((WORD)col_2->g << 1);
-        col_2->b = ((WORD)col_2->b << 2);
-        col_2->a = 0xff;
+        col_2->r         = ((WORD)col_2->r << 2);
+        col_2->g         = ((WORD)col_2->g << 1);
+        col_2->b         = ((WORD)col_2->b << 2);
+        col_2->a         = 0xff;
 
-        col_3->a = 0x00;   //
-        col_3->r = 0x00;   // random color to indicate alpha
-        col_3->g = 0xff;
-        col_3->b = 0xff;
+        col_3->a         = 0x00;   //
+        col_3->r         = 0x00;   // random color to indicate alpha
+        col_3->g         = 0xff;
+        col_3->b         = 0xff;
     }
 
     // now shift orig color components
@@ -1032,18 +1002,12 @@ inline void GetColorBlockColors_m3(
     col_1->b <<= 3;
 }
 
-inline void GetColorBlockColors_m4(
-    DXTColBlock* pBlock,
-    Color8888*   col_0,
-    Color8888*   col_1,
-    Color8888*   col_2,
-    Color8888*   col_3,
-    WORD&        wrd)
+inline void GetColorBlockColors_m4(DXTColBlock* pBlock, Color8888* col_0, Color8888* col_1, Color8888* col_2, Color8888* col_3, WORD& wrd)
 {
     // m1 color extraction from 5-6-5
     // m3 color math on DWORD before bit shift to full precision
 
-    wrd = pBlock->col0;
+    wrd      = pBlock->col0;
     col_0->a = 0x00;   // must set to 0 to avoid possible overflow & carry to next field in DWORD add
 
     // extract r,g,b bits
@@ -1070,18 +1034,18 @@ inline void GetColorBlockColors_m4(
         *((DWORD*)col_3) = ((*((DWORD*)col_0)) + (*((DWORD*)col_1)) * 2);
 
         // shift to appropriate precision & divide by 3.
-        col_2->r = ((WORD)col_2->r << 3) / (WORD)3;
-        col_2->g = ((WORD)col_2->g << 2) / (WORD)3;
-        col_2->b = ((WORD)col_2->b << 3) / (WORD)3;
+        col_2->r         = ((WORD)col_2->r << 3) / (WORD)3;
+        col_2->g         = ((WORD)col_2->g << 2) / (WORD)3;
+        col_2->b         = ((WORD)col_2->b << 3) / (WORD)3;
 
-        col_3->r = ((WORD)col_3->r << 3) / (WORD)3;
-        col_3->g = ((WORD)col_3->g << 2) / (WORD)3;
-        col_3->b = ((WORD)col_3->b << 3) / (WORD)3;
+        col_3->r         = ((WORD)col_3->r << 3) / (WORD)3;
+        col_3->g         = ((WORD)col_3->g << 2) / (WORD)3;
+        col_3->b         = ((WORD)col_3->b << 3) / (WORD)3;
 
-        col_0->a = 0xff;   // set appropriate alpha
-        col_1->a = 0xff;
-        col_2->a = 0xff;
-        col_3->a = 0xff;
+        col_0->a         = 0xff;   // set appropriate alpha
+        col_1->a         = 0xff;
+        col_2->a         = 0xff;
+        col_3->a         = 0xff;
     }
     else
     {
@@ -1090,15 +1054,15 @@ inline void GetColorBlockColors_m4(
         // shift to appropriate precision & divide by 2.
         // << 3 ) / 2 == << 2
         // << 2 ) / 2 == << 1
-        col_2->r = ((WORD)col_2->r << 2);
-        col_2->g = ((WORD)col_2->g << 1);
-        col_2->b = ((WORD)col_2->b << 2);
-        col_2->a = 0xff;
+        col_2->r         = ((WORD)col_2->r << 2);
+        col_2->g         = ((WORD)col_2->g << 1);
+        col_2->b         = ((WORD)col_2->b << 2);
+        col_2->a         = 0xff;
 
-        col_3->a = 0x00;   //
-        col_3->r = 0x00;   // random color to indicate alpha
-        col_3->g = 0xff;
-        col_3->b = 0xff;
+        col_3->a         = 0x00;   //
+        col_3->r         = 0x00;   // random color to indicate alpha
+        col_3->g         = 0xff;
+        col_3->b         = 0xff;
     }
 
     // shift orig color components to full precision
@@ -1111,13 +1075,7 @@ inline void GetColorBlockColors_m4(
     col_1->b <<= 3;
 }
 
-inline void GetColorBlockColors_m1(
-    DXTColBlock* pBlock,
-    Color8888*   col_0,
-    Color8888*   col_1,
-    Color8888*   col_2,
-    Color8888*   col_3,
-    WORD&        wrd)
+inline void GetColorBlockColors_m1(DXTColBlock* pBlock, Color8888* col_0, Color8888* col_1, Color8888* col_2, Color8888* col_3, WORD& wrd)
 {
     // Method 1:
     // Shifty method
@@ -1158,7 +1116,7 @@ inline void GetColorBlockColors_m1(
         // These two bit codes correspond to the 2-bit fields
         // stored in the 64-bit block.
 
-        wrd = ((WORD)col_0->r * 2 + (WORD)col_1->r) / 3;
+        wrd      = ((WORD)col_0->r * 2 + (WORD)col_1->r) / 3;
         // no +1 for rounding
         // as bits have been shifted to 888
         col_2->r = (BYTE)wrd;

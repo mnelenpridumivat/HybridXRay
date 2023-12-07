@@ -61,8 +61,7 @@ void CAnomalyDetector::update_schedule()
     m_object->control().path_builder().restrictions().remove_restrictions(temp_out_restrictors, temp_in_restrictors);
 
     // remove from storage
-    m_storage.erase(
-        std::remove_if(m_storage.begin(), m_storage.end(), remove_predicate(m_time_to_rememeber)), m_storage.end());
+    m_storage.erase(std::remove_if(m_storage.begin(), m_storage.end(), remove_predicate(m_time_to_rememeber)), m_storage.end());
 }
 
 void CAnomalyDetector::on_contact(CObject* obj)
@@ -78,8 +77,7 @@ void CAnomalyDetector::on_contact(CObject* obj)
     if (custom_zone->restrictor_type() == RestrictionSpace::eRestrictorTypeNone)
         return;
 
-    if (Level().space_restriction_manager().restriction_presented(
-            m_object->control().path_builder().restrictions().in_restrictions(), custom_zone->cName()))
+    if (Level().space_restriction_manager().restriction_presented(m_object->control().path_builder().restrictions().in_restrictions(), custom_zone->cName()))
         return;
 
     ANOMALY_INFO_VEC_IT it = std::find(m_storage.begin(), m_storage.end(), custom_zone);

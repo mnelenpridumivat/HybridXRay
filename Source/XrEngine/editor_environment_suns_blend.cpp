@@ -24,18 +24,13 @@ void blend::load(CInifile& config, shared_str const& section)
     m_time      = READ_IF_EXISTS(&config, r_float, section, "blend_time", .1f);
 }
 
-void blend::fill(
-    manager const&                               manager,
-    XrWeatherEditor::property_holder*            holder,
-    XrWeatherEditor::property_holder_collection* collection)
+void blend::fill(manager const& manager, XrWeatherEditor::property_holder* holder, XrWeatherEditor::property_holder_collection* collection)
 {
     XrWeatherEditor::property_holder* properties = holder;
     VERIFY(properties);
 
-    properties->add_property(
-        "down time", "blend", "this option is resposible for the blend down time", m_down_time, m_down_time);
-    properties->add_property(
-        "rise time", "blend", "this option is resposible for the blend rise time", m_rise_time, m_rise_time);
+    properties->add_property("down time", "blend", "this option is resposible for the blend down time", m_down_time, m_down_time);
+    properties->add_property("rise time", "blend", "this option is resposible for the blend rise time", m_rise_time, m_rise_time);
     properties->add_property("time", "blend", "this option is resposible for the blend time", m_time, m_time);
 }
 

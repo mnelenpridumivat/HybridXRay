@@ -62,7 +62,7 @@ void CUIKeyBinding::FillUpList(CUIXml& xml_doc_ui, LPCSTR path_ui)
             // first field of list item
             shared_str command_id = xml_doc.ReadAttrib("command", j, "id");
 
-            pItem = xr_new<CUIStatic>();
+            pItem                 = xr_new<CUIStatic>();
             CUIXmlInit::InitStatic(xml_doc_ui, strconcat(sizeof(buf), buf, path_ui, ":scroll_view:item_key"), 0, pItem);
             pItem->TextItemControl()->SetTextST(command_id.c_str());
             m_scroll_wnd->AddWindow(pItem, true);

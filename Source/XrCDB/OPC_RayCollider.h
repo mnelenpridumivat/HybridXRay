@@ -42,26 +42,14 @@ public:
      *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
      */
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    bool Collide(const Ray& world_ray, OPCODE_Model* model, const Matrix4x4* world = null, udword* cache = null);
+    bool         Collide(const Ray& world_ray, OPCODE_Model* model, const Matrix4x4* world = null, udword* cache = null);
 
     // Collision queries
-    bool Collide(
-        const Ray&               world_ray,
-        const AABBCollisionTree* tree,
-        const Matrix4x4*         world = null,
-        udword*                  cache = null);
-    bool Collide(const Ray& world_ray, const AABBNoLeafTree* tree, const Matrix4x4* world = null, udword* cache = null);
-    bool Collide(
-        const Ray&               world_ray,
-        const AABBQuantizedTree* tree,
-        const Matrix4x4*         world = null,
-        udword*                  cache = null);
-    bool Collide(
-        const Ray&                     world_ray,
-        const AABBQuantizedNoLeafTree* tree,
-        const Matrix4x4*               world = null,
-        udword*                        cache = null);
-    bool Collide(const Ray& world_ray, const AABBTree* tree, Container& box_indices);
+    bool         Collide(const Ray& world_ray, const AABBCollisionTree* tree, const Matrix4x4* world = null, udword* cache = null);
+    bool         Collide(const Ray& world_ray, const AABBNoLeafTree* tree, const Matrix4x4* world = null, udword* cache = null);
+    bool         Collide(const Ray& world_ray, const AABBQuantizedTree* tree, const Matrix4x4* world = null, udword* cache = null);
+    bool         Collide(const Ray& world_ray, const AABBQuantizedNoLeafTree* tree, const Matrix4x4* world = null, udword* cache = null);
+    bool         Collide(const Ray& world_ray, const AABBTree* tree, Container& box_indices);
     // Settings
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -197,10 +185,10 @@ public:
 
 protected:
     // Ray in local space
-    Point mOrigin;   //!< Ray origin
-    Point mDir;      //!< Ray direction (normalized)
-    Point mFDir;     //!< fabsf(mDir)
-    Point mData, mData2;
+    Point           mOrigin;   //!< Ray origin
+    Point           mDir;      //!< Ray direction (normalized)
+    Point           mFDir;     //!< fabsf(mDir)
+    Point           mData, mData2;
     // Stabbed faces
     CollisionFace   mStabbedFace;    //!< Current stabbed face
     CollisionFaces* mStabbedFaces;   //!< List of stabbed faces
@@ -214,34 +202,34 @@ protected:
     const Point*           mVerts;   //!< User-defined vertices
 #endif
     // Stats
-    udword mNbRayBVTests;      //!< Number of Ray-BV tests
-    udword mNbRayPrimTests;    //!< Number of Ray-Primitive tests
-                               // In-out test
-    udword mNbIntersections;   //!< Number of valid intersections
-                               // Dequantization coeffs
-    Point mCenterCoeff;
-    Point mExtentsCoeff;
+    udword       mNbRayBVTests;      //!< Number of Ray-BV tests
+    udword       mNbRayPrimTests;    //!< Number of Ray-Primitive tests
+                                     // In-out test
+    udword       mNbIntersections;   //!< Number of valid intersections
+                                     // Dequantization coeffs
+    Point        mCenterCoeff;
+    Point        mExtentsCoeff;
     // Settings
-    float mMaxDist;      //!< Valid segment on the ray
-    bool  mClosestHit;   //!< Report closest hit only
-    bool  mCulling;      //!< Stab culled faces or not
-                         // Internal methods
-    void _Stab(const AABBCollisionNode* node);
-    void _Stab(const AABBNoLeafNode* node);
-    void _Stab(const AABBQuantizedNode* node);
-    void _Stab(const AABBQuantizedNoLeafNode* node);
-    void _Stab(const AABBTreeNode* node, Container& box_indices);
-    void _UnboundedStab(const AABBCollisionNode* node);
-    void _UnboundedStab(const AABBNoLeafNode* node);
-    void _UnboundedStab(const AABBQuantizedNode* node);
-    void _UnboundedStab(const AABBQuantizedNoLeafNode* node);
-    void _UnboundedStab(const AABBTreeNode* node, Container& box_indices);
+    float        mMaxDist;      //!< Valid segment on the ray
+    bool         mClosestHit;   //!< Report closest hit only
+    bool         mCulling;      //!< Stab culled faces or not
+                                // Internal methods
+    void         _Stab(const AABBCollisionNode* node);
+    void         _Stab(const AABBNoLeafNode* node);
+    void         _Stab(const AABBQuantizedNode* node);
+    void         _Stab(const AABBQuantizedNoLeafNode* node);
+    void         _Stab(const AABBTreeNode* node, Container& box_indices);
+    void         _UnboundedStab(const AABBCollisionNode* node);
+    void         _UnboundedStab(const AABBNoLeafNode* node);
+    void         _UnboundedStab(const AABBQuantizedNode* node);
+    void         _UnboundedStab(const AABBQuantizedNoLeafNode* node);
+    void         _UnboundedStab(const AABBTreeNode* node, Container& box_indices);
     // Overlap tests
     inline_ BOOL RayAABBOverlap(const Point& center, const Point& extents);
     inline_ BOOL SegmentAABBOverlap(const Point& center, const Point& extents);
     inline_ BOOL RayTriOverlap(const Point& vert0, const Point& vert1, const Point& vert2);
     // Init methods
-    BOOL InitQuery(const Ray& world_ray, const Matrix4x4* world = null, udword* faceid = null);
+    BOOL         InitQuery(const Ray& world_ray, const Matrix4x4* world = null, udword* faceid = null);
 };
 
 #endif   // __OPC_RAYCOLLIDER_H__

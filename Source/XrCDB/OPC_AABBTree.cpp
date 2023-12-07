@@ -97,19 +97,19 @@ void AABBTreeNode::destroy(AABBTreeBuilder* _tree)
 udword AABBTreeNode::Split(udword axis, AABBTreeBuilder* builder)
 {
     // Get node split value
-    float SplitValue = builder->GetSplittingValueEx(mNodePrimitives, mNbPrimitives, mBV, axis);
+    float  SplitValue = builder->GetSplittingValueEx(mNodePrimitives, mNbPrimitives, mBV, axis);
 
-    udword NbPos = 0;
+    udword NbPos      = 0;
     // Loop through all node-related primitives. Their indices range from mNodePrimitives[0] to
     // mNodePrimitives[mNbPrimitives-1]. Those indices map the global list in the tree builder.
     for (udword i = 0; i < mNbPrimitives; i++)
     {
         // Get index in global list
-        udword Index = mNodePrimitives[i];
+        udword Index          = mNodePrimitives[i];
 
         // Test against the splitting value. The primitive value is tested against the enclosing-box center.
         // [We only need an approximate partition of the enclosing box here.]
-        float PrimitiveValue = builder->GetSplittingValue(Index, axis);
+        float  PrimitiveValue = builder->GetSplittingValue(Index, axis);
 
         // Reorganize the list of indices in this order: positive - negative.
         if (PrimitiveValue > SplitValue)
@@ -169,7 +169,7 @@ bool AABBTreeNode::Subdivide(AABBTreeBuilder* builder)
         udword Axis = Extents.LargestAxis();   // Index of largest axis
 
         // Split along the axis
-        NbPos = Split(Axis, builder);
+        NbPos       = Split(Axis, builder);
 
         // Check split validity
         if (!NbPos || NbPos == mNbPrimitives)
@@ -206,7 +206,7 @@ bool AABBTreeNode::Subdivide(AABBTreeBuilder* builder)
         udword Axis = Vars.LargestAxis();
 
         // Split along the axis
-        NbPos = Split(Axis, builder);
+        NbPos       = Split(Axis, builder);
 
         // Check split validity
         if (!NbPos || NbPos == mNbPrimitives)

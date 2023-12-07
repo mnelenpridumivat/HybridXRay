@@ -9,18 +9,17 @@ shared_str CTeamInfo::team2_name;
 shared_str CTeamInfo::team1_color_tag;
 shared_str CTeamInfo::team2_color_tag;
 
-Flags32 CTeamInfo::flags;
+Flags32    CTeamInfo::flags;
 
-u32 CTeamInfo::GetTeam1_color()
+u32        CTeamInfo::GetTeam1_color()
 {
     if (flags.test(flTeam1_color))
         return team1_color;
 
     string256 _buff;
 
-    LPCSTR tm_col = pSettings->r_string("team1", "color");
-    team1_color   = color_argb(
-        155, atoi(_GetItem(tm_col, 0, _buff)), atoi(_GetItem(tm_col, 1, _buff)), atoi(_GetItem(tm_col, 2, _buff)));
+    LPCSTR    tm_col = pSettings->r_string("team1", "color");
+    team1_color      = color_argb(155, atoi(_GetItem(tm_col, 0, _buff)), atoi(_GetItem(tm_col, 1, _buff)), atoi(_GetItem(tm_col, 2, _buff)));
     flags.set(flTeam1_color, true);
 
     return team1_color;
@@ -33,9 +32,8 @@ u32 CTeamInfo::GetTeam2_color()
 
     string256 _buff;
 
-    LPCSTR tm_col = pSettings->r_string("team2", "color");
-    team2_color   = color_argb(
-        155, atoi(_GetItem(tm_col, 0, _buff)), atoi(_GetItem(tm_col, 1, _buff)), atoi(_GetItem(tm_col, 2, _buff)));
+    LPCSTR    tm_col = pSettings->r_string("team2", "color");
+    team2_color      = color_argb(155, atoi(_GetItem(tm_col, 0, _buff)), atoi(_GetItem(tm_col, 1, _buff)), atoi(_GetItem(tm_col, 2, _buff)));
     flags.set(flTeam2_color, true);
 
     return team2_color;
@@ -92,7 +90,7 @@ LPCSTR CTeamInfo::GetTeam_color_tag(int team)
 
     //"%c[255,64,255,64]", "%c[255,64,64,255]"
 
-    LPCSTR tm_col;
+    LPCSTR    tm_col;
     if (team == 1)
         tm_col = pSettings->r_string("team1", "color");
     else

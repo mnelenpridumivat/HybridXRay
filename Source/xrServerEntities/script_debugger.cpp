@@ -82,8 +82,7 @@ LRESULT CScriptDebugger::DebugMessage(UINT nMsg, WPARAM wParam, LPARAM lParam)
 
         case DMSG_ADD_STACKTRACE:
         {
-            m_callStack->Add(
-                ((StackTrace*)wParam)->szDesc, ((StackTrace*)wParam)->szFile, ((StackTrace*)wParam)->nLine);
+            m_callStack->Add(((StackTrace*)wParam)->szDesc, ((StackTrace*)wParam)->szFile, ((StackTrace*)wParam)->nLine);
 
             msg.w_int(DMSG_ADD_STACKTRACE);
             msg.w_buff((StackTrace*)wParam, sizeof(StackTrace));
@@ -258,9 +257,7 @@ void CScriptDebugger::LineHook(const char* szFile, int nLine)
         return;
     }
 
-    if (HasBreakPoint(szFile, nLine) || m_nMode == DMOD_STEP_INTO || m_nMode == DMOD_BREAK ||
-        (m_nMode == DMOD_STEP_OVER && m_nLevel <= 0) || (m_nMode == DMOD_STEP_OUT && m_nLevel < 0) ||
-        (m_nMode == DMOD_RUN_TO_CURSOR && xr_strcmp(m_strPathName, szFile) && m_nLine == nLine))
+    if (HasBreakPoint(szFile, nLine) || m_nMode == DMOD_STEP_INTO || m_nMode == DMOD_BREAK || (m_nMode == DMOD_STEP_OVER && m_nLevel <= 0) || (m_nMode == DMOD_STEP_OUT && m_nLevel < 0) || (m_nMode == DMOD_RUN_TO_CURSOR && xr_strcmp(m_strPathName, szFile) && m_nLine == nLine))
     {
         DebugBreak(szFile, nLine);
         GetBreakPointsFromIde();

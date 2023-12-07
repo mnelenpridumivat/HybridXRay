@@ -120,9 +120,7 @@ void CScriptBinderObjectWrapper::net_Relcase(CScriptGameObject* object)
     luabind::call_member<void>(this, "net_Relcase", object);
 }
 
-void CScriptBinderObjectWrapper::net_Relcase_static(
-    CScriptBinderObject* script_binder_object,
-    CScriptGameObject*   object)
+void CScriptBinderObjectWrapper::net_Relcase_static(CScriptBinderObject* script_binder_object, CScriptGameObject* object)
 {
     script_binder_object->CScriptBinderObject::net_Relcase(object);
 }

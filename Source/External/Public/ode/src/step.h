@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -25,12 +25,6 @@
 
 #include <ode/common.h>
 
-
-void dInternalStepIsland (dxWorld *world,
-			  dxBody * const *body, int nb,
-			  dxJoint **joint, int nj,
-			  dReal stepsize);
-
-
+void dInternalStepIsland(dxWorld* world, dxBody* const* body, int nb, dxJoint** joint, int nj, dReal stepsize);
 
 #endif

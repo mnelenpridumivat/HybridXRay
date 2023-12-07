@@ -14,14 +14,9 @@ IC CALifeLevelRegistry& CALifeGraphRegistry::level() const
     return (*m_level);
 }
 
-IC void CALifeGraphRegistry::change(
-    CSE_ALifeDynamicObject* object,
-    GameGraph::_GRAPH_ID    tGraphPointID,
-    GameGraph::_GRAPH_ID    tNextGraphPointID)
+IC void CALifeGraphRegistry::change(CSE_ALifeDynamicObject* object, GameGraph::_GRAPH_ID tGraphPointID, GameGraph::_GRAPH_ID tNextGraphPointID)
 {
-    VERIFY3(
-        object->used_ai_locations() /** && (object->interactive() || object->m_bOnline)/**/, *object->s_name,
-        object->name_replace());
+    VERIFY3(object->used_ai_locations() /** && (object->interactive() || object->m_bOnline)/**/, *object->s_name, object->name_replace());
     remove(object, tGraphPointID);
     add(object, tNextGraphPointID);
     object->m_tGraphID = tNextGraphPointID;
@@ -60,12 +55,12 @@ IC const CALifeGraphRegistry::GRAPH_REGISTRY& CALifeGraphRegistry::objects() con
     return (m_objects);
 }
 
-template <typename F> IC void CALifeGraphRegistry::iterate_objects(GameGraph::_GRAPH_ID game_vertex_id, const F& f)
+template<typename F> IC void CALifeGraphRegistry::iterate_objects(GameGraph::_GRAPH_ID game_vertex_id, const F& f)
 {
     iterate(((CGraphPointInfo&)(objects()[game_vertex_id])).objects(), f);
 }
 
-template <typename F, typename C> IC void CALifeGraphRegistry::iterate(C& c, const F& f)
+template<typename F, typename C> IC void CALifeGraphRegistry::iterate(C& c, const F& f)
 {
     c.update(f);
 }

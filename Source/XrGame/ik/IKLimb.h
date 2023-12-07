@@ -25,6 +25,7 @@ class CIKLimb
 {
 private:
     //			friend		class	ik_limb_state;
+
 public:
     CIKLimb();
     CIKLimb(const CIKLimb& l);
@@ -69,10 +70,7 @@ public:
     {
         return state_predict.footstep_shift;
     }
-    void step_predict(
-        CGameObject*                 O,
-        const CBlend*                b,
-        ik_limb_state_predict&       state,
+    void step_predict(CGameObject* O, const CBlend* b, ik_limb_state_predict& state,
         const extrapolation::points& object_pose_extrapolation);   // const;
     bool foot_step() const
     {
@@ -89,23 +87,23 @@ public:
         return m_foot;
     }
 #endif
+
 private:
     float get_time_to_step_begin(const CBlend& B) const;
     void  Invalidate();
 
 private:
-    void    Solve(SCalculateData& cd);
-    IC void AnimGoal(Fmatrix& gl);
-    void    SetAnimGoal(SCalculateData& cd);
-    void    SetNewGoal(const SIKCollideData& cld, SCalculateData& cd);
-    void    SetNewStepGoal(const SIKCollideData& cld, SCalculateData& cd);
-    void    Blending(SCalculateData& cd);
-    bool blend_collide(ik_goal_matrix& m, const SCalculateData& cd, const ik_goal_matrix& m0, const ik_goal_matrix& m1)
-        const;
-    bool     SetGoalToLimb(const SCalculateData& cd);
-    void     CalculateBones(SCalculateData& cd);
-    Matrix&  Goal(Matrix& gl, const Fmatrix& xm, const SCalculateData& cd);
-    Fmatrix& GetHipInvert(Fmatrix& ihip, const SCalculateData& cd);
+    void           Solve(SCalculateData& cd);
+    IC void        AnimGoal(Fmatrix& gl);
+    void           SetAnimGoal(SCalculateData& cd);
+    void           SetNewGoal(const SIKCollideData& cld, SCalculateData& cd);
+    void           SetNewStepGoal(const SIKCollideData& cld, SCalculateData& cd);
+    void           Blending(SCalculateData& cd);
+    bool           blend_collide(ik_goal_matrix& m, const SCalculateData& cd, const ik_goal_matrix& m0, const ik_goal_matrix& m1) const;
+    bool           SetGoalToLimb(const SCalculateData& cd);
+    void           CalculateBones(SCalculateData& cd);
+    Matrix&        Goal(Matrix& gl, const Fmatrix& xm, const SCalculateData& cd);
+    Fmatrix&       GetHipInvert(Fmatrix& ihip, const SCalculateData& cd);
 
     float          SwivelAngle(const Fmatrix& ihip, const SCalculateData& cd);
     void           GetKnee(Fvector& knee, const SCalculateData& cd) const;
@@ -116,21 +114,22 @@ private:
 #ifdef DEBUG
     void DBGDrawSetNewGoal(SCalculateData& cd, const SIKCollideData& cld);
 #endif
+
 private:
     static void _BCL BonesCallback0(CBoneInstance* B);
     static void _BCL BonesCallback1(CBoneInstance* B);
     static void _BCL BonesCallback2(CBoneInstance* B);
 
 private:
-    Limb                 m_limb;
-    IKinematicsAnimated* m_K;
-    CIKFoot              m_foot;
-    ik_foot_collider     collider;
-    u16                  m_bones[4];
-    u16                  m_id;
+    Limb                  m_limb;
+    IKinematicsAnimated*  m_K;
+    CIKFoot               m_foot;
+    ik_foot_collider      collider;
+    u16                   m_bones[4];
+    u16                   m_id;
 
-    bool           m_collide;
-    SIKCollideData collide_data;
+    bool                  m_collide;
+    SIKCollideData        collide_data;
 
     ik_anim_state         anim_state;
     ik_limb_state         sv_state;

@@ -49,15 +49,15 @@ namespace mp_anticheat
         void dump_config(complete_callback_t complete_cb);
 
     private:
-        void write_configs();
-        void sign_configs();
-        void compress_configs();
+        void        write_configs();
+        void        sign_configs();
+        void        compress_configs();
 
         static void dumper_thread(void* my_ptr);
         void        yield_cb(long progress);
         void        switch_thread();
 
-        bool const is_active() const
+        bool const  is_active() const
         {
             return m_state == ds_active;
         };
@@ -68,10 +68,10 @@ namespace mp_anticheat
             ds_active     = 0x01
         };   // enum_dumper_state
 
-        void realloc_compress_buffer(u32 need_size);
-        u8*  m_buffer_for_compress;
-        u32  m_buffer_for_compress_size;
-        u32  m_buffer_for_compress_capacity;
+        void                realloc_compress_buffer(u32 need_size);
+        u8*                 m_buffer_for_compress;
+        u32                 m_buffer_for_compress_size;
+        u32                 m_buffer_for_compress_capacity;
 
         enum_dumper_state   m_state;
         complete_callback_t m_complete_cb;
@@ -79,11 +79,11 @@ namespace mp_anticheat
         CMemoryWriter       m_dump_result;
         dump_signer         m_dump_signer;
 
-        mp_config_sections m_ltx_configs;
-        mp_active_params   m_active_params;
+        mp_config_sections  m_ltx_configs;
+        mp_active_params    m_active_params;
 
-        HANDLE m_make_start_event;
-        HANDLE m_make_done_event;
+        HANDLE              m_make_start_event;
+        HANDLE              m_make_done_event;
 
 #ifdef DEBUG
         CTimer     m_debug_timer;

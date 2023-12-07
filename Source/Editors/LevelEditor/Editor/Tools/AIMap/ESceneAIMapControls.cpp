@@ -1,10 +1,7 @@
 ﻿#include "stdafx.h"
 
 // Node Add
-TUI_ControlAIMapNodeAdd::TUI_ControlAIMapNodeAdd(int st, int act, ESceneToolBase* parent):
-    TUI_CustomControl(st, act, parent)
-{
-}
+TUI_ControlAIMapNodeAdd::TUI_ControlAIMapNodeAdd(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent) {}
 
 bool TUI_ControlAIMapNodeAdd::Start(TShiftState Shift)
 {
@@ -86,7 +83,7 @@ bool TUI_ControlAIMapNodeMove::End(TShiftState _Shift)
     return MovingEnd(_Shift);
 }
 
-TUI_ControlAIMapNodeRotate::TUI_ControlAIMapNodeRotate(int st, int act, ESceneToolBase* parent):TUI_CustomControl(st, act, parent) {}
+TUI_ControlAIMapNodeRotate::TUI_ControlAIMapNodeRotate(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent) {}
 
 bool TUI_ControlAIMapNodeRotate::Start(TShiftState Shift)
 {

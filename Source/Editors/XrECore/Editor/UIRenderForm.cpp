@@ -75,12 +75,11 @@ void UIRenderForm::Draw()
         ImGui::SetCursorScreenPos(canvas_pos);
 
         if (!ImGuizmo::IsUsing())
-          ImGui::InvisibleButton("canvas", canvas_size);
+            ImGui::InvisibleButton("canvas", canvas_size);
 
         if (ImGui::IsItemFocused())
         {
-            if ((ImGui::IsMouseDown(ImGuiMouseButton_Left) || ImGui::IsMouseDown(ImGuiMouseButton_Right)) &&
-                !m_mouse_down && cursor_in_zone)
+            if ((ImGui::IsMouseDown(ImGuiMouseButton_Left) || ImGui::IsMouseDown(ImGuiMouseButton_Right)) && !m_mouse_down && cursor_in_zone)
             {
                 UI->MousePress(TShiftState(ShiftState), mouse_pos.x - canvas_pos.x, mouse_pos.y - canvas_pos.y);
                 m_mouse_down = true;
@@ -113,9 +112,7 @@ void UIRenderForm::Draw()
                 m_shiftstate_down = false;
             }
         }
-        m_mouse_position.set(
-            (mouse_pos.x - canvas_pos.x) * EDevice->m_ScreenQuality,
-            (mouse_pos.y - canvas_pos.y) * EDevice->m_ScreenQuality);
+        m_mouse_position.set((mouse_pos.x - canvas_pos.x) * EDevice->m_ScreenQuality, (mouse_pos.y - canvas_pos.y) * EDevice->m_ScreenQuality);
 
         if (!m_OnContextMenu.empty() && !curent_shiftstate_down)
         {

@@ -66,25 +66,25 @@ protected:
     CAviPlayerCustom* alpha;
 
 protected:
-    AVIINDEXENTRY* m_pMovieIndex;
-    BYTE*          m_pMovieData;
-    HIC            m_aviIC;
-    BYTE*          m_pDecompressedBuf;
+    AVIINDEXENTRY*   m_pMovieIndex;
+    BYTE*            m_pMovieData;
+    HIC              m_aviIC;
+    BYTE*            m_pDecompressedBuf;
 
     BITMAPINFOHEADER m_biOutFormat;
     BITMAPINFOHEADER m_biInFormat;
 
-    float m_fRate;          // стандартная скорость, fps
-    float m_fCurrentRate;   // текущая скорость, fps
+    float            m_fRate;          // стандартная скорость, fps
+    float            m_fCurrentRate;   // текущая скорость, fps
 
-    DWORD m_dwFrameTotal;
-    DWORD m_dwFrameCurrent;
-    u32   m_dwFirstFrameOffset;
+    DWORD            m_dwFrameTotal;
+    DWORD            m_dwFrameCurrent;
+    u32              m_dwFirstFrameOffset;
 
-    DWORD CalcFrame();
+    DWORD            CalcFrame();
 
-    BOOL DecompressFrame(DWORD dwFrameNum);
-    VOID PreRoll(DWORD dwFrameNum);
+    BOOL             DecompressFrame(DWORD dwFrameNum);
+    VOID             PreRoll(DWORD dwFrameNum);
 
 public:
     CAviPlayerCustom();
@@ -92,12 +92,12 @@ public:
 
     DWORD m_dwWidth, m_dwHeight;
 
-    VOID GetSize(DWORD* dwWidth, DWORD* dwHeight);
+    VOID  GetSize(DWORD* dwWidth, DWORD* dwHeight);
 
-    BOOL Load(char* fname);
-    BOOL GetFrame(BYTE** pDest);
+    BOOL  Load(char* fname);
+    BOOL  GetFrame(BYTE** pDest);
 
-    BOOL NeedUpdate()
+    BOOL  NeedUpdate()
     {
         return CalcFrame() != m_dwFrameCurrent;
     }

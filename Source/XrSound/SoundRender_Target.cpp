@@ -91,7 +91,7 @@ extern size_t ov_read_func(void* ptr, size_t size, size_t nmemb, void* datasourc
 extern int    ov_close_func(void* datasource);
 extern long   ov_tell_func(void* datasource);
 
-void CSoundRender_Target::attach()
+void          CSoundRender_Target::attach()
 {
     VERIFY(0 == wave);
     VERIFY(m_pEmitter);

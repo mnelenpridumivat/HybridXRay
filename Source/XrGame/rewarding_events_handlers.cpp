@@ -6,13 +6,7 @@
 namespace award_system
 {
 
-    rewarding_event_handlers::rewarding_event_handlers(
-        game_state_accumulator* pstate_accum,
-        event_action_delegate_t ea_delegate):
-        m_player_state_accum(pstate_accum),
-        m_reward_action(ea_delegate), m_null_hanlder(NULL)
-    {
-    }
+    rewarding_event_handlers::rewarding_event_handlers(game_state_accumulator* pstate_accum, event_action_delegate_t ea_delegate): m_player_state_accum(pstate_accum), m_reward_action(ea_delegate), m_null_hanlder(NULL) {}
 
     rewarding_event_handlers::~rewarding_event_handlers()
     {
@@ -33,11 +27,7 @@ namespace award_system
             m_null_hanlder->OnWeapon_Fire(sender, sender_weapon_id);
     }
 
-    void rewarding_event_handlers::OnBullet_Fire(
-        u16            sender,
-        u16            sender_weapon_id,
-        const Fvector& position,
-        const Fvector& direction)
+    void rewarding_event_handlers::OnBullet_Fire(u16 sender, u16 sender_weapon_id, const Fvector& position, const Fvector& direction)
     {
         for (handlers_store_t::iterator i = m_events_store.begin(), ie = m_events_store.end(); i != ie; ++i)
         {
@@ -51,11 +41,7 @@ namespace award_system
             m_null_hanlder->OnBullet_Fire(sender, sender_weapon_id, position, direction);
     }
 
-    void rewarding_event_handlers::OnBullet_Hit(
-        CObject const* hitter,
-        CObject const* victim,
-        CObject const* weapon,
-        u16 const      bone)
+    void rewarding_event_handlers::OnBullet_Hit(CObject const* hitter, CObject const* victim, CObject const* weapon, u16 const bone)
     {
         for (handlers_store_t::iterator i = m_events_store.begin(), ie = m_events_store.end(); i != ie; ++i)
         {
@@ -138,11 +124,7 @@ namespace award_system
             m_null_hanlder->OnPlayerSpawned(ps);
     }
 
-    void rewarding_event_handlers::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void rewarding_event_handlers::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         for (handlers_store_t::iterator i = m_events_store.begin(), ie = m_events_store.end(); i != ie; ++i)
         {

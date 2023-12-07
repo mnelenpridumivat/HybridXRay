@@ -23,13 +23,13 @@ CCartridge::CCartridge()
 
 void CCartridge::Load(LPCSTR section, u8 LocalAmmoType)
 {
-    m_ammoSect      = section;
-    m_LocalAmmoType = LocalAmmoType;
-    param_s.kDist   = pSettings->r_float(section, "k_dist");
-    param_s.kDisp   = pSettings->r_float(section, "k_disp");
-    param_s.kHit    = pSettings->r_float(section, "k_hit");
+    m_ammoSect        = section;
+    m_LocalAmmoType   = LocalAmmoType;
+    param_s.kDist     = pSettings->r_float(section, "k_dist");
+    param_s.kDisp     = pSettings->r_float(section, "k_disp");
+    param_s.kHit      = pSettings->r_float(section, "k_hit");
     //.	param_s.kCritical			= pSettings->r_float(section, "k_hit_critical");
-    param_s.kImpulse = pSettings->r_float(section, "k_impulse");
+    param_s.kImpulse  = pSettings->r_float(section, "k_impulse");
     // m_kPierce				= pSettings->r_float(section, "k_pierce");
     param_s.kAP       = pSettings->r_float(section, "k_ap");
     param_s.u8ColorID = READ_IF_EXISTS(pSettings, r_u8, section, "tracer_color_ID", 0);
@@ -78,11 +78,11 @@ void CWeaponAmmo::Load(LPCSTR section)
 {
     inherited::Load(section);
 
-    cartridge_param.kDist = pSettings->r_float(section, "k_dist");
-    cartridge_param.kDisp = pSettings->r_float(section, "k_disp");
-    cartridge_param.kHit  = pSettings->r_float(section, "k_hit");
+    cartridge_param.kDist     = pSettings->r_float(section, "k_dist");
+    cartridge_param.kDisp     = pSettings->r_float(section, "k_disp");
+    cartridge_param.kHit      = pSettings->r_float(section, "k_hit");
     //.	cartridge_param.kCritical	= pSettings->r_float(section, "k_hit_critical");
-    cartridge_param.kImpulse = pSettings->r_float(section, "k_impulse");
+    cartridge_param.kImpulse  = pSettings->r_float(section, "k_impulse");
     // m_kPierce				= pSettings->r_float(section, "k_pierce");
     cartridge_param.kAP       = pSettings->r_float(section, "k_ap");
     cartridge_param.u8ColorID = READ_IF_EXISTS(pSettings, r_u8, section, "tracer_color_ID", 0);
@@ -160,7 +160,7 @@ bool CWeaponAmmo::Get(CCartridge& cartridge)
         return false;
     cartridge.m_ammoSect = cNameSect();
 
-    cartridge.param_s = cartridge_param;
+    cartridge.param_s    = cartridge_param;
 
     cartridge.m_flags.set(CCartridge::cfTracer, m_tracer);
     cartridge.bullet_material_idx = GameMaterialLibrary->GetMaterialIdx(WEAPON_MATERIAL_NAME);
@@ -214,8 +214,7 @@ CInventoryItem* CWeaponAmmo::can_make_killing(const CInventory* inventory) const
         CWeapon* weapon = smart_cast<CWeapon*>(*I);
         if (!weapon)
             continue;
-        xr_vector<shared_str>::const_iterator i =
-            std::find(weapon->m_ammoTypes.begin(), weapon->m_ammoTypes.end(), cNameSect());
+        xr_vector<shared_str>::const_iterator i = std::find(weapon->m_ammoTypes.begin(), weapon->m_ammoTypes.end(), cNameSect());
         if (i != weapon->m_ammoTypes.end())
             return (weapon);
     }
@@ -236,7 +235,7 @@ u32 CWeaponAmmo::Cost() const
 {
     u32 res = inherited::Cost();
 
-    res = iFloor(res * (float)m_boxCurr / (float)m_boxSize + 0.5f);
+    res     = iFloor(res * (float)m_boxCurr / (float)m_boxSize + 0.5f);
 
     return res;
 }

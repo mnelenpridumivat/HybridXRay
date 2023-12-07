@@ -8,8 +8,8 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _object_type>
-#define CSQuadTree CQuadTree<_object_type>
+#define TEMPLATE_SPECIALIZATION template<typename _object_type>
+#define CSQuadTree              CQuadTree<_object_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSQuadTree::CQuadTree(const Fbox& box, float min_cell_size, u32 max_node_count, u32 max_list_item_count)
@@ -21,7 +21,7 @@ IC CSQuadTree::CQuadTree(const Fbox& box, float min_cell_size, u32 max_node_coun
 
     VERIFY(!fis_zero(min_cell_size));
     VERIFY(m_radius > min_cell_size);
-    m_max_depth = iFloor(log(2.f * m_radius / min_cell_size) / log(2.f) + .5f);
+    m_max_depth  = iFloor(log(2.f * m_radius / min_cell_size) / log(2.f) + .5f);
 
     m_nodes      = xr_new<CQuadNodeStorage>(max_node_count);
     m_list_items = xr_new<CListItemStorage>(max_list_item_count);
@@ -158,14 +158,7 @@ IC void CSQuadTree::nearest(const Fvector& position, float radius, xr_vector<_ob
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CSQuadTree::nearest(
-    const Fvector&            position,
-    float                     radius,
-    xr_vector<_object_type*>& objects,
-    CQuadNode*                node,
-    Fvector                   center,
-    float                     distance,
-    int                       depth) const
+IC void CSQuadTree::nearest(const Fvector& position, float radius, xr_vector<_object_type*>& objects, CQuadNode* node, Fvector center, float distance, int depth) const
 {
     if (!node)
         return;
@@ -190,18 +183,10 @@ IC void CSQuadTree::nearest(
         {
             if (_sqr(position.z - center.z) + _sqr(position.x - center.x) < _sqr(radius))
             {
-                nearest(
-                    position, radius, objects, node->m_neighbours[0],
-                    next_center.set(center.x - distance, center.y, center.z - distance), distance, depth + 1);
-                nearest(
-                    position, radius, objects, node->m_neighbours[1],
-                    next_center.set(center.x - distance, center.y, center.z + distance), distance, depth + 1);
-                nearest(
-                    position, radius, objects, node->m_neighbours[2],
-                    next_center.set(center.x + distance, center.y, center.z - distance), distance, depth + 1);
-                nearest(
-                    position, radius, objects, node->m_neighbours[3],
-                    next_center.set(center.x + distance, center.y, center.z + distance), distance, depth + 1);
+                nearest(position, radius, objects, node->m_neighbours[0], next_center.set(center.x - distance, center.y, center.z - distance), distance, depth + 1);
+                nearest(position, radius, objects, node->m_neighbours[1], next_center.set(center.x - distance, center.y, center.z + distance), distance, depth + 1);
+                nearest(position, radius, objects, node->m_neighbours[2], next_center.set(center.x + distance, center.y, center.z - distance), distance, depth + 1);
+                nearest(position, radius, objects, node->m_neighbours[3], next_center.set(center.x + distance, center.y, center.z + distance), distance, depth + 1);
                 return;
             }
 
@@ -210,30 +195,18 @@ IC void CSQuadTree::nearest(
             if (position.z > center.z)
             {
                 if (index & 1)
-                    nearest(
-                        position, radius, objects, node->m_neighbours[index == 1 ? 0 : 2],
-                        next_center.set(center.x + (index == 1 ? -1 : 1) * distance, center.y, center.z - distance),
-                        distance, depth + 1);
+                    nearest(position, radius, objects, node->m_neighbours[index == 1 ? 0 : 2], next_center.set(center.x + (index == 1 ? -1 : 1) * distance, center.y, center.z - distance), distance, depth + 1);
             }
             else if (!(index & 1))
-                nearest(
-                    position, radius, objects, node->m_neighbours[!index ? 1 : 3],
-                    next_center.set(center.x + (!index ? -1 : 1) * distance, center.y, center.z + distance), distance,
-                    depth + 1);
+                nearest(position, radius, objects, node->m_neighbours[!index ? 1 : 3], next_center.set(center.x + (!index ? -1 : 1) * distance, center.y, center.z + distance), distance, depth + 1);
 
             if (position.x > center.x)
             {
                 if (index > 1)
-                    nearest(
-                        position, radius, objects, node->m_neighbours[index == 2 ? 0 : 1],
-                        next_center.set(center.x - distance, center.y, center.z + (index == 2 ? -1 : 1) * distance),
-                        distance, depth + 1);
+                    nearest(position, radius, objects, node->m_neighbours[index == 2 ? 0 : 1], next_center.set(center.x - distance, center.y, center.z + (index == 2 ? -1 : 1) * distance), distance, depth + 1);
             }
             else if (index < 2)
-                nearest(
-                    position, radius, objects, node->m_neighbours[!index ? 2 : 3],
-                    next_center.set(center.x + distance, center.y, center.z + (!index ? -1 : 1) * distance), distance,
-                    depth + 1);
+                nearest(position, radius, objects, node->m_neighbours[!index ? 2 : 3], next_center.set(center.x + distance, center.y, center.z + (!index ? -1 : 1) * distance), distance, depth + 1);
 
             return;
         }
@@ -244,16 +217,10 @@ IC void CSQuadTree::nearest(
             if (position.z > center.z)
             {
                 if (index & 1)
-                    nearest(
-                        position, radius, objects, node->m_neighbours[index == 1 ? 0 : 2],
-                        next_center.set(center.x + (index == 1 ? -1 : 1) * distance, center.y, center.z - distance),
-                        distance, depth + 1);
+                    nearest(position, radius, objects, node->m_neighbours[index == 1 ? 0 : 2], next_center.set(center.x + (index == 1 ? -1 : 1) * distance, center.y, center.z - distance), distance, depth + 1);
             }
             else if (!(index & 1))
-                nearest(
-                    position, radius, objects, node->m_neighbours[!index ? 1 : 3],
-                    next_center.set(center.x + (!index ? -1 : 1) * distance, center.y, center.z + distance), distance,
-                    depth + 1);
+                nearest(position, radius, objects, node->m_neighbours[!index ? 1 : 3], next_center.set(center.x + (!index ? -1 : 1) * distance, center.y, center.z + distance), distance, depth + 1);
 
             return;
         }
@@ -266,16 +233,10 @@ IC void CSQuadTree::nearest(
             if (position.x > center.x)
             {
                 if (index > 1)
-                    nearest(
-                        position, radius, objects, node->m_neighbours[index == 2 ? 0 : 1],
-                        next_center.set(center.x - distance, center.y, center.z + (index == 2 ? -1 : 1) * distance),
-                        distance, depth + 1);
+                    nearest(position, radius, objects, node->m_neighbours[index == 2 ? 0 : 1], next_center.set(center.x - distance, center.y, center.z + (index == 2 ? -1 : 1) * distance), distance, depth + 1);
             }
             else if (index < 2)
-                nearest(
-                    position, radius, objects, node->m_neighbours[!index ? 2 : 3],
-                    next_center.set(center.x + distance, center.y, center.z + (!index ? -1 : 1) * distance), distance,
-                    depth + 1);
+                nearest(position, radius, objects, node->m_neighbours[!index ? 2 : 3], next_center.set(center.x + distance, center.y, center.z + (!index ? -1 : 1) * distance), distance, depth + 1);
     }
 }
 
@@ -289,8 +250,7 @@ IC _object_type* CSQuadTree::remove(const _object_type* object)
 }
 
 TEMPLATE_SPECIALIZATION
-IC _object_type*
-    CSQuadTree::remove(const _object_type* object, CQuadNode*& node, Fvector center, float distance, int depth)
+IC _object_type* CSQuadTree::remove(const _object_type* object, CQuadNode*& node, Fvector center, float distance, int depth)
 {
     VERIFY(node);
     if (depth == m_max_depth)
@@ -317,8 +277,7 @@ IC _object_type*
     u32 index = neighbour_index(object->position(), center, distance);
     VERIFY(index < 4);
     _object_type* _object = remove(object, node->m_neighbours[index], center, distance, depth + 1);
-    if (node->m_neighbours[index] || node->m_neighbours[0] || node->m_neighbours[1] || node->m_neighbours[2] ||
-        node->m_neighbours[3])
+    if (node->m_neighbours[index] || node->m_neighbours[0] || node->m_neighbours[1] || node->m_neighbours[2] || node->m_neighbours[3])
         return (_object);
     m_nodes->remove(node);
     return (_object);

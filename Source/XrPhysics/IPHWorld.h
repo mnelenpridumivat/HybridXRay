@@ -16,11 +16,11 @@ class IPHWorld: public iphysics_scripted_class
 {
 public:
     virtual ~IPHWorld() {}
-    virtual float Gravity()               = 0;
-    virtual void  SetGravity(float g)     = 0;
-    virtual bool  Processing()            = 0;
-    virtual u32   CalcNumSteps(u32 dTime) = 0;
-    virtual u64&  StepsNum()              = 0;
+    virtual float Gravity()                                                     = 0;
+    virtual void  SetGravity(float g)                                           = 0;
+    virtual bool  Processing()                                                  = 0;
+    virtual u32   CalcNumSteps(u32 dTime)                                       = 0;
+    virtual u64&  StepsNum()                                                    = 0;
 
     virtual float FrameTime()                                                   = 0;
     virtual void  Freeze()                                                      = 0;
@@ -43,18 +43,10 @@ extern "C" XRPHYSICS_API IPHWorld* __stdcall physics_world();
 class CObjectSpace;
 class CObjectList;
 class XrDeviceInterface;
-extern "C" XRPHYSICS_API void __stdcall create_physics_world(
-    bool               mt,
-    CObjectSpace*      os,
-    CObjectList*       lo,
-    XrDeviceInterface* dv);
+extern "C" XRPHYSICS_API void __stdcall create_physics_world(bool mt, CObjectSpace* os, CObjectList* lo, XrDeviceInterface* dv);
 extern "C" XRPHYSICS_API void __stdcall destroy_physics_world();
 class CGameMtlLibrary;
 extern "C" XRPHYSICS_API CObjectSpace* __stdcall create_object_space();
 struct hdrCFORM;
-extern "C" XRPHYSICS_API CObjectSpace* __stdcall mesh_create_object_space(
-    Fvector*            verts,
-    CDB::TRI*           tris,
-    const hdrCFORM&     H,
-    CDB::build_callback build_callback);
+extern "C" XRPHYSICS_API CObjectSpace* __stdcall mesh_create_object_space(Fvector* verts, CDB::TRI* tris, const hdrCFORM& H, CDB::build_callback build_callback);
 extern "C" XRPHYSICS_API void __stdcall destroy_object_space(CObjectSpace*& os);

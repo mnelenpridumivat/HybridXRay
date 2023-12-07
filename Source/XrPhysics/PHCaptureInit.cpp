@@ -16,11 +16,9 @@
 extern class CPHWorld* ph_world;
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////
-bool can_capture(CPHCharacter* a_character, IPhysicsShellHolder* a_taget_object)
+bool                   can_capture(CPHCharacter* a_character, IPhysicsShellHolder* a_taget_object)
 {
-    if (!a_taget_object || !a_taget_object->ObjectPPhysicsShell() ||
-        !a_taget_object->ObjectPPhysicsShell()->isActive() || a_taget_object->IsInventoryItem() || !a_character ||
-        !a_character->b_exist || !a_character->PhysicsRefObject() ||
+    if (!a_taget_object || !a_taget_object->ObjectPPhysicsShell() || !a_taget_object->ObjectPPhysicsShell()->isActive() || a_taget_object->IsInventoryItem() || !a_character || !a_character->b_exist || !a_character->PhysicsRefObject() ||
         //! a_character->PhysicsRefObject()->ObjectVisual( )
         !a_character->PhysicsRefObject()->ObjectKinematics())
         return false;
@@ -90,18 +88,26 @@ bool				b_disabled;
 bool				b_character_feedback;
 */
 
-CPHCapture::CPHCapture(
-    CPHCharacter*           a_character,
-    IPhysicsShellHolder*    a_taget_object,
-    NearestToPointCallback* cb /*=0*/):
+CPHCapture::CPHCapture(CPHCharacter* a_character, IPhysicsShellHolder* a_taget_object, NearestToPointCallback* cb /*=0*/):
     m_joint(NULL),
-    m_ajoint(NULL), m_body(NULL), m_taget_object(a_taget_object), m_character(a_character), b_disabled(false),
-    b_character_feedback(false), e_state(cstFree),
+    m_ajoint(NULL),
+    m_body(NULL),
+    m_taget_object(a_taget_object),
+    m_character(a_character),
+    b_disabled(false),
+    b_character_feedback(false),
+    e_state(cstFree),
     ///////////////////////////////////////////////////////////////
     m_taget_element(0),
     // dJointFeedback		m_joint_feedback;								,
-    m_capture_pos(Fvector().set(0, 0, 0)), m_back_force(0), m_pull_force(0), m_capture_force(0), m_capture_distance(0),
-    m_capture_time(0), m_time_start(0), m_capture_bone(0),
+    m_capture_pos(Fvector().set(0, 0, 0)),
+    m_back_force(0),
+    m_pull_force(0),
+    m_capture_force(0),
+    m_capture_distance(0),
+    m_capture_time(0),
+    m_time_start(0),
+    m_capture_bone(0),
     // CPHIsland			m_island;
     b_collide(false)
 
@@ -122,14 +128,26 @@ CPHCapture::CPHCapture(
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////
 CPHCapture::CPHCapture(CPHCharacter* a_character, IPhysicsShellHolder* a_taget_object, u16 a_taget_element):
-    m_joint(NULL), m_ajoint(NULL), m_body(NULL), b_disabled(false), b_character_feedback(false),
-    m_taget_object(a_taget_object), m_character(a_character), e_state(cstFree),
+    m_joint(NULL),
+    m_ajoint(NULL),
+    m_body(NULL),
+    b_disabled(false),
+    b_character_feedback(false),
+    m_taget_object(a_taget_object),
+    m_character(a_character),
+    e_state(cstFree),
 
     ///////////////////////////////////////////////////////////////
     m_taget_element(0),
     // dJointFeedback		m_joint_feedback;								,
-    m_capture_pos(Fvector().set(0, 0, 0)), m_back_force(0), m_pull_force(0), m_capture_force(0), m_capture_distance(0),
-    m_capture_time(0), m_time_start(0), m_capture_bone(0),
+    m_capture_pos(Fvector().set(0, 0, 0)),
+    m_back_force(0),
+    m_pull_force(0),
+    m_capture_force(0),
+    m_capture_distance(0),
+    m_capture_time(0),
+    m_time_start(0),
+    m_capture_bone(0),
     // CPHIsland			m_island;
     b_collide(false)
 
@@ -236,13 +254,12 @@ void CPHCapture::Release()
     }
     m_body = NULL;
 
-    if (e_state == cstPulling && m_taget_element && !m_taget_object->ObjectGetDestroy() &&
-        m_taget_object->ObjectPPhysicsShell() && m_taget_object->ObjectPPhysicsShell()->isActive())
+    if (e_state == cstPulling && m_taget_element && !m_taget_object->ObjectGetDestroy() && m_taget_object->ObjectPPhysicsShell() && m_taget_object->ObjectPPhysicsShell()->isActive())
     {
         m_taget_element->set_DynamicLimits();
     }
 
-    b_collide = true;
+    b_collide              = true;
     // CActor* A=smart_cast<CActor*>(m_character->PhysicsRefObject());
     IPhysicsShellHolder* A = (m_character->PhysicsRefObject());
     if (A)

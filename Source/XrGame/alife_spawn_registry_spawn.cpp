@@ -70,19 +70,12 @@ IC bool CALifeSpawnRegistry::object_existance_limit(CSE_Abstract& abstract, SPAW
 
 IC bool CALifeSpawnRegistry::can_spawn(CSE_Abstract& abstract, ALife::_TIME_ID game_time, SPAWN_IDS& objects) const
 {
-    return (
-        enabled_spawn(abstract) && !count_limit(abstract) && !time_limit(abstract, game_time) &&
-        !object_existance_limit(abstract, objects));
+    return (enabled_spawn(abstract) && !count_limit(abstract) && !time_limit(abstract, game_time) && !object_existance_limit(abstract, objects));
 }
 
-void CALifeSpawnRegistry::fill_new_spawns_single(
-    SPAWN_GRAPH::CVertex* vertex,
-    SPAWN_IDS&            spawns,
-    ALife::_TIME_ID       game_time,
-    SPAWN_IDS&            objects)
+void CALifeSpawnRegistry::fill_new_spawns_single(SPAWN_GRAPH::CVertex* vertex, SPAWN_IDS& spawns, ALife::_TIME_ID game_time, SPAWN_IDS& objects)
 {
-    if (!!vertex->data()->object().m_spawn_flags.is(CSE_Abstract::flSpawnIfDestroyedOnly) &&
-        spawned_item(vertex, objects))
+    if (!!vertex->data()->object().m_spawn_flags.is(CSE_Abstract::flSpawnIfDestroyedOnly) && spawned_item(vertex, objects))
         return;
 
     float                       accumulator = 0.f;
@@ -91,7 +84,7 @@ void CALifeSpawnRegistry::fill_new_spawns_single(
     for (; I != E; ++I)
         accumulator += (*I).weight();
 
-    float probability = randF(accumulator);
+    float probability       = randF(accumulator);
     //	float						group_probability = vertex->data()->object().m_spawn_probability;
     float group_probability = 1.f;
 
@@ -112,11 +105,7 @@ void CALifeSpawnRegistry::fill_new_spawns_single(
     }
 }
 
-void CALifeSpawnRegistry::fill_new_spawns(
-    SPAWN_GRAPH::CVertex* vertex,
-    SPAWN_IDS&            spawns,
-    ALife::_TIME_ID       game_time,
-    SPAWN_IDS&            objects)
+void CALifeSpawnRegistry::fill_new_spawns(SPAWN_GRAPH::CVertex* vertex, SPAWN_IDS& spawns, ALife::_TIME_ID game_time, SPAWN_IDS& objects)
 {
     VERIFY(vertex);
     if (!can_spawn(vertex->data()->object(), game_time, objects))

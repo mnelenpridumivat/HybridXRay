@@ -1,4 +1,4 @@
-// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
+﻿// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -20,17 +20,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 #ifndef LUABIND_OPEN_HPP_INCLUDED
 #define LUABIND_OPEN_HPP_INCLUDED
 
 #include "config.hpp"
 
-namespace luabind {
+namespace luabind
+{
 
-	LUABIND_API void open(lua_State* L);
+    LUABIND_API void open(lua_State* L);
 
 }
 
-#endif // LUABIND_OPEN_HPP_INCLUDED
-
+#endif   // LUABIND_OPEN_HPP_INCLUDED

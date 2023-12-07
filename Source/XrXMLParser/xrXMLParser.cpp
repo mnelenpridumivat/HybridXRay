@@ -59,7 +59,7 @@ void ParseFile(LPCSTR path, CMemoryWriter& W, IReader* F, CXml* xml)
 
 void CXml::Load(LPCSTR path_alias, LPCSTR path, LPCSTR _xml_filename)
 {
-    shared_str fn = correct_file_name(path, _xml_filename);
+    shared_str  fn = correct_file_name(path, _xml_filename);
 
     string_path str;
     xr_sprintf(str, "%s\\%s", path, *fn);
@@ -113,7 +113,7 @@ XML_NODE* CXml::NavigateToNode(XML_NODE* start_node, LPCSTR path, int node_index
     int   tmp = 0;
 
     // разбить путь на отдельные подпути
-    token = strtok(buf_str, seps);
+    token     = strtok(buf_str, seps);
 
     if (token != NULL)
     {
@@ -276,10 +276,10 @@ LPCSTR CXml::ReadAttrib(XML_NODE* node, LPCSTR attrib, LPCSTR default_str_val)
                 //не сможем запомнить строку и return вернет левый указатель
                 shared_str result_str;
         */
-        LPCSTR result_str = NULL;
+        LPCSTR        result_str = NULL;
         // Кастаем ниже по иерархии
 
-        TiXmlElement* el = node->ToElement();
+        TiXmlElement* el         = node->ToElement();
 
         if (el)
         {
@@ -420,8 +420,7 @@ XML_NODE* CXml::SearchForAttribute(XML_NODE* start_node, LPCSTR tag_name, LPCSTR
             LPCSTR attribStr = el->Attribute(attrib);
             LPCSTR valueStr  = el->Value();
 
-            if (attribStr && 0 == xr_strcmp(attribStr, attrib_value_pattern) && valueStr &&
-                0 == xr_strcmp(valueStr, tag_name))
+            if (attribStr && 0 == xr_strcmp(attribStr, attrib_value_pattern) && valueStr && 0 == xr_strcmp(valueStr, tag_name))
             {
                 return el;
             }
@@ -447,9 +446,9 @@ LPCSTR CXml::CheckUniqueAttrib(XML_NODE* start_node, LPCSTR tag_name, LPCSTR att
 
     for (int i = 0; i < tags_num; i++)
     {
-        LPCSTR attrib = ReadAttrib(start_node, tag_name, i, attrib_name, NULL);
+        LPCSTR                          attrib = ReadAttrib(start_node, tag_name, i, attrib_name, NULL);
 
-        xr_vector<shared_str>::iterator it = std::find(m_AttribValues.begin(), m_AttribValues.end(), attrib);
+        xr_vector<shared_str>::iterator it     = std::find(m_AttribValues.begin(), m_AttribValues.end(), attrib);
 
         if (m_AttribValues.end() != it)
             return attrib;

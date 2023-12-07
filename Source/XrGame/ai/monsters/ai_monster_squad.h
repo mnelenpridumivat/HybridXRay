@@ -54,10 +54,10 @@ struct SSquadCommand
 {
     ESquadCommandType type;   // тип команды
 
-    const CEntity* entity;
-    Fvector        position;
-    u32            node;
-    Fvector        direction;
+    const CEntity*    entity;
+    Fvector           position;
+    u32               node;
+    Fvector           direction;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -72,7 +72,7 @@ private:
     DEFINE_MAP(CEntity*, SMemberGoal, MEMBER_GOAL_MAP, MEMBER_GOAL_MAP_IT);
 
     // карта целей членов группы (обновляется со стороны объекта)
-    MEMBER_GOAL_MAP m_goals;
+    MEMBER_GOAL_MAP    m_goals;
 
     // карта комманд членов группы (обновляется со стороны squad manager)
     MEMBER_COMMAND_MAP m_commands;
@@ -108,9 +108,9 @@ public:
 
     // -----------------------------------------------------------------
 
-    void UpdateGoal(CEntity* pE, const SMemberGoal& goal);
-    void InformSquadAboutEnemy(CEntityAlive const* const enemy);
-    void UpdateCommand(const CEntity* pE, const SSquadCommand& com);
+    void           UpdateGoal(CEntity* pE, const SMemberGoal& goal);
+    void           InformSquadAboutEnemy(CEntityAlive const* const enemy);
+    void           UpdateCommand(const CEntity* pE, const SSquadCommand& com);
 
     void           GetGoal(CEntity* pE, SMemberGoal& goal);
     void           GetCommand(CEntity* pE, SSquadCommand& com);
@@ -119,15 +119,15 @@ public:
 
     // -----------------------------------------------------------------
 
-    void UpdateSquadCommands();
+    void           UpdateSquadCommands();
 
-    void remove_links(CObject* O);
+    void           remove_links(CObject* O);
 
     // return count of monsters in radius for object
-    u8   get_count(const CEntity* object, float radius);
-    void set_squad_index(const CEntity* m_enemy);
-    void set_rat_squad_index(const CEntity* m_enemy);
-    u8   get_index(CEntity* m_object);
+    u8             get_count(const CEntity* object, float radius);
+    void           set_squad_index(const CEntity* m_enemy);
+    void           set_rat_squad_index(const CEntity* m_enemy);
+    u8             get_index(CEntity* m_object);
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //  Общие данные
@@ -144,7 +144,7 @@ public:
 
     ENEMY_MAP m_enemy_map;
 
-    void ProcessAttack();
+    void      ProcessAttack();
 
     // -- Temp --
     struct _elem
@@ -153,40 +153,40 @@ public:
         Fvector  p_from;
         float    yaw;
     };
-    xr_vector<_elem> lines;
+    xr_vector<_elem>    lines;
     // ------------
 
-    void Attack_AssignTargetDir(ENTITY_VEC& members, const CEntity* enemy);
+    void                Attack_AssignTargetDir(ENTITY_VEC& members, const CEntity* enemy);
 
-    void get_index_in_squad(ENTITY_VEC& members, const CEntity* m_enemy);
-    void get_index_in_rat_squad(ENTITY_VEC& members, const CEntity* m_enemy);
+    void                get_index_in_squad(ENTITY_VEC& members, const CEntity* m_enemy);
+    void                get_index_in_rat_squad(ENTITY_VEC& members, const CEntity* m_enemy);
 
     ////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //  групповой idle
     //////////////////////////////////////////////////////////////////////////////////////
-    ENTITY_VEC front, back, left, right;
+    ENTITY_VEC          front, back, left, right;
 
-    void ProcessIdle();
-    void Idle_AssignAction(ENTITY_VEC& members);
+    void                ProcessIdle();
+    void                Idle_AssignAction(ENTITY_VEC& members);
 
     ////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //  Covers
     //////////////////////////////////////////////////////////////////////////////////////
-    bool is_locked_cover(u32 node);
-    void lock_cover(u32 node);
-    void unlock_cover(u32 node);
+    bool                is_locked_cover(u32 node);
+    void                lock_cover(u32 node);
+    void                unlock_cover(u32 node);
     ////////////////////////////////////////////////////////////////////////////////////////
 
     ///////////////////////////////////////////////////////////////////////////////////////
     //  Corpses
     //////////////////////////////////////////////////////////////////////////////////////
-    bool is_locked_corpse(const CEntityAlive*);
-    void lock_corpse(const CEntityAlive*);
-    void unlock_corpse(const CEntityAlive*);
+    bool                is_locked_corpse(const CEntityAlive*);
+    void                lock_corpse(const CEntityAlive*);
+    void                unlock_corpse(const CEntityAlive*);
     ////////////////////////////////////////////////////////////////////////////////////////
 
     // Lain: added
@@ -206,8 +206,8 @@ public:
 private:
     // danger mode is turns on when monsters hear dangerous sound or get a hit
     // danger mode turns off after m_danger_mode_time miliseconds
-    u32 m_home_danger_mode_time;
-    u32 m_home_danger_end_tick;
+    u32     m_home_danger_mode_time;
+    u32     m_home_danger_end_tick;
 
     void    assign_monsters_target_dirs(ENTITY_VEC& members, const CEntity* enemy);
     Fvector calc_monster_target_dir(CBaseMonster* monster, const CEntity* enemy);

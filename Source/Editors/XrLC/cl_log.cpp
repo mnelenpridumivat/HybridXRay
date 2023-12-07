@@ -164,8 +164,7 @@ void logThread(void* dummy)
     float PrSave  = 0;
     while (TRUE)
     {
-        SetPriorityClass(
-            GetCurrentProcess(), IDLE_PRIORITY_CLASS);   // bHighPriority?NORMAL_PRIORITY_CLASS:IDLE_PRIORITY_CLASS
+        SetPriorityClass(GetCurrentProcess(), IDLE_PRIORITY_CLASS);   // bHighPriority?NORMAL_PRIORITY_CLASS:IDLE_PRIORITY_CLASS
 
         // transfer data
         while (!csLog.TryEnter())
@@ -208,8 +207,7 @@ void logThread(void* dummy)
                 u32 dwTimeDiff    = dwCurrentTime - phase_start_time;
                 u32 secElapsed    = dwTimeDiff / 1000;
                 u32 secRemain     = u32(float(secElapsed) / progress) - secElapsed;
-                xr_sprintf(
-                    tbuf,
+                xr_sprintf(tbuf,
                     "Elapsed: %s\n"
                     "Remain:  %s",
                     make_time(secElapsed).c_str(), make_time(secRemain).c_str());
@@ -289,6 +287,7 @@ class client_log_impl: public i_lc_log
     {
         ::Phase(phase_name);
     }
+
 public:
     client_log_impl()
     {

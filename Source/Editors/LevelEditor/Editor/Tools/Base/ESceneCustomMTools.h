@@ -60,8 +60,8 @@ public:
 
 public:
     // modifiers
-    shared_str m_ModifName;
-    time_t     m_ModifTime;
+    shared_str         m_ModifName;
+    time_t             m_ModifTime;
     // frame & Controls
     TUI_CustomControl* pCurControl;
     UIToolCustom*      pForm;
@@ -72,8 +72,8 @@ protected:
     void UpdateControl();
 
 public:
-    void   SetAction(int action);
-    void   SetSubTarget(int target);
+    void SetAction(int action);
+    void SetSubTarget(int target);
     void ResetSubTarget();
 
 protected:
@@ -99,36 +99,36 @@ public:
     ESceneToolBase(ObjClassID cls);
     virtual ~ESceneToolBase();
 
-    virtual void OnCreate();
-    virtual void OnDestroy();
+    virtual void        OnCreate();
+    virtual void        OnDestroy();
 
-    virtual bool AllowEnabling() = 0;
+    virtual bool        AllowEnabling()                                                                                          = 0;
     // snap
-    virtual ObjectList* GetSnapList()    = 0;
-    virtual void        UpdateSnapList() = 0;
+    virtual ObjectList* GetSnapList()                                                                                            = 0;
+    virtual void        UpdateSnapList()                                                                                         = 0;
 
     // selection manipulate
     // flags: [0 - FALSE, 1 - TRUE, -1 - INVERT]
-    virtual int RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly) = 0;
-    virtual int  FrustumSelect(int flag, const CFrustum& frustum)                                                = 0;
-    virtual void SelectObjects(bool flag)                                                                        = 0;
-    virtual void InvertSelection()                                                                               = 0;
-    virtual void RemoveSelection()                                                                               = 0;
-    virtual int  SelectionCount(bool testflag)                                                                   = 0;
-    virtual void ShowObjects(bool flag, bool bAllowSelectionFlag = false, bool bSelFlag = true)                  = 0;
+    virtual int         RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly) = 0;
+    virtual int         FrustumSelect(int flag, const CFrustum& frustum)                                                         = 0;
+    virtual void        SelectObjects(bool flag)                                                                                 = 0;
+    virtual void        InvertSelection()                                                                                        = 0;
+    virtual void        RemoveSelection()                                                                                        = 0;
+    virtual int         SelectionCount(bool testflag)                                                                            = 0;
+    virtual void        ShowObjects(bool flag, bool bAllowSelectionFlag = false, bool bSelFlag = true)                           = 0;
 
-    virtual void Clear(bool bSpecific = false) = 0;
-    virtual void Reset();
+    virtual void        Clear(bool bSpecific = false)                                                                            = 0;
+    virtual void        Reset();
 
     // validation
-    virtual bool Valid()        = 0;
-    virtual bool Validate(bool) = 0;
+    virtual bool        Valid()           = 0;
+    virtual bool        Validate(bool)    = 0;
 
     // events
-    virtual void OnDeviceCreate()  = 0;
-    virtual void OnDeviceDestroy() = 0;
-    virtual void OnSynchronize()   = 0;
-    virtual void OnSceneUpdate()
+    virtual void        OnDeviceCreate()  = 0;
+    virtual void        OnDeviceDestroy() = 0;
+    virtual void        OnSynchronize()   = 0;
+    virtual void        OnSceneUpdate()
     {
         ;
     }
@@ -157,7 +157,7 @@ public:
     {
         return 1;
     }
-    virtual bool IsNeedSave() = 0;
+    virtual bool IsNeedSave()               = 0;
 
     virtual bool LoadStream(IReader&)       = 0;
     virtual bool LoadLTX(CInifile&)         = 0;
@@ -194,18 +194,18 @@ public:
 #endif
         return true;
     }
-    virtual void CompileStaticStart(){};
-    virtual void CompileStaticEnd(){};
+    virtual void                 CompileStaticStart(){};
+    virtual void                 CompileStaticEnd(){};
 
     // properties
-    virtual void FillProp(LPCSTR pref, PropItemVec& items) = 0;
+    virtual void                 FillProp(LPCSTR pref, PropItemVec& items)        = 0;
 
-    virtual void FillPropObjects(LPCSTR pref, PropItemVec& items) = 0;
+    virtual void                 FillPropObjects(LPCSTR pref, PropItemVec& items) = 0;
 
     // utils
-    virtual bool GetSummaryInfo(SSceneSummary* inf) = 0;
-    virtual void HighlightTexture(LPCSTR tex_name, bool allow_ratio, u32 t_width, u32 t_height, BOOL mark) {}
-    virtual void GetBBox(Fbox& bb, bool bSelOnly) = 0;
+    virtual bool                 GetSummaryInfo(SSceneSummary* inf)               = 0;
+    virtual void                 HighlightTexture(LPCSTR tex_name, bool allow_ratio, u32 t_width, u32 t_height, BOOL mark) {}
+    virtual void                 GetBBox(Fbox& bb, bool bSelOnly) = 0;
     virtual const CCustomObject* LastSelected() const
     {
         return NULL;

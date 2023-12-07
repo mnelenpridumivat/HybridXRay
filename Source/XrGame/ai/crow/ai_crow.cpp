@@ -98,9 +98,7 @@ void CAI_Crow::init()
 {
     st_current = eUndef;
     st_target  = eFlyIdle;
-    vGoalDir.set(
-        10.0f * (Random.randF() - Random.randF()), 10.0f * (Random.randF() - Random.randF()),
-        10.0f * (Random.randF() - Random.randF()));
+    vGoalDir.set(10.0f * (Random.randF() - Random.randF()), 10.0f * (Random.randF() - Random.randF()), 10.0f * (Random.randF() - Random.randF()));
     vCurrentDir.set(0, 0, 1);
     vHPB.set(0, 0, 0);
     fDHeading        = 0;
@@ -206,7 +204,7 @@ void CAI_Crow::state_Flying(float fdt)
     Fvector& vDirection = XFORM().k;
 
     // Tweak orientation based on last position and goal
-    Fvector vOffset;
+    Fvector  vOffset;
     vOffset.sub(vGoalDir, Position());
 
     // First, tweak the pitch
@@ -466,9 +464,7 @@ void CAI_Crow::HitImpulse(float /**amount/**/, Fvector& /**vWorldDir/**/, Fvecto
 void CAI_Crow::CreateSkeleton()
 {
     m_pPhysicsShell = P_build_Shell(this, false, (BONE_P_MAP*)0);   // P_build_SimpleShell(this,0.3f,false);
-    m_pPhysicsShell->SetMaterial(smart_cast<IKinematics*>(Visual())
-                                     ->LL_GetData(smart_cast<IKinematics*>(Visual())->LL_GetBoneRoot())
-                                     .game_mtl_idx);
+    m_pPhysicsShell->SetMaterial(smart_cast<IKinematics*>(Visual())->LL_GetData(smart_cast<IKinematics*>(Visual())->LL_GetBoneRoot()).game_mtl_idx);
 }
 
 // void CAI_Crow::Hit	(float P, Fvector &dir, CObject* who, s16 element,Fvector p_in_object_space, float impulse,

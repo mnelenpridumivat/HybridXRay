@@ -92,7 +92,7 @@ void CUIMpTradeWnd::UpdateMoneyIndicator()
             xr_sprintf(buff, "%d", _cost);
             st->SetText(buff);
             bool b_has_enought_money = _cost <= GetMoneyAmount();
-            u32  clr = (b_has_enought_money) ? m_text_color_money_positive : m_text_color_money_negative;
+            u32  clr                 = (b_has_enought_money) ? m_text_color_money_positive : m_text_color_money_negative;
             st->SetTextColor(clr);
             const preset_items& v = GetPreset((ETradePreset)i);
             m_btns_preset[i]->Enable(b_has_enought_money && v.size() != 0);
@@ -202,14 +202,14 @@ bool CUIMpTradeWnd::OnItemDrop(CUICellItem* itm)
     CUIDragDropListEx* _owner_list = itm->OwnerList();
     dd_list_type       _owner_type = GetListType(_owner_list);
 
-    CUIDragDropListEx* _new_owner = CUIDragDropListEx::m_drag_item->BackList();
+    CUIDragDropListEx* _new_owner  = CUIDragDropListEx::m_drag_item->BackList();
 
     if (!_new_owner || _new_owner == _owner_list)
         return true;
 
-    dd_list_type _new_owner_type = GetListType(_new_owner);
+    dd_list_type  _new_owner_type = GetListType(_new_owner);
 
-    SBuyItemInfo* iinfo = FindItem(itm);
+    SBuyItemInfo* iinfo           = FindItem(itm);
 
     if (_owner_type == dd_shop)
     {
@@ -254,17 +254,19 @@ bool CUIMpTradeWnd::OnItemDbClick(CUICellItem* itm)
     CUIDragDropListEx* owner_list = itm->OwnerList();
     dd_list_type       owner_type = GetListType(owner_list);
 
-    SBuyItemInfo* iinfo = FindItem(itm);
+    SBuyItemInfo*      iinfo      = FindItem(itm);
 
     switch (owner_type)
     {
-        case dd_shop: {
+        case dd_shop:
+        {
             BuyItemAction(iinfo);
         }
         break;
 
         case dd_own_bag:
-        case dd_own_slot: {
+        case dd_own_slot:
+        {
             if (!CanBuyOrSellInList(owner_list))
             {
                 SBuyItemInfo* tmp_iinfo = NULL;
@@ -302,8 +304,8 @@ bool CUIMpTradeWnd::OnItemLButtonClick(CUICellItem* itm)
 
     const shared_str& buy_item_name = iinfo->m_name_sect;
 
-    SBuyItemInfo* pitem = CreateItem(buy_item_name, SBuyItemInfo::e_undefined, false);
-    bool          b_res = TryToBuyItem(pitem, bf_normal, NULL);
+    SBuyItemInfo*     pitem         = CreateItem(buy_item_name, SBuyItemInfo::e_undefined, false);
+    bool              b_res         = TryToBuyItem(pitem, bf_normal, NULL);
     if (!b_res)
     {
         DestroyItem(pitem);
@@ -314,8 +316,7 @@ bool CUIMpTradeWnd::OnItemLButtonClick(CUICellItem* itm)
 
 bool CUIMpTradeWnd::CanBuyOrSellInList(CUIDragDropListEx* list)
 {
-    return list == m_list[e_pistol_ammo] || list == m_list[e_rifle_ammo] || list == m_list[e_medkit] ||
-        list == m_list[e_granade];
+    return list == m_list[e_pistol_ammo] || list == m_list[e_rifle_ammo] || list == m_list[e_medkit] || list == m_list[e_granade];
 }
 
 bool CUIMpTradeWnd::OnItemRButtonClick(CUICellItem* itm)
@@ -431,23 +432,23 @@ void CUIMpTradeWnd::IgnoreMoneyAndRank(bool ignore)
 
 void CUIMpTradeWnd::IgnoreMoney(bool ignore) {}
 
-u32 CUIMpTradeWnd::GetMoneyAmount() const
+u32  CUIMpTradeWnd::GetMoneyAmount() const
 {
     return m_money;
 }
 
 u32 CUIMpTradeWnd::GetPresetCost(ETradePreset idx)
 {
-    const preset_items&          v    = GetPreset(idx);
-    preset_items::const_iterator it   = v.begin();
-    preset_items::const_iterator it_e = v.end();
+    const preset_items&          v      = GetPreset(idx);
+    preset_items::const_iterator it     = v.begin();
+    preset_items::const_iterator it_e   = v.end();
 
-    u32 result = 0;
+    u32                          result = 0;
     for (; it != it_e; ++it)
     {
-        const _preset_item& _one = *it;
+        const _preset_item& _one       = *it;
 
-        u32 _item_cost = m_item_mngr->GetItemCost(_one.sect_name, GetRank());
+        u32                 _item_cost = m_item_mngr->GetItemCost(_one.sect_name, GetRank());
 
         if (_one.addon_names[0].c_str())
             _item_cost += m_item_mngr->GetItemCost(_one.addon_names[0], GetRank());

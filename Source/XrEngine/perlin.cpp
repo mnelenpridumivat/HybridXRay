@@ -6,14 +6,14 @@
 
 #include "perlin.h"
 
-#define B SAMPLE_SIZE
-#define BM (SAMPLE_SIZE - 1)
+#define B             SAMPLE_SIZE
+#define BM            (SAMPLE_SIZE - 1)
 
-#define N 0x1000
-#define NP 12 /* 2^N */
-#define NM 0xfff
+#define N             0x1000
+#define NP            12 /* 2^N */
+#define NM            0xfff
 
-#define s_curve(t) (t * t * (3.0f - 2.0f * t))
+#define s_curve(t)    (t * t * (3.0f - 2.0f * t))
 #define lerp(t, a, b) (a + t * (b - a))
 
 #define setup(i, b0, b1, r0, r1) \
@@ -68,8 +68,8 @@ float CPerlinNoise1D::noise(float arg)
 
     sx = s_curve(rx0);
 
-    u = rx0 * g1[p[bx0]];
-    v = rx1 * g1[p[bx1]];
+    u  = rx0 * g1[p[bx0]];
+    v  = rx1 * g1[p[bx1]];
 
     return lerp(sx, u, v);
 }
@@ -156,16 +156,16 @@ float CPerlinNoise2D::noise(const Fvector2& vec)
     setup(0, bx0, bx1, rx0, rx1);
     setup(1, by0, by1, ry0, ry1);
 
-    i = p[bx0];
-    j = p[bx1];
+    i   = p[bx0];
+    j   = p[bx1];
 
     b00 = p[i + by0];
     b10 = p[j + by0];
     b01 = p[i + by1];
     b11 = p[j + by1];
 
-    sx = s_curve(rx0);
-    sy = s_curve(ry0);
+    sx  = s_curve(rx0);
+    sy  = s_curve(ry0);
 
 #define at2(rx, ry) (rx * q[0] + ry * q[1])
 
@@ -258,17 +258,17 @@ float CPerlinNoise3D::noise(const Fvector3& vec)
     setup(1, by0, by1, ry0, ry1);
     setup(2, bz0, bz1, rz0, rz1);
 
-    i = p[bx0];
-    j = p[bx1];
+    i   = p[bx0];
+    j   = p[bx1];
 
     b00 = p[i + by0];
     b10 = p[j + by0];
     b01 = p[i + by1];
     b11 = p[j + by1];
 
-    t  = s_curve(rx0);
-    sy = s_curve(ry0);
-    sz = s_curve(rz0);
+    t   = s_curve(rx0);
+    sy  = s_curve(ry0);
+    sz  = s_curve(rz0);
 
 #define at3(rx, ry, rz) (rx * q[0] + ry * q[1] + rz * q[2])
 
@@ -307,8 +307,8 @@ void CPerlinNoise3D::normalize(float v[3])
 {
     float s;
 
-    s = _sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
-    s = 1.0f / s;
+    s    = _sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+    s    = 1.0f / s;
 
     v[0] = v[0] * s;
     v[1] = v[1] * s;

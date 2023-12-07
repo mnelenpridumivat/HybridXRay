@@ -5,7 +5,7 @@
 #ifndef fsH
 #define fsH
 
-#define CFS_CompressMark (1ul << 31ul)
+#define CFS_CompressMark  (1ul << 31ul)
 #define CFS_HeaderChunkID (666)
 
 XRCORE_API void VerifyPath(LPCSTR path);
@@ -37,13 +37,13 @@ public:
     }
 
     // kernel
-    virtual void seek(u32 pos) = 0;
-    virtual u32  tell()        = 0;
+    virtual void seek(u32 pos)                 = 0;
+    virtual u32  tell()                        = 0;
 
     virtual void w(const void* ptr, u32 count) = 0;
 
     // generalized writing functions
-    IC void w_u64(u64 d)
+    IC void      w_u64(u64 d)
     {
         w(&d, sizeof(u64));
     }
@@ -219,7 +219,7 @@ public:
         position  = 0;
     }
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
     IC void free()
     {
         file_size = 0;
@@ -253,7 +253,7 @@ struct XRCORE_API IReaderTestPolicy
 };
 #endif   // TESTING_IREADER
 
-template <typename implementation_type> class IReaderBase
+template<typename implementation_type> class IReaderBase
 
 #ifdef TESTING_IREADER
     : public IReaderTestPolicy   // inheriting
@@ -476,8 +476,7 @@ public:
                                         break;   // found start of next section
                                     length++;
                                 }
-                                Msg("!![%s] THM [%s] chunk [%u] fixed, wrong size = [%u], correct size = [%u]",
-                                    __FUNCTION__, dbg_name, ID, dwSize, length);
+                                Msg("!![%s] THM [%s] chunk [%u] fixed, wrong size = [%u], correct size = [%u]", __FUNCTION__, dbg_name, ID, dwSize, length);
                             }
                         }
 
@@ -627,7 +626,7 @@ public:
     // iterators
     IReader* open_chunk_iterator(u32& ID, IReader* previous = NULL);   // NULL=first
 
-    u32 find_chunk(u32 ID, BOOL* bCompressed = 0);
+    u32      find_chunk(u32 ID, BOOL* bCompressed = 0);
 
 private:
     typedef IReaderBase<IReader> inherited;

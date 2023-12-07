@@ -13,13 +13,13 @@ class CPortal: public CCustomObject
     friend struct co_plane_pred;
     typedef CCustomObject inherited;
 
-    FvectorVec m_Vertices;
-    FvectorVec m_SimplifyVertices;
-    Fvector    m_Center;
-    float      m_Radius;
-    Fvector    m_Normal;
-    CSector*   m_SectorFront;
-    CSector*   m_SectorBack;
+    FvectorVec            m_Vertices;
+    FvectorVec            m_SimplifyVertices;
+    Fvector               m_Center;
+    float                 m_Radius;
+    Fvector               m_Normal;
+    CSector*              m_SectorFront;
+    CSector*              m_SectorBack;
 
 public:
     CPortal(LPVOID data, LPCSTR name);
@@ -44,7 +44,7 @@ public:
     bool         Update(bool bLoadMode = false);
     void         InvertOrientation(bool bUndo);
 
-    FvectorVec& Vertices()
+    FvectorVec&  Vertices()
     {
         return m_Vertices;
     }

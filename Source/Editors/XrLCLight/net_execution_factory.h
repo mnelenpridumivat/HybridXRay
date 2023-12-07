@@ -22,11 +22,14 @@ namespace lc_net
     public:
         // typedef std::pair<u32, base_execution_type_creator*> type_reg;
         typedef base_execution_type_creator* type_reg;
+
     private:
         xr_vector<type_reg> vec_types;
+
     private:
         net_execution* create_in_pool(u32 type_id);
         void           destroy_in_pool(net_execution*& e);
+
     public:
         net_execution*                                              create(u32 type_id, u32 _net_id);
 
@@ -45,8 +48,10 @@ namespace lc_net
 
         factory();
         ~factory();
+
     public:
         void register_type(base_execution_type_creator* creator);
+
     private:
         //	xr_vector< type_reg >::iterator find_type		( u32 id  );
         void register_all();

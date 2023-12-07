@@ -30,8 +30,8 @@ struct SBuyItemInfo
 
     ~SBuyItemInfo();
     SBuyItemInfo();
-    shared_str   m_name_sect;
-    CUICellItem* m_cell_item;
+    shared_str       m_name_sect;
+    CUICellItem*     m_cell_item;
 
     const EItmState& GetState() const
     {
@@ -90,7 +90,7 @@ public:
         bf_own_itm           = (1 << 3),
         bf_ignore_team       = (1 << 4),
 
-        bf_normal = bf_check_money | bf_check_rank_restr | bf_check_count_restr,
+        bf_normal            = bf_check_money | bf_check_rank_restr | bf_check_count_restr,
     };
 
 public:
@@ -103,30 +103,30 @@ public:
     virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
 
 public:
-    virtual void Init(const shared_str& sectionName, const shared_str& sectionPrice);
-    virtual void BindDragDropListEvents(CUIDragDropListEx* lst, bool bDrag);
+    virtual void                Init(const shared_str& sectionName, const shared_str& sectionPrice);
+    virtual void                BindDragDropListEvents(CUIDragDropListEx* lst, bool bDrag);
 
-    virtual void              GetWeaponIndexByName(const shared_str& sectionName, u8& grpNum, u8& idx);
-    virtual u32               GetMoneyAmount() const;
-    virtual void              SetMoneyAmount(u32 money);
-    virtual void              IgnoreMoney(bool ignore);
-    virtual void              SectionToSlot(const u8 grpNum, u8 uIndexInSlot, bool bRealRepresentationSet);
-    virtual bool              CheckBuyAvailabilityInSlots();
-    virtual void              AddonToSlot(int add_on, int slot, bool bRealRepresentationSet);
-    virtual const shared_str& GetWeaponNameByIndex(u8 grpNum, u8 idx);
-    virtual void              IgnoreMoneyAndRank(bool ignore);
-    virtual bool              CanBuyAllItems();
-    virtual void              ResetItems();
-    virtual void              SetRank(u32 rank);
-    virtual u32               GetRank();
+    virtual void                GetWeaponIndexByName(const shared_str& sectionName, u8& grpNum, u8& idx);
+    virtual u32                 GetMoneyAmount() const;
+    virtual void                SetMoneyAmount(u32 money);
+    virtual void                IgnoreMoney(bool ignore);
+    virtual void                SectionToSlot(const u8 grpNum, u8 uIndexInSlot, bool bRealRepresentationSet);
+    virtual bool                CheckBuyAvailabilityInSlots();
+    virtual void                AddonToSlot(int add_on, int slot, bool bRealRepresentationSet);
+    virtual const shared_str&   GetWeaponNameByIndex(u8 grpNum, u8 idx);
+    virtual void                IgnoreMoneyAndRank(bool ignore);
+    virtual bool                CanBuyAllItems();
+    virtual void                ResetItems();
+    virtual void                SetRank(u32 rank);
+    virtual u32                 GetRank();
 
-    virtual void ItemToBelt(const shared_str& sectionName);
-    virtual void ItemToRuck(const shared_str& sectionName, u8 addons);
-    virtual void ItemToSlot(const shared_str& sectionName, u8 addons);
-    virtual void SetupPlayerItemsBegin();
-    virtual void SetupPlayerItemsEnd();
-    virtual void SetupDefaultItemsBegin();
-    virtual void SetupDefaultItemsEnd();
+    virtual void                ItemToBelt(const shared_str& sectionName);
+    virtual void                ItemToRuck(const shared_str& sectionName, u8 addons);
+    virtual void                ItemToSlot(const shared_str& sectionName, u8 addons);
+    virtual void                SetupPlayerItemsBegin();
+    virtual void                SetupPlayerItemsEnd();
+    virtual void                SetupDefaultItemsBegin();
+    virtual void                SetupDefaultItemsEnd();
 
     virtual const preset_items& GetPreset(ETradePreset idx);
     virtual u32                 GetPresetCost(ETradePreset idx);
@@ -135,141 +135,141 @@ public:
     virtual void                Show(bool status);
     virtual bool                IsIgnoreMoneyAndRank();
 
-    bool            HasItemInGroup(shared_str const& section_name);
-    CItemMgr const* GetItemMngr() const
+    bool                        HasItemInGroup(shared_str const& section_name);
+    CItemMgr const*             GetItemMngr() const
     {
         return m_item_mngr;
     };
 
 private:
     // data
-    shared_str       m_sectionName;
-    shared_str       m_sectionPrice;
-    u32              m_money;
-    CStoreHierarchy* m_store_hierarchy;
-    CUICellItem*     m_pCurrentCellItem;
-    ITEMS_vec        m_all_items;
-    CItemMgr*        m_item_mngr;
-    preset_items     m_preset_storage[_preset_count];
-    bool             m_bIgnoreMoneyAndRank;
+    shared_str         m_sectionName;
+    shared_str         m_sectionPrice;
+    u32                m_money;
+    CStoreHierarchy*   m_store_hierarchy;
+    CUICellItem*       m_pCurrentCellItem;
+    ITEMS_vec          m_all_items;
+    CItemMgr*          m_item_mngr;
+    preset_items       m_preset_storage[_preset_count];
+    bool               m_bIgnoreMoneyAndRank;
     // controls
-    CUIWindow*   m_shop_wnd;
-    CUITextWnd*  m_static_curr_items_money;
-    CUITextWnd*  m_static_player_money;
-    CUITextWnd*  m_static_preset_money[5];
-    CUIStatic*   m_static_player_rank;
-    CUITextWnd*  m_static_information;
-    CUITextWnd*  m_static_money_change;
-    CUI3tButton* m_btn_shop_back;
-    CUI3tButton* m_btn_ok;
-    CUI3tButton* m_btn_cancel;
+    CUIWindow*         m_shop_wnd;
+    CUITextWnd*        m_static_curr_items_money;
+    CUITextWnd*        m_static_player_money;
+    CUITextWnd*        m_static_preset_money[5];
+    CUIStatic*         m_static_player_rank;
+    CUITextWnd*        m_static_information;
+    CUITextWnd*        m_static_money_change;
+    CUI3tButton*       m_btn_shop_back;
+    CUI3tButton*       m_btn_ok;
+    CUI3tButton*       m_btn_cancel;
 
-    CUI3tButton* m_btns_preset[5];
-    CUI3tButton* m_btns_save_preset[3];
-    CUI3tButton* m_btn_reset;
-    CUI3tButton* m_btn_sell;
+    CUI3tButton*       m_btns_preset[5];
+    CUI3tButton*       m_btns_save_preset[3];
+    CUI3tButton*       m_btn_reset;
+    CUI3tButton*       m_btn_sell;
 
-    CUI3tButton* m_btn_pistol_ammo;
-    CUI3tButton* m_btn_pistol_silencer;
-    CUI3tButton* m_btn_rifle_ammo;
-    CUI3tButton* m_btn_rifle_silencer;
-    CUI3tButton* m_btn_rifle_scope;
-    CUI3tButton* m_btn_rifle_glauncher;
-    CUI3tButton* m_btn_rifle_ammo2;
-    CUIItemInfo* m_item_info;
-    CUIStatic*   m_static_item_rank;
-    u32          m_item_color_restr_rank;
-    u32          m_item_color_restr_money;
-    u32          m_item_color_normal;
+    CUI3tButton*       m_btn_pistol_ammo;
+    CUI3tButton*       m_btn_pistol_silencer;
+    CUI3tButton*       m_btn_rifle_ammo;
+    CUI3tButton*       m_btn_rifle_silencer;
+    CUI3tButton*       m_btn_rifle_scope;
+    CUI3tButton*       m_btn_rifle_glauncher;
+    CUI3tButton*       m_btn_rifle_ammo2;
+    CUIItemInfo*       m_item_info;
+    CUIStatic*         m_static_item_rank;
+    u32                m_item_color_restr_rank;
+    u32                m_item_color_restr_money;
+    u32                m_item_color_normal;
 
-    u32 m_text_color_money_positive;
-    u32 m_text_color_money_negative;
+    u32                m_text_color_money_positive;
+    u32                m_text_color_money_negative;
 
     CUITabControl*     m_root_tab_control;
     CUIDragDropListEx* m_list[e_total_lists];
 
-    void UpdateHelperItems();
-    void CreateHelperItems(CUIDragDropListEx* list);
-    void CreateHelperItems(xr_vector<shared_str>& ammo_types);
-    void CreateHelperItems(CUIDragDropListEx* list, const CStoreHierarchy::item* shop_level);
-    void DeleteHelperItems(CUIDragDropListEx* list);
-    void DeleteHelperItems();
-    bool CanBuyOrSellInList(CUIDragDropListEx* list);
+    void               UpdateHelperItems();
+    void               CreateHelperItems(CUIDragDropListEx* list);
+    void               CreateHelperItems(xr_vector<shared_str>& ammo_types);
+    void               CreateHelperItems(CUIDragDropListEx* list, const CStoreHierarchy::item* shop_level);
+    void               DeleteHelperItems(CUIDragDropListEx* list);
+    void               DeleteHelperItems();
+    bool               CanBuyOrSellInList(CUIDragDropListEx* list);
 
-    void UpdateMoneyIndicator();
-    void UpdateShop();
+    void               UpdateMoneyIndicator();
+    void               UpdateShop();
 
     // handlers
-    void OnBtnOkClicked(CUIWindow* w, void* d);
-    void OnBtnCancelClicked(CUIWindow* w, void* d);
-    void OnBtnShopBackClicked(CUIWindow* w, void* d);
-    void OnRootTabChanged(CUIWindow* w, void* d);
-    void OnSubLevelBtnClicked(CUIWindow* w, void* d);
-    void OnBtnPreset1Clicked(CUIWindow* w, void* d);
-    void OnBtnPreset2Clicked(CUIWindow* w, void* d);
-    void OnBtnPreset3Clicked(CUIWindow* w, void* d);
-    void OnBtnPresetDefaultClicked(CUIWindow* w, void* d);
-    void OnBtnLastSetClicked(CUIWindow* w, void* d);
-    void OnBtnSave1PresetClicked(CUIWindow* w, void* d);
-    void OnBtnSave2PresetClicked(CUIWindow* w, void* d);
-    void OnBtnSave3PresetClicked(CUIWindow* w, void* d);
-    void OnBtnResetClicked(CUIWindow* w, void* d);
-    void OnBtnSellClicked(CUIWindow* w, void* d);
-    void OnBtnPistolAmmoClicked(CUIWindow* w, void* d);
-    void OnBtnPistolSilencerClicked(CUIWindow* w, void* d);
-    void OnBtnRifleAmmoClicked(CUIWindow* w, void* d);
-    void OnBtnRifleSilencerClicked(CUIWindow* w, void* d);
-    void OnBtnRifleScopeClicked(CUIWindow* w, void* d);
-    void OnBtnRifleGLClicked(CUIWindow* w, void* d);
-    void OnBtnRifleAmmo2Clicked(CUIWindow* w, void* d);
+    void               OnBtnOkClicked(CUIWindow* w, void* d);
+    void               OnBtnCancelClicked(CUIWindow* w, void* d);
+    void               OnBtnShopBackClicked(CUIWindow* w, void* d);
+    void               OnRootTabChanged(CUIWindow* w, void* d);
+    void               OnSubLevelBtnClicked(CUIWindow* w, void* d);
+    void               OnBtnPreset1Clicked(CUIWindow* w, void* d);
+    void               OnBtnPreset2Clicked(CUIWindow* w, void* d);
+    void               OnBtnPreset3Clicked(CUIWindow* w, void* d);
+    void               OnBtnPresetDefaultClicked(CUIWindow* w, void* d);
+    void               OnBtnLastSetClicked(CUIWindow* w, void* d);
+    void               OnBtnSave1PresetClicked(CUIWindow* w, void* d);
+    void               OnBtnSave2PresetClicked(CUIWindow* w, void* d);
+    void               OnBtnSave3PresetClicked(CUIWindow* w, void* d);
+    void               OnBtnResetClicked(CUIWindow* w, void* d);
+    void               OnBtnSellClicked(CUIWindow* w, void* d);
+    void               OnBtnPistolAmmoClicked(CUIWindow* w, void* d);
+    void               OnBtnPistolSilencerClicked(CUIWindow* w, void* d);
+    void               OnBtnRifleAmmoClicked(CUIWindow* w, void* d);
+    void               OnBtnRifleSilencerClicked(CUIWindow* w, void* d);
+    void               OnBtnRifleScopeClicked(CUIWindow* w, void* d);
+    void               OnBtnRifleGLClicked(CUIWindow* w, void* d);
+    void               OnBtnRifleAmmo2Clicked(CUIWindow* w, void* d);
 
-    void CheckDragItemToDestroy();
+    void               CheckDragItemToDestroy();
 
     // drag drop handlers
-    bool OnItemDrop(CUICellItem* itm);
-    bool OnItemStartDrag(CUICellItem* itm);
-    bool OnItemDbClick(CUICellItem* itm);
-    bool OnItemSelected(CUICellItem* itm);
-    bool OnItemRButtonClick(CUICellItem* itm);
-    bool OnItemLButtonClick(CUICellItem* itm);
+    bool               OnItemDrop(CUICellItem* itm);
+    bool               OnItemStartDrag(CUICellItem* itm);
+    bool               OnItemDbClick(CUICellItem* itm);
+    bool               OnItemSelected(CUICellItem* itm);
+    bool               OnItemRButtonClick(CUICellItem* itm);
+    bool               OnItemLButtonClick(CUICellItem* itm);
 
-    void FillUpSubLevelButtons();
-    void FillUpSubLevelItems();
+    void               FillUpSubLevelButtons();
+    void               FillUpSubLevelItems();
 
-    bool TryToBuyItem(SBuyItemInfo* itm, u32 buy_flags, SBuyItemInfo* itm_parent);
-    bool TryToSellItem(SBuyItemInfo* itm, bool do_destroy, SBuyItemInfo*& itm_res);
-    bool BuyItemAction(SBuyItemInfo* itm);
-    bool CheckBuyPossibility(const shared_str& sect_name, u32 buy_flags, bool b_silent);
+    bool               TryToBuyItem(SBuyItemInfo* itm, u32 buy_flags, SBuyItemInfo* itm_parent);
+    bool               TryToSellItem(SBuyItemInfo* itm, bool do_destroy, SBuyItemInfo*& itm_res);
+    bool               BuyItemAction(SBuyItemInfo* itm);
+    bool               CheckBuyPossibility(const shared_str& sect_name, u32 buy_flags, bool b_silent);
 
     //---item addons---
-    bool TryToAttachItemAsAddon(SBuyItemInfo* buy_itm, SBuyItemInfo* itm_parent);
-    void SellItemAddons(SBuyItemInfo* sell_itm, item_addon_type at);
+    bool               TryToAttachItemAsAddon(SBuyItemInfo* buy_itm, SBuyItemInfo* itm_parent);
+    void               SellItemAddons(SBuyItemInfo* sell_itm, item_addon_type at);
 
-    bool            IsAddonAttached(SBuyItemInfo* sell_itm, item_addon_type at);
-    bool            CanAttachAddon(SBuyItemInfo* sell_itm, item_addon_type at);
-    SBuyItemInfo*   DetachAddon(SBuyItemInfo* sell_itm, item_addon_type at);
-    bool            AttachAddon(SBuyItemInfo* sell_itm, item_addon_type at);
-    item_addon_type GetItemType(const shared_str& name_sect);
-    shared_str      GetAddonNameSect(SBuyItemInfo* itm, item_addon_type at);
+    bool               IsAddonAttached(SBuyItemInfo* sell_itm, item_addon_type at);
+    bool               CanAttachAddon(SBuyItemInfo* sell_itm, item_addon_type at);
+    SBuyItemInfo*      DetachAddon(SBuyItemInfo* sell_itm, item_addon_type at);
+    bool               AttachAddon(SBuyItemInfo* sell_itm, item_addon_type at);
+    item_addon_type    GetItemType(const shared_str& name_sect);
+    shared_str         GetAddonNameSect(SBuyItemInfo* itm, item_addon_type at);
     //-----
 
-    void            SetCurrentItem(CUICellItem* itm);
-    CInventoryItem* CurrentIItem();
-    CUICellItem*    CurrentItem();
-    int             GetItemPrice(CInventoryItem* itm);
+    void               SetCurrentItem(CUICellItem* itm);
+    CInventoryItem*    CurrentIItem();
+    CUICellItem*       CurrentItem();
+    int                GetItemPrice(CInventoryItem* itm);
 
-    CInventoryItem* CreateItem_internal(const shared_str& name_sect);
-    SBuyItemInfo*   CreateItem(const shared_str& name_sect, SBuyItemInfo::EItmState state, bool find_if_exist);
-    SBuyItemInfo*   FindItem(CUICellItem* item);
-    SBuyItemInfo*   FindItem(const shared_str& name_sect, SBuyItemInfo::EItmState state);
-    SBuyItemInfo*   FindItem(SBuyItemInfo::EItmState state);
-    void            DestroyItem(SBuyItemInfo* item);
+    CInventoryItem*    CreateItem_internal(const shared_str& name_sect);
+    SBuyItemInfo*      CreateItem(const shared_str& name_sect, SBuyItemInfo::EItmState state, bool find_if_exist);
+    SBuyItemInfo*      FindItem(CUICellItem* item);
+    SBuyItemInfo*      FindItem(const shared_str& name_sect, SBuyItemInfo::EItmState state);
+    SBuyItemInfo*      FindItem(SBuyItemInfo::EItmState state);
+    void               DestroyItem(SBuyItemInfo* item);
 
-    void RenewShopItem(const shared_str& sect_name, bool b_just_bought);
-    u32  GetItemCount(SBuyItemInfo::EItmState state) const;
-    u32  GetItemCount(const shared_str& name_sect, SBuyItemInfo::EItmState state) const;
-    u32  GetItemCount(const shared_str& name_sect, SBuyItemInfo::EItmState state, u8 addon) const;
-    u32  GetGroupCount(const shared_str& name_group, SBuyItemInfo::EItmState state) const;
+    void               RenewShopItem(const shared_str& sect_name, bool b_just_bought);
+    u32                GetItemCount(SBuyItemInfo::EItmState state) const;
+    u32                GetItemCount(const shared_str& name_sect, SBuyItemInfo::EItmState state) const;
+    u32                GetItemCount(const shared_str& name_sect, SBuyItemInfo::EItmState state, u8 addon) const;
+    u32                GetGroupCount(const shared_str& name_group, SBuyItemInfo::EItmState state) const;
 
     void               SellAll();
     void               ResetToOrigin();
@@ -283,8 +283,8 @@ private:
     void               SetMoneyChangeString(int diff);
     void               CleanUserItems();
 
-    void ApplyPreset(ETradePreset idx);
-    void StorePreset(ETradePreset idx, bool bSilent, bool check_allowed_items, bool flush_helpers);
+    void               ApplyPreset(ETradePreset idx);
+    void               StorePreset(ETradePreset idx, bool bSilent, bool check_allowed_items, bool flush_helpers);
 };
 
 u8   GetItemAddonsState_ext(SBuyItemInfo* item);

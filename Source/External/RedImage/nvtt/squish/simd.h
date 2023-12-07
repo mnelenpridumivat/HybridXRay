@@ -22,16 +22,16 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #ifndef NV_SQUISH_SIMD_H
 #define NV_SQUISH_SIMD_H
 
 #include "maths.h"
 
 #ifdef __GNUC__
-#	define SQUISH_ALIGN_16 __attribute__ ((__aligned__ (16)))
+#define SQUISH_ALIGN_16 __attribute__((__aligned__(16)))
 #else
-#	define SQUISH_ALIGN_16 __declspec(align(16))
+#define SQUISH_ALIGN_16 __declspec(align(16))
 #endif
 
 #if SQUISH_USE_ALTIVEC
@@ -42,4 +42,4 @@
 #include "simd_sse.h"
 #endif
 
-#endif // ndef SQUISH_SIMD_H
+#endif   // ndef SQUISH_SIMD_H

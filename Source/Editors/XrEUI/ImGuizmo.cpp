@@ -515,8 +515,7 @@ namespace ImGuizmo
 
         float GetDeterminant() const
         {
-            return m[0][0] * m[1][1] * m[2][2] + m[0][1] * m[1][2] * m[2][0] + m[0][2] * m[1][0] * m[2][1] -
-                m[0][2] * m[1][1] * m[2][0] - m[0][1] * m[1][0] * m[2][2] - m[0][0] * m[1][2] * m[2][1];
+            return m[0][0] * m[1][1] * m[2][2] + m[0][1] * m[1][2] * m[2][0] + m[0][2] * m[1][0] * m[2][1] - m[0][2] * m[1][1] * m[2][0] - m[0][1] * m[1][0] * m[2][2] - m[0][0] * m[1][2] * m[2][1];
         }
 
         float Inverse(const matrix_t& srcMatrix, bool affine = false);
@@ -1078,13 +1077,7 @@ namespace ImGuizmo
 
     bool IsOver()
     {
-        return (Intersects(gContext.mOperation, TRANSLATE)         &&
-                GetMoveType(gContext.mOperation, NULL) != MT_NONE) ||
-               (Intersects(gContext.mOperation, ROTATE)            &&
-                GetRotateType(gContext.mOperation) != MT_NONE)     ||
-               (Intersects(gContext.mOperation, SCALE)             &&
-                GetScaleType(gContext.mOperation) != MT_NONE)      ||
-                IsUsing();
+        return (Intersects(gContext.mOperation, TRANSLATE) && GetMoveType(gContext.mOperation, NULL) != MT_NONE) || (Intersects(gContext.mOperation, ROTATE) && GetRotateType(gContext.mOperation) != MT_NONE) || (Intersects(gContext.mOperation, SCALE) && GetScaleType(gContext.mOperation) != MT_NONE) || IsUsing();
     }
 
     bool IsOver(OPERATION op)
@@ -1851,9 +1844,7 @@ namespace ImGuizmo
         int      type = MT_NONE;
 
         // screen
-        if (io.MousePos.x >= gContext.mScreenSquareMin.x && io.MousePos.x <= gContext.mScreenSquareMax.x &&
-            io.MousePos.y >= gContext.mScreenSquareMin.y && io.MousePos.y <= gContext.mScreenSquareMax.y &&
-            Contains(op, SCALE))
+        if (io.MousePos.x >= gContext.mScreenSquareMin.x && io.MousePos.x <= gContext.mScreenSquareMax.x && io.MousePos.y >= gContext.mScreenSquareMin.y && io.MousePos.y <= gContext.mScreenSquareMax.y && Contains(op, SCALE))
         {
             type = MT_SCALE_XYZ;
         }
@@ -1955,11 +1946,7 @@ namespace ImGuizmo
         int      type = MT_NONE;
 
         // screen
-        if (io.MousePos.x >= gContext.mScreenSquareMin.x &&
-            io.MousePos.x <= gContext.mScreenSquareMax.x &&
-            io.MousePos.y >= gContext.mScreenSquareMin.y &&
-            io.MousePos.y <= gContext.mScreenSquareMax.y &&
-            Contains(op, TRANSLATE))
+        if (io.MousePos.x >= gContext.mScreenSquareMin.x && io.MousePos.x <= gContext.mScreenSquareMax.x && io.MousePos.y >= gContext.mScreenSquareMin.y && io.MousePos.y <= gContext.mScreenSquareMax.y && Contains(op, TRANSLATE))
         {
             type = MT_MOVE_SCREEN;
         }
@@ -2411,9 +2398,7 @@ namespace ImGuizmo
         {
             if (!gContext.mbUsingBounds)
             {
-                manipulated = HandleTranslation(matrix, deltaMatrix, operation, type, snap) ||
-                              HandleScale(matrix, deltaMatrix, operation, type, snap)       ||
-                              HandleRotation(matrix, deltaMatrix, operation, type, snap);
+                manipulated = HandleTranslation(matrix, deltaMatrix, operation, type, snap) || HandleScale(matrix, deltaMatrix, operation, type, snap) || HandleRotation(matrix, deltaMatrix, operation, type, snap);
             }
         }
 
@@ -2570,7 +2555,8 @@ namespace ImGuizmo
                 cubeFaceCount++;
             }
         }
-        qsort(faces, cubeFaceCount, sizeof(CubeFace), [](void const* _a, void const* _b)
+        qsort(faces, cubeFaceCount, sizeof(CubeFace),
+            [](void const* _a, void const* _b)
             {
                 CubeFace* a = (CubeFace*)_a;
                 CubeFace* b = (CubeFace*)_b;
@@ -2687,13 +2673,9 @@ namespace ImGuizmo
         const matrix_t      res              = cubeView * cubeProjection;
 
         // panels
-        static const ImVec2 panelPosition[9] = {ImVec2(0.75f, 0.75f), ImVec2(0.25f, 0.75f), ImVec2(0.f, 0.75f),
-            ImVec2(0.75f, 0.25f), ImVec2(0.25f, 0.25f), ImVec2(0.f, 0.25f),
-            ImVec2(0.75f, 0.f), ImVec2(0.25f, 0.f), ImVec2(0.f, 0.f)};
+        static const ImVec2 panelPosition[9] = {ImVec2(0.75f, 0.75f), ImVec2(0.25f, 0.75f), ImVec2(0.f, 0.75f), ImVec2(0.75f, 0.25f), ImVec2(0.25f, 0.25f), ImVec2(0.f, 0.25f), ImVec2(0.75f, 0.f), ImVec2(0.25f, 0.f), ImVec2(0.f, 0.f)};
 
-        static const ImVec2 panelSize[9]     = {ImVec2(0.25f, 0.25f), ImVec2(0.5f, 0.25f), ImVec2(0.25f, 0.25f),
-                ImVec2(0.25f, 0.5f), ImVec2(0.5f, 0.5f), ImVec2(0.25f, 0.5f),
-                ImVec2(0.25f, 0.25f), ImVec2(0.5f, 0.25f), ImVec2(0.25f, 0.25f)};
+        static const ImVec2 panelSize[9]     = {ImVec2(0.25f, 0.25f), ImVec2(0.5f, 0.25f), ImVec2(0.25f, 0.25f), ImVec2(0.25f, 0.5f), ImVec2(0.5f, 0.5f), ImVec2(0.25f, 0.5f), ImVec2(0.25f, 0.25f), ImVec2(0.5f, 0.25f), ImVec2(0.25f, 0.25f)};
 
         // tag faces
         bool                boxes[27]{};
@@ -2742,10 +2724,7 @@ namespace ImGuizmo
                     const ImVec2 p        = panelPosition[iPanel] * 2.f;
                     const ImVec2 s        = panelSize[iPanel] * 2.f;
                     ImVec2       faceCoordsScreen[4];
-                    vec_t        panelPos[4] = {dx * p.x + dy * p.y,
-                               dx * p.x + dy * (p.y + s.y),
-                               dx * (p.x + s.x) + dy * (p.y + s.y),
-                               dx * (p.x + s.x) + dy * p.y};
+                    vec_t        panelPos[4] = {dx * p.x + dy * p.y, dx * p.x + dy * (p.y + s.y), dx * (p.x + s.x) + dy * (p.y + s.y), dx * (p.x + s.x) + dy * p.y};
 
                     for (unsigned int iCoord = 0; iCoord < 4; iCoord++)
                     {

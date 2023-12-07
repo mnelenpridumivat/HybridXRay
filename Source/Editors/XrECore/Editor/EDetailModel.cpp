@@ -8,13 +8,13 @@
 #include "ImageManager.h"
 
 //------------------------------------------------------------------------------
-#define DETOBJ_CHUNK_VERSION 0x1000
-#define DETOBJ_CHUNK_REFERENCE 0x0101
-#define DETOBJ_CHUNK_SCALE_LIMITS 0x0102
+#define DETOBJ_CHUNK_VERSION        0x1000
+#define DETOBJ_CHUNK_REFERENCE      0x0101
+#define DETOBJ_CHUNK_SCALE_LIMITS   0x0102
 #define DETOBJ_CHUNK_DENSITY_FACTOR 0x0103
-#define DETOBJ_CHUNK_FLAGS 0x0104
+#define DETOBJ_CHUNK_FLAGS          0x0104
 
-#define DETOBJ_VERSION 0x0001
+#define DETOBJ_VERSION              0x0001
 //------------------------------------------------------------------------------
 void EDetail::EVertexIn::remapUV(const fvfVertexIn& src, const Fvector2& offs, const Fvector2& scale, bool bRotate)
 {
@@ -119,7 +119,7 @@ IC BOOL isEqual(U16Vec& ind, u16 v[3])
 
 bool EDetail::Update(LPCSTR name)
 {
-    m_sRefs = name;
+    m_sRefs            = name;
     // update link
     CEditableObject* R = Lib.CreateEditObject(name);
 
@@ -142,7 +142,7 @@ bool EDetail::Update(LPCSTR name)
     }
 
     Lib.RemoveEditObject(m_pRefs);
-    m_pRefs = R;
+    m_pRefs          = R;
 
     // fill geometry
     CEditableMesh* M = *m_pRefs->FirstMesh();
@@ -154,14 +154,14 @@ bool EDetail::Update(LPCSTR name)
     for (u32 f_id = 0; f_id < M->GetFCount(); f_id++)
     {
         const st_Face& F = M->GetFaces()[f_id];
-        u16 ind[3];
+        u16            ind[3];
         for (int k = 0; k < 3; k++, idx++)
         {
-            Fvector P  = M->GetVertices()[F.pv[k].pindex];
+            Fvector P = M->GetVertices()[F.pv[k].pindex];
             P.mul(m_pRefs->a_vScale);
-            st_VMapPt&     vm = M->GetVMRefs()[F.pv[k].vmref].pts[0];
-            Fvector2&      uv = M->GetVMaps()[vm.vmap_index]->getUV(vm.index);
-            ind[k]            = _AddVert(P, uv.x, uv.y);
+            st_VMapPt& vm = M->GetVMRefs()[F.pv[k].vmref].pts[0];
+            Fvector2&  uv = M->GetVMaps()[vm.vmap_index]->getUV(vm.index);
+            ind[k]        = _AddVert(P, uv.x, uv.y);
             bv_bb.modify(vertices[ind[k]].P);
         }
         if (isDegenerated(ind))

@@ -63,7 +63,7 @@ public:
         d       = -p | n;
         return *this;
     }
-    Plane& Set(const Point& p0, const Point& p1, const Point& p2);
+    Plane&        Set(const Point& p0, const Point& p1, const Point& p2);
 
     inline_ float Distance(const Point& p) const
     {
@@ -85,8 +85,8 @@ public:
 
 public:
     // Members
-    Point n;   //!< The normal to the plane
-    float d;   //!< The distance from the origin
+    Point   n;   //!< The normal to the plane
+    float   d;   //!< The distance from the origin
 
     // Cast operators
     inline_ operator Point() const

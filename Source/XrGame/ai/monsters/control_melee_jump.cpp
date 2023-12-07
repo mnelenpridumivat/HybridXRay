@@ -3,10 +3,10 @@
 #include "BaseMonster/base_monster.h"
 #include "control_manager.h"
 
-#define CHECK_YAW 165 * PI / 180
+#define CHECK_YAW               165 * PI / 180
 #define ROTATION_JUMP_DELAY_MIN 500
 #define ROTATION_JUMP_DELAY_MAX 1000
-#define MAX_DISTANCE_TO_ENEMY 4.f
+#define MAX_DISTANCE_TO_ENEMY   4.f
 
 void CControlMeleeJump::reinit()
 {
@@ -52,9 +52,9 @@ void CControlMeleeJump::activate()
     dir_to_enemy.sub(m_object->EnemyMan.get_enemy()->Position(), m_object->Position());
     dir_to_enemy.normalize();
 
-    float    target_yaw = angle_normalize(-dir_to_enemy.getH());
-    MotionID motion     = ((m_man->direction().is_from_right(target_yaw)) ? m_data.anim_rs : m_data.anim_ls);
-    float    anim_time  = m_man->animation().motion_time(motion, m_object->Visual());
+    float                  target_yaw    = angle_normalize(-dir_to_enemy.getH());
+    MotionID               motion        = ((m_man->direction().is_from_right(target_yaw)) ? m_data.anim_rs : m_data.anim_ls);
+    float                  anim_time     = m_man->animation().motion_time(motion, m_object->Visual());
 
     // set yaw
     SControlDirectionData* ctrl_data_dir = (SControlDirectionData*)m_man->data(this, ControlCom::eControlDir);

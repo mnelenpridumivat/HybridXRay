@@ -39,7 +39,7 @@ struct hud_item_measures
         e_shell_point   = (1 << 2),
         e_16x9_mode_now = (1 << 3)
     };
-    Flags8 m_prop_flags;
+    Flags8  m_prop_flags;
 
     Fvector m_item_attach[2];   // pos,rot
 
@@ -54,38 +54,36 @@ struct hud_item_measures
 
     Fvector m_hands_attach[2];   // pos,rot
 
-    void load(const shared_str& sect_name, IKinematics* K);
+    void    load(const shared_str& sect_name, IKinematics* K);
 };
 
 struct attachable_hud_item
 {
-    player_hud*       m_parent;
-    CHudItem*         m_parent_hud_item;
-    shared_str        m_sect_name;
-    IKinematics*      m_model;
-    u16               m_attach_place_idx;
-    hud_item_measures m_measures;
+    player_hud*                 m_parent;
+    CHudItem*                   m_parent_hud_item;
+    shared_str                  m_sect_name;
+    IKinematics*                m_model;
+    u16                         m_attach_place_idx;
+    hud_item_measures           m_measures;
 
     // runtime positioning
-    Fmatrix m_attach_offset;
-    Fmatrix m_item_transform;
+    Fmatrix                     m_attach_offset;
+    Fmatrix                     m_item_transform;
 
     player_hud_motion_container m_hand_motions;
 
-    attachable_hud_item(player_hud* pparent): m_parent(pparent), m_upd_firedeps_frame(u32(-1)), m_parent_hud_item(NULL)
-    {
-    }
+    attachable_hud_item(player_hud* pparent): m_parent(pparent), m_upd_firedeps_frame(u32(-1)), m_parent_hud_item(NULL) {}
     ~attachable_hud_item();
-    void load(const shared_str& sect_name);
-    void update(bool bForce);
-    void update_hud_additional(Fmatrix& trans);
-    void setup_firedeps(firedeps& fd);
-    void render();
-    void render_item_ui();
-    bool render_item_ui_query();
-    bool need_renderable();
-    void set_bone_visible(const shared_str& bone_name, BOOL bVisibility, BOOL bSilent = FALSE);
-    void debug_draw_firedeps();
+    void     load(const shared_str& sect_name);
+    void     update(bool bForce);
+    void     update_hud_additional(Fmatrix& trans);
+    void     setup_firedeps(firedeps& fd);
+    void     render();
+    void     render_item_ui();
+    bool     render_item_ui_query();
+    bool     need_renderable();
+    void     set_bone_visible(const shared_str& bone_name, BOOL bVisibility, BOOL bSilent = FALSE);
+    void     debug_draw_firedeps();
 
     // hands bind position
     Fvector& hands_attach_pos();
@@ -96,9 +94,9 @@ struct attachable_hud_item
     Fvector& hands_offset_rot();
 
     // props
-    u32  m_upd_firedeps_frame;
-    void tune(Ivector values);
-    u32  anim_play(const shared_str& anim_name, BOOL bMixIn, const CMotionDef*& md, u8& rnd);
+    u32      m_upd_firedeps_frame;
+    void     tune(Ivector values);
+    u32      anim_play(const shared_str& anim_name, BOOL bMixIn, const CMotionDef*& md, u8& rnd);
 };
 
 class player_hud
@@ -149,12 +147,12 @@ private:
     bool inertion_allowed();
 
 private:
-    const Fvector& attach_rot() const;
-    const Fvector& attach_pos() const;
+    const Fvector&                  attach_rot() const;
+    const Fvector&                  attach_pos() const;
 
-    shared_str m_sect_name;
+    shared_str                      m_sect_name;
 
-    Fmatrix m_attach_offset;
+    Fmatrix                         m_attach_offset;
 
     Fmatrix                         m_transform;
     IKinematicsAnimated*            m_model;

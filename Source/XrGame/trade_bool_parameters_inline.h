@@ -8,7 +8,7 @@
 
 #pragma once
 
-IC CTradeBoolParameters::CTradeBoolParameters() {}
+IC      CTradeBoolParameters::CTradeBoolParameters() {}
 
 IC void CTradeBoolParameters::clear()
 {

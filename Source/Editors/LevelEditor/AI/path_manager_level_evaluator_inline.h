@@ -8,23 +8,15 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION \
-    template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+#define TEMPLATE_SPECIALIZATION    template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 
-#define CLevelEvaluatorPathManager \
-    CPathManager<ILevelGraph, _DataStorage, CAbstractVertexEvaluator, _dist_type, _index_type, _iteration_type>
+#define CLevelEvaluatorPathManager CPathManager<ILevelGraph, _DataStorage, CAbstractVertexEvaluator, _dist_type, _index_type, _iteration_type>
 
 TEMPLATE_SPECIALIZATION
 CLevelEvaluatorPathManager::~CPathManager() {}
 
 TEMPLATE_SPECIALIZATION
-IC void CLevelEvaluatorPathManager::setup(
-    const _Graph*           _graph,
-    _DataStorage*           _data_storage,
-    xr_vector<_index_type>* _path,
-    const _index_type&      _start_node_index,
-    const _index_type&      _goal_node_index,
-    _Parameters&            parameters)
+IC void CLevelEvaluatorPathManager::setup(const _Graph* _graph, _DataStorage* _data_storage, xr_vector<_index_type>* _path, const _index_type& _start_node_index, const _index_type& _goal_node_index, _Parameters& parameters)
 {
     m_evaluator            = &parameters;
     m_evaluator->max_range = parameters.m_fSearchRange;

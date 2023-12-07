@@ -539,8 +539,7 @@ void EScene::Save(LPCSTR map_name, bool bUndo, bool bForceSaveAll)
 
     for (; _I != _E; ++_I)
     {
-        if ((_I->first != OBJCLASS_DUMMY) && _I->second && _I->second->IsEnabled() && _I->second->IsEditable() &&
-            (_I->second->IsChanged() || bForceSaveAll))
+        if ((_I->first != OBJCLASS_DUMMY) && _I->second && _I->second->IsEnabled() && _I->second->IsEditable() && (_I->second->IsChanged() || bForceSaveAll))
         {
             if (_I->second->IsEnabled() && _I->second->IsEditable())
             {
@@ -1344,9 +1343,7 @@ void EScene::LoadCompilerError(LPCSTR fn)
     if (F->find_chunk(10))
     {   // lc error (TJ)
         Tools->m_DebugDraw.m_Points.resize(F->r_u32());
-        F->r(
-            Tools->m_DebugDraw.m_Points.data(),
-            sizeof(CLevelTool::SDebugDraw::Point) * Tools->m_DebugDraw.m_Points.size());
+        F->r(Tools->m_DebugDraw.m_Points.data(), sizeof(CLevelTool::SDebugDraw::Point) * Tools->m_DebugDraw.m_Points.size());
     }
     else if (F->find_chunk(0))
     {   // lc error (TJ)
@@ -1370,9 +1367,7 @@ void EScene::LoadCompilerError(LPCSTR fn)
     if (F->find_chunk(12))
     {   // lc error (invalid faces)
         Tools->m_DebugDraw.m_WireFaces.resize(F->r_u32());
-        F->r(
-            Tools->m_DebugDraw.m_WireFaces.data(),
-            sizeof(CLevelTool::SDebugDraw::Face) * Tools->m_DebugDraw.m_WireFaces.size());
+        F->r(Tools->m_DebugDraw.m_WireFaces.data(), sizeof(CLevelTool::SDebugDraw::Face) * Tools->m_DebugDraw.m_WireFaces.size());
     }
     else if (F->find_chunk(2))
     {   // lc error (invalid faces)
@@ -1464,8 +1459,7 @@ void EScene::SaveCompilerError(LPCSTR fn)
     // t-junction
     err.open_chunk(10);
     err.w_u32(Tools->m_DebugDraw.m_Points.size());
-    err.w(
-        Tools->m_DebugDraw.m_Points.data(), Tools->m_DebugDraw.m_Points.size() * sizeof(CLevelTool::SDebugDraw::Point));
+    err.w(Tools->m_DebugDraw.m_Points.data(), Tools->m_DebugDraw.m_Points.size() * sizeof(CLevelTool::SDebugDraw::Point));
     err.close_chunk();
 
     // m-edje
@@ -1477,9 +1471,7 @@ void EScene::SaveCompilerError(LPCSTR fn)
     // invalid
     err.open_chunk(12);
     err.w_u32(Tools->m_DebugDraw.m_WireFaces.size());
-    err.w(
-        Tools->m_DebugDraw.m_WireFaces.data(),
-        Tools->m_DebugDraw.m_WireFaces.size() * sizeof(CLevelTool::SDebugDraw::Face));
+    err.w(Tools->m_DebugDraw.m_WireFaces.data(), Tools->m_DebugDraw.m_WireFaces.size() * sizeof(CLevelTool::SDebugDraw::Face));
     err.close_chunk();
 
     FS.w_close(fs);

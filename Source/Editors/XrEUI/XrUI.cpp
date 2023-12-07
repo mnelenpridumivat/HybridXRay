@@ -2,7 +2,7 @@
 
 ELocalization EditorLocalization = ELocalization::EN;
 
-bool bDemoImGui = false;
+bool          bDemoImGui         = false;
 
 XrUI::~XrUI() {}
 

@@ -13,6 +13,7 @@ namespace lc_net
     private:
         typedef tnet_execution<etype> self_type;
         net_execution_impl            execution_impl;
+
     public:
         tnet_execution(u32 id): tnet_execution_base<etype>(id)
         {
@@ -23,6 +24,7 @@ namespace lc_net
         {
             on_construct();
         }
+
     private:
         void on_construct()
         {
@@ -81,6 +83,7 @@ namespace lc_net
             }
             return buf;
         }
+
     public:
         virtual ~tnet_execution()
         {
@@ -143,8 +146,7 @@ namespace lc_net
         }
     };
     template<> struct it<et_last>
-    {
-    };
+    {};
 
     void factory::register_all()
     {

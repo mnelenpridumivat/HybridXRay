@@ -285,7 +285,7 @@ void CSE_AbstractVisual::FillProps(LPCSTR pref, PropItemVec& values)
 }
 #endif   // #ifndef XRGAME_EXPORTS
 
-void CSE_AbstractVisual::UPDATE_Read(NET_Packet& tNetPacket) {}
+void   CSE_AbstractVisual::UPDATE_Read(NET_Packet& tNetPacket) {}
 
 void   CSE_AbstractVisual::UPDATE_Write(NET_Packet& tNetPacket) {}
 LPCSTR CSE_AbstractVisual::getStartupAnimation()

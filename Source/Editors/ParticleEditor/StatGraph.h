@@ -48,17 +48,17 @@ protected:
     DEFINE_VECTOR(SSubGraph, SubGraphVec, SubGraphVecIt);
     SubGraphVec subgraphs;
 
-    float    mn, mx;
-    u32      max_item_count;
-    Ivector2 lt, rb;
-    Ivector2 grid;
-    Fvector2 grid_step;
-    u32      grid_color;
-    u32      base_color;
-    u32      rect_color;
-    u32      back_color;
-    ref_geom hGeomTri;
-    ref_geom hGeomLine;
+    float       mn, mx;
+    u32         max_item_count;
+    Ivector2    lt, rb;
+    Ivector2    grid;
+    Fvector2    grid_step;
+    u32         grid_color;
+    u32         base_color;
+    u32         rect_color;
+    u32         back_color;
+    ref_geom    hGeomTri;
+    ref_geom    hGeomLine;
 
     struct SMarker
     {
@@ -86,7 +86,7 @@ public:
     void         OnDeviceCreate();
     void         OnDeviceDestroy();
 
-    IC void SetStyle(EStyle s, u32 SubGraphID = 0)
+    IC void      SetStyle(EStyle s, u32 SubGraphID = 0)
     {
         if (SubGraphID >= subgraphs.size())
             return;

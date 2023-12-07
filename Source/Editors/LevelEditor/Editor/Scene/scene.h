@@ -5,7 +5,7 @@
 #if 1
 extern doug_lea_allocator g_render_lua_allocator;
 
-template <class T> class doug_lea_alloc
+template<class T> class doug_lea_alloc
 {
 public:
     typedef size_t    size_type;
@@ -17,7 +17,7 @@ public:
     typedef T         value_type;
 
 public:
-    template <class _Other> struct rebind
+    template<class _Other> struct rebind
     {
         typedef doug_lea_alloc<_Other> other;
     };
@@ -33,8 +33,8 @@ public:
     }
     doug_lea_alloc() {}
     doug_lea_alloc(const doug_lea_alloc<T>&) {}
-    template <class _Other> doug_lea_alloc(const doug_lea_alloc<_Other>&) {}
-    template <class _Other> doug_lea_alloc<T>& operator=(const doug_lea_alloc<_Other>&)
+    template<class _Other> doug_lea_alloc(const doug_lea_alloc<_Other>&) {}
+    template<class _Other> doug_lea_alloc<T>& operator=(const doug_lea_alloc<_Other>&)
     {
         return (*this);
     }
@@ -70,18 +70,18 @@ public:
     }
 };
 
-template <class _Ty, class _Other> inline bool operator==(const doug_lea_alloc<_Ty>&, const doug_lea_alloc<_Other>&)
+template<class _Ty, class _Other> inline bool operator==(const doug_lea_alloc<_Ty>&, const doug_lea_alloc<_Other>&)
 {
     return (true);
 }
-template <class _Ty, class _Other> inline bool operator!=(const doug_lea_alloc<_Ty>&, const doug_lea_alloc<_Other>&)
+template<class _Ty, class _Other> inline bool operator!=(const doug_lea_alloc<_Ty>&, const doug_lea_alloc<_Other>&)
 {
     return (false);
 }
 
 struct doug_lea_allocator_wrapper
 {
-    template <typename T> struct helper
+    template<typename T> struct helper
     {
         typedef doug_lea_alloc<T> result;
     };
@@ -90,7 +90,7 @@ struct doug_lea_allocator_wrapper
     {
         return g_render_lua_allocator.malloc_impl((u32)n);
     }
-    template <typename T> static void dealloc(T*& p)
+    template<typename T> static void dealloc(T*& p)
     {
         g_render_lua_allocator.free_impl((void*&)p);
     }
@@ -115,15 +115,15 @@ class TProperties;
 
 struct st_LevelOptions
 {
-    shared_str m_FNLevelPath;
-    shared_str m_LevelPrefix;
-    shared_str m_BOPText;
-    shared_str m_map_version;
+    shared_str      m_FNLevelPath;
+    shared_str      m_LevelPrefix;
+    shared_str      m_BOPText;
+    shared_str      m_map_version;
 
-    u8 m_LightHemiQuality;
-    u8 m_LightSunQuality;
+    u8              m_LightHemiQuality;
+    u8              m_LightSunQuality;
 
-    b_params m_BuildParams;
+    b_params        m_BuildParams;
 
     GameTypeChooser m_mapUsage;
     st_LevelOptions();
@@ -153,24 +153,25 @@ public:
     st_LevelOptions m_LevelOp;
 
 protected:
-    bool m_Valid;
-    int  m_Locked;
+    bool               m_Valid;
+    int                m_Locked;
     // version control
-    xrGUID     m_GUID;
-    shared_str m_OwnerName;
-    time_t     m_CreateTime;
+    xrGUID             m_GUID;
+    shared_str         m_OwnerName;
+    time_t             m_CreateTime;
 
     //
-    int m_LastAvailObject;
+    int                m_LastAvailObject;
 
-    SceneToolsMap m_SceneTools;
+    SceneToolsMap      m_SceneTools;
 
     xr_deque<UndoItem> m_UndoStack;
     xr_deque<UndoItem> m_RedoStack;
 
-    TProperties* m_SummaryInfo;
+    TProperties*       m_SummaryInfo;
 
-    ObjectList m_ESO_SnapObjects;   // временно здесь а вообще нужно перенести в ESceneTools
+    ObjectList         m_ESO_SnapObjects;   // временно здесь а вообще нужно перенести в ESceneTools
+
 protected:
     bool OnLoadAppendObject(CCustomObject* O);
     bool OnLoadSelectionAppendObject(CCustomObject* O);
@@ -205,56 +206,51 @@ public:
 public:
     typedef fastdelegate::FastDelegate1<CCustomObject*, bool> TAppendObject;
 
-    bool ReadObjectStream(IReader& F, CCustomObject*& O);
-    bool ReadObjectLTX(CInifile& ini, LPCSTR sect_name, CCustomObject*& O);
-    bool ReadObjectsStream(IReader& F, u32 chunk_id, TAppendObject on_append, SPBItem* pb);
-    bool ReadObjectsLTX(
-        CInifile&     ini,
-        LPCSTR        sect_name_parent,
-        LPCSTR        sect_name_prefix,
-        TAppendObject on_append,
-        SPBItem*      pb);
+    bool                                                      ReadObjectStream(IReader& F, CCustomObject*& O);
+    bool                                                      ReadObjectLTX(CInifile& ini, LPCSTR sect_name, CCustomObject*& O);
+    bool                                                      ReadObjectsStream(IReader& F, u32 chunk_id, TAppendObject on_append, SPBItem* pb);
+    bool                                                      ReadObjectsLTX(CInifile& ini, LPCSTR sect_name_parent, LPCSTR sect_name_prefix, TAppendObject on_append, SPBItem* pb);
 
-    void SaveObjectStream(CCustomObject* O, IWriter& F);
-    void SaveObjectLTX(CCustomObject* O, LPCSTR sect_name, CInifile& ini);
-    void SaveObjectsStream(ObjectList& lst, u32 chunk_id, IWriter& F);
-    void SaveObjectsLTX(ObjectList& lst, LPCSTR sect_name_parent, LPCSTR sect_name_prefix, CInifile& ini);
+    void                                                      SaveObjectStream(CCustomObject* O, IWriter& F);
+    void                                                      SaveObjectLTX(CCustomObject* O, LPCSTR sect_name, CInifile& ini);
+    void                                                      SaveObjectsStream(ObjectList& lst, u32 chunk_id, IWriter& F);
+    void                                                      SaveObjectsLTX(ObjectList& lst, LPCSTR sect_name_parent, LPCSTR sect_name_prefix, CInifile& ini);
 
-    xr_string LevelPartPath(LPCSTR map_name);
-    xr_string LevelPartName(LPCSTR map_name, ObjClassID cls);
+    xr_string                                                 LevelPartPath(LPCSTR map_name);
+    xr_string                                                 LevelPartName(LPCSTR map_name, ObjClassID cls);
 
-    BOOL LoadLevelPart(ESceneToolBase* M, LPCSTR map_name);
-    BOOL LoadLevelPartStream(ESceneToolBase* M, LPCSTR map_name);
-    BOOL LoadLevelPartLTX(ESceneToolBase* M, LPCSTR map_name);
+    BOOL                                                      LoadLevelPart(ESceneToolBase* M, LPCSTR map_name);
+    BOOL                                                      LoadLevelPartStream(ESceneToolBase* M, LPCSTR map_name);
+    BOOL                                                      LoadLevelPartLTX(ESceneToolBase* M, LPCSTR map_name);
 
-    BOOL LoadLevelPart(LPCSTR map_name, ObjClassID cls);
-    BOOL UnloadLevelPart(ESceneToolBase* M);
-    BOOL UnloadLevelPart(LPCSTR map_name, ObjClassID cls);
+    BOOL                                                      LoadLevelPart(LPCSTR map_name, ObjClassID cls);
+    BOOL                                                      UnloadLevelPart(ESceneToolBase* M);
+    BOOL                                                      UnloadLevelPart(LPCSTR map_name, ObjClassID cls);
 
 public:
-    bool ExportGame(SExportStreams* F);
+    bool    ExportGame(SExportStreams* F);
 
-    bool Load(LPCSTR map_name, bool bUndo);
-    bool LoadLTX(LPCSTR map_name, bool bUndo);
+    bool    Load(LPCSTR map_name, bool bUndo);
+    bool    LoadLTX(LPCSTR map_name, bool bUndo);
 
-    void Save(LPCSTR map_name, bool bUndo, bool bForceSaveAll);
-    void SaveLTX(LPCSTR map_name, bool bUndo, bool bForceSaveAll);
+    void    Save(LPCSTR map_name, bool bUndo, bool bForceSaveAll);
+    void    SaveLTX(LPCSTR map_name, bool bUndo, bool bForceSaveAll);
 
-    bool LoadSelection(LPCSTR fname);
-    void SaveSelection(ObjClassID classfilter, LPCSTR fname);
+    bool    LoadSelection(LPCSTR fname);
+    void    SaveSelection(ObjClassID classfilter, LPCSTR fname);
 
-    void SaveToolLTX(ObjClassID clsid, LPCSTR fn);
-    bool LoadToolLTX(ObjClassID clsid, LPCSTR fn);
+    void    SaveToolLTX(ObjClassID clsid, LPCSTR fn);
+    bool    LoadToolLTX(ObjClassID clsid, LPCSTR fn);
 
-    void Unload(BOOL bEditableToolsOnly);
-    void Clear(BOOL bEditableToolsOnly);
-    void Reset();
-    void LoadCompilerError(LPCSTR fn);
-    void LoadXrAICompilerError(LPCSTR fn);
-    void SaveCompilerError(LPCSTR fn);
-    void HighlightTexture(LPCSTR t_name, bool allow_ratio, u32 t_width, u32 t_height, bool leave_previous);
+    void    Unload(BOOL bEditableToolsOnly);
+    void    Clear(BOOL bEditableToolsOnly);
+    void    Reset();
+    void    LoadCompilerError(LPCSTR fn);
+    void    LoadXrAICompilerError(LPCSTR fn);
+    void    SaveCompilerError(LPCSTR fn);
+    void    HighlightTexture(LPCSTR t_name, bool allow_ratio, u32 t_width, u32 t_height, bool leave_previous);
 
-    int MultiRenameObjects();
+    int     MultiRenameObjects();
 
     IC bool valid()
     {
@@ -321,88 +317,72 @@ public:
     {
         return ListObj(cat).size();
     }
-    int ObjCount();
+    int                    ObjCount();
 
-    void RenderSky(const Fmatrix& camera);
-    void Render(const Fmatrix& camera);
-    void OnFrame(float dT);
+    void                   RenderSky(const Fmatrix& camera);
+    void                   Render(const Fmatrix& camera);
+    void                   OnFrame(float dT);
 
-    virtual void AppendObject(CCustomObject* object, bool bExecUnd = true);
-    virtual bool RemoveObject(CCustomObject* object, bool bExecUndo, bool bDeleting);
-    void         BeforeObjectChange(CCustomObject* object);
-    bool         ContainsObject(CCustomObject* object, ObjClassID classfilter);
+    virtual void           AppendObject(CCustomObject* object, bool bExecUnd = true);
+    virtual bool           RemoveObject(CCustomObject* object, bool bExecUndo, bool bDeleting);
+    void                   BeforeObjectChange(CCustomObject* object);
+    bool                   ContainsObject(CCustomObject* object, ObjClassID classfilter);
 
     // Snap List Part
-    bool                FindObjectInSnapList(CCustomObject* O);
-    bool                AddToSnapList(CCustomObject* O, bool bUpdateScene = true);
-    bool                DelFromSnapList(CCustomObject* O, bool bUpdateScene = true);
-    int                 AddSelToSnapList();
-    int                 DelSelFromSnapList();
-    int                 SetSnapList();
-    void                RenderSnapList();
-    void                ClearSnapList(bool bCurrentOnly);
-    void                SelectSnapList();
-    void                UpdateSnapList();
-    void                UpdateSnapListReal();
-    virtual ObjectList* GetSnapList(bool bIgnoreUse);
+    bool                   FindObjectInSnapList(CCustomObject* O);
+    bool                   AddToSnapList(CCustomObject* O, bool bUpdateScene = true);
+    bool                   DelFromSnapList(CCustomObject* O, bool bUpdateScene = true);
+    int                    AddSelToSnapList();
+    int                    DelSelFromSnapList();
+    int                    SetSnapList();
+    void                   RenderSnapList();
+    void                   ClearSnapList(bool bCurrentOnly);
+    void                   SelectSnapList();
+    void                   UpdateSnapList();
+    void                   UpdateSnapListReal();
+    virtual ObjectList*    GetSnapList(bool bIgnoreUse);
 
-    virtual CCustomObject* RayPickObject(
-        float          dist,
-        const Fvector& start,
-        const Fvector& dir,
-        ObjClassID     classfilter,
-        SRayPickInfo*  pinf,
-        ObjectList*    from_list);
-    int BoxPickObjects(const Fbox& box, SBoxPickInfoVec& pinf, ObjectList* from_list);
-    int RayQuery(
-        SPickQuery&    RQ,
-        const Fvector& start,
-        const Fvector& dir,
-        float          dist,
-        u32            flags,
-        ObjectList*    snap_list);
-    int BoxQuery(SPickQuery& RQ, const Fbox& bb, u32 flags, ObjectList* snap_list);
-    int RayQuery(SPickQuery& RQ, const Fvector& start, const Fvector& dir, float dist, u32 flags, CDB::MODEL* model);
-    int BoxQuery(SPickQuery& RQ, const Fbox& bb, u32 flags, CDB::MODEL* model);
+    virtual CCustomObject* RayPickObject(float dist, const Fvector& start, const Fvector& dir, ObjClassID classfilter, SRayPickInfo* pinf, ObjectList* from_list);
+    int                    BoxPickObjects(const Fbox& box, SBoxPickInfoVec& pinf, ObjectList* from_list);
+    int                    RayQuery(SPickQuery& RQ, const Fvector& start, const Fvector& dir, float dist, u32 flags, ObjectList* snap_list);
+    int                    BoxQuery(SPickQuery& RQ, const Fbox& bb, u32 flags, ObjectList* snap_list);
+    int                    RayQuery(SPickQuery& RQ, const Fvector& start, const Fvector& dir, float dist, u32 flags, CDB::MODEL* model);
+    int                    BoxQuery(SPickQuery& RQ, const Fbox& bb, u32 flags, CDB::MODEL* model);
 
-    int  RaySelect(int flag, ObjClassID classfilter = OBJCLASS_DUMMY);   // flag=0,1,-1 (-1 invert)
-    int  FrustumSelect(int flag, ObjClassID classfilter = OBJCLASS_DUMMY);
-    void SelectObjects(bool flag, ObjClassID classfilter = OBJCLASS_DUMMY);
-    void ShowObjects(
-        bool       flag,
-        ObjClassID classfilter         = OBJCLASS_DUMMY,
-        bool       bAllowSelectionFlag = false,
-        bool       bSelFlag            = true);
-    void InvertSelection(ObjClassID classfilter);
-    int  SelectionCount(bool testflag, ObjClassID classfilter);
-    void RemoveSelection(ObjClassID classfilter);
-    void CutSelection(ObjClassID classfilter);
-    void CopySelection(ObjClassID classfilter);
-    void PasteSelection();
+    int                    RaySelect(int flag, ObjClassID classfilter = OBJCLASS_DUMMY);   // flag=0,1,-1 (-1 invert)
+    int                    FrustumSelect(int flag, ObjClassID classfilter = OBJCLASS_DUMMY);
+    void                   SelectObjects(bool flag, ObjClassID classfilter = OBJCLASS_DUMMY);
+    void                   ShowObjects(bool flag, ObjClassID classfilter = OBJCLASS_DUMMY, bool bAllowSelectionFlag = false, bool bSelFlag = true);
+    void                   InvertSelection(ObjClassID classfilter);
+    int                    SelectionCount(bool testflag, ObjClassID classfilter);
+    void                   RemoveSelection(ObjClassID classfilter);
+    void                   CutSelection(ObjClassID classfilter);
+    void                   CopySelection(ObjClassID classfilter);
+    void                   PasteSelection();
 
-    void SelectLightsForObject(CCustomObject* obj);
+    void                   SelectLightsForObject(CCustomObject* obj);
 
-    void ZoomExtents(ObjClassID cls, BOOL bSelectedOnly);
+    void                   ZoomExtents(ObjClassID cls, BOOL bSelectedOnly);
 
-    int FrustumPick(const CFrustum& frustum, ObjClassID classfilter, ObjectList& ol);
-    int SpherePick(const Fvector& center, float radius, ObjClassID classfilter, ObjectList& ol);
+    int                    FrustumPick(const CFrustum& frustum, ObjClassID classfilter, ObjectList& ol);
+    int                    SpherePick(const Fvector& center, float radius, ObjClassID classfilter, ObjectList& ol);
 
     virtual void           GenObjectName(ObjClassID cls_id, char* buffer, const char* prefix = NULL);
     virtual CCustomObject* FindObjectByName(LPCSTR name, ObjClassID classfilter);
     virtual CCustomObject* FindObjectByName(LPCSTR name, CCustomObject* pass_object);
     bool                   FindDuplicateName();
 
-    void UndoClear();
-    void UndoSave();
-    bool Undo();
-    bool Redo();
+    void                   UndoClear();
+    void                   UndoSave();
+    bool                   Undo();
+    bool                   Redo();
 
-    bool GetBox(Fbox& box, ObjClassID classfilter);
-    bool GetBox(Fbox& box, ObjectList& lst);
+    bool                   GetBox(Fbox& box, ObjClassID classfilter);
+    bool                   GetBox(Fbox& box, ObjectList& lst);
 
 public:
-    int GetQueryObjects(ObjectList& objset, ObjClassID classfilter, int iSel = 1, int iVis = 1, int iLock = 0);
-    template <class Predicate> int GetQueryObjects_if(ObjectList& dest, ObjClassID classfilter, Predicate cmp)
+    int                           GetQueryObjects(ObjectList& objset, ObjClassID classfilter, int iSel = 1, int iVis = 1, int iLock = 0);
+    template<class Predicate> int GetQueryObjects_if(ObjectList& dest, ObjClassID classfilter, Predicate cmp)
     {
         for (ObjectPairIt it = FirstClass(); it != LastClass(); it++)
         {
@@ -427,7 +407,7 @@ public:
     bool IsUnsaved();
     bool IsModified();
 
-    int GetUndoCount()
+    int  GetUndoCount()
     {
         return m_UndoStack.size();
     }
@@ -436,13 +416,7 @@ public:
         return m_RedoStack.size();
     }
 
-    bool Validate(
-        bool bNeedOkMsg,
-        bool bTestPortal,
-        bool bTestHOM,
-        bool bTestGlow,
-        bool bTestShaderCompatible,
-        bool bFullTest);
+    bool Validate(bool bNeedOkMsg, bool bTestPortal, bool bTestHOM, bool bTestGlow, bool bTestShaderCompatible, bool bFullTest);
     void OnObjectsUpdate();
 
     EScene();
@@ -451,40 +425,40 @@ public:
     virtual void OnDeviceCreate();
     virtual void OnDeviceDestroy();
 
-    void OnShowHint(AStringVec& dest);
+    void         OnShowHint(AStringVec& dest);
 
-    void SynchronizeObjects();
+    void         SynchronizeObjects();
 
-    void ClearSummaryInfo();
-    void CollectSummaryInfo();
-    void ExportObj(bool b_selected_only);
-    void ShowSummaryInfo();
-    void ExportSummaryInfo(LPCSTR f_name);
+    void         ClearSummaryInfo();
+    void         CollectSummaryInfo();
+    void         ExportObj(bool b_selected_only);
+    void         ShowSummaryInfo();
+    void         ExportSummaryInfo(LPCSTR f_name);
 
-    xr_string  LevelPath();
-    shared_str LevelPrefix()
+    xr_string    LevelPath();
+    shared_str   LevelPrefix()
     {
         return m_LevelOp.m_LevelPrefix;
     }
 
-    void         FillProp(LPCSTR pref, PropItemVec& items, ObjClassID cls_id);
-    void         FillPropObjects(LPCSTR pref, PropItemVec& items, ObjClassID cls_id);
-    void         Play();
-    bool         IsPlayInEditor();
-    virtual void Stop();
+    void                 FillProp(LPCSTR pref, PropItemVec& items, ObjClassID cls_id);
+    void                 FillPropObjects(LPCSTR pref, PropItemVec& items, ObjClassID cls_id);
+    void                 Play();
+    bool                 IsPlayInEditor();
+    virtual void         Stop();
 
     virtual void         LoadCFrom(CObjectSpace* Space, CDB::build_callback cb);
     virtual IReader*     LoadSpawn();
     virtual IGameGraph*  GetGameGraph();
     virtual ILevelGraph* GetLevelGraph();
 
-    bool BuildSpawn();
-    bool BuildAIMap();
-    bool BuildGameGraph();
-    bool BuildCForm();
-    bool BuildForPCPlay();
+    bool                 BuildSpawn();
+    bool                 BuildAIMap();
+    bool                 BuildGameGraph();
+    bool                 BuildCForm();
+    bool                 BuildForPCPlay();
 
-    virtual bool RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt = 0, Fvector* n = 0);
+    virtual bool         RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt = 0, Fvector* n = 0);
 
 protected:
     typedef std::pair<xr_string, xr_string> TSubstPair;

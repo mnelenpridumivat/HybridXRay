@@ -38,16 +38,16 @@ private:
     };
 
 private:
-    int m_iReportToMasterServer;
+    int                 m_iReportToMasterServer;
 
-    BOOL m_bQR2_Initialized;
-    void QR2_Init(int PortID);
-    void QR2_ShutDown();
+    BOOL                m_bQR2_Initialized;
+    void                QR2_Init(int PortID);
+    void                QR2_ShutDown();
 
-    BOOL m_bCDKey_Initialized;
-    void CDKey_Init();
-    void CDKey_ShutDown();
-    void SendChallengeString_2_Client(IClient* C);
+    BOOL                m_bCDKey_Initialized;
+    void                CDKey_Init();
+    void                CDKey_ShutDown();
+    void                SendChallengeString_2_Client(IClient* C);
 
     CGameSpy_GCD_Server m_GCDServer;
     CGameSpy_QR2        m_QR2;
@@ -58,13 +58,13 @@ protected:
     virtual bool Check_ServerAccess(IClient* CL, string512& reason);
 
 public:
-    shared_str HostName;
-    shared_str MapName;
-    shared_str Password;
-    Flags8     ServerFlags;
+    shared_str    HostName;
+    shared_str    MapName;
+    shared_str    Password;
+    Flags8        ServerFlags;
 
-    int  m_iMaxPlayers;
-    bool m_bCheckCDKey;
+    int           m_iMaxPlayers;
+    bool          m_bCheckCDKey;
 
     int           GetPlayersCount();
     void          OnCDKey_Validation(int LocalID, int res, char* errormsg);
@@ -100,7 +100,6 @@ public:
     virtual void     OnCL_Disconnected(IClient* C);
     virtual IClient* client_Create();
 
-    virtual u32
-        OnMessage(NET_Packet& P, ClientID /*DPNID*/ sender);   // Non-Zero means broadcasting with "flags" as returned
-    virtual void OnError_Add(qr2_error_t error){};
+    virtual u32      OnMessage(NET_Packet& P, ClientID /*DPNID*/ sender);   // Non-Zero means broadcasting with "flags" as returned
+    virtual void     OnError_Add(qr2_error_t error){};
 };

@@ -205,8 +205,7 @@ void xrLoad(LPCSTR name, bool draft_mode)
                                 BT.pSurface.SwapRB();
                                 if ((BT.pSurface.GetWidth() != BT.dwWidth) || (BT.pSurface.GetHeight() != BT.dwHeight))
                                 {
-                                    Msg("! THM doesn't correspond to the texture: %dx%d -> %dx%d", BT.dwWidth,
-                                        BT.dwHeight, BT.pSurface.GetWidth(), BT.pSurface.GetHeight());
+                                    Msg("! THM doesn't correspond to the texture: %dx%d -> %dx%d", BT.dwWidth, BT.dwHeight, BT.pSurface.GetWidth(), BT.pSurface.GetHeight());
                                     BT.dwWidth = BT.THM.width = BT.pSurface.GetWidth();
                                     BT.dwHeight = BT.THM.height = BT.pSurface.GetHeight();
                                 }

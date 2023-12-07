@@ -57,7 +57,7 @@ void UIObjectList::Draw()
         ImGui::Separator();
         if (ImGui::Button("Show Selected"_RU >> u8"Показать выбранное", ImVec2(-1, 0)))
         {
-            for (UITreeItem* Item : m_Root.Items)
+            for (UITreeItem* Item: m_Root.Items)
             {
                 UIObjectListItem* RItem = (UIObjectListItem*)Item;
                 if (RItem->bIsSelected)
@@ -71,7 +71,7 @@ void UIObjectList::Draw()
 
         if (ImGui::Button("Hide Selected"_RU >> u8"Скрыть выбранное", ImVec2(-1, 0)))
         {
-            for (UITreeItem* Item : m_Root.Items)
+            for (UITreeItem* Item: m_Root.Items)
             {
                 UIObjectListItem* RItem = (UIObjectListItem*)Item;
                 if (RItem->bIsSelected)
@@ -86,7 +86,7 @@ void UIObjectList::Draw()
         ImGui::Separator();
         if (ImGui::Button("Focus on Selected"_RU >> u8"Фокус на выбранном", ImVec2(-1, 0)))
         {
-            for (UITreeItem* Item : m_Root.Items)
+            for (UITreeItem* Item: m_Root.Items)
             {
                 UIObjectListItem* RItem = (UIObjectListItem*)Item;
                 if (RItem->bIsSelected)
@@ -139,7 +139,7 @@ void UIObjectList::Refresh()
 {
     if (Form == nullptr)
         return;
-    Form->m_Root = UIObjectListItem("");
+    Form->m_Root    = UIObjectListItem("");
 
     Form->m_cur_cls = LTools->CurrentClassID();
     for (SceneToolsMapPairIt it = Scene->FirstTool(); it != Scene->LastTool(); ++it)
@@ -151,7 +151,7 @@ void UIObjectList::Refresh()
                 continue;
             ObjectList& lst   = ot->GetObjects();
             size_t      Index = 0;
-            for (CCustomObject* Obj : lst)
+            for (CCustomObject* Obj: lst)
             {
                 if (Obj->GetName() == 0 || Obj->GetName()[0] == 0)
                 {

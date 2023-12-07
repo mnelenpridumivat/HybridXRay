@@ -27,17 +27,5 @@ CALifeMonsterPatrolPathManager* get_patrol(const CALifeMonsterMovementManager* s
 #pragma optimize("s", on)
 void CALifeMonsterMovementManager::script_register(lua_State* L)
 {
-    module(
-        L)[class_<CALifeMonsterMovementManager>("CALifeMonsterMovementManager")
-               .def("detail", &get_detail)
-               .def("patrol", &get_patrol)
-               .def(
-                   "path_type",
-                   (void(CALifeMonsterMovementManager::*)(const EPathType&))(&CALifeMonsterMovementManager::path_type))
-               .def(
-                   "path_type",
-                   (const EPathType& (CALifeMonsterMovementManager::*)()
-                        const)(&CALifeMonsterMovementManager::path_type))
-               .def("actual", &CALifeMonsterMovementManager::actual)
-               .def("completed", &CALifeMonsterMovementManager::completed)];
+    module(L)[class_<CALifeMonsterMovementManager>("CALifeMonsterMovementManager").def("detail", &get_detail).def("patrol", &get_patrol).def("path_type", (void(CALifeMonsterMovementManager::*)(const EPathType&))(&CALifeMonsterMovementManager::path_type)).def("path_type", (const EPathType& (CALifeMonsterMovementManager::*)() const)(&CALifeMonsterMovementManager::path_type)).def("actual", &CALifeMonsterMovementManager::actual).def("completed", &CALifeMonsterMovementManager::completed)];
 }

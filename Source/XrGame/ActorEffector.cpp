@@ -11,11 +11,11 @@ void AddEffector(CActor* A, int type, const shared_str& sect_name)
 {
     if (pSettings->line_exist(sect_name, "pp_eff_name"))
     {
-        CPostprocessAnimator* pp_anm = xr_new<CPostprocessAnimator>();
+        CPostprocessAnimator* pp_anm  = xr_new<CPostprocessAnimator>();
 
-        bool bCyclic = !!pSettings->r_bool(sect_name, "pp_eff_cyclic");
+        bool                  bCyclic = !!pSettings->r_bool(sect_name, "pp_eff_cyclic");
 
-        pp_anm->bOverlap = !!pSettings->r_bool(sect_name, "pp_eff_overlap");
+        pp_anm->bOverlap              = !!pSettings->r_bool(sect_name, "pp_eff_overlap");
 
         pp_anm->SetType((EEffectorPPType)type);
         pp_anm->SetCyclic(bCyclic);
@@ -311,7 +311,7 @@ BOOL SndShockEffector::InWork()
 
 float SndShockEffector::GetFactor()
 {
-    float f = (m_end_time - Device->fTimeGlobal) / m_life_time;
+    float f  = (m_end_time - Device->fTimeGlobal) / m_life_time;
 
     float ff = f * m_life_time / 8.0f;
     return clampr(ff, 0.0f, 1.0f);
@@ -326,13 +326,13 @@ void SndShockEffector::Start(CActor* A, float snd_length, float power)
     if (m_stored_volume < 0.0f)
         m_stored_volume = psSoundVFactor;
 
-    m_cur_length   = 0;
-    psSoundVFactor = m_stored_volume * SND_MIN_VOLUME_FACTOR;
+    m_cur_length     = 0;
+    psSoundVFactor   = m_stored_volume * SND_MIN_VOLUME_FACTOR;
 
     static float xxx = 6.0f / 1.50f;   // 6sec on max power(1.5)
 
-    m_life_time = power * xxx;
-    m_end_time  = Device->fTimeGlobal + m_life_time;
+    m_life_time      = power * xxx;
+    m_end_time       = Device->fTimeGlobal + m_life_time;
 
     AddEffector(A, effHit, "snd_shock_effector", this);
 }
@@ -344,8 +344,7 @@ void SndShockEffector::Update()
     float y = 2.f * x - 1;
     if (y > 0.f)
     {
-        psSoundVFactor =
-            y * (m_stored_volume - m_stored_volume * SND_MIN_VOLUME_FACTOR) + m_stored_volume * SND_MIN_VOLUME_FACTOR;
+        psSoundVFactor = y * (m_stored_volume - m_stored_volume * SND_MIN_VOLUME_FACTOR) + m_stored_volume * SND_MIN_VOLUME_FACTOR;
     }
 }
 
@@ -354,27 +353,18 @@ void SndShockEffector::Update()
 #define DELTA_ANGLE_X 0.5f * PI / 180
 #define DELTA_ANGLE_Y 0.5f * PI / 180
 #define DELTA_ANGLE_Z 0.5f * PI / 180
-#define ANGLE_SPEED 1.5f
+#define ANGLE_SPEED   1.5f
 
 const float _base_fov    = 170.f;
 const float _max_fov_add = 30.f;
 
-CControllerPsyHitCamEffector::CControllerPsyHitCamEffector(
-    ECamEffectorType type,
-    const Fvector&   src_pos,
-    const Fvector&   target_pos,
-    float            time,
-    float            base_fov,
-    float            dest_fov):
-    inherited(eCEControllerPsyHit, flt_max)
+CControllerPsyHitCamEffector::CControllerPsyHitCamEffector(ECamEffectorType type, const Fvector& src_pos, const Fvector& target_pos, float time, float base_fov, float dest_fov): inherited(eCEControllerPsyHit, flt_max)
 {
     m_base_fov     = base_fov;
     m_dest_fov     = dest_fov;
     m_time_total   = time;
     m_time_current = 0;
-    m_dangle_target.set(
-        angle_normalize(Random.randFs(DELTA_ANGLE_X)), angle_normalize(Random.randFs(DELTA_ANGLE_Y)),
-        angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
+    m_dangle_target.set(angle_normalize(Random.randFs(DELTA_ANGLE_X)), angle_normalize(Random.randFs(DELTA_ANGLE_Y)), angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
 
     m_dangle_current.set(0.f, 0.f, 0.f);
     m_position_source = src_pos;
@@ -443,9 +433,7 @@ BOOL CControllerPsyHitCamEffector::ProcessCam(SCamEffectorInfo& info)
 }
 bool similar_cam_info(const SCamEffectorInfo& c1, const SCamEffectorInfo& c2)
 {
-    return (
-        c1.p.similar(c2.p, EPS_L) && c1.d.similar(c2.d, EPS_L) && c1.n.similar(c2.n, EPS_L) &&
-        c1.r.similar(c2.r, EPS_L));
+    return (c1.p.similar(c2.p, EPS_L) && c1.d.similar(c2.d, EPS_L) && c1.n.similar(c2.n, EPS_L) && c1.r.similar(c2.r, EPS_L));
 }
 void CActorCameraManager::UpdateCamEffectors()
 {
@@ -478,7 +466,7 @@ bool CActorCameraManager::ProcessCameraEffector(CEffectorCam* eff)
 {
     SCamEffectorInfo prev = m_cam_info;
 
-    bool res = inherited::ProcessCameraEffector(eff);
+    bool             res  = inherited::ProcessCameraEffector(eff);
     if (res)
     {
         if (eff->GetHudAffect())

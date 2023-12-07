@@ -20,7 +20,7 @@ Comments:
 #endif
 
 #ifndef _WIN32
-#define _isnan isnan
+#define _isnan  isnan
 #define _finite finite
 #endif
 
@@ -499,16 +499,7 @@ nv_scalar det2x2(nv_scalar a1, nv_scalar a2, nv_scalar b1, nv_scalar b2)
     | c1 c2 c3 |
 
 */
-nv_scalar det3x3(
-    nv_scalar a1,
-    nv_scalar a2,
-    nv_scalar a3,
-    nv_scalar b1,
-    nv_scalar b2,
-    nv_scalar b3,
-    nv_scalar c1,
-    nv_scalar c2,
-    nv_scalar c3)
+nv_scalar det3x3(nv_scalar a1, nv_scalar a2, nv_scalar a3, nv_scalar b1, nv_scalar b2, nv_scalar b3, nv_scalar c1, nv_scalar c2, nv_scalar c3)
 {
     return a1 * det2x2(b2, b3, c2, c3) - b1 * det2x2(a2, a3, c2, c3) + c1 * det2x2(a2, a3, b2, b3);
 }
@@ -537,7 +528,7 @@ mat4& invert(mat4& B, const mat4& A)
     B.a23 = -det3x3(A.a00, A.a10, A.a20, A.a01, A.a11, A.a21, A.a03, A.a13, A.a23);
     B.a33 = det3x3(A.a00, A.a10, A.a20, A.a01, A.a11, A.a21, A.a02, A.a12, A.a22);
 
-    det = (A.a00 * B.a00) + (A.a01 * B.a10) + (A.a02 * B.a20) + (A.a03 * B.a30);
+    det   = (A.a00 * B.a00) + (A.a01 * B.a10) + (A.a02 * B.a20) + (A.a03 * B.a30);
 
     oodet = nv_one / det;
 
@@ -604,7 +595,7 @@ mat3& invert(mat3& B, const mat3& A)
     B.a12 = -(A.a00 * A.a12 - A.a10 * A.a02);
     B.a22 = (A.a00 * A.a11 - A.a10 * A.a01);
 
-    det = (A.a00 * B.a00) + (A.a01 * B.a10) + (A.a02 * B.a20);
+    det   = (A.a00 * B.a00) + (A.a01 * B.a10) + (A.a02 * B.a20);
 
     oodet = nv_one / det;
 
@@ -701,14 +692,7 @@ mat4& look_at(mat4& M, const vec3& eye, const vec3& center, const vec3& up)
     return M;
 }
 
-mat4& frustum(
-    mat4&           M,
-    const nv_scalar l,
-    const nv_scalar r,
-    const nv_scalar b,
-    const nv_scalar t,
-    const nv_scalar n,
-    const nv_scalar f)
+mat4& frustum(mat4& M, const nv_scalar l, const nv_scalar r, const nv_scalar b, const nv_scalar t, const nv_scalar n, const nv_scalar f)
 {
     M.a00 = (nv_two * n) / (r - l);
     M.a10 = 0.0;
@@ -863,9 +847,7 @@ void quat::ToMatrix(mat3& mat) const
 
 const quat operator*(const quat& p, const quat& q)
 {
-    return quat(
-        p.w * q.x + p.x * q.w + p.y * q.z - p.z * q.y, p.w * q.y + p.y * q.w + p.z * q.x - p.x * q.z,
-        p.w * q.z + p.z * q.w + p.x * q.y - p.y * q.x, p.w * q.w - p.x * q.x - p.y * q.y - p.z * q.z);
+    return quat(p.w * q.x + p.x * q.w + p.y * q.z - p.z * q.y, p.w * q.y + p.y * q.w + p.z * q.x - p.x * q.z, p.w * q.z + p.z * q.w + p.x * q.y - p.y * q.x, p.w * q.w - p.x * q.x - p.y * q.y - p.z * q.z);
 }
 
 quat& quat::operator*=(const quat& quat)
@@ -1009,17 +991,17 @@ void mat3::set_rot(const nv_scalar& theta, const vec3& v)
     nv_scalar xz = v.x * v.z;
     nv_scalar yz = v.y * v.z;
 
-    a00 = xx + ct * (1 - xx);
-    a01 = xy + ct * (-xy) + st * -v.z;
-    a02 = xz + ct * (-xz) + st * v.y;
+    a00          = xx + ct * (1 - xx);
+    a01          = xy + ct * (-xy) + st * -v.z;
+    a02          = xz + ct * (-xz) + st * v.y;
 
-    a10 = xy + ct * (-xy) + st * v.z;
-    a11 = yy + ct * (1 - yy);
-    a12 = yz + ct * (-yz) + st * -v.x;
+    a10          = xy + ct * (-xy) + st * v.z;
+    a11          = yy + ct * (1 - yy);
+    a12          = yz + ct * (-yz) + st * -v.x;
 
-    a20 = xz + ct * (-xz) + st * -v.y;
-    a21 = yz + ct * (-yz) + st * v.x;
-    a22 = zz + ct * (1 - zz);
+    a20          = xz + ct * (-xz) + st * -v.y;
+    a21          = yz + ct * (-yz) + st * v.x;
+    a22          = zz + ct * (1 - zz);
 }
 
 void mat3::set_rot(const vec3& u, const vec3& v)
@@ -1041,17 +1023,17 @@ void mat3::set_rot(const vec3& u, const vec3& v)
     nv_scalar hxz = w.x * w.z * h;
     nv_scalar hyz = w.y * w.z * h;
 
-    a00 = phi + w.x * w.x * h;
-    a01 = hxy - w.z;
-    a02 = hxz + w.y;
+    a00           = phi + w.x * w.x * h;
+    a01           = hxy - w.z;
+    a02           = hxz + w.y;
 
-    a10 = hxy + w.z;
-    a11 = phi + w.y * w.y * h;
-    a12 = hyz - w.x;
+    a10           = hxy + w.z;
+    a11           = phi + w.y * w.y * h;
+    a12           = hyz - w.x;
 
-    a20 = hxz - w.y;
-    a21 = hyz + w.x;
-    a22 = phi + w.z * w.z * h;
+    a20           = hxz - w.y;
+    a21           = hyz + w.x;
+    a22           = phi + w.z * w.z * h;
 }
 
 void mat4::set_rot(const quat& q)
@@ -1075,17 +1057,17 @@ void mat4::set_rot(const nv_scalar& theta, const vec3& v)
     nv_scalar xz = v.x * v.z;
     nv_scalar yz = v.y * v.z;
 
-    a00 = xx + ct * (1 - xx);
-    a01 = xy + ct * (-xy) + st * -v.z;
-    a02 = xz + ct * (-xz) + st * v.y;
+    a00          = xx + ct * (1 - xx);
+    a01          = xy + ct * (-xy) + st * -v.z;
+    a02          = xz + ct * (-xz) + st * v.y;
 
-    a10 = xy + ct * (-xy) + st * v.z;
-    a11 = yy + ct * (1 - yy);
-    a12 = yz + ct * (-yz) + st * -v.x;
+    a10          = xy + ct * (-xy) + st * v.z;
+    a11          = yy + ct * (1 - yy);
+    a12          = yz + ct * (-yz) + st * -v.x;
 
-    a20 = xz + ct * (-xz) + st * -v.y;
-    a21 = yz + ct * (-yz) + st * v.x;
-    a22 = zz + ct * (1 - zz);
+    a20          = xz + ct * (-xz) + st * -v.y;
+    a21          = yz + ct * (-yz) + st * v.x;
+    a22          = zz + ct * (1 - zz);
 }
 
 void mat4::set_rot(const vec3& u, const vec3& v)
@@ -1107,17 +1089,17 @@ void mat4::set_rot(const vec3& u, const vec3& v)
     nv_scalar hxz = w.x * w.z * h;
     nv_scalar hyz = w.y * w.z * h;
 
-    a00 = phi + w.x * w.x * h;
-    a01 = hxy - w.z;
-    a02 = hxz + w.y;
+    a00           = phi + w.x * w.x * h;
+    a01           = hxy - w.z;
+    a02           = hxz + w.y;
 
-    a10 = hxy + w.z;
-    a11 = phi + w.y * w.y * h;
-    a12 = hyz - w.x;
+    a10           = hxy + w.z;
+    a11           = phi + w.y * w.y * h;
+    a12           = hyz - w.x;
 
-    a20 = hxz - w.y;
-    a21 = hyz + w.x;
-    a22 = phi + w.z * w.z * h;
+    a20           = hxz - w.y;
+    a21           = hyz + w.x;
+    a22           = phi + w.z * w.z * h;
 }
 
 void mat4::set_rot(const mat3& M)
@@ -1172,15 +1154,7 @@ quat& mat4::get_rot(quat& q) const
     return q;
 }
 
-mat3& tangent_basis(
-    mat3&       basis,
-    const vec3& v0,
-    const vec3& v1,
-    const vec3& v2,
-    const vec2& t0,
-    const vec2& t1,
-    const vec2& t2,
-    const vec3& n)
+mat3& tangent_basis(mat3& basis, const vec3& v0, const vec3& v1, const vec3& v2, const vec2& t0, const vec2& t1, const vec2& t2, const vec3& n)
 {
     vec3 cp;
     vec3 e0(v1.x - v0.x, t1.s - t0.s, t1.t - t0.t);
@@ -1231,7 +1205,7 @@ mat3& tangent_basis(
     basis.a21 = basis.a02 * basis.a10 - basis.a00 * basis.a12;
     basis.a22 = basis.a00 * basis.a11 - basis.a01 * basis.a10;
 
-    oonorm = nv_one / _sqrt(basis.a20 * basis.a20 + basis.a21 * basis.a21 + basis.a22 * basis.a22);
+    oonorm    = nv_one / _sqrt(basis.a20 * basis.a20 + basis.a21 * basis.a21 + basis.a22 * basis.a22);
     basis.a20 *= oonorm;
     basis.a21 *= oonorm;
     basis.a22 *= oonorm;
@@ -1407,7 +1381,7 @@ nv_scalar nv_find_in_circle(vec3& center, const vec3& v1, const vec3& v2, const 
 
     nv_scalar oo_perim = nv_one / nv_perimeter(v1, v2, v3);
 
-    vec3 diff;
+    vec3      diff;
 
     sub(diff, v2, v3);
     mult(center, v1, nv_norm(diff));

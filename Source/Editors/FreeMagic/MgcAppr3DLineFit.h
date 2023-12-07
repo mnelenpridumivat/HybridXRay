@@ -27,12 +27,7 @@ namespace Mgc
     // This function allows for selection of vertices from a pool.  The return
     // value is 'true' if and only if at least one vertex is valid.
 
-    MAGICFM bool OrthogonalLineFit(
-        int            iQuantity,
-        const Vector3* akPoint,
-        const bool*    abValid,
-        Vector3&       rkOffset,
-        Vector3&       rkDirection);
+    MAGICFM bool OrthogonalLineFit(int iQuantity, const Vector3* akPoint, const bool* abValid, Vector3& rkOffset, Vector3& rkDirection);
 
 }   // namespace Mgc
 

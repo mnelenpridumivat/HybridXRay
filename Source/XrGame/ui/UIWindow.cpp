@@ -29,13 +29,13 @@ void               dump_list_wnd()
             Msg("--leak detected ---- wnd = %d", (*_it).num);
 }
 #else
-void              dump_list_wnd() {}
+void dump_list_wnd() {}
 #endif
 
 xr_vector<Frect> g_wnds_rects;
 BOOL             g_show_wnd_rect2 = FALSE;
 
-void clean_wnd_rects()
+void             clean_wnd_rects()
 {
 #ifdef DEBUG
     DRender->DestroyDebugShader(IDebugRender::dbgShaderWindow);
@@ -101,9 +101,7 @@ void CUIWindow::ResetPPMode()
     }
 }
 
-CUIWindow::CUIWindow():
-    m_pParentWnd(NULL), m_pMouseCapturer(NULL), m_pMessageTarget(NULL), m_pKeyboardCapturer(NULL), m_bAutoDelete(false),
-    m_bCursorOverWindow(false), m_bPP(false), m_dwFocusReceiveTime(0), m_bCustomDraw(false)
+CUIWindow::CUIWindow(): m_pParentWnd(NULL), m_pMouseCapturer(NULL), m_pMessageTarget(NULL), m_pKeyboardCapturer(NULL), m_bAutoDelete(false), m_bCursorOverWindow(false), m_bPP(false), m_dwFocusReceiveTime(0), m_bCustomDraw(false)
 {
     Show(true);
     Enable(true);
@@ -183,7 +181,7 @@ void CUIWindow::Update()
 {
     if (GetUICursor().IsVisible())
     {
-        bool cursor_on_window;
+        bool     cursor_on_window;
 
         Fvector2 temp = GetUICursor().GetCursorPosition();
         Frect    r;
@@ -273,8 +271,8 @@ bool CUIWindow::OnMouseAction(float x, float y, EUIMessages mouse_action)
 {
     Frect wndRect = GetWndRect();
 
-    cursor_pos.x = x;
-    cursor_pos.y = y;
+    cursor_pos.x  = x;
+    cursor_pos.y  = y;
 
     if (WINDOW_LBUTTON_DOWN == mouse_action)
     {
@@ -303,9 +301,7 @@ bool CUIWindow::OnMouseAction(float x, float y, EUIMessages mouse_action)
     // сообщение направляем ему сразу
     if (m_pMouseCapturer)
     {
-        m_pMouseCapturer->OnMouseAction(
-            cursor_pos.x - m_pMouseCapturer->GetWndRect().left, cursor_pos.y - m_pMouseCapturer->GetWndRect().top,
-            mouse_action);
+        m_pMouseCapturer->OnMouseAction(cursor_pos.x - m_pMouseCapturer->GetWndRect().left, cursor_pos.y - m_pMouseCapturer->GetWndRect().top, mouse_action);
         return true;
     }
 
@@ -354,8 +350,7 @@ bool CUIWindow::OnMouseAction(float x, float y, EUIMessages mouse_action)
         {
             if (w->IsEnabled())
             {
-                if (w->OnMouseAction(
-                        cursor_pos.x - w->GetWndRect().left, cursor_pos.y - w->GetWndRect().top, mouse_action))
+                if (w->OnMouseAction(cursor_pos.x - w->GetWndRect().left, cursor_pos.y - w->GetWndRect().top, mouse_action))
                     return true;
             }
         }

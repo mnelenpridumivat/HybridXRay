@@ -18,7 +18,8 @@ public:
         //		shared_str	comment;
         // #endif
         Item():
-            first(0), second(0)
+            first(0),
+            second(0)
             // #ifdef DEBUG
             //			, comment(0)
             // #endif
@@ -32,7 +33,7 @@ public:
         shared_str Name;
         Items      Data;
 
-        BOOL line_exist(LPCSTR L, LPCSTR* val = 0);
+        BOOL       line_exist(LPCSTR L, LPCSTR* val = 0);
     };
     typedef xr_vector<Sect*>     Root;
     typedef Root::iterator       RootIt;
@@ -45,8 +46,7 @@ public:
     static void      Destroy(CInifile*);
     static IC BOOL   IsBOOL(LPCSTR B)
     {
-        return (
-            xr_strcmp(B, "on") == 0 || xr_strcmp(B, "yes") == 0 || xr_strcmp(B, "true") == 0 || xr_strcmp(B, "1") == 0);
+        return (xr_strcmp(B, "on") == 0 || xr_strcmp(B, "yes") == 0 || xr_strcmp(B, "true") == 0 || xr_strcmp(B, "1") == 0);
     }
 
 private:
@@ -60,30 +60,28 @@ private:
     string_path m_file_name;
     Root        DATA;
 
-    void Load(
-        IReader* F,
-        LPCSTR   path
-#if 1
-        ,
-        allow_include_func_t allow_include_func = NULL
-#endif
-    );
-public:
-    CInifile(
-        IReader* F,
-        LPCSTR   path = 0
+    void        Load(IReader* F,
+               LPCSTR         path
 #if 1
         ,
         allow_include_func_t allow_include_func = NULL
 #endif
     );
 
-    CInifile(
-        LPCSTR szFileName,
-        BOOL   ReadOnly     = TRUE,
-        BOOL   bLoadAtStart = TRUE,
-        BOOL   SaveAtEnd    = TRUE,
-        u32    sect_count   = 0
+public:
+    CInifile(IReader* F,
+        LPCSTR        path = 0
+#if 1
+        ,
+        allow_include_func_t allow_include_func = NULL
+#endif
+    );
+
+    CInifile(LPCSTR szFileName,
+        BOOL        ReadOnly     = TRUE,
+        BOOL        bLoadAtStart = TRUE,
+        BOOL        SaveAtEnd    = TRUE,
+        u32         sect_count   = 0
 #if 1
         ,
         allow_include_func_t allow_include_func = NULL

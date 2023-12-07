@@ -64,11 +64,9 @@ class DetailHeader
     u32 object_count;
     int offs_x, offs_z;
     u32 size_x, size_z;
+
 public:
-    DetailHeader():
-        _version(u32(-1)), object_count(u32(-1)), offs_x(u32(-1)), offs_z(u32(-1)), size_x(u32(-1)), size_z(u32(-1))
-    {
-    }
+    DetailHeader(): _version(u32(-1)), object_count(u32(-1)), offs_x(u32(-1)), offs_z(u32(-1)), size_x(u32(-1)), size_z(u32(-1)) {}
     IC u32 version() const
     {
         return _version;
@@ -150,7 +148,7 @@ struct DetailPalette
     u16 a2:4;
     u16 a3:4;
 };
-struct DetailSlot                // was(4+4+3*4+2 = 22b), now(8+2*4=16b)
+struct DetailSlot   // was(4+4+3*4+2 = 22b), now(8+2*4=16b)
 {
     u32           y_base  :12;   // 11	// 1 unit = 20 cm, low = -200m, high = 4096*20cm - 200 = 619.2m
     u32           y_height:8;    // 20	// 1 unit = 10 cm, low = 0,     high = 256*10 ~= 25.6m
@@ -164,11 +162,13 @@ struct DetailSlot                // was(4+4+3*4+2 = 22b), now(8+2*4=16b)
     u32           c_g     :4;    // 60	// rgb = 4.4.4
     u32           c_b     :4;    // 64	// rgb = 4.4.4
     DetailPalette palette[4];
+
 public:
     enum
     {
         ID_Empty = 0x3f
     };
+
 public:
     ////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -265,8 +265,7 @@ IC bool is_empty(const DetailPalette& pallete)
 
 IC bool is_empty(const DetailSlot& DS)
 {
-    return (DS.id0 == DetailSlot::ID_Empty) && (DS.id1 == DetailSlot::ID_Empty) && (DS.id2 == DetailSlot::ID_Empty) &&
-        (DS.id3 == DetailSlot::ID_Empty);
+    return (DS.id0 == DetailSlot::ID_Empty) && (DS.id1 == DetailSlot::ID_Empty) && (DS.id2 == DetailSlot::ID_Empty) && (DS.id3 == DetailSlot::ID_Empty);
 }
 
 IC void process_pallete(DetailSlot& DS)

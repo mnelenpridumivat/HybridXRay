@@ -3,8 +3,7 @@
 #include "xr_level_controller.h"
 #include "../xrEngine/xr_object.h"
 
-CSpectrCameraFirstEye::CSpectrCameraFirstEye(float const& fTimeDelta, CObject* p, u32 flags):
-    inherited(p, flags), m_fTimeDelta(fTimeDelta){};
+CSpectrCameraFirstEye::CSpectrCameraFirstEye(float const& fTimeDelta, CObject* p, u32 flags): inherited(p, flags), m_fTimeDelta(fTimeDelta){};
 
 CSpectrCameraFirstEye::~CSpectrCameraFirstEye() {}
 

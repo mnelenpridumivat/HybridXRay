@@ -51,7 +51,7 @@ class CEnemyMaxHealth;
 class CEnemyAnomalyType;
 class CEnemyDistanceToGraphPoint;
 
-template <typename T1, typename T2> class CEF_Params
+template<typename T1, typename T2> class CEF_Params
 {
 private:
     T1* m_member;
@@ -99,11 +99,11 @@ typedef CEF_Params<CSE_ALifeSchedulable, const CSE_ALifeObject> CALifeParams;
 
 class CEF_Storage;
 
-template <typename T> struct CEnemyFunction: public T
+template<typename T> struct CEnemyFunction: public T
 {
-    IC CEnemyFunction(CEF_Storage* storage): T(storage) {}
+    IC                            CEnemyFunction(CEF_Storage* storage): T(storage) {}
 
-    template <typename P> IC float get_value(P& params)
+    template<typename P> IC float get_value(P& params)
     {
         P save               = params;
         params.member()      = params.enemy();
@@ -131,21 +131,21 @@ public:
     typedef CEnemyFunction<CPersonalMaxHealth>            CEnemyMaxHealth;
 
 public:
-    CNonALifeParams m_non_alife_params;
-    CALifeParams    m_alife_params;
+    CNonALifeParams                  m_non_alife_params;
+    CALifeParams                     m_alife_params;
     // primary functions
-    CBaseFunction* m_fpaBaseFunctions[AI_MAX_EVALUATION_FUNCTION_COUNT];
+    CBaseFunction*                   m_fpaBaseFunctions[AI_MAX_EVALUATION_FUNCTION_COUNT];
 
-    CDistanceFunction*     m_pfDistance;
-    CGraphPointType0*      m_pfGraphPointType0;
-    CEquipmentType*        m_pfEquipmentType;
-    CItemDeterioration*    m_pfItemDeterioration;
-    CEquipmentPreference*  m_pfEquipmentPreference;
-    CMainWeaponType*       m_pfMainWeaponType;
-    CMainWeaponPreference* m_pfMainWeaponPreference;
-    CItemValue*            m_pfItemValue;
-    CWeaponAmmoCount*      m_pfWeaponAmmoCount;
-    CDetectorType*         m_pfDetectorType;
+    CDistanceFunction*               m_pfDistance;
+    CGraphPointType0*                m_pfGraphPointType0;
+    CEquipmentType*                  m_pfEquipmentType;
+    CItemDeterioration*              m_pfItemDeterioration;
+    CEquipmentPreference*            m_pfEquipmentPreference;
+    CMainWeaponType*                 m_pfMainWeaponType;
+    CMainWeaponPreference*           m_pfMainWeaponPreference;
+    CItemValue*                      m_pfItemValue;
+    CWeaponAmmoCount*                m_pfWeaponAmmoCount;
+    CDetectorType*                   m_pfDetectorType;
 
     CPersonalHealthFunction*         m_pfPersonalHealth;
     CPersonalMoraleFunction*         m_pfPersonalMorale;
@@ -159,42 +159,42 @@ public:
     CPersonalEyeRange*               m_pfPersonalEyeRange;
     CPersonalMaxHealth*              m_pfPersonalMaxHealth;
 
-    CEnemyHealthFunction*        m_pfEnemyHealth;
-    CEnemyCreatureTypeFunction*  m_pfEnemyCreatureType;
-    CEnemyWeaponTypeFunction*    m_pfEnemyWeaponType;
-    CEnemyEquipmentCostFunction* m_pfEnemyEquipmentCost;
-    CEnemyRukzakWeightFunction*  m_pfEnemyRukzakWeight;
-    CEnemyAnomalityFunction*     m_pfEnemyAnomality;
-    CEnemyEyeRange*              m_pfEnemyEyeRange;
-    CEnemyMaxHealth*             m_pfEnemyMaxHealth;
-    CEnemyAnomalyType*           m_pfEnemyAnomalyType;
-    CEnemyDistanceToGraphPoint*  m_pfEnemyDistanceToGraphPoint;
+    CEnemyHealthFunction*            m_pfEnemyHealth;
+    CEnemyCreatureTypeFunction*      m_pfEnemyCreatureType;
+    CEnemyWeaponTypeFunction*        m_pfEnemyWeaponType;
+    CEnemyEquipmentCostFunction*     m_pfEnemyEquipmentCost;
+    CEnemyRukzakWeightFunction*      m_pfEnemyRukzakWeight;
+    CEnemyAnomalityFunction*         m_pfEnemyAnomality;
+    CEnemyEyeRange*                  m_pfEnemyEyeRange;
+    CEnemyMaxHealth*                 m_pfEnemyMaxHealth;
+    CEnemyAnomalyType*               m_pfEnemyAnomalyType;
+    CEnemyDistanceToGraphPoint*      m_pfEnemyDistanceToGraphPoint;
 
     // complex functions
-    CPatternFunction* m_pfWeaponEffectiveness;
-    CPatternFunction* m_pfCreatureEffectiveness;
-    CPatternFunction* m_pfIntellectCreatureEffectiveness;
-    CPatternFunction* m_pfAccuracyWeaponEffectiveness;
-    CPatternFunction* m_pfFinalCreatureEffectiveness;
-    CPatternFunction* m_pfVictoryProbability;
-    CPatternFunction* m_pfEntityCost;
-    CPatternFunction* m_pfExpediency;
-    CPatternFunction* m_pfSurgeDeathProbability;
-    CPatternFunction* m_pfEquipmentValue;
-    CPatternFunction* m_pfMainWeaponValue;
-    CPatternFunction* m_pfSmallWeaponValue;
-    CPatternFunction* m_pfTerrainType;
-    CPatternFunction* m_pfWeaponAttackTimes;
-    CPatternFunction* m_pfWeaponSuccessProbability;
-    CPatternFunction* m_pfEnemyDetectability;
-    CPatternFunction* m_pfEnemyDetectProbability;
-    CPatternFunction* m_pfEnemyRetreatProbability;
-    CPatternFunction* m_pfAnomalyDetectProbability;
-    CPatternFunction* m_pfAnomalyInteractProbability;
-    CPatternFunction* m_pfAnomalyRetreatProbability;
-    CPatternFunction* m_pfBirthPercentage;
-    CPatternFunction* m_pfBirthProbability;
-    CPatternFunction* m_pfBirthSpeed;
+    CPatternFunction*                m_pfWeaponEffectiveness;
+    CPatternFunction*                m_pfCreatureEffectiveness;
+    CPatternFunction*                m_pfIntellectCreatureEffectiveness;
+    CPatternFunction*                m_pfAccuracyWeaponEffectiveness;
+    CPatternFunction*                m_pfFinalCreatureEffectiveness;
+    CPatternFunction*                m_pfVictoryProbability;
+    CPatternFunction*                m_pfEntityCost;
+    CPatternFunction*                m_pfExpediency;
+    CPatternFunction*                m_pfSurgeDeathProbability;
+    CPatternFunction*                m_pfEquipmentValue;
+    CPatternFunction*                m_pfMainWeaponValue;
+    CPatternFunction*                m_pfSmallWeaponValue;
+    CPatternFunction*                m_pfTerrainType;
+    CPatternFunction*                m_pfWeaponAttackTimes;
+    CPatternFunction*                m_pfWeaponSuccessProbability;
+    CPatternFunction*                m_pfEnemyDetectability;
+    CPatternFunction*                m_pfEnemyDetectProbability;
+    CPatternFunction*                m_pfEnemyRetreatProbability;
+    CPatternFunction*                m_pfAnomalyDetectProbability;
+    CPatternFunction*                m_pfAnomalyInteractProbability;
+    CPatternFunction*                m_pfAnomalyRetreatProbability;
+    CPatternFunction*                m_pfBirthPercentage;
+    CPatternFunction*                m_pfBirthProbability;
+    CPatternFunction*                m_pfBirthSpeed;
 
     CEF_Storage();
     virtual ~CEF_Storage();

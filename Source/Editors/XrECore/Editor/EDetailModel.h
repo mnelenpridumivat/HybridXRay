@@ -47,31 +47,31 @@ class ECORE_API EDetail: public CDetail
         void remapUV(const fvfVertexIn& src, const Fvector2& offs, const Fvector2& scale, bool bRotate);
     };
 
-    float m_fDensityFactor;
+    float            m_fDensityFactor;
 
     // references
     xr_string        m_sRefs;
     CEditableObject* m_pRefs;
 
-    u16 _AddVert(const Fvector& p, float u, float v);
+    u16              _AddVert(const Fvector& p, float u, float v);
 
 public:
     EDetail();
     virtual ~EDetail();
 
-    bool Load(IReader&);
-    void Save(IWriter&);
-    void Export(IWriter&, LPCSTR tex_name, const Fvector2& offs, const Fvector2& scale, bool rot);
-    void Export(LPCSTR name);
+    bool         Load(IReader&);
+    void         Save(IWriter&);
+    void         Export(IWriter&, LPCSTR tex_name, const Fvector2& offs, const Fvector2& scale, bool rot);
+    void         Export(LPCSTR name);
 
-    bool Update(LPCSTR name);
+    bool         Update(LPCSTR name);
     virtual void Unload();
 
-    LPCSTR GetName();
-    LPCSTR GetTextureName();
-    void   OnDeviceCreate();
-    void   OnDeviceDestroy();
-    void   DefferedLoad();
+    LPCSTR       GetName();
+    LPCSTR       GetTextureName();
+    void         OnDeviceCreate();
+    void         OnDeviceDestroy();
+    void         DefferedLoad();
 };
 DEFINE_VECTOR(EDetail*, DOVec, DOIt);
 

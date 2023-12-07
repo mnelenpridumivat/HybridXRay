@@ -5,7 +5,7 @@
 #include "xrServer.h"
 #include "ui_base.h"
 
-#define MAX_FT_WAIT_TIME (2000 * 3)     /*3 max pings*/
+#define MAX_FT_WAIT_TIME    (2000 * 3)  /*3 max pings*/
 #define MAX_START_WAIT_TIME (2000 * 14) /*10 max pings*/
 
 namespace file_transfer
@@ -42,8 +42,7 @@ namespace file_transfer
         }
     }
 
-    void server_site::stop_transfer_sessions(
-        buffer_vector<dst_src_pair_t> const& tsessions)   // notifies sending_rejected_by_peer
+    void server_site::stop_transfer_sessions(buffer_vector<dst_src_pair_t> const& tsessions)   // notifies sending_rejected_by_peer
     {
         for (buffer_vector<dst_src_pair_t>::const_iterator i = tsessions.begin(), ie = tsessions.end(); i != ie; ++i)
         {
@@ -64,8 +63,7 @@ namespace file_transfer
         if (m_transfers.empty())
             return;
 
-        buffer_vector<dst_src_pair_t> to_stop_transfers(
-            _alloca(m_transfers.size() * sizeof(dst_src_pair_t)), m_transfers.size());
+        buffer_vector<dst_src_pair_t> to_stop_transfers(_alloca(m_transfers.size() * sizeof(dst_src_pair_t)), m_transfers.size());
 
         for (transfer_sessions_t::iterator ti = m_transfers.begin(), tie = m_transfers.end(); ti != tie; ++ti)
         {
@@ -108,7 +106,8 @@ namespace file_transfer
         ft_command_t command = static_cast<ft_command_t>(packet->r_u8());
         switch (command)
         {
-            case receive_data: {
+            case receive_data:
+            {
                 receiving_sessions_t::iterator temp_iter = m_receivers.find(sender);
                 if (temp_iter == m_receivers.end())
                 {
@@ -128,7 +127,8 @@ namespace file_transfer
                 }
             }
             break;
-            case abort_receive: {
+            case abort_receive:
+            {
                 // ignoring ClientID(0) source client
                 receiving_sessions_t::iterator temp_iter = m_receivers.find(sender);
                 if (temp_iter != m_receivers.end())
@@ -138,9 +138,9 @@ namespace file_transfer
                 }
             }
             break;
-            case receive_rejected: {
-                transfer_sessions_t::iterator temp_iter =
-                    m_transfers.find(std::make_pair(sender, ClientID(packet->r_u32())));
+            case receive_rejected:
+            {
+                transfer_sessions_t::iterator temp_iter = m_transfers.find(std::make_pair(sender, ClientID(packet->r_u32())));
                 if (temp_iter != m_transfers.end())
                 {
                     temp_iter->second->signal_callback(sending_rejected_by_peer);
@@ -182,11 +182,7 @@ namespace file_transfer
         stop_receiving_sessions(to_stop_receivers);
     }
 
-    void server_site::start_transfer_file(
-        shared_str const&         file_name,
-        ClientID const&           to_client,
-        ClientID const&           from_client,
-        sending_state_callback_t& tstate_callback)
+    void server_site::start_transfer_file(shared_str const& file_name, ClientID const& to_client, ClientID const& from_client, sending_state_callback_t& tstate_callback)
     {
         if (is_transfer_active(to_client, from_client))
         {
@@ -203,55 +199,35 @@ namespace file_transfer
         }
     }
 
-    void server_site::start_transfer_file(
-        CMemoryWriter&            mem_writer,
-        u32                       mem_writer_max_size,
-        ClientID const&           to_client,
-        ClientID const&           from_client,
-        sending_state_callback_t& tstate_callback,
-        u32 const                 user_param)
+    void server_site::start_transfer_file(CMemoryWriter& mem_writer, u32 mem_writer_max_size, ClientID const& to_client, ClientID const& from_client, sending_state_callback_t& tstate_callback, u32 const user_param)
     {
         if (is_transfer_active(to_client, from_client))
         {
             Msg("! ERROR: SV: transfering file to client [%d] already active.", to_client);
             return;
         }
-        filetransfer_node* ftnode = xr_new<filetransfer_node>(
-            &mem_writer, mem_writer_max_size, data_max_chunk_size, tstate_callback, user_param);
+        filetransfer_node* ftnode = xr_new<filetransfer_node>(&mem_writer, mem_writer_max_size, data_max_chunk_size, tstate_callback, user_param);
         m_transfers.insert(std::make_pair(std::make_pair(to_client, from_client), ftnode));
     }
 
-    void server_site::start_transfer_file(
-        u8*                       data_ptr,
-        u32 const                 data_size,
-        ClientID const&           to_client,
-        ClientID const&           from_client,
-        sending_state_callback_t& tstate_callback,
-        u32 const                 user_param)
+    void server_site::start_transfer_file(u8* data_ptr, u32 const data_size, ClientID const& to_client, ClientID const& from_client, sending_state_callback_t& tstate_callback, u32 const user_param)
     {
         if (is_transfer_active(to_client, from_client))
         {
             Msg("! ERROR: SV: transfering file to client [%d] already active.", to_client);
             return;
         }
-        filetransfer_node* ftnode =
-            xr_new<filetransfer_node>(data_ptr, data_size, data_max_chunk_size, tstate_callback, user_param);
+        filetransfer_node* ftnode = xr_new<filetransfer_node>(data_ptr, data_size, data_max_chunk_size, tstate_callback, user_param);
         m_transfers.insert(std::make_pair(std::make_pair(to_client, from_client), ftnode));
     }
-    void server_site::start_transfer_file(
-        buffer_vector<mutable_buffer_t>& vector_of_buffers,
-        ClientID const&                  to_client,
-        ClientID const&                  from_client,
-        sending_state_callback_t&        tstate_callback,
-        u32 const                        user_param)
+    void server_site::start_transfer_file(buffer_vector<mutable_buffer_t>& vector_of_buffers, ClientID const& to_client, ClientID const& from_client, sending_state_callback_t& tstate_callback, u32 const user_param)
     {
         if (is_transfer_active(to_client, from_client))
         {
             Msg("! ERROR: SV: transfering file to client [%d] already active.", to_client);
             return;
         }
-        filetransfer_node* ftnode =
-            xr_new<filetransfer_node>(&vector_of_buffers, data_max_chunk_size, tstate_callback, user_param);
+        filetransfer_node* ftnode = xr_new<filetransfer_node>(&vector_of_buffers, data_max_chunk_size, tstate_callback, user_param);
         m_transfers.insert(std::make_pair(std::make_pair(to_client, from_client), ftnode));
     }
 
@@ -276,10 +252,7 @@ namespace file_transfer
         m_transfers.erase(temp_iter);
     }
 
-    filereceiver_node* server_site::start_receive_file(
-        shared_str const&           file_name,
-        ClientID const&             from_client,
-        receiving_state_callback_t& rstate_callback)
+    filereceiver_node* server_site::start_receive_file(shared_str const& file_name, ClientID const& from_client, receiving_state_callback_t& rstate_callback)
     {
         receiving_sessions_t::iterator temp_iter = m_receivers.find(from_client);
         if (temp_iter != m_receivers.end())
@@ -298,10 +271,7 @@ namespace file_transfer
         return frnode;
     }
 
-    filereceiver_node* server_site::start_receive_file(
-        CMemoryWriter&              mem_writer,
-        ClientID const&             from_client,
-        receiving_state_callback_t& rstate_callback)
+    filereceiver_node* server_site::start_receive_file(CMemoryWriter& mem_writer, ClientID const& from_client, receiving_state_callback_t& rstate_callback)
     {
         receiving_sessions_t::iterator temp_iter = m_receivers.find(from_client);
         if (temp_iter != m_receivers.end())
@@ -406,7 +376,8 @@ namespace file_transfer
         ClientID     from_client(packet->r_u32());
         switch (command)
         {
-            case receive_data: {
+            case receive_data:
+            {
                 receiving_sessions_t::iterator tmp_iter = m_receivers.find(from_client);
                 if (tmp_iter != m_receivers.end())
                 {
@@ -426,7 +397,8 @@ namespace file_transfer
                 }
             }
             break;
-            case abort_receive: {
+            case abort_receive:
+            {
                 receiving_sessions_t::iterator tmp_iter = m_receivers.find(from_client);
                 if (tmp_iter != m_receivers.end())
                 {
@@ -439,7 +411,8 @@ namespace file_transfer
                 }
             }
             break;
-            case receive_rejected: {
+            case receive_rejected:
+            {
                 // ignoring from_client u32
                 if (is_transfer_active())
                 {
@@ -469,11 +442,7 @@ namespace file_transfer
             stop_transfer_file();
         }
     }
-    void client_site::start_transfer_file(
-        u8*                       data,
-        u32                       size,
-        sending_state_callback_t& tstate_callback,
-        u32                       size_to_allocate)
+    void client_site::start_transfer_file(u8* data, u32 size, sending_state_callback_t& tstate_callback, u32 size_to_allocate)
     {
         if (is_transfer_active())
         {
@@ -502,10 +471,7 @@ namespace file_transfer
         xr_delete(m_transfering);
     }
 
-    filereceiver_node* client_site::start_receive_file(
-        shared_str const&           file_name,
-        ClientID const&             from_client,
-        receiving_state_callback_t& rstate_callback)
+    filereceiver_node* client_site::start_receive_file(shared_str const& file_name, ClientID const& from_client, receiving_state_callback_t& rstate_callback)
     {
         if (is_receiving_active(from_client))
         {
@@ -523,10 +489,7 @@ namespace file_transfer
         return frnode;
     }
 
-    filereceiver_node* client_site::start_receive_file(
-        CMemoryWriter&              mem_writer,
-        ClientID const&             from_client,
-        receiving_state_callback_t& rstate_callback)
+    filereceiver_node* client_site::start_receive_file(CMemoryWriter& mem_writer, ClientID const& from_client, receiving_state_callback_t& rstate_callback)
     {
         if (is_receiving_active(from_client))
         {

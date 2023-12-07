@@ -66,7 +66,7 @@ CController::CController()
     StateMan                 = xr_new<CStateManagerController>(this);
     time_control_hit_started = 0;
 
-    m_psy_hit = xr_new<CControllerPsyHit>();
+    m_psy_hit                = xr_new<CControllerPsyHit>();
 
     control().add(m_psy_hit, ControlCom::eComCustom1);
 
@@ -97,8 +97,7 @@ void CController::Load(LPCSTR section)
     // anim().accel_chain_add		(eAnimWalkFwd,		eAnimRun);
     // anim().accel_chain_add		(eAnimWalkDamaged,	eAnimRunDamaged);
 
-    ::Sound->create(
-        control_start_sound, pSettings->r_string(section, "sound_control_start"), st_Effect, SOUND_TYPE_WORLD);
+    ::Sound->create(control_start_sound, pSettings->r_string(section, "sound_control_start"), st_Effect, SOUND_TYPE_WORLD);
     ::Sound->create(control_hit_sound, pSettings->r_string(section, "sound_control_hit"), st_Effect, SOUND_TYPE_WORLD);
 
     anim().AddReplacedAnim(&m_bDamaged, eAnimStandIdle, eAnimStandDamaged);
@@ -116,32 +115,26 @@ void CController::Load(LPCSTR section)
     m_control_effector.ppi.noise.fps       = pSettings->r_float(ppi_section, "noise_fps");
     VERIFY(!fis_zero(m_control_effector.ppi.noise.fps));
 
-    sscanf(
-        pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &m_control_effector.ppi.color_base.r,
-        &m_control_effector.ppi.color_base.g, &m_control_effector.ppi.color_base.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &m_control_effector.ppi.color_gray.r,
-        &m_control_effector.ppi.color_gray.g, &m_control_effector.ppi.color_gray.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &m_control_effector.ppi.color_add.r,
-        &m_control_effector.ppi.color_add.g, &m_control_effector.ppi.color_add.b);
+    sscanf(pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &m_control_effector.ppi.color_base.r, &m_control_effector.ppi.color_base.g, &m_control_effector.ppi.color_base.b);
+    sscanf(pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &m_control_effector.ppi.color_gray.r, &m_control_effector.ppi.color_gray.g, &m_control_effector.ppi.color_gray.b);
+    sscanf(pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &m_control_effector.ppi.color_add.r, &m_control_effector.ppi.color_add.g, &m_control_effector.ppi.color_add.b);
 
-    m_control_effector.time         = pSettings->r_float(ppi_section, "time");
-    m_control_effector.time_attack  = pSettings->r_float(ppi_section, "time_attack");
-    m_control_effector.time_release = pSettings->r_float(ppi_section, "time_release");
+    m_control_effector.time             = pSettings->r_float(ppi_section, "time");
+    m_control_effector.time_attack      = pSettings->r_float(ppi_section, "time_attack");
+    m_control_effector.time_release     = pSettings->r_float(ppi_section, "time_release");
 
     m_control_effector.ce_time          = pSettings->r_float(ppi_section, "ce_time");
     m_control_effector.ce_amplitude     = pSettings->r_float(ppi_section, "ce_amplitude");
     m_control_effector.ce_period_number = pSettings->r_float(ppi_section, "ce_period_number");
     m_control_effector.ce_power         = pSettings->r_float(ppi_section, "ce_power");
 
-    SVelocityParam& velocity_none = move().get_velocity(MonsterMovement::eVelocityParameterIdle);
-    SVelocityParam& velocity_turn = move().get_velocity(MonsterMovement::eVelocityParameterStand);
-    SVelocityParam& velocity_walk = move().get_velocity(MonsterMovement::eVelocityParameterWalkNormal);
+    SVelocityParam& velocity_none       = move().get_velocity(MonsterMovement::eVelocityParameterIdle);
+    SVelocityParam& velocity_turn       = move().get_velocity(MonsterMovement::eVelocityParameterStand);
+    SVelocityParam& velocity_walk       = move().get_velocity(MonsterMovement::eVelocityParameterWalkNormal);
     // SVelocityParam &velocity_run		= move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
     // SVelocityParam &velocity_walk_dmg	= move().get_velocity(MonsterMovement::eVelocityParameterWalkDamaged);
     // SVelocityParam &velocity_run_dmg	= move().get_velocity(MonsterMovement::eVelocityParameterRunDamaged);
-    SVelocityParam& velocity_steal = move().get_velocity(MonsterMovement::eVelocityParameterSteal);
+    SVelocityParam& velocity_steal      = move().get_velocity(MonsterMovement::eVelocityParameterSteal);
     // SVelocityParam &velocity_drag		= move().get_velocity(MonsterMovement::eVelocityParameterDrag);
 
     anim().AddAnim(eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND);
@@ -239,39 +232,33 @@ void CController::Load(LPCSTR section)
 
     m_sound_tube_prepare.create("monsters\\controller\\controller_tube_prepare", st_Effect, sg_SourceType);
 
-    particles_fire = pSettings->r_string(section, "Control_Hit");
+    particles_fire                          = pSettings->r_string(section, "Control_Hit");
 
-    m_tube_damage  = pSettings->r_float(section, "tube_damage");
-    m_tube_at_once = !!pSettings->r_bool(section, "tube_at_once");
+    m_tube_damage                           = pSettings->r_float(section, "tube_damage");
+    m_tube_at_once                          = !!pSettings->r_bool(section, "tube_at_once");
 
     LPCSTR tube_see_duration_line           = "tube_condition_see_duration";
     LPCSTR tube_condition_min_delay_line    = "tube_condition_min_delay";
     LPCSTR tube_condition_min_distance_line = "tube_condition_min_distance";
 
     using namespace detail::controller;
-    m_tube_condition_see_duration = pSettings->line_exist(section, tube_see_duration_line) ?
-        pSettings->r_u32(section, tube_see_duration_line) :
-        default_tube_condition_see_duration;
+    m_tube_condition_see_duration = pSettings->line_exist(section, tube_see_duration_line) ? pSettings->r_u32(section, tube_see_duration_line) : default_tube_condition_see_duration;
 
-    m_tube_condition_min_delay = pSettings->line_exist(section, tube_condition_min_delay_line) ?
-        pSettings->r_u32(section, tube_condition_min_delay_line) :
-        default_tube_condition_min_delay;
+    m_tube_condition_min_delay    = pSettings->line_exist(section, tube_condition_min_delay_line) ? pSettings->r_u32(section, tube_condition_min_delay_line) : default_tube_condition_min_delay;
 
-    m_tube_condition_min_distance = pSettings->line_exist(section, tube_condition_min_distance_line) ?
-        pSettings->r_float(section, tube_condition_min_distance_line) :
-        default_tube_condition_min_distance;
+    m_tube_condition_min_distance = pSettings->line_exist(section, tube_condition_min_distance_line) ? pSettings->r_float(section, tube_condition_min_distance_line) : default_tube_condition_min_distance;
 
-    m_stamina_hit = READ_IF_EXISTS(pSettings, r_float, section, "stamina_hit", default_stamina_hit);
+    m_stamina_hit                 = READ_IF_EXISTS(pSettings, r_float, section, "stamina_hit", default_stamina_hit);
 
     PostLoad(section);
 }
 
 void CController::load_friend_community_overrides(LPCSTR section)
 {
-    LPCSTR src = pSettings->r_string(section, "Friend_Community_Overrides");
+    LPCSTR src        = pSettings->r_string(section, "Friend_Community_Overrides");
 
     // parse src
-    int item_count = _GetItemCount(src);
+    int    item_count = _GetItemCount(src);
     m_friend_community_overrides.resize(item_count);
     for (int i = 0; i < item_count; i++)
     {
@@ -289,10 +276,7 @@ bool CController::is_community_friend_overrides(const CEntityAlive* entity_alive
     if (const_cast<CEntityAlive*>(entity_alive)->cast_base_monster())
         return false;
 
-    return (
-        std::find(
-            m_friend_community_overrides.begin(), m_friend_community_overrides.end(),
-            IO->CharacterInfo().Community().id()) != m_friend_community_overrides.end());
+    return (std::find(m_friend_community_overrides.begin(), m_friend_community_overrides.end(), IO->CharacterInfo().Community().id()) != m_friend_community_overrides.end());
 }
 
 BOOL CController::net_Spawn(CSE_Abstract* DC)
@@ -308,8 +292,7 @@ void CController::UpdateControlled()
     // если есть враг, проверить может ли быть враг взят под контроль
     if (EnemyMan.get_enemy())
     {
-        CControlledEntityBase* entity =
-            smart_cast<CControlledEntityBase*>(const_cast<CEntityAlive*>(EnemyMan.get_enemy()));
+        CControlledEntityBase* entity = smart_cast<CControlledEntityBase*>(const_cast<CEntityAlive*>(EnemyMan.get_enemy()));
         if (entity)
         {
             if (!entity->is_under_control() && (m_controlled_objects.size() < m_max_controlled_number))
@@ -328,8 +311,7 @@ void CController::set_controlled_task(u32 task)
     if (!HasUnderControl())
         return;
 
-    const CEntity* object =
-        ((((ETask)task) == eTaskNone) ? 0 : ((((ETask)task) == eTaskFollow) ? this : EnemyMan.get_enemy()));
+    const CEntity* object = ((((ETask)task) == eTaskNone) ? 0 : ((((ETask)task) == eTaskFollow) ? this : EnemyMan.get_enemy()));
 
     for (u32 i = 0; i < m_controlled_objects.size(); i++)
     {
@@ -355,9 +337,7 @@ void CController::InitThink()
         if (!base)
             continue;
         if (base->EnemyMan.get_enemy())
-            EnemyMemory.add_enemy(
-                base->EnemyMan.get_enemy(), base->EnemyMan.get_enemy_position(), base->EnemyMan.get_enemy_vertex(),
-                base->EnemyMan.get_enemy_time_last_seen());
+            EnemyMemory.add_enemy(base->EnemyMan.get_enemy(), base->EnemyMan.get_enemy_position(), base->EnemyMan.get_enemy_vertex(), base->EnemyMan.get_enemy_time_last_seen());
     }
 }
 
@@ -384,8 +364,7 @@ void CController::play_control_sound_hit()
 void CController::reload(LPCSTR section)
 {
     inherited::reload(section);
-    com_man().ta_fill_data(
-        anim_triple_control, "stand_sit_down_attack_0", "control_attack_0", "sit_stand_up_attack_0", true, false);
+    com_man().ta_fill_data(anim_triple_control, "stand_sit_down_attack_0", "control_attack_0", "sit_stand_up_attack_0", true, false);
 }
 
 void CController::reinit()
@@ -399,16 +378,8 @@ void CController::reinit()
     m_psy_fire_start_time = 0;
     m_psy_fire_delay      = _pmt_psy_attack_delay;
 
-    control().path_builder().detail().add_velocity(
-        MonsterMovement::eControllerVelocityParameterMoveFwd,
-        CDetailPathManager::STravelParams(
-            m_velocity_move_fwd.velocity.linear, m_velocity_move_fwd.velocity.angular_path,
-            m_velocity_move_fwd.velocity.angular_real));
-    control().path_builder().detail().add_velocity(
-        MonsterMovement::eControllerVelocityParameterMoveBkwd,
-        CDetailPathManager::STravelParams(
-            m_velocity_move_bkwd.velocity.linear, m_velocity_move_bkwd.velocity.angular_path,
-            m_velocity_move_bkwd.velocity.angular_real));
+    control().path_builder().detail().add_velocity(MonsterMovement::eControllerVelocityParameterMoveFwd, CDetailPathManager::STravelParams(m_velocity_move_fwd.velocity.linear, m_velocity_move_fwd.velocity.angular_path, m_velocity_move_fwd.velocity.angular_real));
+    control().path_builder().detail().add_velocity(MonsterMovement::eControllerVelocityParameterMoveBkwd, CDetailPathManager::STravelParams(m_velocity_move_bkwd.velocity.linear, m_velocity_move_bkwd.velocity.angular_path, m_velocity_move_bkwd.velocity.angular_real));
 
     m_sndShockEffector = 0;
     active_control_fx  = false;
@@ -423,12 +394,8 @@ void CController::control_hit()
     if (!pA)
         return;
 
-    Actor()->Cameras().AddCamEffector(xr_new<CMonsterEffectorHit>(
-        m_control_effector.ce_time, m_control_effector.ce_amplitude, m_control_effector.ce_period_number,
-        m_control_effector.ce_power));
-    Actor()->Cameras().AddPPEffector(xr_new<CMonsterEffector>(
-        m_control_effector.ppi, m_control_effector.time, m_control_effector.time_attack,
-        m_control_effector.time_release));
+    Actor()->Cameras().AddCamEffector(xr_new<CMonsterEffectorHit>(m_control_effector.ce_time, m_control_effector.ce_amplitude, m_control_effector.ce_period_number, m_control_effector.ce_power));
+    Actor()->Cameras().AddPPEffector(xr_new<CMonsterEffector>(m_control_effector.ppi, m_control_effector.time, m_control_effector.time_attack, m_control_effector.time_release));
 
     play_control_sound_hit();
     /*
@@ -459,24 +426,24 @@ void CController::UpdateCL()
         if (percent < TEXTURE_SIZE_PERCENT)
         {
             CurrentGameUI()->RemoveCustomStatic("controller_fx2");
-            SDrawStaticStruct* s = CurrentGameUI()->AddCustomStatic("controller_fx", true);
+            SDrawStaticStruct* s  = CurrentGameUI()->AddCustomStatic("controller_fx", true);
 
-            float x1 = Device->dwWidth / 2 - ((Device->dwWidth / 2) * percent);
-            float y1 = Device->dwHeight / 2 - ((Device->dwHeight / 2) * percent);
-            float x2 = Device->dwWidth / 2 + ((Device->dwWidth / 2) * percent);
-            float y2 = Device->dwHeight / 2 + ((Device->dwHeight / 2) * percent);
+            float              x1 = Device->dwWidth / 2 - ((Device->dwWidth / 2) * percent);
+            float              y1 = Device->dwHeight / 2 - ((Device->dwHeight / 2) * percent);
+            float              x2 = Device->dwWidth / 2 + ((Device->dwWidth / 2) * percent);
+            float              y2 = Device->dwHeight / 2 + ((Device->dwHeight / 2) * percent);
 
             s->wnd()->SetWndRect(Frect().set(x1, y1, x2 - x1, y2 - y1));
         }
         else if (percent2 > 0)
         {
             CurrentGameUI()->RemoveCustomStatic("controller_fx");
-            SDrawStaticStruct* s = CurrentGameUI()->AddCustomStatic("controller_fx2", true);
+            SDrawStaticStruct* s  = CurrentGameUI()->AddCustomStatic("controller_fx2", true);
 
-            float x1 = Device->dwWidth / 2 - ((Device->dwWidth / 2) * percent2);
-            float y1 = Device->dwHeight / 2 - ((Device->dwHeight / 2) * percent2);
-            float x2 = Device->dwWidth / 2 + ((Device->dwWidth / 2) * percent2);
-            float y2 = Device->dwHeight / 2 + ((Device->dwHeight / 2) * percent2);
+            float              x1 = Device->dwWidth / 2 - ((Device->dwWidth / 2) * percent2);
+            float              y1 = Device->dwHeight / 2 - ((Device->dwHeight / 2) * percent2);
+            float              x2 = Device->dwWidth / 2 + ((Device->dwWidth / 2) * percent2);
+            float              y2 = Device->dwHeight / 2 + ((Device->dwHeight / 2) * percent2);
 
             s->wnd()->SetWndRect(Frect().set(x1, y1, x2 - x1, y2 - y1));
         }
@@ -689,11 +656,11 @@ void CController::create_base_controls()
     m_custom_anim_base = xr_new<CControllerAnimation>();
     m_custom_dir_base  = xr_new<CControllerDirection>();
 
-    m_anim_base = m_custom_anim_base;
-    m_dir_base  = m_custom_dir_base;
+    m_anim_base        = m_custom_anim_base;
+    m_dir_base         = m_custom_dir_base;
 
-    m_move_base = xr_new<CControlMovementBase>();
-    m_path_base = xr_new<CControlPathBuilderBase>();
+    m_move_base        = xr_new<CControlMovementBase>();
+    m_path_base        = xr_new<CControlPathBuilderBase>();
 }
 
 void CController::TranslateActionToPathParams()
@@ -711,8 +678,7 @@ void CController::TranslateActionToPathParams()
     }
 
     u32 vel_mask = (m_bDamaged ? MonsterMovement::eVelocityParamsWalkDamaged : MonsterMovement::eVelocityParamsWalk);
-    u32 des_mask =
-        (m_bDamaged ? MonsterMovement::eVelocityParameterWalkDamaged : MonsterMovement::eVelocityParameterWalkNormal);
+    u32 des_mask = (m_bDamaged ? MonsterMovement::eVelocityParameterWalkDamaged : MonsterMovement::eVelocityParameterWalkNormal);
 
     if (m_force_real_speed)
         vel_mask = des_mask;
@@ -743,13 +709,7 @@ void CController::set_mental_state(EMentalState state)
     m_custom_anim_base->on_switch_controller();
 }
 
-void CController::HitEntity(
-    const CEntity*  pEntity,
-    float           fDamage,
-    float           impulse,
-    Fvector&        dir,
-    ALife::EHitType hit_type,
-    bool            draw_hit_marks)
+void CController::HitEntity(const CEntity* pEntity, float fDamage, float impulse, Fvector& dir, ALife::EHitType hit_type, bool draw_hit_marks)
 {
     if (pEntity == Actor() && !GodMode())
     {

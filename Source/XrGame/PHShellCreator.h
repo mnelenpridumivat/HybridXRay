@@ -9,6 +9,7 @@ public:
     virtual void CreatePhysicsShell();
 
 protected:
+
 private:
 };
 #endif

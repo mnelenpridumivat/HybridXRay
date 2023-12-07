@@ -2,4 +2,4 @@
 
 extern float object_damage_factor;
 
-void LoadParams();
+void         LoadParams();

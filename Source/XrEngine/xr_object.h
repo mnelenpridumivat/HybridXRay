@@ -17,7 +17,7 @@ class NET_Packet;
 class CSE_Abstract;
 
 //-----------------------------------------------------------------------------------------------------------
-#define CROW_RADIUS (30.f)
+#define CROW_RADIUS  (30.f)
 #define CROW_RADIUS2 (60.f)
 //-----------------------------------------------------------------------------------------------------------
 //	CObject
@@ -37,16 +37,16 @@ public:
     {
         struct
         {
-            u32 net_ID : 16;
-            u32 bActiveCounter : 8;
-            u32 bEnabled : 1;
-            u32 bVisible : 1;
-            u32 bDestroy : 1;
-            u32 net_Local : 1;
-            u32 net_Ready : 1;
-            u32 net_SV_Update : 1;
-            u32 crow : 1;
-            u32 bPreDestroy : 1;
+            u32 net_ID        :16;
+            u32 bActiveCounter:8;
+            u32 bEnabled      :1;
+            u32 bVisible      :1;
+            u32 bDestroy      :1;
+            u32 net_Local     :1;
+            u32 net_Ready     :1;
+            u32 net_SV_Update :1;
+            u32 crow          :1;
+            u32 bPreDestroy   :1;
         };
         u32 storage;
     };
@@ -62,7 +62,7 @@ private:
 
 protected:
     // Parentness
-    CObject* Parent;
+    CObject*                  Parent;
 
     // Geometric (transformation)
     svector<SavedPosition, 4> PositionStack;
@@ -84,7 +84,7 @@ public:
         p = Props;
     }
 #endif
-    void MakeMeCrow();
+    void     MakeMeCrow();
 
     ICF void IAmNotACrowAnyMore()
     {
@@ -154,7 +154,7 @@ public:
     {
         return Parent ? Parent->H_Root() : this;
     }
-    CObject* H_SetParent(CObject* O, bool just_before_destroy = false);
+    CObject*          H_SetParent(CObject* O, bool just_before_destroy = false);
 
     // Geometry xform
     virtual void      Center(Fvector& C) const;
@@ -191,7 +191,7 @@ public:
     virtual float       Radius() const;
     virtual const Fbox& BoundingBox() const;
 
-    IC IRender_Sector* Sector()
+    IC IRender_Sector*  Sector()
     {
         return H_Root()->spatial.sector;
     }
@@ -339,7 +339,7 @@ public:
     virtual void net_Relcase(CObject* O){};   // destroy all links to another objects
 
     // Position stack
-    IC u32 ps_Size() const
+    IC u32       ps_Size() const
     {
         return PositionStack.size();
     }
@@ -347,16 +347,16 @@ public:
     virtual void          ForceTransform(const Fmatrix& m){};
 
     // HUD
-    virtual void OnHUDDraw(CCustomHUD* hud){};
+    virtual void          OnHUDDraw(CCustomHUD* hud){};
 
     // Active/non active
-    virtual void OnH_B_Chield();   // before
-    virtual void OnH_B_Independent(bool just_before_destroy);
-    virtual void OnH_A_Chield();   // after
-    virtual void OnH_A_Independent();
+    virtual void          OnH_B_Chield();   // before
+    virtual void          OnH_B_Independent(bool just_before_destroy);
+    virtual void          OnH_A_Chield();   // after
+    virtual void          OnH_A_Independent();
 
-    virtual void On_SetEntity(){};
-    virtual void On_LostEntity(){};
+    virtual void          On_SetEntity(){};
+    virtual void          On_LostEntity(){};
 
 public:
     virtual bool register_schedule() const

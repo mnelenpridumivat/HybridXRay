@@ -26,7 +26,7 @@ public:
     typedef System::IServiceProvider                       IServiceProvider;
     typedef System::Object                                 Object;
 
-    virtual UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext ^ context) override;
+    virtual UITypeEditorEditStyle                          GetEditStyle(ITypeDescriptorContext ^ context) override;
     virtual Object ^ EditValue(ITypeDescriptorContext ^ context, IServiceProvider ^ provider, Object ^ value) override;
 };   // ref class property_editor_color
 

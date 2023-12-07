@@ -31,18 +31,18 @@ private:
     Fvector2 m_prev_actor_pos;
 
 private:
-    float m_map_move_step;
+    float               m_map_move_step;
 
-    float         m_currentZoom;
-    CUIGlobalMap* m_GlobalMap;
-    GameMaps      m_GameMaps;
+    float               m_currentZoom;
+    CUIGlobalMap*       m_GlobalMap;
+    GameMaps            m_GameMaps;
 
-    CUIFrameWindow*    m_UIMainFrame;
-    bool               m_scroll_mode;
-    CUIFixedScrollBar* m_UIMainScrollV;
-    CUIFixedScrollBar* m_UIMainScrollH;
-    CUIWindow*         m_UILevelFrame;
-    CMapActionPlanner* m_ActionPlanner;
+    CUIFrameWindow*     m_UIMainFrame;
+    bool                m_scroll_mode;
+    CUIFixedScrollBar*  m_UIMainScrollV;
+    CUIFixedScrollBar*  m_UIMainScrollH;
+    CUIWindow*          m_UILevelFrame;
+    CMapActionPlanner*  m_ActionPlanner;
     //	CUIFrameLineWnd*			UIMainMapHeader;
     CUIMapLocationHint* m_map_location_hint;
 
@@ -68,19 +68,19 @@ private:
     CUIStatic*   m_btn_nav_parent;
     u32          m_nav_timing;
 
-    void UpdateNav();
+    void         UpdateNav();
 
-    void OnBtnLegend_Push(CUIWindow*, void*);
-    void OnBtnUp_Push(CUIWindow*, void*);
-    void OnBtnZoomMore_Push(CUIWindow*, void*);
+    void         OnBtnLegend_Push(CUIWindow*, void*);
+    void         OnBtnUp_Push(CUIWindow*, void*);
+    void         OnBtnZoomMore_Push(CUIWindow*, void*);
 
-    void OnBtnLeft_Push(CUIWindow*, void*);
-    void OnBtnActor_Push(CUIWindow*, void*);
-    void OnBtnRight_Push(CUIWindow*, void*);
+    void         OnBtnLeft_Push(CUIWindow*, void*);
+    void         OnBtnActor_Push(CUIWindow*, void*);
+    void         OnBtnRight_Push(CUIWindow*, void*);
 
-    void OnBtnZoomLess_Push(CUIWindow*, void*);
-    void OnBtnDown_Push(CUIWindow*, void*);
-    void OnBtnZoomReset_Push(CUIWindow*, void*);
+    void         OnBtnZoomLess_Push(CUIWindow*, void*);
+    void         OnBtnDown_Push(CUIWindow*, void*);
+    void         OnBtnZoomReset_Push(CUIWindow*, void*);
 
 private:
     void OnScrollV(CUIWindow*, void*);
@@ -121,19 +121,19 @@ public:
     virtual void Update();
     void         DrawHint();
 
-    void  MoveMap(Fvector2 const& pos_delta);
-    float GetZoom()
+    void         MoveMap(Fvector2 const& pos_delta);
+    float        GetZoom()
     {
         return m_currentZoom;
     }
-    void SetZoom(float value);
-    bool UpdateZoom(bool b_zoom_in);
+    void         SetZoom(float value);
+    bool         UpdateZoom(bool b_zoom_in);
 
-    void ShowHintStr(CUIWindow* parent, LPCSTR text);
-    void ShowHintSpot(CMapSpot* spot);
-    void ShowHintTask(CGameTask* task, CUIWindow* owner);
+    void         ShowHintStr(CUIWindow* parent, LPCSTR text);
+    void         ShowHintSpot(CMapSpot* spot);
+    void         ShowHintTask(CGameTask* task, CUIWindow* owner);
 
-    void SpotSelected(CUIWindow* spot);
+    void         SpotSelected(CUIWindow* spot);
 
     void         HideHint(CUIWindow* parent);
     void         HideCurHint();
@@ -144,14 +144,14 @@ public:
 
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = NULL);
 
-    void SetTargetMap(CUICustomMap* m, bool bZoomIn = false);
-    void SetTargetMap(CUICustomMap* m, const Fvector2& pos, bool bZoomIn = false);
-    void SetTargetMap(const shared_str& name, const Fvector2& pos, bool bZoomIn = false);
-    void SetTargetMap(const shared_str& name, bool bZoomIn = false);
+    void         SetTargetMap(CUICustomMap* m, bool bZoomIn = false);
+    void         SetTargetMap(CUICustomMap* m, const Fvector2& pos, bool bZoomIn = false);
+    void         SetTargetMap(const shared_str& name, const Fvector2& pos, bool bZoomIn = false);
+    void         SetTargetMap(const shared_str& name, bool bZoomIn = false);
 
-    void MapLocationRelcase(CMapLocation* ml);
+    void         MapLocationRelcase(CMapLocation* ml);
 
-    Frect ActiveMapRect()
+    Frect        ActiveMapRect()
     {
         Frect r;
         m_UILevelFrame->GetAbsoluteRect(r);

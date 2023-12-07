@@ -34,7 +34,7 @@ namespace award_system
         bool is_item_in_group(u16 item_id, enum_group_id gid) const;
 
     private:
-        void init_ammunition_group(CItemMgr const* item_manager, enum_group_id gid, shared_str const& weapons_string);
+        void                                             init_ammunition_group(CItemMgr const* item_manager, enum_group_id gid, shared_str const& weapons_string);
 
         typedef xr_vector<std::pair<u16, enum_group_id>> ammun_groups_map_t;
         ammun_groups_map_t                               m_wpn_groups;

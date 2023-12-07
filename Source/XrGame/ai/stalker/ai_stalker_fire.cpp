@@ -55,17 +55,17 @@
 
 using namespace StalkerSpace;
 
-static float const DANGER_DISTANCE = 3.f;
-static u32 const   DANGER_INTERVAL = 120000;
+static float const DANGER_DISTANCE          = 3.f;
+static u32 const   DANGER_INTERVAL          = 120000;
 
 static float const PRECISE_DISTANCE         = 2.5f;
 static float const FLOOR_DISTANCE           = 2.f;
 static float const NEAR_DISTANCE            = 2.5f;
 static u32 const   FIRE_MAKE_SENSE_INTERVAL = 10000;
 
-static float const min_throw_distance = 10.f;
+static float const min_throw_distance       = 10.f;
 
-float CAI_Stalker::GetWeaponAccuracy() const
+float              CAI_Stalker::GetWeaponAccuracy() const
 {
     float base = PI / 180.f;
 
@@ -156,7 +156,8 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 
     switch (movement().body_state())
     {
-        case eBodyStateStand: {
+        case eBodyStateStand:
+        {
             if (movement().movement_type() == eMovementTypeStand)
             {
                 P = eye_matrix.c;
@@ -181,7 +182,8 @@ void CAI_Stalker::g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D)
 
             return;
         }
-        case eBodyStateCrouch: {
+        case eBodyStateCrouch:
+        {
             P = eye_matrix.c;
             D = eye_matrix.k;
             if (weapon_shot_effector().IsActive())
@@ -220,8 +222,8 @@ void CAI_Stalker::g_WeaponBones(int& L, int& R1, int& R2)
 void CAI_Stalker::Hit(SHit* pHDS)
 {
     // хит может меняться в зависимости от ранга (новички получают больше хита, чем ветераны)
-    SHit HDS      = *pHDS;
-    HDS.add_wound = true;
+    SHit HDS        = *pHDS;
+    HDS.add_wound   = true;
 
     float hit_power = HDS.power * m_fRankImmunity;
 
@@ -261,11 +263,9 @@ void CAI_Stalker::Hit(SHit* pHDS)
         if (!already_critically_wounded)
         {
             const CCoverPoint* cover = agent_manager().member().member(this).cover();
-            if (!invulnerable() && cover && HDS.initiator() && (HDS.initiator()->ID() != ID()) &&
-                !fis_zero(HDS.damage()) && brain().affect_cover())
+            if (!invulnerable() && cover && HDS.initiator() && (HDS.initiator()->ID() != ID()) && !fis_zero(HDS.damage()) && brain().affect_cover())
             {
-                agent_manager().location().add(
-                    xr_new<CDangerCoverLocation>(cover, Device->dwTimeGlobal, DANGER_INTERVAL, DANGER_DISTANCE));
+                agent_manager().location().add(xr_new<CDangerCoverLocation>(cover, Device->dwTimeGlobal, DANGER_INTERVAL, DANGER_DISTANCE));
             }
         }
 
@@ -539,10 +539,7 @@ bool CAI_Stalker::remember_ammo()
 
 bool CAI_Stalker::ready_to_kill()
 {
-    return (
-        m_best_item_to_kill && inventory().ActiveItem() &&
-        (inventory().ActiveItem()->object().ID() == m_best_item_to_kill->object().ID()) &&
-        m_best_item_to_kill->ready_to_kill());
+    return (m_best_item_to_kill && inventory().ActiveItem() && (inventory().ActiveItem()->object().ID() == m_best_item_to_kill->object().ID()) && m_best_item_to_kill->ready_to_kill());
 }
 
 bool CAI_Stalker::ready_to_detour()
@@ -618,11 +615,7 @@ IC BOOL ray_query_callback(collide::rq_result& result, LPVOID params)
     return (false);
 }
 
-void CAI_Stalker::can_kill_entity(
-    const Fvector&       position,
-    const Fvector&       direction,
-    float                distance,
-    collide::rq_results& rq_storage)
+void CAI_Stalker::can_kill_entity(const Fvector& position, const Fvector& direction, float distance, collide::rq_results& rq_storage)
 {
     VERIFY(!fis_zero(direction.square_magnitude()));
 
@@ -706,8 +699,7 @@ void CAI_Stalker::update_can_kill_info()
 
 bool CAI_Stalker::undetected_anomaly()
 {
-    return (
-        inside_anomaly() || brain().CStalkerPlanner::m_storage.property(StalkerDecisionSpace::eWorldPropertyAnomaly));
+    return (inside_anomaly() || brain().CStalkerPlanner::m_storage.property(StalkerDecisionSpace::eWorldPropertyAnomaly));
 }
 
 bool CAI_Stalker::inside_anomaly()
@@ -733,8 +725,7 @@ bool CAI_Stalker::zoom_state() const
     if (!inventory().ActiveItem())
         return (false);
 
-    if ((movement().movement_type() != eMovementTypeStand) && (movement().body_state() != eBodyStateCrouch) &&
-        !movement().path_completed())
+    if ((movement().movement_type() != eMovementTypeStand) && (movement().body_state() != eBodyStateCrouch) && !movement().path_completed())
         return (false);
 
     switch (CObjectHandler::planner().current_action_state_id())
@@ -765,11 +756,7 @@ void CAI_Stalker::update_range_fov(float& new_range, float& new_fov, float start
         inventory().ActiveItem()->modify_holder_params(range, fov);
 
     VERIFY2(start_fov < 180.f, make_string("[%s] %f", cName().c_str(), start_fov));
-    VERIFY2(
-        fov < 180.f,
-        make_string(
-            "fix addon multiplier for weapon or scope %s (fov=%f)", inventory().ActiveItem()->object().cName().c_str(),
-            fov));
+    VERIFY2(fov < 180.f, make_string("fix addon multiplier for weapon or scope %s (fov=%f)", inventory().ActiveItem()->object().cName().c_str(), fov));
 
     return (inherited::update_range_fov(new_range, new_fov, range, fov));
 }
@@ -847,7 +834,7 @@ void CAI_Stalker::notify_on_wounded_or_killed(CObject* object)
 
     typedef CAgentCorpseManager::MEMBER_CORPSES MEMBER_CORPSES;
 
-    const MEMBER_CORPSES& corpses = agent_manager().corpse().corpses();
+    const MEMBER_CORPSES&                       corpses = agent_manager().corpse().corpses();
     if (std::find(corpses.begin(), corpses.end(), this) != corpses.end())
         return;
 
@@ -927,16 +914,15 @@ float CAI_Stalker::missile_throw_force()
 
 void CAI_Stalker::compute_throw_miss(u32 const vertex_id)
 {
-    float const throw_miss_radius = ::Random.randF(2.f, 5.f);
-    u32 const   try_count         = 6;
+    float const        throw_miss_radius = ::Random.randF(2.f, 5.f);
+    u32 const          try_count         = 6;
 
-    ILevelGraph const& level_graph = ai().level_graph();
+    ILevelGraph const& level_graph       = ai().level_graph();
     for (u32 i = 0; i < try_count; ++i)
     {
-        Fvector const direction      = Fvector().random_dir();
-        Fvector const check_position = Fvector().mad(m_throw_target_position, direction, throw_miss_radius);
-        u32 const     check_vertex_id =
-            level_graph.check_position_in_direction(vertex_id, m_throw_target_position, check_position);
+        Fvector const direction       = Fvector().random_dir();
+        Fvector const check_position  = Fvector().mad(m_throw_target_position, direction, throw_miss_radius);
+        u32 const     check_vertex_id = level_graph.check_position_in_direction(vertex_id, m_throw_target_position, check_position);
         if (!level_graph.valid_vertex_id(check_vertex_id))
             continue;
 
@@ -965,19 +951,14 @@ void CAI_Stalker::throw_target(const Fvector& position, u32 const vertex_id, COb
 }
 
 // delete this function!!!!
-bool CAI_Stalker::throw_check_error(
-    float          low,
-    float          high,
-    const Fvector& position,
-    const Fvector& velocity,
-    const Fvector& gravity)
+bool CAI_Stalker::throw_check_error(float low, float high, const Fvector& position, const Fvector& velocity, const Fvector& gravity)
 {
     return true;
 }
 
 void CAI_Stalker::check_throw_trajectory(const float& throw_time)
 {
-    m_throw_enabled = false;
+    m_throw_enabled                              = false;
 
     xr_vector<trajectory_pick>* trajectory_picks = NULL;
     xr_vector<Fvector>*         collide_tris     = NULL;
@@ -989,9 +970,7 @@ void CAI_Stalker::check_throw_trajectory(const float& throw_time)
     Fvector box_size = {0.f, 0.f, 0.f};
     // Fvector box_size				=	{ 0.1f, 0.1f , 0.1f };
 
-    if (!trajectory_intersects_geometry(
-            throw_time, m_throw_position, m_throw_target_position, m_throw_velocity, m_throw_collide_position, this,
-            m_throw_ignore_object, rq_storage, trajectory_picks, collide_tris, box_size))
+    if (!trajectory_intersects_geometry(throw_time, m_throw_position, m_throw_target_position, m_throw_velocity, m_throw_collide_position, this, m_throw_ignore_object, rq_storage, trajectory_picks, collide_tris, box_size))
     {
         m_throw_collide_position = Fvector().set(flt_max, flt_max, flt_max);
         m_throw_enabled          = true;
@@ -1019,7 +998,7 @@ void CAI_Stalker::update_throw_params()
 #if 0
 	m_throw_position		= eye_matrix.c;
 #else
-    m_throw_position = Position();
+    m_throw_position         = Position();
 
     CMissile* const pMissile = dynamic_cast<CMissile*>(inventory().ActiveItem());
     if (pMissile)

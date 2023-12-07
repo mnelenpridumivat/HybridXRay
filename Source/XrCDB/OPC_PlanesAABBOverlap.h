@@ -11,16 +11,12 @@
  *	\return		TRUE if boxes overlap planes
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-inline_ BOOL PlanesCollider::PlanesAABBOverlap(
-    const Point& center,
-    const Point& extents,
-    udword&      out_clip_mask,
-    udword       in_clip_mask)
+inline_ BOOL PlanesCollider::PlanesAABBOverlap(const Point& center, const Point& extents, udword& out_clip_mask, udword in_clip_mask)
 {
     // Stats
     mNbVolumeBVTests++;
 
-    const Plane* p = mPlanes;
+    const Plane* p              = mPlanes;
 
     // Evaluate through all active frustum planes. We determine the relation
     // between the AABB and a plane by using the concept of "near" and "far"
@@ -30,15 +26,14 @@ inline_ BOOL PlanesCollider::PlanesAABBOverlap(
     // to be outside any of the planes. The loop also constructs a _new_ output
     // clip mask. Most FPUs have a native single-cycle _abs() operation.
 
-    udword Mask           = 1;   // current mask index (1,2,4,8,..)
-    udword TmpOutClipMask = 0;   // initialize output clip mask into empty.
+    udword       Mask           = 1;   // current mask index (1,2,4,8,..)
+    udword       TmpOutClipMask = 0;   // initialize output clip mask into empty.
 
     while (Mask <= in_clip_mask)   // keep looping while we have active planes left...
     {
         if (in_clip_mask & Mask)   // if clip plane is active, process it..
         {
-            float NP = extents.x * _abs(p->n.x) + extents.y * _abs(p->n.y) +
-                extents.z * _abs(p->n.z);   // ### _abs could be precomputed
+            float NP = extents.x * _abs(p->n.x) + extents.y * _abs(p->n.y) + extents.z * _abs(p->n.z);   // ### _abs could be precomputed
             float MP = center.x * p->n.x + center.y * p->n.y + center.z * p->n.z + p->d;
 
             if (NP < MP)                  // near vertex behind the clip plane...

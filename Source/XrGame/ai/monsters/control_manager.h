@@ -32,7 +32,7 @@ class CControl_Manager
     CONTROLLERS_MAP m_base_elems;
 
     DEFINE_VECTOR(CControl_Com*, COM_VEC, COM_VEC_IT);
-    COM_VEC m_active_elems;
+    COM_VEC              m_active_elems;
 
     CControlAnimation*   m_animation;
     CControlDirection*   m_direction;
@@ -44,44 +44,44 @@ public:
     ~CControl_Manager();
 
     // common routines
-    void init_external();
-    void load(LPCSTR section);
-    void reinit();
-    void reload(LPCSTR section);
-    void update_schedule();
-    void update_frame();
+    void                     init_external();
+    void                     load(LPCSTR section);
+    void                     reinit();
+    void                     reload(LPCSTR section);
+    void                     update_schedule();
+    void                     update_frame();
 
     // event handling routines
-    void notify(ControlCom::EEventType, ControlCom::IEventData*);
-    void subscribe(CControl_Com*, ControlCom::EEventType);
-    void unsubscribe(CControl_Com*, ControlCom::EEventType);
+    void                     notify(ControlCom::EEventType, ControlCom::IEventData*);
+    void                     subscribe(CControl_Com*, ControlCom::EEventType);
+    void                     unsubscribe(CControl_Com*, ControlCom::EEventType);
 
     // add new control block
-    void add(CControl_Com*, ControlCom::EControlType);
-    void set_base_controller(CControl_Com*, ControlCom::EControlType);
+    void                     add(CControl_Com*, ControlCom::EControlType);
+    void                     set_base_controller(CControl_Com*, ControlCom::EControlType);
 
     // capturing/releasing
-    void capture(CControl_Com*, ControlCom::EControlType);   // who, type
-    void release(CControl_Com*, ControlCom::EControlType);   // who, type
-    bool check_capturer(CControl_Com* com, ControlCom::EControlType type);
+    void                     capture(CControl_Com*, ControlCom::EControlType);   // who, type
+    void                     release(CControl_Com*, ControlCom::EControlType);   // who, type
+    bool                     check_capturer(CControl_Com* com, ControlCom::EControlType type);
 
     // Lain: added
     CControl_Com*            get_capturer(ControlCom::EControlType type);
     ControlCom::EControlType com_type(CControl_Com*);
 
-    void capture_pure(CControl_Com*);
-    void release_pure(CControl_Com*);
+    void                     capture_pure(CControl_Com*);
+    void                     release_pure(CControl_Com*);
 
-    void activate(ControlCom::EControlType type);
-    void deactivate(ControlCom::EControlType type);
-    void deactivate(CControl_Com*);
+    void                     activate(ControlCom::EControlType type);
+    void                     deactivate(ControlCom::EControlType type);
+    void                     deactivate(CControl_Com*);
 
-    void lock(CControl_Com*, ControlCom::EControlType);
-    void unlock(CControl_Com*, ControlCom::EControlType);
+    void                     lock(CControl_Com*, ControlCom::EControlType);
+    void                     unlock(CControl_Com*, ControlCom::EControlType);
 
-    ControlCom::IComData* data(CControl_Com*, ControlCom::EControlType);
+    ControlCom::IComData*    data(CControl_Com*, ControlCom::EControlType);
 
-    CControlAnimation& animation()
+    CControlAnimation&       animation()
     {
         return (*m_animation);
     }

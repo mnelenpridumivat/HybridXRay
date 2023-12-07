@@ -19,61 +19,60 @@ extern "C"
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // SSL v3.0
-#define GS_SSL_VERSION_MAJOR (0x03)
-#define GS_SSL_VERSION_MINOR (0x00)
+#define GS_SSL_VERSION_MAJOR               (0x03)
+#define GS_SSL_VERSION_MINOR               (0x00)
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 // SSL content types
-#define GS_SSL_CONTENT_CHANGECIPHERSPEC (0x14)   // 20
-#define GS_SSL_CONTENT_ALERT (0x15)              // 21  Not sure if this is the correct value
-#define GS_SSL_CONTENT_HANDSHAKE (0x16)          // 22
-#define GS_SSL_CONTENT_APPLICATIONDATA (0x17)    // 23
+#define GS_SSL_CONTENT_CHANGECIPHERSPEC    (0x14)   // 20
+#define GS_SSL_CONTENT_ALERT               (0x15)   // 21  Not sure if this is the correct value
+#define GS_SSL_CONTENT_HANDSHAKE           (0x16)   // 22
+#define GS_SSL_CONTENT_APPLICATIONDATA     (0x17)   // 23
 
     // SSL handshake message types
 // #define GS_SSL_HANDSHAKE_HELLOREQUEST       (0)
-#define GS_SSL_HANDSHAKE_CLIENTHELLO (1)
-#define GS_SSL_HANDSHAKE_SERVERHELLO (2)
-#define GS_SSL_HANDSHAKE_CERTIFICATE (11)
+#define GS_SSL_HANDSHAKE_CLIENTHELLO       (1)
+#define GS_SSL_HANDSHAKE_SERVERHELLO       (2)
+#define GS_SSL_HANDSHAKE_CERTIFICATE       (11)
 // #define GS_SSL_HANDSHAKE_SERVERKEYEXCHANGE  (12)
 // #define GS_SSL_HANDSHAKE_CERTIFICATEREQUEST (13)
-#define GS_SSL_HANDSHAKE_SERVERHELLODONE (14)
+#define GS_SSL_HANDSHAKE_SERVERHELLODONE   (14)
 // #define GS_SSL_HANDSHAKE_CERTIFICATEVERIFY  (15)
 #define GS_SSL_HANDSHAKE_CLIENTKEYEXCHANGE (16)
-#define GS_SSL_HANDSHAKE_FINISHED (20)
+#define GS_SSL_HANDSHAKE_FINISHED          (20)
 
 // the largest payload for a single SSL packet, RFC const
 // ----> RFC includes MAC and any padding, actual user data must be less
-#define GS_SSL_MAX_CONTENTLENGTH ((0x4000) - (0xFF))
+#define GS_SSL_MAX_CONTENTLENGTH           ((0x4000) - (0xFF))
 
 #ifndef HAVE_CIPHER_SUITES
 /* these are the ones used by IE */
-#define TLS_RSA_WITH_RC4_128_MD5 0x04
-#define TLS_RSA_WITH_RCA_128_SHA 0x05
-#define TLS_RSA_WITH_3DES_EDE_CBC_SHA 0x0a
-#define TLS_RSA_WITH_DES_CBC_SHA 0x09
-#define TLS_RSA_EXPORT1024_WITH_RC4_56_SHA 0x64
-#define TLS_RSA_EXPORT1024_WITH_DES_CBC_SHA 0x62
-#define TLS_RSA_EXPORT_WITH_RC4_40_MD5 0x03
-#define TLS_RSA_EXPORT_WITH_RC2_CBC_40_MD5 0x06
-#define TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA 0x13
-#define TLS_DHE_DSS_WITH_DES_CBC_SHA 0x12
+#define TLS_RSA_WITH_RC4_128_MD5                0x04
+#define TLS_RSA_WITH_RCA_128_SHA                0x05
+#define TLS_RSA_WITH_3DES_EDE_CBC_SHA           0x0a
+#define TLS_RSA_WITH_DES_CBC_SHA                0x09
+#define TLS_RSA_EXPORT1024_WITH_RC4_56_SHA      0x64
+#define TLS_RSA_EXPORT1024_WITH_DES_CBC_SHA     0x62
+#define TLS_RSA_EXPORT_WITH_RC4_40_MD5          0x03
+#define TLS_RSA_EXPORT_WITH_RC2_CBC_40_MD5      0x06
+#define TLS_DHE_DSS_WITH_3DES_EDE_CBC_SHA       0x13
+#define TLS_DHE_DSS_WITH_DES_CBC_SHA            0x12
 #define TLS_DHE_DSS_EXPORT1024_WITH_DES_CBC_SHA 0x63
 #endif
 
     // These depend on the SSL cipher suite ranges
-#define GS_SSL_MAX_MAC_SECRET_SIZE (20)
+#define GS_SSL_MAX_MAC_SECRET_SIZE    (20)
 #define GS_SSL_MAX_SYMMETRIC_KEY_SIZE (16)
-#define GS_SSL_MAX_IV_SIZE (16)
-#define GS_SSL_NUM_CIPHER_SUITES (1)   // cipher suite list defined in gsSSL.c
-#define GS_SSL_MASTERSECRET_LEN (48)
-#define GS_SSL_PAD_ONE "666666666666666666666666666666666666666666666666"   // 48 bytes
-#define GS_SSL_PAD_TWO \
-    "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"   // 48 bytes
-#define GS_SSL_MD5_PAD_LEN (48)
-#define GS_SSL_SHA1_PAD_LEN (40)   // use only 40 of the 48 bytes
-#define GS_SSL_CLIENT_FINISH_VALUE "CLNT"
-#define GS_SSL_SERVER_FINISH_VALUE "SRVR"
+#define GS_SSL_MAX_IV_SIZE            (16)
+#define GS_SSL_NUM_CIPHER_SUITES      (1)   // cipher suite list defined in gsSSL.c
+#define GS_SSL_MASTERSECRET_LEN       (48)
+#define GS_SSL_PAD_ONE                "666666666666666666666666666666666666666666666666"                                                   // 48 bytes
+#define GS_SSL_PAD_TWO                "\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\"   // 48 bytes
+#define GS_SSL_MD5_PAD_LEN            (48)
+#define GS_SSL_SHA1_PAD_LEN           (40)   // use only 40 of the 48 bytes
+#define GS_SSL_CLIENT_FINISH_VALUE    "CLNT"
+#define GS_SSL_SERVER_FINISH_VALUE    "SRVR"
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -85,39 +84,39 @@ extern "C"
         unsigned short cipherSuite;
 
         // DArray certificateArray;
-        gsCryptRSAKey serverpub;
-        unsigned char sendSeqNBO[8];      // incrementing sequence number (for messages sent)
-        unsigned char receiveSeqNBO[8];   // ditto (for messages received)
+        gsCryptRSAKey  serverpub;
+        unsigned char  sendSeqNBO[8];      // incrementing sequence number (for messages sent)
+        unsigned char  receiveSeqNBO[8];   // ditto (for messages received)
 
         // Key buffers
         //   Actual data may be smaller than array size
-        unsigned char clientWriteMACSecret[GS_CRYPT_SHA1_HASHSIZE];
-        unsigned char clientReadMACSecret[GS_CRYPT_SHA1_HASHSIZE];
-        unsigned char clientWriteKey[GS_SSL_MAX_SYMMETRIC_KEY_SIZE];
-        unsigned char clientReadKey[GS_SSL_MAX_SYMMETRIC_KEY_SIZE];
-        unsigned char clientWriteIV[GS_SSL_MAX_IV_SIZE];
-        unsigned char clientReadIV[GS_SSL_MAX_IV_SIZE];
+        unsigned char  clientWriteMACSecret[GS_CRYPT_SHA1_HASHSIZE];
+        unsigned char  clientReadMACSecret[GS_CRYPT_SHA1_HASHSIZE];
+        unsigned char  clientWriteKey[GS_SSL_MAX_SYMMETRIC_KEY_SIZE];
+        unsigned char  clientReadKey[GS_SSL_MAX_SYMMETRIC_KEY_SIZE];
+        unsigned char  clientWriteIV[GS_SSL_MAX_IV_SIZE];
+        unsigned char  clientReadIV[GS_SSL_MAX_IV_SIZE];
 
         // Actual lengths of the above data blocks
-        int clientWriteMACLen;
-        int clientReadMACLen;
-        int clientWriteKeyLen;
-        int clientReadKeyLen;
-        int clientWriteIVLen;
-        int clientReadIVLen;
+        int            clientWriteMACLen;
+        int            clientReadMACLen;
+        int            clientWriteKeyLen;
+        int            clientReadKeyLen;
+        int            clientWriteIVLen;
+        int            clientReadIVLen;
 
-        RC4Context sendRC4;   // initialized ONCE per key exchange
-        RC4Context recvRC4;   // initialized ONCE per key exchange
+        RC4Context     sendRC4;   // initialized ONCE per key exchange
+        RC4Context     recvRC4;   // initialized ONCE per key exchange
 
         // these are unused once the handshake is complete
         //   todo: dynamically allocate or remove to free space
-        MD5_CTX       finishHashMD5;
-        SHA1Context   finishHashSHA1;
-        unsigned char serverRandom[32];                           // server random for key generation, sent plain text
-        unsigned char clientRandom[32];                           // client random for key generation, sent plain text
-        unsigned char premastersecret[GS_SSL_MASTERSECRET_LEN];   // client random for key generation, sent encrypted
-                                                                  // with serverpub
-        unsigned char mastersecret[GS_SSL_MASTERSECRET_LEN];
+        MD5_CTX        finishHashMD5;
+        SHA1Context    finishHashSHA1;
+        unsigned char  serverRandom[32];                           // server random for key generation, sent plain text
+        unsigned char  clientRandom[32];                           // client random for key generation, sent plain text
+        unsigned char  premastersecret[GS_SSL_MASTERSECRET_LEN];   // client random for key generation, sent encrypted
+                                                                   // with serverpub
+        unsigned char  mastersecret[GS_SSL_MASTERSECRET_LEN];
 
     } gsSSL;
 
@@ -146,10 +145,10 @@ extern "C"
         unsigned char        sessionIdLen;    // how many of the bytes that follow are session info? (def:0)
 
         // ALIGNMENT: 44 bytes prior to this, alignment should be OK
-        unsigned short cipherSuitesLength;   // 2* number of cipher suites
-        unsigned short cipherSuites[GS_SSL_NUM_CIPHER_SUITES];
-        unsigned char  compressionMethodLen;    // no standard methods, set to 1
-        unsigned char  compressionMethodList;   // set to 0
+        unsigned short       cipherSuitesLength;   // 2* number of cipher suites
+        unsigned short       cipherSuites[GS_SSL_NUM_CIPHER_SUITES];
+        unsigned char        compressionMethodLen;    // no standard methods, set to 1
+        unsigned char        compressionMethodList;   // set to 0
     } gsSSLClientHelloMsg;
 
     typedef struct gsSSLClientKeyExchangeMsg

@@ -18,7 +18,7 @@ CInfoDocument::~CInfoDocument(void) {}
 
 BOOL CInfoDocument::net_Spawn(CSE_Abstract* DC)
 {
-    BOOL res = inherited::net_Spawn(DC);
+    BOOL                   res                   = inherited::net_Spawn(DC);
 
     CSE_Abstract*          l_tpAbstract          = static_cast<CSE_Abstract*>(DC);
     CSE_ALifeItemDocument* l_tpALifeItemDocument = smart_cast<CSE_ALifeItemDocument*>(l_tpAbstract);

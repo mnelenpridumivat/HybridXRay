@@ -81,8 +81,7 @@ CAI_Space::~CAI_Space()
         xr_delete(m_script_engine);
     }
     catch (...)
-    {
-    }
+    {}
 
     xr_delete(m_doors_manager);
     xr_delete(m_moving_objects);
@@ -106,17 +105,12 @@ void CAI_Space::load_from_editor()
 
     const IGameGraph::SLevel& current_level = game_graph().header().level("test");
 
-    m_level_graph = EditorScene->GetLevelGraph();
+    m_level_graph                           = EditorScene->GetLevelGraph();
 
     game_graph().set_current_level(current_level.id());
-    R_ASSERT2(
-        cross_table().header().level_guid() == level_graph().header().guid(),
-        "cross_table doesn't correspond to the AI-map");
-    R_ASSERT2(
-        cross_table().header().game_guid() == game_graph().header().guid(),
-        "graph doesn't correspond to the cross table");
-    m_graph_engine =
-        xr_new<CGraphEngine>(_max(game_graph().header().vertex_count(), level_graph().header().vertex_count()));
+    R_ASSERT2(cross_table().header().level_guid() == level_graph().header().guid(), "cross_table doesn't correspond to the AI-map");
+    R_ASSERT2(cross_table().header().game_guid() == game_graph().header().guid(), "graph doesn't correspond to the cross table");
+    m_graph_engine = xr_new<CGraphEngine>(_max(game_graph().header().vertex_count(), level_graph().header().vertex_count()));
 
     VERIFY(m_game_graph);
     m_cover_manager->compute_static_cover();
@@ -125,8 +119,7 @@ void CAI_Space::load_from_editor()
     m_doors_manager = xr_new<::doors::manager>(ai().level_graph().header().box());
 
 #ifdef DEBUG
-    Msg("* Loading ai space is successfully completed (%.3fs, %7.3f Mb)", timer.GetElapsed_sec(),
-        float(Memory.mem_usage() - mem_usage) / 1048576.0);
+    Msg("* Loading ai space is successfully completed (%.3fs, %7.3f Mb)", timer.GetElapsed_sec(), float(Memory.mem_usage() - mem_usage) / 1048576.0);
 #endif
 #endif
 }
@@ -152,14 +145,9 @@ void CAI_Space::load(LPCSTR level_name)
         m_level_graph = xr_new<CLevelGraph>();
 
     game_graph().set_current_level(current_level.id());
-    R_ASSERT2(
-        cross_table().header().level_guid() == level_graph().header().guid(),
-        "cross_table doesn't correspond to the AI-map");
-    R_ASSERT2(
-        cross_table().header().game_guid() == game_graph().header().guid(),
-        "graph doesn't correspond to the cross table");
-    m_graph_engine =
-        xr_new<CGraphEngine>(_max(game_graph().header().vertex_count(), level_graph().header().vertex_count()));
+    R_ASSERT2(cross_table().header().level_guid() == level_graph().header().guid(), "cross_table doesn't correspond to the AI-map");
+    R_ASSERT2(cross_table().header().game_guid() == game_graph().header().guid(), "graph doesn't correspond to the cross table");
+    m_graph_engine = xr_new<CGraphEngine>(_max(game_graph().header().vertex_count(), level_graph().header().vertex_count()));
 
     R_ASSERT2(current_level.guid() == level_graph().header().guid(), "graph doesn't correspond to the AI-map");
 
@@ -176,8 +164,7 @@ void CAI_Space::load(LPCSTR level_name)
     m_doors_manager = xr_new<::doors::manager>(ai().level_graph().header().box());
 
 #ifdef DEBUG
-    Msg("* Loading ai space is successfully completed (%.3fs, %7.3f Mb)", timer.GetElapsed_sec(),
-        float(Memory.mem_usage() - mem_usage) / 1048576.0);
+    Msg("* Loading ai space is successfully completed (%.3fs, %7.3f Mb)", timer.GetElapsed_sec(), float(Memory.mem_usage() - mem_usage) / 1048576.0);
 #endif
 }
 
@@ -202,10 +189,7 @@ void CAI_Space::validate(const u32 level_id) const
 {
     VERIFY(level_graph().header().vertex_count() == cross_table().header().level_vertex_count());
     for (GameGraph::_GRAPH_ID i = 0, n = game_graph().header().vertex_count(); i < n; ++i)
-        if ((level_id == game_graph().vertex(i)->level_id()) &&
-            (!level_graph().valid_vertex_id(game_graph().vertex(i)->level_vertex_id()) ||
-             (cross_table().vertex(game_graph().vertex(i)->level_vertex_id()).game_vertex_id() != i) ||
-             !level_graph().inside(game_graph().vertex(i)->level_vertex_id(), game_graph().vertex(i)->level_point())))
+        if ((level_id == game_graph().vertex(i)->level_id()) && (!level_graph().valid_vertex_id(game_graph().vertex(i)->level_vertex_id()) || (cross_table().vertex(game_graph().vertex(i)->level_vertex_id()).game_vertex_id() != i) || !level_graph().inside(game_graph().vertex(i)->level_vertex_id(), game_graph().vertex(i)->level_point())))
         {
             Msg("! Graph doesn't correspond to the cross table");
             R_ASSERT2(false, "Graph doesn't correspond to the cross table");

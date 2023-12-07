@@ -16,9 +16,7 @@
 
 using namespace StalkerDecisionSpace;
 
-CStalkerAnomalyPlanner::CStalkerAnomalyPlanner(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name)
-{
-}
+CStalkerAnomalyPlanner::CStalkerAnomalyPlanner(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 CStalkerAnomalyPlanner::~CStalkerAnomalyPlanner() {}
 
@@ -36,8 +34,7 @@ void CStalkerAnomalyPlanner::setup(CAI_Stalker* object, CPropertyStorage* storag
 
 void CStalkerAnomalyPlanner::add_evaluators()
 {
-    add_evaluator(
-        eWorldPropertyInsideAnomaly, xr_new<CStalkerPropertyEvaluatorInsideAnomaly>(m_object, "inside anomaly"));
+    add_evaluator(eWorldPropertyInsideAnomaly, xr_new<CStalkerPropertyEvaluatorInsideAnomaly>(m_object, "inside anomaly"));
     add_evaluator(eWorldPropertyAnomaly, xr_new<CStalkerPropertyEvaluatorAnomaly>(m_object, "undetected anomaly"));
 }
 
@@ -60,6 +57,5 @@ void CStalkerAnomalyPlanner::add_actions()
 void CStalkerAnomalyPlanner::update()
 {
     inherited::update();
-    CScriptActionBase::m_storage->set_property(
-        eWorldPropertyAnomaly, CScriptActionPlanner::m_storage.property(eWorldPropertyAnomaly));
+    CScriptActionBase::m_storage->set_property(eWorldPropertyAnomaly, CScriptActionPlanner::m_storage.property(eWorldPropertyAnomaly));
 }

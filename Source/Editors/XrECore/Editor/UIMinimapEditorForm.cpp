@@ -69,7 +69,7 @@ void UIMinimapEditorForm::Show()
 }
 extern bool Stbi_Load(LPCSTR full_name, U32Vec& data, u32& w, u32& h, u32& a);
 
-void UIMinimapEditorForm::LoadClick()
+void        UIMinimapEditorForm::LoadClick()
 {
     xr_string fn;
     m_ImageData.clear();
@@ -81,8 +81,7 @@ void UIMinimapEditorForm::LoadClick()
             m_TextureRemove         = m_Texture;
             ID3DTexture2D* pTexture = nullptr;
             {
-                R_CHK(HW.pDevice->CreateTexture(
-                    m_ImageW, m_ImageH, 1, 0, D3DFMT_X8R8G8B8, D3DPOOL_MANAGED, &pTexture, 0));
+                R_CHK(HW.pDevice->CreateTexture(m_ImageW, m_ImageH, 1, 0, D3DFMT_X8R8G8B8, D3DPOOL_MANAGED, &pTexture, 0));
                 m_Texture = pTexture;
 
                 {

@@ -1,11 +1,11 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-const float S_distance  = 48;
-const float S_distance2 = S_distance * S_distance;
+const float    S_distance  = 48;
+const float    S_distance2 = S_distance * S_distance;
 
-const float S_fade  = 4.5;
-const float S_fade2 = S_fade * S_fade;
+const float    S_fade      = 4.5;
+const float    S_fade2     = S_fade * S_fade;
 
 // x86 -----------------------------------------------------------------------------------------------------
 
@@ -42,16 +42,7 @@ __inline float PLC_energy_x86(Fvector& P, Fvector& N, light* L, float E)
     }
 }
 
-void PLC_calc3_x86(
-    int&               c0,
-    int&               c1,
-    int&               c2,
-    XrDeviceInterface& Device,
-    Fvector*           P,
-    Fvector&           N,
-    light*             L,
-    float              energy,
-    Fvector&           O)
+void PLC_calc3_x86(int& c0, int& c1, int& c2, XrDeviceInterface& Device, Fvector* P, Fvector& N, light* L, float energy, Fvector& O)
 {
     float E  = PLC_energy_x86(P[0], N, L, energy);
     float C1 = clampr(Device.vCameraPosition.distance_to_sqr(P[0]) / S_distance2, 0.f, 1.f);
@@ -113,16 +104,7 @@ __forceinline int iCeil_SSE(float const x)
     return _mm_cvt_ss2si(_mm_set_ss(x));
 }
 
-void __stdcall PLC_calc3_SSE(
-    int&           c0,
-    int&           c1,
-    int&           c2,
-    CRenderDevice& Device,
-    Fvector*       P,
-    Fvector&       N,
-    light*         L,
-    float          energy,
-    Fvector&       O)
+void __stdcall PLC_calc3_SSE(int& c0, int& c1, int& c2, CRenderDevice& Device, Fvector* P, Fvector& N, light* L, float energy, Fvector& O)
 {
     float E  = PLC_energy_SSE(P[0], N, L, energy);
     float C1 = clampr(Device.vCameraPosition.distance_to_sqr(P[0]) / S_distance2, 0.f, 1.f);

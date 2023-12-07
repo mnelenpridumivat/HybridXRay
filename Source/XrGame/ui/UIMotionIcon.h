@@ -7,6 +7,7 @@ class CUIMotionIcon: public CUIWindow
     typedef CUIWindow inherited;
 
 public:
+
 private:
     CUIProgressShape m_luminosity_progress;
     CUIProgressShape m_noise_progress;

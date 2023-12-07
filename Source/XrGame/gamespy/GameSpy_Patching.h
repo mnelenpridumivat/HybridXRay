@@ -7,7 +7,7 @@ class CGameSpy_Patching
 private:
     HMODULE m_hGameSpyDLL;
 
-    void LoadGameSpy(HMODULE hGameSpyDLL);
+    void    LoadGameSpy(HMODULE hGameSpyDLL);
 
 public:
     CGameSpy_Patching();
@@ -19,8 +19,7 @@ public:
 
 private:
     //--------------------- GCD_Client -------------------------------------------
-    GAMESPY_FN_VAR_DECL(
-        bool,
+    GAMESPY_FN_VAR_DECL(bool,
         ptCheckForPatchA,
         (
             //		int productID,  const char * versionUniqueID,  int distributionID,

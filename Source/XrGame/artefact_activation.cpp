@@ -171,13 +171,12 @@ void SArtefactActivation::SpawnAnomaly()
     string128 tmp;
     LPCSTR    str = pSettings->r_string("artefact_spawn_zones", *m_af->cNameSect());
     VERIFY3(3 == _GetItemCount(str), "Bad record format in artefact_spawn_zones", str);
-    float  zone_radius = (float)atof(_GetItem(str, 1, tmp));
-    LPCSTR zone_sect   = _GetItem(str, 0, tmp);   // must be last call of _GetItem... (LPCSTR !!!)
+    float   zone_radius = (float)atof(_GetItem(str, 1, tmp));
+    LPCSTR  zone_sect   = _GetItem(str, 0, tmp);   // must be last call of _GetItem... (LPCSTR !!!)
 
     Fvector pos;
     m_af->Center(pos);
-    CSE_Abstract* object = Level().spawn_item(
-        zone_sect, pos, (g_dedicated_server) ? u32(-1) : m_af->ai_location().level_vertex_id(), 0xffff, true);
+    CSE_Abstract*           object    = Level().spawn_item(zone_sect, pos, (g_dedicated_server) ? u32(-1) : m_af->ai_location().level_vertex_id(), 0xffff, true);
     CSE_ALifeAnomalousZone* AlifeZone = smart_cast<CSE_ALifeAnomalousZone*>(object);
     VERIFY(AlifeZone);
     CShapeData::shape_def _shape;
@@ -224,18 +223,18 @@ void SArtefactActivation::SStateDef::Load(LPCSTR section, LPCSTR name)
 
     string128 tmp;
 
-    m_time = (float)atof(_GetItem(str, 0, tmp));
+    m_time          = (float)atof(_GetItem(str, 0, tmp));
 
-    m_snd = clear_brackets(_GetItem(str, 1, tmp));
+    m_snd           = clear_brackets(_GetItem(str, 1, tmp));
 
     m_light_color.r = (float)atof(_GetItem(str, 2, tmp));
     m_light_color.g = (float)atof(_GetItem(str, 3, tmp));
     m_light_color.b = (float)atof(_GetItem(str, 4, tmp));
 
-    m_light_range = (float)atof(_GetItem(str, 5, tmp));
+    m_light_range   = (float)atof(_GetItem(str, 5, tmp));
 
-    m_particle  = clear_brackets(_GetItem(str, 6, tmp));
-    m_animation = clear_brackets(_GetItem(str, 7, tmp));
+    m_particle      = clear_brackets(_GetItem(str, 6, tmp));
+    m_animation     = clear_brackets(_GetItem(str, 7, tmp));
 }
 
 bool SArtefactActivation::IsInProgress()

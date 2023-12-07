@@ -34,20 +34,15 @@ static const float r_spin1_factor    = 0.3f;
 static const float r_shoulder_factor = 0.2f;
 static const float r_head_factor     = 0.2f;
 
-CBlend* PlayMotionByParts(
-    IKinematicsAnimated* sa,
-    MotionID             motion_ID,
-    BOOL                 bMixIn,
-    PlayCallback         Callback,
-    LPVOID               CallbackParam);
+CBlend*            PlayMotionByParts(IKinematicsAnimated* sa, MotionID motion_ID, BOOL bMixIn, PlayCallback Callback, LPVOID CallbackParam);
 
-void CActor::Spin0Callback(CBoneInstance* B)
+void               CActor::Spin0Callback(CBoneInstance* B)
 {
     CActor* A = static_cast<CActor*>(B->callback_param());
     VERIFY(A);
 
     Fmatrix spin;
-    float   bone_yaw = angle_normalize_signed(A->r_torso.yaw - A->r_model_yaw - A->r_model_yaw_delta) * y_spin0_factor;
+    float   bone_yaw   = angle_normalize_signed(A->r_torso.yaw - A->r_model_yaw - A->r_model_yaw_delta) * y_spin0_factor;
     float   bone_pitch = angle_normalize_signed(A->r_torso.pitch) * p_spin0_factor;
     float   bone_roll  = angle_normalize_signed(A->r_torso.roll) * r_spin0_factor;
     Fvector c          = B->mTransform.c;
@@ -61,7 +56,7 @@ void CActor::Spin1Callback(CBoneInstance* B)
     VERIFY(A);
 
     Fmatrix spin;
-    float   bone_yaw = angle_normalize_signed(A->r_torso.yaw - A->r_model_yaw - A->r_model_yaw_delta) * y_spin1_factor;
+    float   bone_yaw   = angle_normalize_signed(A->r_torso.yaw - A->r_model_yaw - A->r_model_yaw_delta) * y_spin1_factor;
     float   bone_pitch = angle_normalize_signed(A->r_torso.pitch) * p_spin1_factor;
     float   bone_roll  = angle_normalize_signed(A->r_torso.roll) * r_spin1_factor;
     Fvector c          = B->mTransform.c;
@@ -74,10 +69,10 @@ void CActor::ShoulderCallback(CBoneInstance* B)
     CActor* A = static_cast<CActor*>(B->callback_param());
     VERIFY(A);
     Fmatrix spin;
-    float bone_yaw = angle_normalize_signed(A->r_torso.yaw - A->r_model_yaw - A->r_model_yaw_delta) * y_shoulder_factor;
-    float bone_pitch = angle_normalize_signed(A->r_torso.pitch) * p_shoulder_factor;
-    float bone_roll  = angle_normalize_signed(A->r_torso.roll) * r_shoulder_factor;
-    Fvector c        = B->mTransform.c;
+    float   bone_yaw   = angle_normalize_signed(A->r_torso.yaw - A->r_model_yaw - A->r_model_yaw_delta) * y_shoulder_factor;
+    float   bone_pitch = angle_normalize_signed(A->r_torso.pitch) * p_shoulder_factor;
+    float   bone_roll  = angle_normalize_signed(A->r_torso.roll) * r_shoulder_factor;
+    Fvector c          = B->mTransform.c;
     spin.setXYZ(-bone_pitch, bone_yaw, bone_roll);
     B->mTransform.mulA_43(spin);
     B->mTransform.c = c;
@@ -219,9 +214,9 @@ void SActorState::Create(IKinematicsAnimated* K, LPCSTR base)
 void SActorSprintState::Create(IKinematicsAnimated* K)
 {
     // leg anims
-    legs_fwd = K->ID_Cycle("norm_escape_00");
-    legs_ls  = K->ID_Cycle("norm_escape_ls_00");
-    legs_rs  = K->ID_Cycle("norm_escape_rs_00");
+    legs_fwd      = K->ID_Cycle("norm_escape_00");
+    legs_ls       = K->ID_Cycle("norm_escape_ls_00");
+    legs_rs       = K->ID_Cycle("norm_escape_rs_00");
 
     legs_jump_fwd = K->ID_Cycle("norm_escape_jump_00");
     legs_jump_ls  = K->ID_Cycle("norm_escape_ls_jump_00");
@@ -297,8 +292,7 @@ void CActor::g_SetSprintAnimation(u32 mstate_rl, MotionID& head, MotionID& torso
 {
     SActorSprintState& sprint = m_anims->m_sprint;
 
-    bool jump = (mstate_rl & mcFall) || (mstate_rl & mcLanding) || (mstate_rl & mcLanding) ||
-        (mstate_rl & mcLanding2) || (mstate_rl & mcJump);
+    bool               jump   = (mstate_rl & mcFall) || (mstate_rl & mcLanding) || (mstate_rl & mcLanding) || (mstate_rl & mcLanding2) || (mstate_rl & mcJump);
 
     if (mstate_rl & mcFwd)
         legs = (!jump) ? sprint.legs_fwd : sprint.legs_jump_fwd;
@@ -376,7 +370,7 @@ void CActor::g_SetAnimation(u32 mstate_rl)
     MotionID M_head;
 
     // если мы просто стоим на месте
-    bool is_standing = false;
+    bool     is_standing = false;
 
     // Legs
     if (mstate_rl & mcLanding)
@@ -661,8 +655,7 @@ void CActor::g_SetAnimation(u32 mstate_rl)
     if (m_current_torso != M_torso)
     {
         if (m_bAnimTorsoPlayed)
-            m_current_torso_blend =
-                smart_cast<IKinematicsAnimated*>(Visual())->PlayCycle(M_torso, TRUE, AnimTorsoPlayCallBack, this);
+            m_current_torso_blend = smart_cast<IKinematicsAnimated*>(Visual())->PlayCycle(M_torso, TRUE, AnimTorsoPlayCallBack, this);
         else
             m_current_torso_blend = smart_cast<IKinematicsAnimated*>(Visual())->PlayCycle(M_torso);
 
@@ -682,8 +675,7 @@ void CActor::g_SetAnimation(u32 mstate_rl)
         float pos = 0.f;
         VERIFY(!m_current_legs_blend || !fis_zero(m_current_legs_blend->timeTotal));
         if ((mstate_real & mcAnyMove) && (mstate_old & mcAnyMove) && m_current_legs_blend)
-            pos = fmod(m_current_legs_blend->timeCurrent, m_current_legs_blend->timeTotal) /
-                m_current_legs_blend->timeTotal;
+            pos = fmod(m_current_legs_blend->timeCurrent, m_current_legs_blend->timeTotal) / m_current_legs_blend->timeTotal;
 
         IKinematicsAnimated* ka = smart_cast<IKinematicsAnimated*>(Visual());
         m_current_legs_blend    = PlayMotionByParts(ka, M_legs, TRUE, legs_play_callback, this);
@@ -772,7 +764,7 @@ void CActor::g_SetAnimation(u32 mstate_rl)
 
     IKinematicsAnimated* skeleton_animated = smart_cast<IKinematicsAnimated*>(Visual());
 
-    CMotionDef* motion0 = skeleton_animated->LL_GetMotionDef(m_current_torso);
+    CMotionDef*          motion0           = skeleton_animated->LL_GetMotionDef(m_current_torso);
     VERIFY(motion0);
     if (!(motion0->flags & esmSyncPart))
         return;
@@ -785,6 +777,5 @@ void CActor::g_SetAnimation(u32 mstate_rl)
     if (!(motion1->flags & esmSyncPart))
         return;
 
-    m_current_torso_blend->timeCurrent =
-        m_current_legs_blend->timeCurrent / m_current_legs_blend->timeTotal * m_current_torso_blend->timeTotal;
+    m_current_torso_blend->timeCurrent = m_current_legs_blend->timeCurrent / m_current_legs_blend->timeTotal * m_current_torso_blend->timeTotal;
 }

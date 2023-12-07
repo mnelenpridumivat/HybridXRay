@@ -11,7 +11,7 @@
 class CSpaceRestrictionBridge;
 class CSpaceRestrictor;
 
-template <typename _1, typename _2> class intrusive_ptr;
+template<typename _1, typename _2> class intrusive_ptr;
 
 namespace RestrictionSpace
 {
@@ -51,12 +51,10 @@ public:
     IC CSpaceRestrictionHolder();
     virtual ~CSpaceRestrictionHolder();
     SpaceRestrictionHolder::CBaseRestrictionPtr restriction(shared_str space_restrictors);
-    void                                        register_restrictor(
-                                               CSpaceRestrictor*                         space_restrictor,
-                                               const RestrictionSpace::ERestrictorTypes& restrictor_type);
-    void          unregister_restrictor(CSpaceRestrictor* space_restrictor);
-    IC shared_str default_out_restrictions() const;
-    IC shared_str default_in_restrictions() const;
+    void                                        register_restrictor(CSpaceRestrictor* space_restrictor, const RestrictionSpace::ERestrictorTypes& restrictor_type);
+    void                                        unregister_restrictor(CSpaceRestrictor* space_restrictor);
+    IC shared_str                               default_out_restrictions() const;
+    IC shared_str                               default_in_restrictions() const;
 };
 
 #include "space_restriction_holder_inline.h"

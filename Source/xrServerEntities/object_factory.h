@@ -27,6 +27,7 @@ public:
     typedef ObjectFactory::CLIENT_SCRIPT_BASE_CLASS CLIENT_SCRIPT_BASE_CLASS;
 #endif
     typedef ObjectFactory::SERVER_SCRIPT_BASE_CLASS SERVER_SCRIPT_BASE_CLASS;
+
 protected:
     struct CObjectItemPredicate
     {
@@ -49,13 +50,16 @@ protected:
         IC         CObjectItemPredicateScript(const shared_str& script_clsid_name);
         IC bool    operator()(const CObjectItemAbstract* item) const;
     };
+
 public:
     typedef xr_vector<CObjectItemAbstract*>     OBJECT_ITEM_STORAGE;
     typedef OBJECT_ITEM_STORAGE::iterator       iterator;
     typedef OBJECT_ITEM_STORAGE::const_iterator const_iterator;
+
 protected:
     mutable OBJECT_ITEM_STORAGE m_clsids;
     mutable bool                m_actual;
+
 protected:
     void                                     register_classes();
     IC void                                  add(CObjectItemAbstract* item);
@@ -69,6 +73,7 @@ protected:
 #else
     IC const CObjectItemAbstract* item(const CLASS_ID& clsid, bool no_assert) const;
 #endif
+
 public:
     CObjectFactory();
     virtual ~CObjectFactory();
@@ -77,7 +82,7 @@ public:
     IC CLIENT_BASE_CLASS* client_object(const CLASS_ID& clsid) const;
     IC SERVER_BASE_CLASS* server_object(const CLASS_ID& clsid, LPCSTR section) const;
 #else
-    IC SERVER_BASE_CLASS*         server_object(const CLASS_ID& clsid, LPCSTR section) const;
+    IC SERVER_BASE_CLASS* server_object(const CLASS_ID& clsid, LPCSTR section) const;
 #endif
 
     IC int script_clsid(const CLASS_ID& clsid) const;

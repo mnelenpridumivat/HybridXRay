@@ -67,44 +67,30 @@ namespace award_system
 
     void game_state_accumulator::OnWeapon_Fire(u16 sender, u16 sender_weapon_id)
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnWeapon_Fire(sender, sender_weapon_id);
         }
     }
-    void game_state_accumulator::OnBullet_Fire(
-        u16            sender,
-        u16            sender_weapon_id,
-        const Fvector& position,
-        const Fvector& direction)
+    void game_state_accumulator::OnBullet_Fire(u16 sender, u16 sender_weapon_id, const Fvector& position, const Fvector& direction)
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnBullet_Fire(sender, sender_weapon_id, position, direction);
         }
     }
 
-    void game_state_accumulator::OnBullet_Hit(
-        CObject const* hitter,
-        CObject const* victim,
-        CObject const* weapon,
-        u16 const      bone)
+    void game_state_accumulator::OnBullet_Hit(CObject const* hitter, CObject const* victim, CObject const* weapon, u16 const bone)
     {
         if (!hitter || !victim || !weapon)
             return;
 
         float bullet_fly_dist = 0.0f;
 
-        bullet_fly_dist = hitter->Position().distance_to(victim->Position());
+        bullet_fly_dist       = hitter->Position().distance_to(victim->Position());
 
         m_hits.add_hit(hitter->cName(), victim->cName(), get_object_id(weapon), bone, bullet_fly_dist);
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnBullet_Hit(hitter, victim, weapon, bone);
         }
@@ -112,9 +98,7 @@ namespace award_system
 
     void game_state_accumulator::OnArtefactSpawned()
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnArtefactSpawned();
         }
@@ -122,9 +106,7 @@ namespace award_system
 
     void game_state_accumulator::OnPlayerTakeArtefact(game_PlayerState const* ps)
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnPlayerTakeArtefact(ps);
         }
@@ -132,9 +114,7 @@ namespace award_system
 
     void game_state_accumulator::OnPlayerDropArtefact(game_PlayerState const* ps)
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnPlayerDropArtefact(ps);
         }
@@ -142,9 +122,7 @@ namespace award_system
 
     void game_state_accumulator::OnPlayerBringArtefact(game_PlayerState const* ps)
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnPlayerBringArtefact(ps);
         }
@@ -156,19 +134,13 @@ namespace award_system
         {
             m_last_player_spawn_time = Device->dwTimeGlobal;
         }
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnPlayerSpawned(ps);
         }
     }
 
-    void game_state_accumulator::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void game_state_accumulator::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         if (!is_enemies(killer_id, target_id))
             return;
@@ -177,13 +149,10 @@ namespace award_system
         CObject* victim_obj = Level().Objects.net_Find(target_id);
         if (killer_obj && victim_obj)
         {
-            m_kills.add_kill(
-                killer_obj->cName(), victim_obj->cName(), get_object_id(weapon_id), kill_type.first, kill_type.second);
+            m_kills.add_kill(killer_obj->cName(), victim_obj->cName(), get_object_id(weapon_id), kill_type.first, kill_type.second);
         }
 
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnPlayerKilled(killer_id, target_id, weapon_id, kill_type);
         }
@@ -191,18 +160,14 @@ namespace award_system
 
     void game_state_accumulator::OnPlayerChangeTeam(s8 team)
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnPlayerChangeTeam(team);
         }
     }
     void game_state_accumulator::OnPlayerRankChanged()
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnPlayerRankChanged();
         }
@@ -210,18 +175,14 @@ namespace award_system
 
     void game_state_accumulator::OnRoundEnd()
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnRoundEnd();
         }
     }
     void game_state_accumulator::OnRoundStart()
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->OnRoundStart();
         }
@@ -256,9 +217,7 @@ namespace award_system
         m_hits.clear();
         m_last_player_spawn_time = 0;
 
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->reset_game();
         }
@@ -268,8 +227,7 @@ namespace award_system
     {
         for (int i = 0; i < acpv_count; ++i)
         {
-            accumulative_values_collection_t::iterator tmp_iter =
-                m_accumulative_values.find(static_cast<enum_accumulative_player_values>(i));
+            accumulative_values_collection_t::iterator tmp_iter = m_accumulative_values.find(static_cast<enum_accumulative_player_values>(i));
             R_ASSERT(tmp_iter != m_accumulative_values.end());
             tmp_iter->second->init_player(new_local_player);
         }
@@ -277,20 +235,13 @@ namespace award_system
 
     void game_state_accumulator::update_accumulative_values()
     {
-        for (accumulative_values_collection_t::iterator i  = m_accumulative_values.begin(),
-                                                        ie = m_accumulative_values.end();
-             i != ie; ++i)
+        for (accumulative_values_collection_t::iterator i = m_accumulative_values.begin(), ie = m_accumulative_values.end(); i != ie; ++i)
         {
             i->second->update();
         }
     }
 
-    bool game_state_accumulator::check_hit_params(
-        u32                             count,
-        ammunition_group::enum_group_id weapon_group_id,
-        bone_group::enum_group_id       bone_group_id,
-        float_binary_function*          func,
-        float                           right_dist_arg)
+    bool game_state_accumulator::check_hit_params(u32 count, ammunition_group::enum_group_id weapon_group_id, bone_group::enum_group_id bone_group_id, float_binary_function* func, float right_dist_arg)
     {
         struct hit_fetcher
         {
@@ -338,12 +289,7 @@ namespace award_system
         return false;
     }
 
-    bool game_state_accumulator::check_kill_params(
-        u32                             count,
-        ammunition_group::enum_group_id weapon_group_id,
-        KILL_TYPE                       kill_type,
-        SPECIAL_KILL_TYPE               special_kill_type,
-        u32                             time_period)
+    bool game_state_accumulator::check_kill_params(u32 count, ammunition_group::enum_group_id weapon_group_id, KILL_TYPE kill_type, SPECIAL_KILL_TYPE special_kill_type, u32 time_period)
     {
         struct kills_fetcher
         {
@@ -401,32 +347,21 @@ namespace award_system
         return false;
     }
 
-    bool game_state_accumulator::check_accumulative_value(
-        enum_accumulative_player_values param_id,
-        float_binary_function*          func,
-        float                           right_arg)
+    bool game_state_accumulator::check_accumulative_value(enum_accumulative_player_values param_id, float_binary_function* func, float right_arg)
     {
         accumulative_values_collection_t::iterator tmp_iter = m_accumulative_values.find(param_id);
-        VERIFY2(
-            tmp_iter != m_accumulative_values.end(),
-            make_string("accumulative parameter %d not found", param_id).c_str());
+        VERIFY2(tmp_iter != m_accumulative_values.end(), make_string("accumulative parameter %d not found", param_id).c_str());
 
         return func->exec(tmp_iter->second->get_float_param(), right_arg);
     }
 
-    bool game_state_accumulator::check_accumulative_value(
-        enum_accumulative_player_values param_id,
-        u32_binary_function*            func,
-        u32                             right_arg)
+    bool game_state_accumulator::check_accumulative_value(enum_accumulative_player_values param_id, u32_binary_function* func, u32 right_arg)
     {
         accumulative_values_collection_t::iterator tmp_iter = m_accumulative_values.find(param_id);
-        VERIFY2(
-            tmp_iter != m_accumulative_values.end(),
-            make_string("accumulative parameter %d not found", param_id).c_str());
+        VERIFY2(tmp_iter != m_accumulative_values.end(), make_string("accumulative parameter %d not found", param_id).c_str());
         bool ret_value = func->exec(tmp_iter->second->get_u32_param(), right_arg);
 #ifdef DEBUG
-        Msg("* checking accumulative value: %s, result = %s", player_values_strtable[param_id],
-            ret_value ? "true" : "false");
+        Msg("* checking accumulative value: %s, result = %s", player_values_strtable[param_id], ret_value ? "true" : "false");
 #endif
         return ret_value;
     }
@@ -469,8 +404,7 @@ namespace award_system
             return 0;
 
         u16                   tmp_active_slot = tmp_actor->inventory().GetActiveSlot();
-        CInventoryItem const* tmp_inv_item =
-            tmp_active_slot != NO_ACTIVE_SLOT ? tmp_actor->inventory().ItemFromSlot(tmp_active_slot) : NULL;
+        CInventoryItem const* tmp_inv_item    = tmp_active_slot != NO_ACTIVE_SLOT ? tmp_actor->inventory().ItemFromSlot(tmp_active_slot) : NULL;
 
         if (!tmp_inv_item)
             return 0;
@@ -493,8 +427,7 @@ namespace award_system
             return NULL;
 
         u16             tmp_active_slot = tmp_actor->inventory().GetActiveSlot();
-        CInventoryItem* tmp_inv_item =
-            tmp_active_slot != NO_ACTIVE_SLOT ? tmp_actor->inventory().ItemFromSlot(tmp_active_slot) : NULL;
+        CInventoryItem* tmp_inv_item    = tmp_active_slot != NO_ACTIVE_SLOT ? tmp_actor->inventory().ItemFromSlot(tmp_active_slot) : NULL;
 
         if (!tmp_inv_item)
             return NULL;
@@ -518,8 +451,7 @@ namespace award_system
         return is_enemies(tmp_lp, tmp_rp);
     }
 
-    bool game_state_accumulator::is_enemies(game_PlayerState const* left_player, game_PlayerState const* right_player)
-        const
+    bool game_state_accumulator::is_enemies(game_PlayerState const* left_player, game_PlayerState const* right_player) const
     {
         if (!left_player || !right_player)
             return false;

@@ -33,9 +33,9 @@ namespace award_system
         void save_round_scores();
         u32  m_win_score;
 
-        s32 m_green_team_score;
-        s32 m_blue_team_score;
-        u8  m_player_team;
+        s32  m_green_team_score;
+        s32  m_blue_team_score;
+        u8   m_player_team;
     };   // class player_team_win_score
 
     ADD_ACCUMULATIVE_STATE(acpv_my_team_win_score, player_team_win_score);
@@ -81,7 +81,7 @@ namespace award_system
         virtual ~player_runtime_win_score(){};
         virtual u32 const get_u32_param();
 
-        virtual void OnPlayerBringArtefact(game_PlayerState const* ps);
+        virtual void      OnPlayerBringArtefact(game_PlayerState const* ps);
     };   // class player_runtime_win_score
 
     ADD_ACCUMULATIVE_STATE(acpv_my_team_win_score_now, player_runtime_win_score);

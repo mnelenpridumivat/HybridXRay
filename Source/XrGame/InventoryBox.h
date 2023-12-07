@@ -29,7 +29,7 @@ public:
     }
     virtual void UpdateCL();
 
-    IC void set_in_use(bool status)
+    IC void      set_in_use(bool status)
     {
         m_in_use = status;
     }

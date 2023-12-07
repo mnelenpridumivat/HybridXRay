@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -28,35 +28,36 @@
 #include "config.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-/* all user defined error functions have this type. error and debug functions
+    /* all user defined error functions have this type. error and debug functions
  * should not return.
  */
-typedef void dMessageFunction (int errnum, const char *msg, va_list ap);
+    typedef void      dMessageFunction(int errnum, const char* msg, va_list ap);
 
-/* set a new error, debug or warning handler. if fn is 0, the default handlers
+    /* set a new error, debug or warning handler. if fn is 0, the default handlers
  * are used.
  */
-void dSetErrorHandler (dMessageFunction *fn);
-void dSetDebugHandler (dMessageFunction *fn);
-void dSetMessageHandler (dMessageFunction *fn);
+    void              dSetErrorHandler(dMessageFunction* fn);
+    void              dSetDebugHandler(dMessageFunction* fn);
+    void              dSetMessageHandler(dMessageFunction* fn);
 
-/* return the current error, debug or warning handler. if the return value is
+    /* return the current error, debug or warning handler. if the return value is
  * 0, the default handlers are in place.
  */
-dMessageFunction *dGetErrorHandler();
-dMessageFunction *dGetDebugHandler();
-dMessageFunction *dGetMessageHandler();
+    dMessageFunction* dGetErrorHandler();
+    dMessageFunction* dGetDebugHandler();
+    dMessageFunction* dGetMessageHandler();
 
-/* generate a fatal error, debug trap or a message. */
-void  dError (int num, const char *msg, ...);
-void  dDebug (int num, const char *msg, ...);
-void  dMessage (int num, const char *msg, ...);
-//#define dError(a,b)
-//#define dDebug(a,b)
-//#define dMessage(a,b)
+    /* generate a fatal error, debug trap or a message. */
+    void              dError(int num, const char* msg, ...);
+    void              dDebug(int num, const char* msg, ...);
+    void              dMessage(int num, const char* msg, ...);
+    //#define dError(a,b)
+    //#define dDebug(a,b)
+    //#define dMessage(a,b)
 
 #ifdef __cplusplus
 }

@@ -16,9 +16,11 @@ template<u32 reserved_vertex_count> struct CVertexAllocatorFixed
         typedef _vertex                            CGraphVertex;
         typedef typename CGraphVertex::_index_type _index_type;
         typedef xr_vector<CGraphVertex>            VERTICES;
+
     protected:
         u32      m_vertex_count;
         VERTICES m_vertices;
+
     public:
         IC CDataStorage();
         virtual ~CDataStorage();

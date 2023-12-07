@@ -19,15 +19,15 @@ public:
     virtual void save(NET_Packet& output_packet);
     virtual void load(IReader& input_packet);
 
-    float TotalSize();
-    float TypeSize(ALife::EHitType hit_type);
-    float BloodSize();
+    float        TotalSize();
+    float        TypeSize(ALife::EHitType hit_type);
+    float        BloodSize();
 
-    void AddHit(float hit_power, ALife::EHitType hit_type);
+    void         AddHit(float hit_power, ALife::EHitType hit_type);
 
     // заживление раны
-    void Incarnation(float percent, float min_wound_size);
-    u16  GetBoneNum()
+    void         Incarnation(float percent, float min_wound_size);
+    u16          GetBoneNum()
     {
         return m_iBoneNum;
     }
@@ -68,15 +68,15 @@ public:
 
 protected:
     // косточка на которой появилась рана
-    u16 m_iBoneNum;
+    u16                      m_iBoneNum;
 
     // косточка, если на ране отыгрывается партикл
-    u16 m_iParticleBoneNum;
+    u16                      m_iParticleBoneNum;
     // имя этого партикла
-    shared_str m_sParticleName;
+    shared_str               m_sParticleName;
 
     // список составляющих раны
     HitImmunity::HitTypeSVec m_Wounds;
 
-    bool m_bToBeDestroy;
+    bool                     m_bToBeDestroy;
 };

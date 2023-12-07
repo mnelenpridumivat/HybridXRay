@@ -29,7 +29,7 @@ bool CBurer::can_scan = true;
 
 CBurer::CBurer()
 {
-    StateMan = xr_new<CStateManagerBurer>(this);
+    StateMan     = xr_new<CStateManagerBurer>(this);
 
     m_fast_gravi = xr_new<CBurerFastGravi>();
 
@@ -61,13 +61,9 @@ void CBurer::reload(LPCSTR section)
     inherited::reload(section);
 
     // add specific sounds
-    sound().add(
-        pSettings->r_string(section, "sound_gravi_attack"), DEFAULT_SAMPLE_COUNT, SOUND_TYPE_MONSTER_ATTACKING,
-        MonsterSound::eHighPriority + 2, u32(MonsterSound::eBaseChannel), eMonsterSoundGraviAttack, "head");
+    sound().add(pSettings->r_string(section, "sound_gravi_attack"), DEFAULT_SAMPLE_COUNT, SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eHighPriority + 2, u32(MonsterSound::eBaseChannel), eMonsterSoundGraviAttack, "head");
 
-    sound().add(
-        pSettings->r_string(section, "sound_tele_attack"), DEFAULT_SAMPLE_COUNT, SOUND_TYPE_MONSTER_ATTACKING,
-        MonsterSound::eHighPriority + 3, u32(MonsterSound::eBaseChannel), eMonsterSoundTeleAttack, "head");
+    sound().add(pSettings->r_string(section, "sound_tele_attack"), DEFAULT_SAMPLE_COUNT, SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eHighPriority + 3, u32(MonsterSound::eBaseChannel), eMonsterSoundTeleAttack, "head");
 }
 
 void CBurer::ActivateShield()
@@ -102,44 +98,44 @@ void CBurer::Load(LPCSTR section)
     ::Sound->create(sound_tele_hold, pSettings->r_string(section, "sound_tele_hold"), st_Effect, SOUND_TYPE_WORLD);
     ::Sound->create(sound_tele_throw, pSettings->r_string(section, "sound_tele_throw"), st_Effect, SOUND_TYPE_WORLD);
 
-    m_gravi.cooldown           = pSettings->r_u32(section, "Gravi_Cooldown");
-    m_gravi.min_dist           = pSettings->r_float(section, "Gravi_MinDist");
-    m_gravi.max_dist           = pSettings->r_float(section, "Gravi_MaxDist");
-    m_gravi.speed              = pSettings->r_float(section, "Gravi_Speed");
-    m_gravi.step               = pSettings->r_float(section, "Gravi_Step");
-    m_gravi.time_to_hold       = pSettings->r_u32(section, "Gravi_Time_To_Hold");
-    m_gravi.radius             = pSettings->r_float(section, "Gravi_Radius");
-    m_gravi.impulse_to_objects = pSettings->r_float(section, "Gravi_Impulse_To_Objects");
-    m_gravi.impulse_to_enemy   = pSettings->r_float(section, "Gravi_Impulse_To_Enemy");
-    m_gravi.hit_power          = pSettings->r_float(section, "Gravi_Hit_Power");
+    m_gravi.cooldown              = pSettings->r_u32(section, "Gravi_Cooldown");
+    m_gravi.min_dist              = pSettings->r_float(section, "Gravi_MinDist");
+    m_gravi.max_dist              = pSettings->r_float(section, "Gravi_MaxDist");
+    m_gravi.speed                 = pSettings->r_float(section, "Gravi_Speed");
+    m_gravi.step                  = pSettings->r_float(section, "Gravi_Step");
+    m_gravi.time_to_hold          = pSettings->r_u32(section, "Gravi_Time_To_Hold");
+    m_gravi.radius                = pSettings->r_float(section, "Gravi_Radius");
+    m_gravi.impulse_to_objects    = pSettings->r_float(section, "Gravi_Impulse_To_Objects");
+    m_gravi.impulse_to_enemy      = pSettings->r_float(section, "Gravi_Impulse_To_Enemy");
+    m_gravi.hit_power             = pSettings->r_float(section, "Gravi_Hit_Power");
 
-    m_weight_to_stamina_hit = READ_IF_EXISTS(pSettings, r_float, section, "weight_to_stamina_hit", 0.02f);
-    m_weapon_drop_stamina_k = READ_IF_EXISTS(pSettings, r_float, section, "weapon_drop_stamina_k", 3.f);
+    m_weight_to_stamina_hit       = READ_IF_EXISTS(pSettings, r_float, section, "weight_to_stamina_hit", 0.02f);
+    m_weapon_drop_stamina_k       = READ_IF_EXISTS(pSettings, r_float, section, "weapon_drop_stamina_k", 3.f);
 
-    m_runaway_distance = READ_IF_EXISTS(pSettings, r_float, section, "runaway_distance", 6.f);
-    m_normal_distance  = READ_IF_EXISTS(pSettings, r_float, section, "normal_distance", 12.f);
-    m_max_runaway_time = READ_IF_EXISTS(pSettings, r_u32, section, "max_runaway_time", 5000);
+    m_runaway_distance            = READ_IF_EXISTS(pSettings, r_float, section, "runaway_distance", 6.f);
+    m_normal_distance             = READ_IF_EXISTS(pSettings, r_float, section, "normal_distance", 12.f);
+    m_max_runaway_time            = READ_IF_EXISTS(pSettings, r_u32, section, "max_runaway_time", 5000);
 
-    m_weapon_drop_velocity = READ_IF_EXISTS(pSettings, r_float, section, "weapon_drop_velocity", 8);
+    m_weapon_drop_velocity        = READ_IF_EXISTS(pSettings, r_float, section, "weapon_drop_velocity", 8);
 
     m_shield_cooldown             = READ_IF_EXISTS(pSettings, r_u32, section, "shield_cooldown", 4000);
     m_shield_time                 = READ_IF_EXISTS(pSettings, r_u32, section, "shield_time", 3000);
     m_shield_keep_particle        = READ_IF_EXISTS(pSettings, r_string, section, "shield_keep_particle", 0);
     m_shield_keep_particle_period = READ_IF_EXISTS(pSettings, r_u32, section, "shield_keep_particle_period", 1000);
 
-    m_tele_max_handled_objects = pSettings->r_u32(section, "Tele_Max_Handled_Objects");
-    m_tele_max_time            = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Max_Time", 10000);
-    m_tele_time_to_hold        = pSettings->r_u32(section, "Tele_Time_To_Hold");
-    m_tele_object_min_mass     = pSettings->r_float(section, "Tele_Object_Min_Mass");
-    m_tele_object_max_mass     = pSettings->r_float(section, "Tele_Object_Max_Mass");
-    m_tele_find_radius         = pSettings->r_float(section, "Tele_Find_Radius");
-    m_tele_min_distance        = READ_IF_EXISTS(pSettings, r_float, section, "tele_min_distance", 8);
-    m_tele_max_distance        = READ_IF_EXISTS(pSettings, r_float, section, "tele_max_distance", 30);
-    m_tele_raise_speed         = READ_IF_EXISTS(pSettings, r_float, section, "tele_raise_speed", 5.f);
-    m_tele_fly_velocity        = READ_IF_EXISTS(pSettings, r_float, section, "tele_fly_velocity", 30.f);
-    m_tele_object_height       = READ_IF_EXISTS(pSettings, r_float, section, "tele_object_height", 2.f);
+    m_tele_max_handled_objects    = pSettings->r_u32(section, "Tele_Max_Handled_Objects");
+    m_tele_max_time               = READ_IF_EXISTS(pSettings, r_u32, section, "Tele_Max_Time", 10000);
+    m_tele_time_to_hold           = pSettings->r_u32(section, "Tele_Time_To_Hold");
+    m_tele_object_min_mass        = pSettings->r_float(section, "Tele_Object_Min_Mass");
+    m_tele_object_max_mass        = pSettings->r_float(section, "Tele_Object_Max_Mass");
+    m_tele_find_radius            = pSettings->r_float(section, "Tele_Find_Radius");
+    m_tele_min_distance           = READ_IF_EXISTS(pSettings, r_float, section, "tele_min_distance", 8);
+    m_tele_max_distance           = READ_IF_EXISTS(pSettings, r_float, section, "tele_max_distance", 30);
+    m_tele_raise_speed            = READ_IF_EXISTS(pSettings, r_float, section, "tele_raise_speed", 5.f);
+    m_tele_fly_velocity           = READ_IF_EXISTS(pSettings, r_float, section, "tele_fly_velocity", 30.f);
+    m_tele_object_height          = READ_IF_EXISTS(pSettings, r_float, section, "tele_object_height", 2.f);
 
-    particle_fire_shield = pSettings->r_string(section, "Particle_Shield");
+    particle_fire_shield          = pSettings->r_string(section, "Particle_Shield");
 
     SVelocityParam& velocity_none = move().get_velocity(MonsterMovement::eVelocityParameterIdle);
     SVelocityParam& velocity_turn = move().get_velocity(MonsterMovement::eVelocityParameterStand);
@@ -150,52 +146,40 @@ void CBurer::Load(LPCSTR section)
     // SVelocityParam &velocity_steal		= 	move().get_velocity(MonsterMovement::eVelocityParameterSteal);
     //		SVelocityParam &velocity_drag		= move().get_velocity(MonsterMovement::eVelocityParameterDrag);
 
-    anim().AddAnim(
-        eAnimStandIdle, "stand_idle_", -1, &velocity_none,
+    anim().AddAnim(eAnimStandIdle, "stand_idle_", -1, &velocity_none,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn,
+    anim().AddAnim(eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn,
+    anim().AddAnim(eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
     //	anim().AddAnim(eAnimStandDamaged,	"stand_idle_dmg_",		-1, &velocity_none,		PS_STAND); //, 	"fx_stand_f",
     //"fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk,
+    anim().AddAnim(eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
     // anim().AddAnim(eAnimWalkDamaged,	"stand_walk_fwd_dmg_",	-1, &velocity_walk_dmg,	PS_STAND); //, 	"fx_stand_f",
     // "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimRun, "stand_run_fwd_", -1, &velocity_run,
+    anim().AddAnim(eAnimRun, "stand_run_fwd_", -1, &velocity_run,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
     // anim().AddAnim(eAnimRunDamaged,		"stand_run_dmg_",		-1,	&velocity_run_dmg,	PS_STAND); //, 	"fx_stand_f",
     // "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimAttack, "stand_attack_", -1, &velocity_turn,
+    anim().AddAnim(eAnimAttack, "stand_attack_", -1, &velocity_turn,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimDie, "stand_die_", -1, &velocity_none,
+    anim().AddAnim(eAnimDie, "stand_die_", -1, &velocity_none,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimShieldStart, "stand_shield_", -1, &velocity_turn,
+    anim().AddAnim(eAnimShieldStart, "stand_shield_", -1, &velocity_turn,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimShieldContinue, "stand_shield_idle_", -1, &velocity_turn,
+    anim().AddAnim(eAnimShieldContinue, "stand_shield_idle_", -1, &velocity_turn,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimTeleFire, "stand_power_attack_", -1, &velocity_turn,
+    anim().AddAnim(eAnimTeleFire, "stand_power_attack_", -1, &velocity_turn,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimTelekinesis, "telekinesis_", -1, &velocity_turn,
+    anim().AddAnim(eAnimTelekinesis, "telekinesis_", -1, &velocity_turn,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimGraviFire, "stand_power_attack_", -1, &velocity_turn,
+    anim().AddAnim(eAnimGraviFire, "stand_power_attack_", -1, &velocity_turn,
         PS_STAND);   //, 	"fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
     anim().AddAnim(eAnimRunTurnLeft, "stand_run_fwd_turn_left_", -1, &velocity_run, PS_STAND);
@@ -268,10 +252,10 @@ void CBurer::StaminaHit()
         return;
     }
 
-    float const weight      = active_weapon->Weight();
-    float const stamina_hit = weight * m_weight_to_stamina_hit;
+    float const weight         = active_weapon->Weight();
+    float const stamina_hit    = weight * m_weight_to_stamina_hit;
 
-    bool const do_weapon_drop = Actor()->conditions().GetPower() < stamina_hit * m_weapon_drop_stamina_k;
+    bool const  do_weapon_drop = Actor()->conditions().GetPower() < stamina_hit * m_weapon_drop_stamina_k;
 
     Actor()->conditions().PowerHit(stamina_hit, false);
 
@@ -304,8 +288,7 @@ void CBurer::UpdateGraviObject()
         return;
     }
 
-    if (m_gravi_object.from_pos.distance_to(m_gravi_object.cur_pos) >
-        m_gravi_object.from_pos.distance_to(m_gravi_object.target_pos))
+    if (m_gravi_object.from_pos.distance_to(m_gravi_object.cur_pos) > m_gravi_object.from_pos.distance_to(m_gravi_object.target_pos))
     {
         m_gravi_object.deactivate();
         return;
@@ -330,7 +313,7 @@ void CBurer::UpdateGraviObject()
     dir.sub(enemy_center, new_pos);
     dir.normalize();
 
-    float trace_dist = float(m_gravi.step);
+    float              trace_dist = float(m_gravi.step);
 
     collide::rq_result l_rq;
     if (Level().ObjectSpace.RayPick(new_pos, dir, trace_dist, collide::rqtBoth, l_rq, NULL))
@@ -360,9 +343,7 @@ void CBurer::UpdateGraviObject()
                 impulse_dir.set(0.0f, 0.0f, 1.0f);
                 impulse_dir.normalize();
 
-                HitEntity(
-                    m_gravi_object.enemy, m_gravi.hit_power, m_gravi.impulse_to_enemy, impulse_dir,
-                    ALife::eHitTypeStrike, false);
+                HitEntity(m_gravi_object.enemy, m_gravi.hit_power, m_gravi.impulse_to_enemy, impulse_dir, ALife::eHitTypeStrike, false);
                 m_gravi_object.deactivate();
                 return;
             }
@@ -374,10 +355,10 @@ void CBurer::UpdateGraviObject()
 
     // ---------------------------------------------------------------------
     // draw particle
-    CParticlesObject* ps = CParticlesObject::Create(particle_gravi_wave, TRUE);
+    CParticlesObject* ps            = CParticlesObject::Create(particle_gravi_wave, TRUE);
 
     // вычислить позицию и направленность партикла
-    Fmatrix pos;
+    Fmatrix           pos;
     pos.identity();
     pos.k.set(dir);
     Fvector::generate_orthonormal_basis_normalized(pos.k, pos.j, pos.i);
@@ -510,8 +491,7 @@ CBaseMonster::SDebugInfo CBurer::show_debug_info()
 
     string128 text;
     DBG().text(this).add_item(text, info.x, info.y += info.delta_y, info.color);
-    DBG().text(this).add_item(
-        "---------------------------------------", info.x, info.y += info.delta_y, info.delimiter_color);
+    DBG().text(this).add_item("---------------------------------------", info.x, info.y += info.delta_y, info.delimiter_color);
 
     return CBaseMonster::SDebugInfo();
 }
@@ -538,7 +518,7 @@ void CBurer::face_enemy()
 
 extern CActor* g_actor;
 
-bool actor_is_reloading_weapon()
+bool           actor_is_reloading_weapon()
 {
     if (!g_actor)
     {

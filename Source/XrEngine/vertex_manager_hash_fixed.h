@@ -8,15 +8,15 @@
 
 #pragma once
 
-template <typename _path_id_type, typename _index_type, u32 hash_size, u32 fix_size> struct CVertexManagerHashFixed
+template<typename _path_id_type, typename _index_type, u32 hash_size, u32 fix_size> struct CVertexManagerHashFixed
 {
-    template <template <typename _T> class T1> struct VertexManager
+    template<template<typename _T> class T1> struct VertexManager
     {
-        template <typename T2> struct _vertex: public T1<T2>
+        template<typename T2> struct _vertex: public T1<T2>
         {
-            typedef _index_type _index_type;
-            _index_type         _index;
-            bool                _opened;
+            typedef _index_type   _index_type;
+            _index_type           _index;
+            bool                  _opened;
 
             IC const _index_type& index() const
             {
@@ -40,11 +40,7 @@ template <typename _path_id_type, typename _index_type, u32 hash_size, u32 fix_s
         };
     };
 
-    template <
-        template <typename _T> class _vertex                      = CEmptyClassTemplate,
-        template <typename _T1, typename _T2> class _index_vertex = CEmptyClassTemplate2,
-        typename _data_storage                                    = CBuilderAllocatorConstructor>
-    class CDataStorage: public _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex>
+    template<template<typename _T> class _vertex = CEmptyClassTemplate, template<typename _T1, typename _T2> class _index_vertex = CEmptyClassTemplate2, typename _data_storage = CBuilderAllocatorConstructor> class CDataStorage: public _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex>
     {
     public:
         typedef typename _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex> inherited;
@@ -52,8 +48,7 @@ template <typename _path_id_type, typename _index_type, u32 hash_size, u32 fix_s
         typedef typename CGraphVertex::_index_type                                             _index_type;
 
 #pragma pack(push, 1)
-        template <typename _path_id_type> struct SGraphIndexVertex:
-            public _index_vertex<CGraphVertex, SGraphIndexVertex<_path_id_type>>
+        template<typename _path_id_type> struct SGraphIndexVertex: public _index_vertex<CGraphVertex, SGraphIndexVertex<_path_id_type>>
         {
             CGraphVertex*      m_vertex;
             SGraphIndexVertex* m_next;

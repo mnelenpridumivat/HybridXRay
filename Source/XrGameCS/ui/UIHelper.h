@@ -1,11 +1,11 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: UIHelper.h
 //	Created 	: 17.01.2008
 //	Author		: Evgeniy Sokolov
 //	Description : UI Helper class
 ////////////////////////////////////////////////////////////////////////////
 
-#ifndef	UI_HELPER_H_INCLUDED
+#ifndef UI_HELPER_H_INCLUDED
 #define UI_HELPER_H_INCLUDED
 
 #include "UIWindow.h"
@@ -24,20 +24,20 @@ class CUIDragDropListEx;
 class UIHelper
 {
 public:
-	UIHelper		() {};
-	~UIHelper		() {};
+    UIHelper(){};
+    ~UIHelper(){};
 
-	static	CUIStatic*			CreateStatic		( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
-	static	CUIProgressBar*		CreateProgressBar	( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
-	static	CUIFrameLineWnd*	CreateFrameLine		( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
-	static	CUIFrameWindow*		CreateFrameWindow	( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
-	static	CUI3tButton*		Create3tButton		( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
-	static	CUI3tButtonEx*		Create3tButtonEx	( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
-	static	CUICheckButton*		CreateCheck			( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
+    static CUIStatic*         CreateStatic(CUIXml& xml, LPCSTR ui_path, CUIWindow* parent);
+    static CUIProgressBar*    CreateProgressBar(CUIXml& xml, LPCSTR ui_path, CUIWindow* parent);
+    static CUIFrameLineWnd*   CreateFrameLine(CUIXml& xml, LPCSTR ui_path, CUIWindow* parent);
+    static CUIFrameWindow*    CreateFrameWindow(CUIXml& xml, LPCSTR ui_path, CUIWindow* parent);
+    static CUI3tButton*       Create3tButton(CUIXml& xml, LPCSTR ui_path, CUIWindow* parent);
+    static CUI3tButtonEx*     Create3tButtonEx(CUIXml& xml, LPCSTR ui_path, CUIWindow* parent);
+    static CUICheckButton*    CreateCheck(CUIXml& xml, LPCSTR ui_path, CUIWindow* parent);
 
-	static	UIHint*				CreateHint			( CUIXml& xml, LPCSTR ui_path /*, CUIWindow* parent*/ );
-	static	CUIDragDropListEx*	CreateDragDropListEx( CUIXml& xml, LPCSTR ui_path, CUIWindow* parent );
+    static UIHint*            CreateHint(CUIXml& xml, LPCSTR ui_path /*, CUIWindow* parent*/);
+    static CUIDragDropListEx* CreateDragDropListEx(CUIXml& xml, LPCSTR ui_path, CUIWindow* parent);
 
-}; // class UIHelper
+};   // class UIHelper
 
-#endif // UI_HELPER_H_INCLUDED
+#endif   // UI_HELPER_H_INCLUDED

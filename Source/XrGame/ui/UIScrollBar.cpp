@@ -16,7 +16,7 @@ CUIScrollBar::CUIScrollBar()
     m_b_enabled   = true;
     m_mouse_state = 0;
 
-    m_DecButton = xr_new<CUI3tButton>();
+    m_DecButton   = xr_new<CUI3tButton>();
     m_DecButton->SetAutoDelete(true);
     AttachChild(m_DecButton);
     m_IncButton = xr_new<CUI3tButton>();
@@ -163,9 +163,7 @@ void CUIScrollBar::UpdateScrollBar()
             if (m_bIsHorizontal)
             {
                 // set width
-                clamp(
-                    box_sz, _min(GetHeight(), GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth()),
-                    GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth());
+                clamp(box_sz, _min(GetHeight(), GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth()), GetWidth() - m_IncButton->GetWidth() - m_DecButton->GetWidth());
                 m_ScrollBox->SetWidth(box_sz);
                 m_ScrollBox->SetHeight(GetHeight());
                 // set pos
@@ -176,9 +174,7 @@ void CUIScrollBar::UpdateScrollBar()
             else
             {
                 // set height
-                clamp(
-                    box_sz, _min(GetWidth(), GetHeight() - m_IncButton->GetHeight() - m_DecButton->GetHeight()),
-                    GetHeight() - m_IncButton->GetHeight() - m_DecButton->GetHeight());
+                clamp(box_sz, _min(GetWidth(), GetHeight() - m_IncButton->GetHeight() - m_DecButton->GetHeight()), GetHeight() - m_IncButton->GetHeight() - m_DecButton->GetHeight());
                 m_ScrollBox->SetHeight(box_sz);
                 m_ScrollBox->SetWidth(GetWidth());
                 // set pos
@@ -201,7 +197,7 @@ void CUIScrollBar::UpdateScrollBar()
 }
 
 #include "../uicursor.h"
-u32 last_hold_time = 0;
+u32  last_hold_time = 0;
 
 bool CUIScrollBar::OnKeyboardHold(int dik)
 {
@@ -309,8 +305,7 @@ void CUIScrollBar::ClampByViewRect()
         if (m_ScrollBox->GetWndRect().left <= m_DecButton->GetWidth())
             m_ScrollBox->SetWndPos(Fvector2().set(m_DecButton->GetWidth(), m_ScrollBox->GetWndRect().top));
         else if (m_ScrollBox->GetWndRect().right >= m_IncButton->GetWndPos().x)
-            m_ScrollBox->SetWndPos(Fvector2().set(
-                m_IncButton->GetWndRect().left - m_ScrollBox->GetWidth(), m_ScrollBox->GetWndRect().top));
+            m_ScrollBox->SetWndPos(Fvector2().set(m_IncButton->GetWndRect().left - m_ScrollBox->GetWidth(), m_ScrollBox->GetWndRect().top));
     }
     else
     {
@@ -319,8 +314,7 @@ void CUIScrollBar::ClampByViewRect()
             m_ScrollBox->SetWndPos(Fvector2().set(m_ScrollBox->GetWndRect().left, m_DecButton->GetHeight()));
         // limit vertical position (BOTTOM) by position of button
         else if (m_ScrollBox->GetWndRect().bottom >= m_IncButton->GetWndPos().y)
-            m_ScrollBox->SetWndPos(
-                Fvector2().set(m_ScrollBox->GetWndRect().left, m_IncButton->GetWndPos().y - m_ScrollBox->GetHeight()));
+            m_ScrollBox->SetWndPos(Fvector2().set(m_ScrollBox->GetWndRect().left, m_IncButton->GetWndPos().y - m_ScrollBox->GetHeight()));
     }
 }
 

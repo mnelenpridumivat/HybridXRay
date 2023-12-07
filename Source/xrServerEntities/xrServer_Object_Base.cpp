@@ -362,7 +362,7 @@ void CSE_Abstract::load(NET_Packet& tNetPacket)
     {
 #ifdef DEBUG
         // Msg("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ? s_name_replace : "");
-#endif  // DEBUG
+#endif   // DEBUG
         client_data.resize(client_data_size);
         tNetPacket.r(&*client_data.begin(), client_data_size);
     }
@@ -416,18 +416,10 @@ Flags16& CSE_Abstract::flags()
     return (s_flags);
 }
 
-xr_token game_types[] =
-{
-    {"any_game", eGameIDNoGame},
-    {"single", eGameIDSingle},
-    {"deathmatch", eGameIDDeathmatch},
-    {"team_deathmatch", eGameIDTeamDeathmatch},
-    {"artefacthunt", eGameIDArtefactHunt},
-    {"capture_the_artefact", eGameIDCaptureTheArtefact},
+xr_token game_types[] = {{"any_game", eGameIDNoGame}, {"single", eGameIDSingle}, {"deathmatch", eGameIDDeathmatch}, {"team_deathmatch", eGameIDTeamDeathmatch}, {"artefacthunt", eGameIDArtefactHunt}, {"capture_the_artefact", eGameIDCaptureTheArtefact},
     // eGameIDDominationZone
     // eGameIDTeamDominationZone
-    {0, 0}
-};
+    {0, 0}};
 
 #ifndef XRGAME_EXPORTS
 void CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)

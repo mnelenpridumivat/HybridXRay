@@ -74,8 +74,8 @@ float weighted_random::generate()
     }
     else if (b_weight != -1)
     {
-        float random1 = (rand() % RAND_MAX) / (RAND_MAX - 1.f);
-        float random2 = (rand() % RAND_MAX) / (RAND_MAX - 1.f);
+        float random1      = (rand() % RAND_MAX) / (RAND_MAX - 1.f);
+        float random2      = (rand() % RAND_MAX) / (RAND_MAX - 1.f);
 
         float delta_weight = _abs(a_weight - b_weight);
 
@@ -89,7 +89,7 @@ float weighted_random::generate()
             float random_val    = a_val + (b_val - a_val) * random2;
             float k             = delta_weight / (b_val - a_val);
 
-            float weight_at = a_weight + (random_val - a_val) * k;
+            float weight_at     = a_weight + (random_val - a_val) * k;
 
             if (random_weight < weight_at)
             {
@@ -106,7 +106,7 @@ float weighted_random::generate()
             float random_val    = a_val + (b_val - a_val) * random2;
             float k             = delta_weight / (a_val - b_val);
 
-            float weight_at = a_weight + (random_val - a_val) * k;
+            float weight_at     = a_weight + (random_val - a_val) * k;
 
             if (random_weight < weight_at)
             {

@@ -16,7 +16,7 @@
 class Quat;
 
 #define MATRIX3X3_EPSILON (1.0e-7f)
-#define ROW *(*this)
+#define ROW               *(*this)
 
 class ICEMATHS_API Matrix3x3
 {
@@ -372,7 +372,7 @@ public:
     Matrix3x3& FromTo(const Point& from, const Point& to);
 
     //! Set a rotation matrix around the X axis.
-    void RotX(float angle)
+    void       RotX(float angle)
     {
         float Cos = _cos(angle), Sin = _sin(angle);
         Identity();
@@ -403,7 +403,7 @@ public:
     Matrix3x3& Rot(float angle, const Point& axis);
 
     //! Transpose the matrix.
-    void Transpose()
+    void       Transpose()
     {
         IR(m[1][0]) ^= IR(m[0][1]);
         IR(m[0][1]) ^= IR(m[1][0]);
@@ -433,8 +433,7 @@ public:
     //! Compute the determinant of the matrix. We use the rule of Sarrus.
     float Determinant() const
     {
-        return (m[0][0] * m[1][1] * m[2][2] + m[0][1] * m[1][2] * m[2][0] + m[0][2] * m[1][0] * m[2][1]) -
-            (m[2][0] * m[1][1] * m[0][2] + m[2][1] * m[1][2] * m[0][0] + m[2][2] * m[1][0] * m[0][1]);
+        return (m[0][0] * m[1][1] * m[2][2] + m[0][1] * m[1][2] * m[2][0] + m[0][2] * m[1][0] * m[2][1]) - (m[2][0] * m[1][1] * m[0][2] + m[2][1] * m[1][2] * m[0][0] + m[2][2] * m[1][0] * m[0][1]);
     }
     /*
             //! Compute a cofactor. Used for matrix inversion.
@@ -451,19 +450,19 @@ public:
         float     Det = Determinant();   // Must be !=0
         Matrix3x3 Temp;
 
-        float OneOverDet = 1.0f / Det;
+        float     OneOverDet = 1.0f / Det;
 
-        Temp.m[0][0] = +(m[1][1] * m[2][2] - m[2][1] * m[1][2]) * OneOverDet;
-        Temp.m[1][0] = -(m[1][0] * m[2][2] - m[2][0] * m[1][2]) * OneOverDet;
-        Temp.m[2][0] = +(m[1][0] * m[2][1] - m[2][0] * m[1][1]) * OneOverDet;
-        Temp.m[0][1] = -(m[0][1] * m[2][2] - m[2][1] * m[0][2]) * OneOverDet;
-        Temp.m[1][1] = +(m[0][0] * m[2][2] - m[2][0] * m[0][2]) * OneOverDet;
-        Temp.m[2][1] = -(m[0][0] * m[2][1] - m[2][0] * m[0][1]) * OneOverDet;
-        Temp.m[0][2] = +(m[0][1] * m[1][2] - m[1][1] * m[0][2]) * OneOverDet;
-        Temp.m[1][2] = -(m[0][0] * m[1][2] - m[1][0] * m[0][2]) * OneOverDet;
-        Temp.m[2][2] = +(m[0][0] * m[1][1] - m[1][0] * m[0][1]) * OneOverDet;
+        Temp.m[0][0]         = +(m[1][1] * m[2][2] - m[2][1] * m[1][2]) * OneOverDet;
+        Temp.m[1][0]         = -(m[1][0] * m[2][2] - m[2][0] * m[1][2]) * OneOverDet;
+        Temp.m[2][0]         = +(m[1][0] * m[2][1] - m[2][0] * m[1][1]) * OneOverDet;
+        Temp.m[0][1]         = -(m[0][1] * m[2][2] - m[2][1] * m[0][2]) * OneOverDet;
+        Temp.m[1][1]         = +(m[0][0] * m[2][2] - m[2][0] * m[0][2]) * OneOverDet;
+        Temp.m[2][1]         = -(m[0][0] * m[2][1] - m[2][0] * m[0][1]) * OneOverDet;
+        Temp.m[0][2]         = +(m[0][1] * m[1][2] - m[1][1] * m[0][2]) * OneOverDet;
+        Temp.m[1][2]         = -(m[0][0] * m[1][2] - m[1][0] * m[0][2]) * OneOverDet;
+        Temp.m[2][2]         = +(m[0][0] * m[1][1] - m[1][0] * m[0][1]) * OneOverDet;
 
-        *this = Temp;
+        *this                = Temp;
 
         return *this;
     }
@@ -506,43 +505,30 @@ public:
         return *this;
     }
 
-    void FromQuat(const Quat& q);
-    void FromQuatL2(const Quat& q, float l2);
+    void              FromQuat(const Quat& q);
+    void              FromQuatL2(const Quat& q, float l2);
 
     // Arithmetic operators
     //! Operator for Matrix3x3 Plus = Matrix3x3 + Matrix3x3;
     inline_ Matrix3x3 operator+(const Matrix3x3& mat) const
     {
-        return Matrix3x3(
-            m[0][0] + mat.m[0][0], m[0][1] + mat.m[0][1], m[0][2] + mat.m[0][2], m[1][0] + mat.m[1][0],
-            m[1][1] + mat.m[1][1], m[1][2] + mat.m[1][2], m[2][0] + mat.m[2][0], m[2][1] + mat.m[2][1],
-            m[2][2] + mat.m[2][2]);
+        return Matrix3x3(m[0][0] + mat.m[0][0], m[0][1] + mat.m[0][1], m[0][2] + mat.m[0][2], m[1][0] + mat.m[1][0], m[1][1] + mat.m[1][1], m[1][2] + mat.m[1][2], m[2][0] + mat.m[2][0], m[2][1] + mat.m[2][1], m[2][2] + mat.m[2][2]);
     }
 
     //! Operator for Matrix3x3 Minus = Matrix3x3 - Matrix3x3;
     inline_ Matrix3x3 operator-(const Matrix3x3& mat) const
     {
-        return Matrix3x3(
-            m[0][0] - mat.m[0][0], m[0][1] - mat.m[0][1], m[0][2] - mat.m[0][2], m[1][0] - mat.m[1][0],
-            m[1][1] - mat.m[1][1], m[1][2] - mat.m[1][2], m[2][0] - mat.m[2][0], m[2][1] - mat.m[2][1],
-            m[2][2] - mat.m[2][2]);
+        return Matrix3x3(m[0][0] - mat.m[0][0], m[0][1] - mat.m[0][1], m[0][2] - mat.m[0][2], m[1][0] - mat.m[1][0], m[1][1] - mat.m[1][1], m[1][2] - mat.m[1][2], m[2][0] - mat.m[2][0], m[2][1] - mat.m[2][1], m[2][2] - mat.m[2][2]);
     }
 
     //! Operator for Matrix3x3 Mul = Matrix3x3 * Matrix3x3;
     inline_ Matrix3x3 operator*(const Matrix3x3& mat) const
     {
-        return Matrix3x3(
-            m[0][0] * mat.m[0][0] + m[0][1] * mat.m[1][0] + m[0][2] * mat.m[2][0],
-            m[0][0] * mat.m[0][1] + m[0][1] * mat.m[1][1] + m[0][2] * mat.m[2][1],
-            m[0][0] * mat.m[0][2] + m[0][1] * mat.m[1][2] + m[0][2] * mat.m[2][2],
+        return Matrix3x3(m[0][0] * mat.m[0][0] + m[0][1] * mat.m[1][0] + m[0][2] * mat.m[2][0], m[0][0] * mat.m[0][1] + m[0][1] * mat.m[1][1] + m[0][2] * mat.m[2][1], m[0][0] * mat.m[0][2] + m[0][1] * mat.m[1][2] + m[0][2] * mat.m[2][2],
 
-            m[1][0] * mat.m[0][0] + m[1][1] * mat.m[1][0] + m[1][2] * mat.m[2][0],
-            m[1][0] * mat.m[0][1] + m[1][1] * mat.m[1][1] + m[1][2] * mat.m[2][1],
-            m[1][0] * mat.m[0][2] + m[1][1] * mat.m[1][2] + m[1][2] * mat.m[2][2],
+            m[1][0] * mat.m[0][0] + m[1][1] * mat.m[1][0] + m[1][2] * mat.m[2][0], m[1][0] * mat.m[0][1] + m[1][1] * mat.m[1][1] + m[1][2] * mat.m[2][1], m[1][0] * mat.m[0][2] + m[1][1] * mat.m[1][2] + m[1][2] * mat.m[2][2],
 
-            m[2][0] * mat.m[0][0] + m[2][1] * mat.m[1][0] + m[2][2] * mat.m[2][0],
-            m[2][0] * mat.m[0][1] + m[2][1] * mat.m[1][1] + m[2][2] * mat.m[2][1],
-            m[2][0] * mat.m[0][2] + m[2][1] * mat.m[1][2] + m[2][2] * mat.m[2][2]);
+            m[2][0] * mat.m[0][0] + m[2][1] * mat.m[1][0] + m[2][2] * mat.m[2][0], m[2][0] * mat.m[0][1] + m[2][1] * mat.m[1][1] + m[2][2] * mat.m[2][1], m[2][0] * mat.m[0][2] + m[2][1] * mat.m[1][2] + m[2][2] * mat.m[2][2]);
     }
 
     //! Operator for Point Mul = Matrix3x3 * Point;
@@ -554,17 +540,13 @@ public:
     //! Operator for Matrix3x3 Mul = Matrix3x3 * float;
     inline_ Matrix3x3 operator*(float s) const
     {
-        return Matrix3x3(
-            m[0][0] * s, m[0][1] * s, m[0][2] * s, m[1][0] * s, m[1][1] * s, m[1][2] * s, m[2][0] * s, m[2][1] * s,
-            m[2][2] * s);
+        return Matrix3x3(m[0][0] * s, m[0][1] * s, m[0][2] * s, m[1][0] * s, m[1][1] * s, m[1][2] * s, m[2][0] * s, m[2][1] * s, m[2][2] * s);
     }
 
     //! Operator for Matrix3x3 Mul = float * Matrix3x3;
     inline_ friend Matrix3x3 operator*(float s, const Matrix3x3& mat)
     {
-        return Matrix3x3(
-            s * mat.m[0][0], s * mat.m[0][1], s * mat.m[0][2], s * mat.m[1][0], s * mat.m[1][1], s * mat.m[1][2],
-            s * mat.m[2][0], s * mat.m[2][1], s * mat.m[2][2]);
+        return Matrix3x3(s * mat.m[0][0], s * mat.m[0][1], s * mat.m[0][2], s * mat.m[1][0], s * mat.m[1][1], s * mat.m[1][2], s * mat.m[2][0], s * mat.m[2][1], s * mat.m[2][2]);
     }
 
     //! Operator for Matrix3x3 Div = Matrix3x3 / float;
@@ -572,17 +554,13 @@ public:
     {
         if (s)
             s = 1.0f / s;
-        return Matrix3x3(
-            m[0][0] * s, m[0][1] * s, m[0][2] * s, m[1][0] * s, m[1][1] * s, m[1][2] * s, m[2][0] * s, m[2][1] * s,
-            m[2][2] * s);
+        return Matrix3x3(m[0][0] * s, m[0][1] * s, m[0][2] * s, m[1][0] * s, m[1][1] * s, m[1][2] * s, m[2][0] * s, m[2][1] * s, m[2][2] * s);
     }
 
     //! Operator for Matrix3x3 Div = float / Matrix3x3;
     inline_ friend Matrix3x3 operator/(float s, const Matrix3x3& mat)
     {
-        return Matrix3x3(
-            s / mat.m[0][0], s / mat.m[0][1], s / mat.m[0][2], s / mat.m[1][0], s / mat.m[1][1], s / mat.m[1][2],
-            s / mat.m[2][0], s / mat.m[2][1], s / mat.m[2][2]);
+        return Matrix3x3(s / mat.m[0][0], s / mat.m[0][1], s / mat.m[0][2], s / mat.m[1][0], s / mat.m[1][1], s / mat.m[1][2], s / mat.m[2][0], s / mat.m[2][1], s / mat.m[2][2]);
     }
 
     //! Operator for Matrix3x3 += Matrix3x3

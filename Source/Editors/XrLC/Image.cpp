@@ -171,7 +171,7 @@ void CImage::LoadT(char *name)
 #define RGBA_GETALPHA(rgb) u32((rgb) >> 24)
 #define RGBA_GETRED(rgb)   u32(((rgb) >> 16) & 0xff)
 #define RGBA_GETGREEN(rgb) u32(((rgb) >> 8) & 0xff)
-#define RGBA_GETBLUE(rgb)  u32((rgb)&0xff)
+#define RGBA_GETBLUE(rgb)  u32((rgb) & 0xff)
 #endif
 
 #pragma pack(push, 1)   // Gotta pack these structures!

@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -25,58 +25,51 @@
 
 #pragma warning(disable:4996)
 
-static dMessageFunction *error_function = 0;
-static dMessageFunction *debug_function = 0;
-static dMessageFunction *message_function = 0;
+static dMessageFunction* error_function   = 0;
+static dMessageFunction* debug_function   = 0;
+static dMessageFunction* message_function = 0;
 
-
-extern "C" void dSetErrorHandler (dMessageFunction *fn)
+extern "C" void          dSetErrorHandler(dMessageFunction* fn)
 {
-  error_function = fn;
+    error_function = fn;
 }
 
-
-extern "C" void dSetDebugHandler (dMessageFunction *fn)
+extern "C" void dSetDebugHandler(dMessageFunction* fn)
 {
-  debug_function = fn;
+    debug_function = fn;
 }
 
-
-extern "C" void dSetMessageHandler (dMessageFunction *fn)
+extern "C" void dSetMessageHandler(dMessageFunction* fn)
 {
-  message_function = fn;
+    message_function = fn;
 }
 
-
-extern "C" dMessageFunction *dGetErrorHandler()
+extern "C" dMessageFunction* dGetErrorHandler()
 {
-  return error_function;
+    return error_function;
 }
 
-
-extern "C" dMessageFunction *dGetDebugHandler()
+extern "C" dMessageFunction* dGetDebugHandler()
 {
-  return debug_function;
+    return debug_function;
 }
 
-
-extern "C" dMessageFunction *dGetMessageHandler()
+extern "C" dMessageFunction* dGetMessageHandler()
 {
-  return message_function;
+    return message_function;
 }
 
-
-
-static void printMessage (int num, const char *msg1, const char *msg2,
-			  va_list ap)
+static void printMessage(int num, const char* msg1, const char* msg2, va_list ap)
 {
-  fflush (stderr);
-  fflush (stdout);
-  if (num) fprintf (stderr,"\n%s %d: ",msg1,num);
-  else fprintf (stderr,"\n%s: ",msg1);
-  vfprintf (stderr,msg2,ap);
-  fprintf (stderr,"\n");
-  fflush (stderr);
+    fflush(stderr);
+    fflush(stdout);
+    if (num)
+        fprintf(stderr, "\n%s %d: ", msg1, num);
+    else
+        fprintf(stderr, "\n%s: ", msg1);
+    vfprintf(stderr, msg2, ap);
+    fprintf(stderr, "\n");
+    fflush(stderr);
 }
 
 //****************************************************************************
@@ -84,33 +77,37 @@ static void printMessage (int num, const char *msg1, const char *msg2,
 
 #ifndef WINDOWS
 
-extern "C" void dError (int num, const char *msg, ...)
+extern "C" void dError(int num, const char* msg, ...)
 {
-  va_list ap;
-  va_start (ap,msg);
-  if (error_function) error_function (num,msg,ap);
-  else printMessage (num,"ODE Error",msg,ap);
-  exit (1);
+    va_list ap;
+    va_start(ap, msg);
+    if (error_function)
+        error_function(num, msg, ap);
+    else
+        printMessage(num, "ODE Error", msg, ap);
+    exit(1);
 }
 
-
-extern "C" void dDebug (int num, const char *msg, ...)
+extern "C" void dDebug(int num, const char* msg, ...)
 {
-  va_list ap;
-  va_start (ap,msg);
-  if (debug_function) debug_function (num,msg,ap);
-  else printMessage (num,"ODE INTERNAL ERROR",msg,ap);
-  // *((char *)0) = 0;   ... commit SEGVicide
-  abort();
+    va_list ap;
+    va_start(ap, msg);
+    if (debug_function)
+        debug_function(num, msg, ap);
+    else
+        printMessage(num, "ODE INTERNAL ERROR", msg, ap);
+    // *((char *)0) = 0;   ... commit SEGVicide
+    abort();
 }
 
-
-extern "C" void dMessage (int num, const char *msg, ...)
+extern "C" void dMessage(int num, const char* msg, ...)
 {
-  va_list ap;
-  va_start (ap,msg);
-  if (message_function) message_function (num,msg,ap);
-  else printMessage (num,"ODE Message",msg,ap);
+    va_list ap;
+    va_start(ap, msg);
+    if (message_function)
+        message_function(num, msg, ap);
+    else
+        printMessage(num, "ODE Message", msg, ap);
 }
 
 #endif
@@ -123,45 +120,49 @@ extern "C" void dMessage (int num, const char *msg, ...)
 #include "windows.h"
 
 //#ifdef _DEBUG_
-void  dError (int num, const char *msg, ...)
+void dError(int num, const char* msg, ...)
 {
-  va_list ap;
-  va_start (ap,msg);
-  if (error_function) error_function (num,msg,ap);
-  else {
-    char s[1000],title[100];
-    _snprintf (title,sizeof(title),"ODE Error %d",num);
-    _vsnprintf (s,sizeof(s),msg,ap);
-    s[sizeof(s)-1] = 0;
-    MessageBox(0,s,title,MB_OK | MB_ICONWARNING);
-  }
-  exit (1);
+    va_list ap;
+    va_start(ap, msg);
+    if (error_function)
+        error_function(num, msg, ap);
+    else
+    {
+        char s[1000], title[100];
+        _snprintf(title, sizeof(title), "ODE Error %d", num);
+        _vsnprintf(s, sizeof(s), msg, ap);
+        s[sizeof(s) - 1] = 0;
+        MessageBox(0, s, title, MB_OK | MB_ICONWARNING);
+    }
+    exit(1);
 }
 
-
-void  dDebug (int num, const char *msg, ...)
+void dDebug(int num, const char* msg, ...)
 {
-  va_list ap;
-  va_start (ap,msg);
-  if (debug_function) debug_function (num,msg,ap);
-  else {
-    char s[1000],title[100];
-    _snprintf	(title,sizeof(title),"ODE INTERNAL ERROR %d",num);
-    _vsnprintf	(s,sizeof(s),msg,ap);
-    s[sizeof(s)-1] = 0;
-    MessageBox(0,s,title,MB_OK | MB_ICONSTOP);
-  }
-  abort();
+    va_list ap;
+    va_start(ap, msg);
+    if (debug_function)
+        debug_function(num, msg, ap);
+    else
+    {
+        char s[1000], title[100];
+        _snprintf(title, sizeof(title), "ODE INTERNAL ERROR %d", num);
+        _vsnprintf(s, sizeof(s), msg, ap);
+        s[sizeof(s) - 1] = 0;
+        MessageBox(0, s, title, MB_OK | MB_ICONSTOP);
+    }
+    abort();
 }
 
-void  dMessage (int num, const char *msg, ...)
+void dMessage(int num, const char* msg, ...)
 {
-  va_list ap;
-  va_start (ap,msg);
-  if (message_function) message_function (num,msg,ap);
-  else printMessage (num,"ODE Message",msg,ap);
+    va_list ap;
+    va_start(ap, msg);
+    if (message_function)
+        message_function(num, msg, ap);
+    else
+        printMessage(num, "ODE Message", msg, ap);
 }
 //#endif
-
 
 #endif

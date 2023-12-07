@@ -9,9 +9,9 @@ class CParticlesObject: public CPS_Instance
 {
     typedef CPS_Instance inherited;
 
-    u32  dwLastTime;
-    void Init(LPCSTR p_name, IRender_Sector* S, BOOL bAutoRemove);
-    void UpdateSpatial();
+    u32                  dwLastTime;
+    void                 Init(LPCSTR p_name, IRender_Sector* S, BOOL bAutoRemove);
+    void                 UpdateSpatial();
 
 protected:
     bool m_bLooped;     // флаг, что система зациклена
@@ -36,13 +36,13 @@ public:
     void          PerformAllTheWork(u32 dt);
     void          PerformAllTheWork_mt();
 
-    Fvector&    Position();
-    void        SetXFORM(const Fmatrix& m);
-    IC Fmatrix& XFORM()
+    Fvector&      Position();
+    void          SetXFORM(const Fmatrix& m);
+    IC Fmatrix&   XFORM()
     {
         return renderable.xform;
     }
-    void UpdateParent(const Fmatrix& m, const Fvector& vel);
+    void         UpdateParent(const Fmatrix& m, const Fvector& vel);
 
     void         play_at_pos(const Fvector& pos, BOOL xform = FALSE);
     virtual void Play(bool bHudMode);
@@ -56,9 +56,9 @@ public:
     {
         return m_bLooped;
     }
-    bool IsAutoRemove();
-    bool IsPlaying();
-    void SetAutoRemove(bool auto_remove);
+    bool             IsAutoRemove();
+    bool             IsPlaying();
+    void             SetAutoRemove(bool auto_remove);
 
     const shared_str Name();
 

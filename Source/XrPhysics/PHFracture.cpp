@@ -9,11 +9,11 @@
 #include "ph_valid_ode.h"
 #include "../xrEngine/bone.h"
 
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4267)
+#pragma warning(disable:4995)
+#pragma warning(disable:4267)
 #include "ode/src/joint.h"
-#pragma warning(default : 4995)
-#pragma warning(default : 4267)
+#pragma warning(default:4995)
+#pragma warning(default:4267)
 extern class CPHWorld* ph_world;
 static const float     torque_factor = 10000000.f;
 CPHFracturesHolder::CPHFracturesHolder()
@@ -56,7 +56,7 @@ element_fracture CPHFracturesHolder::SplitFromEnd(CPHElement* element, u16 fract
     const CBoneInstance& new_bi      = pKinematics->LL_GetBoneInstance(new_element->m_SelfID);
     const CBoneInstance& old_bi      = pKinematics->LL_GetBoneInstance(element->m_SelfID);
 
-    Fmatrix shift_pivot;
+    Fmatrix              shift_pivot;
     shift_pivot.set(new_bi.mTransform);
     shift_pivot.invert();
     shift_pivot.mulB_43(old_bi.mTransform);
@@ -297,12 +297,12 @@ CPHFracture::CPHFracture()
 bool CPHFracture::Update(CPHElement* element)
 {
     ////itterate through impacts & calculate
-    dBodyID body = element->get_body();
+    dBodyID             body    = element->get_body();
     // const Fvector& v_bodyvel=*((Fvector*)dBodyGetLinearVel(body));
     CPHFracturesHolder* holder  = element->FracturesHolder();
     PH_IMPACT_STORAGE&  impacts = holder->Impacts();
 
-    Fvector second_part_force, first_part_force, second_part_torque, first_part_torque;
+    Fvector             second_part_force, first_part_force, second_part_torque, first_part_torque;
     second_part_force.set(0.f, 0.f, 0.f);
     first_part_force.set(0.f, 0.f, 0.f);
     second_part_torque.set(0.f, 0.f, 0.f);
@@ -345,16 +345,14 @@ bool CPHFracture::Update(CPHElement* element)
             {
                 u16 el_position = UserData->element_position;
                 // define if the contact applied to second part;
-                if (el_position < element->numberOfGeoms() && el_position >= m_start_geom_num &&
-                    el_position < m_end_geom_num && first_geom == element->Geom(el_position)->geometry())
+                if (el_position < element->numberOfGeoms() && el_position >= m_start_geom_num && el_position < m_end_geom_num && first_geom == element->Geom(el_position)->geometry())
                     applied_to_second = true;
             }
             UserData = dGeomGetUserData(second_geom);
             if (UserData)
             {
                 u16 el_position = UserData->element_position;
-                if (el_position < element->numberOfGeoms() && el_position >= m_start_geom_num &&
-                    el_position < m_end_geom_num && second_geom == element->Geom(el_position)->geometry())
+                if (el_position < element->numberOfGeoms() && el_position >= m_start_geom_num && el_position < m_end_geom_num && second_geom == element->Geom(el_position)->geometry())
                     applied_to_second = true;
             }
         }
@@ -368,8 +366,7 @@ bool CPHFracture::Update(CPHElement* element)
             if (root_geom)
             {
                 u16 el_position = root_geom->element_position();
-                if (element == J->PFirst_element() && el_position < element->numberOfGeoms() &&
-                    el_position >= m_start_geom_num && el_position < m_end_geom_num)
+                if (element == J->PFirst_element() && el_position < element->numberOfGeoms() && el_position >= m_start_geom_num && el_position < m_end_geom_num)
                     applied_to_second = true;
             }
         }
@@ -538,8 +535,7 @@ bool CPHFracture::Update(CPHElement* element)
 #endif
     }
 #ifdef DBG_BREAK
-    Msg("bone_id %d break_torque - %f(max %f) break_force %f (max %f) breaked %d", m_bone_id, btm_dbg, m_break_torque,
-        bfm, m_break_force, m_breaked);
+    Msg("bone_id %d break_torque - %f(max %f) break_force %f (max %f) breaked %d", m_bone_id, btm_dbg, m_break_torque, bfm, m_break_force, m_breaked);
 #endif
     return m_breaked;
 }

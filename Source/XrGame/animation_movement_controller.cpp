@@ -14,15 +14,17 @@ BOOL dbg_draw_animation_movement_controller = FALSE;
 u16  dbg_frame_count                        = 0;
 #endif
 
-animation_movement_controller::animation_movement_controller(
-    Fmatrix*       _pObjXForm,
-    const Fmatrix& inital_pose,
-    IKinematics*   _pKinematicsC,
-    CBlend*        b):
+animation_movement_controller::animation_movement_controller(Fmatrix* _pObjXForm, const Fmatrix& inital_pose, IKinematics* _pKinematicsC, CBlend* b):
     m_startObjXForm(inital_pose),
-    m_pObjXForm(*_pObjXForm), m_pKinematicsC(_pKinematicsC),
-    m_pKinematicsA(smart_cast<IKinematicsAnimated*>(_pKinematicsC)), inital_position_blending(true), stopped(false),
-    blend_linear_speed(0), blend_angular_speed(0), m_control_blend(b), m_poses_blending(Fidentity, Fidentity, -1.f)
+    m_pObjXForm(*_pObjXForm),
+    m_pKinematicsC(_pKinematicsC),
+    m_pKinematicsA(smart_cast<IKinematicsAnimated*>(_pKinematicsC)),
+    inital_position_blending(true),
+    stopped(false),
+    blend_linear_speed(0),
+    blend_angular_speed(0),
+    m_control_blend(b),
+    m_poses_blending(Fidentity, Fidentity, -1.f)
 #ifdef DEBUG
     ,
     DBG_previous_position(*_pObjXForm)
@@ -107,7 +109,7 @@ void animation_movement_controller::deinitialize()
 
 void animation_movement_controller::GetInitalPositionBlenSpeed()
 {
-    float sv_blend_time = m_control_blend->timeCurrent;
+    float   sv_blend_time = m_control_blend->timeCurrent;
 
     // u16 root = m_pKinematicsC->LL_GetBoneRoot();
     Fmatrix m1;
@@ -389,7 +391,7 @@ const float percent_blending = 0.2f;
 void        animation_movement_controller::SetPosesBlending()
 {
     VERIFY(IsActive());
-    float blending_time = percent_blending * m_control_blend->timeTotal;
+    float blending_time          = percent_blending * m_control_blend->timeTotal;
 
     float sv_time                = m_control_blend->timeCurrent;
     m_control_blend->timeCurrent = blending_time;

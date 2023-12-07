@@ -1,6 +1,6 @@
 ﻿#ifndef BLOCK_ALLOCATOR_H
 #define BLOCK_ALLOCATOR_H
-template <class T, u32 block_size> class CBlockAllocator
+template<class T, u32 block_size> class CBlockAllocator
 {
     u32           block_count;
     u32           block_position;
@@ -66,8 +66,9 @@ private:
         block_position = 0;
     }
     ////////////////////////////////////////////////////////////////
+
 public:
-    template <typename _Predicate> IC void for_each(const _Predicate& pred)
+    template<typename _Predicate> IC void for_each(const _Predicate& pred)
     {
         if (!current_block)
             return;

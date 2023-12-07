@@ -74,14 +74,13 @@ struct GeneralCollapseInfo
     ArbitraryList<GeneralTriInfo> TriCollapsed;
 
     int                           iSlidingWindowLevel;   // Which sliding window level the binned tris will belong to.
-    ArbitraryList<GeneralTriInfo>
-            TriNextLevel;                                // On collapses that change levels, lists the tris that were on the next level.
+    ArbitraryList<GeneralTriInfo> TriNextLevel;          // On collapses that change levels, lists the tris that were on the next level.
 
-    MeshPt* pptBin;
-    MeshPt* pptKeep;
+    MeshPt*                       pptBin;
+    MeshPt*                       pptKeep;
 
-    float   fError;     // Error of this collapse.
-    int     iNumTris;   // Number of tris after this collapse has been made.
+    float                         fError;     // Error of this collapse.
+    int                           iNumTris;   // Number of tris after this collapse has been made.
 
     DlinkMethods(GeneralCollapseInfo, List);
 
@@ -125,6 +124,7 @@ struct Object
     int                  iCurSlidingWindowLevel;
 
     void                 compute_face_quadric(MeshTri* tri, MxQuadric& Q);
+
 public:
     Object();
 

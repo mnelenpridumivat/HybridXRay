@@ -3,7 +3,7 @@
 // #include "../../../PHCharacter.h"
 #include "../../../../xrphysics/IPHCapture.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION   template<typename _Object>
 
 #define CStateMonsterDragAbstract CStateMonsterDrag<_Object>
 
@@ -18,10 +18,9 @@ void CStateMonsterDragAbstract::initialize()
 {
     inherited::initialize();
 
-    object->character_physics_support()->movement()->PHCaptureObject(
-        const_cast<CEntityAlive*>(object->CorpseMan.get_corpse()));
+    object->character_physics_support()->movement()->PHCaptureObject(const_cast<CEntityAlive*>(object->CorpseMan.get_corpse()));
 
-    m_failed = false;
+    m_failed            = false;
 
     IPHCapture* capture = object->character_physics_support()->movement()->PHCapture();
     if (capture && !capture->Failed())

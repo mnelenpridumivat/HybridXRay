@@ -34,7 +34,7 @@
 #ifndef _MYVECH
 #define _MYVECH
 
-#define DTOR(x) ((x)*M_PI / 180.0)
+#define DTOR(x)    ((x) * M_PI / 180.0)
 #define DOT4(u, v) ((u)[0] * (v)[0] + (u)[1] * (v)[1] + (u)[2] * (v)[2] + (u)[3] * ((v)[3]))
 
 typedef float Matrix[4][4];
@@ -49,21 +49,21 @@ extern Matrix idmat;
 #define cpmatrix(u, v) CopyMemory(u, v, sizeof(Matrix))
 #define cpvector(u, v) CopyMemory(u, v, sizeof(float) * 3)
 
-void  hmatmult(Matrix A, Matrix B, Matrix C);
-void  inverthomomatrix(Matrix N, Matrix M);
-void  vecmult(float y[], float x[], Matrix M);
-void  vecmult0(float y[], float x[], Matrix M);
-void  qtomatrix(Matrix m, Quaternion q);
-void  matrixtoq(Quaternion q, Matrix m);
-void  axistoq(Quaternion q, float angle, float axis[]);
-void  qtoaxis(float* angle, float axis[], Quaternion q);
-void  vecinterp(float x[], float u[], float v[], float t);
-float unitize4(float u[4]);
-void  get_translation(const Matrix M, float p[3]);
-float get_translation(const Matrix M);
-void  set_translation(Matrix M, const float p[3]);
-void  get_translation(const Matrix M, float& x, float& y, float& z);
-void  set_translation(Matrix M, float x, float y, float z);
+void        hmatmult(Matrix A, Matrix B, Matrix C);
+void        inverthomomatrix(Matrix N, Matrix M);
+void        vecmult(float y[], float x[], Matrix M);
+void        vecmult0(float y[], float x[], Matrix M);
+void        qtomatrix(Matrix m, Quaternion q);
+void        matrixtoq(Quaternion q, Matrix m);
+void        axistoq(Quaternion q, float angle, float axis[]);
+void        qtoaxis(float* angle, float axis[], Quaternion q);
+void        vecinterp(float x[], float u[], float v[], float t);
+float       unitize4(float u[4]);
+void        get_translation(const Matrix M, float p[3]);
+float       get_translation(const Matrix M);
+void        set_translation(Matrix M, const float p[3]);
+void        get_translation(const Matrix M, float& x, float& y, float& z);
+void        set_translation(Matrix M, float x, float y, float z);
 
 inline void vecscalarmult(float u[], float v[], float f)
 {
@@ -84,7 +84,7 @@ inline float unitize(float u[])
 
     if (f != 0.0)
     {
-        m = (float)_sqrt(f);
+        m    = (float)_sqrt(f);
 
         u[0] = u[0] / m;
         u[1] = u[1] / m;
@@ -185,12 +185,12 @@ inline void get_row(Matrix M, int row,  float v[3])
 //
 // p = projection(u) onto v
 //
-void project(float p[3], const float u[3], const float v[3]);
+void  project(float p[3], const float u[3], const float v[3]);
 
 //
 // p = projection(u) onto plane whose normal is n
 //
-void project_plane(float p[3], float u[3], float n[3]);
+void  project_plane(float p[3], float u[3], float n[3]);
 
 //
 // Returns the angle between u and v in the direction of n
@@ -201,27 +201,27 @@ float angle_between_vectors(float u[3], float v[3], float n[3]);
 //
 // Generates a rotation matrix given an arbitrary axis and angle
 //
-void rotation_axis_to_matrix(float axis[3], float angle, Matrix R);
-void rotation_principal_axis_to_matrix(char axis, float angle, Matrix R);
-void rotation_principal_axis_to_deriv_matrix(char axis, float angle, Matrix m);
+void  rotation_axis_to_matrix(float axis[3], float angle, Matrix R);
+void  rotation_principal_axis_to_matrix(char axis, float angle, Matrix R);
+void  rotation_principal_axis_to_deriv_matrix(char axis, float angle, Matrix m);
 
 //
 // Finds the axis and angle of a rotation matrix
 //
-void rotation_matrix_to_axis(const Matrix R, float axis[], float& angle);
+void  rotation_matrix_to_axis(const Matrix R, float axis[], float& angle);
 
 //
 // Given a vector v find another vector n orthogonal to it
 //
-void find_normal_vector(float v[3], float n[3]);
+void  find_normal_vector(float v[3], float n[3]);
 
-void print_matrix(Matrix M);
-void print_vector(float v[3]);
+void  print_matrix(Matrix M);
+void  print_vector(float v[3]);
 
-void rmatmult(Matrix A, Matrix B, Matrix C);
-void invertrmatrix(Matrix N, Matrix M);
+void  rmatmult(Matrix A, Matrix B, Matrix C);
+void  invertrmatrix(Matrix N, Matrix M);
 
-void axisangletomatrix(Matrix m, float axis[], float theta);
+void  axisangletomatrix(Matrix m, float axis[], float theta);
 
 /***************
 inline float vecdist(const float t[], const float t2[])

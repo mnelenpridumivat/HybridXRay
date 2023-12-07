@@ -8,10 +8,10 @@ class ENGINE_API IInputReceiver;
 
 //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 //описание класса
-const int mouse_device_key    = 1;
-const int keyboard_device_key = 2;
-const int all_device_key      = mouse_device_key | keyboard_device_key;
-const int default_key         = mouse_device_key | keyboard_device_key;
+const int        mouse_device_key    = 1;
+const int        keyboard_device_key = 2;
+const int        all_device_key      = mouse_device_key | keyboard_device_key;
+const int        default_key         = mouse_device_key | keyboard_device_key;
 
 class ENGINE_API CInput
 #ifndef M_BORLAND
@@ -44,45 +44,40 @@ public:
 
 private:
     BENCH_SEC_SCRAMBLEMEMBER1
-    LPDIRECTINPUT8       pDI;         // The DInput object
-    LPDIRECTINPUTDEVICE8 pMouse;      // The DIDevice7 interface
-    LPDIRECTINPUTDEVICE8 pKeyboard;   // The DIDevice7 interface
+    LPDIRECTINPUT8             pDI;         // The DInput object
+    LPDIRECTINPUTDEVICE8       pMouse;      // The DIDevice7 interface
+    LPDIRECTINPUTDEVICE8       pKeyboard;   // The DIDevice7 interface
     //----------------------
-    u32  timeStamp[COUNT_MOUSE_AXIS];
-    u32  timeSave[COUNT_MOUSE_AXIS];
-    int  offs[COUNT_MOUSE_AXIS];
-    BOOL mouseState[COUNT_MOUSE_BUTTONS];
+    u32                        timeStamp[COUNT_MOUSE_AXIS];
+    u32                        timeSave[COUNT_MOUSE_AXIS];
+    int                        offs[COUNT_MOUSE_AXIS];
+    BOOL                       mouseState[COUNT_MOUSE_BUTTONS];
 
     //----------------------
-    BOOL KBState[COUNT_KB_BUTTONS];
+    BOOL                       KBState[COUNT_KB_BUTTONS];
 
-    HRESULT CreateInputDevice(
-        LPDIRECTINPUTDEVICE8* device,
-        GUID                  guidDevice,
-        const DIDATAFORMAT*   pdidDataFormat,
-        u32                   dwFlags,
-        u32                   buf_size);
+    HRESULT                    CreateInputDevice(LPDIRECTINPUTDEVICE8* device, GUID guidDevice, const DIDATAFORMAT* pdidDataFormat, u32 dwFlags, u32 buf_size);
 
     //	xr_stack<IInputReceiver*>	cbStack;
     xr_vector<IInputReceiver*> cbStack;
 
-    void MouseUpdate();
-    void KeyUpdate();
+    void                       MouseUpdate();
+    void                       KeyUpdate();
 
 public:
     sxr_mouse mouse_property;
     sxr_key   key_property;
     u32       dwCurTime;
 
-    void SetAllAcquire(BOOL bAcquire = TRUE);
-    void SetMouseAcquire(BOOL bAcquire);
-    void SetKBDAcquire(BOOL bAcquire);
+    void      SetAllAcquire(BOOL bAcquire = TRUE);
+    void      SetMouseAcquire(BOOL bAcquire);
+    void      SetKBDAcquire(BOOL bAcquire);
 
-    void iCapture(IInputReceiver* pc);
-    void iRelease(IInputReceiver* pc);
-    BOOL iGetAsyncKeyState(int dik);
-    BOOL iGetAsyncBtnState(int btn);
-    void iGetLastMouseDelta(Ivector2& p)
+    void      iCapture(IInputReceiver* pc);
+    void      iRelease(IInputReceiver* pc);
+    BOOL      iGetAsyncKeyState(int dik);
+    BOOL      iGetAsyncBtnState(int btn);
+    void      iGetLastMouseDelta(Ivector2& p)
     {
         p.set(offs[0], offs[1]);
     }
@@ -94,7 +89,7 @@ public:
     virtual void      OnAppActivate(void);
     virtual void      OnAppDeactivate(void);
 
-    IInputReceiver* CurrentIR();
+    IInputReceiver*   CurrentIR();
 
 public:
     void exclusive_mode(const bool& exclusive);

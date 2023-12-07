@@ -87,11 +87,9 @@ void CMonsterEnemyManager::update()
     enemy_see_me = is_faced(enemy, monster);
 
     // обновить опасность врага
-    danger_type = eNone;
+    danger_type  = eNone;
 
-    switch (dwfChooseAction(
-        0, monster->panic_threshold(), 0.f, 0.f, 0.f, monster->g_Team(), monster->g_Squad(), monster->g_Group(), 0, 1,
-        2, 3, 4, monster, 30.f))
+    switch (dwfChooseAction(0, monster->panic_threshold(), 0.f, 0.f, 0.f, monster->g_Team(), monster->g_Squad(), monster->g_Group(), 0, 1, 2, 3, 4, monster, 30.f))
     {
         case 4:
         case 3:
@@ -148,7 +146,7 @@ void CMonsterEnemyManager::update()
     prev_enemy          = enemy;
     prev_enemy_position = position;
 
-    expediency = true;
+    expediency          = true;
 
     if (enemy && see_enemy_now())
     {
@@ -171,7 +169,7 @@ void CMonsterEnemyManager::force_enemy(const CEntityAlive* enemy)
     vertex         = enemy->ai_location().level_vertex_id();
     time_last_seen = time();
 
-    forced = true;
+    forced         = true;
 
     update();
 }
@@ -203,15 +201,15 @@ void CMonsterEnemyManager::reinit()
     enemy          = 0;
     time_last_seen = 0;
     flags.zero();
-    forced      = false;
-    prev_enemy  = 0;
-    danger_type = eNone;
+    forced                       = false;
+    prev_enemy                   = 0;
+    danger_type                  = eNone;
 
     my_vertex_enemy_last_seen    = monster->ai_location().level_vertex_id();
     enemy_vertex_enemy_last_seen = u32(-1);
 
-    m_time_updated         = 0;
-    m_time_start_see_enemy = 0;
+    m_time_updated               = 0;
+    m_time_start_see_enemy       = 0;
 
     script_enemy();
 }
@@ -269,14 +267,13 @@ bool CMonsterEnemyManager::is_faced(const CEntityAlive* object0, const CEntityAl
     float   yaw1, pitch1, yaw2, pitch2, fYawFov, fPitchFov, fRange;
     Fvector tPosition = object0->Position();
 
-    yaw1    = object0->Orientation().yaw;
-    pitch1  = object0->Orientation().pitch;
-    fYawFov = angle_normalize_signed(object0->ffGetFov() * PI / 180.f);
-    fRange  = object0->ffGetRange();
+    yaw1              = object0->Orientation().yaw;
+    pitch1            = object0->Orientation().pitch;
+    fYawFov           = angle_normalize_signed(object0->ffGetFov() * PI / 180.f);
+    fRange            = object0->ffGetRange();
 
-    fYawFov =
-        angle_normalize_signed((_abs(fYawFov) + _abs(atanf(1.f / tPosition.distance_to(object1->Position())))) / 2.f);
-    fPitchFov = angle_normalize_signed(fYawFov * 1.f);
+    fYawFov           = angle_normalize_signed((_abs(fYawFov) + _abs(atanf(1.f / tPosition.distance_to(object1->Position())))) / 2.f);
+    fPitchFov         = angle_normalize_signed(fYawFov * 1.f);
     tPosition.sub(object1->Position());
     tPosition.mul(-1);
     tPosition.getHP(yaw2, pitch2);
@@ -305,9 +302,7 @@ void CMonsterEnemyManager::transfer_enemy(CBaseMonster* friend_monster)
     if (!friend_monster->EnemyMan.get_enemy())
         return;
 
-    monster->EnemyMemory.add_enemy(
-        friend_monster->EnemyMan.get_enemy(), friend_monster->EnemyMan.get_enemy_position(),
-        friend_monster->EnemyMan.get_enemy_vertex(), friend_monster->EnemyMan.get_enemy_time_last_seen());
+    monster->EnemyMemory.add_enemy(friend_monster->EnemyMan.get_enemy(), friend_monster->EnemyMan.get_enemy_position(), friend_monster->EnemyMan.get_enemy_vertex(), friend_monster->EnemyMan.get_enemy_time_last_seen());
 }
 
 u32 CMonsterEnemyManager::see_enemy_duration()

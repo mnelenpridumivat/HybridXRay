@@ -22,7 +22,8 @@ void CInventoryOwner::OnEvent(NET_Packet& P, u16 type)
 {
     switch (type)
     {
-        case GE_INFO_TRANSFER: {
+        case GE_INFO_TRANSFER:
+        {
             u16        id;
             shared_str info_id;
             u8         add_info;
@@ -84,9 +85,9 @@ void CInventoryOwner::OnDisableInfo(shared_str info_id) const
         Msg("[%s] Disabled Info [%s]", Name(), info_id.c_str());
 #endif
 
-    KNOWN_INFO_VECTOR& known_info = m_known_info_registry->registry().objects();
+    KNOWN_INFO_VECTOR&   known_info = m_known_info_registry->registry().objects();
 
-    KNOWN_INFO_VECTOR_IT it = std::find_if(known_info.begin(), known_info.end(), CFindByIDPred(info_id));
+    KNOWN_INFO_VECTOR_IT it         = std::find_if(known_info.begin(), known_info.end(), CFindByIDPred(info_id));
     if (known_info.end() == it)
         return;
     known_info.erase(it);

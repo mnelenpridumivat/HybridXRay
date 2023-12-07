@@ -11,19 +11,19 @@
 #include "CustomHUD.h"
 #include "CameraManager.h"
 
-extern BOOL    g_bDisableRedText;
-static Flags32 s_hud_flag  = {0};
-static Flags32 s_dev_flags = {0};
+extern BOOL                 g_bDisableRedText;
+static Flags32              s_hud_flag  = {0};
+static Flags32              s_dev_flags = {0};
 
-BOOL stored_weapon;
-BOOL stored_cross;
-BOOL stored_red_text;
+BOOL                        stored_weapon;
+BOOL                        stored_cross;
+BOOL                        stored_red_text;
 
 CDemoRecord*                xrDemoRecord            = 0;
 CDemoRecord::force_position CDemoRecord::g_position = {false, {0, 0, 0}};
 
-Fbox curr_lm_fbox;
-void setup_lm_screenshot_matrices()
+Fbox                        curr_lm_fbox;
+void                        setup_lm_screenshot_matrices()
 {
     psHUD_Flags.assign(0);
 
@@ -50,8 +50,8 @@ Fbox get_level_screenshot_bound()
         res.min.x      = res2d.x;
         res.min.z      = res2d.y;
 
-        res.max.x = res2d.z;
-        res.max.z = res2d.w;
+        res.max.x      = res2d.z;
+        res.max.z      = res2d.w;
     }
 
     return res;
@@ -59,9 +59,9 @@ Fbox get_level_screenshot_bound()
 void _InitializeFont(CGameFont*& F, LPCSTR section, u32 flags);
 CDemoRecord::CDemoRecord(const char* name, float life_time): CEffectorCam(cefDemo, life_time /*,FALSE*/)
 {
-    stored_red_text         = g_bDisableRedText;
-    g_bDisableRedText       = TRUE;
-    m_iLMScreenshotFragment = -1;
+    stored_red_text             = g_bDisableRedText;
+    g_bDisableRedText           = TRUE;
+    m_iLMScreenshotFragment     = -1;
     /*
         stored_weapon = psHUD_Flags.test(HUD_WEAPON);
         stored_cross = psHUD_Flags.test(HUD_CROSSHAIR);
@@ -104,14 +104,14 @@ CDemoRecord::CDemoRecord(const char* name, float life_time): CEffectorCam(cefDem
         m_bMakeScreenshot = FALSE;
         m_bMakeLevelMap   = FALSE;
 
-        m_fSpeed0    = pSettings->r_float("demo_record", "speed0");
-        m_fSpeed1    = pSettings->r_float("demo_record", "speed1");
-        m_fSpeed2    = pSettings->r_float("demo_record", "speed2");
-        m_fSpeed3    = pSettings->r_float("demo_record", "speed3");
-        m_fAngSpeed0 = pSettings->r_float("demo_record", "ang_speed0");
-        m_fAngSpeed1 = pSettings->r_float("demo_record", "ang_speed1");
-        m_fAngSpeed2 = pSettings->r_float("demo_record", "ang_speed2");
-        m_fAngSpeed3 = pSettings->r_float("demo_record", "ang_speed3");
+        m_fSpeed0         = pSettings->r_float("demo_record", "speed0");
+        m_fSpeed1         = pSettings->r_float("demo_record", "speed1");
+        m_fSpeed2         = pSettings->r_float("demo_record", "speed2");
+        m_fSpeed3         = pSettings->r_float("demo_record", "speed3");
+        m_fAngSpeed0      = pSettings->r_float("demo_record", "ang_speed0");
+        m_fAngSpeed1      = pSettings->r_float("demo_record", "ang_speed1");
+        m_fAngSpeed2      = pSettings->r_float("demo_record", "ang_speed2");
+        m_fAngSpeed3      = pSettings->r_float("demo_record", "ang_speed3");
     }
     else
     {
@@ -132,12 +132,10 @@ CDemoRecord::~CDemoRecord()
 }
 
 //								+X,				-X,				+Y,				-Y,			+Z,				-Z
-static Fvector cmNorm[6] = {{0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}, {0.f, 0.f, -1.f},
-                            {0.f, 0.f, 1.f}, {0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}};
-static Fvector cmDir[6]  = {{1.f, 0.f, 0.f},  {-1.f, 0.f, 0.f}, {0.f, 1.f, 0.f},
-                            {0.f, -1.f, 0.f}, {0.f, 0.f, 1.f},  {0.f, 0.f, -1.f}};
+static Fvector cmNorm[6] = {{0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}, {0.f, 0.f, -1.f}, {0.f, 0.f, 1.f}, {0.f, 1.f, 0.f}, {0.f, 1.f, 0.f}};
+static Fvector cmDir[6]  = {{1.f, 0.f, 0.f}, {-1.f, 0.f, 0.f}, {0.f, 1.f, 0.f}, {0.f, -1.f, 0.f}, {0.f, 0.f, 1.f}, {0.f, 0.f, -1.f}};
 
-void CDemoRecord::MakeScreenshotFace()
+void           CDemoRecord::MakeScreenshotFace()
 {
     switch (m_Stage)
     {
@@ -160,27 +158,32 @@ void GetLM_BBox(Fbox& bb, INT Step)
     float half_z = bb.min.z + (bb.max.z - bb.min.z) / 2;
     switch (Step)
     {
-        case 0: {
+        case 0:
+        {
             bb.max.x = half_x;
             bb.min.z = half_z;
         }
         break;
-        case 1: {
+        case 1:
+        {
             bb.min.x = half_x;
             bb.min.z = half_z;
         }
         break;
-        case 2: {
+        case 2:
+        {
             bb.max.x = half_x;
             bb.max.z = half_z;
         }
         break;
-        case 3: {
+        case 3:
+        {
             bb.min.x = half_x;
             bb.max.z = half_z;
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     }
@@ -190,7 +193,8 @@ void CDemoRecord::MakeLevelMapProcess()
 {
     switch (m_Stage)
     {
-        case 0: {
+        case 0:
+        {
             s_dev_flags = psDeviceFlags;
             s_hud_flag.assign(psHUD_Flags);
             psDeviceFlags.zero();
@@ -200,7 +204,8 @@ void CDemoRecord::MakeLevelMapProcess()
         }
         break;
 
-        case DEVICE_RESET_PRECACHE_FRAME_COUNT + 30: {
+        case DEVICE_RESET_PRECACHE_FRAME_COUNT + 30:
+        {
             setup_lm_screenshot_matrices();
 
             string_path tmp;
@@ -236,7 +241,8 @@ void CDemoRecord::MakeLevelMapProcess()
             }
         }
         break;
-        default: {
+        default:
+        {
             setup_lm_screenshot_matrices();
         }
         break;
@@ -505,7 +511,7 @@ void CDemoRecord::IR_OnMouseMove(int dx, int dy)
 
     Fvector vR_delta = Fvector().set(0, 0, 0);
 
-    float scale = .5f;   // psMouseSens;
+    float   scale    = .5f;   // psMouseSens;
     if (dx || dy)
     {
         vR_delta.y += float(dx) * scale;                                                      // heading

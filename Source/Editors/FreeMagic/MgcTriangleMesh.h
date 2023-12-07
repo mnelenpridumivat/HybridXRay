@@ -39,7 +39,7 @@ namespace Mgc
             bool operator==(const Edge& rkE) const;
             bool operator!=(const Edge& rkE) const;
 
-            int m_aiV[2];
+            int  m_aiV[2];
         };
 
         class Triangle
@@ -51,7 +51,7 @@ namespace Mgc
             bool operator==(const Triangle& rkT) const;
             bool operator!=(const Triangle& rkT) const;
 
-            int m_aiV[3];
+            int  m_aiV[3];
         };
 
         class VertexAttribute
@@ -106,13 +106,13 @@ namespace Mgc
         virtual ~TriangleMesh();
 
         // accessors for sizes
-        int GetVertexQuantity() const;
-        int GetEdgeQuantity() const;
-        int GetTriangleQuantity() const;
+        int                       GetVertexQuantity() const;
+        int                       GetEdgeQuantity() const;
+        int                       GetTriangleQuantity() const;
 
         // Used for operations that create new meshes from the current one.  This
         // allows derived class construction within the base class operations.
-        virtual TriangleMesh* Create() const;
+        virtual TriangleMesh*     Create() const;
 
         // Callbacks that are executed when vertices, edges, or triangles are
         // inserted or removed during triangle insertion, triangle removal, or
@@ -122,19 +122,19 @@ namespace Mgc
         // behavior for the destruction is to do nothing.  A derived class may
         // override the destruction and handle the data that was detached from
         // the specific mesh component before its destruction.
-        virtual void OnVertexInsert(int iV, bool bCreate, void*& rpvData);
-        virtual void OnVertexRemove(int iV, bool bDestroy, void* pvData);
-        virtual void OnEdgeInsert(const Edge& rkE, bool bCreate, void*& rpvData);
-        virtual void OnEdgeRemove(const Edge& rkE, bool bDestroy, void* pvData);
-        virtual void OnTriangleInsert(const Triangle& rkT, bool bCreate, void*& rpvData);
-        virtual void OnTriangleRemove(const Triangle& rkT, bool bDestroy, void* pvData);
+        virtual void              OnVertexInsert(int iV, bool bCreate, void*& rpvData);
+        virtual void              OnVertexRemove(int iV, bool bDestroy, void* pvData);
+        virtual void              OnEdgeInsert(const Edge& rkE, bool bCreate, void*& rpvData);
+        virtual void              OnEdgeRemove(const Edge& rkE, bool bDestroy, void* pvData);
+        virtual void              OnTriangleInsert(const Triangle& rkT, bool bCreate, void*& rpvData);
+        virtual void              OnTriangleRemove(const Triangle& rkT, bool bDestroy, void* pvData);
 
         // Insert and remove triangles.  The functions are virtual in case a
         // derived class wants to implement pre- and post-operation semantics.
-        virtual void InsertTriangle(int iV0, int iV1, int iV2);
-        virtual void InsertTriangle(const Triangle& rkT);
-        virtual void RemoveTriangle(int iV0, int iV1, int iV2);
-        virtual void RemoveTriangle(const Triangle& rkT);
+        virtual void              InsertTriangle(int iV0, int iV1, int iV2);
+        virtual void              InsertTriangle(const Triangle& rkT);
+        virtual void              RemoveTriangle(int iV0, int iV1, int iV2);
+        virtual void              RemoveTriangle(const Triangle& rkT);
 
         // This should be called before Mesh destruction if a derived class has
         // allocated vertex, edge, or triangle data and attached it to the mesh
@@ -144,10 +144,10 @@ namespace Mgc
         // alternative to calling this is that the derived class maintain enough
         // information to know which data objects to destroy during its own
         // destructor call.
-        virtual void RemoveAllTriangles();
+        virtual void              RemoveAllTriangles();
 
         // write the mesh to an ASCII file
-        void Print(const char* acFilename) const;
+        void                      Print(const char* acFilename) const;
 
         // vertex attributes
         const VMap&               GetVertexMap() const;
@@ -164,22 +164,22 @@ namespace Mgc
         const SmallSet<Triangle>* GetTriangles(int iV0, int iV1) const;
 
         // triangle attributes
-        const TMap& GetTriangleMap() const;
-        void        GetTriangles(std::set<Triangle>& rkTSet) const;
-        void*       GetData(int iV0, int iV1, int iV2);
-        void*       GetData(const Triangle& rkT);
+        const TMap&               GetTriangleMap() const;
+        void                      GetTriangles(std::set<Triangle>& rkTSet) const;
+        void*                     GetData(int iV0, int iV1, int iV2);
+        void*                     GetData(const Triangle& rkT);
 
         // The mesh is manifold if each edge has at most two adjacent triangles.
         // It is possible that the mesh has multiple connected components.
-        bool IsManifold() const;
+        bool                      IsManifold() const;
 
         // The mesh is closed if each edge has exactly two adjacent triangles.
         // It is possible that the mesh has multiple connected components.
-        bool IsClosed() const;
+        bool                      IsClosed() const;
 
         // The mesh is connected if each triangle can be reached from any other
         // triangle by a traversal.
-        bool IsConnected() const;
+        bool                      IsConnected() const;
 
         // Extract the connected components from the mesh.  For large data sets,
         // the array of TriangleMesh can use a lot of memory.  Instead use the
@@ -190,8 +190,8 @@ namespace Mgc
         // the raiConnect array.  The quantity of indices for component i is
         // Q(i) = Index[i+1]-Index[i] for 0 <= i < N.  The application is
         // responsible for deleting raiConnect.
-        void GetComponents(std::vector<TriangleMesh*>& rkComponents);
-        void GetComponents(std::vector<int>& rkIndex, int*& raiConnect);
+        void                      GetComponents(std::vector<TriangleMesh*>& rkComponents);
+        void                      GetComponents(std::vector<int>& rkIndex, int*& raiConnect);
 
         // Extract a connected component from the mesh and remove all the
         // triangles of the component from the mesh.  This is useful for computing
@@ -209,7 +209,7 @@ namespace Mgc
         //         kMesh.RemoveComponent(iCurrentIQuantity,aiCurrentConnect);
         //         iIQuantity += iCurrentIQuantity;
         //     }
-        void RemoveComponent(int& riIQuantity, int* aiConnect);
+        void                      RemoveComponent(int& riIQuantity, int* aiConnect);
 
         // Extract the connected components from the mesh, but each component has
         // a consistent ordering across all triangles of that component.  The
@@ -225,22 +225,13 @@ namespace Mgc
         // strip.  In this case, GetConsistentComponents will return connected
         // components, but in fact the triangles will not (and can not) be
         // consistently ordered.
-        bool GetConsistentComponents(std::vector<TriangleMesh*>& rkComponents);
+        bool                      GetConsistentComponents(std::vector<TriangleMesh*>& rkComponents);
 
         // Reverse the ordering of all triangles in the mesh.
-        TriangleMesh* GetReversedOrderMesh() const;
+        TriangleMesh*             GetReversedOrderMesh() const;
 
         // statistics
-        void GetStatistics(
-            int&  riVQuantity,
-            int&  riEQuantity,
-            int&  riTQuantity,
-            Real& rfAverageEdgesPerVertex,
-            Real& rfAverageTrianglesPerVertex,
-            Real& rfAverageTrianglesPerEdge,
-            int&  riMaximumEdgesPerVertex,
-            int&  riMaximumTrianglesPerVertex,
-            int&  riMaximumTrianglesPerEdge);
+        void                      GetStatistics(int& riVQuantity, int& riEQuantity, int& riTQuantity, Real& rfAverageEdgesPerVertex, Real& rfAverageTrianglesPerVertex, Real& rfAverageTrianglesPerEdge, int& riMaximumEdgesPerVertex, int& riMaximumTrianglesPerVertex, int& riMaximumTrianglesPerEdge);
 
     protected:
         std::map<int, VertexAttribute>        m_kVMap;

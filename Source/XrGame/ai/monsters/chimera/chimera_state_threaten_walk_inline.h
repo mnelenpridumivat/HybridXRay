@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION           template<typename _Object>
 #define CStateChimeraThreatenWalkAbstract CStateChimeraThreatenWalk<_Object>
 
 TEMPLATE_SPECIALIZATION
@@ -8,14 +8,14 @@ void CStateChimeraThreatenWalkAbstract::initialize()
 {
     inherited::initialize();
 
-    data.point  = object->EnemyMan.get_enemy_position();
-    data.vertex = object->EnemyMan.get_enemy_vertex();
+    data.point              = object->EnemyMan.get_enemy_position();
+    data.vertex             = object->EnemyMan.get_enemy_vertex();
 
-    data.action.action = ACT_WALK_FWD;
+    data.action.action      = ACT_WALK_FWD;
 
-    data.accelerated = true;
-    data.braking     = false;
-    data.accel_type  = eAT_Calm;
+    data.accelerated        = true;
+    data.braking            = false;
+    data.accel_type         = eAT_Calm;
 
     data.completion_dist    = 2.f;
     data.action.sound_type  = MonsterSound::eMonsterSoundIdle;

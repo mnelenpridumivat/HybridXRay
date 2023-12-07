@@ -80,13 +80,13 @@ namespace XrWeatherEditor
                 void xr_stdcall  tilt_setter(float value);
 
             private:
-                thunderbolt_container_type   m_thunderbolts;
-                thunderbolt_collection_type* m_thunderbolt_collection;
-                bool                         m_thunderbolts_changed;
+                thunderbolt_container_type               m_thunderbolts;
+                thunderbolt_collection_type*             m_thunderbolt_collection;
+                bool                                     m_thunderbolts_changed;
 
-                collection_container_type   m_collections;
-                collection_collection_type* m_collections_collection;
-                bool                        m_collections_changed;
+                collection_container_type                m_collections;
+                collection_collection_type*              m_collections_collection;
+                bool                                     m_collections_changed;
 
                 mutable thunderbolts_ids_type            m_thunderbolts_ids;
                 mutable collections_ids_type             m_collections_ids;

@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION   template<typename _Object>
 #define CStateControlFireAbstract CStateControlFire<_Object>
 
-#define MIN_ENEMY_DISTANCE 10.f
-#define STATE_MAX_TIME 3000
-#define STATE_EXECUTE_DELAY 5000
+#define MIN_ENEMY_DISTANCE        10.f
+#define STATE_MAX_TIME            3000
+#define STATE_EXECUTE_DELAY       5000
 
 TEMPLATE_SPECIALIZATION
 void CStateControlFireAbstract::reinit()

@@ -6,16 +6,16 @@ class CControlledActor: public CActorInputHandler
 {
     typedef CActorInputHandler inherited;
 
-    Fvector m_target_point;
+    Fvector                    m_target_point;
 
-    bool m_turned_yaw;
-    bool m_turned_pitch;
+    bool                       m_turned_yaw;
+    bool                       m_turned_pitch;
 
-    bool m_lock_run;
-    u32  m_lock_run_started;
-    u32  m_lock_run_period;
+    bool                       m_lock_run;
+    u32                        m_lock_run_started;
+    u32                        m_lock_run_period;
 
-    bool m_need_turn;
+    bool                       m_need_turn;
 
 public:
     virtual void  reinit();
@@ -28,12 +28,12 @@ public:
     virtual void install();
     virtual bool authorized(int cmd);
 
-    void look_point(const Fvector& point);
-    bool is_turning();
-    bool is_installed();
+    void         look_point(const Fvector& point);
+    bool         is_turning();
+    bool         is_installed();
 
-    void frame_update();
-    bool is_controlling()
+    void         frame_update();
+    bool         is_controlling()
     {
         return m_actor != 0;
     }

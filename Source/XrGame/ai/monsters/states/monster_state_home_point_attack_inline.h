@@ -7,7 +7,7 @@
 #include "../monster_cover_manager.h"
 #include "../monster_home.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                    template<typename _Object>
 
 #define CStateMonsterAttackMoveToHomePointAbstract CStateMonsterAttackMoveToHomePoint<_Object>
 
@@ -91,8 +91,7 @@ void CStateMonsterAttackMoveToHomePointAbstract::execute()
     if (m_target_node == u32(-1))
     {
         object->set_action(ACT_STAND_IDLE);
-        object->path().set_target_point(
-            object->EnemyMan.get_enemy()->Position(), object->EnemyMan.get_enemy()->ai_location().level_vertex_id());
+        object->path().set_target_point(object->EnemyMan.get_enemy()->Position(), object->EnemyMan.get_enemy()->ai_location().level_vertex_id());
     }
     else
     {

@@ -44,7 +44,7 @@ void CMapSpot::Load(CUIXml* xml, LPCSTR path)
     }
     m_location_level = xml->ReadAttribInt(path, 0, "location_level", 0);
 
-    m_originSize = GetWndSize();
+    m_originSize     = GetWndSize();
 
     string512 str;
     strconcat(sizeof(str), str, path, ":static_border");
@@ -143,11 +143,11 @@ void CMiniMapSpot::Load(CUIXml* xml, LPCSTR path)
     string256 buf;
     XML_NODE* n = NULL;
 
-    Frect base_rect;
-    base_rect.x1 = 0;
-    base_rect.y1 = 0;
-    base_rect.x2 = xml->ReadAttribFlt(path, 0, "width", 0);
-    base_rect.y2 = xml->ReadAttribFlt(path, 0, "height", 0);
+    Frect     base_rect;
+    base_rect.x1       = 0;
+    base_rect.y1       = 0;
+    base_rect.x2       = xml->ReadAttribFlt(path, 0, "width", 0);
+    base_rect.y2       = xml->ReadAttribFlt(path, 0, "height", 0);
 
     Frect _stored_rect = m_UIStaticItem.GetTextureRect();
 
@@ -329,8 +329,7 @@ void CComplexMapSpot::Update()
             if (!m_infinity_time)
             {
                 ALife::_TIME_ID dt = m_timer_finish - Level().GetGameTime();
-                m_timer->TextItemControl()->SetText(
-                    GetTimeAsString(dt, InventoryUtilities::etpTimeToMinutes, ':', false).c_str());
+                m_timer->TextItemControl()->SetText(GetTimeAsString(dt, InventoryUtilities::etpTimeToMinutes, ':', false).c_str());
             }
         }
     }

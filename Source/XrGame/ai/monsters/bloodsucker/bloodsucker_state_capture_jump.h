@@ -3,7 +3,7 @@
 #include "../state.h"
 // #include "../../../entitycondition.h"
 
-template <typename _Object> class CStateCaptureJumpBloodsucker: public CState<_Object>
+template<typename _Object> class CStateCaptureJumpBloodsucker: public CState<_Object>
 {
 protected:
     typedef CState<_Object>  inherited;

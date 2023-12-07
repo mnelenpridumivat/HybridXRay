@@ -185,7 +185,7 @@ void CUIMpTradeWnd::OnBtnRifleAmmo2Clicked(CUIWindow* w, void* d)
     if (!wpn)
         return;
 
-    u32 ammo_idx = 0;
+    u32               ammo_idx  = 0;
 
     const shared_str& ammo_name = wpn->m_ammoTypes2[ammo_idx];
 
@@ -200,7 +200,7 @@ void CUIMpTradeWnd::OnBtnRifleAmmo2Clicked(CUIWindow* w, void* d)
 
 bool CUIMpTradeWnd::TryToAttachItemAsAddon(SBuyItemInfo* itm, SBuyItemInfo* itm_parent)
 {
-    bool b_res = false;
+    bool            b_res       = false;
 
     item_addon_type _addon_type = GetItemType(itm->m_name_sect);
     if (_addon_type == at_not_addon)
@@ -282,17 +282,20 @@ bool CUIMpTradeWnd::IsAddonAttached(SBuyItemInfo* itm, item_addon_type at)
         return b_res;
     switch (at)
     {
-        case at_scope: {
+        case at_scope:
+        {
             b_res = (w->ScopeAttachable() && w->IsScopeAttached());
         }
         break;
 
-        case at_silencer: {
+        case at_silencer:
+        {
             b_res = (w->SilencerAttachable() && w->IsSilencerAttached());
         }
         break;
 
-        case at_glauncher: {
+        case at_glauncher:
+        {
             b_res = (w->GrenadeLauncherAttachable() && w->IsGrenadeLauncherAttached());
         }
         break;
@@ -313,17 +316,20 @@ bool CUIMpTradeWnd::CanAttachAddon(SBuyItemInfo* itm, item_addon_type at)
         return b_res;
     switch (at)
     {
-        case at_scope: {
+        case at_scope:
+        {
             b_res = (w->ScopeAttachable() && !w->IsScopeAttached());
         }
         break;
 
-        case at_silencer: {
+        case at_silencer:
+        {
             b_res = (w->SilencerAttachable() && !w->IsSilencerAttached());
         }
         break;
 
-        case at_glauncher: {
+        case at_glauncher:
+        {
             b_res = (w->GrenadeLauncherAttachable() && !w->IsGrenadeLauncherAttached());
         }
         break;
@@ -356,17 +362,20 @@ shared_str CUIMpTradeWnd::GetAddonNameSect(SBuyItemInfo* itm, item_addon_type at
 
     switch (at)
     {
-        case at_scope: {
+        case at_scope:
+        {
             return w->GetScopeName();
         }
         break;
 
-        case at_silencer: {
+        case at_silencer:
+        {
             return w->GetSilencerName();
         }
         break;
 
-        case at_glauncher: {
+        case at_glauncher:
+        {
             return w->GetGrenadeLauncherName();
         }
         break;

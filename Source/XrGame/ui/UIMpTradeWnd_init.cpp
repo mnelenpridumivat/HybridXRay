@@ -13,8 +13,16 @@
 #include "../xrEngine/object_broker.h"
 
 LPCSTR _list_names[] = {
-    "lst_pistol", "lst_pistol_ammo", "lst_rifle",  "lst_rifle_ammo", "lst_outfit",
-    "lst_medkit", "lst_granade",     "lst_others", "lst_player_bag", "lst_shop",
+    "lst_pistol",
+    "lst_pistol_ammo",
+    "lst_rifle",
+    "lst_rifle_ammo",
+    "lst_outfit",
+    "lst_medkit",
+    "lst_granade",
+    "lst_others",
+    "lst_player_bag",
+    "lst_shop",
 };
 CUIMpTradeWnd::CUIMpTradeWnd()
 {
@@ -57,9 +65,9 @@ void CUIMpTradeWnd::Init(const shared_str& sectionName, const shared_str& sectio
 
     for (u32 i = 0; i < root_cnt; ++i)
     {
-        const CStoreHierarchy::item& it = m_store_hierarchy->GetRoot().ChildAtIdx(i);
+        const CStoreHierarchy::item& it  = m_store_hierarchy->GetRoot().ChildAtIdx(i);
 
-        CUITabButtonMP* btn = it.m_button;
+        CUITabButtonMP*              btn = it.m_button;
         m_root_tab_control->AddItem(btn);
         btn->SetAutoDelete(false);
     }
@@ -83,15 +91,15 @@ void CUIMpTradeWnd::Init(const shared_str& sectionName, const shared_str& sectio
         BindDragDropListEvents(lst, true);
     }
 
-    m_btn_ok        = UIHelper::Create3tButton(xml_doc, "btn_ok", this);
-    m_btn_cancel    = UIHelper::Create3tButton(xml_doc, "btn_cancel", this);
-    m_btn_shop_back = UIHelper::Create3tButton(xml_doc, "shop_back_btn", this);
+    m_btn_ok              = UIHelper::Create3tButton(xml_doc, "btn_ok", this);
+    m_btn_cancel          = UIHelper::Create3tButton(xml_doc, "btn_cancel", this);
+    m_btn_shop_back       = UIHelper::Create3tButton(xml_doc, "shop_back_btn", this);
 
-    m_btns_preset[0] = UIHelper::Create3tButton(xml_doc, "btn_last_set", this);
-    m_btns_preset[1] = UIHelper::Create3tButton(xml_doc, "btn_preset_1", this);
-    m_btns_preset[2] = UIHelper::Create3tButton(xml_doc, "btn_preset_2", this);
-    m_btns_preset[3] = UIHelper::Create3tButton(xml_doc, "btn_preset_3", this);
-    m_btns_preset[4] = UIHelper::Create3tButton(xml_doc, "btn_preset_def", this);
+    m_btns_preset[0]      = UIHelper::Create3tButton(xml_doc, "btn_last_set", this);
+    m_btns_preset[1]      = UIHelper::Create3tButton(xml_doc, "btn_preset_1", this);
+    m_btns_preset[2]      = UIHelper::Create3tButton(xml_doc, "btn_preset_2", this);
+    m_btns_preset[3]      = UIHelper::Create3tButton(xml_doc, "btn_preset_3", this);
+    m_btns_preset[4]      = UIHelper::Create3tButton(xml_doc, "btn_preset_def", this);
 
     m_btns_save_preset[0] = UIHelper::Create3tButton(xml_doc, "btn_save_preset_1", this);
     m_btns_save_preset[1] = UIHelper::Create3tButton(xml_doc, "btn_save_preset_2", this);
@@ -133,80 +141,56 @@ void CUIMpTradeWnd::Init(const shared_str& sectionName, const shared_str& sectio
 
     AddCallback(m_btn_ok, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnOkClicked));
     AddCallback(m_btn_cancel, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnCancelClicked));
-    AddCallback(
-        m_btn_shop_back, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnShopBackClicked));
+    AddCallback(m_btn_shop_back, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnShopBackClicked));
     AddCallbackStr("sub_btn", TAB_CHANGED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnSubLevelBtnClicked));
-    AddCallbackStr(
-        "sub_btn", BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnSubLevelBtnClicked));
+    AddCallbackStr("sub_btn", BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnSubLevelBtnClicked));
 
-    AddCallback(
-        m_btns_preset[1], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPreset1Clicked));
-    AddCallback(
-        m_btns_preset[2], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPreset2Clicked));
-    AddCallback(
-        m_btns_preset[3], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPreset3Clicked));
-    AddCallback(
-        m_btns_preset[4], BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPresetDefaultClicked));
-    AddCallback(
-        m_btns_preset[0], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnLastSetClicked));
+    AddCallback(m_btns_preset[1], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPreset1Clicked));
+    AddCallback(m_btns_preset[2], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPreset2Clicked));
+    AddCallback(m_btns_preset[3], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPreset3Clicked));
+    AddCallback(m_btns_preset[4], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPresetDefaultClicked));
+    AddCallback(m_btns_preset[0], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnLastSetClicked));
 
-    AddCallback(
-        m_btns_save_preset[0], BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnSave1PresetClicked));
-    AddCallback(
-        m_btns_save_preset[1], BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnSave2PresetClicked));
-    AddCallback(
-        m_btns_save_preset[2], BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnSave3PresetClicked));
+    AddCallback(m_btns_save_preset[0], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnSave1PresetClicked));
+    AddCallback(m_btns_save_preset[1], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnSave2PresetClicked));
+    AddCallback(m_btns_save_preset[2], BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnSave3PresetClicked));
     AddCallback(m_btn_reset, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnResetClicked));
     AddCallback(m_btn_sell, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnSellClicked));
 
     //	AddCallback							("btn_pistol_ammo",	BUTTON_CLICKED,		CUIWndCallback::void_function	(this,
     //&CUIMpTradeWnd::OnBtnPistolAmmoClicked		));
-    AddCallback(
-        m_btn_pistol_silencer, BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPistolSilencerClicked));
+    AddCallback(m_btn_pistol_silencer, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnPistolSilencerClicked));
     //	AddCallback							("btn_rifle_ammo",	BUTTON_CLICKED,		CUIWndCallback::void_function	(this,
     //&CUIMpTradeWnd::OnBtnRifleAmmoClicked		));
-    AddCallback(
-        m_btn_rifle_silencer, BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnRifleSilencerClicked));
-    AddCallback(
-        m_btn_rifle_scope, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnRifleScopeClicked));
-    AddCallback(
-        m_btn_rifle_glauncher, BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnRifleGLClicked));
+    AddCallback(m_btn_rifle_silencer, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnRifleSilencerClicked));
+    AddCallback(m_btn_rifle_scope, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnRifleScopeClicked));
+    AddCallback(m_btn_rifle_glauncher, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIMpTradeWnd::OnBtnRifleGLClicked));
     //	AddCallback							("btn_rifle_ammo2",	BUTTON_CLICKED,		CUIWndCallback::void_function	(this,
     //&CUIMpTradeWnd::OnBtnRifleAmmo2Clicked		));
 
-    m_static_player_money     = UIHelper::CreateTextWnd(xml_doc, "static_player_money", this);
-    m_static_curr_items_money = UIHelper::CreateTextWnd(xml_doc, "static_curr_items_money", this);
+    m_static_player_money       = UIHelper::CreateTextWnd(xml_doc, "static_player_money", this);
+    m_static_curr_items_money   = UIHelper::CreateTextWnd(xml_doc, "static_curr_items_money", this);
 
-    m_static_preset_money[0] = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_last", this);
-    m_static_preset_money[1] = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_1", this);
-    m_static_preset_money[2] = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_2", this);
-    m_static_preset_money[3] = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_3", this);
-    m_static_preset_money[4] = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_def", this);
+    m_static_preset_money[0]    = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_last", this);
+    m_static_preset_money[1]    = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_1", this);
+    m_static_preset_money[2]    = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_2", this);
+    m_static_preset_money[3]    = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_3", this);
+    m_static_preset_money[4]    = UIHelper::CreateTextWnd(xml_doc, "static_preset_money_def", this);
 
     // preset money indicators
-    m_item_color_restr_rank = CUIXmlInit::GetColor(xml_doc, "item_color_restr_rank", 0, color_rgba(255, 255, 255, 255));
-    m_item_color_restr_money =
-        CUIXmlInit::GetColor(xml_doc, "item_color_restr_money", 0, color_rgba(255, 255, 255, 255));
-    m_item_color_normal = CUIXmlInit::GetColor(xml_doc, "item_color_normal", 0, color_rgba(255, 255, 255, 255));
+    m_item_color_restr_rank     = CUIXmlInit::GetColor(xml_doc, "item_color_restr_rank", 0, color_rgba(255, 255, 255, 255));
+    m_item_color_restr_money    = CUIXmlInit::GetColor(xml_doc, "item_color_restr_money", 0, color_rgba(255, 255, 255, 255));
+    m_item_color_normal         = CUIXmlInit::GetColor(xml_doc, "item_color_normal", 0, color_rgba(255, 255, 255, 255));
 
-    m_text_color_money_positive =
-        CUIXmlInit::GetColor(xml_doc, "money_color_positive", 0, color_rgba(255, 255, 255, 255));
-    m_text_color_money_negative =
-        CUIXmlInit::GetColor(xml_doc, "money_color_negative", 0, color_rgba(255, 255, 255, 255));
+    m_text_color_money_positive = CUIXmlInit::GetColor(xml_doc, "money_color_positive", 0, color_rgba(255, 255, 255, 255));
+    m_text_color_money_negative = CUIXmlInit::GetColor(xml_doc, "money_color_negative", 0, color_rgba(255, 255, 255, 255));
 
-    m_static_player_rank  = UIHelper::CreateStatic(xml_doc, "static_player_rank", this);
-    m_static_item_rank    = UIHelper::CreateStatic(xml_doc, "static_item_rank", this);
-    m_static_information  = UIHelper::CreateTextWnd(xml_doc, "static_info", this);
-    m_static_money_change = UIHelper::CreateTextWnd(xml_doc, "static_money_change", this);
+    m_static_player_rank        = UIHelper::CreateStatic(xml_doc, "static_player_rank", this);
+    m_static_item_rank          = UIHelper::CreateStatic(xml_doc, "static_item_rank", this);
+    m_static_information        = UIHelper::CreateTextWnd(xml_doc, "static_info", this);
+    m_static_money_change       = UIHelper::CreateTextWnd(xml_doc, "static_money_change", this);
 
-    m_item_info = xr_new<CUIItemInfo>();
+    m_item_info                 = xr_new<CUIItemInfo>();
     AttachChild(m_item_info);
     m_item_info->SetAutoDelete(true);
     m_item_info->InitItemInfo(Fvector2().set(0, 0), Fvector2().set(100, 100), "buy_menu_item.xml");

@@ -318,7 +318,7 @@ void CUIInventoryUpgradeWnd::AskUsing(LPCSTR text, LPCSTR upgrade_name)
 
     UpdateAllUpgrades();
 
-    m_cur_upgrade_id = upgrade_name;
+    m_cur_upgrade_id         = upgrade_name;
 
     CUIActorMenu* parent_wnd = smart_cast<CUIActorMenu*>(m_pParentWnd);
     if (parent_wnd)

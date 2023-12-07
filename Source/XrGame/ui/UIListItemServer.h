@@ -56,7 +56,7 @@ public:
     void SetParams(LIST_SRV_ITEM& params);
     void CreateConsoleCommand(xr_string& command, LPCSTR player_name, LPCSTR player_pass, LPCSTR server_psw);
 
-    int Get_gs_index()
+    int  Get_gs_index()
     {
         return m_srv_info.info.Index;
     }
@@ -68,15 +68,15 @@ public:
 protected:
     LIST_SRV_SIZES m_sizes;
 
-    LIST_SRV_ITEM m_srv_info;
-    CUIStatic*    m_iconPass;
-    CUIStatic*    m_iconDedicated;
+    LIST_SRV_ITEM  m_srv_info;
+    CUIStatic*     m_iconPass;
+    CUIStatic*     m_iconDedicated;
     //	CUIStatic* 				m_iconPunkBuster;
-    CUIStatic*  m_iconUserPass;
-    CUITextWnd* m_server;
-    CUITextWnd* m_map;
-    CUITextWnd* m_game;
-    CUITextWnd* m_players;
-    CUITextWnd* m_ping;
-    CUITextWnd* m_version;
+    CUIStatic*     m_iconUserPass;
+    CUITextWnd*    m_server;
+    CUITextWnd*    m_map;
+    CUITextWnd*    m_game;
+    CUITextWnd*    m_players;
+    CUITextWnd*    m_ping;
+    CUITextWnd*    m_version;
 };

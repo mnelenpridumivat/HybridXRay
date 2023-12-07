@@ -1,7 +1,7 @@
 ﻿#ifndef _F_SPHERE_H_
 #define _F_SPHERE_H_
 
-template <class T> struct _sphere
+template<class T> struct _sphere
 {
     _vector3<T> P;
     T           R;
@@ -41,7 +41,7 @@ public:
         T          fC     = kDiff.square_magnitude() - R * R;
         ERP_Result result = rpNone;
 
-        T fDiscr = fB * fB - fA * fC;
+        T          fDiscr = fB * fB - fA * fC;
         if (fDiscr < (T)0.0)
         {
             quantity = 0;
@@ -193,7 +193,7 @@ public:
 typedef _sphere<float>  Fsphere;
 typedef _sphere<double> Dsphere;
 
-template <class T> BOOL _valid(const _sphere<T>& s)
+template<class T> BOOL  _valid(const _sphere<T>& s)
 {
     return _valid(s.P) && _valid(s.R);
 }

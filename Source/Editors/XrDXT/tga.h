@@ -35,7 +35,10 @@ public:
     void* data;
 
 public:
-    TGAdesc() { data = 0; };
+    TGAdesc()
+    {
+        data = 0;
+    };
     ~TGAdesc(){};
 
     void maketga(IWriter& fs);

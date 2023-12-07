@@ -6,7 +6,7 @@
 #include "Kinematics.h"
 #include <boost/noncopyable.hpp>
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION template<typename _Object>
 
 #define CStateGroupDragAbstract CStateGroupDrag<_Object>
 
@@ -30,12 +30,12 @@ void CStateGroupDragAbstract::initialize()
         m_failed = true;
         return;
     }
-    LPCSTR bones = ini->r_string("capture_used_bones", "bones");
+    LPCSTR bones       = ini->r_string("capture_used_bones", "bones");
 
-    int  bone_number = _GetItemCount(bones);
-    u16* vbones      = (u16*)_alloca(bone_number * sizeof(u16));
-    u16* I           = vbones;
-    u16* E           = vbones + bone_number;
+    int    bone_number = _GetItemCount(bones);
+    u16*   vbones      = (u16*)_alloca(bone_number * sizeof(u16));
+    u16*   I           = vbones;
+    u16*   E           = vbones + bone_number;
     for (; I != E; ++I)
     {
         string32 sbone;
@@ -48,10 +48,7 @@ void CStateGroupDragAbstract::initialize()
         IKinematics* m_K;
         u16 const*   use_bones;
         int          m_bone_number;
-        callback(IKinematics* K, u16 const* ub, int const& bone_number):
-            m_K(K), use_bones(ub), m_bone_number(bone_number)
-        {
-        }
+        callback(IKinematics* K, u16 const* ub, int const& bone_number): m_K(K), use_bones(ub), m_bone_number(bone_number) {}
 
         bool operator()(u16 bone)
         {
@@ -78,10 +75,9 @@ void CStateGroupDragAbstract::initialize()
         }
     } cb(K, vbones, bone_number);
 
-    object->character_physics_support()->movement()->PHCaptureObject(
-        const_cast<CEntityAlive*>(object->EatedCorpse), &cb);
+    object->character_physics_support()->movement()->PHCaptureObject(const_cast<CEntityAlive*>(object->EatedCorpse), &cb);
 
-    m_failed = false;
+    m_failed            = false;
 
     IPHCapture* capture = object->character_physics_support()->movement()->PHCapture();
     if (capture && !capture->Failed())
@@ -93,11 +89,9 @@ void CStateGroupDragAbstract::initialize()
         }
         else
             m_cover_position = object->Position();
-        if (m_cover_vertex_id == u32(-1) || object->Position().distance_to(m_cover_position) < 2.f ||
-            !object->Home->at_min_home(m_cover_position))
+        if (m_cover_vertex_id == u32(-1) || object->Position().distance_to(m_cover_position) < 2.f || !object->Home->at_min_home(m_cover_position))
         {
-            const CCoverPoint* point =
-                object->CoverMan->find_cover(object->Home->get_home_point(), 1, object->Home->get_min_radius());
+            const CCoverPoint* point = object->CoverMan->find_cover(object->Home->get_home_point(), 1, object->Home->get_min_radius());
             if (point)
             {
                 m_cover_vertex_id = point->level_vertex_id();

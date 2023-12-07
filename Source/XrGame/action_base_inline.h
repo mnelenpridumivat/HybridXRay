@@ -10,16 +10,11 @@
 
 #include "level.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _object_type>
-#define CBaseAction CActionBase<_object_type>
+#define TEMPLATE_SPECIALIZATION template<typename _object_type>
+#define CBaseAction             CActionBase<_object_type>
 
 TEMPLATE_SPECIALIZATION
-IC CBaseAction::CActionBase(
-    const xr_vector<COperatorCondition>& conditions,
-    const xr_vector<COperatorCondition>& effects,
-    _object_type*                        object,
-    LPCSTR                               action_name):
-    inherited(conditions, effects)
+IC CBaseAction::CActionBase(const xr_vector<COperatorCondition>& conditions, const xr_vector<COperatorCondition>& effects, _object_type* object, LPCSTR action_name): inherited(conditions, effects)
 {
     init(object, action_name);
 }
@@ -128,23 +123,28 @@ IC void CBaseAction::debug_log(const EActionStates state_state) const
 {
     switch (state_state)
     {
-        case eActionStateConstructed: {
+        case eActionStateConstructed:
+        {
             Msg("[%6d] action %s is constructed", Device->dwTimeGlobal, m_action_name);
             break;
         }
-        case eActionStateSetup: {
+        case eActionStateSetup:
+        {
             Msg("[%6d] action %s is setup", Device->dwTimeGlobal, m_action_name);
             break;
         }
-        case eActionStateInitialized: {
+        case eActionStateInitialized:
+        {
             Msg("[%6d] action %s is initialized", Device->dwTimeGlobal, m_action_name);
             break;
         }
-        case eActionStateExecuted: {
+        case eActionStateExecuted:
+        {
             Msg("[%6d] action %s is executed", Device->dwTimeGlobal, m_action_name);
             break;
         }
-        case eActionStateFinalized: {
+        case eActionStateFinalized:
+        {
             Msg("[%6d] action %s is finalized", Device->dwTimeGlobal, m_action_name);
             break;
         }
@@ -181,8 +181,7 @@ IC void CBaseAction::set_weight(const _edge_value_type& weight)
 }
 
 TEMPLATE_SPECIALIZATION
-typename CBaseAction::_edge_value_type
-    CBaseAction::weight(const CSConditionState& condition0, const CSConditionState& condition1) const
+typename CBaseAction::_edge_value_type CBaseAction::weight(const CSConditionState& condition0, const CSConditionState& condition1) const
 {
     _edge_value_type _min_weight = min_weight();
     if (m_weight < _min_weight)

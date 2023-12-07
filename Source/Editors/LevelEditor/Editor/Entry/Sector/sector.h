@@ -41,20 +41,20 @@ class CSector: public CCustomObject
     friend class CPortal;
     typedef CCustomObject inherited;
 
-    u8   m_bDefault;
-    bool m_bHasLoadError;
+    u8                    m_bDefault;
+    bool                  m_bHasLoadError;
 
-    Fbox m_SectorBox;
+    Fbox                  m_SectorBox;
 
-    Fvector m_SectorCenter;
-    float   m_SectorRadius;
+    Fvector               m_SectorCenter;
+    float                 m_SectorRadius;
 
-    Fcolor   sector_color;
-    SItemVec sector_items;
-    bool     FindSectorItem(CSceneObject* o, CEditableMesh* m, SItemIt& it);
-    bool     FindSectorItem(const char* O, const char* M, SItemIt& it);
-    void     LoadSectorDef(IReader* F);
-    void     LoadSectorDefLTX(CInifile& ini, LPCSTR sect_name, u32 item_idx);
+    Fcolor                sector_color;
+    SItemVec              sector_items;
+    bool                  FindSectorItem(CSceneObject* o, CEditableMesh* m, SItemIt& it);
+    bool                  FindSectorItem(const char* O, const char* M, SItemIt& it);
+    void                  LoadSectorDef(IReader* F);
+    void                  LoadSectorDefLTX(CInifile& ini, LPCSTR sect_name, u32 item_idx);
     enum
     {
         flNeedUpdateVolume = (1 << 0)
@@ -63,9 +63,9 @@ class CSector: public CCustomObject
     Flags32 m_Flags;
 
     // only for build
-    int  m_sector_num;
-    void OnDestroy();
-    void UpdateVolume();
+    int     m_sector_num;
+    void    OnDestroy();
+    void    UpdateVolume();
 
 public:
     u8 m_map_idx;
@@ -94,10 +94,10 @@ public:
     virtual void FillProp(LPCSTR pref, PropItemVec& values);
     virtual bool GetSummaryInfo(SSceneSummary* inf);
 
-    bool AddMesh(CSceneObject* O, CEditableMesh* M);   // возвращает добавлен ли объект
-    int  DelMesh(CSceneObject* O, CEditableMesh* M);   // 0-не удален 1-удален 2-удален сектор вообще
+    bool         AddMesh(CSceneObject* O, CEditableMesh* M);   // возвращает добавлен ли объект
+    int          DelMesh(CSceneObject* O, CEditableMesh* M);   // 0-не удален 1-удален 2-удален сектор вообще
 
-    bool IsDefault()
+    bool         IsDefault()
     {
         return m_bDefault;
     }
@@ -112,16 +112,16 @@ public:
         sector_color.set(subst_alpha(clr, 0));
     }
 
-    void CaptureInsideVolume();
-    void DistributeInsideObjects();
-    void CaptureAllUnusedMeshes();
-    void GetCounts(int* objects, int* meshes, int* faces);
-    bool IsEmpty();
+    void         CaptureInsideVolume();
+    void         DistributeInsideObjects();
+    void         CaptureAllUnusedMeshes();
+    void         GetCounts(int* objects, int* meshes, int* faces);
+    bool         IsEmpty();
 
     virtual void OnFrame();
 
-    EVisible Intersect(const Fvector& center, float radius);
-    EVisible Intersect(const Fbox& box);
+    EVisible     Intersect(const Fvector& center, float radius);
+    EVisible     Intersect(const Fbox& box);
 
     virtual bool Validate(bool bMsg);
 };

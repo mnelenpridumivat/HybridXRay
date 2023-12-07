@@ -19,7 +19,7 @@ namespace SeniorityHierarchy
         return (shared_str(S));
     }
 
-    template <typename T1> IC void assign_svector(T1& container, u32 count, const typename T1::value_type& value)
+    template<typename T1> IC void assign_svector(T1& container, u32 count, const typename T1::value_type& value)
     {
         container.resize(count);
         typename T1::iterator I = container.begin();

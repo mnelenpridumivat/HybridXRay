@@ -10,8 +10,7 @@
 #include "script_particles.h"
 #include "../xrEngine/objectanimator.h"
 
-CScriptParticlesCustom::CScriptParticlesCustom(CScriptParticles* owner, LPCSTR caParticlesName):
-    CParticlesObject(caParticlesName, FALSE, true)
+CScriptParticlesCustom::CScriptParticlesCustom(CScriptParticles* owner, LPCSTR caParticlesName): CParticlesObject(caParticlesName, FALSE, true)
 {
     //	CScriptParticlesCustom* self = this;
     //	Msg							("CScriptParticlesCustom: 0x%08x",*(int*)&self);

@@ -19,7 +19,7 @@ namespace RestrictionSpace
     enum ERestrictorTypes;
 };
 
-template <bool add> struct CRestrictionPredicate;
+template<bool add> struct CRestrictionPredicate;
 
 class CRestrictedObject
 {
@@ -34,14 +34,9 @@ private:
     bool            m_actual;
 
 protected:
-    template <typename P, bool value> IC void construct_restriction_string(
-        LPSTR                               temp_restrictions,
-        u32 const                           temp_restrictions_size,
-        const xr_vector<ALife::_OBJECT_ID>& restrictions,
-        shared_str                          current_restrictions,
-        const P&                            p);
-    IC void add_object_restriction(ALife::_OBJECT_ID id, const RestrictionSpace::ERestrictorTypes& restrictor_type);
-    IC void remove_object_restriction(ALife::_OBJECT_ID id, const RestrictionSpace::ERestrictorTypes& restrictor_type);
+    template<typename P, bool value> IC void construct_restriction_string(LPSTR temp_restrictions, u32 const temp_restrictions_size, const xr_vector<ALife::_OBJECT_ID>& restrictions, shared_str current_restrictions, const P& p);
+    IC void                                  add_object_restriction(ALife::_OBJECT_ID id, const RestrictionSpace::ERestrictorTypes& restrictor_type);
+    IC void                                  remove_object_restriction(ALife::_OBJECT_ID id, const RestrictionSpace::ERestrictorTypes& restrictor_type);
 
 public:
     IC CRestrictedObject(CCustomMonster* object);
@@ -56,17 +51,13 @@ public:
     virtual void remove_border() const;
 
 public:
-    u32  accessible_nearest(const Fvector& position, Fvector& result) const;
-    bool accessible(const Fvector& position) const;
-    bool accessible(const Fvector& position, float radius) const;
-    bool accessible(u32 level_vertex_id) const;
-    bool accessible(u32 level_vertex_id, float radius) const;
-    void add_restrictions(
-        const xr_vector<ALife::_OBJECT_ID>& out_restrictions,
-        const xr_vector<ALife::_OBJECT_ID>& in_restrictions);
-    void remove_restrictions(
-        const xr_vector<ALife::_OBJECT_ID>& out_restrictions,
-        const xr_vector<ALife::_OBJECT_ID>& in_restrictions);
+    u32                accessible_nearest(const Fvector& position, Fvector& result) const;
+    bool               accessible(const Fvector& position) const;
+    bool               accessible(const Fvector& position, float radius) const;
+    bool               accessible(u32 level_vertex_id) const;
+    bool               accessible(u32 level_vertex_id, float radius) const;
+    void               add_restrictions(const xr_vector<ALife::_OBJECT_ID>& out_restrictions, const xr_vector<ALife::_OBJECT_ID>& in_restrictions);
+    void               remove_restrictions(const xr_vector<ALife::_OBJECT_ID>& out_restrictions, const xr_vector<ALife::_OBJECT_ID>& in_restrictions);
     void               add_restrictions(const shared_str& out_restrictions, const shared_str& in_restrictions);
     void               remove_restrictions(const shared_str& out_restrictions, const shared_str& in_restrictions);
     void               remove_all_restrictions(const RestrictionSpace::ERestrictorTypes& restrictor_type);

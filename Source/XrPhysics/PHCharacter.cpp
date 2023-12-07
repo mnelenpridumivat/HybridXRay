@@ -187,11 +187,10 @@ void virtual_move_collide_callback(bool& do_collide, bool bo1, dContact& c, SGam
     // if( !cam_step )
     // return;
 
-    c.surface.mu       = 0;
-    c.surface.soft_cfm = 0.01f;
-    dJointID contact_joint =
-        dJointCreateContact(0, ContactGroup, &c);   // dJointCreateContactSpecial(0, ContactGroup, &c);
-    CPHObject* obj = (CPHObject*)my_data->callback_data;
+    c.surface.mu             = 0;
+    c.surface.soft_cfm       = 0.01f;
+    dJointID   contact_joint = dJointCreateContact(0, ContactGroup, &c);   // dJointCreateContactSpecial(0, ContactGroup, &c);
+    CPHObject* obj           = (CPHObject*)my_data->callback_data;
     VERIFY(obj);
 
     obj->Island().DActiveIsland()->ConnectJoint(contact_joint);

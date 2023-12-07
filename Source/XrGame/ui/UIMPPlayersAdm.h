@@ -27,6 +27,7 @@ class CUIMpPlayersAdm: public CUIWindow, public CUIWndCallback
     CUIComboBox*      m_pBanPlayerCombo;
     // CUITrackBar*		m_pBanTimeTrack;
     // CUITextWnd*			m_pBanTimeText;
+
 public:
     CUIMpPlayersAdm();
     ~CUIMpPlayersAdm();

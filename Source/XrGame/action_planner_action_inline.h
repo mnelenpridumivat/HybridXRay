@@ -8,8 +8,8 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _object_type>
-#define CPlanner CActionPlannerAction<_object_type>
+#define TEMPLATE_SPECIALIZATION template<typename _object_type>
+#define CPlanner                CActionPlannerAction<_object_type>
 
 TEMPLATE_SPECIALIZATION
 IC CPlanner::CActionPlannerAction(_object_type* object, LPCSTR action_name): inherited_action(object, action_name) {}

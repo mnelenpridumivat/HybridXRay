@@ -3,7 +3,7 @@
 #include "../ai_monster_squad.h"
 #include "../ai_monster_squad_manager.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION      template<typename _Object>
 
 #define CStateGroupAttackRunAbstract CStateGroupAttackRun<_Object>
 
@@ -31,9 +31,9 @@ void CStateGroupAttackRunAbstract::initialize()
     m_intercept_length = 3000 + rand() % 4000;
 
     // prediction
-    m_memorized_tick = Device->dwTimeGlobal;
-    m_memorized_pos  = object->EnemyMan.get_enemy()->Position();
-    m_predicted_vel  = cr_fvector3(0.f);
+    m_memorized_tick   = Device->dwTimeGlobal;
+    m_memorized_pos    = object->EnemyMan.get_enemy()->Position();
+    m_predicted_vel    = cr_fvector3(0.f);
 
     // encirclement
     if (Device->dwTimeGlobal > m_next_encircle_tick)
@@ -91,17 +91,17 @@ void CStateGroupAttackRunAbstract::execute()
         m_memorized_pos  = enemy_pos;
     }
 
-    const SVelocityParam velocity_run = object->move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
+    const SVelocityParam velocity_run    = object->move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
 
-    const float   self_vel = velocity_run.velocity.linear;
-    const Fvector self_pos = object->Position();
+    const float          self_vel        = velocity_run.velocity.linear;
+    const Fvector        self_pos        = object->Position();
 
-    const Fvector self2enemy      = enemy_pos - self_pos;
-    const float   self2enemy_dist = magnitude(self2enemy);
+    const Fvector        self2enemy      = enemy_pos - self_pos;
+    const float          self2enemy_dist = magnitude(self2enemy);
 
-    const float epsilon = 0.001f;
+    const float          epsilon         = 0.001f;
 
-    float prediction_time = 0;
+    float                prediction_time = 0;
     if (self_vel > epsilon)
     {
         prediction_time               = self2enemy_dist / self_vel;
@@ -117,21 +117,20 @@ void CStateGroupAttackRunAbstract::execute()
     const Fvector self2linear       = linear_prediction - self_pos;
     const bool    predicted_left    = crossproduct(self2linear, self2enemy).z > 0;
 
-    float h_angle, p_angle;
+    float         h_angle, p_angle;
     self2enemy.getHP(h_angle, p_angle);
 
-    const float angle =
-        self2enemy_dist > epsilon ? 0.5f * prediction_time * magnitude(m_predicted_vel) / self2enemy_dist : 0;
+    const float angle               = self2enemy_dist > epsilon ? 0.5f * prediction_time * magnitude(m_predicted_vel) / self2enemy_dist : 0;
 
-    h_angle = angle_normalize(h_angle + (predicted_left ? +1 : -1) * angle);
+    h_angle                         = angle_normalize(h_angle + (predicted_left ? +1 : -1) * angle);
 
     const Fvector radial_prediction = self_pos + Fvector().setHP(h_angle, p_angle).normalize_safe() * self2enemy_dist;
 
-    Fvector target = radial_prediction + m_intercept * self2enemy_dist * 0.5f;
+    Fvector       target            = radial_prediction + m_intercept * self2enemy_dist * 0.5f;
 
-    const u32 old_vertex = object->ai_location().level_vertex_id();
+    const u32     old_vertex        = object->ai_location().level_vertex_id();
 
-    u32 vertex = ai().level_graph().check_position_in_direction(old_vertex, self_pos, target);
+    u32           vertex            = ai().level_graph().check_position_in_direction(old_vertex, self_pos, target);
 
     if (!ai().level_graph().valid_vertex_id(vertex))
     {

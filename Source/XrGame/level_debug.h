@@ -15,7 +15,7 @@ public:
     debug::text_tree* m_p_texttree;
     int               m_texttree_offs;
 
-    template <typename T> class CItemBase
+    template<typename T> class CItemBase
     {
         xr_vector<T>                            m_data;
         typedef typename xr_vector<T>::iterator ITEM_STORAGE_VEC_IT;
@@ -74,7 +74,7 @@ public:
             m_data.clear();
         }
 
-        template <class T> IC void process(T& process_pred)
+        template<class T> IC void process(T& process_pred)
         {
             for (ITEM_STORAGE_VEC_IT it = m_data.begin(); it != m_data.end(); ++it)
             {
@@ -99,7 +99,7 @@ public:
         typedef CItemBase<SInfoItem> inherited;
 
 #define DELTA_HEIGHT_DEFAULT 16.f
-#define SHIFT_POS_DEFAULT Fvector().set(0.f, 2.f, 0.f)
+#define SHIFT_POS_DEFAULT    Fvector().set(0.f, 2.f, 0.f)
 
         Fvector m_shift_pos;
         float   m_delta_height;
@@ -110,7 +110,7 @@ public:
             setup();
         }
 
-        void add_item(LPCSTR text, u32 color, u32 id = u32(-1));
+        void    add_item(LPCSTR text, u32 color, u32 id = u32(-1));
 
         void    draw_info(float x, float& y);
         IC void setup(const Fvector& shift = SHIFT_POS_DEFAULT, float delta = DELTA_HEIGHT_DEFAULT)
@@ -131,16 +131,13 @@ public:
     {
         shared_str text;
 
-        float x;
-        float y;
+        float      x;
+        float      y;
 
-        u32 color;
-        u32 id;
+        u32        color;
+        u32        id;
 
-        STextItem(LPCSTR str, float coord_x, float coord_y, u32 col, u32 i):
-            text(str), x(coord_x), y(coord_y), color(col), id(i)
-        {
-        }
+        STextItem(LPCSTR str, float coord_x, float coord_y, u32 col, u32 i): text(str), x(coord_x), y(coord_y), color(col), id(i) {}
     };
 
     class CTextInfo: public CItemBase<STextItem>
@@ -213,42 +210,42 @@ public:
     CLevelDebug();
     ~CLevelDebug();
 
-    template <class T> CObjectInfo& object_info(CObject* obj, T typed_class)
+    template<class T> CObjectInfo& object_info(CObject* obj, T typed_class)
     {
         return object_info(obj, typeid((*typed_class)).name());
     }
 
-    template <class T> CObjectInfo& object_info(T typed_class)
+    template<class T> CObjectInfo& object_info(T typed_class)
     {
         return object_info(typed_class, typeid((*typed_class)).name());
     }
 
-    template <class T> CTextInfo& text(T typed_class)
+    template<class T> CTextInfo& text(T typed_class)
     {
         return text(typed_class, typeid((*typed_class)).name());
     }
 
-    template <class T> CLevelInfo& level_info(T typed_class)
+    template<class T> CLevelInfo& level_info(T typed_class)
     {
         return level_info(typed_class, typeid((*typed_class)).name());
     }
 
-    void draw_object_info();
-    void draw_text();
-    void draw_level_info();
+    void              draw_object_info();
+    void              draw_text();
+    void              draw_level_info();
 
     // Lain: added
-    void draw_debug_text();
-    void log_debug_info();
-    void debug_info_up();
-    void debug_info_down();
+    void              draw_debug_text();
+    void              log_debug_info();
+    void              debug_info_up();
+    void              debug_info_down();
 
     debug::text_tree& get_text_tree();
 
-    void on_destroy_object(CObject* obj);
+    void              on_destroy_object(CObject* obj);
 
 private:
-    void free_mem();
+    void         free_mem();
 
     CObjectInfo& object_info(CObject* obj, LPCSTR class_name);
     CTextInfo&   text(void* class_ptr, LPCSTR class_name);

@@ -71,9 +71,7 @@ void UITopBarForm::Draw()
         if (ImGui::IsItemHovered())
         {
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip(
-                "Save the particles in unpacked form, in 'rawdata/particles'"_RU >>
-                u8"Сохранить партиклы в распакованном виде, в 'rawdata/particles'");
+            ImGui::SetTooltip("Save the particles in unpacked form, in 'rawdata/particles'"_RU >> u8"Сохранить партиклы в распакованном виде, в 'rawdata/particles'");
         }
         ImGui::SameLine();
 

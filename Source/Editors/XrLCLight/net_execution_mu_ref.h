@@ -9,6 +9,7 @@ namespace lc_net
     template<> class tnet_execution_base<et_mu_ref_light>::net_execution_impl
     {
         u32 mu_ref_id;
+
     public:
         net_execution_impl(): mu_ref_id(u32(-1)) {}
 
@@ -23,8 +24,7 @@ namespace lc_net
         bool execute(net_task_callback& net_callback);
     };
     template<> struct add_global<et_mu_ref_light, gl_ref_model_data>
-    {
-    };
+    {};
 
     // execution_lightmaps
 };   // namespace lc_net

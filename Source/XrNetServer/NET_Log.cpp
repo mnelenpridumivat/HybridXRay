@@ -1,9 +1,8 @@
 ﻿#include "stdafx.h"
 #include "net_log.h"
 //---------------------------------------------------------
-string64 PacketName[] = {
-    "M_UPDATE",   // DUAL: Update state
-    "M_SPAWN",    // DUAL: Spawning, full state
+string64 PacketName[] = {"M_UPDATE",   // DUAL: Update state
+    "M_SPAWN",                         // DUAL: Spawning, full state
 
     "M_SV_CONFIG_NEW_CLIENT", "M_SV_CONFIG_GAME", "M_SV_CONFIG_FINISHED",
 
@@ -27,8 +26,7 @@ string64 PacketName[] = {
     "M_EVENT_PACK",    // Pack of M_EVENT
 
     //-----------------------------------------------------
-    "M_GAMESPY_CDKEY_VALIDATION_CHALLENGE", "M_GAMESPY_CDKEY_VALIDATION_CHALLENGE_RESPOND", "M_CLIENT_CONNECT_RESULT",
-    "M_CLIENT_REQUEST_CONNECTION_DATA",
+    "M_GAMESPY_CDKEY_VALIDATION_CHALLENGE", "M_GAMESPY_CDKEY_VALIDATION_CHALLENGE_RESPOND", "M_CLIENT_CONNECT_RESULT", "M_CLIENT_REQUEST_CONNECTION_DATA",
 
     "M_CHAT_MESSAGE", "M_CHANGE_LEVEL_GAME",
     //-----------------------------------------------------
@@ -75,13 +73,9 @@ void INetLog::FlushLog()
         {
             SLogPacket* pLPacket = &(*it);
             if (pLPacket->m_u16Type >= sizeof(PacketName) / sizeof(PacketName[0]))
-                fprintf(
-                    m_pLogFile, "%s %10d %10d %10d\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time,
-                    pLPacket->m_u16Type, pLPacket->m_u32Size);
+                fprintf(m_pLogFile, "%s %10d %10d %10d\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time, pLPacket->m_u16Type, pLPacket->m_u32Size);
             else
-                fprintf(
-                    m_pLogFile, "%s %10d %10s %10d\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time,
-                    PacketName[pLPacket->m_u16Type], pLPacket->m_u32Size);
+                fprintf(m_pLogFile, "%s %10d %10s %10d\n", pLPacket->m_bIsIn ? "In:" : "Out:", pLPacket->m_u32Time, PacketName[pLPacket->m_u16Type], pLPacket->m_u32Size);
         };
     };
 

@@ -19,16 +19,16 @@
 // as a default size to keep the packets from being fragmented.  Currently 1460 is the
 // MSS for windows.  Consoles may have a different size.
 #define GS_UDP_DEFAULT_OUT_BUFFSIZE 1460
-#define GS_UDP_DEFAULT_IN_BUFFSIZE 1500
+#define GS_UDP_DEFAULT_IN_BUFFSIZE  1500
 
 // a default size for address strings
-#define GS_IP_ADDR_AND_PORT 22
+#define GS_IP_ADDR_AND_PORT         22
 
 // A fixed header len. unless we require a bigger size, it will stay this size.
 // These need to be used for calculating the free space available on
 // the outgoing buffers for an IP and Port which represent the peer.
-#define GS_UDP_MSG_HEADER_LEN 16
-#define GS_UDP_RELIABLE_MSG_HEADER 7
+#define GS_UDP_MSG_HEADER_LEN       16
+#define GS_UDP_RELIABLE_MSG_HEADER  7
 
 // The following error codes will be given back to the higher level app
 // or message handler.
@@ -84,73 +84,35 @@ typedef enum _GSUdpCloseReason
 // Callbacks
 
 // Errors to give higher layers feedback
-typedef void (*gsUdpErrorCallback)(GSUdpErrorCode theCode, void* theUserData);
+typedef void     (*gsUdpErrorCallback)(GSUdpErrorCode theCode, void* theUserData);
 
 // app Request attempt callback used to tell registered listeners about connection attempts
-typedef void (*gsUdpAppConnectAttemptCallback)(
-    unsigned int   theIp,
-    unsigned short thePort,
-    int            theLatency,
-    unsigned char* theInitMsg,
-    unsigned int   theInitMsgLen,
-    void*          theUserData);
+typedef void     (*gsUdpAppConnectAttemptCallback)(unsigned int theIp, unsigned short thePort, int theLatency, unsigned char* theInitMsg, unsigned int theInitMsgLen, void* theUserData);
 
 // peer communication channel callback types
-typedef void (
-    *gsUdpConnClosedCallback)(unsigned int ip, unsigned short port, GSUdpCloseReason reason, void* theUserData);
-typedef void (*gsUdpConnReceivedDataCallback)(
-    unsigned int   ip,
-    unsigned short port,
-    unsigned char* message,
-    unsigned int   messageLength,
-    gsi_bool       reliable,
-    void*          theUserData);
-typedef void (*gsUdpConnConnectedCallback)(
-    unsigned int   ip,
-    unsigned short port,
-    GSUdpErrorCode error,
-    gsi_bool       rejected,
-    void*          theUserData);
-typedef void (*gsUdpConnPingCallback)(unsigned int ip, unsigned short port, unsigned int latency, void* theUserData);
+typedef void     (*gsUdpConnClosedCallback)(unsigned int ip, unsigned short port, GSUdpCloseReason reason, void* theUserData);
+typedef void     (*gsUdpConnReceivedDataCallback)(unsigned int ip, unsigned short port, unsigned char* message, unsigned int messageLength, gsi_bool reliable, void* theUserData);
+typedef void     (*gsUdpConnConnectedCallback)(unsigned int ip, unsigned short port, GSUdpErrorCode error, gsi_bool rejected, void* theUserData);
+typedef void     (*gsUdpConnPingCallback)(unsigned int ip, unsigned short port, unsigned int latency, void* theUserData);
 
 // Messages that cannot be interpreted are passed on to the higher level app
-typedef gsi_bool (*gsUdpUnknownMsgCallback)(
-    unsigned int   ip,
-    unsigned short port,
-    unsigned char* message,
-    unsigned int   messageLength,
-    void*          theUserData);
+typedef gsi_bool (*gsUdpUnknownMsgCallback)(unsigned int ip, unsigned short port, unsigned char* message, unsigned int messageLength, void* theUserData);
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Public Functionality
 // Initialization and test functions
-gsi_bool       gsUdpEngineIsInitialized();
-GSUdpErrorCode gsUdpEngineInitialize(
-    unsigned short                 thePort,
-    int                            theIncomingBufSize,
-    int                            theOutgoingBufSize,
-    gsUdpErrorCallback             theAppNetworkError,
-    gsUdpConnConnectedCallback     theAppConnected,
-    gsUdpConnClosedCallback        theAppClosed,
-    gsUdpConnPingCallback          theAppPing,
-    gsUdpConnReceivedDataCallback  theAppReceive,
-    gsUdpUnknownMsgCallback        theAppUnownMsg,
-    gsUdpAppConnectAttemptCallback theAppConnectAttempt,
-    void*                          theAppUserData);
+gsi_bool         gsUdpEngineIsInitialized();
+GSUdpErrorCode   gsUdpEngineInitialize(unsigned short thePort, int theIncomingBufSize, int theOutgoingBufSize, gsUdpErrorCallback theAppNetworkError, gsUdpConnConnectedCallback theAppConnected, gsUdpConnClosedCallback theAppClosed, gsUdpConnPingCallback theAppPing, gsUdpConnReceivedDataCallback theAppReceive, gsUdpUnknownMsgCallback theAppUnownMsg, gsUdpAppConnectAttemptCallback theAppConnectAttempt, void* theAppUserData);
 // update and shutdown
-GSUdpErrorCode gsUdpEngineThink();
-GSUdpErrorCode gsUdpEngineShutdown();
+GSUdpErrorCode   gsUdpEngineThink();
+GSUdpErrorCode   gsUdpEngineShutdown();
 
 // Connectivity functions
-GSUdpErrorCode gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, GSUdpPeerState* thePeerState);
-GSUdpErrorCode gsUdpEngineStartTalkingToPeer(
-    unsigned int   theIp,
-    unsigned short thePort,
-    char           theInitMsg[GS_UDP_MSG_HEADER_LEN],
-    int            timeOut);
-GSUdpErrorCode gsUdpEngineAcceptPeer(unsigned int theIp, unsigned short thePort);
-GSUdpErrorCode gsUdpEngineRejectPeer(unsigned int theIp, unsigned short thePort);
+GSUdpErrorCode   gsUdpEngineGetPeerState(unsigned int theIp, unsigned short thePort, GSUdpPeerState* thePeerState);
+GSUdpErrorCode   gsUdpEngineStartTalkingToPeer(unsigned int theIp, unsigned short thePort, char theInitMsg[GS_UDP_MSG_HEADER_LEN], int timeOut);
+GSUdpErrorCode   gsUdpEngineAcceptPeer(unsigned int theIp, unsigned short thePort);
+GSUdpErrorCode   gsUdpEngineRejectPeer(unsigned int theIp, unsigned short thePort);
 
 // Sending functionality
 // WARNING: Messages should not be greater than the outgoing buffer size minus the header
@@ -160,40 +122,26 @@ GSUdpErrorCode gsUdpEngineRejectPeer(unsigned int theIp, unsigned short thePort)
 // The recommended outgoing buffer size is the default (1460).  So take that, and subtract
 // 16 for message handler header and reliable message header (if sending data reliably).
 // freeSpace = 1460 - 16 - 7
-GSUdpErrorCode gsUdpEngineSendMessage(
-    unsigned int   theIp,
-    unsigned short thePort,
-    char           theHeader[GS_UDP_MSG_HEADER_LEN],
-    unsigned char* theMsg,
-    unsigned int   theMsgLen,
-    gsi_bool       theReliable);
+GSUdpErrorCode   gsUdpEngineSendMessage(unsigned int theIp, unsigned short thePort, char theHeader[GS_UDP_MSG_HEADER_LEN], unsigned char* theMsg, unsigned int theMsgLen, gsi_bool theReliable);
 
 // This function should be called for those parts of the code that want specific handling of messages
 // Any call to send should include the header registered here.
-GSUdpErrorCode gsUdpEngineAddMsgHandler(
-    char                          theInitMsg[GS_UDP_MSG_HEADER_LEN],
-    char                          theHeader[GS_UDP_MSG_HEADER_LEN],
-    gsUdpErrorCallback            theMsgHandlerError,
-    gsUdpConnConnectedCallback    theMsgHandlerConnected,
-    gsUdpConnClosedCallback       theMsgHandlerClosed,
-    gsUdpConnPingCallback         theMsgHandlerPing,
-    gsUdpConnReceivedDataCallback theMsgHandlerRecv,
-    void*                         theUserData);
-GSUdpErrorCode gsUdpEngineRemoveMsgHandler(char theHeader[GS_UDP_MSG_HEADER_LEN]);
+GSUdpErrorCode   gsUdpEngineAddMsgHandler(char theInitMsg[GS_UDP_MSG_HEADER_LEN], char theHeader[GS_UDP_MSG_HEADER_LEN], gsUdpErrorCallback theMsgHandlerError, gsUdpConnConnectedCallback theMsgHandlerConnected, gsUdpConnClosedCallback theMsgHandlerClosed, gsUdpConnPingCallback theMsgHandlerPing, gsUdpConnReceivedDataCallback theMsgHandlerRecv, void* theUserData);
+GSUdpErrorCode   gsUdpEngineRemoveMsgHandler(char theHeader[GS_UDP_MSG_HEADER_LEN]);
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 // Public Utility functionality
-SOCKET       gsUdpEngineGetSocket();
-void         gsUdpEngineAddrToString(unsigned int theIp, unsigned short thePort, char addrstring[GS_IP_ADDR_AND_PORT]);
-unsigned int gsUdpEngineGetLocalAddr();
-unsigned short gsUdpEngineGetLocalPort();
+SOCKET           gsUdpEngineGetSocket();
+void             gsUdpEngineAddrToString(unsigned int theIp, unsigned short thePort, char addrstring[GS_IP_ADDR_AND_PORT]);
+unsigned int     gsUdpEngineGetLocalAddr();
+unsigned short   gsUdpEngineGetLocalPort();
 
 // lets the app or message handler know if it is able to shutdown the udp layer
-gsi_bool gsUdpEngineNoMoreMsgHandlers();
-gsi_bool gsUdpEngineNoApp();
+gsi_bool         gsUdpEngineNoMoreMsgHandlers();
+gsi_bool         gsUdpEngineNoApp();
 
 // check the remaining free space on the outgoing buffer for the peer based
 // IP and port
-int gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short thePort);
+int              gsUdpEngineGetPeerOutBufferFreeSpace(unsigned int theIp, unsigned short thePort);
 
 #endif

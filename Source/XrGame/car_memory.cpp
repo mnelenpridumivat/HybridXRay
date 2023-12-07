@@ -33,18 +33,11 @@ BOOL car_memory::feel_vision_isRelevant(CObject* object)
     //.	return			(FALSE);
 }
 
-void car_memory::camera(
-    Fvector& position,
-    Fvector& direction,
-    Fvector& normal,
-    float&   field_of_view,
-    float&   aspect_ratio,
-    float&   near_plane,
-    float&   far_plane)
+void car_memory::camera(Fvector& position, Fvector& direction, Fvector& normal, float& field_of_view, float& aspect_ratio, float& near_plane, float& far_plane)
 {
-    position  = m_view_position;
-    direction = m_view_direction;
-    normal    = m_view_normal;
+    position      = m_view_position;
+    direction     = m_view_direction;
+    normal        = m_view_normal;
 
     field_of_view = deg2rad(m_fov_deg);
     aspect_ratio  = m_aspect;

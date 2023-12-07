@@ -33,7 +33,7 @@ struct SStepInfo
     SStepParam params;
     bool       disable;
 
-    u8 cur_cycle;
+    u8         cur_cycle;
 
     SStepInfo()
     {

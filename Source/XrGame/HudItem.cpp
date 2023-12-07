@@ -53,8 +53,7 @@ void CHudItem::renderable_Render()
     BOOL _hud_render = ::Render->get_HUD() && GetHUDmode();
 
     if (_hud_render && !IsHidden())
-    {
-    }
+    {}
     else
     {
         if (!object().H_Parent() || (!_hud_render && !IsHidden()))
@@ -94,7 +93,8 @@ void CHudItem::OnEvent(NET_Packet& P, u16 type)
 {
     switch (type)
     {
-        case GE_WPN_STATE_CHANGE: {
+        case GE_WPN_STATE_CHANGE:
+        {
             u8 S;
             P.r_u8(S);
             OnStateSwitch(u32(S));
@@ -130,7 +130,8 @@ void CHudItem::OnAnimationEnd(u32 state)
 {
     switch (state)
     {
-        case eBore: {
+        case eBore:
+        {
             SwitchState(eIdle);
         }
         break;
@@ -183,11 +184,11 @@ void CHudItem::UpdateCL()
             const xr_vector<motion_marks>& marks = m_current_motion_def->marks;
             if (!marks.empty())
             {
-                float motion_prev_time = ((float)m_dwMotionCurrTm - (float)m_dwMotionStartTm) / 1000.0f;
-                float motion_curr_time = ((float)Device->dwTimeGlobal - (float)m_dwMotionStartTm) / 1000.0f;
+                float                                   motion_prev_time = ((float)m_dwMotionCurrTm - (float)m_dwMotionStartTm) / 1000.0f;
+                float                                   motion_curr_time = ((float)Device->dwTimeGlobal - (float)m_dwMotionStartTm) / 1000.0f;
 
-                xr_vector<motion_marks>::const_iterator it   = marks.begin();
-                xr_vector<motion_marks>::const_iterator it_e = marks.end();
+                xr_vector<motion_marks>::const_iterator it               = marks.begin();
+                xr_vector<motion_marks>::const_iterator it_e             = marks.end();
                 for (; it != it_e; ++it)
                 {
                     const motion_marks& M = (*it);
@@ -296,8 +297,7 @@ u32 CHudItem::PlayHUDMotion_noCB(const shared_str& motion_name, BOOL bMixIn)
 
     if (bDebug && item().m_pInventory)
     {
-        Msg("-[%s] as[%d] [%d]anim_play [%s][%d]", HudItemData() ? "HUD" : "Simulating",
-            item().m_pInventory->GetActiveSlot(), item().object_id(), motion_name.c_str(), Device->dwFrame);
+        Msg("-[%s] as[%d] [%d]anim_play [%s][%d]", HudItemData() ? "HUD" : "Simulating", item().m_pInventory->GetActiveSlot(), item().object_id(), motion_name.c_str(), Device->dwFrame);
     }
     if (HudItemData())
     {

@@ -216,9 +216,7 @@ void InitSettings()
     Msg("Updated path to system.ltx is %s", fname);
 #endif   // #ifdef DEBUG
     pSettings = xr_new<CInifile>(fname, TRUE);
-    CHECK_OR_EXIT(
-        0 != pSettings->section_count(),
-        make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
+    CHECK_OR_EXIT(0 != pSettings->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
 
     xr_auth_strings_t tmp_ignore_pathes;
     xr_auth_strings_t tmp_check_pathes;
@@ -231,9 +229,7 @@ void InitSettings()
 
     FS.update_path(fname, "$game_config$", "game.ltx");
     pGameIni = xr_new<CInifile>(fname, TRUE);
-    CHECK_OR_EXIT(
-        0 != pGameIni->section_count(),
-        make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
+    CHECK_OR_EXIT(0 != pGameIni->section_count(), make_string("Cannot find file %s.\nReinstalling application may fix this problem.", fname));
 }
 void InitConsole()
 {
@@ -425,7 +421,7 @@ void Startup()
 
 static INT_PTR CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
 {
-    pcstr splash  = "Splash_CoP.bmp";
+    pcstr splash = "Splash_CoP.bmp";
     if (xrGameManager::GetGame() == EGame::SHOC)
     {
         splash = "Splash_ShoC.bmp";
@@ -440,16 +436,16 @@ static INT_PTR CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
         case WM_INITDIALOG:
             if (auto hBMP = LoadImage(nullptr, splash, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE))
                 SendDlgItemMessage(hw, IDC_STATIC, STM_SETIMAGE, IMAGE_BITMAP, reinterpret_cast<LPARAM>(hBMP));
-        break;
+            break;
         case WM_DESTROY:
-        break;
+            break;
         case WM_CLOSE:
             DestroyWindow(hw);
-        break;
+            break;
         case WM_COMMAND:
             if (LOWORD(wp) == IDCANCEL)
                 DestroyWindow(hw);
-        break;
+            break;
         default:
             return FALSE;
     }
@@ -733,17 +729,15 @@ ENGINE_API int EngineLaunch(EGamePath Game)
         HMODULE const kernel32 = LoadLibrary("kernel32.dll");
         R_ASSERT(kernel32);
 
-        typedef BOOL (*HeapSetInformation_type)(HANDLE, HEAP_INFORMATION_CLASS, PVOID, SIZE_T);
-        HeapSetInformation_type const heap_set_information =
-            (HeapSetInformation_type)GetProcAddress(kernel32, "HeapSetInformation");
+        typedef BOOL                  (*HeapSetInformation_type)(HANDLE, HEAP_INFORMATION_CLASS, PVOID, SIZE_T);
+        HeapSetInformation_type const heap_set_information = (HeapSetInformation_type)GetProcAddress(kernel32, "HeapSetInformation");
         if (heap_set_information)
         {
             ULONG HeapFragValue = 2;
 #ifdef DEBUG
             BOOL const result =
 #endif   // #ifdef DEBUG
-                heap_set_information(
-                    GetProcessHeap(), HeapCompatibilityInformation, &HeapFragValue, sizeof(HeapFragValue));
+                heap_set_information(GetProcessHeap(), HeapCompatibilityInformation, &HeapFragValue, sizeof(HeapFragValue));
             VERIFY2(result, "can't set process heap low fragmentation");
         }
     }
@@ -795,14 +789,13 @@ ENGINE_API int EngineLaunch(EGamePath Game)
         _STARTUP = IDD_STARTUP_CS;
     }
     // Title window
-    logoWindow = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(_STARTUP), 0, logDlgProc);
+    logoWindow       = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(_STARTUP), 0, logDlgProc);
 
     HWND logoPicture = GetDlgItem(logoWindow, IDC_STATIC);
     RECT logoRect;
     GetWindowRect(logoPicture, &logoRect);
 
-    SetWindowPos(
-        logoWindow,
+    SetWindowPos(logoWindow,
 #ifndef DEBUG
         HWND_TOPMOST,
 #else
@@ -1091,11 +1084,7 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
 
 #ifdef NO_SINGLE
         Console->Execute("main_menu on");
-        if ((op_server == NULL) || (!xr_strlen(op_server)) ||
-            ((strstr(op_server, "/dm") || strstr(op_server, "/deathmatch") || strstr(op_server, "/tdm") ||
-              strstr(op_server, "/teamdeathmatch") || strstr(op_server, "/ah") || strstr(op_server, "/artefacthunt") ||
-              strstr(op_server, "/cta") || strstr(op_server, "/capturetheartefact")) &&
-             !strstr(op_server, "/alife")))
+        if ((op_server == NULL) || (!xr_strlen(op_server)) || ((strstr(op_server, "/dm") || strstr(op_server, "/deathmatch") || strstr(op_server, "/tdm") || strstr(op_server, "/teamdeathmatch") || strstr(op_server, "/ah") || strstr(op_server, "/artefacthunt") || strstr(op_server, "/cta") || strstr(op_server, "/capturetheartefact")) && !strstr(op_server, "/alife")))
 #endif   // #ifdef NO_SINGLE
         {
             Console->Execute("main_menu off");
@@ -1273,8 +1262,7 @@ void CApplication::Level_Append(LPCSTR folder)
     strconcat(sizeof(N2), N2, folder, "level.ltx");
     strconcat(sizeof(N3), N3, folder, "level.geom");
     strconcat(sizeof(N4), N4, folder, "level.cform");
-    if (FS.exist("$game_levels$", N1) && FS.exist("$game_levels$", N2) && FS.exist("$game_levels$", N3) &&
-        FS.exist("$game_levels$", N4))
+    if (FS.exist("$game_levels$", N1) && FS.exist("$game_levels$", N2) && FS.exist("$game_levels$", N3) && FS.exist("$game_levels$", N4))
     {
         sLevelInfo LI;
         LI.folder = xr_strdup(folder);

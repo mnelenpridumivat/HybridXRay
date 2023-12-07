@@ -6,7 +6,7 @@
 #include "../monster_cover_manager.h"
 #include "../states/state_custom_action.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION     template<typename _Object>
 
 #define CStateGroupRestIdleAbstract CStateGroupRestIdle<_Object>
 
@@ -32,8 +32,7 @@ void CStateGroupRestIdleAbstract::initialize()
 
         if (m_target_node == u32(-1))
         {
-            const CCoverPoint* point =
-                object->CoverMan->find_cover(object->Home->get_home_point(), 1, object->Home->get_min_radius());
+            const CCoverPoint* point = object->CoverMan->find_cover(object->Home->get_home_point(), 1, object->Home->get_min_radius());
             if (!point)
                 return;
             m_target_node = point->level_vertex_id();
@@ -45,15 +44,14 @@ void CStateGroupRestIdleAbstract::initialize()
 
         if (m_target_node == u32(-1))
         {
-            const CCoverPoint* point =
-                object->CoverMan->find_cover(object->Home->get_home_point(), 1, object->Home->get_mid_radius());
+            const CCoverPoint* point = object->CoverMan->find_cover(object->Home->get_home_point(), 1, object->Home->get_mid_radius());
             if (!point)
                 return;
             m_target_node = point->level_vertex_id();
         }
     }
 
-    m_move_type = 0;
+    m_move_type          = 0;
 
     CMonsterSquad* squad = monster_squad().get_squad(object);
     squad->lock_cover(m_target_node);
@@ -202,7 +200,7 @@ void CStateGroupRestIdleAbstract::setup_substates()
     {
         SStateDataLookToPoint data;
 
-        Fvector dir;
+        Fvector               dir;
         object->CoverMan->less_cover_direction(dir);
 
         data.point.mad(object->Position(), dir, 10.f);

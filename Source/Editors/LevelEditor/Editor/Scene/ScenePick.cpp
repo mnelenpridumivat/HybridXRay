@@ -50,13 +50,7 @@ int EScene::SpherePick(const Fvector& center, float radius, ObjClassID classfilt
     return count;
 }
 
-int EScene::RayQuery(
-    SPickQuery&    PQ,
-    const Fvector& start,
-    const Fvector& dir,
-    float          dist,
-    u32            flags,
-    ObjectList*    snap_list)
+int EScene::RayQuery(SPickQuery& PQ, const Fvector& start, const Fvector& dir, float dist, u32 flags, ObjectList* snap_list)
 {
     VERIFY(snap_list);
     PQ.prepare_rq(start, dir, dist, flags);
@@ -99,13 +93,7 @@ int EScene::BoxQuery(SPickQuery& PQ, const Fbox& bb, u32 flags, CDB::MODEL* mode
     return PQ.r_count();
 }
 
-CCustomObject* EScene::RayPickObject(
-    float          nearest_dist,
-    const Fvector& start,
-    const Fvector& direction,
-    ObjClassID     classfilter,
-    SRayPickInfo*  pinf,
-    ObjectList*    from_list)
+CCustomObject* EScene::RayPickObject(float nearest_dist, const Fvector& start, const Fvector& direction, ObjClassID classfilter, SRayPickInfo* pinf, ObjectList* from_list)
 {
     if (!valid())
         return 0;

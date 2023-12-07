@@ -16,23 +16,15 @@
 #include "xrGameSpyServer.h"
 
 #define MAPROT_LIST_NAME "maprot_list.ltx"
-string_path MAPROT_LIST             = "";
-BOOL        net_sv_control_hit      = FALSE;
-BOOL        g_bCollectStatisticData = TRUE;
+string_path       MAPROT_LIST                  = "";
+BOOL              net_sv_control_hit           = FALSE;
+BOOL              g_bCollectStatisticData      = TRUE;
 //-----------------------------------------------------------------
-u32 g_sv_base_dwRPointFreezeTime = 0;
-int g_sv_base_iVotingEnabled     = 0x00ff;
+u32               g_sv_base_dwRPointFreezeTime = 0;
+int               g_sv_base_iVotingEnabled     = 0x00ff;
 //-----------------------------------------------------------------
 
-xr_token round_end_result_str[] = {
-    {"Finish", eRoundEnd_Finish},
-    {"Game restarted", eRoundEnd_GameRestarted},
-    {"Game restarted fast", eRoundEnd_GameRestartedFast},
-    {"Time limit", eRoundEnd_TimeLimit},
-    {"Frag limit", eRoundEnd_FragLimit},
-    {"Artefact limit", eRoundEnd_ArtrefactLimit},
-    {"Unknown", eRoundEnd_Force},
-    {0, 0}};
+xr_token          round_end_result_str[]       = {{"Finish", eRoundEnd_Finish}, {"Game restarted", eRoundEnd_GameRestarted}, {"Game restarted fast", eRoundEnd_GameRestartedFast}, {"Time limit", eRoundEnd_TimeLimit}, {"Frag limit", eRoundEnd_FragLimit}, {"Artefact limit", eRoundEnd_ArtrefactLimit}, {"Unknown", eRoundEnd_Force}, {0, 0}};
 
 // Main
 /*game_PlayerState*	game_sv_GameState::get_it					(u32 it)
@@ -226,7 +218,7 @@ string64& game_sv_GameState::get_option_s(LPCSTR lst, LPCSTR name, LPCSTR def)
 {
     static string64 ret;
 
-    string64 op;
+    string64        op;
     strconcat(sizeof(op), op, "/", name, "=");
     LPCSTR start = strstr(lst, op);
     if (start)
@@ -281,9 +273,9 @@ struct player_exporter
             return;
         }
 
-        game_PlayerState* curr_ps = tmp_client->ps;
+        game_PlayerState* curr_ps   = tmp_client->ps;
 
-        u16 tmp_flags = curr_ps->flags__;
+        u16               tmp_flags = curr_ps->flags__;
         if (to_ps == curr_ps)
             curr_ps->setFlag(GAME_PLAYER_FLAG_LOCAL);
 
@@ -308,8 +300,8 @@ void game_sv_GameState::net_Export_State(NET_Packet& P, ClientID to)
     // Players
     //	u32	p_count			= get_players_count() - ((g_dedicated_server)? 1 : 0);
 
-    xrClientData*     tmp_client = static_cast<xrClientData*>(m_server->GetClientByID(to));
-    game_PlayerState* tmp_ps     = tmp_client->ps;
+    xrClientData*                               tmp_client = static_cast<xrClientData*>(m_server->GetClientByID(to));
+    game_PlayerState*                           tmp_ps     = tmp_client->ps;
 
     player_exporter                             tmp_functor(to, tmp_ps, &P);
     fastdelegate::FastDelegate1<IClient*, void> pcounter;
@@ -399,21 +391,17 @@ void         game_sv_GameState::Create(shared_str& options)
                     if ((Type() == eGameIDCaptureTheArtefact) && (GameType & eGameIDCaptureTheArtefact))
                     {
                         team = team - 1;
-                        R_ASSERT2(
-                            ((team >= 0) && (team < 4)) || (type != rptActorSpawn),
-                            "Problem with CTA Team indexes. Propably you have added rpoint of team 0 for cta game type.");
+                        R_ASSERT2(((team >= 0) && (team < 4)) || (type != rptActorSpawn), "Problem with CTA Team indexes. Propably you have added rpoint of team 0 for cta game type.");
                     }
-                    if ((!(GameType & eGameIDDeathmatch) && (Type() == eGameIDDeathmatch)) ||
-                        (!(GameType & eGameIDTeamDeathmatch) && (Type() == eGameIDTeamDeathmatch)) ||
-                        (!(GameType & eGameIDArtefactHunt) && (Type() == eGameIDArtefactHunt)) ||
-                        (!(GameType & eGameIDCaptureTheArtefact) && (Type() == eGameIDCaptureTheArtefact)))
+                    if ((!(GameType & eGameIDDeathmatch) && (Type() == eGameIDDeathmatch)) || (!(GameType & eGameIDTeamDeathmatch) && (Type() == eGameIDTeamDeathmatch)) || (!(GameType & eGameIDArtefactHunt) && (Type() == eGameIDArtefactHunt)) || (!(GameType & eGameIDCaptureTheArtefact) && (Type() == eGameIDCaptureTheArtefact)))
                     {
                         continue;
                     };
                 };
                 switch (type)
                 {
-                    case rptActorSpawn: {
+                    case rptActorSpawn:
+                    {
                         rpoints[team].push_back(R);
                         for (int i = 0; i < int(rpoints[team].size()) - 1; i++)
                         {
@@ -427,7 +415,8 @@ void         game_sv_GameState::Create(shared_str& options)
                         };
                     }
                     break;
-                    case rptItemSpawn: {
+                    case rptItemSpawn:
+                    {
                         m_item_respawner.add_new_rpoint(rp_profile, R);
                     }
                 };
@@ -449,12 +438,9 @@ void         game_sv_GameState::Create(shared_str& options)
 
         if (l_tpIniFile->section_exist(type_name()))
             if (l_tpIniFile->r_string(type_name(), "script"))
-                ai().script_engine().add_script_process(
-                    ScriptEngine::eScriptProcessorGame,
-                    xr_new<CScriptProcess>("game", l_tpIniFile->r_string(type_name(), "script")));
+                ai().script_engine().add_script_process(ScriptEngine::eScriptProcessorGame, xr_new<CScriptProcess>("game", l_tpIniFile->r_string(type_name(), "script")));
             else
-                ai().script_engine().add_script_process(
-                    ScriptEngine::eScriptProcessorGame, xr_new<CScriptProcess>("game", ""));
+                ai().script_engine().add_script_process(ScriptEngine::eScriptProcessorGame, xr_new<CScriptProcess>("game", ""));
 
         xr_delete(l_tpIniFile);
     }
@@ -504,9 +490,9 @@ void game_sv_GameState::ReadOptions(shared_str& options)
 static bool g_bConsoleCommandsCreated_SV_Base = false;
 void        game_sv_GameState::ConsoleCommands_Create(){};
 
-void game_sv_GameState::ConsoleCommands_Clear(){};
+void        game_sv_GameState::ConsoleCommands_Clear(){};
 
-void game_sv_GameState::assign_RP(CSE_Abstract* E, game_PlayerState* ps_who)
+void        game_sv_GameState::assign_RP(CSE_Abstract* E, game_PlayerState* ps_who)
 {
     VERIFY(E);
 
@@ -591,7 +577,7 @@ CSE_Abstract* game_sv_GameState::spawn_begin(LPCSTR N)
 {
     CSE_Abstract* A = F_entity_Create(N);
     R_ASSERT(A);               // create SE
-    A->s_name = N;             // ltx-def
+    A->s_name      = N;        // ltx-def
                                //.	A->s_gameid			=	u8(m_type);							// game-type
     A->s_RP        = 0xFE;     // use supplied
     A->ID          = 0xffff;   // server must generate ID
@@ -667,8 +653,8 @@ void game_sv_GameState::OnDestroyObject(u16 eid_who) {}
 game_sv_GameState::game_sv_GameState()
 {
     VERIFY(g_pGameLevel);
-    m_server      = Level().Server;
-    m_event_queue = xr_new<GameEventQueue>();
+    m_server           = Level().Server;
+    m_event_queue      = xr_new<GameEventQueue>();
 
     m_bMapRotation     = false;
     m_bMapSwitched     = false;
@@ -730,14 +716,16 @@ void game_sv_GameState::OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, Clie
 {
     switch (type)
     {
-        case GAME_EVENT_PLAYER_CONNECTED: {
+        case GAME_EVENT_PLAYER_CONNECTED:
+        {
             ClientID ID;
             tNetPacket.r_clientID(ID);
             OnPlayerConnect(ID);
         }
         break;
 
-        case GAME_EVENT_PLAYER_DISCONNECTED: {
+        case GAME_EVENT_PLAYER_DISCONNECTED:
+        {
             ClientID ID;
             tNetPacket.r_clientID(ID);
             string1024 PlayerName;
@@ -747,10 +735,12 @@ void game_sv_GameState::OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, Clie
         }
         break;
 
-        case GAME_EVENT_PLAYER_KILLED: {
+        case GAME_EVENT_PLAYER_KILLED:
+        {
         }
         break;
-        case GAME_EVENT_ON_HIT: {
+        case GAME_EVENT_ON_HIT:
+        {
             u16           id_dest = tNetPacket.r_u16();
             u16           id_src  = tNetPacket.r_u16();
             CSE_Abstract* e_src   = get_entity_from_eid(id_src);
@@ -770,7 +760,8 @@ void game_sv_GameState::OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, Clie
             m_server->SendBroadcast(BroadcastCID, tNetPacket, net_flags(TRUE, TRUE));
         }
         break;
-        case GAME_EVENT_CREATE_CLIENT: {
+        case GAME_EVENT_CREATE_CLIENT:
+        {
             IClient* CL = (IClient*)m_server->ID_to_client(sender);
             VERIFY2(CL, "bad create client message GAME_EVENT_CREATE_CLIENT");
             if (CL == NULL)
@@ -782,12 +773,14 @@ void game_sv_GameState::OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, Clie
             m_server->AttachNewClient(CL);
         }
         break;
-        case GAME_EVENT_PLAYER_AUTH: {
+        case GAME_EVENT_PLAYER_AUTH:
+        {
             IClient* CL = m_server->ID_to_client(sender);
             m_server->OnBuildVersionRespond(CL, tNetPacket);
         }
         break;
-        case GAME_EVENT_CREATE_PLAYER_STATE: {
+        case GAME_EVENT_CREATE_PLAYER_STATE:
+        {
             xrClientData* CL = m_server->ID_to_client(sender);
             R_ASSERT2(CL, make_string("M_CREATE_PLAYER_STATE: client 0x%08x not found", sender.value()).c_str());
             CL->ps                = createPlayerState(&tNetPacket);
@@ -806,7 +799,8 @@ void game_sv_GameState::OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, Clie
             CheckNewPlayer(CL);
         }
         break;
-        default: {
+        default:
+        {
             string16 tmp;
             R_ASSERT3(0, "Game Event not implemented!!!", itoa(type, tmp, 10));
         };
@@ -879,11 +873,13 @@ void game_sv_GameState::AddDelayedEvent(NET_Packet& tNetPacket, u16 type, u32 ti
         case GAME_EVENT_VOTE_YES:
         case GAME_EVENT_VOTE_NO:
         case GAME_EVENT_PLAYER_AUTH:
-        case GAME_EVENT_CREATE_PLAYER_STATE: {
+        case GAME_EVENT_CREATE_PLAYER_STATE:
+        {
             m_event_queue->Create(tNetPacket, type, time, sender);
         }
         break;
-        default: {
+        default:
+        {
             m_event_queue->CreateSafe(tNetPacket, type, time, sender);
         }
         break;
@@ -922,7 +918,8 @@ public:
         switch (ge->type)
         {
             case GAME_EVENT_PLAYER_KILLED:
-            case GAME_EVENT_PLAYER_HITTED: {
+            case GAME_EVENT_PLAYER_HITTED:
+            {
                 u32 tmp_pos       = ge->P.r_tell();
                 u16 id_entity_for = ge->P.r_u16();
                 if (id_entity_for == id_entity_victim)
@@ -1092,8 +1089,8 @@ shared_str game_sv_GameState::level_name(const shared_str& server_options) const
     return parse_level_name(server_options);
 }
 
-LPCSTR default_map_version = "1.0";
-LPCSTR map_ver_string      = "ver=";
+LPCSTR     default_map_version = "1.0";
+LPCSTR     map_ver_string      = "ver=";
 
 shared_str game_sv_GameState::parse_level_version(const shared_str& server_options)
 {
@@ -1135,7 +1132,7 @@ void game_sv_GameState::on_death(CSE_Abstract* e_dest, CSE_Abstract* e_src)
 #ifdef DEBUG
 extern Flags32 dbg_net_Draw_Flags;
 
-void game_sv_GameState::OnRender(){
+void           game_sv_GameState::OnRender(){
     /*Fmatrix T; T.identity();
     Fvector V0, V1;
     u32 TeamColors[TEAM_COUNT] = {color_xrgb(255, 0, 0), color_xrgb(0, 255, 0), color_xrgb(0, 0, 255), color_xrgb(255,
@@ -1263,7 +1260,7 @@ void game_sv_GameState::GenerateNewName(char const* old_name, char* dest, u32 co
 
     static char const suffix_symbol = '#';
 
-    char const* currc = old_name + old_name_size - 1;
+    char const*       currc         = old_name + old_name_size - 1;
     while (currc > old_name)
     {
         if (*currc == suffix_symbol)
@@ -1300,10 +1297,10 @@ void game_sv_GameState::CheckPlayerName(xrClientData* CL)
         current_name = CL->name.c_str();
         CL->ps->m_account.set_player_name(current_name);
     }
-    u32 current_name_length = xr_strlen(current_name);
+    u32   current_name_length = xr_strlen(current_name);
 
-    u32   new_name_dest_size = current_name_length + 16;
-    char* new_name_dest      = static_cast<char*>(_alloca(new_name_dest_size));
+    u32   new_name_dest_size  = current_name_length + 16;
+    char* new_name_dest       = static_cast<char*>(_alloca(new_name_dest_size));
 
     while (FindPlayerName(current_name, CL))
     {

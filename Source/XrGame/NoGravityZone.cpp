@@ -39,9 +39,7 @@ void CNoGravityZone::switchGravity(SZoneObjectInfo& io, bool val)
             CPhysicsElement* e = shell->get_ElementByStoreOrder(u16(Random.randI(0, shell->get_ElementsNumber())));
             if (e->isActive())
             {
-                e->applyImpulseTrace(
-                    Fvector().random_point(e->getRadius()), Fvector().random_dir(),
-                    shell->getMass() * physics_world()->Gravity() * fixed_step, e->m_SelfID);
+                e->applyImpulseTrace(Fvector().random_point(e->getRadius()), Fvector().random_dir(), shell->getMass() * physics_world()->Gravity() * fixed_step, e->m_SelfID);
             }
         }
         // shell->SetAirResistance(0.f,0.f);

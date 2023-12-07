@@ -1,4 +1,4 @@
-/**
+﻿/**
  * OpenAL cross platform audio library
  * Copyright (C) 1999-2003 by authors.
  * This library is free software; you can redistribute it and/or
@@ -18,8 +18,6 @@
  * Or go to http://www.gnu.org/copyleft/lgpl.html
  */
 
-
-
 #ifdef WINDOWS
 #pragma warning(disable:4100)
 #endif
@@ -28,7 +26,6 @@
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
-
 
 //****************************************************************************
 //****************************************************************************
@@ -41,34 +38,31 @@
 //
 // Some occasionally useful debugging stuff.
 //
-#if(DBG)
-    #ifndef ASSERT
-    static ALint alListDebugAssertsEnabled = 1;
-    #define ASSERT(exp)                                                     \
-        {                                                                   \
-            if(!(exp) && alListDebugAssertsEnabled)                         \
-            {                                                               \
-                char tempStr[256];                                          \
-                OutputDebugString("\n");                                    \
-                sprintf(tempStr, "Assert failed in file %s, line %d!\n",    \
-                        __FILE__, __LINE__);                                \
-                OutputDebugString(tempStr);                                 \
-                OutputDebugString("\n");                                    \
-                if(alListDebugAssertsEnabled)                               \
-                {                                                           \
-                    DebugBreak();                                           \
-                }                                                           \
-            }                                                               \
-        }
+#if (DBG)
+#ifndef ASSERT
+static ALint alListDebugAssertsEnabled = 1;
+#define ASSERT(exp)                                                                       \
+    {                                                                                     \
+        if (!(exp) && alListDebugAssertsEnabled)                                          \
+        {                                                                                 \
+            char tempStr[256];                                                            \
+            OutputDebugString("\n");                                                      \
+            sprintf(tempStr, "Assert failed in file %s, line %d!\n", __FILE__, __LINE__); \
+            OutputDebugString(tempStr);                                                   \
+            OutputDebugString("\n");                                                      \
+            if (alListDebugAssertsEnabled)                                                \
+            {                                                                             \
+                DebugBreak();                                                             \
+            }                                                                             \
+        }                                                                                 \
+    }
 
-    #endif
-#else
-    #ifndef ASSERT
-    #define ASSERT(exp)
-    #endif
 #endif
-
-
+#else
+#ifndef ASSERT
+#define ASSERT(exp)
+#endif
+#endif
 
 //****************************************************************************
 //****************************************************************************
@@ -83,13 +77,9 @@
 //*****************************************************************************
 // Adds an entry to the tail of the list.  Each entry must be unique.
 //
-ALvoid alListAddEntry
-(
-    IN  ALlist* pList,
-    IN  ALlistEntry* pEntry
-)
+ALvoid alListAddEntry(IN ALlist* pList, IN ALlistEntry* pEntry)
 {
-#if(DBG)
+#if (DBG)
     ALlistEntry* pCurrent = 0;
 #endif
 
@@ -102,11 +92,11 @@ ALvoid alListAddEntry
     //
     // Verify the entry doesn't already exist.
     //
-#if(DBG)
+#if (DBG)
     pCurrent = pList->Head;
-    while(pCurrent)
+    while (pCurrent)
     {
-        if(pCurrent == pEntry)
+        if (pCurrent == pEntry)
         {
             break;
         }
@@ -114,7 +104,7 @@ ALvoid alListAddEntry
         pCurrent = pCurrent->Next;
     }
 
-    if(pCurrent)
+    if (pCurrent)
     {
         // Duplicate entries are not supported.
         ASSERT(0);
@@ -122,43 +112,37 @@ ALvoid alListAddEntry
     }
 #endif
 
-
     //
     // Add the item to the tail of the list.
     //
-    if(pList->Tail)
+    if (pList->Tail)
     {
         pList->Tail->Next = pEntry;
     }
 
     pEntry->Previous = pList->Tail;
-    pList->Tail = pEntry;
+    pList->Tail      = pEntry;
 
     //
     // Check if this is the first entry.
     //
-    if(!pList->Head)
+    if (!pList->Head)
     {
-        pList->Head = pEntry;
+        pList->Head    = pEntry;
         pList->Current = pEntry;
     }
 
     pList->NumberOfEntries++;
 }
-
 
 //*****************************************************************************
 // alListAddEntryToHead
 //*****************************************************************************
 // Adds an entry to the head of the list.  Each entry must be unique.
 //
-ALvoid alListAddEntryToHead
-(
-    IN  ALlist* pList,
-    IN  ALlistEntry* pEntry
-)
+ALvoid alListAddEntryToHead(IN ALlist* pList, IN ALlistEntry* pEntry)
 {
-#if(DBG)
+#if (DBG)
     ALlistEntry* pCurrent = 0;
 #endif
     ASSERT(pList);
@@ -170,11 +154,11 @@ ALvoid alListAddEntryToHead
     //
     // Verify the entry doesn't already exist.
     //
-#if(DBG)
+#if (DBG)
     pCurrent = pList->Head;
-    while(pCurrent)
+    while (pCurrent)
     {
-        if(pCurrent == pEntry)
+        if (pCurrent == pEntry)
         {
             break;
         }
@@ -182,7 +166,7 @@ ALvoid alListAddEntryToHead
         pCurrent = pCurrent->Next;
     }
 
-    if(pCurrent)
+    if (pCurrent)
     {
         // Duplicate entries are not supported.
         ASSERT(0);
@@ -190,30 +174,28 @@ ALvoid alListAddEntryToHead
     }
 #endif
 
-
     //
     // Add the item to the head of the list.
     //
-    if(pList->Head)
+    if (pList->Head)
     {
         pList->Head->Previous = pEntry;
     }
 
     pEntry->Next = pList->Head;
-    pList->Head = pEntry;
+    pList->Head  = pEntry;
 
     //
     // Check if this is the first entry.
     //
-    if(!pList->Tail)
+    if (!pList->Tail)
     {
-        pList->Tail = pEntry;
+        pList->Tail    = pEntry;
         pList->Current = pEntry;
     }
 
     pList->NumberOfEntries++;
 }
-
 
 //*****************************************************************************
 // alListAcquireLock
@@ -221,15 +203,12 @@ ALvoid alListAddEntryToHead
 // This is called to aquire the list lock for operations that span multiple
 // list calls like iterating over the list.
 //
-ALvoid alListAcquireLock
-(
-    IN  ALlist* pList
-)
+ALvoid alListAcquireLock(IN ALlist* pList)
 {
     ASSERT(pList);
 
     EnterCriticalSection(&pList->Lock);
-#if(DBG)
+#if (DBG)
     pList->Locked++;
 #endif
 
@@ -239,16 +218,12 @@ ALvoid alListAcquireLock
     ASSERT(pList->Locked == 1);
 }
 
-
 //*****************************************************************************
 // alListCreate
 //*****************************************************************************
 // Creates and initializes a list.
 //
-ALboolean alListCreate
-(
-    OUT ALlist** ppList
-)
+ALboolean alListCreate(OUT ALlist** ppList)
 {
     ALlist* pList = 0;
 
@@ -258,8 +233,8 @@ ALboolean alListCreate
     // Allocate and initialize the list context.
     //
     *ppList = 0;
-    pList = (ALlist*)malloc(sizeof(ALlist));
-    if(!pList)
+    pList   = (ALlist*)malloc(sizeof(ALlist));
+    if (!pList)
     {
         // Failed to allocate the list!
         ASSERT(0);
@@ -269,20 +244,16 @@ ALboolean alListCreate
     memset(pList, 0, sizeof(ALlist));
     InitializeCriticalSection(&pList->Lock);
     pList->NumberOfEntries = 0;
-    *ppList = pList;
+    *ppList                = pList;
     return TRUE;
 }
-
 
 //*****************************************************************************
 // alListFree
 //*****************************************************************************
 // Destroys the list.
 //
-ALvoid alListFree
-(
-    IN  ALlist* pList
-)
+ALvoid alListFree(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(!pList->Head);
@@ -290,7 +261,7 @@ ALvoid alListFree
     //
     // Free the resources allocated during the creation.
     //
-    if(pList)
+    if (pList)
     {
         DeleteCriticalSection(&pList->Lock);
         free(pList);
@@ -299,43 +270,34 @@ ALvoid alListFree
     return;
 }
 
-
 //*****************************************************************************
 // alListGetData
 //*****************************************************************************
 // Returns the data from the list entry.
 //
-ALvoid* alListGetData
-(
-    IN  ALlistEntry* pEntry
-)
+ALvoid* alListGetData(IN ALlistEntry* pEntry)
 {
     ASSERT(pEntry);
 
     return pEntry->Data;
 }
 
-
 //*****************************************************************************
 // alListGetEntryAt
 //*****************************************************************************
 // Returns the entry in the list at the specified index of the list.
 //
-ALlistEntry* alListGetEntryAt
-(
-    IN  ALlist* pList,
-    IN  ALint Index
-)
+ALlistEntry* alListGetEntryAt(IN ALlist* pList, IN ALint Index)
 {
     ALlistEntry* pEntry = 0;
-    ALint i;
+    ALint        i;
 
     ASSERT(pList);
     ASSERT(pList->Locked);
     ASSERT(Index < pList->NumberOfEntries);
 
     pEntry = pList->Head;
-    for(i = 0; i < Index && pEntry; i++)
+    for (i = 0; i < Index && pEntry; i++)
     {
         pEntry = pEntry->Next;
     }
@@ -343,38 +305,29 @@ ALlistEntry* alListGetEntryAt
     return pEntry;
 }
 
-
 //*****************************************************************************
 // alListGetEntryCount
 //*****************************************************************************
 // Returns the number of items stored in the list.
 //
-ALint alListGetEntryCount
-(
-    IN  ALlist* pList
-)
+ALint alListGetEntryCount(IN ALlist* pList)
 {
     ASSERT(pList->Locked);
     return pList->NumberOfEntries;
 }
-
 
 //*****************************************************************************
 // alListGetHead
 //*****************************************************************************
 // Returns the first entry in the list.
 //
-ALlistEntry* alListGetHead
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListGetHead(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
 
     return pList->Head;
 }
-
 
 //*****************************************************************************
 // alListGetNext
@@ -383,15 +336,12 @@ ALlistEntry* alListGetHead
 // the iterator is at the last entry (or has finished iterating over the
 // list), the returned entry will be 0.
 //
-ALlistEntry* alListGetNext
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListGetNext(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
 
-    if(!pList->Current)
+    if (!pList->Current)
     {
         return 0;
     }
@@ -399,22 +349,18 @@ ALlistEntry* alListGetNext
     return pList->Current->Next;
 }
 
-
 //*****************************************************************************
 // alListGetPrevious
 //*****************************************************************************
 // Returns the entry previous to the entry pointed to by the iterator.  If
 // the iterator is at the first entry, the returned entry will be 0.
 //
-ALlistEntry* alListGetPrevious
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListGetPrevious(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
 
-    if(!pList->Current)
+    if (!pList->Current)
     {
         return 0;
     }
@@ -422,16 +368,12 @@ ALlistEntry* alListGetPrevious
     return pList->Current->Previous;
 }
 
-
 //*****************************************************************************
 // alListGetTail
 //*****************************************************************************
 // Returns the last entry in the list.
 //
-ALlistEntry* alListGetTail
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListGetTail(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
@@ -439,35 +381,26 @@ ALlistEntry* alListGetTail
     return pList->Tail;
 }
 
-
 //*****************************************************************************
 // alListInitializeEntry
 //*****************************************************************************
 // Initializes a preallocated list entry.
 //
-ALvoid alListInitializeEntry
-(
-    ALlistEntry* pEntry,
-    ALvoid* pData
-)
+ALvoid alListInitializeEntry(ALlistEntry* pEntry, ALvoid* pData)
 {
     ASSERT(pEntry);
 
-    pEntry->Data = pData;
-    pEntry->Next = 0;
+    pEntry->Data     = pData;
+    pEntry->Next     = 0;
     pEntry->Previous = 0;
 }
-
 
 //*****************************************************************************
 // alListIsEmpty
 //*****************************************************************************
 // Returns the TRUE if the list is empty.
 //
-ALboolean alListIsEmpty
-(
-    IN  ALlist* pList
-)
+ALboolean alListIsEmpty(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
@@ -475,16 +408,12 @@ ALboolean alListIsEmpty
     return (pList->Head == 0);
 }
 
-
 //*****************************************************************************
 // alListIteratorGet
 //*****************************************************************************
 // Returns the entry pointed to by the iterator.
 //
-ALlistEntry* alListIteratorGet
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListIteratorGet(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
@@ -492,18 +421,13 @@ ALlistEntry* alListIteratorGet
     return pList->Current;
 }
 
-
 //*****************************************************************************
 // alListIteratorFindData
 //*****************************************************************************
 // Searches the list for the matching item and return the pointer to the
 // entry.  If the match is not found, the return will be 0.
 //
-ALlistEntry* alListIteratorFindData
-(
-    IN  ALlist* pList,
-    IN  ALvoid* pData
-)
+ALlistEntry* alListIteratorFindData(IN ALlist* pList, IN ALvoid* pData)
 {
     ALlistEntry* pCurrent = 0;
 
@@ -514,9 +438,9 @@ ALlistEntry* alListIteratorFindData
     // Find the item.
     //
     pCurrent = pList->Head;
-    while(pCurrent)
+    while (pCurrent)
     {
-        if(pCurrent->Data == pData)
+        if (pCurrent->Data == pData)
         {
             break;
         }
@@ -528,22 +452,18 @@ ALlistEntry* alListIteratorFindData
     return pCurrent;
 }
 
-
 //*****************************************************************************
 // alListIteratorNext
 //*****************************************************************************
 // This is called to advance the list iterator to the next entry in the list
 // and return that entry.
 //
-ALlistEntry* alListIteratorNext
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListIteratorNext(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
 
-    if(!pList->Current)
+    if (!pList->Current)
     {
         return 0;
     }
@@ -552,22 +472,18 @@ ALlistEntry* alListIteratorNext
     return pList->Current;
 }
 
-
 //*****************************************************************************
 // alListIteratorPrevious
 //*****************************************************************************
 // This is called to advance the list iterator to the previous entry in the
 // list and return that entry.
 //
-ALlistEntry* alListIteratorPrevious
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListIteratorPrevious(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
 
-    if(!pList->Current)
+    if (!pList->Current)
     {
         return 0;
     }
@@ -576,17 +492,13 @@ ALlistEntry* alListIteratorPrevious
     return pList->Current;
 }
 
-
 //*****************************************************************************
 // alListIteratorRemove
 //*****************************************************************************
 // Removes the current item from the list and returns it.  The iterator will
 // equal the next item in the list.
 //
-ALlistEntry* alListIteratorRemove
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListIteratorRemove(IN ALlist* pList)
 {
     ALlistEntry* pEntry = 0;
 
@@ -596,7 +508,7 @@ ALlistEntry* alListIteratorRemove
     //
     // Make sure we aren't at the end of the list.
     //
-    if(!pList->Current)
+    if (!pList->Current)
     {
         return 0;
     }
@@ -609,7 +521,7 @@ ALlistEntry* alListIteratorRemove
     //
     // Fix up the next item in the list.
     //
-    if(pEntry->Next)
+    if (pEntry->Next)
     {
         pEntry->Next->Previous = pEntry->Previous;
     }
@@ -617,7 +529,7 @@ ALlistEntry* alListIteratorRemove
     //
     // Fix up the previous item in the list.
     //
-    if(pEntry->Previous)
+    if (pEntry->Previous)
     {
         pEntry->Previous->Next = pEntry->Next;
     }
@@ -630,7 +542,7 @@ ALlistEntry* alListIteratorRemove
     //
     // Check the head pointer.
     //
-    if(pList->Head == pEntry)
+    if (pList->Head == pEntry)
     {
         pList->Head = pEntry->Next;
     }
@@ -638,7 +550,7 @@ ALlistEntry* alListIteratorRemove
     //
     // Check the tail pointer.
     //
-    if(pList->Tail == pEntry)
+    if (pList->Tail == pEntry)
     {
         pList->Tail = pEntry->Previous;
     }
@@ -646,23 +558,19 @@ ALlistEntry* alListIteratorRemove
     //
     // Set the entry pointers.
     //
-    pEntry->Next = 0;
+    pEntry->Next     = 0;
     pEntry->Previous = 0;
     pList->NumberOfEntries--;
     ASSERT(0 <= pList->NumberOfEntries);
     return pEntry;
 }
 
-
 //*****************************************************************************
 // alListIteratorReset
 //*****************************************************************************
 // Returns the list iterator to the head of the list.
 //
-ALlistEntry* alListIteratorReset
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListIteratorReset(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
@@ -671,18 +579,13 @@ ALlistEntry* alListIteratorReset
     return pList->Current;
 }
 
-
 //*****************************************************************************
 // alListIteratorSet
 //*****************************************************************************
 // Sets the current entry pointer to the entry passed in.  If the entry is not
 // found, the current entry will be 0.
 //
-ALlistEntry* alListIteratorSet
-(
-    IN  ALlist* pList,
-    IN  ALlistEntry* pEntry
-)
+ALlistEntry* alListIteratorSet(IN ALlist* pList, IN ALlistEntry* pEntry)
 {
     ALlistEntry* pCurrent = 0;
 
@@ -690,9 +593,9 @@ ALlistEntry* alListIteratorSet
     ASSERT(pList->Locked);
 
     pCurrent = pList->Head;
-    while(pCurrent)
+    while (pCurrent)
     {
-        if(pCurrent == pEntry)
+        if (pCurrent == pEntry)
         {
             break;
         }
@@ -704,18 +607,13 @@ ALlistEntry* alListIteratorSet
     return pList->Current;
 }
 
-
 //*****************************************************************************
 // alListMatchEntry
 //*****************************************************************************
 // Matches the entry to an item in the list and returns the data in that
 // entry.  If the match is not found, the return will be 0.
 //
-ALvoid* alListMatchEntry
-(
-    IN  ALlist* pList,
-    IN  ALlistEntry* pEntry
-)
+ALvoid* alListMatchEntry(IN ALlist* pList, IN ALlistEntry* pEntry)
 {
     ALlistEntry* pCurrent = 0;
 
@@ -726,9 +624,9 @@ ALvoid* alListMatchEntry
     // Find the item.
     //
     pCurrent = pList->Head;
-    while(pCurrent)
+    while (pCurrent)
     {
-        if(pCurrent == pEntry)
+        if (pCurrent == pEntry)
         {
             break;
         }
@@ -736,7 +634,7 @@ ALvoid* alListMatchEntry
         pCurrent = pCurrent->Next;
     }
 
-    if(!pCurrent)
+    if (!pCurrent)
     {
         return 0;
     }
@@ -744,18 +642,13 @@ ALvoid* alListMatchEntry
     return pCurrent->Data;
 }
 
-
 //*****************************************************************************
 // alListMatchData
 //*****************************************************************************
 // Searches the list for the first matching item and returns the pointer to
 // the entry.  If the match is not found, the return will be 0.
 //
-ALlistEntry* alListMatchData
-(
-    IN  ALlist* pList,
-    IN  ALvoid* pData
-)
+ALlistEntry* alListMatchData(IN ALlist* pList, IN ALvoid* pData)
 {
     ALlistEntry* pCurrent = 0;
 
@@ -766,9 +659,9 @@ ALlistEntry* alListMatchData
     // Find the item.
     //
     pCurrent = pList->Head;
-    while(pCurrent)
+    while (pCurrent)
     {
-        if(pCurrent->Data == pData)
+        if (pCurrent->Data == pData)
         {
             break;
         }
@@ -779,28 +672,23 @@ ALlistEntry* alListMatchData
     return pCurrent;
 }
 
-
 //*****************************************************************************
 // alListReleaseLock
 //*****************************************************************************
 // This is called to release the list lock.
 //
-ALvoid alListReleaseLock
-(
-    IN  ALlist* pList
-)
+ALvoid alListReleaseLock(IN ALlist* pList)
 {
     ASSERT(pList);
     ASSERT(pList->Locked);
 
-#if(DBG)
+#if (DBG)
     pList->Locked--;
     ASSERT(pList->Locked == 0);
 #endif
 
     LeaveCriticalSection(&pList->Lock);
 }
-
 
 //*****************************************************************************
 // alListRemoveEntry
@@ -809,11 +697,7 @@ ALvoid alListReleaseLock
 // this is the current item, the current item will equal the next item in the
 // list.
 //
-ALvoid* alListRemoveEntry
-(
-    IN  ALlist* pList,
-    IN  ALlistEntry* pEntry
-)
+ALvoid* alListRemoveEntry(IN ALlist* pList, IN ALlistEntry* pEntry)
 {
     ALlistEntry* pCurrent = 0;
 
@@ -825,9 +709,9 @@ ALvoid* alListRemoveEntry
     // Release the item from the list.
     //
     pCurrent = pList->Head;
-    while(pCurrent)
+    while (pCurrent)
     {
-        if(pCurrent == pEntry)
+        if (pCurrent == pEntry)
         {
             break;
         }
@@ -835,7 +719,7 @@ ALvoid* alListRemoveEntry
         pCurrent = pCurrent->Next;
     }
 
-    if(!pCurrent)
+    if (!pCurrent)
     {
         return 0;
     }
@@ -843,7 +727,7 @@ ALvoid* alListRemoveEntry
     //
     // Fix up the next item in the list.
     //
-    if(pEntry->Next)
+    if (pEntry->Next)
     {
         pEntry->Next->Previous = pEntry->Previous;
     }
@@ -851,7 +735,7 @@ ALvoid* alListRemoveEntry
     //
     // Fix up the previous item in the list.
     //
-    if(pEntry->Previous)
+    if (pEntry->Previous)
     {
         pEntry->Previous->Next = pEntry->Next;
     }
@@ -859,7 +743,7 @@ ALvoid* alListRemoveEntry
     //
     // Fix up the current pointer.
     //
-    if(pCurrent == pList->Current)
+    if (pCurrent == pList->Current)
     {
         pList->Current = pEntry->Next;
     }
@@ -867,7 +751,7 @@ ALvoid* alListRemoveEntry
     //
     // Check the head pointer.
     //
-    if(pList->Head == pEntry)
+    if (pList->Head == pEntry)
     {
         pList->Head = pEntry->Next;
     }
@@ -875,7 +759,7 @@ ALvoid* alListRemoveEntry
     //
     // Check the tail pointer.
     //
-    if(pList->Tail == pEntry)
+    if (pList->Tail == pEntry)
     {
         pList->Tail = pEntry->Previous;
     }
@@ -883,13 +767,12 @@ ALvoid* alListRemoveEntry
     //
     // Set the entry pointers.
     //
-    pEntry->Next = 0;
+    pEntry->Next     = 0;
     pEntry->Previous = 0;
     pList->NumberOfEntries--;
     ASSERT(0 <= pList->NumberOfEntries);
     return pEntry->Data;
 }
-
 
 //*****************************************************************************
 // alListRemoveHead
@@ -897,10 +780,7 @@ ALvoid* alListRemoveEntry
 // Removes the list entry at the head of the list.  If this is the current
 // item, the current item will equal the next item in the list.
 //
-ALlistEntry* alListRemoveHead
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListRemoveHead(IN ALlist* pList)
 {
     ALlistEntry* pCurrent = 0;
 
@@ -911,7 +791,7 @@ ALlistEntry* alListRemoveHead
     // Release the item from the list.
     //
     pCurrent = pList->Head;
-    if(!pCurrent)
+    if (!pCurrent)
     {
         return 0;
     }
@@ -919,7 +799,7 @@ ALlistEntry* alListRemoveHead
     //
     // Fix up the next item in the list.
     //
-    if(pCurrent->Next)
+    if (pCurrent->Next)
     {
         pCurrent->Next->Previous = 0;
     }
@@ -932,7 +812,7 @@ ALlistEntry* alListRemoveHead
     //
     // Fix up the current pointer.
     //
-    if(pCurrent == pList->Current)
+    if (pCurrent == pList->Current)
     {
         pList->Current = pCurrent->Next;
     }
@@ -945,7 +825,7 @@ ALlistEntry* alListRemoveHead
     //
     // Check the tail pointer.
     //
-    if(pList->Tail == pCurrent)
+    if (pList->Tail == pCurrent)
     {
         pList->Tail = 0;
     }
@@ -953,13 +833,12 @@ ALlistEntry* alListRemoveHead
     //
     // Set the entry pointers.
     //
-    pCurrent->Next = 0;
+    pCurrent->Next     = 0;
     pCurrent->Previous = 0;
     pList->NumberOfEntries--;
     ASSERT(0 <= pList->NumberOfEntries);
     return pCurrent;
 }
-
 
 //*****************************************************************************
 // alListRemoveTail
@@ -967,10 +846,7 @@ ALlistEntry* alListRemoveHead
 // Removes the list entry at the tail of the list.  If this is the current
 // item, the current item will be null.
 //
-ALlistEntry* alListRemoveTail
-(
-    IN  ALlist* pList
-)
+ALlistEntry* alListRemoveTail(IN ALlist* pList)
 {
     ALlistEntry* pCurrent = 0;
 
@@ -981,7 +857,7 @@ ALlistEntry* alListRemoveTail
     // Release the item from the list.
     //
     pCurrent = pList->Tail;
-    if(!pCurrent)
+    if (!pCurrent)
     {
         return 0;
     }
@@ -994,7 +870,7 @@ ALlistEntry* alListRemoveTail
     //
     // Fix up the previous item in the list.
     //
-    if(pCurrent->Previous)
+    if (pCurrent->Previous)
     {
         pCurrent->Previous->Next = 0;
     }
@@ -1002,7 +878,7 @@ ALlistEntry* alListRemoveTail
     //
     // Fix up the current pointer.
     //
-    if(pCurrent == pList->Current)
+    if (pCurrent == pList->Current)
     {
         pList->Current = 0;
     }
@@ -1010,7 +886,7 @@ ALlistEntry* alListRemoveTail
     //
     // Check the head pointer.
     //
-    if(pList->Head == pCurrent)
+    if (pList->Head == pCurrent)
     {
         pList->Head = 0;
     }
@@ -1018,15 +894,14 @@ ALlistEntry* alListRemoveTail
     //
     // Check the tail pointer.
     //
-    pList->Tail = pCurrent->Previous;
+    pList->Tail        = pCurrent->Previous;
 
     //
     // Set the entry pointers.
     //
-    pCurrent->Next = 0;
+    pCurrent->Next     = 0;
     pCurrent->Previous = 0;
     pList->NumberOfEntries--;
     ASSERT(0 <= pList->NumberOfEntries);
     return pCurrent;
 }
-

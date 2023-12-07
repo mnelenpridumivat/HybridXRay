@@ -8,13 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                          \
-    template <typename _path_id_type, typename _index_type, u8 mask> template <                          \
-        template <typename _T> class _vertex, template <typename _T1, typename _T2> class _index_vertex, \
-        typename _data_storage>
+#define TEMPLATE_SPECIALIZATION template<typename _path_id_type, typename _index_type, u8 mask> template<template<typename _T> class _vertex, template<typename _T1, typename _T2> class _index_vertex, typename _data_storage>
 
-#define CFixedVertexManager \
-    CVertexManagerFixed<_path_id_type, _index_type, mask>::CDataStorage<_vertex, _index_vertex, _data_storage>
+#define CFixedVertexManager     CVertexManagerFixed<_path_id_type, _index_type, mask>::CDataStorage<_vertex, _index_vertex, _data_storage>
 
 TEMPLATE_SPECIALIZATION
 IC CFixedVertexManager::CDataStorage(const u32 vertex_count): inherited(vertex_count)
@@ -22,7 +18,7 @@ IC CFixedVertexManager::CDataStorage(const u32 vertex_count): inherited(vertex_c
     m_current_path_id = _path_id_type(0);
     m_max_node_count  = vertex_count;
 
-    u32 memory_usage = 0;
+    u32 memory_usage  = 0;
     u32 byte_count;
 
     byte_count = (vertex_count) * sizeof(CGraphIndexVertex);
@@ -77,8 +73,7 @@ IC typename CFixedVertexManager::CGraphVertex& CFixedVertexManager::get_node(con
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CFixedVertexManager::CGraphVertex&
-    CFixedVertexManager::create_vertex(CGraphVertex& vertex, const _index_type& vertex_id)
+IC typename CFixedVertexManager::CGraphVertex& CFixedVertexManager::create_vertex(CGraphVertex& vertex, const _index_type& vertex_id)
 {
     VERIFY(vertex_id < m_max_node_count);
     m_indexes[vertex_id].m_vertex  = &vertex;

@@ -5,10 +5,12 @@ bool CRenderDevice::on_message(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
 {
     switch (uMsg)
     {
-        case WM_SYSKEYDOWN: {
+        case WM_SYSKEYDOWN:
+        {
             return true;
         }
-        case WM_ACTIVATE: {
+        case WM_ACTIVATE:
+        {
 #ifdef INGAME_EDITOR
             if (WeatherEditor())
             {
@@ -19,7 +21,8 @@ bool CRenderDevice::on_message(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
             OnWM_Activate(wParam, lParam);
             return (false);
         }
-        case WM_SETCURSOR: {
+        case WM_SETCURSOR:
+        {
 #ifdef INGAME_EDITOR
             if (WeatherEditor())
                 break;
@@ -28,7 +31,8 @@ bool CRenderDevice::on_message(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
             result = 1;
             return (true);
         }
-        case WM_SYSCOMMAND: {
+        case WM_SYSCOMMAND:
+        {
 #ifdef INGAME_EDITOR
             if (WeatherEditor())
                 break;
@@ -46,7 +50,8 @@ bool CRenderDevice::on_message(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lPara
             }
             return (false);
         }
-        case WM_CLOSE: {
+        case WM_CLOSE:
+        {
 #ifdef INGAME_EDITOR
             if (WeatherEditor())
                 break;

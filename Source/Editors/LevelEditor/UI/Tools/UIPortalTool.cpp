@@ -28,8 +28,7 @@ void UIPortalTool::Draw()
             }
             if (ImGui::Button("Compute All Portals"_RU >> u8"Компилировать все порталы", ImVec2(-1, 0)))
             {
-                if (mrYes ==
-                    ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure want to destroy all existing portals and compute them again?"))
+                if (mrYes == ELog.DlgMsg(mtConfirmation, mbYes | mbNo, "Are you sure want to destroy all existing portals and compute them again?"))
                 {
                     int cnt = PortalUtils.CalculateAllPortals();
                     if (cnt)

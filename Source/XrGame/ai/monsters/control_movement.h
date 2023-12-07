@@ -12,13 +12,13 @@ class CControlMovement: public CControl_ComPure<SControlMovementData>
 {
     typedef CControl_ComPure<SControlMovementData> inherited;
 
-    float m_velocity_current;
+    float                                          m_velocity_current;
 
 public:
     virtual void reinit();
     virtual void update_frame();
 
-    float velocity_current()
+    float        velocity_current()
     {
         return m_velocity_current;
     }

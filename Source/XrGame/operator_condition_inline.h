@@ -10,13 +10,12 @@
 
 #include "random32.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _condition_type, typename _value_type>
+#define TEMPLATE_SPECIALIZATION    template<typename _condition_type, typename _value_type>
 
 #define CAbstractOperatorCondition COperatorConditionAbstract<_condition_type, _value_type>
 
 TEMPLATE_SPECIALIZATION
-IC CAbstractOperatorCondition::COperatorConditionAbstract(const _condition_type condition, const _value_type value):
-    m_condition(condition), m_value(value)
+IC CAbstractOperatorCondition::COperatorConditionAbstract(const _condition_type condition, const _value_type value): m_condition(condition), m_value(value)
 {
     u32 seed = ::Random32.seed();
     ::Random32.seed(u32(condition) + 1);

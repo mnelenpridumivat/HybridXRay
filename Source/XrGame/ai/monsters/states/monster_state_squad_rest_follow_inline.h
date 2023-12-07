@@ -3,14 +3,14 @@
 #include "state_custom_action.h"
 #include "state_move_to_point.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION              template<typename _Object>
 
 #define CStateMonsterSquadRestFollowAbstract CStateMonsterSquadRestFollow<_Object>
 
-#define STOP_DISTANCE 2.f
-#define STAY_DISTANCE 5 * STOP_DISTANCE
-#define MIN_TIME_OUT 2000
-#define MAX_TIME_OUT 3000
+#define STOP_DISTANCE                        2.f
+#define STAY_DISTANCE                        5 * STOP_DISTANCE
+#define MIN_TIME_OUT                         2000
+#define MAX_TIME_OUT                         3000
 
 TEMPLATE_SPECIALIZATION
 CStateMonsterSquadRestFollowAbstract::CStateMonsterSquadRestFollow(_Object* obj): inherited(obj)
@@ -70,7 +70,7 @@ void CStateMonsterSquadRestFollowAbstract::setup_substates()
     {
         SStateDataMoveToPointEx data;
 
-        Fvector dest_pos = monster_squad().get_squad(object)->GetCommand(object).position;
+        Fvector                 dest_pos = monster_squad().get_squad(object)->GetCommand(object).position;
         if (!object->control().path_builder().restrictions().accessible(dest_pos))
         {
             data.vertex = object->control().path_builder().restrictions().accessible_nearest(dest_pos, data.point);

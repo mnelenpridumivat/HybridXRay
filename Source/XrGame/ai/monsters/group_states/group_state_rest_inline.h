@@ -11,7 +11,7 @@
 #include "group_state_rest_idle.h"
 #include "group_state_custom.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION template<typename _Object>
 
 #define CStateGroupRestAbstract CStateGroupRest<_Object>
 
@@ -130,8 +130,7 @@ void CStateGroupRestAbstract::execute()
                         return;
                     }
                 }
-                if (time() < time_for_sleep && object->saved_state == eStateRest_Sleep &&
-                    object->get_number_animation() == u32(13))
+                if (time() < time_for_sleep && object->saved_state == eStateRest_Sleep && object->get_number_animation() == u32(13))
                 {
                     select_state(eStateRest_Sleep);
                     get_state_current()->execute();
@@ -162,9 +161,9 @@ void CStateGroupRestAbstract::execute()
                     {
                         object->set_current_animation(8);
                         select_state(eStateCustom);
-                        object->saved_state = eStateRest_Sleep;
-                        time_for_sleep = time() + object->m_min_sleep_time + Random.randI(5) * object->m_min_sleep_time;
-                        use_to_do      = true;
+                        object->saved_state   = eStateRest_Sleep;
+                        time_for_sleep        = time() + object->m_min_sleep_time + Random.randI(5) * object->m_min_sleep_time;
+                        use_to_do             = true;
                         object->b_state_check = false;
                         get_state_current()->execute();
                         prev_substate = current_substate;
@@ -172,8 +171,7 @@ void CStateGroupRestAbstract::execute()
                     }
                     else
                     {
-                        if (object->saved_state != eStateRest_Sleep && prev_substate == eStateCustom &&
-                            object->get_number_animation() >= u32(8) && object->get_number_animation() < u32(12))
+                        if (object->saved_state != eStateRest_Sleep && prev_substate == eStateCustom && object->get_number_animation() >= u32(8) && object->get_number_animation() < u32(12))
                         {
                             object->set_current_animation(object->get_number_animation() + u32(1));
                             select_state(eStateCustom);

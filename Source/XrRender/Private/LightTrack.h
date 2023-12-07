@@ -38,6 +38,7 @@ public:
         float  energy;
         Fcolor color;
     };
+
 public:
     // general
     u32                MODE;
@@ -55,10 +56,12 @@ public:
     u32                result_iterator;
     u32                result_frame;
     s32                result_sun;
+
 public:
     u32 shadow_gen_frame;
     u32 shadow_recv_frame;
     int shadow_recv_slot;
+
 private:
     float   hemi_cube[NUM_FACES];
     float   hemi_cube_smooth[NUM_FACES];
@@ -75,6 +78,7 @@ private:
     s32     ticks_to_update;
     s32     sky_rays_uptodate;
 #endif   // RENDER!=R_R1
+
 public:
     virtual void force_mode(u32 mode)
     {
@@ -127,6 +131,7 @@ public:
 
     CROS_impl();
     virtual ~CROS_impl(){};
+
 private:
     // static inline CubeFaces get_cube_face(Fvector3& dir);
 

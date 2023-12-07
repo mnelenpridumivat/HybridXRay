@@ -7,7 +7,7 @@
 XRCORE_API CInifile* pSettings     = NULL;
 XRCORE_API CInifile* pSettingsAuth = NULL;
 
-CInifile* CInifile::Create(const char* szFileName, BOOL ReadOnly)
+CInifile*            CInifile::Create(const char* szFileName, BOOL ReadOnly)
 {
     return xr_new<CInifile>(szFileName, ReadOnly);
 }
@@ -141,9 +141,8 @@ BOOL CInifile::Sect::line_exist(LPCSTR L, LPCSTR* val)
 }
 //------------------------------------------------------------------------------
 
-CInifile::CInifile(
-    IReader* F,
-    LPCSTR   path
+CInifile::CInifile(IReader* F,
+    LPCSTR                  path
 #if 1
     ,
     allow_include_func_t allow_include_func
@@ -155,8 +154,7 @@ CInifile::CInifile(
     m_flags.set(eSaveAtEnd, FALSE);
     m_flags.set(eReadOnly, TRUE);
     m_flags.set(eOverrideNames, FALSE);
-    Load(
-        F, path
+    Load(F, path
 #if 1
         ,
         allow_include_func
@@ -164,12 +162,11 @@ CInifile::CInifile(
     );
 }
 
-CInifile::CInifile(
-    LPCSTR szFileName,
-    BOOL   ReadOnly,
-    BOOL   bLoad,
-    BOOL   SaveAtEnd,
-    u32    sect_count
+CInifile::CInifile(LPCSTR szFileName,
+    BOOL                  ReadOnly,
+    BOOL                  bLoad,
+    BOOL                  SaveAtEnd,
+    u32                   sect_count
 #if 1
     ,
     allow_include_func_t allow_include_func
@@ -198,8 +195,7 @@ CInifile::CInifile(
         {
             if (sect_count)
                 DATA.reserve(sect_count);
-            Load(
-                R, path
+            Load(R, path
 #if 1
                 ,
                 allow_include_func
@@ -250,9 +246,8 @@ IC BOOL is_empty_line_now(IReader* F)
     return (*a0 == 13) && (*a1 == 10) && (*a2 == 13) && (*a3 == 10);
 };
 
-void CInifile::Load(
-    IReader* F,
-    LPCSTR   path
+void CInifile::Load(IReader* F,
+    LPCSTR                   path
 #if 1
     ,
     allow_include_func_t allow_include_func
@@ -264,7 +259,7 @@ void CInifile::Load(
     string4096 str;
     string4096 str2;
 
-    BOOL bInsideSTR = FALSE;
+    BOOL       bInsideSTR = FALSE;
 
     while (!F->eof())
     {
@@ -284,10 +279,10 @@ void CInifile::Load(
         if (comm)
         {
             //."bla-bla-bla;nah-nah-nah"
-            char quot    = '"';
-            bool in_quot = false;
+            char   quot    = '"';
+            bool   in_quot = false;
 
-            LPCSTR q1 = strchr(str, quot);
+            LPCSTR q1      = strchr(str, quot);
             if (q1 && q1 < comm)
             {
                 LPCSTR q2 = strchr(++q1, quot);
@@ -320,8 +315,7 @@ void CInifile::Load(
                 {
                     IReader* I = FS.r_open(fn);
                     R_ASSERT3(I, "Can't find include file:", inc_name);
-                    Load(
-                        I, inc_path
+                    Load(I, inc_path
 #if 1
                         ,
                         allow_include_func
@@ -462,9 +456,7 @@ void CInifile::save_as(IWriter& writer, bool bcheck) const
         writer.w_string(temp);
         if (bcheck)
         {
-            xr_sprintf(
-                temp, sizeof(temp), "; %d %d %d", (*r_it)->Name._get()->dwCRC, (*r_it)->Name._get()->dwReference,
-                (*r_it)->Name._get()->dwLength);
+            xr_sprintf(temp, sizeof(temp), "; %d %d %d", (*r_it)->Name._get()->dwCRC, (*r_it)->Name._get()->dwReference, (*r_it)->Name._get()->dwLength);
             writer.w_string(temp);
         }
 

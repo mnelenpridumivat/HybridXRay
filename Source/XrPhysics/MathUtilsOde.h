@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4267)
+#pragma warning(disable:4995)
+#pragma warning(disable:4267)
 #include "ode/common.h"
 #include "ode/odemath.h"
 #include "ode/objects.h"
@@ -15,7 +15,7 @@
 
 static const dReal accurate_normalize_epsilon = 1.192092896e-05F;
 
-ICF void accurate_normalize(float* a)
+ICF void           accurate_normalize(float* a)
 {
     dReal sqr_magnitude = a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
 
@@ -56,7 +56,7 @@ ICF void accurate_normalize(float* a)
     {
         if (aa2 > aa0)
         {
-        aa2_largest:   // aa2 is largest
+aa2_largest:   // aa2 is largest
             a0 /= aa2;
             a1 /= aa2;
             l    = dRecipSqrt(a0 * a0 + a1 * a1 + 1);
@@ -114,5 +114,5 @@ float E_NL(dBodyID b1, dBodyID b2, const dReal* norm);
 
 float E_NlS(dBodyID body, const dReal* norm, float norm_sign);   // if body c.geom.g1 norm_sign + else -
 
-#pragma warning(default : 4995)
-#pragma warning(default : 4267)
+#pragma warning(default:4995)
+#pragma warning(default:4267)

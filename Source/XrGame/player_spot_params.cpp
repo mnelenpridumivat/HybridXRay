@@ -33,7 +33,8 @@ namespace award_system
         s8 enemy_team = -1;
         switch (Game().Type())
         {
-            case eGameIDCaptureTheArtefact: {
+            case eGameIDCaptureTheArtefact:
+            {
                 if (tmp_local_player->team == etGreenTeam)
                 {
                     enemy_team = etBlueTeam;
@@ -49,7 +50,8 @@ namespace award_system
             }
             break;
             case eGameIDArtefactHunt:
-            case eGameIDTeamDeathmatch: {
+            case eGameIDTeamDeathmatch:
+            {
                 game_cl_TeamDeathmatch* tmp_game    = smart_cast<game_cl_TeamDeathmatch*>(Level().game);
                 s16                     player_team = tmp_game->ModifyTeam(tmp_local_player->team);
                 if (player_team == etGreenTeam)

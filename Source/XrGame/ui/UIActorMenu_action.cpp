@@ -89,7 +89,8 @@ bool CUIActorMenu::OnItemDrop(CUICellItem* itm)
     }
     switch (t_new)
     {
-        case iTrashSlot: {
+        case iTrashSlot:
+        {
             if (CurrentIItem()->IsQuestItem())
                 return true;
 
@@ -102,42 +103,50 @@ bool CUIActorMenu::OnItemDrop(CUICellItem* itm)
             SetCurrentItem(NULL);
         }
         break;
-        case iActorSlot: {
+        case iActorSlot:
+        {
             //.			if(GetSlotList(CurrentIItem()->GetSlot())==new_owner)
             u16 slot_to_place;
             if (CanSetItemToList(CurrentIItem(), new_owner, slot_to_place))
                 ToSlot(itm, true, slot_to_place);
         }
         break;
-        case iActorBag: {
+        case iActorBag:
+        {
             ToBag(itm, true);
         }
         break;
-        case iActorBelt: {
+        case iActorBelt:
+        {
             ToBelt(itm, true);
         }
         break;
-        case iActorTrade: {
+        case iActorTrade:
+        {
             ToActorTrade(itm, true);
         }
         break;
-        case iPartnerTrade: {
+        case iPartnerTrade:
+        {
             if (t_old != iPartnerTradeBag)
                 return false;
             ToPartnerTrade(itm, true);
         }
         break;
-        case iPartnerTradeBag: {
+        case iPartnerTradeBag:
+        {
             if (t_old != iPartnerTrade)
                 return false;
             ToPartnerTradeBag(itm, true);
         }
         break;
-        case iDeadBodyBag: {
+        case iDeadBodyBag:
+        {
             ToDeadBodyBag(itm, true);
         }
         break;
-        case iQuickSlot: {
+        case iQuickSlot:
+        {
             ToQuickSlot(itm);
         }
         break;
@@ -165,14 +174,16 @@ bool CUIActorMenu::OnItemDbClick(CUICellItem* itm)
 
     switch (t_old)
     {
-        case iActorSlot: {
+        case iActorSlot:
+        {
             if (m_currMenuMode == mmDeadBodySearch)
                 ToDeadBodyBag(itm, false);
             else
                 ToBag(itm, false);
             break;
         }
-        case iActorBag: {
+        case iActorBag:
+        {
             if (m_currMenuMode == mmTrade)
             {
                 ToActorTrade(itm, false);
@@ -201,27 +212,33 @@ bool CUIActorMenu::OnItemDbClick(CUICellItem* itm)
             }
             break;
         }
-        case iActorBelt: {
+        case iActorBelt:
+        {
             ToBag(itm, false);
             break;
         }
-        case iActorTrade: {
+        case iActorTrade:
+        {
             ToBag(itm, false);
             break;
         }
-        case iPartnerTradeBag: {
+        case iPartnerTradeBag:
+        {
             ToPartnerTrade(itm, false);
             break;
         }
-        case iPartnerTrade: {
+        case iPartnerTrade:
+        {
             ToPartnerTradeBag(itm, false);
             break;
         }
-        case iDeadBodyBag: {
+        case iDeadBodyBag:
+        {
             ToBag(itm, false);
             break;
         }
-        case iQuickSlot: {
+        case iQuickSlot:
+        {
             ToQuickSlot(itm);
         }
         break;
@@ -256,7 +273,7 @@ bool CUIActorMenu::OnItemFocusReceive(CUICellItem* itm)
     InfoCurItem(NULL);
     m_item_info_view = true;
 
-    itm->m_selected = true;
+    itm->m_selected  = true;
     set_highlight_item(itm);
     return true;
 }
@@ -308,8 +325,7 @@ bool CUIActorMenu::OnKeyboardAction(int dik, EUIMessages keyboard_action)
     InfoCurItem(NULL);
     if (is_binded(kDROP, dik))
     {
-        if (WINDOW_KEY_PRESSED == keyboard_action && CurrentIItem() && !CurrentIItem()->IsQuestItem() &&
-            CurrentIItem()->parent_id() == m_pActorInvOwner->object_id())
+        if (WINDOW_KEY_PRESSED == keyboard_action && CurrentIItem() && !CurrentIItem()->IsQuestItem() && CurrentIItem()->parent_id() == m_pActorInvOwner->object_id())
         {
             SendEvent_Item_Drop(CurrentIItem(), m_pActorInvOwner->object_id());
             SetCurrentItem(NULL);

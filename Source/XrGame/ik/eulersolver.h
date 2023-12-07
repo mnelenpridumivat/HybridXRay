@@ -65,13 +65,13 @@ void EulerEval(int euler_type, const float t[3], Matrix R);
 class EulerPsiSolver
 {
 private:
-    int euler_type;   // ZXY, YXZ, etc
-    int jt_type;      // simple jt is either sin(theta) or cos(theta)
+    int            euler_type;   // ZXY, YXZ, etc
+    int            jt_type;      // simple jt is either sin(theta) or cos(theta)
     // index[0] = index of simple jt, index[1],index[2] indices of complex joints
-    short index[3];
+    short          index[3];
 
-    short num_singular;
-    float singular[2];
+    short          num_singular;
+    float          singular[2];
 
     SimpleJtLimit  j0;
     ComplexJtLimit j1;
@@ -95,7 +95,7 @@ public:
     // Given a psi angle find the derivatives of the euler angles relative to psi
     void Derivatives(float psi, float t[3], int family = 1) const;
 
-    int Singularities(float psi[2]) const;
+    int  Singularities(float psi[2]) const;
 };
 
 #endif

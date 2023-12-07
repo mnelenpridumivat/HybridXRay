@@ -28,27 +28,27 @@ protected:
     CUITabControl* UITabControl;
     CUI3tButton*   m_btn_close;
 
-    CUIStatic* UIMainPdaFrame;
-    CUIStatic* UINoice;
+    CUIStatic*     UIMainPdaFrame;
+    CUIStatic*     UINoice;
 
-    CUITextWnd* m_caption;
-    shared_str  m_caption_const;
+    CUITextWnd*    m_caption;
+    shared_str     m_caption_const;
     //	CUIAnimatedStatic*		m_anim_static;
-    CUITextWnd* m_clock;
+    CUITextWnd*    m_clock;
 
     // Текущий активный диалог
-    CUIWindow* m_pActiveDialog;
-    shared_str m_sActiveSection;
+    CUIWindow*     m_pActiveDialog;
+    shared_str     m_sActiveSection;
 
-    UIHint* m_hint_wnd;
+    UIHint*        m_hint_wnd;
 
 public:
-    CUITaskWnd* pUITaskWnd;
+    CUITaskWnd*    pUITaskWnd;
     //-	CUIFactionWarWnd*		pUIFactionWarWnd;
     CUIRankingWnd* pUIRankingWnd;
     CUILogsWnd*    pUILogsWnd;
 
-    virtual void Reset();
+    virtual void   Reset();
 
 public:
     CUIPdaWnd();
@@ -68,16 +68,16 @@ public:
     }   // always true because StopAnyMove() == false
     virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
 
-    UIHint* get_hint_wnd() const
+    UIHint*      get_hint_wnd() const
     {
         return m_hint_wnd;
     }
-    void DrawHint();
+    void         DrawHint();
 
-    void SetActiveCaption();
-    void SetCaption(LPCSTR text);
-    void Show_SecondTaskWnd(bool status);
-    void Show_MapLegendWnd(bool status);
+    void         SetActiveCaption();
+    void         SetCaption(LPCSTR text);
+    void         Show_SecondTaskWnd(bool status);
+    void         Show_MapLegendWnd(bool status);
 
     void         SetActiveSubdialog(const shared_str& section);
     virtual bool StopAnyMove()

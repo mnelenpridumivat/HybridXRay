@@ -9,6 +9,7 @@ private:
     typedef CWeaponPistol inherited;
 
 protected:
+
 public:
     CWeaponFORT();
     virtual ~CWeaponFORT();

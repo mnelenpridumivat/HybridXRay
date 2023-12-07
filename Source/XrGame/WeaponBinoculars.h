@@ -19,7 +19,7 @@ public:
     CWeaponBinoculars();
     virtual ~CWeaponBinoculars();
 
-    void Load(LPCSTR section);
+    void         Load(LPCSTR section);
 
     virtual void OnZoomIn();
     virtual void OnZoomOut();

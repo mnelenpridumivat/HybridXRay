@@ -80,8 +80,7 @@ SAKERequest CGameSpy_SAKE::UpdateRecord(SAKEUpdateRecordInput* input, SAKEReques
     return xrGS_sakeUpdateRecord(m_sake_inst, input, callback, userdata);
 }
 
-SAKERequest
-    CGameSpy_SAKE::SearchForRecords(SAKESearchForRecordsInput* input, SAKERequestCallback callback, void* userData)
+SAKERequest CGameSpy_SAKE::SearchForRecords(SAKESearchForRecordsInput* input, SAKERequestCallback callback, void* userData)
 {
     return xrGS_sakeSearchForRecords(m_sake_inst, input, callback, userData);
 }

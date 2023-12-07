@@ -82,15 +82,15 @@ public:
     };
 
 protected:
-    int scroll_delta;
+    int                    scroll_delta;
 
-    CGameFont* pFont;
-    CGameFont* pFont2;
+    CGameFont*             pFont;
+    CGameFont*             pFont2;
 
     FactoryPtr<IUIShader>* m_hShader_back;
 
-    POINT m_mouse_pos;
-    bool  m_disable_tips;
+    POINT                  m_mouse_pos;
+    bool                   m_disable_tips;
 
 private:
     vecHistory m_cmd_history;
@@ -110,8 +110,8 @@ private:
 public:
     CConsole();
     virtual ~CConsole();
-    virtual void Initialize();
-    virtual void Destroy();
+    virtual void      Initialize();
+    virtual void      Destroy();
 
     virtual void      OnRender();
     virtual void _BCL OnFrame();
@@ -120,16 +120,16 @@ public:
     bool              bVisible;
     vecCMD            Commands;
 
-    void AddCommand(IConsole_Command* cc);
-    void RemoveCommand(IConsole_Command* cc);
+    void              AddCommand(IConsole_Command* cc);
+    void              RemoveCommand(IConsole_Command* cc);
 
-    void Show();
-    void Hide();
+    void              Show();
+    void              Hide();
 
-    void Execute(LPCSTR cmd);
-    void ExecuteScript(LPCSTR str);
-    void ExecuteCommand(LPCSTR cmd, bool record_cmd = true);
-    void SelectCommand();
+    void              Execute(LPCSTR cmd);
+    void              ExecuteScript(LPCSTR str);
+    void              ExecuteCommand(LPCSTR cmd, bool record_cmd = true);
+    void              SelectCommand();
 
     bool              GetBool(LPCSTR cmd) const;
     float             GetFloat(LPCSTR cmd, float& min, float& max) const;
@@ -199,23 +199,23 @@ protected:
     void xr_stdcall GamePause();
 
 protected:
-    void add_cmd_history(shared_str const& str);
-    void next_cmd_history_idx();
-    void prev_cmd_history_idx();
-    void reset_cmd_history_idx();
+    void              add_cmd_history(shared_str const& str);
+    void              next_cmd_history_idx();
+    void              prev_cmd_history_idx();
+    void              reset_cmd_history_idx();
 
-    void next_selected_tip();
-    void check_next_selected_tip();
-    void prev_selected_tip();
-    void check_prev_selected_tip();
-    void reset_selected_tip();
+    void              next_selected_tip();
+    void              check_next_selected_tip();
+    void              prev_selected_tip();
+    void              check_prev_selected_tip();
+    void              reset_selected_tip();
 
     IConsole_Command* find_next_cmd(LPCSTR in_str, shared_str& out_str);
     bool              add_next_cmds(LPCSTR in_str, vecTipsEx& out_v);
     bool              add_internal_cmds(LPCSTR in_str, vecTipsEx& out_v);
 
-    void update_tips();
-    void select_for_filter(LPCSTR filter_str, vecTips& in_v, vecTipsEx& out_v);
+    void              update_tips();
+    void              select_for_filter(LPCSTR filter_str, vecTips& in_v, vecTipsEx& out_v);
 
 };   // class CConsole
 

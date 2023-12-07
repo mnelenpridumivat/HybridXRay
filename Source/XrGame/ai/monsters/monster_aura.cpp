@@ -19,8 +19,7 @@ namespace detail
 
 }   // namespace detail
 
-monster_aura::monster_aura(CBaseMonster* const object, pcstr const name):
-    m_object(object), m_pp_effector_name(NULL), m_pp_index(0)
+monster_aura::monster_aura(CBaseMonster* const object, pcstr const name): m_object(object), m_pp_effector_name(NULL), m_pp_index(0)
 {
     xr_strcpy(m_name, sizeof(m_name), name);
     m_detect_snd_time = 0.0f;
@@ -50,7 +49,7 @@ float monster_aura::calculate() const
 {
     float const distance = m_object->Position().distance_to(Actor()->Position());
 
-    float const epsilon = 0.0001f;
+    float const epsilon  = 0.0001f;
 
     using namespace detail;
     float linear_factor    = override_if_debug(s_linear_factor_string, m_linear_factor);
@@ -103,14 +102,14 @@ void monster_aura::load_from_ini(CInifile const* ini, pcstr const section, bool 
     char* enable_for_dead_string = NULL;
     STRCONCAT(enable_for_dead_string, m_name, s_enable_for_dead_string);
 
-    m_pp_effector_name     = READ_IF_EXISTS(ini, r_string, section, pp_effector_name_string, NULL);
-    m_pp_highest_at        = READ_IF_EXISTS(ini, r_float, section, pp_highest_at_string, 1.f);
-    m_linear_factor        = READ_IF_EXISTS(ini, r_float, section, linear_factor_string, 0.f);
-    m_quadratic_factor     = READ_IF_EXISTS(ini, r_float, section, quadratic_factor_string, 0.f);
-    m_max_power            = READ_IF_EXISTS(ini, r_float, section, max_power_string, 0.f);
-    m_max_distance         = READ_IF_EXISTS(ini, r_float, section, max_distance_string, 0.f);
-    m_enable_for_dead      = !!READ_IF_EXISTS(ini, r_bool, section, enable_for_dead_string, enable_for_dead_default);
-    pcstr const sound_name = READ_IF_EXISTS(ini, r_string, section, sound_string, NULL);
+    m_pp_effector_name            = READ_IF_EXISTS(ini, r_string, section, pp_effector_name_string, NULL);
+    m_pp_highest_at               = READ_IF_EXISTS(ini, r_float, section, pp_highest_at_string, 1.f);
+    m_linear_factor               = READ_IF_EXISTS(ini, r_float, section, linear_factor_string, 0.f);
+    m_quadratic_factor            = READ_IF_EXISTS(ini, r_float, section, quadratic_factor_string, 0.f);
+    m_max_power                   = READ_IF_EXISTS(ini, r_float, section, max_power_string, 0.f);
+    m_max_distance                = READ_IF_EXISTS(ini, r_float, section, max_distance_string, 0.f);
+    m_enable_for_dead             = !!READ_IF_EXISTS(ini, r_bool, section, enable_for_dead_string, enable_for_dead_default);
+    pcstr const sound_name        = READ_IF_EXISTS(ini, r_string, section, sound_string, NULL);
     pcstr const detect_sound_name = READ_IF_EXISTS(ini, r_string, section, detect_sound_string, NULL);
 
     if (sound_name)
@@ -214,8 +213,7 @@ void monster_aura::update_schedule()
         if (!m_pp_index)
         {
             m_pp_index = Actor()->Cameras().RequestPPEffectorId();
-            AddEffector(
-                Actor(), m_pp_index, m_pp_effector_name, GET_KOEFF_FUNC(this, &monster_aura::get_post_process_factor));
+            AddEffector(Actor(), m_pp_index, m_pp_effector_name, GET_KOEFF_FUNC(this, &monster_aura::get_post_process_factor));
         }
     }
     else if (m_pp_index != 0)

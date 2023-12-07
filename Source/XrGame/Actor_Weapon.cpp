@@ -31,17 +31,15 @@ float CActor::GetWeaponAccuracy() const
     {
         return m_fDispAim;
     }
-    float dispersion = m_fDispBase * GetWeaponParam(W, Get_PDM_Base(), 1.0f);
+    float                 dispersion = m_fDispBase * GetWeaponParam(W, Get_PDM_Base(), 1.0f);
 
     CEntity::SEntityState state;
     if (g_State(state))
     {
         // fAVelocity = angle velocity
-        dispersion *=
-            (1.0f + (state.fAVelocity / VEL_A_MAX) * m_fDispVelFactor * GetWeaponParam(W, Get_PDM_Vel_F(), 1.0f));
+        dispersion *= (1.0f + (state.fAVelocity / VEL_A_MAX) * m_fDispVelFactor * GetWeaponParam(W, Get_PDM_Vel_F(), 1.0f));
         // fVelocity = linear velocity
-        dispersion *=
-            (1.0f + (state.fVelocity / VEL_MAX) * m_fDispVelFactor * GetWeaponParam(W, Get_PDM_Vel_F(), 1.0f));
+        dispersion *= (1.0f + (state.fVelocity / VEL_MAX) * m_fDispVelFactor * GetWeaponParam(W, Get_PDM_Vel_F(), 1.0f));
 
         bool bAccelerated = isActorAccelerated(mstate_real, IsZoomAimingMode());
         if (bAccelerated || !state.bCrouch)
@@ -63,8 +61,8 @@ float CActor::GetWeaponAccuracy() const
 
 void CActor::g_fireParams(const CHudItem* pHudItem, Fvector& fire_pos, Fvector& fire_dir)
 {
-    fire_pos = Cameras().Position();
-    fire_dir = Cameras().Direction();
+    fire_pos                 = Cameras().Position();
+    fire_dir                 = Cameras().Direction();
 
     const CMissile* pMissile = smart_cast<const CMissile*>(pHudItem);
     if (pMissile)
@@ -190,9 +188,9 @@ void CActor::HitSector(CObject* who, CObject* weapon)
     if (!g_Alive())
         return;
 
-    bool bShowHitSector = true;
+    bool          bShowHitSector = true;
 
-    CEntityAlive* pEntityAlive = smart_cast<CEntityAlive*>(who);
+    CEntityAlive* pEntityAlive   = smart_cast<CEntityAlive*>(who);
 
     if (!pEntityAlive || this == who)
         bShowHitSector = false;
@@ -217,9 +215,9 @@ void CActor::HitSector(CObject* who, CObject* weapon)
 void CActor::on_weapon_shot_start(CWeapon* weapon)
 {
     // CWeaponMagazined* pWM = smart_cast<CWeaponMagazined*> (weapon);
-    CameraRecoil const& camera_recoil = (IsZoomAimingMode()) ? weapon->zoom_cam_recoil : weapon->cam_recoil;
+    CameraRecoil const&  camera_recoil = (IsZoomAimingMode()) ? weapon->zoom_cam_recoil : weapon->cam_recoil;
 
-    CCameraShotEffector* effector = smart_cast<CCameraShotEffector*>(Cameras().GetCamEffector(eCEShot));
+    CCameraShotEffector* effector      = smart_cast<CCameraShotEffector*>(Cameras().GetCamEffector(eCEShot));
     if (!effector)
     {
         effector = (CCameraShotEffector*)Cameras().AddCamEffector(xr_new<CCameraShotEffector>(camera_recoil));

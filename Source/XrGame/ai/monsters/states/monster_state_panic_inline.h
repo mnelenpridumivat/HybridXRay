@@ -7,7 +7,7 @@
 #include "monster_state_panic_run.h"
 #include "monster_state_home_point_attack.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION    template<typename _Object>
 
 #define CStateMonsterPanicAbstract CStateMonsterPanic<_Object>
 

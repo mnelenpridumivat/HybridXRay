@@ -6,7 +6,7 @@ poolSS<_face, 8 * 1024>&   mu_faces_pool();
 poolSS<_vertex, 8 * 1024>& mu_vertices_pool();
 // extern u32		version;
 
-void xrMU_Model::Load(IReader& F, u32 version)
+void                       xrMU_Model::Load(IReader& F, u32 version)
 {
     F.r_stringZ(m_name);
 
@@ -50,9 +50,7 @@ void xrMU_Model::Load(IReader& F, u32 version)
         }
     */
     //
-    clMsg(
-        "* Loading model: '%s' - v(%d/%d), f(%d/%d)", *m_name, m_vertices.size(), b_vertices.size(), m_faces.size(),
-        b_faces.size());
+    clMsg("* Loading model: '%s' - v(%d/%d), f(%d/%d)", *m_name, m_vertices.size(), b_vertices.size(), m_faces.size(), b_faces.size());
 }
 
 _face* xrMU_Model::create_face(_vertex* v0, _vertex* v1, _vertex* v2, b_face& B)

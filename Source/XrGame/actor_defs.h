@@ -3,7 +3,7 @@
 
 #pragma once
 
-#define ACTOR_HEIGHT 1.75f
+#define ACTOR_HEIGHT        1.75f
 #define ACTOR_LOOKOUT_SPEED 2.f
 
 namespace ACTOR_DEFS
@@ -80,16 +80,16 @@ namespace ACTOR_DEFS
     // ввод с клавиатуры и мыши
     struct net_input
     {
-        u32 m_dwTimeStamp;
+        u32   m_dwTimeStamp;
 
-        u32 mstate_wishful;
+        u32   mstate_wishful;
 
         u8    cam_mode;
         float cam_yaw;
         float cam_pitch;
         float cam_roll;
 
-        bool operator<(const u32 Time)
+        bool  operator<(const u32 Time)
         {
             return m_dwTimeStamp < Time;
         };
@@ -124,7 +124,7 @@ namespace ACTOR_DEFS
     // апдайт с данными физики
     struct net_update_A
     {
-        u32 dwTimeStamp;
+        u32         dwTimeStamp;
         //	u32					dwTime0;
         //	u32					dwTime1;
         SPHNetState State;

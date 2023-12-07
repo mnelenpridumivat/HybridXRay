@@ -30,17 +30,17 @@ private:
 protected:
     xr_vector<CUICellItem*> m_childs;
 
-    CUIDragDropListEx*   m_pParentList;
-    CUIProgressBar*      m_pConditionState;
-    Ivector2             m_grid_size;
-    ICustomDrawCellItem* m_custom_draw;
-    int                  m_accelerator;
-    CUIStatic*           m_text;
-    CUIStatic*           m_upgrade;
-    Fvector2             m_upgrade_pos;
+    CUIDragDropListEx*      m_pParentList;
+    CUIProgressBar*         m_pConditionState;
+    Ivector2                m_grid_size;
+    ICustomDrawCellItem*    m_custom_draw;
+    int                     m_accelerator;
+    CUIStatic*              m_text;
+    CUIStatic*              m_upgrade;
+    Fvector2                m_upgrade_pos;
 
-    virtual void UpdateItemText();
-    void         init();
+    virtual void            UpdateItemText();
+    void                    init();
 
 public:
     CUICellItem();
@@ -76,7 +76,7 @@ public:
 
     virtual CUIDragItem* CreateDragItem();
 
-    CUIDragDropListEx* OwnerList()
+    CUIDragDropListEx*   OwnerList()
     {
         return m_pParentList;
     }
@@ -123,19 +123,19 @@ public:
     CUIDragItem(CUICellItem* parent);
     virtual void Init(const ui_shader& sh, const Frect& rect, const Frect& text_rect);
     virtual ~CUIDragItem();
-    void SetCustomDraw(ICustomDrawDragItem* c);
+    void       SetCustomDraw(ICustomDrawDragItem* c);
 
     CUIStatic* wnd()
     {
         return &m_static;
     }
-    virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
-    virtual void Draw();
+    virtual bool      OnMouseAction(float x, float y, EUIMessages mouse_action);
+    virtual void      Draw();
 
     virtual void      OnRender();
     virtual void _BCL OnFrame();
 
-    CUICellItem* ParentItem()
+    CUICellItem*      ParentItem()
     {
         return m_pParent;
     }

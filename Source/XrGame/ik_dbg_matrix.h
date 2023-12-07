@@ -23,22 +23,22 @@ struct dbg_matrix
     u16     ref_bone;
     dbg_matrix()
     {
-        b2goal_gl = Fidentity;
-        b3goal_gl = Fidentity;
+        b2goal_gl    = Fidentity;
+        b3goal_gl    = Fidentity;
 
-        b2goal_lc   = Fidentity;
-        b3goal_lc   = Fidentity;
-        b3tob3_goal = Fidentity;
+        b2goal_lc    = Fidentity;
+        b3goal_lc    = Fidentity;
+        b3tob3_goal  = Fidentity;
 
-        b2start_gl = Fidentity;
-        b3start_gl = Fidentity;
+        b2start_gl   = Fidentity;
+        b3start_gl   = Fidentity;
 
         b2start_lc   = Fidentity;
         b3start_lc   = Fidentity;
         b3tob3_start = Fidentity;
 
-        OBJ      = Fidentity;
-        OBJ_END  = Fidentity;
+        OBJ          = Fidentity;
+        OBJ_END      = Fidentity;
         dbg_goal = GOAL = Fidentity;
         ref_bone        = u16(-1);
     }

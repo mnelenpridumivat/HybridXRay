@@ -78,8 +78,7 @@ void CUIScrollView::InitScrollView()
     else
     {
         if (!!m_scrollbar_profile)
-            m_VScrollBar->InitScrollBar(
-                Fvector2().set(GetWndSize().x, 0.0f), GetWndSize().y, false, *m_scrollbar_profile);
+            m_VScrollBar->InitScrollBar(Fvector2().set(GetWndSize().x, 0.0f), GetWndSize().y, false, *m_scrollbar_profile);
         else
             m_VScrollBar->InitScrollBar(Fvector2().set(GetWndSize().x, 0.0f), GetWndSize().y, false);
     }
@@ -153,8 +152,7 @@ void CUIScrollView::RecalcSize()
 
     if (GetVertFlip())
     {
-        for (WINDOW_LIST::reverse_iterator it = m_pad->GetChildWndList().rbegin();
-             m_pad->GetChildWndList().rend() != it; ++it)
+        for (WINDOW_LIST::reverse_iterator it = m_pad->GetChildWndList().rbegin(); m_pad->GetChildWndList().rend() != it; ++it)
         {
             (*it)->SetWndPos(item_pos);
             item_pos.y += (*it)->GetWndSize().y;

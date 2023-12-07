@@ -10,10 +10,10 @@ class ISpatial;
 
 namespace Feel
 {
-    const float fuzzy_update_vis   = 1000.f;   // speed of fuzzy-logic desisions
-    const float fuzzy_update_novis = 1000.f;   // speed of fuzzy-logic desisions
-    const float fuzzy_guaranteed   = 0.001f;   // distance which is supposed 100% visible
-    const float lr_granularity     = 0.1f;     // assume similar positions
+    const float      fuzzy_update_vis   = 1000.f;   // speed of fuzzy-logic desisions
+    const float      fuzzy_update_novis = 1000.f;   // speed of fuzzy-logic desisions
+    const float      fuzzy_guaranteed   = 0.001f;   // distance which is supposed 100% visible
+    const float      lr_granularity     = 0.1f;     // assume similar positions
 
     class ENGINE_API Vision: private pure_relcase
     {
@@ -25,9 +25,9 @@ namespace Feel
         xr_vector<ISpatial*> r_spatial;
         CObject const*       m_owner;
 
-        void o_new(CObject* E);
-        void o_delete(CObject* E);
-        void o_trace(Fvector& P, float dt, float vis_threshold);
+        void                 o_new(CObject* E);
+        void                 o_delete(CObject* E);
+        void                 o_trace(Fvector& P, float dt, float vis_threshold);
 
     public:
         Vision(CObject const* owner);

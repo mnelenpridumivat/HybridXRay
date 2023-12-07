@@ -16,13 +16,13 @@ namespace mp_anticheat
 
     configs_dumper::configs_dumper()
     {
-        m_state                        = ds_not_active;
-        m_buffer_for_compress          = NULL;
-        m_buffer_for_compress_size     = 0;
-        m_buffer_for_compress_capacity = 0;
+        m_state                             = ds_not_active;
+        m_buffer_for_compress               = NULL;
+        m_buffer_for_compress_size          = 0;
+        m_buffer_for_compress_capacity      = 0;
 
-        m_make_start_event = NULL;
-        m_make_done_event  = NULL;
+        m_make_start_event                  = NULL;
+        m_make_done_event                   = NULL;
 
         static u8 const sign_random_init[4] = {42, 42, 42, 42};
         m_dump_signer.sign(sign_random_init, sizeof(sign_random_init));
@@ -114,7 +114,7 @@ namespace mp_anticheat
 
     static active_objects_t::size_type const max_active_objects = 16;
 
-    void configs_dumper::write_configs()
+    void                                     configs_dumper::write_configs()
     {
         long i = 0;
         m_dump_result.clear();
@@ -130,12 +130,10 @@ namespace mp_anticheat
         else
         {
             while (m_ltx_configs.dump_one(m_dump_result))
-            {
-            };
+            {};
         }
-        CInifile         active_params_dumper(NULL, FALSE, FALSE, FALSE);
-        active_objects_t active_objects(
-            _alloca(sizeof(active_objects_t::value_type) * max_active_objects), max_active_objects);
+        CInifile                    active_params_dumper(NULL, FALSE, FALSE, FALSE);
+        active_objects_t            active_objects(_alloca(sizeof(active_objects_t::value_type) * max_active_objects), max_active_objects);
         active_objects_t::size_type aobjs_count = get_active_objects(active_objects);
         string16                    tmp_strbuff;
         for (active_objects_t::size_type i = 0; i < aobjs_count; ++i)
@@ -152,16 +150,14 @@ namespace mp_anticheat
     char const* cd_digital_sign_key  = "digital_sign";
     char const* cd_creation_date     = "creation_date";
 
-    void configs_dumper::sign_configs()
+    void        configs_dumper::sign_configs()
     {
         string64    creation_date;
         LPSTR       tmp_player_name = NULL;
         CInifile    tmp_ini(NULL, FALSE, FALSE, FALSE);
         game_cl_mp* tmp_cl_game = smart_cast<game_cl_mp*>(&Game());
         R_ASSERT(tmp_cl_game);
-        STRCONCAT(
-            tmp_player_name, "\"",
-            tmp_cl_game->local_player ? tmp_cl_game->local_player->getName() : "unknown_just_connected", "\"");
+        STRCONCAT(tmp_player_name, "\"", tmp_cl_game->local_player ? tmp_cl_game->local_player->getName() : "unknown_just_connected", "\"");
         LPCSTR tmp_cdkey_digest = Level().get_cdkey_digest().c_str();
         if (!tmp_cdkey_digest)
             tmp_cdkey_digest = "null";
@@ -237,9 +233,7 @@ namespace mp_anticheat
         {
             ts_cb.bind(this, &configs_dumper::switch_thread);
         }
-        m_buffer_for_compress_size = ppmd_compress_mt(
-            m_buffer_for_compress, m_buffer_for_compress_capacity, m_dump_result.pointer(), m_dump_result.size(),
-            ts_cb);
+        m_buffer_for_compress_size = ppmd_compress_mt(m_buffer_for_compress, m_buffer_for_compress_capacity, m_dump_result.pointer(), m_dump_result.size(), ts_cb);
     }
 
     void configs_dumper::dumper_thread(void* my_ptr)

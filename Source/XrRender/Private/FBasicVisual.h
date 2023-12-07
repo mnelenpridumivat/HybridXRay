@@ -35,6 +35,7 @@ struct IRender_Mesh
         p_rm_Indices  = 0;
     }
     virtual ~IRender_Mesh();
+
 private:
     IRender_Mesh(const IRender_Mesh& other);
     void operator=(const IRender_Mesh& other);
@@ -54,6 +55,7 @@ public:
         return dbg_name;
     }
 #endif
+
 public:
     // Common data for rendering
     u32                    Type;     // visual's type

@@ -1,14 +1,14 @@
 ﻿#pragma once
 #include "../state.h"
 
-template <typename _Object> class CStateBurerAttackRunAround: public CState<_Object>
+template<typename _Object> class CStateBurerAttackRunAround: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
-    Fvector selected_point;
-    u32     time_started;
+    Fvector                 selected_point;
+    u32                     time_started;
 
-    Fvector dest_direction;
+    Fvector                 dest_direction;
 
 public:
     CStateBurerAttackRunAround(_Object* obj);

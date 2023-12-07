@@ -1,4 +1,4 @@
-// Copyright (c) 2004 Daniel Wallin
+﻿// Copyright (c) 2004 Daniel Wallin
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -24,8 +24,7 @@
 #define PREFIX_040218_HPP
 
 #ifdef LUABIND_PREFIX_INCLUDE
-#  include LUABIND_PREFIX_INCLUDE
+#include LUABIND_PREFIX_INCLUDE
 #endif
 
-#endif // PREFIX_040218_HPP
-
+#endif   // PREFIX_040218_HPP

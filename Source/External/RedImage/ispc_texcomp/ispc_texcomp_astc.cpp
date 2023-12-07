@@ -1,15 +1,15 @@
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Copyright (c) 2016, Intel Corporation
-// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated 
-// documentation files (the "Software"), to deal in the Software without restriction, including without limitation 
+// Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+// documentation files (the "Software"), to deal in the Software without restriction, including without limitation
 // the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
 // permit persons to whom the Software is furnished to do so, subject to the following conditions:
-// The above copyright notice and this permission notice shall be included in all copies or substantial portions of 
+// The above copyright notice and this permission notice shall be included in all copies or substantial portions of
 // the Software.
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, 
-// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+// THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+// TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -23,9 +23,9 @@
 
 void GetProfile_astc_fast(astc_enc_settings* settings, int block_width, int block_height)
 {
-    settings->block_width = block_width;
-    settings->block_height = block_height;
-    settings->channels = 3;
+    settings->block_width      = block_width;
+    settings->block_height     = block_height;
+    settings->channels         = 3;
 
     settings->fastSkipTreshold = 5;
     settings->refineIterations = 2;
@@ -33,9 +33,9 @@ void GetProfile_astc_fast(astc_enc_settings* settings, int block_width, int bloc
 
 void GetProfile_astc_alpha_fast(astc_enc_settings* settings, int block_width, int block_height)
 {
-    settings->block_width = block_width;
-    settings->block_height = block_height;
-    settings->channels = 4;
+    settings->block_width      = block_width;
+    settings->block_height     = block_height;
+    settings->channels         = 4;
 
     settings->fastSkipTreshold = 5;
     settings->refineIterations = 2;
@@ -43,9 +43,9 @@ void GetProfile_astc_alpha_fast(astc_enc_settings* settings, int block_width, in
 
 void GetProfile_astc_alpha_slow(astc_enc_settings* settings, int block_width, int block_height)
 {
-    settings->block_width = block_width;
-    settings->block_height = block_height;
-    settings->channels = 4;
+    settings->block_width      = block_width;
+    settings->block_height     = block_height;
+    settings->channels         = 4;
 
     settings->fastSkipTreshold = 64;
     settings->refineIterations = 2;
@@ -53,26 +53,28 @@ void GetProfile_astc_alpha_slow(astc_enc_settings* settings, int block_width, in
 
 struct astc_block
 {
-    int width;
-    int height;
+    int     width;
+    int     height;
     uint8_t dual_plane;
-    int weight_range;
+    int     weight_range;
     uint8_t weights[64];
-    int color_component_selector;
+    int     color_component_selector;
 
-    int partitions;
-    int partition_id;
-    int color_endpoint_pairs;
-    int channels;
-    int color_endpoint_modes[4];
-    int endpoint_range;
+    int     partitions;
+    int     partition_id;
+    int     color_endpoint_pairs;
+    int     channels;
+    int     color_endpoint_modes[4];
+    int     endpoint_range;
     uint8_t endpoints[18];
 };
 
 bool can_store(int value, int bits)
 {
-    if (value < 0) return false;
-    if (value >= 1 << bits) return false;
+    if (value < 0)
+        return false;
+    if (value >= 1 << bits)
+        return false;
     return true;
 }
 
@@ -80,56 +82,56 @@ int pack_block_mode(astc_block* block)
 {
     int block_mode = 0;
 
-    int D = block->dual_plane;
-    int H = block->weight_range >= 6;
-    int DH = D * 2 + H;
-    int R = block->weight_range + 2 - ((H > 0) ? 6 : 0);
-    R = R / 2 + R % 2 * 4;
+    int D          = block->dual_plane;
+    int H          = block->weight_range >= 6;
+    int DH         = D * 2 + H;
+    int R          = block->weight_range + 2 - ((H > 0) ? 6 : 0);
+    R              = R / 2 + R % 2 * 4;
 
     if (can_store(block->width - 4, 2) && can_store(block->height - 2, 2))
     {
-        int B = block->width - 4;
-        int A = block->height - 2;
+        int B      = block->width - 4;
+        int A      = block->height - 2;
 
         block_mode = (DH << 9) | (B << 7) | (A << 5) | ((R & 4) << 2) | (R & 3);
     }
 
     if (can_store(block->width - 8, 2) && can_store(block->height - 2, 2))
     {
-        int B = block->width - 8;
-        int A = block->height - 2;
+        int B      = block->width - 8;
+        int A      = block->height - 2;
 
         block_mode = (DH << 9) | (B << 7) | (A << 5) | ((R & 4) << 2) | 4 | (R & 3);
     }
 
     if (can_store(block->width - 2, 2) && can_store(block->height - 8, 2))
     {
-        int A = block->width - 2;
-        int B = block->height - 8;
+        int A      = block->width - 2;
+        int B      = block->height - 8;
 
         block_mode = (DH << 9) | (B << 7) | (A << 5) | ((R & 4) << 2) | 8 | (R & 3);
     }
 
     if (can_store(block->width - 2, 2) && can_store(block->height - 6, 1))
     {
-        int A = block->width - 2;
-        int B = block->height - 6;
+        int A      = block->width - 2;
+        int B      = block->height - 6;
 
         block_mode = (DH << 9) | (B << 7) | (A << 5) | ((R & 4) << 2) | 12 | (R & 3);
     }
 
     if (can_store(block->width - 2, 1) && can_store(block->height - 2, 2))
     {
-        int B = block->width;
-        int A = block->height - 2;
+        int B      = block->width;
+        int A      = block->height - 2;
 
         block_mode = (DH << 9) | (B << 7) | (A << 5) | ((R & 4) << 2) | 12 | (R & 3);
     }
 
     if (DH == 0 && can_store(block->width - 6, 2) && can_store(block->height - 6, 2))
     {
-        int A = block->width - 6;
-        int B = block->height - 6;
+        int A      = block->width - 6;
+        int B      = block->height - 6;
 
         block_mode = (B << 9) | 256 | (A << 5) | (R << 2);
     }
@@ -137,36 +139,35 @@ int pack_block_mode(astc_block* block)
     return block_mode;
 }
 
-int range_table[][3] =
-{
+int range_table[][3] = {
     //2^ 3^ 5^
-    { 1, 0, 0 }, // 0..1
-    { 0, 1, 0 }, // 0..2
-    { 2, 0, 0 }, // 0..3
+    {1, 0, 0},   // 0..1
+    {0, 1, 0},   // 0..2
+    {2, 0, 0},   // 0..3
 
-    { 0, 0, 1 }, // 0..4
-    { 1, 1, 0 }, // 0..5
-    { 3, 0, 0 }, // 0..7
+    {0, 0, 1},   // 0..4
+    {1, 1, 0},   // 0..5
+    {3, 0, 0},   // 0..7
 
-    { 1, 0, 1 }, // 0..9
-    { 2, 1, 0 }, // 0..11
-    { 4, 0, 0 }, // 0..15
+    {1, 0, 1},   // 0..9
+    {2, 1, 0},   // 0..11
+    {4, 0, 0},   // 0..15
 
-    { 2, 0, 1 }, // 0..19
-    { 3, 1, 0 }, // 0..23
-    { 5, 0, 0 }, // 0..31
+    {2, 0, 1},   // 0..19
+    {3, 1, 0},   // 0..23
+    {5, 0, 0},   // 0..31
 
-    { 3, 0, 1 }, // 0..39
-    { 4, 1, 0 }, // 0..47
-    { 6, 0, 0 }, // 0..63
+    {3, 0, 1},   // 0..39
+    {4, 1, 0},   // 0..47
+    {6, 0, 0},   // 0..63
 
-    { 4, 0, 1 }, // 0..79
-    { 5, 1, 0 }, // 0..95
-    { 7, 0, 0 }, // 0..127
+    {4, 0, 1},   // 0..79
+    {5, 1, 0},   // 0..95
+    {7, 0, 0},   // 0..127
 
-    { 5, 0, 1 }, // 0..159
-    { 6, 1, 0 }, // 0..191
-    { 8, 0, 0 }, // 0..255
+    {5, 0, 1},   // 0..159
+    {6, 1, 0},   // 0..191
+    {8, 0, 0},   // 0..255
 };
 
 int get_levels(int range)
@@ -255,7 +256,7 @@ void pack_five_trits(uint32_t data[4], int sequence[5], int* pos, int n)
     pack1 |= get_field(T, 1, 0) << n;
     pack1 |= m[1] << (2 + n);
 
-    uint32_t pack2 = 0; 
+    uint32_t pack2 = 0;
     pack2 |= get_field(T, 3, 2);
     pack2 |= m[2] << 2;
     pack2 |= get_field(T, 4, 4) << (2 + n);
@@ -320,17 +321,18 @@ void pack_three_quint(uint32_t data[4], int sequence[3], int* pos, int n)
 
 void pack_integer_sequence(uint32_t output_data[4], uint8_t sequence[], int pos, int count, int range)
 {
-    int n = range_table[range][0];
-    int bits = sequence_bits(count, range);
-    int pos0 = pos;
+    int      n       = range_table[range][0];
+    int      bits    = sequence_bits(count, range);
+    int      pos0    = pos;
 
-    uint32_t data[5] = { 0 };
+    uint32_t data[5] = {0};
     if (range_table[range][1] == 1)
     {
         for (int j = 0; j < (count + 4) / 5; j++)
         {
-            int temp[5] = { 0 };
-            for (int i = 0; i < std::min(count - j * 5, 5); i++) temp[i] = sequence[j * 5 + i];
+            int temp[5] = {0};
+            for (int i = 0; i < std::min(count - j * 5, 5); i++)
+                temp[i] = sequence[j * 5 + i];
             pack_five_trits(data, temp, &pos, n);
         }
     }
@@ -338,8 +340,9 @@ void pack_integer_sequence(uint32_t output_data[4], uint8_t sequence[], int pos,
     {
         for (int j = 0; j < (count + 2) / 3; j++)
         {
-            int temp[3] = { 0 };
-            for (int i = 0; i < std::min(count - j * 3, 3); i++) temp[i] = sequence[j * 3 + i];
+            int temp[3] = {0};
+            for (int i = 0; i < std::min(count - j * 3, 3); i++)
+                temp[i] = sequence[j * 3 + i];
             pack_three_quint(data, temp, &pos, n);
         }
     }
@@ -351,22 +354,26 @@ void pack_integer_sequence(uint32_t output_data[4], uint8_t sequence[], int pos,
         }
     }
 
-    if (pos0 + bits < 96) data[3] = 0;
-    if (pos0 + bits < 64) data[2] = 0;
-    if (pos0 + bits < 32) data[1] = 0;
+    if (pos0 + bits < 96)
+        data[3] = 0;
+    if (pos0 + bits < 64)
+        data[2] = 0;
+    if (pos0 + bits < 32)
+        data[1] = 0;
     data[(pos0 + bits) / 32] &= (1 << ((pos0 + bits) % 32)) - 1;
 
-    for (int k = 0; k < 4; k++) output_data[k] |= data[k];
+    for (int k = 0; k < 4; k++)
+        output_data[k] |= data[k];
 }
 
 uint32_t reverse_bits_32(uint32_t input)
 {
     uint32_t t = input;
-    t = (t << 16) | (t >> 16);
-    t = ((t & 0x00FF00FF) << 8) | ((t & 0xFF00FF00) >> 8);
-    t = ((t & 0x0F0F0F0F) << 4) | ((t & 0xF0F0F0F0) >> 4);
-    t = ((t & 0x33333333) << 2) | ((t & 0xCCCCCCCC) >> 2);
-    t = ((t & 0x55555555) << 1) | ((t & 0xAAAAAAAA) >> 1);
+    t          = (t << 16) | (t >> 16);
+    t          = ((t & 0x00FF00FF) << 8) | ((t & 0xFF00FF00) >> 8);
+    t          = ((t & 0x0F0F0F0F) << 4) | ((t & 0xF0F0F0F0) >> 4);
+    t          = ((t & 0x33333333) << 2) | ((t & 0xCCCCCCCC) >> 2);
+    t          = ((t & 0x55555555) << 1) | ((t & 0xAAAAAAAA) >> 1);
 
     return t;
 }
@@ -380,7 +387,7 @@ void pack_block(uint32_t data[4], astc_block* block)
 
     int num_weights = block->width * block->height * (block->dual_plane ? 2 : 1);
     int weight_bits = sequence_bits(num_weights, block->weight_range);
-    int extra_bits = 0;
+    int extra_bits  = 0;
 
     assert(num_weights <= 64);
     assert(24 <= weight_bits && weight_bits <= 96);
@@ -412,17 +419,17 @@ void pack_block(uint32_t data[4], astc_block* block)
                 CEM |= m << (2 + block->partitions + 2 * j);
             }
             extra_bits = 3 * block->partitions - 4;
-            int pos2 = 128 - weight_bits - extra_bits;
+            int pos2   = 128 - weight_bits - extra_bits;
             set_bits(data, &pos2, extra_bits, CEM >> 6);
         }
-        
+
         set_bits(data, &pos, 6, CEM & 63);
     }
     else
     {
         set_bits(data, &pos, 4, block->color_endpoint_modes[0]);
     }
-    
+
     if (block->dual_plane)
     {
         assert(block->partitions < 4);
@@ -431,16 +438,17 @@ void pack_block(uint32_t data[4], astc_block* block)
         set_bits(data, &pos2, 2, block->color_component_selector);
     }
 
-    int config_bits = pos + extra_bits;
+    int config_bits    = pos + extra_bits;
     int remaining_bits = 128 - config_bits - weight_bits;
 
-    int num_cem_pairs = 0;
-    for (int j = 0; j < block->partitions; j++) num_cem_pairs += 1 + block->color_endpoint_modes[j] / 4;
+    int num_cem_pairs  = 0;
+    for (int j = 0; j < block->partitions; j++)
+        num_cem_pairs += 1 + block->color_endpoint_modes[j] / 4;
 
     assert(num_cem_pairs <= 9);
 
     int endpoint_range = -1;
-    for (int range = 20; range>0; range--)
+    for (int range = 20; range > 0; range--)
     {
         int bits = sequence_bits(2 * num_cem_pairs, range);
         if (bits <= remaining_bits)
@@ -454,11 +462,12 @@ void pack_block(uint32_t data[4], astc_block* block)
     assert(block->endpoint_range == endpoint_range);
 
     pack_integer_sequence(data, block->endpoints, pos, 2 * num_cem_pairs, endpoint_range);
-    
-    uint32_t rdata[4] = { 0, 0, 0, 0 };
+
+    uint32_t rdata[4] = {0, 0, 0, 0};
     pack_integer_sequence(rdata, block->weights, 0, num_weights, block->weight_range);
 
-    for (int i = 0; i < 4; i++) data[i] |= reverse_bits_32(rdata[3 - i]);    
+    for (int i = 0; i < 4; i++)
+        data[i] |= reverse_bits_32(rdata[3 - i]);
 }
 
 void atsc_rank(const rgba_surface* src, int xx, int yy, uint32_t* mode_buffer, astc_enc_settings* settings)
@@ -474,15 +483,15 @@ extern "C" void pack_block_c(uint32_t data[4], ispc::astc_block* block)
 
 void setup_list_context(ispc::astc_enc_context* ctx, uint32_t packed_mode)
 {
-    ctx->width = 2 + get_field(packed_mode, 15, 13); // 2..8 <= 2^3
-    ctx->height = 2 + get_field(packed_mode, 18, 16); // 2..8 <= 2^3
-    ctx->dual_plane = get_field(packed_mode, 19, 19); // 0 or 1
-    ctx->partitions = 1;
-    
-    int color_endpoint_modes0 = get_field(packed_mode, 7, 6) * 2 + 6; // 6, 8, 10 or 12
+    ctx->width                = 2 + get_field(packed_mode, 15, 13);   // 2..8 <= 2^3
+    ctx->height               = 2 + get_field(packed_mode, 18, 16);   // 2..8 <= 2^3
+    ctx->dual_plane           = get_field(packed_mode, 19, 19);       // 0 or 1
+    ctx->partitions           = 1;
+
+    int color_endpoint_modes0 = get_field(packed_mode, 7, 6) * 2 + 6;   // 6, 8, 10 or 12
     ctx->color_endpoint_pairs = 1 + (color_endpoint_modes0 / 4);
 
-    ctx->channels = (color_endpoint_modes0 > 8) ? 4 : 3;
+    ctx->channels             = (color_endpoint_modes0 > 8) ? 4 : 3;
 }
 
 void astc_encode(const rgba_surface* src, float* block_scores, uint8_t* dst, uint64_t* list, astc_enc_settings* settings)
@@ -499,63 +508,65 @@ void CompressBlocksASTC(const rgba_surface* src, uint8_t* dst, astc_enc_settings
 {
     assert(src->height % settings->block_height == 0);
     assert(src->width % settings->block_width == 0);
-    
+
     assert(settings->block_height <= 8);
     assert(settings->block_width <= 8);
-    
-    int tex_width = src->width / settings->block_width;
-    int programCount = ispc::get_programCount();
+
+    int                tex_width    = src->width / settings->block_width;
+    int                programCount = ispc::get_programCount();
 
     std::vector<float> block_scores(tex_width * src->height / settings->block_height);
 
     for (int yy = 0; yy < src->height / settings->block_height; yy++)
-    for (int xx = 0; xx < tex_width; xx++)
-    {
-        block_scores[yy * tex_width + xx] = std::numeric_limits<float>::infinity();
-    }
+        for (int xx = 0; xx < tex_width; xx++)
+        {
+            block_scores[yy * tex_width + xx] = std::numeric_limits<float>::infinity();
+        }
 
-    int mode_list_size = 3334;
-    int list_size = programCount;
+    int                   mode_list_size = 3334;
+    int                   list_size      = programCount;
     std::vector<uint64_t> mode_lists(list_size * mode_list_size);
     std::vector<uint32_t> mode_buffer(programCount * settings->fastSkipTreshold);
 
     for (int yy = 0; yy < src->height / settings->block_height; yy++)
-    for (int _x = 0; _x < (tex_width + programCount - 1) / programCount; _x++)
-    {
-        int xx = _x * programCount;
-        atsc_rank(src, xx, yy, mode_buffer.data(), settings);
-        
-        for (int i = 0; i < settings->fastSkipTreshold; i++)
-        for (int k = 0; k < programCount; k++)
+        for (int _x = 0; _x < (tex_width + programCount - 1) / programCount; _x++)
         {
-            if (xx + k >= tex_width) continue;
-                
-            uint32_t offset = (yy << 16) + (xx + k);
-            uint32_t mode = mode_buffer[programCount * i + k];
-            int mode_bin = mode >> 20;
-            uint64_t* mode_list = &mode_lists[list_size * mode_bin];
+            int xx = _x * programCount;
+            atsc_rank(src, xx, yy, mode_buffer.data(), settings);
 
-            if (*mode_list < programCount - 1)
-            {
-                int index = int(mode_list[0] + 1);
-                mode_list[0] = index;
+            for (int i = 0; i < settings->fastSkipTreshold; i++)
+                for (int k = 0; k < programCount; k++)
+                {
+                    if (xx + k >= tex_width)
+                        continue;
 
-                mode_list[index] = (uint64_t(offset) << 32) + mode;
-            }
-            else
-            {
-                mode_list[0] = (uint64_t(offset) << 32) + mode;
+                    uint32_t  offset    = (yy << 16) + (xx + k);
+                    uint32_t  mode      = mode_buffer[programCount * i + k];
+                    int       mode_bin  = mode >> 20;
+                    uint64_t* mode_list = &mode_lists[list_size * mode_bin];
 
-                astc_encode(src, block_scores.data(), dst, mode_list, settings);
-                memset(mode_list, 0, list_size * sizeof(uint64_t));
-            }                
+                    if (*mode_list < programCount - 1)
+                    {
+                        int index        = int(mode_list[0] + 1);
+                        mode_list[0]     = index;
+
+                        mode_list[index] = (uint64_t(offset) << 32) + mode;
+                    }
+                    else
+                    {
+                        mode_list[0] = (uint64_t(offset) << 32) + mode;
+
+                        astc_encode(src, block_scores.data(), dst, mode_list, settings);
+                        memset(mode_list, 0, list_size * sizeof(uint64_t));
+                    }
+                }
         }
-    }
 
     for (int mode_bin = 0; mode_bin < mode_list_size; mode_bin++)
     {
         uint64_t* mode_list = &mode_lists[list_size * mode_bin];
-        if (mode_list[0] == 0) continue;
+        if (mode_list[0] == 0)
+            continue;
         mode_list[0] = 0;
 
         astc_encode(src, block_scores.data(), dst, mode_list, settings);

@@ -33,8 +33,8 @@ class IBuyWnd: public CUIDialogWnd
 {
 public:
     virtual ~IBuyWnd(){};
-    virtual void Init(const shared_str& sectionName, const shared_str& sectionPrice) = 0;
-    virtual void BindDragDropListEvents(CUIDragDropListEx* lst, bool bDrag)          = 0;
+    virtual void                Init(const shared_str& sectionName, const shared_str& sectionPrice)          = 0;
+    virtual void                BindDragDropListEvents(CUIDragDropListEx* lst, bool bDrag)                   = 0;
 
     virtual void                GetWeaponIndexByName(const shared_str& sectionName, u8& grpNum, u8& idx)     = 0;
     virtual u32                 GetMoneyAmount() const                                                       = 0;

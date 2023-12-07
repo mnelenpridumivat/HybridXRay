@@ -29,6 +29,7 @@ private:
         DWORD        dwFrame;
         DWORD        dwTimeValid;
     };
+
 private:
     IRenderable*            current;
     xr_vector<recv>         cache;   // same as number of slots
@@ -39,6 +40,7 @@ private:
     shared_str              c_xform;
     shared_str              c_clamp;
     shared_str              c_factor;
+
 public:
     void set_object(IRenderable* O);
     BOOL shadowing()

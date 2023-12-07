@@ -97,7 +97,7 @@ void SartupNetTaskManager()
 extern u32 vertises_has_lighting;
 u32        CalcAllTranslucency();
 
-void SetGlobalLightmapsDataInitialized()
+void       SetGlobalLightmapsDataInitialized()
 {
     WaitNetCompileDataPrepare();
     //

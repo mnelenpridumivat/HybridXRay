@@ -44,10 +44,7 @@ namespace steering_behaviour
             vec   factor;
             float min_factor_dist;
 
-            params(vec_arg factor, float min_factor_dist = base::s_min_factor_dist):
-                enabled(true), factor(factor), min_factor_dist(min_factor_dist)
-            {
-            }
+            params(vec_arg factor, float min_factor_dist = base::s_min_factor_dist): enabled(true), factor(factor), min_factor_dist(min_factor_dist) {}
 
             virtual bool update() = 0;
             virtual ~params() {}
@@ -58,7 +55,7 @@ namespace steering_behaviour
 
         virtual vec calc_acceleration() = 0;
 
-        void set_enabled(bool value)
+        void        set_enabled(bool value)
         {
             m_p_params->enabled = value;
         }
@@ -77,8 +74,8 @@ namespace steering_behaviour
         }
 
     protected:
-        float calc_dist_factor(float dist) const;
-        float calc_dist_factor(vec_arg factor, float dist) const;
+        float            calc_dist_factor(float dist) const;
+        float            calc_dist_factor(vec_arg factor, float dist) const;
 
         const static int s_min_factor_dist = 1;
 
@@ -98,17 +95,9 @@ namespace steering_behaviour
             vec   pos;
             vec   dest;
             float max_evade_range;
-            vec (*pf_random_dir)();   // randomizer func in case we're in 0 dist from dest
+            vec   (*pf_random_dir)();   // randomizer func in case we're in 0 dist from dest
 
-            params(
-                float   max_evade_range,
-                vec_arg factor,
-                float   min_factor_dist = base::s_min_factor_dist,
-                vec (*pf_random_dir)()  = &detail::random_vec):
-                base::params(factor, min_factor_dist),
-                max_evade_range(max_evade_range), pf_random_dir(pf_random_dir)
-            {
-            }
+            params(float max_evade_range, vec_arg factor, float min_factor_dist = base::s_min_factor_dist, vec (*pf_random_dir)() = &detail::random_vec): base::params(factor, min_factor_dist), max_evade_range(max_evade_range), pf_random_dir(pf_random_dir) {}
 
             virtual bool update() = 0;
             virtual ~params() {}
@@ -140,16 +129,7 @@ namespace steering_behaviour
             float arrive_range;
             float vel;
 
-            params(
-                vec_arg factor,
-                float   arrive_range,
-                float   change_vel_range,
-                float   arrive_vel,
-                float   min_factor_dist = base::s_min_factor_dist):
-                base::params(factor, min_factor_dist),
-                arrive_range(arrive_range), change_vel_range(change_vel_range), arrive_vel(arrive_vel)
-            {
-            }
+            params(vec_arg factor, float arrive_range, float change_vel_range, float arrive_vel, float min_factor_dist = base::s_min_factor_dist): base::params(factor, min_factor_dist), arrive_range(arrive_range), change_vel_range(change_vel_range), arrive_vel(arrive_vel) {}
 
             virtual bool update() = 0;
             virtual ~params() {}
@@ -177,10 +157,7 @@ namespace steering_behaviour
             vec   restrictor_pos;
             float max_allowed_range;
 
-            params(vec_arg restrictor_pos, float max_allowed_range, vec_arg factor):
-                base::params(factor), restrictor_pos(restrictor_pos), max_allowed_range(max_allowed_range)
-            {
-            }
+            params(vec_arg restrictor_pos, float max_allowed_range, vec_arg factor): base::params(factor), restrictor_pos(restrictor_pos), max_allowed_range(max_allowed_range) {}
 
             virtual bool update() = 0;
             virtual ~params() {}
@@ -215,11 +192,7 @@ namespace steering_behaviour
             float angle_change;       // how big angle changes can be? (radians)
             vec   dir;
 
-            params(plane_t plane, float conservativeness, float angle_change, float factor):
-                base::params(cr_fvector3(factor, 0, 0)), plane(plane), conservativeness(conservativeness),
-                angle_change(angle_change)
-            {
-            }
+            params(plane_t plane, float conservativeness, float angle_change, float factor): base::params(cr_fvector3(factor, 0, 0)), plane(plane), conservativeness(conservativeness), angle_change(angle_change) {}
 
             virtual bool update() = 0;
             virtual ~params() {}
@@ -236,8 +209,8 @@ namespace steering_behaviour
         const float& proj_x(const vec& v);
         const float& proj_y(const vec& v);
 
-        params* m_p_params;
-        float   m_wander_angle;
+        params*      m_p_params;
+        float        m_wander_angle;
     };
 
     //----------------------------------------------------------
@@ -249,19 +222,16 @@ namespace steering_behaviour
     public:
         struct params: base::params
         {
-            vec   pos;
-            vec   dir;
-            vec   up;
-            float turn_factor;
-            vec   thrust_factor;
+            vec                      pos;
+            vec                      dir;
+            vec                      up;
+            float                    turn_factor;
+            vec                      thrust_factor;
 
             typedef std::vector<vec> Probes;
             Probes                   probes;   // obstacle-scanners (vectors in local (dir,up) space)
 
-            params(float turn_factor, vec_arg thrust_factor, float min_factor_dist = base::s_min_factor_dist):
-                base::params(thrust_factor, min_factor_dist), turn_factor(turn_factor), thrust_factor(thrust_factor)
-            {
-            }
+            params(float turn_factor, vec_arg thrust_factor, float min_factor_dist = base::s_min_factor_dist): base::params(thrust_factor, min_factor_dist), turn_factor(turn_factor), thrust_factor(thrust_factor) {}
 
             virtual bool update()                                                   = 0;
             virtual bool test_obstacle(const vec& dest, vec& obstacle, vec& normal) = 0;
@@ -291,26 +261,16 @@ namespace steering_behaviour
             vec   cohesion_factor;
             vec   separation_factor;
             float max_separate_range;
-            vec (*pf_random_dir)();
+            vec   (*pf_random_dir)();
 
-            params(
-                vec_arg cohesion_factor,
-                vec_arg separation_factor,
-                float   max_separate_range,
-                float   min_factor_dist = base::s_min_factor_dist,
-                vec (*pf_random_dir)()  = &detail::random_vec):
-                base::params(separation_factor, min_factor_dist),
-                pf_random_dir(pf_random_dir), cohesion_factor(cohesion_factor), separation_factor(separation_factor),
-                max_separate_range(max_separate_range)
-            {
-            }
+            params(vec_arg cohesion_factor, vec_arg separation_factor, float max_separate_range, float min_factor_dist = base::s_min_factor_dist, vec (*pf_random_dir)() = &detail::random_vec): base::params(separation_factor, min_factor_dist), pf_random_dir(pf_random_dir), cohesion_factor(cohesion_factor), separation_factor(separation_factor), max_separate_range(max_separate_range) {}
 
             // this function should supply nearest object to group with
             virtual void first_nearest(vec& v) = 0;   // start supplying nearest
             virtual bool nomore_nearest()      = 0;
             virtual void next_nearest(vec& v)  = 0;   // next nearest, false if finished
 
-            virtual bool update() = 0;
+            virtual bool update()              = 0;
             virtual ~params() {}
         };
 
@@ -341,13 +301,13 @@ namespace steering_behaviour
         }
 
     protected:
-        void        remove_scheduled();
-        static void deleter(base* p);
+        void                    remove_scheduled();
+        static void             deleter(base* p);
 
         typedef std::set<base*> Behaviours;
 
-        Behaviours m_behaviours;
-        Behaviours m_schedule_remove;
+        Behaviours              m_behaviours;
+        Behaviours              m_schedule_remove;
     };
 
 }   // namespace steering_behaviour

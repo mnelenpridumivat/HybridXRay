@@ -38,7 +38,7 @@ void SCarLight::ParseDefinitions(LPCSTR section)
     light_render = ::Render->light_create();
     light_render->set_type(IRender_Light::SPOT);
     light_render->set_shadow(true);
-    glow_render = ::Render->glow_create();
+    glow_render              = ::Render->glow_create();
     //	lanim					= 0;
     //	time2hide				= 0;
 
@@ -46,7 +46,7 @@ void SCarLight::ParseDefinitions(LPCSTR section)
     IKinematics* pKinematics = smart_cast<IKinematics*>(m_holder->PCar()->Visual());
     CInifile*    ini         = pKinematics->LL_UserData();
 
-    Fcolor clr;
+    Fcolor       clr;
     clr.set(ini->r_fcolor(section, "color"));
     // clr.mul_rgb				(torch->spot_brightness);
     // fBrightness				= torch->spot_brightness;

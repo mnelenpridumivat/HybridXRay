@@ -169,7 +169,7 @@ u32 GameEventQueue::EraseEvents(event_predicate to_del)
     typedef xr_deque<GameEvent*>  event_queue;
     typedef event_queue::iterator eq_iterator;
 
-    eq_iterator need_to_erase = std::find_if(ready.begin(), ready.end(), to_del);
+    eq_iterator                   need_to_erase = std::find_if(ready.begin(), ready.end(), to_del);
     while (need_to_erase != ready.end())
     {
         //-----
@@ -188,8 +188,7 @@ u32 GameEventQueue::EraseEvents(event_predicate to_del)
         }
         //-----
 #ifdef DEBUG
-        Msg("! GameEventQueue::EraseEvents - destroying event type[%d], sender[0x%08x]", (*need_to_erase)->type,
-            (*need_to_erase)->sender);
+        Msg("! GameEventQueue::EraseEvents - destroying event type[%d], sender[0x%08x]", (*need_to_erase)->type, (*need_to_erase)->sender);
 #endif
         ready.erase(need_to_erase);
         ++ret_val;

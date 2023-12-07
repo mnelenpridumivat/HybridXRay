@@ -109,7 +109,7 @@ void MODEL::build_internal(Fvector* V, int Vcnt, TRI* T, int Tcnt, build_callbac
         bc(verts, Vcnt, tris, Tcnt, bcp);
 
     // Release data pointers
-    status = S_BUILD;
+    status         = S_BUILD;
 
     // Allocate temporary "OPCODE" tris + convert tris to 'pointer' form
     u32* temp_tris = CALLOC(u32, tris_count * 3);
@@ -138,7 +138,7 @@ void MODEL::build_internal(Fvector* V, int Vcnt, TRI* T, int Tcnt, build_callbac
     OPCC.Quantized = false;
     // if (Memory.debug_mode) OPCC.KeepOriginal = true;
 
-    tree = CNEW(OPCODE_Model)();
+    tree           = CNEW(OPCODE_Model)();
     if (!tree->Build(OPCC))
     {
         CFREE(verts);

@@ -24,11 +24,9 @@ namespace gamespy_profile
     {
         for (int i = 0; i < at_awards_count; ++i)
         {
-            int findex = i * ap_award_params_count;
-            m_field_names_store[findex + ap_award_id] =
-                ATLAS_GET_STAT_NAME(get_award_id_stat(static_cast<enum_awards_t>(i)));
-            m_field_names_store[findex + ap_award_rdate] =
-                ATLAS_GET_STAT_NAME(get_award_reward_date_stat(static_cast<enum_awards_t>(i)));
+            int findex                                   = i * ap_award_params_count;
+            m_field_names_store[findex + ap_award_id]    = ATLAS_GET_STAT_NAME(get_award_id_stat(static_cast<enum_awards_t>(i)));
+            m_field_names_store[findex + ap_award_rdate] = ATLAS_GET_STAT_NAME(get_award_reward_date_stat(static_cast<enum_awards_t>(i)));
         }
     }
 
@@ -47,7 +45,7 @@ namespace gamespy_profile
     {
         m_award_operation_cb = opcb;
 
-        SAKERequest reqres = m_sake_obj->GetMyRecords(&m_get_records_input, &awards_store::get_my_awards_cb, this);
+        SAKERequest reqres   = m_sake_obj->GetMyRecords(&m_get_records_input, &awards_store::get_my_awards_cb, this);
 
         if (!reqres)
         {
@@ -135,13 +133,7 @@ namespace gamespy_profile
         }
     }
 
-    void __cdecl awards_store::get_my_awards_cb(
-        SAKE              sake,
-        SAKERequest       request,
-        SAKERequestResult result,
-        void*             inputData,
-        void*             outputData,
-        void*             userData)
+    void __cdecl awards_store::get_my_awards_cb(SAKE sake, SAKERequest request, SAKERequestResult result, void* inputData, void* outputData, void* userData)
     {
         awards_store* my_inst = static_cast<awards_store*>(userData);
         VERIFY(my_inst && my_inst->m_award_operation_cb);

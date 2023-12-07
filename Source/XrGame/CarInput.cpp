@@ -72,17 +72,20 @@ bool CCar::bfAssignObject(CScriptEntityAction* tpEntityAction)
     {
         switch (l_tObjectAction.m_tGoalType)
         {
-            case MonsterSpace::eObjectActionActivate: {
+            case MonsterSpace::eObjectActionActivate:
+            {
                 if (!DoorOpen(l_sBoneID))
                     return ((l_tObjectAction.m_bCompleted = true) == false);
                 break;
             }
-            case MonsterSpace::eObjectActionDeactivate: {
+            case MonsterSpace::eObjectActionDeactivate:
+            {
                 if (!DoorClose(l_sBoneID))
                     return ((l_tObjectAction.m_bCompleted = true) == false);
                 break;
             }
-            case MonsterSpace::eObjectActionUse: {
+            case MonsterSpace::eObjectActionUse:
+            {
                 if (!DoorSwitch(l_sBoneID))
                     return ((l_tObjectAction.m_bCompleted = true) == false);
                 break;
@@ -97,15 +100,18 @@ bool CCar::bfAssignObject(CScriptEntityAction* tpEntityAction)
     {
         switch (l_tObjectAction.m_tGoalType)
         {
-            case MonsterSpace::eObjectActionActivate: {
+            case MonsterSpace::eObjectActionActivate:
+            {
                 light->TurnOn();
                 return ((l_tObjectAction.m_bCompleted = true) == false);
             }
-            case MonsterSpace::eObjectActionDeactivate: {
+            case MonsterSpace::eObjectActionDeactivate:
+            {
                 light->TurnOff();
                 return ((l_tObjectAction.m_bCompleted = true) == false);
             }
-            case MonsterSpace::eObjectActionUse: {
+            case MonsterSpace::eObjectActionUse:
+            {
                 light->Switch();
                 return ((l_tObjectAction.m_bCompleted = true) == false);
             }
@@ -299,7 +305,7 @@ bool CCar::isObjectVisible(CScriptGameObject* O_)
         dir_to_object.sub(to_point, from_point).normalize_safe();
         float ray_length = from_point.distance_to(to_point);
 
-        BOOL res = Level().ObjectSpace.RayTest(from_point, dir_to_object, ray_length, collide::rqtStatic, NULL, NULL);
+        BOOL  res        = Level().ObjectSpace.RayTest(from_point, dir_to_object, ray_length, collide::rqtStatic, NULL, NULL);
         return (0 == res);
     }
 }

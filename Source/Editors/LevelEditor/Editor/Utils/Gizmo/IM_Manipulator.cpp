@@ -12,7 +12,7 @@
 
 IM_Manipulator imManipulator;
 
-void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, float canvasHeight)
+void           IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, float canvasHeight)
 {
     ImGuizmo::SetRect(canvasX, canvasY, canvasWidth, canvasHeight);
     ImGuizmo::SetDrawlist();
@@ -26,9 +26,9 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
     if (lst.size() < 1)
         return;
 
-    const bool           IsCSParent   = Tools->GetSettings(etfCSParent);
-    Fmatrix              ObjectMatrix = lst.front()->FTransform;
-    Fmatrix              DeltaMatrix  = Fidentity;
+    const bool IsCSParent   = Tools->GetSettings(etfCSParent);
+    Fmatrix    ObjectMatrix = lst.front()->FTransform;
+    Fmatrix    DeltaMatrix  = Fidentity;
 
     switch (LTools->GetAction())
     {
@@ -36,16 +36,16 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
         {
             float  MoveSnap[3];
             float* PtrMoveSnap = LTools->GetSettings(etfMSnap) ? MoveSnap : nullptr;
-            
-            if(PtrMoveSnap)
-              std::fill_n(MoveSnap, std::size(MoveSnap), Tools->m_MoveSnap);
+
+            if (PtrMoveSnap)
+                std::fill_n(MoveSnap, std::size(MoveSnap), Tools->m_MoveSnap);
 
             const bool IsManipulated = ImGuizmo::Manipulate((float*)&Device->mView, (float*)&Device->mProject, ImGuizmo::TRANSLATE, ImGuizmo::WORLD, (float*)&ObjectMatrix, (float*)&DeltaMatrix, PtrMoveSnap);
 
             if (IsManipulated)
             {
-              for (ObjectIt it = lst.begin(); it != lst.end(); it++)
-                  (*it)->Move(DeltaMatrix.c);
+                for (ObjectIt it = lst.begin(); it != lst.end(); it++)
+                    (*it)->Move(DeltaMatrix.c);
             }
         }
         break;
@@ -54,8 +54,8 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
             float  RotateSnap;
             float* PtrRotateSnap = LTools->GetSettings(etfASnap) ? &RotateSnap : nullptr;
 
-            if(PtrRotateSnap)
-              RotateSnap = rad2deg(Tools->m_RotateSnapAngle);
+            if (PtrRotateSnap)
+                RotateSnap = rad2deg(Tools->m_RotateSnapAngle);
 
             Fvector OriginalRotation;
 
@@ -66,21 +66,21 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
             if (IsManipulated)
             {
                 Fvector DeltaXYZ;
-                 
+
                 DeltaMatrix.getXYZ(DeltaXYZ);
 
                 for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                 {
-                  void (CCustomObject::*Handler) (Fvector&, float);
+                    void (CCustomObject::*Handler)(Fvector&, float);
 
-                  if (IsCSParent)
-                    Handler = &CCustomObject::RotateParent;
-                  else
-                    Handler = &CCustomObject::RotateLocal;
+                    if (IsCSParent)
+                        Handler = &CCustomObject::RotateParent;
+                    else
+                        Handler = &CCustomObject::RotateLocal;
 
-                  (*it->*Handler)(Fvector().set(0, 0, 1), -DeltaXYZ.z);
-                  (*it->*Handler)(Fvector().set(1, 0, 0), -DeltaXYZ.x);
-                  (*it->*Handler)(Fvector().set(0, 1, 0), -DeltaXYZ.y);
+                    (*it->*Handler)(Fvector().set(0, 0, 1), -DeltaXYZ.z);
+                    (*it->*Handler)(Fvector().set(1, 0, 0), -DeltaXYZ.x);
+                    (*it->*Handler)(Fvector().set(0, 1, 0), -DeltaXYZ.y);
                 }
                 UI->UpdateScene();
             }
@@ -105,8 +105,8 @@ void IM_Manipulator::Render(float canvasX, float canvasY, float canvasWidth, flo
 
                 for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                 {
-                  Scale.mul((*it)->GetScale());
-                  (*it)->SetScale(Scale);
+                    Scale.mul((*it)->GetScale());
+                    (*it)->SetScale(Scale);
                 }
                 UI->UpdateScene();
             }

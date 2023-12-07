@@ -42,33 +42,13 @@ public:
      *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
      */
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    bool Collide(BVTCache& cache, const Matrix4x4* world0 = null, const Matrix4x4* world1 = null);
+    bool         Collide(BVTCache& cache, const Matrix4x4* world0 = null, const Matrix4x4* world1 = null);
 
     // Collision queries
-    bool Collide(
-        const AABBCollisionTree* tree0,
-        const AABBCollisionTree* tree1,
-        const Matrix4x4*         world0 = null,
-        const Matrix4x4*         world1 = null,
-        Pair*                    cache  = null);
-    bool Collide(
-        const AABBNoLeafTree* tree0,
-        const AABBNoLeafTree* tree1,
-        const Matrix4x4*      world0 = null,
-        const Matrix4x4*      world1 = null,
-        Pair*                 cache  = null);
-    bool Collide(
-        const AABBQuantizedTree* tree0,
-        const AABBQuantizedTree* tree1,
-        const Matrix4x4*         world0 = null,
-        const Matrix4x4*         world1 = null,
-        Pair*                    cache  = null);
-    bool Collide(
-        const AABBQuantizedNoLeafTree* tree0,
-        const AABBQuantizedNoLeafTree* tree1,
-        const Matrix4x4*               world0 = null,
-        const Matrix4x4*               world1 = null,
-        Pair*                          cache  = null);
+    bool         Collide(const AABBCollisionTree* tree0, const AABBCollisionTree* tree1, const Matrix4x4* world0 = null, const Matrix4x4* world1 = null, Pair* cache = null);
+    bool         Collide(const AABBNoLeafTree* tree0, const AABBNoLeafTree* tree1, const Matrix4x4* world0 = null, const Matrix4x4* world1 = null, Pair* cache = null);
+    bool         Collide(const AABBQuantizedTree* tree0, const AABBQuantizedTree* tree1, const Matrix4x4* world0 = null, const Matrix4x4* world1 = null, Pair* cache = null);
+    bool         Collide(const AABBQuantizedNoLeafTree* tree0, const AABBQuantizedNoLeafTree* tree1, const Matrix4x4* world0 = null, const Matrix4x4* world1 = null, Pair* cache = null);
     // Settings
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -244,46 +224,40 @@ protected:
     const Point*           mVerts1;   //!< User-defined vertices
 #endif
     // Stats
-    udword mNbBVBVTests;       //!< Number of BV-BV tests
-    udword mNbPrimPrimTests;   //!< Number of Primitive-Primitive tests
-    udword mNbBVPrimTests;     //!< Number of BV-Primitive tests
-                               // Precomputed data
-    Matrix3x3 mAR;             //!< Absolute rotation matrix
-    Matrix3x3 mR0to1;          //!< Rotation from object0 to object1
-    Matrix3x3 mR1to0;          //!< Rotation from object1 to object0
-    Point     mT0to1;          //!< Translation from object0 to object1
-    Point     mT1to0;          //!< Translation from object1 to object0
-                               // Dequantization coeffs
-    Point mCenterCoeff0;
-    Point mExtentsCoeff0;
-    Point mCenterCoeff1;
-    Point mExtentsCoeff1;
+    udword       mNbBVBVTests;       //!< Number of BV-BV tests
+    udword       mNbPrimPrimTests;   //!< Number of Primitive-Primitive tests
+    udword       mNbBVPrimTests;     //!< Number of BV-Primitive tests
+                                     // Precomputed data
+    Matrix3x3    mAR;                //!< Absolute rotation matrix
+    Matrix3x3    mR0to1;             //!< Rotation from object0 to object1
+    Matrix3x3    mR1to0;             //!< Rotation from object1 to object0
+    Point        mT0to1;             //!< Translation from object0 to object1
+    Point        mT1to0;             //!< Translation from object1 to object0
+                                     // Dequantization coeffs
+    Point        mCenterCoeff0;
+    Point        mExtentsCoeff0;
+    Point        mCenterCoeff1;
+    Point        mExtentsCoeff1;
     // Leaf description
-    Point  mLeafVerts[3];    //!< Triangle vertices
-    udword mLeafIndex;       //!< Triangle index
-                             // Settings
-    bool mFullBoxBoxTest;    //!< Perform full BV-BV tests (true) or SAT-lite tests (false)
-    bool mFullPrimBoxTest;   //!< Perform full Primitive-BV tests (true) or SAT-lite tests (false)
-                             // Internal methods
+    Point        mLeafVerts[3];      //!< Triangle vertices
+    udword       mLeafIndex;         //!< Triangle index
+                                     // Settings
+    bool         mFullBoxBoxTest;    //!< Perform full BV-BV tests (true) or SAT-lite tests (false)
+    bool         mFullPrimBoxTest;   //!< Perform full Primitive-BV tests (true) or SAT-lite tests (false)
+                                     // Internal methods
 
     // Standard AABB trees
-    void _Collide(const AABBCollisionNode* b0, const AABBCollisionNode* b1);
+    void         _Collide(const AABBCollisionNode* b0, const AABBCollisionNode* b1);
     // Quantized AABB trees
-    void _Collide(
-        const AABBQuantizedNode* b0,
-        const AABBQuantizedNode* b1,
-        const Point&             a,
-        const Point&             Pa,
-        const Point&             b,
-        const Point&             Pb);
+    void         _Collide(const AABBQuantizedNode* b0, const AABBQuantizedNode* b1, const Point& a, const Point& Pa, const Point& b, const Point& Pb);
     // No-leaf AABB trees
-    void _CollideTriBox(const AABBNoLeafNode* b);
-    void _CollideBoxTri(const AABBNoLeafNode* b);
-    void _Collide(const AABBNoLeafNode* a, const AABBNoLeafNode* b);
+    void         _CollideTriBox(const AABBNoLeafNode* b);
+    void         _CollideBoxTri(const AABBNoLeafNode* b);
+    void         _Collide(const AABBNoLeafNode* a, const AABBNoLeafNode* b);
     // Quantized no-leaf AABB trees
-    void _CollideTriBox(const AABBQuantizedNoLeafNode* b);
-    void _CollideBoxTri(const AABBQuantizedNoLeafNode* b);
-    void _Collide(const AABBQuantizedNoLeafNode* a, const AABBQuantizedNoLeafNode* b);
+    void         _CollideTriBox(const AABBQuantizedNoLeafNode* b);
+    void         _CollideBoxTri(const AABBQuantizedNoLeafNode* b);
+    void         _Collide(const AABBQuantizedNoLeafNode* a, const AABBQuantizedNoLeafNode* b);
     // Overlap tests
     void         PrimTest(udword id0, udword id1);
     inline_ void PrimTestTriIndex(udword id1);
@@ -291,16 +265,10 @@ protected:
 
     inline_ BOOL BoxBoxOverlap(const Point& ea, const Point& ca, const Point& eb, const Point& cb);
     inline_ BOOL TriBoxOverlap(const Point& center, const Point& extents);
-    inline_ BOOL TriTriOverlap(
-        const Point& V0,
-        const Point& V1,
-        const Point& V2,
-        const Point& U0,
-        const Point& U1,
-        const Point& U2);
+    inline_ BOOL TriTriOverlap(const Point& V0, const Point& V1, const Point& V2, const Point& U0, const Point& U1, const Point& U2);
     // Init methods
-    void InitQuery(const Matrix4x4* world0 = null, const Matrix4x4* world1 = null);
-    bool CheckTemporalCoherence(Pair* cache);
+    void         InitQuery(const Matrix4x4* world0 = null, const Matrix4x4* world1 = null);
+    bool         CheckTemporalCoherence(Pair* cache);
 };
 
 #endif   // __OPC_TREECOLLIDER_H__

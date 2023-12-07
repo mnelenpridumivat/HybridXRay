@@ -80,9 +80,9 @@ struct ENGINE_API SPPInfo
     shared_str cm_tex1;
     shared_str cm_tex2;
 
-    SPPInfo& add(const SPPInfo& ppi);
-    SPPInfo& sub(const SPPInfo& ppi);
-    void     normalize();
+    SPPInfo&   add(const SPPInfo& ppi);
+    SPPInfo&   sub(const SPPInfo& ppi);
+    void       normalize();
     SPPInfo();
     SPPInfo& lerp(const SPPInfo& def, const SPPInfo& to, float factor);
     void     validate(LPCSTR str);
@@ -105,9 +105,9 @@ protected:
     EffectorCamVec m_EffectorsCam_added_deffered;
     EffectorPPVec  m_EffectorsPP;
 
-    bool    m_bAutoApply;
-    SPPInfo pp_affected;
-    void    UpdateDeffered();
+    bool           m_bAutoApply;
+    SPPInfo        pp_affected;
+    void           UpdateDeffered();
 
     BENCH_SEC_SCRAMBLEVTBL1
     virtual void UpdateCamEffectors();
@@ -127,9 +127,9 @@ public:
     {
         return m_EffectorsCam.size() + m_EffectorsCam_added_deffered.size();
     }
-    CEffectorCam* AddCamEffector(CEffectorCam* ef);
-    CEffectorCam* GetCamEffector(ECamEffectorType type);
-    void          RemoveCamEffector(ECamEffectorType type);
+    CEffectorCam*    AddCamEffector(CEffectorCam* ef);
+    CEffectorCam*    GetCamEffector(ECamEffectorType type);
+    void             RemoveCamEffector(ECamEffectorType type);
 
     ECamEffectorType RequestCamEffectorId();
     EEffectorPPType  RequestPPEffectorId();
@@ -137,7 +137,7 @@ public:
     CEffectorPP*     AddPPEffector(CEffectorPP* ef);
     void             RemovePPEffector(EEffectorPPType type);
 
-    IC Fvector Position() const
+    IC Fvector       Position() const
     {
         return m_cam_info.p;
     }
@@ -166,15 +166,8 @@ public:
     {
         M.set(m_cam_info.r, m_cam_info.n, m_cam_info.d, m_cam_info.p);
     }
-    void Update(
-        const Fvector& P,
-        const Fvector& D,
-        const Fvector& N,
-        float          fFOV_Dest,
-        float          fASPECT_Dest,
-        float          fFAR_Dest,
-        u32            flags);
-    void UpdateFromCamera(const CCameraBase* C);
+    void        Update(const Fvector& P, const Fvector& D, const Fvector& N, float fFOV_Dest, float fASPECT_Dest, float fFAR_Dest, u32 flags);
+    void        UpdateFromCamera(const CCameraBase* C);
 
     void        ApplyDevice(float _viewport_near);
     static void ResetPP();
@@ -185,5 +178,5 @@ public:
 ENGINE_API extern SPPInfo pp_identity;
 ENGINE_API extern SPPInfo pp_zero;
 
-ENGINE_API extern float psCamInert;
-ENGINE_API extern float psCamSlideInert;
+ENGINE_API extern float   psCamInert;
+ENGINE_API extern float   psCamSlideInert;

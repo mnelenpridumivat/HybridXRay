@@ -37,8 +37,7 @@ void CParticleTool::FillChooseParticleType(ChooseItemVec& items, void* param)
 }
 void CParticleTool::OnParticleCreateItem(LPCSTR path)
 {
-    UIChooseForm::SelectItem(
-        smCustom, 1, 0, TOnChooseFillItems(this, &CParticleTool::FillChooseParticleType), 0, 0, 0, 0);
+    UIChooseForm::SelectItem(smCustom, 1, 0, TOnChooseFillItems(this, &CParticleTool::FillChooseParticleType), 0, 0, 0, 0);
     m_CreatingParticle     = TRUE;
     m_CreatingParticlePath = path;
 }
@@ -128,7 +127,7 @@ void CParticleTool::OnParticleItemFocused(ListItem* items)
 //------------------------------------------------------------------------------
 extern xr_string _item_to_select_after_edit;
 
-void CParticleTool::RealUpdateProperties()
+void             CParticleTool::RealUpdateProperties()
 {
     m_Flags.set(flRefreshProps, FALSE);
 

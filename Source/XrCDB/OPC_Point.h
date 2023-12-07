@@ -29,7 +29,7 @@ class Matrix4x4;
 
 #define CROSS2D(a, b) (a.x * b.y - b.x * a.y)
 
-#define EPSILON2 1.0e-20f;
+#define EPSILON2      1.0e-20f;
 
 class ICEMATHS_API icePoint;
 #define Point icePoint
@@ -71,9 +71,9 @@ public:
     }
 
     //! Sets positive unit random vector3
-    Point& PositiveUnitRandomVector();
+    Point&         PositiveUnitRandomVector();
     //! Sets unit random vector3
-    Point& UnitRandomVector();
+    Point&         UnitRandomVector();
 
     //! Assignment from values
     inline_ Point& Set(float _x, float _y, float _z)
@@ -302,7 +302,7 @@ public:
     inline_ Point& InvTransform(const Point& r, const Matrix3x3& rotpos, const Point& linpos);
 
     //! Returns _min(x, y, z);
-    inline_ float Min() const
+    inline_ float  Min() const
     {
         return _min(x, _min(y, z));
     }
@@ -391,7 +391,7 @@ public:
         }
     }
 
-#define TWEAKMASK 0x3fffff
+#define TWEAKMASK    0x3fffff
 #define TWEAKNOTMASK ~TWEAKMASK
     //! Slighty moves the point out
     inline_ void TweakBigger()
@@ -521,16 +521,16 @@ public:
     }
 
     //! Refracts the point
-    Point& Refract(const Point& eye, const Point& n, float refractindex, Point& refracted);
+    Point&         Refract(const Point& eye, const Point& n, float refractindex, Point& refracted);
 
     //! Projects the point onto a plane
-    Point& ProjectToPlane(const Plane& p);
+    Point&         ProjectToPlane(const Plane& p);
 
     //! Projects the point onto the screen
-    void ProjectToScreen(float halfrenderwidth, float halfrenderheight, const Matrix4x4& mat, HPoint& projected) const;
+    void           ProjectToScreen(float halfrenderwidth, float halfrenderheight, const Matrix4x4& mat, HPoint& projected) const;
 
     //! Unfolds the point onto a plane according to edge(a,b)
-    Point& Unfold(Plane& p, Point& a, Point& b);
+    Point&         Unfold(Plane& p, Point& a, Point& b);
 
     //! Hash function from Ville Miettinen
     inline_ udword GetHashValue() const
@@ -697,10 +697,7 @@ public:
         };   // To allow inlining
         const ShadowMatrix3x3* Mat = (const ShadowMatrix3x3*)&mat;
 
-        return Point(
-            x * Mat->m[0][0] + y * Mat->m[1][0] + z * Mat->m[2][0],
-            x * Mat->m[0][1] + y * Mat->m[1][1] + z * Mat->m[2][1],
-            x * Mat->m[0][2] + y * Mat->m[1][2] + z * Mat->m[2][2]);
+        return Point(x * Mat->m[0][0] + y * Mat->m[1][0] + z * Mat->m[2][0], x * Mat->m[0][1] + y * Mat->m[1][1] + z * Mat->m[2][1], x * Mat->m[0][2] + y * Mat->m[1][2] + z * Mat->m[2][2]);
     }
 
     //! Operator for Point Mul = Point * Matrix4x4.
@@ -713,10 +710,7 @@ public:
         };   // To allow inlining
         const ShadowMatrix4x4* Mat = (const ShadowMatrix4x4*)&mat;
 
-        return Point(
-            x * Mat->m[0][0] + y * Mat->m[1][0] + z * Mat->m[2][0] + Mat->m[3][0],
-            x * Mat->m[0][1] + y * Mat->m[1][1] + z * Mat->m[2][1] + Mat->m[3][1],
-            x * Mat->m[0][2] + y * Mat->m[1][2] + z * Mat->m[2][2] + Mat->m[3][2]);
+        return Point(x * Mat->m[0][0] + y * Mat->m[1][0] + z * Mat->m[2][0] + Mat->m[3][0], x * Mat->m[0][1] + y * Mat->m[1][1] + z * Mat->m[2][1] + Mat->m[3][1], x * Mat->m[0][2] + y * Mat->m[1][2] + z * Mat->m[2][2] + Mat->m[3][2]);
     }
 
     //! Operator for Point *= Matrix3x3.
@@ -729,13 +723,13 @@ public:
         };   // To allow inlining
         const ShadowMatrix3x3* Mat = (const ShadowMatrix3x3*)&mat;
 
-        float xp = x * Mat->m[0][0] + y * Mat->m[1][0] + z * Mat->m[2][0];
-        float yp = x * Mat->m[0][1] + y * Mat->m[1][1] + z * Mat->m[2][1];
-        float zp = x * Mat->m[0][2] + y * Mat->m[1][2] + z * Mat->m[2][2];
+        float                  xp  = x * Mat->m[0][0] + y * Mat->m[1][0] + z * Mat->m[2][0];
+        float                  yp  = x * Mat->m[0][1] + y * Mat->m[1][1] + z * Mat->m[2][1];
+        float                  zp  = x * Mat->m[0][2] + y * Mat->m[1][2] + z * Mat->m[2][2];
 
-        x = xp;
-        y = yp;
-        z = zp;
+        x                          = xp;
+        y                          = yp;
+        z                          = zp;
 
         return *this;
     }
@@ -750,13 +744,13 @@ public:
         };   // To allow inlining
         const ShadowMatrix4x4* Mat = (const ShadowMatrix4x4*)&mat;
 
-        float xp = x * Mat->m[0][0] + y * Mat->m[1][0] + z * Mat->m[2][0] + Mat->m[3][0];
-        float yp = x * Mat->m[0][1] + y * Mat->m[1][1] + z * Mat->m[2][1] + Mat->m[3][1];
-        float zp = x * Mat->m[0][2] + y * Mat->m[1][2] + z * Mat->m[2][2] + Mat->m[3][2];
+        float                  xp  = x * Mat->m[0][0] + y * Mat->m[1][0] + z * Mat->m[2][0] + Mat->m[3][0];
+        float                  yp  = x * Mat->m[0][1] + y * Mat->m[1][1] + z * Mat->m[2][1] + Mat->m[3][1];
+        float                  zp  = x * Mat->m[0][2] + y * Mat->m[1][2] + z * Mat->m[2][2] + Mat->m[3][2];
 
-        x = xp;
-        y = yp;
-        z = zp;
+        x                          = xp;
+        y                          = yp;
+        z                          = zp;
 
         return *this;
     }

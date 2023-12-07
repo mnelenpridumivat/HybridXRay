@@ -21,9 +21,9 @@ vision_client::vision_client(CEntity* object, const u32& update_interval): Feel:
 {
     VERIFY(m_object);
 
-    m_visual = xr_new<CVisualMemoryManager>(this);
+    m_visual      = xr_new<CVisualMemoryManager>(this);
 
-    m_state = 0;
+    m_state       = 0;
 
     shedule.t_min = update_interval;
     shedule.t_max = shedule.t_min;
@@ -81,12 +81,14 @@ void vision_client::shedule_Update(u32 dt)
 
     switch (m_state)
     {
-        case 0: {
+        case 0:
+        {
             m_state = 1;
             eye_pp_s01();
             break;
         }
-        case 1: {
+        case 1:
+        {
             m_state = 0;
             eye_pp_s2();
             break;

@@ -21,19 +21,19 @@ public:
 
     CTeamBaseZone();
     virtual ~CTeamBaseZone();
-    virtual void reinit();
-    virtual BOOL net_Spawn(CSE_Abstract* DC);
-    virtual void net_Destroy();
+    virtual void  reinit();
+    virtual BOOL  net_Spawn(CSE_Abstract* DC);
+    virtual void  net_Destroy();
 
     virtual void  Center(Fvector& C) const;
     virtual float Radius() const;
 
-    virtual void shedule_Update(u32 dt);
-    virtual void feel_touch_new(CObject* O);
-    virtual void feel_touch_delete(CObject* O);
-    virtual BOOL feel_touch_contact(CObject* O);
+    virtual void  shedule_Update(u32 dt);
+    virtual void  feel_touch_new(CObject* O);
+    virtual void  feel_touch_delete(CObject* O);
+    virtual BOOL  feel_touch_contact(CObject* O);
 
-    virtual u8 GetZoneTeam()
+    virtual u8    GetZoneTeam()
     {
         return m_Team;
     };

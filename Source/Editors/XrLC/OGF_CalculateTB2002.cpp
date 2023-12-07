@@ -2,14 +2,7 @@
 
 #include "NvMender2002/nvMeshMender.h"
 
-void fill_mender_input(
-    const vecOGF_V&   vertices,
-    const vecOGF_F&   faces,
-    xr_vector<float>& i_position,
-    xr_vector<float>& i_normal,
-    xr_vector<float>& i_tc,
-    xr_vector<float>& i_color,
-    xr_vector<int>&   i_indices)
+void fill_mender_input(const vecOGF_V& vertices, const vecOGF_F& faces, xr_vector<float>& i_position, xr_vector<float>& i_normal, xr_vector<float>& i_tc, xr_vector<float>& i_color, xr_vector<int>& i_indices)
 {
     // fill inputs (verts&indices)
     for (citOGF_V vert_it = vertices.begin(); vert_it != vertices.end(); vert_it++)
@@ -36,16 +29,7 @@ void fill_mender_input(
         i_indices.push_back(iF.v[2]);
     }
 }
-void retrive_data_from_mender_otput(
-    vecOGF_V&               vertices,
-    vecOGF_F&               faces,
-    const xr_vector<float>& o_position,
-    const xr_vector<float>& o_normal,
-    const xr_vector<float>& o_tc,
-    const xr_vector<float>& o_tangent,
-    const xr_vector<float>& o_binormal,
-    const xr_vector<float>& o_color,
-    const xr_vector<int>&   o_indices)
+void retrive_data_from_mender_otput(vecOGF_V& vertices, vecOGF_F& faces, const xr_vector<float>& o_position, const xr_vector<float>& o_normal, const xr_vector<float>& o_tc, const xr_vector<float>& o_tangent, const xr_vector<float>& o_binormal, const xr_vector<float>& o_color, const xr_vector<int>& o_indices)
 {
     // retriving data
     u32 v_cnt = o_position.size();
@@ -124,8 +108,7 @@ void OGF::CalculateTB()
 
     // Perform munge
     NVMeshMender mender;
-    if (!mender.Munge(
-            input,                                      // input attributes
+    if (!mender.Munge(input,                            // input attributes
             output,                                     // outputs attributes
             deg2rad(75.f),                              // tangent space smooth angle
             0,                                          // no texture matrix applied to my texture coordinates
@@ -163,6 +146,5 @@ void OGF::CalculateTB()
     R_ASSERT(v_cnt == o_tc.size());
     R_ASSERT(v_cnt == o_color.size());
 
-    retrive_data_from_mender_otput(
-        data.vertices, data.faces, o_position, o_normal, o_tc, o_tangent, o_binormal, o_color, o_indices);
+    retrive_data_from_mender_otput(data.vertices, data.faces, o_position, o_normal, o_tc, o_tangent, o_binormal, o_color, o_indices);
 }

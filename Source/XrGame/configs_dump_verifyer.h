@@ -22,14 +22,14 @@ namespace mp_anticheat
         bool const verify(u8* data, u32 data_size, string256& diff);
 
     private:
-        typedef u8    sha_checksum_t[crypto::xr_sha256::digest_length];
-        bool const    verify_dsign(u8* data, u32 data_size, sha_checksum_t& sha_checksum);
-        LPCSTR        get_diff(CInifile& received, CInifile& active_params, string256& dst_diff);
-        LPCSTR        get_section_diff(CInifile::Sect* sect_ptr, CInifile& active_params, string256& dst_diff);
-        CMemoryWriter m_orig_config_body;
-        u32           m_orig_config_end_pos;
+        typedef u8         sha_checksum_t[crypto::xr_sha256::digest_length];
+        bool const         verify_dsign(u8* data, u32 data_size, sha_checksum_t& sha_checksum);
+        LPCSTR             get_diff(CInifile& received, CInifile& active_params, string256& dst_diff);
+        LPCSTR             get_section_diff(CInifile::Sect* sect_ptr, CInifile& active_params, string256& dst_diff);
+        CMemoryWriter      m_orig_config_body;
+        u32                m_orig_config_end_pos;
 
-        dump_verifyer m_verifyer;
+        dump_verifyer      m_verifyer;
 
         mp_config_sections m_original_config;
         mp_active_params   m_original_ap;

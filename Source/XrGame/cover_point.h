@@ -14,8 +14,8 @@ class CCoverPoint
 {
 public:
     Fvector m_position;
-    u32     m_level_vertex_id : 31;
-    u32     m_is_smart_cover : 1;
+    u32     m_level_vertex_id:31;
+    u32     m_is_smart_cover :1;
 
 public:
     IC                CCoverPoint(Fvector const& point, u32 const& level_vertex_id);

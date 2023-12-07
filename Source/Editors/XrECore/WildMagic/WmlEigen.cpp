@@ -15,77 +15,77 @@
 using namespace Wml;
 
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>::Eigen(int iSize): m_kMat(iSize, iSize)
+template<class Real> Eigen<Real>::Eigen(int iSize): m_kMat(iSize, iSize)
 {
     assert(iSize >= 2);
-    m_iSize  = iSize;
-    m_afDiag = new Real[m_iSize];
-    m_afSubd = new Real[m_iSize];
+    m_iSize       = iSize;
+    m_afDiag      = new Real[m_iSize];
+    m_afSubd      = new Real[m_iSize];
 
     // set according to the parity of the number of Householder reflections
     m_bIsRotation = ((iSize % 2) == 0);
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>::Eigen(const Matrix2<Real>& rkM): m_kMat(2, 2, (const Real*)rkM)
+template<class Real> Eigen<Real>::Eigen(const Matrix2<Real>& rkM): m_kMat(2, 2, (const Real*)rkM)
 {
-    m_iSize  = 2;
-    m_afDiag = new Real[m_iSize];
-    m_afSubd = new Real[m_iSize];
+    m_iSize       = 2;
+    m_afDiag      = new Real[m_iSize];
+    m_afSubd      = new Real[m_iSize];
 
     // set according to the parity of the number of Householder reflections
     m_bIsRotation = true;
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>::Eigen(const Matrix3<Real>& rkM): m_kMat(3, 3, (const Real*)rkM)
+template<class Real> Eigen<Real>::Eigen(const Matrix3<Real>& rkM): m_kMat(3, 3, (const Real*)rkM)
 {
-    m_iSize  = 3;
-    m_afDiag = new Real[m_iSize];
-    m_afSubd = new Real[m_iSize];
+    m_iSize       = 3;
+    m_afDiag      = new Real[m_iSize];
+    m_afSubd      = new Real[m_iSize];
 
     // set according to the parity of the number of Householder reflections
     m_bIsRotation = false;
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>::Eigen(const Matrix4<Real>& rkM): m_kMat(4, 4, (const Real*)rkM)
+template<class Real> Eigen<Real>::Eigen(const Matrix4<Real>& rkM): m_kMat(4, 4, (const Real*)rkM)
 {
-    m_iSize  = 4;
-    m_afDiag = new Real[m_iSize];
-    m_afSubd = new Real[m_iSize];
+    m_iSize       = 4;
+    m_afDiag      = new Real[m_iSize];
+    m_afSubd      = new Real[m_iSize];
 
     // set according to the parity of the number of Householder reflections
     m_bIsRotation = true;
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>::Eigen(const GMatrix<Real>& rkM): m_kMat(rkM)
+template<class Real> Eigen<Real>::Eigen(const GMatrix<Real>& rkM): m_kMat(rkM)
 {
     m_iSize = rkM.GetRows();
     assert(m_iSize >= 2 && (rkM.GetColumns() == m_iSize));
-    m_afDiag = new Real[m_iSize];
-    m_afSubd = new Real[m_iSize];
+    m_afDiag      = new Real[m_iSize];
+    m_afSubd      = new Real[m_iSize];
 
     // set according to the parity of the number of Householder reflections
     m_bIsRotation = ((m_iSize % 2) == 0);
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>::~Eigen()
+template<class Real> Eigen<Real>::~Eigen()
 {
     delete[] m_afSubd;
     delete[] m_afDiag;
 }
 //----------------------------------------------------------------------------
-template <class Real> Real& Eigen<Real>::operator()(int iRow, int iCol)
+template<class Real> Real& Eigen<Real>::operator()(int iRow, int iCol)
 {
     return m_kMat[iRow][iCol];
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix2<Real>& rkM)
+template<class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix2<Real>& rkM)
 {
     m_kMat.SetMatrix(2, 2, (const Real*)rkM);
     m_iSize = 2;
     delete[] m_afDiag;
     delete[] m_afSubd;
-    m_afDiag = new Real[m_iSize];
-    m_afSubd = new Real[m_iSize];
+    m_afDiag      = new Real[m_iSize];
+    m_afSubd      = new Real[m_iSize];
 
     // set according to the parity of the number of Householder reflections
     m_bIsRotation = true;
@@ -93,14 +93,14 @@ template <class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix2<Real>& r
     return *this;
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix3<Real>& rkM)
+template<class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix3<Real>& rkM)
 {
     m_kMat.SetMatrix(3, 3, (const Real*)rkM);
     m_iSize = 3;
     delete[] m_afDiag;
     delete[] m_afSubd;
-    m_afDiag = new Real[m_iSize];
-    m_afSubd = new Real[m_iSize];
+    m_afDiag      = new Real[m_iSize];
+    m_afSubd      = new Real[m_iSize];
 
     // set according to the parity of the number of Householder reflections
     m_bIsRotation = false;
@@ -108,14 +108,14 @@ template <class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix3<Real>& r
     return *this;
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix4<Real>& rkM)
+template<class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix4<Real>& rkM)
 {
     m_kMat.SetMatrix(4, 4, (const Real*)rkM);
     m_iSize = 4;
     delete[] m_afDiag;
     delete[] m_afSubd;
-    m_afDiag = new Real[m_iSize];
-    m_afSubd = new Real[m_iSize];
+    m_afDiag      = new Real[m_iSize];
+    m_afSubd      = new Real[m_iSize];
 
     // set according to the parity of the number of Householder reflections
     m_bIsRotation = true;
@@ -123,23 +123,23 @@ template <class Real> Eigen<Real>& Eigen<Real>::operator=(const Matrix4<Real>& r
     return *this;
 }
 //----------------------------------------------------------------------------
-template <class Real> Eigen<Real>& Eigen<Real>::operator=(const GMatrix<Real>& rkM)
+template<class Real> Eigen<Real>& Eigen<Real>::operator=(const GMatrix<Real>& rkM)
 {
     m_kMat = rkM;
     return *this;
 }
 //----------------------------------------------------------------------------
-template <class Real> Real Eigen<Real>::GetEigenvalue(int i) const
+template<class Real> Real Eigen<Real>::GetEigenvalue(int i) const
 {
     return m_afDiag[i];
 }
 //----------------------------------------------------------------------------
-template <class Real> const Real* Eigen<Real>::GetEigenvalues() const
+template<class Real> const Real* Eigen<Real>::GetEigenvalues() const
 {
     return m_afDiag;
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::GetEigenvector(int i, Vector2<Real>& rkV) const
+template<class Real> void Eigen<Real>::GetEigenvector(int i, Vector2<Real>& rkV) const
 {
     assert(m_iSize == 2);
     if (m_iSize == 2)
@@ -153,7 +153,7 @@ template <class Real> void Eigen<Real>::GetEigenvector(int i, Vector2<Real>& rkV
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::GetEigenvector(int i, Vector3<Real>& rkV) const
+template<class Real> void Eigen<Real>::GetEigenvector(int i, Vector3<Real>& rkV) const
 {
     assert(m_iSize == 3);
     if (m_iSize == 3)
@@ -167,7 +167,7 @@ template <class Real> void Eigen<Real>::GetEigenvector(int i, Vector3<Real>& rkV
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::GetEigenvector(int i, Vector4<Real>& rkV) const
+template<class Real> void Eigen<Real>::GetEigenvector(int i, Vector4<Real>& rkV) const
 {
     assert(m_iSize == 4);
     if (m_iSize == 4)
@@ -181,17 +181,17 @@ template <class Real> void Eigen<Real>::GetEigenvector(int i, Vector4<Real>& rkV
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> GVector<Real> Eigen<Real>::GetEigenvector(int i) const
+template<class Real> GVector<Real> Eigen<Real>::GetEigenvector(int i) const
 {
     return m_kMat.GetColumn(i);
 }
 //----------------------------------------------------------------------------
-template <class Real> const GMatrix<Real>& Eigen<Real>::GetEigenvectors() const
+template<class Real> const GMatrix<Real>& Eigen<Real>::GetEigenvectors() const
 {
     return m_kMat;
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::Tridiagonal2()
+template<class Real> void Eigen<Real>::Tridiagonal2()
 {
     // matrix is already tridiagonal
     m_afDiag[0]  = m_kMat[0][0];
@@ -204,14 +204,14 @@ template <class Real> void Eigen<Real>::Tridiagonal2()
     m_kMat[1][1] = (Real)1.0;
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::Tridiagonal3()
+template<class Real> void Eigen<Real>::Tridiagonal3()
 {
-    Real fM00 = m_kMat[0][0];
-    Real fM01 = m_kMat[0][1];
-    Real fM02 = m_kMat[0][2];
-    Real fM11 = m_kMat[1][1];
-    Real fM12 = m_kMat[1][2];
-    Real fM22 = m_kMat[2][2];
+    Real fM00   = m_kMat[0][0];
+    Real fM01   = m_kMat[0][1];
+    Real fM02   = m_kMat[0][2];
+    Real fM11   = m_kMat[1][1];
+    Real fM12   = m_kMat[1][2];
+    Real fM22   = m_kMat[2][2];
 
     m_afDiag[0] = fM00;
     m_afSubd[2] = (Real)0.0;
@@ -254,22 +254,22 @@ template <class Real> void Eigen<Real>::Tridiagonal3()
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::Tridiagonal4()
+template<class Real> void Eigen<Real>::Tridiagonal4()
 {
     // save matrix M
-    Real fM00 = m_kMat[0][0];
-    Real fM01 = m_kMat[0][1];
-    Real fM02 = m_kMat[0][2];
-    Real fM03 = m_kMat[0][3];
-    Real fM11 = m_kMat[1][1];
-    Real fM12 = m_kMat[1][2];
-    Real fM13 = m_kMat[1][3];
-    Real fM22 = m_kMat[2][2];
-    Real fM23 = m_kMat[2][3];
-    Real fM33 = m_kMat[3][3];
+    Real fM00    = m_kMat[0][0];
+    Real fM01    = m_kMat[0][1];
+    Real fM02    = m_kMat[0][2];
+    Real fM03    = m_kMat[0][3];
+    Real fM11    = m_kMat[1][1];
+    Real fM12    = m_kMat[1][2];
+    Real fM13    = m_kMat[1][3];
+    Real fM22    = m_kMat[2][2];
+    Real fM23    = m_kMat[2][3];
+    Real fM33    = m_kMat[3][3];
 
-    m_afDiag[0] = fM00;
-    m_afSubd[3] = (Real)0.0;
+    m_afDiag[0]  = fM00;
+    m_afSubd[3]  = (Real)0.0;
 
     m_kMat[0][0] = (Real)1.0;
     m_kMat[0][1] = (Real)0.0;
@@ -288,26 +288,26 @@ template <class Real> void Eigen<Real>::Tridiagonal4()
         Real fQ31, fQ32, fQ33;
 
         // build column Q1
-        fLength    = Math<Real>::Sqrt(fM01 * fM01 + fM02 * fM02 + fM03 * fM03);
-        fInvLength = ((Real)1.0) / fLength;
-        fQ11       = fM01 * fInvLength;
-        fQ21       = fM02 * fInvLength;
-        fQ31       = fM03 * fInvLength;
+        fLength     = Math<Real>::Sqrt(fM01 * fM01 + fM02 * fM02 + fM03 * fM03);
+        fInvLength  = ((Real)1.0) / fLength;
+        fQ11        = fM01 * fInvLength;
+        fQ21        = fM02 * fInvLength;
+        fQ31        = fM03 * fInvLength;
 
         m_afSubd[0] = fLength;
 
         // compute S*Q1
-        Real fV0 = fM11 * fQ11 + fM12 * fQ21 + fM13 * fQ31;
-        Real fV1 = fM12 * fQ11 + fM22 * fQ21 + fM23 * fQ31;
-        Real fV2 = fM13 * fQ11 + fM23 * fQ21 + fM33 * fQ31;
+        Real fV0    = fM11 * fQ11 + fM12 * fQ21 + fM13 * fQ31;
+        Real fV1    = fM12 * fQ11 + fM22 * fQ21 + fM23 * fQ31;
+        Real fV2    = fM13 * fQ11 + fM23 * fQ21 + fM33 * fQ31;
 
         m_afDiag[1] = fQ11 * fV0 + fQ21 * fV1 + fQ31 * fV2;
 
         // build column Q3 = Q1x(S*Q1)
-        fQ13    = fQ21 * fV2 - fQ31 * fV1;
-        fQ23    = fQ31 * fV0 - fQ11 * fV2;
-        fQ33    = fQ11 * fV1 - fQ21 * fV0;
-        fLength = Math<Real>::Sqrt(fQ13 * fQ13 + fQ23 * fQ23 + fQ33 * fQ33);
+        fQ13        = fQ21 * fV2 - fQ31 * fV1;
+        fQ23        = fQ31 * fV0 - fQ11 * fV2;
+        fQ33        = fQ11 * fV1 - fQ21 * fV0;
+        fLength     = Math<Real>::Sqrt(fQ13 * fQ13 + fQ23 * fQ23 + fQ33 * fQ33);
         if (fLength > (Real)0.0)
         {
             fInvLength = ((Real)1.0) / fLength;
@@ -316,9 +316,9 @@ template <class Real> void Eigen<Real>::Tridiagonal4()
             fQ33 *= fInvLength;
 
             // build column Q2 = Q3xQ1
-            fQ12 = fQ23 * fQ31 - fQ33 * fQ21;
-            fQ22 = fQ33 * fQ11 - fQ13 * fQ31;
-            fQ32 = fQ13 * fQ21 - fQ23 * fQ11;
+            fQ12        = fQ23 * fQ31 - fQ33 * fQ21;
+            fQ22        = fQ33 * fQ11 - fQ13 * fQ31;
+            fQ32        = fQ13 * fQ21 - fQ23 * fQ11;
 
             fV0         = fQ12 * fM11 + fQ22 * fM12 + fQ32 * fM13;
             fV1         = fQ12 * fM12 + fQ22 * fM22 + fQ32 * fM23;
@@ -337,18 +337,18 @@ template <class Real> void Eigen<Real>::Tridiagonal4()
             // S*Q1 parallel to Q1, choose any valid Q2 and Q3
             m_afSubd[1] = (Real)0.0;
 
-            fLength = fQ21 * fQ21 + fQ31 * fQ31;
+            fLength     = fQ21 * fQ21 + fQ31 * fQ31;
             if (fLength > (Real)0.0)
             {
-                fInvLength = ((Real)1.0) / fLength;
-                Real fTmp  = fQ11 - (Real)1.0;
-                fQ12       = -fQ21;
-                fQ22       = ((Real)1.0) + fTmp * fQ21 * fQ21 * fInvLength;
-                fQ32       = fTmp * fQ21 * fQ31 * fInvLength;
+                fInvLength  = ((Real)1.0) / fLength;
+                Real fTmp   = fQ11 - (Real)1.0;
+                fQ12        = -fQ21;
+                fQ22        = ((Real)1.0) + fTmp * fQ21 * fQ21 * fInvLength;
+                fQ32        = fTmp * fQ21 * fQ31 * fInvLength;
 
-                fQ13 = -fQ31;
-                fQ23 = fQ32;
-                fQ33 = ((Real)1.0) + fTmp * fQ31 * fQ31 * fInvLength;
+                fQ13        = -fQ31;
+                fQ23        = fQ32;
+                fQ33        = ((Real)1.0) + fTmp * fQ31 * fQ31 * fInvLength;
 
                 fV0         = fQ12 * fM11 + fQ22 * fM12 + fQ32 * fM13;
                 fV1         = fQ12 * fM12 + fQ22 * fM22 + fQ32 * fM23;
@@ -364,12 +364,12 @@ template <class Real> void Eigen<Real>::Tridiagonal4()
             else
             {
                 // Q1 = (+-1,0,0)
-                fQ12 = (Real)0.0;
-                fQ22 = (Real)1.0;
-                fQ32 = (Real)0.0;
-                fQ13 = (Real)0.0;
-                fQ23 = (Real)0.0;
-                fQ33 = (Real)1.0;
+                fQ12        = (Real)0.0;
+                fQ22        = (Real)1.0;
+                fQ32        = (Real)0.0;
+                fQ13        = (Real)0.0;
+                fQ23        = (Real)0.0;
+                fQ33        = (Real)1.0;
 
                 m_afDiag[2] = fM22;
                 m_afDiag[3] = fM33;
@@ -401,7 +401,7 @@ template <class Real> void Eigen<Real>::Tridiagonal4()
             fInvLength = ((Real)1.0) / fLength;
             fM12 *= fInvLength;
             fM13 *= fInvLength;
-            Real fQ = ((Real)2.0) * fM12 * fM23 + fM13 * (fM33 - fM22);
+            Real fQ      = ((Real)2.0) * fM12 * fM23 + fM13 * (fM33 - fM22);
 
             m_afDiag[2]  = fM22 + fM13 * fQ;
             m_afDiag[3]  = fM33 - fM13 * fQ;
@@ -430,7 +430,7 @@ template <class Real> void Eigen<Real>::Tridiagonal4()
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::TridiagonalN()
+template<class Real> void Eigen<Real>::TridiagonalN()
 {
     int i0, i1, i2, i3;
 
@@ -525,7 +525,7 @@ template <class Real> void Eigen<Real>::TridiagonalN()
     m_afSubd[m_iSize - 1] = (Real)0.0;
 }
 //----------------------------------------------------------------------------
-template <class Real> bool Eigen<Real>::QLAlgorithm()
+template<class Real> bool Eigen<Real>::QLAlgorithm()
 {
     const int iMaxIter = 32;
 
@@ -595,7 +595,7 @@ template <class Real> bool Eigen<Real>::QLAlgorithm()
     return true;
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::DecreasingSort()
+template<class Real> void Eigen<Real>::DecreasingSort()
 {
     // sort eigenvalues in decreasing order, e[0] >= ... >= e[iSize-1]
     for (int i0 = 0, i1; i0 <= m_iSize - 2; i0++)
@@ -631,7 +631,7 @@ template <class Real> void Eigen<Real>::DecreasingSort()
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::IncreasingSort()
+template<class Real> void Eigen<Real>::IncreasingSort()
 {
     // sort eigenvalues in increasing order, e[0] <= ... <= e[iSize-1]
     for (int i0 = 0, i1; i0 <= m_iSize - 2; i0++)
@@ -667,7 +667,7 @@ template <class Real> void Eigen<Real>::IncreasingSort()
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::GuaranteeRotation()
+template<class Real> void Eigen<Real>::GuaranteeRotation()
 {
     if (!m_bIsRotation)
     {
@@ -677,35 +677,35 @@ template <class Real> void Eigen<Real>::GuaranteeRotation()
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::EigenStuff2()
+template<class Real> void Eigen<Real>::EigenStuff2()
 {
     Tridiagonal2();
     QLAlgorithm();
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::EigenStuff3()
+template<class Real> void Eigen<Real>::EigenStuff3()
 {
     Tridiagonal3();
     QLAlgorithm();
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::EigenStuff4()
+template<class Real> void Eigen<Real>::EigenStuff4()
 {
     Tridiagonal4();
     QLAlgorithm();
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::EigenStuffN()
+template<class Real> void Eigen<Real>::EigenStuffN()
 {
     TridiagonalN();
     QLAlgorithm();
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::EigenStuff()
+template<class Real> void Eigen<Real>::EigenStuff()
 {
     switch (m_iSize)
     {
@@ -726,7 +726,7 @@ template <class Real> void Eigen<Real>::EigenStuff()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::DecrSortEigenStuff2()
+template<class Real> void Eigen<Real>::DecrSortEigenStuff2()
 {
     Tridiagonal2();
     QLAlgorithm();
@@ -734,7 +734,7 @@ template <class Real> void Eigen<Real>::DecrSortEigenStuff2()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::DecrSortEigenStuff3()
+template<class Real> void Eigen<Real>::DecrSortEigenStuff3()
 {
     Tridiagonal3();
     QLAlgorithm();
@@ -742,7 +742,7 @@ template <class Real> void Eigen<Real>::DecrSortEigenStuff3()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::DecrSortEigenStuff4()
+template<class Real> void Eigen<Real>::DecrSortEigenStuff4()
 {
     Tridiagonal4();
     QLAlgorithm();
@@ -750,7 +750,7 @@ template <class Real> void Eigen<Real>::DecrSortEigenStuff4()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::DecrSortEigenStuffN()
+template<class Real> void Eigen<Real>::DecrSortEigenStuffN()
 {
     TridiagonalN();
     QLAlgorithm();
@@ -758,7 +758,7 @@ template <class Real> void Eigen<Real>::DecrSortEigenStuffN()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::DecrSortEigenStuff()
+template<class Real> void Eigen<Real>::DecrSortEigenStuff()
 {
     switch (m_iSize)
     {
@@ -780,7 +780,7 @@ template <class Real> void Eigen<Real>::DecrSortEigenStuff()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::IncrSortEigenStuff2()
+template<class Real> void Eigen<Real>::IncrSortEigenStuff2()
 {
     Tridiagonal2();
     QLAlgorithm();
@@ -788,7 +788,7 @@ template <class Real> void Eigen<Real>::IncrSortEigenStuff2()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::IncrSortEigenStuff3()
+template<class Real> void Eigen<Real>::IncrSortEigenStuff3()
 {
     Tridiagonal3();
     QLAlgorithm();
@@ -796,7 +796,7 @@ template <class Real> void Eigen<Real>::IncrSortEigenStuff3()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::IncrSortEigenStuff4()
+template<class Real> void Eigen<Real>::IncrSortEigenStuff4()
 {
     Tridiagonal4();
     QLAlgorithm();
@@ -804,7 +804,7 @@ template <class Real> void Eigen<Real>::IncrSortEigenStuff4()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::IncrSortEigenStuffN()
+template<class Real> void Eigen<Real>::IncrSortEigenStuffN()
 {
     TridiagonalN();
     QLAlgorithm();
@@ -812,7 +812,7 @@ template <class Real> void Eigen<Real>::IncrSortEigenStuffN()
     GuaranteeRotation();
 }
 //----------------------------------------------------------------------------
-template <class Real> void Eigen<Real>::IncrSortEigenStuff()
+template<class Real> void Eigen<Real>::IncrSortEigenStuff()
 {
     switch (m_iSize)
     {

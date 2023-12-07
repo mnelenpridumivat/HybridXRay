@@ -81,17 +81,16 @@ void CStatGraph::RenderBack()
     RCache.Render(D3DPT_LINESTRIP, dwOffset, 4);
 
     // draw grid
-    float elem_factor = float(rb.y - lt.y) / float(mx - mn);
-    float base_y      = float(rb.y) + (mn * elem_factor);
+    float elem_factor     = float(rb.y - lt.y) / float(mx - mn);
+    float base_y          = float(rb.y) + (mn * elem_factor);
 
-    int PNum_H_LinesUp  = int((base_y - float(lt.y)) / (grid_step.y * elem_factor));
-    int PNum_H_LinesDwn = u32((float(rb.y) - base_y) / (grid_step.y * elem_factor));
-    int Num_H_LinesUp   = (grid.y < PNum_H_LinesUp) ? grid.y : PNum_H_LinesUp;
-    int Num_H_LinesDwn  = (grid.y < PNum_H_LinesUp) ? grid.y : PNum_H_LinesDwn;
+    int   PNum_H_LinesUp  = int((base_y - float(lt.y)) / (grid_step.y * elem_factor));
+    int   PNum_H_LinesDwn = u32((float(rb.y) - base_y) / (grid_step.y * elem_factor));
+    int   Num_H_LinesUp   = (grid.y < PNum_H_LinesUp) ? grid.y : PNum_H_LinesUp;
+    int   Num_H_LinesDwn  = (grid.y < PNum_H_LinesUp) ? grid.y : PNum_H_LinesDwn;
 
-    pv_start = (FVF::TL0uv*)RCache.Vertex.Lock(
-        2 + 2 * grid.x + Num_H_LinesUp * 2 + Num_H_LinesDwn * 2, hGeomLine->vb_stride, dwOffset);
-    pv = pv_start;
+    pv_start              = (FVF::TL0uv*)RCache.Vertex.Lock(2 + 2 * grid.x + Num_H_LinesUp * 2 + Num_H_LinesDwn * 2, hGeomLine->vb_stride, dwOffset);
+    pv                    = pv_start;
     // base Coordinate Line
     pv->set(lt.x, int(base_y), base_color);
     pv++;   // 0
@@ -136,9 +135,9 @@ void CStatGraph::RenderBack()
 
 void CStatGraph::RenderBars(FVF::TL0uv** ppv, ElementsDeq* pelements)
 {
-    float elem_offs   = float(rb.x - lt.x) / max_item_count;
-    float elem_factor = float(rb.y - lt.y) / float(mx - mn);
-    float base_y      = float(rb.y) + (mn * elem_factor);
+    float elem_offs    = float(rb.x - lt.x) / max_item_count;
+    float elem_factor  = float(rb.y - lt.y) / float(mx - mn);
+    float base_y       = float(rb.y) + (mn * elem_factor);
 
     float column_width = elem_offs;
     if (column_width > 1)
@@ -247,7 +246,8 @@ void CStatGraph::RenderMarkers(FVF::TL0uv** ppv, MarkersDeq* pmarkers)
         float    X0 = 0, Y0 = 0, X1 = 0, Y1 = 0;
         switch (CurMarker.m_eStyle)
         {
-            case stVert: {
+            case stVert:
+            {
                 X0 = CurMarker.m_fPos * elem_offs + lt.x;
                 clamp(X0, float(lt.x), float(rb.x));
                 X1 = X0;
@@ -255,7 +255,8 @@ void CStatGraph::RenderMarkers(FVF::TL0uv** ppv, MarkersDeq* pmarkers)
                 Y1 = float(rb.y);
             }
             break;
-            case stHor: {
+            case stHor:
+            {
                 X0 = float(lt.x);
                 X1 = float(rb.x);
                 Y0 = base_y - CurMarker.m_fPos * elem_factor;
@@ -283,19 +284,23 @@ void CStatGraph::OnRender()
     {
         switch (it->style)
         {
-            case stBar: {
+            case stBar:
+            {
                 TriElem += it->elements.size() * 4;
             }
             break;
-            case stCurve: {
+            case stCurve:
+            {
                 LineElem += it->elements.size() * 2;
             }
             break;
-            case stBarLine: {
+            case stBarLine:
+            {
                 LineElem += it->elements.size() * 4;
             }
             break;
-            case stPoint: {
+            case stPoint:
+            {
                 //				TriElem += it->elements.size()*4;
             }
             break;
@@ -313,7 +318,7 @@ void CStatGraph::OnRender()
         pv_Tri_start = (FVF::TL0uv*)RCache.Vertex.Lock(TriElem, hGeomTri->vb_stride, dwOffsetTri);
         pv_Tri       = pv_Tri_start;
 
-        pv_Tri = pv_Tri_start;
+        pv_Tri       = pv_Tri_start;
         for (SubGraphVecIt it = subgraphs.begin(); it != subgraphs.end(); it++)
         {
             switch (it->style)
@@ -355,8 +360,8 @@ void CStatGraph::OnRender()
 
     if (!m_Markers.empty())
     {
-        dwOffsetLine = 0;
-        LineElem     = m_Markers.size() * 2;
+        dwOffsetLine  = 0;
+        LineElem      = m_Markers.size() * 2;
 
         pv_Line_start = (FVF::TL0uv*)RCache.Vertex.Lock(LineElem, hGeomLine->vb_stride, dwOffsetLine);
         pv_Line       = pv_Line_start;

@@ -90,8 +90,7 @@ void CSHGameMtlTools::Reload()
 void CSHGameMtlTools::FillItemList()
 {
     ListItemsVec items;
-    for (GameMtlIt m_it = GameMaterialLibraryEditors->FirstMaterial();
-         m_it != GameMaterialLibraryEditors->LastMaterial(); m_it++)
+    for (GameMtlIt m_it = GameMaterialLibraryEditors->FirstMaterial(); m_it != GameMaterialLibraryEditors->LastMaterial(); m_it++)
         LHelper().CreateItem(items, *(*m_it)->m_Name, 0);
     // assign items
     Ext.m_Items->AssignItems(items, 0, false);
@@ -117,7 +116,7 @@ bool CSHGameMtlTools::Save()
     string_path fn;
     FS.update_path(fn, _game_data_, GAMEMTL_FILENAME);
     EFS.MarkFile(fn, false);
-    bool bRes = GameMaterialLibrary->Save();
+    bool bRes     = GameMaterialLibrary->Save();
 
     m_bLockUpdate = FALSE;
 
@@ -147,8 +146,7 @@ void CSHGameMtlTools::AppendItem(LPCSTR path, LPCSTR parent_name)
     SGameMtl* parent = FindItem(parent_name);
     if (!parent)
     {
-        UIChooseForm::SelectItem(
-            smCustom, 1, 0, TOnChooseFillItems(this, &CSHGameMtlTools::FillChooseMtlType), 0, 0, 0, 0);
+        UIChooseForm::SelectItem(smCustom, 1, 0, TOnChooseFillItems(this, &CSHGameMtlTools::FillChooseMtlType), 0, 0, 0, 0);
         m_CreatingMtl     = TRUE;
         m_CreatingMtlPath = path;
     }
@@ -183,7 +181,7 @@ void CSHGameMtlTools::OnRenameItem(LPCSTR old_full_name, LPCSTR new_full_name, E
             ExecCommand(COMMAND_UPDATE_LIST);
             m_LastSelection = m_Mtl->m_Name.c_str();
 
-            m_Mtl = 0;
+            m_Mtl           = 0;
         }
     }
 }

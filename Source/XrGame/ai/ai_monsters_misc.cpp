@@ -26,13 +26,9 @@
 #include "../agent_member_manager.h"
 #include "stalker/ai_stalker.h"
 
-bool bfGetActionSuccessProbability(
-    GroupHierarchyHolder::MEMBER_REGISTRY& Members,
-    const xr_vector<const CEntityAlive*>&  VisibleEnemies,
-    float                                  fMinProbability,
-    CBaseFunction&                         fSuccessProbabilityFunction)
+bool bfGetActionSuccessProbability(GroupHierarchyHolder::MEMBER_REGISTRY& Members, const xr_vector<const CEntityAlive*>& VisibleEnemies, float fMinProbability, CBaseFunction& fSuccessProbabilityFunction)
 {
-    int i = 0, j = 0, I = (int)Members.size(), J = (int)VisibleEnemies.size();
+    int                                            i = 0, j = 0, I = (int)Members.size(), J = (int)VisibleEnemies.size();
     xr_vector<const CEntityAlive*>::const_iterator II = VisibleEnemies.begin();
     for (; (i < I) && (j < J);)
     {
@@ -98,22 +94,7 @@ bool bfGetActionSuccessProbability(
     return (j >= J);
 }
 
-u32 dwfChooseAction(
-    u32      dwActionRefreshRate,
-    float    fMinProbability0,
-    float    fMinProbability1,
-    float    fMinProbability2,
-    float    fMinProbability3,
-    u32      dwTeam,
-    u32      dwSquad,
-    u32      dwGroup,
-    u32      a0,
-    u32      a1,
-    u32      a2,
-    u32      a3,
-    u32      a4,
-    CEntity* tpEntity,
-    float    fGroupDistance)
+u32 dwfChooseAction(u32 dwActionRefreshRate, float fMinProbability0, float fMinProbability1, float fMinProbability2, float fMinProbability3, u32 dwTeam, u32 dwSquad, u32 dwGroup, u32 a0, u32 a1, u32 a2, u32 a3, u32 a4, CEntity* tpEntity, float fGroupDistance)
 {
     if (fis_zero(fMinProbability0))
         return (0);
@@ -148,15 +129,13 @@ u32 dwfChooseAction(
     if (!tpEntity)
         for (int k = 0; k < (int)Group.members().size(); ++k)
         {
-            if (Group.members()[k]->g_Alive() &&
-                ((Group.members()[k]->spatial.type & STYPE_VISIBLEFORAI) == STYPE_VISIBLEFORAI))
+            if (Group.members()[k]->g_Alive() && ((Group.members()[k]->spatial.type & STYPE_VISIBLEFORAI) == STYPE_VISIBLEFORAI))
                 Members.push_back(Group.members()[k]);
         }
     else
         for (int k = 0; k < (int)Group.members().size(); ++k)
         {
-            if (Group.members()[k]->g_Alive() &&
-                ((Group.members()[k]->spatial.type & STYPE_VISIBLEFORAI) == STYPE_VISIBLEFORAI))
+            if (Group.members()[k]->g_Alive() && ((Group.members()[k]->spatial.type & STYPE_VISIBLEFORAI) == STYPE_VISIBLEFORAI))
                 if (tpEntity->Position().distance_to(Group.members()[k]->Position()) < fGroupDistance)
                 {
                     if (!stalker)
@@ -183,32 +162,28 @@ u32 dwfChooseAction(
     ai().ef_storage().non_alife().enemy_item()  = 0;
 
     WRITE_QUERY_TO_LOG("\nNew query");
-    if (bfGetActionSuccessProbability(
-            Members, VisibleEnemies, fMinProbability0, *ai().ef_storage().m_pfVictoryProbability))
+    if (bfGetActionSuccessProbability(Members, VisibleEnemies, fMinProbability0, *ai().ef_storage().m_pfVictoryProbability))
     {
         Group.m_dwLastActionTime = Device->dwTimeGlobal;
         Group.m_dwLastAction     = 0;
         WRITE_QUERY_TO_LOG("Attack");
         return (a0);
     }
-    else if (bfGetActionSuccessProbability(
-                 Members, VisibleEnemies, fMinProbability1, *ai().ef_storage().m_pfVictoryProbability))
+    else if (bfGetActionSuccessProbability(Members, VisibleEnemies, fMinProbability1, *ai().ef_storage().m_pfVictoryProbability))
     {
         Group.m_dwLastActionTime = Device->dwTimeGlobal;
         Group.m_dwLastAction     = 1;
         WRITE_QUERY_TO_LOG("Attack 1");
         return (a1);
     }
-    else if (bfGetActionSuccessProbability(
-                 Members, VisibleEnemies, fMinProbability2, *ai().ef_storage().m_pfVictoryProbability))
+    else if (bfGetActionSuccessProbability(Members, VisibleEnemies, fMinProbability2, *ai().ef_storage().m_pfVictoryProbability))
     {
         Group.m_dwLastActionTime = Device->dwTimeGlobal;
         Group.m_dwLastAction     = 2;
         WRITE_QUERY_TO_LOG("Defend");
         return (a2);
     }
-    else if (bfGetActionSuccessProbability(
-                 Members, VisibleEnemies, fMinProbability3, *ai().ef_storage().m_pfVictoryProbability))
+    else if (bfGetActionSuccessProbability(Members, VisibleEnemies, fMinProbability3, *ai().ef_storage().m_pfVictoryProbability))
     {
         Group.m_dwLastActionTime = Device->dwTimeGlobal;
         Group.m_dwLastAction     = 3;

@@ -1,31 +1,29 @@
-#pragma once
+п»ї#pragma once
 
 #include "../XrEngine/alife_space.h"
 
+//Р»РёС‡РЅРѕРµ РѕС‚РЅРѕС€РµРЅРёРµ (Р±Р»Р°РіРѕСЃРєР»РѕРЅРЅРѕСЃС‚СЊ) РѕРґРЅРѕРіРѕ РїРµСЂСЃРѕРЅР°Р¶Р° Рє РґСЂСѓРіРѕРјСѓ -
+//РІРµР»РёС‡РёРЅР° РѕС‚ -100< (РєСЂР°Р№РЅРµ РІСЂР°Р¶РґРµР±РЅРѕРµ) РґРѕ >100 (РѕС‡РµРЅСЊ РґСЂСЋР¶РµР»СЋР±РЅРѕРµ)
+typedef int CHARACTER_GOODWILL;
+#define NO_GOODWILL      -type_max(CHARACTER_GOODWILL)
+#define NEUTRAL_GOODWILL CHARACTER_GOODWILL(0)
 
-//личное отношение (благосклонность) одного персонажа к другому - 
-//величина от -100< (крайне враждебное) до >100 (очень дрюжелюбное)
-typedef int						CHARACTER_GOODWILL;
-#define NO_GOODWILL				-type_max(CHARACTER_GOODWILL)
-#define NEUTRAL_GOODWILL		CHARACTER_GOODWILL(0)
+typedef shared_str CHARACTER_CLASS;
+#define NO_CHARACTER_CLASS NULL
 
-typedef shared_str				CHARACTER_CLASS;
-#define NO_CHARACTER_CLASS		NULL
+//СЂРµРїСѓС‚Р°С†РёСЏ РїРµСЂСЃРѕРЅР°Р¶Р° - РІРµР»РёС‡РёРЅР° РѕС‚ -100 (РѕС‡РµРЅСЊ РїР»РѕС…РѕР№, Р±РµСЃРїСЂРµРґРµР»СЊС‰РёРє)
+//РґРѕ 100 (РѕС‡РµРЅСЊ С…РѕСЂРѕС€РёР№, Р±Р»Р°РіРѕСЂРѕРґРЅС‹Р№)
+typedef int CHARACTER_REPUTATION_VALUE;
+#define NO_REPUTATION     -type_max(CHARACTER_REPUTATION_VALUE)
+#define NEUTAL_REPUTATION 0
 
-//репутация персонажа - величина от -100 (очень плохой, беспредельщик) 
-//до 100 (очень хороший, благородный)
-typedef int						CHARACTER_REPUTATION_VALUE;
-#define NO_REPUTATION			-type_max(CHARACTER_REPUTATION_VALUE)
-#define NEUTAL_REPUTATION		0
+//СЂР°РЅРі РїРµСЂСЃРѕРЅР°Р¶Р° - РІРµР»РёС‡РёРЅР° РѕС‚ 0 (СЃРѕРІСЃРµРј РЅРµРѕРїС‹С‚РЅС‹Р№)
+//РґРѕ >100 (РѕС‡РµРЅСЊ РѕРїС‹С‚РЅС‹Р№)
+typedef int CHARACTER_RANK_VALUE;
+#define NO_RANK -type_max(CHARACTER_RANK_VALUE)
 
-//ранг персонажа - величина от 0 (совсем неопытный) 
-//до >100 (очень опытный)
-typedef int						CHARACTER_RANK_VALUE;
-#define NO_RANK					-type_max(CHARACTER_RANK_VALUE)
+typedef shared_str CHARACTER_COMMUNITY_ID;
+#define NO_COMMUNITY_ID CHARACTER_COMMUNITY_ID(NULL)
 
-
-typedef shared_str				CHARACTER_COMMUNITY_ID;
-#define NO_COMMUNITY_ID			CHARACTER_COMMUNITY_ID(NULL)
-
-typedef int						CHARACTER_COMMUNITY_INDEX;
-#define NO_COMMUNITY_INDEX		CHARACTER_COMMUNITY_INDEX(-1)
+typedef int CHARACTER_COMMUNITY_INDEX;
+#define NO_COMMUNITY_INDEX CHARACTER_COMMUNITY_INDEX(-1)

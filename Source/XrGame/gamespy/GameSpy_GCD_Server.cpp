@@ -90,8 +90,7 @@ void __cdecl ClientReAuthorizeCallback(int gameid, int localid, int hint, char* 
 
 void CGameSpy_GCD_Server::AuthUser(int localid, unsigned int userip, char* challenge, char* response, void* instance)
 {
-    xrGS_gcd_authenticate_user(
-        localid, userip, challenge, response, ClientAuthorizeCallback, ClientReAuthorizeCallback, instance);
+    xrGS_gcd_authenticate_user(localid, userip, challenge, response, ClientAuthorizeCallback, ClientReAuthorizeCallback, instance);
 };
 
 void CGameSpy_GCD_Server::ReAuthUser(int localid, int hint, char* response)

@@ -23,10 +23,7 @@ namespace SmartDynamicCast
 
             template<bool a> struct selector
             {
-                typedef Loki::Typelist<
-                    Loki::Typelist<typename Head::Head, Loki::Typelist<P, typename Head::Tail>>,
-                    typename Loki::TL::Erase<List, Head>::Result>
-                    result;
+                typedef Loki::Typelist<Loki::Typelist<typename Head::Head, Loki::Typelist<P, typename Head::Tail>>, typename Loki::TL::Erase<List, Head>::Result> result;
             };
 
             template<> struct selector<false>

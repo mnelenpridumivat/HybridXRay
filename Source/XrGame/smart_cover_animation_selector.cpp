@@ -25,8 +25,7 @@ using smart_cover::action_base;
 using smart_cover::animation_selector;
 using smart_cover::wait_after_exit;
 
-animation_selector::animation_selector(CAI_Stalker* object):
-    m_object(object), m_callback_called(false), m_first_time(true), m_previous_time(flt_max)
+animation_selector::animation_selector(CAI_Stalker* object): m_object(object), m_callback_called(false), m_first_time(true), m_previous_time(flt_max)
 {
     m_skeleton_animated = smart_cast<IKinematicsAnimated*>(object->Visual());
     VERIFY(m_skeleton_animated);
@@ -82,7 +81,7 @@ MotionID animation_selector::select_animation(bool& animation_movement_controlle
             current_operator()->on_animation_end();
             m_callback_called = false;
 
-            m_previous_time = 0.f;
+            m_previous_time   = 0.f;
             if (!m_planner->initialized())
             {
                 //				Msg				("%6d no planner update, planner is not initialized, exiting",
@@ -110,7 +109,7 @@ MotionID animation_selector::select_animation(bool& animation_movement_controlle
         if (!m_object->movement().current_params().cover()->can_fire())
             return (m_skeleton_animated->ID_Cycle(m_animation.c_str()));
 
-#if 0    // ndef MASTER_GOLD
+#if 0   // ndef MASTER_GOLD
 		if (!psAI_Flags.test((u32)aiUseSmartCoversAnimationSlot))
 			return			(m_skeleton_animated->ID_Cycle( m_animation.c_str()));
 
@@ -132,7 +131,7 @@ MotionID animation_selector::select_animation(bool& animation_movement_controlle
 		animation_id		= m_skeleton_animated->ID_Cycle_Safe( result );
 		VERIFY				(animation_id);
 		return				(animation_id);
-#else    // #ifndef MASTER_GOLD
+#else   // #ifndef MASTER_GOLD
         return (m_skeleton_animated->ID_Cycle(m_animation.c_str()));
 #endif   // #ifndef MASTER_GOLD
     }
@@ -157,7 +156,7 @@ MotionID animation_selector::select_animation(bool& animation_movement_controlle
     }
 
     VERIFY(blend->motionID == result);
-    CMotionDef* motion_def = m_skeleton_animated->LL_GetMotionDef(result);
+    CMotionDef*                     motion_def = m_skeleton_animated->LL_GetMotionDef(result);
 
     typedef xr_vector<motion_marks> Marks;
     Marks const&                    marks = motion_def->marks;

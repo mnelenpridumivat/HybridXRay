@@ -15,7 +15,7 @@ void UILeftBarForm::Draw()
     if (ImGui::IsItemHovered())
         ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
-    ImGuiStyle& style = ImGui::GetStyle();
+    ImGuiStyle& style      = ImGui::GetStyle();
     style.WindowTitleAlign = ImVec2(0.5f, 0.5f);
     // ------------------------------------------------------------------------------------------------------ //
     if (ImGui::CollapsingHeader(("  Tools"_RU >> u8"  Режимы Редактирования"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
@@ -141,13 +141,16 @@ void UILeftBarForm::Draw()
 
             ObjectList* lst = Scene->GetSnapList(true);
             ImGui::SetNextItemWidth(-1);
-            ImGui::ListBox("##snap_list_box", &m_SnapItem_Current, [](void* data, int ind, const char** out) -> bool
-            {
-                auto item = reinterpret_cast<ObjectList*>(data)->begin();
-                std::advance(item, ind);
-                *out = (*item)->GetName();
-                return true;
-            }, reinterpret_cast<void*>(lst), lst->size(), 7);
+            ImGui::ListBox(
+                "##snap_list_box", &m_SnapItem_Current,
+                [](void* data, int ind, const char** out) -> bool
+                {
+                    auto item = reinterpret_cast<ObjectList*>(data)->begin();
+                    std::advance(item, ind);
+                    *out = (*item)->GetName();
+                    return true;
+                },
+                reinterpret_cast<void*>(lst), lst->size(), 7);
             ImGui::PopStyleVar(2);
         }
         ImGui::Separator();

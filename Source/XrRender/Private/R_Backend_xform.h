@@ -20,8 +20,10 @@ public:
     R_constant* c_wv;
     R_constant* c_vp;
     R_constant* c_wvp;
+
 private:
     bool m_bInvWValid;
+
 public:
     R_xforms();
     void              unmap();
@@ -47,6 +49,7 @@ public:
     IC void set_c_wv(R_constant* C);
     IC void set_c_vp(R_constant* C);
     IC void set_c_wvp(R_constant* C);
+
 private:
     void apply_invw();
 };

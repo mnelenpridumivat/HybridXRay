@@ -20,8 +20,8 @@ class CHangingLamp: public CPhysicsShellHolder, public CPHSkeleton
     typedef CPhysicsShellHolder inherited;
 
 private:
-    u16 light_bone;
-    u16 ambient_bone;
+    u16       light_bone;
+    u16       ambient_bone;
 
     ref_light light_render;
     ref_light light_ambient;
@@ -29,14 +29,14 @@ private:
     float     ambient_power;
     BOOL      m_bState;
 
-    ref_glow glow_render;
+    ref_glow  glow_render;
 
-    float fHealth;
-    float fBrightness;
-    void  CreateBody(CSE_ALifeObjectHangingLamp* lamp);
-    void  Init();
-    void  RespawnInit();
-    bool  Alive()
+    float     fHealth;
+    float     fBrightness;
+    void      CreateBody(CSE_ALifeObjectHangingLamp* lamp);
+    void      Init();
+    void      RespawnInit();
+    bool      Alive()
     {
         return fHealth > 0.f;
     }
@@ -44,13 +44,13 @@ private:
 public:
     CHangingLamp();
     virtual ~CHangingLamp();
-    void         TurnOn();
-    void         TurnOff();
-    virtual void Load(LPCSTR section);
-    virtual BOOL net_Spawn(CSE_Abstract* DC);
-    virtual void net_Destroy();
-    virtual void shedule_Update(u32 dt);   // Called by sheduler
-    virtual void UpdateCL();               // Called each frame, so no need for dt
+    void                         TurnOn();
+    void                         TurnOff();
+    virtual void                 Load(LPCSTR section);
+    virtual BOOL                 net_Spawn(CSE_Abstract* DC);
+    virtual void                 net_Destroy();
+    virtual void                 shedule_Update(u32 dt);   // Called by sheduler
+    virtual void                 UpdateCL();               // Called each frame, so no need for dt
 
     virtual void                 SpawnInitPhysics(CSE_Abstract* D);
     virtual CPhysicsShellHolder* PPhysicsShellHolder()
@@ -72,10 +72,10 @@ public:
         return TRUE;
     }
 
-    virtual void Hit(SHit* pHDS);
-    virtual void net_Export(NET_Packet& P);
-    virtual void net_Import(NET_Packet& P);
-    virtual BOOL UsedAI_Locations();
+    virtual void  Hit(SHit* pHDS);
+    virtual void  net_Export(NET_Packet& P);
+    virtual void  net_Import(NET_Packet& P);
+    virtual BOOL  UsedAI_Locations();
 
     virtual void  Center(Fvector& C) const;
     virtual float Radius() const;

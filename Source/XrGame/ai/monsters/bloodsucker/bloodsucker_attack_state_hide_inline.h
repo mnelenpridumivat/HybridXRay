@@ -13,7 +13,7 @@
 #include "../../../actor_memory.h"
 #include "../../../visual_memory_manager.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION             template<typename _Object>
 
 #define CBloodsuckerStateAttackHideAbstract CBloodsuckerStateAttackHide<_Object>
 

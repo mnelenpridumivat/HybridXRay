@@ -12,7 +12,8 @@ ECORE_API void ShapeRotate(CBone& Bone, const Fvector& _amount)
         _IT.transform_dir(amount);
     switch (Bone.shape.type)
     {
-        case SBoneShape::stBox: {
+        case SBoneShape::stBox:
+        {
             Fmatrix R;
             R.setXYZi(amount.x, amount.y, amount.z);
             Bone.shape.box.transform(Bone.shape.box, R);
@@ -20,7 +21,8 @@ ECORE_API void ShapeRotate(CBone& Bone, const Fvector& _amount)
         break;
         case SBoneShape::stSphere:
             break;
-        case SBoneShape::stCylinder: {
+        case SBoneShape::stCylinder:
+        {
             Fmatrix R;
             R.setXYZi(amount.x, amount.y, amount.z);
             R.transform_dir(Bone.shape.cylinder.m_direction);
@@ -44,7 +46,8 @@ ECORE_API void ShapeMove(CBone& Bone, const Fvector& _amount)
         case SBoneShape::stSphere:
             Bone.shape.sphere.P.add(amount);
             break;
-        case SBoneShape::stCylinder: {
+        case SBoneShape::stCylinder:
+        {
             Bone.shape.cylinder.m_center.add(amount);
         }
         break;

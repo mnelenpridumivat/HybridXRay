@@ -21,7 +21,7 @@ protected:
     UIBoosterInfoItem* m_booster_anabiotic;
     UIBoosterInfoItem* m_booster_time;
 
-    CUIStatic* m_Prop_line;
+    CUIStatic*         m_Prop_line;
 
 };   // class CUIBoosterInfo
 

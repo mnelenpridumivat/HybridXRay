@@ -14,17 +14,15 @@ struct test_property
     }
 };
 
-static test_property s_test_property;
-static test_property s_test_property_limited;
+static test_property   s_test_property;
+static test_property   s_test_property_limited;
 
-LPCSTR s_properties[] = {"integer_property_0", "integer_property_1", "integer_property_2"};
+LPCSTR                 s_properties[]      = {"integer_property_0", "integer_property_1", "integer_property_2"};
 
-std::pair<int, LPCSTR> s_properties_enum[] = {
-    std::make_pair(10, "integer_property_0"), std::make_pair(20, "integer_property_1"),
-    std::make_pair(30, "integer_property_2")};
+std::pair<int, LPCSTR> s_properties_enum[] = {std::make_pair(10, "integer_property_0"), std::make_pair(20, "integer_property_1"), std::make_pair(30, "integer_property_2")};
 
-static test_property s_test_property_values;
-static test_property s_test_property_enum;
+static test_property   s_test_property_values;
+static test_property   s_test_property_enum;
 
 struct test_property2
 {
@@ -44,7 +42,7 @@ struct test_property2
 
 static test_property2 s_test_property2;
 
-LPCSTR s_properties3[] = {"one", "two", "three"};
+LPCSTR                s_properties3[] = {"one", "two", "three"};
 
 static test_property2 s_test_property3;
 
@@ -65,7 +63,7 @@ struct test_property4
 
 static test_property4 s_test_property4;
 
-LPCSTR s_properties5[] = {"bad", "good"};
+LPCSTR                s_properties5[] = {"bad", "good"};
 
 static test_property4 s_test_property5;
 
@@ -106,15 +104,13 @@ struct test_property7
     }
 };
 
-static test_property7 s_test_property7;
+static test_property7    s_test_property7;
 
-static test_property7 s_test_property7_limited;
+static test_property7    s_test_property7_limited;
 
-static test_property7 s_test_property7_values_enum;
+static test_property7    s_test_property7_values_enum;
 
-std::pair<float, LPCSTR> s_properties7_enum[] = {
-    std::make_pair(10.1f, "float_property_0"), std::make_pair(20.1f, "float_property_1"),
-    std::make_pair(30.1f, "float_property_2")};
+std::pair<float, LPCSTR> s_properties7_enum[] = {std::make_pair(10.1f, "float_property_0"), std::make_pair(20.1f, "float_property_1"), std::make_pair(30.1f, "float_property_2")};
 
 using XrWeatherEditor::environment::manager;
 
@@ -147,8 +143,7 @@ manager::manager()
 
         getter.bind(&s_test_property_limited, &test_property::getter);
         setter.bind(&s_test_property_limited, &test_property::setter);
-        holder->add_property(
-            "integer_limited", "category", "description", s_test_property_limited.m_property, getter, setter, 0, 10);
+        holder->add_property("integer_limited", "category", "description", s_test_property_limited.m_property, getter, setter, 0, 10);
     }
 
     {
@@ -157,9 +152,7 @@ manager::manager()
 
         getter.bind(&s_test_property_values, &test_property::getter);
         setter.bind(&s_test_property_values, &test_property::setter);
-        holder->add_property(
-            "integer_values", "category", "description", s_test_property_limited.m_property, getter, setter,
-            s_properties, 3);
+        holder->add_property("integer_values", "category", "description", s_test_property_limited.m_property, getter, setter, s_properties, 3);
     }
 
     {
@@ -168,9 +161,7 @@ manager::manager()
 
         getter.bind(&s_test_property_enum, &test_property::getter);
         setter.bind(&s_test_property_enum, &test_property::setter);
-        holder->add_property(
-            "integer_enum", "category", "description", s_test_property_enum.m_property, getter, setter,
-            s_properties_enum, 3);
+        holder->add_property("integer_enum", "category", "description", s_test_property_enum.m_property, getter, setter, s_properties_enum, 3);
     }
 
     {
@@ -179,10 +170,7 @@ manager::manager()
 
         getter.bind(&s_test_property2, &test_property2::getter);
         setter.bind(&s_test_property2, &test_property2::setter);
-        holder->add_property(
-            "string", "category", "description", s_test_property2.m_property, getter, setter, ".dds",
-            "Texture files (*.dds)|*.dds", "R:\\development\\priquel\\resources\\gamedata\\textures\\sky",
-            "Select texture...");
+        holder->add_property("string", "category", "description", s_test_property2.m_property, getter, setter, ".dds", "Texture files (*.dds)|*.dds", "R:\\development\\priquel\\resources\\gamedata\\textures\\sky", "Select texture...");
     }
 
     {
@@ -191,8 +179,7 @@ manager::manager()
 
         getter.bind(&s_test_property3, &test_property2::getter);
         setter.bind(&s_test_property3, &test_property2::setter);
-        holder->add_property(
-            "string_values", "category", "description", s_test_property3.m_property, getter, setter, s_properties3, 3);
+        holder->add_property("string_values", "category", "description", s_test_property3.m_property, getter, setter, s_properties3, 3);
     }
 
     {
@@ -210,8 +197,7 @@ manager::manager()
 
         getter.bind(&s_test_property5, &test_property4::getter);
         setter.bind(&s_test_property5, &test_property4::setter);
-        holder->add_property(
-            "boolean_values", "category", "description", s_test_property5.m_property, getter, setter, s_properties5);
+        holder->add_property("boolean_values", "category", "description", s_test_property5.m_property, getter, setter, s_properties5);
     }
 
     {
@@ -238,8 +224,7 @@ manager::manager()
 
         getter.bind(&s_test_property7, &test_property7::getter);
         setter.bind(&s_test_property7, &test_property7::setter);
-        holder->add_property(
-            "float_limited", "category", "description", s_test_property7.m_property, getter, setter, 0.f, 1.f);
+        holder->add_property("float_limited", "category", "description", s_test_property7.m_property, getter, setter, 0.f, 1.f);
     }
 
     {
@@ -248,9 +233,7 @@ manager::manager()
 
         getter.bind(&s_test_property7_values_enum, &test_property7::getter);
         setter.bind(&s_test_property7_values_enum, &test_property7::setter);
-        holder->add_property(
-            "float_enum", "category", "description", s_test_property7_values_enum.m_property, getter, setter,
-            s_properties7_enum, 3);
+        holder->add_property("float_enum", "category", "description", s_test_property7_values_enum.m_property, getter, setter, s_properties7_enum, 3);
     }
 }
 #endif

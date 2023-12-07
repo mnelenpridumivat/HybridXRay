@@ -31,8 +31,7 @@ bool TUI_ControlShapeAdd::Start(TShiftState Shift)
     UIShapeTool* F = (UIShapeTool*)parent_tool->pForm;
     if (F->IsAttachShape())
     {
-        CEditShape* from = dynamic_cast<CEditShape*>(
-            Scene->RayPickObject(UI->ZFar(), UI->m_CurrentRStart, UI->m_CurrentRDir, OBJCLASS_SHAPE, 0, 0));
+        CEditShape* from = dynamic_cast<CEditShape*>(Scene->RayPickObject(UI->ZFar(), UI->m_CurrentRStart, UI->m_CurrentRDir, OBJCLASS_SHAPE, 0, 0));
         if (from)
         {
             ObjectList lst;

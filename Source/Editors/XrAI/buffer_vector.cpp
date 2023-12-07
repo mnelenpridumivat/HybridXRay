@@ -12,8 +12,7 @@ struct test_struct
 {
     shared_str a;
 
-    test_struct():
-        a("unique_string_value") {}
+    test_struct(): a("unique_string_value") {}
 };
 
 void buffer_vector_test()

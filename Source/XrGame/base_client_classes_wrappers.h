@@ -23,23 +23,20 @@
 #include <loki/hierarchygenerators.h>
 #include "xrServer_Object_Base.h"
 
-template <typename _1, typename _2> struct heritage
+template<typename _1, typename _2> struct heritage
 {
-    template <typename _type, typename _base> struct linear_registrator: public _base, public _type
-    {
-    };
+    template<typename _type, typename _base> struct linear_registrator: public _base, public _type
+    {};
 
-    template <typename _type> struct linear_registrator<_type, Loki::EmptyType>: public _type
-    {
-    };
+    template<typename _type> struct linear_registrator<_type, Loki::EmptyType>: public _type
+    {};
 
     typedef Loki::Typelist<_1, Loki::Typelist<_2, Loki::NullType>>                  tl;
     typedef typename Loki::TL::Erase<tl, Loki::EmptyType>::Result                   pure_tl;
     typedef typename Loki::GenLinearHierarchy<pure_tl, linear_registrator>::LinBase result;
 };
 
-template <typename base, typename luabind_base = Loki::EmptyType> class DLL_PureWrapper:
-    public heritage<base, luabind_base>::result
+template<typename base, typename luabind_base = Loki::EmptyType> class DLL_PureWrapper: public heritage<base, luabind_base>::result
 {
 public:
     IC DLL_PureWrapper(){};
@@ -138,8 +135,7 @@ public:
 typedef ISpatialWrapper<ISpatial,luabind::wrap_base> CISpatialWrapper;
 */
 
-template <typename base, typename luabind_base = Loki::EmptyType> class ISheduledWrapper:
-    public heritage<base, luabind_base>::result
+template<typename base, typename luabind_base = Loki::EmptyType> class ISheduledWrapper: public heritage<base, luabind_base>::result
 {
 public:
     IC ISheduledWrapper(){};
@@ -172,8 +168,7 @@ public:
 
 typedef ISheduledWrapper<ISheduled, luabind::wrap_base> CISheduledWrapper;
 
-template <typename base, typename luabind_base = Loki::EmptyType> class IRenderableWrapper:
-    public heritage<base, luabind_base>::result
+template<typename base, typename luabind_base = Loki::EmptyType> class IRenderableWrapper: public heritage<base, luabind_base>::result
 {
 public:
     IC IRenderableWrapper(){};
@@ -251,10 +246,10 @@ typedef IRenderableWrapper<IRenderable, luabind::wrap_base> CIRenderableWrapper;
 ///**/
 //};
 
-typedef DLL_PureWrapper<CGameObject, luabind::wrap_base> CGameObjectDLL_Pure;
+typedef DLL_PureWrapper<CGameObject, luabind::wrap_base>    CGameObjectDLL_Pure;
 // typedef ISpatialWrapper<CGameObjectDLL_Pure>				CGameObjectISpatial;
-typedef ISheduledWrapper<CGameObjectDLL_Pure>    CGameObjectISheduled;
-typedef IRenderableWrapper<CGameObjectISheduled> CGameObjectIRenderable;
+typedef ISheduledWrapper<CGameObjectDLL_Pure>               CGameObjectISheduled;
+typedef IRenderableWrapper<CGameObjectISheduled>            CGameObjectIRenderable;
 
 class CGameObjectWrapper: public CGameObjectIRenderable
 {
@@ -315,8 +310,7 @@ public:
 
     static void HitSignal_static(CEntity* self, float P, Fvector& local_dir, CObject* who, s16 element)
     {
-        ai().script_engine().script_log(
-            eLuaMessageTypeError, "You are trying to call a pure virtual function CEntity::HitSignal!");
+        ai().script_engine().script_log(eLuaMessageTypeError, "You are trying to call a pure virtual function CEntity::HitSignal!");
     }
 
     virtual void HitImpulse(float P, Fvector& vWorldDir, Fvector& vLocalDir)
@@ -326,7 +320,6 @@ public:
 
     static void HitImpulse_static(float P, Fvector& vWorldDir, Fvector& vLocalDir)
     {
-        ai().script_engine().script_log(
-            eLuaMessageTypeError, "You are trying to call a pure virtual function CEntity::HitImpulse!");
+        ai().script_engine().script_log(eLuaMessageTypeError, "You are trying to call a pure virtual function CEntity::HitImpulse!");
     }
 };

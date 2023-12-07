@@ -22,20 +22,20 @@ public:
     CTelekinesis*        telekinesis;
     float                target_height;
 
-    u32 time_keep_started;
-    u32 time_keep_updated;
-    u32 time_raise_started;
+    u32                  time_keep_started;
+    u32                  time_keep_updated;
+    u32                  time_raise_started;
 
-    u32 time_to_keep;
+    u32                  time_to_keep;
 
-    u32 time_fire_started;
+    u32                  time_fire_started;
 
-    float strength;
+    float                strength;
 
-    bool m_rotate;
+    bool                 m_rotate;
 
-    ref_sound sound_hold;
-    ref_sound sound_throw;
+    ref_sound            sound_hold;
+    ref_sound            sound_throw;
 
 public:
     CTelekineticObject();

@@ -278,14 +278,14 @@ typedef unsigned int   gsi_u32;
 typedef unsigned int   gsi_time;   // must be 32 bits
 
 // decprecated
-typedef gsi_i32 goa_int32;    // 2003.Oct.04.JED - typename deprecated
-typedef gsi_u32 goa_uint32;   //  these types will be removed once all SDK's are updated
+typedef gsi_i32        goa_int32;    // 2003.Oct.04.JED - typename deprecated
+typedef gsi_u32        goa_uint32;   //  these types will be removed once all SDK's are updated
 
-typedef int gsi_bool;
-#define gsi_false ((gsi_bool)0)
-#define gsi_true ((gsi_bool)1)
+typedef int            gsi_bool;
+#define gsi_false       ((gsi_bool)0)
+#define gsi_true        ((gsi_bool)1)
 #define gsi_is_false(x) ((x) == gsi_false)
-#define gsi_is_true(x) ((x) != gsi_false)
+#define gsi_is_true(x)  ((x) != gsi_false)
 
 // Max integer size
 #if defined(_INTEGRAL_MAX_BITS) && !defined(GSI_MAX_INTEGRAL_BITS)
@@ -327,9 +327,9 @@ typedef unsigned long long gsi_u64;
 #endif   // goa_char
 
 // expected ranges for integer types
-#define GSI_MIN_I8 CHAR_MIN
-#define GSI_MAX_I8 CHAR_MAX
-#define GSI_MAX_U8 UCHAR_MAX
+#define GSI_MIN_I8  CHAR_MIN
+#define GSI_MAX_I8  CHAR_MAX
+#define GSI_MAX_U8  UCHAR_MAX
 
 #define GSI_MIN_I16 SHRT_MIN
 #define GSI_MAX_I16 SHRT_MAX
@@ -368,18 +368,18 @@ extern "C"
 #undef _tsnprintf
 
 #ifdef GSI_UNICODE
-#define _vftprintf vfwprintf
-#define _ftprintf fwprintf
-#define _stprintf swprintf
-#define _tprintf wprintf
-#define _tcscpy wcscpy
+#define _vftprintf        vfwprintf
+#define _ftprintf         fwprintf
+#define _stprintf         swprintf
+#define _tprintf          wprintf
+#define _tcscpy           wcscpy
 #define _tcsncpy(d, s, l) wcsncpy((wchar_t*)d, (wchar_t*)s, l)
-#define _tcscat wcscat
-#define _tcslen wcslen
-#define _tcschr wcschr
-#define _tcscmp(s1, s2) wcscmp((wchar_t*)s1, (wchar_t*)s2)
-#define _tfopen _wfopen
-#define _T(a) L##a
+#define _tcscat           wcscat
+#define _tcslen           wcslen
+#define _tcschr           wcschr
+#define _tcscmp(s1, s2)   wcscmp((wchar_t*)s1, (wchar_t*)s2)
+#define _tfopen           _wfopen
+#define _T(a)             L##a
 
 #if defined(_WIN32) || defined(_PS2)
 #define _tsnprintf _snwprintf
@@ -388,13 +388,13 @@ extern "C"
 #endif
 #else
 #define _vftprintf vfprintf
-#define _ftprintf fprintf
-#define _stprintf sprintf
-#define _tprintf printf
-#define _tcscpy strcpy
-#define _tcsncpy strncpy
-#define _tcscat strcat
-#define _tcslen strlen
+#define _ftprintf  fprintf
+#define _stprintf  sprintf
+#define _tprintf   printf
+#define _tcscpy    strcpy
+#define _tcsncpy   strncpy
+#define _tcscat    strcat
+#define _tcslen    strlen
 #if defined(_MSC_VER)
 #if (_MSC_VER < 1400)
 #define _tcschr strchr
@@ -420,7 +420,7 @@ extern "C"
 #endif   // _WIN32
 
 #if defined(_WIN32)
-#define strcasecmp _stricmp
+#define strcasecmp  _stricmp
 #define strncasecmp _strnicmp
 #endif
 
@@ -445,14 +445,14 @@ static char _mempool[MEMPOOL_SIZE]	POST_ALIGN(16);
 
 */
 #if defined _WIN32
-#define PRE_ALIGN(x) __declspec(align(x))   // ignore Win32 directive
-#define POST_ALIGN(x)                       // ignore
+#define PRE_ALIGN(x)    __declspec(align(x))   // ignore Win32 directive
+#define POST_ALIGN(x)                          // ignore
 #elif defined(_PS2) || defined(_PSP) || defined(_PS3)
-#define PRE_ALIGN(x)                                // ignored this on psp/ps2
-#define POST_ALIGN(x) __attribute__((aligned(x)))   //
+#define PRE_ALIGN(x)                                 // ignored this on psp/ps2
+#define POST_ALIGN(x)  __attribute__((aligned(x)))   //
 #elif defined(_REVOLUTION)
 #define PRE_ALIGN(x)   // not needed
-#define POST_ALIGN(x) __attribute__((aligned(32)))
+#define POST_ALIGN(x)  __attribute__((aligned(32)))
 #else
 // #warning "Platform not supported"
 #define PRE_ALIGN(x)    // ignore

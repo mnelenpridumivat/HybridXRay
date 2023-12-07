@@ -58,30 +58,9 @@ void               DBG_DrawAABB(const Fvector& center, const Fvector& AABB, u32 
 void               DBG_DrawOBB(const Fmatrix& m, const Fvector h, u32 c);
 void               DBG_DrawPoint(const Fvector& p, float size, u32 c);
 void               DBG_DrawMatrix(const Fmatrix& m, float size, u8 a = 255);
-void               DBG_DrawRotationX(
-                  const Fmatrix& m,
-                  float          ang0,
-                  float          ang1,
-                  float          size,
-                  u32            ac,
-                  bool           solid  = false,
-                  u32            tessel = 7);
-void DBG_DrawRotationY(
-    const Fmatrix& m,
-    float          ang0,
-    float          ang1,
-    float          size,
-    u32            ac,
-    bool           solid  = false,
-    u32            tessel = 7);
-void DBG_DrawRotationZ(
-    const Fmatrix& m,
-    float          ang0,
-    float          ang1,
-    float          size,
-    u32            ac,
-    bool           solid  = false,
-    u32            tessel = 7);
+void               DBG_DrawRotationX(const Fmatrix& m, float ang0, float ang1, float size, u32 ac, bool solid = false, u32 tessel = 7);
+void               DBG_DrawRotationY(const Fmatrix& m, float ang0, float ang1, float size, u32 ac, bool solid = false, u32 tessel = 7);
+void               DBG_DrawRotationZ(const Fmatrix& m, float ang0, float ang1, float size, u32 ac, bool solid = false, u32 tessel = 7);
 void _cdecl DBG_OutText(LPCSTR s, ...);
 void   DBG_TextOutSet(float x, float y);
 void   DBG_TextSetColor(u32 color);
@@ -95,7 +74,7 @@ LPCSTR PH_DBG_ObjectTrackName();
 ////////////////////////////////////////////////
 
 /////////////////////////////////////////////////
-void DBG_PH_NetRelcase(CObject* obj);
+void   DBG_PH_NetRelcase(CObject* obj);
 
 struct CFunctionGraph
 {
@@ -109,20 +88,11 @@ private:
     // float y_min,y_max;
     // Fvector2 left_bottom;
     // Fvector2 range;
+
 public:
     CFunctionGraph();
     ~CFunctionGraph();
-    void Init(
-        type_function fun,
-        float         x0,
-        float         x1,
-        int           l,
-        int           t,
-        int           w,
-        int           h,
-        int           points_num = 500,
-        u32           color      = color_xrgb(0, 255, 0),
-        u32           bk_color   = color_xrgb(255, 255, 255));
+    void     Init(type_function fun, float x0, float x1, int l, int t, int w, int h, int points_num = 500, u32 color = color_xrgb(0, 255, 0), u32 bk_color = color_xrgb(255, 255, 255));
     void     Clear();
     bool     IsActive();
     void     AddMarker(CStatGraph::EStyle Style, float pos, u32 Color);

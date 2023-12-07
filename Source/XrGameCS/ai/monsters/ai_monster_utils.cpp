@@ -1,4 +1,4 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "ai_monster_utils.h"
 #include "../../entity.h"
 #include "../../ai_object_location.h"
@@ -6,37 +6,29 @@
 #include "../../level_graph.h"
 #include "../../../xrRender/Public/Kinematics.h"
 
-// ïðîâåðèòü, íàõîäèòñÿ ëè îáúåêò entity íà íîäå
-// âîçâðàùàåò ïîçèöèþ îáúåêòà, åñëè îí íàõîäèòñÿ íà íîäå, èëè öåíòð åãî íîäû
-Fvector get_valid_position(const CEntity *entity, const Fvector &actual_position) 
+// Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ, Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð»Ð¸ Ð¾Ð±ÑŠÐµÐºÑ‚ entity Ð½Ð° Ð½Ð¾Ð´Ðµ
+// Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ Ð¿Ð¾Ð·Ð¸Ñ†Ð¸ÑŽ Ð¾Ð±ÑŠÐµÐºÑ‚Ð°, ÐµÑÐ»Ð¸ Ð¾Ð½ Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð½Ð° Ð½Ð¾Ð´Ðµ, Ð¸Ð»Ð¸ Ñ†ÐµÐ½Ñ‚Ñ€ ÐµÐ³Ð¾ Ð½Ð¾Ð´Ñ‹
+Fvector get_valid_position(const CEntity* entity, const Fvector& actual_position)
 {
-	if (
-		ai().level_graph().valid_vertex_id(entity->ai_location().level_vertex_id()) &&
-		ai().level_graph().valid_vertex_position(entity->Position()) && 
-		ai().level_graph().inside(entity->ai_location().level_vertex_id(), entity->Position())
-		)
-		return			(actual_position);
-	else
-		return			(ai().level_graph().vertex_position(entity->ai_location().level_vertex()));
+    if (ai().level_graph().valid_vertex_id(entity->ai_location().level_vertex_id()) && ai().level_graph().valid_vertex_position(entity->Position()) && ai().level_graph().inside(entity->ai_location().level_vertex_id(), entity->Position()))
+        return (actual_position);
+    else
+        return (ai().level_graph().vertex_position(entity->ai_location().level_vertex()));
 }
 
-// âîçâðàùàåò true, åñëè îáúåêò entity íàõîäèòñÿ íà íîäå
-bool object_position_valid(const CEntity *entity)
+// Ð²Ð¾Ð·Ð²Ñ€Ð°Ñ‰Ð°ÐµÑ‚ true, ÐµÑÐ»Ð¸ Ð¾Ð±ÑŠÐµÐºÑ‚ entity Ð½Ð°Ñ…Ð¾Ð´Ð¸Ñ‚ÑÑ Ð½Ð° Ð½Ð¾Ð´Ðµ
+bool object_position_valid(const CEntity* entity)
 {
-	return				(
-		ai().level_graph().valid_vertex_id(entity->ai_location().level_vertex_id()) &&
-		ai().level_graph().valid_vertex_position(entity->Position()) && 
-		ai().level_graph().inside(entity->ai_location().level_vertex_id(), entity->Position())
-		);
+    return (ai().level_graph().valid_vertex_id(entity->ai_location().level_vertex_id()) && ai().level_graph().valid_vertex_position(entity->Position()) && ai().level_graph().inside(entity->ai_location().level_vertex_id(), entity->Position()));
 }
 
-Fvector get_bone_position	(CObject *object, LPCSTR bone_name)
+Fvector get_bone_position(CObject* object, LPCSTR bone_name)
 {
-	u16 bone_id			= smart_cast<IKinematics*>(object->Visual())->LL_BoneID				(bone_name);
-	CBoneInstance &bone = smart_cast<IKinematics*>(object->Visual())->LL_GetBoneInstance	(bone_id);
+    u16            bone_id = smart_cast<IKinematics*>(object->Visual())->LL_BoneID(bone_name);
+    CBoneInstance& bone    = smart_cast<IKinematics*>(object->Visual())->LL_GetBoneInstance(bone_id);
 
-	Fmatrix	global_transform;
-	global_transform.mul	(object->XFORM(),bone.mTransform);
+    Fmatrix        global_transform;
+    global_transform.mul(object->XFORM(), bone.mTransform);
 
-	return	(global_transform.c);
+    return (global_transform.c);
 }

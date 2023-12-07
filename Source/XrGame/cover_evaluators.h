@@ -67,7 +67,7 @@ public:
     IC bool                         can_use_smart_covers() const;
     IC void                         can_use_smart_covers(bool value);
 
-    void evaluate(const CCoverPoint* cover_point, float weight);
+    void                            evaluate(const CCoverPoint* cover_point, float weight);
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -88,10 +88,9 @@ protected:
     float   m_best_distance;
 
 public:
-    IC      CCoverEvaluatorCloseToEnemy(CRestrictedObject* object);
-    IC void initialize(const Fvector& start_position, bool fake_call = false);
-    IC void
-        setup(const Fvector& enemy_position, float min_enemy_distance, float max_enemy_distance, float deviation = 0.f);
+    IC           CCoverEvaluatorCloseToEnemy(CRestrictedObject* object);
+    IC void      initialize(const Fvector& start_position, bool fake_call = false);
+    IC void      setup(const Fvector& enemy_position, float min_enemy_distance, float max_enemy_distance, float deviation = 0.f);
     virtual void evaluate_cover(const CCoverPoint* cover_point, float weight);
     virtual void evaluate_smart_cover(smart_cover::cover const* smart_cover, float const& weight);
 };
@@ -145,10 +144,9 @@ protected:
     u32     m_level_vertex_id;
 
 public:
-    IC CCoverEvaluatorAngle(CRestrictedObject* object);
-    IC void
-         setup(const Fvector& enemy_position, float min_enemy_distance, float max_enemy_distance, u32 level_vertex_id);
-    void initialize(const Fvector& start_position, bool fake_call = false);
+    IC           CCoverEvaluatorAngle(CRestrictedObject* object);
+    IC void      setup(const Fvector& enemy_position, float min_enemy_distance, float max_enemy_distance, u32 level_vertex_id);
+    void         initialize(const Fvector& start_position, bool fake_call = false);
     virtual void evaluate_cover(const CCoverPoint* cover_point, float weight);
     virtual void evaluate_smart_cover(smart_cover::cover const* smart_cover, float const& weight);
 };

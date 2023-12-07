@@ -15,7 +15,7 @@ private:
     typedef CControl_ComCustom<> inherited;
 
 private:
-    CBaseMonster* m_object;
+    CBaseMonster*         m_object;
 
     // settings
     float                 m_timeout;
@@ -26,17 +26,17 @@ private:
     float                 m_detection_loose_speed;
 
     // state
-    TTime m_last_activated_tick;
-    TTime m_last_detection_tick;
-    TTime m_animation_hit_tick;
-    TTime m_animation_end_tick;
-    TTime m_camera_effector_end_tick;
-    u32   m_effector_id;
-    float m_last_angle;
-    float m_detection_level;
+    TTime                 m_last_activated_tick;
+    TTime                 m_last_detection_tick;
+    TTime                 m_animation_hit_tick;
+    TTime                 m_animation_end_tick;
+    TTime                 m_camera_effector_end_tick;
+    u32                   m_effector_id;
+    float                 m_last_angle;
+    float                 m_detection_level;
     //@bool						m_is_activated;
 
-    hit_callback m_callback;
+    hit_callback          m_callback;
 
 public:
     anti_aim_ability(CBaseMonster* object);

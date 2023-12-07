@@ -45,7 +45,7 @@ void CUIZoneMap::Init()
     m_clipFrame.AttachChild(&m_center);
 
     m_Counter_text.SetText("");
-    visible = true;
+    visible       = true;
 
     Fvector2 sz_k = m_clipFrame.GetWndSize();
     Fvector2 sz   = sz_k;
@@ -132,8 +132,7 @@ void CUIZoneMap::Update()
     Device->vCameraDirection.getHP(h, p);
     SetHeading(-h);
 
-    m_clock_wnd->TextItemControl()->SetText(
-        InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes).c_str());
+    m_clock_wnd->TextItemControl()->SetText(InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes).c_str());
 }
 
 void CUIZoneMap::SetHeading(float angle)
@@ -170,7 +169,7 @@ void CUIZoneMap::SetupCurrentMap()
     Fvector2 wnd_size;
     float    zoom_factor = float(m_clipFrame.GetWidth()) / 100.0f;
 
-    LPCSTR ln = Level().name().c_str();
+    LPCSTR   ln          = Level().name().c_str();
     if (pGameIni->section_exist(ln))
     {
         if (pGameIni->line_exist(ln, "minimap_zoom"))

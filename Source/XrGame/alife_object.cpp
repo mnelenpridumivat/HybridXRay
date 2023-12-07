@@ -25,7 +25,7 @@ void CSE_ALifeObject::spawn_supplies(LPCSTR ini_string)
         return;
 
 #pragma warning(push)
-#pragma warning(disable : 4238)
+#pragma warning(disable:4238)
     CInifile ini(&IReader((void*)(ini_string), xr_strlen(ini_string)), FS.get_path("$game_config$")->m_Path);
 #pragma warning(pop)
 
@@ -42,8 +42,8 @@ void CSE_ALifeObject::spawn_supplies(LPCSTR ini_string)
             bool  bSilencer = false;
             bool  bLauncher = false;
 
-            j = 1;
-            p = 1.f;
+            j               = 1;
+            p               = 1.f;
 
             if (V && xr_strlen(V))
             {
@@ -67,7 +67,7 @@ void CSE_ALifeObject::spawn_supplies(LPCSTR ini_string)
             {
                 if (randF(1.f) < p)
                 {
-                    CSE_Abstract* E = alife().spawn_item(N, o_Position, m_tNodeID, m_tGraphID, ID);
+                    CSE_Abstract*        E = alife().spawn_item(N, o_Position, m_tNodeID, m_tGraphID, ID);
                     // подсоединить аддоны к оружию, если включены соответствующие флажки
                     CSE_ALifeItemWeapon* W = smart_cast<CSE_ALifeItemWeapon*>(E);
                     if (W)

@@ -2,11 +2,11 @@
 #include "../state.h"
 #include "state_data.h"
 
-template <typename _Object> class CStateMonsterHideFromPoint: public CState<_Object>
+template<typename _Object> class CStateMonsterHideFromPoint: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
-    SStateHideFromPoint data;
+    SStateHideFromPoint     data;
 
 public:
     CStateMonsterHideFromPoint(_Object* obj): inherited(obj, &data) {}

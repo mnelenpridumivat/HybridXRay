@@ -15,7 +15,7 @@ namespace burer
 
 }   // namespace burer
 
-template <typename Object> CStateBurerAttack<Object>::CStateBurerAttack(Object* obj): inherited(obj)
+template<typename Object> CStateBurerAttack<Object>::CStateBurerAttack(Object* obj): inherited(obj)
 {
     add_state(eStateBurerAttack_Tele, xr_new<CStateBurerAttackTele<Object>>(obj));
     add_state(eStateBurerAttack_Gravi, xr_new<CStateBurerAttackGravi<Object>>(obj));
@@ -32,7 +32,7 @@ template <typename Object> CStateBurerAttack<Object>::CStateBurerAttack(Object* 
     m_lost_delta_health = false;
 }
 
-template <typename Object> void CStateBurerAttack<Object>::initialize()
+template<typename Object> void CStateBurerAttack<Object>::initialize()
 {
     inherited::initialize();
 
@@ -49,9 +49,9 @@ template <typename Object> void CStateBurerAttack<Object>::initialize()
     // 	}
 }
 
-template <typename Object> void CStateBurerAttack<Object>::execute()
+template<typename Object> void CStateBurerAttack<Object>::execute()
 {
-    CEntityAlive* enemy = const_cast<CEntityAlive*>(object->EnemyMan.get_enemy());
+    CEntityAlive*  enemy = const_cast<CEntityAlive*>(object->EnemyMan.get_enemy());
 
     // Notify squad
     CMonsterSquad* squad = monster_squad().get_squad(object);
@@ -92,11 +92,11 @@ template <typename Object> void CStateBurerAttack<Object>::execute()
     bool const anti_aim_ready = get_state(eStateBurerAttack_AntiAim)->check_start_conditions();
     m_allow_anti_aim          = false;
 
-    bool const gravi_ready  = get_state(eStateBurerAttack_Gravi)->check_start_conditions();
-    bool const shield_ready = get_state(eStateBurerAttack_Shield)->check_start_conditions();
-    bool const tele_ready   = get_state(eStateBurerAttack_Tele)->check_start_conditions();
+    bool const gravi_ready    = get_state(eStateBurerAttack_Gravi)->check_start_conditions();
+    bool const shield_ready   = get_state(eStateBurerAttack_Shield)->check_start_conditions();
+    bool const tele_ready     = get_state(eStateBurerAttack_Tele)->check_start_conditions();
 
-    bool selected_state = true;
+    bool       selected_state = true;
 
     if (gravi_ready)
     {
@@ -128,13 +128,13 @@ template <typename Object> void CStateBurerAttack<Object>::execute()
         return;
     }
 
-    Fvector const enemy_pos       = enemy->Position();
-    Fvector const self_pos        = object->Position();
-    Fvector const self2enemy      = enemy_pos - self_pos;
-    float const   self2enemy_dist = magnitude(self2enemy);
+    Fvector const enemy_pos        = enemy->Position();
+    Fvector const self_pos         = object->Position();
+    Fvector const self2enemy       = enemy_pos - self_pos;
+    float const   self2enemy_dist  = magnitude(self2enemy);
 
-    bool const in_runaway_range = self2enemy_dist < object->m_runaway_distance;
-    bool const in_normal_range  = self2enemy_dist < object->m_normal_distance;
+    bool const    in_runaway_range = self2enemy_dist < object->m_runaway_distance;
+    bool const    in_normal_range  = self2enemy_dist < object->m_normal_distance;
 
     if (current_substate == eStateCustomMoveToRestrictor)
     {
@@ -202,7 +202,7 @@ template <typename Object> void CStateBurerAttack<Object>::execute()
     prev_substate = current_substate;
 }
 
-template <typename Object> void CStateBurerAttack<Object>::finalize()
+template<typename Object> void CStateBurerAttack<Object>::finalize()
 {
     if (object->anim().has_override_animation())
     {
@@ -212,7 +212,7 @@ template <typename Object> void CStateBurerAttack<Object>::finalize()
     inherited::finalize();
 }
 
-template <typename Object> void CStateBurerAttack<Object>::critical_finalize()
+template<typename Object> void CStateBurerAttack<Object>::critical_finalize()
 {
     if (object->anim().has_override_animation())
     {
@@ -222,7 +222,7 @@ template <typename Object> void CStateBurerAttack<Object>::critical_finalize()
     inherited::critical_finalize();
 }
 
-template <typename Object> bool CStateBurerAttack<Object>::check_control_start_conditions(ControlCom::EControlType type)
+template<typename Object> bool CStateBurerAttack<Object>::check_control_start_conditions(ControlCom::EControlType type)
 {
     if (type == ControlCom::eAntiAim)
     {

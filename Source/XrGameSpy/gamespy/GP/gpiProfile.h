@@ -46,7 +46,7 @@ typedef struct _GPIBuddyStatusInfo
     GPEnum         quietModeFlags;
     int            productId;
     // New Status Info extended info Keys
-    DArray extendedInfoKeys;
+    DArray         extendedInfoKeys;
 } GPIBuddyStatusInfo;
 
 // Old status
@@ -90,61 +90,51 @@ typedef struct
 
 // FUNCTIONS
 ///////////
-GPIBool gpiInitProfiles(GPConnection* connection);
+GPIBool         gpiInitProfiles(GPConnection* connection);
 
-GPIProfile* gpiProfileListAdd(GPConnection* connection, int id);
+GPIProfile*     gpiProfileListAdd(GPConnection* connection, int id);
 
-GPIBool gpiGetProfile(GPConnection* connection, GPProfile profileid, GPIProfile** pProfile);
+GPIBool         gpiGetProfile(GPConnection* connection, GPProfile profileid, GPIProfile** pProfile);
 
-GPResult gpiProcessNewProfile(GPConnection* connection, GPIOperation* operation, const char* input);
+GPResult        gpiProcessNewProfile(GPConnection* connection, GPIOperation* operation, const char* input);
 
-GPResult gpiNewProfile(
-    GPConnection* connection,
-    const char    nick[GP_NICK_LEN],
-    GPEnum        replace,
-    GPEnum        blocking,
-    GPCallback    callback,
-    void*         param);
+GPResult        gpiNewProfile(GPConnection* connection, const char nick[GP_NICK_LEN], GPEnum replace, GPEnum blocking, GPCallback callback, void* param);
 
-GPResult gpiProcessDeleteProfle(GPConnection* connection, GPIOperation* operation, const char* input);
+GPResult        gpiProcessDeleteProfle(GPConnection* connection, GPIOperation* operation, const char* input);
 
-GPResult gpiDeleteProfile(GPConnection* connection, GPCallback callback, void* param);
+GPResult        gpiDeleteProfile(GPConnection* connection, GPCallback callback, void* param);
 
-void gpiRemoveProfile(GPConnection* connection, GPIProfile* profile);
+void            gpiRemoveProfile(GPConnection* connection, GPIProfile* profile);
 
-void gpiRemoveProfileByID(GPConnection* connection, int profileid);
+void            gpiRemoveProfileByID(GPConnection* connection, int profileid);
 
-GPResult gpiLoadDiskProfiles(GPConnection* connection);
+GPResult        gpiLoadDiskProfiles(GPConnection* connection);
 
-GPResult gpiSaveDiskProfiles(GPConnection* connection);
+GPResult        gpiSaveDiskProfiles(GPConnection* connection);
 
-GPResult gpiFindProfileByUser(
-    GPConnection* connection,
-    char          nick[GP_NICK_LEN],
-    char          email[GP_EMAIL_LEN],
-    GPIProfile**  profile);
+GPResult        gpiFindProfileByUser(GPConnection* connection, char nick[GP_NICK_LEN], char email[GP_EMAIL_LEN], GPIProfile** profile);
 
 // return false to stop the mapping
 typedef GPIBool (*gpiProfileMapFunc)(GPConnection* connection, GPIProfile* profile, void* data);
 
-GPIBool gpiProfileMap(GPConnection* connection, gpiProfileMapFunc func, void* data);
+GPIBool         gpiProfileMap(GPConnection* connection, gpiProfileMapFunc func, void* data);
 
-GPIProfile* gpiFindBuddy(GPConnection* connection, int buddyIndex);
+GPIProfile*     gpiFindBuddy(GPConnection* connection, int buddyIndex);
 
-void gpiRemoveBuddyStatus(GPIBuddyStatus* buddyStatus);
-void gpiRemoveBuddyStatusInfo(GPIBuddyStatusInfo* buddyStatusInfo);
+void            gpiRemoveBuddyStatus(GPIBuddyStatus* buddyStatus);
+void            gpiRemoveBuddyStatusInfo(GPIBuddyStatusInfo* buddyStatusInfo);
 
-GPIBool gpiCanFreeProfile(GPIProfile* profile);
+GPIBool         gpiCanFreeProfile(GPIProfile* profile);
 
-void gpiSetInfoCacheFilename(const char filename[FILENAME_MAX + 1]);
+void            gpiSetInfoCacheFilename(const char filename[FILENAME_MAX + 1]);
 
 // BLOCK LIST
-GPResult gpiAddToBlockedList(GPConnection* connection, int profileid);
+GPResult        gpiAddToBlockedList(GPConnection* connection, int profileid);
 
-GPResult gpiRemoveFromBlockedList(GPConnection* connection, int profileid);
+GPResult        gpiRemoveFromBlockedList(GPConnection* connection, int profileid);
 
-GPIProfile* gpiFindBlockedProfile(GPConnection* connection, int blockIndex);
+GPIProfile*     gpiFindBlockedProfile(GPConnection* connection, int blockIndex);
 
-GPResult gpiProcessRecvBlockedList(GPConnection* connection, const char* input);
+GPResult        gpiProcessRecvBlockedList(GPConnection* connection, const char* input);
 
 #endif

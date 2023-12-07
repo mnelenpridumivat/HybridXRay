@@ -11,6 +11,7 @@ namespace lc_net
     class net_execution
     {
         u32 _id;
+
     public:
         u32 id() const
         {
@@ -27,6 +28,7 @@ namespace lc_net
 
         net_execution(u32 id): _id(id) {}
         virtual ~net_execution(){};
+
     private:
     };
 
@@ -46,10 +48,12 @@ namespace lc_net
     public:
         static const execution_types class_type = etype;
         class net_execution_impl;
+
     public:
         tnet_execution_base(u32 id): net_execution(id) {}
 
         virtual net_execution_impl& implementation() = 0;
+
     private:
         virtual u32 type()
         {

@@ -95,9 +95,9 @@ float LightPoint(CDB::COLLIDER& DB, Fvector& P, Fvector& N, LSelection& SEL)
 class LightThread: public CThread
 {
     u32 Nstart, Nend;
+
 public:
-    LightThread(u32 ID, u32 _start, u32 _end):
-        CThread(ID)
+    LightThread(u32 ID, u32 _start, u32 _end): CThread(ID)
     {
         Nstart = _start;
         Nend   = _end;

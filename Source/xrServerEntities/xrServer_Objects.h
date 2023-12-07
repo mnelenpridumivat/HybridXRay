@@ -166,35 +166,34 @@
 #define SPAWN_VERSION u16(128)
 
 SERVER_ENTITY_DECLARE_BEGIN(CSE_Shape, ISE_Shape)
+
 public:
 void cform_read(NET_Packet& P);
 void cform_write(NET_Packet& P);
 CSE_Shape();
 virtual ~CSE_Shape();
 virtual ISE_Shape* shape() = 0;
-virtual void assign_shapes(CShapeData::shape_def* shapes, u32 cnt);
-};
+virtual void       assign_shapes(CShapeData::shape_def* shapes, u32 cnt);
+}
+;
 add_to_type_list(CSE_Shape)
 #define script_type_list save_type_list(CSE_Shape)
 
-SERVER_ENTITY_DECLARE_BEGIN(CSE_Spectator, CSE_Abstract)
-CSE_Spectator(LPCSTR caSection);
+    SERVER_ENTITY_DECLARE_BEGIN(CSE_Spectator, CSE_Abstract) CSE_Spectator(LPCSTR caSection);
 virtual ~CSE_Spectator();
 virtual u8 g_team();
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_Spectator)
 #define script_type_list save_type_list(CSE_Spectator)
 
-SERVER_ENTITY_DECLARE_BEGIN(CSE_Temporary, CSE_Abstract)
-u32 m_tNodeID;
+    SERVER_ENTITY_DECLARE_BEGIN(CSE_Temporary, CSE_Abstract) u32 m_tNodeID;
 CSE_Temporary(LPCSTR caSection);
 virtual ~CSE_Temporary();
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_Temporary)
 #define script_type_list save_type_list(CSE_Temporary)
 
-SERVER_ENTITY_DECLARE_BEGIN0(CSE_PHSkeleton)
-CSE_PHSkeleton(LPCSTR caSection);
+    SERVER_ENTITY_DECLARE_BEGIN0(CSE_PHSkeleton) CSE_PHSkeleton(LPCSTR caSection);
 virtual ~CSE_PHSkeleton();
 
 enum
@@ -224,6 +223,7 @@ virtual CSE_Abstract* cast_abstract()
 {
     return 0;
 }
+
 protected:
 virtual void data_load(NET_Packet& tNetPacket);
 virtual void data_save(NET_Packet& tNetPacket);
@@ -233,14 +233,13 @@ SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_PHSkeleton)
 #define script_type_list save_type_list(CSE_PHSkeleton)
 
-SERVER_ENTITY_DECLARE_BEGIN2(CSE_AbstractVisual, CSE_Abstract, CSE_Visual)
-typedef CSE_Abstract inherited1;
+    SERVER_ENTITY_DECLARE_BEGIN2(CSE_AbstractVisual, CSE_Abstract, CSE_Visual) typedef CSE_Abstract inherited1;
 typedef CSE_Visual inherited2;
 
 CSE_AbstractVisual(LPCSTR caSection);
 virtual ~CSE_AbstractVisual();
 virtual ISE_Visual* visual();
-LPCSTR getStartupAnimation();
+LPCSTR              getStartupAnimation();
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_AbstractVisual)
 #define script_type_list save_type_list(CSE_AbstractVisual)

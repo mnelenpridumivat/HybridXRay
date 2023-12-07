@@ -25,7 +25,7 @@
 
 static const float check_time_delta = 1.f;
 
-bool stalker_movement_manager_obstacles::simulate_path_navigation()
+bool               stalker_movement_manager_obstacles::simulate_path_navigation()
 {
     Fvector current_position     = object().Position();
     Fvector previous_position    = current_position;
@@ -124,7 +124,7 @@ void stalker_movement_manager_obstacles::build_level_path()
     if (m_last_dest_vertex_id != level_path().dest_vertex_id())
         remove_query_objects(object().Position(), 5.f);
 
-    m_last_fail_time = 0;
+    m_last_fail_time       = 0;
 
     m_failed_to_build_path = false;
     //	Msg								("[%6d] m_failed_to_build_path = %s
@@ -174,7 +174,8 @@ void stalker_movement_manager_obstacles::build_level_path()
                 break;
             }
         }
-    } while (!simulate_path_navigation());
+    }
+    while (!simulate_path_navigation());
 
     m_last_dest_vertex_id = level_path().dest_vertex_id();
     //	Msg								("[%6d][%6d][%s][%f]

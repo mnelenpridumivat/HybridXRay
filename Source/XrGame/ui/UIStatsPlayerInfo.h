@@ -22,9 +22,9 @@ public:
     virtual void Update();
 
 protected:
-    void              AddField(float len, CGameFont* pF, u32 text_col, bool icon);
-    const char*       GetInfoByID(const char* id);
-    game_PlayerState* m_pPlayerInfo;
+    void                      AddField(float len, CGameFont* pF, u32 text_col, bool icon);
+    const char*               GetInfoByID(const char* id);
+    game_PlayerState*         m_pPlayerInfo;
 
     xr_vector<CUIStatic*>     m_fields;
     xr_vector<PI_FIELD_INFO>* m_field_info;

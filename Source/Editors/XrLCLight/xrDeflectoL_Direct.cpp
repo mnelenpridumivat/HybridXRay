@@ -9,16 +9,7 @@
 #include "net_task.h"
 extern void Jitter_Select(Fvector2*& Jitter, u32& Jcount);
 
-void        CDeflector::L_Direct_Edge(
-    CDB::COLLIDER* DB,
-    base_lighting* LightsSelected,
-    Fvector2&      p1,
-    Fvector2&      p2,
-    Fvector&       v1,
-    Fvector&       v2,
-    Fvector&       N,
-    float          texel_size,
-    Face*          skip)
+void        CDeflector::L_Direct_Edge(CDB::COLLIDER* DB, base_lighting* LightsSelected, Fvector2& p1, Fvector2& p2, Fvector& v1, Fvector& v2, Fvector& N, float texel_size, Face* skip)
 {
     Fvector vdir;
     vdir.sub(v2, v1);
@@ -58,9 +49,7 @@ void        CDeflector::L_Direct_Edge(
         VERIFY(inlc_global_data());
         VERIFY(inlc_global_data()->RCAST_Model());
 
-        LightPoint(
-            DB, inlc_global_data()->RCAST_Model(), C, P, N, *LightsSelected,
-            (inlc_global_data()->b_nosun() ? LP_dont_sun : 0) | LP_DEFAULT, skip);   //.
+        LightPoint(DB, inlc_global_data()->RCAST_Model(), C, P, N, *LightsSelected, (inlc_global_data()->b_nosun() ? LP_dont_sun : 0) | LP_DEFAULT, skip);   //.
 
         C.mul(.5f);
         lm.surface[_y * lm.width + _x]._set(C);
@@ -138,9 +127,7 @@ void CDeflector::L_Direct(CDB::COLLIDER* DB, base_lighting* LightsSelected, HASH
                             {
                                 VERIFY(inlc_global_data());
                                 VERIFY(inlc_global_data()->RCAST_Model());
-                                LightPoint(
-                                    DB, inlc_global_data()->RCAST_Model(), C, wP, wN, *LightsSelected,
-                                    (inlc_global_data()->b_nosun() ? LP_dont_sun : 0) | LP_UseFaceDisable, F);   //.
+                                LightPoint(DB, inlc_global_data()->RCAST_Model(), C, wP, wN, *LightsSelected, (inlc_global_data()->b_nosun() ? LP_dont_sun : 0) | LP_UseFaceDisable, F);   //.
                                 Fcount += 1;
                             }
                             catch (...)

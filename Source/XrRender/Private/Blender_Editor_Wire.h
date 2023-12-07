@@ -5,6 +5,7 @@
 class CBlender_Editor_Wire: public IBlender
 {
     string64 oT_Factor;
+
 public:
     virtual LPCSTR getComment()
     {

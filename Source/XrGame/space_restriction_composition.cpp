@@ -16,7 +16,7 @@
 #include "graph_engine.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -36,7 +36,7 @@ struct CMergePredicate
 {
     CSpaceRestrictionComposition* m_restriction;
 
-    IC CMergePredicate(CSpaceRestrictionComposition* restriction)
+    IC                            CMergePredicate(CSpaceRestrictionComposition* restriction)
     {
         m_restriction = restriction;
     }
@@ -96,8 +96,7 @@ void CSpaceRestrictionComposition::initialize()
     Fsphere* spheres = (Fsphere*)_alloca(n * sizeof(Fsphere));
     for (u32 i = 0; i < n; ++i)
     {
-        SpaceRestrictionHolder::CBaseRestrictionPtr restriction =
-            m_space_restriction_holder->restriction(_GetItem(*m_space_restrictors, i, element));
+        SpaceRestrictionHolder::CBaseRestrictionPtr restriction = m_space_restriction_holder->restriction(_GetItem(*m_space_restrictors, i, element));
 
         merge(restriction);
 
@@ -152,8 +151,7 @@ void CSpaceRestrictionComposition::test_correctness()
         RESTRICTIONS::iterator I = m_restrictions.begin();
         RESTRICTIONS::iterator E = m_restrictions.end();
         for (; I != E; ++I)
-            m_test_storage.insert(
-                m_test_storage.end(), (*I)->object().m_test_storage.begin(), (*I)->object().m_test_storage.end());
+            m_test_storage.insert(m_test_storage.end(), (*I)->object().m_test_storage.begin(), (*I)->object().m_test_storage.end());
     }
 
     {
@@ -176,9 +174,7 @@ void CSpaceRestrictionComposition::test_correctness()
             VERIFY3(!(*I)->object().m_test_storage.empty(), "Restrictor has no border", *(*I)->object().name());
             nodes.clear();
             ai().level_graph().set_mask(border());
-            ai().graph_engine().search(
-                ai().level_graph(), (*I)->object().m_test_storage.back(), (*I)->object().m_test_storage.back(), &nodes,
-                GraphEngineSpace::CFlooder());
+            ai().graph_engine().search(ai().level_graph(), (*I)->object().m_test_storage.back(), (*I)->object().m_test_storage.back(), &nodes, GraphEngineSpace::CFlooder());
             ai().level_graph().clear_mask(border());
 
             if (nodes.size() == 65535)
@@ -216,11 +212,7 @@ void CSpaceRestrictionComposition::check_restrictor_type()
 
     CSpaceRestrictor* restrictor = smart_cast<CSpaceRestrictor*>(object);
     VERIFY3(restrictor, "you are trying to use object as a restrictor", *m_space_restrictors);
-    VERIFY2(
-        restrictor->restrictor_type() == RestrictionSpace::eRestrictorTypeNone,
-        "you are trying to restrict yourself with restrictor with type eRestrictorTypeNone");
-    VERIFY2(
-        restrictor->restrictor_type() != RestrictionSpace::eRestrictorTypeNone,
-        "impossible situation: wrong net_Spawn branch used");
+    VERIFY2(restrictor->restrictor_type() == RestrictionSpace::eRestrictorTypeNone, "you are trying to restrict yourself with restrictor with type eRestrictorTypeNone");
+    VERIFY2(restrictor->restrictor_type() != RestrictionSpace::eRestrictorTypeNone, "impossible situation: wrong net_Spawn branch used");
 }
 #endif   // DEBUG

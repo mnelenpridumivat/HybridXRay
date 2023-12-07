@@ -10,9 +10,7 @@
 #ifdef DEBUG
 #include "phdebug.h"
 #endif
-moving_bones_snd_player::moving_bones_snd_player(IKinematics* K, CInifile* ini, LPCSTR section, const Fmatrix& object):
-    bone_id(BI_NONE), min_factor(-FLT_MAX), max_factor(-FLT_MAX), base_velocity(-FLT_MAX), smothed_velocity(-FLT_MAX),
-    previous_position(Fidentity), kinematics(K)
+moving_bones_snd_player::moving_bones_snd_player(IKinematics* K, CInifile* ini, LPCSTR section, const Fmatrix& object): bone_id(BI_NONE), min_factor(-FLT_MAX), max_factor(-FLT_MAX), base_velocity(-FLT_MAX), smothed_velocity(-FLT_MAX), previous_position(Fidentity), kinematics(K)
 {
     VERIFY(K);
     VERIFY(ini);
@@ -137,11 +135,8 @@ void moving_bones_snd_player::load(IKinematics& K, CInifile& ini, LPCSTR section
 
     VERIFY2(min_factor > 0.f, make_string("moving_bones_snd_player: bad params: min_factor: %f < 0 ", min_factor));
     VERIFY2(max_factor > 0.f, make_string("moving_bones_snd_player: bad params: max_factor: %f < 0 ", max_factor));
-    VERIFY2(
-        max_factor > 0.f, make_string("moving_bones_snd_player: bad params: base_velocity: %f < 0 ", base_velocity));
-    VERIFY2(
-        min_factor <= max_factor,
-        make_string("moving_bones_snd_player: bad params: min_factor %f > max_factor %f, ", min_factor, max_factor));
+    VERIFY2(max_factor > 0.f, make_string("moving_bones_snd_player: bad params: base_velocity: %f < 0 ", base_velocity));
+    VERIFY2(min_factor <= max_factor, make_string("moving_bones_snd_player: bad params: min_factor %f > max_factor %f, ", min_factor, max_factor));
 
     smothed_velocity = base_velocity;
     previous_position.set(object);

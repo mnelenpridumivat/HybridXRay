@@ -9,7 +9,7 @@
 extern u32   psSoundModel;
 extern float psSoundVEffects;
 
-void CSoundRender_Emitter::set_position(const Fvector& pos)
+void         CSoundRender_Emitter::set_position(const Fvector& pos)
 {
     if (source()->channels_num() == 1)
         p_source.position = pos;
@@ -25,7 +25,7 @@ CSoundRender_Emitter::CSoundRender_Emitter(void)
     static u32 incrementalID = 0;
     dbg_ID                   = ++incrementalID;
 #endif
-    target = NULL;
+    target          = NULL;
     //.	source						= NULL;
     owner_data      = NULL;
     smooth_volume   = 1.f;
@@ -108,8 +108,7 @@ void CSoundRender_Emitter::switch_to_3D()
 
 u32 CSoundRender_Emitter::play_time()
 {
-    if (m_current_state == stPlaying || m_current_state == stPlayingLooped || m_current_state == stSimulating ||
-        m_current_state == stSimulatingLooped)
+    if (m_current_state == stPlaying || m_current_state == stPlayingLooped || m_current_state == stSimulating || m_current_state == stSimulatingLooped)
         return iFloor((SoundRender->fTimer_Value - fTimeStarted) * 1000.0f);
     else
         return 0;

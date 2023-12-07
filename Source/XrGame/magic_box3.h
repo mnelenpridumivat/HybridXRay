@@ -14,14 +14,14 @@ public:
     Fvector*       Axes();
     const Fvector* Axes() const;
 
-    float&       Extent(int i);
-    const float& Extent(int i) const;
-    float*       Extents();
-    const float* Extents() const;
+    float&         Extent(int i);
+    const float&   Extent(int i) const;
+    float*         Extents();
+    const float*   Extents() const;
 
-    void ComputeVertices(Fvector* akVertex) const;
+    void           ComputeVertices(Fvector* akVertex) const;
 
-    bool intersects(const MagicBox3& box) const;
+    bool           intersects(const MagicBox3& box) const;
 
 protected:
     Fvector m_kCenter;

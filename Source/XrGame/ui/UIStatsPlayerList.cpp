@@ -13,9 +13,9 @@ IC bool DM_Compare_Players(game_PlayerState* p1, game_PlayerState* p2);
 
 CUIStatsPlayerList::CUIStatsPlayerList()
 {
-    m_CurTeam      = 0;
-    m_bSpectator   = false;
-    m_bStatus_mode = false;
+    m_CurTeam       = 0;
+    m_bSpectator    = false;
+    m_bStatus_mode  = false;
 
     m_header        = xr_new<CUIStatic>();
     m_header_team   = NULL;
@@ -192,7 +192,7 @@ void CUIStatsPlayerList::InitTeamHeader(CUIXml& xml_doc, LPCSTR path)
 
     S_ELEMENT t;
     CUIXmlInit::InitFont(xml_doc, strconcat(sizeof(_path), _path, path, ":team_header:text_format"), 0, t.c, t.f);
-    t.h = m_header_team->GetHeight();
+    t.h           = m_header_team->GetHeight();
 
     m_header_text = xr_new<CUITextWnd>();
     m_header_text->SetAutoDelete(true);
@@ -227,8 +227,7 @@ void CUIStatsPlayerList::Update()
         game_PlayerState* p = (game_PlayerState*)I->second;
         if (!p || p->team != m_CurTeam)
             continue;
-        if (m_bStatus_mode || m_bSpectator && p->testFlag(GAME_PLAYER_FLAG_SPECTATOR) ||
-            !m_bSpectator && !p->testFlag(GAME_PLAYER_FLAG_SPECTATOR))
+        if (m_bStatus_mode || m_bSpectator && p->testFlag(GAME_PLAYER_FLAG_SPECTATOR) || !m_bSpectator && !p->testFlag(GAME_PLAYER_FLAG_SPECTATOR))
         {
             items.push_back(I->second);
             // add to team info
@@ -242,18 +241,14 @@ void CUIStatsPlayerList::Update()
     {
         game_cl_ArtefactHunt* game = static_cast<game_cl_ArtefactHunt*>(&Game());
         pl_artefacts               = game->teams[m_CurTeam - 1].score;
-        xr_sprintf(
-            teaminfo, "%s: %u, %s: %u, %s: %d", *st.translate("mp_artefacts_upcase"), pl_artefacts,
-            *st.translate("mp_players"), pl_count, *st.translate("mp_frags_upcase"), pl_frags);
+        xr_sprintf(teaminfo, "%s: %u, %s: %u, %s: %d", *st.translate("mp_artefacts_upcase"), pl_artefacts, *st.translate("mp_players"), pl_count, *st.translate("mp_frags_upcase"), pl_frags);
         m_header_text->SetText(teaminfo);
     }
     else if (GameID() == eGameIDTeamDeathmatch && !m_bSpectator)
     {
         game_cl_TeamDeathmatch* game = static_cast<game_cl_TeamDeathmatch*>(&Game());
         pl_frags                     = game->teams[m_CurTeam - 1].score;
-        xr_sprintf(
-            teaminfo, "%s: %d, %s: %u", *st.translate("mp_frags_upcase"), pl_frags, *st.translate("mp_players"),
-            pl_count);
+        xr_sprintf(teaminfo, "%s: %d, %s: %u", *st.translate("mp_frags_upcase"), pl_frags, *st.translate("mp_players"), pl_count);
         m_header_text->SetText(teaminfo);
     }
 
@@ -320,7 +315,7 @@ void CUIStatsPlayerList::SetTeam(int team)
     m_CurTeam = team;
 }
 
-void CUIStatsPlayerList::AddWindow(CUIWindow* pWnd, bool auto_delete) {}
+void       CUIStatsPlayerList::AddWindow(CUIWindow* pWnd, bool auto_delete) {}
 
 CUIStatic* CUIStatsPlayerList::GetHeader()
 {

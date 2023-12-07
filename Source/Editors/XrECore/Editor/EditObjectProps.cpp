@@ -26,21 +26,13 @@ void CEditableObject::FillSurfaceProps(CSurface* SURF, LPCSTR pref, PropItemVec&
     PHelper().CreateChoose(items, PrepareKey(pref, "Game Mtl"), &SURF->m_GameMtlName, smGameMaterial);
     V = PHelper().CreateFlag32(items, PrepareKey(pref, "2 Sided"), &SURF->m_Flags, CSurface::sf2Sided);
     V->OnChangeEvent.bind(this, &CEditableObject::OnChangeShader);
-    PHelper().CreateCaption(
-        items, PrepareKey(pref, "Face Count"), shared_str().printf("%d", GetSurfFaceCount(SURF->_Name())));
+    PHelper().CreateCaption(items, PrepareKey(pref, "Face Count"), shared_str().printf("%d", GetSurfFaceCount(SURF->_Name())));
 }
 //---------------------------------------------------------------------------
 
-xr_token ECORE_API eo_type_token[] = {
-    {"Static", 0},
-    {"Dynamic", CEditableObject::eoDynamic},
-    {"Progressive Dynamic", CEditableObject::eoDynamic | CEditableObject::eoProgressive},
-    {"HOM", CEditableObject::eoHOM},
-    {"Multiple Usage", CEditableObject::eoMultipleUsage | CEditableObject::eoUsingLOD},
-    {"Sound Occluder", CEditableObject::eoSoundOccluder},
-    {0, 0}};
+xr_token ECORE_API eo_type_token[] = {{"Static", 0}, {"Dynamic", CEditableObject::eoDynamic}, {"Progressive Dynamic", CEditableObject::eoDynamic | CEditableObject::eoProgressive}, {"HOM", CEditableObject::eoHOM}, {"Multiple Usage", CEditableObject::eoMultipleUsage | CEditableObject::eoUsingLOD}, {"Sound Occluder", CEditableObject::eoSoundOccluder}, {0, 0}};
 
-void CEditableObject::FillBasicProps(LPCSTR pref, PropItemVec& items)
+void               CEditableObject::FillBasicProps(LPCSTR pref, PropItemVec& items)
 {
     xr_string ct(_ctime32(&m_CreateTime));
     _Trim(ct);
@@ -59,12 +51,8 @@ void CEditableObject::FillBasicProps(LPCSTR pref, PropItemVec& items)
     V->OnChangeEvent.bind(this, &CEditableObject::OnChangeTransform);
     V = PHelper().CreateVector(items, PrepareKey(pref, "Transform\\Scale"), &t_vScale, 0.01, 10000, 0.01, 2);
     V->OnChangeEvent.bind(this, &CEditableObject::OnChangeTransform);
-    V = PHelper().CreateCaption(
-        items, PrepareKey(pref, "Transform\\BBox Min"),
-        shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(GetBox().min)));
-    V = PHelper().CreateCaption(
-        items, PrepareKey(pref, "Transform\\BBox Max"),
-        shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(GetBox().max)));
+    V = PHelper().CreateCaption(items, PrepareKey(pref, "Transform\\BBox Min"), shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(GetBox().min)));
+    V = PHelper().CreateCaption(items, PrepareKey(pref, "Transform\\BBox Max"), shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(GetBox().max)));
     //.    PHelper().CreateChoose	    (items, PrepareKey(pref,"LOD\\Reference"),	&m_LODs, smObject);
     PHelper().CreateChoose(items, PrepareKey(pref, "LOD\\Reference"), &m_LODs, smVisual);
 
@@ -81,9 +69,7 @@ void CEditableObject::FillSummaryProps(LPCSTR pref, PropItemVec& items)
     {
         CEditableMesh* MESH = *m_it;
         t.sprintf("V: %d, F: %d", MESH->GetVertexCount(), MESH->GetFaceCount());
-        PHelper().CreateCaption(
-            items, PrepareKey(pref, xr_string(xr_string("Geometry\\Meshes\\") + MESH->Name().c_str()).c_str()),
-            t.c_str());
+        PHelper().CreateCaption(items, PrepareKey(pref, xr_string(xr_string("Geometry\\Meshes\\") + MESH->Name().c_str()).c_str()), t.c_str());
     }
     PHelper().CreateSText(items, PrepareKey(pref, "Game options\\User Data"), &m_ClassScript);
 }

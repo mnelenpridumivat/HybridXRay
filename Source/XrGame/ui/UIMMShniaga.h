@@ -42,39 +42,39 @@ protected:
         E_Stop
     } EVENT;
 
-    void SelectBtn(int btn);
-    void SelectBtn(CUIWindow* btn);
-    int  BtnCount();
-    void OnBtnClick();
+    void                   SelectBtn(int btn);
+    void                   SelectBtn(CUIWindow* btn);
+    int                    BtnCount();
+    void                   OnBtnClick();
 
-    void ProcessEvent(EVENT ev);
+    void                   ProcessEvent(EVENT ev);
 
-    bool  IsButton(CUIWindow* st);
-    void  CreateList(xr_vector<CUITextWnd*>& lst, CUIXml& xml_doc, LPCSTR path);
-    void  ShowMain();
-    void  ShowNewGame();
-    void  ShowNetworkGame();
-    float pos(float x1, float x2, u32 t);
+    bool                   IsButton(CUIWindow* st);
+    void                   CreateList(xr_vector<CUITextWnd*>& lst, CUIXml& xml_doc, LPCSTR path);
+    void                   ShowMain();
+    void                   ShowNewGame();
+    void                   ShowNetworkGame();
+    float                  pos(float x1, float x2, u32 t);
 
-    CUIStatic*     m_shniaga;
-    CUIStatic*     m_magnifier;
-    CUIScrollView* m_view;
+    CUIStatic*             m_shniaga;
+    CUIStatic*             m_magnifier;
+    CUIScrollView*         m_view;
 
-    u32   m_start_time;
-    u32   m_run_time;
-    float m_origin;
-    float m_destination;
-    float m_mag_pos;
-    float m_offset;
+    u32                    m_start_time;
+    u32                    m_run_time;
+    float                  m_origin;
+    float                  m_destination;
+    float                  m_mag_pos;
+    float                  m_offset;
 
     xr_vector<CUITextWnd*> m_buttons;
     xr_vector<CUITextWnd*> m_buttons_new;
     xr_vector<CUITextWnd*> m_buttons_new_network;
 
-    int          m_selected_btn;
-    enum_page_id m_page;
-    CUIWindow*   m_selected;
-    CMMSound*    m_sound;
+    int                    m_selected_btn;
+    enum_page_id           m_page;
+    CUIWindow*             m_selected;
+    CMMSound*              m_sound;
     //	Fvector2				m_wheel_size[2];
     enum
     {

@@ -76,12 +76,25 @@ CCharacterPhysicsSupport::~CCharacterPhysicsSupport()
 }
 
 CCharacterPhysicsSupport::CCharacterPhysicsSupport(EType atype, CEntityAlive* aentity):
-    m_pPhysicsShell(aentity->PPhysicsShell()), m_EntityAlife(*aentity), mXFORM(aentity->XFORM()),
-    m_ph_sound_player(aentity), m_interactive_motion(0), m_PhysicMovementControl(xr_new<CPHMovementControl>(aentity)),
-    m_eType(atype), m_eState(esAlive), m_physics_skeleton(NULL), m_ik_controller(NULL), m_BonceDamageFactor(1.f),
-    m_collision_hit_callback(NULL), m_interactive_animation(NULL), m_physics_shell_animated(NULL),
-    m_physics_shell_animated_time_destroy(u32(-1)), m_weapon_attach_bone(0), m_active_item_obj(0),
-    m_hit_valide_time(u32(-1)), m_collision_activating_delay(NULL)
+    m_pPhysicsShell(aentity->PPhysicsShell()),
+    m_EntityAlife(*aentity),
+    mXFORM(aentity->XFORM()),
+    m_ph_sound_player(aentity),
+    m_interactive_motion(0),
+    m_PhysicMovementControl(xr_new<CPHMovementControl>(aentity)),
+    m_eType(atype),
+    m_eState(esAlive),
+    m_physics_skeleton(NULL),
+    m_ik_controller(NULL),
+    m_BonceDamageFactor(1.f),
+    m_collision_hit_callback(NULL),
+    m_interactive_animation(NULL),
+    m_physics_shell_animated(NULL),
+    m_physics_shell_animated_time_destroy(u32(-1)),
+    m_weapon_attach_bone(0),
+    m_active_item_obj(0),
+    m_hit_valide_time(u32(-1)),
+    m_collision_activating_delay(NULL)
 {
     m_flags.assign(0);
     m_flags.set(fl_death_anim_on, FALSE);
@@ -240,8 +253,7 @@ void CCharacterPhysicsSupport::CreateCharacter()
 
 bool HACK_TERRIBLE_DONOT_COLLIDE_ON_SPAWN(CEntityAlive& ea)
 {
-    if (pSettings->line_exist(ea.cNameSect().c_str(), "hack_terrible_donot_collide_on_spawn") &&
-        pSettings->r_bool(ea.cNameSect().c_str(), "hack_terrible_donot_collide_on_spawn"))
+    if (pSettings->line_exist(ea.cNameSect().c_str(), "hack_terrible_donot_collide_on_spawn") && pSettings->r_bool(ea.cNameSect().c_str(), "hack_terrible_donot_collide_on_spawn"))
         return true;
     return false;
 }
@@ -251,18 +263,13 @@ void CCharacterPhysicsSupport::SpawnInitPhysics(CSE_Abstract* e)
     if (m_EntityAlife.g_Alive())
     {
 #ifdef DEBUG
-        if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) &&
-            stricmp(PH_DBG_ObjectTrackName(), *m_EntityAlife.cName()) == 0)
+        if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && stricmp(PH_DBG_ObjectTrackName(), *m_EntityAlife.cName()) == 0)
         {
-            Msg("CCharacterPhysicsSupport::SpawnInitPhysics obj %s before collision correction %f,%f,%f",
-                PH_DBG_ObjectTrackName(), m_EntityAlife.Position().x, m_EntityAlife.Position().y,
-                m_EntityAlife.Position().z);
+            Msg("CCharacterPhysicsSupport::SpawnInitPhysics obj %s before collision correction %f,%f,%f", PH_DBG_ObjectTrackName(), m_EntityAlife.Position().x, m_EntityAlife.Position().y, m_EntityAlife.Position().z);
         }
 #endif
 #ifdef USE_IK
-        if (etStalker == m_eType || etActor == m_eType ||
-            (m_EntityAlife.Visual()->dcast_PKinematics()->LL_UserData() &&
-             m_EntityAlife.Visual()->dcast_PKinematics()->LL_UserData()->section_exist("ik")))
+        if (etStalker == m_eType || etActor == m_eType || (m_EntityAlife.Visual()->dcast_PKinematics()->LL_UserData() && m_EntityAlife.Visual()->dcast_PKinematics()->LL_UserData()->section_exist("ik")))
             CreateIKController();
 #endif
         VERIFY(pSettings);
@@ -270,12 +277,9 @@ void CCharacterPhysicsSupport::SpawnInitPhysics(CSE_Abstract* e)
         SpawnCharacterCreate();
 
 #ifdef DEBUG
-        if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) &&
-            stricmp(PH_DBG_ObjectTrackName(), *m_EntityAlife.cName()) == 0)
+        if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && stricmp(PH_DBG_ObjectTrackName(), *m_EntityAlife.cName()) == 0)
         {
-            Msg("CCharacterPhysicsSupport::SpawnInitPhysics obj %s after collision correction %f,%f,%f",
-                PH_DBG_ObjectTrackName(), m_EntityAlife.Position().x, m_EntityAlife.Position().y,
-                m_EntityAlife.Position().z);
+            Msg("CCharacterPhysicsSupport::SpawnInitPhysics obj %s after collision correction %f,%f,%f", PH_DBG_ObjectTrackName(), m_EntityAlife.Position().x, m_EntityAlife.Position().y, m_EntityAlife.Position().z);
         }
 #endif
     }
@@ -291,8 +295,7 @@ void CCharacterPhysicsSupport::SpawnInitPhysics(CSE_Abstract* e)
     if (po->_flags.test(CSE_PHSkeleton::flSavedData) && saved_bones.size() != m_EntityAlife.PHGetSyncItemsNumber())
     {
 #ifdef DEBUG
-        Msg("! saved bones %d , current bones %d, object :%s", saved_bones.size(), m_EntityAlife.PHGetSyncItemsNumber(),
-            m_EntityAlife.cName().c_str());
+        Msg("! saved bones %d , current bones %d, object :%s", saved_bones.size(), m_EntityAlife.PHGetSyncItemsNumber(), m_EntityAlife.cName().c_str());
 #endif
         po->_flags.set(CSE_PHSkeleton::flSavedData, FALSE);
         saved_bones.clear();
@@ -454,10 +457,10 @@ void CCharacterPhysicsSupport::KillHit(SHit& H)
     // ActivateShell( H.who );
 
     //	if(Type() == etStalker && xr_strcmp(dbg_stalker_death_anim, "none") != 0)
-    float    hit_angle = 0;
-    MotionID m         = m_death_anims.motion(m_EntityAlife, H, hit_angle);
+    float              hit_angle = 0;
+    MotionID           m         = m_death_anims.motion(m_EntityAlife, H, hit_angle);
 
-    CAI_Stalker* const holder = m_EntityAlife.cast_stalker();
+    CAI_Stalker* const holder    = m_EntityAlife.cast_stalker();
     if (holder && (holder->wounded() || holder->movement().current_params().cover()))
         m = MotionID();
 
@@ -502,9 +505,7 @@ void      CCharacterPhysicsSupport::in_Hit(SHit& H, bool is_killing)
         return;
     if (m_flags.test(fl_block_hit))
     {
-        VERIFY2(
-            !m_EntityAlife.g_Alive(),
-            make_string("entity [%s][%d] is dead", m_EntityAlife.Name(), m_EntityAlife.ID()).c_str());
+        VERIFY2(!m_EntityAlife.g_Alive(), make_string("entity [%s][%d] is dead", m_EntityAlife.Name(), m_EntityAlife.ID()).c_str());
         if (Device->dwTimeGlobal - m_EntityAlife.GetLevelDeathTime() >= 2000)
             m_flags.set(fl_block_hit, FALSE);
         else
@@ -521,8 +522,7 @@ void      CCharacterPhysicsSupport::in_Hit(SHit& H, bool is_killing)
     if (!m_pPhysicsShell && is_killing)
         KillHit(H);
 
-    if (m_flags.test(fl_use_hit_anims) && Type() != etBitting &&
-        !m_flags.test(fl_death_anim_on))   //&& Type() == etStalker
+    if (m_flags.test(fl_use_hit_anims) && Type() != etBitting && !m_flags.test(fl_death_anim_on))   //&& Type() == etStalker
     {
         m_hit_animations.PlayHitMotion(H.direction(), H.bone_space_position(), H.bone(), m_EntityAlife);
     }
@@ -537,8 +537,7 @@ void      CCharacterPhysicsSupport::in_Hit(SHit& H, bool is_killing)
 #ifdef DEBUG
         if (is_killing && death_anim_debug && !is_imotion(m_interactive_motion))
         {
-            Msg("death anim: applied fatal impulse dir: (%f,%f,%f), value: (%f) ", H.dir.x, H.dir.y, H.dir.z,
-                H.impulse);
+            Msg("death anim: applied fatal impulse dir: (%f,%f,%f), value: (%f) ", H.dir.x, H.dir.y, H.dir.z, H.impulse);
         }
 #endif
         m_pPhysicsShell->applyHit(H.bone_space_position(), H.direction(), H.phys_impulse(), H.bone(), H.type());
@@ -549,9 +548,7 @@ IC void CCharacterPhysicsSupport::UpdateDeathAnims()
 {
     VERIFY(m_pPhysicsShell->isFullActive());
 
-    if (!m_flags.test(fl_death_anim_on) &&
-        !is_imotion(
-            m_interactive_motion))   //! m_flags.test(fl_use_death_motion)//!b_death_anim_on&&m_pPhysicsShell->isFullActive()
+    if (!m_flags.test(fl_death_anim_on) && !is_imotion(m_interactive_motion))   //! m_flags.test(fl_use_death_motion)//!b_death_anim_on&&m_pPhysicsShell->isFullActive()
     {
         DestroyIKController();
         smart_cast<IKinematicsAnimated*>(m_EntityAlife.Visual())->PlayCycle("death_init");
@@ -666,7 +663,7 @@ void CCharacterPhysicsSupport::CreateSkeleton(CPhysicsShell*& pShell)
     CTimer t;
     t.Start();
 #endif
-    pShell = P_create_Shell();
+    pShell         = P_create_Shell();
 
     IKinematics* k = smart_cast<IKinematics*>(m_EntityAlife.Visual());
 
@@ -727,14 +724,13 @@ bool CCharacterPhysicsSupport::CollisionCorrectObjPos(const Fvector& start_from,
     shift.add(activation_pos);
     vbox.mul(2.f);
     activation_pos.add(shift, m_EntityAlife.Position());
-    bool not_collide_characters = !DoCharacterShellCollide() && !character_create;
-    bool set_rotation           = !character_create;
+    bool    not_collide_characters = !DoCharacterShellCollide() && !character_create;
+    bool    set_rotation           = !character_create;
 
-    Fvector activation_res = Fvector().set(0, 0, 0);
+    Fvector activation_res         = Fvector().set(0, 0, 0);
     ////////////////
 
-    bool ret = ActivateShapeCharacterPhysicsSupport(
-        activation_res, vbox, activation_pos, mXFORM, not_collide_characters, set_rotation, &m_EntityAlife);
+    bool    ret                    = ActivateShapeCharacterPhysicsSupport(activation_res, vbox, activation_pos, mXFORM, not_collide_characters, set_rotation, &m_EntityAlife);
     //////////////////
 
     m_EntityAlife.Position().sub(activation_res, shift);
@@ -900,7 +896,7 @@ void CCharacterPhysicsSupport::RemoveActiveWeaponCollision()
 
     Fmatrix m1_to_e = Fmatrix().mul_43(Fmatrix().invert(m1), me);
 
-    Fmatrix m0e = Fmatrix().mul_43(m0, m1_to_e);
+    Fmatrix m0e     = Fmatrix().mul_43(m0, m1_to_e);
     root->SetTransform(m0e, mh_unspecified);
 
     for (; ii != ee; ++ii)
@@ -1004,7 +1000,7 @@ void CCharacterPhysicsSupport::AddActiveWeaponCollision()
 
     CPhysicsElement* weapon_element = weapon_shell->get_ElementByStoreOrder(0);
 
-    u16 geom_num = weapon_element->numberOfGeoms();
+    u16              geom_num       = weapon_element->numberOfGeoms();
     for (u16 i = 0; i < geom_num; ++i)
         m_weapon_geoms.push_back(weapon_element->geometry(i));
     xr_vector<CODEGeom*>::iterator ii = m_weapon_geoms.begin(), ee = m_weapon_geoms.end();
@@ -1035,7 +1031,7 @@ void CCharacterPhysicsSupport::CreateShell(CObject* who, Fvector& dp, Fvector& v
     xr_delete(m_interactive_animation);
     destroy_animation_collision();
     // DestroyIKController( );
-    IKinematics* K = smart_cast<IKinematics*>(m_EntityAlife.Visual());
+    IKinematics*   K             = smart_cast<IKinematics*>(m_EntityAlife.Visual());
     // animation movement controller issues
     bool           anim_mov_ctrl = m_EntityAlife.animation_movement_controlled();
     CBoneInstance& BR            = K->LL_GetBoneInstance(K->LL_GetBoneRoot());
@@ -1140,11 +1136,7 @@ void CCharacterPhysicsSupport::CreateShell(CObject* who, Fvector& dp, Fvector& v
     m_pPhysicsShell->SetIgnoreSmall();
     AddActiveWeaponCollision();
 }
-void CCharacterPhysicsSupport::EndActivateFreeShell(
-    CObject*       who,
-    const Fvector& inital_entity_position,
-    const Fvector& dp,
-    const Fvector& velocity)
+void CCharacterPhysicsSupport::EndActivateFreeShell(CObject* who, const Fvector& inital_entity_position, const Fvector& dp, const Fvector& velocity)
 {
     VERIFY(m_pPhysicsShell);
     VERIFY(m_eState == esDead);
@@ -1185,8 +1177,7 @@ void CCharacterPhysicsSupport::EndActivateFreeShell(
 #ifdef DEBUG
     if (death_anim_debug)
     {
-        Msg("death anim: ragdoll velocity picked from char controller =(%f,%f,%f), velocity applied to ragdoll =(%f,%f,%f)  ",
-            velocity.x, velocity.y, velocity.z, v.x, v.y, v.z);
+        Msg("death anim: ragdoll velocity picked from char controller =(%f,%f,%f), velocity applied to ragdoll =(%f,%f,%f)  ", velocity.x, velocity.y, velocity.z, v.x, v.y, v.z);
     }
 #endif
 

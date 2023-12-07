@@ -5,9 +5,9 @@
 
 class CLAItem;
 
-#define LA_CYCLIC (1 << 0)
-#define LA_ONLYALPHA (1 << 1)
-#define LA_TEXTCOLOR (1 << 2)
+#define LA_CYCLIC       (1 << 0)
+#define LA_ONLYALPHA    (1 << 1)
+#define LA_TEXTCOLOR    (1 << 2)
 #define LA_TEXTURECOLOR (1 << 3)
 
 struct color_animation
@@ -86,8 +86,7 @@ public:
         if (t < m_lanim_clr.m_lanim_start_time)   // consider animation delay
             return;
 
-        if (m_lanim_clr.m_lanimFlags.test(LA_CYCLIC) ||
-            t - m_lanim_clr.m_lanim_start_time < m_lanim_clr.m_lanim->Length_sec())
+        if (m_lanim_clr.m_lanimFlags.test(LA_CYCLIC) || t - m_lanim_clr.m_lanim_start_time < m_lanim_clr.m_lanim->Length_sec())
         {
             int frame;
             u32 clr = m_lanim_clr.m_lanim->CalculateRGB(t - m_lanim_clr.m_lanim_start_time, frame);

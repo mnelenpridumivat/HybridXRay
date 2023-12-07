@@ -360,9 +360,7 @@ void CBuild::RunAfterLight(IWriter* fs)
         b_glow& G = glows[i];
         fs->w(&G, 4 * sizeof(float));
         string1024 sid;
-        strconcat(
-            sizeof(sid), sid, shader_render[materials()[G.dwMaterial].shader].name, "/",
-            textures()[materials()[G.dwMaterial].surfidx].name);
+        strconcat(sizeof(sid), sid, shader_render[materials()[G.dwMaterial].shader].name, "/", textures()[materials()[G.dwMaterial].surfidx].name);
         fs->w_u16(RegisterShader(sid));
     }
     fs->close_chunk();

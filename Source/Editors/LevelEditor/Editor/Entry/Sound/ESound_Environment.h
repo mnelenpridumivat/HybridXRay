@@ -9,7 +9,7 @@ class ESoundEnvironment: public CEditShape
     shared_str m_EnvInner;
     shared_str m_EnvOuter;
 
-    void OnChangeEnvs(PropValue* prop);
+    void       OnChangeEnvs(PropValue* prop);
 
 public:
     void get_box(Fmatrix& m);

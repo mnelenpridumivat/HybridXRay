@@ -357,7 +357,7 @@ void CUIActorMenu::UpdateActor()
 
 void CUIActorMenu::UpdatePartnerBag()
 {
-    string64 buf;
+    string64      buf;
 
     CBaseMonster* monster = smart_cast<CBaseMonster*>(m_pPartnerInvOwner);
     if (monster || m_pPartnerInvOwner->use_simplified_visual())
@@ -393,8 +393,8 @@ void CUIActorMenu::UpdatePrices()
 
     UpdateActor();
     UpdatePartnerBag();
-    u32 actor_price   = CalcItemsPrice(m_pTradeActorList, m_partner_trade, true);
-    u32 partner_price = CalcItemsPrice(m_pTradePartnerList, m_partner_trade, false);
+    u32      actor_price   = CalcItemsPrice(m_pTradeActorList, m_partner_trade, true);
+    u32      partner_price = CalcItemsPrice(m_pTradePartnerList, m_partner_trade, false);
 
     string64 buf;
     xr_sprintf(buf, "%d RU", actor_price);
@@ -437,7 +437,7 @@ void CUIActorMenu::OnBtnPerformTradeBuy(CUIWindow* w, void* d)
     int actor_price   = 0;   //(int)CalcItemsPrice( m_pTradeActorList,   m_partner_trade, true  );
     int partner_price = (int)CalcItemsPrice(m_pTradePartnerList, m_partner_trade, false);
 
-    int delta_price = actor_price - partner_price;
+    int delta_price   = actor_price - partner_price;
     actor_money += delta_price;
     partner_money -= delta_price;
 
@@ -479,7 +479,7 @@ void CUIActorMenu::OnBtnPerformTradeSell(CUIWindow* w, void* d)
     int actor_price   = (int)CalcItemsPrice(m_pTradeActorList, m_partner_trade, true);
     int partner_price = 0;   //(int)CalcItemsPrice( m_pTradePartnerList, m_partner_trade, false );
 
-    int delta_price = actor_price - partner_price;
+    int delta_price   = actor_price - partner_price;
     actor_money += delta_price;
     partner_money -= delta_price;
 
@@ -511,11 +511,7 @@ void CUIActorMenu::OnBtnPerformTradeSell(CUIWindow* w, void* d)
     UpdateItemsPlace();
 }
 
-void CUIActorMenu::TransferItems(
-    CUIDragDropListEx* pSellList,
-    CUIDragDropListEx* pBuyList,
-    CTrade*            pTrade,
-    bool               bBuying)
+void CUIActorMenu::TransferItems(CUIDragDropListEx* pSellList, CUIDragDropListEx* pBuyList, CTrade* pTrade, bool bBuying)
 {
     while (pSellList->ItemsCount())
     {

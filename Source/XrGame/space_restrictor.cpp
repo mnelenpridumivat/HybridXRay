@@ -41,19 +41,21 @@ BOOL CSpaceRestrictor::net_Spawn(CSE_Abstract* data)
 
     m_space_restrictor_type = se_shape->m_space_restrictor_type;
 
-    CCF_Shape* shape = xr_new<CCF_Shape>(this);
-    collidable.model = shape;
+    CCF_Shape* shape        = xr_new<CCF_Shape>(this);
+    collidable.model        = shape;
 
     for (u32 i = 0; i < se_shape->shapes.size(); ++i)
     {
         CShapeData::shape_def& S = se_shape->shapes[i];
         switch (S.type)
         {
-            case 0: {
+            case 0:
+            {
                 shape->add_sphere(S.data.sphere);
                 break;
             }
-            case 1: {
+            case 1:
+            {
                 shape->add_box(S.data.box);
                 break;
             }
@@ -72,13 +74,10 @@ BOOL CSpaceRestrictor::net_Spawn(CSE_Abstract* data)
     setEnabled(FALSE);
     setVisible(FALSE);
 
-    if (!ai().get_level_graph() ||
-        (RestrictionSpace::ERestrictorTypes(se_shape->m_space_restrictor_type) ==
-         RestrictionSpace::eRestrictorTypeNone))
+    if (!ai().get_level_graph() || (RestrictionSpace::ERestrictorTypes(se_shape->m_space_restrictor_type) == RestrictionSpace::eRestrictorTypeNone))
         return (TRUE);
 
-    Level().space_restriction_manager().register_restrictor(
-        this, RestrictionSpace::ERestrictorTypes(se_shape->m_space_restrictor_type));
+    Level().space_restriction_manager().register_restrictor(this, RestrictionSpace::ERestrictorTypes(se_shape->m_space_restrictor_type));
 
     return (TRUE);
 }
@@ -126,17 +125,18 @@ void CSpaceRestrictor::prepare() const
     m_spheres.resize(0);
     m_boxes.resize(0);
 
-    const CCF_Shape* shape = (const CCF_Shape*)collidable.model;
+    const CCF_Shape*                        shape = (const CCF_Shape*)collidable.model;
 
     typedef xr_vector<CCF_Shape::shape_def> SHAPES;
 
-    SHAPES::const_iterator I = shape->shapes.begin();
-    SHAPES::const_iterator E = shape->shapes.end();
+    SHAPES::const_iterator                  I = shape->shapes.begin();
+    SHAPES::const_iterator                  E = shape->shapes.end();
     for (; I != E; ++I)
     {
         switch ((*I).type)
         {
-            case 0: {   // sphere
+            case 0:
+            {   // sphere
                 Fsphere        temp;
                 const Fsphere& sphere = (*I).data.sphere;
                 XFORM().transform_tiny(temp.P, sphere.P);
@@ -144,7 +144,8 @@ void CSpaceRestrictor::prepare() const
                 m_spheres.push_back(temp);
                 break;
             }
-            case 1: {   // box
+            case 1:
+            {   // box
                 Fmatrix        sphere;
                 const Fmatrix& box = (*I).data.box;
                 sphere.mul_43(XFORM(), box);
@@ -209,7 +210,7 @@ bool CSpaceRestrictor::prepared_inside(const Fsphere& sphere) const
                 if ((*I).m_planes[i].classify(sphere.P) > sphere.R)
                     goto continue_loop;
             return (true);
-        continue_loop:
+continue_loop:
             continue;
         }
     }
@@ -223,7 +224,7 @@ bool CSpaceRestrictor::prepared_inside(const Fsphere& sphere) const
 
 extern Flags32 dbg_net_Draw_Flags;
 
-void CSpaceRestrictor::OnRender()
+void           CSpaceRestrictor::OnRender()
 {
     if (!bDebug)
         return;
@@ -237,8 +238,8 @@ void CSpaceRestrictor::OnRender()
     xr_vector<CCF_Shape::shape_def>&          l_shapes = ((CCF_Shape*)CFORM())->Shapes();
     xr_vector<CCF_Shape::shape_def>::iterator l_pShape;
 
-    u32          Color       = 0;
-    CCustomZone* custom_zone = smart_cast<CCustomZone*>(this);
+    u32                                       Color       = 0;
+    CCustomZone*                              custom_zone = smart_cast<CCustomZone*>(this);
     if (custom_zone && custom_zone->IsEnabled())
         Color = color_xrgb(0, 255, 255);
     else
@@ -248,7 +249,8 @@ void CSpaceRestrictor::OnRender()
     {
         switch (l_pShape->type)
         {
-            case 0: {
+            case 0:
+            {
                 Fsphere& l_sphere = l_pShape->data.sphere;
                 l_ball.scale(l_sphere.R, l_sphere.R, l_sphere.R);
                 // l_ball.scale(1.f, 1.f, 1.f);
@@ -260,7 +262,8 @@ void CSpaceRestrictor::OnRender()
                 Level().debug_renderer().draw_ellipse(l_ball, Color);
             }
             break;
-            case 1: {
+            case 1:
+            {
                 l_box.mul(XFORM(), l_pShape->data.box);
                 Level().debug_renderer().draw_obb(l_box, l_half, Color);
             }
@@ -275,9 +278,9 @@ void CSpaceRestrictor::OnRender()
         Fmatrix res;
         res.mul(Device->mFullTransform, XFORM());
 
-        Fvector4 v_res;
+        Fvector4     v_res;
 
-        float delta_height = 0.f;
+        float        delta_height = 0.f;
 
         // get up on 2 meters
         Fvector      shift;

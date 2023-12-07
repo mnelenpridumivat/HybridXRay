@@ -69,7 +69,7 @@ static optimizer vtune;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-BOOL g_bDisableRedText = FALSE;
+BOOL             g_bDisableRedText = FALSE;
 CStats::CStats()
 {
     fFPS                = 30.f;
@@ -162,7 +162,7 @@ void CStats::Show()
     // calc FPS & TPS
     if (Device->fTimeDelta > EPS_S)
     {
-        float fps = 1.f / Device->fTimeDelta;
+        float fps  = 1.f / Device->fTimeDelta;
         // if (Engine.External.tune_enabled)	vtune.update	(fps);
         float fOne = 0.3f;
         float fInv = 1.f - fOne;
@@ -173,7 +173,7 @@ void CStats::Show()
             u32 rendered_polies = Device->m_pRender->GetCacheStatPolys();
             fTPS                = fInv * fTPS + fOne * float(rendered_polies) / (RenderTOTAL.result * 1000.f);
             // fTPS = fInv*fTPS + fOne*float(RCache.stat.polys)/(RenderTOTAL.result*1000.f);
-            fRFPS = fInv * fRFPS + fOne * 1000.f / RenderTOTAL.result;
+            fRFPS               = fInv * fRFPS + fOne * 1000.f / RenderTOTAL.result;
         }
     }
     {
@@ -254,22 +254,12 @@ void CStats::Show()
 #define PPP(a) (100.f * float(a) / float(EngineTOTAL.result))
         F.OutNext("*** ENGINE:  %2.2fms", EngineTOTAL.result);
         F.OutNext("Memory:      %2.2fa", fMem_calls);
-        F.OutNext(
-            "uClients:    %2.2fms, %2.1f%%, crow(%d)/active(%d)/total(%d)", UpdateClient.result,
-            PPP(UpdateClient.result), UpdateClient_crows, UpdateClient_active, UpdateClient_total);
+        F.OutNext("uClients:    %2.2fms, %2.1f%%, crow(%d)/active(%d)/total(%d)", UpdateClient.result, PPP(UpdateClient.result), UpdateClient_crows, UpdateClient_active, UpdateClient_total);
         F.OutNext("uSheduler:   %2.2fms, %2.1f%%", Sheduler.result, PPP(Sheduler.result));
         F.OutNext("uSheduler_L: %2.2fms", fShedulerLoad);
-        F.OutNext(
-            "uParticles:  Qstart[%d] Qactive[%d] Qdestroy[%d]", Particles_starting, Particles_active,
-            Particles_destroy);
-        F.OutNext(
-            "spInsert:    o[%.2fms, %2.1f%%], p[%.2fms, %2.1f%%]", g_SpatialSpace->stat_insert.result,
-            PPP(g_SpatialSpace->stat_insert.result), g_SpatialSpacePhysic->stat_insert.result,
-            PPP(g_SpatialSpacePhysic->stat_insert.result));
-        F.OutNext(
-            "spRemove:    o[%.2fms, %2.1f%%], p[%.2fms, %2.1f%%]", g_SpatialSpace->stat_remove.result,
-            PPP(g_SpatialSpace->stat_remove.result), g_SpatialSpacePhysic->stat_remove.result,
-            PPP(g_SpatialSpacePhysic->stat_remove.result));
+        F.OutNext("uParticles:  Qstart[%d] Qactive[%d] Qdestroy[%d]", Particles_starting, Particles_active, Particles_destroy);
+        F.OutNext("spInsert:    o[%.2fms, %2.1f%%], p[%.2fms, %2.1f%%]", g_SpatialSpace->stat_insert.result, PPP(g_SpatialSpace->stat_insert.result), g_SpatialSpacePhysic->stat_insert.result, PPP(g_SpatialSpacePhysic->stat_insert.result));
+        F.OutNext("spRemove:    o[%.2fms, %2.1f%%], p[%.2fms, %2.1f%%]", g_SpatialSpace->stat_remove.result, PPP(g_SpatialSpace->stat_remove.result), g_SpatialSpacePhysic->stat_remove.result, PPP(g_SpatialSpacePhysic->stat_remove.result));
         F.OutNext("Physics:     %2.2fms, %2.1f%%", Physics.result, PPP(Physics.result));
         F.OutNext("  collider:  %2.2fms", ph_collision.result);
         F.OutNext("  solver:    %2.2fms, %d", ph_core.result, ph_core.count);
@@ -295,9 +285,7 @@ void CStats::Show()
         F.OutNext("  DT_Vis/Cnt:%2.2fms/%d", RenderDUMP_DT_VIS.result, RenderDUMP_DT_Count);
         F.OutNext("  DT_Render: %2.2fms", RenderDUMP_DT_Render.result);
         F.OutNext("  DT_Cache:  %2.2fms", RenderDUMP_DT_Cache.result);
-        F.OutNext(
-            "  Wallmarks: %2.2fms, %d/%d - %d", RenderDUMP_WM.result, RenderDUMP_WMS_Count, RenderDUMP_WMD_Count,
-            RenderDUMP_WMT_Count);
+        F.OutNext("  Wallmarks: %2.2fms, %d/%d - %d", RenderDUMP_WM.result, RenderDUMP_WMS_Count, RenderDUMP_WMD_Count, RenderDUMP_WMT_Count);
         F.OutNext("  Glows:     %2.2fms", RenderDUMP_Glows.result);
         F.OutNext("  Lights:    %2.2fms, %d", RenderDUMP_Lights.result, RenderDUMP_Lights.count);
         F.OutNext("  RT:        %2.2fms, %d", RenderDUMP_RT.result, RenderDUMP_RT.count);
@@ -338,7 +326,7 @@ void CStats::Show()
         F.OutSkip();
         F.OutNext("qpc[%3d]", CPU::qpc_counter);
         CPU::qpc_counter = 0;
-#endif   // DEBUG_MEMORY_MANAGER
+#endif   // DEBUG_MEMORY_MANAGER \
          //		F.OutSet	(640,0);
         F.OutSkip();
         m_pRender->OutData4(F);
@@ -507,8 +495,7 @@ void CStats::OnDeviceCreate()
     pFont = xr_new<CGameFont>("stat_font", CGameFont::fsDeviceIndependent);
 #endif
 
-    if (!pSettings->section_exist("evaluation") || !pSettings->line_exist("evaluation", "line1") ||
-        !pSettings->line_exist("evaluation", "line2") || !pSettings->line_exist("evaluation", "line3"))
+    if (!pSettings->section_exist("evaluation") || !pSettings->line_exist("evaluation", "line1") || !pSettings->line_exist("evaluation", "line2") || !pSettings->line_exist("evaluation", "line3"))
         FATAL("");
 
     eval_line_1 = pSettings->r_string_wb("evaluation", "line1");
@@ -548,20 +535,16 @@ void CStats::OnRender()
                 // RCache.set_c			("tfactor",1,1,1,1);
                 DU->DrawCross(item.params.position, 0.5f, 0xFF0000FF, true);
                 if (g_stats_flags.is(st_sound_min_dist))
-                    DU->DrawSphere(
-                        Fidentity, item.params.position, item.params.min_distance, 0x400000FF, 0xFF0000FF, true, true);
+                    DU->DrawSphere(Fidentity, item.params.position, item.params.min_distance, 0x400000FF, 0xFF0000FF, true, true);
                 if (g_stats_flags.is(st_sound_max_dist))
-                    DU->DrawSphere(
-                        Fidentity, item.params.position, item.params.max_distance, 0x4000FF00, 0xFF008000, true, true);
+                    DU->DrawSphere(Fidentity, item.params.position, item.params.max_distance, 0x4000FF00, 0xFF008000, true, true);
 
                 xr_string out_txt = (out_txt.size() && g_stats_flags.is(st_sound_info_name)) ? item.name.c_str() : "";
 
                 if (item.game_object)
                 {
                     if (g_stats_flags.is(st_sound_ai_dist))
-                        DU->DrawSphere(
-                            Fidentity, item.params.position, item.params.max_ai_distance, 0x80FF0000, 0xFF800000, true,
-                            true);
+                        DU->DrawSphere(Fidentity, item.params.position, item.params.max_ai_distance, 0x80FF0000, 0xFF800000, true, true);
                     if (g_stats_flags.is(st_sound_info_object))
                     {
                         out_txt += "  (";

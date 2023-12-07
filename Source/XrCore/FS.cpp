@@ -3,12 +3,12 @@
 
 #include "fs_internal.h"
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <io.h>
 #include <direct.h>
 #include <fcntl.h>
 #include <sys\stat.h>
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 // typedef void DUMMY_STUFF (const void*,const u32&,void*);
 // XRCORE_API DUMMY_STUFF	*g_dummy_stuff = 0;
@@ -23,7 +23,7 @@ u32                                             g_file_mapped_count  = 0;
 typedef xr_map<u32, std::pair<u32, shared_str>> FILE_MAPPINGS;
 FILE_MAPPINGS                                   g_file_mappings;
 
-void register_file_mapping(void* address, const u32& size, LPCSTR file_name)
+void                                            register_file_mapping(void* address, const u32& size, LPCSTR file_name)
 {
     FILE_MAPPINGS::const_iterator I = g_file_mappings.find(*(u32*)&address);
     VERIFY(I == g_file_mappings.end());
@@ -102,7 +102,7 @@ bool file_handle_internal	(LPCSTR file_name, u32 &size, int &hFile)
 	size				= filelength(hFile);
 	return				(true);
 }
-#else    // EDITOR
+#else   // EDITOR
 static errno_t open_internal(LPCSTR fn, int& handle)
 {
     return (_sopen_s(&handle, fn, _O_RDONLY | _O_BINARY, _SH_DENYNO, _S_IREAD));
@@ -124,8 +124,7 @@ bool file_handle_internal(LPCSTR file_name, u32& size, int& file_handle)
 
 void* FileDownload(LPCSTR file_name, const int& file_handle, u32& file_size)
 {
-    void* buffer = Memory.mem_alloc(
-        file_size
+    void* buffer = Memory.mem_alloc(file_size
 #ifdef DEBUG_MEMORY_NAME
         ,
         "FILE in memory"
@@ -215,16 +214,14 @@ void CMemoryWriter::w(const void* ptr, u32 count)
         while (mem_size <= (position + count))
             mem_size *= 2;
         if (0 == data)
-            data = (BYTE*)Memory.mem_alloc(
-                mem_size
+            data = (BYTE*)Memory.mem_alloc(mem_size
 #ifdef DEBUG_MEMORY_NAME
                 ,
                 "CMemoryWriter - storage"
 #endif   // DEBUG_MEMORY_NAME
             );
         else
-            data = (BYTE*)Memory.mem_realloc(
-                data, mem_size
+            data = (BYTE*)Memory.mem_realloc(data, mem_size
 #ifdef DEBUG_MEMORY_NAME
                 ,
                 "CMemoryWriter - storage"
@@ -334,7 +331,7 @@ IReader* IReader::open_chunk(u32 ID)
 {
     BOOL bCompressed;
 
-    u32 dwSize = find_chunk(ID, &bCompressed);
+    u32  dwSize = find_chunk(ID, &bCompressed);
     if (dwSize != 0)
     {
         if (bCompressed)

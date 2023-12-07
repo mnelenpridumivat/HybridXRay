@@ -14,9 +14,9 @@
 //					если мы хотим сгененрировать несколько таблиц с одинаковыми
 //					T_ITEM и T_INI_LOADER
 
-#define TEMPLATE_SPECIALIZATION template <typename T_ITEM, typename T_INI_LOADER, u16 TABLE_INDEX>
-#define TEMPLATE_SPECIALIZATION_D template <typename T_ITEM, typename T_INI_LOADER, u16 TABLE_INDEX = 0>
-#define CSIni_Table CIni_Table<T_ITEM, T_INI_LOADER, TABLE_INDEX>
+#define TEMPLATE_SPECIALIZATION   template<typename T_ITEM, typename T_INI_LOADER, u16 TABLE_INDEX>
+#define TEMPLATE_SPECIALIZATION_D template<typename T_ITEM, typename T_INI_LOADER, u16 TABLE_INDEX = 0>
+#define CSIni_Table               CIni_Table<T_ITEM, T_INI_LOADER, TABLE_INDEX>
 
 TEMPLATE_SPECIALIZATION_D
 class CIni_Table
@@ -28,34 +28,34 @@ public:
     typedef xr_vector<T_ITEM>      ITEM_VECTOR;
     typedef xr_vector<ITEM_VECTOR> ITEM_TABLE;
 
-    ITEM_TABLE& table();
-    void        clear();
-    void        set_table_params(LPCSTR sect, int width = -1)
+    ITEM_TABLE&                    table();
+    void                           clear();
+    void                           set_table_params(LPCSTR sect, int width = -1)
     {
         table_sect  = sect;
         table_width = width;
     }
 
 private:
-    ITEM_TABLE* m_pTable;
-    LPCSTR      table_sect;
+    ITEM_TABLE*                              m_pTable;
+    LPCSTR                                   table_sect;
     // ширина таблицы, если -1 то таблица делается квадратной (ширина равна высоте)
-    int table_width;
+    int                                      table_width;
 
     // перобразование из LPCSTR в T_ITEM
 
-    template <typename T_CONVERT_ITEM> T_ITEM convert(LPCSTR)
+    template<typename T_CONVERT_ITEM> T_ITEM convert(LPCSTR)
     {
         STATIC_CHECK(false, Specialization_for_convert_in_CIni_Table_not_found);
         NODEFAULT;
     }
 
-    template <> T_ITEM convert<int>(LPCSTR str)
+    template<> T_ITEM convert<int>(LPCSTR str)
     {
         return atoi(str);
     }
 
-    template <> T_ITEM convert<float>(LPCSTR str)
+    template<> T_ITEM convert<float>(LPCSTR str)
     {
         return (float)atof(str);
     }

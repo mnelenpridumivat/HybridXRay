@@ -66,7 +66,7 @@ Comments:
     {                        \
         if (p)               \
         {                    \
-            delete[](p);     \
+            delete[] (p);    \
             p = NULL;        \
         }                    \
     }
@@ -96,14 +96,12 @@ Comments:
 
 #define ifnot(x) if (!(x))
 #define until(x) while (!(x))
-#define ever (;;)
+#define ever     (;;)
 #define wait \
     do       \
-    {        \
-    }
+    {}
 #define nothing \
-    {           \
-    }
+    {}
 
 // @@ extract more of these from ulCommon.h
 typedef unsigned short USHORT;

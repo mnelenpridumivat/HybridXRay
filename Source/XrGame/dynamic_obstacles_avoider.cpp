@@ -25,10 +25,12 @@ bool dynamic_obstacles_avoider::movement_enabled() const
 {
     switch (object().get_moving_object()->action())
     {
-        case moving_object::action_wait: {
+        case moving_object::action_wait:
+        {
             return (false);
         }
-        case moving_object::action_move: {
+        case moving_object::action_move:
+        {
             return (true);
         }
         default:

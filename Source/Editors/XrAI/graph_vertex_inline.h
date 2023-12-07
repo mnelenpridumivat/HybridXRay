@@ -35,8 +35,7 @@ IC CSGraphVertex::~CVertex()
         delete_data(m_data);
     }
     catch (...)
-    {
-    }
+    {}
 }
 
 TEMPLATE_SPECIALIZATION

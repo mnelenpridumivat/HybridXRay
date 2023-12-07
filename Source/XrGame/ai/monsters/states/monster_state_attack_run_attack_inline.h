@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../monster_velocity_space.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION              template<typename _Object>
 
 #define CStateMonsterAttackRunAttackAbstract CStateMonsterAttackRunAttack<_Object>
 

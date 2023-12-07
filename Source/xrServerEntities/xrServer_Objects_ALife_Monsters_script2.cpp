@@ -25,12 +25,10 @@ void CSE_ALifeMonsterZombie::script_register(lua_State* L)
 
 void CSE_ALifeMonsterBase::script_register(lua_State* L)
 {
-    module(L)[luabind_class_monster2(
-        CSE_ALifeMonsterBase, "cse_alife_monster_base", CSE_ALifeMonsterAbstract, CSE_PHSkeleton)];
+    module(L)[luabind_class_monster2(CSE_ALifeMonsterBase, "cse_alife_monster_base", CSE_ALifeMonsterAbstract, CSE_PHSkeleton)];
 }
 
 void CSE_ALifeHumanStalker::script_register(lua_State* L)
 {
-    module(L)[luabind_class_monster2(
-        CSE_ALifeHumanStalker, "cse_alife_human_stalker", CSE_ALifeHumanAbstract, CSE_PHSkeleton)];
+    module(L)[luabind_class_monster2(CSE_ALifeHumanStalker, "cse_alife_human_stalker", CSE_ALifeHumanAbstract, CSE_PHSkeleton)];
 }

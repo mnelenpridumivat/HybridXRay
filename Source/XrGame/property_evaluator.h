@@ -14,7 +14,7 @@
 
 class CScriptGameObject;
 
-template <typename _object_type> class CPropertyEvaluator
+template<typename _object_type> class CPropertyEvaluator
 {
 public:
     typedef GraphEngineSpace::_solver_condition_type _condition_type;
@@ -36,8 +36,8 @@ public:
     virtual _value_type   evaluate();
     IC const _value_type& property(const _condition_type& condition_id) const;
 
-    virtual void save(NET_Packet& packet) {}
-    virtual void load(IReader& packet) {}
+    virtual void          save(NET_Packet& packet) {}
+    virtual void          load(IReader& packet) {}
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };

@@ -15,10 +15,7 @@ ref class property_container_converter;
 
 interface class property_container_holder;
 
-[System::ComponentModel::TypeConverterAttribute(
-    property_container_converter::typeid)] public ref class property_container:
-    public Flobbster::Windows::Forms::PropertyBag,
-    public property_container_interface
+[System::ComponentModel::TypeConverterAttribute(property_container_converter::typeid)] public ref class property_container: public Flobbster::Windows::Forms::PropertyBag, public property_container_interface
 {
 public:
     typedef Flobbster::Windows::Forms::PropertySpec          PropertySpec;

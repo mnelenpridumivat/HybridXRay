@@ -38,12 +38,12 @@ public:
     typedef PLAYERS_MAP::iterator                           PLAYERS_MAP_IT;
     typedef PLAYERS_MAP::const_iterator                     PLAYERS_MAP_CIT;
 
-    PLAYERS_MAP       players;
-    ClientID          local_svdpnid;
-    game_PlayerState* local_player;
-    game_PlayerState* lookat_player();
+    PLAYERS_MAP                                             players;
+    ClientID                                                local_svdpnid;
+    game_PlayerState*                                       local_player;
+    game_PlayerState*                                       lookat_player();
 
-    WeaponUsageStatistic* m_WeaponUsageStatistic;
+    WeaponUsageStatistic*                                   m_WeaponUsageStatistic;
 
 private:
     void switch_Phase(u32 new_phase)
@@ -52,10 +52,10 @@ private:
     };
 
 protected:
-    virtual void OnSwitchPhase(u32 old_phase, u32 new_phase);
+    virtual void       OnSwitchPhase(u32 old_phase, u32 new_phase);
 
     // for scripting enhancement
-    virtual void TranslateGameMessage(u32 msg, NET_Packet& P);
+    virtual void       TranslateGameMessage(u32 msg, NET_Packet& P);
 
     virtual shared_str shedule_Name() const
     {
@@ -80,17 +80,17 @@ public:
     {
         return *m_game_type_name;
     };
-    void         set_type_name(LPCSTR s);
-    virtual void Init(){};
-    virtual void net_import_state(NET_Packet& P);
-    virtual void net_import_update(NET_Packet& P);
-    virtual void net_import_GameTime(NET_Packet& P);   // update GameTime only for remote clients
-    virtual void net_signal(NET_Packet& P);
+    void          set_type_name(LPCSTR s);
+    virtual void  Init(){};
+    virtual void  net_import_state(NET_Packet& P);
+    virtual void  net_import_update(NET_Packet& P);
+    virtual void  net_import_GameTime(NET_Packet& P);   // update GameTime only for remote clients
+    virtual void  net_signal(NET_Packet& P);
 
-    virtual bool OnKeyboardPress(int key);
-    virtual bool OnKeyboardRelease(int key);
+    virtual bool  OnKeyboardPress(int key);
+    virtual bool  OnKeyboardRelease(int key);
 
-    void OnGameMessage(NET_Packet& P);
+    void          OnGameMessage(NET_Packet& P);
 
     virtual char* getTeamSection(int Team)
     {
@@ -113,8 +113,8 @@ public:
 
     virtual void shedule_Update(u32 dt);
 
-    void u_EventGen(NET_Packet& P, u16 type, u16 dest);
-    void u_EventSend(NET_Packet& P);
+    void         u_EventGen(NET_Packet& P, u16 type, u16 dest);
+    void         u_EventSend(NET_Packet& P);
 
     virtual void ChatSay(LPCSTR phrase, bool bAll){};
     virtual void OnChatMessage(NET_Packet* P){};

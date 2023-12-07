@@ -15,7 +15,7 @@
 
 static float min_deficit_factor = .3f;
 
-void CPurchaseList::process(CInifile& ini_file, LPCSTR section, CInventoryOwner& owner)
+void         CPurchaseList::process(CInifile& ini_file, LPCSTR section, CInventoryOwner& owner)
 {
     owner.sell_useless_items();
 
@@ -31,17 +31,11 @@ void CPurchaseList::process(CInifile& ini_file, LPCSTR section, CInventoryOwner&
 
         string256 temp0, temp1;
         THROW3(_GetItemCount(*(*I).second) == 2, "Invalid parameters in section", section);
-        process(
-            game_object, (*I).first, atoi(_GetItem(*(*I).second, 0, temp0)),
-            (float)atof(_GetItem(*(*I).second, 1, temp1)));
+        process(game_object, (*I).first, atoi(_GetItem(*(*I).second, 0, temp0)), (float)atof(_GetItem(*(*I).second, 1, temp1)));
     }
 }
 
-void CPurchaseList::process(
-    const CGameObject& owner,
-    const shared_str&  name,
-    const u32&         count,
-    const float&       probability)
+void CPurchaseList::process(const CGameObject& owner, const shared_str& name, const u32& count, const float& probability)
 {
     VERIFY3(count, "Invalid count for section in the purchase list", *name);
     VERIFY3(!fis_zero(probability, EPS_S), "Invalid probability for section in the purchase list", *name);

@@ -37,7 +37,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
 
     switch (type)
     {
-        case GE_GAME_EVENT: {
+        case GE_GAME_EVENT:
+        {
             u16 game_event_type;
             P.r_u16(game_event_type);
             game->AddDelayedEvent(P, game_event_type, timestamp, sender);
@@ -53,15 +54,18 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
         case GEG_PLAYER_ITEM2SLOT:
         case GEG_PLAYER_ITEM2BELT:
         case GEG_PLAYER_ITEM2RUCK:
-        case GE_GRENADE_EXPLODE: {
+        case GE_GRENADE_EXPLODE:
+        {
             SendBroadcast(BroadcastCID, P, MODE);
         }
         break;
-        case GEG_PLAYER_ACTIVATEARTEFACT: {
+        case GEG_PLAYER_ACTIVATEARTEFACT:
+        {
             Process_event_activate(P, sender, timestamp, destination, P.r_u16(), true);
             break;
         };
-        case GE_INV_ACTION: {
+        case GE_INV_ACTION:
+        {
             xrClientData* CL = ID_to_client(sender);
             if (CL)
                 CL->net_Ready = TRUE;
@@ -69,7 +73,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
                 SendTo(SV_Client->ID, P, net_flags(TRUE, TRUE));
         }
         break;
-        case GE_RESPAWN: {
+        case GE_RESPAWN:
+        {
             CSE_Abstract* E = receiver;
             if (E)
             {
@@ -83,29 +88,34 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
         }
         break;
         case GE_TRADE_BUY:
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             Process_event_ownership(P, sender, timestamp, destination);
             VERIFY(verify_entities());
         }
         break;
-        case GE_OWNERSHIP_TAKE_MP_FORCED: {
+        case GE_OWNERSHIP_TAKE_MP_FORCED:
+        {
             Process_event_ownership(P, sender, timestamp, destination, TRUE);
             VERIFY(verify_entities());
         }
         break;
         case GE_TRADE_SELL:
         case GE_OWNERSHIP_REJECT:
-        case GE_LAUNCH_ROCKET: {
+        case GE_LAUNCH_ROCKET:
+        {
             Process_event_reject(P, sender, timestamp, destination, P.r_u16());
             VERIFY(verify_entities());
         }
         break;
-        case GE_DESTROY: {
+        case GE_DESTROY:
+        {
             Process_event_destroy(P, sender, timestamp, destination, NULL);
             VERIFY(verify_entities());
         }
         break;
-        case GE_TRANSFER_AMMO: {
+        case GE_TRANSFER_AMMO:
+        {
             u16 id_entity;
             P.r_u16(id_entity);
             CSE_Abstract* e_parent = receiver;                               // кто забирает (для своих нужд)
@@ -127,7 +137,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
         }
         break;
         case GE_HIT:
-        case GE_HIT_STATISTIC: {
+        case GE_HIT_STATISTIC:
+        {
             P.r_pos -= 2;
             if (type == GE_HIT_STATISTIC)
             {
@@ -137,7 +148,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
             game->AddDelayedEvent(P, GAME_EVENT_ON_HIT, 0, ClientID());
         }
         break;
-        case GE_ASSIGN_KILLER: {
+        case GE_ASSIGN_KILLER:
+        {
             u16 id_src;
             P.r_u16(id_src);
 
@@ -155,7 +167,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
 
             break;
         }
-        case GE_CHANGE_VISUAL: {
+        case GE_CHANGE_VISUAL:
+        {
             CSE_Visual* visual = smart_cast<CSE_Visual*>(receiver);
             VERIFY(visual);
             string256 tmp;
@@ -163,7 +176,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
             visual->set_visual(tmp);
         }
         break;
-        case GE_DIE: {
+        case GE_DIE:
+        {
             // Parse message
             u16 id_dest = destination, id_src;
             P.r_u16(id_src);
@@ -240,15 +254,18 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
         }
         break;
         case GE_ADDON_ATTACH:
-        case GE_ADDON_DETACH: {
+        case GE_ADDON_DETACH:
+        {
             SendBroadcast(BroadcastCID, P, net_flags(TRUE, TRUE));
         }
         break;
-        case GE_CHANGE_POS: {
+        case GE_CHANGE_POS:
+        {
             SendTo(SV_Client->ID, P, net_flags(TRUE, TRUE));
         }
         break;
-        case GE_INSTALL_UPGRADE: {
+        case GE_INSTALL_UPGRADE:
+        {
             shared_str upgrade_id;
             P.r_stringZ(upgrade_id);
             CSE_ALifeInventoryItem* iitem = smart_cast<CSE_ALifeInventoryItem*>(receiver);
@@ -259,7 +276,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
             iitem->add_upgrade(upgrade_id);
         }
         break;
-        case GE_INV_BOX_STATUS: {
+        case GE_INV_BOX_STATUS:
+        {
             u8 can_take, closed;
             P.r_u8(can_take);
             P.r_u8(closed);
@@ -276,7 +294,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
             box->m_tip_text._set(tip_text);
         }
         break;
-        case GE_INV_OWNER_STATUS: {
+        case GE_INV_OWNER_STATUS:
+        {
             u8 can_take, closed;
             P.r_u8(can_take);
             P.r_u8(closed);
@@ -292,7 +311,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
         break;
 
         case GEG_PLAYER_DISABLE_SPRINT:
-        case GEG_PLAYER_WEAPON_HIDE_STATE: {
+        case GEG_PLAYER_WEAPON_HIDE_STATE:
+        {
             SendTo(SV_Client->ID, P, net_flags(TRUE, TRUE));
 
 #ifdef SLOW_VERIFY_ENTITIES
@@ -301,14 +321,16 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
         }
         break;
         case GEG_PLAYER_ACTIVATE_SLOT:
-        case GEG_PLAYER_ITEM_EAT: {
+        case GEG_PLAYER_ITEM_EAT:
+        {
             SendTo(SV_Client->ID, P, net_flags(TRUE, TRUE));
 #ifdef SLOW_VERIFY_ENTITIES
             VERIFY(verify_entities());
 #endif
         }
         break;
-        case GEG_PLAYER_USE_BOOSTER: {
+        case GEG_PLAYER_USE_BOOSTER:
+        {
             if (receiver && receiver->owner && (receiver->owner != SV_Client))
             {
                 NET_Packet tmp_packet;
@@ -317,27 +339,33 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
             }
         }
         break;
-        case GEG_PLAYER_ITEM_SELL: {
+        case GEG_PLAYER_ITEM_SELL:
+        {
             game->OnPlayer_Sell_Item(sender, P);
         }
         break;
-        case GE_TELEPORT_OBJECT: {
+        case GE_TELEPORT_OBJECT:
+        {
             game->teleport_object(P, destination);
         }
         break;
-        case GE_ADD_RESTRICTION: {
+        case GE_ADD_RESTRICTION:
+        {
             game->add_restriction(P, destination);
         }
         break;
-        case GE_REMOVE_RESTRICTION: {
+        case GE_REMOVE_RESTRICTION:
+        {
             game->remove_restriction(P, destination);
         }
         break;
-        case GE_REMOVE_ALL_RESTRICTIONS: {
+        case GE_REMOVE_ALL_RESTRICTIONS:
+        {
             game->remove_all_restrictions(P, destination);
         }
         break;
-        case GE_MONEY: {
+        case GE_MONEY:
+        {
             CSE_Abstract*            e_dest = receiver;
             CSE_ALifeTraderAbstract* pTa    = smart_cast<CSE_ALifeTraderAbstract*>(e_dest);
             pTa->m_dwMoney                  = P.r_u32();
@@ -345,7 +373,8 @@ void xrServer::Process_event(NET_Packet& P, ClientID sender)
         break;
         case GE_FREEZE_OBJECT:
             break;
-        case GE_REQUEST_PLAYERS_INFO: {
+        case GE_REQUEST_PLAYERS_INFO:
+        {
             SendPlayersInfo(sender);
         }
         break;

@@ -22,7 +22,7 @@
 namespace Wml
 {
 
-    template <class Real> class Matrix2: public Matrix<2, Real>
+    template<class Real> class Matrix2: public Matrix<2, Real>
     {
     public:
         // construction
@@ -55,30 +55,30 @@ namespace Wml
 
         // create a rotation matrix (positive angle - counterclockwise)
         Matrix2(Real fAngle);
-        void FromAngle(Real fAngle);
+        void                          FromAngle(Real fAngle);
 
         // assignment
-        Matrix2& operator=(const Matrix2& rkM);
-        Matrix2& operator=(const Matrix<2, Real>& rkM);
+        Matrix2&                      operator=(const Matrix2& rkM);
+        Matrix2&                      operator=(const Matrix<2, Real>& rkM);
 
         // matrix operations
-        Matrix2 Inverse() const;
-        Matrix2 Adjoint() const;
-        Real    Determinant() const;
+        Matrix2                       Inverse() const;
+        Matrix2                       Adjoint() const;
+        Real                          Determinant() const;
 
         // The matrix must be a rotation for these functions to be valid.  The
         // last function uses Gram-Schmidt orthonormalization applied to the
         // columns of the rotation matrix.  The angle must be in radians, not
         // degrees.
-        void ToAngle(Real& rfAngle) const;
-        void Orthonormalize();
+        void                          ToAngle(Real& rfAngle) const;
+        void                          Orthonormalize();
 
         // The matrix must be symmetric.  Factor M = R * D * R^T where
         // R = [u0|u1] is a rotation matrix with columns u0 and u1 and
         // D = diag(d0,d1) is a diagonal matrix whose diagonal entries are d0 and
         // d1.  The eigenvector u[i] corresponds to eigenvector d[i].  The
         // eigenvalues are ordered as d0 <= d1.
-        void EigenDecomposition(Matrix2& rkRot, Matrix2& rkDiag) const;
+        void                          EigenDecomposition(Matrix2& rkRot, Matrix2& rkDiag) const;
 
         WML_ITEM static const Matrix2 ZERO;
         WML_ITEM static const Matrix2 IDENTITY;

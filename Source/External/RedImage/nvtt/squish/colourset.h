@@ -22,7 +22,7 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #ifndef NV_SQUISH_COLOURSET_H
 #define NV_SQUISH_COLOURSET_H
 
@@ -30,40 +30,60 @@
 #include "maths.h"
 #include "simd.h"
 
-namespace nvsquish {
-
-/*! @brief Represents a set of block colours
-*/
-class ColourSet
+namespace nvsquish
 {
-public:
-	ColourSet( u8 const* rgba, int flags, bool createMinimalSet = true );
 
-	int GetCount() const { return m_count; }
-	Vec3 const* GetPoints() const { return m_points; }
-	float const* GetWeights() const { return m_weights; }
-	bool IsTransparent() const { return m_transparent; }
+    /*! @brief Represents a set of block colours
+*/
+    class ColourSet
+    {
+    public:
+        ColourSet(u8 const* rgba, int flags, bool createMinimalSet = true);
 
-	void RemapIndices( u8 const* source, u8* target ) const;
+        int GetCount() const
+        {
+            return m_count;
+        }
+        Vec3 const* GetPoints() const
+        {
+            return m_points;
+        }
+        float const* GetWeights() const
+        {
+            return m_weights;
+        }
+        bool IsTransparent() const
+        {
+            return m_transparent;
+        }
 
-private:
-	int m_count;
-	Vec3 m_points[16];
-	float m_weights[16];
-	int m_remap[16];
-	bool m_transparent;
+        void RemapIndices(u8 const* source, u8* target) const;
+
+    private:
+        int   m_count;
+        Vec3  m_points[16];
+        float m_weights[16];
+        int   m_remap[16];
+        bool  m_transparent;
 
 #if SQUISH_USE_SIMD
-public:
-	Vec4 const* GetPointsSimd() const { return m_points_simd; }
-	Vec4 const* GetWeightsSimd() const { return m_weights_simd; }
-	
-private:
-	Vec4 m_points_simd[16];
-	Vec4 m_weights_simd[16];
+
+    public:
+        Vec4 const* GetPointsSimd() const
+        {
+            return m_points_simd;
+        }
+        Vec4 const* GetWeightsSimd() const
+        {
+            return m_weights_simd;
+        }
+
+    private:
+        Vec4 m_points_simd[16];
+        Vec4 m_weights_simd[16];
 #endif
-};
+    };
 
-} // namespace sqish
+}   // namespace nvsquish
 
-#endif // ndef SQUISH_COLOURSET_H
+#endif   // ndef SQUISH_COLOURSET_H

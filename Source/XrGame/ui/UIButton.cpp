@@ -7,12 +7,12 @@
 #include "xr_level_controller.h"
 
 #define PUSH_OFFSET_RIGHT 1
-#define PUSH_OFFSET_DOWN 1
+#define PUSH_OFFSET_DOWN  1
 
 CUIButton::CUIButton()
 {
-    m_eButtonState = BUTTON_NORMAL;
-    m_bIsSwitch    = false;
+    m_eButtonState    = BUTTON_NORMAL;
+    m_bIsSwitch       = false;
 
     m_uAccelerator[0] = 0;
     m_uAccelerator[1] = 0;
@@ -45,7 +45,8 @@ bool CUIButton::OnMouseAction(float x, float y, EUIMessages mouse_action)
 
     switch (m_eButtonState)
     {
-        case BUTTON_NORMAL: {
+        case BUTTON_NORMAL:
+        {
             if (mouse_action == WINDOW_LBUTTON_DOWN || mouse_action == WINDOW_LBUTTON_DB_CLICK)
             {
                 SetButtonState(BUTTON_PUSHED);
@@ -54,7 +55,8 @@ bool CUIButton::OnMouseAction(float x, float y, EUIMessages mouse_action)
             }
         }
         break;
-        case BUTTON_PUSHED: {
+        case BUTTON_PUSHED:
+        {
             if (mouse_action == WINDOW_LBUTTON_UP)
             {
                 if (m_bCursorOverWindow)
@@ -70,7 +72,8 @@ bool CUIButton::OnMouseAction(float x, float y, EUIMessages mouse_action)
             }
         }
         break;
-        case BUTTON_UP: {
+        case BUTTON_UP:
+        {
             if (mouse_action == WINDOW_MOUSE_MOVE)
             {
                 if (m_bCursorOverWindow)
@@ -101,14 +104,12 @@ void CUIButton::DrawTexture()
         if (GetButtonState() == BUTTON_UP || GetButtonState() == BUTTON_NORMAL)
             m_UIStaticItem.SetPos(rect.left + m_TextureOffset.x, rect.top + m_TextureOffset.y);
         else
-            m_UIStaticItem.SetPos(
-                rect.left + PUSH_OFFSET_RIGHT + m_TextureOffset.x, rect.top + PUSH_OFFSET_DOWN + m_TextureOffset.y);
+            m_UIStaticItem.SetPos(rect.left + PUSH_OFFSET_RIGHT + m_TextureOffset.x, rect.top + PUSH_OFFSET_DOWN + m_TextureOffset.y);
 
         if (m_bStretchTexture)
             m_UIStaticItem.SetSize(Fvector2().set(rect.width(), rect.height()));
         else
-            m_UIStaticItem.SetSize(
-                Fvector2().set(m_UIStaticItem.GetTextureRect().width(), m_UIStaticItem.GetTextureRect().height()));
+            m_UIStaticItem.SetSize(Fvector2().set(m_UIStaticItem.GetTextureRect().width(), m_UIStaticItem.GetTextureRect().height()));
 
         if (Heading())
             m_UIStaticItem.Render(GetHeading());
@@ -147,8 +148,7 @@ void CUIButton::Update()
 {
     inherited::Update();
 
-    if (CursorOverWindow() && m_hint_text.size() && !g_btnHint->Owner() &&
-        Device->dwTimeGlobal > m_dwFocusReceiveTime + 700)
+    if (CursorOverWindow() && m_hint_text.size() && !g_btnHint->Owner() && Device->dwTimeGlobal > m_dwFocusReceiveTime + 700)
     {
         g_btnHint->SetHintText(this, m_hint_text.c_str());
 
@@ -215,8 +215,7 @@ bool CUIButton::IsAccelerator(int iAccel) const
     bool res = GetAccelerator(0) == iAccel || GetAccelerator(1) == iAccel;
     if (!res)
     {
-        res = ((m_uAccelerator[2] != -1) ? is_binded((EGameActions)GetAccelerator(2), iAccel) : false) ||
-            ((m_uAccelerator[3] != -1) ? is_binded((EGameActions)GetAccelerator(3), iAccel) : false);
+        res = ((m_uAccelerator[2] != -1) ? is_binded((EGameActions)GetAccelerator(2), iAccel) : false) || ((m_uAccelerator[3] != -1) ? is_binded((EGameActions)GetAccelerator(3), iAccel) : false);
     }
     return res;
 }

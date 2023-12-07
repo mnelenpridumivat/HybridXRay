@@ -8,7 +8,7 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _world_property>
+#define TEMPLATE_SPECIALIZATION template<typename _world_property>
 #define CConditionStateAbstract CConditionState<_world_property>
 
 TEMPLATE_SPECIALIZATION
@@ -47,17 +47,14 @@ IC void CConditionStateAbstract::add_condition(const COperatorCondition& conditi
 TEMPLATE_SPECIALIZATION
 IC void CConditionStateAbstract::remove_condition(const typename COperatorCondition::_condition_type& condition)
 {
-    xr_vector<COperatorCondition>::iterator I = std::lower_bound(
-        m_conditions.begin(), m_conditions.end(), COperatorCondition(condition, COperatorCondition::_value_type(0)));
+    xr_vector<COperatorCondition>::iterator I = std::lower_bound(m_conditions.begin(), m_conditions.end(), COperatorCondition(condition, COperatorCondition::_value_type(0)));
     THROW((I != m_conditions.end()) && ((*I).condition() == condition));
     m_hash ^= (*I).hash_value();
     m_conditions.erase(I);
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CConditionStateAbstract::add_condition(
-    typename xr_vector<COperatorCondition>::const_iterator& J,
-    const COperatorCondition&                               condition)
+IC void CConditionStateAbstract::add_condition(typename xr_vector<COperatorCondition>::const_iterator& J, const COperatorCondition& condition)
 {
     m_conditions.insert(m_conditions.begin() + (J - m_conditions.begin()), condition);
     m_hash ^= condition.hash_value();
@@ -188,11 +185,9 @@ IC u32 CConditionStateAbstract::hash_value() const
 }
 
 TEMPLATE_SPECIALIZATION
-IC const typename CConditionStateAbstract::COperatorCondition* CConditionStateAbstract::property(
-    const typename CConditionStateAbstract::COperatorCondition::_condition_type& condition) const
+IC const typename CConditionStateAbstract::COperatorCondition* CConditionStateAbstract::property(const typename CConditionStateAbstract::COperatorCondition::_condition_type& condition) const
 {
-    xr_vector<COperatorCondition>::const_iterator I = std::lower_bound(
-        conditions().begin(), conditions().end(), COperatorCondition(condition, COperatorCondition::_value_type(0)));
+    xr_vector<COperatorCondition>::const_iterator I = std::lower_bound(conditions().begin(), conditions().end(), COperatorCondition(condition, COperatorCondition::_value_type(0)));
     if (I == m_conditions.end())
         return (0);
     else

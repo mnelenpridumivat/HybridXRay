@@ -3,7 +3,7 @@
 #include "state_move_to_point.h"
 #include "state_custom_action_look.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION            template<typename _Object>
 
 #define CStateMonsterHearHelpSoundAbstract CStateMonsterHearHelpSound<_Object>
 

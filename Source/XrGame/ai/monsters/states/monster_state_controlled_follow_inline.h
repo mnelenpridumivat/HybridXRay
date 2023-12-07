@@ -3,14 +3,14 @@
 #include "state_custom_action.h"
 #include "state_move_to_point.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION               template<typename _Object>
 
 #define CStateMonsterControlledFollowAbstract CStateMonsterControlledFollow<_Object>
 
-#define STOP_DISTANCE 2.f
-#define STAY_DISTANCE 5 * STOP_DISTANCE
-#define MIN_TIME_OUT 4000
-#define MAX_TIME_OUT 6000
+#define STOP_DISTANCE                         2.f
+#define STAY_DISTANCE                         5 * STOP_DISTANCE
+#define MIN_TIME_OUT                          4000
+#define MAX_TIME_OUT                          6000
 
 TEMPLATE_SPECIALIZATION
 CStateMonsterControlledFollowAbstract::CStateMonsterControlledFollow(_Object* obj): inherited(obj)
@@ -26,10 +26,8 @@ void CStateMonsterControlledFollowAbstract::reselect_state()
     VERIFY(entity);
     const CEntity* target_object = entity->get_data().m_object;
 
-    float dist = object->Position().distance_to(target_object->Position());
-    select_state(
-        dist < Random.randF(STOP_DISTANCE, STAY_DISTANCE) ? eStateControlled_Follow_Wait :
-                                                            eStateControlled_Follow_WalkToObject);
+    float          dist          = object->Position().distance_to(target_object->Position());
+    select_state(dist < Random.randF(STOP_DISTANCE, STAY_DISTANCE) ? eStateControlled_Follow_Wait : eStateControlled_Follow_WalkToObject);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -54,11 +52,11 @@ void CStateMonsterControlledFollowAbstract::setup_substates()
     {
         SStateDataMoveToPointEx data;
 
-        CControlledEntityBase* entity = smart_cast<CControlledEntityBase*>(object);
+        CControlledEntityBase*  entity = smart_cast<CControlledEntityBase*>(object);
         VERIFY(entity);
         const CEntity* target_object = entity->get_data().m_object;
 
-        Fvector dest_pos = random_position(target_object->Position(), 10.f);
+        Fvector        dest_pos      = random_position(target_object->Position(), 10.f);
         if (!object->control().path_builder().restrictions().accessible(dest_pos))
         {
             data.vertex = object->control().path_builder().restrictions().accessible_nearest(dest_pos, data.point);

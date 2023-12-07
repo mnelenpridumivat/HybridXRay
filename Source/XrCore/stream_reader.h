@@ -31,12 +31,7 @@ public:
     IC CStreamReader();
 
 public:
-    virtual void construct(
-        const HANDLE& file_mapping_handle,
-        const u32&    start_offset,
-        const u32&    file_size,
-        const u32&    archive_size,
-        const u32&    window_size);
+    virtual void construct(const HANDLE& file_mapping_handle, const u32& start_offset, const u32& file_size, const u32& archive_size, const u32& window_size);
     virtual void destroy();
 
 public:
@@ -61,6 +56,7 @@ public:
     //.			void			r_stringZ			(char *dest, u32 tgt_sz);
     void r_stringZ(shared_str& dest);
     //.			void			r_stringZ			(xr_string& dest);
+
 private:
     typedef IReaderBase<CStreamReader> inherited;
 };

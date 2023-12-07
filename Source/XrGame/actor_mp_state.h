@@ -14,19 +14,19 @@ struct actor_mp_state
     Fvector     position;   // should be removed in future(?)
     Fvector     logic_acceleration;
 
-    float model_yaw;
-    float camera_yaw;     // should be removed in future
-    float camera_pitch;   // should be removed in future
-    float camera_roll;    // should be removed in future
+    float       model_yaw;
+    float       camera_yaw;     // should be removed in future
+    float       camera_pitch;   // should be removed in future
+    float       camera_roll;    // should be removed in future
 
-    u32 time;   // should be removed
+    u32         time;   // should be removed
 
-    float health;
-    float radiation;
+    float       health;
+    float       radiation;
 
-    u32 inventory_active_slot : 4;
-    u32 body_state_flags : 15;
-    u32 physics_state_enabled : 1;
+    u32         inventory_active_slot:4;
+    u32         body_state_flags     :15;
+    u32         physics_state_enabled:1;
 };
 
 class actor_mp_state_holder

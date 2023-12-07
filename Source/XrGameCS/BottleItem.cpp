@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////
+ï»¿///////////////////////////////////////////////////////////////
 // BottleItem.cpp
-// BottleItem - áóòûëêà ñ íàïèòêîì, êîòîðóþ ìîæíî ðàçáèòü
+// BottleItem - Ð±ÑƒÑ‚Ñ‹Ð»ÐºÐ° Ñ Ð½Ð°Ð¿Ð¸Ñ‚ÐºÐ¾Ð¼, ÐºÐ¾Ñ‚Ð¾Ñ€ÑƒÑŽ Ð¼Ð¾Ð¶Ð½Ð¾ Ñ€Ð°Ð·Ð±Ð¸Ñ‚ÑŒ
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -11,81 +11,78 @@
 
 #define BREAK_POWER 5.f
 
-CBottleItem::CBottleItem(void) 
+CBottleItem::CBottleItem(void) {}
+
+CBottleItem::~CBottleItem(void)
 {
+    sndBreaking.destroy();
 }
 
-CBottleItem::~CBottleItem(void) 
+void CBottleItem::Load(LPCSTR section)
 {
-	sndBreaking.destroy();
+    inherited::Load(section);
+
+    if (pSettings->line_exist(section, "break_particles"))
+        m_sBreakParticles = pSettings->r_string(section, "break_particles");
+
+    if (pSettings->line_exist(section, "break_sound"))
+        sndBreaking.create(pSettings->r_string(section, "break_sound"), st_Effect, sg_SourceType);
+
+    m_alcohol = READ_IF_EXISTS(pSettings, r_float, section, "eat_alcohol", 0.0f);
 }
 
-
-void CBottleItem::Load(LPCSTR section) 
+void CBottleItem::OnEvent(NET_Packet& P, u16 type)
 {
-	inherited::Load(section);
+    inherited::OnEvent(P, type);
 
-	if(pSettings->line_exist(section, "break_particles"))
-		m_sBreakParticles = pSettings->r_string(section, "break_particles");
-
-	if(pSettings->line_exist(section, "break_sound"))
-		sndBreaking.create(pSettings->r_string(section, "break_sound"),st_Effect,sg_SourceType);
-
-	m_alcohol = READ_IF_EXISTS(pSettings, r_float, section, "eat_alcohol", 0.0f);
-}
-
-void CBottleItem::OnEvent(NET_Packet& P, u16 type) 
-{
-	inherited::OnEvent(P,type);
-
-	switch (type) 
-	{
-		case GE_GRENADE_EXPLODE : 
-			BreakToPieces();
-			break;
-	}
+    switch (type)
+    {
+        case GE_GRENADE_EXPLODE:
+            BreakToPieces();
+            break;
+    }
 }
 
 void CBottleItem::BreakToPieces()
 {
-	//èãðàåì çâóê
-	sndBreaking.play_at_pos(0, Position(), false);
+    //Ð¸Ð³Ñ€Ð°ÐµÐ¼ Ð·Ð²ÑƒÐº
+    sndBreaking.play_at_pos(0, Position(), false);
 
-	//îòûãðàòü ïàðòèêëû ðàçáèâàíèÿ
-	if(*m_sBreakParticles)
-	{
-		//ïîêàçûâàåì ýôôåêòû
-		CParticlesObject* pStaticPG; 
-		pStaticPG = CParticlesObject::Create(*m_sBreakParticles,TRUE); 
-		pStaticPG->play_at_pos(Position());
-	}
+    //Ð¾Ñ‚Ñ‹Ð³Ñ€Ð°Ñ‚ÑŒ Ð¿Ð°Ñ€Ñ‚Ð¸ÐºÐ»Ñ‹ Ñ€Ð°Ð·Ð±Ð¸Ð²Ð°Ð½Ð¸Ñ
+    if (*m_sBreakParticles)
+    {
+        //Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÐ¼ ÑÑ„Ñ„ÐµÐºÑ‚Ñ‹
+        CParticlesObject* pStaticPG;
+        pStaticPG = CParticlesObject::Create(*m_sBreakParticles, TRUE);
+        pStaticPG->play_at_pos(Position());
+    }
 
-	//ëèêâèäèðîâàòü ñàì îáúåêò 
-	if (Local())
-	{
-		DestroyObject	();
-	}
+    //Ð»Ð¸ÐºÐ²Ð¸Ð´Ð¸Ñ€Ð¾Ð²Ð°Ñ‚ÑŒ ÑÐ°Ð¼ Ð¾Ð±ÑŠÐµÐºÑ‚
+    if (Local())
+    {
+        DestroyObject();
+    }
 }
 
-void	CBottleItem::Hit					(SHit* pHDS)
+void CBottleItem::Hit(SHit* pHDS)
 {
-	inherited::Hit(pHDS);
-	
-	if(pHDS->damage()>BREAK_POWER)
-	{
-		//Generate Expode event
-		if (Local()) 
-		{
-			NET_Packet		P;
-			u_EventGen		(P,GE_GRENADE_EXPLODE,ID());	
-			u_EventSend		(P);
-		};
-	}
+    inherited::Hit(pHDS);
+
+    if (pHDS->damage() > BREAK_POWER)
+    {
+        //Generate Expode event
+        if (Local())
+        {
+            NET_Packet P;
+            u_EventGen(P, GE_GRENADE_EXPLODE, ID());
+            u_EventSend(P);
+        };
+    }
 }
 
-void CBottleItem::UseBy				(CEntityAlive* entity_alive)
+void CBottleItem::UseBy(CEntityAlive* entity_alive)
 {
-	inherited::UseBy					(entity_alive);
+    inherited::UseBy(entity_alive);
 
-	entity_alive->conditions().ChangeAlcohol(m_alcohol);
+    entity_alive->conditions().ChangeAlcohol(m_alcohol);
 }

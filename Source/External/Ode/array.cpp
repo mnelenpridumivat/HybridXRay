@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -25,56 +25,58 @@
 #include <ode/error.h>
 #include "array.h"
 
-
-static inline int roundUpToPowerOfTwo (int x)
+static inline int roundUpToPowerOfTwo(int x)
 {
-  int i = 1;
-  while (i < x) i <<= 1;
-  return i;
+    int i = 1;
+    while (i < x)
+        i <<= 1;
+    return i;
 }
 
-
-void dArrayBase::_freeAll (int sizeofT)
+void dArrayBase::_freeAll(int sizeofT)
 {
-  if (_data) {
-    if (_data == this+1) return;	// if constructLocalArray() was called
-    dFree (_data,_anum * sizeofT);
-  }
-}
-
-
-void dArrayBase::_setSize (int newsize, int sizeofT)
-{
-  if (newsize < 0) return;
-  if (newsize > _anum) {
-    if (_data == this+1) {
-      // this is a no-no, because constructLocalArray() was called
-      dDebug (0,"setSize() out of space in LOCAL array");
+    if (_data)
+    {
+        if (_data == this + 1)
+            return;   // if constructLocalArray() was called
+        dFree(_data, _anum * sizeofT);
     }
-    int newanum = roundUpToPowerOfTwo (newsize);
-    if (_data) _data = dRealloc (_data, _anum*sizeofT, newanum*sizeofT);
-    else _data = dAlloc (newanum*sizeofT);
-    _anum = newanum;
-  }
-  _size = newsize;
 }
 
-
-void * dArrayBase::operator new (size_t size)
+void dArrayBase::_setSize(int newsize, int sizeofT)
 {
-  return dAlloc (size);
+    if (newsize < 0)
+        return;
+    if (newsize > _anum)
+    {
+        if (_data == this + 1)
+        {
+            // this is a no-no, because constructLocalArray() was called
+            dDebug(0, "setSize() out of space in LOCAL array");
+        }
+        int newanum = roundUpToPowerOfTwo(newsize);
+        if (_data)
+            _data = dRealloc(_data, _anum * sizeofT, newanum * sizeofT);
+        else
+            _data = dAlloc(newanum * sizeofT);
+        _anum = newanum;
+    }
+    _size = newsize;
 }
 
-
-void dArrayBase::operator delete (void *ptr, size_t size)
+void* dArrayBase::operator new(size_t size)
 {
-  dFree (ptr,size);
+    return dAlloc(size);
 }
 
-
-void dArrayBase::constructLocalArray (int __anum)
+void dArrayBase::operator delete(void* ptr, size_t size)
 {
-  _size = 0;
-  _anum = __anum;
-  _data = this+1;
+    dFree(ptr, size);
+}
+
+void dArrayBase::constructLocalArray(int __anum)
+{
+    _size = 0;
+    _anum = __anum;
+    _data = this + 1;
 }

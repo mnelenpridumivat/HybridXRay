@@ -47,76 +47,34 @@ void CAI_Boar::Load(LPCSTR section)
     SVelocityParam& velocity_steal    = move().get_velocity(MonsterMovement::eVelocityParameterSteal);
     SVelocityParam& velocity_drag     = move().get_velocity(MonsterMovement::eVelocityParameterDrag);
 
-    anim().AddAnim(
-        eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
+    anim().AddAnim(eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimLieIdle, "lie_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimSleep, "lie_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimLieIdle, "lie_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimSleep, "lie_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimWalkDamaged, "stand_walk_fwd_dmg_", -1, &velocity_walk_dmg, PS_STAND, "fx_stand_f", "fx_stand_b",
-        "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimRun, "stand_run_fwd_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimRunDamaged, "stand_run_dmg_", -1, &velocity_run_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimCheckCorpse, "stand_check_corpse_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimEat, "stand_eat_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimWalkDamaged, "stand_walk_fwd_dmg_", -1, &velocity_walk_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRun, "stand_run_fwd_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRunDamaged, "stand_run_dmg_", -1, &velocity_run_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimCheckCorpse, "stand_check_corpse_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimEat, "stand_eat_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimAttack, "stand_attack_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
+    anim().AddAnim(eAnimAttack, "stand_attack_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimStandLieDown, "stand_lie_down_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimLieStandUp, "lie_stand_up_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimLieToSleep, "lie_to_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimDragCorpse, "stand_drag_", -1, &velocity_drag, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimLookAround, "stand_idle_", 2, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimSteal, "stand_steal_", -1, &velocity_steal, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimDie, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimJumpLeft, "stand_jump_left_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimJumpRight, "stand_jump_right_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
+    anim().AddAnim(eAnimStandLieDown, "stand_lie_down_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimLieStandUp, "lie_stand_up_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimLieToSleep, "lie_to_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimDragCorpse, "stand_drag_", -1, &velocity_drag, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimLookAround, "stand_idle_", 2, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimSteal, "stand_steal_", -1, &velocity_steal, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimDie, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimJumpLeft, "stand_jump_left_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimJumpRight, "stand_jump_right_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
-    anim().AddAnim(
-        eAnimRunTurnLeft, "stand_run_look_left_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimRunTurnRight, "stand_run_look_right_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b",
-        "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRunTurnLeft, "stand_run_look_left_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRunTurnRight, "stand_run_look_right_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
     // define transitions
     anim().AddTransition(eAnimStandLieDown, eAnimSleep, eAnimLieToSleep, false);
@@ -151,9 +109,7 @@ void CAI_Boar::reinit()
     inherited::reinit();
     if (CCustomMonster::use_simplified_visual())
         return;
-    com_man().add_rotation_jump_data(
-        "stand_jump_left_0", 0, "stand_jump_right_0", 0, PI - PI_DIV_6,
-        SControlRotationJumpData::eStopAtOnce | SControlRotationJumpData::eRotateOnce);
+    com_man().add_rotation_jump_data("stand_jump_left_0", 0, "stand_jump_right_0", 0, PI - PI_DIV_6, SControlRotationJumpData::eStopAtOnce | SControlRotationJumpData::eRotateOnce);
 }
 
 void CAI_Boar::BoneCallback(CBoneInstance* B)
@@ -175,8 +131,7 @@ BOOL CAI_Boar::net_Spawn(CSE_Abstract* DC)
 
     if (!PPhysicsShell())   // нельзя ставить колбеки, если создан физ шел - у него стоят свои колбеки!!!
     {
-        CBoneInstance& BI = smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(
-            smart_cast<IKinematics*>(Visual())->LL_BoneID("bip01_head"));
+        CBoneInstance& BI = smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(smart_cast<IKinematics*>(Visual())->LL_BoneID("bip01_head"));
         BI.set_callback(bctCustom, BoneCallback, this);
     }
 

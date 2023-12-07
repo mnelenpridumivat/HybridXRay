@@ -29,9 +29,7 @@ public:
     virtual bool GetStandardValuesSupported(ITypeDescriptorContext ^ context) override;
     virtual bool GetStandardValuesExclusive(ITypeDescriptorContext ^ context) override;
     virtual StandardValuesCollection ^ GetStandardValues(ITypeDescriptorContext ^ context) override;
-    virtual Object ^
-        ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type)
-            override;
+    virtual Object ^ ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type) override;
 };   // ref class property_converter_integer_values
 
 #endif   // ifndef PROPERTY_CONVERTER_INTEGER_VALUES_HPP_INCLUDED

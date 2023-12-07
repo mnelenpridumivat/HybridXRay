@@ -76,47 +76,47 @@ public:
 private:
     CUIInventoryUpgradeWnd* m_parent_wnd;
 
-    CUIStatic* m_item;
-    CUIStatic* m_color;
-    shared_str m_upgrade_id;
+    CUIStatic*              m_item;
+    CUIStatic*              m_color;
+    shared_str              m_upgrade_id;
 
 protected:
-    Ivector2 m_scheme_index;
+    Ivector2    m_scheme_index;
 
     ButtonState m_button_state;
 
-    ViewState m_state;
-    ViewState m_prev_state;
+    ViewState   m_state;
+    ViewState   m_prev_state;
 
-    bool m_state_lock;
+    bool        m_state_lock;
 
 public:
     UIUpgrade(CUIInventoryUpgradeWnd* parent_wnd);
     virtual ~UIUpgrade();
 
-    void init_upgrade(LPCSTR upgrade_id, CInventoryItem& item);
+    void           init_upgrade(LPCSTR upgrade_id, CInventoryItem& item);
 
-    void load_from_xml(CUIXml& ui_xml, int i_column, int i_cell, Frect const& t_cell_item);
-    void set_texture(Layer layer, LPCSTR texture);
+    void           load_from_xml(CUIXml& ui_xml, int i_column, int i_cell, Frect const& t_cell_item);
+    void           set_texture(Layer layer, LPCSTR texture);
 
-    virtual void Draw();
-    virtual void Update();
-    virtual void Reset();
+    virtual void   Draw();
+    virtual void   Update();
+    virtual void   Reset();
 
-    void update_upgrade_state();
-    void update_mask();
-    void update_item(CInventoryItem* inv_item);
+    void           update_upgrade_state();
+    void           update_mask();
+    void           update_item(CInventoryItem* inv_item);
 
-    virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
-    virtual void OnFocusReceive();
-    virtual void OnFocusLost();
-    virtual void OnClick();
-    virtual bool OnDbClick();
-    void         OnRClick();
+    virtual bool   OnMouseAction(float x, float y, EUIMessages mouse_action);
+    virtual void   OnFocusReceive();
+    virtual void   OnFocusLost();
+    virtual void   OnClick();
+    virtual bool   OnDbClick();
+    void           OnRClick();
 
-    void on_over_window();
+    void           on_over_window();
 
-    void highlight_relation(bool enable);
+    void           highlight_relation(bool enable);
 
     IC ButtonState get_button_state() const
     {

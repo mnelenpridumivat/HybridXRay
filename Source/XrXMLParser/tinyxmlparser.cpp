@@ -41,8 +41,7 @@ distribution.
 // Note tha "PutString" hardcodes the same list. This
 // is less flexible than it appears. Changing the entries
 // or order will break putstring.
-TiXmlBase::Entity TiXmlBase::entity[NUM_ENTITY] =
-    {{"&amp;", 5, '&'}, {"&lt;", 4, '<'}, {"&gt;", 4, '>'}, {"&quot;", 6, '\"'}, {"&apos;", 6, '\''}};
+TiXmlBase::Entity   TiXmlBase::entity[NUM_ENTITY] = {{"&amp;", 5, '&'}, {"&lt;", 4, '<'}, {"&gt;", 4, '>'}, {"&quot;", 6, '\"'}, {"&apos;", 6, '\''}};
 
 // Bunch of unicode info at:
 //		http://www.unicode.org/faq/utf_bom.html
@@ -54,12 +53,12 @@ TiXmlBase::Entity TiXmlBase::entity[NUM_ENTITY] =
 //				ef bf be
 //				ef bf bf
 
-const unsigned char TIXML_UTF_LEAD_0 = 0xefU;
-const unsigned char TIXML_UTF_LEAD_1 = 0xbbU;
-const unsigned char TIXML_UTF_LEAD_2 = 0xbfU;
+const unsigned char TIXML_UTF_LEAD_0              = 0xefU;
+const unsigned char TIXML_UTF_LEAD_1              = 0xbbU;
+const unsigned char TIXML_UTF_LEAD_2              = 0xbfU;
 
-const int TiXmlBase::utf8ByteTable[256] = {
- // 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+const int           TiXmlBase::utf8ByteTable[256] = {
+    // 0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,   // 0x00
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,   // 0x10
     1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,   // 0x20
@@ -166,7 +165,7 @@ class TiXmlParsingData
     friend class TiXmlDocument;
 
 public:
-    void Stamp(const char* now, TiXmlEncoding encoding);
+    void               Stamp(const char* now, TiXmlEncoding encoding);
 
     const TiXmlCursor& Cursor()
     {
@@ -561,13 +560,7 @@ bool TiXmlBase::StringEqual(const char* p, const char* tag, bool ignoreCase, TiX
     return false;
 }
 
-const char* TiXmlBase::ReadText(
-    const char*   p,
-    TIXML_STRING* text,
-    bool          trimWhiteSpace,
-    const char*   endTag,
-    bool          caseInsensitive,
-    TiXmlEncoding encoding)
+const char* TiXmlBase::ReadText(const char* p, TIXML_STRING* text, bool trimWhiteSpace, const char* endTag, bool caseInsensitive, TiXmlEncoding encoding)
 {
     *text = "";
     if (!trimWhiteSpace           // certain tags always keep whitespace
@@ -587,7 +580,7 @@ const char* TiXmlBase::ReadText(
         bool whitespace = false;
 
         // Remove leading white space:
-        p = SkipWhiteSpace(p, encoding);
+        p               = SkipWhiteSpace(p, encoding);
         while (p && *p && !StringEqual(p, endTag, caseInsensitive, encoding))
         {
             if (*p == '\r' || *p == '\n')
@@ -723,8 +716,7 @@ const char* TiXmlDocument::Parse(TiXmlDocument*, const char* p, TiXmlParsingData
     {
         // Check for the Microsoft UTF-8 lead bytes.
         const unsigned char* pU = (const unsigned char*)p;
-        if (*(pU + 0) && *(pU + 0) == TIXML_UTF_LEAD_0 && *(pU + 1) && *(pU + 1) == TIXML_UTF_LEAD_1 && *(pU + 2) &&
-            *(pU + 2) == TIXML_UTF_LEAD_2)
+        if (*(pU + 0) && *(pU + 0) == TIXML_UTF_LEAD_0 && *(pU + 1) && *(pU + 1) == TIXML_UTF_LEAD_1 && *(pU + 2) && *(pU + 2) == TIXML_UTF_LEAD_2)
         {
             encoding        = TIXML_ENCODING_UTF8;
             useMicrosoftBOM = true;
@@ -805,7 +797,7 @@ TiXmlNode* TiXmlNode::Identify(const char* p, TiXmlEncoding encoding)
 {
     TiXmlNode* returnNode = 0;
 
-    p = SkipWhiteSpace(p, encoding);
+    p                     = SkipWhiteSpace(p, encoding);
     if (!p || !*p || *p != '<')
     {
         return 0;
@@ -1055,12 +1047,12 @@ const char* TiXmlElement::Parse(TiXmlDocument* document, const char* p, TiXmlPar
         return 0;
     }
 
-    p = SkipWhiteSpace(p + 1, encoding);
+    p                = SkipWhiteSpace(p + 1, encoding);
 
     // Read the name.
     const char* pErr = p;
 
-    p = ReadName(p, &value, encoding);
+    p                = ReadName(p, &value, encoding);
     if (!p || !*p)
     {
         if (document)
@@ -1102,8 +1094,7 @@ const char* TiXmlElement::Parse(TiXmlDocument* document, const char* p, TiXmlPar
             // Read the value -- which can include other
             // elements -- read the end tag, and return.
             ++p;
-            p = ReadValue(
-                p, data, encoding);   // Note this is an Element method, and will set the error if one happens.
+            p = ReadValue(p, data, encoding);   // Note this is an Element method, and will set the error if one happens.
             if (!p || !*p)
             {
                 // We were looking for the end tag, but found nothing.
@@ -1169,11 +1160,11 @@ const char* TiXmlElement::Parse(TiXmlDocument* document, const char* p, TiXmlPar
 
 const char* TiXmlElement::ReadValue(const char* p, TiXmlParsingData* data, TiXmlEncoding encoding)
 {
-    TiXmlDocument* document = GetDocument();
+    TiXmlDocument* document        = GetDocument();
 
     // Read in text and elements in any order.
-    const char* pWithWhiteSpace = p;
-    p                           = SkipWhiteSpace(p, encoding);
+    const char*    pWithWhiteSpace = p;
+    p                              = SkipWhiteSpace(p, encoding);
 
     while (p && *p)
     {
@@ -1278,7 +1269,7 @@ const char* TiXmlComment::Parse(TiXmlDocument* document, const char* p, TiXmlPar
 {
     value = "";
 
-    p = SkipWhiteSpace(p, encoding);
+    p     = SkipWhiteSpace(p, encoding);
 
     if (data)
     {
@@ -1326,8 +1317,7 @@ const char* TiXmlComment::Parse(TiXmlDocument* document, const char* p, TiXmlPar
     return p;
 }
 
-const char*
-    TiXmlAttribute::Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding)
+const char* TiXmlAttribute::Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding encoding)
 {
     p = SkipWhiteSpace(p, encoding);
     if (!p || !*p)
@@ -1390,9 +1380,9 @@ const char*
         // But this is such a common error that the parser will try
         // its best, even without them.
         value = "";
-        while (p && *p                                            // existence
-               && !IsWhiteSpace(*p) && *p != '\n' && *p != '\r'   // whitespace
-               && *p != '/' && *p != '>')                         // tag end
+        while (p && *p                                         // existence
+            && !IsWhiteSpace(*p) && *p != '\n' && *p != '\r'   // whitespace
+            && *p != '/' && *p != '>')                         // tag end
         {
             if (*p == SINGLE_QUOTE || *p == DOUBLE_QUOTE)
             {
@@ -1447,18 +1437,17 @@ const char* TiXmlText::Parse(TiXmlDocument* document, const char* p, TiXmlParsin
     }
     else
     {
-        bool ignoreWhite = true;
+        bool        ignoreWhite = true;
 
-        const char* end = "<";
-        p               = ReadText(p, &value, ignoreWhite, end, false, encoding);
+        const char* end         = "<";
+        p                       = ReadText(p, &value, ignoreWhite, end, false, encoding);
         if (p)
             return p - 1;   // don't truncate the '<'
         return 0;
     }
 }
 
-const char*
-    TiXmlDeclaration::Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding _encoding)
+const char* TiXmlDeclaration::Parse(TiXmlDocument* document, const char* p, TiXmlParsingData* data, TiXmlEncoding _encoding)
 {
     p = SkipWhiteSpace(p, _encoding);
     // Find the beginning, find the end, and look for

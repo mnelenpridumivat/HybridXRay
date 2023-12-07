@@ -23,14 +23,13 @@ public:
 public:
     bool not_empty()
     {
-        return m_s_complete_lua_functions.size() || m_s_fail_lua_functions.size() ||
-            m_s_lua_functions_on_complete.size() || m_s_lua_functions_on_fail.size();
+        return m_s_complete_lua_functions.size() || m_s_fail_lua_functions.size() || m_s_lua_functions_on_complete.size() || m_s_lua_functions_on_fail.size();
     }
 
     virtual void save(IWriter& stream);
     virtual void load(IReader& stream);
 
-    void init_functors(xr_vector<shared_str>& v_src, task_state_functors& v_dest);
+    void         init_functors(xr_vector<shared_str>& v_src, task_state_functors& v_dest);
 };
 
 class CGameTask
@@ -55,28 +54,28 @@ private:
     xr_vector<shared_str> m_infos_on_fail;
 
     // functions
-    task_state_functors m_fail_lua_functions;
-    task_state_functors m_complete_lua_functions;
+    task_state_functors   m_fail_lua_functions;
+    task_state_functors   m_complete_lua_functions;
 
-    task_state_functors m_lua_functions_on_complete;
-    task_state_functors m_lua_functions_on_fail;
+    task_state_functors   m_lua_functions_on_complete;
+    task_state_functors   m_lua_functions_on_fail;
 
-    CMapLocation* m_linked_map_location;
+    CMapLocation*         m_linked_map_location;
 
-    void SendInfo(const xr_vector<shared_str>&);
-    bool CheckInfo(const xr_vector<shared_str>&) const;
-    void CallAllFuncs(const task_state_functors& v);
-    bool CheckFunctions(const task_state_functors& v) const;
+    void                  SendInfo(const xr_vector<shared_str>&);
+    bool                  CheckInfo(const xr_vector<shared_str>&) const;
+    void                  CallAllFuncs(const task_state_functors& v);
+    bool                  CheckFunctions(const task_state_functors& v) const;
 
-    void CreateMapLocation(bool on_load);
+    void                  CreateMapLocation(bool on_load);
 
     CGameTask(const CGameTask&);
 
 public:
     CGameTask();
 
-    void save_task(IWriter& stream);
-    void load_task(IReader& stream);
+    void            save_task(IWriter& stream);
+    void            load_task(IReader& stream);
 
     shared_str      m_ID;
     shared_str      m_Title;
@@ -88,13 +87,13 @@ public:
     u32             m_priority;
     bool            m_read;
 
-    void OnArrived();
-    void RemoveMapLocations(bool notify);
-    void ChangeMapLocation(LPCSTR new_map_location, u16 new_map_object_id);
+    void            OnArrived();
+    void            RemoveMapLocations(bool notify);
+    void            ChangeMapLocation(LPCSTR new_map_location, u16 new_map_object_id);
 
-    void       ChangeStateCallback();
-    void       SetTaskState(ETaskState state);
-    ETaskState GetTaskState() const
+    void            ChangeStateCallback();
+    void            SetTaskState(ETaskState state);
+    ETaskState      GetTaskState() const
     {
         return m_task_state;
     };

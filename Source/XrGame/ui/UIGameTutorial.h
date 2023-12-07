@@ -14,19 +14,19 @@ protected:
     ref_sound                  m_global_sound;
     xr_deque<CUISequenceItem*> m_sequencer_items;
 
-    bool             GrabInput();
-    CUISequenceItem* GetNextItem();
-    shared_str       m_start_lua_function;
-    shared_str       m_stop_lua_function;
+    bool                       GrabInput();
+    CUISequenceItem*           GetNextItem();
+    shared_str                 m_start_lua_function;
+    shared_str                 m_stop_lua_function;
 
 public:
     IInputReceiver* m_pStoredInputReceiver;
     CUISequencer();
-    void Start(LPCSTR tutor_name);
-    void Stop();
-    void Next();
+    void              Start(LPCSTR tutor_name);
+    void              Stop();
+    void              Next();
 
-    void Destroy();   // be careful
+    void              Destroy();   // be careful
 
     virtual void _BCL OnFrame();
     virtual void      OnRender();
@@ -92,10 +92,10 @@ protected:
     xr_vector<shared_str>  m_stop_lua_functions;
     luabind::functor<void> m_onframe_functor;
 
-    Flags32       m_flags;
-    CUISequencer* m_owner;
+    Flags32                m_flags;
+    CUISequencer*          m_owner;
 
-    virtual float current_factor()
+    virtual float          current_factor()
     {
         return 1;
     }
@@ -116,10 +116,10 @@ public:
     virtual void OnKeyboardPress(int dik) = 0;
     virtual void OnMousePress(int btn)    = 0;
 
-    virtual bool IsPlaying() = 0;
+    virtual bool IsPlaying()              = 0;
 
-    bool AllowKey(int dik);
-    bool GrabInput()
+    bool         AllowKey(int dik);
+    bool         GrabInput()
     {
         return !!m_flags.test(etiGrabInput);
     }

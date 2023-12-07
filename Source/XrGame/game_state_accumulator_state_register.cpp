@@ -75,9 +75,7 @@ namespace award_system
 
     void game_state_accumulator::init_accumulative_values()
     {
-        STATIC_CHECK(
-            Loki::TL::Length<ACCUMULATIVE_STATE_LIST>::value == acpv_count,
-            Not_all_accumulative_values_has_been_added_to_a__ACCUMULATIVE_STATE_LIST__type_list);
+        STATIC_CHECK(Loki::TL::Length<ACCUMULATIVE_STATE_LIST>::value == acpv_count, Not_all_accumulative_values_has_been_added_to_a__ACCUMULATIVE_STATE_LIST__type_list);
 
         init_acpv_list<ACCUMULATIVE_STATE_LIST>();
     }

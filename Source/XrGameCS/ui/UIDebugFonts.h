@@ -1,4 +1,4 @@
-// File:		UIDebugFonts.h
+﻿// File:		UIDebugFonts.h
 // Description:	Output list of all fonts
 // Created:		22.03.2005
 // Author:		Serge Vynnychenko
@@ -11,15 +11,16 @@
 #include "UIListWnd.h"
 #include "UIDialogWnd.h"
 
-class CUIDebugFonts : public CUIDialogWnd 
+class CUIDebugFonts: public CUIDialogWnd
 {
 public:
-				CUIDebugFonts		();
-	virtual		~CUIDebugFonts		();
+    CUIDebugFonts();
+    virtual ~CUIDebugFonts();
 
-			void InitDebugFonts		(Frect r);
-	virtual bool OnKeyboard			(int dik, EUIMessages keyboard_action);
-			void FillUpList			();
+    void         InitDebugFonts(Frect r);
+    virtual bool OnKeyboard(int dik, EUIMessages keyboard_action);
+    void         FillUpList();
+
 protected:
-	CUIStatic  m_background;
+    CUIStatic m_background;
 };

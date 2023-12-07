@@ -22,9 +22,9 @@ namespace Mgc
     {
     public:
         // 2x2 and 3x3 systems (avoids overhead of Gaussian elimination)
-        static Real& Tolerance();
-        static bool  Solve2(const Real aafA[2][2], const Real afB[2], Real afX[2]);
-        static bool  Solve3(const Real aafA[3][3], const Real afB[3], Real afX[3]);
+        static Real&  Tolerance();
+        static bool   Solve2(const Real aafA[2][2], const Real afB[2], Real afX[2]);
+        static bool   Solve3(const Real aafA[3][3], const Real afB[3], Real afX[3]);
 
         // convenience for allocation, memory is zeroed out
         static Real** NewMatrix(int iSize);
@@ -37,7 +37,7 @@ namespace Mgc
         // Output:
         //     return value is TRUE if successful, FALSE if pivoting failed
         //     A[iSize][iSize], inverse matrix
-        static bool Inverse(int iSize, Real** aafA);
+        static bool   Inverse(int iSize, Real** aafA);
 
         // Input:
         //     A[iSize][iSize] coefficient matrix, entries are A[row][col]
@@ -46,7 +46,7 @@ namespace Mgc
         //     return value is TRUE if successful, FALSE if pivoting failed
         //     A[iSize][iSize] is inverse matrix
         //     B[iSize] is solution x to Ax = B
-        static bool Solve(int iSize, Real** aafA, Real* afB);
+        static bool   Solve(int iSize, Real** aafA, Real* afB);
 
         // Input:
         //     Matrix is tridiagonal.
@@ -57,7 +57,7 @@ namespace Mgc
         // Output:
         //     return value is TRUE if successful, FALSE if pivoting failed
         //     U[iSize] is solution
-        static bool SolveTri(int iSize, Real* afA, Real* afB, Real* afC, Real* afR, Real* afU);
+        static bool   SolveTri(int iSize, Real* afA, Real* afB, Real* afC, Real* afR, Real* afU);
 
         // Input:
         //     Matrix is tridiagonal.
@@ -68,7 +68,7 @@ namespace Mgc
         // Output:
         //     return value is TRUE if successful, FALSE if pivoting failed
         //     U[iSize] is solution
-        static bool SolveConstTri(int iSize, Real fA, Real fB, Real fC, Real* afR, Real* afU);
+        static bool   SolveConstTri(int iSize, Real fA, Real fB, Real fC, Real* afR, Real* afU);
 
         // Input:
         //     A[iSize][iSize] symmetric matrix, entries are A[row][col]
@@ -79,14 +79,14 @@ namespace Mgc
         //         A[i][i] = entries of diagonal D
         //         A[i][j] for i > j = lower triangular part of L
         //     B[iSize] is solution to x to Ax = B
-        static bool SolveSymmetric(int iSize, Real** aafA, Real* afB);
+        static bool   SolveSymmetric(int iSize, Real** aafA, Real* afB);
 
         // Input:
         //     A[iSize][iSize], entries are A[row][col]
         // Output:
         //     return value is TRUE if successful, FALSE if algorithm failed
         //     AInv[iSize][iSize], inverse matrix
-        static bool SymmetricInverse(int iSize, Real** aafA, Real** aafAInv);
+        static bool   SymmetricInverse(int iSize, Real** aafA, Real** aafAInv);
 
     protected:
         // tolerance for 2x2 and 3x3 system solving

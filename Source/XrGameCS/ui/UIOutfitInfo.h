@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "UIWindow.h"
 #include "UIDoubleProgressBar.h"
@@ -9,35 +9,36 @@ class CUIStatic;
 class CUIDoubleProgressBar;
 class CUIXml;
 
-class CUIOutfitImmunity : public CUIWindow
+class CUIOutfitImmunity: public CUIWindow
 {
 public:
-					CUIOutfitImmunity	();
-	virtual			~CUIOutfitImmunity	();
+    CUIOutfitImmunity();
+    virtual ~CUIOutfitImmunity();
 
-			void	InitFromXml			( CUIXml& xml_doc, LPCSTR base_str, u32 hit_type );
-			void	SetProgressValue	( float cur, float comp );
+    void InitFromXml(CUIXml& xml_doc, LPCSTR base_str, u32 hit_type);
+    void SetProgressValue(float cur, float comp);
 
 protected:
-	CUIStatic				m_name; // texture + name
-	CUIDoubleProgressBar	m_progress;
-	CUIStatic				m_value; // 100%
-	float					m_magnitude;
+    CUIStatic            m_name;   // texture + name
+    CUIDoubleProgressBar m_progress;
+    CUIStatic            m_value;   // 100%
+    float                m_magnitude;
 
-}; // class CUIOutfitImmunity
+};   // class CUIOutfitImmunity
 
 // -------------------------------------------------------------------------------------
 
-class CUIOutfitInfo : public CUIWindow
+class CUIOutfitInfo: public CUIWindow
 {
 public:
-					CUIOutfitInfo		();
-	virtual			~CUIOutfitInfo		();
+    CUIOutfitInfo();
+    virtual ~CUIOutfitInfo();
 
-			void 	InitFromXml			( CUIXml& xml_doc );
-			void 	UpdateInfo			( CCustomOutfit* cur_outfit, CCustomOutfit* slot_outfit = NULL );	
+    void InitFromXml(CUIXml& xml_doc);
+    void UpdateInfo(CCustomOutfit* cur_outfit, CCustomOutfit* slot_outfit = NULL);
+
 protected:
-	/*enum
+    /*enum
 	{
 		item_burn_immunity = 0,				// ALife::eHitTypeBurn,
 //		item_strike_immunity,				// ALife::eHitTypeShock,
@@ -50,9 +51,12 @@ protected:
 		item_fire_wound_immunity,			// ALife::eHitTypeFireWound,
 		max_item_index,
 	};*/
-	enum				{ max_count = ALife::eHitTypeMax-2 };
-	
-	CUIStatic*			m_caption;
-	CUIOutfitImmunity*	m_items[max_count];
+    enum
+    {
+        max_count = ALife::eHitTypeMax - 2
+    };
 
-}; // class CUIOutfitInfo
+    CUIStatic*         m_caption;
+    CUIOutfitImmunity* m_items[max_count];
+
+};   // class CUIOutfitInfo

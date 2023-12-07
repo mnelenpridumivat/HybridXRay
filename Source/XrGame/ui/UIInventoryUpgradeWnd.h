@@ -34,7 +34,7 @@ class CUI3tButton;
 class CUIInventoryUpgradeWnd: public CUIWindow
 {
 private:
-    typedef CUIWindow inherited;
+    typedef CUIWindow                    inherited;
 
     typedef inventory::upgrade::Manager  Manager_type;
     typedef inventory::upgrade::Upgrade  Upgrade_type;
@@ -56,8 +56,8 @@ public:
     CUIInventoryUpgradeWnd();
     virtual ~CUIInventoryUpgradeWnd();
 
-    virtual void Init();
-    void         InitInventory(CInventoryItem* item, bool can_upgrade);
+    virtual void             Init();
+    void                     InitInventory(CInventoryItem* item, bool can_upgrade);
 
     IC CInventoryItem const* get_inventory() const
     {
@@ -85,14 +85,14 @@ public:
     virtual void Reset();
     void         UpdateAllUpgrades();
 
-    bool DBClickOnUIUpgrade(Upgrade_type const* upgr);
-    void AskUsing(LPCSTR text, LPCSTR upgrade_name);
-    void OnMesBoxYes();
+    bool         DBClickOnUIUpgrade(Upgrade_type const* upgr);
+    void         AskUsing(LPCSTR text, LPCSTR upgrade_name);
+    void         OnMesBoxYes();
 
-    void       HighlightHierarchy(shared_str const& upgrade_id);
-    void       ResetHighlight();
-    void       set_info_cur_upgrade(Upgrade_type* upgrade);
-    UIUpgrade* FindUIUpgrade(Upgrade_type const* upgr);
+    void         HighlightHierarchy(shared_str const& upgrade_id);
+    void         ResetHighlight();
+    void         set_info_cur_upgrade(Upgrade_type* upgrade);
+    UIUpgrade*   FindUIUpgrade(Upgrade_type const* upgr);
 
 private:
     void                 LoadCellsBacks(CUIXml& uiXml);
@@ -101,10 +101,10 @@ private:
     void                 SetCellState(UIUpgrade::ViewState state, LPCSTR texture_name, LPCSTR texture_name2, u32 color);
     bool                 VerirfyCells();
 
-    void          LoadSchemes(CUIXml& uiXml);
-    void          SetCurScheme(const shared_str& id);
-    bool          install_item(CInventoryItem& inv_item, bool can_upgrade);
-    Manager_type& get_manager();
+    void                 LoadSchemes(CUIXml& uiXml);
+    void                 SetCurScheme(const shared_str& id);
+    bool                 install_item(CInventoryItem& inv_item, bool can_upgrade);
+    Manager_type&        get_manager();
 
 public:
     CUI3tButton* m_btn_repair;
@@ -115,13 +115,13 @@ protected:
     CUIWindow*      m_back;
     CInventoryItem* m_inv_item;
 
-    shared_str m_cell_textures[UIUpgrade::STATE_COUNT];
-    shared_str m_point_textures[UIUpgrade::STATE_COUNT];
+    shared_str      m_cell_textures[UIUpgrade::STATE_COUNT];
+    shared_str      m_point_textures[UIUpgrade::STATE_COUNT];
 
-    SCHEMES    m_schemes;
-    Scheme*    m_current_scheme;
-    LPCSTR     m_cur_upgrade_id;
-    CUIWindow* m_scheme_wnd;
+    SCHEMES         m_schemes;
+    Scheme*         m_current_scheme;
+    LPCSTR          m_cur_upgrade_id;
+    CUIWindow*      m_scheme_wnd;
 
 public:
     ui_shader* m_WeaponIconsShader;

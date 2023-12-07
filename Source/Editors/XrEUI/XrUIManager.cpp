@@ -10,12 +10,12 @@ XrUIManager::~XrUIManager() {}
 
 inline void Style()
 {
-    ImGuiStyle& style  = ImGui::GetStyle();
-    ImVec4*     colors = style.Colors;
+    ImGuiStyle& style                      = ImGui::GetStyle();
+    ImVec4*     colors                     = style.Colors;
 
     /// 0 = FLAT APPEARENCE
     /// 1 = MORE "3D" LOOK
-    int is3D = 0;
+    int         is3D                       = 0;
 
     colors[ImGuiCol_Text]                  = ImVec4(1.00f, 1.00f, 1.00f, 1.00f);
     colors[ImGuiCol_TextDisabled]          = ImVec4(0.40f, 0.40f, 0.40f, 1.00f);
@@ -61,28 +61,28 @@ inline void Style()
     colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
     colors[ImGuiCol_NavWindowingDimBg]     = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
 
-    style.PopupRounding = 3;
+    style.PopupRounding                    = 3;
 
-    style.WindowPadding = ImVec2(4, 4);
-    style.FramePadding  = ImVec2(6, 4);
-    style.ItemSpacing   = ImVec2(6, 2);
+    style.WindowPadding                    = ImVec2(4, 4);
+    style.FramePadding                     = ImVec2(6, 4);
+    style.ItemSpacing                      = ImVec2(6, 2);
 
-    style.ScrollbarSize = 18;
+    style.ScrollbarSize                    = 18;
 
-    style.WindowBorderSize = 1;
-    style.ChildBorderSize  = 1;
-    style.PopupBorderSize  = 1;
-    style.FrameBorderSize  = is3D;
+    style.WindowBorderSize                 = 1;
+    style.ChildBorderSize                  = 1;
+    style.PopupBorderSize                  = 1;
+    style.FrameBorderSize                  = is3D;
 
-    style.WindowRounding    = 3;
-    style.ChildRounding     = 3;
-    style.FrameRounding     = 3;
-    style.ScrollbarRounding = 2;
-    style.GrabRounding      = 3;
+    style.WindowRounding                   = 3;
+    style.ChildRounding                    = 3;
+    style.FrameRounding                    = 3;
+    style.ScrollbarRounding                = 2;
+    style.GrabRounding                     = 3;
 
 #ifdef IMGUI_HAS_DOCK
-    style.TabBorderSize = is3D;
-    style.TabRounding   = 3;
+    style.TabBorderSize                 = is3D;
+    style.TabRounding                   = 3;
 
     colors[ImGuiCol_DockingEmptyBg]     = ImVec4(0.38f, 0.38f, 0.38f, 1.00f);
     colors[ImGuiCol_Tab]                = ImVec4(0.25f, 0.25f, 0.25f, 1.00f);
@@ -106,7 +106,7 @@ void XrUIManager::Initialize(HWND hWnd, IDirect3DDevice9* device, const char* in
     ImGuiIO& io = ImGui::GetIO();
     (void)io;
     xr_strcpy(m_name_ini, ini_path);
-    io.IniFilename = m_name_ini;
+    io.IniFilename                       = m_name_ini;
     io.ConfigWindowsMoveFromTitleBarOnly = true;
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
     // io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -248,9 +248,7 @@ void XrUIManager::Draw()
         ImGui::SetNextWindowPos(ImVec2(viewport->Pos.x, viewport->Pos.y + UIToolBarSize));
         ImGui::SetNextWindowSize(ImVec2(viewport->Size.x, viewport->Size.y - UIToolBarSize));
         ImGui::SetNextWindowViewport(viewport->ID);
-        ImGuiWindowFlags window_flags = 0 | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking |
-            ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
-            ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+        ImGuiWindowFlags window_flags = 0 | ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
 
         ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
         ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
@@ -259,14 +257,14 @@ void XrUIManager::Draw()
         ImGui::Begin("Master DockSpace", NULL, window_flags);
         ImGuiID dockMain = ImGui::GetID("MyDockspace");
 
-        m_MenuBarHeight = ImGui::GetWindowBarHeight();
+        m_MenuBarHeight  = ImGui::GetWindowBarHeight();
         // Save off menu bar height for later.
 
         ImGui::DockSpace(dockMain);
         ImGui::End();
         ImGui::PopStyleVar(4);
     }
-    for (XrUI* ui : m_UIArray)
+    for (XrUI* ui: m_UIArray)
     {
         ui->Draw();
     }

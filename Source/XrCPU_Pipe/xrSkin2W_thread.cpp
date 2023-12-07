@@ -13,7 +13,7 @@ struct SKIN_PARAMS
 
 void Skin4W_Stream(LPVOID lpvParams)
 {
-    SKIN_PARAMS* sp = (SKIN_PARAMS*)lpvParams;
+    SKIN_PARAMS*   sp     = (SKIN_PARAMS*)lpvParams;
 
     vertRender*    D      = (vertRender*)sp->Dest;
     vertBoned4W*   S      = (vertBoned4W*)sp->Src;
@@ -37,10 +37,10 @@ void xrSkin4W_thread(vertRender* D, vertBoned4W* S, u32 vCount, CBoneInstance* B
 
     // Give ~1% more for the last worker
     // to minimize wait in final spin
-    u32 nSlice = vCount / 128;
+    u32          nSlice    = vCount / 128;
 
-    u32 nStep = ((vCount - nSlice) / nWorkers);
-    u32 nLast = vCount - nStep * (nWorkers - 1);
+    u32          nStep     = ((vCount - nSlice) / nWorkers);
+    u32          nLast     = vCount - nStep * (nWorkers - 1);
 
     for (u32 i = 0; i < nWorkers; ++i)
     {

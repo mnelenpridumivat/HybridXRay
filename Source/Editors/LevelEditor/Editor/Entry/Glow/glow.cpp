@@ -1,14 +1,14 @@
 ﻿#include "stdafx.h"
 
-#define GLOW_VERSION 0x0012
+#define GLOW_VERSION       0x0012
 
 #define GLOW_CHUNK_VERSION 0xC411
-#define GLOW_CHUNK_PARAMS 0xC413
-#define GLOW_CHUNK_SHADER 0xC414
+#define GLOW_CHUNK_PARAMS  0xC413
+#define GLOW_CHUNK_SHADER  0xC414
 #define GLOW_CHUNK_TEXTURE 0xC415
-#define GLOW_CHUNK_FLAGS 0xC416
+#define GLOW_CHUNK_FLAGS   0xC416
 
-#define VIS_RADIUS 0.25f
+#define VIS_RADIUS         0.25f
 
 CGlow::CGlow(LPVOID data, LPCSTR name): CCustomObject(data, name)
 {
@@ -166,9 +166,9 @@ bool CGlow::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     m_ShaderName = ini.r_string(sect_name, "shader_name");
 
-    m_TexName = ini.r_string(sect_name, "texture_name");
+    m_TexName    = ini.r_string(sect_name, "texture_name");
 
-    m_fRadius = ini.r_float(sect_name, "radius");
+    m_fRadius    = ini.r_float(sect_name, "radius");
 
     m_Flags.assign(ini.r_u32(sect_name, "flags"));
 

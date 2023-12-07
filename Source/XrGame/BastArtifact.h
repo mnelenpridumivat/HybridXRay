@@ -37,43 +37,38 @@ public:
     virtual void feel_touch_delete(CObject* O);
     virtual BOOL feel_touch_contact(CObject* O);
 
-    bool IsAttacking()
+    bool         IsAttacking()
     {
         return NULL != m_AttakingEntity;
     }
 
 protected:
-    virtual void UpdateCLChild();
+    virtual void  UpdateCLChild();
 
-    static void ObjectContactCallback(
-        bool&     do_colide,
-        bool      bo1,
-        dContact& c,
-        SGameMtl* /*material_1*/,
-        SGameMtl* /*material_2*/);
+    static void   ObjectContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/);
     // столкновение мочалки с сущностью
-    void BastCollision(CEntityAlive* pEntityAlive);
+    void          BastCollision(CEntityAlive* pEntityAlive);
 
     // параметры артефакта
 
     // пороговое значение импульса после получения
     // которого артефакт активизируется
-    float m_fImpulseThreshold;
+    float         m_fImpulseThreshold;
 
-    float      m_fEnergy;
-    float      m_fEnergyMax;
-    float      m_fEnergyDecreasePerTime;
-    shared_str m_sParticleName;
+    float         m_fEnergy;
+    float         m_fEnergyMax;
+    float         m_fEnergyDecreasePerTime;
+    shared_str    m_sParticleName;
 
-    float m_fRadius;
-    float m_fStrikeImpulse;
+    float         m_fRadius;
+    float         m_fStrikeImpulse;
 
     // флаг, того что артефакт получил хит
     // и теперь может совершить бросок
-    bool m_bStrike;
+    bool          m_bStrike;
 
     // список живых существ в зоне досягаемости артефакта
-    ALIVE_LIST m_AliveList;
+    ALIVE_LIST    m_AliveList;
     // то, что мы ударили
     CEntityAlive* m_pHitedEntity;
     // то что атакуем

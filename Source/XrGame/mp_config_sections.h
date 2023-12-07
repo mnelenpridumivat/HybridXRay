@@ -36,8 +36,8 @@ namespace mp_anticheat
         ~mp_active_params();
 
         void dump(IAnticheatDumpable const* dumpable_obj, LPCSTR sect_name_key, CInifile& dest_dumper);   // for cheater
-        void load_to(LPCSTR sect_name, CInifile& dest_dumper);   // for verifyer
-    };                                                           // class mp_active_params
+        void load_to(LPCSTR sect_name, CInifile& dest_dumper);                                            // for verifyer
+    };                                                                                                    // class mp_active_params
 
 }   // namespace mp_anticheat
 

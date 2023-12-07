@@ -16,22 +16,22 @@
 using namespace Wml;
 
 //----------------------------------------------------------------------------
-template <class Real> MinBox3<Real>::MinBox3(int iQuantity, const Vector3<Real>* akPoint, Box3<Real>& rkBox)
+template<class Real> MinBox3<Real>::MinBox3(int iQuantity, const Vector3<Real>* akPoint, Box3<Real>& rkBox)
 {
     m_iQuantity = iQuantity;
     m_akPoint   = akPoint;
 
     MinimizeN<Real> kMinimizer(3, Volume, 8, 8, 32, this);
 
-    Real afA0[3] = {(Real)0.0, (Real)0.0, (Real)0.0};
+    Real            afA0[3]    = {(Real)0.0, (Real)0.0, (Real)0.0};
 
-    Real afA1[3] = {Math<Real>::_PI, Math<Real>::HALF_PI, Math<Real>::_PI};
+    Real            afA1[3]    = {Math<Real>::_PI, Math<Real>::HALF_PI, Math<Real>::_PI};
 
     // compute some samples to narrow down the search region
-    Real       fMinVolume = Math<Real>::MAX_REAL;
-    Real       afAngle[3], afAInitial[3];
-    const int  iMax    = 3;
-    const Real fInvMax = ((Real)1.0) / (Real)iMax;
+    Real            fMinVolume = Math<Real>::MAX_REAL;
+    Real            afAngle[3], afAInitial[3];
+    const int       iMax    = 3;
+    const Real      fInvMax = ((Real)1.0) / (Real)iMax;
     for (int i0 = 0; i0 <= iMax; i0++)
     {
         afAngle[0] = afA0[0] + i0 * (afA1[0] - afA0[0]) * fInvMax;
@@ -59,14 +59,14 @@ template <class Real> MinBox3<Real>::MinBox3(int iQuantity, const Vector3<Real>*
     MinimalBoxForAngles(iQuantity, akPoint, afAMin, rkBox);
 }
 //----------------------------------------------------------------------------
-template <class Real> Real MinBox3<Real>::Volume(const Real* afAngle, void* pvData)
+template<class Real> Real MinBox3<Real>::Volume(const Real* afAngle, void* pvData)
 {
-    MinBox3& rkSelf = *(MinBox3*)pvData;
+    MinBox3&      rkSelf = *(MinBox3*)pvData;
 
-    Real          fCos0 = Math<Real>::Cos(afAngle[0]);
-    Real          fSin0 = Math<Real>::Sin(afAngle[0]);
-    Real          fCos1 = Math<Real>::Cos(afAngle[1]);
-    Real          fSin1 = Math<Real>::Sin(afAngle[1]);
+    Real          fCos0  = Math<Real>::Cos(afAngle[0]);
+    Real          fSin0  = Math<Real>::Sin(afAngle[0]);
+    Real          fCos1  = Math<Real>::Cos(afAngle[1]);
+    Real          fSin1  = Math<Real>::Sin(afAngle[1]);
     Vector3<Real> kAxis(fCos0 * fSin1, fSin0 * fSin1, fCos1);
     Matrix3<Real> kRot(kAxis, afAngle[2]);
 
@@ -95,8 +95,7 @@ template <class Real> Real MinBox3<Real>::Volume(const Real* afAngle, void* pvDa
     return fVolume;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-void MinBox3<Real>::MinimalBoxForAngles(int iQuantity, const Vector3<Real>* akPoint, Real afAngle[3], Box3<Real>& rkBox)
+template<class Real> void MinBox3<Real>::MinimalBoxForAngles(int iQuantity, const Vector3<Real>* akPoint, Real afAngle[3], Box3<Real>& rkBox)
 {
     Real          fCos0 = Math<Real>::Cos(afAngle[0]);
     Real          fSin0 = Math<Real>::Sin(afAngle[0]);
@@ -129,13 +128,13 @@ void MinBox3<Real>::MinimalBoxForAngles(int iQuantity, const Vector3<Real>* akPo
     Vector3<Real> kMid = ((Real)0.5) * (kMax + kMin);
     Vector3<Real> kRng = ((Real)0.5) * (kMax - kMin);
 
-    rkBox.Center()  = kRot * kMid;
-    rkBox.Axis(0)   = kRot.GetColumn(0);
-    rkBox.Axis(1)   = kRot.GetColumn(1);
-    rkBox.Axis(2)   = kRot.GetColumn(2);
-    rkBox.Extent(0) = kRng.X();
-    rkBox.Extent(1) = kRng.Y();
-    rkBox.Extent(2) = kRng.Z();
+    rkBox.Center()     = kRot * kMid;
+    rkBox.Axis(0)      = kRot.GetColumn(0);
+    rkBox.Axis(1)      = kRot.GetColumn(1);
+    rkBox.Axis(2)      = kRot.GetColumn(2);
+    rkBox.Extent(0)    = kRng.X();
+    rkBox.Extent(1)    = kRng.Y();
+    rkBox.Extent(2)    = kRng.Z();
 }
 //----------------------------------------------------------------------------
 

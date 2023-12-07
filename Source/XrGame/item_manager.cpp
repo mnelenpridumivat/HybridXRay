@@ -23,7 +23,7 @@
 CItemManager::CItemManager(CCustomMonster* object)
 {
     VERIFY(object);
-    m_object = object;
+    m_object  = object;
 
     m_stalker = smart_cast<CAI_Stalker*>(m_object);
 }
@@ -58,9 +58,7 @@ bool CItemManager::useful(const CGameObject* object) const
     if (inventory_item && !inventory_item->useful_for_NPC())
         return (false);
 
-    if (m_stalker &&
-        (!m_stalker->can_take(inventory_item) ||
-         !m_stalker->movement().restrictions().accessible(inventory_item->object().Position())))
+    if (m_stalker && (!m_stalker->can_take(inventory_item) || !m_stalker->movement().restrictions().accessible(inventory_item->object().Position())))
         return (false);
 
     if (!ai().get_level_graph())
@@ -77,9 +75,7 @@ bool CItemManager::useful(const CGameObject* object) const
 
 float CItemManager::do_evaluate(const CGameObject* object) const
 {
-    VERIFY3(
-        m_object->movement().restrictions().accessible(object->ai_location().level_vertex_id()), *m_object->cName(),
-        *object->cName());
+    VERIFY3(m_object->movement().restrictions().accessible(object->ai_location().level_vertex_id()), *m_object->cName(), *object->cName());
     return (m_object->evaluate(this, object));
 }
 
@@ -99,16 +95,12 @@ void CItemManager::update()
     OBJECTS::const_iterator I = m_objects.begin();
     OBJECTS::const_iterator E = m_objects.end();
     for (; I != E; ++I)
-        VERIFY3(
-            m_object->movement().restrictions().accessible((*I)->ai_location().level_vertex_id()), *m_object->cName(),
-            *(*I)->cName());
+        VERIFY3(m_object->movement().restrictions().accessible((*I)->ai_location().level_vertex_id()), *m_object->cName(), *(*I)->cName());
 #endif   // DEBUG
 
     inherited::update();
 
-    VERIFY3(
-        !selected() || m_object->movement().restrictions().accessible(selected()->ai_location().level_vertex_id()),
-        *m_object->cName(), selected() ? *selected()->cName() : "<no selected item>");
+    VERIFY3(!selected() || m_object->movement().restrictions().accessible(selected()->ai_location().level_vertex_id()), *m_object->cName(), selected() ? *selected()->cName() : "<no selected item>");
 
     STOP_PROFILE
 }

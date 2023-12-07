@@ -37,14 +37,14 @@ public:
     {
         return inherited::IsNeedSave();
     }
-    virtual bool LoadStream(IReader&);
-    virtual bool LoadLTX(CInifile&);
-    virtual void SaveStream(IWriter&);
-    virtual void SaveLTX(CInifile&, int id);
-    virtual bool LoadSelection(IReader&);
-    virtual void SaveSelection(IWriter&);
+    virtual bool           LoadStream(IReader&);
+    virtual bool           LoadLTX(CInifile&);
+    virtual void           SaveStream(IWriter&);
+    virtual void           SaveLTX(CInifile&, int id);
+    virtual bool           LoadSelection(IReader&);
+    virtual void           SaveSelection(IWriter&);
 
-    virtual void OnActivate();
+    virtual void           OnActivate();
 
     virtual CCustomObject* CreateObject(LPVOID data, LPCSTR name);
 };

@@ -18,13 +18,13 @@ void Box3::ComputeVertices(Vector3 akVertex[8]) const
 {
     Vector3 akEAxis[3] = {m_afExtent[0] * m_akAxis[0], m_afExtent[1] * m_akAxis[1], m_afExtent[2] * m_akAxis[2]};
 
-    akVertex[0] = m_kCenter - akEAxis[0] - akEAxis[1] - akEAxis[2];
-    akVertex[1] = m_kCenter + akEAxis[0] - akEAxis[1] - akEAxis[2];
-    akVertex[2] = m_kCenter + akEAxis[0] + akEAxis[1] - akEAxis[2];
-    akVertex[3] = m_kCenter - akEAxis[0] + akEAxis[1] - akEAxis[2];
-    akVertex[4] = m_kCenter - akEAxis[0] - akEAxis[1] + akEAxis[2];
-    akVertex[5] = m_kCenter + akEAxis[0] - akEAxis[1] + akEAxis[2];
-    akVertex[6] = m_kCenter + akEAxis[0] + akEAxis[1] + akEAxis[2];
-    akVertex[7] = m_kCenter - akEAxis[0] + akEAxis[1] + akEAxis[2];
+    akVertex[0]        = m_kCenter - akEAxis[0] - akEAxis[1] - akEAxis[2];
+    akVertex[1]        = m_kCenter + akEAxis[0] - akEAxis[1] - akEAxis[2];
+    akVertex[2]        = m_kCenter + akEAxis[0] + akEAxis[1] - akEAxis[2];
+    akVertex[3]        = m_kCenter - akEAxis[0] + akEAxis[1] - akEAxis[2];
+    akVertex[4]        = m_kCenter - akEAxis[0] - akEAxis[1] + akEAxis[2];
+    akVertex[5]        = m_kCenter + akEAxis[0] - akEAxis[1] + akEAxis[2];
+    akVertex[6]        = m_kCenter + akEAxis[0] + akEAxis[1] + akEAxis[2];
+    akVertex[7]        = m_kCenter - akEAxis[0] + akEAxis[1] + akEAxis[2];
 }
 //----------------------------------------------------------------------------

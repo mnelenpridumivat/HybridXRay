@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-template <typename _Object> class CStateControlHide: public CState<_Object>
+template<typename _Object> class CStateControlHide: public CState<_Object>
 {
     typedef CState<_Object>  inherited;
     typedef CState<_Object>* state_ptr;
 
-    bool m_cover_reached;
+    bool                     m_cover_reached;
 
     struct
     {
@@ -13,7 +13,7 @@ template <typename _Object> class CStateControlHide: public CState<_Object>
         u32     node;
     } target;
 
-    u32 m_time_finished;
+    u32  m_time_finished;
 
     bool m_state_fast_run;
 

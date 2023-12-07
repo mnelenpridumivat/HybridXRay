@@ -26,11 +26,7 @@ private:
     typedef std::pair<int, LPCSTR>         pair;
 
 public:
-    property_integer_enum_value(
-        integer_getter_type const& getter,
-        integer_setter_type const& setter,
-        pair*                      values,
-        u32 const&                 value_count);
+    property_integer_enum_value(integer_getter_type const& getter, integer_setter_type const& setter, pair* values, u32 const& value_count);
     virtual Object ^ get_value() override;
     virtual void set_value(Object ^ object) override;
 

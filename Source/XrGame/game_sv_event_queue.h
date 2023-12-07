@@ -27,6 +27,6 @@ public:
     GameEvent* Retreive();
     void       Release();
 
-    u32  EraseEvents(event_predicate to_del);
-    void SetIgnoreEventsFor(bool ignore, ClientID clientID);
+    u32        EraseEvents(event_predicate to_del);
+    void       SetIgnoreEventsFor(bool ignore, ClientID clientID);
 };

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-template <typename _Object> class CStateMonsterAttackCampStealOut: public CStateMove<_Object>
+template<typename _Object> class CStateMonsterAttackCampStealOut: public CStateMove<_Object>
 {
     typedef CStateMove<_Object> inherited;
 

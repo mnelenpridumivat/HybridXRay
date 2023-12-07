@@ -13,6 +13,7 @@ public:
     virtual void DestroyShader();
 
     // private:
+
 public:
     ref_shader hShader;
 };
@@ -26,6 +27,7 @@ public:
 
     virtual void OnDeviceCreate();
     virtual void OnDeviceDestroy();
+
 private:
     ref_geom hGeom;
 };

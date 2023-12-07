@@ -32,47 +32,47 @@
 #include "simd.h"
 #include "colourfit.h"
 
-namespace nvsquish {
-
-class WeightedClusterFit : public ColourFit
+namespace nvsquish
 {
-public:
-	WeightedClusterFit();
 
-	void SetColourSet( ColourSet const* colours, int flags );
-	
-	void SetMetric(float r, float g, float b);
-	float GetBestError() const;
+    class WeightedClusterFit: public ColourFit
+    {
+    public:
+        WeightedClusterFit();
 
-	// Make them public
-	virtual void Compress3( void* block );
-	virtual void Compress4( void* block );
-	
-private:
+        void         SetColourSet(ColourSet const* colours, int flags);
 
-	Vec3 m_principle;
+        void         SetMetric(float r, float g, float b);
+        float        GetBestError() const;
+
+        // Make them public
+        virtual void Compress3(void* block);
+        virtual void Compress4(void* block);
+
+    private:
+        Vec3 m_principle;
 
 #if SQUISH_USE_SIMD
-	Vec4 m_weighted[16];
-	Vec4 m_metric;
-	Vec4 m_metricSqr;
-	Vec4 m_xxsum;
-	Vec4 m_xsum;
-	Vec4 m_besterror;
+        Vec4 m_weighted[16];
+        Vec4 m_metric;
+        Vec4 m_metricSqr;
+        Vec4 m_xxsum;
+        Vec4 m_xsum;
+        Vec4 m_besterror;
 #else
-	Vec3 m_weighted[16];
-	float m_weights[16];
-	Vec3 m_metric;
-	Vec3 m_metricSqr;
-	Vec3 m_xxsum;
-	Vec3 m_xsum;
-	float m_wsum;
-	float m_besterror;
+        Vec3  m_weighted[16];
+        float m_weights[16];
+        Vec3  m_metric;
+        Vec3  m_metricSqr;
+        Vec3  m_xxsum;
+        Vec3  m_xsum;
+        float m_wsum;
+        float m_besterror;
 #endif
 
-	int m_order[16];
-};
+        int m_order[16];
+    };
 
-} // namespace squish
+}   // namespace nvsquish
 
-#endif // ndef SQUISH_WEIGHTEDCLUSTERFIT_H
+#endif   // ndef SQUISH_WEIGHTEDCLUSTERFIT_H

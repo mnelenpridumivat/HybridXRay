@@ -52,12 +52,12 @@ void CUIMapInfo::InitMap(LPCSTR map_name, LPCSTR map_ver)
 
     CStringTable str_tbl;
 
-    CUIXml xml_doc;
+    CUIXml       xml_doc;
     xml_doc.Load(CONFIG_PATH, UI_PATH, "ui_mapinfo.xml");
 
     CUITextWnd* st;
     // try to find file with info
-    xr_string info_path = "text\\map_desc\\";
+    xr_string   info_path = "text\\map_desc\\";
     info_path += map_name;
     info_path += ".ltx";
 
@@ -90,15 +90,13 @@ void CUIMapInfo::InitMap(LPCSTR map_name, LPCSTR map_ver)
         CUIXmlInit::InitFont(xml_doc, "header", 0, header_color, txt_font);
         txt_color = CUIXmlInit::GetColor(xml_doc, "txt:text", 0, 0x00);
         string64 txt_color_tag;
-        xr_sprintf(
-            txt_color_tag, "%s[%u,%u,%u,%u]", "%c", color_get_A(txt_color), color_get_R(txt_color),
-            color_get_G(txt_color), color_get_B(txt_color));
+        xr_sprintf(txt_color_tag, "%s[%u,%u,%u,%u]", "%c", color_get_A(txt_color), color_get_R(txt_color), color_get_G(txt_color), color_get_B(txt_color));
 
         ADD_TEXT("mp_players", "players", "Unknown");
 
         shared_str _modes = ltx.r_string_wb("map_info", "modes");
 
-        text = *str_tbl.translate("modes");
+        text              = *str_tbl.translate("modes");
         text += ": ";
         text += txt_color_tag;
         bool b_ = false;

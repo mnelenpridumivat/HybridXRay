@@ -22,6 +22,7 @@ public:
         rstCompute  = rstDomain + 256,
         rstInvalid  = rstCompute + 256
     };
+
 public:
     void             apply_load(u32 stage);
     void             apply_theora(u32 stage);
@@ -71,6 +72,7 @@ public:
         return m_pSRView;
     }
 #endif   //	USE_DX10
+
 private:
     IC BOOL desc_valid()
     {
@@ -89,6 +91,7 @@ private:
 #endif   //	USE_DX10
 
     //	Class data
+
 public:   //	Public class members (must be encapsulated furthur)
     struct
     {
@@ -112,6 +115,7 @@ public:   //	Public class members (must be encapsulated furthur)
         u32 m_play_time;   // sync theora time
         u32 seqMSPF;       // Sequence data milliseconds per frame
     };
+
 private:
     ID3DBaseTexture*            pSurface;
     // Sequence data

@@ -39,16 +39,16 @@ public:
     {
         return (CSoundRender_Source*)owner_data->handle;
     };
-    ref_sound_data_ptr owner_data;
+    ref_sound_data_ptr       owner_data;
 
-    u32   get_bytes_total() const;
-    float get_length_sec() const;
+    u32                      get_bytes_total() const;
+    float                    get_length_sec() const;
 
-    float   priority_scale;
-    float   smooth_volume;
-    float   occluder_volume;   // USER
-    float   fade_volume;
-    Fvector occluder[3];
+    float                    priority_scale;
+    float                    smooth_volume;
+    float                    occluder_volume;   // USER
+    float                    fade_volume;
+    Fvector                  occluder[3];
 
     State                    m_current_state;
     u32                      m_stream_cursor;
@@ -57,21 +57,21 @@ public:
     CSoundRender_Environment e_current;
     CSoundRender_Environment e_target;
 
-    int   iPaused;
-    BOOL  bMoved;
-    BOOL  b2D;
-    BOOL  bStopping;
-    BOOL  bRewind;
-    float fTimeStarted;   // time of "Start"
-    float fTimeToStop;    // time to "Stop"
-    float fTimeToPropagade;
+    int                      iPaused;
+    BOOL                     bMoved;
+    BOOL                     b2D;
+    BOOL                     bStopping;
+    BOOL                     bRewind;
+    float                    fTimeStarted;   // time of "Start"
+    float                    fTimeToStop;    // time to "Stop"
+    float                    fTimeToPropagade;
 
-    u32  marker;
-    void i_stop();
+    u32                      marker;
+    void                     i_stop();
 
-    void set_cursor(u32 p);
-    u32  get_cursor(bool b_absolute) const;
-    void move_cursor(int offset);
+    void                     set_cursor(u32 p);
+    u32                      get_cursor(bool b_absolute) const;
+    void                     move_cursor(int offset);
 
 public:
     void Event_Propagade();
@@ -114,8 +114,8 @@ public:
         return &p_source;
     }
 
-    void fill_block(void* ptr, u32 size);
-    void fill_data(u8* ptr, u32 offset, u32 size);
+    void         fill_block(void* ptr, u32 size);
+    void         fill_data(u8* ptr, u32 offset, u32 size);
 
     float        priority();
     void         start(ref_sound* _owner, BOOL _loop, float delay);
@@ -127,7 +127,7 @@ public:
     virtual void stop(BOOL bDeffered);
     void         pause(BOOL bVal, int id);
 
-    virtual u32 play_time();
+    virtual u32  play_time();
 
     CSoundRender_Emitter();
     ~CSoundRender_Emitter();

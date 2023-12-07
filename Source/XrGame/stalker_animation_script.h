@@ -19,12 +19,7 @@ private:
     bool           m_local_animation;
 
 public:
-    IC CStalkerAnimationScript(
-        const MotionID& animation,
-        bool            hand_usage,
-        bool            use_movement_controller,
-        Fmatrix const*  transform       = 0,
-        bool            local_animation = true);
+    IC                 CStalkerAnimationScript(const MotionID& animation, bool hand_usage, bool use_movement_controller, Fmatrix const* transform = 0, bool local_animation = true);
     IC                 CStalkerAnimationScript(CStalkerAnimationScript const& object);
     IC const MotionID& animation() const;
     IC const bool&     hand_usage() const;

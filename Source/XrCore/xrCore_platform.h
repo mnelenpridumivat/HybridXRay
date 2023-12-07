@@ -38,7 +38,7 @@
 #define _WIN32_DCOM
 
 #pragma warning(push)
-#pragma warning(disable : 4005)
+#pragma warning(disable:4005)
 #include <windows.h>
 #ifndef __BORLANDC__
 #include <windowsx.h>

@@ -6,8 +6,8 @@
 #include "stdafx.h"
 #include "monster_community.h"
 
-#define MONSTER_RELATIONS_SECT "monster_communities"
-#define MONSTER_COMMUNITIES "communities"
+#define MONSTER_RELATIONS_SECT  "monster_communities"
+#define MONSTER_COMMUNITIES     "communities"
 #define MONSTER_RELATIONS_TABLE "monster_relations"
 
 //////////////////////////////////////////////////////////////////////////

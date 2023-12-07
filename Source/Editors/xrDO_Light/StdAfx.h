@@ -35,8 +35,7 @@
 #endif
 // TODO: reference additional headers your program requires here
 
-#define READ_IF_EXISTS(ltx, method, section, name, default_value) \
-    (ltx->line_exist(section, name)) ? ltx->method(section, name) : default_value
+#define READ_IF_EXISTS(ltx, method, section, name, default_value) (ltx->line_exist(section, name)) ? ltx->method(section, name) : default_value
 
 #undef THROW
 
@@ -55,15 +54,10 @@ IC xr_string string2xr_string(LPCSTR s)
     {                                                                                              \
         throw xr_string(__FILE__LINE__).append(" \"").append(#xpr).append(string2xr_string(msg0)); \
     }
-#define THROW3(xpr, msg0, msg1)              \
-    if (!(xpr))                              \
-    {                                        \
-        throw xr_string(__FILE__LINE__)      \
-            .append(" \"")                   \
-            .append(#xpr)                    \
-            .append(string2xr_string(msg0))  \
-            .append(", ")                    \
-            .append(string2xr_string(msg1)); \
+#define THROW3(xpr, msg0, msg1)                                                                                                                \
+    if (!(xpr))                                                                                                                                \
+    {                                                                                                                                          \
+        throw xr_string(__FILE__LINE__).append(" \"").append(#xpr).append(string2xr_string(msg0)).append(", ").append(string2xr_string(msg1)); \
     }
 #else
 #define THROW  VERIFY

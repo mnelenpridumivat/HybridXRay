@@ -1,21 +1,20 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION   template<typename _Object>
 #define CStateControlCampAbstract CStateControlCamp<_Object>
 
-#define ANGLE_DISP PI_DIV_2
-#define ANGLE_DISP_STEP deg(10)
-#define TRACE_STATIC_DIST 3.f
-#define TIME_POINT_CHANGE_MIN 2000
-#define TIME_POINT_CHANGE_MAX 5000
+#define ANGLE_DISP                PI_DIV_2
+#define ANGLE_DISP_STEP           deg(10)
+#define TRACE_STATIC_DIST         3.f
+#define TIME_POINT_CHANGE_MIN     2000
+#define TIME_POINT_CHANGE_MAX     5000
 
 TEMPLATE_SPECIALIZATION
 void CStateControlCampAbstract::initialize()
 {
     inherited::initialize();
 
-    float angle = ai().level_graph().vertex_low_cover_angle(
-        object->ai_location().level_vertex_id(), deg(10), std::greater<float>());
+    float              angle = ai().level_graph().vertex_low_cover_angle(object->ai_location().level_vertex_id(), deg(10), std::greater<float>());
 
     collide::rq_result l_rq;
 
@@ -58,7 +57,7 @@ void CStateControlCampAbstract::initialize()
 
     m_time_next_updated = 0;
 
-    m_target_angle = m_angle_from;
+    m_target_angle      = m_angle_from;
 
     Fvector pos;
     pos.mad(object->Position(), Fvector().setHP(angle, 0.f), 3.f);

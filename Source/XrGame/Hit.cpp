@@ -6,16 +6,7 @@
 #include "xrMessages.h"
 #include "Level.h"
 #include "../xrphysics/mathutils.h"
-SHit::SHit(
-    float           powerA,
-    Fvector&        dirA,
-    CObject*        whoA,
-    u16             elementA,
-    Fvector         p_in_bone_spaceA,
-    float           impulseA,
-    ALife::EHitType hit_typeA,
-    float           armor_piercingA,
-    bool            AimBullet)
+SHit::SHit(float powerA, Fvector& dirA, CObject* whoA, u16 elementA, Fvector p_in_bone_spaceA, float impulseA, ALife::EHitType hit_typeA, float armor_piercingA, bool AimBullet)
 {
     power = powerA;
     dir.set(dirA);
@@ -26,7 +17,7 @@ SHit::SHit(
         whoID = 0;
     boneID = elementA;
     p_in_bone_space.set(p_in_bone_spaceA);
-    impulse = impulseA;
+    impulse        = impulseA;
 
     hit_type       = hit_typeA;
     armor_piercing = armor_piercingA;
@@ -48,17 +39,17 @@ void SHit::invalidate()
     PACKET_TYPE = 0;
     DestID      = 0;
 
-    power = -phInfinity;
+    power       = -phInfinity;
     dir.set(-phInfinity, -phInfinity, -phInfinity);
     who      = NULL;
     whoID    = 0;
     weaponID = 0;
 
-    boneID = BI_NONE;
+    boneID   = BI_NONE;
     p_in_bone_space.set(-phInfinity, -phInfinity, -phInfinity);
 
-    impulse  = -phInfinity;
-    hit_type = ALife::eHitTypeMax;
+    impulse        = -phInfinity;
+    hit_type       = ALife::eHitTypeMax;
 
     armor_piercing = 0.0f;
     BulletID       = 0;

@@ -195,11 +195,7 @@ void MeshMender::UpdateIndices(const size_t oldIndex, const size_t newIndex, Tri
         }
     }
 }
-void MeshMender::ProcessNormals(
-    TriangleList&            possibleNeighbors,
-    xr_vector<Vertex>&       theVerts,
-    xr_vector<unsigned int>& mappingNewToOldVert,
-    D3DXVECTOR3              workingPosition)
+void MeshMender::ProcessNormals(TriangleList& possibleNeighbors, xr_vector<Vertex>& theVerts, xr_vector<unsigned int>& mappingNewToOldVert, D3DXVECTOR3 workingPosition)
 {
     NeighborGroupList neighborGroups;   // a fresh group for each pass
 
@@ -217,9 +213,7 @@ void MeshMender::ProcessNormals(
         assert(currTri);
         if (!currTri->handled)
         {
-            BuildGroups(
-                currTri, possibleNeighbors, neighborGroups, theVerts, &canSmoothNormalsChecker,
-                MinNormalsCreaseCosAngle);
+            BuildGroups(currTri, possibleNeighbors, neighborGroups, theVerts, &canSmoothNormalsChecker, MinNormalsCreaseCosAngle);
         }
     }
 
@@ -289,11 +283,7 @@ void MeshMender::ProcessNormals(
     }
 }
 
-void MeshMender::ProcessTangents(
-    TriangleList&            possibleNeighbors,
-    xr_vector<Vertex>&       theVerts,
-    xr_vector<unsigned int>& mappingNewToOldVert,
-    D3DXVECTOR3              workingPosition)
+void MeshMender::ProcessTangents(TriangleList& possibleNeighbors, xr_vector<Vertex>& theVerts, xr_vector<unsigned int>& mappingNewToOldVert, D3DXVECTOR3 workingPosition)
 {
     NeighborGroupList neighborGroups;   // a fresh group for each pass
 
@@ -311,9 +301,7 @@ void MeshMender::ProcessTangents(
         assert(currTri);
         if (!currTri->handled)
         {
-            BuildGroups(
-                currTri, possibleNeighbors, neighborGroups, theVerts, &canSmoothTangentsChecker,
-                MinTangentsCreaseCosAngle);
+            BuildGroups(currTri, possibleNeighbors, neighborGroups, theVerts, &canSmoothTangentsChecker, MinTangentsCreaseCosAngle);
         }
     }
 
@@ -379,11 +367,7 @@ void MeshMender::ProcessTangents(
     }
 }
 
-void MeshMender::ProcessBinormals(
-    TriangleList&            possibleNeighbors,
-    xr_vector<Vertex>&       theVerts,
-    xr_vector<unsigned int>& mappingNewToOldVert,
-    D3DXVECTOR3              workingPosition)
+void MeshMender::ProcessBinormals(TriangleList& possibleNeighbors, xr_vector<Vertex>& theVerts, xr_vector<unsigned int>& mappingNewToOldVert, D3DXVECTOR3 workingPosition)
 {
     NeighborGroupList neighborGroups;   // a fresh group for each pass
 
@@ -401,9 +385,7 @@ void MeshMender::ProcessBinormals(
         assert(currTri);
         if (!currTri->handled)
         {
-            BuildGroups(
-                currTri, possibleNeighbors, neighborGroups, theVerts, &canSmoothBinormalsChecker,
-                MinBinormalsCreaseCosAngle);
+            BuildGroups(currTri, possibleNeighbors, neighborGroups, theVerts, &canSmoothBinormalsChecker, MinBinormalsCreaseCosAngle);
         }
     }
 
@@ -469,17 +451,7 @@ void MeshMender::ProcessBinormals(
     }
 }
 
-bool MeshMender::Mend(
-    xr_vector<Vertex>&         theVerts,
-    xr_vector<unsigned int>&   theIndices,
-    xr_vector<unsigned int>&   mappingNewToOldVert,
-    const float                minNormalsCreaseCosAngle,
-    const float                minTangentsCreaseCosAngle,
-    const float                minBinormalsCreaseCosAngle,
-    const float                weightNormalsByArea,
-    const NormalCalcOption     computeNormals,
-    const ExistingSplitOption  respectExistingSplits,
-    const CylindricalFixOption fixCylindricalWrapping)
+bool MeshMender::Mend(xr_vector<Vertex>& theVerts, xr_vector<unsigned int>& theIndices, xr_vector<unsigned int>& mappingNewToOldVert, const float minNormalsCreaseCosAngle, const float minTangentsCreaseCosAngle, const float minBinormalsCreaseCosAngle, const float weightNormalsByArea, const NormalCalcOption computeNormals, const ExistingSplitOption respectExistingSplits, const CylindricalFixOption fixCylindricalWrapping)
 {
     MinNormalsCreaseCosAngle   = minNormalsCreaseCosAngle;
     MinTangentsCreaseCosAngle  = minTangentsCreaseCosAngle;
@@ -515,13 +487,12 @@ bool MeshMender::Mend(
     return true;
 }
 
-void MeshMender::BuildGroups(
-    Triangle*          tri,                 // the tri of interest
-    TriangleList&      possibleNeighbors,   // all tris arround a vertex
-    NeighborGroupList& neighborGroups,      // the neighbor groups to be updated
-    xr_vector<Vertex>& theVerts,
-    CanSmoothChecker*  smoothChecker,
-    const float&       minCreaseAngle)
+void MeshMender::BuildGroups(Triangle* tri,                 // the tri of interest
+    TriangleList&                      possibleNeighbors,   // all tris arround a vertex
+    NeighborGroupList&                 neighborGroups,      // the neighbor groups to be updated
+    xr_vector<Vertex>&                 theVerts,
+    CanSmoothChecker*                  smoothChecker,
+    const float&                       minCreaseAngle)
 {
     if ((!tri) || (tri->handled))
         return;
@@ -566,12 +537,7 @@ void MeshMender::BuildGroups(
     BuildGroups(neighbor2, possibleNeighbors, neighborGroups, theVerts, smoothChecker, minCreaseAngle);
 }
 
-void MeshMender::FindNeighbors(
-    Triangle*          tri,
-    TriangleList&      possibleNeighbors,
-    Triangle**         neighbor1,
-    Triangle**         neighbor2,
-    xr_vector<Vertex>& theVerts)
+void MeshMender::FindNeighbors(Triangle* tri, TriangleList& possibleNeighbors, Triangle** neighbor1, Triangle** neighbor2, xr_vector<Vertex>& theVerts)
 {
     *neighbor1 = NULL;
     *neighbor2 = NULL;
@@ -596,12 +562,7 @@ void MeshMender::FindNeighbors(
         *neighbor2 = theNeighbors[1];
 }
 
-bool MeshMender::TriHasEdge(
-    const size_t& p0,
-    const size_t& p1,
-    const size_t& triA,
-    const size_t& triB,
-    const size_t& triC)
+bool MeshMender::TriHasEdge(const size_t& p0, const size_t& p1, const size_t& triA, const size_t& triB, const size_t& triC)
 {
     if (((p0 == triB) && (p1 == triA)) || ((p0 == triA) && (p1 == triB)))
     {
@@ -620,12 +581,7 @@ bool MeshMender::TriHasEdge(
     return false;
 }
 
-bool MeshMender::TriHasEdge(
-    const D3DXVECTOR3& p0,
-    const D3DXVECTOR3& p1,
-    const D3DXVECTOR3& triA,
-    const D3DXVECTOR3& triB,
-    const D3DXVECTOR3& triC)
+bool MeshMender::TriHasEdge(const D3DXVECTOR3& p0, const D3DXVECTOR3& p1, const D3DXVECTOR3& triA, const D3DXVECTOR3& triB, const D3DXVECTOR3& triC)
 {
     if (((p0 == triB) && (p1 == triA)) || ((p0 == triA) && (p1 == triB)))
     {
@@ -707,11 +663,7 @@ bool MeshMender::SharesEdge(Triangle* triA, Triangle* triB, xr_vector<Vertex>& t
     return false;
 }
 
-void MeshMender::SetUpData(
-    xr_vector<Vertex>&             theVerts,
-    const xr_vector<unsigned int>& theIndices,
-    xr_vector<unsigned int>&       mappingNewToOldVert,
-    const NormalCalcOption         computeNormals)
+void MeshMender::SetUpData(xr_vector<Vertex>& theVerts, const xr_vector<unsigned int>& theIndices, xr_vector<unsigned int>& mappingNewToOldVert, const NormalCalcOption computeNormals)
 {
     assert(((theIndices.size() % 3) == 0) && "expected the indices to be a multiple of 3");
     unsigned int i;
@@ -888,12 +840,7 @@ void MeshMender::OrthogonalizeTangentsAndBinormals(xr_vector<Vertex>& theVerts)
     }
 }
 
-void MeshMender::GetGradients(
-    const MeshMender::Vertex& v0,
-    const MeshMender::Vertex& v1,
-    const MeshMender::Vertex& v2,
-    D3DXVECTOR3&              tangent,
-    D3DXVECTOR3&              binormal) const
+void MeshMender::GetGradients(const MeshMender::Vertex& v0, const MeshMender::Vertex& v1, const MeshMender::Vertex& v2, D3DXVECTOR3& tangent, D3DXVECTOR3& binormal) const
 {
     // using Eric Lengyel's approach with a few modifications
     // from Mathematics for 3D Game Programmming and Computer Graphics
@@ -971,10 +918,7 @@ void MeshMender::UpdateTheIndicesWithFinalIndices(xr_vector<unsigned int>& theIn
     }
 }
 
-void MeshMender::FixCylindricalWrapping(
-    xr_vector<Vertex>&       theVerts,
-    xr_vector<unsigned int>& theIndices,
-    xr_vector<unsigned int>& mappingNewToOldVert)
+void MeshMender::FixCylindricalWrapping(xr_vector<Vertex>& theVerts, xr_vector<unsigned int>& theIndices, xr_vector<unsigned int>& mappingNewToOldVert)
 {
     // when using cylindrical texture coordinate generation,
     // you can end up with triangles that have <s,t> coordinates like
@@ -1063,10 +1007,7 @@ void MeshMender::FixCylindricalWrapping(
     }
 }
 
-void MeshMender::AppendToMapping(
-    const size_t             oldIndex,
-    const size_t             originalNumVerts,
-    xr_vector<unsigned int>& mappingNewToOldVert)
+void MeshMender::AppendToMapping(const size_t oldIndex, const size_t originalNumVerts, xr_vector<unsigned int>& mappingNewToOldVert)
 {
     if (oldIndex >= originalNumVerts)
     {

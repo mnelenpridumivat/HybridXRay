@@ -33,6 +33,7 @@ public:
     int   scanlenght;
     int   width, height;
     void* data;
+
 public:
     TGAdesc()
     {

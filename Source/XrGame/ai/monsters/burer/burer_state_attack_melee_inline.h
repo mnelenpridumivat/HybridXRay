@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION        template<typename _Object>
 
 #define CStateBurerAttackMeleeAbstract CStateBurerAttackMelee<_Object>
 
-#define MIN_DIST_MELEE_ATTACK 5.f
-#define MAX_DIST_MELEE_ATTACK 9.f
+#define MIN_DIST_MELEE_ATTACK          5.f
+#define MAX_DIST_MELEE_ATTACK          9.f
 
 TEMPLATE_SPECIALIZATION
 CStateBurerAttackMeleeAbstract::CStateBurerAttackMelee(_Object* obj): inherited(obj) {}

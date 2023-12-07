@@ -7,6 +7,7 @@ class CUI3tButton: public CUIButton
     typedef CUIButton inherited;
     friend class CUIXmlInit;
     //.	using CUIButton::SetTextColor;
+
 public:
     CUI3tButton();
     virtual ~CUI3tButton();
@@ -33,13 +34,13 @@ public:
 
     virtual bool OnMouseDown(int mouse_btn);
 
-    void SetStateTextColor(u32 color, IBState state)
+    void         SetStateTextColor(u32 color, IBState state)
     {
         m_dwTextColor[state]   = color;
         m_bUseTextColor[state] = true;
     }
-    u32  m_dwTextColor[4];
-    bool m_bUseTextColor[4];   // note: 0 index will be ignored
+    u32                  m_dwTextColor[4];
+    bool                 m_bUseTextColor[4];   // note: 0 index will be ignored
 
     bool                 m_frameline_mode;
     bool                 vertical;
@@ -47,8 +48,8 @@ public:
     CUI_IB_FrameLineWnd* m_back_frameline;
 
 private:
-    void PlaySoundH();
-    void PlaySoundT();
+    void      PlaySoundH();
+    void      PlaySoundT();
 
     ref_sound m_sound_h;
     ref_sound m_sound_t;

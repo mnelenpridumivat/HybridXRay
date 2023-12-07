@@ -37,10 +37,7 @@ using namespace StalkerDecisionSpace;
 // CStalkerActionGetOutOfAnomaly
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionGetOutOfAnomaly::CStalkerActionGetOutOfAnomaly(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionGetOutOfAnomaly::CStalkerActionGetOutOfAnomaly(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionGetOutOfAnomaly::initialize()
 {
@@ -55,8 +52,7 @@ void CStalkerActionGetOutOfAnomaly::initialize()
     object().movement().set_movement_type(eMovementTypeWalk);
     object().movement().set_mental_state(eMentalStateDanger);
     object().sight().setup(SightManager::eSightTypeCurrentDirection);
-    if (object().memory().enemy().selected() && object().inventory().ActiveItem() && object().best_weapon() &&
-        (object().inventory().ActiveItem()->object().ID() == object().best_weapon()->object().ID()))
+    if (object().memory().enemy().selected() && object().inventory().ActiveItem() && object().best_weapon() && (object().inventory().ActiveItem()->object().ID() == object().best_weapon()->object().ID()))
         object().CObjectHandler::set_goal(eObjectActionIdle, object().best_weapon());
     else
         object().CObjectHandler::set_goal(eObjectActionIdle);
@@ -98,8 +94,8 @@ void CStalkerActionGetOutOfAnomaly::execute()
     typedef xr_vector<ALife::_OBJECT_ID> ids_type;
     ids_type const&                      restrictions = alife_object->m_dynamic_in_restrictions;
 
-    xr_vector<CObject*>::const_iterator I = object().feel_touch.begin();
-    xr_vector<CObject*>::const_iterator E = object().feel_touch.end();
+    xr_vector<CObject*>::const_iterator  I            = object().feel_touch.begin();
+    xr_vector<CObject*>::const_iterator  E            = object().feel_touch.end();
     for (; I != E; ++I)
     {
         CCustomZone* zone = smart_cast<CCustomZone*>(*I);
@@ -123,10 +119,7 @@ void CStalkerActionGetOutOfAnomaly::execute()
 // CStalkerActionDetectAnomaly
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDetectAnomaly::CStalkerActionDetectAnomaly(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDetectAnomaly::CStalkerActionDetectAnomaly(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDetectAnomaly::initialize()
 {

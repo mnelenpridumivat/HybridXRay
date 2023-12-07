@@ -17,6 +17,7 @@ private:
     u32 dwWidth;
     u32 dwHeight;
     u32 dwAccumulatorClearMark;
+
 public:
     u32       dwLightMarkerID;
     //
@@ -82,6 +83,7 @@ public:
 
     IDirect3DTexture9*       t_noise_surf[TEX_jitter_count];
     ref_texture              t_noise[TEX_jitter_count];
+
 private:
     // OCCq
     ref_shader              s_occq;
@@ -143,11 +145,13 @@ private:
     ref_shader              s_combine_dbg_Accumulator;
     ref_shader              s_combine;
     ref_shader              s_combine_volumetric;
+
 public:
     ref_shader s_postprocess;
     ref_geom   g_postprocess;
     ref_shader s_menu;
     ref_geom   g_menu;
+
 private:
     float           im_noise_time;
     u32             im_noise_shift_w;
@@ -171,6 +175,7 @@ private:
 
     //	Igor: used for volumetric lights
     bool            m_bHasActiveVolumetric;
+
 public:
     CRenderTarget();
     ~CRenderTarget();

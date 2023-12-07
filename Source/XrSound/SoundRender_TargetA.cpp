@@ -144,9 +144,7 @@ void CSoundRender_TargetA::fill_parameters()
     A_CHK(alSourcef(pSource, AL_MAX_DISTANCE, m_pEmitter->p_source.max_distance));
 
     VERIFY2(m_pEmitter, SE->source()->file_name());
-    A_CHK(alSource3f(
-        pSource, AL_POSITION, m_pEmitter->p_source.position.x, m_pEmitter->p_source.position.y,
-        -m_pEmitter->p_source.position.z));
+    A_CHK(alSource3f(pSource, AL_POSITION, m_pEmitter->p_source.position.x, m_pEmitter->p_source.position.y, -m_pEmitter->p_source.position.z));
 
     VERIFY2(m_pEmitter, SE->source()->file_name());
     A_CHK(alSourcei(pSource, AL_SOURCE_RELATIVE, m_pEmitter->b2D));
@@ -179,8 +177,7 @@ void CSoundRender_TargetA::fill_block(ALuint BufferID)
 
     m_pEmitter->fill_block(&g_target_temp_data.front(), buf_block);
     ALuint format = (m_pEmitter->source()->m_wformat.nChannels == 1) ? AL_FORMAT_MONO16 : AL_FORMAT_STEREO16;
-    A_CHK(alBufferData(
-        BufferID, format, &g_target_temp_data.front(), buf_block, m_pEmitter->source()->m_wformat.nSamplesPerSec));
+    A_CHK(alBufferData(BufferID, format, &g_target_temp_data.front(), buf_block, m_pEmitter->source()->m_wformat.nSamplesPerSec));
 }
 void CSoundRender_TargetA::source_changed()
 {

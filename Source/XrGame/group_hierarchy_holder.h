@@ -38,6 +38,7 @@ private:
     typedef GroupHierarchyHolder::MEMBER_REGISTRY MEMBER_REGISTRY;
 
 #ifdef SQUAD_HIERARCHY_HOLDER_USE_LEADER
+
 private:
     CEntity* m_leader;
 #endif   // SQUAD_HIERARCHY_HOLDER_USE_LEADER
@@ -50,10 +51,12 @@ private:
     HIT_OBJECTS*           m_hit_objects;
 
     // TODO: for stalker only, should be removed
+
 private:
     CAgentManager* m_agent_manager;
 
     // TODO: for rats only, should be removed
+
 public:
     u32 m_dwLastActionTime;
     u32 m_dwLastAction;
@@ -91,6 +94,7 @@ public:
     IC CSquadHierarchyHolder& squad() const;
 
 #ifdef SQUAD_HIERARCHY_HOLDER_USE_LEADER
+
 public:
     void        update_leader();
     IC CEntity* leader() const;

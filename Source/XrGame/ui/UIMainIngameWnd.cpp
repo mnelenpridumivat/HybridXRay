@@ -64,18 +64,17 @@ const u32 g_clWhite = 0xffffffff;
 
 #define DEFAULT_MAP_SCALE 1.f
 
-#define C_SIZE 0.025f
-#define NEAR_LIM 0.5f
+#define C_SIZE            0.025f
+#define NEAR_LIM          0.5f
 
-#define SHOW_INFO_SPEED 0.5f
-#define HIDE_INFO_SPEED 10.f
-#define C_ON_ENEMY color_xrgb(0xff, 0, 0)
-#define C_DEFAULT color_xrgb(0xff, 0xff, 0xff)
+#define SHOW_INFO_SPEED   0.5f
+#define HIDE_INFO_SPEED   10.f
+#define C_ON_ENEMY        color_xrgb(0xff, 0, 0)
+#define C_DEFAULT         color_xrgb(0xff, 0xff, 0xff)
 
-#define MAININGAME_XML "maingame.xml"
+#define MAININGAME_XML    "maingame.xml"
 
-CUIMainIngameWnd::CUIMainIngameWnd():
-    /*m_pGrenade(NULL),m_pItem(NULL),*/ m_pPickUpItem(NULL), m_pMPChatWnd(NULL), UIArtefactIcon(NULL), m_pMPLogWnd(NULL)
+CUIMainIngameWnd::CUIMainIngameWnd(): /*m_pGrenade(NULL),m_pItem(NULL),*/ m_pPickUpItem(NULL), m_pMPChatWnd(NULL), UIArtefactIcon(NULL), m_pMPLogWnd(NULL)
 {
     UIZoneMap = xr_new<CUIZoneMap>();
 }
@@ -148,14 +147,14 @@ void CUIMainIngameWnd::Init()
     m_ind_outfit_broken = UIHelper::CreateStatic(uiXml, "indicator_outfit_broken", this);
     m_ind_overweight    = UIHelper::CreateStatic(uiXml, "indicator_overweight", this);
 
-    m_ind_boost_psy    = UIHelper::CreateStatic(uiXml, "indicator_booster_psy", this);
-    m_ind_boost_radia  = UIHelper::CreateStatic(uiXml, "indicator_booster_radia", this);
-    m_ind_boost_chem   = UIHelper::CreateStatic(uiXml, "indicator_booster_chem", this);
-    m_ind_boost_wound  = UIHelper::CreateStatic(uiXml, "indicator_booster_wound", this);
-    m_ind_boost_weight = UIHelper::CreateStatic(uiXml, "indicator_booster_weight", this);
-    m_ind_boost_health = UIHelper::CreateStatic(uiXml, "indicator_booster_health", this);
-    m_ind_boost_power  = UIHelper::CreateStatic(uiXml, "indicator_booster_power", this);
-    m_ind_boost_rad    = UIHelper::CreateStatic(uiXml, "indicator_booster_rad", this);
+    m_ind_boost_psy     = UIHelper::CreateStatic(uiXml, "indicator_booster_psy", this);
+    m_ind_boost_radia   = UIHelper::CreateStatic(uiXml, "indicator_booster_radia", this);
+    m_ind_boost_chem    = UIHelper::CreateStatic(uiXml, "indicator_booster_chem", this);
+    m_ind_boost_wound   = UIHelper::CreateStatic(uiXml, "indicator_booster_wound", this);
+    m_ind_boost_weight  = UIHelper::CreateStatic(uiXml, "indicator_booster_weight", this);
+    m_ind_boost_health  = UIHelper::CreateStatic(uiXml, "indicator_booster_health", this);
+    m_ind_boost_power   = UIHelper::CreateStatic(uiXml, "indicator_booster_power", this);
+    m_ind_boost_rad     = UIHelper::CreateStatic(uiXml, "indicator_booster_rad", this);
     m_ind_boost_psy->Show(false);
     m_ind_boost_radia->Show(false);
     m_ind_boost_chem->Show(false);
@@ -193,26 +192,20 @@ void CUIMainIngameWnd::Init()
         UIArtefactIcon->Show(false);
     }
 
-    shared_str warningStrings[7] = {
-        "jammed",
-        "radiation",
-        "wounds",
-        "starvation",
-        "fatigue",
-        "invincible"
-        "artefact"};
+    shared_str    warningStrings[7] = {"jammed", "radiation", "wounds", "starvation", "fatigue",
+           "invincible"
+              "artefact"};
 
     // Загружаем пороговые значения для индикаторов
-    EWarningIcons j = ewiWeaponJammed;
+    EWarningIcons j                 = ewiWeaponJammed;
     while (j < ewiInvincible)
     {
         // Читаем данные порогов для каждого индикатора
-        shared_str cfgRecord =
-            pSettings->r_string("main_ingame_indicators_thresholds", *warningStrings[static_cast<int>(j) - 1]);
-        u32 count = _GetItemCount(*cfgRecord);
+        shared_str cfgRecord = pSettings->r_string("main_ingame_indicators_thresholds", *warningStrings[static_cast<int>(j) - 1]);
+        u32        count     = _GetItemCount(*cfgRecord);
 
-        char  singleThreshold[8];
-        float f = 0;
+        char       singleThreshold[8];
+        float      f = 0;
         for (u32 k = 0; k < count; ++k)
         {
             _GetItem(*cfgRecord, k, singleThreshold);
@@ -235,7 +228,7 @@ void CUIMainIngameWnd::Init()
     UIZoneMap->MapFrame().AttachChild(UIMotionIcon);
     UIMotionIcon->Init(UIZoneMap->MapFrame().GetWndRect());
 
-    UIStaticDiskIO = UIHelper::CreateStatic(uiXml, "disk_io", this);
+    UIStaticDiskIO  = UIHelper::CreateStatic(uiXml, "disk_io", this);
 
     m_ui_hud_states = xr_new<CUIHudStatesWnd>();
     m_ui_hud_states->SetAutoDelete(true);
@@ -264,10 +257,10 @@ void CUIMainIngameWnd::Init()
 float UIStaticDiskIO_start_time = 0.0f;
 void  CUIMainIngameWnd::Draw()
 {
-    CActor* pActor = smart_cast<CActor*>(Level().CurrentViewEntity());
+    CActor* pActor   = smart_cast<CActor*>(Level().CurrentViewEntity());
 
     // show IO icon
-    bool IOActive = (FS.dwOpenCounter > 0);
+    bool    IOActive = (FS.dwOpenCounter > 0);
     if (IOActive)
         UIStaticDiskIO_start_time = Device->fTimeGlobal;
 
@@ -283,9 +276,9 @@ void  CUIMainIngameWnd::Draw()
 
     if (!IsGameTypeSingle())
     {
-        float luminocity = smart_cast<CGameObject*>(Level().CurrentEntity())->ROS()->get_luminocity();
-        float power      = log(luminocity > .001f ? luminocity : .001f) * (1.f /*luminocity_factor*/);
-        luminocity       = exp(power);
+        float luminocity     = smart_cast<CGameObject*>(Level().CurrentEntity())->ROS()->get_luminocity();
+        float power          = log(luminocity > .001f ? luminocity : .001f) * (1.f /*luminocity_factor*/);
+        luminocity           = exp(power);
 
         static float cur_lum = luminocity;
         cur_lum              = luminocity * 0.01f + cur_lum * 0.99f;
@@ -380,8 +373,7 @@ void CUIMainIngameWnd::Update()
         R_ASSERT(cta_game);
         R_ASSERT(lookat_player);
 
-        if ((pActor->ID() == cta_game->GetGreenArtefactOwnerID()) ||
-            (pActor->ID() == cta_game->GetBlueArtefactOwnerID()))
+        if ((pActor->ID() == cta_game->GetGreenArtefactOwnerID()) || (pActor->ID() == cta_game->GetBlueArtefactOwnerID()))
         {
             SetWarningIconColor(ewiArtefact, 0xffff0000);
         }
@@ -511,17 +503,17 @@ void CUIMainIngameWnd::InitFlashingIcons(CUIXml* node)
     const char* const flashingIconNodeName = "flashing_icon";
     int               staticsCount         = node->GetNodesNum("", 0, flashingIconNodeName);
 
-    CUIXmlInit xml_init;
-    CUIStatic* pIcon = NULL;
+    CUIXmlInit        xml_init;
+    CUIStatic*        pIcon = NULL;
     // Пробегаемся по всем нодам и инициализируем из них статики
     for (int i = 0; i < staticsCount; ++i)
     {
         pIcon = xr_new<CUIStatic>();
         xml_init.InitStatic(*node, flashingIconNodeName, i, pIcon);
-        shared_str iconType = node->ReadAttrib(flashingIconNodeName, i, "type", "none");
+        shared_str     iconType = node->ReadAttrib(flashingIconNodeName, i, "type", "none");
 
         // Теперь запоминаем иконку и ее тип
-        EFlashingIcons type = efiPdaTask;
+        EFlashingIcons type     = efiPdaTask;
 
         if (iconType == "pda")
             type = efiPdaTask;
@@ -580,23 +572,23 @@ void CUIMainIngameWnd::UpdatePickUpItem()
         return;
     };
 
-    shared_str sect_name = m_pPickUpItem->object().cNameSect();
+    shared_str sect_name     = m_pPickUpItem->object().cNameSect();
 
     // properties used by inventory menu
-    int m_iGridWidth  = pSettings->r_u32(sect_name, "inv_grid_width");
-    int m_iGridHeight = pSettings->r_u32(sect_name, "inv_grid_height");
+    int        m_iGridWidth  = pSettings->r_u32(sect_name, "inv_grid_width");
+    int        m_iGridHeight = pSettings->r_u32(sect_name, "inv_grid_height");
 
-    int m_iXPos = pSettings->r_u32(sect_name, "inv_grid_x");
-    int m_iYPos = pSettings->r_u32(sect_name, "inv_grid_y");
+    int        m_iXPos       = pSettings->r_u32(sect_name, "inv_grid_x");
+    int        m_iYPos       = pSettings->r_u32(sect_name, "inv_grid_y");
 
-    float scale_x = m_iPickUpItemIconWidth / float(m_iGridWidth * INV_GRID_WIDTH);
+    float      scale_x       = m_iPickUpItemIconWidth / float(m_iGridWidth * INV_GRID_WIDTH);
 
-    float scale_y = m_iPickUpItemIconHeight / float(m_iGridHeight * INV_GRID_HEIGHT);
+    float      scale_y       = m_iPickUpItemIconHeight / float(m_iGridHeight * INV_GRID_HEIGHT);
 
-    scale_x = (scale_x > 1) ? 1.0f : scale_x;
-    scale_y = (scale_y > 1) ? 1.0f : scale_y;
+    scale_x                  = (scale_x > 1) ? 1.0f : scale_x;
+    scale_y                  = (scale_y > 1) ? 1.0f : scale_y;
 
-    float scale = scale_x < scale_y ? scale_x : scale_y;
+    float scale              = scale_x < scale_y ? scale_x : scale_y;
 
     Frect texture_rect;
     texture_rect.lt.set(m_iXPos * INV_GRID_WIDTH, m_iYPos * INV_GRID_HEIGHT);
@@ -608,9 +600,7 @@ void CUIMainIngameWnd::UpdatePickUpItem()
     UIPickUpItemIcon->SetWidth(m_iGridWidth * INV_GRID_WIDTH * scale * UI().get_current_kx());
     UIPickUpItemIcon->SetHeight(m_iGridHeight * INV_GRID_HEIGHT * scale);
 
-    UIPickUpItemIcon->SetWndPos(Fvector2().set(
-        m_iPickUpItemIconX + (m_iPickUpItemIconWidth - UIPickUpItemIcon->GetWidth()) / 2.0f,
-        m_iPickUpItemIconY + (m_iPickUpItemIconHeight - UIPickUpItemIcon->GetHeight()) / 2.0f));
+    UIPickUpItemIcon->SetWndPos(Fvector2().set(m_iPickUpItemIconX + (m_iPickUpItemIconWidth - UIPickUpItemIcon->GetWidth()) / 2.0f, m_iPickUpItemIconY + (m_iPickUpItemIconHeight - UIPickUpItemIcon->GetHeight()) / 2.0f));
 
     UIPickUpItemIcon->SetTextureColor(color_rgba(255, 255, 255, 192));
     UIPickUpItemIcon->Show(true);
@@ -725,8 +715,7 @@ void CUIMainIngameWnd::UpdateMainIndicators()
     // Satiety icon
     float satiety          = pActor->conditions().GetSatiety();
     float satiety_critical = pActor->conditions().SatietyCritical();
-    float satiety_koef =
-        (satiety - satiety_critical) / (satiety >= satiety_critical ? 1 - satiety_critical : satiety_critical);
+    float satiety_koef     = (satiety - satiety_critical) / (satiety >= satiety_critical ? 1 - satiety_critical : satiety_critical);
     if (satiety_koef > 0.5)
         m_ind_starvation->Show(false);
     else
@@ -981,7 +970,8 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
     {
         switch (b->second.m_type)
         {
-            case eBoostHpRestore: {
+            case eBoostHpRestore:
+            {
                 m_ind_boost_health->Show(true);
                 if (b->second.fBoostTime <= 3.0f)
                     m_ind_boost_health->SetColorAnimation(str_flag, flags);
@@ -989,7 +979,8 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
                     m_ind_boost_health->ResetColorAnimation();
             }
             break;
-            case eBoostPowerRestore: {
+            case eBoostPowerRestore:
+            {
                 m_ind_boost_power->Show(true);
                 if (b->second.fBoostTime <= 3.0f)
                     m_ind_boost_power->SetColorAnimation(str_flag, flags);
@@ -997,7 +988,8 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
                     m_ind_boost_power->ResetColorAnimation();
             }
             break;
-            case eBoostRadiationRestore: {
+            case eBoostRadiationRestore:
+            {
                 m_ind_boost_rad->Show(true);
                 if (b->second.fBoostTime <= 3.0f)
                     m_ind_boost_rad->SetColorAnimation(str_flag, flags);
@@ -1005,7 +997,8 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
                     m_ind_boost_rad->ResetColorAnimation();
             }
             break;
-            case eBoostBleedingRestore: {
+            case eBoostBleedingRestore:
+            {
                 m_ind_boost_wound->Show(true);
                 if (b->second.fBoostTime <= 3.0f)
                     m_ind_boost_wound->SetColorAnimation(str_flag, flags);
@@ -1013,7 +1006,8 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
                     m_ind_boost_wound->ResetColorAnimation();
             }
             break;
-            case eBoostMaxWeight: {
+            case eBoostMaxWeight:
+            {
                 m_ind_boost_weight->Show(true);
                 if (b->second.fBoostTime <= 3.0f)
                     m_ind_boost_weight->SetColorAnimation(str_flag, flags);
@@ -1022,7 +1016,8 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
             }
             break;
             case eBoostRadiationImmunity:
-            case eBoostRadiationProtection: {
+            case eBoostRadiationProtection:
+            {
                 m_ind_boost_radia->Show(true);
                 if (b->second.fBoostTime <= 3.0f)
                     m_ind_boost_radia->SetColorAnimation(str_flag, flags);
@@ -1031,7 +1026,8 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
             }
             break;
             case eBoostTelepaticImmunity:
-            case eBoostTelepaticProtection: {
+            case eBoostTelepaticProtection:
+            {
                 m_ind_boost_psy->Show(true);
                 if (b->second.fBoostTime <= 3.0f)
                     m_ind_boost_psy->SetColorAnimation(str_flag, flags);
@@ -1040,7 +1036,8 @@ void CUIMainIngameWnd::UpdateBoosterIndicators(const xr_map<EBoostParams, SBoost
             }
             break;
             case eBoostChemicalBurnImmunity:
-            case eBoostChemicalBurnProtection: {
+            case eBoostChemicalBurnProtection:
+            {
                 m_ind_boost_chem->Show(true);
                 if (b->second.fBoostTime <= 3.0f)
                     m_ind_boost_chem->SetColorAnimation(str_flag, flags);

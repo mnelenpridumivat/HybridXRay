@@ -21,11 +21,11 @@ public:
     // коэффициенты на которые домножается хит
     // при соответствующем типе воздействия
     // если на персонаже надет костюм
-    float GetHitTypeProtection(ALife::EHitType hit_type, s16 element);
-    float GetDefHitTypeProtection(ALife::EHitType hit_type);
-    float GetBoneArmor(s16 element);
+    float        GetHitTypeProtection(ALife::EHitType hit_type, s16 element);
+    float        GetDefHitTypeProtection(ALife::EHitType hit_type);
+    float        GetBoneArmor(s16 element);
 
-    float HitThroughArmor(float hit_power, s16 element, float ap, bool& add_wound, ALife::EHitType hit_type);
+    float        HitThroughArmor(float hit_power, s16 element, float ap, bool& add_wound, ALife::EHitType hit_type);
 
     virtual void OnMoveToSlot(const SInvItemPlace& prev);
     virtual void OnMoveToRuck(const SInvItemPlace& previous_place);
@@ -34,29 +34,29 @@ public:
 protected:
     HitImmunity::HitTypeSVec m_HitTypeProtection;
 
-    shared_str        m_ActorVisual;
-    shared_str        m_full_icon_name;
-    SBoneProtections* m_boneProtection;
+    shared_str               m_ActorVisual;
+    shared_str               m_full_icon_name;
+    SBoneProtections*        m_boneProtection;
 
 protected:
     u32 m_ef_equipment_type;
     u32 m_artefact_count;
 
 public:
-    float m_fPowerLoss;
-    float m_additional_weight;
-    float m_additional_weight2;
+    float             m_fPowerLoss;
+    float             m_additional_weight;
+    float             m_additional_weight2;
 
-    float m_fHealthRestoreSpeed;
-    float m_fRadiationRestoreSpeed;
-    float m_fSatietyRestoreSpeed;
-    float m_fPowerRestoreSpeed;
-    float m_fBleedingRestoreSpeed;
+    float             m_fHealthRestoreSpeed;
+    float             m_fRadiationRestoreSpeed;
+    float             m_fSatietyRestoreSpeed;
+    float             m_fPowerRestoreSpeed;
+    float             m_fBleedingRestoreSpeed;
 
-    shared_str m_BonesProtectionSect;
-    shared_str m_NightVisionSect;
+    shared_str        m_BonesProtectionSect;
+    shared_str        m_NightVisionSect;
 
-    bool bIsHelmetAvaliable;
+    bool              bIsHelmetAvaliable;
 
     virtual u32       ef_equipment_type() const;
     virtual BOOL      BonePassBullet(int boneID);

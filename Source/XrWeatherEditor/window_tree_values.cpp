@@ -39,7 +39,7 @@ void window_tree_values::values(property_string_values_value_base::collection_ty
     TreeView->Nodes->Clear();
     TreeView->SelectedNode = nullptr;
 
-    TreeNode ^ selected = nullptr;
+    TreeNode ^ selected    = nullptr;
 
     for each (String ^ i in values)
     {

@@ -11,11 +11,11 @@ struct LevelMapSyncData
     shared_str m_map_download_url;
     u32        m_level_geom_crc32;
 
-    u32 m_wait_map_time;
+    u32        m_wait_map_time;
 
     // next members changed by level message receiver
-    bool invalid_geom_checksum;
-    bool invalid_map_or_version;
+    bool       invalid_geom_checksum;
+    bool       invalid_map_or_version;
 
     LevelMapSyncData()
     {

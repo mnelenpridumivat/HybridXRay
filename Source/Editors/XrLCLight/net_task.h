@@ -25,6 +25,7 @@ class net_task: public net_task_callback
     CDeflector*   _D;
     u32           _id;
     light_execute _execute;
+
 public:
     void run();
 

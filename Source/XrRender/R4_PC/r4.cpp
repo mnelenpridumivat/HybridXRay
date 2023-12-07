@@ -23,6 +23,7 @@ class CGlow: public IRender_Glow
 {
 public:
     bool bActive;
+
 public:
     CGlow(): bActive(false) {}
     virtual void set_active(bool b)

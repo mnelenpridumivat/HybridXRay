@@ -36,15 +36,12 @@ protected:
     u32           time_state_started;
 };
 
-template <typename _Object> class CMonsterStateAdapter: public CState<_Object>
+template<typename _Object> class CMonsterStateAdapter: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
 public:
-    template <class Impl> CMonsterStateAdapter(Impl* p_impl, _Object* obj):
-        m_impl(p_impl), inherited(obj, p_impl->get_data())
-    {
-    }
+    template<class Impl> CMonsterStateAdapter(Impl* p_impl, _Object* obj): m_impl(p_impl), inherited(obj, p_impl->get_data()) {}
 
     virtual ~CMonsterStateAdapter()
     {

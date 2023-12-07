@@ -15,13 +15,5 @@ protected:
 
 public:
     CTracer();
-    void Render(
-        const Fvector& pos,
-        const Fvector& center,
-        const Fvector& dir,
-        float          length,
-        float          width,
-        u8             colorID,
-        float          speed,
-        bool           bActor);
+    void Render(const Fvector& pos, const Fvector& center, const Fvector& dir, float length, float width, u8 colorID, float speed, bool bActor);
 };

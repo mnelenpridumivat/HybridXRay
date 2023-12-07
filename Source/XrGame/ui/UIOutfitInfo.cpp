@@ -12,17 +12,13 @@
 #include "..\player_hud.h"
 
 LPCSTR immunity_names[] = {
-    "burn_immunity",      "shock_immunity", "chemical_burn_immunity", "radiation_immunity",
-    "telepatic_immunity", "wound_immunity", "fire_wound_immunity",
+    "burn_immunity", "shock_immunity", "chemical_burn_immunity", "radiation_immunity", "telepatic_immunity", "wound_immunity", "fire_wound_immunity",
     //	"strike_immunity",
     //	"explosion_immunity",
 };
 
 LPCSTR immunity_st_names[] = {
-    "ui_inv_outfit_burn_protection",          "ui_inv_outfit_shock_protection",
-    "ui_inv_outfit_chemical_burn_protection", "ui_inv_outfit_radiation_protection",
-    "ui_inv_outfit_telepatic_protection",     "ui_inv_outfit_wound_protection",
-    "ui_inv_outfit_fire_wound_protection",
+    "ui_inv_outfit_burn_protection", "ui_inv_outfit_shock_protection", "ui_inv_outfit_chemical_burn_protection", "ui_inv_outfit_radiation_protection", "ui_inv_outfit_telepatic_protection", "ui_inv_outfit_wound_protection", "ui_inv_outfit_fire_wound_protection",
     //	"ui_inv_outfit_strike_protection",
     //	"ui_inv_outfit_explosion_protection",
 };
@@ -139,7 +135,7 @@ void CUIOutfitInfo::UpdateInfo(CCustomOutfit* cur_outfit, CCustomOutfit* slot_ou
         ALife::EHitType hit_type  = (ALife::EHitType)i;
         float           max_power = actor->conditions().GetZoneMaxPower(hit_type);
 
-        float cur = cur_outfit->GetDefHitTypeProtection(hit_type);
+        float           cur       = cur_outfit->GetDefHitTypeProtection(hit_type);
         cur /= max_power;   // = 0..1
         float slot = cur;
 
@@ -155,15 +151,15 @@ void CUIOutfitInfo::UpdateInfo(CCustomOutfit* cur_outfit, CCustomOutfit* slot_ou
     {
         IKinematics* ikv = smart_cast<IKinematics*>(actor->Visual());
         VERIFY(ikv);
-        u16 spine_bone = ikv->LL_BoneID("bip01_spine");
+        u16   spine_bone = ikv->LL_BoneID("bip01_spine");
 
-        float cur = cur_outfit->GetBoneArmor(spine_bone) * cur_outfit->GetCondition();
+        float cur        = cur_outfit->GetBoneArmor(spine_bone) * cur_outfit->GetCondition();
         // if(!cur_outfit->bIsHelmetAvaliable)
         //{
         //	spine_bone = ikv->LL_BoneID("bip01_head");
         //	cur += cur_outfit->GetBoneArmor(spine_bone);
         // }
-        float slot = cur;
+        float slot       = cur;
         if (slot_outfit)
         {
             spine_bone = ikv->LL_BoneID("bip01_spine");
@@ -199,7 +195,7 @@ void CUIOutfitInfo::UpdateInfo(CHelmet* cur_helmet, CHelmet* slot_helmet)
         ALife::EHitType hit_type  = (ALife::EHitType)i;
         float           max_power = actor->conditions().GetZoneMaxPower(hit_type);
 
-        float cur = cur_helmet->GetDefHitTypeProtection(hit_type);
+        float           cur       = cur_helmet->GetDefHitTypeProtection(hit_type);
         cur /= max_power;   // = 0..1
         float slot = cur;
 
@@ -215,10 +211,10 @@ void CUIOutfitInfo::UpdateInfo(CHelmet* cur_helmet, CHelmet* slot_helmet)
     {
         IKinematics* ikv = smart_cast<IKinematics*>(actor->Visual());
         VERIFY(ikv);
-        u16 spine_bone = ikv->LL_BoneID("bip01_head");
+        u16   spine_bone = ikv->LL_BoneID("bip01_head");
 
-        float cur  = cur_helmet->GetBoneArmor(spine_bone) * cur_helmet->GetCondition();
-        float slot = (slot_helmet) ? slot_helmet->GetBoneArmor(spine_bone) * slot_helmet->GetCondition() : cur;
+        float cur        = cur_helmet->GetBoneArmor(spine_bone) * cur_helmet->GetCondition();
+        float slot       = (slot_helmet) ? slot_helmet->GetBoneArmor(spine_bone) * slot_helmet->GetCondition() : cur;
 
         m_items[ALife::eHitTypeFireWound]->SetProgressValue(cur, slot);
     }

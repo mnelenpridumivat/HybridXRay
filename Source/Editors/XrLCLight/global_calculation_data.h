@@ -11,12 +11,12 @@ class Shader_xrLC_LIB;
 //-----------------------------------------------------------------
 struct global_claculation_data
 {
-    base_lighting             g_lights;           /////////////////////lc
-    Shader_xrLC_LIB*          g_shaders_xrlc;     ////////////////lc
-    b_params                  g_params;           //////////////////////lc
-    xr_vector<b_material>     g_materials;        ///////////////////lc
-    xr_vector<b_BuildTexture> g_textures;         ////////////////////lc
-    CDB::MODEL                RCAST_Model;        ///////////////////lc
+    base_lighting             g_lights;         /////////////////////lc
+    Shader_xrLC_LIB*          g_shaders_xrlc;   ////////////////lc
+    b_params                  g_params;         //////////////////////lc
+    xr_vector<b_material>     g_materials;      ///////////////////lc
+    xr_vector<b_BuildTexture> g_textures;       ////////////////////lc
+    CDB::MODEL                RCAST_Model;      ///////////////////lc
 
     Fbox                      LevelBB;            //-----------============
     global_slots_data         slots_data;         //-------=============

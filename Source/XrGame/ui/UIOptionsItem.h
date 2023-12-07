@@ -37,26 +37,26 @@ public:
     void         OnChangedOptValue();
 
 protected:
-    void SendMessage2Group(LPCSTR group, LPCSTR message);
+    void                     SendMessage2Group(LPCSTR group, LPCSTR message);
 
     // string
-    LPCSTR GetOptStringValue();
-    void   SaveOptStringValue(LPCSTR val);
+    LPCSTR                   GetOptStringValue();
+    void                     SaveOptStringValue(LPCSTR val);
     // integer
-    void GetOptIntegerValue(int& val, int& min, int& max);
-    void SaveOptIntegerValue(int val);
+    void                     GetOptIntegerValue(int& val, int& min, int& max);
+    void                     SaveOptIntegerValue(int val);
     // float
-    void GetOptFloatValue(float& val, float& min, float& max);
-    void SaveOptFloatValue(float val);
+    void                     GetOptFloatValue(float& val, float& min, float& max);
+    void                     SaveOptFloatValue(float val);
     // bool
-    bool GetOptBoolValue();
-    void SaveOptBoolValue(bool val);
+    bool                     GetOptBoolValue();
+    void                     SaveOptBoolValue(bool val);
     // token
-    LPCSTR    GetOptTokenValue();
-    xr_token* GetOptToken();
+    LPCSTR                   GetOptTokenValue();
+    xr_token*                GetOptToken();
 
-    shared_str     m_entry;
-    ESystemDepends m_dep;
+    shared_str               m_entry;
+    ESystemDepends           m_dep;
 
     static CUIOptionsManager m_optionsManager;
 };

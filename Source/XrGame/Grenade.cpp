@@ -35,14 +35,12 @@ void CGrenade::Load(LPCSTR section)
         m_dwGrenadeRemoveTime = pSettings->r_u32(section, "grenade_remove_time");
     else
         m_dwGrenadeRemoveTime = GRENADE_REMOVE_TIME;
-    m_grenade_detonation_threshold_hit = READ_IF_EXISTS(
-        pSettings, r_float, section, "detonation_threshold_hit", default_grenade_detonation_threshold_hit);
+    m_grenade_detonation_threshold_hit = READ_IF_EXISTS(pSettings, r_float, section, "detonation_threshold_hit", default_grenade_detonation_threshold_hit);
 }
 
 void CGrenade::Hit(SHit* pHDS)
 {
-    if (ALife::eHitTypeExplosion == pHDS->hit_type && m_grenade_detonation_threshold_hit < pHDS->damage() &&
-        CExplosive::Initiator() == u16(-1))
+    if (ALife::eHitTypeExplosion == pHDS->hit_type && m_grenade_detonation_threshold_hit < pHDS->damage() && CExplosive::Initiator() == u16(-1))
     {
         CExplosive::SetCurrentParentID(pHDS->who->ID());
         Destroy();
@@ -98,13 +96,15 @@ void CGrenade::State(u32 state)
 {
     switch (state)
     {
-        case eThrowStart: {
+        case eThrowStart:
+        {
             Fvector C;
             Center(C);
             PlaySound("sndCheckout", C);
         }
         break;
-        case eThrowEnd: {
+        case eThrowEnd:
+        {
             if (m_thrown)
             {
                 if (m_pPhysicsShell)
@@ -198,9 +198,7 @@ void CGrenade::Destroy()
 
 bool CGrenade::Useful() const
 {
-    bool res =
-        (/* !m_throw && */ m_dwDestroyTime == 0xffffffff && CExplosive::Useful() &&
-         TestServerFlag(CSE_ALifeObject::flCanSave));
+    bool res = (/* !m_throw && */ m_dwDestroyTime == 0xffffffff && CExplosive::Useful() && TestServerFlag(CSE_ALifeObject::flCanSave));
 
     return res;
 }
@@ -287,7 +285,8 @@ bool CGrenade::Action(u16 cmd, u32 flags)
     switch (cmd)
     {
         // переключение типа гранаты
-        case kWPN_NEXT: {
+        case kWPN_NEXT:
+        {
             if (flags & CMD_START)
             {
                 if (m_pInventory)
@@ -336,8 +335,7 @@ ALife::_TIME_ID CGrenade::TimePassedAfterIndependant() const
 
 BOOL CGrenade::UsedAI_Locations()
 {
-#pragma todo( \
-    "Dima to Yura : It crashes, because on net_Spawn object doesn't use AI locations, but on net_Destroy it does use them")
+#pragma todo("Dima to Yura : It crashes, because on net_Spawn object doesn't use AI locations, but on net_Destroy it does use them")
     return inherited::UsedAI_Locations();   // m_dwDestroyTime == 0xffffffff;
 }
 
@@ -386,7 +384,7 @@ bool CGrenade::GetBriefInfo(II_BriefInfo& info)
     info.name._set(m_nameShort);
     info.icon._set(cNameSect());
 
-    u32 ThisGrenadeCount = m_pInventory->dwfGetSameItemCount(cNameSect().c_str(), true);
+    u32      ThisGrenadeCount = m_pInventory->dwfGetSameItemCount(cNameSect().c_str(), true);
 
     string16 stmp;
     xr_sprintf(stmp, "%d", ThisGrenadeCount);

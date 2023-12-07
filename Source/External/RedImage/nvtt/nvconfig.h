@@ -1,4 +1,4 @@
-#ifndef NV_CONFIG
+﻿#ifndef NV_CONFIG
 #define NV_CONFIG
 
 #define HAVE_UNISTD_H
@@ -12,5 +12,4 @@
 //#cmakedefine HAVE_OPENEXR
 //#cmakedefine HAVE_FREEIMAGE
 
-
-#endif // NV_CONFIG
+#endif   // NV_CONFIG

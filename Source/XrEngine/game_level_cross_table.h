@@ -13,10 +13,10 @@
 #include "alife_space.h"
 #include "game_graph_space.h"
 
-#define CROSS_TABLE_NAME "level.gct"
+#define CROSS_TABLE_NAME          "level.gct"
 
 #define CROSS_TABLE_CHUNK_VERSION 0
-#define CROSS_TABLE_CHUNK_DATA 1
+#define CROSS_TABLE_CHUNK_DATA    1
 
 class ENGINE_API IGameLevelCrossTable
 {
@@ -25,6 +25,7 @@ public:
     class CHeader
     {
 #ifndef MASTER_GOLD
+
     public:
 #endif
         u32    dwVersion;
@@ -44,6 +45,7 @@ public:
     class CCell
     {
 #ifndef MASTER_GOLD
+
     public:
 #endif
         GameGraph::_GRAPH_ID tGraphIndex;

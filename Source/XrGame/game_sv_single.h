@@ -21,12 +21,12 @@ public:
     {
         return "single";
     };
-    virtual void Create(shared_str& options);
+    virtual void            Create(shared_str& options);
     //	virtual		CSE_Abstract*		get_entity_from_eid		(u16 id);
 
-    virtual void OnCreate(u16 id_who);
-    virtual BOOL OnTouch(u16 eid_who, u16 eid_what, BOOL bForced = FALSE);
-    virtual void OnDetach(u16 eid_who, u16 eid_what);
+    virtual void            OnCreate(u16 id_who);
+    virtual BOOL            OnTouch(u16 eid_who, u16 eid_what, BOOL bForced = FALSE);
+    virtual void            OnDetach(u16 eid_who, u16 eid_what);
 
     // Main
     virtual void            Update();
@@ -39,12 +39,12 @@ public:
     virtual float           GetEnvironmentGameTimeFactor();
     virtual void            SetEnvironmentGameTimeFactor(const float fTimeFactor);
 
-    virtual bool change_level(NET_Packet& net_packet, ClientID sender);
-    virtual void save_game(NET_Packet& net_packet, ClientID sender);
-    virtual bool load_game(NET_Packet& net_packet, ClientID sender);
-    virtual void reload_game(NET_Packet& net_packet, ClientID sender);
-    virtual void switch_distance(NET_Packet& net_packet, ClientID sender);
-    virtual BOOL CanHaveFriendlyFire()
+    virtual bool            change_level(NET_Packet& net_packet, ClientID sender);
+    virtual void            save_game(NET_Packet& net_packet, ClientID sender);
+    virtual bool            load_game(NET_Packet& net_packet, ClientID sender);
+    virtual void            reload_game(NET_Packet& net_packet, ClientID sender);
+    virtual void            switch_distance(NET_Packet& net_packet, ClientID sender);
+    virtual BOOL            CanHaveFriendlyFire()
     {
         return FALSE;
     }
@@ -61,7 +61,7 @@ public:
     virtual void       on_death(CSE_Abstract* e_dest, CSE_Abstract* e_src);
     void               restart_simulator(LPCSTR saved_game_name);
 
-    IC xrServer& server() const
+    IC xrServer&       server() const
     {
         VERIFY(m_server);
         return (*m_server);

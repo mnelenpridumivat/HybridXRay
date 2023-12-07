@@ -15,16 +15,16 @@ private:
     } eDimensions;
 
     // data members
-    int m, s;   // size and number of support vectors
+    int      m, s;   // size and number of support vectors
 
-    Fvector q0;
+    Fvector  q0;
 
-    float   z[d + 1];
-    float   f[d + 1];
-    Fvector v[d + 1];
-    Fvector a[d + 1];
-    Fvector c[d + 1];
-    float   sqr_r[d + 1];
+    float    z[d + 1];
+    float    f[d + 1];
+    Fvector  v[d + 1];
+    Fvector  a[d + 1];
+    Fvector  c[d + 1];
+    float    sqr_r[d + 1];
 
     Fvector* current_c;   // vectors to some c[j]
     float    current_sqr_r;
@@ -40,9 +40,9 @@ public:
     float          excess(const Fvector& p) const;
 
     // modification
-    void reset();   // generates empty sphere with m=s=0
-    bool push(const Fvector& p);
-    void pop();
+    void           reset();   // generates empty sphere with m=s=0
+    bool           push(const Fvector& p);
+    void           pop();
 };
 
 // Miniball
@@ -62,11 +62,11 @@ private:
     It         support_end;   // past-the-end iterator of support set
 
     // private methods
-    void  mtf_mb(It k);
-    void  pivot_mb(It k);
-    void  move_to_front(It j);
-    float max_excess(It t, It i, It& pivot) const;
-    float abs(float r) const
+    void       mtf_mb(It k);
+    void       pivot_mb(It k);
+    void       move_to_front(It j);
+    float      max_excess(It t, It i, It& pivot) const;
+    float      abs(float r) const
     {
         return (r > 0) ? r : (-r);
     }
@@ -78,8 +78,8 @@ private:
 public:
     // construction
     Miniball() {}
-    void check_in(const Fvector& p);
-    void build();
+    void    check_in(const Fvector& p);
+    void    build();
 
     // access
     Fvector center() const;
@@ -161,7 +161,8 @@ void Miniball::pivot_mb(It i)
             B.pop();
             move_to_front(pivot);
         }
-    } while ((max_e > 0) && (B.squared_radius() > old_sqr_r));
+    }
+    while ((max_e > 0) && (B.squared_radius() > old_sqr_r));
 }
 
 float Miniball::max_excess(It t, It i, It& pivot) const
@@ -169,7 +170,7 @@ float Miniball::max_excess(It t, It i, It& pivot) const
     const Fvector* pCenter = B.center();
     float          sqr_r   = B.squared_radius();
 
-    float e, max_e = 0;
+    float          e, max_e = 0;
 
     for (It k = t; k != i; ++k)
     {

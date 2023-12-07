@@ -13,7 +13,7 @@
 #include "screenshot_server.h"
 #include "../xrNetServer/NET_AuthCheck.h"
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -57,7 +57,7 @@ xrServer::EConnect xrServer::Connect(shared_str& session_name, GameDescriptionDa
     xr_strcpy(type, options);
     if (strchr(type, '/'))
         *strchr(type, '/') = 0;
-    game = NULL;
+    game           = NULL;
 
     CLASS_ID clsid = game_GameState::getCLASS_ID(type, true);
     game           = smart_cast<game_sv_GameState*>(NEW_INSTANCE(clsid));
@@ -167,8 +167,7 @@ void xrServer::ProcessClientDigest(xrClientData* xrCL, NET_Packet* P)
     if (server_game->IsPlayerBanned(xrCL->m_cdkey_digest.c_str(), admin_name))
     {
         R_ASSERT2(tmp_client != GetServerClient(), "can't disconnect server client");
-        Msg("--- Client [%s] tried to connect - rejecting connection (he is banned by %s) ...",
-            tmp_client->m_cAddress.to_string().c_str(), admin_name.size() ? admin_name.c_str() : "Server");
+        Msg("--- Client [%s] tried to connect - rejecting connection (he is banned by %s) ...", tmp_client->m_cAddress.to_string().c_str(), admin_name.size() ? admin_name.c_str() : "Server");
         LPSTR message_to_user;
         if (admin_name.size())
         {

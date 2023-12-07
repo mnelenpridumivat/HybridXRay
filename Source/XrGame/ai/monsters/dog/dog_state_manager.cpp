@@ -42,13 +42,13 @@ CStateManagerDog::CStateManagerDog(CAI_Dog* monster): inherited(monster)
 
 void CStateManagerDog::execute()
 {
-    u32 state_id = u32(-1);
+    u32                 state_id = u32(-1);
 
-    CMonsterSquad* squad = monster_squad().get_squad(object);
+    CMonsterSquad*      squad    = monster_squad().get_squad(object);
 
-    const CEntityAlive* enemy = object->EnemyMan.get_enemy();
+    const CEntityAlive* enemy    = object->EnemyMan.get_enemy();
 
-    bool atack = false;
+    bool                atack    = false;
     if (enemy)
     {
         const Fvector3& enemy_pos = enemy->Position();

@@ -34,9 +34,9 @@ void CControlDirectionBase::face_target(const Fvector& position, u32 delay, floa
     yaw *= -1;
 
     yaw += (m_man->direction().is_from_right(position)) ? add_yaw : -add_yaw;
-    yaw = angle_normalize(yaw);
+    yaw               = angle_normalize(yaw);
 
-    m_heading.target = yaw;
+    m_heading.target  = yaw;
 
     m_time_last_faced = Device->dwTimeGlobal;
 }

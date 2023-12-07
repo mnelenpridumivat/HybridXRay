@@ -16,10 +16,10 @@ class CUIMessageBoxEx;
 class CGameSpy_Browser;
 struct ServerInfo;
 
-#define LST_SERVER 0
-#define LST_SRV_PROP 1
-#define LST_PLAYERS 2
-#define DIF_HEIGHT 180
+#define LST_SERVER       0
+#define LST_SRV_PROP     1
+#define LST_PLAYERS      2
+#define DIF_HEIGHT       180
 #define LST_COLUMN_COUNT 7
 
 enum enum_connect_error
@@ -69,55 +69,55 @@ public:
     void         ShowServerInfo();
     virtual void RefreshList();
 
-    void on_game_spy_browser_destroy(CGameSpy_Browser* browser);
+    void         on_game_spy_browser_destroy(CGameSpy_Browser* browser);
 
 protected:
-    bool IsValidItem(ServerInfo& item);
-    void SrvInfo2LstSrvInfo(const ServerInfo* pSrvInfo);
-    void UpdateSizes();
-    void UpdateVisibility();
-    void BeforeAppear();
-    void AfterAppear();
-    void BeforeDisapear();
-    void AfterDisappear();
-    void FillUpDetailedServerInfo();
-    void ClearDetailedServerInfo();
+    bool              IsValidItem(ServerInfo& item);
+    void              SrvInfo2LstSrvInfo(const ServerInfo* pSrvInfo);
+    void              UpdateSizes();
+    void              UpdateVisibility();
+    void              BeforeAppear();
+    void              AfterAppear();
+    void              BeforeDisapear();
+    void              AfterDisappear();
+    void              FillUpDetailedServerInfo();
+    void              ClearDetailedServerInfo();
 
-    void SaveCurItem();
-    void RestoreCurItem();
-    void ResetCurItem();
-    bool NeedToRefreshCurServer();
+    void              SaveCurItem();
+    void              RestoreCurItem();
+    void              ResetCurItem();
+    bool              NeedToRefreshCurServer();
 
-    static bool sort_by_ServerName(int p1, int p2);
-    static bool sort_by_Map(int p1, int p2);
-    static bool sort_by_GameType(int p1, int p2);
-    static bool sort_by_Players(int p1, int p2);
-    static bool sort_by_Ping(int p1, int p2);
-    static bool sort_by_Version(int p1, int p2);
+    static bool       sort_by_ServerName(int p1, int p2);
+    static bool       sort_by_Map(int p1, int p2);
+    static bool       sort_by_GameType(int p1, int p2);
+    static bool       sort_by_Players(int p1, int p2);
+    static bool       sort_by_Ping(int p1, int p2);
+    static bool       sort_by_Version(int p1, int p2);
 
-    LIST_SRV_ITEM  m_itemInfo;
-    SServerFilters m_sf;
+    LIST_SRV_ITEM     m_itemInfo;
+    SServerFilters    m_sf;
     //	CUIListWnd		m_list[3];
-    CUIListBox      m_list[3];
-    CUIFrameWindow  m_frame[3];
-    CUI3tButton     m_header[LST_COLUMN_COUNT];
-    CUIFrameLineWnd m_header2[4];
-    CUIFrameLineWnd m_header_frames[LST_COLUMN_COUNT];
-    CUIEditBox      m_edit_gs_filter;
-    xr_string       m_playerName;
-    bool            m_bShowServerInfo;
-    bool            m_bAnimation;
-    float           m_fListH[2];
-    float           m_fEditPos[2];
-    int             m_cur_item;
-    bool            m_b_local;
+    CUIListBox        m_list[3];
+    CUIFrameWindow    m_frame[3];
+    CUI3tButton       m_header[LST_COLUMN_COUNT];
+    CUIFrameLineWnd   m_header2[4];
+    CUIFrameLineWnd   m_header_frames[LST_COLUMN_COUNT];
+    CUIEditBox        m_edit_gs_filter;
+    xr_string         m_playerName;
+    bool              m_bShowServerInfo;
+    bool              m_bAnimation;
+    float             m_fListH[2];
+    float             m_fEditPos[2];
+    int               m_cur_item;
+    bool              m_b_local;
 
-    CUIMessageBoxEx* m_message_box;
+    CUIMessageBoxEx*  m_message_box;
 
     CGameSpy_Browser* m_GSBrowser;
 
-    shared_str     m_sort_func;
-    xr_vector<int> m_tmp_srv_lst;
+    shared_str        m_sort_func;
+    xr_vector<int>    m_tmp_srv_lst;
     struct SrvItem
     {
         CUIListItemServer* m_ui_item;
@@ -128,9 +128,9 @@ protected:
             m_busy    = true;
         }
     };
-    CUIListItemServer* GetFreeItem();
-    void               DestroySrvItems();
-    void               ClearSrvItems();
+    CUIListItemServer*         GetFreeItem();
+    void                       DestroySrvItems();
+    void                       ClearSrvItems();
 
     typedef xr_vector<SrvItem> SrvItems;
     typedef SrvItems::iterator SrvItems_It;

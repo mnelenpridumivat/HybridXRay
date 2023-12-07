@@ -6,10 +6,10 @@
 #pragma package(smart_init)
 
 //------------------------------------------------------------------------------
-#define THM_SOUND_VERSION 0x0014
+#define THM_SOUND_VERSION       0x0014
 //------------------------------------------------------------------------------
-#define THM_CHUNK_SOUNDPARAM 0x1000
-#define THM_CHUNK_SOUNDPARAM2 0x1001
+#define THM_CHUNK_SOUNDPARAM    0x1000
+#define THM_CHUNK_SOUNDPARAM2   0x1001
 #define THM_CHUNK_SOUND_AI_DIST 0x1002
 //------------------------------------------------------------------------------
 ESoundThumbnail::ESoundThumbnail(LPCSTR src_name, bool bLoad): ECustomThumbnail(src_name, ETSound)

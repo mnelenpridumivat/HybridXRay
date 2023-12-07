@@ -439,8 +439,8 @@ IC bool __aabb_tri(Point center, Point extents, const Point* mLeafVerts)
     // 3) "Class III" tests
     // if(bClass3)
     {
-        float rad;
-        float min, max;
+        float       rad;
+        float       min, max;
         // compute triangle edges
         // - edges lazy evaluated to take advantage of early exits
         // - fabs precomputed (half less work, possible since extents are always >0)

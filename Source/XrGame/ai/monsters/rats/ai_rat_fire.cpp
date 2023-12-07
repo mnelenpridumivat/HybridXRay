@@ -21,11 +21,11 @@ void CAI_Rat::Exec_Action(float /**dt/**/)
 {
     switch (m_tAction)
     {
-        case eRatActionAttackBegin: {
+        case eRatActionAttackBegin:
+        {
             u32 dwTime = Device->dwTimeGlobal;
             sound().play(eRatSoundAttack);   //,0,0,m_dwHitInterval+1,m_dwHitInterval);
-            if (memory().enemy().selected() && memory().enemy().selected()->g_Alive() &&
-                (dwTime - m_dwStartAttackTime > m_dwHitInterval))
+            if (memory().enemy().selected() && memory().enemy().selected()->g_Alive() && (dwTime - m_dwStartAttackTime > m_dwHitInterval))
             {
                 m_bActionStarted    = true;
                 m_dwStartAttackTime = dwTime;
@@ -45,16 +45,15 @@ void CAI_Rat::Exec_Action(float /**dt/**/)
                     u16        id_from = ID();
                     NET_Packet l_P;
                     SHit       HS;
-                    HS.GenHeader(GE_HIT, id_to);   //					u_EventGen	(l_P,GE_HIT, id_to);
-                    HS.whoID    = (id_from);       //					l_P.w_u16	(id_from);
-                    HS.weaponID = (id_from);       //					l_P.w_u16	(id_from);
-                    HS.dir      = (tDirection);    //					l_P.w_dir	(tDirection);
-                    HS.power    = (m_fHitPower);   //					l_P.w_float	(m_fHitPower);
-                    HS.boneID   = (0);             //					l_P.w_s16	(0);
-                    HS.p_in_bone_space =
-                        (position_in_bone_space);           //					l_P.w_vec3	(position_in_bone_space);
-                    HS.impulse  = (0.f);                    //					l_P.w_float	(0.f);
-                    HS.hit_type = (ALife::eHitTypeWound);   //					l_P.w_u16	((u16)ALife::eHitTypeWound);
+                    HS.GenHeader(GE_HIT, id_to);                     //					u_EventGen	(l_P,GE_HIT, id_to);
+                    HS.whoID           = (id_from);                  //					l_P.w_u16	(id_from);
+                    HS.weaponID        = (id_from);                  //					l_P.w_u16	(id_from);
+                    HS.dir             = (tDirection);               //					l_P.w_dir	(tDirection);
+                    HS.power           = (m_fHitPower);              //					l_P.w_float	(m_fHitPower);
+                    HS.boneID          = (0);                        //					l_P.w_s16	(0);
+                    HS.p_in_bone_space = (position_in_bone_space);   //					l_P.w_vec3	(position_in_bone_space);
+                    HS.impulse         = (0.f);                      //					l_P.w_float	(0.f);
+                    HS.hit_type        = (ALife::eHitTypeWound);     //					l_P.w_u16	((u16)ALife::eHitTypeWound);
                     HS.Write_Packet(l_P);
                     u_EventSend(l_P);
                 }
@@ -63,7 +62,8 @@ void CAI_Rat::Exec_Action(float /**dt/**/)
                 m_bActionStarted = false;
             break;
         }
-        case eRatActionAttackEnd: {
+        case eRatActionAttackEnd:
+        {
             m_bActionStarted = false;
             break;
         }
@@ -108,9 +108,7 @@ float CAI_Rat::evaluate(const CItemManager* manager, const CGameObject* object) 
     VERIFY(entity_alive);
     if (!entity_alive->g_Alive())
     {
-        if ((Device->dwTimeGlobal - entity_alive->GetLevelDeathTime() < m_dwEatCorpseInterval) &&
-            (entity_alive->m_fFood > 0) && (m_bEatMemberCorpses || (entity_alive->g_Team() != g_Team())) &&
-            (m_bCannibalism || (entity_alive->CLS_ID != CLS_ID)))
+        if ((Device->dwTimeGlobal - entity_alive->GetLevelDeathTime() < m_dwEatCorpseInterval) && (entity_alive->m_fFood > 0) && (m_bEatMemberCorpses || (entity_alive->g_Team() != g_Team())) && (m_bCannibalism || (entity_alive->CLS_ID != CLS_ID)))
             return (entity_alive->m_fFood * entity_alive->m_fFood) * Position().distance_to(entity_alive->Position());
         else
             return (flt_max);
@@ -133,7 +131,8 @@ void CAI_Rat::update_morale()
     switch (m_eCurrentState)
     {
         case aiRatFreeActive:
-        case aiRatFreePassive: {
+        case aiRatFreePassive:
+        {
             if (m_fMorale < m_fMoraleNormalValue)
             {
                 m_fMorale += m_fMoraleRestoreQuant;   //*(1.f - fDistance/m_fMoraleNullRadius);
@@ -149,7 +148,8 @@ void CAI_Rat::update_morale()
             break;
         }
         case aiRatUnderFire:
-        case aiRatRetreat: {
+        case aiRatRetreat:
+        {
             // m_fMorale += fDistance <= m_fMoraleNullRadius ? m_fMoraleRestoreQuant : 0;
             // m_fMorale += m_fMoraleRestoreQuant*(m_fMoraleNullRadius/fDistance);
             m_fMorale += m_fMoraleRestoreQuant;
@@ -157,7 +157,8 @@ void CAI_Rat::update_morale()
         }
         case aiRatAttackRange:
         case aiRatAttackMelee:
-        case aiRatReturnHome: {
+        case aiRatReturnHome:
+        {
             // m_fMorale += m_fMoraleRestoreQuant*(1.f - fDistance/m_fMoraleNullRadius);
             // m_fMorale += m_fMoraleRestoreQuant*(m_fMoraleNullRadius/fDistance);
             m_fMorale += m_fMoraleRestoreQuant;

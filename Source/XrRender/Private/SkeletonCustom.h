@@ -38,6 +38,7 @@ class CSkeletonWallmark: public intrusive_base   // 4+4+4+12+4+16+16 = 60 + 4 = 
     ref_shader     m_Shader;         // 4
     Fvector3       m_ContactPoint;   // 12		model space
     float          m_fTimeStart;     // 4
+
 public:
 #ifdef DEBUG
     u32 used_in_render;
@@ -52,8 +53,10 @@ public:
     };
     DEFINE_VECTOR(WMFace, WMFacesVec, WMFacesVecIt);
     WMFacesVec m_Faces;   // 16
+
 public:
     Fsphere m_Bounds;   // 16		world space
+
 public:
     CSkeletonWallmark(CKinematics* p, const Fmatrix* m, ref_shader s, const Fvector& cp, float ts): m_Parent(p), m_XForm(m), m_Shader(s), m_fTimeStart(ts), m_ContactPoint(cp)
     {
@@ -125,6 +128,7 @@ class CKinematics: public FHierrarhyVisual, public IKinematics
     typedef FHierrarhyVisual inherited;
     friend class CBoneData;
     friend class CSkeletonX;
+
 public:
 #ifdef DEBUG
     BOOL dbg_single_use_marker;
@@ -137,8 +141,10 @@ public:
 
     virtual void BuildBoneMatrix(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 mask_channel = (1 << 0));
     virtual void OnCalculateBones() {}
+
 public:
     dxRender_Visual* m_lod;
+
 protected:
     SkeletonWMVec               wallmarks;
     u32                         wm_frame;
@@ -177,18 +183,22 @@ protected:
     void Visibility_Update();
 
     void LL_Validate();
+
 public:
     UpdateCallback Update_Callback;
     void*          Update_Callback_Param;
+
 public:
     // wallmarks
     void AddWallmark(const Fmatrix* parent, const Fvector3& start, const Fvector3& dir, ref_shader shader, float size);
     void CalculateWallmarks();
     void RenderWallmark(intrusive_ptr<CSkeletonWallmark> wm, FVF::LIT*& verts);
     void ClearWallmarks();
+
 public:
     bool         PickBone(const Fmatrix& parent_xform, IKinematics::pick_result& r, float dist, const Fvector& start, const Fvector& dir, u16 bone_id);
     virtual void EnumBoneVertices(SEnumVerticesCallback& C, u16 bone_id);
+
 public:
     CKinematics();
     virtual ~CKinematics();
@@ -340,11 +350,13 @@ public:
     // debug
 #ifdef DEBUG
     void DebugRender(Fmatrix& XFORM);
+
 protected:
     virtual shared_str _BCL getDebugName()
     {
         return dbg_name;
     }
+
 public:
 #endif
 
@@ -381,6 +393,7 @@ public:
         }
         return sz;
     }
+
 private:
     bool m_is_original_lod;
 };

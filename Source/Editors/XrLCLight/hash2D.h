@@ -5,6 +5,7 @@ template<class T, u32 s_X, u32 s_Y> class hash2D
     xr_vector<T> table[s_Y][s_X];
     Fbox2        bounds;
     Fvector2     size;
+
 public:
     hash2D()
     {

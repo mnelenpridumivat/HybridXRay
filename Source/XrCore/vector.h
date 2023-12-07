@@ -32,27 +32,27 @@ const float EPS_L = 0.0010000f;
 #undef M_SQRT1_2
 const float M_SQRT1_2 = 0.7071067811865475244008443621048f;   // 490;
 
-const float M_PI     = 3.1415926535897932384626433832795f;
-const float PI       = 3.1415926535897932384626433832795f;
-const float PI_MUL_2 = 6.2831853071795864769252867665590f;
-const float PI_MUL_3 = 9.4247779607693797153879301498385f;
-const float PI_MUL_4 = 12.566370614359172953850573533118f;
-const float PI_MUL_6 = 18.849555921538759430775860299677f;
-const float PI_MUL_8 = 25.132741228718345907701147066236f;
-const float PI_DIV_2 = 1.5707963267948966192313216916398f;
-const float PI_DIV_3 = 1.0471975511965977461542144610932f;
-const float PI_DIV_4 = 0.7853981633974483096156608458199f;
-const float PI_DIV_6 = 0.5235987755982988730771072305466f;
-const float PI_DIV_8 = 0.3926990816987241548078304229099f;
+const float M_PI      = 3.1415926535897932384626433832795f;
+const float PI        = 3.1415926535897932384626433832795f;
+const float PI_MUL_2  = 6.2831853071795864769252867665590f;
+const float PI_MUL_3  = 9.4247779607693797153879301498385f;
+const float PI_MUL_4  = 12.566370614359172953850573533118f;
+const float PI_MUL_6  = 18.849555921538759430775860299677f;
+const float PI_MUL_8  = 25.132741228718345907701147066236f;
+const float PI_DIV_2  = 1.5707963267948966192313216916398f;
+const float PI_DIV_3  = 1.0471975511965977461542144610932f;
+const float PI_DIV_4  = 0.7853981633974483096156608458199f;
+const float PI_DIV_6  = 0.5235987755982988730771072305466f;
+const float PI_DIV_8  = 0.3926990816987241548078304229099f;
 
 #endif
 #ifdef M_BORLAND
-#define EPS_S 0.0000001f
-#define EPS 0.0000100f
-#define EPS_L 0.0010000f
+#define EPS_S    0.0000001f
+#define EPS      0.0000100f
+#define EPS_L    0.0010000f
 
-#define M_PI 3.1415926535897932384626433832795f
-#define PI 3.1415926535897932384626433832795f
+#define M_PI     3.1415926535897932384626433832795f
+#define PI       3.1415926535897932384626433832795f
 #define PI_MUL_2 6.2831853071795864769252867665590f
 #define PI_MUL_3 9.4247779607693797153879301498385f
 #define PI_MUL_4 12.566370614359172953850573533118f
@@ -94,11 +94,11 @@ IC BOOL dis_zero(double val, double cmp = EPS_S)
 // degree 2 radians and vice-versa
 namespace implement
 {
-    template <class T> ICF T deg2rad(T val)
+    template<class T> ICF T deg2rad(T val)
     {
         return (val * T(M_PI) / T(180));
     };
-    template <class T> ICF T rad2deg(T val)
+    template<class T> ICF T rad2deg(T val)
     {
         return (val * T(180) / T(M_PI));
     };
@@ -121,14 +121,14 @@ ICF double rad2deg(double val)
 }
 
 // clamping/snapping
-template <class T> IC void clamp(T& val, const T& _low, const T& _high)
+template<class T> IC void clamp(T& val, const T& _low, const T& _high)
 {
     if (val < _low)
         val = _low;
     else if (val > _high)
         val = _high;
 };
-template <class T> IC T clampr(const T& val, const T& _low, const T& _high)
+template<class T> IC T clampr(const T& val, const T& _low, const T& _high)
 {
     if (val < _low)
         return _low;
@@ -145,7 +145,7 @@ IC float snapto(float value, float snap)
 };
 
 // pre-definitions
-template <class T> struct _quaternion;
+template<class T> struct _quaternion;
 
 #pragma pack(push)
 #pragma pack(1)
@@ -317,7 +317,7 @@ IC float angle_inertion_var(float src, float tgt, float min_speed, float max_spe
     return src;
 }
 
-template <class T> IC _matrix<T>& _matrix<T>::rotation(const _quaternion<T>& Q)
+template<class T> IC _matrix<T>& _matrix<T>::rotation(const _quaternion<T>& Q)
 {
     T xx = Q.x * Q.x;
     T yy = Q.y * Q.y;
@@ -329,26 +329,26 @@ template <class T> IC _matrix<T>& _matrix<T>::rotation(const _quaternion<T>& Q)
     T wy = Q.w * Q.y;
     T wz = Q.w * Q.z;
 
-    _11 = 1 - 2 * (yy + zz);
-    _12 = 2 * (xy - wz);
-    _13 = 2 * (xz + wy);
-    _14 = 0;
-    _21 = 2 * (xy + wz);
-    _22 = 1 - 2 * (xx + zz);
-    _23 = 2 * (yz - wx);
-    _24 = 0;
-    _31 = 2 * (xz - wy);
-    _32 = 2 * (yz + wx);
-    _33 = 1 - 2 * (xx + yy);
-    _34 = 0;
-    _41 = 0;
-    _42 = 0;
-    _43 = 0;
-    _44 = 1;
+    _11  = 1 - 2 * (yy + zz);
+    _12  = 2 * (xy - wz);
+    _13  = 2 * (xz + wy);
+    _14  = 0;
+    _21  = 2 * (xy + wz);
+    _22  = 1 - 2 * (xx + zz);
+    _23  = 2 * (yz - wx);
+    _24  = 0;
+    _31  = 2 * (xz - wy);
+    _32  = 2 * (yz + wx);
+    _33  = 1 - 2 * (xx + yy);
+    _34  = 0;
+    _41  = 0;
+    _42  = 0;
+    _43  = 0;
+    _44  = 1;
     return *this;
 }
 
-template <class T> IC _matrix<T>& _matrix<T>::mk_xform(const _quaternion<T>& Q, const Tvector& V)
+template<class T> IC _matrix<T>& _matrix<T>::mk_xform(const _quaternion<T>& Q, const Tvector& V)
 {
     T xx = Q.x * Q.x;
     T yy = Q.y * Q.y;
@@ -360,27 +360,27 @@ template <class T> IC _matrix<T>& _matrix<T>::mk_xform(const _quaternion<T>& Q, 
     T wy = Q.w * Q.y;
     T wz = Q.w * Q.z;
 
-    _11 = 1 - 2 * (yy + zz);
-    _12 = 2 * (xy - wz);
-    _13 = 2 * (xz + wy);
-    _14 = 0;
-    _21 = 2 * (xy + wz);
-    _22 = 1 - 2 * (xx + zz);
-    _23 = 2 * (yz - wx);
-    _24 = 0;
-    _31 = 2 * (xz - wy);
-    _32 = 2 * (yz + wx);
-    _33 = 1 - 2 * (xx + yy);
-    _34 = 0;
-    _41 = V.x;
-    _42 = V.y;
-    _43 = V.z;
-    _44 = 1;
+    _11  = 1 - 2 * (yy + zz);
+    _12  = 2 * (xy - wz);
+    _13  = 2 * (xz + wy);
+    _14  = 0;
+    _21  = 2 * (xy + wz);
+    _22  = 1 - 2 * (xx + zz);
+    _23  = 2 * (yz - wx);
+    _24  = 0;
+    _31  = 2 * (xz - wy);
+    _32  = 2 * (yz + wx);
+    _33  = 1 - 2 * (xx + yy);
+    _34  = 0;
+    _41  = V.x;
+    _42  = V.y;
+    _43  = V.z;
+    _44  = 1;
     return *this;
 }
 
 #define TRACE_QZERO_TOLERANCE 0.1f
-template <class T> IC _quaternion<T>& _quaternion<T>::set(const _matrix<T>& M)
+template<class T> IC _quaternion<T>& _quaternion<T>::set(const _matrix<T>& M)
 {
     float trace, s;
 
@@ -534,9 +534,7 @@ template <class T> IC _quaternion<T>& _quaternion<T>::set(const _matrix<T>& M)
 #ifndef XRCORE_EXPORTS
 //. #pragma
 //deprecated("MIN","MAX","ABS",fabs,fabsf,sqrt,sqrtf,malloc,free,calloc,realloc,memcpy,memmove,memset,strdup,strlen,strcmp,sin,cos,sinf,cosf)
-#pragma deprecated(                                                                                                \
-    "MIN", "MAX", "ABS", fabs, fabsf, sqrt, sqrtf, malloc, free, calloc, realloc, memmove, memset, strdup, strlen, \
-    strcmp, sin, cos, sinf, cosf)
+#pragma deprecated("MIN", "MAX", "ABS", fabs, fabsf, sqrt, sqrtf, malloc, free, calloc, realloc, memmove, memset, strdup, strlen, strcmp, sin, cos, sinf, cosf)
 #endif
 
 #endif

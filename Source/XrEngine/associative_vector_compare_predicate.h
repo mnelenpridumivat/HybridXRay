@@ -8,8 +8,7 @@
 
 #pragma once
 
-template <typename _key_type, typename _data_type, typename _compare_predicate_type>
-class associative_vector_compare_predicate: public _compare_predicate_type
+template<typename _key_type, typename _data_type, typename _compare_predicate_type> class associative_vector_compare_predicate: public _compare_predicate_type
 {
 private:
     typedef _compare_predicate_type inherited;

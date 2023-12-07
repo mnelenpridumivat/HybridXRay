@@ -81,22 +81,26 @@ void CAI_Stalker::compute_enemy_distances(float& minimum_enemy_distance, float& 
     switch (weapon_type)
     {
         // pistols
-        case 5: {
+        case 5:
+        {
             maximum_enemy_distance = 10.f;
             break;
         }
         // shotguns
-        case 9: {
+        case 9:
+        {
             maximum_enemy_distance = 5.f;
             break;
         }
         // sniper rifles
         case 11:
-        case 12: {
+        case 12:
+        {
             minimum_enemy_distance = 20.f;
             break;
         }
-        default: {
+        default:
+        {
             maximum_enemy_distance = 20.f;
             break;
         }
@@ -134,8 +138,7 @@ const CCoverPoint* CAI_Stalker::find_best_cover(const Fvector& position_to_cover
     }
 
     m_ce_best->setup(position_to_cover_from, minimum_enemy_distance, maximum_enemy_distance, minimum_enemy_distance);
-    const CCoverPoint* point =
-        ai().cover_manager().best_cover(Position(), 10.f, *m_ce_best, CStalkerMovementRestrictor(this, true));
+    const CCoverPoint* point = ai().cover_manager().best_cover(Position(), 10.f, *m_ce_best, CStalkerMovementRestrictor(this, true));
     if (point)
         return (point);
 
@@ -181,8 +184,7 @@ void CAI_Stalker::update_best_cover_actuality(const Fvector& position_to_cover_f
     {
         float                     value;
         smart_cover::cover const* cover    = static_cast<smart_cover::cover const*>(m_best_cover);
-        smart_cover::loophole*    loophole = cover->best_loophole(
-            position_to_cover_from, value, false, movement().current_params().cover() == m_best_cover);
+        smart_cover::loophole*    loophole = cover->best_loophole(position_to_cover_from, value, false, movement().current_params().cover() == m_best_cover);
         if (!loophole)
         {
             m_ce_best->invalidate();
@@ -232,8 +234,7 @@ void CAI_Stalker::update_best_cover_actuality(const Fvector& position_to_cover_f
     ++g_advance_search_count;
 #endif
     m_ce_best->setup(position_to_cover_from, MIN_SUITABLE_ENEMY_DISTANCE, 170.f, MIN_SUITABLE_ENEMY_DISTANCE);
-    m_best_cover =
-        ai().cover_manager().best_cover(Position(), 10.f, *m_ce_best, CStalkerMovementRestrictor(this, true));
+    m_best_cover = ai().cover_manager().best_cover(Position(), 10.f, *m_ce_best, CStalkerMovementRestrictor(this, true));
 }
 
 const CCoverPoint* CAI_Stalker::best_cover(const Fvector& position_to_cover_from)
@@ -250,7 +251,7 @@ const CCoverPoint* CAI_Stalker::best_cover(const Fvector& position_to_cover_from
         return (m_best_cover);
     }
 
-    m_best_cover_actual = true;
+    m_best_cover_actual           = true;
 
     const CCoverPoint* best_cover = find_best_cover(position_to_cover_from);
     if (best_cover != m_best_cover)

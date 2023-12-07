@@ -43,8 +43,7 @@ namespace secure_messaging
         xr_decrypt
     };
 
-    inline u32 const
-        xray_crypt(void* buffer, u32 buffer_size, key_t const& sec_key, enum_xray_crypt_action crypt_action)
+    inline u32 const xray_crypt(void* buffer, u32 buffer_size, key_t const& sec_key, enum_xray_crypt_action crypt_action)
     {
         s32  last_word      = -1;
         s32* current_word   = static_cast<s32*>(buffer);

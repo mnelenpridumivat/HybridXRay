@@ -29,10 +29,7 @@ namespace XrWeatherEditor
             class source;
             class manager;
 
-            class channel:
-                public CEnvAmbient::SSndChannel,
-                public XrWeatherEditor::property_holder_holder,
-                private boost::noncopyable
+            class channel: public CEnvAmbient::SSndChannel, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             private:
                 typedef CEnvAmbient::SSndChannel inherited;

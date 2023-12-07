@@ -12,7 +12,7 @@
 #include "SkeletonMotions.h"
 #include "motion.h"
 #if !defined(_DEBUG) && defined(_WIN64)
-#include "tbb/parallel_for.h" 
+#include "tbb/parallel_for.h"
 #include "tbb/blocked_range.h"
 #endif
 
@@ -35,7 +35,7 @@ ECORE_API BOOL  g_BatchWorking             = FALSE;
 ECORE_API BOOL  g_extendedLog              = FALSE;
 ECORE_API BOOL  g_extendedLogPlus          = FALSE;
 
-u16 CSkeletonCollectorPacked::VPack(SSkelVert& V)
+u16             CSkeletonCollectorPacked::VPack(SSkelVert& V)
 {
     u32 P = 0xffffffff;
 
@@ -107,9 +107,9 @@ CSkeletonCollectorPacked::CSkeletonCollectorPacked(const Fbox& _bb, int apx_vert
     m_VMscale.set(bb.max.x - bb.min.x + EPS, bb.max.y - bb.min.y + EPS, bb.max.z - bb.min.z + EPS);
     m_VMmin.set(bb.min).sub(EPS);
     m_VMeps.set(m_VMscale.x / clpSMX / 2, m_VMscale.y / clpSMY / 2, m_VMscale.z / clpSMZ / 2);
-    m_VMeps.x = (m_VMeps.x < EPS_L) ? m_VMeps.x : EPS_L;
-    m_VMeps.y = (m_VMeps.y < EPS_L) ? m_VMeps.y : EPS_L;
-    m_VMeps.z = (m_VMeps.z < EPS_L) ? m_VMeps.z : EPS_L;
+    m_VMeps.x     = (m_VMeps.x < EPS_L) ? m_VMeps.x : EPS_L;
+    m_VMeps.y     = (m_VMeps.y < EPS_L) ? m_VMeps.y : EPS_L;
+    m_VMeps.z     = (m_VMeps.z < EPS_L) ? m_VMeps.z : EPS_L;
 
     invalid_faces = 0;
 
@@ -234,7 +234,7 @@ int xrSimulate(u16* indices, u32 i_cnt, int iCacheSize)
 {
     VertexCache C(iCacheSize);
 
-    int count = 0;
+    int         count = 0;
     for (u32 i = 0; i < i_cnt; i++)
     {
         int id = indices[i];
@@ -318,7 +318,7 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
                 F.w(&pV.tang, sizeof(Fvector));     // T
                 F.w(&pV.binorm, sizeof(Fvector));   // B
                 F.w_float(_weight_b0);
-                F.w(&pV.uv, sizeof(Fvector2));      // tu,tv
+                F.w(&pV.uv, sizeof(Fvector2));   // tu,tv
             }
         }
         else if (m_SkeletonLinkType == 3 || m_SkeletonLinkType == 4)
@@ -327,7 +327,7 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
             {
                 SSkelVert& pV = *v_it;
                 pV.sort_by_weight();
-                u32 i = 0;
+                u32 i      = 0;
 
                 u32 _bones = pV.bones.size();
                 R_ASSERT(m_SkeletonLinkType >= pV.bones.size());
@@ -376,12 +376,12 @@ void CExportSkeleton::SSplit::Save(IWriter& F)
                 // write vertex
                 F.w_u16(pV.bones[0].id);
                 F.w_u16(pV.bones[1].id);
-                F.w(&pV.offs, sizeof(Fvector));     // position (offset)
-                F.w(&pV.norm, sizeof(Fvector));     // normal
-                F.w(&pV.tang, sizeof(Fvector));     // T
-                F.w(&pV.binorm, sizeof(Fvector));   // B
+                F.w(&pV.offs, sizeof(Fvector));                               // position (offset)
+                F.w(&pV.norm, sizeof(Fvector));                               // normal
+                F.w(&pV.tang, sizeof(Fvector));                               // T
+                F.w(&pV.binorm, sizeof(Fvector));                             // B
                 F.w_float(pV.bones[1].w / (pV.bones[0].w + pV.bones[1].w));   // SV.w = wb[1].weight/(wb[0].weight+wb[1].weight);
-                F.w(&pV.uv, sizeof(Fvector2));     // tu,tv
+                F.w(&pV.uv, sizeof(Fvector2));                                // tu,tv
             }
         }
         else
@@ -717,9 +717,9 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
         {
             if (!bRes)
                 break;
-            IntVec& face_lst = sp_it->second;
-            CSurface* surf = sp_it->first;
-            u32 dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
+            IntVec&   face_lst = sp_it->second;
+            CSurface* surf     = sp_it->first;
+            u32       dwTexCnt = ((surf->_FVF() & D3DFVF_TEXCOUNT_MASK) >> D3DFVF_TEXCOUNT_SHIFT);
             R_ASSERT(dwTexCnt == 1);
 
             for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); f_it++)
@@ -732,7 +732,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                     SSkelVert v[3];
                     tmp_bone_lst.clear_not_free();
                     u32 link_type = _max(MESH->m_SVertices[f_idx * 3 + 0].bones.size(), MESH->m_SVertices[f_idx * 3 + 1].bones.size());
-                    link_type = _max(link_type, MESH->m_SVertices[f_idx * 3 + 2].bones.size());
+                    link_type     = _max(link_type, MESH->m_SVertices[f_idx * 3 + 2].bones.size());
                     VERIFY(link_type > 0 && link_type <= (u32)influence);
 
                     if (influence == 2)
@@ -805,7 +805,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                         std::sort(tmp_bone_lst.begin(), tmp_bone_lst.end());
                         U16It ne = std::unique(tmp_bone_lst.begin(), tmp_bone_lst.end());
                         tmp_bone_lst.erase(ne, tmp_bone_lst.end());
-                        U16It tit = tmp_bone_lst.begin();
+                        U16It tit     = tmp_bone_lst.begin();
                         bone_brk_part = bone_brk_parts[*tit];
                         tit++;
 
@@ -829,7 +829,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                         box.xform(m_Source->GetBox(), mScale);
 
                         m_Splits.push_back(SSplit(surf, box, bone_brk_part));
-                        mtl_idx = m_Splits.size() - 1;
+                        mtl_idx                              = m_Splits.size() - 1;
                         m_Splits[mtl_idx].m_SkeletonLinkType = 0;
                     }
 
@@ -891,8 +891,8 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
             {
                 if (m_Splits[j].m_sort_id < m_Splits[j + 1].m_sort_id)
                 {
-                    SSplit temp = m_Splits[j];
-                    m_Splits[j] = m_Splits[j + 1];
+                    SSplit temp     = m_Splits[j];
+                    m_Splits[j]     = m_Splits[j + 1];
                     m_Splits[j + 1] = temp;
                 }
             }
@@ -906,8 +906,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
             U16It ne = std::unique(split.m_UsedBones.begin(), split.m_UsedBones.end());
             split.m_UsedBones.erase(ne, split.m_UsedBones.end());
             if (g_extendedLog)
-                Msg("# ..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']",
-                k, split.m_UsedBones.size(), split.m_SkeletonLinkType, split.getTS(), split.getVS(), split.m_PartID, *m_Splits[k].m_Shader, *m_Splits[k].m_Texture);
+                Msg("# ..Split %d: [Bones: %d, Links: %d, Faces: %d, Verts: %d, BrPart: %d, Shader/Texture: '%s'/'%s']", k, split.m_UsedBones.size(), split.m_SkeletonLinkType, split.getTS(), split.getVS(), split.m_PartID, *m_Splits[k].m_Shader, *m_Splits[k].m_Texture);
             verts += split.getVS();
             faces += split.getTS();
         }
@@ -927,10 +926,10 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
 
     if (!g_BatchWorking)
     {
-        if (m_Splits.size() > 1) // MT
+        if (m_Splits.size() > 1)   // MT
         {
             FOR_START(u32, 0, m_Splits.size(), it)
-                m_Splits[it].CalculateTB();
+            m_Splits[it].CalculateTB();
             FOR_END
         }
         else
@@ -939,7 +938,7 @@ bool CExportSkeleton::PrepareGeometry(u8 influence)
                 m_Splits[it].CalculateTB();
         }
     }
-    else // Dont need mt for mt batch
+    else   // Dont need mt for mt batch
     {
         for (u32 it = 0; it < m_Splits.size(); it++)
             m_Splits[it].CalculateTB();
@@ -966,16 +965,16 @@ void CExportSkeleton::DetectSmoothType()
 {
     u8 SmoothType = 0;
     Msg("& ..Start detecting smooth type");
-    bool bRes    = true;
-    bool Normals = false;
+    bool   bRes     = true;
+    bool   Normals  = false;
 
     size_t SoCverts = 0, CoPverts = 0;
 
     for (u8 i = 0; i < 2; i++)
     {
-        SplitVec OldSplits = m_Splits;
+        SplitVec OldSplits  = m_Splits;
 
-        size_t TotalVerts = 0;
+        size_t   TotalVerts = 0;
         switch (i)
         {
             case 0:
@@ -1035,9 +1034,9 @@ void CExportSkeleton::DetectSmoothType()
 
                         for (int k = 0; k < 3; k++)
                         {
-                            st_SVert& sv = MESH->m_SVertices[f_idx * 3 + k];
+                            st_SVert& sv   = MESH->m_SVertices[f_idx * 3 + k];
 
-                            Fvector offs = sv.offs;
+                            Fvector   offs = sv.offs;
                             offs.mul(m_Source->a_vScale);
 
                             st_SVert::bone b[2];
@@ -1146,9 +1145,9 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
 
     if (m_Source->m_objectFlags.is(CEditableObject::eoProgressive))
     {
-        if (m_Splits.size() > 1) // MT
+        if (m_Splits.size() > 1)   // MT
         {
-#if !defined(_DEBUG) && defined(_WIN64) 
+#if !defined(_DEBUG) && defined(_WIN64)
             if (!g_BatchWorking)
             {
                 if (g_extendedLog)
@@ -1160,7 +1159,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
             if (!g_BatchWorking)
             {
                 FOR_START(u32, 0, m_Splits.size(), it)
-                    m_Splits[it].MakeProgressive();
+                m_Splits[it].MakeProgressive();
                 FOR_END
             }
             else
@@ -1174,21 +1173,21 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
     }
     else if (m_Source->m_objectFlags.is(CEditableObject::eoStripify))
     {
-        if (m_Splits.size() > 1) // MT
+        if (m_Splits.size() > 1)   // MT
         {
 #if !defined(_DEBUG) && defined(_WIN64)
             if (!g_BatchWorking)
-		    {
+            {
                 if (g_extendedLog)
                     Msg("..MT Calculate Stripify");
                 else
                     Msg("..Calculate Stripify");
-			}
+            }
 #endif
             if (!g_BatchWorking)
             {
                 FOR_START(u32, 0, m_Splits.size(), it)
-                    m_Splits[it].MakeStripify();
+                m_Splits[it].MakeStripify();
                 FOR_END
             }
             else
@@ -1218,7 +1217,7 @@ bool CExportSkeleton::ExportGeometry(IWriter& F, u8 infl)
         }
     }
 #if 1
-        pb->Inc();
+    pb->Inc();
 #endif
 
     // create OGF
@@ -1374,7 +1373,7 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
     F.open_chunk(0);
     F.w_u32(m_Source->SMotionCount());
     F.close_chunk();
-    int smot = 1;
+    int     smot = 1;
 
     // use global transform
     Fmatrix mGT, mTranslate, mRotate;
@@ -1505,9 +1504,9 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
             Ct.mul(0.5f);
             St.sub(Bt, At);
             St.mul(0.5f);
-            CKeyQR& R = BM._keysQR[0];
+            CKeyQR& R               = BM._keysQR[0];
 
-            bool bTransform16Bit = false;
+            bool    bTransform16Bit = false;
             if (g_force16BitTransformQuant || St.magnitude() > 1.5f)
             {
                 bTransform16Bit = true;
@@ -1557,12 +1556,12 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
                         CKeyQT16& Kt = BM._keysQT16[t_idx];
                         int       _x = int(32767.f * (t.x - Ct.x) / St.x);
                         clamp(_x, -32767, 32767);
-                        Kt.x1 = (s16)_x;
+                        Kt.x1  = (s16)_x;
 
                         int _y = int(32767.f * (t.y - Ct.y) / St.y);
                         clamp(_y, -32767, 32767);
 
-                        Kt.y1 = (s16)_y;
+                        Kt.y1  = (s16)_y;
 
                         int _z = int(32767.f * (t.z - Ct.z) / St.z);
                         clamp(_z, -32767, 32767);
@@ -1573,12 +1572,12 @@ bool CExportSkeleton::ExportMotionKeys(IWriter& F)
                         CKeyQT8& Kt = BM._keysQT8[t_idx];
                         int      _x = int(127.f * (t.x - Ct.x) / St.x);
                         clamp(_x, -128, 127);
-                        Kt.x1 = (s16)_x;
+                        Kt.x1  = (s16)_x;
 
                         int _y = int(127.f * (t.y - Ct.y) / St.y);
                         clamp(_y, -128, 127);
 
-                        Kt.y1 = (s16)_y;
+                        Kt.y1  = (s16)_y;
 
                         int _z = int(127.f * (t.z - Ct.z) / St.z);
                         clamp(_z, -128, 127);

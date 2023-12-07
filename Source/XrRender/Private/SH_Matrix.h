@@ -25,6 +25,7 @@ public:
         tcmScroll  = (1 << 2),
         tcmFORCE32 = u32(-1)
     };
+
 public:
     Fmatrix xform;
 

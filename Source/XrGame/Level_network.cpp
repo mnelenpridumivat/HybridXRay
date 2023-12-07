@@ -22,18 +22,18 @@
 
 #include "../xrphysics/physicscommon.h"
 
-const int max_objects_size         = 2 * 1024;
-const int max_objects_size_in_save = 8 * 1024;
+const int   max_objects_size         = 2 * 1024;
+const int   max_objects_size_in_save = 8 * 1024;
 
 extern bool g_b_ClearGameCaptions;
 
-void CLevel::remove_objects()
+void        CLevel::remove_objects()
 {
     if (!IsGameTypeSingle())
         Msg("CLevel::remove_objects - Start");
     BOOL b_stored = psDeviceFlags.test(rsDisableObjectsAsCrows);
 
-    int loop = 5;
+    int  loop     = 5;
     while (loop)
     {
         if (OnServer())
@@ -117,7 +117,7 @@ extern void show_animation_stats();
 extern CUISequencer* g_tutorial;
 extern CUISequencer* g_tutorial2;
 
-void CLevel::net_Stop()
+void                 CLevel::net_Stop()
 {
     Msg("- Disconnect");
 
@@ -251,9 +251,7 @@ u32 CLevel::Objects_net_Save(NET_Packet* _Packet, u32 start, u32 max_object_size
             //			Msg						("save:saved:%d bytes:%d:%s",size,P->ID(),*P->cName());
             if (size >= 65536)
             {
-                Debug.fatal(
-                    DEBUG_INFO, "Object [%s][%d] exceed network-data limit\n size=%d, Pend=%d, Pstart=%d", *P->cName(),
-                    P->ID(), size, Packet.w_tell(), position);
+                Debug.fatal(DEBUG_INFO, "Object [%s][%d] exceed network-data limit\n size=%d, Pend=%d, Pstart=%d", *P->cName(), P->ID(), size, Packet.w_tell(), position);
             }
 #endif
             Packet.w_chunk_close16(position);
@@ -287,7 +285,7 @@ void CLevel::ClientSave()
 // extern	XRPHYSICS_API	float		phTimefactor;
 extern BOOL g_SV_Disable_Auth_Check;
 
-void CLevel::Send(NET_Packet& P, u32 dwFlags, u32 dwTimeout)
+void        CLevel::Send(NET_Packet& P, u32 dwFlags, u32 dwTimeout)
 {
     if (IsDemoPlayStarted() || IsDemoPlayFinished())
         return;
@@ -343,11 +341,11 @@ struct _NetworkProcessor: public pureFrame
     }
 } NET_processor;
 
-pureFrame* g_pNetProcessor = &NET_processor;
+pureFrame* g_pNetProcessor   = &NET_processor;
 
-const int ConnectionTimeOut = 60000;   // 1 min
+const int  ConnectionTimeOut = 60000;   // 1 min
 
-BOOL CLevel::Connect2Server(LPCSTR options)
+BOOL       CLevel::Connect2Server(LPCSTR options)
 {
     NET_Packet P;
     m_bConnectResultReceived = false;
@@ -395,8 +393,7 @@ BOOL CLevel::Connect2Server(LPCSTR options)
         }
         //-----------------------------------------
     }
-    Msg("%c client : connection %s - <%s>", m_bConnectResult ? '*' : '!', m_bConnectResult ? "accepted" : "rejected",
-        m_sConnectResult.c_str());
+    Msg("%c client : connection %s - <%s>", m_bConnectResult ? '*' : '!', m_bConnectResult ? "accepted" : "rejected", m_sConnectResult.c_str());
     if (!m_bConnectResult)
     {
         if (Server)
@@ -483,7 +480,8 @@ void CLevel::OnConnectResult(NET_Packet* P)
                 MainMenu()->SetErrorDialog(CMainMenu::ErrInvalidPassword);
             }
             break;
-            case ecr_have_been_banned: {
+            case ecr_have_been_banned:
+            {
                 if (!xr_strlen(ResultStr))
                 {
                     MainMenu()->OnSessionTerminate(CStringTable().translate("st_you_have_been_banned").c_str());
@@ -494,7 +492,8 @@ void CLevel::OnConnectResult(NET_Packet* P)
                 }
             }
             break;
-            case ecr_profile_error: {
+            case ecr_profile_error:
+            {
                 if (!xr_strlen(ResultStr))
                 {
                     MainMenu()->OnSessionTerminate(CStringTable().translate("st_profile_error").c_str());
@@ -518,7 +517,7 @@ void CLevel::OnConnectResult(NET_Packet* P)
 
 void CLevel::ClearAllObjects()
 {
-    u32 CLObjNum = Level().Objects.o_count();
+    u32  CLObjNum    = Level().Objects.o_count();
 
     bool ParentFound = true;
 
@@ -545,8 +544,7 @@ void CLevel::ClearAllObjects()
             ParentFound = true;
             //-------------------------------------------------------------
 #ifdef DEBUG
-            Msg("Rejection of %s[%d] from %s[%d]", *(pObj->cNameSect()), pObj->ID(), *(pObj->H_Parent()->cNameSect()),
-                pObj->H_Parent()->ID());
+            Msg("Rejection of %s[%d] from %s[%d]", *(pObj->cNameSect()), pObj->ID(), *(pObj->H_Parent()->cNameSect()), pObj->H_Parent()->ID());
 #endif
         };
         ProcessGameEvents();

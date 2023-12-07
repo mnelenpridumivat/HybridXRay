@@ -20,10 +20,7 @@ IC CScriptWatchAction::CScriptWatchAction(SightManager::ESightType tWatchType, c
     SetWatchType(tWatchType);
 }
 
-IC CScriptWatchAction::CScriptWatchAction(
-    SightManager::ESightType tWatchType,
-    CScriptGameObject*       tpObjectToWatch,
-    LPCSTR                   bone_to_watch)
+IC CScriptWatchAction::CScriptWatchAction(SightManager::ESightType tWatchType, CScriptGameObject* tpObjectToWatch, LPCSTR bone_to_watch)
 {
     SetWatchType(tWatchType);
     SetWatchObject(tpObjectToWatch);

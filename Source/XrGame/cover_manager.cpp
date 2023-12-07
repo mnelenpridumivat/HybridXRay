@@ -36,47 +36,31 @@ CCoverManager::~CCoverManager()
 IC bool CCoverManager::edge_vertex(u32 index)
 {
     ILevelGraph::CVertex* v = ai().level_graph().vertex(index);
-    return (
-        (!ai().level_graph().valid_vertex_id(v->link(0)) && (v->high_cover(0) < MIN_COVER_VALUE)) ||
-        (!ai().level_graph().valid_vertex_id(v->link(1)) && (v->high_cover(1) < MIN_COVER_VALUE)) ||
-        (!ai().level_graph().valid_vertex_id(v->link(2)) && (v->high_cover(2) < MIN_COVER_VALUE)) ||
-        (!ai().level_graph().valid_vertex_id(v->link(3)) && (v->high_cover(3) < MIN_COVER_VALUE)) ||
-        (!ai().level_graph().valid_vertex_id(v->link(0)) && (v->low_cover(0) < MIN_COVER_VALUE)) ||
-        (!ai().level_graph().valid_vertex_id(v->link(1)) && (v->low_cover(1) < MIN_COVER_VALUE)) ||
-        (!ai().level_graph().valid_vertex_id(v->link(2)) && (v->low_cover(2) < MIN_COVER_VALUE)) ||
-        (!ai().level_graph().valid_vertex_id(v->link(3)) && (v->low_cover(3) < MIN_COVER_VALUE)));
+    return ((!ai().level_graph().valid_vertex_id(v->link(0)) && (v->high_cover(0) < MIN_COVER_VALUE)) || (!ai().level_graph().valid_vertex_id(v->link(1)) && (v->high_cover(1) < MIN_COVER_VALUE)) || (!ai().level_graph().valid_vertex_id(v->link(2)) && (v->high_cover(2) < MIN_COVER_VALUE)) || (!ai().level_graph().valid_vertex_id(v->link(3)) && (v->high_cover(3) < MIN_COVER_VALUE)) || (!ai().level_graph().valid_vertex_id(v->link(0)) && (v->low_cover(0) < MIN_COVER_VALUE)) ||
+        (!ai().level_graph().valid_vertex_id(v->link(1)) && (v->low_cover(1) < MIN_COVER_VALUE)) || (!ai().level_graph().valid_vertex_id(v->link(2)) && (v->low_cover(2) < MIN_COVER_VALUE)) || (!ai().level_graph().valid_vertex_id(v->link(3)) && (v->low_cover(3) < MIN_COVER_VALUE)));
 }
 
 IC bool CCoverManager::cover(ILevelGraph::CVertex* v, u32 index0, u32 index1)
 {
-    return (
-        ai().level_graph().valid_vertex_id(v->link(index0)) &&
-        ai().level_graph().valid_vertex_id(ai().level_graph().vertex(v->link(index0))->link(index1)) &&
-        m_temp[ai().level_graph().vertex(v->link(index0))->link(index1)]);
+    return (ai().level_graph().valid_vertex_id(v->link(index0)) && ai().level_graph().valid_vertex_id(ai().level_graph().vertex(v->link(index0))->link(index1)) && m_temp[ai().level_graph().vertex(v->link(index0))->link(index1)]);
 }
 
 IC bool CCoverManager::critical_point(ILevelGraph::CVertex* v, u32 index, u32 index0, u32 index1)
 {
-    return (
-        !ai().level_graph().valid_vertex_id(v->link(index)) &&
-        (!ai().level_graph().valid_vertex_id(v->link(index0)) || !ai().level_graph().valid_vertex_id(v->link(index1)) ||
-         cover(v, index0, index) || cover(v, index1, index)));
+    return (!ai().level_graph().valid_vertex_id(v->link(index)) && (!ai().level_graph().valid_vertex_id(v->link(index0)) || !ai().level_graph().valid_vertex_id(v->link(index1)) || cover(v, index0, index) || cover(v, index1, index)));
 }
 
 IC bool CCoverManager::critical_cover(u32 index)
 {
     ILevelGraph::CVertex* v = ai().level_graph().vertex(index);
-    return (
-        critical_point(v, 0, 1, 3) || critical_point(v, 2, 1, 3) || critical_point(v, 1, 0, 2) ||
-        critical_point(v, 3, 0, 2));
+    return (critical_point(v, 0, 1, 3) || critical_point(v, 2, 1, 3) || critical_point(v, 1, 0, 2) || critical_point(v, 3, 0, 2));
 }
 
 void CCoverManager::compute_static_cover()
 {
     clear();
     xr_delete(m_covers);
-    m_covers = xr_new<CPointQuadTree>(
-        ai().level_graph().header().box(), ai().level_graph().header().cell_size() * .5f, 8 * 65536, 4 * 65536);
+    m_covers = xr_new<CPointQuadTree>(ai().level_graph().header().box(), ai().level_graph().header().cell_size() * .5f, 8 * 65536, 4 * 65536);
     m_temp.resize(ai().level_graph().header().vertex_count());
 
     ILevelGraph const& graph = ai().level_graph();
@@ -144,9 +128,9 @@ namespace smart_cover
     {
         object const* m_object;
 
-        IC predicate(object const& object): m_object(&object) {}
+        IC            predicate(object const& object): m_object(&object) {}
 
-        IC bool operator()(CCoverPoint* const& cover) const
+        IC bool       operator()(CCoverPoint* const& cover) const
         {
             if (cover->m_is_smart_cover)
                 return (true);
@@ -167,8 +151,7 @@ void CCoverManager::remove_nearby_covers(smart_cover::cover const& cover, smart_
         Fvector position = cover.fov_position(**I);
         m_covers->nearest(position, object.Radius() + 1.f, m_nearest);
 
-        m_nearest.erase(
-            std::remove_if(m_nearest.begin(), m_nearest.end(), smart_cover::predicate(object)), m_nearest.end());
+        m_nearest.erase(std::remove_if(m_nearest.begin(), m_nearest.end(), smart_cover::predicate(object)), m_nearest.end());
 
         typedef PointVector::const_iterator const_iterator;
         const_iterator                      i = m_nearest.begin();
@@ -180,15 +163,9 @@ void CCoverManager::remove_nearby_covers(smart_cover::cover const& cover, smart_
     }
 }
 
-CCoverManager::Cover const* CCoverManager::add_smart_cover(
-    LPCSTR                     table_name,
-    smart_cover::object const& object,
-    bool const&                is_combat_cover,
-    bool const&                can_fire,
-    luabind::object const&     loopholes) const
+CCoverManager::Cover const* CCoverManager::add_smart_cover(LPCSTR table_name, smart_cover::object const& object, bool const& is_combat_cover, bool const& can_fire, luabind::object const& loopholes) const
 {
-    Cover* smart_cover =
-        xr_new<Cover>(object, m_smart_covers_storage->description(table_name), is_combat_cover, can_fire, loopholes);
+    Cover* smart_cover = xr_new<Cover>(object, m_smart_covers_storage->description(table_name), is_combat_cover, can_fire, loopholes);
 
     remove_nearby_covers(*smart_cover, object);
     m_covers->insert(smart_cover);
@@ -230,12 +207,9 @@ CCoverManager::Cover* CCoverManager::smart_cover(shared_str const& cover_id) con
     if (!m_smart_covers_actual)
         actualize_smart_covers();
 
-    SmartCovers::iterator found =
-        std::lower_bound(m_smart_covers.begin(), m_smart_covers.end(), cover_id, id_predicate_less());
+    SmartCovers::iterator found = std::lower_bound(m_smart_covers.begin(), m_smart_covers.end(), cover_id, id_predicate_less());
 
-    VERIFY2(
-        ((found != m_smart_covers.end()) && ((*found)->id()._get() == cover_id._get())),
-        make_string("smart_cover [%s] not found", cover_id.c_str()));
+    VERIFY2(((found != m_smart_covers.end()) && ((*found)->id()._get() == cover_id._get())), make_string("smart_cover [%s] not found", cover_id.c_str()));
 
     return (*found);
 }

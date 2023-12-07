@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+п»ї////////////////////////////////////////////////////////////////////////////
 //	Module 		: xrServer_Objects.h
 //	Created 	: 19.09.2002
 //  Modified 	: 04.06.2003
@@ -48,7 +48,7 @@
 //		and CSE_ALifeHumanAbstract		appended with known_traders property
 //		and CSE_ALifeTask				appended with try count property
 //		and CSE_ALifePersonalTask		no more exists
-// 37 - бинокль имеет ServerEntity не CSE_ALifeItemWeapon, а CSE_ALifeItem
+// 37 - Р±РёРЅРѕРєР»СЊ РёРјРµРµС‚ ServerEntity РЅРµ CSE_ALifeItemWeapon, Р° CSE_ALifeItem
 // 38 - CSE_ALifeHumanAbstract			appended with the equipment and weapon preferences
 // 39 - CSE_ALifeAnomalousZone			appended with the start power property
 // 40 - CSE_ALifeObjectPhysic			appended with activate flag
@@ -58,7 +58,7 @@
 // 43 - CSE_ALifeObjectHangingLamp		appended glow_texture and glow_radius
 // 44 - xrSE_ALifeObjectHangingLamp		appended with property 'fixed bones'
 // 45 - xrSE_ALifeObjectHangingLamp		appended with property 'health'
-// 46 - xrSE_ALifeObjectSearchLight		appended with property 'guid_bone', 
+// 46 - xrSE_ALifeObjectSearchLight		appended with property 'guid_bone',
 //										appended with property 'rotation_bone'
 // 47 - CSE_ALifeItemWeapon				appended with ammo type index
 // 48 - CSE_ALifeObjectSearchlight		appended with property 'cone_bone'
@@ -81,10 +81,10 @@
 // 65 - CSE_ALifeObjectPhysic			startup_anim moved to CSE_AlifePHSkeletonObject
 // 66 - CSE_ALifeObjectPhysic			CSE_ALifeCar - heritage changed
 // 67 - CSE_ALifeCustomZone				new class appended, heritage changed
-// 68 - CSE_ALifeHumanStalker,				
+// 68 - CSE_ALifeHumanStalker,
 //		CSE_ALifeMonsterBase			new class appended, heritage changed
 // 69 -	object broker changed from this version
-//		CSE_ALifeObjectHangingLamp,				
+//		CSE_ALifeObjectHangingLamp,
 //		CSE_ALifeHelicopter				heritage changed
 // 70 -	CSE_Abstract					appended with m_script_version, script version support
 // 71 -	CSE_Abstract					appended with m_client_data, ability to save/load client data
@@ -159,76 +159,89 @@
 // 122 - CSE_ALifeItemWeapon			appended with count of grenades to spawn in grenade launcher (if it attached)
 // 123 - CSE_ALifeInventoryItem			added functions has_upgrade & add_upgrade, xr_vector<shared_str> m_upgrades;
 //------------------------------------------------------------------------------
-#define SPAWN_VERSION	u16(124)
+#define SPAWN_VERSION u16(124)
 
-SERVER_ENTITY_DECLARE_BEGIN(CSE_Shape,ISE_Shape)
+SERVER_ENTITY_DECLARE_BEGIN(CSE_Shape, ISE_Shape)
+
 public:
-	void							cform_read		(NET_Packet& P);
-	void							cform_write		(NET_Packet& P);
-									CSE_Shape		();
-	virtual							~CSE_Shape		();
-	virtual ISE_Shape*  	shape			() = 0;
-	virtual void 			assign_shapes	(CShapeData::shape_def* shapes, u32 cnt);
-};
+void cform_read(NET_Packet& P);
+void cform_write(NET_Packet& P);
+CSE_Shape();
+virtual ~CSE_Shape();
+virtual ISE_Shape* shape() = 0;
+virtual void       assign_shapes(CShapeData::shape_def* shapes, u32 cnt);
+}
+;
 add_to_type_list(CSE_Shape)
 #define script_type_list save_type_list(CSE_Shape)
 
-SERVER_ENTITY_DECLARE_BEGIN(CSE_Spectator,CSE_Abstract)
-									CSE_Spectator	(LPCSTR caSection);
-	virtual							~CSE_Spectator	();
-	virtual u8						g_team			();
+    SERVER_ENTITY_DECLARE_BEGIN(CSE_Spectator, CSE_Abstract) CSE_Spectator(LPCSTR caSection);
+virtual ~CSE_Spectator();
+virtual u8 g_team();
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_Spectator)
 #define script_type_list save_type_list(CSE_Spectator)
 
-SERVER_ENTITY_DECLARE_BEGIN(CSE_Temporary,CSE_Abstract)
-	u32								m_tNodeID;
-									CSE_Temporary	(LPCSTR caSection);
-	virtual							~CSE_Temporary	();
+    SERVER_ENTITY_DECLARE_BEGIN(CSE_Temporary, CSE_Abstract) u32 m_tNodeID;
+CSE_Temporary(LPCSTR caSection);
+virtual ~CSE_Temporary();
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_Temporary)
 #define script_type_list save_type_list(CSE_Temporary)
 
-SERVER_ENTITY_DECLARE_BEGIN0(CSE_PHSkeleton)
-								CSE_PHSkeleton(LPCSTR caSection);
-virtual							~CSE_PHSkeleton();
+    SERVER_ENTITY_DECLARE_BEGIN0(CSE_PHSkeleton) CSE_PHSkeleton(LPCSTR caSection);
+virtual ~CSE_PHSkeleton();
 
-enum{
-	flActive					= (1<<0),
-	flSpawnCopy					= (1<<1),
-	flSavedData					= (1<<2),
-	flNotSave					= (1<<3)
+enum
+{
+    flActive    = (1 << 0),
+    flSpawnCopy = (1 << 1),
+    flSavedData = (1 << 2),
+    flNotSave   = (1 << 3)
 };
-	Flags8							_flags;
-	SPHBonesData					saved_bones;
-	u16								source_id;//for break only
-	virtual	void					load					(NET_Packet &tNetPacket);
-	virtual bool					need_save				() const{return(!_flags.test(flNotSave));}
-	virtual	void					set_sorce_id			(u16 si){source_id=si;}
-	virtual u16						get_source_id			(){return source_id;}
-	virtual CSE_Abstract			*cast_abstract			() {return 0;}
+Flags8       _flags;
+SPHBonesData saved_bones;
+u16          source_id;   //for break only
+virtual void load(NET_Packet& tNetPacket);
+virtual bool need_save() const
+{
+    return (!_flags.test(flNotSave));
+}
+virtual void set_sorce_id(u16 si)
+{
+    source_id = si;
+}
+virtual u16 get_source_id()
+{
+    return source_id;
+}
+virtual CSE_Abstract* cast_abstract()
+{
+    return 0;
+}
+
 protected:
-	virtual void					data_load				(NET_Packet &tNetPacket);
-	virtual void					data_save				(NET_Packet &tNetPacket);
+virtual void data_load(NET_Packet& tNetPacket);
+virtual void data_save(NET_Packet& tNetPacket);
+
 public:
 SERVER_ENTITY_DECLARE_END
-		add_to_type_list(CSE_PHSkeleton)
+add_to_type_list(CSE_PHSkeleton)
 #define script_type_list save_type_list(CSE_PHSkeleton)
 
-SERVER_ENTITY_DECLARE_BEGIN2(CSE_AbstractVisual,CSE_Abstract,CSE_Visual)
-	typedef CSE_Abstract			inherited1;
-	typedef CSE_Visual				inherited2;
+    SERVER_ENTITY_DECLARE_BEGIN2(CSE_AbstractVisual, CSE_Abstract, CSE_Visual) typedef CSE_Abstract inherited1;
+typedef CSE_Visual inherited2;
 
-	CSE_AbstractVisual										(LPCSTR caSection);
-	virtual	~CSE_AbstractVisual								();
-	virtual CSE_Visual* 	visual					();
-	LPCSTR							getStartupAnimation		();
+CSE_AbstractVisual(LPCSTR caSection);
+virtual ~CSE_AbstractVisual();
+virtual CSE_Visual* visual();
+LPCSTR              getStartupAnimation();
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_AbstractVisual)
 #define script_type_list save_type_list(CSE_AbstractVisual)
 
 #ifndef AI_COMPILER
-extern CSE_Abstract	*F_entity_Create	(LPCSTR caSection);
+    extern CSE_Abstract* F_entity_Create(LPCSTR caSection);
 #endif
 
 /**

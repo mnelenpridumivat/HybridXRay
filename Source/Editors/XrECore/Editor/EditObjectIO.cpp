@@ -18,9 +18,9 @@
 
 XREPROPS_API extern bool bIsActorEditor;
 
-bool CEditableObject::Load(const char* fname)
+bool                     CEditableObject::Load(const char* fname)
 {
-    CExportSkeleton D(this);
+    CExportSkeleton  D(this);
     CExportObjectOGF S(this);
 
     if (FS.exist(fname))
@@ -59,8 +59,7 @@ bool CEditableObject::Save(const char* fname)
     {
         // update transform matrix
         Fmatrix mTransform, mScale, mTranslate, mRotate;
-        if (!fsimilar(t_vRotate.magnitude(), 0) || !fsimilar(t_vScale.magnitude(), 1.73205f) ||
-            !fsimilar(t_vPosition.magnitude(), 0))
+        if (!fsimilar(t_vRotate.magnitude(), 0) || !fsimilar(t_vScale.magnitude(), 1.73205f) || !fsimilar(t_vPosition.magnitude(), 0))
         {
             mRotate.setHPB(t_vRotate.y, t_vRotate.x, t_vRotate.z);
             mScale.scale(t_vScale);
@@ -427,7 +426,7 @@ bool CEditableObject::Load(IReader& F)
                 m_objectFlags.set(eoSoCRefs, TRUE);
                 shared_str tmp;
                 F.r_stringZ(tmp);
-                u32 set_cnt = _GetItemCount(tmp.c_str());
+                u32         set_cnt = _GetItemCount(tmp.c_str());
 
                 string_path nm;
                 for (u32 k = 0; k < set_cnt; ++k)
@@ -438,7 +437,7 @@ bool CEditableObject::Load(IReader& F)
             }
             else if (F.find_chunk(EOBJ_CHUNK_SMOTIONS3))
             {
-                u32 set_cnt = F.r_u32();
+                u32        set_cnt = F.r_u32();
 
                 shared_str nm;
                 for (u32 k = 0; k < set_cnt; ++k)
@@ -524,12 +523,12 @@ bool CEditableObject::Load(IReader& F)
 
             if (F.find_chunk(EOBJ_CHUNK_SCALE))
             {
-                IReader *r = F.open_chunk(EOBJ_CHUNK_SCALE);
+                IReader* r = F.open_chunk(EOBJ_CHUNK_SCALE);
                 if (r)
                 {
-                    if(r->elapsed() == 5)
+                    if (r->elapsed() == 5)
                     {
-                        a_vScale = r->r_float();
+                        a_vScale      = r->r_float();
                         a_vAdjustMass = !!r->r_u8();
                     }
                     r->close();
@@ -543,7 +542,8 @@ bool CEditableObject::Load(IReader& F)
             break;
         UpdateBox();
         VerifyMeshNames();
-    } while (0);
+    }
+    while (0);
 
     return bRes;
 }

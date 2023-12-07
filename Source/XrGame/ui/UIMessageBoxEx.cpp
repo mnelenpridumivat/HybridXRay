@@ -27,13 +27,10 @@ void CUIMessageBoxEx::InitMessageBox(LPCSTR xml_template)
     SetWndSize(m_pMessageBox->GetWndSize());
     m_pMessageBox->SetWndPos(Fvector2().set(0, 0));
 
-    AddCallback(
-        m_pMessageBox, MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CUIMessageBoxEx::OnOKClicked));
+    AddCallback(m_pMessageBox, MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CUIMessageBoxEx::OnOKClicked));
     CUIMessageBox::E_MESSAGEBOX_STYLE style = m_pMessageBox->GetBoxStyle();
-    if (style == CUIMessageBox::MESSAGEBOX_YES_NO || style == CUIMessageBox::MESSAGEBOX_QUIT_WINDOWS ||
-        style == CUIMessageBox::MESSAGEBOX_QUIT_GAME)
-        AddCallback(
-            m_pMessageBox, MESSAGE_BOX_NO_CLICKED, CUIWndCallback::void_function(this, &CUIMessageBoxEx::OnNOClicked));
+    if (style == CUIMessageBox::MESSAGEBOX_YES_NO || style == CUIMessageBox::MESSAGEBOX_QUIT_WINDOWS || style == CUIMessageBox::MESSAGEBOX_QUIT_GAME)
+        AddCallback(m_pMessageBox, MESSAGE_BOX_NO_CLICKED, CUIWndCallback::void_function(this, &CUIMessageBoxEx::OnNOClicked));
 }
 
 void CUIMessageBoxEx::OnOKClicked(CUIWindow* w, void* d)

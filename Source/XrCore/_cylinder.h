@@ -1,7 +1,7 @@
 ﻿#ifndef _CYLINDER_H
 #define _CYLINDER_H
 
-template <class T> class _cylinder
+template<class T> class _cylinder
 {
 public:
     typedef T            TYPE;
@@ -32,7 +32,7 @@ public:
     };
     IC int intersect(const _vector3<T>& start, const _vector3<T>& dir, T afT[2], ecode code[2]) const
     {
-        T fEpsilon = 1e-12f;
+        T           fEpsilon = 1e-12f;
 
         // set up quadratic Q(t) = a*t^2 + 2*b*t + c
         _vector3<T> kU, kV, kW = m_direction;
@@ -269,7 +269,7 @@ public:
 typedef _cylinder<float>  Fcylinder;
 typedef _cylinder<double> Dcylinder;
 
-template <class T> BOOL _valid(const _cylinder<T>& c)
+template<class T> BOOL    _valid(const _cylinder<T>& c)
 {
     return _valid(c.m_center) && _valid(c.m_direction) && _valid(c.m_height) && _valid(c.m_height);
 }

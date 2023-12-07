@@ -232,8 +232,7 @@ void CUIMpServerAdm::Init(CUIXml& xml_doc)
     CUIXmlInit::Init3tButton(xml_doc, "server_adm:main_selection_wnd:fast_restart_button", 0, m_pFastRestartBtn);
     CUIXmlInit::Init3tButton(xml_doc, "server_adm:main_selection_wnd:change_weather_button", 0, m_pChangeWeatherBtn);
     CUIXmlInit::Init3tButton(xml_doc, "server_adm:main_selection_wnd:change_game_type_button", 0, m_pChangeGameTypeBtn);
-    CUIXmlInit::Init3tButton(
-        xml_doc, "server_adm:main_selection_wnd:change_game_limits_button", 0, m_pChangeGameLimitsBtn);
+    CUIXmlInit::Init3tButton(xml_doc, "server_adm:main_selection_wnd:change_game_limits_button", 0, m_pChangeGameLimitsBtn);
     CUIXmlInit::Init3tButton(xml_doc, "server_adm:main_selection_wnd:vote_stop_button", 0, m_pVoteStopBtn);
 
     CUIXmlInit::InitWindow(xml_doc, "server_adm:weather_selection_wnd", 0, m_pWeatherSelectionWnd);
@@ -241,10 +240,8 @@ void CUIMpServerAdm::Init(CUIXml& xml_doc)
     CUIXmlInit::Init3tButton(xml_doc, "server_adm:weather_selection_wnd:cloudy_weather_button", 0, m_pCloudyWeatherBtn);
     CUIXmlInit::Init3tButton(xml_doc, "server_adm:weather_selection_wnd:rain_weather_button", 0, m_pRainWeatherBtn);
     CUIXmlInit::Init3tButton(xml_doc, "server_adm:weather_selection_wnd:night_weather_button", 0, m_pNightWeatherBtn);
-    CUIXmlInit::InitSpin(
-        xml_doc, "server_adm:weather_selection_wnd:weather_change_rate_spin", 0, m_pWeatherChangeRateSpin);
-    CUIXmlInit::Init3tButton(
-        xml_doc, "server_adm:weather_selection_wnd:set_weather_rate_button", 0, m_pWeatherChangeRateBtn);
+    CUIXmlInit::InitSpin(xml_doc, "server_adm:weather_selection_wnd:weather_change_rate_spin", 0, m_pWeatherChangeRateSpin);
+    CUIXmlInit::Init3tButton(xml_doc, "server_adm:weather_selection_wnd:set_weather_rate_button", 0, m_pWeatherChangeRateBtn);
 
     CUIXmlInit::InitWindow(xml_doc, "server_adm:game_type_selection_wnd", 0, m_pGameTypeSelectionWnd);
     CUIXmlInit::Init3tButton(xml_doc, "server_adm:game_type_selection_wnd:dm_button", 0, m_pDMBtn);
@@ -266,27 +263,17 @@ void CUIMpServerAdm::Init(CUIXml& xml_doc)
     CUIXmlInit::InitCheck(xml_doc, "server_adm:game_limits_selection_wnd:spectator_fl_check", 0, m_pSpectatorFLCheck);
     CUIXmlInit::InitCheck(xml_doc, "server_adm:game_limits_selection_wnd:spectator_la_check", 0, m_pSpectatorLACheck);
     CUIXmlInit::InitCheck(xml_doc, "server_adm:game_limits_selection_wnd:spectator_tc_check", 0, m_pSpectatorTCCheck);
-    CUIXmlInit::InitEditBox(
-        xml_doc, "server_adm:game_limits_selection_wnd:invincible_time_edit", 0, m_pInvincibleTimeEdit);
-    CUIXmlInit::Init3tButton(
-        xml_doc, "server_adm:game_limits_selection_wnd:invincible_time_button", 0, m_pSetInvincibleTimeBtn);
-    CUIXmlInit::InitEditBox(
-        xml_doc, "server_adm:game_limits_selection_wnd:damage_block_time_edit", 0, m_pDamageBlockTimeEdit);
-    CUIXmlInit::Init3tButton(
-        xml_doc, "server_adm:game_limits_selection_wnd:damage_block_time_button", 0, m_pSetDamageBlockTimeBtn);
-    CUIXmlInit::InitEditBox(
-        xml_doc, "server_adm:game_limits_selection_wnd:reinforcement_time_edit", 0, m_pReinforcementTimeEdit);
-    CUIXmlInit::Init3tButton(
-        xml_doc, "server_adm:game_limits_selection_wnd:reinforcement_time_button", 0, m_pSetReinforcementTimeBtn);
+    CUIXmlInit::InitEditBox(xml_doc, "server_adm:game_limits_selection_wnd:invincible_time_edit", 0, m_pInvincibleTimeEdit);
+    CUIXmlInit::Init3tButton(xml_doc, "server_adm:game_limits_selection_wnd:invincible_time_button", 0, m_pSetInvincibleTimeBtn);
+    CUIXmlInit::InitEditBox(xml_doc, "server_adm:game_limits_selection_wnd:damage_block_time_edit", 0, m_pDamageBlockTimeEdit);
+    CUIXmlInit::Init3tButton(xml_doc, "server_adm:game_limits_selection_wnd:damage_block_time_button", 0, m_pSetDamageBlockTimeBtn);
+    CUIXmlInit::InitEditBox(xml_doc, "server_adm:game_limits_selection_wnd:reinforcement_time_edit", 0, m_pReinforcementTimeEdit);
+    CUIXmlInit::Init3tButton(xml_doc, "server_adm:game_limits_selection_wnd:reinforcement_time_button", 0, m_pSetReinforcementTimeBtn);
     CUIXmlInit::InitCheck(xml_doc, "server_adm:game_limits_selection_wnd:vote_enabled_check", 0, m_pVoteEnabledCheck);
-    CUIXmlInit::InitCheck(
-        xml_doc, "server_adm:game_limits_selection_wnd:dam_block_indic_check", 0, m_pDamBlockIndicCheck);
-    CUIXmlInit::InitCheck(
-        xml_doc, "server_adm:game_limits_selection_wnd:friendly_names_check", 0, m_pFriendlyNamesCheck);
-    CUIXmlInit::InitCheck(
-        xml_doc, "server_adm:game_limits_selection_wnd:friendly_indic_check", 0, m_pFriendlyIndicCheck);
-    CUIXmlInit::InitCheck(
-        xml_doc, "server_adm:game_limits_selection_wnd:bearer_cant_sprint_check", 0, m_pBearerCantSprintCheck);
+    CUIXmlInit::InitCheck(xml_doc, "server_adm:game_limits_selection_wnd:dam_block_indic_check", 0, m_pDamBlockIndicCheck);
+    CUIXmlInit::InitCheck(xml_doc, "server_adm:game_limits_selection_wnd:friendly_names_check", 0, m_pFriendlyNamesCheck);
+    CUIXmlInit::InitCheck(xml_doc, "server_adm:game_limits_selection_wnd:friendly_indic_check", 0, m_pFriendlyIndicCheck);
+    CUIXmlInit::InitCheck(xml_doc, "server_adm:game_limits_selection_wnd:bearer_cant_sprint_check", 0, m_pBearerCantSprintCheck);
 
     m_pSpectatorFECheck->SetCurrentOptValue();
     m_pSpectatorFFCheck->SetCurrentOptValue();
@@ -304,7 +291,8 @@ void CUIMpServerAdm::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
 {
     switch (msg)
     {
-        case BUTTON_CLICKED: {
+        case BUTTON_CLICKED:
+        {
             if (pWnd == m_pBackBtn)
                 OnBackBtn();
             else if (pWnd == m_pChangeWeatherBtn)

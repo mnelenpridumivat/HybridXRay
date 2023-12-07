@@ -28,10 +28,10 @@ public:
     virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
     virtual bool OnMouseDown(int mouse_btn);
 
-    void InitCheckButton(Fvector2 pos, Fvector2 size, LPCSTR texture_name);
+    void         InitCheckButton(Fvector2 pos, Fvector2 size, LPCSTR texture_name);
 
     // состояние кнопки
-    IC bool GetCheck() const
+    IC bool      GetCheck() const
     {
         return GetButtonState() == BUTTON_PUSHED;
     }

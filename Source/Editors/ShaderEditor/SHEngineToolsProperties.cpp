@@ -13,7 +13,7 @@ xr_token mode_token[] = {
     {"Cube Reflection", CMatrix::modeC_refl},
     {0, 0}};
 //---------------------------------------------------------------------------
-void CSHEngineTools::FillMatrixProps(PropItemVec& items, LPCSTR pref, LPSTR name)
+void     CSHEngineTools::FillMatrixProps(PropItemVec& items, LPCSTR pref, LPSTR name)
 {
     CMatrix* M = AppendMatrix(name);
     R_ASSERT(M);
@@ -142,7 +142,7 @@ void CSHEngineTools::RealUpdateProperties()
     PropItemVec items;
     if (m_CurrentBlender)
     {   // fill Tree
-        xr_string marker_text = "";
+        xr_string      marker_text = "";
 
         IReader        data(m_BlenderStream.pointer(), m_BlenderStream.size());
         CBlender_DESC* desc = (CBlender_DESC*)data.pointer();
@@ -167,15 +167,15 @@ void CSHEngineTools::RealUpdateProperties()
                 case xrPID_MARKER:
                     marker_text = key;
                     break;
-                case xrPID_TOKEN: {
+                case xrPID_TOKEN:
+                {
                     xrP_TOKEN* V = (xrP_TOKEN*)data.pointer();
                     sz           = sizeof(xrP_TOKEN) + sizeof(xrP_TOKEN::Item) * V->Count;
-                    PHelper().CreateTokenSH(
-                        items, PrepareKey(marker_text.c_str(), key), &V->IDselected,
-                        (TokenValueSH::Item*)(LPBYTE(data.pointer()) + sizeof(xrP_TOKEN)), V->Count);
+                    PHelper().CreateTokenSH(items, PrepareKey(marker_text.c_str(), key), &V->IDselected, (TokenValueSH::Item*)(LPBYTE(data.pointer()) + sizeof(xrP_TOKEN)), V->Count);
                 }
                 break;
-                case xrPID_MATRIX: {
+                case xrPID_MATRIX:
+                {
                     sz = sizeof(string64);
                     /*  LPSTR V			= (LPSTR)data.pointer();
                       CListValue* P	=
@@ -186,7 +186,8 @@ void CSHEngineTools::RealUpdateProperties()
                       P->Owner()->OnDrawTextEvent.bind(this,&CSHEngineTools::MCOnDraw);*/
                 }
                 break;
-                case xrPID_CONSTANT: {
+                case xrPID_CONSTANT:
+                {
                     sz = sizeof(string64);
                     /*  LPSTR V			= (LPSTR)data.pointer();
                       CListValue* P	=
@@ -201,20 +202,22 @@ void CSHEngineTools::RealUpdateProperties()
                     sz = sizeof(string64);
                     PHelper().CreateTexture(items, PrepareKey(marker_text.c_str(), key), (LPSTR)data.pointer(), sz);
                     break;
-                case xrPID_INTEGER: {
+                case xrPID_INTEGER:
+                {
                     sz             = sizeof(xrP_Integer);
                     xrP_Integer* V = (xrP_Integer*)data.pointer();
                     PHelper().CreateS32(items, PrepareKey(marker_text.c_str(), key), &V->value, V->min, V->max, 1);
                 }
                 break;
-                case xrPID_FLOAT: {
+                case xrPID_FLOAT:
+                {
                     sz           = sizeof(xrP_Float);
                     xrP_Float* V = (xrP_Float*)data.pointer();
-                    PHelper().CreateFloat(
-                        items, PrepareKey(marker_text.c_str(), key), &V->value, V->min, V->max, 0.01f, 2);
+                    PHelper().CreateFloat(items, PrepareKey(marker_text.c_str(), key), &V->value, V->min, V->max, 0.01f, 2);
                 }
                 break;
-                case xrPID_BOOL: {
+                case xrPID_BOOL:
+                {
                     sz          = sizeof(xrP_BOOL);
                     xrP_BOOL* V = (xrP_BOOL*)data.pointer();
                     PHelper().CreateBOOL(items, PrepareKey(marker_text.c_str(), key), &V->value);

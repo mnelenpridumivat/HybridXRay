@@ -44,30 +44,30 @@ public:
         return m_eMessageBoxStyle;
     };
 
-    void   SetTextEditURL(LPCSTR text);
-    LPCSTR GetTextEditURL();
+    void         SetTextEditURL(LPCSTR text);
+    LPCSTR       GetTextEditURL();
 
     virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
 
-    void OnYesOk();
+    void         OnYesOk();
 
 protected:
-    xr_string    m_ret_val;
-    CUI3tButton* m_UIButtonYesOk;
-    CUI3tButton* m_UIButtonNo;
-    CUI3tButton* m_UIButtonCancel;
-    CUI3tButton* m_UIButtonCopy;
+    xr_string          m_ret_val;
+    CUI3tButton*       m_UIButtonYesOk;
+    CUI3tButton*       m_UIButtonNo;
+    CUI3tButton*       m_UIButtonCancel;
+    CUI3tButton*       m_UIButtonCopy;
 
-    CUIStatic*  m_UIStaticPicture;
-    CUITextWnd* m_UIStaticText;
-    CUITextWnd* m_UIStaticHost;
-    CUITextWnd* m_UIStaticPass;
-    CUITextWnd* m_UIStaticUserPass;
-    CUIEditBox* m_UIEditHost;
-    CUIEditBox* m_UIEditPass;
-    CUIEditBox* m_UIEditUserPass;
-    CUIEditBox* m_UIEditURL;
+    CUIStatic*         m_UIStaticPicture;
+    CUITextWnd*        m_UIStaticText;
+    CUITextWnd*        m_UIStaticHost;
+    CUITextWnd*        m_UIStaticPass;
+    CUITextWnd*        m_UIStaticUserPass;
+    CUIEditBox*        m_UIEditHost;
+    CUIEditBox*        m_UIEditPass;
+    CUIEditBox*        m_UIEditUserPass;
+    CUIEditBox*        m_UIEditURL;
 
     E_MESSAGEBOX_STYLE m_eMessageBoxStyle;
     DECLARE_SCRIPT_REGISTER_FUNCTION

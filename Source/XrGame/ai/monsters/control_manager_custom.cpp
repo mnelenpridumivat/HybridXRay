@@ -150,7 +150,8 @@ void CControlManagerCustom::on_event(ControlCom::EEventType type, ControlCom::IE
         case ControlCom::eventSequenceEnd:
             m_man->release(this, ControlCom::eControlSequencer);
             break;
-        case ControlCom::eventTAChange: {
+        case ControlCom::eventTAChange:
+        {
             STripleAnimEventData* event_data = (STripleAnimEventData*)data;
             if (event_data->m_current_state == eStateNone)
                 m_man->release(this, ControlCom::eControlTripleAnimation);
@@ -198,14 +199,7 @@ void CControlManagerCustom::update_schedule()
 }
 
 //////////////////////////////////////////////////////////////////////////
-void CControlManagerCustom::ta_fill_data(
-    SAnimationTripleData& data,
-    LPCSTR                s1,
-    LPCSTR                s2,
-    LPCSTR                s3,
-    bool                  execute_once,
-    bool                  skip_prep,
-    u32                   capture_type)
+void CControlManagerCustom::ta_fill_data(SAnimationTripleData& data, LPCSTR s1, LPCSTR s2, LPCSTR s3, bool execute_once, bool skip_prep, u32 capture_type)
 {
     // Load triple animations
     IKinematicsAnimated* skel_animated = smart_cast<IKinematicsAnimated*>(m_object->Visual());
@@ -259,9 +253,7 @@ bool CControlManagerCustom::ta_is_active(const SAnimationTripleData& data)
     SAnimationTripleData* ctrl_data = (SAnimationTripleData*)m_man->data(this, ControlCom::eControlTripleAnimation);
     VERIFY(ctrl_data);
 
-    return (
-        (ctrl_data->pool[0] == data.pool[0]) && (ctrl_data->pool[1] == data.pool[1]) &&
-        (ctrl_data->pool[2] == data.pool[2]));
+    return ((ctrl_data->pool[0] == data.pool[0]) && (ctrl_data->pool[1] == data.pool[1]) && (ctrl_data->pool[2] == data.pool[2]));
 }
 
 void CControlManagerCustom::ta_deactivate()
@@ -343,14 +335,7 @@ void CControlManagerCustom::jump(CObject* obj, const SControlJumpData& ta)
     m_man->activate(ControlCom::eControlJump);
 }
 
-void CControlManagerCustom::load_jump_data(
-    LPCSTR s1,
-    LPCSTR s2,
-    LPCSTR s3,
-    LPCSTR s4,
-    u32    vel_mask_prepare,
-    u32    vel_mask_ground,
-    u32    flags)
+void CControlManagerCustom::load_jump_data(LPCSTR s1, LPCSTR s2, LPCSTR s3, LPCSTR s4, u32 vel_mask_prepare, u32 vel_mask_ground, u32 flags)
 {
     IKinematicsAnimated* skel_animated = smart_cast<IKinematicsAnimated*>(m_object->Visual());
     if (!skel_animated)
@@ -402,7 +387,7 @@ void CControlManagerCustom::load_jump_data(
     m_jump->setup_data().state_prepare_in_move.velocity_mask = vel_mask_prepare;
     m_jump->setup_data().state_ground.velocity_mask          = vel_mask_ground;
 
-    m_jump->setup_data().force_factor = -1.f;
+    m_jump->setup_data().force_factor                        = -1.f;
 }
 
 bool CControlManagerCustom::is_jumping()
@@ -525,12 +510,7 @@ bool CControlManagerCustom::check_if_jump_possible(Fvector const& target, bool c
     return m_man->check_start_conditions(ControlCom::eControlJump);
 }
 
-bool CControlManagerCustom::jump_if_possible(
-    Fvector const&      target,
-    CEntityAlive* const target_object,
-    bool const          use_direction_to_target,
-    bool const          use_velocity_bounce,
-    bool const          check_possibility)
+bool CControlManagerCustom::jump_if_possible(Fvector const& target, CEntityAlive* const target_object, bool const use_direction_to_target, bool const use_velocity_bounce, bool const check_possibility)
 {
     if (!m_object->check_start_conditions(ControlCom::eControlJump))
         return false;
@@ -568,8 +548,7 @@ void CControlManagerCustom::check_jump_over_physics()
     Fvector prev_pos = m_object->Position();
     float   dist_sum = 0.f;
 
-    for (u32 i = m_man->path_builder().detail().curr_travel_point_index();
-         i < m_man->path_builder().detail().path().size(); i++)
+    for (u32 i = m_man->path_builder().detail().curr_travel_point_index(); i < m_man->path_builder().detail().path().size(); i++)
     {
         const DetailPathManager::STravelPathPoint& travel_point = m_man->path_builder().detail().path()[i];
 
@@ -585,14 +564,14 @@ void CControlManagerCustom::check_jump_over_physics()
             if (m_object->Position().distance_to(obj->Position()) < MAX_DIST_SUM / 2)
                 continue;
 
-            Fvector dir = Fvector().sub(travel_point.position, m_object->Position());
+            Fvector dir  = Fvector().sub(travel_point.position, m_object->Position());
 
             // проверка на  Field-Of-View
-            float my_h = m_object->Direction().getH();
-            float h    = dir.getH();
+            float   my_h = m_object->Direction().getH();
+            float   h    = dir.getH();
 
-            float from = angle_normalize(my_h - deg(8));
-            float to   = angle_normalize(my_h + deg(8));
+            float   from = angle_normalize(my_h - deg(8));
+            float   to   = angle_normalize(my_h + deg(8));
 
             if (!is_angle_between(h, from, to))
                 continue;
@@ -637,8 +616,7 @@ void CControlManagerCustom::check_rotation_jump()
 
     m_man->capture(this, ControlCom::eControlRotationJump);
 
-    SControlRotationJumpData* ctrl_data =
-        (SControlRotationJumpData*)m_man->data(this, ControlCom::eControlRotationJump);
+    SControlRotationJumpData* ctrl_data = (SControlRotationJumpData*)m_man->data(this, ControlCom::eControlRotationJump);
     VERIFY(ctrl_data);
 
     (*ctrl_data) = m_rot_jump_data[Random.randI(m_rot_jump_data.size())];
@@ -646,13 +624,7 @@ void CControlManagerCustom::check_rotation_jump()
     m_man->activate(ControlCom::eControlRotationJump);
 }
 
-void CControlManagerCustom::add_rotation_jump_data(
-    LPCSTR left1,
-    LPCSTR left2,
-    LPCSTR right1,
-    LPCSTR right2,
-    float  angle,
-    u32    flags)
+void CControlManagerCustom::add_rotation_jump_data(LPCSTR left1, LPCSTR left2, LPCSTR right1, LPCSTR right2, float angle, u32 flags)
 {
     SControlRotationJumpData data;
     fill_rotation_data(data, left1, left2, right1, right2, angle, flags);
@@ -720,14 +692,7 @@ void CControlManagerCustom::check_melee_jump()
 //////////////////////////////////////////////////////////////////////////
 // Fill Rotation Data
 //////////////////////////////////////////////////////////////////////////
-void CControlManagerCustom::fill_rotation_data(
-    SControlRotationJumpData& data,
-    LPCSTR                    left1,
-    LPCSTR                    left2,
-    LPCSTR                    right1,
-    LPCSTR                    right2,
-    float                     angle,
-    u32                       flags)
+void CControlManagerCustom::fill_rotation_data(SControlRotationJumpData& data, LPCSTR left1, LPCSTR left2, LPCSTR right1, LPCSTR right2, float angle, u32 flags)
 {
     VERIFY(m_object->Visual());
     IKinematicsAnimated* skeleton_animated = smart_cast<IKinematicsAnimated*>(m_object->Visual());

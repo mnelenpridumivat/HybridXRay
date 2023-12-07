@@ -13,7 +13,7 @@ public:
     void         InitTexture(LPCSTR tex_name, LPCSTR sh_name = "hud\\default");
     virtual void Draw();
 
-    float GetTextureHeight() const
+    float        GetTextureHeight() const
     {
         return m_tex_rect[0].height();
     }
@@ -44,9 +44,9 @@ protected:
         flSecond,      // Right or bottom
         flMax
     };
-    u32  m_texture_color;
-    bool m_bTextureVisible;
-    void DrawElements();
+    u32        m_texture_color;
+    bool       m_bTextureVisible;
+    void       DrawElements();
 
     ui_shader  m_shader;
     Frect      m_tex_rect[flMax];

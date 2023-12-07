@@ -12,22 +12,23 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
 
     switch (position.type)
     {
-        case PDPlane: {
+        case PDPlane:
+        {
             if (look_ahead < P_MAXFLOAT)
             {
                 for (u32 i = 0; i < effect->p_count; i++)
                 {
-                    Particle& m = effect->particles[i];
+                    Particle& m    = effect->particles[i];
 
                     // p2 stores the plane normal (the a,b,c of the plane eqn).
                     // Old and new distances: dist(p,plane) = n * p + d
                     // radius1 stores -n*p, which is d.
-                    float dist = m.pos * position.p2 + position.radius1;
+                    float     dist = m.pos * position.p2 + position.radius1;
 
                     if (dist < look_ahead)
                     {
-                        float   vm = m.vel.length();
-                        pVector Vn = m.vel / vm;
+                        float   vm  = m.vel.length();
+                        pVector Vn  = m.vel / vm;
                         // float dot = Vn * position.p2;
 
                         pVector tmp = (position.p2 * (magdt / (dist * dist + epsilon))) + Vn;
@@ -39,41 +40,41 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
             {
                 for (u32 i = 0; i < effect->p_count; i++)
                 {
-                    Particle& m = effect->particles[i];
+                    Particle& m    = effect->particles[i];
 
                     // p2 stores the plane normal (the a,b,c of the plane eqn).
                     // Old and new distances: dist(p,plane) = n * p + d
                     // radius1 stores -n*p, which is d.
-                    float dist = m.pos * position.p2 + position.radius1;
+                    float     dist = m.pos * position.p2 + position.radius1;
 
-                    float   vm = m.vel.length();
-                    pVector Vn = m.vel / vm;
+                    float     vm   = m.vel.length();
+                    pVector   Vn   = m.vel / vm;
                     // float dot = Vn * position.p2;
 
-                    pVector tmp = (position.p2 * (magdt / (dist * dist + epsilon))) + Vn;
-                    m.vel       = tmp * (vm / tmp.length());
+                    pVector   tmp  = (position.p2 * (magdt / (dist * dist + epsilon))) + Vn;
+                    m.vel          = tmp * (vm / tmp.length());
                 }
             }
         }
         break;
-        case PDRectangle: {
+        case PDRectangle:
+        {
             // Compute the inverse matrix of the plane basis.
-            pVector& u = position.u;
-            pVector& v = position.v;
+            pVector& u   = position.u;
+            pVector& v   = position.v;
 
             // The normalized bases are needed inside the loop.
-            pVector un = u / position.radius1Sqr;
-            pVector vn = v / position.radius2Sqr;
+            pVector  un  = u / position.radius1Sqr;
+            pVector  vn  = v / position.radius2Sqr;
 
             // w = u cross v
-            float wx = u.y * v.z - u.z * v.y;
-            float wy = u.z * v.x - u.x * v.z;
-            float wz = u.x * v.y - u.y * v.x;
+            float    wx  = u.y * v.z - u.z * v.y;
+            float    wy  = u.z * v.x - u.x * v.z;
+            float    wz  = u.x * v.y - u.y * v.x;
 
-            float det = 1 /
-                (wz * u.x * v.y - wz * u.y * v.x - u.z * wx * v.y - u.x * v.z * wy + v.z * wx * u.y + u.z * v.x * wy);
+            float    det = 1 / (wz * u.x * v.y - wz * u.y * v.x - u.z * wx * v.y - u.x * v.z * wy + v.z * wx * u.y + u.z * v.x * wy);
 
-            pVector s1((v.y * wz - v.z * wy), (v.z * wx - v.x * wz), (v.x * wy - v.y * wx));
+            pVector  s1((v.y * wz - v.z * wy), (v.z * wx - v.x * wz), (v.x * wy - v.y * wx));
             s1 *= det;
             pVector s2((u.y * wz - u.z * wy), (u.z * wx - u.x * wz), (u.x * wy - u.y * wx));
             s2 *= -det;
@@ -85,21 +86,21 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
 
                 // See if particle's current and next positions cross plane.
                 // If not, couldn't bounce, so keep going.
-                pVector pnext(m.pos + m.vel * dt * look_ahead);
+                pVector   pnext(m.pos + m.vel * dt * look_ahead);
 
                 // p2 stores the plane normal (the a,b,c of the plane eqn).
                 // Old and new distances: dist(p,plane) = n * p + d
                 // radius1 stores -n*p, which is d.
-                float distold = m.pos * position.p2 + position.radius1;
-                float distnew = pnext * position.p2 + position.radius1;
+                float     distold = m.pos * position.p2 + position.radius1;
+                float     distnew = pnext * position.p2 + position.radius1;
 
                 // Opposite signs if product < 0
                 // There is no faster way to do this.
                 if (distold * distnew >= 0)
                     continue;
 
-                float nv = position.p2 * m.vel;
-                float t  = -distold / nv;
+                float   nv = position.p2 * m.vel;
+                float   t  = -distold / nv;
 
                 // Actual intersection point p(t) = pos + vel t
                 pVector phit(m.pos + m.vel * t);
@@ -109,8 +110,8 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
 
                 // Dot product with basis vectors of old frame
                 // in terms of new frame gives position in uv frame.
-                float upos = offset * s1;
-                float vpos = offset * s2;
+                float   upos = offset * s1;
+                float   vpos = offset * s2;
 
                 // Did it cross plane outside triangle?
                 if (upos < 0 || vpos < 0 || upos > 1 || vpos > 1)
@@ -142,8 +143,8 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
                 S.normalize_safe();
 
                 // We now have a vector3 to safety.
-                float   vm = m.vel.length();
-                pVector Vn = m.vel / vm;
+                float   vm  = m.vel.length();
+                pVector Vn  = m.vel / vm;
 
                 // Blend S into V.
                 pVector tmp = (S * (magdt / (t * t + epsilon))) + Vn;
@@ -151,27 +152,27 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
             }
         }
         break;
-        case PDTriangle: {
+        case PDTriangle:
+        {
             // Compute the inverse matrix of the plane basis.
-            pVector& u = position.u;
-            pVector& v = position.v;
+            pVector& u  = position.u;
+            pVector& v  = position.v;
 
             // The normalized bases are needed inside the loop.
-            pVector un = u / position.radius1Sqr;
-            pVector vn = v / position.radius2Sqr;
+            pVector  un = u / position.radius1Sqr;
+            pVector  vn = v / position.radius2Sqr;
 
             // f is the third (non-basis) triangle edge.
-            pVector f = v - u;
-            pVector fn(f);
+            pVector  f  = v - u;
+            pVector  fn(f);
             fn.normalize_safe();
 
             // w = u cross v
-            float wx = u.y * v.z - u.z * v.y;
-            float wy = u.z * v.x - u.x * v.z;
-            float wz = u.x * v.y - u.y * v.x;
+            float   wx  = u.y * v.z - u.z * v.y;
+            float   wy  = u.z * v.x - u.x * v.z;
+            float   wz  = u.x * v.y - u.y * v.x;
 
-            float det = 1 /
-                (wz * u.x * v.y - wz * u.y * v.x - u.z * wx * v.y - u.x * v.z * wy + v.z * wx * u.y + u.z * v.x * wy);
+            float   det = 1 / (wz * u.x * v.y - wz * u.y * v.x - u.z * wx * v.y - u.x * v.z * wy + v.z * wx * u.y + u.z * v.x * wy);
 
             pVector s1((v.y * wz - v.z * wy), (v.z * wx - v.x * wz), (v.x * wy - v.y * wx));
             s1 *= det;
@@ -185,21 +186,21 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
 
                 // See if particle's current and next positions cross plane.
                 // If not, couldn't bounce, so keep going.
-                pVector pnext(m.pos + m.vel * dt * look_ahead);
+                pVector   pnext(m.pos + m.vel * dt * look_ahead);
 
                 // p2 stores the plane normal (the a,b,c of the plane eqn).
                 // Old and new distances: dist(p,plane) = n * p + d
                 // radius1 stores -n*p, which is d.
-                float distold = m.pos * position.p2 + position.radius1;
-                float distnew = pnext * position.p2 + position.radius1;
+                float     distold = m.pos * position.p2 + position.radius1;
+                float     distnew = pnext * position.p2 + position.radius1;
 
                 // Opposite signs if product < 0
                 // Is there a faster way to do this?
                 if (distold * distnew >= 0)
                     continue;
 
-                float nv = position.p2 * m.vel;
-                float t  = -distold / nv;
+                float   nv = position.p2 * m.vel;
+                float   t  = -distold / nv;
 
                 // Actual intersection point p(t) = pos + vel t
                 pVector phit(m.pos + m.vel * t);
@@ -209,8 +210,8 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
 
                 // Dot product with basis vectors of old frame
                 // in terms of new frame gives position in uv frame.
-                float upos = offset * s1;
-                float vpos = offset * s2;
+                float   upos = offset * s1;
+                float   vpos = offset * s2;
 
                 // Did it cross plane outside triangle?
                 if (upos < 0 || vpos < 0 || (upos + vpos) > 1)
@@ -236,8 +237,8 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
                 S.normalize_safe();
 
                 // We now have a vector3 to safety.
-                float   vm = m.vel.length();
-                pVector Vn = m.vel / vm;
+                float   vm  = m.vel.length();
+                pVector Vn  = m.vel / vm;
 
                 // Blend S into V.
                 pVector tmp = (S * (magdt / (t * t + epsilon))) + Vn;
@@ -245,7 +246,8 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
             }
         }
         break;
-        case PDDisc: {
+        case PDDisc:
+        {
             float r1Sqr = _sqr(position.radius1);
             float r2Sqr = _sqr(position.radius2);
 
@@ -256,13 +258,13 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
 
                 // See if particle's current and next positions cross plane.
                 // If not, couldn't bounce, so keep going.
-                pVector pnext(m.pos + m.vel * dt * look_ahead);
+                pVector   pnext(m.pos + m.vel * dt * look_ahead);
 
                 // p2 stores the plane normal (the a,b,c of the plane eqn).
                 // Old and new distances: dist(p,plane) = n * p + d
                 // radius1 stores -n*p, which is d. radius1Sqr stores d.
-                float distold = m.pos * position.p2 + position.radius1Sqr;
-                float distnew = pnext * position.p2 + position.radius1Sqr;
+                float     distold = m.pos * position.p2 + position.radius1Sqr;
+                float     distnew = pnext * position.p2 + position.radius1Sqr;
 
                 // Opposite signs if product < 0
                 // Is there a faster way to do this?
@@ -279,8 +281,8 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
                 // Safe since n*v != 0 assured by quick rejection test.
                 // This calc is indep. of dt because we have established that it
                 // will hit before dt. We just want to know when.
-                float nv = position.p2 * m.vel;
-                float t  = -distold / nv;
+                float   nv = position.p2 * m.vel;
+                float   t  = -distold / nv;
 
                 // Actual intersection point p(t) = pos + vel t
                 pVector phit(m.pos + m.vel * t);
@@ -288,7 +290,7 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
                 // Offset from origin in plane, phit - origin
                 pVector offset(phit - position.p1);
 
-                float rad = offset.length2();
+                float   rad = offset.length2();
 
                 if (rad > r1Sqr || rad < r2Sqr)
                     continue;
@@ -298,8 +300,8 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
                 S.normalize_safe();
 
                 // We now have a vector3 to safety.
-                float   vm = m.vel.length();
-                pVector Vn = m.vel / vm;
+                float   vm  = m.vel.length();
+                pVector Vn  = m.vel / vm;
 
                 // Blend S into V.
                 pVector tmp = (S * (magdt / (t * t + epsilon))) + Vn;
@@ -307,24 +309,25 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
             }
         }
         break;
-        case PDSphere: {
+        case PDSphere:
+        {
             float rSqr = position.radius1 * position.radius1;
 
             // See which particles are aimed toward the sphere.
             for (u32 i = 0; i < effect->p_count; i++)
             {
-                Particle& m = effect->particles[i];
+                Particle& m    = effect->particles[i];
 
                 // First do a ray-sphere intersection test and
                 // see if it's soon enough.
                 // Can I do this faster without t?
-                float   vm = m.vel.length();
-                pVector Vn = m.vel / vm;
+                float     vm   = m.vel.length();
+                pVector   Vn   = m.vel / vm;
 
-                pVector L = position.p1 - m.pos;
-                float   v = L * Vn;
+                pVector   L    = position.p1 - m.pos;
+                float     v    = L * Vn;
 
-                float disc = rSqr - (L * L) + v * v;
+                float     disc = rSqr - (L * L) + v * v;
                 if (disc < 0)
                     continue;   // I'm not heading toward it.
 
@@ -336,7 +339,7 @@ void PAPI::PAAvoid::Execute(ParticleEffect* effect, const float dt, float& tm_ma
                 // Get a vector3 to safety.
                 pVector C = Vn ^ L;
                 C.normalize_safe();
-                pVector S = Vn ^ C;
+                pVector S   = Vn ^ C;
 
                 // Blend S into V.
                 pVector tmp = (S * (magdt / (t * t + epsilon))) + Vn;
@@ -356,20 +359,20 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 {
     switch (position.type)
     {
-        case PDTriangle: {
+        case PDTriangle:
+        {
             // Compute the inverse matrix of the plane basis.
-            pVector& u = position.u;
-            pVector& v = position.v;
+            pVector& u   = position.u;
+            pVector& v   = position.v;
 
             // w = u cross v
-            float wx = u.y * v.z - u.z * v.y;
-            float wy = u.z * v.x - u.x * v.z;
-            float wz = u.x * v.y - u.y * v.x;
+            float    wx  = u.y * v.z - u.z * v.y;
+            float    wy  = u.z * v.x - u.x * v.z;
+            float    wz  = u.x * v.y - u.y * v.x;
 
-            float det = 1 /
-                (wz * u.x * v.y - wz * u.y * v.x - u.z * wx * v.y - u.x * v.z * wy + v.z * wx * u.y + u.z * v.x * wy);
+            float    det = 1 / (wz * u.x * v.y - wz * u.y * v.x - u.z * wx * v.y - u.x * v.z * wy + v.z * wx * u.y + u.z * v.x * wy);
 
-            pVector s1((v.y * wz - v.z * wy), (v.z * wx - v.x * wz), (v.x * wy - v.y * wx));
+            pVector  s1((v.y * wz - v.z * wy), (v.z * wx - v.x * wz), (v.x * wy - v.y * wx));
             s1 *= det;
             pVector s2((u.y * wz - u.z * wy), (u.z * wx - u.x * wz), (u.x * wy - u.y * wx));
             s2 *= -det;
@@ -381,13 +384,13 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
                 // See if particle's current and next positions cross plane.
                 // If not, couldn't bounce, so keep going.
-                pVector pnext(m.pos + m.vel * dt);
+                pVector   pnext(m.pos + m.vel * dt);
 
                 // p2 stores the plane normal (the a,b,c of the plane eqn).
                 // Old and new distances: dist(p,plane) = n * p + d
                 // radius1 stores -n*p, which is d.
-                float distold = m.pos * position.p2 + position.radius1;
-                float distnew = pnext * position.p2 + position.radius1;
+                float     distold = m.pos * position.p2 + position.radius1;
+                float     distnew = pnext * position.p2 + position.radius1;
 
                 // Opposite signs if product < 0
                 // Is there a faster way to do this?
@@ -404,8 +407,8 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
                 // Safe since n*v != 0 assured by quick rejection test.
                 // This calc is indep. of dt because we have established that it
                 // will hit before dt. We just want to know when.
-                float nv = position.p2 * m.vel;
-                float t  = -distold / nv;
+                float   nv = position.p2 * m.vel;
+                float   t  = -distold / nv;
 
                 // Actual intersection point p(t) = pos + vel t
                 pVector phit(m.pos + m.vel * t);
@@ -415,8 +418,8 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
                 // Dot product with basis vectors of old frame
                 // in terms of new frame gives position in uv frame.
-                float upos = offset * s1;
-                float vpos = offset * s2;
+                float   upos = offset * s1;
+                float   vpos = offset * s2;
 
                 // Did it cross plane outside triangle?
                 if (upos < 0 || vpos < 0 || (upos + vpos) > 1)
@@ -437,7 +440,8 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             }
         }
         break;
-        case PDDisc: {
+        case PDDisc:
+        {
             float r1Sqr = _sqr(position.radius1);
             float r2Sqr = _sqr(position.radius2);
 
@@ -448,13 +452,13 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
                 // See if particle's current and next positions cross plane.
                 // If not, couldn't bounce, so keep going.
-                pVector pnext(m.pos + m.vel * dt);
+                pVector   pnext(m.pos + m.vel * dt);
 
                 // p2 stores the plane normal (the a,b,c of the plane eqn).
                 // Old and new distances: dist(p,plane) = n * p + d
                 // radius1 stores -n*p, which is d. radius1Sqr stores d.
-                float distold = m.pos * position.p2 + position.radius1Sqr;
-                float distnew = pnext * position.p2 + position.radius1Sqr;
+                float     distold = m.pos * position.p2 + position.radius1Sqr;
+                float     distnew = pnext * position.p2 + position.radius1Sqr;
 
                 // Opposite signs if product < 0
                 // Is there a faster way to do this?
@@ -471,8 +475,8 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
                 // Safe since n*v != 0 assured by quick rejection test.
                 // This calc is indep. of dt because we have established that it
                 // will hit before dt. We just want to know when.
-                float nv = position.p2 * m.vel;
-                float t  = -distold / nv;
+                float   nv = position.p2 * m.vel;
+                float   t  = -distold / nv;
 
                 // Actual intersection point p(t) = pos + vel t
                 pVector phit(m.pos + m.vel * t);
@@ -480,7 +484,7 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
                 // Offset from origin in plane, phit - origin
                 pVector offset(phit - position.p1);
 
-                float rad = offset.length2();
+                float   rad = offset.length2();
 
                 if (rad > r1Sqr || rad < r2Sqr)
                     continue;
@@ -500,7 +504,8 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             }
         }
         break;
-        case PDPlane: {
+        case PDPlane:
+        {
             // See which particles bounce.
             for (u32 i = 0; i < effect->p_count; i++)
             {
@@ -508,13 +513,13 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
                 // See if particle's current and next positions cross plane.
                 // If not, couldn't bounce, so keep going.
-                pVector pnext(m.pos + m.vel * dt);
+                pVector   pnext(m.pos + m.vel * dt);
 
                 // p2 stores the plane normal (the a,b,c of the plane eqn).
                 // Old and new distances: dist(p,plane) = n * p + d
                 // radius1 stores -n*p, which is d.
-                float distold = m.pos * position.p2 + position.radius1;
-                float distnew = pnext * position.p2 + position.radius1;
+                float     distold = m.pos * position.p2 + position.radius1;
+                float     distnew = pnext * position.p2 + position.radius1;
 
                 // Opposite signs if product < 0
                 if (distold * distnew >= 0)
@@ -534,20 +539,20 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             }
         }
         break;
-        case PDRectangle: {
+        case PDRectangle:
+        {
             // Compute the inverse matrix of the plane basis.
-            pVector& u = position.u;
-            pVector& v = position.v;
+            pVector& u   = position.u;
+            pVector& v   = position.v;
 
             // w = u cross v
-            float wx = u.y * v.z - u.z * v.y;
-            float wy = u.z * v.x - u.x * v.z;
-            float wz = u.x * v.y - u.y * v.x;
+            float    wx  = u.y * v.z - u.z * v.y;
+            float    wy  = u.z * v.x - u.x * v.z;
+            float    wz  = u.x * v.y - u.y * v.x;
 
-            float det = 1 /
-                (wz * u.x * v.y - wz * u.y * v.x - u.z * wx * v.y - u.x * v.z * wy + v.z * wx * u.y + u.z * v.x * wy);
+            float    det = 1 / (wz * u.x * v.y - wz * u.y * v.x - u.z * wx * v.y - u.x * v.z * wy + v.z * wx * u.y + u.z * v.x * wy);
 
-            pVector s1((v.y * wz - v.z * wy), (v.z * wx - v.x * wz), (v.x * wy - v.y * wx));
+            pVector  s1((v.y * wz - v.z * wy), (v.z * wx - v.x * wz), (v.x * wy - v.y * wx));
             s1 *= det;
             pVector s2((u.y * wz - u.z * wy), (u.z * wx - u.x * wz), (u.x * wy - u.y * wx));
             s2 *= -det;
@@ -559,13 +564,13 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
                 // See if particle's current and next positions cross plane.
                 // If not, couldn't bounce, so keep going.
-                pVector pnext(m.pos + m.vel * dt);
+                pVector   pnext(m.pos + m.vel * dt);
 
                 // p2 stores the plane normal (the a,b,c of the plane eqn).
                 // Old and new distances: dist(p,plane) = n * p + d
                 // radius1 stores -n*p, which is d.
-                float distold = m.pos * position.p2 + position.radius1;
-                float distnew = pnext * position.p2 + position.radius1;
+                float     distold = m.pos * position.p2 + position.radius1;
+                float     distnew = pnext * position.p2 + position.radius1;
 
                 // Opposite signs if product < 0
                 if (distold * distnew >= 0)
@@ -577,7 +582,7 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
                 // n * p(t) + D = 0 ->
                 // n * p + t (n * v) + D = 0 ->
                 // t = -(n * p + D) / (n * v)
-                float t = -distold / (position.p2 * m.vel);
+                float   t = -distold / (position.p2 * m.vel);
 
                 // Actual intersection point p(t) = pos + vel t
                 pVector phit(m.pos + m.vel * t);
@@ -587,8 +592,8 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
                 // Dot product with basis vectors of old frame
                 // in terms of new frame gives position in uv frame.
-                float upos = offset * s1;
-                float vpos = offset * s2;
+                float   upos = offset * s1;
+                float   vpos = offset * s2;
 
                 // Crossed plane outside bounce region if !(0<=[uv]pos<=1)
                 if (upos < 0 || upos > 1 || vpos < 0 || vpos > 1)
@@ -610,7 +615,8 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             }
         }
         break;
-        case PDSphere: {
+        case PDSphere:
+        {
             // Sphere that particles bounce off
             // The particles are always forced out of the sphere.
             for (u32 i = 0; i < effect->p_count; i++)
@@ -619,12 +625,12 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
                 // See if particle's next position is inside domain.
                 // If so, bounce it.
-                pVector pnext(m.pos + m.vel * dt);
+                pVector   pnext(m.pos + m.vel * dt);
 
                 if (position.Within(pnext))
                 {
                     // See if we were inside on previous timestep.
-                    BOOL pinside = position.Within(m.pos);
+                    BOOL    pinside = position.Within(m.pos);
 
                     // Normal to surface. This works for a sphere. Isn't
                     // computed quite right, should extrapolate particle
@@ -633,7 +639,7 @@ void PABounce::Execute(ParticleEffect* effect, const float dt, float& tm_max)
                     n.normalize_safe();
 
                     // Compute tangential and normal components of velocity
-                    float nmag = m.vel * n;
+                    float   nmag = m.vel * n;
 
                     pVector vn(n * nmag);      // Normal Vn = (V.N)N
                     pVector vt = m.vel - vn;   // Tangent Vt = V - Vn
@@ -741,12 +747,12 @@ void PAExplosion::Execute(ParticleEffect* effect, const float dt, float& tm_max)
         Particle& m = effect->particles[i];
 
         // Figure direction to particle.
-        pVector dir(m.pos - center);
-        float   distSqr         = dir.length2();
-        float   dist            = _sqrt(distSqr);
-        float   DistFromWaveSqr = _sqr(radius - dist);
+        pVector   dir(m.pos - center);
+        float     distSqr         = dir.length2();
+        float     dist            = _sqrt(distSqr);
+        float     DistFromWaveSqr = _sqr(radius - dist);
 
-        float Gd = expf(DistFromWaveSqr * inexp) * outexp;
+        float     Gd              = expf(DistFromWaveSqr * inexp) * outexp;
 
         m.vel += dir * (Gd * magdt / ((dist + EPS) * (distSqr + epsilon)));
     }
@@ -772,8 +778,8 @@ void PAFollow::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Accelerate toward the particle after me in the list.
-            pVector tohim(effect->particles[i + 1].pos - m.pos);   // tohim = p1 - p0
-            float   tohimlenSqr = tohim.length2();
+            pVector   tohim(effect->particles[i + 1].pos - m.pos);   // tohim = p1 - p0
+            float     tohimlenSqr = tohim.length2();
 
             if (tohimlenSqr < max_radiusSqr)
             {
@@ -789,8 +795,8 @@ void PAFollow::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Accelerate toward the particle after me in the list.
-            pVector tohim(effect->particles[i + 1].pos - m.pos);   // tohim = p1 - p0
-            float   tohimlenSqr = tohim.length2();
+            pVector   tohim(effect->particles[i + 1].pos - m.pos);   // tohim = p1 - p0
+            float     tohimlenSqr = tohim.length2();
 
             // Compute force exerted between the two bodies
             m.vel += tohim * (magdt / (_sqrt(tohimlenSqr) * (tohimlenSqr + epsilon)));
@@ -820,8 +826,8 @@ void PAGravitate::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             {
                 Particle& mj = effect->particles[j];
 
-                pVector tohim(mj.pos - m.pos);   // tohim = p1 - p0
-                float   tohimlenSqr = tohim.length2() + EPS_S;
+                pVector   tohim(mj.pos - m.pos);   // tohim = p1 - p0
+                float     tohimlenSqr = tohim.length2() + EPS_S;
 
                 if (tohimlenSqr < max_radiusSqr)
                 {
@@ -845,11 +851,11 @@ void PAGravitate::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             {
                 Particle& mj = effect->particles[j];
 
-                pVector tohim(mj.pos - m.pos);   // tohim = p1 - p0
-                float   tohimlenSqr = tohim.length2() + EPS_S;
+                pVector   tohim(mj.pos - m.pos);   // tohim = p1 - p0
+                float     tohimlenSqr = tohim.length2() + EPS_S;
 
                 // Compute force exerted between the two bodies
-                pVector acc(tohim * (magdt / (_sqrt(tohimlenSqr) * (tohimlenSqr + epsilon))));
+                pVector   acc(tohim * (magdt / (_sqrt(tohimlenSqr) * (tohimlenSqr + epsilon))));
 
                 m.vel += acc;
                 mj.vel -= acc;
@@ -893,11 +899,11 @@ void PAJet::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Figure direction to particle.
-            pVector dir(m.pos - center);
+            pVector   dir(m.pos - center);
 
             // Distance to jet (force drops as 1/r^2)
             // Soften by epsilon to avoid tight encounters to infinity
-            float rSqr = dir.length2();
+            float     rSqr = dir.length2();
 
             if (rSqr < max_radiusSqr)
             {
@@ -916,13 +922,13 @@ void PAJet::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Figure direction to particle.
-            pVector dir(m.pos - center);
+            pVector   dir(m.pos - center);
 
             // Distance to jet (force drops as 1/r^2)
             // Soften by epsilon to avoid tight encounters to infinity
-            float rSqr = dir.length2();
+            float     rSqr = dir.length2();
 
-            pVector accel;
+            pVector   accel;
             acc.Generate(accel);
 
             // Step velocity with acceleration
@@ -950,11 +956,11 @@ void PAScatter::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Figure direction to particle.
-            pVector dir(m.pos - center);
+            pVector   dir(m.pos - center);
 
             // Distance to jet (force drops as 1/r^2)
             // Soften by epsilon to avoid tight encounters to infinity
-            float rSqr = dir.length2();
+            float     rSqr = dir.length2();
 
             if (rSqr < max_radiusSqr)
             {
@@ -975,13 +981,13 @@ void PAScatter::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Figure direction to particle.
-            pVector dir(m.pos - center);
+            pVector   dir(m.pos - center);
 
             // Distance to jet (force drops as 1/r^2)
             // Soften by epsilon to avoid tight encounters to infinity
-            float rSqr = dir.length2();
+            float     rSqr = dir.length2();
 
-            pVector accel;
+            pVector   accel;
             accel = dir / _sqrt(rSqr);
 
             // Step velocity with acceleration
@@ -1031,8 +1037,8 @@ void PAMatchVelocity::Execute(ParticleEffect* effect, const float dt, float& tm_
             {
                 Particle& mj = effect->particles[j];
 
-                pVector tohim(mj.pos - m.pos);   // tohim = p1 - p0
-                float   tohimlenSqr = tohim.length2();
+                pVector   tohim(mj.pos - m.pos);   // tohim = p1 - p0
+                float     tohimlenSqr = tohim.length2();
 
                 if (tohimlenSqr < max_radiusSqr)
                 {
@@ -1056,11 +1062,11 @@ void PAMatchVelocity::Execute(ParticleEffect* effect, const float dt, float& tm_
             {
                 Particle& mj = effect->particles[j];
 
-                pVector tohim(mj.pos - m.pos);   // tohim = p1 - p0
-                float   tohimlenSqr = tohim.length2();
+                pVector   tohim(mj.pos - m.pos);   // tohim = p1 - p0
+                float     tohimlenSqr = tohim.length2();
 
                 // Compute force exerted between the two bodies
-                pVector acc(mj.vel * (magdt / (tohimlenSqr + epsilon)));
+                pVector   acc(mj.vel * (magdt / (tohimlenSqr + epsilon)));
 
                 m.vel += acc;
                 mj.vel -= acc;
@@ -1106,16 +1112,16 @@ void PAOrbitLine::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Figure direction to particle from base of line.
-            pVector f(m.pos - p);
+            pVector   f(m.pos - p);
 
-            pVector w(axis * (f * axis));
+            pVector   w(axis * (f * axis));
 
             // Direction from particle to nearest point on line.
-            pVector into = w - f;
+            pVector   into = w - f;
 
             // Distance to line (force drops as 1/r^2, normalize by 1/r)
             // Soften by epsilon to avoid tight encounters to infinity
-            float rSqr = into.length2();
+            float     rSqr = into.length2();
 
             if (rSqr < max_radiusSqr)
                 // Step velocity with acceleration
@@ -1130,16 +1136,16 @@ void PAOrbitLine::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Figure direction to particle from base of line.
-            pVector f(m.pos - p);
+            pVector   f(m.pos - p);
 
-            pVector w(axis * (f * axis));
+            pVector   w(axis * (f * axis));
 
             // Direction from particle to nearest point on line.
-            pVector into = w - f;
+            pVector   into = w - f;
 
             // Distance to line (force drops as 1/r^2, normalize by 1/r)
             // Soften by epsilon to avoid tight encounters to infinity
-            float rSqr = into.length2();
+            float     rSqr = into.length2();
 
             // Step velocity with acceleration
             m.vel += into * (magdt / (_sqrt(rSqr) + (rSqr + epsilon)));
@@ -1166,11 +1172,11 @@ void PAOrbitPoint::Execute(ParticleEffect* effect, const float dt, float& tm_max
             Particle& m = effect->particles[i];
 
             // Figure direction to particle.
-            pVector dir(center - m.pos);
+            pVector   dir(center - m.pos);
 
             // Distance to gravity well (force drops as 1/r^2, normalize by 1/r)
             // Soften by epsilon to avoid tight encounters to infinity
-            float rSqr = dir.length2();
+            float     rSqr = dir.length2();
 
             // Step velocity with acceleration
             if (rSqr < max_radiusSqr)
@@ -1185,11 +1191,11 @@ void PAOrbitPoint::Execute(ParticleEffect* effect, const float dt, float& tm_max
             Particle& m = effect->particles[i];
 
             // Figure direction to particle.
-            pVector dir(center - m.pos);
+            pVector   dir(center - m.pos);
 
             // Distance to gravity well (force drops as 1/r^2, normalize by 1/r)
             // Soften by epsilon to avoid tight encounters to infinity
-            float rSqr = dir.length2();
+            float     rSqr = dir.length2();
 
             // Step velocity with acceleration
             m.vel += dir * (magdt / (_sqrt(rSqr) + (rSqr + epsilon)));
@@ -1209,7 +1215,7 @@ void PARandomAccel::Execute(ParticleEffect* effect, const float dt, float& tm_ma
     {
         Particle& m = effect->particles[i];
 
-        pVector acceleration;
+        pVector   acceleration;
         gen_acc.Generate(acceleration);
 
         // dt will affect this by making a higher probability of
@@ -1231,7 +1237,7 @@ void PARandomDisplace::Execute(ParticleEffect* effect, const float dt, float& tm
     {
         Particle& m = effect->particles[i];
 
-        pVector displacement;
+        pVector   displacement;
         gen_disp.Generate(displacement);
 
         // dt will affect this by making a higher probability of
@@ -1253,7 +1259,7 @@ void PARandomVelocity::Execute(ParticleEffect* effect, const float dt, float& tm
     {
         Particle& m = effect->particles[i];
 
-        pVector velocity;
+        pVector   velocity;
         gen_vel.Generate(velocity);
 
         // Shouldn't multiply by dt because velocities are
@@ -1292,8 +1298,8 @@ void PARestore::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Already constrained, keep it there.
-            m.pos = m.posB;
-            m.vel = pVector(0, 0, 0);
+            m.pos       = m.posB;
+            m.vel       = pVector(0, 0, 0);
         }
     }
     else
@@ -1314,8 +1320,8 @@ void PARestore::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             // Figure new velocity at next timestep
             // m.vel.x = a * dtSqr + b * dt + c;
 
-            float b = (-2 * t * m.vel.x + 3 * m.posB.x - 3 * m.pos.x) * tSqrInv2dt;
-            float a = (t * m.vel.x - m.posB.x - m.posB.x + m.pos.x + m.pos.x) * tCubInv3dtSqr;
+            float     b = (-2 * t * m.vel.x + 3 * m.posB.x - 3 * m.pos.x) * tSqrInv2dt;
+            float     a = (t * m.vel.x - m.posB.x - m.posB.x + m.pos.x + m.pos.x) * tCubInv3dtSqr;
 
             // Figure new velocity at next timestep
             m.vel.x += a + b;
@@ -1336,7 +1342,7 @@ void PARestore::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
             // XXX Optimize this.
             // Solve for a desired-behavior velocity function in each axis
-            float a, b, c;   // Coefficients of velocity function needed
+            float     a, b, c;   // Coefficients of velocity function needed
 
             _pconstrain(m.pos.x, m.vel.x, m.posB.x, 0., timeLeft, &a, &b, &c);
 
@@ -1543,18 +1549,16 @@ void PATargetSize::Transform(const Fmatrix&)
 // Change rotation of all particles toward the specified velocity
 void PATargetRotate::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 {
-    float scaleFac = scale * dt;
+    float   scaleFac = scale * dt;
 
-    pVector r = pVector(_abs(rot.x), _abs(rot.y), _abs(rot.z));
+    pVector r        = pVector(_abs(rot.x), _abs(rot.y), _abs(rot.z));
 
     for (u32 i = 0; i < effect->p_count; i++)
     {
         Particle& m = effect->particles[i];
         //		m.rot += (r - m.rot) * scaleFac;
-        pVector sign(
-            m.rot.x >= 0.f ? scaleFac : -scaleFac, m.rot.y >= 0.f ? scaleFac : -scaleFac,
-            m.rot.z >= 0.f ? scaleFac : -scaleFac);
-        pVector dif((r.x - _abs(m.rot.x)) * sign.x, (r.y - _abs(m.rot.y)) * sign.x, (r.z - _abs(m.rot.z)) * sign.x);
+        pVector   sign(m.rot.x >= 0.f ? scaleFac : -scaleFac, m.rot.y >= 0.f ? scaleFac : -scaleFac, m.rot.z >= 0.f ? scaleFac : -scaleFac);
+        pVector   dif((r.x - _abs(m.rot.x)) * sign.x, (r.y - _abs(m.rot.y)) * sign.x, (r.z - _abs(m.rot.z)) * sign.x);
         m.rot += dif;
     }
 }
@@ -1596,23 +1600,23 @@ void PAVortex::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Vector from tip of vortex
-            pVector offset(m.pos - center);
+            pVector   offset(m.pos - center);
 
             // Compute distance from particle to tip of vortex.
-            float rSqr = offset.length2();
+            float     rSqr = offset.length2();
 
             // Don't do anything to particle if too close or too far.
             if (rSqr > max_radiusSqr)
                 continue;
 
-            float r = _sqrt(rSqr);
+            float   r = _sqrt(rSqr);
 
             // Compute normalized offset vector3.
             pVector offnorm(offset / r);
 
             // Construct orthogonal vector3 frame in which to rotate
             // transformed point around origin
-            float axisProj = offnorm * axis;   // offnorm . axis
+            float   axisProj = offnorm * axis;   // offnorm . axis
 
             // Components of offset perpendicular and parallel to axis
             pVector w(axis * axisProj);   // parallel component
@@ -1623,14 +1627,14 @@ void PAVortex::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 
             // Figure amount of rotation
             // Resultant is (cos theta) u + (sin theta) v
-            float theta = magdt / (rSqr + epsilon);
-            float s     = _sin(theta);
-            float c     = _cos(theta);
+            float   theta = magdt / (rSqr + epsilon);
+            float   s     = _sin(theta);
+            float   c     = _cos(theta);
 
-            offset = (u * c + v * s + w) * r;
+            offset        = (u * c + v * s + w) * r;
 
             // Translate back to object space
-            m.pos = offset + center;
+            m.pos         = offset + center;
         }
     }
     else
@@ -1640,37 +1644,37 @@ void PAVortex::Execute(ParticleEffect* effect, const float dt, float& tm_max)
             Particle& m = effect->particles[i];
 
             // Vector from tip of vortex
-            pVector offset(m.pos - center);
+            pVector   offset(m.pos - center);
 
             // Compute distance from particle to tip of vortex.
-            float rSqr = offset.length2();
+            float     rSqr = offset.length2();
 
-            float r = _sqrt(rSqr);
+            float     r    = _sqrt(rSqr);
 
             // Compute normalized offset vector3.
-            pVector offnorm(offset / r);
+            pVector   offnorm(offset / r);
 
             // Construct orthogonal vector3 frame in which to rotate
             // transformed point around origin
-            float axisProj = offnorm * axis;   // offnorm . axis
+            float     axisProj = offnorm * axis;   // offnorm . axis
 
             // Components of offset perpendicular and parallel to axis
-            pVector w(axis * axisProj);   // parallel component
-            pVector u(offnorm - w);       // perpendicular component
+            pVector   w(axis * axisProj);   // parallel component
+            pVector   u(offnorm - w);       // perpendicular component
 
             // Perpendicular component completing frame:
-            pVector v(axis ^ u);
+            pVector   v(axis ^ u);
 
             // Figure amount of rotation
             // Resultant is (cos theta) u + (sin theta) v
-            float theta = magdt / (rSqr + epsilon);
-            float s     = _sin(theta);
-            float c     = _cos(theta);
+            float     theta = magdt / (rSqr + epsilon);
+            float     s     = _sin(theta);
+            float     c     = _cos(theta);
 
-            offset = (u * c + v * s + w) * r;
+            offset          = (u * c + v * s + w) * r;
 
             // Translate back to object space
-            m.pos = offset + center;
+            m.pos           = offset + center;
         }
     }
 }
@@ -1732,12 +1736,12 @@ struct TES_PARAMS
 
 void PATurbulenceExecuteStream(LPVOID lpvParams)
 {
-    pVector pV;
-    pVector vX;
-    pVector vY;
-    pVector vZ;
+    pVector         pV;
+    pVector         vX;
+    pVector         vY;
+    pVector         vZ;
 
-    TES_PARAMS* pParams = (TES_PARAMS*)lpvParams;
+    TES_PARAMS*     pParams   = (TES_PARAMS*)lpvParams;
 
     u32             p_from    = pParams->p_from;
     u32             p_to      = pParams->p_to;
@@ -1758,13 +1762,13 @@ void PATurbulenceExecuteStream(LPVOID lpvParams)
         vY.set(pV.x, pV.y + epsilon, pV.z);
         vZ.set(pV.x, pV.y, pV.z + epsilon);
 
-        float d = fractalsum3(pV, frequency, octaves);
+        float   d = fractalsum3(pV, frequency, octaves);
 
         pVector D;
 
-        D.x = fractalsum3(vX, frequency, octaves);
-        D.y = fractalsum3(vY, frequency, octaves);
-        D.z = fractalsum3(vZ, frequency, octaves);
+        D.x               = fractalsum3(vX, frequency, octaves);
+        D.y               = fractalsum3(vY, frequency, octaves);
+        D.z               = fractalsum3(vZ, frequency, octaves);
 
         __m128 _D         = _mm_load_fvector(D);
         __m128 _d         = _mm_set1_ps(d);
@@ -1773,28 +1777,28 @@ void PATurbulenceExecuteStream(LPVOID lpvParams)
         _D                = _mm_sub_ps(_D, _d);
         _D                = _mm_mul_ps(_D, _magnitude);
 
-        __m128 _vmo = _mm_mul_ps(_mvel, _mvel);      // _vmo = 00 | zz | yy | xx
-        __m128 _tmp = _mm_movehl_ps(_vmo, _vmo);     // _tmp = 00 | zz | 00 | zz
-        _vmo        = _mm_add_ss(_vmo, _tmp);        // _vmo = 00 | zz | yy | xx + zz
-        _tmp        = _mm_unpacklo_ps(_vmo, _vmo);   // _tmp = yy | yy | xx + zz | xx + zz
-        _tmp        = _mm_movehl_ps(_tmp, _tmp);     // _tmp = yy | yy | yy | yy
-        _vmo        = _mm_add_ss(_vmo, _tmp);        // _vmo = 00 | zz | yy | xx + yy + zz
-        _vmo        = _mm_sqrt_ss(_vmo);             // _vmo = 00 | zz | yy | vmo
+        __m128 _vmo       = _mm_mul_ps(_mvel, _mvel);      // _vmo = 00 | zz | yy | xx
+        __m128 _tmp       = _mm_movehl_ps(_vmo, _vmo);     // _tmp = 00 | zz | 00 | zz
+        _vmo              = _mm_add_ss(_vmo, _tmp);        // _vmo = 00 | zz | yy | xx + zz
+        _tmp              = _mm_unpacklo_ps(_vmo, _vmo);   // _tmp = yy | yy | xx + zz | xx + zz
+        _tmp              = _mm_movehl_ps(_tmp, _tmp);     // _tmp = yy | yy | yy | yy
+        _vmo              = _mm_add_ss(_vmo, _tmp);        // _vmo = 00 | zz | yy | xx + yy + zz
+        _vmo              = _mm_sqrt_ss(_vmo);             // _vmo = 00 | zz | yy | vmo
 
-        _mvel = _mm_add_ps(_mvel, _D);
+        _mvel             = _mm_add_ps(_mvel, _D);
 
-        __m128 _vmn = _mm_mul_ps(_mvel, _mvel);      // _vmn = 00 | zz | yy | xx
-        _tmp        = _mm_movehl_ps(_vmn, _vmn);     // _tmp = 00 | zz | 00 | zz
-        _vmn        = _mm_add_ss(_vmn, _tmp);        // _vmn = 00 | zz | yy | xx + zz
-        _tmp        = _mm_unpacklo_ps(_vmn, _vmn);   // _tmp = yy | yy | xx + zz | xx + zz
-        _tmp        = _mm_movehl_ps(_tmp, _tmp);     // _tmp = yy | yy | yy | yy
-        _vmn        = _mm_add_ss(_vmn, _tmp);        // _vmn = 00 | zz | yy | xx + yy + zz
-        _vmn        = _mm_sqrt_ss(_vmn);             // _vmn = 00 | zz | yy | vmn
+        __m128 _vmn       = _mm_mul_ps(_mvel, _mvel);      // _vmn = 00 | zz | yy | xx
+        _tmp              = _mm_movehl_ps(_vmn, _vmn);     // _tmp = 00 | zz | 00 | zz
+        _vmn              = _mm_add_ss(_vmn, _tmp);        // _vmn = 00 | zz | yy | xx + zz
+        _tmp              = _mm_unpacklo_ps(_vmn, _vmn);   // _tmp = yy | yy | xx + zz | xx + zz
+        _tmp              = _mm_movehl_ps(_tmp, _tmp);     // _tmp = yy | yy | yy | yy
+        _vmn              = _mm_add_ss(_vmn, _tmp);        // _vmn = 00 | zz | yy | xx + yy + zz
+        _vmn              = _mm_sqrt_ss(_vmn);             // _vmn = 00 | zz | yy | vmn
 
-        _vmo = _mm_div_ss(_vmo, _vmn);   // _vmo = 00 | zz | yy | scale
+        _vmo              = _mm_div_ss(_vmo, _vmn);   // _vmo = 00 | zz | yy | scale
 
-        _vmo  = _mm_shuffle_ps(_vmo, _vmo, _MM_SHUFFLE(0, 0, 0, 0));   // _vmo = scale | scale | scale | scale
-        _mvel = _mm_mul_ps(_mvel, _vmo);
+        _vmo              = _mm_shuffle_ps(_vmo, _vmo, _MM_SHUFFLE(0, 0, 0, 0));   // _vmo = scale | scale | scale | scale
+        _mvel             = _mm_mul_ps(_mvel, _vmo);
 
         _mm_store_fvector(m.vel, _mvel);
     }
@@ -1810,7 +1814,7 @@ void PATurbulence::Execute(ParticleEffect* effect, const float dt, float& tm_max
 
     age += dt;
 
-    u32 p_cnt = effect->p_count;
+    u32 p_cnt    = effect->p_count;
 
     u32 nWorkers = ttapi_GetWorkersCount();
 
@@ -1821,14 +1825,14 @@ void PATurbulence::Execute(ParticleEffect* effect, const float dt, float& tm_max
 
     // Give ~1% more for the last worker
     // to minimize wait in final spin
-    u32 nSlice = p_cnt / 128;
+    u32         nSlice    = p_cnt / 128;
 
-    u32 nStep = ((p_cnt - nSlice) / nWorkers);
+    u32         nStep     = ((p_cnt - nSlice) / nWorkers);
 
     for (u32 i = 0; i < nWorkers; ++i)
     {
-        tesParams[i].p_from = i * nStep;
-        tesParams[i].p_to   = (i == (nWorkers - 1)) ? p_cnt : (tesParams[i].p_from + nStep);
+        tesParams[i].p_from    = i * nStep;
+        tesParams[i].p_to      = (i == (nWorkers - 1)) ? p_cnt : (tesParams[i].p_from + nStep);
 
         tesParams[i].effect    = effect;
         tesParams[i].offset    = offset;
@@ -1869,14 +1873,14 @@ void PATurbulence::Execute(ParticleEffect* effect, const float dt, float& tm_max
         vZ.set(pV.x, pV.y, pV.z + epsilon);
 
         pVector D;
-        float d = fractalsum3(pV, frequency, octaves);
-        D.x = (fractalsum3(vX, frequency, octaves) - d) * (float)magnitude;
-        D.y = (fractalsum3(vY, frequency, octaves) - d) * (float)magnitude;
-        D.z = (fractalsum3(vZ, frequency, octaves) - d) * (float)magnitude;
+        float   d        = fractalsum3(pV, frequency, octaves);
+        D.x              = (fractalsum3(vX, frequency, octaves) - d) * (float)magnitude;
+        D.y              = (fractalsum3(vY, frequency, octaves) - d) * (float)magnitude;
+        D.z              = (fractalsum3(vZ, frequency, octaves) - d) * (float)magnitude;
 
         float velMagOrig = m.vel.magnitude();
         m.vel.add(D);
-        float velMagNow = m.vel.magnitude();
+        float velMagNow   = m.vel.magnitude();
         float valMagScale = velMagOrig / velMagNow;
         m.vel.mul(valMagScale);
     }

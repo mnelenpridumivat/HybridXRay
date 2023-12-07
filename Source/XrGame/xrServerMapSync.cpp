@@ -27,7 +27,7 @@ void xrServer::OnProcessClientMapData(NET_Packet& P, ClientID const& clientID)
         responseP.w_u8(static_cast<u8>(YouHaveOtherMap));
 #ifdef DEBUG
         Msg("--- Client [0x%08x] has incorrect map [%s] or version [%s]", client_map_name, client_map_version);
-#endif   // #ifdef DEBUG
+#endif   // #ifdef DEBUG \
          // here we can make hard disconnect of this client...
     }
     else if (!Level().IsChecksumsEqual(client_geom_crc32))

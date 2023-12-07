@@ -56,18 +56,18 @@ public:
     IC float     path_direction_angle();
     IC bool      turn_in_place() const;
 
-    IC void set_head_orientation(const MonsterSpace::SBoneRotation& orientation);
-    void    set_desired_position(const Fvector* desired_position);
-    IC void set_desired_direction(const Fvector* desired_direction);
-    IC void set_body_state(EBodyState body_state);
-    IC void set_movement_type(EMovementType movement_type);
-    IC void set_mental_state(EMentalState mental_state);
-    IC void set_path_type(EPathType path_type);
-    IC void set_detail_path_type(EDetailPathType detail_path_type);
-    void    set_nearest_accessible_position();
-    void    set_nearest_accessible_position(Fvector desired_position, u32 level_vertex_id);
-    float   speed(const EMovementDirection& movement_direction);
-    void    setup_speed_from_animation(const float& speed);
+    IC void      set_head_orientation(const MonsterSpace::SBoneRotation& orientation);
+    void         set_desired_position(const Fvector* desired_position);
+    IC void      set_desired_direction(const Fvector* desired_direction);
+    IC void      set_body_state(EBodyState body_state);
+    IC void      set_movement_type(EMovementType movement_type);
+    IC void      set_mental_state(EMentalState mental_state);
+    IC void      set_path_type(EPathType path_type);
+    IC void      set_detail_path_type(EDetailPathType detail_path_type);
+    void         set_nearest_accessible_position();
+    void         set_nearest_accessible_position(Fvector desired_position, u32 level_vertex_id);
+    float        speed(const EMovementDirection& movement_direction);
+    void         setup_speed_from_animation(const float& speed);
 
 public:
     IC SBoneRotation const&           head_orientation() const;

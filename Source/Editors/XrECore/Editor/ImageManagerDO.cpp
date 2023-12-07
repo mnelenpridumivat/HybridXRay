@@ -125,16 +125,7 @@ bool item_area_sort_pred(const SSimpleImage& item0, const SSimpleImage& item1)
 }
 extern bool Stbi_Load(LPCSTR full_name, U32Vec& data, u32& w, u32& h, u32& a);
 
-int CImageManager::CreateMergedTexture(
-    u32              layer_cnt,
-    SSimpleImageVec& src_images,
-    SSimpleImage&    dst_image,
-    int              dest_width,
-    int              dest_height,
-    Fvector2Vec&     dest_offset,
-    Fvector2Vec&     dest_scale,
-    boolVec&         dest_rotate,
-    U32Vec&          dest_remap)
+int         CImageManager::CreateMergedTexture(u32 layer_cnt, SSimpleImageVec& src_images, SSimpleImage& dst_image, int dest_width, int dest_height, Fvector2Vec& dest_offset, Fvector2Vec& dest_scale, boolVec& dest_rotate, U32Vec& dest_remap)
 {
     if (src_images.empty())
         return -1;
@@ -149,8 +140,8 @@ int CImageManager::CreateMergedTexture(
         layer_it->resize(dest_width * dest_height, 0);
     U8Vec dest_mask(dest_width * dest_height, 0);
 
-    int max_area  = dest_width * dest_height;
-    int calc_area = 0;
+    int   max_area  = dest_width * dest_height;
+    int   calc_area = 0;
 
     for (SSimpleImageVecIt s_it = src_images.begin(); s_it != src_images.end(); s_it++)
     {
@@ -185,13 +176,9 @@ int CImageManager::CreateMergedTexture(
         for (u32 k = 0; k < layer_cnt; k++)
         {
             if (!bRotated)
-                blit(
-                    dest_layers[k].data(), dest_width, dest_height, s_it->layers[k].data(), s_it->w, s_it->h, R.lt.x,
-                    R.lt.y);
+                blit(dest_layers[k].data(), dest_width, dest_height, s_it->layers[k].data(), s_it->w, s_it->h, R.lt.x, R.lt.y);
             else
-                blit_r(
-                    dest_layers[k].data(), dest_width, dest_height, s_it->layers[k].data(), s_it->w, s_it->h, R.lt.x,
-                    R.lt.y);
+                blit_r(dest_layers[k].data(), dest_width, dest_height, s_it->layers[k].data(), s_it->w, s_it->h, R.lt.x, R.lt.y);
         }
     }
 
@@ -203,26 +190,14 @@ int CImageManager::CreateMergedTexture(
     return 1;
 }
 
-int CImageManager::CreateMergedTexture(
-    u32              layer_cnt,
-    SSimpleImageVec& src_images,
-    SSimpleImage&    dst_image,
-    int              dest_width_min,
-    int              dest_width_max,
-    int              dest_height_min,
-    int              dest_height_max,
-    Fvector2Vec&     dest_offset,
-    Fvector2Vec&     dest_scale,
-    boolVec&         dest_rotate,
-    U32Vec&          dest_remap)
+int CImageManager::CreateMergedTexture(u32 layer_cnt, SSimpleImageVec& src_images, SSimpleImage& dst_image, int dest_width_min, int dest_width_max, int dest_height_min, int dest_height_max, Fvector2Vec& dest_offset, Fvector2Vec& dest_scale, boolVec& dest_rotate, U32Vec& dest_remap)
 {
     int res = 0;
     int w   = dest_width_min;
     int h   = dest_height_min;
     do
     {
-        res = ImageLib.CreateMergedTexture(
-            layer_cnt, src_images, dst_image, w, h, dest_offset, dest_scale, dest_rotate, dest_remap);
+        res = ImageLib.CreateMergedTexture(layer_cnt, src_images, dst_image, w, h, dest_offset, dest_scale, dest_rotate, dest_remap);
         if (0 == res)
         {
             if ((w <= h) && (w < dest_width_max))
@@ -232,20 +207,12 @@ int CImageManager::CreateMergedTexture(
             else
                 break;
         }
-    } while ((0 == res) && (w <= dest_width_max) && (h <= dest_height_max));
+    }
+    while ((0 == res) && (w <= dest_width_max) && (h <= dest_height_max));
     return res;
 }
 
-int CImageManager::CreateMergedTexture(
-    const RStringVec&        _names,
-    LPCSTR                   dest_name,
-    STextureParams::ETFormat fmt,
-    int                      dest_width,
-    int                      dest_height,
-    Fvector2Vec&             dest_offset,
-    Fvector2Vec&             dest_scale,
-    boolVec&                 dest_rotate,
-    U32Vec&                  dest_remap)
+int CImageManager::CreateMergedTexture(const RStringVec& _names, LPCSTR dest_name, STextureParams::ETFormat fmt, int dest_width, int dest_height, Fvector2Vec& dest_offset, Fvector2Vec& dest_scale, boolVec& dest_rotate, U32Vec& dest_remap)
 {
     if (_names.empty())
         return -1;
@@ -259,11 +226,11 @@ int CImageManager::CreateMergedTexture(
     std::sort(src_names.begin(), src_names.end());
     src_names.erase(std::unique(src_names.begin(), src_names.end()), src_names.end());
 
-    U32Vec dest_pixels(dest_width * dest_height, 0);
-    U8Vec  dest_mask(dest_width * dest_height, 0);
+    U32Vec            dest_pixels(dest_width * dest_height, 0);
+    U8Vec             dest_mask(dest_width * dest_height, 0);
 
-    int max_area  = dest_width * dest_height;
-    int calc_area = 0;
+    int               max_area  = dest_width * dest_height;
+    int               calc_area = 0;
 
     SSimpleImageVec   src_items(src_names.size());
     SSimpleImageVecIt s_it = src_items.begin();
@@ -312,13 +279,9 @@ int CImageManager::CreateMergedTexture(
         dest_rotate.push_back(bRotated);
         // Perform BLIT
         if (!bRotated)
-            blit(
-                dest_pixels.data(), dest_width, dest_height, s_it->layers.back().data(), s_it->w, s_it->h, R.lt.x,
-                R.lt.y);
+            blit(dest_pixels.data(), dest_width, dest_height, s_it->layers.back().data(), s_it->w, s_it->h, R.lt.x, R.lt.y);
         else
-            blit_r(
-                dest_pixels.data(), dest_width, dest_height, s_it->layers.back().data(), s_it->w, s_it->h, R.lt.x,
-                R.lt.y);
+            blit_r(dest_pixels.data(), dest_width, dest_height, s_it->layers.back().data(), s_it->w, s_it->h, R.lt.x, R.lt.y);
     }
 
     // all right. make texture.
@@ -334,26 +297,14 @@ int CImageManager::CreateMergedTexture(
     return 1;
 }
 
-int CImageManager::CreateMergedTexture(
-    const RStringVec&        src_names,
-    LPCSTR                   dest_name,
-    STextureParams::ETFormat fmt,
-    int                      dest_width_min,
-    int                      dest_width_max,
-    int                      dest_height_min,
-    int                      dest_height_max,
-    Fvector2Vec&             dest_offset,
-    Fvector2Vec&             dest_scale,
-    boolVec&                 dest_rotate,
-    U32Vec&                  remap)
+int CImageManager::CreateMergedTexture(const RStringVec& src_names, LPCSTR dest_name, STextureParams::ETFormat fmt, int dest_width_min, int dest_width_max, int dest_height_min, int dest_height_max, Fvector2Vec& dest_offset, Fvector2Vec& dest_scale, boolVec& dest_rotate, U32Vec& remap)
 {
     int res = 0;
     int w   = dest_width_min;
     int h   = dest_height_min;
     do
     {
-        res =
-            ImageLib.CreateMergedTexture(src_names, dest_name, fmt, w, h, dest_offset, dest_scale, dest_rotate, remap);
+        res = ImageLib.CreateMergedTexture(src_names, dest_name, fmt, w, h, dest_offset, dest_scale, dest_rotate, remap);
         if (0 == res)
         {
             if ((w <= h) && (w < dest_width_max))
@@ -363,18 +314,12 @@ int CImageManager::CreateMergedTexture(
             else
                 break;
         }
-    } while ((0 == res) && (w <= dest_width_max) && (h <= dest_height_max));
+    }
+    while ((0 == res) && (w <= dest_width_max) && (h <= dest_height_max));
     return res;
 }
 
-void CImageManager::MergedTextureRemapUV(
-    float&          dest_u,
-    float&          dest_v,
-    float           src_u,
-    float           src_v,
-    const Fvector2& offs,
-    const Fvector2& scale,
-    bool            bRotate)
+void CImageManager::MergedTextureRemapUV(float& dest_u, float& dest_v, float src_u, float src_v, const Fvector2& offs, const Fvector2& scale, bool bRotate)
 {
     if (bRotate)
     {

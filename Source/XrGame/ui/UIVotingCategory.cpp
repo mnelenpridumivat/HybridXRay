@@ -18,7 +18,7 @@ CUIVotingCategory::CUIVotingCategory()
     change_map      = NULL;
     change_gametype = NULL;
 
-    bkgrnd = xr_new<CUIStatic>();
+    bkgrnd          = xr_new<CUIStatic>();
     bkgrnd->SetAutoDelete(true);
     AttachChild(bkgrnd);
     header = xr_new<CUIStatic>();

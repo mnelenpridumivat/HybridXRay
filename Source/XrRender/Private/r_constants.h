@@ -160,6 +160,7 @@ public:
     typedef xr_vector<cb_table_record>  cb_table;
     cb_table                            m_CBTable;
 #endif   //	USE_DX10
+
 private:
     void fatal(LPCSTR s);
 
@@ -167,6 +168,7 @@ private:
     BOOL parseConstants(ID3DShaderReflectionConstantBuffer* pTable, u32 destination);
     BOOL parseResources(ID3DShaderReflection* pReflection, int ResNum, u32 destination);
 #endif   //	USE_DX10
+
 public:
     ~R_constant_table();
 
@@ -185,6 +187,7 @@ public:
     {
         return 0 == table.size();
     }
+
 private:
 };
 typedef resptr_core<R_constant_table, resptr_base<R_constant_table>> ref_ctable;

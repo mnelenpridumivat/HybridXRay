@@ -89,10 +89,10 @@ bool CHitMarker::AddGrenade_ForMark(CGrenade* grn)
 {
     if (!grn)
         return false;
-    u16 new_id = grn->ID();
+    u16                    new_id = grn->ID();
 
-    GRENADEMARKS::iterator it_b = m_GrenadeMarks.begin();
-    GRENADEMARKS::iterator it_e = m_GrenadeMarks.end();
+    GRENADEMARKS::iterator it_b   = m_GrenadeMarks.begin();
+    GRENADEMARKS::iterator it_e   = m_GrenadeMarks.end();
 
     for (; it_b != it_e; ++it_b)
     {
@@ -137,10 +137,10 @@ void CHitMarker::Update_GrenadeView(Fvector& pos_actor)
 
 void CHitMarker::net_Relcase(CObject* obj)
 {
-    u16 remove_id = obj->ID();
+    u16                    remove_id = obj->ID();
 
-    GRENADEMARKS::iterator it_b = m_GrenadeMarks.begin();
-    GRENADEMARKS::iterator it_e = m_GrenadeMarks.end();
+    GRENADEMARKS::iterator it_b      = m_GrenadeMarks.begin();
+    GRENADEMARKS::iterator it_e      = m_GrenadeMarks.end();
 
     for (; it_b != it_e; ++it_b)
     {
@@ -197,7 +197,7 @@ SGrenadeMark::SGrenadeMark(const ui_shader& sh, CGrenade* grn)
     m_LightAnim     = LALib.FindItem("hud_hit_mark");
     m_Angle         = 0.0f;
 
-    m_UIStaticItem = xr_new<CUIStaticItem>();
+    m_UIStaticItem  = xr_new<CUIStaticItem>();
     m_UIStaticItem->SetShader(sh);
     float xs = 640.0f;
     float ys = 640.0f;

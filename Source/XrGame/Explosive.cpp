@@ -38,23 +38,22 @@
 #define EFFECTOR_RADIUS 30.f
 const u16   TEST_RAYS_PER_OBJECT            = 5;
 const u16   BLASTED_OBJ_PROCESSED_PER_FRAME = 3;
-const float exp_dist_extinction_factor =
-    3.f;   //(>1.f, 1.f -means no dist change of exp effect)	on the dist of m_fBlastRadius exp. wave effect in
-           //exp_dist_extinction_factor times less than maximum
+const float exp_dist_extinction_factor      = 3.f;   //(>1.f, 1.f -means no dist change of exp effect)	on the dist of m_fBlastRadius exp. wave effect in
+                                                     //exp_dist_extinction_factor times less than maximum
 
 CExplosive::CExplosive(void)
 {
-    m_fBlastHit      = 50.0f;
-    m_fBlastRadius   = 10.0f;
-    m_iFragsNum      = 20;
-    m_fFragsRadius   = 30.0f;
-    m_fFragHit       = 50.0f;
-    m_fUpThrowFactor = 0.f;
+    m_fBlastHit        = 50.0f;
+    m_fBlastRadius     = 10.0f;
+    m_iFragsNum        = 20;
+    m_fFragsRadius     = 30.0f;
+    m_fFragHit         = 50.0f;
+    m_fUpThrowFactor   = 0.f;
 
-    m_eSoundExplode = ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING);
+    m_eSoundExplode    = ESoundTypes(SOUND_TYPE_WEAPON_SHOOTING);
 
-    m_eHitTypeBlast = ALife::eHitTypeExplosion;
-    m_eHitTypeFrag  = ALife::eHitTypeFireWound;
+    m_eHitTypeBlast    = ALife::eHitTypeExplosion;
+    m_eHitTypeFrag     = ALife::eHitTypeFireWound;
 
     m_iCurrentParentID = 0xffff;
 
@@ -97,41 +96,41 @@ void CExplosive::Load(CInifile const* ini, LPCSTR section)
     m_fBlastRadius     = ini->r_float(section, "blast_r");
     m_fBlastHitImpulse = ini->r_float(section, "blast_impulse");
 
-    m_iFragsNum       = ini->r_s32(section, "frags");
-    m_fFragsRadius    = ini->r_float(section, "frags_r");
-    m_fFragHit        = ini->r_float(section, "frag_hit");
-    m_fFragHitImpulse = ini->r_float(section, "frag_hit_impulse");
+    m_iFragsNum        = ini->r_s32(section, "frags");
+    m_fFragsRadius     = ini->r_float(section, "frags_r");
+    m_fFragHit         = ini->r_float(section, "frag_hit");
+    m_fFragHitImpulse  = ini->r_float(section, "frag_hit_impulse");
 
-    m_eHitTypeBlast = ALife::g_tfString2HitType(ini->r_string(section, "hit_type_blast"));
-    m_eHitTypeFrag  = ALife::g_tfString2HitType(ini->r_string(section, "hit_type_frag"));
+    m_eHitTypeBlast    = ALife::g_tfString2HitType(ini->r_string(section, "hit_type_blast"));
+    m_eHitTypeFrag     = ALife::g_tfString2HitType(ini->r_string(section, "hit_type_frag"));
 
-    m_fUpThrowFactor = ini->r_float(section, "up_throw_factor");
+    m_fUpThrowFactor   = ini->r_float(section, "up_throw_factor");
 
-    fWallmarkSize = ini->r_float(section, "wm_size");
+    fWallmarkSize      = ini->r_float(section, "wm_size");
     R_ASSERT(fWallmarkSize > 0);
 
     m_sExplodeParticles = ini->r_string(section, "explode_particles");
 
     sscanf(ini->r_string(section, "light_color"), "%f,%f,%f", &m_LightColor.r, &m_LightColor.g, &m_LightColor.b);
-    m_fLightRange = ini->r_float(section, "light_range");
-    m_fLightTime  = ini->r_float(section, "light_time");
+    m_fLightRange    = ini->r_float(section, "light_range");
+    m_fLightTime     = ini->r_float(section, "light_time");
 
     // трассы для разлета осколков
     m_fFragmentSpeed = ini->r_float(section, "fragment_speed");
 
-    LPCSTR snd_name = ini->r_string(section, "snd_explode");
+    LPCSTR snd_name  = ini->r_string(section, "snd_explode");
     sndExplode.create(snd_name, st_Effect, m_eSoundExplode);
 
-    m_fExplodeDurationMax = ini->r_float(section, "explode_duration");
+    m_fExplodeDurationMax      = ini->r_float(section, "explode_duration");
 
-    effector.effect_sect_name = ini->r_string("explode_effector", "effect_sect_name");
+    effector.effect_sect_name  = ini->r_string("explode_effector", "effect_sect_name");
     //	if( ini->line_exist(section,"wallmark_section") )
     //	{
     m_wallmark_manager.m_owner = cast_game_object();
     //		m_wallmark_manager.Load(pSettings,ini->r_string(section,"wallmark_section"));
     //	}
 
-    m_bHideInExplosion = TRUE;
+    m_bHideInExplosion         = TRUE;
     if (ini->line_exist(section, "hide_in_explosion"))
     {
         m_bHideInExplosion        = ini->r_bool(section, "hide_in_explosion");
@@ -212,12 +211,7 @@ ICF static BOOL grenade_hit_callback(collide::rq_result& result, LPVOID params)
     return (ep.shoot_factor > 0.01f);
 }
 
-float CExplosive::ExplosionEffect(
-    collide::rq_results& storage,
-    CExplosive*          exp_obj,
-    CPhysicsShellHolder* blasted_obj,
-    const Fvector&       expl_centre,
-    const float          expl_radius)
+float CExplosive::ExplosionEffect(collide::rq_results& storage, CExplosive* exp_obj, CPhysicsShellHolder* blasted_obj, const Fvector& expl_centre, const float expl_radius)
 {
     const Fmatrix& obj_xform = blasted_obj->XFORM();
     Fmatrix        inv_obj_form;
@@ -282,9 +276,7 @@ float CExplosive::ExplosionEffect(
 #endif
 
 #ifdef DEBUG
-        float l_S = effective_volume *
-            (_abs(l_dir.dotproduct(obj_xform.i)) / l_d.x + _abs(l_dir.dotproduct(obj_xform.j)) / l_d.y +
-             _abs(l_dir.dotproduct(obj_xform.k)) / l_d.z);
+        float l_S     = effective_volume * (_abs(l_dir.dotproduct(obj_xform.i)) / l_d.x + _abs(l_dir.dotproduct(obj_xform.j)) / l_d.y + _abs(l_dir.dotproduct(obj_xform.k)) / l_d.z);
         float add_eff = _sqrt(l_S / max_s) * TestPassEffect(l_source_p, l_dir, mag, expl_radius, storage, blasted_obj);
         effect += add_eff;
         if (ph_dbg_draw_mask.test(phDbgDrawExplosions))
@@ -295,9 +287,7 @@ float CExplosive::ExplosionEffect(
             Msg("dist/overlap effect, %f", add_eff / _sqrt(l_S / max_s));
         }
 #else
-        float l_S = effective_volume *
-            (_abs(l_dir.dotproduct(obj_xform.i)) / l_d.x + _abs(l_dir.dotproduct(obj_xform.j)) / l_d.y +
-             _abs(l_dir.dotproduct(obj_xform.k)) / l_d.z);
+        float l_S = effective_volume * (_abs(l_dir.dotproduct(obj_xform.i)) / l_d.x + _abs(l_dir.dotproduct(obj_xform.j)) / l_d.y + _abs(l_dir.dotproduct(obj_xform.k)) / l_d.z);
         effect += _sqrt(l_S / max_s) * TestPassEffect(l_source_p, l_dir, mag, expl_radius, storage, blasted_obj);
 #endif
     }
@@ -309,13 +299,7 @@ float CExplosive::ExplosionEffect(
 #endif
     return effect / TEST_RAYS_PER_OBJECT;
 }
-float CExplosive::TestPassEffect(
-    const Fvector&       source_p,
-    const Fvector&       dir,
-    float                range,
-    float                ef_radius,
-    collide::rq_results& storage,
-    CObject*             blasted_obj)
+float CExplosive::TestPassEffect(const Fvector& source_p, const Fvector& dir, float range, float ef_radius, collide::rq_results& storage, CObject* blasted_obj)
 {
     float sq_ef_radius = ef_radius * ef_radius;
     float dist_factor  = sq_ef_radius / (range * range * (exp_dist_extinction_factor - 1.f) + sq_ef_radius);
@@ -390,7 +374,7 @@ void CExplosive::Explode()
     // осколки
     //////////////////////////////
     //-------------------------------------
-    bool SendHits = false;
+    bool    SendHits = false;
     if (OnServer())
         SendHits = true;
     else
@@ -402,8 +386,8 @@ void CExplosive::Explode()
         frag_dir.normalize();
 
         CCartridge cartridge;
-        cartridge.param_s.kDist = 1.f;
-        cartridge.param_s.kHit  = 1.f;
+        cartridge.param_s.kDist         = 1.f;
+        cartridge.param_s.kHit          = 1.f;
         //.		cartridge.param_s.kCritical			= 1.f;
         cartridge.param_s.kImpulse      = 1.f;
         cartridge.param_s.kAP           = 1.f;
@@ -411,9 +395,7 @@ void CExplosive::Explode()
         cartridge.bullet_material_idx   = GameMaterialLibrary->GetMaterialIdx(WEAPON_MATERIAL_NAME);
         cartridge.m_flags.set(CCartridge::cfTracer, FALSE);
 
-        Level().BulletManager().AddBullet(
-            pos, frag_dir, m_fFragmentSpeed, m_fFragHit, m_fFragHitImpulse, Initiator(), cast_game_object()->ID(),
-            m_eHitTypeFrag, m_fFragsRadius, cartridge, 1.f, SendHits);
+        Level().BulletManager().AddBullet(pos, frag_dir, m_fFragmentSpeed, m_fFragHit, m_fFragHitImpulse, Initiator(), cast_game_object()->ID(), m_eHitTypeFrag, m_fFragsRadius, cartridge, 1.f, SendHits);
     }
 
     if (cast_game_object()->Remote())
@@ -429,7 +411,7 @@ void CExplosive::Explode()
     m_blasted_objects.clear();
     for (u32 o_it = 0; o_it < ISpatialResult.size(); o_it++)
     {
-        ISpatial* spatial = ISpatialResult[o_it];
+        ISpatial*            spatial     = ISpatialResult[o_it];
         //		feel_touch_new(spatial->dcast_CObject());
 
         CPhysicsShellHolder* pGameObject = smart_cast<CPhysicsShellHolder*>(spatial->dcast_CObject());
@@ -585,7 +567,8 @@ void CExplosive::OnEvent(NET_Packet& P, u16 type)
 {
     switch (type)
     {
-        case GE_GRENADE_EXPLODE: {
+        case GE_GRENADE_EXPLODE:
+        {
             Fvector pos, normal;
             u16     parent_id;
             P.r_u16(parent_id);
@@ -635,7 +618,7 @@ void CExplosive::FindNormal(Fvector& normal)
 {
     collide::rq_result RQ;
 
-    Fvector pos, dir;
+    Fvector            pos, dir;
     dir.set(0, -1.f, 0);
     cast_game_object()->Center(pos);
 
@@ -790,8 +773,7 @@ void CExplosive::net_Relcase(CObject* O)
             m_iCurrentParentID = u16(-1);
     }
 
-    BLASTED_OBJECTS_I I =
-        std::find(m_blasted_objects.begin(), m_blasted_objects.end(), smart_cast<CPhysicsShellHolder*>(O));
+    BLASTED_OBJECTS_I I = std::find(m_blasted_objects.begin(), m_blasted_objects.end(), smart_cast<CPhysicsShellHolder*>(O));
     if (m_blasted_objects.end() != I)
     {
         m_blasted_objects.erase(I);

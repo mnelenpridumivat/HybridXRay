@@ -35,6 +35,7 @@ private:
     mutable GROUP_REGISTRY m_groups;
 
 #ifdef SQUAD_HIERARCHY_HOLDER_USE_LEADER
+
 private:
     CEntity* m_leader;
 #endif   // SQUAD_HIERARCHY_HOLDER_USE_LEADER
@@ -47,6 +48,7 @@ public:
     IC const GROUP_REGISTRY& groups() const;
 
 #ifdef SQUAD_HIERARCHY_HOLDER_USE_LEADER
+
 public:
     IC void     leader(CEntity* leader);
     IC CEntity* leader() const;

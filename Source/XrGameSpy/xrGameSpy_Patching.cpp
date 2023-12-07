@@ -14,8 +14,7 @@ XRGAMESPY_API bool xrGS_ptCheckForPatchA(
     void*           instance)
 {
     //	return ptCheckForPatch(productID, versionUniqueID, distributionID, callback, blocking, instance )!=PTFalse;
-    return ptCheckForPatchA(
-               GAMESPY_PRODUCTID,
+    return ptCheckForPatchA(GAMESPY_PRODUCTID,
                //		GAME_VERSION,
                GetGameVersion(),
                //		GAMESPY_PATCHING_VERSIONUNIQUE_ID,

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_human_object_handler.cpp
 //	Created 	: 07.10.2005
 //  Modified 	: 07.10.2005
@@ -10,91 +10,76 @@
 #include "alife_human_object_handler.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 
-u16	 CALifeHumanObjectHandler::get_available_ammo_count			(const CSE_ALifeItemWeapon *weapon, ALife::OBJECT_VECTOR &objects)
+u16 CALifeHumanObjectHandler::get_available_ammo_count(const CSE_ALifeItemWeapon* weapon, ALife::OBJECT_VECTOR& objects)
 {
-	return	(0);
+    return (0);
 }
 
-u16	 CALifeHumanObjectHandler::get_available_ammo_count			(const CSE_ALifeItemWeapon *weapon, ALife::ITEM_P_VECTOR &items, ALife::OBJECT_VECTOR *objects)
+u16 CALifeHumanObjectHandler::get_available_ammo_count(const CSE_ALifeItemWeapon* weapon, ALife::ITEM_P_VECTOR& items, ALife::OBJECT_VECTOR* objects)
 {
-	return	(0);
+    return (0);
 }
 
-void CALifeHumanObjectHandler::attach_available_ammo			(CSE_ALifeItemWeapon *weapon, ALife::ITEM_P_VECTOR &items, ALife::OBJECT_VECTOR *objects)
+void CALifeHumanObjectHandler::attach_available_ammo(CSE_ALifeItemWeapon* weapon, ALife::ITEM_P_VECTOR& items, ALife::OBJECT_VECTOR* objects) {}
+
+bool CALifeHumanObjectHandler::can_take_item(CSE_ALifeInventoryItem* inventory_item)
 {
+    return (false);
 }
 
-bool CALifeHumanObjectHandler::can_take_item					(CSE_ALifeInventoryItem	*inventory_item)
+void CALifeHumanObjectHandler::collect_ammo_boxes() {}
+
+int  CALifeHumanObjectHandler::choose_equipment(ALife::OBJECT_VECTOR* objects)
 {
-	return	(false);
+    return (-1);
 }
 
-void CALifeHumanObjectHandler::collect_ammo_boxes				()
+int CALifeHumanObjectHandler::choose_weapon(const ALife::EWeaponPriorityType& weapon_priority_type, ALife::OBJECT_VECTOR* objects)
 {
+    return (-1);
 }
 
-int	 CALifeHumanObjectHandler::choose_equipment					(ALife::OBJECT_VECTOR *objects)
+int CALifeHumanObjectHandler::choose_food(ALife::OBJECT_VECTOR* objects)
 {
-	return	(-1);
+    return (-1);
 }
 
-int	 CALifeHumanObjectHandler::choose_weapon					(const ALife::EWeaponPriorityType &weapon_priority_type, ALife::OBJECT_VECTOR *objects)
+int CALifeHumanObjectHandler::choose_medikit(ALife::OBJECT_VECTOR* objects)
 {
-	return	(-1);
+    return (-1);
 }
 
-int	 CALifeHumanObjectHandler::choose_food						(ALife::OBJECT_VECTOR *objects)
+int CALifeHumanObjectHandler::choose_detector(ALife::OBJECT_VECTOR* objects)
 {
-	return	(-1);
+    return (-1);
 }
 
-int	 CALifeHumanObjectHandler::choose_medikit					(ALife::OBJECT_VECTOR *objects)
+int CALifeHumanObjectHandler::choose_valuables()
 {
-	return	(-1);
+    return (-1);
 }
 
-int	 CALifeHumanObjectHandler::choose_detector					(ALife::OBJECT_VECTOR *objects)
+bool CALifeHumanObjectHandler::choose_fast()
 {
-	return	(-1);
+    return (false);
 }
 
-int	 CALifeHumanObjectHandler::choose_valuables					()
+void                    CALifeHumanObjectHandler::choose_group(CSE_ALifeGroupAbstract* group_abstract) {}
+
+void                    CALifeHumanObjectHandler::detach_all(bool fictitious) {}
+
+void                    CALifeHumanObjectHandler::update_weapon_ammo() {}
+
+void                    CALifeHumanObjectHandler::process_items() {}
+
+CSE_ALifeDynamicObject* CALifeHumanObjectHandler::best_detector()
 {
-	return	(-1);
+    return (0);
 }
 
-bool CALifeHumanObjectHandler::choose_fast						()
+CSE_ALifeItemWeapon* CALifeHumanObjectHandler::best_weapon()
 {
-	return	(false);
+    return (0);
 }
 
-void CALifeHumanObjectHandler::choose_group						(CSE_ALifeGroupAbstract *group_abstract)
-{
-}
-
-
-void CALifeHumanObjectHandler::detach_all						(bool fictitious)
-{
-}
-
-void CALifeHumanObjectHandler::update_weapon_ammo				()
-{
-}
-
-void CALifeHumanObjectHandler::process_items					()
-{
-}
-
-CSE_ALifeDynamicObject *CALifeHumanObjectHandler::best_detector	()
-{
-	return	(0);
-}
-
-CSE_ALifeItemWeapon *CALifeHumanObjectHandler::best_weapon		()
-{
-	return	(0);
-}
-
-void CALifeHumanObjectHandler::attach_items						()
-{
-}
+void CALifeHumanObjectHandler::attach_items() {}

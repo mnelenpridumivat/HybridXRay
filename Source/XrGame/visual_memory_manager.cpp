@@ -66,7 +66,7 @@ struct CNotYetVisibleObjectPredicate
 {
     const CGameObject* m_game_object;
 
-    IC CNotYetVisibleObjectPredicate(const CGameObject* game_object)
+    IC                 CNotYetVisibleObjectPredicate(const CGameObject* game_object)
     {
         m_game_object = game_object;
     }
@@ -302,12 +302,9 @@ float CVisualMemoryManager::object_luminocity(const CGameObject* game_object) co
     return (exp(power));
 }
 
-float CVisualMemoryManager::get_object_velocity(
-    const CGameObject*          game_object,
-    const CNotYetVisibleObject& not_yet_visible_object) const
+float CVisualMemoryManager::get_object_velocity(const CGameObject* game_object, const CNotYetVisibleObject& not_yet_visible_object) const
 {
-    if ((game_object->ps_Size() < 2) ||
-        (not_yet_visible_object.m_prev_time == game_object->ps_Element(game_object->ps_Size() - 2).dwTime))
+    if ((game_object->ps_Size() < 2) || (not_yet_visible_object.m_prev_time == game_object->ps_Element(game_object->ps_Size() - 2).dwTime))
         return (0.f);
 
     CObject::SavedPosition pos0 = game_object->ps_Element(game_object->ps_Size() - 2);
@@ -316,29 +313,20 @@ float CVisualMemoryManager::get_object_velocity(
     return (pos1.vPosition.distance_to(pos0.vPosition) / (float(pos1.dwTime) / 1000.f - float(pos0.dwTime) / 1000.f));
 }
 
-float CVisualMemoryManager::get_visible_value(
-    float distance,
-    float object_distance,
-    float time_delta,
-    float object_velocity,
-    float luminocity) const
+float CVisualMemoryManager::get_visible_value(float distance, float object_distance, float time_delta, float object_velocity, float luminocity) const
 {
     float always_visible_distance = current_state().m_always_visible_distance;
 
     if (distance <= always_visible_distance + EPS_L)
         return (current_state().m_visibility_threshold);
 
-    return (
-        time_delta / current_state().m_time_quant * luminocity *
-        (1.f + current_state().m_velocity_factor * object_velocity) * (distance - object_distance) /
-        (distance - always_visible_distance));
+    return (time_delta / current_state().m_time_quant * luminocity * (1.f + current_state().m_velocity_factor * object_velocity) * (distance - object_distance) / (distance - always_visible_distance));
 }
 
 CNotYetVisibleObject* CVisualMemoryManager::not_yet_visible_object(const CGameObject* game_object)
 {
     START_PROFILE("Memory Manager/visuals/not_yet_visible_object")
-    xr_vector<CNotYetVisibleObject>::iterator I = std::find_if(
-        m_not_yet_visible_objects.begin(), m_not_yet_visible_objects.end(), CNotYetVisibleObjectPredicate(game_object));
+    xr_vector<CNotYetVisibleObject>::iterator I = std::find_if(m_not_yet_visible_objects.begin(), m_not_yet_visible_objects.end(), CNotYetVisibleObjectPredicate(game_object));
     if (I == m_not_yet_visible_objects.end())
         return (0);
     return (&*I);
@@ -376,7 +364,7 @@ bool CVisualMemoryManager::visible(const CGameObject* game_object, float time_de
         return (true);
 #endif
 
-    float object_distance, distance = object_visible_distance(game_object, object_distance);
+    float                 object_distance, distance = object_visible_distance(game_object, object_distance);
 
     CNotYetVisibleObject* object = not_yet_visible_object(game_object);
 
@@ -399,9 +387,7 @@ bool CVisualMemoryManager::visible(const CGameObject* game_object, float time_de
         CNotYetVisibleObject new_object;
         new_object.m_object    = game_object;
         new_object.m_prev_time = 0;
-        new_object.m_value     = get_visible_value(
-            distance, object_distance, time_delta, get_object_velocity(game_object, new_object),
-            object_luminocity(game_object));
+        new_object.m_value     = get_visible_value(distance, object_distance, time_delta, get_object_velocity(game_object, new_object), object_luminocity(game_object));
         clamp(new_object.m_value, 0.f, current_state().m_visibility_threshold + EPS_L);
         new_object.m_update_time = Device->dwTimeGlobal;
         new_object.m_prev_time   = get_prev_time(game_object);
@@ -410,9 +396,7 @@ bool CVisualMemoryManager::visible(const CGameObject* game_object, float time_de
     }
 
     object->m_update_time = Device->dwTimeGlobal;
-    object->m_value += get_visible_value(
-        distance, object_distance, time_delta, get_object_velocity(game_object, *object),
-        object_luminocity(game_object));
+    object->m_value += get_visible_value(distance, object_distance, time_delta, get_object_velocity(game_object, *object), object_luminocity(game_object));
     clamp(object->m_value, 0.f, current_state().m_visibility_threshold + EPS_L);
     object->m_prev_time = get_prev_time(game_object);
 
@@ -482,8 +466,7 @@ void CVisualMemoryManager::add_visible_object(const CObject* object, float time_
 
         if (m_max_object_count <= m_objects->size())
         {
-            xr_vector<CVisibleObject>::iterator I =
-                std::min_element(m_objects->begin(), m_objects->end(), SLevelTimePredicate<CGameObject>());
+            xr_vector<CVisibleObject>::iterator I = std::min_element(m_objects->begin(), m_objects->end(), SLevelTimePredicate<CGameObject>());
             VERIFY(m_objects->end() != I);
             *I = visible_object;
         }
@@ -512,14 +495,12 @@ void CVisualMemoryManager::add_visible_object(const CVisibleObject visible_objec
     }
 
     VERIFY(m_objects);
-    xr_vector<CVisibleObject>::iterator J =
-        std::find(m_objects->begin(), m_objects->end(), object_id(visible_object.m_object));
+    xr_vector<CVisibleObject>::iterator J = std::find(m_objects->begin(), m_objects->end(), object_id(visible_object.m_object));
     if (m_objects->end() != J)
         *J = visible_object;
     else if (m_max_object_count <= m_objects->size())
     {
-        xr_vector<CVisibleObject>::iterator I =
-            std::min_element(m_objects->begin(), m_objects->end(), SLevelTimePredicate<CGameObject>());
+        xr_vector<CVisibleObject>::iterator I = std::min_element(m_objects->begin(), m_objects->end(), SLevelTimePredicate<CGameObject>());
         VERIFY(m_objects->end() != I);
         *I = visible_object;
     }
@@ -558,8 +539,7 @@ bool CVisualMemoryManager::visible(u32 _level_vertex_id, float yaw, float eye_fo
     float y, p;
     direction.getHP(y, p);
     if (angle_difference(yaw, y) <= eye_fov * PI / 180.f / 2.f)
-        return (ai().level_graph().check_vertex_in_direction(
-            m_object->ai_location().level_vertex_id(), m_object->Position(), _level_vertex_id));
+        return (ai().level_graph().check_vertex_in_direction(m_object->ai_location().level_vertex_id(), m_object->Position(), _level_vertex_id));
     else
         return (false);
 }
@@ -618,8 +598,7 @@ void CVisualMemoryManager::remove_links(CObject* object)
             m_objects->erase(I);
     }
     {
-        NOT_YET_VISIBLES::iterator I = std::find_if(
-            m_not_yet_visible_objects.begin(), m_not_yet_visible_objects.end(), CVisibleObjectPredicateEx(object));
+        NOT_YET_VISIBLES::iterator I = std::find_if(m_not_yet_visible_objects.begin(), m_not_yet_visible_objects.end(), CVisibleObjectPredicateEx(object));
         if (I != m_not_yet_visible_objects.end())
             m_not_yet_visible_objects.erase(I);
     }
@@ -650,7 +629,7 @@ void CVisualMemoryManager::update(float time_delta)
     if (!enabled())
         return;
 
-    m_last_update_time = Device->dwTimeGlobal;
+    m_last_update_time   = Device->dwTimeGlobal;
 
     squad_mask_type mask = this->mask();
     VERIFY(m_objects);
@@ -698,16 +677,12 @@ void CVisualMemoryManager::update(float time_delta)
     START_PROFILE("Memory Manager/visuals/update/removing_offline")
     // verifying if object is online
     {
-        m_objects->erase(
-            std::remove_if(m_objects->begin(), m_objects->end(), SRemoveOfflinePredicate()), m_objects->end());
+        m_objects->erase(std::remove_if(m_objects->begin(), m_objects->end(), SRemoveOfflinePredicate()), m_objects->end());
     }
 
     // verifying if object is online
     {
-        m_not_yet_visible_objects.erase(
-            std::remove_if(
-                m_not_yet_visible_objects.begin(), m_not_yet_visible_objects.end(), SRemoveOfflinePredicate()),
-            m_not_yet_visible_objects.end());
+        m_not_yet_visible_objects.erase(std::remove_if(m_not_yet_visible_objects.begin(), m_not_yet_visible_objects.end(), SRemoveOfflinePredicate()), m_not_yet_visible_objects.end());
     }
     STOP_PROFILE
 
@@ -722,8 +697,7 @@ void CVisualMemoryManager::update(float time_delta)
 
     if (m_object && g_actor && m_object->is_relation_enemy(Actor()))
     {
-        xr_vector<CNotYetVisibleObject>::iterator I = std::find_if(
-            m_not_yet_visible_objects.begin(), m_not_yet_visible_objects.end(), CNotYetVisibleObjectPredicate(Actor()));
+        xr_vector<CNotYetVisibleObject>::iterator I = std::find_if(m_not_yet_visible_objects.begin(), m_not_yet_visible_objects.end(), CNotYetVisibleObjectPredicate(Actor()));
         if (I != m_not_yet_visible_objects.end())
         {
             SetActorVisibility(m_object->ID(), clampr((*I).m_value / visibility_threshold(), 0.f, 1.f));
@@ -735,8 +709,7 @@ void CVisualMemoryManager::update(float time_delta)
     STOP_PROFILE
 }
 
-static inline bool
-    is_object_valuable_to_save(CCustomMonster const* const self, MemorySpace::CVisibleObject const& object)
+static inline bool is_object_valuable_to_save(CCustomMonster const* const self, MemorySpace::CVisibleObject const& object)
 {
     CEntityAlive const* const entity_alive = smart_cast<CEntityAlive const*>(object.m_object);
     if (!entity_alive)
@@ -785,7 +758,7 @@ void CVisualMemoryManager::save(NET_Packet& packet) const
         packet.w_float((*I).m_object_params.m_orientation.yaw);
         packet.w_float((*I).m_object_params.m_orientation.pitch);
         packet.w_float((*I).m_object_params.m_orientation.roll);
-#endif   // USE_ORIENTATION
+#endif   // USE_ORIENTATION \
          // self params
         packet.w_u32((*I).m_self_params.m_level_vertex_id);
         packet.w_vec3((*I).m_self_params.m_position);
@@ -801,8 +774,7 @@ void CVisualMemoryManager::save(NET_Packet& packet) const
         packet.w_u32((Device->dwTimeGlobal >= (*I).m_level_time) ? (Device->dwTimeGlobal - (*I).m_last_level_time) : 0);
 #endif   // USE_LAST_LEVEL_TIME
 #ifdef USE_FIRST_LEVEL_TIME
-        packet.w_u32(
-            (Device->dwTimeGlobal >= (*I).m_level_time) ? (Device->dwTimeGlobal - (*I).m_first_level_time) : 0);
+        packet.w_u32((Device->dwTimeGlobal >= (*I).m_level_time) ? (Device->dwTimeGlobal - (*I).m_first_level_time) : 0);
 #endif   // USE_FIRST_LEVEL_TIME
         packet.w_u64((*I).m_visible.flags);
     }
@@ -826,10 +798,10 @@ void CVisualMemoryManager::load(IReader& packet)
     for (int i = 0; i < count; ++i)
     {
         CDelayedVisibleObject delayed_object;
-        delayed_object.m_object_id = packet.r_u16();
+        delayed_object.m_object_id               = packet.r_u16();
 
-        CVisibleObject& object = delayed_object.m_visible_object;
-        object.m_object        = smart_cast<CGameObject*>(Level().Objects.net_Find(delayed_object.m_object_id));
+        CVisibleObject& object                   = delayed_object.m_visible_object;
+        object.m_object                          = smart_cast<CGameObject*>(Level().Objects.net_Find(delayed_object.m_object_id));
         // object params
         object.m_object_params.m_level_vertex_id = packet.r_u32();
         packet.r_fvector3(object.m_object_params.m_position);
@@ -871,8 +843,7 @@ void CVisualMemoryManager::load(IReader& packet)
 
         m_delayed_objects.push_back(delayed_object);
 
-        const CClientSpawnManager::CSpawnCallback* spawn_callback =
-            Level().client_spawn_manager().callback(delayed_object.m_object_id, m_object->ID());
+        const CClientSpawnManager::CSpawnCallback* spawn_callback = Level().client_spawn_manager().callback(delayed_object.m_object_id, m_object->ID());
         if (!spawn_callback || !spawn_callback->m_object_callback)
             if (!g_dedicated_server)
                 Level().client_spawn_manager().add(delayed_object.m_object_id, m_object->ID(), callback);

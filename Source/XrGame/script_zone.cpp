@@ -107,7 +107,8 @@ void CScriptZone::OnRender()
     {
         switch (l_pShape->type)
         {
-            case 0: {
+            case 0:
+            {
                 Fsphere& l_sphere = l_pShape->data.sphere;
                 l_ball.scale(l_sphere.R, l_sphere.R, l_sphere.R);
                 Fvector l_p;
@@ -116,7 +117,8 @@ void CScriptZone::OnRender()
                 Level().debug_renderer().draw_ellipse(l_ball, color_xrgb(0, 255, 255));
             }
             break;
-            case 1: {
+            case 1:
+            {
                 l_box.mul(XFORM(), l_pShape->data.box);
                 Level().debug_renderer().draw_obb(l_box, l_half, color_xrgb(0, 255, 255));
             }

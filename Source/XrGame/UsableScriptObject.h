@@ -9,7 +9,7 @@ class CUsableScriptObject
 public:
     CUsableScriptObject();
     ~CUsableScriptObject();
-    virtual bool use(CGameObject* who_use);
+    virtual bool   use(CGameObject* who_use);
 
     // строчка появляющаяся при наведении на объект (если NULL, то нет)
     virtual LPCSTR tip_text();
@@ -17,8 +17,8 @@ public:
     virtual void   set_tip_text_default();
 
     // можно ли использовать объект стандартным (не скриптовым) образом
-    bool nonscript_usable();
-    void set_nonscript_usable(bool usable);
+    bool           nonscript_usable();
+    void           set_nonscript_usable(bool usable);
 
 private:
     shared_str m_sTipText;

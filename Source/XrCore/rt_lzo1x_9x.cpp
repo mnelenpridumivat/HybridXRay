@@ -54,29 +54,29 @@
 //
 ************************************************************************/
 
-#define N M4_MAX_OFFSET /* size of ring buffer */
-#define THRESHOLD 1     /* lower limit for match length */
-#define F 2048          /* upper limit for match length */
+#define N            M4_MAX_OFFSET /* size of ring buffer */
+#define THRESHOLD    1             /* lower limit for match length */
+#define F            2048          /* upper limit for match length */
 
 #define SWD_BEST_OFF (LZO_MAX3(M2_MAX_LEN, M3_MAX_LEN, M4_MAX_LEN) + 1)
 
 #if defined(LZO1X)
 #define LZO_COMPRESS_T lzo1x_999_t
-#define lzo_swd_t lzo1x_999_swd_t
+#define lzo_swd_t      lzo1x_999_swd_t
 #elif defined(LZO1Y)
-#define LZO_COMPRESS_T lzo1y_999_t
-#define lzo_swd_t lzo1y_999_swd_t
+#define LZO_COMPRESS_T              lzo1y_999_t
+#define lzo_swd_t                   lzo1y_999_swd_t
 #define lzo1x_999_compress_internal lzo1y_999_compress_internal
-#define lzo1x_999_compress_dict lzo1y_999_compress_dict
-#define lzo1x_999_compress_level lzo1y_999_compress_level
-#define lzo1x_999_compress lzo1y_999_compress
+#define lzo1x_999_compress_dict     lzo1y_999_compress_dict
+#define lzo1x_999_compress_level    lzo1y_999_compress_level
+#define lzo1x_999_compress          lzo1y_999_compress
 #elif defined(LZO1Z)
-#define LZO_COMPRESS_T lzo1z_999_t
-#define lzo_swd_t lzo1z_999_swd_t
+#define LZO_COMPRESS_T              lzo1z_999_t
+#define lzo_swd_t                   lzo1z_999_swd_t
 #define lzo1x_999_compress_internal lzo1z_999_compress_internal
-#define lzo1x_999_compress_dict lzo1z_999_compress_dict
-#define lzo1x_999_compress_level lzo1z_999_compress_level
-#define lzo1x_999_compress lzo1z_999_compress
+#define lzo1x_999_compress_dict     lzo1z_999_compress_dict
+#define lzo1x_999_compress_level    lzo1z_999_compress_level
+#define lzo1x_999_compress          lzo1z_999_compress
 #else
 #error
 #endif
@@ -85,28 +85,14 @@
 #define HEAD3(b, p) ((((((lzo_xint)b[p] << 3) ^ b[p + 1]) << 3) ^ b[p + 2]) & (SWD_HSIZE - 1))
 #endif
 #if 0 && defined(LZO_UNALIGNED_OK_4) && defined(LZO_ABI_LITTLE_ENDIAN)
-#define HEAD3(b, p) (((*(lzo_uint32p)&b[p]) ^ ((*(lzo_uint32p)&b[p]) >> 10)) & (SWD_HSIZE - 1))
+#define HEAD3(b, p) (((*(lzo_uint32p) & b[p]) ^ ((*(lzo_uint32p) & b[p]) >> 10)) & (SWD_HSIZE - 1))
 #endif
 
 #include "rt_lzo_mchw.ch"
 
 /* this is a public functions, but there is no prototype in a header file */
 LZO_EXTERN(int)
-lzo1x_999_compress_internal(
-    const lzo_bytep in,
-    lzo_uint        in_len,
-    lzo_bytep       out,
-    lzo_uintp       out_len,
-    lzo_voidp       wrkmem,
-    const lzo_bytep dict,
-    lzo_uint        dict_len,
-    lzo_callback_p  cb,
-    int             try_lazy,
-    lzo_uint        good_length,
-    lzo_uint        max_lazy,
-    lzo_uint        nice_length,
-    lzo_uint        max_chain,
-    lzo_uint32      flags);
+lzo1x_999_compress_internal(const lzo_bytep in, lzo_uint in_len, lzo_bytep out, lzo_uintp out_len, lzo_voidp wrkmem, const lzo_bytep dict, lzo_uint dict_len, lzo_callback_p cb, int try_lazy, lzo_uint good_length, lzo_uint max_lazy, lzo_uint nice_length, lzo_uint max_chain, lzo_uint32 flags);
 
 /***********************************************************************
 //
@@ -297,7 +283,7 @@ static lzo_bytep STORE_RUN(LZO_COMPRESS_T* c, lzo_bytep op, const lzo_bytep ii, 
     {
         lzo_uint tt = t - 18;
 
-        *op++ = 0;
+        *op++       = 0;
         while (tt > 255)
         {
             tt -= 255;
@@ -460,8 +446,7 @@ static void better_match(const lzo_swd_p swd, lzo_uint* m_len, lzo_uint* m_off)
     if (*m_off == c->last_m_off && *m_len <= M2_MAX_LEN)
         return;
 #if 1
-    if (*m_len >= M2_MIN_LEN + 1 && *m_len <= M2_MAX_LEN + 1 && c->last_m_off &&
-        swd->best_off[*m_len - 1] == c->last_m_off)
+    if (*m_len >= M2_MIN_LEN + 1 && *m_len <= M2_MAX_LEN + 1 && c->last_m_off && swd->best_off[*m_len - 1] == c->last_m_off)
     {
         *m_len = *m_len - 1;
         *m_off = swd->best_off[*m_len];
@@ -475,8 +460,7 @@ static void better_match(const lzo_swd_p swd, lzo_uint* m_len, lzo_uint* m_off)
 
 #if 1
     /* M3/M4 -> M2 */
-    if (*m_off > M2_MAX_OFFSET && *m_len >= M2_MIN_LEN + 1 && *m_len <= M2_MAX_LEN + 1 && swd->best_off[*m_len - 1] &&
-        swd->best_off[*m_len - 1] <= M2_MAX_OFFSET)
+    if (*m_off > M2_MAX_OFFSET && *m_len >= M2_MIN_LEN + 1 && *m_len <= M2_MAX_LEN + 1 && swd->best_off[*m_len - 1] && swd->best_off[*m_len - 1] <= M2_MAX_OFFSET)
     {
         *m_len = *m_len - 1;
         *m_off = swd->best_off[*m_len];
@@ -486,8 +470,7 @@ static void better_match(const lzo_swd_p swd, lzo_uint* m_len, lzo_uint* m_off)
 
 #if 1
     /* M4 -> M2 */
-    if (*m_off > M3_MAX_OFFSET && *m_len >= M4_MAX_LEN + 1 && *m_len <= M2_MAX_LEN + 2 && swd->best_off[*m_len - 2] &&
-        swd->best_off[*m_len - 2] <= M2_MAX_OFFSET)
+    if (*m_off > M3_MAX_OFFSET && *m_len >= M4_MAX_LEN + 1 && *m_len <= M2_MAX_LEN + 2 && swd->best_off[*m_len - 2] && swd->best_off[*m_len - 2] <= M2_MAX_OFFSET)
     {
         *m_len = *m_len - 2;
         *m_off = swd->best_off[*m_len];
@@ -497,8 +480,7 @@ static void better_match(const lzo_swd_p swd, lzo_uint* m_len, lzo_uint* m_off)
 
 #if 1
     /* M4 -> M3 */
-    if (*m_off > M3_MAX_OFFSET && *m_len >= M4_MAX_LEN + 1 && *m_len <= M3_MAX_LEN + 1 && swd->best_off[*m_len - 1] &&
-        swd->best_off[*m_len - 1] <= M3_MAX_OFFSET)
+    if (*m_off > M3_MAX_OFFSET && *m_len >= M4_MAX_LEN + 1 && *m_len <= M3_MAX_LEN + 1 && swd->best_off[*m_len - 1] && swd->best_off[*m_len - 1] <= M3_MAX_OFFSET)
     {
         *m_len = *m_len - 1;
         *m_off = swd->best_off[*m_len];
@@ -513,21 +495,7 @@ static void better_match(const lzo_swd_p swd, lzo_uint* m_len, lzo_uint* m_off)
 ************************************************************************/
 
 LZO_PUBLIC(int)
-lzo1x_999_compress_internal(
-    const lzo_bytep in,
-    lzo_uint        in_len,
-    lzo_bytep       out,
-    lzo_uintp       out_len,
-    lzo_voidp       wrkmem,
-    const lzo_bytep dict,
-    lzo_uint        dict_len,
-    lzo_callback_p  cb,
-    int             try_lazy,
-    lzo_uint        good_length,
-    lzo_uint        max_lazy,
-    lzo_uint        nice_length,
-    lzo_uint        max_chain,
-    lzo_uint32      flags)
+lzo1x_999_compress_internal(const lzo_bytep in, lzo_uint in_len, lzo_bytep out, lzo_uintp out_len, lzo_voidp wrkmem, const lzo_bytep dict, lzo_uint dict_len, lzo_callback_p cb, int try_lazy, lzo_uint good_length, lzo_uint max_lazy, lzo_uint nice_length, lzo_uint max_chain, lzo_uint32 flags)
 {
     lzo_bytep             op;
     const lzo_bytep       ii;
@@ -574,12 +542,12 @@ lzo1x_999_compress_internal(
     c->m1a_m = c->m1b_m = c->m2_m = c->m3_m = c->m4_m = 0;
     c->lit1_r = c->lit2_r = c->lit3_r = 0;
 
-    op        = out;
-    ii        = c->ip; /* point to start of literal run */
-    lit       = 0;
+    op                                = out;
+    ii                                = c->ip; /* point to start of literal run */
+    lit                               = 0;
     c->r1_lit = c->r1_m_len = 0;
 
-    r = init_match(c, swd, dict, dict_len, flags);
+    r                       = init_match(c, swd, dict, dict_len, flags);
     if (r != 0)
         return r;
     if (max_chain > 0)
@@ -598,8 +566,8 @@ lzo1x_999_compress_internal(
 
         c->codesize = pd(op, out);
 
-        m_len = c->m_len;
-        m_off = c->m_off;
+        m_len       = c->m_len;
+        m_off       = c->m_off;
 
         assert(c->bp == c->ip - c->look);
         assert(c->bp >= in);
@@ -722,7 +690,7 @@ lzo1x_999_compress_internal(
                     op  = code_run(c, op, ii, lit, ahead);
                     lit = 0;
                     /* code shortened match */
-                    op = code_match(c, op, ahead, m_off);
+                    op  = code_match(c, op, ahead, m_off);
                 }
                 else
                 {
@@ -736,8 +704,8 @@ lzo1x_999_compress_internal(
         assert(ii + lit + ahead == c->bp);
 
         /* 1 - code run */
-        op  = code_run(c, op, ii, lit, m_len);
-        lit = 0;
+        op             = code_run(c, op, ii, lit, m_len);
+        lit            = 0;
 
         /* 2 - code match */
         op             = code_match(c, op, m_len, m_off);
@@ -745,7 +713,7 @@ lzo1x_999_compress_internal(
         r              = find_match(c, swd, m_len, 1 + ahead);
         assert(r == 0);
 
-    lazy_match_done:;
+lazy_match_done:;
     }
 
     /* store final run */
@@ -782,16 +750,7 @@ lzo1x_999_compress_internal(
 ************************************************************************/
 
 LZO_PUBLIC(int)
-lzo1x_999_compress_level(
-    const lzo_bytep in,
-    lzo_uint        in_len,
-    lzo_bytep       out,
-    lzo_uintp       out_len,
-    lzo_voidp       wrkmem,
-    const lzo_bytep dict,
-    lzo_uint        dict_len,
-    lzo_callback_p  cb,
-    int             compression_level)
+lzo1x_999_compress_level(const lzo_bytep in, lzo_uint in_len, lzo_bytep out, lzo_uintp out_len, lzo_voidp wrkmem, const lzo_bytep dict, lzo_uint dict_len, lzo_callback_p cb, int compression_level)
 {
     static const struct
     {
@@ -803,9 +762,9 @@ lzo1x_999_compress_level(
         lzo_uint32 flags;
     } c[9] = {
         {0, 0, 0, 8, 4, 0}, /* faster compression */
-        {0, 0, 0, 16, 8, 0},     {0, 0, 0, 32, 16, 0},
+        {0, 0, 0, 16, 8, 0}, {0, 0, 0, 32, 16, 0},
 
-        {1, 4, 4, 16, 16, 0},    {1, 8, 16, 32, 32, 0},    {1, 8, 16, 128, 128, 0},
+        {1, 4, 4, 16, 16, 0}, {1, 8, 16, 32, 32, 0}, {1, 8, 16, 128, 128, 0},
 
         {2, 8, 32, 128, 256, 0}, {2, 32, 128, F, 2048, 1}, {2, F, F, F, 4096, 1} /* max. compression */
     };
@@ -814,9 +773,7 @@ lzo1x_999_compress_level(
         return LZO_E_ERROR;
 
     compression_level -= 1;
-    return lzo1x_999_compress_internal(
-        in, in_len, out, out_len, wrkmem, dict, dict_len, cb, c[compression_level].try_lazy,
-        c[compression_level].good_length, c[compression_level].max_lazy,
+    return lzo1x_999_compress_internal(in, in_len, out, out_len, wrkmem, dict, dict_len, cb, c[compression_level].try_lazy, c[compression_level].good_length, c[compression_level].max_lazy,
 #if 0
                                        c[compression_level].nice_length,
 #else
@@ -830,14 +787,7 @@ lzo1x_999_compress_level(
 ************************************************************************/
 
 LZO_PUBLIC(int)
-lzo1x_999_compress_dict(
-    const lzo_bytep in,
-    lzo_uint        in_len,
-    lzo_bytep       out,
-    lzo_uintp       out_len,
-    lzo_voidp       wrkmem,
-    const lzo_bytep dict,
-    lzo_uint        dict_len)
+lzo1x_999_compress_dict(const lzo_bytep in, lzo_uint in_len, lzo_bytep out, lzo_uintp out_len, lzo_voidp wrkmem, const lzo_bytep dict, lzo_uint dict_len)
 {
     return lzo1x_999_compress_level(in, in_len, out, out_len, wrkmem, dict, dict_len, 0, 8);
 }

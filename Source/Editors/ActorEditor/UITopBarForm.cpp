@@ -3,15 +3,15 @@
 
 UITopBarForm::UITopBarForm()
 {
-    m_tUndo = EDevice->Resources->_CreateTexture("ed\\bar\\Undo");
-    m_timeUndo = 0;
-    m_tRedo = EDevice->Resources->_CreateTexture("ed\\bar\\Redo");
-    m_timeRedo = 0;
-    m_tNew = EDevice->Resources->_CreateTexture("ed\\bar\\new");
-    m_tOpen = EDevice->Resources->_CreateTexture("ed\\bar\\open");
-    m_tSave = EDevice->Resources->_CreateTexture("ed\\bar\\save");
+    m_tUndo         = EDevice->Resources->_CreateTexture("ed\\bar\\Undo");
+    m_timeUndo      = 0;
+    m_tRedo         = EDevice->Resources->_CreateTexture("ed\\bar\\Redo");
+    m_timeRedo      = 0;
+    m_tNew          = EDevice->Resources->_CreateTexture("ed\\bar\\new");
+    m_tOpen         = EDevice->Resources->_CreateTexture("ed\\bar\\open");
+    m_tSave         = EDevice->Resources->_CreateTexture("ed\\bar\\save");
     m_tOpenGameData = EDevice->Resources->_CreateTexture("ed\\bar\\open_gamedata");
-    m_Simulate = false;
+    m_Simulate      = false;
 }
 
 UITopBarForm::~UITopBarForm() {}

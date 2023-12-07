@@ -29,14 +29,14 @@ struct SThunderboltDesc
     // IRender_DetailModel*		l_model;
     FactoryPtr<IThunderboltDescRender> m_pRender;
     // sound
-    ref_sound snd;
+    ref_sound                          snd;
     // gradient
     struct SFlare
     {
-        float      fOpacity;
-        Fvector2   fRadius;
-        shared_str texture;
-        shared_str shader;
+        float                    fOpacity;
+        Fvector2                 fRadius;
+        shared_str               texture;
+        shared_str               shader;
         // ref_shader				hShader;
         FactoryPtr<IFlareRender> m_pFlare;
         SFlare()
@@ -89,8 +89,8 @@ protected:
     SThunderboltDesc* current;
 
 private:
-    Fmatrix  current_xform;
-    Fvector3 current_direction;
+    Fmatrix                        current_xform;
+    Fvector3                       current_direction;
 
     FactoryPtr<IThunderboltRender> m_pRender;
     // ref_geom			  		hGeom_model;
@@ -100,7 +100,7 @@ private:
         stIdle,
         stWorking
     };
-    EState state;
+    EState  state;
 
     // ref_geom			  		hGeom_gradient;
 
@@ -108,10 +108,10 @@ private:
     float   lightning_size;
     float   lightning_phase;
 
-    float life_time;
-    float current_time;
-    float next_lightning_time;
-    BOOL  bEnabled;
+    float   life_time;
+    float   current_time;
+    float   next_lightning_time;
+    BOOL    bEnabled;
 
     // params
     //	Fvector2					p_var_alt;
@@ -122,6 +122,7 @@ private:
     //	float						p_sky_color;
     //	float						p_sun_color;
     //	float						p_fog_color;
+
 private:
     BOOL RayPick(const Fvector& s, const Fvector& d, float& range);
     void Bolt(shared_str id, float period, float life_time);
@@ -130,8 +131,8 @@ public:
     CEffect_Thunderbolt();
     ~CEffect_Thunderbolt();
 
-    void OnFrame(shared_str id, float period, float duration);
-    void Render();
+    void       OnFrame(shared_str id, float period, float duration);
+    void       Render();
 
     shared_str AppendDef(IEnvironment& environment, CInifile* pIni, CInifile* thunderbolts, LPCSTR sect);
 };

@@ -98,11 +98,14 @@ void UIAIMapTool::Draw()
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::SetNextItemWidth(-1);
-            ImGui::ListBox("##mat_list_box", &m_IgnoreMaterialsListSelected, [](void* data, int ind, const char** out) -> bool
-            {
-                *out = reinterpret_cast<xr_vector<xr_string>*>(data)->at(ind).c_str();
-                return true;
-            }, reinterpret_cast<void*>(&this->m_IgnoreMaterialsList), m_IgnoreMaterialsList.size(), 7);
+            ImGui::ListBox(
+                "##mat_list_box", &m_IgnoreMaterialsListSelected,
+                [](void* data, int ind, const char** out) -> bool
+                {
+                    *out = reinterpret_cast<xr_vector<xr_string>*>(data)->at(ind).c_str();
+                    return true;
+                },
+                reinterpret_cast<void*>(&this->m_IgnoreMaterialsList), m_IgnoreMaterialsList.size(), 7);
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }
@@ -226,7 +229,11 @@ void UIAIMapTool::Draw()
 }
 
 static const int idx[5][4] = {
-    {0, 1, 2, 3}, {1, 2, 3, 0}, {2, 3, 0, 1}, {3, 0, 1, 2}, {4, 4, 4, 4},
+    {0, 1, 2, 3},
+    {1, 2, 3, 0},
+    {2, 3, 0, 1},
+    {3, 0, 1, 2},
+    {4, 4, 4, 4},
 };
 
 int ConvertV2L(int side)
@@ -250,11 +257,7 @@ int ConvertV2L(int side)
 }
 
 static const u8 fl[5] = {
-    SAINode::flN1,
-    SAINode::flN2,
-    SAINode::flN3,
-    SAINode::flN4,
-    SAINode::flN1 | SAINode::flN2 | SAINode::flN3 | SAINode::flN4,
+    SAINode::flN1, SAINode::flN2, SAINode::flN3, SAINode::flN4, SAINode::flN1 | SAINode::flN2 | SAINode::flN3 | SAINode::flN4,
     // SAINode::flN1|SAINode::flN2,SAINode::flN2|SAINode::flN3,
     // SAINode::flN3|SAINode::flN4,SAINode::flN4|SAINode::flN1
 };

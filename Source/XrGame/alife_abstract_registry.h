@@ -11,8 +11,7 @@
 #include "../xrEngine/object_interfaces.h"
 #include "../xrEngine/object_broker.h"
 
-template <typename _index_type, typename _data_type> class CALifeAbstractRegistry:
-    public IPureSerializeObject<IReader, IWriter>
+template<typename _index_type, typename _data_type> class CALifeAbstractRegistry: public IPureSerializeObject<IReader, IWriter>
 {
 public:
     typedef xr_map<_index_type, _data_type>          OBJECT_REGISTRY;
@@ -25,7 +24,7 @@ protected:
 public:
     typedef typename _data_type _data;
 
-    IC CALifeAbstractRegistry();
+    IC                          CALifeAbstractRegistry();
     virtual ~CALifeAbstractRegistry();
     virtual void              save(IWriter& memory_stream);
     virtual void              load(IReader& file_stream);

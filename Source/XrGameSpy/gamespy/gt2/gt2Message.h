@@ -20,15 +20,8 @@ GT2Bool gti2Send(GT2Connection connection, const GT2Byte* message, int len, GT2B
 GT2Bool gti2SendAppReliable(GT2Connection connection, const GT2Byte* message, int len);
 GT2Bool gti2SendAppUnreliable(GT2Connection connection, const GT2Byte* message, int len);
 GT2Bool gti2SendClientChallenge(GT2Connection connection, const char challenge[GTI2_CHALLENGE_LEN]);
-GT2Bool gti2SendServerChallenge(
-    GT2Connection connection,
-    const char    response[GTI2_RESPONSE_LEN],
-    const char    challenge[GTI2_CHALLENGE_LEN]);
-GT2Bool gti2SendClientResponse(
-    GT2Connection connection,
-    const char    response[GTI2_RESPONSE_LEN],
-    const char*   message,
-    int           len);
+GT2Bool gti2SendServerChallenge(GT2Connection connection, const char response[GTI2_RESPONSE_LEN], const char challenge[GTI2_CHALLENGE_LEN]);
+GT2Bool gti2SendClientResponse(GT2Connection connection, const char response[GTI2_RESPONSE_LEN], const char* message, int len);
 GT2Bool gti2SendAccept(GT2Connection connection);
 GT2Bool gti2SendReject(GT2Connection connection, const GT2Byte* message, int len);
 GT2Bool gti2SendClose(GT2Connection connection);

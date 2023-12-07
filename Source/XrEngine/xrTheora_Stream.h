@@ -21,7 +21,7 @@ class ENGINE_API CTheoraStream
 #else
     CStreamReader* source;
 #endif
-    yuv_buffer t_yuv_buffer;
+    yuv_buffer  t_yuv_buffer;
 
     ogg_int64_t d_frame;
     u32         tm_total;
@@ -36,11 +36,11 @@ public:
     CTheoraStream();
     virtual ~CTheoraStream();
 
-    BOOL Load(const char* fname);
+    BOOL        Load(const char* fname);
 
-    void Reset();
+    void        Reset();
 
-    BOOL Decode(u32 tm_play);
+    BOOL        Decode(u32 tm_play);
 
     yuv_buffer* CurrentFrame()
     {

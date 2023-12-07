@@ -14,19 +14,15 @@
 #include "ResourceManager.h"
 #include "ImageManager.h"
 
-const float tex_w    = LOD_SAMPLE_COUNT * LOD_IMAGE_SIZE;
-const float tex_h    = 1 * LOD_IMAGE_SIZE;
-const float half_p_x = 0.5f * (1.f / tex_w);
-const float half_p_y = 0.5f * (1.f / tex_h);
-const float offs_x   = 1.f / tex_w;
-const float offs_y   = 1.f / tex_h;
+const float     tex_w      = LOD_SAMPLE_COUNT * LOD_IMAGE_SIZE;
+const float     tex_h      = 1 * LOD_IMAGE_SIZE;
+const float     half_p_x   = 0.5f * (1.f / tex_w);
+const float     half_p_y   = 0.5f * (1.f / tex_h);
+const float     offs_x     = 1.f / tex_w;
+const float     offs_y     = 1.f / tex_h;
 
-static Fvector LOD_pos[4] = {
-    {-1.0f + offs_x, 1.0f - offs_y, 0.0f},
-    {1.0f - offs_x, 1.0f - offs_y, 0.0f},
-    {1.0f - offs_x, -1.0f + offs_y, 0.0f},
-    {-1.0f + offs_x, -1.0f + offs_y, 0.0f}};
-static FVF::LIT LOD[4] = {
+static Fvector  LOD_pos[4] = {{-1.0f + offs_x, 1.0f - offs_y, 0.0f}, {1.0f - offs_x, 1.0f - offs_y, 0.0f}, {1.0f - offs_x, -1.0f + offs_y, 0.0f}, {-1.0f + offs_x, -1.0f + offs_y, 0.0f}};
+static FVF::LIT LOD[4]     = {
     {{-1.0f, 1.0f, 0.0f}, 0xFFFFFFFF, {0.0f, 0.0f}},    // F 0
     {{1.0f, 1.0f, 0.0f}, 0xFFFFFFFF, {0.0f, 0.0f}},     // F 1
     {{1.0f, -1.0f, 0.0f}, 0xFFFFFFFF, {0.0f, 0.0f}},    // F 2
@@ -39,12 +35,7 @@ bool CEditableObject::Reload()
     return Load(m_LoadName.c_str());
 }
 
-bool CEditableObject::RayPick(
-    float&         dist,
-    const Fvector& S,
-    const Fvector& D,
-    const Fmatrix& inv_parent,
-    SRayPickInfo*  pinf)
+bool CEditableObject::RayPick(float& dist, const Fvector& S, const Fvector& D, const Fmatrix& inv_parent, SRayPickInfo* pinf)
 {
     bool picked = false;
     for (EditMeshIt m = m_Meshes.begin(); m != m_Meshes.end(); m++)
@@ -255,7 +246,7 @@ void CEditableObject::RenderLOD(const Fmatrix& parent)
 
     for (int frame = 0; frame < LOD_SAMPLE_COUNT; frame++)
     {
-        float angle = angle_normalize(frame * (PI_MUL_2 / float(LOD_SAMPLE_COUNT)) + HPB.x);
+        float   angle = angle_normalize(frame * (PI_MUL_2 / float(LOD_SAMPLE_COUNT)) + HPB.x);
 
         Fvector D;
         D.setHP(angle, 0);
@@ -431,7 +422,7 @@ bool CEditableObject::CheckShaderCompatible()
 #if 1
 void CEditableObject::AddBone(CBone* parent_bone)
 {
-    CBone* B = xr_new<CBone>();
+    CBone*    B = xr_new<CBone>();
 
     string256 new_name;
     u32       i = 0;
@@ -439,7 +430,8 @@ void CEditableObject::AddBone(CBone* parent_bone)
     do
     {
         sprintf(new_name, "bone%.3d", i++);
-    } while (FindBoneByName(new_name));
+    }
+    while (FindBoneByName(new_name));
 
     B->SetName(new_name);
     B->SetWMap("");
@@ -472,7 +464,7 @@ void CEditableObject::AddBone(CBone* parent_bone)
 CBone* bone_to_delete       = NULL;
 u32    bone_to_delete_frame = 0;
 
-void CEditableObject::DeleteBone(CBone* bone)
+void   CEditableObject::DeleteBone(CBone* bone)
 {
     CBone* PB = bone->Parent();
 

@@ -111,15 +111,15 @@ public:
 class CGameObject;
 struct dxGeomUserData
 {
-    dVector3             last_pos;
-    bool                 pushing_neg, pushing_b_neg, b_static_colide;
-    CDB::TRI *           neg_tri, *b_neg_tri;
-    CPHObject*           ph_object;
-    IPhysicsShellHolder* ph_ref_object;
-    u16                  material;
-    u16                  tri_material;
-    ContactCallbackFun*  callback;
-    void*                callback_data;
+    dVector3                last_pos;
+    bool                    pushing_neg, pushing_b_neg, b_static_colide;
+    CDB::TRI *              neg_tri, *b_neg_tri;
+    CPHObject*              ph_object;
+    IPhysicsShellHolder*    ph_ref_object;
+    u16                     material;
+    u16                     tri_material;
+    ContactCallbackFun*     callback;
+    void*                   callback_data;
     //	ObjectContactCallbackFun	*object_callback								;
     CObjectContactCallback* object_callbacks;
     u16                     element_position;
@@ -163,7 +163,7 @@ IC dxGeomUserData*            retrieveGeomUserData(dGeomID geom)
     //	return dGeomGetUserData(geom);
 }
 
-XRPHYSICS_API void get_user_data(dxGeomUserData*& gd1, dxGeomUserData*& gd2, bool bo1, const dContactGeom& geom);
+XRPHYSICS_API void      get_user_data(dxGeomUserData*& gd1, dxGeomUserData*& gd2, bool bo1, const dContactGeom& geom);
 
 IC IPhysicsShellHolder* retrieveRefObject(dGeomID geom)
 {
@@ -178,13 +178,13 @@ IC void dGeomCreateUserData(dxGeom* geom)
     if (!geom)
         return;
     dGeomSetData(geom, xr_new<dxGeomUserData>());
-    (dGeomGetUserData(geom))->pushing_neg     = false;
-    (dGeomGetUserData(geom))->pushing_b_neg   = false;
-    (dGeomGetUserData(geom))->b_static_colide = true;
+    (dGeomGetUserData(geom))->pushing_neg      = false;
+    (dGeomGetUserData(geom))->pushing_b_neg    = false;
+    (dGeomGetUserData(geom))->b_static_colide  = true;
 
-    (dGeomGetUserData(geom))->last_pos[0] = -dInfinity;
-    (dGeomGetUserData(geom))->last_pos[1] = -dInfinity;
-    (dGeomGetUserData(geom))->last_pos[2] = -dInfinity;
+    (dGeomGetUserData(geom))->last_pos[0]      = -dInfinity;
+    (dGeomGetUserData(geom))->last_pos[1]      = -dInfinity;
+    (dGeomGetUserData(geom))->last_pos[2]      = -dInfinity;
 
     (dGeomGetUserData(geom))->ph_object        = NULL;
     (dGeomGetUserData(geom))->material         = 0;

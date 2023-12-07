@@ -3,12 +3,7 @@
 #include "xrmessages.h"
 #include "xrserver_objects.h"
 
-void xrServer::Perform_transfer(
-    NET_Packet&   PR,
-    NET_Packet&   PT,
-    CSE_Abstract* what,
-    CSE_Abstract* from,
-    CSE_Abstract* to)
+void xrServer::Perform_transfer(NET_Packet& PR, NET_Packet& PT, CSE_Abstract* what, CSE_Abstract* from, CSE_Abstract* to)
 {
     // Sanity check
     R_ASSERT(what && from && to);

@@ -7,10 +7,10 @@
 #include "controller_state_attack_fire.h"
 #include "controller_tube.h"
 
-#define CONTROL_FIRE_PERC 80
-#define CONTROL_TUBE_PERC 20
+#define CONTROL_FIRE_PERC              80
+#define CONTROL_TUBE_PERC              20
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION        template<typename _Object>
 
 #define CStateControllerAttackAbstract CStateControllerAttack<_Object>
 
@@ -78,15 +78,15 @@ void CStateControllerAttackAbstract::execute()
 
     if (!object->enemy_accessible() && state_id == eStateAttack_Run)
     {
-        current_substate = (u32)eStateUnknown;
-        prev_substate    = current_substate;
+        current_substate         = (u32)eStateUnknown;
+        prev_substate            = current_substate;
 
         Fvector dir_xz           = object->Direction();
         dir_xz.y                 = 0;
         Fvector self_to_enemy_xz = enemy->Position() - object->Position();
         self_to_enemy_xz.y       = 0;
 
-        float const angle = angle_between_vectors(dir_xz, self_to_enemy_xz);
+        float const angle        = angle_between_vectors(dir_xz, self_to_enemy_xz);
 
         if (_abs(angle) > deg2rad(30.f))
         {

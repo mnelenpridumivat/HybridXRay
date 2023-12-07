@@ -26,8 +26,7 @@ struct engine_pauser_guard: private boost::noncopyable
     engine& m_engine;
     bool    m_weather_paused;
 
-    inline engine_pauser_guard(engine& engine, bool const& value):
-        m_engine(engine), m_weather_paused(engine.weather_paused())
+    inline engine_pauser_guard(engine& engine, bool const& value): m_engine(engine), m_weather_paused(engine.weather_paused())
     {
         engine.weather_paused(value);
     }
@@ -96,11 +95,7 @@ void window_weather_editor::load()
     delete (product);
 }
 
-void window_weather_editor::weathers_ids(
-    weathers_getter_type const&      weathers_getter,
-    weathers_size_getter_type const& weathers_size_getter,
-    frames_getter_type const&        frames_getter,
-    frames_size_getter_type const&   frames_size_getter)
+void window_weather_editor::weathers_ids(weathers_getter_type const& weathers_getter, weathers_size_getter_type const& weathers_size_getter, frames_getter_type const& frames_getter, frames_size_getter_type const& frames_size_getter)
 {
     VERIFY(!m_weathers_getter);
     m_weathers_getter = new weathers_getter_type(weathers_getter);
@@ -252,8 +247,8 @@ void window_weather_editor::update_frame()
         VERIFY(!m_update_weather_time);
         m_update_weather_time = true;
 
-        u32 old_value     = WeatherTrackBar->Value;
-        u32 current_value = u32(1000 * m_engine.track_weather());
+        u32 old_value         = WeatherTrackBar->Value;
+        u32 current_value     = u32(1000 * m_engine.track_weather());
         if (old_value != current_value)
             WeatherTrackBar->Value = current_value;
 
@@ -416,10 +411,9 @@ Void window_weather_editor::CurrentTimeTrackBar_MouseDown(Object ^ sender, Mouse
     int   p      = point.X;
     int   margin = 12;
     p -= margin;
-    float coef = float(CurrentTimeTrackBar->Maximum - CurrentTimeTrackBar->Minimum) /
-        float(CurrentTimeTrackBar->ClientSize.Width - 2 * margin);
+    float coef  = float(CurrentTimeTrackBar->Maximum - CurrentTimeTrackBar->Minimum) / float(CurrentTimeTrackBar->ClientSize.Width - 2 * margin);
 
-    int value = int(p * coef + CurrentTimeTrackBar->Minimum);
+    int   value = int(p * coef + CurrentTimeTrackBar->Minimum);
     if (value < CurrentTimeTrackBar->Minimum)
         value = CurrentTimeTrackBar->Minimum;
     else
@@ -430,7 +424,7 @@ Void window_weather_editor::CurrentTimeTrackBar_MouseDown(Object ^ sender, Mouse
 
     CurrentTimeTrackBar->Value = value;
 
-    m_mouse_down = true;
+    m_mouse_down               = true;
 }
 
 Void window_weather_editor::CurrentTimeTrackBar_MouseUp(Object ^ sender, MouseEventArgs ^ e)
@@ -459,10 +453,9 @@ Void window_weather_editor::WeatherTrackBar_MouseDown(Object ^ sender, MouseEven
     int   p      = point.X;
     int   margin = 12;
     p -= margin;
-    float coef = float(WeatherTrackBar->Maximum - WeatherTrackBar->Minimum) /
-        float(WeatherTrackBar->ClientSize.Width - 2 * margin);
+    float coef  = float(WeatherTrackBar->Maximum - WeatherTrackBar->Minimum) / float(WeatherTrackBar->ClientSize.Width - 2 * margin);
 
-    int value = int(p * coef + WeatherTrackBar->Minimum);
+    int   value = int(p * coef + WeatherTrackBar->Minimum);
     if (value < WeatherTrackBar->Minimum)
         value = WeatherTrackBar->Minimum;
     else
@@ -473,7 +466,7 @@ Void window_weather_editor::WeatherTrackBar_MouseDown(Object ^ sender, MouseEven
 
     WeatherTrackBar->Value = value;
 
-    m_mouse_down = true;
+    m_mouse_down           = true;
 }
 
 Void window_weather_editor::WeatherTrackBar_MouseUp(Object ^ sender, MouseEventArgs ^ e)
@@ -513,7 +506,7 @@ Void window_weather_editor::CurrentTimeTextBox_TextChanged(Object ^ sender, Even
 
     engine_pauser_guard guard(m_engine, false);
 
-    char* string = to_string(CurrentTimeTextBox->Text);
+    char*               string = to_string(CurrentTimeTextBox->Text);
     m_engine.weather_current_time(string);
     free(string);
 

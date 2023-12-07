@@ -16,7 +16,7 @@
 
 class CScriptGameObject;
 
-template <typename _object_type> class CActionBase: public GraphEngineSpace::CWorldOperator
+template<typename _object_type> class CActionBase: public GraphEngineSpace::CWorldOperator
 {
 protected:
     typedef GraphEngineSpace::CWorldOperator         inherited;
@@ -47,6 +47,7 @@ protected:
     bool                     m_first_time;
 
 #ifdef LOG_ACTION
+
 public:
     LPCSTR m_action_name;
     bool   m_use_log;
@@ -59,11 +60,7 @@ public:
 #endif
 
 public:
-    IC CActionBase(
-        const xr_vector<COperatorCondition>& conditions,
-        const xr_vector<COperatorCondition>& effects,
-        _object_type*                        object      = 0,
-        LPCSTR                               action_name = "");
+    IC CActionBase(const xr_vector<COperatorCondition>& conditions, const xr_vector<COperatorCondition>& effects, _object_type* object = 0, LPCSTR action_name = "");
     IC CActionBase(_object_type* object, LPCSTR action_name = "");
     virtual ~CActionBase();
     IC void                  init(_object_type* object, LPCSTR action_name);
@@ -81,8 +78,8 @@ public:
     IC void                  set_weight(const _edge_value_type& weight);
     IC bool                  first_time() const;
 
-    virtual void save(NET_Packet& packet) {}
-    virtual void load(IReader& packet) {}
+    virtual void             save(NET_Packet& packet) {}
+    virtual void             load(IReader& packet) {}
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };

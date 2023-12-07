@@ -11,7 +11,7 @@ public:
     int&   MaxBracket();
     void*& UserData();
 
-    void GetMinimum(float fT0, float fT1, float fTInitial, float& rfTMin, float& rfFMin);
+    void   GetMinimum(float fT0, float fT1, float fTInitial, float& rfTMin, float& rfFMin);
 
 protected:
     Function m_oF;
@@ -19,11 +19,11 @@ protected:
     float    m_fTMin, m_fFMin;
     void*    m_pvUserData;
 
-    void GetMinimum(float fT0, float fF0, float fT1, float fF1, int iLevel);
+    void     GetMinimum(float fT0, float fF0, float fT1, float fF1, int iLevel);
 
-    void GetMinimum(float fT0, float fF0, float fTm, float fFm, float fT1, float fF1, int iLevel);
+    void     GetMinimum(float fT0, float fF0, float fTm, float fFm, float fT1, float fF1, int iLevel);
 
-    void GetBracketedMinimum(float fT0, float fF0, float fTm, float fFm, float fT1, float fF1, int iLevel);
+    void     GetBracketedMinimum(float fT0, float fF0, float fTm, float fFm, float fT1, float fF1, int iLevel);
 };
 
 #include "magic_minimize_1d_inline.h"

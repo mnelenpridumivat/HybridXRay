@@ -122,7 +122,7 @@ void CUIFrameWindow::DrawElements()
     Fvector2 LTt, RBt;
     Fvector2 LTp, RBp;
 
-    Frect tmp = rect;
+    Frect    tmp = rect;
     get_points(tmp, fmLT, LTp, RBp, LTt, RBt);
     draw_rect(LTp, RBp, LTt, RBt, m_texture_color, ts);
 

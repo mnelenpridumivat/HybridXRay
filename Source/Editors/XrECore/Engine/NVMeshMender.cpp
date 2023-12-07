@@ -97,20 +97,13 @@ matrix applied to my tex0 coords FixTangents,            // fix degenerate bases
 #include "NVMeshMender.h"
 #include "nv_math.h"
 
-bool NVMeshMender::Munge(
-    const NVMeshMender::VAVector& input,
-    NVMeshMender::VAVector&       output,
-    const float                   bSmoothCreaseAngleRadians,
-    const float*                  pTextureMatrix,
-    const Option                  _FixTangents,
-    const Option                  _FixCylindricalTexGen,
-    const Option                  _WeightNormalsByFaceSize)
+bool NVMeshMender::Munge(const NVMeshMender::VAVector& input, NVMeshMender::VAVector& output, const float bSmoothCreaseAngleRadians, const float* pTextureMatrix, const Option _FixTangents, const Option _FixCylindricalTexGen, const Option _WeightNormalsByFaceSize)
 {
     typedef xr_map<xr_string, unsigned int> Mapping;
     typedef xr_set<Edge>                    EdgeSet;
     typedef xr_vector<xr_set<unsigned int>> IdenticalVertices;
 
-    IdenticalVertices IdenticalVertices_;
+    IdenticalVertices                       IdenticalVertices_;
 
     // make room for potential tex coords, normals, binormals and tangents
     output.resize(input.size() + 4);
@@ -168,7 +161,7 @@ bool NVMeshMender::Munge(
     VertexAttribute::FloatVector& positions  = output[(*pos).second].floatVector_;
     vec3*                         pPositions = (vec3*)(&(positions[0]));
 
-    xr_set<unsigned int> EmptySet;
+    xr_set<unsigned int>          EmptySet;
 
     for (unsigned int i = 0; i < positions.size(); i += 3)
     {
@@ -187,18 +180,18 @@ bool NVMeshMender::Munge(
         }
     }
 
-    Mapping::iterator           ind      = outmap.find("indices");
-    VertexAttribute::IntVector& indices  = output[(*ind).second].intVector_;
-    int*                        pIndices = (int*)(&(indices[0]));
+    Mapping::iterator           ind                  = outmap.find("indices");
+    VertexAttribute::IntVector& indices              = output[(*ind).second].intVector_;
+    int*                        pIndices             = (int*)(&(indices[0]));
 
-    vec3* pNormals = 0;
+    vec3*                       pNormals             = 0;
     // vec3* pBiNormals = 0;
     // vec3* pTangents = 0;
-    vec3* pTex0 = 0;
+    vec3*                       pTex0                = 0;
 
-    bool bNeedNormals         = false;
-    bool bNeedTexCoords       = false;
-    bool bComputeTangentSpace = false;
+    bool                        bNeedNormals         = false;
+    bool                        bNeedTexCoords       = false;
+    bool                        bComputeTangentSpace = false;
 
     // see if texture coords are needed
     if (outmap.find("tex0") != outmap.end())
@@ -309,14 +302,14 @@ bool NVMeshMender::Munge(
             // just initialize array so it's the correct size
             output[(*want).second].floatVector_ = positions;
 
-            pTex0 = (vec3*)(&(output[(*want).second].floatVector_[0]));
+            pTex0                               = (vec3*)(&(output[(*want).second].floatVector_[0]));
 
             // Generate cylindrical coordinates
 
             // Find min and max positions for object bounding box
 
-            vec3 maxPosition(-flt_max, -flt_max, -flt_max);
-            vec3 minPosition(flt_max, flt_max, flt_max);
+            vec3               maxPosition(-flt_max, -flt_max, -flt_max);
+            vec3               minPosition(flt_max, flt_max, flt_max);
 
             // there are 1/3 as many vectors as floats
             const unsigned int theCount = static_cast<unsigned int>(positions.size() / 3.0f);
@@ -336,9 +329,9 @@ bool NVMeshMender::Munge(
 
             vec3 delta = maxPosition - minPosition;
 
-            delta.x = _abs(delta.x);
-            delta.y = _abs(delta.y);
-            delta.z = _abs(delta.z);
+            delta.x    = _abs(delta.x);
+            delta.y    = _abs(delta.y);
+            delta.z    = _abs(delta.z);
 
             bool maxx, maxy, maxz;
             maxx = maxy = maxz = false;
@@ -391,7 +384,7 @@ bool NVMeshMender::Munge(
             {
                 // Find position relative to center of bounding box
 
-                vec3 texCoords = ((maxPosition + minPosition) / 2.0f) - pPositions[p];
+                vec3      texCoords = ((maxPosition + minPosition) / 2.0f) - pPositions[p];
 
                 nv_scalar Major, Minor, Other = nv_zero;
 
@@ -455,7 +448,7 @@ bool NVMeshMender::Munge(
 
                 // perform cylindrical mapping onto object, and remap from -pi,pi to -1,1
 
-                longitude = ((atan2(Minor, Other)) / nv_scalar(3.141592654));
+                longitude   = ((atan2(Minor, Other)) / nv_scalar(3.141592654));
 
                 texCoords.x = 0.5f * longitude + 0.5f;
                 texCoords.y = (Major / deltaMajor) + 0.5f;
@@ -466,7 +459,7 @@ bool NVMeshMender::Munge(
                 texCoords.x = nv_min(texCoords.x, 1.0f);
                 texCoords.y = nv_min(texCoords.y, 1.0f);
 
-                pTex0[p].x = texCoords.x - 0.25f;
+                pTex0[p].x  = texCoords.x - 0.25f;
                 if (pTex0[p].x < nv_zero)
                     pTex0[p].x += 1.0;
                 pTex0[p].y = 1.0f - texCoords.y;
@@ -476,11 +469,11 @@ bool NVMeshMender::Munge(
 
         if (_FixCylindricalTexGen == FixCylindricalTexGen)
         {
-            Mapping::iterator texIter = outmap.find("tex0");
+            Mapping::iterator             texIter   = outmap.find("tex0");
 
             VertexAttribute::FloatVector& texcoords = (output[(*texIter).second].floatVector_);
 
-            const unsigned int theSize = indices.size();
+            const unsigned int            theSize   = indices.size();
 
             for (unsigned int f = 0; f < theSize; f += 3)
             {
@@ -494,11 +487,11 @@ bool NVMeshMender::Munge(
                         end = f;
                     }
 
-                    nv_scalar dS = texcoords[indices[end] * 3 + 0] - texcoords[indices[start] * 3 + 0];
+                    nv_scalar    dS             = texcoords[indices[end] * 3 + 0] - texcoords[indices[start] * 3 + 0];
 
-                    nv_scalar newS = nv_zero;
+                    nv_scalar    newS           = nv_zero;
 
-                    bool bDoS = false;
+                    bool         bDoS           = false;
 
                     unsigned int theOneToChange = start;
 
@@ -527,21 +520,16 @@ bool NVMeshMender::Munge(
                             {
                                 if (output[att].Name_ == "tex0")
                                 {
-                                    output[att].floatVector_.push_back((float)newS);   // y
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[theOneToChange] * 3 + 1]);   // x
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[theOneToChange] * 3 + 2]);   // z
+                                    output[att].floatVector_.push_back((float)newS);                                                 // y
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 1]);   // x
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 2]);   // z
                                 }
                                 else
                                 {
                                     // *3 b/c we are looking up 3vectors in an array of floats
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[theOneToChange] * 3 + 0]);   // x
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[theOneToChange] * 3 + 1]);   // y
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[theOneToChange] * 3 + 2]);   // z
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 0]);   // x
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 1]);   // y
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 2]);   // z
                                 }
                             }
                         }
@@ -568,11 +556,11 @@ bool NVMeshMender::Munge(
                             end = f;
                         }
 
-                        nv_scalar dT = texcoords[indices[end] * 3 + 1] - texcoords[indices[start] * 3 + 1];
+                        nv_scalar    dT             = texcoords[indices[end] * 3 + 1] - texcoords[indices[start] * 3 + 1];
 
-                        nv_scalar newT = nv_zero;
+                        nv_scalar    newT           = nv_zero;
 
-                        bool bDoT = false;
+                        bool         bDoT           = false;
 
                         unsigned int theOneToChange = start;
 
@@ -601,21 +589,16 @@ bool NVMeshMender::Munge(
                                 {
                                     if (output[att].Name_ == "tex0")
                                     {
-                                        output[att].floatVector_.push_back(
-                                            output[att].floatVector_[indices[theOneToChange] * 3 + 0]);   // x
-                                        output[att].floatVector_.push_back((float)newT);                  // y
-                                        output[att].floatVector_.push_back(
-                                            output[att].floatVector_[indices[theOneToChange] * 3 + 2]);   // z
+                                        output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 0]);   // x
+                                        output[att].floatVector_.push_back((float)newT);                                                 // y
+                                        output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 2]);   // z
                                     }
                                     else
                                     {
                                         // *3 b/c we are looking up 3vectors in an array of floats
-                                        output[att].floatVector_.push_back(
-                                            output[att].floatVector_[indices[theOneToChange] * 3 + 0]);   // x
-                                        output[att].floatVector_.push_back(
-                                            output[att].floatVector_[indices[theOneToChange] * 3 + 1]);   // y
-                                        output[att].floatVector_.push_back(
-                                            output[att].floatVector_[indices[theOneToChange] * 3 + 2]);   // z
+                                        output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 0]);   // x
+                                        output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 1]);   // y
+                                        output[att].floatVector_.push_back(output[att].floatVector_[indices[theOneToChange] * 3 + 2]);   // z
                                     }
                                 }
                             }
@@ -636,11 +619,7 @@ bool NVMeshMender::Munge(
         }       // if fix texgen
         if (pTextureMatrix)
         {
-            const mat4 M(
-                pTextureMatrix[0], pTextureMatrix[1], pTextureMatrix[2], pTextureMatrix[3], pTextureMatrix[4],
-                pTextureMatrix[5], pTextureMatrix[6], pTextureMatrix[7], pTextureMatrix[8], pTextureMatrix[9],
-                pTextureMatrix[10], pTextureMatrix[11], pTextureMatrix[12], pTextureMatrix[13], pTextureMatrix[14],
-                pTextureMatrix[15]);
+            const mat4                    M(pTextureMatrix[0], pTextureMatrix[1], pTextureMatrix[2], pTextureMatrix[3], pTextureMatrix[4], pTextureMatrix[5], pTextureMatrix[6], pTextureMatrix[7], pTextureMatrix[8], pTextureMatrix[9], pTextureMatrix[10], pTextureMatrix[11], pTextureMatrix[12], pTextureMatrix[13], pTextureMatrix[14], pTextureMatrix[15]);
             Mapping::iterator             texIter   = outmap.find("tex0");
             VertexAttribute::FloatVector& texcoords = output[(*texIter).second].floatVector_;
 
@@ -655,11 +634,11 @@ bool NVMeshMender::Munge(
 
     if (bComputeTangentSpace)
     {
-        EdgeSet Edges;
+        EdgeSet                 Edges;
 
-        Mapping::iterator texIter = outmap.find("tex0");
+        Mapping::iterator       texIter = outmap.find("tex0");
 
-        vec3* tex = (vec3*)&(output[(*texIter).second].floatVector_[0]);
+        vec3*                   tex     = (vec3*)&(output[(*texIter).second].floatVector_[0]);
 
         typedef xr_vector<vec3> VecVector;
 
@@ -677,7 +656,7 @@ bool NVMeshMender::Munge(
         output[(*want).second].floatVector_ = positions;
 
         // create binormals
-        want = outmap.find("binormal");
+        want                                = outmap.find("binormal");
         if (want == outmap.end())
         {
             VertexAttribute binAtt;
@@ -690,9 +669,9 @@ bool NVMeshMender::Munge(
         output[(*want).second].floatVector_ = positions;
 
         // Create a vector of s,t and sxt for each face of the model
-        VecVector sVector;
-        VecVector tVector;
-        VecVector sxtVector;
+        VecVector          sVector;
+        VecVector          tVector;
+        VecVector          sxtVector;
 
         const unsigned int theSize = indices.size();
         // for each face, calculate its S,T & SxT vector, & store its edges
@@ -705,23 +684,23 @@ bool NVMeshMender::Munge(
             vec3d t;
 
             // grap position & tex coords again in case they were reallocated
-            pPositions = (vec3*)(&(positions[0]));
-            tex        = (vec3*)(&(output[(*texIter).second].floatVector_[0]));
+            pPositions  = (vec3*)(&(positions[0]));
+            tex         = (vec3*)(&(output[(*texIter).second].floatVector_[0]));
 
             double _eps = type_epsilon(double) * 10;
             double a, b, c;
             vec3d  sxt;
 
             // create an edge(s) out of s and t
-            edge0.y = tex[indices[f + 1]].x - tex[indices[f]].x;
-            edge0.z = tex[indices[f + 1]].y - tex[indices[f]].y;
-            edge1.y = tex[indices[f + 2]].x - tex[indices[f]].x;
-            edge1.z = tex[indices[f + 2]].y - tex[indices[f]].y;
+            edge0.y      = tex[indices[f + 1]].x - tex[indices[f]].x;
+            edge0.z      = tex[indices[f + 1]].y - tex[indices[f]].y;
+            edge1.y      = tex[indices[f + 2]].x - tex[indices[f]].x;
+            edge1.z      = tex[indices[f + 2]].y - tex[indices[f]].y;
 
             // create an edge out of x, s and t
-            edge0.x = pPositions[indices[f + 1]].x - pPositions[indices[f]].x;
-            edge1.x = pPositions[indices[f + 2]].x - pPositions[indices[f]].x;
-            sxt     = edge0 ^ edge1;
+            edge0.x      = pPositions[indices[f + 1]].x - pPositions[indices[f]].x;
+            edge1.x      = pPositions[indices[f + 2]].x - pPositions[indices[f]].x;
+            sxt          = edge0 ^ edge1;
 
             a            = sxt.x;
             b            = sxt.y;
@@ -734,9 +713,9 @@ bool NVMeshMender::Munge(
                 dt_dx = -c / a;
 
             // create an edge out of y, s and t
-            edge0.x = pPositions[indices[f + 1]].y - pPositions[indices[f]].y;
-            edge1.x = pPositions[indices[f + 2]].y - pPositions[indices[f]].y;
-            sxt     = edge0 ^ edge1;
+            edge0.x      = pPositions[indices[f + 1]].y - pPositions[indices[f]].y;
+            edge1.x      = pPositions[indices[f + 2]].y - pPositions[indices[f]].y;
+            sxt          = edge0 ^ edge1;
 
             a            = sxt.x;
             b            = sxt.y;
@@ -749,9 +728,9 @@ bool NVMeshMender::Munge(
                 dt_dy = -c / a;
 
             // create an edge out of z, s and t
-            edge0.x = pPositions[indices[f + 1]].z - pPositions[indices[f]].z;
-            edge1.x = pPositions[indices[f + 2]].z - pPositions[indices[f]].z;
-            sxt     = edge0 ^ edge1;
+            edge0.x      = pPositions[indices[f + 1]].z - pPositions[indices[f]].z;
+            edge1.x      = pPositions[indices[f + 2]].z - pPositions[indices[f]].z;
+            sxt          = edge0 ^ edge1;
 
             a            = sxt.x;
             b            = sxt.y;
@@ -786,16 +765,16 @@ bool NVMeshMender::Munge(
                 {
                     Edge edge;
 
-                    int start = f + e;
-                    int end   = start + 1;
+                    int  start = f + e;
+                    int  end   = start + 1;
 
                     if (e == 2)
                     {
                         end = f;
                     }
                     // order vertex indices ( low, high )
-                    edge.v0 = (unsigned int)nv_min((nv_scalar)indices[start], (nv_scalar)indices[end]);
-                    edge.v1 = (unsigned int)nv_max((nv_scalar)indices[start], (nv_scalar)indices[end]);
+                    edge.v0                = (unsigned int)nv_min((nv_scalar)indices[start], (nv_scalar)indices[end]);
+                    edge.v1                = (unsigned int)nv_max((nv_scalar)indices[start], (nv_scalar)indices[end]);
 
                     EdgeSet::iterator iter = Edges.find(edge);
 
@@ -814,13 +793,12 @@ bool NVMeshMender::Munge(
                         const nv_scalar sxtAgreement = dot(sxt, sxtVector[(*iter).face]);
 
                         // Check Radian angle split limit
-                        const nv_scalar epsilon = _cos(bSmoothCreaseAngleRadians);
+                        const nv_scalar epsilon      = _cos(bSmoothCreaseAngleRadians);
 
                         //  if the discontinuity in s, t, or sxt is greater than some epsilon,
                         //   duplicate the vertex so it won't smooth with its neighbor anymore
 
-                        if ((_abs(sAgreement) < epsilon) || (_abs(tAgreement) < epsilon) ||
-                            (_abs(sxtAgreement) < epsilon))
+                        if ((_abs(sAgreement) < epsilon) || (_abs(tAgreement) < epsilon) || (_abs(sxtAgreement) < epsilon))
                         {
                             // Duplicate two vertices of this edge for this triangle only.
                             //  This way the faces won't smooth with each other, thus
@@ -836,19 +814,13 @@ bool NVMeshMender::Munge(
                                 if (output[att].Name_ != "indices")
                                 {
                                     // *3 b/c we are looking up 3vectors in an array of floats
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[start] * 3 + 0]);   // x
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[start] * 3 + 1]);   // y
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[start] * 3 + 2]);   // z
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[start] * 3 + 0]);   // x
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[start] * 3 + 1]);   // y
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[start] * 3 + 2]);   // z
 
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[end] * 3 + 0]);   // x
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[end] * 3 + 1]);   // y
-                                    output[att].floatVector_.push_back(
-                                        output[att].floatVector_[indices[end] * 3 + 2]);   // z
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[end] * 3 + 0]);   // x
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[end] * 3 + 1]);   // y
+                                    output[att].floatVector_.push_back(output[att].floatVector_[indices[end] * 3 + 2]);   // z
                                 }
                             }
 
@@ -898,8 +870,7 @@ bool NVMeshMender::Munge(
             for (unsigned int v = 0; v < IdenticalVertices_.size(); ++v)
             {
                 // go through each vertex & sum up it's true neighbors
-                for (xr_set<unsigned int>::iterator iter = IdenticalVertices_[v].begin();
-                     iter != IdenticalVertices_[v].end(); ++iter)
+                for (xr_set<unsigned int>::iterator iter = IdenticalVertices_[v].begin(); iter != IdenticalVertices_[v].end(); ++iter)
                 {
                     avgS[v] += avgS[*iter];
                     avgT[v] += avgT[*iter];

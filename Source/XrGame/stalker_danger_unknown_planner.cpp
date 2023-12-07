@@ -18,10 +18,7 @@
 
 using namespace StalkerDecisionSpace;
 
-CStalkerDangerUnknownPlanner::CStalkerDangerUnknownPlanner(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerDangerUnknownPlanner::CStalkerDangerUnknownPlanner(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerDangerUnknownPlanner::setup(CAI_Stalker* object, CPropertyStorage* storage)
 {
@@ -54,17 +51,9 @@ void CStalkerDangerUnknownPlanner::finalize()
 void CStalkerDangerUnknownPlanner::add_evaluators()
 {
     add_evaluator(eWorldPropertyDanger, xr_new<CStalkerPropertyEvaluatorDangers>(m_object, "danger"));
-    add_evaluator(
-        eWorldPropertyCoverActual,
-        xr_new<CStalkerPropertyEvaluatorDangerUnknownCoverActual>(m_object, "danger unknown : cover actual"));
-    add_evaluator(
-        eWorldPropertyCoverReached,
-        xr_new<CStalkerPropertyEvaluatorMember>(
-            (CPropertyStorage*)0, eWorldPropertyCoverReached, true, true, "danger unknown : cover reached"));
-    add_evaluator(
-        eWorldPropertyLookedAround,
-        xr_new<CStalkerPropertyEvaluatorMember>(
-            (CPropertyStorage*)0, eWorldPropertyLookedAround, true, true, "danger unknown : looked around"));
+    add_evaluator(eWorldPropertyCoverActual, xr_new<CStalkerPropertyEvaluatorDangerUnknownCoverActual>(m_object, "danger unknown : cover actual"));
+    add_evaluator(eWorldPropertyCoverReached, xr_new<CStalkerPropertyEvaluatorMember>((CPropertyStorage*)0, eWorldPropertyCoverReached, true, true, "danger unknown : cover reached"));
+    add_evaluator(eWorldPropertyLookedAround, xr_new<CStalkerPropertyEvaluatorMember>((CPropertyStorage*)0, eWorldPropertyLookedAround, true, true, "danger unknown : looked around"));
 }
 
 void CStalkerDangerUnknownPlanner::add_actions()

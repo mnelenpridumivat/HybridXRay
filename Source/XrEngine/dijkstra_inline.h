@@ -8,27 +8,11 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                              \
-    template <                                                                                               \
-        typename _dist_type, typename _priority_queue, typename _vertex_manager, typename _vertex_allocator, \
-        bool euclidian_heuristics, typename _data_storage_base, template <typename _T> class _vertex,        \
-        template <typename _1, typename _2> class _builder_allocator_constructor,                            \
-        template <typename _1, typename _2, typename _3, template <typename _1, typename _2> class _4>       \
-        class _manager_builder_allocator_constructor,                                                        \
-        template <                                                                                           \
-            typename _algorithm, typename _manager, typename _builder, typename _allocator,                  \
-            template <typename _T> class _vertex,                                                            \
-            template <typename _1, typename _2> class _builder_allocator_constructor,                        \
-            template <typename _1, typename _2, typename _3, template <typename _1, typename _2> class _4>   \
-            class _manager_builder_allocator_constructor>                                                    \
-        class _data_storage_constructor,                                                                     \
-        typename _iteration_type>
+#define TEMPLATE_SPECIALIZATION                                                                                                                                                                                                                                                                                                                                                                                                    \
+    template<typename _dist_type, typename _priority_queue, typename _vertex_manager, typename _vertex_allocator, bool euclidian_heuristics, typename _data_storage_base, template<typename _T> class _vertex, template<typename _1, typename _2> class _builder_allocator_constructor, template<typename _1, typename _2, typename _3, template<typename _1, typename _2> class _4> class _manager_builder_allocator_constructor, \
+        template<typename _algorithm, typename _manager, typename _builder, typename _allocator, template<typename _T> class _vertex, template<typename _1, typename _2> class _builder_allocator_constructor, template<typename _1, typename _2, typename _3, template<typename _1, typename _2> class _4> class _manager_builder_allocator_constructor> class _data_storage_constructor, typename _iteration_type>
 
-#define CSDijkstra                                                                                                  \
-    CDijkstra<                                                                                                      \
-        _dist_type, _priority_queue, _vertex_manager, _vertex_allocator, euclidian_heuristics, _data_storage_base,  \
-        _vertex, _builder_allocator_constructor, _manager_builder_allocator_constructor, _data_storage_constructor, \
-        _iteration_type>
+#define CSDijkstra CDijkstra<_dist_type, _priority_queue, _vertex_manager, _vertex_allocator, euclidian_heuristics, _data_storage_base, _vertex, _builder_allocator_constructor, _manager_builder_allocator_constructor, _data_storage_constructor, _iteration_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSDijkstra::CDijkstra(const u32 max_vertex_count)
@@ -56,7 +40,7 @@ IC const typename CSDijkstra::CDataStorage& CSDijkstra::data_storage() const
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename _PathManager> IC void CSDijkstra::initialize(_PathManager& path_manager)
+template<typename _PathManager> IC void CSDijkstra::initialize(_PathManager& path_manager)
 {
     THROW2(!m_search_started, "Recursive graph engine usage is not allowed!");
     m_search_started = true;
@@ -70,7 +54,7 @@ template <typename _PathManager> IC void CSDijkstra::initialize(_PathManager& pa
     CGraphVertex& start = data_storage().create_vertex(path_manager.start_node());
 
     // assign correspoding values to the created node
-    start.f() = _dist_type(0);
+    start.f()           = _dist_type(0);
 
     // assign null parent to the start node
     data_storage().assign_parent(start, 0);
@@ -80,7 +64,7 @@ template <typename _PathManager> IC void CSDijkstra::initialize(_PathManager& pa
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename _PathManager> IC void CSDijkstra::finalize(_PathManager& path_manager)
+template<typename _PathManager> IC void CSDijkstra::finalize(_PathManager& path_manager)
 {
     // finalize path manager after we finished path search
     path_manager.finalize();
@@ -88,7 +72,7 @@ template <typename _PathManager> IC void CSDijkstra::finalize(_PathManager& path
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename _PathManager> IC bool CSDijkstra::step(_PathManager& path_manager)
+template<typename _PathManager> IC bool CSDijkstra::step(_PathManager& path_manager)
 {
     // get the best node, i.e. a node with the minimum 'f'
     CGraphVertex& best = data_storage().get_best();
@@ -158,7 +142,7 @@ template <typename _PathManager> IC bool CSDijkstra::step(_PathManager& path_man
             // put neighbour node to the opened list
             CGraphVertex& neighbour = data_storage().create_vertex(neighbour_index);
             // fill the corresponding node parameters
-            neighbour.f() = best.f() + path_manager.evaluate(best.index(), neighbour_index, i);
+            neighbour.f()           = best.f() + path_manager.evaluate(best.index(), neighbour_index, i);
             // assign best node as its parent
             data_storage().assign_parent(neighbour, &best, path_manager.edge(i));
             // add start node to the opened list
@@ -173,7 +157,7 @@ template <typename _PathManager> IC bool CSDijkstra::step(_PathManager& path_man
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename _PathManager> IC bool CSDijkstra::find(_PathManager& path_manager)
+template<typename _PathManager> IC bool CSDijkstra::find(_PathManager& path_manager)
 {
     // initialize data structures with new search
     initialize(path_manager);

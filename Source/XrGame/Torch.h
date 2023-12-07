@@ -13,19 +13,19 @@ private:
     typedef CInventoryItemObject inherited;
 
 protected:
-    float    fBrightness;
-    CLAItem* lanim;
+    float      fBrightness;
+    CLAItem*   lanim;
 
     u16        guid_bone;
     shared_str light_trace_bone;
 
-    float     m_delta_h;
-    Fvector2  m_prev_hp;
-    bool      m_switched_on;
-    ref_light light_render;
-    ref_light light_omni;
-    ref_glow  glow_render;
-    Fvector   m_focus;
+    float      m_delta_h;
+    Fvector2   m_prev_hp;
+    bool       m_switched_on;
+    ref_light  light_render;
+    ref_light  light_omni;
+    ref_glow   glow_render;
+    Fvector    m_focus;
 
 private:
     inline bool can_use_dynamic_lights();
@@ -45,9 +45,9 @@ public:
 
     virtual void UpdateCL();
 
-    void Switch();
-    void Switch(bool light_on);
-    bool torch_active() const;
+    void         Switch();
+    void         Switch(bool light_on);
+    bool         torch_active() const;
 
     virtual bool can_be_attached() const;
 
@@ -68,8 +68,8 @@ public:
     }
 
 protected:
-    bool m_bNightVisionEnabled;
-    bool m_bNightVisionOn;
+    bool                  m_bNightVisionEnabled;
+    bool                  m_bNightVisionOn;
 
     CNightVisionEffector* m_night_vision;
     HUD_SOUND_COLLECTION  m_sounds;

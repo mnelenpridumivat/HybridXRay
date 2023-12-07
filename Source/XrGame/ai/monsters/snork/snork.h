@@ -6,8 +6,8 @@ class CSnork: public CBaseMonster
 {
     typedef CBaseMonster inherited;
 
-    SVelocityParam m_fsVelocityJumpPrepare;
-    SVelocityParam m_fsVelocityJumpGround;
+    SVelocityParam       m_fsVelocityJumpPrepare;
+    SVelocityParam       m_fsVelocityJumpGround;
 
 public:
     CSnork();
@@ -26,12 +26,12 @@ public:
     {
         return true;
     }
-    virtual void HitEntityInJump(const CEntity* pEntity);
+    virtual void  HitEntityInJump(const CEntity* pEntity);
 
-    bool  find_geometry(Fvector& dir);
-    float trace(const Fvector& dir);
+    bool          find_geometry(Fvector& dir);
+    float         trace(const Fvector& dir);
 
-    bool trace_geometry(const Fvector& d, float& range);
+    bool          trace_geometry(const Fvector& d, float& range);
 
     virtual bool  check_start_conditions(ControlCom::EControlType type);
     virtual void  on_activate_control(ControlCom::EControlType);

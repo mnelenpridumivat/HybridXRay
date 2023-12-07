@@ -44,10 +44,7 @@ IPHWorld* __stdcall physics_world()
     return ph_world;
 }
 
-void __stdcall create_physics_world(
-    bool               mt,
-    CObjectSpace*      os,
-    CObjectList*       lo,
+void __stdcall create_physics_world(bool mt, CObjectSpace* os, CObjectList* lo,
     XrDeviceInterface* dv)   // IPHWorldUpdateCallbck &commander,
 {
     ph_world = xr_new<CPHWorld>();   //&commander
@@ -77,11 +74,7 @@ CObjectSpace* __stdcall create_object_space()
     // xr_delete(fr);
     return os;
 }
-CObjectSpace* __stdcall mesh_create_object_space(
-    Fvector*            verts,
-    CDB::TRI*           tris,
-    const hdrCFORM&     H,
-    CDB::build_callback build_callback)
+CObjectSpace* __stdcall mesh_create_object_space(Fvector* verts, CDB::TRI* tris, const hdrCFORM& H, CDB::build_callback build_callback)
 {
     CObjectSpace* os = xr_new<CObjectSpace>();
     //	g_SpatialSpace				= xr_new<ISpatial_DB>	();
@@ -132,8 +125,7 @@ static struct sempty_update_callback: public IPHWorldUpdateCallbck
 } empty_update_callback;
 
 CPHWorld::CPHWorld():   // IPHWorldUpdateCallbck		*_update_callback
-    m_update_callback(&empty_update_callback), m_default_contact_shotmark(0), m_default_character_contact_shotmark(0),
-    physics_step_time_callback(0), m_object_space(0), m_level_objects(0), m_device(0)
+    m_update_callback(&empty_update_callback), m_default_contact_shotmark(0), m_default_character_contact_shotmark(0), physics_step_time_callback(0), m_object_space(0), m_level_objects(0), m_device(0)
 {
     disable_count         = 0;
     m_frame_time          = 0.f;
@@ -529,7 +521,7 @@ void CPHWorld::FrameStep(dReal step)
 #endif
     b_processing = true;
 
-    start_time = Device().dwTimeGlobal;   // - u32(m_frame_time*1000);
+    start_time   = Device().dwTimeGlobal;   // - u32(m_frame_time*1000);
     if (ph_console::g_bDebugDumpPhysicsStep && it_number > 20)
         Msg("!!!TOO MANY PHYSICS STEPS PER FRAME = %d !!!", it_number);
     for (UINT i = 0; i < it_number; ++i)

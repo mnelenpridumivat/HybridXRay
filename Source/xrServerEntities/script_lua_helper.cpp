@@ -5,8 +5,7 @@
 CDbgLuaHelper* CDbgLuaHelper::m_pThis = NULL;
 lua_State*     CDbgLuaHelper::L       = NULL;
 
-CDbgLuaHelper::CDbgLuaHelper(CScriptDebugger* d):
-    m_debugger(d)
+CDbgLuaHelper::CDbgLuaHelper(CScriptDebugger* d): m_debugger(d)
 {
     m_pThis = this;
 }
@@ -117,7 +116,7 @@ int CDbgLuaHelper::errormessageLua(lua_State* l)
                 break;
             default:
             {
-                if (*ar.what == 'm')      /* main? */
+                if (*ar.what == 'm') /* main? */
                     lua_pushfstring(L, " in main chunk");
                 else if (*ar.what == 'C') /* C function? */
                     lua_pushfstring(L, "%s", ar.short_src);
@@ -327,7 +326,7 @@ void CDbgLuaHelper::DrawGlobalVariables()
         //		CScriptDebugger::GetDebugger()->AddLocalVariable(var, "global", "_g_");
         lua_pop(L, 1);   // pop value, keep key for next iteration;
     }
-    lua_pop(L, 1);       // pop table of globals;
+    lua_pop(L, 1);   // pop table of globals;
 };
 
 bool CDbgLuaHelper::GetCalltip(const char* szWord, char* szCalltip, int sz_calltip)
@@ -372,7 +371,7 @@ bool CDbgLuaHelper::GetCalltip(const char* szWord, char* szCalltip, int sz_callt
 
         lua_pop(L, 1);   // pop value, keep key for next iteration;
     }
-    lua_pop(L, 1);       // pop table of globals;
+    lua_pop(L, 1);   // pop table of globals;
 
     return false;
 }
@@ -447,7 +446,7 @@ void CDbgLuaHelper::CoverGlobals()
             lua_insert(L, -4);               /* SAVE name lvalue name name */
             lua_rawget(L, LUA_GLOBALSINDEX); /* SAVE name lvalue name gvalue */
 
-            lua_rawset(L, -5);               // save global value in local table
+            lua_rawset(L, -5);   // save global value in local table
             /* SAVE name lvalue */
 
             lua_rawset(L, LUA_GLOBALSINDEX); /* SAVE */
@@ -461,10 +460,10 @@ void CDbgLuaHelper::RestoreGlobals()
 
     lua_pushnil(L); /* first key */
     /* SAVE nil */
-    while (lua_next(L, -2))                /* SAVE key value */
+    while (lua_next(L, -2)) /* SAVE key value */
     {
-        lua_pushvalue(L, -2);              /* SAVE key value key */
-        lua_insert(L, -2);                 /* SAVE key key value */
+        lua_pushvalue(L, -2); /* SAVE key value key */
+        lua_insert(L, -2);    /* SAVE key key value */
 
         lua_rawset(L, LUA_GLOBALSINDEX);   // restore global
                                            /* SAVE key */

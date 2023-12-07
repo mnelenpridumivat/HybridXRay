@@ -20,19 +20,18 @@ namespace lc_net
         task_manager&             _task_manager;
         // IGridUser					*_user;
         bool                      _running;
+
     public:
         ~exec_pool()
         {
             R_ASSERT(!_running);
         }
-        exec_pool(task_manager* tm):
-            _task_manager(*tm), _running(false), tasks_completed(0), _start(u32(-1)), _end(u32(-1))
+        exec_pool(task_manager* tm): _task_manager(*tm), _running(false), tasks_completed(0), _start(u32(-1)), _end(u32(-1))
         {
             R_ASSERT(tm);
             xr_strcpy(_name, "net noname task");
         };
-        exec_pool(u32 start, task_manager* tm):
-            _task_manager(*tm), _running(false), tasks_completed(0), _start(start), _end(start)
+        exec_pool(u32 start, task_manager* tm): _task_manager(*tm), _running(false), tasks_completed(0), _start(start), _end(start)
         {
             R_ASSERT(tm);
         };
@@ -55,6 +54,7 @@ namespace lc_net
         void           remove_task(net_execution* e);
         void           send_result(IGenericStream* outStream, net_execution& e);
         net_execution* receive_task(IAgent* agent, DWORD sessionId, IGenericStream* inStream);
+
     private:
     };
 }   // namespace lc_net

@@ -59,7 +59,7 @@ void CSoundRender_Emitter::stop(BOOL bDeffered)
 
 void CSoundRender_Emitter::rewind()
 {
-    bStopping = FALSE;
+    bStopping   = FALSE;
 
     float fTime = SoundRender->Timer.GetElapsed_sec();
     float fDiff = fTime - fTimeStarted;

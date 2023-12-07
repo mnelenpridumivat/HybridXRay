@@ -65,7 +65,7 @@ void CLevel::IR_OnMouseWheel(int direction)
 
 static int mouse_button_2_key[] = {MOUSE_1, MOUSE_2, MOUSE_3};
 
-void CLevel::IR_OnMousePress(int btn)
+void       CLevel::IR_OnMousePress(int btn)
 {
     IR_OnKeyboardPress(mouse_button_2_key[btn]);
 }
@@ -99,7 +99,7 @@ void CLevel::IR_OnMouseMove(int dx, int dy)
 }
 
 // Обработка нажатия клавиш
-extern bool g_block_pause;
+extern bool  g_block_pause;
 
 // Lain: added TEMP!!!
 extern float g_separate_factor;
@@ -119,9 +119,9 @@ void CLevel::IR_OnKeyboardPress(int key)
         return;
 #endif   // #ifdef INGAME_EDITOR
 
-    bool b_ui_exist = (!!CurrentGameUI());
+    bool         b_ui_exist = (!!CurrentGameUI());
 
-    EGameActions _curr = get_binded_action(key);
+    EGameActions _curr      = get_binded_action(key);
 
     if (_curr == kPAUSE)
     {
@@ -157,7 +157,8 @@ void CLevel::IR_OnKeyboardPress(int key)
             return;
             break;
 
-        case kQUIT: {
+        case kQUIT:
+        {
             if (b_ui_exist && CurrentGameUI()->TopInputReceiver())
             {
                 if (CurrentGameUI()->IR_UIOnKeyboardPress(key))
@@ -216,7 +217,8 @@ void CLevel::IR_OnKeyboardPress(int key)
 #ifndef MASTER_GOLD
     switch (key)
     {
-        case DIK_F7: {
+        case DIK_F7:
+        {
             if (GameID() != eGameIDSingle)
                 return;
             CLocatorAPI* RealFS = dynamic_cast<CLocatorAPI*>(xr_FS);
@@ -229,7 +231,8 @@ void CLevel::IR_OnKeyboardPress(int key)
             Send(net_packet, net_flags(TRUE));
             return;
         }
-        case DIK_DIVIDE: {
+        case DIK_DIVIDE:
+        {
             if (!Server)
                 break;
 
@@ -244,7 +247,8 @@ void CLevel::IR_OnKeyboardPress(int key)
 
             break;
         }
-        case DIK_MULTIPLY: {
+        case DIK_MULTIPLY:
+        {
             if (!Server)
                 break;
 
@@ -259,7 +263,8 @@ void CLevel::IR_OnKeyboardPress(int key)
             break;
         }
 #ifdef DEBUG
-        case DIK_SUBTRACT: {
+        case DIK_SUBTRACT:
+        {
             if (!Server)
                 break;
             if (m_bEnvPaused)
@@ -271,7 +276,8 @@ void CLevel::IR_OnKeyboardPress(int key)
             break;
         }
 #endif   // DEBUG
-        case DIK_NUMPAD5: {
+        case DIK_NUMPAD5:
+        {
             if (GameID() != eGameIDSingle)
             {
                 Msg("For this game type Demo Record is disabled.");
@@ -288,11 +294,13 @@ void CLevel::IR_OnKeyboardPress(int key)
 #ifdef DEBUG
 
         // Lain: added TEMP!!!
-        case DIK_UP: {
+        case DIK_UP:
+        {
             g_separate_factor /= 0.9f;
             break;
         }
-        case DIK_DOWN: {
+        case DIK_DOWN:
+        {
             g_separate_factor *= 0.9f;
             if (g_separate_factor < 0.1f)
             {
@@ -300,7 +308,8 @@ void CLevel::IR_OnKeyboardPress(int key)
             }
             break;
         }
-        case DIK_LEFT: {
+        case DIK_LEFT:
+        {
             g_separate_radius *= 0.9f;
             if (g_separate_radius < 0)
             {
@@ -308,12 +317,14 @@ void CLevel::IR_OnKeyboardPress(int key)
             }
             break;
         }
-        case DIK_RIGHT: {
+        case DIK_RIGHT:
+        {
             g_separate_radius /= 0.9f;
             break;
         }
 
-        case DIK_RETURN: {
+        case DIK_RETURN:
+        {
             bDebug = !bDebug;
             return;
         }
@@ -323,7 +334,8 @@ void CLevel::IR_OnKeyboardPress(int key)
             // HW.Caps.SceneMode			= (HW.Caps.SceneMode+1)%3;
             return;
 
-        case DIK_F4: {
+        case DIK_F4:
+        {
             if (pInput->iGetAsyncKeyState(DIK_LALT))
                 break;
 
@@ -396,7 +408,8 @@ void CLevel::IR_OnKeyboardPress(int key)
             return;
         }
         // Lain: added
-        case DIK_F5: {
+        case DIK_F5:
+        {
             if (CBaseMonster* pBM = smart_cast<CBaseMonster*>(CurrentEntity()))
             {
                 DBG().log_debug_info();
@@ -404,7 +417,8 @@ void CLevel::IR_OnKeyboardPress(int key)
             break;
         }
 
-        case MOUSE_1: {
+        case MOUSE_1:
+        {
             if (GameID() != eGameIDSingle)
                 break;
 
@@ -421,7 +435,8 @@ void CLevel::IR_OnKeyboardPress(int key)
         /**/
 #endif
 #ifdef DEBUG
-        case DIK_F9: {
+        case DIK_F9:
+        {
             //		if (!ai().get_alife())
             //			break;
             //		const_cast<CALifeSimulatorHeader&>(ai().alife().header()).set_state(ALife::eZoneStateSurge);
@@ -578,7 +593,8 @@ void CLevel::IR_OnActivate()
                 case kACCEL:
                 case kL_LOOKOUT:
                 case kR_LOOKOUT:
-                case kWPN_FIRE: {
+                case kWPN_FIRE:
+                {
                     IR_OnKeyboardPress(i);
                 }
                 break;

@@ -12,36 +12,36 @@ class CPsyDog: public CAI_PseudoDog
     friend class CPsyDogAura;
 
     // эффектор у актера при нахождении в поле
-    CPsyDogAura* m_aura;
+    CPsyDogAura*     m_aura;
 
     // enemy transfered from phantom
-    CActor* m_enemy;
+    CActor*          m_enemy;
 
     // externals
-    u8  m_max_phantoms_count;
-    u32 m_time_phantom_respawn;
+    u8               m_max_phantoms_count;
+    u32              m_time_phantom_respawn;
 
     static u32 const s_phantom_immediate_respawn_flag = 0;
     static u32 const s_phantom_alive_flag             = 1;
 
-    TTime* m_phantoms_die_time;
+    TTime*           m_phantoms_die_time;
 
 public:
     CPsyDog();
     virtual ~CPsyDog();
 
-    virtual void Load(LPCSTR section);
-    virtual BOOL net_Spawn(CSE_Abstract* dc);
-    virtual void reinit();
-    virtual void reload(LPCSTR section);
-    virtual void net_Destroy();
-    virtual void Die(CObject* who);
+    virtual void               Load(LPCSTR section);
+    virtual BOOL               net_Spawn(CSE_Abstract* dc);
+    virtual void               reinit();
+    virtual void               reload(LPCSTR section);
+    virtual void               net_Destroy();
+    virtual void               Die(CObject* who);
 
-    virtual void Think();
+    virtual void               Think();
     //				void	on_phantom_appear	();
     virtual IStateManagerBase* create_state_manager();
 
-    virtual char* get_monster_class_name()
+    virtual char*              get_monster_class_name()
     {
         return "psydog";
     }
@@ -78,7 +78,7 @@ add_to_type_list(CPsyDog)
 {
     typedef CAI_PseudoDog inherited;
 
-    CPsyDog* m_parent;
+    CPsyDog*              m_parent;
 
     enum
     {
@@ -88,12 +88,12 @@ add_to_type_list(CPsyDog)
 
     SAttackEffector m_appear_effector;
 
-    LPCSTR m_particles_appear;
-    LPCSTR m_particles_disappear;
+    LPCSTR          m_particles_appear;
+    LPCSTR          m_particles_disappear;
 
-    u16 m_parent_id;
+    u16             m_parent_id;
 
-    u32 m_time_spawned;
+    u32             m_time_spawned;
 
 public:
     CPsyDogPhantom();
@@ -105,7 +105,7 @@ public:
     virtual void net_Destroy();
     virtual void Die(CObject* who);
 
-    void destroy_from_parent();
+    void         destroy_from_parent();
 
 private:
     void destroy_me();

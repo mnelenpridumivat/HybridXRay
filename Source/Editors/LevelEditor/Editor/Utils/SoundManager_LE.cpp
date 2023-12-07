@@ -2,7 +2,7 @@
 
 CLevelSoundManager* LSndLib = (CLevelSoundManager*)SndLib;
 
-bool CLevelSoundManager::Validate()
+bool                CLevelSoundManager::Validate()
 {
     ObjectList& snd_envs = Scene->ListObj(OBJCLASS_SOUND_ENV);
     for (ObjectIt it = snd_envs.begin(); it != snd_envs.end(); it++)
@@ -91,7 +91,7 @@ bool CLevelSoundManager::MakeEnvGeometry(CMemoryWriter& F, bool bErrMsg)
             outer = env_names.size();
             env_names.push_back(E->m_EnvOuter);
         }
-        u32 idx = (inner << 16) | (outer);
+        u32     idx = (inner << 16) | (outer);
 
         // append to collector
         Fmatrix M;

@@ -16,18 +16,18 @@ public:
     ESceneObjectTool* ParentTools;
 
 private:
-    void            OnItemFocused(ListItem* item);
-    void            SelByRefObject(bool flag);
-    void            MultiSelByRefObject(bool flag);
-    void            ClearSurface(bool selected);
-    void            RefreshListInternal();
-    const char*     m_Current;
-    UIItemListForm* m_ObjectList;
-    bool            m_MultiAppend;
-    bool            m_PropRandom;
-    bool            m_RandomAppend;
-    float           m_selPercent;
-    bool            m_Selection;
+    void              OnItemFocused(ListItem* item);
+    void              SelByRefObject(bool flag);
+    void              MultiSelByRefObject(bool flag);
+    void              ClearSurface(bool selected);
+    void              RefreshListInternal();
+    const char*       m_Current;
+    UIItemListForm*   m_ObjectList;
+    bool              m_MultiAppend;
+    bool              m_PropRandom;
+    bool              m_RandomAppend;
+    float             m_selPercent;
+    bool              m_Selection;
 
     ref_texture       m_TextureNull;
     ImTextureID       m_RealTexture;

@@ -11,6 +11,7 @@ public:
 
     virtual void Copy(IConsoleRender& _in);
     virtual void OnRender(bool bGame);
+
 private:
 #if defined(USE_DX10) || defined(USE_DX11)
     ref_shader m_Shader;

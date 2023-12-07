@@ -78,12 +78,8 @@ ICEMATHS_API void IceMaths::InvertPRMatrix(Matrix4x4& dest, const Matrix4x4& src
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 float Matrix4x4::CoFactor(udword row, udword col) const
 {
-    return ((m[(row + 1) & 3][(col + 1) & 3] * m[(row + 2) & 3][(col + 2) & 3] * m[(row + 3) & 3][(col + 3) & 3] +
-             m[(row + 1) & 3][(col + 2) & 3] * m[(row + 2) & 3][(col + 3) & 3] * m[(row + 3) & 3][(col + 1) & 3] +
-             m[(row + 1) & 3][(col + 3) & 3] * m[(row + 2) & 3][(col + 1) & 3] * m[(row + 3) & 3][(col + 2) & 3]) -
-            (m[(row + 3) & 3][(col + 1) & 3] * m[(row + 2) & 3][(col + 2) & 3] * m[(row + 1) & 3][(col + 3) & 3] +
-             m[(row + 3) & 3][(col + 2) & 3] * m[(row + 2) & 3][(col + 3) & 3] * m[(row + 1) & 3][(col + 1) & 3] +
-             m[(row + 3) & 3][(col + 3) & 3] * m[(row + 2) & 3][(col + 1) & 3] * m[(row + 1) & 3][(col + 2) & 3])) *
+    return ((m[(row + 1) & 3][(col + 1) & 3] * m[(row + 2) & 3][(col + 2) & 3] * m[(row + 3) & 3][(col + 3) & 3] + m[(row + 1) & 3][(col + 2) & 3] * m[(row + 2) & 3][(col + 3) & 3] * m[(row + 3) & 3][(col + 1) & 3] + m[(row + 1) & 3][(col + 3) & 3] * m[(row + 2) & 3][(col + 1) & 3] * m[(row + 3) & 3][(col + 2) & 3]) -
+               (m[(row + 3) & 3][(col + 1) & 3] * m[(row + 2) & 3][(col + 2) & 3] * m[(row + 1) & 3][(col + 3) & 3] + m[(row + 3) & 3][(col + 2) & 3] * m[(row + 2) & 3][(col + 3) & 3] * m[(row + 1) & 3][(col + 1) & 3] + m[(row + 3) & 3][(col + 3) & 3] * m[(row + 2) & 3][(col + 1) & 3] * m[(row + 1) & 3][(col + 2) & 3])) *
         ((row + col) & 1 ? -1.0f : +1.0f);
 }
 
@@ -106,7 +102,7 @@ Matrix4x4& Matrix4x4::Invert()
     if (_abs(Det) < MATRIX4X4_EPSILON)
         return *this;   // The matrix is not invertible! Singular case!
 
-    float IDet = 1.0f / Det;
+    float IDet   = 1.0f / Det;
 
     Temp.m[0][0] = CoFactor(0, 0) * IDet;
     Temp.m[1][0] = CoFactor(0, 1) * IDet;
@@ -125,7 +121,7 @@ Matrix4x4& Matrix4x4::Invert()
     Temp.m[2][3] = CoFactor(3, 2) * IDet;
     Temp.m[3][3] = CoFactor(3, 3) * IDet;
 
-    *this = Temp;
+    *this        = Temp;
 
     return *this;
 }
@@ -159,28 +155,27 @@ Matrix4x4& Matrix4x4::Shadow(const Point& light, const Point& p0, const Point& p
     PlaneEquation.d   = D * Coeff;
 
     // Plane equation must be normalized!
-    float dot =
-        PlaneEquation.n.x * light.x + PlaneEquation.n.y * light.y + PlaneEquation.n.z * light.z + PlaneEquation.d;
+    float dot         = PlaneEquation.n.x * light.x + PlaneEquation.n.y * light.y + PlaneEquation.n.z * light.z + PlaneEquation.d;
 
-    m[0][0] = dot - light.x * PlaneEquation.n.x;
-    m[1][0] = -light.x * PlaneEquation.n.y;
-    m[2][0] = -light.x * PlaneEquation.n.z;
-    m[3][0] = -light.x * PlaneEquation.d;
+    m[0][0]           = dot - light.x * PlaneEquation.n.x;
+    m[1][0]           = -light.x * PlaneEquation.n.y;
+    m[2][0]           = -light.x * PlaneEquation.n.z;
+    m[3][0]           = -light.x * PlaneEquation.d;
 
-    m[0][1] = -light.y * PlaneEquation.n.x;
-    m[1][1] = dot - light.y * PlaneEquation.n.y;
-    m[2][1] = -light.y * PlaneEquation.n.z;
-    m[3][1] = -light.y * PlaneEquation.d;
+    m[0][1]           = -light.y * PlaneEquation.n.x;
+    m[1][1]           = dot - light.y * PlaneEquation.n.y;
+    m[2][1]           = -light.y * PlaneEquation.n.z;
+    m[3][1]           = -light.y * PlaneEquation.d;
 
-    m[0][2] = -light.z * PlaneEquation.n.x;
-    m[1][2] = -light.z * PlaneEquation.n.y;
-    m[2][2] = dot - light.z * PlaneEquation.n.z;
-    m[3][2] = -light.z * PlaneEquation.d;
+    m[0][2]           = -light.z * PlaneEquation.n.x;
+    m[1][2]           = -light.z * PlaneEquation.n.y;
+    m[2][2]           = dot - light.z * PlaneEquation.n.z;
+    m[3][2]           = -light.z * PlaneEquation.d;
 
-    m[0][3] = -PlaneEquation.n.x;
-    m[1][3] = -PlaneEquation.n.y;
-    m[2][3] = -PlaneEquation.n.z;
-    m[3][3] = dot - PlaneEquation.d;
+    m[0][3]           = -PlaneEquation.n.x;
+    m[1][3]           = -PlaneEquation.n.y;
+    m[2][3]           = -PlaneEquation.n.z;
+    m[3][3]           = dot - PlaneEquation.d;
 
     return *this;
 }
@@ -244,7 +239,7 @@ Matrix4x4& Matrix4x4::Rotozoom(float angle, float zoom, float posx, float posy)
 // ### must be optimized... consider using the 3x3 version
 Matrix4x4& Matrix4x4::Rot(float angle, Point& p1, Point& p2)
 {
-    Point Axis = (p2 - p1).Normalize();
+    Point     Axis = (p2 - p1).Normalize();
 
     Matrix4x4 T, InvT;
     T.Identity();
@@ -457,7 +452,7 @@ Matrix& Matrix::ComputeAxisMatrix(Point& axis, float angle)
 
 Matrix::operator PRS() const
 {
-    PRS Cast;
+    PRS       Cast;
 
     udword    dwRow;
     Matrix3x3 Orthonormal;

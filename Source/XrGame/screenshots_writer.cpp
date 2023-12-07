@@ -22,7 +22,7 @@ namespace screenshots
     char const* ss_digital_sign_key  = "digital_sign";
     char const* ss_creation_date     = "creation_date";
 
-    void writer::set_player_name(shared_str const& pname)
+    void        writer::set_player_name(shared_str const& pname)
     {
         m_info_data.w_string(ss_info_secion, ss_player_name_key, pname.c_str());
     }
@@ -42,14 +42,14 @@ namespace screenshots
 
         char* info_start = static_cast<char*>((void*)(m_buffer + m_buffer_info_pos));
 
-        info_start[0] = 0;
+        info_start[0]    = 0;
         xr_strcat(info_start, info_max_size, m_info_data.r_string(ss_info_secion, ss_player_name_key));
         xr_strcat(info_start, info_max_size, m_info_data.r_string(ss_info_secion, ss_player_digest_key));
         // xr_strcat(info_start, info_max_size, m_info_data.r_string(ss_info_secion, ss_admin_name_key));
         xr_strcat(info_start, info_max_size, time_string);
 
-        u32 info_size      = xr_strlen(info_start) + 1;
-        u32 jpeg_data_size = m_buffer_info_pos + info_size;
+        u32        info_size      = xr_strlen(info_start) + 1;
+        u32        jpeg_data_size = m_buffer_info_pos + info_size;
 
         shared_str tmp_sign_res;
         if (yielder && *yielder)

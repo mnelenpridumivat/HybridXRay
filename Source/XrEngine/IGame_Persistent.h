@@ -10,13 +10,7 @@ class IRenderVisual;
 class IMainMenu;
 class ENGINE_API CPS_Instance;
 //-----------------------------------------------------------------------------------------------------------
-class ENGINE_API IGame_Persistent:
-    public DLL_Pure,
-    public pureAppStart,
-    public pureAppEnd,
-    public pureAppActivate,
-    public pureAppDeactivate,
-    public pureFrame
+class ENGINE_API IGame_Persistent: public DLL_Pure, public pureAppStart, public pureAppEnd, public pureAppActivate, public pureAppDeactivate, public pureFrame
 {
 public:
     union params
@@ -83,14 +77,14 @@ public:
         return static_cast<CEnvironmentSOC*>(pEnvironment);
     };
 
-    IMainMenu* m_pMainMenu;
+    IMainMenu*   m_pMainMenu;
 
     virtual bool OnRenderPPUI_query()
     {
         return FALSE;
     };   // should return true if we want to have second function called
-    virtual void OnRenderPPUI_main(){};
-    virtual void OnRenderPPUI_PP(){};
+    virtual void      OnRenderPPUI_main(){};
+    virtual void      OnRenderPPUI_PP(){};
 
     virtual void      OnAppStart();
     virtual void      OnAppEnd();
@@ -99,17 +93,17 @@ public:
     virtual void _BCL OnFrame();
 
     // вызывается только когда изменяется тип игры
-    virtual void OnGameStart();
-    virtual void OnGameEnd();
+    virtual void      OnGameStart();
+    virtual void      OnGameEnd();
 
-    virtual void UpdateGameType(){};
-    virtual void GetCurrentDof(Fvector3& dof)
+    virtual void      UpdateGameType(){};
+    virtual void      GetCurrentDof(Fvector3& dof)
     {
         dof.set(-1.4f, 0.0f, 250.f);
     };
-    virtual void SetBaseDof(const Fvector3& dof){};
-    virtual void OnSectorChanged(int sector){};
-    virtual void OnAssetsChanged();
+    virtual void  SetBaseDof(const Fvector3& dof){};
+    virtual void  OnSectorChanged(int sector){};
+    virtual void  OnAssetsChanged();
 
     virtual void  RegisterModel(IRenderVisual* V) = 0;
     virtual float MtlTransparent(u32 mtl_idx)     = 0;

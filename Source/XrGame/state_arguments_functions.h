@@ -5,13 +5,13 @@ namespace award_system
 {
 
     // float functions
-    template <typename T> class binary_function
+    template<typename T> class binary_function
     {
     public:
         virtual bool exec(T const left, T const right) = 0;
     };   // float_binary_function
 
-    template <typename T> class ge_function: public binary_function<T>
+    template<typename T> class ge_function: public binary_function<T>
     {
     public:
         virtual bool exec(T const left, T const right)
@@ -20,7 +20,7 @@ namespace award_system
         }
     };   // class float_ge_function
 
-    template <typename T> class le_function: public binary_function<T>
+    template<typename T> class le_function: public binary_function<T>
     {
     public:
         virtual bool exec(T const left, T const right)
@@ -29,7 +29,7 @@ namespace award_system
         }
     };   // float_le_function
 
-    template <typename T> class functions_cf
+    template<typename T> class functions_cf
     {
     public:
         typedef binary_function<T> function_type;
@@ -44,11 +44,13 @@ namespace award_system
         {
             switch (ftype)
             {
-                case tt_greater_equal: {
+                case tt_greater_equal:
+                {
                     return &ge_function;
                 }
                 break;
-                case tt_less_equal: {
+                case tt_less_equal:
+                {
                     return &le_function;
                 }
                 break;
@@ -64,8 +66,8 @@ namespace award_system
     typedef binary_function<float> float_binary_function;
     typedef functions_cf<float>    float_bfunc_cf;
 
-    typedef binary_function<u32> u32_binary_function;
-    typedef functions_cf<u32>    u32_bfunc_cf;
+    typedef binary_function<u32>   u32_binary_function;
+    typedef functions_cf<u32>      u32_bfunc_cf;
 
 }   // namespace award_system
 

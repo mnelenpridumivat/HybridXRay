@@ -41,11 +41,7 @@ namespace award_system
         };
         virtual bool OnPlayerBringArtefact(game_PlayerState const* ps);
         virtual bool OnPlayerSpawned(game_PlayerState const* ps);
-        virtual bool OnPlayerKilled(
-            u16                                     killer_id,
-            u16                                     target_id,
-            u16                                     weapon_id,
-            std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
+        virtual bool OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
         virtual bool OnPlayerChangeTeam(s8 team)
         {
             return false;
@@ -63,22 +59,22 @@ namespace award_system
         void fill_best_results(gamespy_profile::all_best_scores_t& dest_br);
 
     private:
-        int m_kills_in_row;
-        int m_knife_kills_in_row;
-        int m_backstab_kills_in_row;
-        int m_headshots_kills_in_row;
-        int m_eyeshots_kills_in_row;
-        int m_bleed_kills_in_row;
-        int m_explosive_kills_in_row;
-        int m_artefacts;
+        int  m_kills_in_row;
+        int  m_knife_kills_in_row;
+        int  m_backstab_kills_in_row;
+        int  m_headshots_kills_in_row;
+        int  m_eyeshots_kills_in_row;
+        int  m_bleed_kills_in_row;
+        int  m_explosive_kills_in_row;
+        int  m_artefacts;
 
-        int m_max_kills_in_row;
-        int m_max_knife_kills_in_row;
-        int m_max_backstab_kills_in_row;
-        int m_max_headshots_kills_in_row;
-        int m_max_eyeshots_kills_in_row;
-        int m_max_bleed_kills_in_row;
-        int m_max_explosive_kills_in_row;
+        int  m_max_kills_in_row;
+        int  m_max_knife_kills_in_row;
+        int  m_max_backstab_kills_in_row;
+        int  m_max_headshots_kills_in_row;
+        int  m_max_eyeshots_kills_in_row;
+        int  m_max_bleed_kills_in_row;
+        int  m_max_explosive_kills_in_row;
 
         void reset_stats();
         void reset_max();

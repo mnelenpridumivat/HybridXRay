@@ -8,39 +8,17 @@
 
 #pragma once
 
-IC CSightAction::CSightAction():
-    m_sight_type(SightManager::eSightTypeCurrentDirection), m_torso_look(false), m_path(false), m_object_to_look(0),
-    m_memory_object(0), m_state_fire_object(0), m_initialized(false)
-{
-}
+IC CSightAction::CSightAction(): m_sight_type(SightManager::eSightTypeCurrentDirection), m_torso_look(false), m_path(false), m_object_to_look(0), m_memory_object(0), m_state_fire_object(0), m_initialized(false) {}
 
-IC CSightAction::CSightAction(const ESightType& sight_type, bool torso_look, bool path):
-    m_sight_type(sight_type), m_torso_look(torso_look), m_path(path), m_object_to_look(0), m_memory_object(0),
-    m_state_fire_object(0), m_initialized(false)
-{
-}
+IC CSightAction::CSightAction(const ESightType& sight_type, bool torso_look, bool path): m_sight_type(sight_type), m_torso_look(torso_look), m_path(path), m_object_to_look(0), m_memory_object(0), m_state_fire_object(0), m_initialized(false) {}
 
-IC CSightAction::CSightAction(const ESightType& sight_type, const Fvector& vector3d, bool torso_look):
-    m_sight_type(sight_type), m_vector3d(vector3d), m_path(false), m_torso_look(torso_look), m_object_to_look(0),
-    m_memory_object(0), m_state_fire_object(0), m_initialized(false)
-{
-}
+IC CSightAction::CSightAction(const ESightType& sight_type, const Fvector& vector3d, bool torso_look): m_sight_type(sight_type), m_vector3d(vector3d), m_path(false), m_torso_look(torso_look), m_object_to_look(0), m_memory_object(0), m_state_fire_object(0), m_initialized(false) {}
 
-IC CSightAction::CSightAction(const CGameObject* object_to_look, bool torso_look, bool fire_object, bool no_pitch):
-    m_sight_type(fire_object ? SightManager::eSightTypeFireObject : SightManager::eSightTypeObject),
-    m_torso_look(torso_look), m_path(false), m_object_to_look(object_to_look), m_memory_object(0), m_no_pitch(no_pitch),
-    m_state_fire_object(0), m_initialized(false)
-{
-}
+IC CSightAction::CSightAction(const CGameObject* object_to_look, bool torso_look, bool fire_object, bool no_pitch): m_sight_type(fire_object ? SightManager::eSightTypeFireObject : SightManager::eSightTypeObject), m_torso_look(torso_look), m_path(false), m_object_to_look(object_to_look), m_memory_object(0), m_no_pitch(no_pitch), m_state_fire_object(0), m_initialized(false) {}
 
-IC CSightAction::CSightAction(const CMemoryInfo* memory_object, bool torso_look):
-    m_sight_type(SightManager::eSightTypeObject), m_torso_look(torso_look), m_path(false),
-    m_memory_object(memory_object), m_object_to_look(0), m_state_fire_object(0), m_initialized(false)
-{
-}
+IC CSightAction::CSightAction(const CMemoryInfo* memory_object, bool torso_look): m_sight_type(SightManager::eSightTypeObject), m_torso_look(torso_look), m_path(false), m_memory_object(memory_object), m_object_to_look(0), m_state_fire_object(0), m_initialized(false) {}
 
-IC CSightAction::CSightAction(const ESightType& sight_type, const Fvector* vector3d):
-    m_sight_type(sight_type), m_path(false), m_object_to_look(0), m_state_fire_object(0), m_initialized(false)
+IC CSightAction::CSightAction(const ESightType& sight_type, const Fvector* vector3d): m_sight_type(sight_type), m_path(false), m_object_to_look(0), m_state_fire_object(0), m_initialized(false)
 {
     if (sight_type == SightManager::eSightTypeFirePosition)
     {

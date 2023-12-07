@@ -49,8 +49,8 @@ public:
 
 class ECORE_API XrGameMaterialLibraryEditors: public XrGameMaterialLibraryInterface
 {
-    int material_index;
-    int material_pair_index;
+    int            material_index;
+    int            material_pair_index;
 
     GameMtlVec     materials;
     GameMtlPairVec material_pairs;

@@ -1,4 +1,4 @@
-/* ====================================================================
+﻿/* ====================================================================
  * Copyright (c) 1999 The OpenSSL Project.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,11 +58,12 @@
  */
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
 #ifndef HEADER_PEM_H
-void ERR_load_PEM_strings(void);
+    void ERR_load_PEM_strings(void);
 #endif
 
 #ifdef __cplusplus

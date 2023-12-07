@@ -32,8 +32,8 @@ void CZombie::Load(LPCSTR section)
     anim().accel_load(section);
     anim().accel_chain_add(eAnimWalkFwd, eAnimRun);
 
-    fake_death_count       = 1 + u8(Random.randI(pSettings->r_u8(section, "FakeDeathCount")));
-    health_death_threshold = pSettings->r_float(section, "StartFakeDeathHealthThreshold");
+    fake_death_count              = 1 + u8(Random.randI(pSettings->r_u8(section, "FakeDeathCount")));
+    health_death_threshold        = pSettings->r_float(section, "StartFakeDeathHealthThreshold");
 
     SVelocityParam& velocity_none = move().get_velocity(MonsterMovement::eVelocityParameterIdle);
     SVelocityParam& velocity_turn = move().get_velocity(MonsterMovement::eVelocityParameterStand);
@@ -44,25 +44,13 @@ void CZombie::Load(LPCSTR section)
     // SVelocityParam &velocity_steal		= move().get_velocity(MonsterMovement::eVelocityParameterSteal);
     // SVelocityParam &velocity_drag		= move().get_velocity(MonsterMovement::eVelocityParameterDrag);
 
-    anim().AddAnim(
-        eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimRun, "stand_run_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimAttack, "stand_attack_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimDie, "stand_die_", 0, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRun, "stand_run_", -1, &velocity_run, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimAttack, "stand_attack_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimDie, "stand_die_", 0, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
     anim().LinkAction(ACT_STAND_IDLE, eAnimStandIdle);
     anim().LinkAction(ACT_SIT_IDLE, eAnimStandIdle);
@@ -91,10 +79,10 @@ void CZombie::reinit()
 
     Bones.Reset();
 
-    time_dead_start = 0;
-    last_hit_frame  = 0;
-    time_resurrect  = 0;
-    fake_death_left = fake_death_count;
+    time_dead_start   = 0;
+    last_hit_frame    = 0;
+    time_resurrect    = 0;
+    fake_death_left   = fake_death_count;
 
     active_triple_idx = u8(-1);
 }
@@ -121,10 +109,8 @@ void CZombie::BoneCallback(CBoneInstance* B)
 void CZombie::vfAssignBones()
 {
     // Установка callback на кости
-    bone_spine = &smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(
-        smart_cast<IKinematics*>(Visual())->LL_BoneID("bip01_spine"));
-    bone_head = &smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(
-        smart_cast<IKinematics*>(Visual())->LL_BoneID("bip01_head"));
+    bone_spine = &smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(smart_cast<IKinematics*>(Visual())->LL_BoneID("bip01_spine"));
+    bone_head  = &smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(smart_cast<IKinematics*>(Visual())->LL_BoneID("bip01_head"));
     // if(!PPhysicsShell())//нельзя ставить колбеки, если создан физ шел - у него стоят свои колбеки!!!
     //{
     // bone_spine->set_callback(BoneCallback,this);
@@ -150,7 +136,7 @@ BOOL CZombie::net_Spawn(CSE_Abstract* DC)
     return (TRUE);
 }
 
-#define TIME_FAKE_DEATH 5000
+#define TIME_FAKE_DEATH        5000
 #define TIME_RESURRECT_RESTORE 2000
 
 // void CZombie::Hit(float P,Fvector &dir,CObject*who,s16 element,Fvector p_in_object_space,float impulse,
@@ -165,12 +151,9 @@ void CZombie::Hit(SHit* pHDS)
 
     if ((pHDS->hit_type == ALife::eHitTypeFireWound) && (Device->dwFrame != last_hit_frame))
     {
-        if (!com_man().ta_is_active() && (time_resurrect + TIME_RESURRECT_RESTORE < Device->dwTimeGlobal) &&
-            (conditions().GetHealth() < health_death_threshold))
+        if (!com_man().ta_is_active() && (time_resurrect + TIME_RESURRECT_RESTORE < Device->dwTimeGlobal) && (conditions().GetHealth() < health_death_threshold))
         {
-            if (conditions().GetHealth() <
-                (health_death_threshold -
-                 float(fake_death_count - fake_death_left) * health_death_threshold / fake_death_count))
+            if (conditions().GetHealth() < (health_death_threshold - float(fake_death_count - fake_death_left) * health_death_threshold / fake_death_count))
             {
                 active_triple_idx = u8(Random.randI(FAKE_DEATH_TYPES_COUNT));
                 com_man().ta_activate(anim_triple_death[active_triple_idx]);
@@ -238,11 +221,13 @@ void CZombie::debug_on_key(int key)
 {
     switch (key)
     {
-        case DIK_MINUS: {
+        case DIK_MINUS:
+        {
             fake_death_fall_down();
         }
         break;
-        case DIK_EQUALS: {
+        case DIK_EQUALS:
+        {
             fake_death_stand_up();
         }
         break;

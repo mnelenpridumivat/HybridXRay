@@ -39,36 +39,17 @@ void CUIListBox::script_register(lua_State* L)
             .def("AddTextItem", &CUIListBox::AddTextItem)
             .def("AddExistingItem", &CUIListBox::AddExistingItem, adopt(_2)),
 
-        class_<CUIListBoxItem, CUIFrameLineWnd, CUIListBoxItemWrapper>("CUIListBoxItem")
-            .def(constructor<float>())
-            .def("GetTextItem", &CUIListBoxItem::GetTextItem)
-            .def("AddTextField", &CUIListBoxItem::AddTextField)
-            .def("AddIconField", &CUIListBoxItem::AddIconField)
-            .def("SetTextColor", &CUIListBoxItem::SetTextColor),
+        class_<CUIListBoxItem, CUIFrameLineWnd, CUIListBoxItemWrapper>("CUIListBoxItem").def(constructor<float>()).def("GetTextItem", &CUIListBoxItem::GetTextItem).def("AddTextField", &CUIListBoxItem::AddTextField).def("AddIconField", &CUIListBoxItem::AddIconField).def("SetTextColor", &CUIListBoxItem::SetTextColor),
 
-        class_<CUIListBoxItemMsgChain, CUIListBoxItem, CUIListBoxItemMsgChainWrapper>("CUIListBoxItemMsgChain")
-            .def(constructor<float>()),
+        class_<CUIListBoxItemMsgChain, CUIListBoxItem, CUIListBoxItemMsgChainWrapper>("CUIListBoxItemMsgChain").def(constructor<float>()),
 
-        class_<SServerFilters>("SServerFilters")
-            .def(constructor<>())
-            .def_readwrite("empty", &SServerFilters::empty)
-            .def_readwrite("full", &SServerFilters::full)
-            .def_readwrite("with_pass", &SServerFilters::with_pass)
-            .def_readwrite("without_pass", &SServerFilters::without_pass)
-            .def_readwrite("without_ff", &SServerFilters::without_ff)
-            .def_readwrite("listen_servers", &SServerFilters::listen_servers),
+        class_<SServerFilters>("SServerFilters").def(constructor<>()).def_readwrite("empty", &SServerFilters::empty).def_readwrite("full", &SServerFilters::full).def_readwrite("with_pass", &SServerFilters::with_pass).def_readwrite("without_pass", &SServerFilters::without_pass).def_readwrite("without_ff", &SServerFilters::without_ff).def_readwrite("listen_servers", &SServerFilters::listen_servers),
 
-        class_<connect_error_cb>("connect_error_cb")
-            .def(constructor<>())
-            .def(constructor<connect_error_cb::lua_object_type, connect_error_cb::lua_function_type>())
-            .def("bind", &connect_error_cb::bind)
-            .def("clear", &connect_error_cb::clear),
+        class_<connect_error_cb>("connect_error_cb").def(constructor<>()).def(constructor<connect_error_cb::lua_object_type, connect_error_cb::lua_function_type>()).def("bind", &connect_error_cb::bind).def("clear", &connect_error_cb::clear),
 
         class_<CServerList, CUIWindow>("CServerList")
             .def(constructor<>())
-            .enum_("enum_connect_errcode")
-                [value("ece_unique_nick_not_registred", int(ece_unique_nick_not_registred)),
-                 value("ece_unique_nick_expired", int(ece_unique_nick_expired))]
+            .enum_("enum_connect_errcode")[value("ece_unique_nick_not_registred", int(ece_unique_nick_not_registred)), value("ece_unique_nick_expired", int(ece_unique_nick_expired))]
             .def("SetConnectionErrCb", &CServerList::SetConnectionErrCb)
             .def("ConnectToSelected", &CServerList::ConnectToSelected)
             .def("SetFilters", &CServerList::SetFilters)
@@ -95,12 +76,7 @@ void CUIListBox::script_register(lua_State* L)
             .def("ClearList", &CUIMapList::ClearList)
             .def("IsEmpty", &CUIMapList::IsEmpty),
 
-        class_<enum_exporter<EGameIDs>>("GAME_TYPE")
-            .enum_("gametype")
-                [value("GAME_UNKNOWN", int(-1)), value("eGameIDDeathmatch", int(eGameIDDeathmatch)),
-                 value("eGameIDTeamDeathmatch", int(eGameIDTeamDeathmatch)),
-                 value("eGameIDArtefactHunt", int(eGameIDArtefactHunt)),
-                 value("eGameIDCaptureTheArtefact", int(eGameIDCaptureTheArtefact))]
+        class_<enum_exporter<EGameIDs>>("GAME_TYPE").enum_("gametype")[value("GAME_UNKNOWN", int(-1)), value("eGameIDDeathmatch", int(eGameIDDeathmatch)), value("eGameIDTeamDeathmatch", int(eGameIDTeamDeathmatch)), value("eGameIDArtefactHunt", int(eGameIDArtefactHunt)), value("eGameIDCaptureTheArtefact", int(eGameIDCaptureTheArtefact))]
 
     ];
 }

@@ -41,7 +41,7 @@ typedef struct HashImplementation* HashTable;
  * For best performance, the hash function should be designed to
  * uniformly distribute elements over the available number of buckets.
  */
-typedef int (*TableHashFn)(const void* elem, int numBuckets);
+typedef int                        (*TableHashFn)(const void* elem, int numBuckets);
 
 /* TableCompareFn
  * --------------
@@ -74,7 +74,7 @@ typedef void (*TableMapFn)(void* elem, void* clientData);
  * Same as TableMapFn, but can return 0 to stop the mapping.
  * Used by TableMap2.
  */
-typedef int (*TableMapFn2)(void* elem, void* clientData);
+typedef int  (*TableMapFn2)(void* elem, void* clientData);
 
 /* TableElementFreeFn
  * ------------------
@@ -122,16 +122,9 @@ extern "C"
      *
      */
 
-    HashTable
-        TableNew(int elemSize, int nBuckets, TableHashFn hashFn, TableCompareFn compFn, TableElementFreeFn freeFn);
+    HashTable TableNew(int elemSize, int nBuckets, TableHashFn hashFn, TableCompareFn compFn, TableElementFreeFn freeFn);
 
-    HashTable TableNew2(
-        int                elemSize,
-        int                nBuckets,
-        int                nChains,
-        TableHashFn        hashFn,
-        TableCompareFn     compFn,
-        TableElementFreeFn freeFn);
+    HashTable TableNew2(int elemSize, int nBuckets, int nChains, TableHashFn hashFn, TableCompareFn compFn, TableElementFreeFn freeFn);
 
     /* TableFree
      * ----------
@@ -144,13 +137,13 @@ extern "C"
      * embedded pointers through that function.
      * After calling this, the value of what table points to is undefined.
      */
-    void TableFree(HashTable table);
+    void      TableFree(HashTable table);
 
     /* TableCount
      * ----------
      * Returns the number of elements currently in the table.
      */
-    int TableCount(HashTable table);
+    int       TableCount(HashTable table);
 
     /* TableEnter
      * ----------
@@ -161,7 +154,7 @@ extern "C"
      * use the contents of the new element to replace the previous element,
      * calling the free function on the replaced element.
      */
-    void TableEnter(HashTable table, const void* newElem);
+    void      TableEnter(HashTable table, const void* newElem);
 
     /* TableRemove
      * ----------
@@ -169,7 +162,7 @@ extern "C"
      * the function returns 0. If it exists, it returns 1 and calls the
      * free function on the removed element.
      */
-    int TableRemove(HashTable table, const void* delElem);
+    int       TableRemove(HashTable table, const void* delElem);
 
     /* TableLookup
      * ----------
@@ -178,7 +171,7 @@ extern "C"
      * matching element, returns NULL. Calling this function does not
      * re-arrange or change contents of the table or modify elemKey in any way.
      */
-    void* TableLookup(HashTable table, const void* elemKey);
+    void*     TableLookup(HashTable table, const void* elemKey);
 
     /* TableMap
      * -----------
@@ -189,13 +182,13 @@ extern "C"
      * if necessary.  If no client data is required, this argument should be NULL.
      * An assert is raised if the map function is NULL.
      */
-    void TableMap(HashTable table, TableMapFn fn, void* clientData);
+    void      TableMap(HashTable table, TableMapFn fn, void* clientData);
 
     /* TableMapSafe
      * -----------
      * Same as TableMap, but allows elements to be freed during the mapping.
      */
-    void TableMapSafe(HashTable table, TableMapFn fn, void* clientData);
+    void      TableMapSafe(HashTable table, TableMapFn fn, void* clientData);
 
     /* TableMap2
      * -----------
@@ -204,19 +197,19 @@ extern "C"
      * it was stopped at will be returned.  If it wasn't stopped, then NULL
      * will be returned.
      */
-    void* TableMap2(HashTable table, TableMapFn2 fn, void* clientData);
+    void*     TableMap2(HashTable table, TableMapFn2 fn, void* clientData);
 
     /* TableMapSafe2
      * -----------
      * Same as TableMap2, but allows elements to be freed during the mapping.
      */
-    void* TableMapSafe2(HashTable table, TableMapFn2 fn, void* clientData);
+    void*     TableMapSafe2(HashTable table, TableMapFn2 fn, void* clientData);
 
     /* TableClear
      * -----------
      * Clears all the elements in the table without freeing it
      */
-    void TableClear(HashTable table);
+    void      TableClear(HashTable table);
 
 #ifdef __cplusplus
 }

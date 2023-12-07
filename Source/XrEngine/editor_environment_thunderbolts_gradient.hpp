@@ -35,11 +35,7 @@ namespace XrWeatherEditor
                 ~gradient();
                 void load(CInifile& config, shared_str const& section_id, LPCSTR prefix);
                 void save(CInifile& config, shared_str const& section_id, LPCSTR prefix);
-                void fill(
-                    ::XrWeatherEditor::environment::manager& environment,
-                    LPCSTR                                   name,
-                    LPCSTR                                   description,
-                    XrWeatherEditor::property_holder&        holder);
+                void fill(::XrWeatherEditor::environment::manager& environment, LPCSTR name, LPCSTR description, XrWeatherEditor::property_holder& holder);
 
             private:
                 LPCSTR xr_stdcall shader_getter() const;

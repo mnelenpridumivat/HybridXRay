@@ -7,7 +7,7 @@
 
 CUIProgressShape::CUIProgressShape()
 {
-    m_bText = false;
+    m_bText       = false;
     //	m_pTexture		= xr_new<CUIStatic>();
     //	AttachChild		(m_pTexture);
     m_blend       = true;
@@ -96,9 +96,9 @@ void CUIProgressShape::Draw()
     Fvector2 center_tex;
     tex_rect.getcenter(center_tex);
 
-    float radius_pos = pos_rect.width() / 2.0f;
+    float    radius_pos = pos_rect.width() / 2.0f;
 
-    float radius_tex = tex_rect.width() / 2.0f;
+    float    radius_tex = tex_rect.width() / 2.0f;
 
     float    curr_angle = m_angle_begin;
     float    sin_a      = _sin(curr_angle);

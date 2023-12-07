@@ -98,9 +98,9 @@ void CUIActorMenu::InitDeadBodySearchMode()
     {
         CInfoPortionWrapper known_info_registry;
         known_info_registry.registry().init(m_pPartnerInvOwner->object_id());
-        KNOWN_INFO_VECTOR& known_infos = known_info_registry.registry().objects();
+        KNOWN_INFO_VECTOR&   known_infos = known_info_registry.registry().objects();
 
-        KNOWN_INFO_VECTOR_IT it = known_infos.begin();
+        KNOWN_INFO_VECTOR_IT it          = known_infos.begin();
         for (int i = 0; it != known_infos.end(); ++it, ++i)
         {
             NET_Packet P;
@@ -187,8 +187,8 @@ void CUIActorMenu::UpdateDeadBodyBag()
 {
     string64 buf;
 
-    LPCSTR kg_str = CStringTable().translate("st_kg").c_str();
-    float  total  = CalcItemsWeight(m_pDeadBodyBagList);
+    LPCSTR   kg_str = CStringTable().translate("st_kg").c_str();
+    float    total  = CalcItemsWeight(m_pDeadBodyBagList);
     xr_sprintf(buf, "%.1f %s", total, kg_str);
     m_PartnerWeight->SetText(buf);
     m_PartnerWeight->AdjustWidthToText();
@@ -229,9 +229,9 @@ void CUIActorMenu::TakeAllFromPartner(CUIWindow* w, void* d)
 
 void CUIActorMenu::TakeAllFromInventoryBox()
 {
-    u16 actor_id = m_pActorInvOwner->object_id();
+    u16       actor_id = m_pActorInvOwner->object_id();
 
-    u32 const cnt = m_pDeadBodyBagList->ItemsCount();
+    u32 const cnt      = m_pDeadBodyBagList->ItemsCount();
     for (u32 i = 0; i < cnt; ++i)
     {
         CUICellItem* ci = m_pDeadBodyBagList->GetItemIdx(i);

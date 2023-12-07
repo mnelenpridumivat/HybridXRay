@@ -40,46 +40,42 @@ void CUITaskWnd::Init()
 
     CUIXmlInit::InitWindow(xml, "main_wnd", 0, this);
 
-    m_background = UIHelper::CreateFrameWindow(xml, "background", this);
+    m_background  = UIHelper::CreateFrameWindow(xml, "background", this);
 
     m_cbTreasures = UIHelper::CreateCheck(xml, "filter_treasures", this);
     m_cbTreasures->SetCheck(true);
     AddCallback(m_cbTreasures, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskWnd::OnShowTreasures));
     m_bTreasuresEnabled = true;
 
-    m_cbPrimaryObjects = UIHelper::CreateCheck(xml, "filter_primary_objects", this);
+    m_cbPrimaryObjects  = UIHelper::CreateCheck(xml, "filter_primary_objects", this);
     m_cbPrimaryObjects->SetCheck(true);
-    AddCallback(
-        m_cbPrimaryObjects, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskWnd::OnShowPrimaryObjects));
+    AddCallback(m_cbPrimaryObjects, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskWnd::OnShowPrimaryObjects));
     m_bPrimaryObjectsEnabled = true;
 
-    m_cbSecondaryTasks = UIHelper::CreateCheck(xml, "filter_secondary_tasks", this);
+    m_cbSecondaryTasks       = UIHelper::CreateCheck(xml, "filter_secondary_tasks", this);
     m_cbSecondaryTasks->SetCheck(true);
-    AddCallback(
-        m_cbSecondaryTasks, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskWnd::OnShowSecondaryTasks));
+    AddCallback(m_cbSecondaryTasks, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskWnd::OnShowSecondaryTasks));
     m_bSecondaryTasksEnabled = true;
 
-    m_cbQuestNpcs = UIHelper::CreateCheck(xml, "filter_quest_npcs", this);
+    m_cbQuestNpcs            = UIHelper::CreateCheck(xml, "filter_quest_npcs", this);
     m_cbQuestNpcs->SetCheck(true);
     AddCallback(m_cbQuestNpcs, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITaskWnd::OnShowQuestNpcs));
     m_bQuestNpcsEnabled = true;
 
-    m_pMapWnd = xr_new<CUIMapWnd>();
+    m_pMapWnd           = xr_new<CUIMapWnd>();
     m_pMapWnd->SetAutoDelete(false);
     m_pMapWnd->hint_wnd = hint_wnd;
     m_pMapWnd->Init(PDA_TASK_XML, "map_wnd");
     AttachChild(m_pMapWnd);
 
-    m_center_background = UIHelper::CreateStatic(xml, "center_background", this);
-    m_devider           = UIHelper::CreateStatic(xml, "line_devider", this);
+    m_center_background  = UIHelper::CreateStatic(xml, "center_background", this);
+    m_devider            = UIHelper::CreateStatic(xml, "line_devider", this);
 
     m_pStoryLineTaskItem = xr_new<CUITaskItem>();
     m_pStoryLineTaskItem->Init(xml, "storyline_task_item");
     AttachChild(m_pStoryLineTaskItem);
     m_pStoryLineTaskItem->SetAutoDelete(true);
-    AddCallback(
-        m_pStoryLineTaskItem, WINDOW_LBUTTON_DB_CLICK,
-        CUIWndCallback::void_function(this, &CUITaskWnd::OnTask1DbClicked));
+    AddCallback(m_pStoryLineTaskItem, WINDOW_LBUTTON_DB_CLICK, CUIWndCallback::void_function(this, &CUITaskWnd::OnTask1DbClicked));
 
     m_btn_focus = UIHelper::Create3tButton(xml, "btn_task_focus", this);
     Register(m_btn_focus);
@@ -95,7 +91,7 @@ void CUITaskWnd::Init()
     m_pMapWnd->AttachChild(m_task_wnd);
     m_task_wnd->SetMessageTarget(this);
     m_task_wnd->Show(false);
-    m_task_wnd_show = false;
+    m_task_wnd_show  = false;
 
     m_map_legend_wnd = xr_new<UIMapLegend>();
     m_map_legend_wnd->SetAutoDelete(true);
@@ -190,13 +186,8 @@ void CUITaskWnd::ReloadTaskInfo()
         else if (spot == "primary_object")
             m_bPrimaryObjectsEnabled ? b->location->EnableSpot() : b->location->DisableSpot();
         else if (spot == "secondary_task_location" || spot == "secondary_task_location_complex_timer")
-            (/*b->location->SpotEnabled() && */ m_bSecondaryTasksEnabled) ? b->location->EnableSpot() :
-                                                                            b->location->DisableSpot();
-        else if (
-            spot == "ui_pda2_trader_location" || spot == "ui_pda2_mechanic_location" ||
-            spot == "ui_pda2_scout_location" || spot == "ui_pda2_quest_npc_location" ||
-            spot == "ui_pda2_medic_location" || spot == "ui_pda2_actor_box_location" ||
-            spot == "ui_pda2_actor_sleep_location")
+            (/*b->location->SpotEnabled() && */ m_bSecondaryTasksEnabled) ? b->location->EnableSpot() : b->location->DisableSpot();
+        else if (spot == "ui_pda2_trader_location" || spot == "ui_pda2_mechanic_location" || spot == "ui_pda2_scout_location" || spot == "ui_pda2_quest_npc_location" || spot == "ui_pda2_medic_location" || spot == "ui_pda2_actor_box_location" || spot == "ui_pda2_actor_sleep_location")
             m_bQuestNpcsEnabled ? b->location->EnableSpot() : b->location->DisableSpot();
     }
 
@@ -337,7 +328,7 @@ CUITaskItem::~CUITaskItem() {}
 
 CUIStatic* init_static_field(CUIXml& uiXml, LPCSTR path, LPCSTR path2);
 
-void CUITaskItem::Init(CUIXml& uiXml, LPCSTR path)
+void       CUITaskItem::Init(CUIXml& uiXml, LPCSTR path)
 {
     CUIXmlInit::InitWindow(uiXml, path, 0, this);
     m_hint_wt = uiXml.ReadAttribInt(path, 0, "hint_wt", 500);
@@ -361,12 +352,12 @@ void CUITaskItem::Init(CUIXml& uiXml, LPCSTR path)
     }
     m_info["t_icon_over"] = S;
 
-    S = init_static_field(uiXml, path, "t_caption");
+    S                     = init_static_field(uiXml, path, "t_caption");
     AttachChild(S);
     m_info["t_caption"] = S;
 
-    show_hint_can = false;
-    show_hint     = false;
+    show_hint_can       = false;
+    show_hint           = false;
 }
 
 void CUITaskItem::InitTask(CGameTask* task)

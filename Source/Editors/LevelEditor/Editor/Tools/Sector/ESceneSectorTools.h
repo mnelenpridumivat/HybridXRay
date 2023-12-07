@@ -12,7 +12,7 @@ protected:
     {
         flDrawSolid = (1 << 31),
     };
-    Flags32 m_Flags;
+    Flags32      m_Flags;
     // controls
     virtual void CreateControls();
     virtual void RemoveControls();
@@ -52,12 +52,12 @@ public:
     {
         return true;
     }
-    virtual bool LoadStream(IReader&);
-    virtual bool LoadLTX(CInifile&);
-    virtual void SaveStream(IWriter&);
-    virtual void SaveLTX(CInifile&, int id);
-    virtual bool LoadSelection(IReader&);
-    virtual void SaveSelection(IWriter&);
+    virtual bool           LoadStream(IReader&);
+    virtual bool           LoadLTX(CInifile&);
+    virtual void           SaveStream(IWriter&);
+    virtual void           SaveLTX(CInifile&, int id);
+    virtual bool           LoadSelection(IReader&);
+    virtual void           SaveSelection(IWriter&);
 
     virtual CCustomObject* CreateObject(LPVOID data, LPCSTR name);
 };

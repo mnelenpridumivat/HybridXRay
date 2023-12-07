@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_communication_manager.cpp
 //	Created 	: 03.09.2003
 //  Modified 	: 14.05.2004
@@ -16,12 +16,9 @@
 using namespace ALife;
 
 /**/
-CALifeInteractionManager::CALifeInteractionManager	(xrServer*server, LPCSTR section) : 
-	CALifeCombatManager			(server,section),
-	CALifeCommunicationManager	(server,section),
-	CALifeSimulatorBase			(server,section)
+CALifeInteractionManager::CALifeInteractionManager(xrServer* server, LPCSTR section): CALifeCombatManager(server, section), CALifeCommunicationManager(server, section), CALifeSimulatorBase(server, section)
 {
-/**
+    /**
 	m_inventory_slot_count		= pSettings->r_u32("inventory","slots");
 	m_temp_weapons.resize		(m_inventory_slot_count);
 	m_temp_marks.assign			(u16(-1),false);

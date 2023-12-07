@@ -50,7 +50,7 @@ void CUIActorMenu::Construct()
     CUIXmlInit xml_init;
 
     xml_init.InitWindow(uiXml, "main", 0, this);
-    m_hint_wnd = UIHelper::CreateHint(uiXml, "hint_wnd");
+    m_hint_wnd       = UIHelper::CreateHint(uiXml, "hint_wnd");
 
     m_LeftBackground = xr_new<CUIStatic>();
     m_LeftBackground->SetAutoDelete(true);
@@ -72,21 +72,21 @@ void CUIActorMenu::Construct()
     AttachChild(m_PartnerCharacterInfo);
     m_PartnerCharacterInfo->InitCharacterInfo(&uiXml, "partner_ch_info");
 
-    m_RightDelimiter = UIHelper::CreateStatic(uiXml, "right_delimiter", this);
+    m_RightDelimiter        = UIHelper::CreateStatic(uiXml, "right_delimiter", this);
     //	m_ActorTradeCaption			= UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_caption", m_RightDelimiter);
-    m_ActorTradePrice     = UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_price", m_RightDelimiter);
-    m_ActorTradeWeightMax = UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_weight_max", m_RightDelimiter);
+    m_ActorTradePrice       = UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_price", m_RightDelimiter);
+    m_ActorTradeWeightMax   = UIHelper::CreateTextWnd(uiXml, "right_delimiter:trade_weight_max", m_RightDelimiter);
     //	m_ActorTradeCaption->AdjustWidthToText();
 
-    m_LeftDelimiter = UIHelper::CreateStatic(uiXml, "left_delimiter", this);
+    m_LeftDelimiter         = UIHelper::CreateStatic(uiXml, "left_delimiter", this);
     //	m_PartnerTradeCaption		= UIHelper::CreateTextWnd(uiXml, "left_delimiter:trade_caption", m_LeftDelimiter);
     m_PartnerTradePrice     = UIHelper::CreateTextWnd(uiXml, "left_delimiter:trade_price", m_LeftDelimiter);
     m_PartnerTradeWeightMax = UIHelper::CreateTextWnd(uiXml, "left_delimiter:trade_weight_max", m_LeftDelimiter);
     //	m_PartnerTradeCaption->AdjustWidthToText();
 
-    m_ActorBottomInfo = UIHelper::CreateStatic(uiXml, "actor_weight_caption", this);
-    m_ActorWeight     = UIHelper::CreateTextWnd(uiXml, "actor_weight", this);
-    m_ActorWeightMax  = UIHelper::CreateTextWnd(uiXml, "actor_weight_max", this);
+    m_ActorBottomInfo       = UIHelper::CreateStatic(uiXml, "actor_weight_caption", this);
+    m_ActorWeight           = UIHelper::CreateTextWnd(uiXml, "actor_weight", this);
+    m_ActorWeightMax        = UIHelper::CreateTextWnd(uiXml, "actor_weight_max", this);
     m_ActorBottomInfo->AdjustWidthToText();
 
     m_PartnerBottomInfo = UIHelper::CreateStatic(uiXml, "partner_weight_caption", this);
@@ -94,7 +94,7 @@ void CUIActorMenu::Construct()
     m_PartnerBottomInfo->AdjustWidthToText();
     m_PartnerWeight_end_x = m_PartnerWeight->GetWndPos().x;
 
-    m_InvSlot2Highlight = UIHelper::CreateStatic(uiXml, "inv_slot2_highlight", this);
+    m_InvSlot2Highlight   = UIHelper::CreateStatic(uiXml, "inv_slot2_highlight", this);
     m_InvSlot2Highlight->Show(false);
     m_InvSlot3Highlight = UIHelper::CreateStatic(uiXml, "inv_slot3_highlight", this);
     m_InvSlot3Highlight->Show(false);
@@ -148,9 +148,9 @@ void CUIActorMenu::Construct()
     m_pTrashList->m_f_item_drop  = CUIDragDropListEx::DRAG_CELL_EVENT(this, &CUIActorMenu::OnItemDrop);
     m_pTrashList->m_f_drag_event = CUIDragDropListEx::DRAG_ITEM_EVENT(this, &CUIActorMenu::OnDragItemOnTrash);
 
-    m_belt_list_over[0] = UIHelper::CreateStatic(uiXml, "belt_list_over", this);
-    pos                 = m_belt_list_over[0]->GetWndPos();
-    dx                  = uiXml.ReadAttribFlt("belt_list_over", 0, "dx", 10.0f);
+    m_belt_list_over[0]          = UIHelper::CreateStatic(uiXml, "belt_list_over", this);
+    pos                          = m_belt_list_over[0]->GetWndPos();
+    dx                           = uiXml.ReadAttribFlt("belt_list_over", 0, "dx", 10.0f);
     for (u8 i = 1; i < e_af_count; ++i)
     {
         pos.x += dx;
@@ -160,22 +160,22 @@ void CUIActorMenu::Construct()
     m_HelmetOver = UIHelper::CreateStatic(uiXml, "helmet_over", this);
     m_HelmetOver->Show(false);
 
-    m_ActorMoney   = UIHelper::CreateTextWnd(uiXml, "actor_money_static", this);
-    m_PartnerMoney = UIHelper::CreateTextWnd(uiXml, "partner_money_static", this);
-    m_QuickSlot1   = UIHelper::CreateTextWnd(uiXml, "quick_slot1_text", this);
-    m_QuickSlot2   = UIHelper::CreateTextWnd(uiXml, "quick_slot2_text", this);
-    m_QuickSlot3   = UIHelper::CreateTextWnd(uiXml, "quick_slot3_text", this);
-    m_QuickSlot4   = UIHelper::CreateTextWnd(uiXml, "quick_slot4_text", this);
+    m_ActorMoney           = UIHelper::CreateTextWnd(uiXml, "actor_money_static", this);
+    m_PartnerMoney         = UIHelper::CreateTextWnd(uiXml, "partner_money_static", this);
+    m_QuickSlot1           = UIHelper::CreateTextWnd(uiXml, "quick_slot1_text", this);
+    m_QuickSlot2           = UIHelper::CreateTextWnd(uiXml, "quick_slot2_text", this);
+    m_QuickSlot3           = UIHelper::CreateTextWnd(uiXml, "quick_slot3_text", this);
+    m_QuickSlot4           = UIHelper::CreateTextWnd(uiXml, "quick_slot4_text", this);
 
     m_WeaponSlot1_progress = UIHelper::CreateProgressBar(uiXml, "progess_bar_weapon1", this);
     m_WeaponSlot2_progress = UIHelper::CreateProgressBar(uiXml, "progess_bar_weapon2", this);
     m_Helmet_progress      = UIHelper::CreateProgressBar(uiXml, "progess_bar_helmet", this);
     m_Outfit_progress      = UIHelper::CreateProgressBar(uiXml, "progess_bar_outfit", this);
 
-    m_trade_buy_button  = UIHelper::Create3tButton(uiXml, "trade_buy_button", this);
-    m_trade_sell_button = UIHelper::Create3tButton(uiXml, "trade_sell_button", this);
-    m_takeall_button    = UIHelper::Create3tButton(uiXml, "takeall_button", this);
-    m_exit_button       = UIHelper::Create3tButton(uiXml, "exit_button", this);
+    m_trade_buy_button     = UIHelper::Create3tButton(uiXml, "trade_buy_button", this);
+    m_trade_sell_button    = UIHelper::Create3tButton(uiXml, "trade_sell_button", this);
+    m_takeall_button       = UIHelper::Create3tButton(uiXml, "takeall_button", this);
+    m_exit_button          = UIHelper::Create3tButton(uiXml, "exit_button", this);
 
     //	m_clock_value						= UIHelper::CreateStatic(uiXml, "clock_value", this);
 
@@ -185,7 +185,7 @@ void CUIActorMenu::Construct()
         m_pDeadBodyBagList->SetAutoDelete	(true);
         xml_init.InitDragDropListEx			(uiXml, "dragdrop_deadbody_bag", 0, m_pDeadBodyBagList);
     */
-    m_ActorStateInfo = xr_new<ui_actor_state_wnd>();
+    m_ActorStateInfo       = xr_new<ui_actor_state_wnd>();
     m_ActorStateInfo->init_from_xml(uiXml, "actor_state_info");
     m_ActorStateInfo->SetAutoDelete(true);
     AttachChild(m_ActorStateInfo);
@@ -331,18 +331,12 @@ void CUIActorMenu::InitCallbacks()
     VERIFY(m_pUpgradeWnd);
     Register(m_pUpgradeWnd->m_btn_repair);
 
-    AddCallback(
-        m_trade_buy_button, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeBuy));
-    AddCallback(
-        m_trade_sell_button, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeSell));
-    AddCallback(
-        m_takeall_button, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::TakeAllFromPartner));
+    AddCallback(m_trade_buy_button, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeBuy));
+    AddCallback(m_trade_sell_button, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnPerformTradeSell));
+    AddCallback(m_takeall_button, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::TakeAllFromPartner));
     AddCallback(m_exit_button, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::OnBtnExitClicked));
-    AddCallback(
-        m_UIPropertiesBox, PROPERTY_CLICKED,
-        CUIWndCallback::void_function(this, &CUIActorMenu::ProcessPropertiesBoxClicked));
-    AddCallback(
-        m_pUpgradeWnd->m_btn_repair, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::TryRepairItem));
+    AddCallback(m_UIPropertiesBox, PROPERTY_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::ProcessPropertiesBoxClicked));
+    AddCallback(m_pUpgradeWnd->m_btn_repair, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIActorMenu::TryRepairItem));
 }
 
 void CUIActorMenu::UpdateButtonsLayout()

@@ -1,4 +1,4 @@
-// This code is in the public domain -- castanyo@yahoo.es
+﻿// This code is in the public domain -- castanyo@yahoo.es
 
 #include "ColorBlock.h"
 #include "Image.h"
@@ -8,13 +8,14 @@
 #include "nvmath/Vector.inl"
 #include "nvmath/ftoi.h"
 
-#include "nvcore/Utils.h" // swap
+#include "nvcore/Utils.h"   // swap
 
-#include <string.h> // memcpy
+#include <string.h>   // memcpy
 
 using namespace nv;
 
-namespace {
+namespace
+{
 
     // Get approximate luminance.
     inline static uint colorLuminance(Color32 c)
@@ -28,43 +29,41 @@ namespace {
         return (c0.r - c1.r) * (c0.r - c1.r) + (c0.g - c1.g) * (c0.g - c1.g) + (c0.b - c1.b) * (c0.b - c1.b);
     }
 
-} // namespace`
-
+}   // namespace
 
 /// Default constructor.
-ColorBlock::ColorBlock()
-{
-}
+ColorBlock::ColorBlock() {}
 
 /// Init the color block from an array of colors.
-ColorBlock::ColorBlock(const uint * linearImage)
+ColorBlock::ColorBlock(const uint* linearImage)
 {
-    for(uint i = 0; i < 16; i++) {
+    for (uint i = 0; i < 16; i++)
+    {
         color(i) = Color32(linearImage[i]);
     }
 }
 
 /// Init the color block with the contents of the given block.
-ColorBlock::ColorBlock(const ColorBlock & block)
+ColorBlock::ColorBlock(const ColorBlock& block)
 {
-    for(uint i = 0; i < 16; i++) {
+    for (uint i = 0; i < 16; i++)
+    {
         color(i) = block.color(i);
     }
 }
 
-
 /// Initialize this color block.
-ColorBlock::ColorBlock(const Image * img, uint x, uint y)
+ColorBlock::ColorBlock(const Image* img, uint x, uint y)
 {
     init(img, x, y);
 }
 
-void ColorBlock::init(const Image * img, uint x, uint y)
+void ColorBlock::init(const Image* img, uint x, uint y)
 {
-    init(img->width(), img->height(), (const uint *)img->pixels(), x, y);
+    init(img->width(), img->height(), (const uint*)img->pixels(), x, y);
 }
 
-void ColorBlock::init(uint w, uint h, const uint * data, uint x, uint y)
+void ColorBlock::init(uint w, uint h, const uint* data, uint x, uint y)
 {
     nvDebugCheck(data != NULL);
 
@@ -82,15 +81,15 @@ void ColorBlock::init(uint w, uint h, const uint * data, uint x, uint y)
 
         for (uint e = 0; e < 4; e++)
         {
-            const int bx = e % bw;
+            const int  bx  = e % bw;
             const uint idx = (y + by) * w + x + bx;
 
-            color(e, i).u = data[idx];
+            color(e, i).u  = data[idx];
         }
     }
 }
 
-void ColorBlock::init(uint w, uint h, const float * data, uint x, uint y)
+void ColorBlock::init(uint w, uint h, const float* data, uint x, uint y)
 {
     nvDebugCheck(data != NULL);
 
@@ -110,25 +109,30 @@ void ColorBlock::init(uint w, uint h, const float * data, uint x, uint y)
 
         for (uint e = 0; e < 4; e++)
         {
-            const uint bx = e % bw;
+            const uint bx  = e % bw;
             const uint idx = ((y + by) * w + x + bx);
 
-            Color32 & c = color(e, i);
-            c.r = uint8(255 * clamp(data[idx + 0 * srcPlane], 0.0f, 1.0f)); // @@ Is this the right way to quantize floats to bytes?
-            c.g = uint8(255 * clamp(data[idx + 1 * srcPlane], 0.0f, 1.0f));
-            c.b = uint8(255 * clamp(data[idx + 2 * srcPlane], 0.0f, 1.0f));
-            c.a = uint8(255 * clamp(data[idx + 3 * srcPlane], 0.0f, 1.0f));
+            Color32&   c   = color(e, i);
+            c.r            = uint8(255 * clamp(data[idx + 0 * srcPlane], 0.0f, 1.0f));   // @@ Is this the right way to quantize floats to bytes?
+            c.g            = uint8(255 * clamp(data[idx + 1 * srcPlane], 0.0f, 1.0f));
+            c.b            = uint8(255 * clamp(data[idx + 2 * srcPlane], 0.0f, 1.0f));
+            c.a            = uint8(255 * clamp(data[idx + 3 * srcPlane], 0.0f, 1.0f));
         }
     }
 }
 
 static inline uint8 component(Color32 c, uint i)
 {
-    if (i == 0) return c.r;
-    if (i == 1) return c.g;
-    if (i == 2) return c.b;
-    if (i == 3) return c.a;
-    if (i == 4) return 0xFF;
+    if (i == 0)
+        return c.r;
+    if (i == 1)
+        return c.g;
+    if (i == 2)
+        return c.b;
+    if (i == 3)
+        return c.a;
+    if (i == 4)
+        return 0xFF;
     return 0;
 }
 
@@ -136,7 +140,7 @@ void ColorBlock::swizzle(uint x, uint y, uint z, uint w)
 {
     for (int i = 0; i < 16; i++)
     {
-        Color32 c = m_color[i];
+        Color32 c    = m_color[i];
         m_color[i].r = component(c, x);
         m_color[i].g = component(c, y);
         m_color[i].b = component(c, z);
@@ -144,9 +148,8 @@ void ColorBlock::swizzle(uint x, uint y, uint z, uint w)
     }
 }
 
-
 /// Returns true if the block has a single color.
-bool ColorBlock::isSingleColor(Color32 mask/*= Color32(0xFF, 0xFF, 0xFF, 0x00)*/) const
+bool ColorBlock::isSingleColor(Color32 mask /*= Color32(0xFF, 0xFF, 0xFF, 0x00)*/) const
 {
     uint u = m_color[0].u & mask.u;
 
@@ -231,7 +234,8 @@ bool ColorBlock::hasAlpha() const
 {
     for (uint i = 0; i < 16; i++)
     {
-        if (m_color[i].a != 255) return true;
+        if (m_color[i].a != 255)
+            return true;
     }
     return false;
 }
@@ -391,7 +395,6 @@ void ColorBlock::sortColorsByAbsoluteValue()
     }
 }*/
 
-
 /*/// Find extreme colors in the given axis.
 void ColorBlock::computeRange(Vector3::Arg axis, Color32 * start, Color32 * end) const
 {
@@ -423,7 +426,6 @@ void ColorBlock::computeRange(Vector3::Arg axis, Color32 * start, Color32 * end)
     *end = m_color[maxi];
 }*/
 
-
 /*/// Sort colors in the given axis.
 void ColorBlock::sortColors(const Vector3 & axis)
 {
@@ -446,7 +448,6 @@ void ColorBlock::sortColors(const Vector3 & axis)
         swap( m_color[a], m_color[min] );
     }
 }*/
-
 
 /*/// Get the volume of the color block.
 float ColorBlock::volume() const
@@ -680,33 +681,33 @@ bool ColorSet::hasAlpha() const
     }
     return false;
 }
-#endif // 0
-
+#endif   // 0
 
 void AlphaBlock4x4::init(uint8 a)
 {
-    for (int i = 0; i < 16; i++) {
-        alpha[i] = a;
+    for (int i = 0; i < 16; i++)
+    {
+        alpha[i]   = a;
         weights[i] = 1.0f;
     }
 }
 
-void AlphaBlock4x4::init(const ColorBlock & src, uint channel)
+void AlphaBlock4x4::init(const ColorBlock& src, uint channel)
 {
     nvCheck(channel >= 0 && channel < 4);
 
     // Colors are in BGRA format.
-    if (channel == 0) channel = 2;
-    else if (channel == 2) channel = 0;
+    if (channel == 0)
+        channel = 2;
+    else if (channel == 2)
+        channel = 0;
 
-    for (int i = 0; i < 16; i++) {
-        alpha[i] = src.color(i).component[channel];
+    for (int i = 0; i < 16; i++)
+    {
+        alpha[i]   = src.color(i).component[channel];
         weights[i] = 1.0f;
     }
 }
-
-
-
 
 /*void AlphaBlock4x4::init(const ColorSet & src, uint channel)
 {
@@ -736,4 +737,3 @@ void AlphaBlock4x4::initMaxRGB(const ColorSet & src, float threshold)
         weights[i] = src.weight(i);
     }
 }*/
-

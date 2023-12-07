@@ -12,10 +12,10 @@
 
 CEditorRenderDevice* EDevice;
 
-extern int rsDVB_Size;
-extern int rsDIB_Size;
+extern int           rsDVB_Size;
+extern int           rsDIB_Size;
 
-CStatsPhysics* _BCL CEditorRenderDevice::StatPhysics()
+CStatsPhysics* _BCL  CEditorRenderDevice::StatPhysics()
 {
     return Statistic;
 }
@@ -35,8 +35,8 @@ CEditorRenderDevice::CEditorRenderDevice()
     RadiusRender = 500;
     psDeviceFlags.assign(rsStatistic | rsFilterLinear | rsFog | rsDrawGrid);
     // dynamic buffer size
-    rsDVB_Size = 2048;
-    rsDIB_Size = 2048;
+    rsDVB_Size      = 2048;
+    rsDIB_Size      = 2048;
     // default initialization
     m_ScreenQuality = 1.f;
     dwMaximized     = 0;
@@ -45,23 +45,23 @@ CEditorRenderDevice::CEditorRenderDevice()
     mProject.identity();
     mFullTransform.identity();
     mView.identity();
-    m_WireShader      = 0;
-    m_SelectionShader = 0;
+    m_WireShader               = 0;
+    m_SelectionShader          = 0;
 
-    b_is_Ready  = FALSE;
-    b_is_Active = FALSE;
+    b_is_Ready                 = FALSE;
+    b_is_Active                = FALSE;
 
     // Engine flow-control
-    fTimeDelta   = 0;
-    fTimeGlobal  = 0;
-    dwTimeDelta  = 0;
-    dwTimeGlobal = 0;
+    fTimeDelta                 = 0;
+    fTimeGlobal                = 0;
+    dwTimeDelta                = 0;
+    dwTimeGlobal               = 0;
 
-    dwFillMode  = D3DFILL_SOLID;
-    dwShadeMode = D3DSHADE_GOURAUD;
+    dwFillMode                 = D3DFILL_SOLID;
+    dwShadeMode                = D3DSHADE_GOURAUD;
 
-    m_CurrentShader = 0;
-    pSystemFont     = 0;
+    m_CurrentShader            = 0;
+    pSystemFont                = 0;
 
     fASPECT                    = 1.f;
     fFOV                       = 60.f;
@@ -322,14 +322,14 @@ void CEditorRenderDevice::_Destroy(BOOL bKeepTextures)
 
 xr_string CEditorRenderDevice::_GetWindowTitle()
 {
-  xr_string Result;
-  Result += UI->EditorDesc();
+    xr_string Result;
+    Result += UI->EditorDesc();
 
 #ifdef NIGHT_BUILD_NUMBER
-  Result += " [night build #" + xr_string(NIGHT_BUILD_NUMBER) + "] [" + xr_string(__DATE__) + ']';
+    Result += " [night build #" + xr_string(NIGHT_BUILD_NUMBER) + "] [" + xr_string(__DATE__) + ']';
 #endif
-  
-  return Result;
+
+    return Result;
 }
 
 //---------------------------------------------------------------------------
@@ -394,9 +394,7 @@ bool CEditorRenderDevice::Begin()
 
     VERIFY(FALSE == g_bRendering);
     HW.pDevice->BeginScene();   // CHK_DX(HW.pDevice->BeginScene());
-    CHK_DX(HW.pDevice->Clear(
-        0, 0, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | (HW.Caps.bStencil ? D3DCLEAR_STENCIL : 0),
-        EPrefs ? EPrefs->scene_clear_color : 0x0, 1, 0));
+    CHK_DX(HW.pDevice->Clear(0, 0, D3DCLEAR_ZBUFFER | D3DCLEAR_TARGET | (HW.Caps.bStencil ? D3DCLEAR_STENCIL : 0), EPrefs ? EPrefs->scene_clear_color : 0x0, 1, 0));
     RCache.OnFrameBegin();
     g_bRendering = TRUE;
     return TRUE;
@@ -440,9 +438,8 @@ void CEditorRenderDevice::FrameMove()
 
     // Timer
     float fPreviousFrameTime = Timer.GetElapsed_sec();
-    Timer.Start();   // previous frame
-    fTimeDelta =
-        0.1f * fTimeDelta + 0.9f * fPreviousFrameTime;   // smooth random system activity - worst case ~7% error
+    Timer.Start();                                                // previous frame
+    fTimeDelta = 0.1f * fTimeDelta + 0.9f * fPreviousFrameTime;   // smooth random system activity - worst case ~7% error
     if (fTimeDelta > .1f)
         fTimeDelta = .1f;   // limit to 15fps minimum
 
@@ -510,14 +507,11 @@ void CEditorRenderDevice::time_factor(float v)
 
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
-void CEditorRenderDevice::CreateWindow()
+void           CEditorRenderDevice::CreateWindow()
 {
-    m_WC = {sizeof(WNDCLASSEX),  CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), UI->EditorIcon(), NULL, NULL, NULL,
-            TEXT("XRay Editor"), NULL};
+    m_WC = {sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), UI->EditorIcon(), NULL, NULL, NULL, TEXT("XRay Editor"), NULL};
     ::RegisterClassEx(&m_WC);
-    m_hWnd = ::CreateWindowA(
-        m_WC.lpszClassName, _GetWindowTitle().c_str(), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, m_WC.hInstance,
-        NULL);
+    m_hWnd = ::CreateWindowA(m_WC.lpszClassName, _GetWindowTitle().c_str(), WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, m_WC.hInstance, NULL);
 
     ::UpdateWindow(m_hWnd);
 }
@@ -530,7 +524,8 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
     {
-        case WM_ACTIVATE: {
+        case WM_ACTIVATE:
+        {
             u16  fActive    = LOWORD(wParam);
             BOOL fMinimized = (BOOL)HIWORD(wParam);
             BOOL bActive    = ((fActive != WA_INACTIVE) && (!fMinimized)) ? TRUE : FALSE;

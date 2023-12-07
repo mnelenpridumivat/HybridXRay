@@ -254,9 +254,8 @@ void CBuild::Load(const b_params& Params, const IReader& _in_FS)
                 RL.attenuation0 = L.attenuation0;
                 RL.attenuation1 = L.attenuation1;
                 RL.attenuation2 = L.attenuation2;
-                RL.falloff =
-                    1.0f / (RL.range * (RL.attenuation0 + RL.attenuation1 * RL.range + RL.attenuation2 * RL.range2));
-                RL.energy = _e;
+                RL.falloff      = 1.0f / (RL.range * (RL.attenuation0 + RL.attenuation1 * RL.range + RL.attenuation2 * RL.range2));
+                RL.energy       = _e;
 
                 // place into layer
                 R_ASSERT(temp.controller_ID < L_layers.size());
@@ -358,8 +357,7 @@ void CBuild::Load(const b_params& Params, const IReader& _in_FS)
                 BT.bHasAlpha = BT.THM.HasAlphaChannel();
                 if (!bLOD)
                 {
-                    if (BT.bHasAlpha || BT.THM.flags.test(STextureParams::flImplicitLighted) ||
-                        g_build_options.b_radiosity)
+                    if (BT.bHasAlpha || BT.THM.flags.test(STextureParams::flImplicitLighted) || g_build_options.b_radiosity)
                     {
                         clMsg("- loading: %s", N);
                         string_path name;
@@ -378,8 +376,7 @@ void CBuild::Load(const b_params& Params, const IReader& _in_FS)
                         }*/
                         if ((BT.pSurface.GetWidth() != BT.dwWidth) || (BT.pSurface.GetHeight() != BT.dwHeight))
                         {
-                            Msg("! THM doesn't correspond to the texture: %dx%d -> %dx%d", BT.dwWidth, BT.dwHeight,
-                                BT.pSurface.GetWidth(), BT.pSurface.GetHeight());
+                            Msg("! THM doesn't correspond to the texture: %dx%d -> %dx%d", BT.dwWidth, BT.dwHeight, BT.pSurface.GetWidth(), BT.pSurface.GetHeight());
                             BT.dwWidth = BT.THM.width = BT.pSurface.GetWidth();
                             BT.dwHeight = BT.THM.height = BT.pSurface.GetHeight();
                         }

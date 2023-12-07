@@ -26,6 +26,7 @@ public:
         RENDER_TARGET_COLOR_IN,
         NUM_RENDER_TARGETS
     };
+
 public:
     dx103DFluidManager();
     ~dx103DFluidManager();
@@ -78,6 +79,7 @@ public:
     void DeregisterFluidData(dx103DFluidData* pData);
     void UpdateProfiles();
 #endif   //	DEBUG
+
 private:
     enum SimulationShader
     {
@@ -97,6 +99,7 @@ private:
 
         SS_NumShaders
     };
+
 private:
     //		Initialization
     void InitShaders();
@@ -122,6 +125,7 @@ private:
     void ComputePressure(float timestep);
     void ProjectVelocity(float timestep);
     void UpdateObstacles(const dx103DFluidData& FluidData, float timestep);
+
 private:
     bool                  m_bInited;
 

@@ -38,7 +38,7 @@
 namespace Mgc
 {
 
-    template <class T> class SmallSet
+    template<class T> class SmallSet
     {
     public:
         SmallSet();
@@ -48,17 +48,17 @@ namespace Mgc
 
         SmallSet& operator=(const SmallSet& rkSet);
 
-        int      GetCapacity() const;
-        int      GetGrowBy() const;
-        int      GetSize() const;
-        const T* GetElements() const;
-        const T& operator[](int i) const;
+        int       GetCapacity() const;
+        int       GetGrowBy() const;
+        int       GetSize() const;
+        const T*  GetElements() const;
+        const T&  operator[](int i) const;
 
-        bool Insert(const T& rkElement);
-        void InsertNoCheck(const T& rkElement);
-        bool Remove(const T& rkElement);
-        bool Exists(const T& rkElement);
-        void Clear(int iCapacity, int iGrowBy);
+        bool      Insert(const T& rkElement);
+        void      InsertNoCheck(const T& rkElement);
+        bool      Remove(const T& rkElement);
+        bool      Exists(const T& rkElement);
+        void      Clear(int iCapacity, int iGrowBy);
 
     protected:
         int m_iCapacity, m_iGrowBy, m_iSize;

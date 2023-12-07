@@ -17,12 +17,7 @@ namespace award_system
         delete_data(m_bullet_hits);
     }
 
-    void hits_store::add_hit(
-        shared_str const& hitter,
-        shared_str const& victim,
-        u16               weapon_id,
-        u16               bone_id,
-        float             bullet_fly_dist)
+    void hits_store::add_hit(shared_str const& hitter, shared_str const& victim, u16 weapon_id, u16 bone_id, float bullet_fly_dist)
     {
         std::pair<shared_str, shared_str> search_key(hitter, victim);
         bullet_hits_map_t::iterator       tmp_iter = m_bullet_hits.find(search_key);

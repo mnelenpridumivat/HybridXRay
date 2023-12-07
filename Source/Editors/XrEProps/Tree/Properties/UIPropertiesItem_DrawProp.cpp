@@ -3,11 +3,7 @@
 //-----------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------
 #define TSTRING_COUNT 10
-const LPSTR TEXTUREString[TSTRING_COUNT] =
-    {
-        "Custom...", "$null", "$base0", "$base1", "$base2",
-        "$base3", "$base4", "$base5", "$base6", "$base7"
-    };
+const LPSTR                      TEXTUREString[TSTRING_COUNT] = {"Custom...", "$null", "$base0", "$base1", "$base2", "$base3", "$base4", "$base5", "$base6", "$base7"};
 
 template<typename T> inline bool DrawNumeric(PropItem* item, bool& change, bool read_only)
 {
@@ -337,9 +333,7 @@ void UIPropertiesItem::DrawProp()
                     V->m_Items = &items;
                     V->OnChooseFillEvent(V);
                 }
-                UIChooseForm::SelectItem(
-                    V->m_ChooseID, V->subitem, edit_val.c_str(), 0, V->m_FillParam, 0, items.size() ? &items : 0,
-                    V->m_ChooseFlags);
+                UIChooseForm::SelectItem(V->m_ChooseID, V->subitem, edit_val.c_str(), 0, V->m_FillParam, 0, items.size() ? &items : 0, V->m_ChooseFlags);
                 PropertiesFrom->m_EditChooseValue = prop;
             }
         }
@@ -517,8 +511,7 @@ void UIPropertiesItem::DrawProp()
                 }
                 xr_strcat(Str, "...");
                 if (ImGui::Button(Str, ImVec2(-1, 0)))
-                {
-                }
+                {}
             }
             if (ImGui::OpenPopupOnItemClick2("EditText", 0))
             {
@@ -550,8 +543,7 @@ void UIPropertiesItem::DrawProp()
                 }
                 xr_strcat(Str, "...");
                 if (ImGui::Button(Str, ImVec2(-1, 0)))
-                {
-                }
+                {}
             }
             if (ImGui::OpenPopupOnItemClick2("EditText", 0))
             {
@@ -584,8 +576,7 @@ void UIPropertiesItem::DrawProp()
                 }
                 xr_strcat(Str, "...");
                 if (ImGui::Button(Str, ImVec2(-1, 0)))
-                {
-                }
+                {}
             }
             if (ImGui::OpenPopupOnItemClick2("EditText", 0))
             {

@@ -7,7 +7,7 @@
 #include "debug_text_tree.h"
 #endif
 
-template <typename _Object> class CMonsterStateManager: public IStateManagerBase, public CState<_Object>
+template<typename _Object> class CMonsterStateManager: public IStateManagerBase, public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
@@ -25,7 +25,7 @@ public:
 
     virtual EMonsterState get_state_type();
 
-    virtual bool check_control_start_conditions(ControlCom::EControlType type)
+    virtual bool          check_control_start_conditions(ControlCom::EControlType type)
     {
         return inherited::check_control_start_conditions(type);
     }

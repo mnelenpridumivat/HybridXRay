@@ -8,8 +8,8 @@
 #include "..\XrECore\Editor\EditMesh.h"
 #include "KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
-#if !defined(_DEBUG) && defined(_WIN64) 
-#include "tbb/parallel_for.h" 
+#if !defined(_DEBUG) && defined(_WIN64)
+#include "tbb/parallel_for.h"
 #include "tbb/blocked_range.h"
 #endif
 CActorTools* ATools = (CActorTools*)Tools;
@@ -28,13 +28,13 @@ CActorTools* ATools = (CActorTools*)Tools;
         }                     \
     }
 
-ECORE_API void ShapeRotate(CBone& Bone, const Fvector& _amount);
-ECORE_API void ShapeMove(CBone& Bone, const Fvector& _amount);
-ECORE_API void BoneRotate(CBone& Bone, const Fvector& _axis, float angle);
+ECORE_API void        ShapeRotate(CBone& Bone, const Fvector& _amount);
+ECORE_API void        ShapeMove(CBone& Bone, const Fvector& _amount);
+ECORE_API void        BoneRotate(CBone& Bone, const Fvector& _axis, float angle);
 
 extern ECORE_API BOOL g_BatchWorking;
 
-void EngineModel::DeleteVisual()
+void                  EngineModel::DeleteVisual()
 {
     DeletePhysicsShell();
     Render->model_Delete(m_pVisual);
@@ -188,7 +188,7 @@ const u32   color_bone_sel_cm     = 0xFFFF0000;
 const u32   color_bone_norm_cm    = 0xFF700000;
 const float joint_size            = 0.025f;
 
-void CActorTools::Render()
+void        CActorTools::Render()
 {
     if (!m_bReady)
         return;
@@ -215,7 +215,7 @@ void CActorTools::Render()
                     {
                         EDevice->SetShader(EDevice->m_WireShader);
 
-                        Fmatrix M = Fmatrix().mul(m_RenderObject.ObjectXFORM(), K->LL_GetTransform(bidx));
+                        Fmatrix M       = Fmatrix().mul(m_RenderObject.ObjectXFORM(), K->LL_GetTransform(bidx));
 
                         Fvector p1      = M.c;
                         u32     c_joint = color_bone_norm_color;
@@ -561,9 +561,9 @@ void CActorTools::Clear()
     UI->RedrawScene();
 }
 
-void CActorTools::OnShowHint(AStringVec& SS) {}
+void             CActorTools::OnShowHint(AStringVec& SS) {}
 extern xr_string MakeFullBoneName(CBone* bone);
-bool CActorTools::MouseStart(TShiftState Shift)
+bool             CActorTools::MouseStart(TShiftState Shift)
 {
     inherited::MouseStart(Shift);
     switch (m_Action)
@@ -1177,7 +1177,7 @@ void CActorTools::RealGenerateLOD(bool hq)
 
 struct NewBatch
 {
-    LPCSTR file;
+    LPCSTR     file;
     shared_str source;
 };
 
@@ -1283,7 +1283,7 @@ void CActorTools::PhysicsStopSimulate()
 }
 
 CObjectSpace* os = 0;
-void CActorTools::CreatePhysicsWorld()
+void          CActorTools::CreatePhysicsWorld()
 {
     VERIFY(!os);
     VERIFY(!physics_world());

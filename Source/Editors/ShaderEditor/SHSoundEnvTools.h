@@ -16,17 +16,17 @@ class CSHSoundEnvTools: public ISHTools
     CSoundRender_Environment* FindItem(LPCSTR name);
     void                      SetCurrentEnv(CSoundRender_Environment* B);
 
-    SoundEnvironment_LIB m_Library;
+    SoundEnvironment_LIB      m_Library;
 
-    shared_str    m_SoundName;
-    CSound_params m_Params;
-    ref_sound     m_PreviewSnd;
-    void          OnControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void          OnChangeWAV(PropValue* prop);
+    shared_str                m_SoundName;
+    CSound_params             m_Params;
+    ref_sound                 m_PreviewSnd;
+    void                      OnControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                      OnChangeWAV(PropValue* prop);
 
-    void OnRevResetClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnEnvSizeChange(PropValue* sender);
-    void OnEnvChange(PropValue* sender);
+    void                      OnRevResetClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                      OnEnvSizeChange(PropValue* sender);
+    void                      OnEnvChange(PropValue* sender);
 
 public:
     CSoundRender_Environment  m_EnvSrc;
@@ -36,7 +36,7 @@ public:
     virtual void              OnRenameItem(LPCSTR old_full_name, LPCSTR new_full_name, EItemType type);
     virtual void              FillItemList();
 
-    void UseEnvironment()
+    void                      UseEnvironment()
     {
         Sound->set_user_env(m_Env);
     }

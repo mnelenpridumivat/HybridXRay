@@ -77,9 +77,7 @@ void                CBuild::BuildSectors()
             }
             else
             {
-                clMsg(
-                    "Fuck!!! Light at position %f,%f,%f non associated!!!", L.data.position.x, L.data.position.y,
-                    L.data.position.z);
+                clMsg("Fuck!!! Light at position %f,%f,%f non associated!!!", L.data.position.x, L.data.position.y, L.data.position.z);
             }
         }
     }

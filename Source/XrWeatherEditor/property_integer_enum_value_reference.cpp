@@ -11,12 +11,7 @@
 
 using System::String;
 
-property_integer_enum_value_reference::property_integer_enum_value_reference(
-    int&       value,
-    pair*      values,
-    u32 const& value_count):
-    inherited(value),
-    m_collection(gcnew collection_type())
+property_integer_enum_value_reference::property_integer_enum_value_reference(int& value, pair* values, u32 const& value_count): inherited(value), m_collection(gcnew collection_type())
 {
     for (u32 i = 0; i < value_count; ++i)
     {

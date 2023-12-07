@@ -62,13 +62,12 @@ void CShaderTool::Modified()
 bool CShaderTool::OnCreate()
 {
     // create props
-    m_Items = xr_new<
-        UIItemListForm>(); /*TItemList::CreateForm		("Items",				fraLeftBar->paItemList,
+    m_Items = xr_new<UIItemListForm>(); /*TItemList::CreateForm		("Items",				fraLeftBar->paItemList,
                               alClient,TItemList::ilEditMenu|TItemList::ilDragAllowed|TItemList::ilFolderStore);*/
     m_Items->SetOnItemFocusedEvent(TOnILItemFocused(this, &CShaderTool::OnItemFocused));
     m_Items->m_Flags.set(UIItemListForm::fMenuEdit, true);
-    m_ItemProps = xr_new<UIPropertiesForm>();   // TProperties::CreateForm	("Item Properties",
-                                                // fraLeftBar->paShaderProps,	alClient);
+    m_ItemProps    = xr_new<UIPropertiesForm>();   // TProperties::CreateForm	("Item Properties",
+                                                   // fraLeftBar->paShaderProps,	alClient);
     m_PreviewProps = xr_new<UIPropertiesForm>();   //  	= TProperties::CreateForm	("Preview Properties",
                                                    //  fraLeftBar->paPreviewProps,	alClient);
 

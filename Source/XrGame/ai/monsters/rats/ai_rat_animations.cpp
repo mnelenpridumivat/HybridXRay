@@ -17,21 +17,21 @@
 // animations
 void CAI_Rat::load_animations()
 {
-    IKinematicsAnimated* tpVisualObject = smart_cast<IKinematicsAnimated*>(Visual());
+    IKinematicsAnimated* tpVisualObject           = smart_cast<IKinematicsAnimated*>(Visual());
 
     // loading normal animations
-    m_tRatAnimations.tNormal.tGlobal.tpaDeath[0] = tpVisualObject->ID_Cycle("norm_death");
-    m_tRatAnimations.tNormal.tGlobal.tpaDeath[1] = tpVisualObject->ID_Cycle("norm_death_2");
+    m_tRatAnimations.tNormal.tGlobal.tpaDeath[0]  = tpVisualObject->ID_Cycle("norm_death");
+    m_tRatAnimations.tNormal.tGlobal.tpaDeath[1]  = tpVisualObject->ID_Cycle("norm_death_2");
 
     m_tRatAnimations.tNormal.tGlobal.tpaAttack[0] = tpVisualObject->ID_Cycle("attack_1");
     m_tRatAnimations.tNormal.tGlobal.tpaAttack[1] = tpVisualObject->ID_Cycle("attack_2");
     m_tRatAnimations.tNormal.tGlobal.tpaAttack[2] = tpVisualObject->ID_Cycle("attack_3");
 
-    m_tRatAnimations.tNormal.tGlobal.tpaIdle[0] = tpVisualObject->ID_Cycle("norm_idle_1");
-    m_tRatAnimations.tNormal.tGlobal.tpaIdle[1] = tpVisualObject->ID_Cycle("norm_idle_2");
+    m_tRatAnimations.tNormal.tGlobal.tpaIdle[0]   = tpVisualObject->ID_Cycle("norm_idle_1");
+    m_tRatAnimations.tNormal.tGlobal.tpaIdle[1]   = tpVisualObject->ID_Cycle("norm_idle_2");
 
-    m_tRatAnimations.tNormal.tGlobal.tpTurnLeft  = tpVisualObject->ID_Cycle("norm_turn_ls");
-    m_tRatAnimations.tNormal.tGlobal.tpTurnRight = tpVisualObject->ID_Cycle("norm_turn_rs");
+    m_tRatAnimations.tNormal.tGlobal.tpTurnLeft   = tpVisualObject->ID_Cycle("norm_turn_ls");
+    m_tRatAnimations.tNormal.tGlobal.tpTurnRight  = tpVisualObject->ID_Cycle("norm_turn_rs");
 
     m_tRatAnimations.tNormal.tGlobal.tWalk.Create(tpVisualObject, "norm_walk");
 
@@ -100,9 +100,7 @@ void CAI_Rat::SelectAnimation(const Fvector& /**_view/**/, const Fvector& /**_mo
     if (psAI_Flags.is(aiAnimation))
     {
         IKinematicsAnimated* skeleton_animated = smart_cast<IKinematicsAnimated*>(Visual());
-        Msg("%6d %s animation : %s (%f,%f)", Device->dwTimeGlobal, "Global",
-            skeleton_animated->LL_MotionDefName_dbg(m_tpCurrentGlobalAnimation), movement().m_body.current.yaw,
-            movement().m_body.target.yaw);
+        Msg("%6d %s animation : %s (%f,%f)", Device->dwTimeGlobal, "Global", skeleton_animated->LL_MotionDefName_dbg(m_tpCurrentGlobalAnimation), movement().m_body.current.yaw, movement().m_body.target.yaw);
     }
 #endif
 }

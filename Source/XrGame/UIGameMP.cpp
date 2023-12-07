@@ -133,11 +133,7 @@ void UIGameMP::SetServerRules(u8 const* data_ptr, u32 data_size)
     m_pServerInfo->SetServerRules(data_ptr, data_size);
 }
 
-void UIGameMP::AddAchivment(
-    shared_str const& achivement_name,
-    shared_str const& color_animation,
-    u32 const         width,
-    u32 const         height)
+void UIGameMP::AddAchivment(shared_str const& achivement_name, shared_str const& color_animation, u32 const width, u32 const height)
 {
     VERIFY(m_pAchivementIdicator);
     m_pAchivementIdicator->AddAchivement(achivement_name, color_animation, width, height);

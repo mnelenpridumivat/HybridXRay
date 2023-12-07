@@ -34,11 +34,13 @@ IC void CAI_Rat::vfChooseNewSpeed()
     int iRandom = ::Random.randI(0, 2);
     switch (iRandom)
     {
-        case 0: {
+        case 0:
+        {
             m_fSpeed = m_fMaxSpeed;
             break;
         }
-        case 1: {
+        case 1:
+        {
             m_fSpeed = m_fMinSpeed;
             break;
         }

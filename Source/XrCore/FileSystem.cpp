@@ -122,14 +122,7 @@ UINT_PTR CALLBACK OFNHookProcOldStyle(HWND, UINT, WPARAM, LPARAM)
     return 0;
 }
 
-bool EFS_Utils::GetOpenNameInternal(
-    HWND   hWnd,
-    LPCSTR initial,
-    LPSTR  buffer,
-    int    sz_buf,
-    bool   bMulti,
-    LPCSTR offset,
-    int    start_flt_ext)
+bool EFS_Utils::GetOpenNameInternal(HWND hWnd, LPCSTR initial, LPSTR buffer, int sz_buf, bool bMulti, LPCSTR offset, int start_flt_ext)
 {
     VERIFY(buffer && (sz_buf > 0));
     FS_Path&   P = *FS.get_path(initial);
@@ -165,10 +158,9 @@ bool EFS_Utils::GetOpenNameInternal(
     string512 path;
     xr_strcpy(path, (offset && offset[0]) ? offset : P.m_Path);
     ofn.lpstrInitialDir = path;
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR |
-        (bMulti ? OFN_ALLOWMULTISELECT | OFN_EXPLORER : 0);
+    ofn.Flags           = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST | OFN_HIDEREADONLY | OFN_FILEMUSTEXIST | OFN_NOCHANGEDIR | (bMulti ? OFN_ALLOWMULTISELECT | OFN_EXPLORER : 0);
 
-    ofn.FlagsEx = 0;
+    ofn.FlagsEx         = 0;
 
     /*
         unsigned int	dwVersion = GetVersion();
@@ -180,7 +172,7 @@ bool EFS_Utils::GetOpenNameInternal(
         }
     */
 
-    bool bRes = !!GetOpenFileName(&ofn);
+    bool bRes           = !!GetOpenFileName(&ofn);
     if (!bRes)
     {
         u32 err = CommDlgExtendedError();
@@ -229,7 +221,7 @@ bool EFS_Utils::GetSaveName(LPCSTR initial, string_path& buffer, LPCSTR offset, 
     FS_Path&   P = *FS.get_path(initial);
     string1024 flt;
 
-    LPCSTR def_ext = P.m_DefExt;
+    LPCSTR     def_ext = P.m_DefExt;
     if (false)   //&& dwWindowsMajorVersion == 6 )
     {
         if (strstr(P.m_DefExt, "*."))
@@ -271,7 +263,7 @@ bool EFS_Utils::GetSaveName(LPCSTR initial, string_path& buffer, LPCSTR offset, 
         }
     */
 
-    bool bRes = !!GetSaveFileName(&ofn);
+    bool bRes           = !!GetSaveFileName(&ofn);
     if (!bRes)
     {
         u32 err = CommDlgExtendedError();
@@ -294,7 +286,7 @@ LPCSTR EFS_Utils::AppendFolderToName(LPSTR tex_name, u32 const tex_name_size, in
 }
 
 LPCSTR
-    EFS_Utils::AppendFolderToName(LPCSTR src_name, LPSTR dest_name, u32 const dest_name_size, int depth, BOOL full_name)
+EFS_Utils::AppendFolderToName(LPCSTR src_name, LPSTR dest_name, u32 const dest_name_size, int depth, BOOL full_name)
 {
     shared_str tmp      = src_name;
     LPCSTR     s        = src_name;
@@ -328,7 +320,7 @@ LPCSTR
 }
 
 LPCSTR
-    EFS_Utils::GenerateName(LPCSTR base_path, LPCSTR base_name, LPCSTR def_ext, LPSTR out_name, u32 const out_name_size)
+EFS_Utils::GenerateName(LPCSTR base_path, LPCSTR base_name, LPCSTR def_ext, LPSTR out_name, u32 const out_name_size)
 {
     int         cnt = 0;
     string_path fn;

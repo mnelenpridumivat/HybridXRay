@@ -43,14 +43,14 @@ void UIMapLegend::init_from_xml(CUIXml& xml, LPCSTR path)
     m_caption    = UIHelper::CreateStatic(xml, "t_caption", this);
     m_btn_close  = UIHelper::Create3tButton(xml, "btn_close", this);
 
-    m_list = xr_new<CUIScrollView>();
+    m_list       = xr_new<CUIScrollView>();
     AttachChild(m_list);
     CUIXmlInit::InitScrollView(xml, "legend_list", 0, m_list);
 
     UIMapLegendItem* list_item = NULL;
 
-    int       cn    = xml.GetNodesNum("legend_list", 0, "item");
-    XML_NODE* root2 = xml.NavigateToNode("legend_list", 0);
+    int              cn        = xml.GetNodesNum("legend_list", 0, "item");
+    XML_NODE*        root2     = xml.NavigateToNode("legend_list", 0);
     xml.SetLocalRoot(root2);
 
     for (int i = 0; i < cn; ++i)

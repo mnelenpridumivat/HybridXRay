@@ -22,18 +22,12 @@ namespace CPU
     extern void Detect();
 };
 
-static u32 init_counter = 0;
+static u32                 init_counter = 0;
 
 XRAPI_API extern EGamePath GCurrentGame;
 //. extern xr_vector<shared_str>*	LogFile;
 
-void xrCore::_initialize(
-    LPCSTR      _ApplicationName,
-    LogCallback cb,
-    BOOL        init_fs,
-    LPCSTR      fs_fname,
-    bool        editor_fs,
-    EGamePath   Game)
+void                       xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, LPCSTR fs_fname, bool editor_fs, EGamePath Game)
 {
     xr_strcpy(ApplicationName, _ApplicationName);
     if (0 == init_counter)
@@ -202,7 +196,8 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD ul_reason_for_call, LPVOID lpvRese
 {
     switch (ul_reason_for_call)
     {
-        case DLL_PROCESS_ATTACH: {
+        case DLL_PROCESS_ATTACH:
+        {
         }
         //.		LogFile.reserve		(256);
         break;

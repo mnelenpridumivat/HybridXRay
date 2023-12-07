@@ -6,7 +6,7 @@
 #pragma once
 
 //////////////////////////////////////////////////////////////////////////
-template <typename T> ALife::ERelationType RELATION_REGISTRY::GetRelationBetween(T char1, T char2) const
+template<typename T> ALife::ERelationType RELATION_REGISTRY::GetRelationBetween(T char1, T char2) const
 {
     ALife::ERelationType rel12 = GetRelationType(char1, char2);
     ALife::ERelationType rel21 = GetRelationType(char2, char1);
@@ -19,7 +19,7 @@ template <typename T> ALife::ERelationType RELATION_REGISTRY::GetRelationBetween
         return ALife::eRelationTypeFriend;
 }
 
-template <typename T> void RELATION_REGISTRY::SetRelationType(T from, T to, ALife::ERelationType new_relation)
+template<typename T> void RELATION_REGISTRY::SetRelationType(T from, T to, ALife::ERelationType new_relation)
 {
     static int goodwill_enemy   = pSettings->r_s16(GAME_RELATIONS_SECT, "goodwill_enemy");
     static int goodwill_neutral = pSettings->r_s16(GAME_RELATIONS_SECT, "goodwill_neutal");
@@ -41,12 +41,12 @@ template <typename T> void RELATION_REGISTRY::SetRelationType(T from, T to, ALif
     }
 }
 
-template <typename T> ALife::ERelationType RELATION_REGISTRY::GetRelationType(T from, T to) const
+template<typename T> ALife::ERelationType RELATION_REGISTRY::GetRelationType(T from, T to) const
 {
-    static int attitude_neutral = pSettings->r_s16(GAME_RELATIONS_SECT, "attitude_neutal_threshold");
-    static int attitude_friend  = pSettings->r_s16(GAME_RELATIONS_SECT, "attitude_friend_threshold");
+    static int         attitude_neutral = pSettings->r_s16(GAME_RELATIONS_SECT, "attitude_neutal_threshold");
+    static int         attitude_friend  = pSettings->r_s16(GAME_RELATIONS_SECT, "attitude_friend_threshold");
 
-    CHARACTER_GOODWILL attitude = GetAttitude(from, to);
+    CHARACTER_GOODWILL attitude         = GetAttitude(from, to);
 
     if (attitude == NO_GOODWILL)
         return ALife::eRelationTypeNeutral;
@@ -60,7 +60,7 @@ template <typename T> ALife::ERelationType RELATION_REGISTRY::GetRelationType(T 
 }
 
 //////////////////////////////////////////////////////////////////////////
-template <typename T> CHARACTER_GOODWILL RELATION_REGISTRY::GetAttitude(T from, T to) const
+template<typename T> CHARACTER_GOODWILL RELATION_REGISTRY::GetAttitude(T from, T to) const
 {
     // личное отношение from к to
     CHARACTER_GOODWILL presonal_goodwill = GetGoodwill(from->object_id(), to->object_id());
@@ -68,16 +68,15 @@ template <typename T> CHARACTER_GOODWILL RELATION_REGISTRY::GetAttitude(T from, 
     // влияние репутации персонажей
     CHARACTER_GOODWILL reputation_goodwill = GetReputationRelation(from->Reputation(), to->Reputation());
     // влияние рангов персонажей
-    CHARACTER_GOODWILL rank_goodwill = GetRankRelation(from->Rank(), to->Rank());
+    CHARACTER_GOODWILL rank_goodwill       = GetRankRelation(from->Rank(), to->Rank());
 
     // отношение группировки from персонально к to
-    CHARACTER_GOODWILL community_goodwill = GetCommunityGoodwill(from->Community(), to->object_id());
+    CHARACTER_GOODWILL community_goodwill  = GetCommunityGoodwill(from->Community(), to->object_id());
     VERIFY(community_goodwill != NO_GOODWILL);
     // отношение группировки from к группировки to
     CHARACTER_GOODWILL community_to_community = GetCommunityRelation(from->Community(), to->Community());
 
-    CHARACTER_GOODWILL attitude =
-        presonal_goodwill + reputation_goodwill + rank_goodwill + community_goodwill + community_to_community;
+    CHARACTER_GOODWILL attitude               = presonal_goodwill + reputation_goodwill + rank_goodwill + community_goodwill + community_to_community;
 
     return attitude;
 }

@@ -11,13 +11,12 @@ const float      low_cover_height  = 0.6f;
 const float      cover_sqr_dist    = cover_distance * cover_distance;
 static SAIParams g_params;
 
-IC void CNodePositionCompressor(NodePosition& Pdest, Fvector& Psrc, hdrNODES& H)
+IC void          CNodePositionCompressor(NodePosition& Pdest, Fvector& Psrc, hdrNODES& H)
 {
     float sp         = 1 / g_params.fPatchSize;
     int   row_length = iFloor((H.aabb.max.z - H.aabb.min.z) / H.size + EPS_L + 1.5f);
-    int   pxz        = iFloor((Psrc.x - H.aabb.min.x) * sp + EPS_L + .5f) * row_length +
-        iFloor((Psrc.z - H.aabb.min.z) * sp + EPS_L + .5f);
-    int py = iFloor(65535.f * (Psrc.y - H.aabb.min.y) / (H.size_y) + EPS_L);
+    int   pxz        = iFloor((Psrc.x - H.aabb.min.x) * sp + EPS_L + .5f) * row_length + iFloor((Psrc.z - H.aabb.min.z) * sp + EPS_L + .5f);
+    int   py         = iFloor(65535.f * (Psrc.y - H.aabb.min.y) / (H.size_y) + EPS_L);
     VERIFY(pxz < (1 << MAX_NODE_BIT_COUNT) - 1);
     Pdest.xz(pxz);
     clamp(py, 0, 65535);
@@ -86,9 +85,11 @@ public:
         for (u32 i = 0; i < N; ++i)
             sorted[i] = i;
 
-        std::stable_sort(sorted.begin(), sorted.end(), [&nodes](u32 vertex_id0, u32 vertex_id1) {
-            return (nodes[vertex_id0].p.xz() < nodes[vertex_id1].p.xz());
-        });
+        std::stable_sort(sorted.begin(), sorted.end(),
+            [&nodes](u32 vertex_id0, u32 vertex_id1)
+            {
+                return (nodes[vertex_id0].p.xz() < nodes[vertex_id1].p.xz());
+            });
 
         for (u32 i = 0; i < N; ++i)
             renumbering[sorted[i]] = i;
@@ -104,9 +105,11 @@ public:
             }
         }
 
-        std::stable_sort(nodes.begin(), nodes.end(), [](const NodeCompressed& vertex0, const NodeCompressed& vertex1) {
-            return (vertex0.p.xz() < vertex1.p.xz());
-        });
+        std::stable_sort(nodes.begin(), nodes.end(),
+            [](const NodeCompressed& vertex0, const NodeCompressed& vertex1)
+            {
+                return (vertex0.p.xz() < vertex1.p.xz());
+            });
     }
 };
 
@@ -130,7 +133,8 @@ bool CLevelGraphEditor::build()
     AIMapTool->EnumerateNodes();
 
     size_t Index           = 0;
-    auto   CalculateHeight = [&AIMapTool](Fbox& BB) -> float {
+    auto   CalculateHeight = [&AIMapTool](Fbox& BB) -> float
+    {
         // All nodes
         BB.invalidate();
 
@@ -158,7 +162,7 @@ bool CLevelGraphEditor::build()
     RealHeader->guid   = generate_guid();
     m_RealNodes.erase(m_RealNodes.begin(), m_RealNodes.end());
     m_RealNodes.reserve(AIMapTool->Nodes().size());
-    for (SAINode* Node : AIMapTool->Nodes())
+    for (SAINode* Node: AIMapTool->Nodes())
     {
         CVertex NC;
         Compress(NC, Node, *RealHeader);
@@ -167,7 +171,7 @@ bool CLevelGraphEditor::build()
     xr_vector<u32>  sorted;
     xr_vector<u32>  renumbering;
     CNodeRenumberer A(m_RealNodes, sorted, renumbering);
-    m_nodes = m_RealNodes.data();
+    m_nodes         = m_RealNodes.data();
 
     m_row_length    = iFloor((header().box().max.z - header().box().min.z) / header().cell_size() + EPS_L + 1.5f);
     m_column_length = iFloor((header().box().max.x - header().box().min.x) / header().cell_size() + EPS_L + 1.5f);

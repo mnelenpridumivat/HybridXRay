@@ -174,8 +174,8 @@ u32 item_respawn_manager::load_section_items(CInifile& ini, const char* section_
     string32  item_name;
     string512 item_value;
 
-    u32 item_number = 0;
-    u32 added_items = 0;
+    u32       item_number = 0;
+    u32       added_items = 0;
     xr_sprintf(item_name, "item%d", item_number);
 
     while (ini.line_exist(section_name, item_name))
@@ -201,10 +201,10 @@ item_respawn_manager::respawn_section_iter item_respawn_manager::load_respawn_se
 {
     string_path fn;
     FS.update_path(fn, "$game_config$", "mp\\respawn_items.ltx");
-    CInifile ini(fn);
+    CInifile       ini(fn);
 
-    u32       sections_count = _GetItemCount(section_name.c_str());
-    string256 temp_section_name;
+    u32            sections_count = _GetItemCount(section_name.c_str());
+    string256      temp_section_name;
 
     section_items* tmp_sect_items = xr_new<section_items>();
 
@@ -216,8 +216,7 @@ item_respawn_manager::respawn_section_iter item_respawn_manager::load_respawn_se
             Msg("! WARNING: section [%s] is empty", temp_section_name);
         }
     }
-    std::pair<respawn_section_iter, bool> insert_res =
-        m_respawn_sections_cache.insert(std::make_pair(section_name, tmp_sect_items));
+    std::pair<respawn_section_iter, bool> insert_res = m_respawn_sections_cache.insert(std::make_pair(section_name, tmp_sect_items));
     if (insert_res.second)
         return insert_res.first;
 
@@ -251,16 +250,13 @@ void item_respawn_manager::add_new_rpoint(shared_str profile_sect, RPoint const&
             return;
         }
     }
-    R_ASSERT2(
-        tmp_resp_sect->second,
-        make_string("collection of respawn items section (%s) is NULL", profile_sect.c_str()).c_str());
+    R_ASSERT2(tmp_resp_sect->second, make_string("collection of respawn items section (%s) is NULL", profile_sect.c_str()).c_str());
 
     section_items_iter iter_ie = tmp_resp_sect->second->end();
     for (section_items_iter iter_rsect = tmp_resp_sect->second->begin(); iter_rsect != iter_ie; ++iter_rsect)
     {
         spawn_item new_item(iter_rsect->respawn_time);
-        new_item.item_object =
-            make_respawn_entity(iter_rsect->section_name, iter_rsect->addons, iter_rsect->count_of_ammo);
+        new_item.item_object = make_respawn_entity(iter_rsect->section_name, iter_rsect->addons, iter_rsect->count_of_ammo);
         if (new_item.item_object)
         {
             new_item.item_object->o_Position.set(point.P);
@@ -278,8 +274,7 @@ void item_respawn_manager::add_new_rpoint(shared_str profile_sect, RPoint const&
 
 void item_respawn_manager::check_to_delete(u16 item_id)
 {
-    respawn_iter temp_iter =
-        std::find_if(m_respawns.begin(), m_respawns.end(), std::bind2nd(search_by_id_predicate(), item_id));
+    respawn_iter temp_iter = std::find_if(m_respawns.begin(), m_respawns.end(), std::bind2nd(search_by_id_predicate(), item_id));
 
     if (temp_iter != m_respawns.end())
     {

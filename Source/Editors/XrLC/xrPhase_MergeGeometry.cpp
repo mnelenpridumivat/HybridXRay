@@ -75,8 +75,7 @@ IC void MakeCube(Fbox& BB_dest, const Fbox& BB_src)
 
 IC BOOL ValidateMergeLinearSize(const Fvector& merged, const Fvector& orig1, const Fvector& orig2, int iAxis)
 {
-    if ((merged[iAxis] > (4 * c_SS_maxsize / 3)) && (merged[iAxis] > (orig1[iAxis] + 1)) &&
-        (merged[iAxis] > (orig2[iAxis] + 1)))
+    if ((merged[iAxis] > (4 * c_SS_maxsize / 3)) && (merged[iAxis] > (orig1[iAxis] + 1)) && (merged[iAxis] > (orig2[iAxis] + 1)))
         return FALSE;
     else
         return TRUE;
@@ -116,20 +115,13 @@ IC BOOL ValidateMerge(u32 f1, const Fbox& bb_base, const Fbox& bb_base_orig, u32
     float v2 = bb1.getvolume();
     volume   = merge.getvolume();   // / Cuboid(merge);
     if (volume > 2 * 2 * 2 * (v1 + v2))
-        return FALSE;               // Don't merge too distant groups (8 vol)
+        return FALSE;   // Don't merge too distant groups (8 vol)
 
     // OK
     return TRUE;
 }
 
-void FindBestMergeCandidate(
-    u32*     selected,
-    float*   selected_volume,
-    u32      split,
-    u32      split_size,
-    vecFace* subdiv,
-    Fbox*    bb_base_orig,
-    Fbox*    bb_base);
+void FindBestMergeCandidate(u32* selected, float* selected_volume, u32 split, u32 split_size, vecFace* subdiv, Fbox* bb_base_orig, Fbox* bb_base);
 
 typedef struct MERGEGM_PARAMS
 {
@@ -160,9 +152,7 @@ DWORD WINAPI             MergeGmThreadProc(LPVOID lpParameter)
         switch (WaitForMultipleObjects(2, pParams->hEvents, FALSE, INFINITE))
         {
             case WAIT_OBJECT_0 + 0:
-                FindBestMergeCandidate(
-                    &pParams->selected, &pParams->selected_volume, pParams->split, pParams->split_size, pParams->subdiv,
-                    pParams->bb_base_orig, pParams->bb_base);
+                FindBestMergeCandidate(&pParams->selected, &pParams->selected_volume, pParams->split, pParams->split_size, pParams->subdiv, pParams->bb_base_orig, pParams->bb_base);
                 // Signal "ready" event
                 SetEvent(pParams->hEvents[2]);
                 break;
@@ -243,14 +233,7 @@ void DoneMergeGmThreads()
     mergegm_threads_initialized = FALSE;
 }
 
-void FindBestMergeCandidate_threads(
-    u32*     selected,
-    float*   selected_volume,
-    u32      split,
-    u32      split_size,
-    vecFace* subdiv,
-    Fbox*    bb_base_orig,
-    Fbox*    bb_base)
+void FindBestMergeCandidate_threads(u32* selected, float* selected_volume, u32 split, u32 split_size, vecFace* subdiv, Fbox* bb_base_orig, Fbox* bb_base)
 {
     u32 m_range = (split_size - split) / mergegm_threads_count;
 
@@ -261,12 +244,11 @@ void FindBestMergeCandidate_threads(
         mergegm_params[i].selected_volume = *selected_volume;
 
         mergegm_params[i].split           = split + (i * m_range);
-        mergegm_params[i].split_size =
-            (i == (mergegm_threads_count - 1)) ? split_size : mergegm_params[i].split + m_range;
+        mergegm_params[i].split_size      = (i == (mergegm_threads_count - 1)) ? split_size : mergegm_params[i].split + m_range;
 
-        mergegm_params[i].subdiv       = subdiv;
-        mergegm_params[i].bb_base_orig = bb_base_orig;
-        mergegm_params[i].bb_base      = bb_base;
+        mergegm_params[i].subdiv          = subdiv;
+        mergegm_params[i].bb_base_orig    = bb_base_orig;
+        mergegm_params[i].bb_base         = bb_base;
 
         SetEvent(mergegm_params[i].hEvents[0]);
     }   // for
@@ -285,14 +267,7 @@ void FindBestMergeCandidate_threads(
     }
 }
 
-void FindBestMergeCandidate(
-    u32*     selected,
-    float*   selected_volume,
-    u32      split,
-    u32      split_size,
-    vecFace* subdiv,
-    Fbox*    bb_base_orig,
-    Fbox*    bb_base)
+void FindBestMergeCandidate(u32* selected, float* selected_volume, u32 split, u32 split_size, vecFace* subdiv, Fbox* bb_base_orig, Fbox* bb_base)
 {
     for (u32 test = split; test < split_size; test++)
     {
@@ -344,14 +319,12 @@ void CBuild::xrPhase_MergeGeometry()
             if ((g_XSplit.size() - split) < 200)
             {   // may need adjustment
                 // single thread
-                FindBestMergeCandidate(
-                    &selected, &selected_volume, split + 1, g_XSplit.size(), &subdiv, &bb_base_orig, &bb_base);
+                FindBestMergeCandidate(&selected, &selected_volume, split + 1, g_XSplit.size(), &subdiv, &bb_base_orig, &bb_base);
             }
             else
             {
                 // multi thread
-                FindBestMergeCandidate_threads(
-                    &selected, &selected_volume, split + 1, g_XSplit.size(), &subdiv, &bb_base_orig, &bb_base);
+                FindBestMergeCandidate_threads(&selected, &selected_volume, split + 1, g_XSplit.size(), &subdiv, &bb_base_orig, &bb_base);
             }
 
             if (selected == split)

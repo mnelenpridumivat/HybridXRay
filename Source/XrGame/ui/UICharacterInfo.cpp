@@ -142,11 +142,11 @@ void CUICharacterInfo::InitCharacterInfo(CUIXml* xml_doc, LPCSTR node_str)
 
 void CUICharacterInfo::InitCharacter(u16 id)
 {
-    m_ownerID = id;
+    m_ownerID                  = id;
 
     CSE_ALifeTraderAbstract* T = ch_info_get_from_id(m_ownerID);
 
-    CCharacterInfo chInfo;
+    CCharacterInfo           chInfo;
     chInfo.Init(T);
 
     if (m_icons[eName])
@@ -320,10 +320,9 @@ void CUICharacterInfo::Update()
 
     if (hasOwner() && (m_bForceUpdate || (Device->dwFrame % 50 == 0)))
     {
-        m_bForceUpdate = false;
+        m_bForceUpdate             = false;
 
-        CSE_ALifeTraderAbstract* T =
-            detail::object_exists_in_alife_registry(m_ownerID) ? ch_info_get_from_id(m_ownerID) : NULL;
+        CSE_ALifeTraderAbstract* T = detail::object_exists_in_alife_registry(m_ownerID) ? ch_info_get_from_id(m_ownerID) : NULL;
         if (NULL == T)
         {
             m_ownerID = u16(-1);
@@ -366,7 +365,7 @@ bool CUICharacterInfo::get_actor_community(shared_str* our, shared_str* enemy)
     enemy->_set(NULL);
     shared_str const& actor_team = Actor()->CharacterInfo().Community().id();
 
-    LPCSTR vs_teams = pSettings->r_string("actor_communities", actor_team.c_str());
+    LPCSTR            vs_teams   = pSettings->r_string("actor_communities", actor_team.c_str());
     if (_GetItemCount(vs_teams) != 2)
     {
         return false;

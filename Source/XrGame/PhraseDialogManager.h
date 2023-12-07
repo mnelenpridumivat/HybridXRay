@@ -30,14 +30,14 @@ public:
     bool                     HaveAvailableDialog(const shared_str& dialog_id) const;
 
 protected:
-    virtual bool AddAvailableDialog(shared_str dialog_id, CPhraseDialogManager* partner);
+    virtual bool     AddAvailableDialog(shared_str dialog_id, CPhraseDialogManager* partner);
 
     // буфферный список диалогов, которые были проверены
     // во время UpdateAvailableDialogs
     DIALOG_ID_VECTOR m_CheckedDialogs;
 
     // список активных диалогов
-    DIALOG_VECTOR m_ActiveDialogs;
+    DIALOG_VECTOR    m_ActiveDialogs;
     // список доступных диалогов
-    DIALOG_VECTOR m_AvailableDialogs;
+    DIALOG_VECTOR    m_AvailableDialogs;
 };

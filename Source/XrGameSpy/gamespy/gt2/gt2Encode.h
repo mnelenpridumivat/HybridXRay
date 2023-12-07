@@ -24,33 +24,33 @@ extern "C"
     // Returns the length of the encoded message, or -1 to indicate insufficient space
     // You must make sure the number of arguments match the fmtString list
     ////////////////////////////////////////////////////////
-    int gtEncode(GTMessageType msgType, const char* fmtString, char* outBuffer, int outLength, ...);
-    int gtEncodeV(GTMessageType msgType, const char* fmtString, char* outBuffer, int outLength, va_list* args);
-    int gtEncodeNoType(const char* fmtString, char* outBuffer, int outLength, ...);
-    int gtEncodeNoTypeV(const char* fmtString, char* outBuffer, int outLength, va_list* args);
+    int                    gtEncode(GTMessageType msgType, const char* fmtString, char* outBuffer, int outLength, ...);
+    int                    gtEncodeV(GTMessageType msgType, const char* fmtString, char* outBuffer, int outLength, va_list* args);
+    int                    gtEncodeNoType(const char* fmtString, char* outBuffer, int outLength, ...);
+    int                    gtEncodeNoTypeV(const char* fmtString, char* outBuffer, int outLength, va_list* args);
 
     // Decode the message from inBuffer into the vars provided
     // Returns -1 if there was a problem with the buffer
     // Vars should all be pointers (as if using scanf)
     // You must make sure the number of arguments match the fmtString list
     ////////////////////////////////////////////////////////
-    int gtDecode(const char* fmtString, char* inBuffer, int inLength, ...);
-    int gtDecodeV(const char* fmtString, char* inBuffer, int inLength, va_list* args);
-    int gtDecodeNoType(const char* fmtString, char* inBuffer, int inLength, ...);
-    int gtDecodeNoTypeV(const char* fmtString, char* inBuffer, int inLength, va_list* args);
+    int                    gtDecode(const char* fmtString, char* inBuffer, int inLength, ...);
+    int                    gtDecodeV(const char* fmtString, char* inBuffer, int inLength, va_list* args);
+    int                    gtDecodeNoType(const char* fmtString, char* inBuffer, int inLength, ...);
+    int                    gtDecodeNoTypeV(const char* fmtString, char* inBuffer, int inLength, va_list* args);
 
     // Retrieve the message type for an encoded message
     ////////////////////////////////////////////////////////
-    GTMessageType gtEncodedMessageType(char* inBuffer);
+    GTMessageType          gtEncodedMessageType(char* inBuffer);
     // change the message type for an encoded message
-    void gtEncodedMessageTypeSet(char* inBuffer, GTMessageType newtype);
+    void                   gtEncodedMessageTypeSet(char* inBuffer, GTMessageType newtype);
 
     // This handles alignment issues and endianess
     /////////////////////////////////////////////////////////
-    void gt2MemCopy16(char* out, char const* in);
-    void gt2MemCopy32(char* out, char const* in);
-    void gt2MemCopy64(char* out, char const* in);
-    void gt2MemCopy(char* out, char const* in, int size);
+    void                   gt2MemCopy16(char* out, char const* in);
+    void                   gt2MemCopy32(char* out, char const* in);
+    void                   gt2MemCopy64(char* out, char const* in);
+    void                   gt2MemCopy(char* out, char const* in, int size);
 
     /****************************
     Types that can be sent using the encode/decode functions
@@ -118,57 +118,57 @@ extern "C"
     you set)
     */
 
-#define GT_INT 'i'
-#define GT_INT_ "i"
-#define GT_INT_TYPE int
-#define GT_UINT 'u'
-#define GT_UINT_ "u"
-#define GT_UINT_TYPE unsigned int
-#define GT_SHORT 'o'
-#define GT_SHORT_ "o"
-#define GT_SHORT_TYPE short
-#define GT_USHORT 'p'
-#define GT_USHORT_ "p"
-#define GT_USHORT_TYPE unsigned short
-#define GT_CHAR 'c'
-#define GT_CHAR_ "c"
-#define GT_CHAR_TYPE signed char
-#define GT_UCHAR 'b'
-#define GT_UCHAR_ "b"
-#define GT_UCHAR_TYPE unsigned char
-#define GT_FLOAT 'f'
-#define GT_FLOAT_ "f"
-#define GT_FLOAT_TYPE float
-#define GT_DOUBLE 'd'
-#define GT_DOUBLE_ "d"
-#define GT_DOUBLE_TYPE double
-#define GT_CSTR 's'
-#define GT_CSTR_ "s"
-#define GT_CSTR_TYPE char*
-#define GT_CSTR_PTR 'S'
-#define GT_CSTR_PTR_ "S"
-#define GT_CSTR_PTR_TYPE char**
-#define GT_DBSTR 'w'
-#define GT_DBSTR_ "w"
-#define GT_DBSTR_TYPE short*
-#define GT_DBSTR_PTR 'W'
-#define GT_DBSTR_PTR_ "W"
-#define GT_DBSTR_PTR_TYPE short**
-#define GT_CSTR_ARRAY 'a'
-#define GT_CSTR_ARRAY_ "a"
-#define GT_CSTR_ARRAY_TYPE char*
-#define GT_CSTR_ARRAY_PTR 'A'
-#define GT_CSTR_ARRAY_PTR_ "A"
+#define GT_INT                 'i'
+#define GT_INT_                "i"
+#define GT_INT_TYPE            int
+#define GT_UINT                'u'
+#define GT_UINT_               "u"
+#define GT_UINT_TYPE           unsigned int
+#define GT_SHORT               'o'
+#define GT_SHORT_              "o"
+#define GT_SHORT_TYPE          short
+#define GT_USHORT              'p'
+#define GT_USHORT_             "p"
+#define GT_USHORT_TYPE         unsigned short
+#define GT_CHAR                'c'
+#define GT_CHAR_               "c"
+#define GT_CHAR_TYPE           signed char
+#define GT_UCHAR               'b'
+#define GT_UCHAR_              "b"
+#define GT_UCHAR_TYPE          unsigned char
+#define GT_FLOAT               'f'
+#define GT_FLOAT_              "f"
+#define GT_FLOAT_TYPE          float
+#define GT_DOUBLE              'd'
+#define GT_DOUBLE_             "d"
+#define GT_DOUBLE_TYPE         double
+#define GT_CSTR                's'
+#define GT_CSTR_               "s"
+#define GT_CSTR_TYPE           char*
+#define GT_CSTR_PTR            'S'
+#define GT_CSTR_PTR_           "S"
+#define GT_CSTR_PTR_TYPE       char**
+#define GT_DBSTR               'w'
+#define GT_DBSTR_              "w"
+#define GT_DBSTR_TYPE          short*
+#define GT_DBSTR_PTR           'W'
+#define GT_DBSTR_PTR_          "W"
+#define GT_DBSTR_PTR_TYPE      short**
+#define GT_CSTR_ARRAY          'a'
+#define GT_CSTR_ARRAY_         "a"
+#define GT_CSTR_ARRAY_TYPE     char*
+#define GT_CSTR_ARRAY_PTR      'A'
+#define GT_CSTR_ARRAY_PTR_     "A"
 #define GT_CSTR_ARRAY_PTR_TYPE char**
-#define GT_RAW 'r'    // two parameters! (data, then length)
-#define GT_RAW_ "r"   // two parameters!
-#define GT_RAW_TYPE char*
-#define GT_RAW_PTR 'R'
-#define GT_RAW_PTR_ "R"
-#define GT_RAW_PTR_TYPE char**
-#define GT_BIT 'z'
-#define GT_BIT_ "z"
-#define GT_BIT_TYPE unsigned char
+#define GT_RAW                 'r'   // two parameters! (data, then length)
+#define GT_RAW_                "r"   // two parameters!
+#define GT_RAW_TYPE            char*
+#define GT_RAW_PTR             'R'
+#define GT_RAW_PTR_            "R"
+#define GT_RAW_PTR_TYPE        char**
+#define GT_BIT                 'z'
+#define GT_BIT_                "z"
+#define GT_BIT_TYPE            unsigned char
 
 #ifdef __cplusplus
 }

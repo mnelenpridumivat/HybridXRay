@@ -128,7 +128,7 @@ void CGameTask::ChangeMapLocation(LPCSTR new_map_location, u16 new_map_object_id
     m_map_location  = new_map_location;
     m_map_object_id = new_map_object_id;
 
-    m_task_state = eTaskStateInProgress;
+    m_task_state    = eTaskStateInProgress;
     CreateMapLocation(false);
 }
 

@@ -2,14 +2,14 @@
 
 #include "../state.h"
 
-template <typename _Object> class CStateMonsterAttackRun: public CState<_Object>
+template<typename _Object> class CStateMonsterAttackRun: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
-    TTime m_time_path_rebuild;
+    TTime                   m_time_path_rebuild;
 
 public:
-    IC CStateMonsterAttackRun(_Object* obj): inherited(obj) {}
+    IC           CStateMonsterAttackRun(_Object* obj): inherited(obj) {}
 
     virtual void initialize();
     virtual void execute();

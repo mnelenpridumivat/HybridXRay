@@ -101,7 +101,7 @@ enum _key_group
 
 extern _key_group g_current_keygroup;
 
-bool is_group_not_conflicted(_key_group g1, _key_group g2);
+bool              is_group_not_conflicted(_key_group g1, _key_group g2);
 
 struct _action
 {
@@ -110,14 +110,14 @@ struct _action
     _key_group   key_group;
 };
 
-LPCSTR     dik_to_keyname(int _dik);
-int        keyname_to_dik(LPCSTR _name);
-_keyboard* keyname_to_ptr(LPCSTR _name);
-_keyboard* dik_to_ptr(int _dik, bool bSafe);
+LPCSTR         dik_to_keyname(int _dik);
+int            keyname_to_dik(LPCSTR _name);
+_keyboard*     keyname_to_ptr(LPCSTR _name);
+_keyboard*     dik_to_ptr(int _dik, bool bSafe);
 
-LPCSTR       id_to_action_name(EGameActions _id);
-EGameActions action_name_to_id(LPCSTR _name);
-_action*     action_name_to_ptr(LPCSTR _name);
+LPCSTR         id_to_action_name(EGameActions _id);
+EGameActions   action_name_to_id(LPCSTR _name);
+_action*       action_name_to_ptr(LPCSTR _name);
 
 extern _action actions[];
 // extern _keyboard	keyboards	[];
@@ -132,11 +132,11 @@ struct _binding
 
 extern _binding g_key_bindings[];
 
-bool         is_binded(EGameActions action_id, int dik);
-int          get_action_dik(EGameActions action_id, int idx = -1);
-EGameActions get_binded_action(int dik);
+bool            is_binded(EGameActions action_id, int dik);
+int             get_action_dik(EGameActions action_id, int idx = -1);
+EGameActions    get_binded_action(int dik);
 
-extern void CCC_RegisterInput();
+extern void     CCC_RegisterInput();
 
 struct _conCmd
 {
@@ -148,14 +148,14 @@ class ConsoleBindCmds
 public:
     xr_map<int, _conCmd> m_bindConsoleCmds;
 
-    void bind(int dik, LPCSTR N);
-    void unbind(int dik);
-    bool execute(int dik);
-    void clear();
-    void save(IWriter* F);
+    void                 bind(int dik, LPCSTR N);
+    void                 unbind(int dik);
+    bool                 execute(int dik);
+    void                 clear();
+    void                 save(IWriter* F);
 };
 
-void GetActionAllBinding(LPCSTR action, char* dst_buff, int dst_buff_sz);
+void                   GetActionAllBinding(LPCSTR action, char* dst_buff, int dst_buff_sz);
 
 extern ConsoleBindCmds bindConsoleCmds;
 

@@ -10,97 +10,25 @@
 
 extern "C"
 {
-    ETOOLS_API UINT WINAPI D3DX_GetDriverLevel(LPDIRECT3DDEVICE9 pDevice);
+    ETOOLS_API UINT WINAPI        D3DX_GetDriverLevel(LPDIRECT3DDEVICE9 pDevice);
 
-    ETOOLS_API HRESULT WINAPI
-                              D3DX_GetImageInfoFromFileInMemory(LPCVOID pSrcData, UINT SrcDataSize, D3DXIMAGE_INFO* pSrcInfo);
+    ETOOLS_API HRESULT WINAPI     D3DX_GetImageInfoFromFileInMemory(LPCVOID pSrcData, UINT SrcDataSize, D3DXIMAGE_INFO* pSrcInfo);
 
-    ETOOLS_API HRESULT WINAPI D3DX_CreateCubeTextureFromFileInMemoryEx(
-        LPDIRECT3DDEVICE9       pDevice,
-        LPCVOID                 pSrcData,
-        UINT                    SrcDataSize,
-        UINT                    Size,
-        UINT                    MipLevels,
-        DWORD                   Usage,
-        D3DFORMAT               Format,
-        D3DPOOL                 Pool,
-        DWORD                   Filter,
-        DWORD                   MipFilter,
-        D3DCOLOR                ColorKey,
-        D3DXIMAGE_INFO*         pSrcInfo,
-        PALETTEENTRY*           pPalette,
-        LPDIRECT3DCUBETEXTURE9* ppCubeTexture);
+    ETOOLS_API HRESULT WINAPI     D3DX_CreateCubeTextureFromFileInMemoryEx(LPDIRECT3DDEVICE9 pDevice, LPCVOID pSrcData, UINT SrcDataSize, UINT Size, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, DWORD Filter, DWORD MipFilter, D3DCOLOR ColorKey, D3DXIMAGE_INFO* pSrcInfo, PALETTEENTRY* pPalette, LPDIRECT3DCUBETEXTURE9* ppCubeTexture);
 
-    ETOOLS_API HRESULT WINAPI D3DX_CreateTextureFromFileInMemoryEx(
-        LPDIRECT3DDEVICE9   pDevice,
-        LPCVOID             pSrcData,
-        UINT                SrcDataSize,
-        UINT                Width,
-        UINT                Height,
-        UINT                MipLevels,
-        DWORD               Usage,
-        D3DFORMAT           Format,
-        D3DPOOL             Pool,
-        DWORD               Filter,
-        DWORD               MipFilter,
-        D3DCOLOR            ColorKey,
-        D3DXIMAGE_INFO*     pSrcInfo,
-        PALETTEENTRY*       pPalette,
-        LPDIRECT3DTEXTURE9* ppTexture);
+    ETOOLS_API HRESULT WINAPI     D3DX_CreateTextureFromFileInMemoryEx(LPDIRECT3DDEVICE9 pDevice, LPCVOID pSrcData, UINT SrcDataSize, UINT Width, UINT Height, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, DWORD Filter, DWORD MipFilter, D3DCOLOR ColorKey, D3DXIMAGE_INFO* pSrcInfo, PALETTEENTRY* pPalette, LPDIRECT3DTEXTURE9* ppTexture);
 
-    ETOOLS_API HRESULT WINAPI D3DX_CreateTexture(
-        LPDIRECT3DDEVICE9   pDevice,
-        UINT                Width,
-        UINT                Height,
-        UINT                MipLevels,
-        DWORD               Usage,
-        D3DFORMAT           Format,
-        D3DPOOL             Pool,
-        LPDIRECT3DTEXTURE9* ppTexture);
+    ETOOLS_API HRESULT WINAPI     D3DX_CreateTexture(LPDIRECT3DDEVICE9 pDevice, UINT Width, UINT Height, UINT MipLevels, DWORD Usage, D3DFORMAT Format, D3DPOOL Pool, LPDIRECT3DTEXTURE9* ppTexture);
 
-    ETOOLS_API HRESULT WINAPI D3DX_ComputeNormalMap(
-        LPDIRECT3DTEXTURE9  pTexture,
-        LPDIRECT3DTEXTURE9  pSrcTexture,
-        const PALETTEENTRY* pSrcPalette,
-        DWORD               Flags,
-        DWORD               Channel,
-        FLOAT               Amplitude);
+    ETOOLS_API HRESULT WINAPI     D3DX_ComputeNormalMap(LPDIRECT3DTEXTURE9 pTexture, LPDIRECT3DTEXTURE9 pSrcTexture, const PALETTEENTRY* pSrcPalette, DWORD Flags, DWORD Channel, FLOAT Amplitude);
 
-    ETOOLS_API HRESULT WINAPI D3DX_LoadSurfaceFromSurface(
-        LPDIRECT3DSURFACE9  pDestSurface,
-        CONST PALETTEENTRY* pDestPalette,
-        CONST RECT*         pDestRect,
-        LPDIRECT3DSURFACE9  pSrcSurface,
-        CONST PALETTEENTRY* pSrcPalette,
-        CONST RECT*         pSrcRect,
-        DWORD               Filter,
-        D3DCOLOR            ColorKey);
+    ETOOLS_API HRESULT WINAPI     D3DX_LoadSurfaceFromSurface(LPDIRECT3DSURFACE9 pDestSurface, CONST PALETTEENTRY* pDestPalette, CONST RECT* pDestRect, LPDIRECT3DSURFACE9 pSrcSurface, CONST PALETTEENTRY* pSrcPalette, CONST RECT* pSrcRect, DWORD Filter, D3DCOLOR ColorKey);
 
-    ETOOLS_API HRESULT WINAPI D3DX_CompileShader(
-        LPCSTR               pSrcData,
-        UINT                 SrcDataLen,
-        CONST D3DXMACRO*     pDefines,
-        LPD3DXINCLUDE        pInclude,
-        LPCSTR               pFunctionName,
-        LPCSTR               pTarget,
-        DWORD                Flags,
-        LPD3DXBUFFER*        ppShader,
-        LPD3DXBUFFER*        ppErrorMsgs,
-        LPD3DXCONSTANTTABLE* ppConstantTable);
+    ETOOLS_API HRESULT WINAPI     D3DX_CompileShader(LPCSTR pSrcData, UINT SrcDataLen, CONST D3DXMACRO* pDefines, LPD3DXINCLUDE pInclude, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, LPD3DXBUFFER* ppShader, LPD3DXBUFFER* ppErrorMsgs, LPD3DXCONSTANTTABLE* ppConstantTable);
 
-    ETOOLS_API HRESULT WINAPI D3DX_CompileShaderFromFile(
-        LPCSTR               pSrcFile,
-        CONST D3DXMACRO*     pDefines,
-        LPD3DXINCLUDE        pInclude,
-        LPCSTR               pFunctionName,
-        LPCSTR               pTarget,
-        DWORD                Flags,
-        LPD3DXBUFFER*        ppShader,
-        LPD3DXBUFFER*        ppErrorMsgs,
-        LPD3DXCONSTANTTABLE* ppConstantTable);
+    ETOOLS_API HRESULT WINAPI     D3DX_CompileShaderFromFile(LPCSTR pSrcFile, CONST D3DXMACRO* pDefines, LPD3DXINCLUDE pInclude, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, LPD3DXBUFFER* ppShader, LPD3DXBUFFER* ppErrorMsgs, LPD3DXCONSTANTTABLE* ppConstantTable);
 
-    ETOOLS_API HRESULT WINAPI
-                                  D3DX_FindShaderComment(CONST DWORD* pFunction, DWORD FourCC, LPCVOID* ppData, UINT* pSizeInBytes);
+    ETOOLS_API HRESULT WINAPI     D3DX_FindShaderComment(CONST DWORD* pFunction, DWORD FourCC, LPCVOID* ppData, UINT* pSizeInBytes);
 
     ETOOLS_API HRESULT WINAPI     D3DX_DeclaratorFromFVF(DWORD FVF, D3DVERTEXELEMENT9 pDeclarator[MAX_FVF_DECL_SIZE]);
 
@@ -120,15 +48,9 @@ extern "C"
 
     ETOOLS_API D3DXPLANE* WINAPI  D3DX_PlaneTransform(D3DXPLANE* pOut, CONST D3DXPLANE* pP, CONST D3DXMATRIX* pM);
 
-    ETOOLS_API HRESULT WINAPI
-                              D3DX_OptimizeFaces(LPCVOID pIndices, UINT NumFaces, UINT NumVertices, BOOL Indices32Bit, DWORD* pFaceRemap);
+    ETOOLS_API HRESULT WINAPI     D3DX_OptimizeFaces(LPCVOID pIndices, UINT NumFaces, UINT NumVertices, BOOL Indices32Bit, DWORD* pFaceRemap);
 
-    ETOOLS_API HRESULT WINAPI D3DX_OptimizeVertices(
-        LPCVOID pIndices,
-        UINT    NumFaces,
-        UINT    NumVertices,
-        BOOL    Indices32Bit,
-        DWORD*  pVertexRemap);
+    ETOOLS_API HRESULT WINAPI     D3DX_OptimizeVertices(LPCVOID pIndices, UINT NumFaces, UINT NumVertices, BOOL Indices32Bit, DWORD* pVertexRemap);
 }
 
 #ifndef ETOOLS_EXPORTS

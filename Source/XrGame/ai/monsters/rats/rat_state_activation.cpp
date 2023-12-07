@@ -27,8 +27,7 @@ void CAI_Rat::activate_state_free_active()
 
     if (bfCheckIfGoalChanged())
     {
-        if ((Position().distance_to(m_tSpawnPosition) > m_fStableDistance) ||
-            (::Random.randF(0, 1) > m_fChangeActiveStateProbability))
+        if ((Position().distance_to(m_tSpawnPosition) > m_fStableDistance) || (::Random.randF(0, 1) > m_fChangeActiveStateProbability))
             if (Position().distance_to(m_home_position) > m_fMaxHomeRadius)
                 m_fSpeed = m_fSafeSpeed = m_fMaxSpeed;
             else
@@ -40,8 +39,7 @@ void CAI_Rat::activate_state_free_active()
         }
     }
 
-    if ((fis_zero(m_fSpeed) &&
-         (angle_difference(movement().m_body.target.yaw, movement().m_body.current.yaw) < PI_DIV_6)))
+    if ((fis_zero(m_fSpeed) && (angle_difference(movement().m_body.target.yaw, movement().m_body.current.yaw) < PI_DIV_6)))
         vfChooseNewSpeed();
 
     vfUpdateTime(m_fTimeUpdateDelta);
@@ -66,8 +64,7 @@ void CAI_Rat::activate_state_free_passive()
         return;
     }
 
-    if ((m_tLastSound.dwTime >= m_dwLastUpdateTime) &&
-        ((!m_tLastSound.tpEntity) || (m_tLastSound.tpEntity->g_Team() != g_Team())))
+    if ((m_tLastSound.dwTime >= m_dwLastUpdateTime) && ((!m_tLastSound.tpEntity) || (m_tLastSound.tpEntity->g_Team() != g_Team())))
     {
         add_active_member(true);
         return;

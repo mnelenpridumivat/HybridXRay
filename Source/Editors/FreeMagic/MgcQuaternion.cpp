@@ -61,8 +61,8 @@ void Quaternion::FromRotationMatrix(const Matrix3& kRot)
             i = 1;
         if (kRot[2][2] > kRot[i][i])
             i = 2;
-        int j = s_iNext[i];
-        int k = s_iNext[j];
+        int j            = s_iNext[i];
+        int k            = s_iNext[j];
 
         fRoot            = Math::Sqrt(kRot[i][i] - kRot[j][j] - kRot[k][k] + 1.0f);
         Real* apkQuat[3] = {&x, &y, &z};
@@ -76,18 +76,18 @@ void Quaternion::FromRotationMatrix(const Matrix3& kRot)
 //----------------------------------------------------------------------------
 void Quaternion::ToRotationMatrix(Matrix3& kRot) const
 {
-    Real fTx  = 2.0f * x;
-    Real fTy  = 2.0f * y;
-    Real fTz  = 2.0f * z;
-    Real fTwx = fTx * w;
-    Real fTwy = fTy * w;
-    Real fTwz = fTz * w;
-    Real fTxx = fTx * x;
-    Real fTxy = fTy * x;
-    Real fTxz = fTz * x;
-    Real fTyy = fTy * y;
-    Real fTyz = fTz * y;
-    Real fTzz = fTz * z;
+    Real fTx   = 2.0f * x;
+    Real fTy   = 2.0f * y;
+    Real fTz   = 2.0f * z;
+    Real fTwx  = fTx * w;
+    Real fTwy  = fTy * w;
+    Real fTwz  = fTz * w;
+    Real fTxx  = fTx * x;
+    Real fTxy  = fTy * x;
+    Real fTxz  = fTz * x;
+    Real fTyy  = fTy * y;
+    Real fTyz  = fTz * y;
+    Real fTzz  = fTz * z;
 
     kRot[0][0] = 1.0f - (fTyy + fTzz);
     kRot[0][1] = fTxy - fTwz;
@@ -191,9 +191,7 @@ Quaternion Quaternion::operator*(const Quaternion& rkQ) const
     // NOTE:  Multiplication is not generally commutative, so in most
     // cases p*q != q*p.
 
-    return Quaternion(
-        w * rkQ.w - x * rkQ.x - y * rkQ.y - z * rkQ.z, w * rkQ.x + x * rkQ.w + y * rkQ.z - z * rkQ.y,
-        w * rkQ.y + y * rkQ.w + z * rkQ.x - x * rkQ.z, w * rkQ.z + z * rkQ.w + x * rkQ.y - y * rkQ.x);
+    return Quaternion(w * rkQ.w - x * rkQ.x - y * rkQ.y - z * rkQ.z, w * rkQ.x + x * rkQ.w + y * rkQ.z - z * rkQ.y, w * rkQ.y + y * rkQ.w + z * rkQ.x - x * rkQ.z, w * rkQ.z + z * rkQ.w + x * rkQ.y - y * rkQ.x);
 }
 //----------------------------------------------------------------------------
 Quaternion Quaternion::operator*(Real fScalar) const
@@ -248,8 +246,8 @@ Quaternion Quaternion::Exp() const
     // exp(q) = cos(A)+sin(A)*(x*i+y*j+z*k).  If sin(A) is near zero,
     // use exp(q) = cos(A)+A*(x*i+y*j+z*k) since A/sin(A) has limit 1.
 
-    Real fAngle = Math::Sqrt(x * x + y * y + z * z);
-    Real fSin   = Math::Sin(fAngle);
+    Real       fAngle = Math::Sqrt(x * x + y * y + z * z);
+    Real       fSin   = Math::Sin(fAngle);
 
     Quaternion kResult;
     kResult.w = Math::Cos(fAngle);
@@ -357,12 +355,7 @@ Quaternion Quaternion::SlerpExtraSpins(Real fT, const Quaternion& rkP, const Qua
     return fCoeff0 * rkP + fCoeff1 * rkQ;
 }
 //----------------------------------------------------------------------------
-void Quaternion::Intermediate(
-    const Quaternion& rkQ0,
-    const Quaternion& rkQ1,
-    const Quaternion& rkQ2,
-    Quaternion&       rkA,
-    Quaternion&       rkB)
+void Quaternion::Intermediate(const Quaternion& rkQ0, const Quaternion& rkQ1, const Quaternion& rkQ2, Quaternion& rkA, Quaternion& rkB)
 {
     // assert:  q0, q1, q2 are unit quaternions
 
@@ -373,16 +366,11 @@ void Quaternion::Intermediate(
     Quaternion kArg      = 0.25f * (rkP0.Log() - rkP1.Log());
     Quaternion kMinusArg = -kArg;
 
-    rkA = rkQ1 * kArg.Exp();
-    rkB = rkQ1 * kMinusArg.Exp();
+    rkA                  = rkQ1 * kArg.Exp();
+    rkB                  = rkQ1 * kMinusArg.Exp();
 }
 //----------------------------------------------------------------------------
-Quaternion Quaternion::Squad(
-    Real              fT,
-    const Quaternion& rkP,
-    const Quaternion& rkA,
-    const Quaternion& rkB,
-    const Quaternion& rkQ)
+Quaternion Quaternion::Squad(Real fT, const Quaternion& rkP, const Quaternion& rkA, const Quaternion& rkB, const Quaternion& rkQ)
 {
     Real       fSlerpT = 2.0f * fT * (1.0f - fT);
     Quaternion kSlerpP = Slerp(fT, rkP, rkQ);

@@ -286,28 +286,27 @@ template<typename T> struct CWrapperAbstractItem: public T, public luabind::wrap
 #define luabind_virtual_online_offline_group(a, b) DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, update)
 #endif   // #ifdef XRGAME_EXPORTS
 
-#define luabind_virtual_monster(a, b)      DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, update)
+#define luabind_virtual_monster(a, b)            DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, update)
 
-#define luabind_virtual_item(a, b)         DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, bfUseful)
+#define luabind_virtual_item(a, b)               DEFINE_LUABIND_VIRTUAL_FUNCTION(a, b, bfUseful)
 
-#define luabind_virtual_Pure(a, b)         luabind_virtual_pure(a, b)
+#define luabind_virtual_Pure(a, b)               luabind_virtual_pure(a, b)
 
-#define luabind_virtual_Abstract(a, b)     luabind_virtual_Pure(a, b) luabind_virtual_abstract(a, b)
+#define luabind_virtual_Abstract(a, b)           luabind_virtual_Pure(a, b) luabind_virtual_abstract(a, b)
 
-#define luabind_virtual_Alife(a, b)        luabind_virtual_Abstract(a, b) luabind_virtual_alife(a, b)
+#define luabind_virtual_Alife(a, b)              luabind_virtual_Abstract(a, b) luabind_virtual_alife(a, b)
 
-#define luabind_virtual_DynamicAlife(a, b) luabind_virtual_Alife(a, b) luabind_virtual_dynamic_alife(a, b)
+#define luabind_virtual_DynamicAlife(a, b)       luabind_virtual_Alife(a, b) luabind_virtual_dynamic_alife(a, b)
 
-#define luabind_virtual_Creature(a, b)     luabind_virtual_DynamicAlife(a, b) luabind_virtual_creature(a, b)
+#define luabind_virtual_Creature(a, b)           luabind_virtual_DynamicAlife(a, b) luabind_virtual_creature(a, b)
 
-#define luabind_virtual_Zone(a, b)         luabind_virtual_DynamicAlife(a, b) luabind_virtual_zone(a, b)
+#define luabind_virtual_Zone(a, b)               luabind_virtual_DynamicAlife(a, b) luabind_virtual_zone(a, b)
 
-#define luabind_virtual_OnlineOfflineGroup(a, b) \
-    luabind_virtual_DynamicAlife(a, b) luabind_virtual_online_offline_group(a, b)
+#define luabind_virtual_OnlineOfflineGroup(a, b) luabind_virtual_DynamicAlife(a, b) luabind_virtual_online_offline_group(a, b)
 
-#define luabind_virtual_Monster(a, b) luabind_virtual_Creature(a, b) luabind_virtual_monster(a, b)
+#define luabind_virtual_Monster(a, b)            luabind_virtual_Creature(a, b) luabind_virtual_monster(a, b)
 
-#define luabind_virtual_Item(a, b)    luabind_virtual_DynamicAlife(a, b) luabind_virtual_item(a, b)
+#define luabind_virtual_Item(a, b)               luabind_virtual_DynamicAlife(a, b) luabind_virtual_item(a, b)
 
 //////////////////////////////////////////////////////////////////////////
 // 0

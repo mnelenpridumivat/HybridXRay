@@ -20,6 +20,7 @@ class CVisualMemoryManager
 #ifdef DEBUG
     friend class CAI_Stalker;
 #endif
+
 public:
     typedef MemorySpace::CVisibleObject       CVisibleObject;
     typedef MemorySpace::CNotYetVisibleObject CNotYetVisibleObject;
@@ -68,14 +69,9 @@ protected:
     void    add_visible_object(const CVisibleObject visible_object);
     float   object_visible_distance(const CGameObject* game_object, float& object_distance) const;
     float   object_luminocity(const CGameObject* game_object) const;
-    float   get_visible_value(
-          float distance,
-          float object_distance,
-          float time_delta,
-          float object_velocity,
-          float luminocity) const;
-    float get_object_velocity(const CGameObject* game_object, const CNotYetVisibleObject& not_yet_visible_object) const;
-    u32   get_prev_time(const CGameObject* game_object) const;
+    float   get_visible_value(float distance, float object_distance, float time_delta, float object_velocity, float luminocity) const;
+    float   get_object_velocity(const CGameObject* game_object, const CNotYetVisibleObject& not_yet_visible_object) const;
+    u32     get_prev_time(const CGameObject* game_object) const;
 
 public:
     u32 visible_object_time_last_seen(const CObject* object) const;

@@ -12,8 +12,10 @@ public:
     ColorMapManager();
 
     void SetTextures(const shared_str& tex0, const shared_str& tex1);
+
 private:
     void UpdateTexture(const shared_str& strTexName, int iTex);
+
 private:
     struct str_pred
     {
@@ -24,6 +26,7 @@ private:
     };
 
     DEFINE_MAP_PRED(shared_str, ref_texture, map_Tex, map_TexIt, str_pred);
+
 private:
     ref_texture m_CMap[2];
     shared_str  m_strCMap[2];

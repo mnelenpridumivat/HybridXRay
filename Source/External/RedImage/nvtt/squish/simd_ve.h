@@ -23,7 +23,7 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #ifndef SQUISH_SIMD_VE_H
 #define SQUISH_SIMD_VE_H
 
@@ -32,155 +32,184 @@
 #undef bool
 #endif
 
-namespace nvsquish {
-
-#define VEC4_CONST( X ) Vec4( vec_splats( (float)X ) )
-
-class Vec4
+namespace nvsquish
 {
-public:
-	typedef Vec4 Arg;
 
-	Vec4() {}
-		
-	explicit Vec4( vector float v ) : m_v( v ) {}
-	
-	Vec4( Vec4 const& arg ) : m_v( arg.m_v ) {}
-	
-	Vec4& operator=( Vec4 const& arg )
-	{
-		m_v = arg.m_v;
-		return *this;
-	}
-	
-	Vec4( const float * v )
-	{
-		union { vector float v; float c[4]; } u;
-		u.c[0] = v[0];
-		u.c[1] = v[1];
-		u.c[2] = v[2];
-		u.c[3] = v[3];
-		m_v = u.v;
-	}
+#define VEC4_CONST(X) Vec4(vec_splats((float)X))
 
-	Vec4( float x, float y, float z, float w )
-	{
-		union { vector float v; float c[4]; } u;
-		u.c[0] = x;
-		u.c[1] = y;
-		u.c[2] = z;
-		u.c[3] = w;
-		m_v = u.v;
-	}
-	
-	Vec3 GetVec3() const
-	{
-		union { vector float v; float c[4]; } u;
-		u.v = m_v;
-		return Vec3( u.c[0], u.c[1], u.c[2] );
-	}
+    class Vec4
+    {
+    public:
+        typedef Vec4 Arg;
 
-	float GetX() const
-	{
-		union { vector float v; float c[4]; } u;
-		u.v = m_v;
-		return u.c[0];
-	}
+        Vec4() {}
 
-	Vec4 SplatX() const { return Vec4( vec_splat( m_v, 0 ) ); }
-	Vec4 SplatY() const { return Vec4( vec_splat( m_v, 1 ) ); }
-	Vec4 SplatZ() const { return Vec4( vec_splat( m_v, 2 ) ); }
-	Vec4 SplatW() const { return Vec4( vec_splat( m_v, 3 ) ); }
+        explicit Vec4(vector float v): m_v(v) {}
 
-	Vec4& operator+=( Arg v )
-	{
-		m_v = vec_add( m_v, v.m_v );
-		return *this;
-	}
-	
-	Vec4& operator-=( Arg v )
-	{
-		m_v = vec_sub( m_v, v.m_v );
-		return *this;
-	}
-	
-	Vec4& operator*=( Arg v )
-	{
-		m_v = vec_madd( m_v, v.m_v, vec_splats( -0.0f ) );
-		return *this;
-	}
-	
-	friend Vec4 operator+( Vec4::Arg left, Vec4::Arg right  )
-	{
-		return Vec4( vec_add( left.m_v, right.m_v ) );
-	}
-	
-	friend Vec4 operator-( Vec4::Arg left, Vec4::Arg right  )
-	{
-		return Vec4( vec_sub( left.m_v, right.m_v ) );
-	}
-	
-	friend Vec4 operator*( Vec4::Arg left, Vec4::Arg right  )
-	{
-		return Vec4( vec_madd( left.m_v, right.m_v, vec_splats( -0.0f ) ) );
-	}
-	
-	//! Returns a*b + c
-	friend Vec4 MultiplyAdd( Vec4::Arg a, Vec4::Arg b, Vec4::Arg c )
-	{
-		return Vec4( vec_madd( a.m_v, b.m_v, c.m_v ) );
-	}
-	
-	//! Returns -( a*b - c )
-	friend Vec4 NegativeMultiplySubtract( Vec4::Arg a, Vec4::Arg b, Vec4::Arg c )
-	{
-		return Vec4( vec_nmsub( a.m_v, b.m_v, c.m_v ) );
-	}
-	
-	friend Vec4 Reciprocal( Vec4::Arg v )
-	{
-		// get the reciprocal estimate
-		vector float estimate = vec_re( v.m_v );
-		
-		// one round of Newton-Rhaphson refinement
-		vector float diff = vec_nmsub( estimate, v.m_v, vec_splats( 1.0f ) );
-		return Vec4( vec_madd( diff, estimate, estimate ) );
-	}
-	
-	friend Vec4 Min( Vec4::Arg left, Vec4::Arg right )
-	{
-		return Vec4( vec_min( left.m_v, right.m_v ) );
-	}
-	
-	friend Vec4 Max( Vec4::Arg left, Vec4::Arg right )
-	{
-		return Vec4( vec_max( left.m_v, right.m_v ) );
-	}
-	
-	friend Vec4 Truncate( Vec4::Arg v )
-	{
-		return Vec4( vec_trunc( v.m_v ) );
-	}
-	
-	friend Vec4 CompareEqual( Vec4::Arg left, Vec4::Arg right )
-	{
-		return Vec4( ( vector float )vec_cmpeq( left.m_v, right.m_v ) );
-	}
-	
-	friend Vec4 Select( Vec4::Arg off, Vec4::Arg on, Vec4::Arg bits )
-	{
-		return Vec4( vec_sel( off.m_v, on.m_v, ( vector unsigned int )bits.m_v ) );
-	}
-	
-	friend bool CompareAnyLessThan( Vec4::Arg left, Vec4::Arg right ) 
-	{
-		return vec_any_lt( left.m_v, right.m_v ) != 0;
-	}
-	
-private:
-	vector float m_v;
-};
+        Vec4(Vec4 const& arg): m_v(arg.m_v) {}
 
-} // namespace squish
+        Vec4& operator=(Vec4 const& arg)
+        {
+            m_v = arg.m_v;
+            return *this;
+        }
 
-#endif // ndef SQUISH_SIMD_VE_H
+        Vec4(const float* v)
+        {
+            union
+            {
+                vector float v;
+                float        c[4];
+            } u;
+            u.c[0] = v[0];
+            u.c[1] = v[1];
+            u.c[2] = v[2];
+            u.c[3] = v[3];
+            m_v    = u.v;
+        }
+
+        Vec4(float x, float y, float z, float w)
+        {
+            union
+            {
+                vector float v;
+                float        c[4];
+            } u;
+            u.c[0] = x;
+            u.c[1] = y;
+            u.c[2] = z;
+            u.c[3] = w;
+            m_v    = u.v;
+        }
+
+        Vec3 GetVec3() const
+        {
+            union
+            {
+                vector float v;
+                float        c[4];
+            } u;
+            u.v = m_v;
+            return Vec3(u.c[0], u.c[1], u.c[2]);
+        }
+
+        float GetX() const
+        {
+            union
+            {
+                vector float v;
+                float        c[4];
+            } u;
+            u.v = m_v;
+            return u.c[0];
+        }
+
+        Vec4 SplatX() const
+        {
+            return Vec4(vec_splat(m_v, 0));
+        }
+        Vec4 SplatY() const
+        {
+            return Vec4(vec_splat(m_v, 1));
+        }
+        Vec4 SplatZ() const
+        {
+            return Vec4(vec_splat(m_v, 2));
+        }
+        Vec4 SplatW() const
+        {
+            return Vec4(vec_splat(m_v, 3));
+        }
+
+        Vec4& operator+=(Arg v)
+        {
+            m_v = vec_add(m_v, v.m_v);
+            return *this;
+        }
+
+        Vec4& operator-=(Arg v)
+        {
+            m_v = vec_sub(m_v, v.m_v);
+            return *this;
+        }
+
+        Vec4& operator*=(Arg v)
+        {
+            m_v = vec_madd(m_v, v.m_v, vec_splats(-0.0f));
+            return *this;
+        }
+
+        friend Vec4 operator+(Vec4::Arg left, Vec4::Arg right)
+        {
+            return Vec4(vec_add(left.m_v, right.m_v));
+        }
+
+        friend Vec4 operator-(Vec4::Arg left, Vec4::Arg right)
+        {
+            return Vec4(vec_sub(left.m_v, right.m_v));
+        }
+
+        friend Vec4 operator*(Vec4::Arg left, Vec4::Arg right)
+        {
+            return Vec4(vec_madd(left.m_v, right.m_v, vec_splats(-0.0f)));
+        }
+
+        //! Returns a*b + c
+        friend Vec4 MultiplyAdd(Vec4::Arg a, Vec4::Arg b, Vec4::Arg c)
+        {
+            return Vec4(vec_madd(a.m_v, b.m_v, c.m_v));
+        }
+
+        //! Returns -( a*b - c )
+        friend Vec4 NegativeMultiplySubtract(Vec4::Arg a, Vec4::Arg b, Vec4::Arg c)
+        {
+            return Vec4(vec_nmsub(a.m_v, b.m_v, c.m_v));
+        }
+
+        friend Vec4 Reciprocal(Vec4::Arg v)
+        {
+            // get the reciprocal estimate
+            vector float estimate = vec_re(v.m_v);
+
+            // one round of Newton-Rhaphson refinement
+            vector float diff     = vec_nmsub(estimate, v.m_v, vec_splats(1.0f));
+            return Vec4(vec_madd(diff, estimate, estimate));
+        }
+
+        friend Vec4 Min(Vec4::Arg left, Vec4::Arg right)
+        {
+            return Vec4(vec_min(left.m_v, right.m_v));
+        }
+
+        friend Vec4 Max(Vec4::Arg left, Vec4::Arg right)
+        {
+            return Vec4(vec_max(left.m_v, right.m_v));
+        }
+
+        friend Vec4 Truncate(Vec4::Arg v)
+        {
+            return Vec4(vec_trunc(v.m_v));
+        }
+
+        friend Vec4 CompareEqual(Vec4::Arg left, Vec4::Arg right)
+        {
+            return Vec4((vector float)vec_cmpeq(left.m_v, right.m_v));
+        }
+
+        friend Vec4 Select(Vec4::Arg off, Vec4::Arg on, Vec4::Arg bits)
+        {
+            return Vec4(vec_sel(off.m_v, on.m_v, (vector unsigned int)bits.m_v));
+        }
+
+        friend bool CompareAnyLessThan(Vec4::Arg left, Vec4::Arg right)
+        {
+            return vec_any_lt(left.m_v, right.m_v) != 0;
+        }
+
+    private:
+        vector float m_v;
+    };
+
+}   // namespace nvsquish
+
+#endif   // ndef SQUISH_SIMD_VE_H

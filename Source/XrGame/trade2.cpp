@@ -50,8 +50,8 @@ bool CTrade::CanTrade()
 
     pThis.base->Direction().getHP(yaw, pitch);
     pPartner.base->Direction().getHP(yaw2, pitch2);
-    yaw  = angle_normalize(yaw);
-    yaw2 = angle_normalize(yaw2);
+    yaw       = angle_normalize(yaw);
+    yaw2      = angle_normalize(yaw2);
 
     float Res = rad2deg(_abs(yaw - yaw2) < PI ? _abs(yaw - yaw2) : PI_MUL_2 - _abs(yaw - yaw2));
     if (Res < 165.f || Res > 195.f)
@@ -152,7 +152,7 @@ u32 CTrade::GetItemPrice(PIItem pItem, bool b_buying)
     CArtefact* pArtefact = smart_cast<CArtefact*>(pItem);
 
     // computing base_cost
-    float base_cost;
+    float      base_cost;
     if (pArtefact && (pThis.type == TT_ACTOR) && (pPartner.type == TT_TRADER))
     {
         CAI_Trader* pTrader = smart_cast<CAI_Trader*>(pPartner.inv_owner);
@@ -164,10 +164,10 @@ u32 CTrade::GetItemPrice(PIItem pItem, bool b_buying)
 
     // computing condition factor
     // for "dead" weapon we use 10% from base cost, for "good" weapon we use full base cost
-    float condition_factor = powf(pItem->GetCondition() * 0.9f + .1f, 0.75f);
+    float              condition_factor = powf(pItem->GetCondition() * 0.9f + .1f, 0.75f);
 
     // computing relation factor
-    float relation_factor;
+    float              relation_factor;
 
     CHARACTER_GOODWILL attitude = RELATION_REGISTRY().GetAttitude(pThis.inv_owner, pPartner.inv_owner);
 
@@ -201,29 +201,23 @@ u32 CTrade::GetItemPrice(PIItem pItem, bool b_buying)
     {
         if (!pThis.inv_owner->trade_parameters().enabled(CTradeParameters::action_buy(0), pItem->object().cNameSect()))
             return 0;
-        p_trade_factors =
-            &pThis.inv_owner->trade_parameters().factors(CTradeParameters::action_buy(0), pItem->object().cNameSect());
+        p_trade_factors = &pThis.inv_owner->trade_parameters().factors(CTradeParameters::action_buy(0), pItem->object().cNameSect());
     }
     else
     {
         if (!pThis.inv_owner->trade_parameters().enabled(CTradeParameters::action_sell(0), pItem->object().cNameSect()))
             return 0;
-        p_trade_factors =
-            &pThis.inv_owner->trade_parameters().factors(CTradeParameters::action_sell(0), pItem->object().cNameSect());
+        p_trade_factors = &pThis.inv_owner->trade_parameters().factors(CTradeParameters::action_sell(0), pItem->object().cNameSect());
     }
     const CTradeFactors& trade_factors = *p_trade_factors;
 
-    float action_factor;
+    float                action_factor;
     if (trade_factors.friend_factor() <= trade_factors.enemy_factor())
-        action_factor = trade_factors.friend_factor() +
-            (trade_factors.enemy_factor() - trade_factors.friend_factor()) * (1.f - relation_factor);
+        action_factor = trade_factors.friend_factor() + (trade_factors.enemy_factor() - trade_factors.friend_factor()) * (1.f - relation_factor);
     else
-        action_factor = trade_factors.enemy_factor() +
-            (trade_factors.friend_factor() - trade_factors.enemy_factor()) * relation_factor;
+        action_factor = trade_factors.enemy_factor() + (trade_factors.friend_factor() - trade_factors.enemy_factor()) * relation_factor;
 
-    clamp(
-        action_factor, _min(trade_factors.enemy_factor(), trade_factors.friend_factor()),
-        _max(trade_factors.enemy_factor(), trade_factors.friend_factor()));
+    clamp(action_factor, _min(trade_factors.enemy_factor(), trade_factors.friend_factor()), _max(trade_factors.enemy_factor(), trade_factors.friend_factor()));
 
     // computing deficit_factor
 #if 0
@@ -233,7 +227,7 @@ u32 CTrade::GetItemPrice(PIItem pItem, bool b_buying)
 #endif
 
     // total price calculation
-    u32 result = iFloor(base_cost * condition_factor * action_factor * deficit_factor);
+    u32                     result = iFloor(base_cost * condition_factor * action_factor * deficit_factor);
     // use some script discounts
     luabind::functor<float> func;
     if (b_buying)

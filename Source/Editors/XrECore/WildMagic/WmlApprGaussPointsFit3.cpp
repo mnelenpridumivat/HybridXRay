@@ -15,12 +15,7 @@
 using namespace Wml;
 
 //----------------------------------------------------------------------------
-template <class Real> void Wml::GaussPointsFit(
-    int                  iQuantity,
-    const Vector3<Real>* akPoint,
-    Vector3<Real>&       rkCenter,
-    Vector3<Real>        akAxis[3],
-    Real                 afExtent[3])
+template<class Real> void Wml::GaussPointsFit(int iQuantity, const Vector3<Real>* akPoint, Vector3<Real>& rkCenter, Vector3<Real> akAxis[3], Real afExtent[3])
 {
     // compute mean of points
     rkCenter = akPoint[0];
@@ -70,13 +65,7 @@ template <class Real> void Wml::GaussPointsFit(
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> bool Wml::GaussPointsFit(
-    int                  iQuantity,
-    const Vector3<Real>* akPoint,
-    const bool*          abValid,
-    Vector3<Real>&       rkCenter,
-    Vector3<Real>        akAxis[3],
-    Real                 afExtent[3])
+template<class Real> bool Wml::GaussPointsFit(int iQuantity, const Vector3<Real>* akPoint, const bool* abValid, Vector3<Real>& rkCenter, Vector3<Real> akAxis[3], Real afExtent[3])
 {
     // compute mean of points
     rkCenter = Vector3<Real>::ZERO;
@@ -146,19 +135,10 @@ template <class Real> bool Wml::GaussPointsFit(
 //----------------------------------------------------------------------------
 namespace Wml
 {
-    template WML_ITEM void
-        GaussPointsFit<float>(int, const Vector3<float>*, Vector3<float>&, Vector3<float>[3], float[3]);
-    template WML_ITEM bool
-        GaussPointsFit<float>(int, const Vector3<float>*, const bool*, Vector3<float>&, Vector3<float>[3], float[3]);
+    template WML_ITEM void GaussPointsFit<float>(int, const Vector3<float>*, Vector3<float>&, Vector3<float>[3], float[3]);
+    template WML_ITEM bool GaussPointsFit<float>(int, const Vector3<float>*, const bool*, Vector3<float>&, Vector3<float>[3], float[3]);
 
-    template WML_ITEM void
-        GaussPointsFit<double>(int, const Vector3<double>*, Vector3<double>&, Vector3<double>[3], double[3]);
-    template WML_ITEM bool GaussPointsFit<double>(
-        int,
-        const Vector3<double>*,
-        const bool*,
-        Vector3<double>&,
-        Vector3<double>[3],
-        double[3]);
+    template WML_ITEM void GaussPointsFit<double>(int, const Vector3<double>*, Vector3<double>&, Vector3<double>[3], double[3]);
+    template WML_ITEM bool GaussPointsFit<double>(int, const Vector3<double>*, const bool*, Vector3<double>&, Vector3<double>[3], double[3]);
 }   // namespace Wml
 //----------------------------------------------------------------------------

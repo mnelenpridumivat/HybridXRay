@@ -2,12 +2,12 @@
 #include "../state.h"
 #include "../../../../xrServerEntities/clsid_game.h"
 
-template <typename _Object> class CStateBloodsuckerVampire: public CState<_Object>
+template<typename _Object> class CStateBloodsuckerVampire: public CState<_Object>
 {
     typedef CState<_Object>  inherited;
     typedef CState<_Object>* state_ptr;
 
-    const CEntityAlive* enemy;
+    const CEntityAlive*      enemy;
 
 public:
     CStateBloodsuckerVampire(_Object* obj);

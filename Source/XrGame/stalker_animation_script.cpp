@@ -44,18 +44,12 @@ void CStalkerAnimationManager::script_play_callback(CBlend* blend)
     pair.on_animation_end();
 }
 
-void CStalkerAnimationManager::add_script_animation(
-    LPCSTR  animation,
-    bool    hand_usage,
-    Fvector position,
-    Fvector rotation,
-    bool    local_animation)
+void CStalkerAnimationManager::add_script_animation(LPCSTR animation, bool hand_usage, Fvector position, Fvector rotation, bool local_animation)
 {
     const MotionID& motion = m_skeleton_animated->ID_Cycle_Safe(animation);
     if (!motion)
     {
-        ai().script_engine().script_log(
-            eLuaMessageTypeError, "There is no animation %s (object %s)!", animation, *object().cName());
+        ai().script_engine().script_log(eLuaMessageTypeError, "There is no animation %s (object %s)!", animation, *object().cName());
         return;
     }
 
@@ -78,8 +72,7 @@ void CStalkerAnimationManager::add_script_animation(LPCSTR animation, bool hand_
     const MotionID& motion = m_skeleton_animated->ID_Cycle_Safe(animation);
     if (!motion)
     {
-        ai().script_engine().script_log(
-            eLuaMessageTypeError, "There is no animation %s (object %s)!", animation, *object().cName());
+        ai().script_engine().script_log(eLuaMessageTypeError, "There is no animation %s (object %s)!", animation, *object().cName());
         return;
     }
 
@@ -91,8 +84,7 @@ const CStalkerAnimationScript& CStalkerAnimationManager::assign_script_animation
     VERIFY(!script_animations().empty());
 
     const CStalkerAnimationScript& animation = script_animations().front();
-    if (animation.use_movement_controller() ||
-        script().use_animation_movement_control(m_skeleton_animated, animation.animation()))
+    if (animation.use_movement_controller() || script().use_animation_movement_control(m_skeleton_animated, animation.animation()))
         script().target_matrix(object().XFORM());
 
     return (script_animations().front());

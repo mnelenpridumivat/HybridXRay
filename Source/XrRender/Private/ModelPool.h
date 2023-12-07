@@ -40,6 +40,7 @@ private:
     typedef POOL::iterator                                      POOL_IT;
     typedef xr_map<dxRender_Visual*, shared_str>                REGISTRY;
     typedef REGISTRY::iterator                                  REGISTRY_IT;
+
 private:
     xr_vector<ModelDef>         Models;           // Reference / Base
     xr_vector<dxRender_Visual*> ModelsToDelete;   //
@@ -50,6 +51,7 @@ private:
     BOOL                        bAllowChildrenDuplicate;
 
     void                        Destroy();
+
 public:
     CModelPool();
     virtual ~CModelPool();

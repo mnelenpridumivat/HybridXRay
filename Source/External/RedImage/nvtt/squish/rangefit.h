@@ -22,7 +22,7 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #ifndef SQUISH_RANGEFIT_H
 #define SQUISH_RANGEFIT_H
 
@@ -30,9 +30,7 @@
 #include "colourfit.h"
 #include "maths.h"
 
-namespace squish {
+namespace squish
+{}   // namespace squish
 
-
-} // squish
-
-#endif // ndef SQUISH_RANGEFIT_H
+#endif   // ndef SQUISH_RANGEFIT_H

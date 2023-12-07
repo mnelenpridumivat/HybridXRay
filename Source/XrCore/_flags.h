@@ -1,7 +1,7 @@
 ﻿#ifndef __FLAGS_H__
 #define __FLAGS_H__
 
-template <class T> struct _flags
+template<class T> struct _flags
 {
 public:
     typedef T           TYPE;
@@ -10,7 +10,7 @@ public:
     typedef const Self& SelfCRef;
 
 public:
-    T flags;
+    T       flags;
 
     IC TYPE get() const
     {

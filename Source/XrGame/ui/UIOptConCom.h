@@ -31,8 +31,8 @@ protected:
     int      m_iNetConSpectator;
     int      m_iReinforcementType;
     // string64	m_sReinforcementType;
-    float m_fNetWeatherRate;
+    float    m_fNetWeatherRate;
 
-    void ReadPlayerNameFromRegistry();
-    void WritePlayerNameToRegistry();
+    void     ReadPlayerNameFromRegistry();
+    void     WritePlayerNameToRegistry();
 };

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: UIInvUpgradeInfo.h
 //	Created 	: 21.11.2007
 //  Modified 	: 27.11.2007
@@ -12,10 +12,13 @@
 #include "UIWindow.h"
 #include "xrUIXmlParser.h"
 
-
-namespace inventory { namespace upgrade {
-	class Upgrade;
-} } // namespace upgrade, inventory
+namespace inventory
+{
+    namespace upgrade
+    {
+        class Upgrade;
+    }
+}   // namespace inventory
 
 class CUIStatic;
 class CUIFrameWindow;
@@ -25,31 +28,37 @@ class CInventoryItem;
 class UIInvUpgradeInfo: public CUIWindow
 {
 private:
-	typedef CUIWindow                    inherited;
-	typedef inventory::upgrade::Upgrade  Upgrade_type;
+    typedef CUIWindow                   inherited;
+    typedef inventory::upgrade::Upgrade Upgrade_type;
 
 public:
-						UIInvUpgradeInfo();
-	virtual				~UIInvUpgradeInfo();
+    UIInvUpgradeInfo();
+    virtual ~UIInvUpgradeInfo();
 
-			void		init_from_xml( LPCSTR xml_name );
-			bool		init_upgrade( Upgrade_type* upgr, CInventoryItem* inv_item );
-			bool		is_upgrade() { return (m_upgrade != NULL); }
-	IC Upgrade_type const*	get_upgrade() const { return m_upgrade; }
+    void init_from_xml(LPCSTR xml_name);
+    bool init_upgrade(Upgrade_type* upgr, CInventoryItem* inv_item);
+    bool is_upgrade()
+    {
+        return (m_upgrade != NULL);
+    }
+    IC Upgrade_type const* get_upgrade() const
+    {
+        return m_upgrade;
+    }
 
-//	virtual void		Update();
-	virtual void		Draw();
+    //	virtual void		Update();
+    virtual void Draw();
 
 protected:
-	Upgrade_type*		m_upgrade;
-	CUIFrameWindow*		m_background;
-	
-	UIInvUpgPropertiesWnd*	m_properties_wnd;
+    Upgrade_type*          m_upgrade;
+    CUIFrameWindow*        m_background;
 
-	CUIStatic*			m_name;
-	CUIStatic*			m_desc;
-	CUIStatic*			m_prereq;
-	
-}; // class UIInvUpgradeInfo
+    UIInvUpgPropertiesWnd* m_properties_wnd;
 
-#endif // UI_INVENTORY_UPGRADE_INFO_H_INCLUDED
+    CUIStatic*             m_name;
+    CUIStatic*             m_desc;
+    CUIStatic*             m_prereq;
+
+};   // class UIInvUpgradeInfo
+
+#endif   // UI_INVENTORY_UPGRADE_INFO_H_INCLUDED

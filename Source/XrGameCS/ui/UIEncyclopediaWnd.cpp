@@ -1,4 +1,4 @@
-//=============================================================================
+﻿//=============================================================================
 //  Filename:   UIEncyclopediaWnd.cpp
 //	Created by Roman E. Marchenko, vortex@gsc-game.kiev.ua
 //	Copyright 2004. GSC Game World

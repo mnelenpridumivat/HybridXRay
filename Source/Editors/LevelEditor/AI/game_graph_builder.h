@@ -19,12 +19,7 @@ struct ISE_Abstract;
 class ILevelGraph;
 class IGameLevelCrossTable;
 
-template <
-    typename _data_type        = Loki::EmptyType,
-    typename _edge_weight_type = float,
-    typename _vertex_id_type   = u32,
-    typename _edge_data_type   = Loki::EmptyType>
-class CGraphAbstract;
+template<typename _data_type = Loki::EmptyType, typename _edge_weight_type = float, typename _vertex_id_type = u32, typename _edge_data_type = Loki::EmptyType> class CGraphAbstract;
 
 namespace GameGraph
 {
@@ -53,16 +48,16 @@ private:
     shared_str m_level_name;
 
 private:
-    ILevelGraph* m_level_graph;
-    graph_type*  m_graph;
-    xrGUID       m_graph_guid;
+    ILevelGraph*          m_level_graph;
+    graph_type*           m_graph;
+    xrGUID                m_graph_guid;
     // cross table generation stuff
-    xr_vector<bool> m_marks;
-    xr_vector<u32>  m_mark_stack;
-    DISTANCES       m_distances;
-    xr_vector<u32>  m_current_fringe;
-    xr_vector<u32>  m_next_fringe;
-    xr_vector<u32>  m_results;
+    xr_vector<bool>       m_marks;
+    xr_vector<u32>        m_mark_stack;
+    DISTANCES             m_distances;
+    xr_vector<u32>        m_current_fringe;
+    xr_vector<u32>        m_next_fringe;
+    xr_vector<u32>        m_results;
     // cross table itself
     IGameLevelCrossTable* m_cross_table;
     TRIPPLES              m_tripples;

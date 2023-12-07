@@ -8,14 +8,12 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION \
-    template <bool sorted> template <typename _data_storage, template <typename _T> class _vertex>
+#define TEMPLATE_SPECIALIZATION template<bool sorted> template<typename _data_storage, template<typename _T> class _vertex>
 
-#define CDoubleLinkedList CDataStorageDoubleLinkedList<sorted>::CDataStorage<_data_storage, _vertex>
+#define CDoubleLinkedList       CDataStorageDoubleLinkedList<sorted>::CDataStorage<_data_storage, _vertex>
 
 TEMPLATE_SPECIALIZATION
-IC CDoubleLinkedList::CDataStorage(const u32 vertex_count, const _dist_type _max_distance = _dist_type(u32(-1))):
-    inherited(vertex_count)
+IC CDoubleLinkedList::CDataStorage(const u32 vertex_count, const _dist_type _max_distance = _dist_type(u32(-1))): inherited(vertex_count)
 {
     m_switch_factor = _dist_type(1);
 }

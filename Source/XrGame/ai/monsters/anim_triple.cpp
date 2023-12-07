@@ -4,7 +4,7 @@
 
 char* dbg_states[] = {"eStatePrepare", "eStateExecute", "eStateFinalize", "eStateNone"};
 
-void CAnimationTriple::reset_data()
+void  CAnimationTriple::reset_data()
 {
     m_data.capture_type = 0;
 }
@@ -93,8 +93,7 @@ void CAnimationTriple::select_next_state()
     play_selected();
 
     // raise event
-    if ((m_current_state != eStateExecute) ||
-        ((m_current_state == eStateExecute) && (m_previous_state != eStateExecute)))
+    if ((m_current_state != eStateExecute) || ((m_current_state == eStateExecute) && (m_previous_state != eStateExecute)))
     {
         STripleAnimEventData event(m_current_state);
         m_man->notify(ControlCom::eventTAChange, &event);

@@ -73,9 +73,9 @@ public:
     virtual void      net_Import(NET_Packet& P);
     virtual void      net_Destroy();
 
-    virtual void save(NET_Packet& output_packet);
-    virtual void load(IReader& input_packet);
-    virtual BOOL net_SaveRelevant()
+    virtual void      save(NET_Packet& output_packet);
+    virtual void      load(IReader& input_packet);
+    virtual BOOL      net_SaveRelevant()
     {
         return inherited::net_SaveRelevant();
     }
@@ -88,7 +88,7 @@ public:
     {
         inherited::Hit(pHDS);
     }
-    virtual void UpdateCL();
+    virtual void  UpdateCL();
 
     virtual void  g_fireParams(const CHudItem* pHudItem, Fvector& P, Fvector& D);
     virtual void  g_WeaponBones(int& L, int& R1, int& R2);
@@ -108,7 +108,7 @@ public:
     virtual BOOL UsedAI_Locations();
 
     ///////////////////////////////////////////////////////////////////////
-    virtual u16 PHGetSyncItemsNumber()
+    virtual u16  PHGetSyncItemsNumber()
     {
         return inherited ::PHGetSyncItemsNumber();
     }
@@ -126,35 +126,36 @@ public:
     }
     ///////////////////////////////////////////////////////////////////////
 
-    virtual void reinit();
-    virtual void reload(LPCSTR section);
+    virtual void     reinit();
+    virtual void     reload(LPCSTR section);
 
     static void _BCL BoneCallback(CBoneInstance* B);
 
-    void LookAtActor(CBoneInstance* B);
+    void             LookAtActor(CBoneInstance* B);
 
-    void OnStartTrade();
-    void OnStopTrade();
+    void             OnStartTrade();
+    void             OnStopTrade();
 
     // игровое имя
-    virtual LPCSTR Name() const
+    virtual LPCSTR   Name() const
     {
         return CInventoryOwner::Name();
     }
 
-    virtual bool can_attach(const CInventoryItem* inventory_item) const;
-    virtual bool use_bolts() const;
-    virtual void spawn_supplies();
+    virtual bool                 can_attach(const CInventoryItem* inventory_item) const;
+    virtual bool                 use_bolts() const;
+    virtual void                 spawn_supplies();
 
-    virtual bool bfAssignSound(CScriptEntityAction* tpEntityAction);
+    virtual bool                 bfAssignSound(CScriptEntityAction* tpEntityAction);
 
     virtual ALife::ERelationType tfGetRelationType(const CEntityAlive* tpEntityAlive) const;
 
     //////////////////////////////////////////////////////////////////////////
     // генерируемые задания
+
 public:
     // проверяет список артефактов в заказах
-    virtual u32 ArtefactPrice(CArtefact* pArtefact);
+    virtual u32  ArtefactPrice(CArtefact* pArtefact);
     // продажа артефакта, с последуещим изменением списка заказов  (true - если артефакт был в списке)
     virtual bool BuyArtefact(CArtefact* pArtefact);
 
@@ -187,8 +188,8 @@ public:
     }
     virtual bool AllowItemToTrade(CInventoryItem const* item, const SInvItemPlace& place) const;
 
-    void dialog_sound_start(LPCSTR phrase);
-    void dialog_sound_stop();
+    void         dialog_sound_start(LPCSTR phrase);
+    void         dialog_sound_stop();
 
 private:
     CTraderAnimation* AnimMan;

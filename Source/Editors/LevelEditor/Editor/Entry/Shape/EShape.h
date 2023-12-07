@@ -17,9 +17,9 @@ private:
     void    ComputeBounds();
 
 public:
-    u8  m_shape_type;
-    u32 m_DrawTranspColor;
-    u32 m_DrawEdgeColor;
+    u8   m_shape_type;
+    u32  m_DrawTranspColor;
+    u32  m_DrawEdgeColor;
 
     void SetDrawColor(u32 transp, u32 edge)
     {
@@ -70,10 +70,10 @@ public:
     virtual void OnFrame();
 
     // tools
-    void Attach(CEditShape* from);
-    void Detach();
+    void         Attach(CEditShape* from);
+    void         Detach();
 
-    ShapeVec& GetShapes()
+    ShapeVec&    GetShapes()
     {
         return shapes;
     }

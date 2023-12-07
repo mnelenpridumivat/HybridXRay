@@ -6,9 +6,7 @@ void game_sv_CaptureTheArtefact::OnPlayerBuyFinished(ClientID id_who, NET_Packet
     game_PlayerState* ps = get_id(id_who);
     VERIFY2(ps, make_string("player state not found (ClientID = 0x%08x)", id_who.value()).c_str());
     CSE_ALifeCreatureActor* e_Actor = smart_cast<CSE_ALifeCreatureActor*>(get_entity_from_eid(ps->GameID));
-    VERIFY2(
-        e_Actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD),
-        make_string("server entity of actor not found (GameID = 0x%08x)", ps->GameID).c_str());
+    VERIFY2(e_Actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD), make_string("server entity of actor not found (GameID = 0x%08x)", ps->GameID).c_str());
 
     DestroyAllPlayerItems(id_who);
     ClearPlayerItems(ps);
@@ -62,8 +60,7 @@ void game_sv_CaptureTheArtefact::OnPlayerCloseBuyMenu(xrClientData const* pclien
         VERIFY2(!ps->testFlag(GAME_PLAYER_FLAG_SPECTATOR), "spectator can't send OnPlayerCloseBuyMenu messages");
         if (ps->testFlag(GAME_PLAYER_FLAG_SPECTATOR))
             return;
-        VERIFY2(
-            ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD), "alife players can't send OnPlayerCloseBuyMenu messages");
+        VERIFY2(ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD), "alife players can't send OnPlayerCloseBuyMenu messages");
         if (!ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
             return;
 

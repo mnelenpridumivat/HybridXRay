@@ -16,12 +16,12 @@ public:
     };
     struct Flags
     {
-        u32 bCollision : 1;
-        u32 bRendering : 1;
-        u32 bOptimizeUV : 1;
-        u32 bLIGHT_Vertex : 1;
-        u32 bLIGHT_CastShadow : 1;
-        u32 bLIGHT_Sharp : 1;
+        u32 bCollision       :1;
+        u32 bRendering       :1;
+        u32 bOptimizeUV      :1;
+        u32 bLIGHT_Vertex    :1;
+        u32 bLIGHT_CastShadow:1;
+        u32 bLIGHT_Sharp     :1;
     };
 
 public:

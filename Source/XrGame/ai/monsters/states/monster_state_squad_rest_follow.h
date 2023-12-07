@@ -2,13 +2,13 @@
 
 #include "../state.h"
 
-template <typename _Object> class CStateMonsterSquadRestFollow: public CState<_Object>
+template<typename _Object> class CStateMonsterSquadRestFollow: public CState<_Object>
 {
 protected:
     typedef CState<_Object>  inherited;
     typedef CState<_Object>* state_ptr;
 
-    Fvector last_point;
+    Fvector                  last_point;
 
 public:
     CStateMonsterSquadRestFollow(_Object* obj);

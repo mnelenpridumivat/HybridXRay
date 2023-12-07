@@ -5,7 +5,7 @@
 #include "state_custom_action.h"
 #include "monster_state_home_point_danger.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                 template<typename _Object>
 
 #define CStateMonsterHearDangerousSoundAbstract CStateMonsterHearDangerousSound<_Object>
 
@@ -51,8 +51,8 @@ void CStateMonsterHearDangerousSoundAbstract::setup_substates()
     {
         SStateHideFromPoint data;
 
-        Fvector run_away_point;
-        Fvector dir;
+        Fvector             run_away_point;
+        Fvector             dir;
         dir.sub(object->Position(), object->SoundMemory.GetSound().position);
         dir.normalize_safe();
         run_away_point.mad(object->Position(), dir, 1.f);

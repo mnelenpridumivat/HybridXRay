@@ -23,8 +23,7 @@ IC bool CDetailPathManager::failed() const
     return (m_failed);
 }
 
-IC bool CDetailPathManager::completed(const Fvector& position, bool bRealCompleted, const u32& travel_point_point_index)
-    const
+IC bool CDetailPathManager::completed(const Fvector& position, bool bRealCompleted, const u32& travel_point_point_index) const
 {
     if (m_path.empty())
         return true;
@@ -62,9 +61,7 @@ IC const DetailPathManager::STravelPathPoint& CDetailPathManager::curr_travel_po
 
 IC u32 CDetailPathManager::curr_travel_point_index() const
 {
-    VERIFY2(
-        !m_path.empty() && (m_current_travel_point < m_path.size()),
-        make_string("path[%d], current[%d]", m_path.size(), m_current_travel_point));
+    VERIFY2(!m_path.empty() && (m_current_travel_point < m_path.size()), make_string("path[%d], current[%d]", m_path.size(), m_current_travel_point));
     return (m_current_travel_point);
 }
 
@@ -86,9 +83,7 @@ IC void CDetailPathManager::set_dest_position(const Fvector& dest_position)
         LogStackTrace("error call stack");
     }
 #endif   // DEBUG
-    THROW2(
-        !m_restricted_object || m_restricted_object->accessible(dest_position),
-        "Old movement destination is not accessible after changing restrictions!");
+    THROW2(!m_restricted_object || m_restricted_object->accessible(dest_position), "Old movement destination is not accessible after changing restrictions!");
 
     bool value = !!m_dest_position.similar(dest_position, .1f);
     if (!value)
@@ -137,13 +132,7 @@ IC void CDetailPathManager::adjust_point(const Fvector2& source, float yaw, floa
     dest.mad(source, dest, magnitude);
 }
 
-IC void CDetailPathManager::assign_angle(
-    float&               angle,
-    const float          start_yaw,
-    const float          dest_yaw,
-    const bool           positive,
-    const EDirectionType direction_type,
-    const bool           start) const
+IC void CDetailPathManager::assign_angle(float& angle, const float start_yaw, const float dest_yaw, const bool positive, const EDirectionType direction_type, const bool start) const
 {
     if (positive)
         if (dest_yaw >= start_yaw)

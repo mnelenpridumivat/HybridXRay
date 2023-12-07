@@ -36,7 +36,7 @@ ICF u32 color_get_G(u32 rgba)
 }
 ICF u32 color_get_B(u32 rgba)
 {
-    return ((rgba)&0xff);
+    return ((rgba) & 0xff);
 }
 ICF u32 color_get_A(u32 rgba)
 {
@@ -55,7 +55,7 @@ ICF u32 rgb2bgr(u32 rgb)
     return bgr2rgb(rgb);
 }
 
-template <class T> struct _color
+template<class T> struct _color
 {
 public:
     typedef _color      Self;
@@ -63,7 +63,7 @@ public:
     typedef const Self& SelfCRef;
 
 public:
-    T r, g, b, a;
+    T           r, g, b, a;
 
     ICF SelfRef set(u32 dw)
     {
@@ -132,9 +132,9 @@ public:
         // Based upon the NTSC standard described in ITU-R Recommendation BT.709.
         T grey = r * 0.2125f + g * 0.7154f + b * 0.0721f;
 
-        r = grey + s * (r - grey);
-        g = grey + s * (g - grey);
-        b = grey + s * (b - grey);
+        r      = grey + s * (r - grey);
+        g      = grey + s * (g - grey);
+        b      = grey + s * (b - grey);
         return *this;
     };
     IC SelfRef adjust_saturation(SelfCRef in, T s)
@@ -143,9 +143,9 @@ public:
         // Based upon the NTSC standard described in ITU-R Recommendation BT.709.
         T grey = in.r * 0.2125f + in.g * 0.7154f + in.b * 0.0721f;
 
-        r = grey + s * (in.r - grey);
-        g = grey + s * (in.g - grey);
-        b = grey + s * (in.b - grey);
+        r      = grey + s * (in.r - grey);
+        g      = grey + s * (in.g - grey);
+        b      = grey + s * (in.b - grey);
         return *this;
     };
     IC SelfRef modulate(_color& in)
@@ -293,7 +293,7 @@ public:
 typedef _color<float>  Fcolor;
 typedef _color<double> Dcolor;
 
-template <class T> BOOL _valid(const _color<T>& c)
+template<class T> BOOL _valid(const _color<T>& c)
 {
     return _valid(c.r) && _valid(c.g) && _valid(c.b) && _valid(c.a);
 }

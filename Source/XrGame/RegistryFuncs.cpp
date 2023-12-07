@@ -25,15 +25,18 @@ bool ReadRegistryValue(LPCSTR rKeyName, DWORD rKeyType, void* value)
     DWORD    KeyValueSize = 0;
     switch (rKeyType)
     {
-        case REG_DWORD: {
+        case REG_DWORD:
+        {
             KeyValueSize = 4;
         }
         break;
-        case REG_SZ: {
+        case REG_SZ:
+        {
             KeyValueSize = 64;
         }
         break;
-        default: {
+        default:
+        {
             Msg("! Unknown registry data type.");
             return false;
         }
@@ -75,15 +78,18 @@ bool WriteRegistryValue(LPCSTR rKeyName, DWORD rKeyType, const void* value)
     DWORD KeyValueSize = 0;
     switch (rKeyType)
     {
-        case REG_DWORD: {
+        case REG_DWORD:
+        {
             KeyValueSize = 4;
         }
         break;
-        case REG_SZ: {
+        case REG_SZ:
+        {
             KeyValueSize = 64;
         }
         break;
-        default: {
+        default:
+        {
             Msg("! Unknown registry data type.");
             return false;
         }
@@ -135,7 +141,7 @@ u32 const ReadRegistry_BinaryValue(LPCSTR rKeyName, u8* buffer_dest, u32 const b
     DWORD value_type      = REG_BINARY;
     DWORD tmp_buffer_size = buffer_size;
 
-    res = RegQueryValueEx(hKey, rKeyName, NULL, &value_type, buffer_dest, &tmp_buffer_size);
+    res                   = RegQueryValueEx(hKey, rKeyName, NULL, &value_type, buffer_dest, &tmp_buffer_size);
 
     if (res != ERROR_SUCCESS)
     {

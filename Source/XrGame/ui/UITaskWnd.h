@@ -23,31 +23,31 @@ class CUITaskWnd: public CUIWindow, public CUIWndCallback
 private:
     typedef CUIWindow inherited;
 
-    CUIFrameWindow* m_background;
-    CUIStatic*      m_center_background;
-    CUIStatic*      m_right_bottom_background;
+    CUIFrameWindow*   m_background;
+    CUIStatic*        m_center_background;
+    CUIStatic*        m_right_bottom_background;
 
-    CUIMapWnd*   m_pMapWnd;
-    CUITaskItem* m_pStoryLineTaskItem;
+    CUIMapWnd*        m_pMapWnd;
+    CUITaskItem*      m_pStoryLineTaskItem;
 
-    CUI3tButton* m_BtnTaskListWnd;
-    CUIStatic*   m_devider;
-    u32          m_actual_frame;
+    CUI3tButton*      m_BtnTaskListWnd;
+    CUIStatic*        m_devider;
+    u32               m_actual_frame;
 
-    CUI3tButton* m_btn_focus;
+    CUI3tButton*      m_btn_focus;
 
-    CUICheckButton* m_cbTreasures;
-    CUICheckButton* m_cbQuestNpcs;
-    CUICheckButton* m_cbSecondaryTasks;
-    CUICheckButton* m_cbPrimaryObjects;
-    bool            m_bTreasuresEnabled;
-    bool            m_bQuestNpcsEnabled;
-    bool            m_bSecondaryTasksEnabled;
-    bool            m_bPrimaryObjectsEnabled;
+    CUICheckButton*   m_cbTreasures;
+    CUICheckButton*   m_cbQuestNpcs;
+    CUICheckButton*   m_cbSecondaryTasks;
+    CUICheckButton*   m_cbPrimaryObjects;
+    bool              m_bTreasuresEnabled;
+    bool              m_bQuestNpcsEnabled;
+    bool              m_bSecondaryTasksEnabled;
+    bool              m_bPrimaryObjectsEnabled;
 
-    UITaskListWnd* m_task_wnd;
-    bool           m_task_wnd_show;
-    UIMapLegend*   m_map_legend_wnd;
+    UITaskListWnd*    m_task_wnd;
+    bool              m_task_wnd_show;
+    UIMapLegend*      m_map_legend_wnd;
 
 public:
     UIHint* hint_wnd;
@@ -63,11 +63,11 @@ public:
     virtual void Show(bool status);
     virtual void Reset();
 
-    void ReloadTaskInfo();
-    void ShowMapLegend(bool status);
-    void Switch_ShowMapLegend();
+    void         ReloadTaskInfo();
+    void         ShowMapLegend(bool status);
+    void         Switch_ShowMapLegend();
 
-    bool IsTreasuresEnabled()
+    bool         IsTreasuresEnabled()
     {
         return m_bTreasuresEnabled;
     };
@@ -124,7 +124,7 @@ private:
 class CUITaskItem: public CUIWindow
 {
 private:
-    typedef CUIWindow inherited;
+    typedef CUIWindow                          inherited;
 
     associative_vector<shared_str, CUIStatic*> m_info;
     CGameTask*                                 m_owner;
@@ -140,9 +140,9 @@ public:
     virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
 
-    void       Init(CUIXml& uiXml, LPCSTR path);
-    void       InitTask(CGameTask* task);
-    CGameTask* OwnerTask()
+    void         Init(CUIXml& uiXml, LPCSTR path);
+    void         InitTask(CGameTask* task);
+    CGameTask*   OwnerTask()
     {
         return m_owner;
     }

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../state.h"
 
-template <typename _Object> class CStateBloodsuckerVampireExecute: public CState<_Object>
+template<typename _Object> class CStateBloodsuckerVampireExecute: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
@@ -14,7 +14,7 @@ template <typename _Object> class CStateBloodsuckerVampireExecute: public CState
         eActionCompleted
     } m_action;
 
-    u32 time_vampire_started;
+    u32  time_vampire_started;
 
     bool m_effector_activated;
 

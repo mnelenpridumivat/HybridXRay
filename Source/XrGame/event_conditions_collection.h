@@ -77,27 +77,13 @@ namespace award_system
 
     protected:
         event_condition_t* add_condition(enum_event_operation operation, buffer_vector<event_argument_type>& arguments);
-        void               add_event(
-                          event_condition_t* root_condition,
-                          u32 const          max_rise_count,
-                          u32 const          game_id_mask,
-                          u32 const          delegate_argument);
+        void               add_event(event_condition_t* root_condition, u32 const max_rise_count, u32 const game_id_mask, u32 const delegate_argument);
         // helper functions
         event_condition_t* add_or_condition(event_condition_t* left, event_condition_t* right);
         event_condition_t* add_and_condition(event_condition_t* left, event_condition_t* right);
 
-        event_condition_t* add_hit_condition_dist(
-            u32                    hit_counts,
-            u16                    weapon_id,
-            u16                    bone_id,
-            float_binary_function* fbfunc,
-            float                  distanse);
-        event_condition_t* add_kill_condition_dist(
-            u32 kill_counts,
-            u16 weapon_id,
-            u16 kill_type,
-            u16 special_kill_type,
-            u32 time_period = u32(-1));
+        event_condition_t* add_hit_condition_dist(u32 hit_counts, u16 weapon_id, u16 bone_id, float_binary_function* fbfunc, float distanse);
+        event_condition_t* add_kill_condition_dist(u32 kill_counts, u16 weapon_id, u16 kill_type, u16 special_kill_type, u32 time_period = u32(-1));
 
         event_condition_t* add_accumm_value_condition(u16 param_id, float_binary_function* fbfunc, float argument);
         event_condition_t* add_accumm_value_condition(u16 param_id, u32_binary_function* fbfunc, u32 argument);
@@ -106,22 +92,22 @@ namespace award_system
         typedef xr_vector<event_condition_t*>     event_conditions_t;
         typedef xr_vector<event_root_condition_t> event_root_conditions_t;
 
-        game_state_accumulator* m_player_state_accum;
-        event_action_delegate_t m_event_action;
+        game_state_accumulator*                   m_player_state_accum;
+        event_action_delegate_t                   m_event_action;
 
-        event_conditions_t      m_all_conditions;
-        event_root_conditions_t m_root_conditions;
+        event_conditions_t                        m_all_conditions;
+        event_root_conditions_t                   m_root_conditions;
 
         // operation implementations
-        bool logical_and(arguments_t& arguments);
-        bool logical_or(arguments_t& arguments);
+        bool                                      logical_and(arguments_t& arguments);
+        bool                                      logical_or(arguments_t& arguments);
 
-        bool hit_params(arguments_t& arguments);
-        bool kill_params(arguments_t& arguments);
-        bool accumul_params(arguments_t& arguments);
+        bool                                      hit_params(arguments_t& arguments);
+        bool                                      kill_params(arguments_t& arguments);
+        bool                                      accumul_params(arguments_t& arguments);
 
-        bool execute_condition(event_condition_t* cond);
-        void execute_root_condtiion(event_root_conditions_t::value_type& rcond);
+        bool                                      execute_condition(event_condition_t* cond);
+        void                                      execute_root_condtiion(event_root_conditions_t::value_type& rcond);
     };   // class event_conditions_collection
 
 }   // namespace award_system

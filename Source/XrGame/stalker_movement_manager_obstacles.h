@@ -78,6 +78,7 @@ public:
 #endif   // #ifdef DEBUG
 
 #ifdef DEBUG
+
 private:
     typedef CDetailPathManager::STravelPoint STravelPoint;
     typedef xr_vector<STravelPoint>          KEY_POINTS;

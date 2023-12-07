@@ -38,10 +38,7 @@ namespace XrWeatherEditor
             class effect_id;
             class sound_id;
 
-            class ambient:
-                public CEnvAmbient,
-                public XrWeatherEditor::property_holder_holder,
-                private boost::noncopyable
+            class ambient: public CEnvAmbient, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             private:
                 typedef CEnvAmbient inherited;
@@ -49,11 +46,7 @@ namespace XrWeatherEditor
             public:
                 ambient(manager const& manager, shared_str const& id);
                 virtual ~ambient();
-                virtual void load(
-                    CInifile&         ambients_config,
-                    CInifile&         sound_channels_config,
-                    CInifile&         effects_config,
-                    const shared_str& section);
+                virtual void             load(CInifile& ambients_config, CInifile& sound_channels_config, CInifile& effects_config, const shared_str& section);
                 void                     save(CInifile& config);
                 void                     fill(XrWeatherEditor::property_holder_collection* collection);
                 inline shared_str const& id() const
@@ -88,15 +81,15 @@ namespace XrWeatherEditor
                 virtual property_holder_type* object();
 
             private:
-                CInifile*             m_config;
-                property_holder_type* m_property_holder;
-                manager const&        m_manager;
+                CInifile*               m_config;
+                property_holder_type*   m_property_holder;
+                manager const&          m_manager;
 
                 effect_collection_type* m_effects_collection;
                 effect_container_type   m_effects_ids;
 
-                sound_collection_type* m_sounds_collection;
-                sound_container_type   m_sound_channels_ids;
+                sound_collection_type*  m_sounds_collection;
+                sound_container_type    m_sound_channels_ids;
             };   // class ambient
         }        // namespace ambients
     }            // namespace environment

@@ -16,27 +16,27 @@ protected:
     CUIScrollBox*    m_ScrollBox;
     CUIFrameLineWnd* m_FrameBackground;
 
-    float m_hold_delay;
-    int   m_iScrollPos;
+    float            m_hold_delay;
+    int              m_iScrollPos;
 
-    int m_iStepSize;
+    int              m_iStepSize;
 
-    int m_iMinPos;
-    int m_iMaxPos;
+    int              m_iMinPos;
+    int              m_iMaxPos;
 
-    int m_iPageSize;
+    int              m_iPageSize;
 
-    int  m_ScrollWorkArea;
-    bool m_b_enabled;
-    bool m_bIsHorizontal;
+    int              m_ScrollWorkArea;
+    bool             m_b_enabled;
+    bool             m_bIsHorizontal;
 
-    int m_mouse_state;
+    int              m_mouse_state;
 
-    bool         ScrollInc(bool by_scrollbox = false);
-    bool         ScrollDec(bool by_scrollbox = false);
-    virtual void UpdateScrollBar();
+    bool             ScrollInc(bool by_scrollbox = false);
+    bool             ScrollDec(bool by_scrollbox = false);
+    virtual void     UpdateScrollBar();
 
-    u32 ScrollSize()
+    u32              ScrollSize()
     {
         return _max(1, m_iMaxPos - m_iMinPos - m_iPageSize + 1);
     }
@@ -45,7 +45,7 @@ protected:
     int          PosViewFromScroll(int view_size, int view_offs);
     void         SetScrollPosClamped(int iPos);
 
-    bool IsRelevant();
+    bool         IsRelevant();
 
 public:
     CUIScrollBar();

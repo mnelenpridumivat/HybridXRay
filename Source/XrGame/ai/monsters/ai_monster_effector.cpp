@@ -6,19 +6,13 @@
 //////////////////////////////////////////////////////////////////////////
 // CMonsterEffector
 //////////////////////////////////////////////////////////////////////////
-CMonsterEffector::CMonsterEffector(
-    const SPPInfo& ppi,
-    float          life_time,
-    float          attack_time,
-    float          release_time,
-    float          spec_factor):
-    CEffectorPP(EEffectorPPType(eCEHit), life_time)
+CMonsterEffector::CMonsterEffector(const SPPInfo& ppi, float life_time, float attack_time, float release_time, float spec_factor): CEffectorPP(EEffectorPPType(eCEHit), life_time)
 {
-    state   = ppi;
-    m_total = life_time;
+    state         = ppi;
+    m_total       = life_time;
 
-    m_attack  = ((fis_zero(attack_time)) ? 0.5f : attack_time);
-    m_release = ((fis_zero(release_time)) ? 0.5f : release_time);
+    m_attack      = ((fis_zero(attack_time)) ? 0.5f : attack_time);
+    m_release     = ((fis_zero(release_time)) ? 0.5f : release_time);
 
     m_spec_factor = spec_factor;
 
@@ -51,10 +45,9 @@ BOOL CMonsterEffector::Process(SPPInfo& pp)
 // CMonsterEffectorHit
 //////////////////////////////////////////////////////////////////////////
 
-CMonsterEffectorHit::CMonsterEffectorHit(float time, float amp, float periods, float power):
-    CEffectorCam(eCEMonsterHit, time)
+CMonsterEffectorHit::CMonsterEffectorHit(float time, float amp, float periods, float power): CEffectorCam(eCEMonsterHit, time)
 {
-    total = time;
+    total         = time;
 
     max_amp       = amp * power;
     period_number = periods;
@@ -70,7 +63,7 @@ BOOL CMonsterEffectorHit::ProcessCam(SCamEffectorInfo& info)
         return FALSE;
 
     // процент оставшегося времени
-    float time_left_perc = fLifeTime / total;
+    float   time_left_perc = fLifeTime / total;
 
     // Инициализация
     Fmatrix Mdef;
@@ -80,8 +73,8 @@ BOOL CMonsterEffectorHit::ProcessCam(SCamEffectorInfo& info)
     Mdef.i.crossproduct(info.n, info.d);
     Mdef.c.set(info.p);
 
-    float period_all = period_number * PI_MUL_2;   // макс. значение цикла
-    float cur_amp    = max_amp * (PI / 180) * time_left_perc;
+    float   period_all = period_number * PI_MUL_2;   // макс. значение цикла
+    float   cur_amp    = max_amp * (PI / 180) * time_left_perc;
 
     Fvector dangle;
     dangle.x = cur_amp / offset.x * _sin(period_all / offset.x * (1.0f - time_left_perc));

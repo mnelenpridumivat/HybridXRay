@@ -25,14 +25,13 @@ namespace lc_net
     };
     template<e_net_globals gl_type> class net_global_data_impl;
 
-    template<e_net_globals gl_type>
-    class tnet_global_data_base: public net_global_data, public net_global_data_impl<gl_type>
-    {
-    };
+    template<e_net_globals gl_type> class tnet_global_data_base: public net_global_data, public net_global_data_impl<gl_type>
+    {};
 
     class net_globals
     {
         xr_vector<net_global_data*> data;
+
     public:
         net_globals();
 
@@ -42,9 +41,9 @@ namespace lc_net
         }
         template<e_net_globals gl_type> net_global_data_impl<gl_type>& get()
         {
-            return *static_cast<net_global_data_impl<gl_type>*>(
-                static_cast<tnet_global_data_base<gl_type>*>(data[gl_type]));
+            return *static_cast<net_global_data_impl<gl_type>*>(static_cast<tnet_global_data_base<gl_type>*>(data[gl_type]));
         }
+
     private:
         friend class global_data_cleanup;
         void cleanup();

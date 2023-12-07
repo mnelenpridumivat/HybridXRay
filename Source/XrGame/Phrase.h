@@ -22,7 +22,7 @@ public:
 
     LPCSTR GetScriptText() const;
 
-    void SetID(const shared_str& id)
+    void   SetID(const shared_str& id)
     {
         m_ID = id;
     }
@@ -60,15 +60,15 @@ public:
 
 protected:
     // уникальный индекс в списке фраз диалога
-    shared_str m_ID;
+    shared_str          m_ID;
     // текстовое представление фразы
-    xr_string m_text;
-    xr_string m_script_text_id;
-    xr_string m_script_text_val;
+    xr_string           m_text;
+    xr_string           m_script_text_id;
+    xr_string           m_script_text_val;
     // минимальный уровень благосклоггости, необходимый для того
     // чтоб фразу можно было сказать
-    int  m_iGoodwillLevel;
-    bool m_b_finalizer;
+    int                 m_iGoodwillLevel;
+    bool                m_b_finalizer;
     // для вызова скриптовых функций
     CDialogScriptHelper m_ScriptHelper;
 };

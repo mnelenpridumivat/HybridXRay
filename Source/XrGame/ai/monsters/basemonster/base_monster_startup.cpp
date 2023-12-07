@@ -42,12 +42,12 @@ namespace detail
         const float feel_enemy_max_distance                = 3;
         const float feel_enemy_who_made_sound_max_distance = 49;
 
-        const float aom_far_radius         = 9;
-        const float aom_prepare_radius     = 7;
-        const float aom_prepare_time       = 0;
-        const float aom_attack_radius      = 0.6f;
-        const float aom_update_side_period = 4000;
-        const float aom_prediction_factor  = 1.3f;
+        const float aom_far_radius                         = 9;
+        const float aom_prepare_radius                     = 7;
+        const float aom_prepare_time                       = 0;
+        const float aom_attack_radius                      = 0.6f;
+        const float aom_update_side_period                 = 4000;
+        const float aom_prediction_factor                  = 1.3f;
 
     }   // namespace base_monster
 
@@ -59,9 +59,9 @@ void CBaseMonster::Load(LPCSTR section)
     // load parameters from ".ltx" file
     inherited::Load(section);
 
-    m_head_bone_name      = READ_IF_EXISTS(pSettings, r_string, section, "bone_head", "bip01_head");
-    m_left_eye_bone_name  = READ_IF_EXISTS(pSettings, r_string, section, "bone_eye_left", 0);
-    m_right_eye_bone_name = READ_IF_EXISTS(pSettings, r_string, section, "bone_eye_right", 0);
+    m_head_bone_name              = READ_IF_EXISTS(pSettings, r_string, section, "bone_head", "bip01_head");
+    m_left_eye_bone_name          = READ_IF_EXISTS(pSettings, r_string, section, "bone_eye_left", 0);
+    m_right_eye_bone_name         = READ_IF_EXISTS(pSettings, r_string, section, "bone_eye_right", 0);
 
     m_corpse_cover_evaluator      = xr_new<CMonsterCorpseCoverEvaluator>(&movement().restrictions());
     m_enemy_cover_evaluator       = xr_new<CCoverEvaluatorFarFromEnemy>(&movement().restrictions());
@@ -83,39 +83,33 @@ void CBaseMonster::Load(LPCSTR section)
     m_anomaly_detector->load(section);
     CoverMan->load();
 
-    m_rank = (pSettings->line_exist(section, "rank")) ? int(pSettings->r_u32(section, "rank")) : 0;
+    m_rank                                   = (pSettings->line_exist(section, "rank")) ? int(pSettings->r_u32(section, "rank")) : 0;
 
     //	if (pSettings->line_exist(section,"Spawn_Inventory_Item_Section")) {
     //		m_item_section					= pSettings->r_string(section,"Spawn_Inventory_Item_Section");
     //		m_spawn_probability				= pSettings->r_float(section,"Spawn_Inventory_Item_Probability");
     //	} else m_spawn_probability			= 0.f;
 
-    m_melee_rotation_factor = READ_IF_EXISTS(pSettings, r_float, section, "Melee_Rotation_Factor", 1.5f);
-    berserk_always          = !!READ_IF_EXISTS(pSettings, r_bool, section, "berserk_always", false);
+    m_melee_rotation_factor                  = READ_IF_EXISTS(pSettings, r_float, section, "Melee_Rotation_Factor", 1.5f);
+    berserk_always                           = !!READ_IF_EXISTS(pSettings, r_bool, section, "berserk_always", false);
 
-    m_feel_enemy_who_just_hit_max_distance = READ_IF_EXISTS(
-        pSettings, r_float, section, "feel_enemy_who_just_hit_max_distance",
-        detail::base_monster::feel_enemy_who_just_hit_max_distance);
+    m_feel_enemy_who_just_hit_max_distance   = READ_IF_EXISTS(pSettings, r_float, section, "feel_enemy_who_just_hit_max_distance", detail::base_monster::feel_enemy_who_just_hit_max_distance);
 
-    m_feel_enemy_max_distance = READ_IF_EXISTS(
-        pSettings, r_float, section, "feel_enemy_max_distance", detail::base_monster::feel_enemy_max_distance);
+    m_feel_enemy_max_distance                = READ_IF_EXISTS(pSettings, r_float, section, "feel_enemy_max_distance", detail::base_monster::feel_enemy_max_distance);
 
-    m_feel_enemy_who_made_sound_max_distance = READ_IF_EXISTS(
-        pSettings, r_float, section, "feel_enemy_who_made_sound_max_distance",
-        detail::base_monster::feel_enemy_who_made_sound_max_distance);
+    m_feel_enemy_who_made_sound_max_distance = READ_IF_EXISTS(pSettings, r_float, section, "feel_enemy_who_made_sound_max_distance", detail::base_monster::feel_enemy_who_made_sound_max_distance);
 
     //------------------------------------
     // Steering Behaviour
     //------------------------------------
-    float separate_factor = READ_IF_EXISTS(pSettings, r_float, section, "separate_factor", 0.f);
-    float separate_range  = READ_IF_EXISTS(pSettings, r_float, section, "separate_range", 0.f);
+    float separate_factor                    = READ_IF_EXISTS(pSettings, r_float, section, "separate_factor", 0.f);
+    float separate_range                     = READ_IF_EXISTS(pSettings, r_float, section, "separate_range", 0.f);
 
     if ((separate_factor > 0.0001f) && (separate_range > 0.01f))
     {
-        m_steer_manager = xr_new<steering_behaviour::manager>();
+        m_steer_manager      = xr_new<steering_behaviour::manager>();
 
-        m_grouping_behaviour = xr_new<squad_grouping_behaviour>(
-            this, Fvector3().set(0.f, 0.f, 0.f), Fvector3().set(0.f, separate_factor, 0.f), separate_range);
+        m_grouping_behaviour = xr_new<squad_grouping_behaviour>(this, Fvector3().set(0.f, 0.f, 0.f), Fvector3().set(0.f, separate_factor, 0.f), separate_range);
 
         get_steer_manager()->add(xr_new<steering_behaviour::grouping>(m_grouping_behaviour));
     }
@@ -151,30 +145,22 @@ void CBaseMonster::PostLoad(LPCSTR section)
     //------------------------------------
     attack_on_move_params_t& aom = m_attack_on_move_params;
 
-    aom.enabled = (READ_IF_EXISTS(pSettings, r_bool, section, "aom_enabled", FALSE)) != 0;
-    aom.far_radius =
-        READ_IF_EXISTS(pSettings, r_float, section, "aom_far_radius", detail::base_monster::aom_far_radius);
-    aom.attack_radius =
-        READ_IF_EXISTS(pSettings, r_float, section, "aom_attack_radius", detail::base_monster::aom_attack_radius);
-    aom.update_side_period = READ_IF_EXISTS(
-        pSettings, r_float, section, "aom_update_side_period", detail::base_monster::aom_update_side_period);
-    aom.prediction_factor = READ_IF_EXISTS(
-        pSettings, r_float, section, "aom_prediction_factor", detail::base_monster::aom_prediction_factor);
-    aom.prepare_time =
-        READ_IF_EXISTS(pSettings, r_float, section, "aom_prepare_time", detail::base_monster::aom_prepare_time);
-    aom.prepare_radius =
-        READ_IF_EXISTS(pSettings, r_float, section, "aom_prepare_radius", detail::base_monster::aom_prepare_radius);
-    aom.max_go_close_time = READ_IF_EXISTS(pSettings, r_float, section, "aom_max_go_close_time", 8.f);
+    aom.enabled                  = (READ_IF_EXISTS(pSettings, r_bool, section, "aom_enabled", FALSE)) != 0;
+    aom.far_radius               = READ_IF_EXISTS(pSettings, r_float, section, "aom_far_radius", detail::base_monster::aom_far_radius);
+    aom.attack_radius            = READ_IF_EXISTS(pSettings, r_float, section, "aom_attack_radius", detail::base_monster::aom_attack_radius);
+    aom.update_side_period       = READ_IF_EXISTS(pSettings, r_float, section, "aom_update_side_period", detail::base_monster::aom_update_side_period);
+    aom.prediction_factor        = READ_IF_EXISTS(pSettings, r_float, section, "aom_prediction_factor", detail::base_monster::aom_prediction_factor);
+    aom.prepare_time             = READ_IF_EXISTS(pSettings, r_float, section, "aom_prepare_time", detail::base_monster::aom_prepare_time);
+    aom.prepare_radius           = READ_IF_EXISTS(pSettings, r_float, section, "aom_prepare_radius", detail::base_monster::aom_prepare_radius);
+    aom.max_go_close_time        = READ_IF_EXISTS(pSettings, r_float, section, "aom_max_go_close_time", 8.f);
 
     if (aom.enabled)
     {
-        SVelocityParam& velocity_run = move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
+        SVelocityParam& velocity_run          = move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
 
-        pcstr attack_on_move_anim_l =
-            READ_IF_EXISTS(pSettings, r_string, section, "aom_animation_left", "stand_attack_run_");
+        pcstr           attack_on_move_anim_l = READ_IF_EXISTS(pSettings, r_string, section, "aom_animation_left", "stand_attack_run_");
         anim().AddAnim(eAnimAttackOnRunLeft, attack_on_move_anim_l, -1, &velocity_run, PS_STAND);
-        pcstr attack_on_move_anim_r =
-            READ_IF_EXISTS(pSettings, r_string, section, "aom_animation_right", "stand_attack_run_");
+        pcstr attack_on_move_anim_r = READ_IF_EXISTS(pSettings, r_string, section, "aom_animation_right", "stand_attack_run_");
         anim().AddAnim(eAnimAttackOnRunRight, attack_on_move_anim_r, -1, &velocity_run, PS_STAND);
     }
 
@@ -185,7 +171,7 @@ void CBaseMonster::PostLoad(LPCSTR section)
     {
         SVelocityParam& velocity_stand = move().get_velocity(MonsterMovement::eVelocityParameterStand);
 
-        m_anti_aim = xr_new<anti_aim_ability>(this);
+        m_anti_aim                     = xr_new<anti_aim_ability>(this);
         control().add(m_anti_aim, ControlCom::eAntiAim);
 
         pcstr anti_aim_animation = READ_IF_EXISTS(pSettings, r_string, section, "anti_aim_animation", "stand_attack_");
@@ -201,11 +187,9 @@ steering_behaviour::manager* CBaseMonster::get_steer_manager()
 }
 
 // if sound is absent just do not load that one
-#define LOAD_SOUND(sound_name, _type, _prior, _mask, _int_type)                                                   \
-    if (pSettings->line_exist(section, sound_name))                                                               \
-        sound().add(                                                                                              \
-            pSettings->r_string(section, sound_name), DEFAULT_SAMPLE_COUNT, _type, _prior, u32(_mask), _int_type, \
-            m_head_bone_name);
+#define LOAD_SOUND(sound_name, _type, _prior, _mask, _int_type) \
+    if (pSettings->line_exist(section, sound_name))             \
+        sound().add(pSettings->r_string(section, sound_name), DEFAULT_SAMPLE_COUNT, _type, _prior, u32(_mask), _int_type, m_head_bone_name);
 
 void CBaseMonster::reload(LPCSTR section)
 {
@@ -217,42 +201,18 @@ void CBaseMonster::reload(LPCSTR section)
     movement().reload(section);
 
     // load base sounds
-    LOAD_SOUND(
-        "sound_idle", SOUND_TYPE_MONSTER_TALKING, MonsterSound::eLowPriority, MonsterSound::eBaseChannel,
-        MonsterSound::eMonsterSoundIdle);
-    LOAD_SOUND(
-        "sound_distant_idle", SOUND_TYPE_MONSTER_TALKING, MonsterSound::eLowPriority + 1, MonsterSound::eBaseChannel,
-        MonsterSound::eMonsterSoundIdleDistant);
-    LOAD_SOUND(
-        "sound_eat", SOUND_TYPE_MONSTER_TALKING, MonsterSound::eNormalPriority + 4, MonsterSound::eBaseChannel,
-        MonsterSound::eMonsterSoundEat);
-    LOAD_SOUND(
-        "sound_aggressive", SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eNormalPriority + 3, MonsterSound::eBaseChannel,
-        MonsterSound::eMonsterSoundAggressive);
-    LOAD_SOUND(
-        "sound_attack_hit", SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eHighPriority + 1,
-        MonsterSound::eCaptureAllChannels, MonsterSound::eMonsterSoundAttackHit);
-    LOAD_SOUND(
-        "sound_take_damage", SOUND_TYPE_MONSTER_INJURING, MonsterSound::eHighPriority,
-        MonsterSound::eCaptureAllChannels, MonsterSound::eMonsterSoundTakeDamage);
-    LOAD_SOUND(
-        "sound_strike", SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eNormalPriority, MonsterSound::eChannelIndependent,
-        MonsterSound::eMonsterSoundStrike);
-    LOAD_SOUND(
-        "sound_die", SOUND_TYPE_MONSTER_DYING, MonsterSound::eCriticalPriority, MonsterSound::eCaptureAllChannels,
-        MonsterSound::eMonsterSoundDie);
-    LOAD_SOUND(
-        "sound_die_in_anomaly", SOUND_TYPE_MONSTER_DYING, MonsterSound::eCriticalPriority,
-        MonsterSound::eCaptureAllChannels, MonsterSound::eMonsterSoundDieInAnomaly);
-    LOAD_SOUND(
-        "sound_threaten", SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eNormalPriority, MonsterSound::eBaseChannel,
-        MonsterSound::eMonsterSoundThreaten);
-    LOAD_SOUND(
-        "sound_steal", SOUND_TYPE_MONSTER_STEP, MonsterSound::eNormalPriority + 1, MonsterSound::eBaseChannel,
-        MonsterSound::eMonsterSoundSteal);
-    LOAD_SOUND(
-        "sound_panic", SOUND_TYPE_MONSTER_STEP, MonsterSound::eNormalPriority + 2, MonsterSound::eBaseChannel,
-        MonsterSound::eMonsterSoundPanic);
+    LOAD_SOUND("sound_idle", SOUND_TYPE_MONSTER_TALKING, MonsterSound::eLowPriority, MonsterSound::eBaseChannel, MonsterSound::eMonsterSoundIdle);
+    LOAD_SOUND("sound_distant_idle", SOUND_TYPE_MONSTER_TALKING, MonsterSound::eLowPriority + 1, MonsterSound::eBaseChannel, MonsterSound::eMonsterSoundIdleDistant);
+    LOAD_SOUND("sound_eat", SOUND_TYPE_MONSTER_TALKING, MonsterSound::eNormalPriority + 4, MonsterSound::eBaseChannel, MonsterSound::eMonsterSoundEat);
+    LOAD_SOUND("sound_aggressive", SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eNormalPriority + 3, MonsterSound::eBaseChannel, MonsterSound::eMonsterSoundAggressive);
+    LOAD_SOUND("sound_attack_hit", SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eHighPriority + 1, MonsterSound::eCaptureAllChannels, MonsterSound::eMonsterSoundAttackHit);
+    LOAD_SOUND("sound_take_damage", SOUND_TYPE_MONSTER_INJURING, MonsterSound::eHighPriority, MonsterSound::eCaptureAllChannels, MonsterSound::eMonsterSoundTakeDamage);
+    LOAD_SOUND("sound_strike", SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eNormalPriority, MonsterSound::eChannelIndependent, MonsterSound::eMonsterSoundStrike);
+    LOAD_SOUND("sound_die", SOUND_TYPE_MONSTER_DYING, MonsterSound::eCriticalPriority, MonsterSound::eCaptureAllChannels, MonsterSound::eMonsterSoundDie);
+    LOAD_SOUND("sound_die_in_anomaly", SOUND_TYPE_MONSTER_DYING, MonsterSound::eCriticalPriority, MonsterSound::eCaptureAllChannels, MonsterSound::eMonsterSoundDieInAnomaly);
+    LOAD_SOUND("sound_threaten", SOUND_TYPE_MONSTER_ATTACKING, MonsterSound::eNormalPriority, MonsterSound::eBaseChannel, MonsterSound::eMonsterSoundThreaten);
+    LOAD_SOUND("sound_steal", SOUND_TYPE_MONSTER_STEP, MonsterSound::eNormalPriority + 1, MonsterSound::eBaseChannel, MonsterSound::eMonsterSoundSteal);
+    LOAD_SOUND("sound_panic", SOUND_TYPE_MONSTER_STEP, MonsterSound::eNormalPriority + 2, MonsterSound::eBaseChannel, MonsterSound::eMonsterSoundPanic);
 
     control().reload(section);
 
@@ -288,14 +248,14 @@ void CBaseMonster::reinit()
 
     Morale.reinit();
 
-    m_bDamaged      = false;
-    m_bAngry        = false;
-    m_bAggressive   = false;
-    m_bSleep        = false;
-    m_bRunTurnLeft  = false;
-    m_bRunTurnRight = false;
+    m_bDamaged                 = false;
+    m_bAngry                   = false;
+    m_bAggressive              = false;
+    m_bSleep                   = false;
+    m_bRunTurnLeft             = false;
+    m_bRunTurnRight            = false;
 
-    state_invisible = false;
+    state_invisible            = false;
 
     m_force_real_speed         = false;
     m_script_processing_active = false;
@@ -315,7 +275,7 @@ void CBaseMonster::reinit()
 
     time_berserk_start = 0;
 
-    m_prev_sound_type = MonsterSound::eMonsterSoundIdle;
+    m_prev_sound_type  = MonsterSound::eMonsterSoundIdle;
 
 #ifdef DEBUG
     m_show_debug_info = 0;
@@ -324,11 +284,11 @@ void CBaseMonster::reinit()
     m_offset_from_leader_chosen_tick = 0;
     m_offset_from_leader             = Fvector().set(0.f, 0.f, 0.f);
 
-    m_action_target_node = u32(-1);
+    m_action_target_node             = u32(-1);
 
-    m_first_tick_enemy_inaccessible = 0;
-    m_last_tick_enemy_inaccessible  = 0;
-    m_first_tick_object_not_at_home = 0;
+    m_first_tick_enemy_inaccessible  = 0;
+    m_last_tick_enemy_inaccessible   = 0;
+    m_first_tick_object_not_at_home  = 0;
 
     anim().clear_override_animation();
 }
@@ -339,9 +299,7 @@ BOOL CBaseMonster::net_Spawn(CSE_Abstract* DC)
         return (FALSE);
 
     CSE_Abstract* e = (CSE_Abstract*)(DC);
-    R_ASSERT2(
-        ai().get_level_graph() && ai().get_cross_table() && (ai().level_graph().level_id() != u32(-1)),
-        "There is no AI-Map, level graph, cross table, or graph is not compiled into the game graph!");
+    R_ASSERT2(ai().get_level_graph() && ai().get_cross_table() && (ai().level_graph().level_id() != u32(-1)), "There is no AI-Map, level graph, cross table, or graph is not compiled into the game graph!");
     monster_squad().register_member((u8)g_Team(), (u8)g_Squad(), (u8)g_Group(), this);
     settings_overrides();
 
@@ -463,17 +421,11 @@ void CBaseMonster::settings_read(CInifile const* ini, LPCSTR section, SMonsterSe
         VERIFY(!fis_zero(data.m_attack_effector.ppi.noise.fps));
 
         if (ini->line_exist(ppi_section, "color_base"))
-            sscanf(
-                ini->r_string(ppi_section, "color_base"), "%f,%f,%f", &data.m_attack_effector.ppi.color_base.r,
-                &data.m_attack_effector.ppi.color_base.g, &data.m_attack_effector.ppi.color_base.b);
+            sscanf(ini->r_string(ppi_section, "color_base"), "%f,%f,%f", &data.m_attack_effector.ppi.color_base.r, &data.m_attack_effector.ppi.color_base.g, &data.m_attack_effector.ppi.color_base.b);
         if (ini->line_exist(ppi_section, "color_base"))
-            sscanf(
-                ini->r_string(ppi_section, "color_gray"), "%f,%f,%f", &data.m_attack_effector.ppi.color_gray.r,
-                &data.m_attack_effector.ppi.color_gray.g, &data.m_attack_effector.ppi.color_gray.b);
+            sscanf(ini->r_string(ppi_section, "color_gray"), "%f,%f,%f", &data.m_attack_effector.ppi.color_gray.r, &data.m_attack_effector.ppi.color_gray.g, &data.m_attack_effector.ppi.color_gray.b);
         if (ini->line_exist(ppi_section, "color_base"))
-            sscanf(
-                ini->r_string(ppi_section, "color_add"), "%f,%f,%f", &data.m_attack_effector.ppi.color_add.r,
-                &data.m_attack_effector.ppi.color_add.g, &data.m_attack_effector.ppi.color_add.b);
+            sscanf(ini->r_string(ppi_section, "color_add"), "%f,%f,%f", &data.m_attack_effector.ppi.color_add.r, &data.m_attack_effector.ppi.color_add.g, &data.m_attack_effector.ppi.color_add.b);
 
         READ_SETTINGS(data.m_attack_effector.time, "time", r_float, ini, ppi_section);
         READ_SETTINGS(data.m_attack_effector.time_attack, "time_attack", r_float, ini, ppi_section);
@@ -544,9 +496,9 @@ void CBaseMonster::load_critical_wound_bones()
 
 void CBaseMonster::fill_bones_body_parts(LPCSTR body_part, CriticalWoundType wound_type)
 {
-    LPCSTR body_parts_section = pSettings->r_string(cNameSect(), body_part);
+    LPCSTR       body_parts_section = pSettings->r_string(cNameSect(), body_part);
 
-    IKinematics* kinematics = smart_cast<IKinematics*>(Visual());
+    IKinematics* kinematics         = smart_cast<IKinematics*>(Visual());
     VERIFY(kinematics);
 
     CInifile::Sect&   body_part_section = pSettings->r_section(body_parts_section);

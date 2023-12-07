@@ -42,13 +42,13 @@ class EDetailManager: public CDetailManager, public ESceneToolBase
     {
         flRTGenerateBaseMesh = (1 << 0)
     };
-    Flags32 m_RTFlags;
+    Flags32    m_RTFlags;
 
     ObjectList m_SnapObjects;
 
-    Fbox m_BBox;
+    Fbox       m_BBox;
 
-    IC u32 toSlotX(float x)
+    IC u32     toSlotX(float x)
     {
         return (x / DETAIL_SLOT_SIZE + 0.5f) + dtH.offs_x;
     }
@@ -65,20 +65,20 @@ class EDetailManager: public CDetailManager, public ESceneToolBase
         return (z - dtH.offs_z) * DETAIL_SLOT_SIZE + DETAIL_SLOT_SIZE_2;
     }
 
-    void UpdateSlotBBox(int x, int z, DetailSlot& slot);
+    void        UpdateSlotBBox(int x, int z, DetailSlot& slot);
 
-    void GetSlotRect(Frect& rect, int sx, int sz);
-    void GetSlotTCRect(Irect& rect, int sx, int sz);
-    u8   GetRandomObject(u32 color_index);
-    u8   GetObject(ColorIndexPairIt& CI, u8 id);
+    void        GetSlotRect(Frect& rect, int sx, int sz);
+    void        GetSlotTCRect(Irect& rect, int sx, int sz);
+    u8          GetRandomObject(u32 color_index);
+    u8          GetObject(ColorIndexPairIt& CI, u8 id);
 
-    void CalcClosestCount(int part, const Fcolor& C, SIndexDistVec& best);
-    void FindClosestIndex(const Fcolor& C, SIndexDistVec& best);
+    void        CalcClosestCount(int part, const Fcolor& C, SIndexDistVec& best);
+    void        FindClosestIndex(const Fcolor& C, SIndexDistVec& best);
 
     DetailSlot& GetSlot(u32 sx, u32 sz);
 
-    void OnDensityChange(PropValue* prop);
-    void OnBaseTextureChange(PropValue* prop);
+    void        OnDensityChange(PropValue* prop);
+    void        OnBaseTextureChange(PropValue* prop);
 
 protected:
     // controls
@@ -91,13 +91,14 @@ public:
     void RenderTexture(float alpha);
     void InvalidateCache();
     // render part -----------------------------------------------------------------
+
 public:
     ColorIndexMap      m_ColorIndices;
     U8Vec              m_Selected;
     CCustom2DProjector m_Base;
 
-    void SaveColorIndices(IWriter&);
-    bool LoadColorIndices(IReader&);
+    void               SaveColorIndices(IWriter&);
+    bool               LoadColorIndices(IReader&);
 
 public:
     EDetailManager();
@@ -120,8 +121,7 @@ public:
     virtual void UpdateSnapList(){};
 
     // selection manipulate
-    virtual int
-        RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
+    virtual int  RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
     virtual int  FrustumSelect(int flag, const CFrustum& frustum);
     virtual void SelectObjects(bool flag);
     virtual void InvertSelection();
@@ -132,7 +132,7 @@ public:
     virtual void Clear(bool bSpecific = false);
 
     // definition
-    IC LPCSTR ClassName()
+    IC LPCSTR    ClassName()
     {
         return "detail_object";
     }
@@ -192,27 +192,27 @@ public:
     virtual void GetBBox(Fbox& bb, bool bSelOnly) {}
 
     // other
-    bool UpdateHeader();
-    bool UpdateSlots();
-    bool UpdateSlotObjects(int x, int z);
-    bool UpdateObjects(bool bUpdateTex, bool bUpdateSelectedOnly);
-    bool Initialize();
-    bool Reinitialize();
-    void InvalidateSlots();
+    bool         UpdateHeader();
+    bool         UpdateSlots();
+    bool         UpdateSlotObjects(int x, int z);
+    bool         UpdateObjects(bool bUpdateTex, bool bUpdateSelectedOnly);
+    bool         Initialize();
+    bool         Reinitialize();
+    void         InvalidateSlots();
 
-    EDetail* AppendDO(LPCSTR name, bool bTestUnique = true);
-    bool     RemoveDO(LPCSTR name);
-    int      RemoveDOs();
-    DetailIt FindDOByNameIt(LPCSTR name);
-    EDetail* FindDOByName(LPCSTR name);
+    EDetail*     AppendDO(LPCSTR name, bool bTestUnique = true);
+    bool         RemoveDO(LPCSTR name);
+    int          RemoveDOs();
+    DetailIt     FindDOByNameIt(LPCSTR name);
+    EDetail*     FindDOByName(LPCSTR name);
 
-    void     RemoveColorIndices();
-    void     AppendIndexObject(u32 color, LPCSTR name, bool bTestUnique = true);
-    EDetail* FindObjectInColorIndices(u32 index, LPCSTR name);
-    void     ExportColorIndices(LPCSTR fname);
-    bool     ImportColorIndices(LPCSTR fname);
+    void         RemoveColorIndices();
+    void         AppendIndexObject(u32 color, LPCSTR name, bool bTestUnique = true);
+    EDetail*     FindObjectInColorIndices(u32 index, LPCSTR name);
+    void         ExportColorIndices(LPCSTR fname);
+    bool         ImportColorIndices(LPCSTR fname);
 
-    void ClearColorIndices();
-    void ClearSlots();
-    void ClearBase();
+    void         ClearColorIndices();
+    void         ClearSlots();
+    void         ClearBase();
 };

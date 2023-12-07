@@ -2,12 +2,7 @@
 #include "..\..\Utils\GeometryPartExtractor.h"
 static bool s_draw_dbg = false;
 
-IC bool build_mesh(
-    const Fmatrix&      parent,
-    CEditableMesh*      mesh,
-    CGeomPartExtractor* extractor,
-    u32                 game_mtl_mask,
-    BOOL                ignore_shader)
+IC bool     build_mesh(const Fmatrix& parent, CEditableMesh* mesh, CGeomPartExtractor* extractor, u32 game_mtl_mask, BOOL ignore_shader)
 {
     bool bResult = true;
     mesh->GenerateVNormals(&parent);
@@ -86,7 +81,7 @@ bool ESceneObjectTool::ExportBreakableObjects(SExportStreams* F)
     bool                bResult   = true;
     CGeomPartExtractor* extractor = 0;
 
-    Fbox bb;
+    Fbox                bb;
     if (!GetBox(bb))
         return false;
 
@@ -162,8 +157,7 @@ bool ESceneObjectTool::ExportBreakableObjects(SExportStreams* F)
                         MX.translate_over(P->m_RefOffset);
                         Fvector DR = {0, 0, 1};
                         MX.transform_dir(DR);
-                        Tools->m_DebugDraw.AppendLine(
-                            P->m_RefOffset, Fvector().mad(P->m_RefOffset, MX.k, 1.f), 0xFF0000FF, false, false);
+                        Tools->m_DebugDraw.AppendLine(P->m_RefOffset, Fvector().mad(P->m_RefOffset, MX.k, 1.f), 0xFF0000FF, false, false);
                     }
 
                     NET_Packet Packet;
@@ -215,7 +209,7 @@ bool ESceneObjectTool::ExportClimableObjects(SExportStreams* F)
     bool                bResult   = true;
     CGeomPartExtractor* extractor = 0;
 
-    Fbox bb;
+    Fbox                bb;
     if (!GetBox(bb))
         return false;
 
@@ -261,11 +255,11 @@ bool ESceneObjectTool::ExportClimableObjects(SExportStreams* F)
             if (P->Valid())
             {
                 // export visual
-                xr_string sn = xr_string().sprintf("clmbl#%d", (p_it - parts.begin()));
+                xr_string sn           = xr_string().sprintf("clmbl#%d", (p_it - parts.begin()));
 
-                Fvector local_normal = {0, 0, 0};
+                Fvector   local_normal = {0, 0, 0};
 
-                LPCSTR mat_name = NULL;
+                LPCSTR    mat_name     = NULL;
                 for (SBFaceVecIt it = P->m_Faces.begin(); it != P->m_Faces.end(); it++)
                 {
                     for (u32 k = 0; k < 3; k++)
@@ -290,9 +284,7 @@ bool ESceneObjectTool::ExportClimableObjects(SExportStreams* F)
                     // set shape
                     CShapeData::shape_def shape;
                     shape.type = CShapeData::cfBox;
-                    shape.data.box.scale(
-                        (P->m_BBox.max.x - P->m_BBox.min.x) * 0.5f, (P->m_BBox.max.y - P->m_BBox.min.y) * 0.5f,
-                        (P->m_BBox.max.z - P->m_BBox.min.z) * 0.5f);
+                    shape.data.box.scale((P->m_BBox.max.x - P->m_BBox.min.x) * 0.5f, (P->m_BBox.max.y - P->m_BBox.min.y) * 0.5f, (P->m_BBox.max.z - P->m_BBox.min.z) * 0.5f);
                     m_Shape->assign_shapes(&shape, 1);
                     // orientate object
                     if (!OrientToNorm(local_normal, P->m_OBB.m_rotate, P->m_OBB.m_halfsize))
@@ -319,8 +311,7 @@ bool ESceneObjectTool::ExportClimableObjects(SExportStreams* F)
                         {
                             Tools->m_DebugDraw.AppendOBB(P->m_OBB);
                             M.transform_dir(local_normal);
-                            Tools->m_DebugDraw.AppendLine(
-                                P->m_RefOffset, Fvector().mad(P->m_RefOffset, local_normal, 1.f));
+                            Tools->m_DebugDraw.AppendLine(P->m_RefOffset, Fvector().mad(P->m_RefOffset, local_normal, 1.f));
                         }
                     }
                     g_SEFactoryManager->destroy_entity(m_Data);

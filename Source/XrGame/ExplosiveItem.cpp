@@ -16,8 +16,7 @@ void CExplosiveItem::Load(LPCSTR section)
     inherited::Load(section);
     CExplosive::Load(section);
     m_flags.set(FUsingCondition, TRUE);
-    CDelayedActionFuse::Initialize(
-        pSettings->r_float(section, "time_to_explode"), pSettings->r_float(section, "condition_to_explode"));
+    CDelayedActionFuse::Initialize(pSettings->r_float(section, "time_to_explode"), pSettings->r_float(section, "condition_to_explode"));
     VERIFY(pSettings->line_exist(section, "set_timer_particles"));
 }
 
@@ -37,8 +36,7 @@ void CExplosiveItem::Hit(SHit* pHDS)
         pHDS->power = 0.f;
     inherited::Hit(pHDS);
     VERIFY(pHDS->who);
-    if (!CDelayedActionFuse::isActive() &&
-        CDelayedActionFuse::CheckCondition(GetCondition() && pHDS->who) /*&&CExplosive::Initiator()==u16(-1)*/)
+    if (!CDelayedActionFuse::isActive() && CDelayedActionFuse::CheckCondition(GetCondition() && pHDS->who) /*&&CExplosive::Initiator()==u16(-1)*/)
     {
         // запомнить того, кто взорвал вещь
         SetInitiator(pHDS->who->ID());
@@ -46,8 +44,7 @@ void CExplosiveItem::Hit(SHit* pHDS)
 }
 void CExplosiveItem::StartTimerEffects()
 {
-    CParticlesPlayer::StartParticles(
-        pSettings->r_string(*cNameSect(), "set_timer_particles"), Fvector().set(0, 1, 0), ID());
+    CParticlesPlayer::StartParticles(pSettings->r_string(*cNameSect(), "set_timer_particles"), Fvector().set(0, 1, 0), ID());
 }
 void CExplosiveItem::OnEvent(NET_Packet& P, u16 type)
 {

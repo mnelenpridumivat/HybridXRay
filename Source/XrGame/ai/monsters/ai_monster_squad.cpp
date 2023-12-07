@@ -257,13 +257,7 @@ void CMonsterSquad::unlock_corpse(const CEntityAlive* corpse)
 }
 //////////////////////////////////////////////////////////////////////////
 
-squad_grouping_behaviour::squad_grouping_behaviour(
-    CEntity* self,
-    Fvector  cohesion_factor,
-    Fvector  separate_factor,
-    float    max_separate_range):
-    self(self),
-    squad(NULL), steering_behaviour::grouping::params(cohesion_factor, separate_factor, max_separate_range)
+squad_grouping_behaviour::squad_grouping_behaviour(CEntity* self, Fvector cohesion_factor, Fvector separate_factor, float max_separate_range): self(self), squad(NULL), steering_behaviour::grouping::params(cohesion_factor, separate_factor, max_separate_range)
 {
     VERIFY(self);
 }
@@ -332,7 +326,7 @@ void squad_grouping_behaviour::next_nearest(Fvector& v)
 float g_separate_factor = 1.f;
 float g_separate_radius = 1.f;
 
-bool squad_grouping_behaviour::update()
+bool  squad_grouping_behaviour::update()
 {
     // separation_factor = cr_fvector3(0, g_separate_factor, 0);
     // max_separate_range = g_separate_radius;

@@ -970,8 +970,7 @@ void CSpawnPoint::Render(int priority, bool strictB2F)
                 Fvector D;
                 D.sub(EDevice->vCameraPosition, GetPosition());
                 float dist = D.normalize_magn();
-                if (!st->m_Flags.is(ESceneSpawnTool::flPickSpawnType) ||
-                    !Scene->RayPickObject(dist, GetPosition(), D, OBJCLASS_SCENEOBJECT, 0, 0))
+                if (!st->m_Flags.is(ESceneSpawnTool::flPickSpawnType) || !Scene->RayPickObject(dist, GetPosition(), D, OBJCLASS_SCENEOBJECT, 0, 0))
                     DU_impl.OutText(GetPosition(), s_name.c_str(), 0xffffffff, 0xff000000);
             }
             if (Selected())
@@ -1342,7 +1341,7 @@ void CSpawnPoint::SaveStream(IWriter& F)
                 F.w_stringZ(m_rpProfile);
             }
             F.close_chunk();
-        break;
+            break;
         case ptEnvMod:
             F.open_chunk(SPAWNPOINT_CHUNK_ENVMOD);
             F.w_float(m_EM_Radius);
@@ -1364,7 +1363,7 @@ void CSpawnPoint::SaveStream(IWriter& F)
                 F.w_u16(m_EM_Flags.get());
                 F.close_chunk();
             }
-        break;
+            break;
         default:
             THROW;
     }
@@ -1415,7 +1414,7 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
 
                 F->rpoint.stream.w_stringZ(m_rpProfile);
                 F->rpoint.stream.close_chunk();
-            break;
+                break;
             case ptEnvMod:
                 Fcolor tmp;
                 F->envmodif.stream.open_chunk(F->envmodif.chunk++);
@@ -1430,7 +1429,7 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
                 F->envmodif.stream.w_fvector3(u32_3f(m_EM_HemiColor));
                 F->envmodif.stream.w_u16(m_EM_Flags.get());
                 F->envmodif.stream.close_chunk();
-            break;
+                break;
             default:
                 THROW;
         }
@@ -1568,7 +1567,7 @@ void CSpawnPoint::FillProp(LPCSTR pref, PropItemVec& items)
 
                 Flag16Value* FV = NULL;
 
-                FV = PHelper().CreateFlag16(items, PrepareKey(pref, "Environment Modificator\\View Distance"), &m_EM_Flags, eViewDist);
+                FV              = PHelper().CreateFlag16(items, PrepareKey(pref, "Environment Modificator\\View Distance"), &m_EM_Flags, eViewDist);
                 FV->OnChangeEvent.bind(this, &CSpawnPoint::OnEnvModFlagChange);
                 if (m_EM_Flags.test(eViewDist))
                     PHelper().CreateFloat(items, PrepareKey(pref, "Environment Modificator\\View Distance\\ "), &m_EM_ViewDist, EPS_L, 10000.f);

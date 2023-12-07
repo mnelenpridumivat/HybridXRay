@@ -35,12 +35,12 @@ namespace xray_nvi
         int                       m_nNumElements;
         ConvolutionKernel();
         ~ConvolutionKernel();
-        HRESULT Initialize(int numElements);
-        HRESULT Free();
-        void SetElements(int numElements, ConvolutionKernelElement* pElements);
+        HRESULT            Initialize(int numElements);
+        HRESULT            Free();
+        void               SetElements(int numElements, ConvolutionKernelElement* pElements);
         // Find extent (rectangle) over which the kernel samples
         // Values are the offset from the (0,0) element
-        void GetKernelExtents(int* xlow, int* xhigh, int* ylow, int* yhigh);
+        void               GetKernelExtents(int* xlow, int* xhigh, int* ylow, int* yhigh);
         ConvolutionKernel& operator=(const ConvolutionKernel& src);
     };
 
@@ -61,7 +61,7 @@ namespace xray_nvi
         HRESULT Free();
         // Coords in source image
         // numResults must equal numKernels set on Initialize();
-        void Convolve_Alpha_At(int i, int j, float* results, int numResults);
+        void    Convolve_Alpha_At(int i, int j, float* results, int numResults);
     };
 };   // namespace xray_nvi
 

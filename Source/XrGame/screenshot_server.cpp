@@ -53,8 +53,7 @@ void clientdata_proxy::make_screenshot(ClientID const& admin_id, ClientID const&
 
     Level().Server->SecureSendTo(tmp_cheater, ssr_packet, net_flags(TRUE, TRUE));
 
-    file_transfer::receiving_state_callback_t receiving_cb =
-        fastdelegate::MakeDelegate(this, &clientdata_proxy::download_screenshot_callback);
+    file_transfer::receiving_state_callback_t receiving_cb = fastdelegate::MakeDelegate(this, &clientdata_proxy::download_screenshot_callback);
     if (my_proxy_mem_file.size())
         my_proxy_mem_file.clear();
     m_first_receive = true;
@@ -91,8 +90,7 @@ void clientdata_proxy::make_config_dump(ClientID const& admin_id, ClientID const
 
     Level().Server->SecureSendTo(tmp_cheater, ssr_packet, net_flags(TRUE, TRUE));
 
-    file_transfer::receiving_state_callback_t receiving_cb =
-        fastdelegate::MakeDelegate(this, &clientdata_proxy::download_config_callback);
+    file_transfer::receiving_state_callback_t receiving_cb = fastdelegate::MakeDelegate(this, &clientdata_proxy::download_config_callback);
     if (my_proxy_mem_file.size())
         my_proxy_mem_file.clear();
     m_first_receive = true;
@@ -101,8 +99,7 @@ void clientdata_proxy::make_config_dump(ClientID const& admin_id, ClientID const
 
 bool clientdata_proxy::is_active()
 {
-    return (
-        m_ft_server->is_receiving_active(m_chearer_id) || m_ft_server->is_transfer_active(m_admin_id, m_chearer_id));
+    return (m_ft_server->is_receiving_active(m_chearer_id) || m_ft_server->is_transfer_active(m_admin_id, m_chearer_id));
 }
 
 void clientdata_proxy::notify_admin(clientdata_event_t event_for_admin, char const* reason)
@@ -133,16 +130,13 @@ void clientdata_proxy::save_proxy_screenshot()
     string_path screenshot_fn;
     string_path str_digest;
 
-    LPCSTR dest_file_name = NULL;
-    STRCONCAT(
-        dest_file_name, clgame->make_file_name(m_cheater_name.c_str(), screenshot_fn), "_",
-        (m_cheater_digest.size() ? clgame->make_file_name(m_cheater_digest.c_str(), str_digest) : "nulldigest"));
+    LPCSTR      dest_file_name = NULL;
+    STRCONCAT(dest_file_name, clgame->make_file_name(m_cheater_name.c_str(), screenshot_fn), "_", (m_cheater_digest.size() ? clgame->make_file_name(m_cheater_digest.c_str(), str_digest) : "nulldigest"));
     SYSTEMTIME date_time;
     GetLocalTime(&date_time);
     clgame->generate_file_name(screenshot_fn, dest_file_name, date_time);
 
-    clgame->decompress_and_save_screenshot(
-        screenshot_fn, my_proxy_mem_file.pointer(), my_proxy_mem_file.size(), m_receiver->get_user_param());
+    clgame->decompress_and_save_screenshot(screenshot_fn, my_proxy_mem_file.pointer(), my_proxy_mem_file.size(), m_receiver->get_user_param());
 }
 
 void clientdata_proxy::save_proxy_config()
@@ -172,46 +166,46 @@ void clientdata_proxy::download_screenshot_callback(file_transfer::receiving_sta
 {
     switch (status)
     {
-        case file_transfer::receiving_data: {
+        case file_transfer::receiving_data:
+        {
             Msg("* downloaded %d from %d bytes of screenshot from client [%d]", downloaded, total, m_chearer_id);
             if (m_first_receive)
             {
                 notify_admin(e_screenshot_response, "prepare for receive...");
-                file_transfer::sending_state_callback_t sending_cb =
-                    fastdelegate::MakeDelegate(this, &clientdata_proxy::upload_file_callback);
-                m_ft_server->start_transfer_file(
-                    my_proxy_mem_file, total, m_admin_id, m_chearer_id, sending_cb, m_receiver->get_user_param());
+                file_transfer::sending_state_callback_t sending_cb = fastdelegate::MakeDelegate(this, &clientdata_proxy::upload_file_callback);
+                m_ft_server->start_transfer_file(my_proxy_mem_file, total, m_admin_id, m_chearer_id, sending_cb, m_receiver->get_user_param());
                 m_first_receive = false;
             }
         }
         break;
-        case file_transfer::receiving_aborted_by_user: {
+        case file_transfer::receiving_aborted_by_user:
+        {
             FATAL("* download screenshot aborted by user...");
         }
         break;
-        case file_transfer::receiving_aborted_by_peer: {
+        case file_transfer::receiving_aborted_by_peer:
+        {
             Msg("* download screenshot aborted by peer [%u]", m_chearer_id);
             LPCSTR error_msg;
             char   bufforint[16];
-            STRCONCAT(
-                error_msg, "download screenshot terminated by peer [", ultoa(m_chearer_id.value(), bufforint, 10), "]");
+            STRCONCAT(error_msg, "download screenshot terminated by peer [", ultoa(m_chearer_id.value(), bufforint, 10), "]");
             notify_admin(e_screenshot_error_notif, error_msg);
         }
         break;
-        case file_transfer::receiving_timeout: {
+        case file_transfer::receiving_timeout:
+        {
             LPCSTR error_msg = "* download screenshot incomplete - timeout";
             Msg(error_msg);
             notify_admin(e_screenshot_error_notif, error_msg);
         }
         break;
-        case file_transfer::receiving_complete: {
+        case file_transfer::receiving_complete:
+        {
             if (m_first_receive)
             {
                 notify_admin(e_screenshot_response, "prepare for receive...");
-                file_transfer::sending_state_callback_t sending_cb =
-                    fastdelegate::MakeDelegate(this, &clientdata_proxy::upload_file_callback);
-                m_ft_server->start_transfer_file(
-                    my_proxy_mem_file, total, m_admin_id, m_chearer_id, sending_cb, m_receiver->get_user_param());
+                file_transfer::sending_state_callback_t sending_cb = fastdelegate::MakeDelegate(this, &clientdata_proxy::upload_file_callback);
+                m_ft_server->start_transfer_file(my_proxy_mem_file, total, m_admin_id, m_chearer_id, sending_cb, m_receiver->get_user_param());
                 m_first_receive = false;
             }
             if (g_sv_mp_save_proxy_screenshots)
@@ -227,46 +221,46 @@ void clientdata_proxy::download_config_callback(file_transfer::receiving_status_
 {
     switch (status)
     {
-        case file_transfer::receiving_data: {
+        case file_transfer::receiving_data:
+        {
             Msg("* downloaded %d from %d bytes of config from client [%d]", downloaded, total, m_chearer_id);
             if (m_first_receive)
             {
                 notify_admin(e_configs_response, "prepare for receive...");
-                file_transfer::sending_state_callback_t sending_cb =
-                    fastdelegate::MakeDelegate(this, &clientdata_proxy::upload_file_callback);
-                m_ft_server->start_transfer_file(
-                    my_proxy_mem_file, total, m_admin_id, m_chearer_id, sending_cb, m_receiver->get_user_param());
+                file_transfer::sending_state_callback_t sending_cb = fastdelegate::MakeDelegate(this, &clientdata_proxy::upload_file_callback);
+                m_ft_server->start_transfer_file(my_proxy_mem_file, total, m_admin_id, m_chearer_id, sending_cb, m_receiver->get_user_param());
                 m_first_receive = false;
             }
         }
         break;
-        case file_transfer::receiving_aborted_by_user: {
+        case file_transfer::receiving_aborted_by_user:
+        {
             FATAL("* download config aborted by user...");
         }
         break;
-        case file_transfer::receiving_aborted_by_peer: {
+        case file_transfer::receiving_aborted_by_peer:
+        {
             Msg("* download config aborted by peer [%u]", m_chearer_id);
             LPCSTR error_msg;
             char   bufforint[16];
-            STRCONCAT(
-                error_msg, "download config terminated by peer [", ultoa(m_chearer_id.value(), bufforint, 10), "]");
+            STRCONCAT(error_msg, "download config terminated by peer [", ultoa(m_chearer_id.value(), bufforint, 10), "]");
             notify_admin(e_configs_error_notif, error_msg);
         }
         break;
-        case file_transfer::receiving_timeout: {
+        case file_transfer::receiving_timeout:
+        {
             LPCSTR error_msg = "* download config incomplete - timeout";
             Msg(error_msg);
             notify_admin(e_configs_error_notif, error_msg);
         }
         break;
-        case file_transfer::receiving_complete: {
+        case file_transfer::receiving_complete:
+        {
             if (m_first_receive)
             {
                 notify_admin(e_configs_response, "prepare for receive...");
-                file_transfer::sending_state_callback_t sending_cb =
-                    fastdelegate::MakeDelegate(this, &clientdata_proxy::upload_file_callback);
-                m_ft_server->start_transfer_file(
-                    my_proxy_mem_file, total, m_admin_id, m_chearer_id, sending_cb, m_receiver->get_user_param());
+                file_transfer::sending_state_callback_t sending_cb = fastdelegate::MakeDelegate(this, &clientdata_proxy::upload_file_callback);
+                m_ft_server->start_transfer_file(my_proxy_mem_file, total, m_admin_id, m_chearer_id, sending_cb, m_receiver->get_user_param());
                 m_first_receive = false;
             }
             if (g_sv_mp_save_proxy_configs)
@@ -282,19 +276,23 @@ void clientdata_proxy::upload_file_callback(file_transfer::sending_status_t stat
 {
     switch (status)
     {
-        case file_transfer::sending_data: {
+        case file_transfer::sending_data:
+        {
             Msg("* uploaded %d from %d bytes to client [%d]", uploaded, total, m_admin_id);
         }
         break;
-        case file_transfer::sending_aborted_by_user: {
+        case file_transfer::sending_aborted_by_user:
+        {
             FATAL("* upload file terminated by user ");
         }
         break;
-        case file_transfer::sending_rejected_by_peer: {
+        case file_transfer::sending_rejected_by_peer:
+        {
             Msg("* upload file terminated by peer [%d]", m_admin_id);
         }
         break;
-        case file_transfer::sending_complete: {
+        case file_transfer::sending_complete:
+        {
             Msg("* upload file to admin [%d] complete !", m_admin_id);
         }
         break;

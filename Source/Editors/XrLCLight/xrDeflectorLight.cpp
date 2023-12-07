@@ -36,13 +36,12 @@ void Jitter_Select(Fvector2*& Jitter, u32& Jcount)
     }
 }
 
-void GET(
-    const base_color& surface_color,
-    const u8          marker,
+void GET(const base_color& surface_color,
+    const u8               marker,
     // u32 width, u32 height, int x,  int y,
-    u32               ref,
-    u32&              count,
-    base_color_c&     dst)
+    u32                    ref,
+    u32&                   count,
+    base_color_c&          dst)
 {
     // if (x<0) return;
     // else if (x>=(int)width)		return;
@@ -149,10 +148,7 @@ struct lm_line
     buffer_vector<u8>&         marker;
     u32                        y;
     u32                        height;
-    lm_line(buffer_vector<base_color>& surf_buf, buffer_vector<u8>& mark_buf):
-        surface(surf_buf), marker(mark_buf), y(u32(-1)), height(u32(-1))
-    {
-    }
+    lm_line(buffer_vector<base_color>& surf_buf, buffer_vector<u8>& mark_buf): surface(surf_buf), marker(mark_buf), y(u32(-1)), height(u32(-1)) {}
     void save(int _y, const lm_layer& lm)
     {
         y      = _y;
@@ -427,15 +423,7 @@ float getLastRP_Scale(CDB::COLLIDER* DB, CDB::MODEL* MDL, R_Light& L, Face* skip
     return scale;
 }
 
-float rayTrace(
-    CDB::COLLIDER* DB,
-    CDB::MODEL*    MDL,
-    R_Light&       L,
-    Fvector&       P,
-    Fvector&       D,
-    float          R,
-    Face*          skip,
-    BOOL           bUseFaceDisable)
+float rayTrace(CDB::COLLIDER* DB, CDB::MODEL* MDL, R_Light& L, Fvector& P, Fvector& D, float R, Face* skip, BOOL bUseFaceDisable)
 {
     R_ASSERT(DB);
 
@@ -463,15 +451,7 @@ float rayTrace(
     return 0;
 }
 
-void LightPoint(
-    CDB::COLLIDER* DB,
-    CDB::MODEL*    MDL,
-    base_color_c&  C,
-    Fvector&       P,
-    Fvector&       N,
-    base_lighting& lights,
-    u32            flags,
-    Face*          skip)
+void LightPoint(CDB::COLLIDER* DB, CDB::MODEL* MDL, base_color_c& C, Fvector& P, Fvector& N, base_lighting& lights, u32 flags, Face* skip)
 {
     Fvector Ldir, Pnew;
     Pnew.mad(P, N, 0.01f);
@@ -524,8 +504,7 @@ void LightPoint(
                     else
                     {
                         //	Igor: let A equal 0 at the light boundary
-                        A = scale *
-                            (1 / (L->attenuation0 + L->attenuation1 * R + L->attenuation2 * sqD) - R * L->falloff);
+                        A = scale * (1 / (L->attenuation0 + L->attenuation1 * R + L->attenuation2 * sqD) - R * L->falloff);
                     }
 
                     C.rgb.x += A * L->diffuse.x;
@@ -553,9 +532,8 @@ void LightPoint(
                     // Jitter + trace light -> monte-carlo method
                     Fvector Psave = L->position, Pdir;
                     L->position.mad(Pdir.random_dir(L->direction, PI_DIV_4), .05f);
-                    float R = _sqrt(sqD);
-                    float scale =
-                        powf(D, 1.f / 8.f) * L->energy * rayTrace(DB, MDL, *L, Pnew, Ldir, R, skip, bUseFaceDisable);
+                    float R     = _sqrt(sqD);
+                    float scale = powf(D, 1.f / 8.f) * L->energy * rayTrace(DB, MDL, *L, Pnew, Ldir, R, skip, bUseFaceDisable);
                     float A     = scale * (1 - R / L->range);
                     L->position = Psave;
 

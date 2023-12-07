@@ -15,6 +15,7 @@ public:
         RRT_EdgeTex,
         RRT_NumRT
     };
+
 public:
     dx103DFluidRenderer();
     ~dx103DFluidRenderer();
@@ -34,6 +35,7 @@ public:
     {
         return m_pResourceRTNames;
     }
+
 private:
     enum RendererShader
     {
@@ -59,6 +61,7 @@ private:
             ZeroMemory(this, sizeof(*this));
         }
     };
+
 private:
     void InitShaders();
     void DestroyShaders();
@@ -78,6 +81,7 @@ private:
     void DrawBox();
 
     void CalculateLighting(const dx103DFluidData& FluidData, FogLighting& LightData);
+
 private:
     bool                 m_bInited;
 

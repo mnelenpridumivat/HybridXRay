@@ -16,22 +16,22 @@ class CWeaponShotEffector
 protected:
     CameraRecoil m_cam_recoil;
 
-    float m_angle_vert;
-    float m_angle_horz;
+    float        m_angle_vert;
+    float        m_angle_horz;
 
-    float m_prev_angle_vert;
-    float m_prev_angle_horz;
+    float        m_prev_angle_vert;
+    float        m_prev_angle_horz;
 
-    float m_delta_vert;
-    float m_delta_horz;
+    float        m_delta_vert;
+    float        m_delta_horz;
 
-    int  m_shot_numer;
-    bool m_shot_end;
-    bool m_first_shot;
+    int          m_shot_numer;
+    bool         m_shot_end;
+    bool         m_first_shot;
     //	float			m_first_shot_pos;
 
-    bool m_actived;
-    bool m_single_shot;
+    bool         m_actived;
+    bool         m_single_shot;
 
 private:
     CRandom m_Random;
@@ -41,8 +41,8 @@ public:
     CWeaponShotEffector();
     virtual ~CWeaponShotEffector(){};
 
-    void Initialize(const CameraRecoil& cam_recoil);
-    void Reset();
+    void    Initialize(const CameraRecoil& cam_recoil);
+    void    Reset();
 
     IC bool IsActive()
     {

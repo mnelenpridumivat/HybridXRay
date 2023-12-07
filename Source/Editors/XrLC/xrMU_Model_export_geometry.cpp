@@ -13,12 +13,7 @@ s16       QC(float v)
 }
 
 D3DVERTEXELEMENT9 decl[] =   // 12+4+4+4+8=32
-    {{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},
-        {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0},
-        {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0},
-        {0, 20, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0},
-        {0, 24, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},
-        D3DDECL_END()};
+    {{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0}, {0, 12, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_NORMAL, 0}, {0, 16, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TANGENT, 0}, {0, 20, D3DDECLTYPE_D3DCOLOR, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_BINORMAL, 0}, {0, 24, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0}, D3DDECL_END()};
 
 void export_geometry(xrMU_Model& mu_model)
 {
@@ -104,8 +99,7 @@ void export_geometry(xrMU_Model& mu_model)
         }
 
         // Indices
-        g_IB.Register(
-            LPWORD(&*it->ogf->data.faces.begin()), LPWORD(&*it->ogf->data.faces.end()), &it->ib_id, &it->ib_start);
+        g_IB.Register(LPWORD(&*it->ogf->data.faces.begin()), LPWORD(&*it->ogf->data.faces.end()), &it->ib_id, &it->ib_start);
 
         // SW
         if (it->ogf->progressive_test())

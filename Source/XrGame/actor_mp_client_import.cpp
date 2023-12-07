@@ -58,10 +58,10 @@ void CActorMP::net_Import(NET_Packet& P)
         inventory().SetActiveSlot(ActiveSlot);
     }
 
-    N.mstate = m_state_holder.state().body_state_flags;
+    N.mstate        = m_state_holder.state().body_state_flags;
 
-    N.dwTimeStamp = m_state_holder.state().time;
-    N.p_pos       = m_state_holder.state().position;
+    N.dwTimeStamp   = m_state_holder.state().time;
+    N.p_pos         = m_state_holder.state().position;
 
     N.o_model       = m_state_holder.state().model_yaw;
     N.o_torso.yaw   = m_state_holder.state().camera_yaw;
@@ -78,8 +78,8 @@ void CActorMP::net_Import(NET_Packet& P)
             unaffected_r_torso.pitch = N.o_torso.pitch;
             unaffected_r_torso.roll  = N.o_torso.roll;
 
-            cam_Active()->yaw   = -N.o_torso.yaw;
-            cam_Active()->pitch = N.o_torso.pitch;
+            cam_Active()->yaw        = -N.o_torso.yaw;
+            cam_Active()->pitch      = N.o_torso.pitch;
         };
     };
 

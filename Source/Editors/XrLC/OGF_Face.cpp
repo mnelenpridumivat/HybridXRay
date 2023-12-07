@@ -388,16 +388,12 @@ void OGF::MakeProgressive(float metric_limit)
             if (_metric < metric_limit)
             {
                 progressive_clear();
-                clMsg(
-                    "* mesh simplified from [%4dv] to [%4dv], nf[%4d] ==> em[%0.2f]-discarded", _full, _simple,
-                    VR->indices.size() / 3, metric_limit);
+                clMsg("* mesh simplified from [%4dv] to [%4dv], nf[%4d] ==> em[%0.2f]-discarded", _full, _simple, VR->indices.size() / 3, metric_limit);
                 break;
             }
             else
             {
-                clMsg(
-                    "* mesh simplified from [%4dv] to [%4dv], nf[%4d] ==> em[%0.2f]-accepted", _full, _simple,
-                    VR->indices.size() / 3, metric_limit);
+                clMsg("* mesh simplified from [%4dv] to [%4dv], nf[%4d] ==> em[%0.2f]-accepted", _full, _simple, VR->indices.size() / 3, metric_limit);
             }
 
             // OK
@@ -445,8 +441,7 @@ void OGF::MakeProgressive(float metric_limit)
         for (u32 v_idx = 0; v_idx < fast_path_data.vertices.size(); v_idx++)
             pVIPM->VIPM_AppendVertex(fast_path_data.vertices[v_idx].P, zero);
         for (u32 f_idx = 0; f_idx < fast_path_data.faces.size(); f_idx++)
-            pVIPM->VIPM_AppendFace(
-                fast_path_data.faces[f_idx].v[0], fast_path_data.faces[f_idx].v[1], fast_path_data.faces[f_idx].v[2]);
+            pVIPM->VIPM_AppendFace(fast_path_data.faces[f_idx].v[0], fast_path_data.faces[f_idx].v[1], fast_path_data.faces[f_idx].v[2]);
 
         VIPM_Result* VR = 0;
         try
@@ -556,9 +551,7 @@ void       OGF_LOD::Save(IWriter& fs)
     // Header
     ogf_header H;
     string1024 sid;
-    strconcat(
-        sizeof(sid), sid, pBuild->shader_render[pBuild->materials()[lod_Material].shader].name, "/",
-        pBuild->textures()[pBuild->materials()[lod_Material].surfidx].name);
+    strconcat(sizeof(sid), sid, pBuild->shader_render[pBuild->materials()[lod_Material].shader].name, "/", pBuild->textures()[pBuild->materials()[lod_Material].surfidx].name);
     fs.open_chunk(OGF_HEADER);
     H.format_version = xrOGF_FormatVersion;
     H.type           = MT_LOD;

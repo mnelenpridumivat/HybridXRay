@@ -15,7 +15,7 @@
 using namespace Wml;
 
 //----------------------------------------------------------------------------
-template <class Real> Minimize1<Real>::Minimize1(Function oFunction, int iMaxLevel, int iMaxBracket, void* pvData)
+template<class Real> Minimize1<Real>::Minimize1(Function oFunction, int iMaxLevel, int iMaxBracket, void* pvData)
 {
     assert(oFunction);
     m_oFunction   = oFunction;
@@ -24,27 +24,27 @@ template <class Real> Minimize1<Real>::Minimize1(Function oFunction, int iMaxLev
     m_pvData      = pvData;
 }
 //----------------------------------------------------------------------------
-template <class Real> int& Minimize1<Real>::MaxLevel()
+template<class Real> int& Minimize1<Real>::MaxLevel()
 {
     return m_iMaxLevel;
 }
 //----------------------------------------------------------------------------
-template <class Real> int& Minimize1<Real>::MaxBracket()
+template<class Real> int& Minimize1<Real>::MaxBracket()
 {
     return m_iMaxBracket;
 }
 //----------------------------------------------------------------------------
-template <class Real> void*& Minimize1<Real>::UserData()
+template<class Real> void*& Minimize1<Real>::UserData()
 {
     return m_pvData;
 }
 //----------------------------------------------------------------------------
-template <class Real> void Minimize1<Real>::GetMinimum(Real fT0, Real fT1, Real fTInitial, Real& rfTMin, Real& rfFMin)
+template<class Real> void Minimize1<Real>::GetMinimum(Real fT0, Real fT1, Real fTInitial, Real& rfTMin, Real& rfFMin)
 {
     assert(fT0 <= fTInitial && fTInitial <= fT1);
 
-    m_fTMin = Math<Real>::MAX_REAL;
-    m_fFMin = Math<Real>::MAX_REAL;
+    m_fTMin        = Math<Real>::MAX_REAL;
+    m_fFMin        = Math<Real>::MAX_REAL;
 
     Real fF0       = m_oFunction(fT0, m_pvData);
     Real fFInitial = m_oFunction(fTInitial, m_pvData);
@@ -56,8 +56,7 @@ template <class Real> void Minimize1<Real>::GetMinimum(Real fT0, Real fT1, Real 
     rfFMin = m_fFMin;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-void Minimize1<Real>::GetMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel)
+template<class Real> void Minimize1<Real>::GetMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel)
 {
     if (fF0 < m_fFMin)
     {
@@ -140,7 +139,7 @@ void Minimize1<Real>::GetMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT
     }
 }
 //----------------------------------------------------------------------------
-template <class Real> void Minimize1<Real>::GetMinimum(Real fT0, Real fF0, Real fT1, Real fF1, int iLevel)
+template<class Real> void Minimize1<Real>::GetMinimum(Real fT0, Real fF0, Real fT1, Real fF1, int iLevel)
 {
     if (fF0 < m_fFMin)
     {
@@ -220,8 +219,7 @@ template <class Real> void Minimize1<Real>::GetMinimum(Real fT0, Real fF0, Real 
     }
 }
 //----------------------------------------------------------------------------
-template <class Real>
-void Minimize1<Real>::GetBracketedMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel)
+template<class Real> void Minimize1<Real>::GetBracketedMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel)
 {
     for (int i = 0; i < m_iMaxBracket; i++)
     {

@@ -8,10 +8,7 @@
 
 #pragma once
 
-IC CSpaceRestriction::CSpaceRestriction(
-    CSpaceRestrictionManager* space_restriction_manager,
-    shared_str                out_restrictions,
-    shared_str                in_restrictions)
+IC CSpaceRestriction::CSpaceRestriction(CSpaceRestrictionManager* space_restriction_manager, shared_str out_restrictions, shared_str in_restrictions)
 {
     VERIFY(space_restriction_manager);
     m_space_restriction_manager = space_restriction_manager;
@@ -36,7 +33,7 @@ IC shared_str CSpaceRestriction::in_restrictions() const
     return (m_in_restrictions);
 }
 
-template <typename T1, typename T2> IC void CSpaceRestriction::add_border(T1 p1, T2 p2)
+template<typename T1, typename T2> IC void CSpaceRestriction::add_border(T1 p1, T2 p2)
 {
     if (!initialized())
         return;
@@ -78,7 +75,5 @@ IC bool CSpaceRestriction::inside(const Fsphere& sphere)
 
 IC bool CSpaceRestriction::inside(u32 level_vertex_id, bool partially_inside)
 {
-    return (
-        (m_out_space_restriction ? m_out_space_restriction->inside(level_vertex_id, partially_inside) : true) &&
-        (m_in_space_restriction ? !m_in_space_restriction->inside(level_vertex_id, !partially_inside) : true));
+    return ((m_out_space_restriction ? m_out_space_restriction->inside(level_vertex_id, partially_inside) : true) && (m_in_space_restriction ? !m_in_space_restriction->inside(level_vertex_id, !partially_inside) : true));
 }

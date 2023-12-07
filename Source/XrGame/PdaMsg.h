@@ -12,18 +12,18 @@
 // используется для ведения логов
 typedef struct tagSPdaMessage
 {
-    EPdaMsg msg;
+    EPdaMsg         msg;
 
     // true если мы получали сообщение
     // и false если мы его посылали
-    bool receive;
+    bool            receive;
 
     // true, если сообщение - вопрос
     // и false, если ответ
-    bool question;
+    bool            question;
 
     // информаци
-    shared_str info_id;
+    shared_str      info_id;
 
     // время получения/отправки сообщения
     ALife::_TIME_ID time;
@@ -38,7 +38,7 @@ struct TALK_CONTACT_DATA
     // время контакта
     ALife::_TIME_ID time;
     // id персонажа с которым говорили
-    u16 id;
+    u16             id;
 };
 
 DEFINE_VECTOR(TALK_CONTACT_DATA, TALK_CONTACT_VECTOR, TALK_CONTACT_VECTOR_IT);

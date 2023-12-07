@@ -5,7 +5,7 @@ class CUITextWnd;
 
 class CUIButtonHint: public CUIFrameWindow
 {
-    CUIWindow* m_ownerWnd;
+    CUIWindow*  m_ownerWnd;
 
     CUITextWnd* m_text;
     bool        m_enabledOnFrame;

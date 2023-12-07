@@ -83,8 +83,7 @@ bool static_obstacles_avoider::process_query(const bool& change_path_state)
         return (change_path_state ? refresh_objects() : true);
 
     bool active_query_actual = change_path_state ? (m_active_query == m_inactive_query) : true;
-    if (!m_inactive_query.merge(
-            object().Position(), change_path_state ? m_inactive_query.refresh_radius() : 0.f, m_current_iteration))
+    if (!m_inactive_query.merge(object().Position(), change_path_state ? m_inactive_query.refresh_radius() : 0.f, m_current_iteration))
     {
         if (active_query_actual)
             m_active_query.copy(m_inactive_query);

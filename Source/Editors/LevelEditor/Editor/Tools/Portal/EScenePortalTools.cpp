@@ -103,8 +103,8 @@ void EScenePortalTool::RemoveSimilar()
     ObjectList  p_lst_del;
     ObjectList  p_lst_dup = p_lst;
 
-    ObjectIt it   = p_lst_dup.begin();
-    ObjectIt it_e = p_lst_dup.end();
+    ObjectIt    it        = p_lst_dup.begin();
+    ObjectIt    it_e      = p_lst_dup.end();
 
     while (it != p_lst_dup.end())
     {

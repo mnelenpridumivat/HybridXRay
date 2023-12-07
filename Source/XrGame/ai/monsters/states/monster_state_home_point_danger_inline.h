@@ -7,7 +7,7 @@
 #include "../monster_cover_manager.h"
 #include "../monster_home.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                    template<typename _Object>
 
 #define CStateMonsterDangerMoveToHomePointAbstract CStateMonsterDangerMoveToHomePoint<_Object>
 
@@ -141,7 +141,7 @@ void CStateMonsterDangerMoveToHomePointAbstract::setup_substates()
     {
         SStateDataLookToPoint data;
 
-        Fvector dir;
+        Fvector               dir;
         object->CoverMan->less_cover_direction(dir);
 
         data.point.mad(object->Position(), dir, 10.f);

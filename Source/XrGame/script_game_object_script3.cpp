@@ -37,17 +37,9 @@ using namespace luabind;
 
 class_<CScriptGameObject>& script_register_game_object2(class_<CScriptGameObject>& instance)
 {
-    instance
-        .def(
-            "add_sound",
-            (u32(CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32))(&CScriptGameObject::add_sound))
-        .def(
-            "add_sound",
-            (u32(CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32, LPCSTR))(&CScriptGameObject::add_sound))
-        .def(
-            "add_combat_sound",
-            (u32(CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32, LPCSTR))(
-                &CScriptGameObject::add_combat_sound))
+    instance.def("add_sound", (u32(CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32))(&CScriptGameObject::add_sound))
+        .def("add_sound", (u32(CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32, LPCSTR))(&CScriptGameObject::add_sound))
+        .def("add_combat_sound", (u32(CScriptGameObject::*)(LPCSTR, u32, ESoundTypes, u32, u32, u32, LPCSTR))(&CScriptGameObject::add_combat_sound))
         .def("remove_sound", &CScriptGameObject::remove_sound)
         .def("set_sound_mask", &CScriptGameObject::set_sound_mask)
         .def("play_sound", (void(CScriptGameObject::*)(u32))(&CScriptGameObject::play_sound))
@@ -79,54 +71,22 @@ class_<CScriptGameObject>& script_register_game_object2(class_<CScriptGameObject
         .def("restore_sound_threshold", &CScriptGameObject::restore_sound_threshold)
 
         // sight manager
-        .def(
-            "set_sight",
-            (void(CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector * vector3d, u32 dwLookOverDelay))(
-                &CScriptGameObject::set_sight))
-        .def(
-            "set_sight",
-            (void(CScriptGameObject::*)(SightManager::ESightType sight_type, bool torso_look, bool path))(
-                &CScriptGameObject::set_sight))
-        .def(
-            "set_sight",
-            (void(CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector & vector3d, bool torso_look))(
-                &CScriptGameObject::set_sight))
-        .def(
-            "set_sight",
-            (void(CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector * vector3d))(
-                &CScriptGameObject::set_sight))
-        .def(
-            "set_sight",
-            (void(CScriptGameObject::*)(CScriptGameObject * object_to_look))(&CScriptGameObject::set_sight))
-        .def(
-            "set_sight",
-            (void(CScriptGameObject::*)(CScriptGameObject * object_to_look, bool torso_look))(
-                &CScriptGameObject::set_sight))
-        .def(
-            "set_sight",
-            (void(CScriptGameObject::*)(CScriptGameObject * object_to_look, bool torso_look, bool fire_object))(
-                &CScriptGameObject::set_sight))
-        .def(
-            "set_sight",
-            (void(CScriptGameObject::*)(
-                CScriptGameObject * object_to_look, bool torso_look, bool fire_object, bool no_pitch))(
-                &CScriptGameObject::set_sight))
+        .def("set_sight", (void(CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector * vector3d, u32 dwLookOverDelay))(&CScriptGameObject::set_sight))
+        .def("set_sight", (void(CScriptGameObject::*)(SightManager::ESightType sight_type, bool torso_look, bool path))(&CScriptGameObject::set_sight))
+        .def("set_sight", (void(CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector & vector3d, bool torso_look))(&CScriptGameObject::set_sight))
+        .def("set_sight", (void(CScriptGameObject::*)(SightManager::ESightType sight_type, Fvector * vector3d))(&CScriptGameObject::set_sight))
+        .def("set_sight", (void(CScriptGameObject::*)(CScriptGameObject * object_to_look))(&CScriptGameObject::set_sight))
+        .def("set_sight", (void(CScriptGameObject::*)(CScriptGameObject * object_to_look, bool torso_look))(&CScriptGameObject::set_sight))
+        .def("set_sight", (void(CScriptGameObject::*)(CScriptGameObject * object_to_look, bool torso_look, bool fire_object))(&CScriptGameObject::set_sight))
+        .def("set_sight", (void(CScriptGameObject::*)(CScriptGameObject * object_to_look, bool torso_look, bool fire_object, bool no_pitch))(&CScriptGameObject::set_sight))
         //		.def("set_sight",					(void (CScriptGameObject::*)(const MemorySpace::CMemoryInfo *memory_object,
         //bool	torso_look))(&CScriptGameObject::set_sight))
 
         // object handler
         .def("set_item", (void(CScriptGameObject::*)(MonsterSpace::EObjectAction))(&CScriptGameObject::set_item))
-        .def(
-            "set_item",
-            (void(CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*))(&CScriptGameObject::set_item))
-        .def(
-            "set_item",
-            (void(CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*, u32))(
-                &CScriptGameObject::set_item))
-        .def(
-            "set_item",
-            (void(CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*, u32, u32))(
-                &CScriptGameObject::set_item))
+        .def("set_item", (void(CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*))(&CScriptGameObject::set_item))
+        .def("set_item", (void(CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*, u32))(&CScriptGameObject::set_item))
+        .def("set_item", (void(CScriptGameObject::*)(MonsterSpace::EObjectAction, CScriptGameObject*, u32, u32))(&CScriptGameObject::set_item))
 
         .def("bone_position", &CScriptGameObject::bone_position)
 
@@ -161,26 +121,15 @@ class_<CScriptGameObject>& script_register_game_object2(class_<CScriptGameObject
         // inventory owner
         //////////////////////////////////////////////////////////////////////////
 
-        .enum_("EPdaMsg")
-            [value("dialog_pda_msg", int(ePdaMsgDialog)), value("info_pda_msg", int(ePdaMsgInfo)),
-             value("no_pda_msg", int(ePdaMsgMax))]
+        .enum_("EPdaMsg")[value("dialog_pda_msg", int(ePdaMsgDialog)), value("info_pda_msg", int(ePdaMsgInfo)), value("no_pda_msg", int(ePdaMsgMax))]
 
         .def("give_info_portion", &CScriptGameObject::GiveInfoPortion)
         .def("disable_info_portion", &CScriptGameObject::DisableInfoPortion)
-        .def(
-            "give_game_news",
-            (void(CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR, int, int))(&CScriptGameObject::GiveGameNews))
-        .def(
-            "give_game_news",
-            (void(CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR, int, int, int))(&CScriptGameObject::GiveGameNews))
+        .def("give_game_news", (void(CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR, int, int))(&CScriptGameObject::GiveGameNews))
+        .def("give_game_news", (void(CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR, int, int, int))(&CScriptGameObject::GiveGameNews))
 
-        .def(
-            "give_talk_message",
-            (void(CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR))(
-                &CScriptGameObject::AddIconedTalkMessage_old))   // old version, must remove!
-        .def(
-            "give_talk_message2",
-            (void(CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR, LPCSTR))(&CScriptGameObject::AddIconedTalkMessage))
+        .def("give_talk_message", (void(CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR))(&CScriptGameObject::AddIconedTalkMessage_old))   // old version, must remove!
+        .def("give_talk_message2", (void(CScriptGameObject::*)(LPCSTR, LPCSTR, LPCSTR, LPCSTR))(&CScriptGameObject::AddIconedTalkMessage))
 
         .def("has_info", &CScriptGameObject::HasInfo)
         .def("dont_has_info", &CScriptGameObject::DontHasInfo)
@@ -267,11 +216,7 @@ class_<CScriptGameObject>& script_register_game_object2(class_<CScriptGameObject
         .def("set_actor_relation_flags", &CScriptGameObject::set_actor_relation_flags)
         .def("sound_voice_prefix", &CScriptGameObject::sound_voice_prefix)
 
-        .enum_("ACTOR_RELATIONS")
-            [value("relation_attack", int(RELATION_REGISTRY::ATTACK)),
-             value("relation_fight_help_monster", int(RELATION_REGISTRY::FIGHT_HELP_MONSTER)),
-             value("relation_fight_help_human", int(RELATION_REGISTRY::FIGHT_HELP_HUMAN)),
-             value("relation_kill", int(RELATION_REGISTRY::KILL))]
+        .enum_("ACTOR_RELATIONS")[value("relation_attack", int(RELATION_REGISTRY::ATTACK)), value("relation_fight_help_monster", int(RELATION_REGISTRY::FIGHT_HELP_MONSTER)), value("relation_fight_help_human", int(RELATION_REGISTRY::FIGHT_HELP_HUMAN)), value("relation_kill", int(RELATION_REGISTRY::KILL))]
 
         .enum_("CLSIDS")[value("no_pda_msg", int(ePdaMsgMax))]
 
@@ -318,8 +263,7 @@ class_<CScriptGameObject>& script_register_game_object2(class_<CScriptGameObject
         .def("buy_condition", (void(CScriptGameObject::*)(CScriptIniFile*, LPCSTR))(&CScriptGameObject::buy_condition))
         .def("buy_condition", (void(CScriptGameObject::*)(float, float))(&CScriptGameObject::buy_condition))
         .def("show_condition", &CScriptGameObject::show_condition)
-        .def(
-            "sell_condition", (void(CScriptGameObject::*)(CScriptIniFile*, LPCSTR))(&CScriptGameObject::sell_condition))
+        .def("sell_condition", (void(CScriptGameObject::*)(CScriptIniFile*, LPCSTR))(&CScriptGameObject::sell_condition))
         .def("sell_condition", (void(CScriptGameObject::*)(float, float))(&CScriptGameObject::sell_condition))
         .def("buy_supplies", &CScriptGameObject::buy_supplies)
         .def("buy_item_condition_factor", &CScriptGameObject::buy_item_condition_factor)

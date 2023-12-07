@@ -14,8 +14,7 @@ template<bool bEuclidianHeuristics = true> struct CVertexPath
     template<template<typename _T> class T1> struct DataStoragePath
     {
         struct _vertex: public T1<_vertex>
-        {
-        };
+        {};
     };
 #pragma pack(pop)
 
@@ -24,6 +23,7 @@ template<bool bEuclidianHeuristics = true> struct CVertexPath
     public:
         typedef typename DataStoragePath<_vertex>::_vertex CGraphVertex;
         typedef typename CGraphVertex::_index_type         _index_type;
+
     public:
         IC CDataStorage(const u32 vertex_count);
         virtual ~CDataStorage();

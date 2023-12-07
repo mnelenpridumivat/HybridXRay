@@ -19,6 +19,7 @@ public:
     void SetHSResource(u32 uiSlot, ID3DShaderResourceView* pRes);
     void SetCSResource(u32 uiSlot, ID3DShaderResourceView* pRes);
 #endif
+
 private:
     ID3DShaderResourceView* m_PSViews[CBackend::mtMaxPixelShaderTextures];
     ID3DShaderResourceView* m_GSViews[CBackend::mtMaxGeometryShaderTextures];

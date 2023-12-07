@@ -49,9 +49,12 @@ class XRLC_LIGHT_API xrLC_GlobalData
 
     bool                       _b_nosun;
     bool                       _gl_linear;
+
 private:
     bool b_vert_not_register;
+
 public:
+
 public:
     xrLC_GlobalData();   //:_RCAST_Model (0), _b_nosun(false),_gl_linear(false){}
     ~xrLC_GlobalData();
@@ -171,9 +174,11 @@ public:
     //		twrite_faces				*get_write_faces	()	;
 
     void gl_mesh_clear();
+
 private:
     // std::pair<u32,u32>					get_id				( const _face * v ) const;
     // std::pair<u32,u32>					get_id				( const _vertex * v ) const;
+
 public:
     void read_base(INetReader& r);
     void write_base(IWriter& w) const;
@@ -194,6 +199,7 @@ public:
     void clear_mu_models();
     void mu_models_calc_materials();
     //	void						cdb_read_create	() ;
+
 private:
 };
 
@@ -211,11 +217,9 @@ IC xrLC_GlobalData*                        inlc_global_data()
 static LPCSTR gl_data_net_file_name = "tmp_global_data";
 
 #ifdef _DEBUG
-static LPCSTR libraries =
-    "XRLC_LightStab.dll,XRLC_Light.dll,xrCore.dll,xrCDB.dll,xrAPI.dll,DXT.dll,BugTrap.dll,BugTrapD.dll,FreeImage.dll,msvcr80.dll,Microsoft.VC80.CRT.manifest";
+static LPCSTR libraries = "XRLC_LightStab.dll,XRLC_Light.dll,xrCore.dll,xrCDB.dll,xrAPI.dll,DXT.dll,BugTrap.dll,BugTrapD.dll,FreeImage.dll,msvcr80.dll,Microsoft.VC80.CRT.manifest";
 #else
-static LPCSTR libraries =
-    "XRLC_LightStab.dll,XRLC_Light.dll,xrCore.dll,xrCDB.dll,xrAPI.dll,DXT.dll,BugTrap.dll,FreeImage.dll,msvcr80.dll,Microsoft.VC80.CRT.manifest";
+static LPCSTR libraries = "XRLC_LightStab.dll,XRLC_Light.dll,xrCore.dll,xrCDB.dll,xrAPI.dll,DXT.dll,BugTrap.dll,FreeImage.dll,msvcr80.dll,Microsoft.VC80.CRT.manifest";
 #endif
 // #define NET_CMP
 // #define LOAD_GL_DATA

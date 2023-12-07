@@ -34,28 +34,12 @@ using namespace luabind;
 
 extern CScriptActionPlanner* script_action_planner(CScriptGameObject* obj);
 
-class_<CScriptGameObject>& script_register_game_object1(class_<CScriptGameObject>& instance)
+class_<CScriptGameObject>&   script_register_game_object1(class_<CScriptGameObject>& instance)
 {
-    instance
-        .enum_("relation")
-            [value("friend", int(ALife::eRelationTypeFriend)), value("neutral", int(ALife::eRelationTypeNeutral)),
-             value("enemy", int(ALife::eRelationTypeEnemy)), value("dummy", int(ALife::eRelationTypeDummy))]
-        .enum_("action_types")
-            [value("movement", int(ScriptEntity::eActionTypeMovement)),
-             value("watch", int(ScriptEntity::eActionTypeWatch)),
-             value("animation", int(ScriptEntity::eActionTypeAnimation)),
-             value("sound", int(ScriptEntity::eActionTypeSound)),
-             value("particle", int(ScriptEntity::eActionTypeParticle)),
-             value("object", int(ScriptEntity::eActionTypeObject)),
-             value("action_type_count", int(ScriptEntity::eActionTypeCount))]
-        .enum_("EPathType")
-            [value("game_path", int(MovementManager::ePathTypeGamePath)),
-             value("level_path", int(MovementManager::ePathTypeLevelPath)),
-             value("patrol_path", int(MovementManager::ePathTypePatrolPath)),
-             value("no_path", int(MovementManager::ePathTypeNoPath))]
-        .enum_("ESelectionType")
-            [value("alifeMovementTypeMask", int(eSelectionTypeMask)),
-             value("alifeMovementTypeRandom", int(eSelectionTypeRandomBranching))]
+    instance.enum_("relation")[value("friend", int(ALife::eRelationTypeFriend)), value("neutral", int(ALife::eRelationTypeNeutral)), value("enemy", int(ALife::eRelationTypeEnemy)), value("dummy", int(ALife::eRelationTypeDummy))]
+        .enum_("action_types")[value("movement", int(ScriptEntity::eActionTypeMovement)), value("watch", int(ScriptEntity::eActionTypeWatch)), value("animation", int(ScriptEntity::eActionTypeAnimation)), value("sound", int(ScriptEntity::eActionTypeSound)), value("particle", int(ScriptEntity::eActionTypeParticle)), value("object", int(ScriptEntity::eActionTypeObject)), value("action_type_count", int(ScriptEntity::eActionTypeCount))]
+        .enum_("EPathType")[value("game_path", int(MovementManager::ePathTypeGamePath)), value("level_path", int(MovementManager::ePathTypeLevelPath)), value("patrol_path", int(MovementManager::ePathTypePatrolPath)), value("no_path", int(MovementManager::ePathTypeNoPath))]
+        .enum_("ESelectionType")[value("alifeMovementTypeMask", int(eSelectionTypeMask)), value("alifeMovementTypeRandom", int(eSelectionTypeRandomBranching))]
 
         //		.property("visible",				&CScriptGameObject::getVisible,
         //&CScriptGameObject::setVisible) 		.property("enabled",				&CScriptGameObject::getEnabled,
@@ -119,37 +103,17 @@ class_<CScriptGameObject>& script_register_game_object1(class_<CScriptGameObject
         .def("object", (CScriptGameObject * (CScriptGameObject::*)(int))(&CScriptGameObject::GetObjectByIndex))
         .def("active_item", &CScriptGameObject::GetActiveItem)
 
-        .def(
-            "set_callback",
-            (void(CScriptGameObject::*)(GameObject::ECallbackType, const luabind::functor<void>&))(
-                &CScriptGameObject::SetCallback))
-        .def(
-            "set_callback",
-            (void(CScriptGameObject::*)(
-                GameObject::ECallbackType, const luabind::functor<void>&, const luabind::object&))(
-                &CScriptGameObject::SetCallback))
+        .def("set_callback", (void(CScriptGameObject::*)(GameObject::ECallbackType, const luabind::functor<void>&))(&CScriptGameObject::SetCallback))
+        .def("set_callback", (void(CScriptGameObject::*)(GameObject::ECallbackType, const luabind::functor<void>&, const luabind::object&))(&CScriptGameObject::SetCallback))
         .def("set_callback", (void(CScriptGameObject::*)(GameObject::ECallbackType))(&CScriptGameObject::SetCallback))
 
-        .def(
-            "set_patrol_extrapolate_callback",
-            (void(CScriptGameObject::*)())(&CScriptGameObject::set_patrol_extrapolate_callback))
-        .def(
-            "set_patrol_extrapolate_callback",
-            (void(CScriptGameObject::*)(const luabind::functor<bool>&))(
-                &CScriptGameObject::set_patrol_extrapolate_callback))
-        .def(
-            "set_patrol_extrapolate_callback",
-            (void(CScriptGameObject::*)(const luabind::functor<bool>&, const luabind::object&))(
-                &CScriptGameObject::set_patrol_extrapolate_callback))
+        .def("set_patrol_extrapolate_callback", (void(CScriptGameObject::*)())(&CScriptGameObject::set_patrol_extrapolate_callback))
+        .def("set_patrol_extrapolate_callback", (void(CScriptGameObject::*)(const luabind::functor<bool>&))(&CScriptGameObject::set_patrol_extrapolate_callback))
+        .def("set_patrol_extrapolate_callback", (void(CScriptGameObject::*)(const luabind::functor<bool>&, const luabind::object&))(&CScriptGameObject::set_patrol_extrapolate_callback))
 
         .def("set_enemy_callback", (void(CScriptGameObject::*)())(&CScriptGameObject::set_enemy_callback))
-        .def(
-            "set_enemy_callback",
-            (void(CScriptGameObject::*)(const luabind::functor<bool>&))(&CScriptGameObject::set_enemy_callback))
-        .def(
-            "set_enemy_callback",
-            (void(CScriptGameObject::*)(const luabind::functor<bool>&, const luabind::object&))(
-                &CScriptGameObject::set_enemy_callback))
+        .def("set_enemy_callback", (void(CScriptGameObject::*)(const luabind::functor<bool>&))(&CScriptGameObject::set_enemy_callback))
+        .def("set_enemy_callback", (void(CScriptGameObject::*)(const luabind::functor<bool>&, const luabind::object&))(&CScriptGameObject::set_enemy_callback))
 
         .def("patrol", &CScriptGameObject::GetPatrolPathName)
 
@@ -256,13 +220,9 @@ class_<CScriptGameObject>& script_register_game_object1(class_<CScriptGameObject
 
         //
         .def("set_desired_position", (void(CScriptGameObject::*)())(&CScriptGameObject::set_desired_position))
-        .def(
-            "set_desired_position",
-            (void(CScriptGameObject::*)(const Fvector*))(&CScriptGameObject::set_desired_position))
+        .def("set_desired_position", (void(CScriptGameObject::*)(const Fvector*))(&CScriptGameObject::set_desired_position))
         .def("set_desired_direction", (void(CScriptGameObject::*)())(&CScriptGameObject::set_desired_direction))
-        .def(
-            "set_desired_direction",
-            (void(CScriptGameObject::*)(const Fvector*))(&CScriptGameObject::set_desired_direction))
+        .def("set_desired_direction", (void(CScriptGameObject::*)(const Fvector*))(&CScriptGameObject::set_desired_direction))
         .def("set_patrol_path", &CScriptGameObject::set_patrol_path)
         .def("inactualize_patrol_path", &CScriptGameObject::inactualize_patrol_path)
         .def("set_dest_level_vertex_id", &CScriptGameObject::set_dest_level_vertex_id)
@@ -271,9 +231,7 @@ class_<CScriptGameObject>& script_register_game_object1(class_<CScriptGameObject
         .def("level_vertex_id", &CScriptGameObject::level_vertex_id)
         .def("game_vertex_id", &CScriptGameObject::game_vertex_id)
         .def("add_animation", (void(CScriptGameObject::*)(LPCSTR, bool, bool))(&CScriptGameObject::add_animation))
-        .def(
-            "add_animation",
-            (void(CScriptGameObject::*)(LPCSTR, bool, Fvector, Fvector, bool))(&CScriptGameObject::add_animation))
+        .def("add_animation", (void(CScriptGameObject::*)(LPCSTR, bool, Fvector, Fvector, bool))(&CScriptGameObject::add_animation))
         .def("clear_animations", &CScriptGameObject::clear_animations)
         .def("animation_count", &CScriptGameObject::animation_count)
         .def("animation_slot", &CScriptGameObject::animation_slot)
@@ -323,12 +281,8 @@ class_<CScriptGameObject>& script_register_game_object1(class_<CScriptGameObject
         .def("can_throw_grenades", (bool(CScriptGameObject::*)() const) & CScriptGameObject::can_throw_grenades)
         .def("can_throw_grenades", (void(CScriptGameObject::*)(bool)) & CScriptGameObject::can_throw_grenades)
 
-        .def(
-            "group_throw_time_interval",
-            (u32(CScriptGameObject::*)() const) & CScriptGameObject::group_throw_time_interval)
-        .def(
-            "group_throw_time_interval",
-            (void(CScriptGameObject::*)(u32)) & CScriptGameObject::group_throw_time_interval)
+        .def("group_throw_time_interval", (u32(CScriptGameObject::*)() const) & CScriptGameObject::group_throw_time_interval)
+        .def("group_throw_time_interval", (void(CScriptGameObject::*)(u32)) & CScriptGameObject::group_throw_time_interval)
 
         .def("register_in_combat", &CScriptGameObject::register_in_combat)
         .def("unregister_in_combat", &CScriptGameObject::unregister_in_combat)
@@ -341,31 +295,19 @@ class_<CScriptGameObject>& script_register_game_object1(class_<CScriptGameObject
 
         .def("set_dest_smart_cover", (void(CScriptGameObject::*)(LPCSTR)) & CScriptGameObject::set_dest_smart_cover)
         .def("set_dest_smart_cover", (void(CScriptGameObject::*)()) & CScriptGameObject::set_dest_smart_cover)
-        .def(
-            "get_dest_smart_cover",
-            (CCoverPoint const* (CScriptGameObject::*)()) & CScriptGameObject::get_dest_smart_cover)
+        .def("get_dest_smart_cover", (CCoverPoint const* (CScriptGameObject::*)()) & CScriptGameObject::get_dest_smart_cover)
         .def("get_dest_smart_cover_name", &CScriptGameObject::get_dest_smart_cover_name)
 
         .def("set_dest_loophole", (void(CScriptGameObject::*)(LPCSTR)) & CScriptGameObject::set_dest_loophole)
         .def("set_dest_loophole", (void(CScriptGameObject::*)()) & CScriptGameObject::set_dest_loophole)
 
-        .def(
-            "set_smart_cover_target", (void(CScriptGameObject::*)(Fvector)) & CScriptGameObject::set_smart_cover_target)
-        .def(
-            "set_smart_cover_target",
-            (void(CScriptGameObject::*)(CScriptGameObject*)) & CScriptGameObject::set_smart_cover_target)
+        .def("set_smart_cover_target", (void(CScriptGameObject::*)(Fvector)) & CScriptGameObject::set_smart_cover_target)
+        .def("set_smart_cover_target", (void(CScriptGameObject::*)(CScriptGameObject*)) & CScriptGameObject::set_smart_cover_target)
         .def("set_smart_cover_target", (void(CScriptGameObject::*)()) & CScriptGameObject::set_smart_cover_target)
 
-        .def(
-            "set_smart_cover_target_selector",
-            (void(CScriptGameObject::*)(luabind::functor<void>)) & CScriptGameObject::set_smart_cover_target_selector)
-        .def(
-            "set_smart_cover_target_selector",
-            (void(CScriptGameObject::*)(luabind::functor<void>, luabind::object)) &
-                CScriptGameObject::set_smart_cover_target_selector)
-        .def(
-            "set_smart_cover_target_selector",
-            (void(CScriptGameObject::*)()) & CScriptGameObject::set_smart_cover_target_selector)
+        .def("set_smart_cover_target_selector", (void(CScriptGameObject::*)(luabind::functor<void>)) & CScriptGameObject::set_smart_cover_target_selector)
+        .def("set_smart_cover_target_selector", (void(CScriptGameObject::*)(luabind::functor<void>, luabind::object)) & CScriptGameObject::set_smart_cover_target_selector)
+        .def("set_smart_cover_target_selector", (void(CScriptGameObject::*)()) & CScriptGameObject::set_smart_cover_target_selector)
 
         .def("set_smart_cover_target_idle", &CScriptGameObject::set_smart_cover_target_idle)
         .def("set_smart_cover_target_lookout", &CScriptGameObject::set_smart_cover_target_lookout)
@@ -391,12 +333,8 @@ class_<CScriptGameObject>& script_register_game_object1(class_<CScriptGameObject
         .def("in_loophole_range", &CScriptGameObject::in_loophole_range)
         .def("in_current_loophole_range", &CScriptGameObject::in_current_loophole_range)
 
-        .def(
-            "apply_loophole_direction_distance",
-            (void(CScriptGameObject::*)(float)) & CScriptGameObject::apply_loophole_direction_distance)
-        .def(
-            "apply_loophole_direction_distance",
-            (float(CScriptGameObject::*)() const) & CScriptGameObject::apply_loophole_direction_distance)
+        .def("apply_loophole_direction_distance", (void(CScriptGameObject::*)(float)) & CScriptGameObject::apply_loophole_direction_distance)
+        .def("apply_loophole_direction_distance", (float(CScriptGameObject::*)() const) & CScriptGameObject::apply_loophole_direction_distance)
 
         .def("movement_target_reached", &CScriptGameObject::movement_target_reached)
         .def("suitable_smart_cover", &CScriptGameObject::suitable_smart_cover)

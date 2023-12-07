@@ -7,8 +7,7 @@
 #endif
 #ifdef DEBUG
 
-void object_shift::dbg_draw(const Fmatrix& current_pos, const extrapolation::points& predict, const Fvector& start)
-    const
+void object_shift::dbg_draw(const Fmatrix& current_pos, const extrapolation::points& predict, const Fvector& start) const
 {
     Fvector p0;
     current_pos.transform_tiny(p0, start);
@@ -16,9 +15,9 @@ void object_shift::dbg_draw(const Fmatrix& current_pos, const extrapolation::poi
     predict.extrapolate(predicted_pos, taget_time);
     Fvector p1;
     predicted_pos.transform_tiny(p1, start);
-    const u16 nb_points = 200;
+    const u16 nb_points   = 200;
 
-    float time_global = Device->fTimeGlobal;
+    float     time_global = Device->fTimeGlobal;
     if (time_global > taget_time)
         time_global = taget_time;
 
@@ -27,9 +26,9 @@ void object_shift::dbg_draw(const Fmatrix& current_pos, const extrapolation::poi
     if (fis_zero(time))
         return;
 
-    float time_quant = (time) / nb_points;
+    float         time_quant = (time) / nb_points;
 
-    const Fvector vadd = Fvector().sub(p1, p0).mul(1.f / nb_points);
+    const Fvector vadd       = Fvector().sub(p1, p0).mul(1.f / nb_points);
     for (u16 i = 0; i < nb_points; ++i)
     {
         float   fshift0 = current + delta_shift(time_passed + time_quant * i);
@@ -42,9 +41,7 @@ void object_shift::dbg_draw(const Fmatrix& current_pos, const extrapolation::poi
 
     float start_shift = current + delta_shift(time_passed);
     float end_shift   = current + delta_shift(time_passed + time);
-    DBG_DrawLine(
-        Fvector().add(p0, Fvector().set(0, start_shift, 0)), Fvector().add(p1, Fvector().set(0, end_shift, 0)),
-        color_xrgb(255, 0, 0));
+    DBG_DrawLine(Fvector().add(p0, Fvector().set(0, start_shift, 0)), Fvector().add(p1, Fvector().set(0, end_shift, 0)), color_xrgb(255, 0, 0));
 }
 #endif
 
@@ -122,14 +119,14 @@ bool square_equation(float a, float b, float c, float& x0, float& x1)   // retur
 float half_shift_restrict_up   = 0.1f;
 float half_shift_restrict_down = 0.15f;
 
-void object_shift::set_taget(float taget_, float time)
+void  object_shift::set_taget(float taget_, float time)
 {
     if (b_freeze)
         return;
     clamp(taget_, -global_max_shift, global_max_shift);
     // if( fsimilar(taget, taget_) )
     //	return;
-    taget = taget_;
+    taget             = taget_;
 
     float time_global = Device->fTimeGlobal;
 
@@ -142,7 +139,7 @@ void object_shift::set_taget(float taget_, float time)
     if (time < EPS_S)
         time = Device->fTimeDelta;
 
-    current = shift();
+    current          = shift();
 
     float time_pased = 0.f;
 
@@ -151,24 +148,23 @@ void object_shift::set_taget(float taget_, float time)
     else
         time_pased = time_global - current_time;
 
-    speed = speed + accel * time_pased + aaccel * time_pased * time_pased / 2.f;
+    speed         = speed + accel * time_pased + aaccel * time_pased * time_pased / 2.f;
 
     // accel += aaccel * time_pased;
-    float x = taget - current;
+    float x       = taget - current;
 
     // float x = clamp_taget_to_max_possible_shift_speed_return_shift_taget( taget, current, speed, time );
 
     float sq_time = time * time;
 
-    accel  = 2.f * (3.f * x / sq_time - 2.f * speed / time);
-    aaccel = 6.f * (speed / sq_time - 2.f * x / sq_time / time);
+    accel         = 2.f * (3.f * x / sq_time - 2.f * speed / time);
+    aaccel        = 6.f * (speed / sq_time - 2.f * x / sq_time / time);
 
     // aaccel = 3.f*( speed/sq_time - x/sq_time/time );
     // accel = - aaccel * time;
 
     float x0, x1;
-    if ((x > half_shift_restrict_up || x < -half_shift_restrict_down) &&
-        square_equation(aaccel / 2.f, accel, speed, x0, x1))
+    if ((x > half_shift_restrict_up || x < -half_shift_restrict_down) && square_equation(aaccel / 2.f, accel, speed, x0, x1))
     {
         float max_shift0 = _abs(delta_shift(x0));
         float max_shift1 = _abs(delta_shift(x1));
@@ -187,5 +183,5 @@ void object_shift::set_taget(float taget_, float time)
 
     current_time = time_global;
 
-    taget_time = time_global + time;
+    taget_time   = time_global + time;
 }

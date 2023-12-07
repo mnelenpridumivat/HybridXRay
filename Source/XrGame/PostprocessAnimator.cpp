@@ -44,8 +44,7 @@ CPostprocessAnimator::CPostprocessAnimator()
 CPostprocessAnimator::CPostprocessAnimator(int id, bool cyclic)
 #ifndef _PP_EDITOR_
     :
-    CEffectorPP((EEffectorPPType)id, 100000, true),
-    m_bCyclic(cyclic)
+    CEffectorPP((EEffectorPPType)id, 100000, true), m_bCyclic(cyclic)
 #endif
 {
     Create();
@@ -274,7 +273,7 @@ void CPostprocessAnimator::Create()
     m_factor_speed = 1.0f;
     f_length       = 0.0f;
 
-    m_Params[0] = xr_new<CPostProcessColor>(&m_EffectorParams.color_base);   // base color
+    m_Params[0]    = xr_new<CPostProcessColor>(&m_EffectorParams.color_base);   // base color
     VERIFY(m_Params[0]);
     m_Params[1] = xr_new<CPostProcessColor>(&m_EffectorParams.color_add);   // add color
     VERIFY(m_Params[1]);
@@ -458,7 +457,7 @@ void CPostProcessValue::clear_all_keys()
 void CPostProcessValue::add_value(float time, float value, int index)
 {
     m_Value.InsertKey(time, value);
-    KeyIt i = m_Value.FindKey(time, 0.01f);
+    KeyIt i          = m_Value.FindKey(time, 0.01f);
 
     (*i)->tension    = 0;
     (*i)->continuity = 0;

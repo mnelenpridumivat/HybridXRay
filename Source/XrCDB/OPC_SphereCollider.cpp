@@ -114,12 +114,7 @@ const char* SphereCollider::ValidateSettings()
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SphereCollider::Collide(
-    SphereCache&     cache,
-    const Sphere&    sphere,
-    OPCODE_Model*    model,
-    const Matrix4x4* worlds,
-    const Matrix4x4* worldm)
+bool SphereCollider::Collide(SphereCache& cache, const Sphere& sphere, OPCODE_Model* model, const Matrix4x4* worlds, const Matrix4x4* worldm)
 {
     // Checkings
     if (!model)
@@ -157,11 +152,7 @@ bool SphereCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-BOOL SphereCollider::InitQuery(
-    SphereCache&     cache,
-    const Sphere&    sphere,
-    const Matrix4x4* worlds,
-    const Matrix4x4* worldm)
+BOOL SphereCollider::InitQuery(SphereCache& cache, const Sphere& sphere, const Matrix4x4* worlds, const Matrix4x4* worldm)
 {
     // 1) Call the base method
     VolumeCollider::InitQueryEx();
@@ -170,7 +161,7 @@ BOOL SphereCollider::InitQuery(
     // - Precompute R^2
     mRadius2 = sphere.mRadius * sphere.mRadius;
     // - Compute center position
-    mCenter = sphere.mCenter;
+    mCenter  = sphere.mCenter;
     // -> to world space
     if (worlds)
         mCenter *= *worlds;
@@ -262,12 +253,7 @@ BOOL SphereCollider::InitQuery(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SphereCollider::Collide(
-    SphereCache&             cache,
-    const Sphere&            sphere,
-    const AABBCollisionTree* tree,
-    const Matrix4x4*         worlds,
-    const Matrix4x4*         worldm)
+bool SphereCollider::Collide(SphereCache& cache, const Sphere& sphere, const AABBCollisionTree* tree, const Matrix4x4* worlds, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree)
@@ -302,12 +288,7 @@ bool SphereCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SphereCollider::Collide(
-    SphereCache&          cache,
-    const Sphere&         sphere,
-    const AABBNoLeafTree* tree,
-    const Matrix4x4*      worlds,
-    const Matrix4x4*      worldm)
+bool SphereCollider::Collide(SphereCache& cache, const Sphere& sphere, const AABBNoLeafTree* tree, const Matrix4x4* worlds, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree)
@@ -342,12 +323,7 @@ bool SphereCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SphereCollider::Collide(
-    SphereCache&             cache,
-    const Sphere&            sphere,
-    const AABBQuantizedTree* tree,
-    const Matrix4x4*         worlds,
-    const Matrix4x4*         worldm)
+bool SphereCollider::Collide(SphereCache& cache, const Sphere& sphere, const AABBQuantizedTree* tree, const Matrix4x4* worlds, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree)
@@ -386,12 +362,7 @@ bool SphereCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool SphereCollider::Collide(
-    SphereCache&                   cache,
-    const Sphere&                  sphere,
-    const AABBQuantizedNoLeafTree* tree,
-    const Matrix4x4*               worlds,
-    const Matrix4x4*               worldm)
+bool SphereCollider::Collide(SphereCache& cache, const Sphere& sphere, const AABBQuantizedNoLeafTree* tree, const Matrix4x4* worlds, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree)
@@ -543,12 +514,8 @@ void SphereCollider::_Collide(const AABBQuantizedNode* node)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Perform Sphere-AABB overlap test
     if (!SphereAABBOverlap(Center, Extents))
@@ -613,12 +580,8 @@ void SphereCollider::_Collide(const AABBQuantizedNoLeafNode* node)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Perform Sphere-AABB overlap test
     if (!SphereAABBOverlap(Center, Extents))

@@ -91,9 +91,7 @@ try {
         // alternative stripification - faces
         {
             DWORD*  remap = xr_alloc<DWORD>(fast_path_data.faces.size());
-            HRESULT rhr   = D3DXOptimizeFaces(
-                &fast_path_data.faces.front(), fast_path_data.faces.size(), fast_path_data.vertices.size(), FALSE,
-                remap);
+            HRESULT rhr   = D3DXOptimizeFaces(&fast_path_data.faces.front(), fast_path_data.faces.size(), fast_path_data.vertices.size(), FALSE, remap);
             R_CHK(rhr);
             vecOGF_F _source = fast_path_data.faces;
             for (u32 it = 0; it < _source.size(); it++)
@@ -104,9 +102,7 @@ try {
         // alternative stripification - vertices
         {
             DWORD*  remap = xr_alloc<DWORD>(fast_path_data.vertices.size());
-            HRESULT rhr   = D3DXOptimizeVertices(
-                &fast_path_data.faces.front(), fast_path_data.faces.size(), fast_path_data.vertices.size(), FALSE,
-                remap);
+            HRESULT rhr   = D3DXOptimizeVertices(&fast_path_data.faces.front(), fast_path_data.faces.size(), fast_path_data.vertices.size(), FALSE, remap);
             R_CHK(rhr);
             vec_XV _source = fast_path_data.vertices;
             for (u32 it = 0; it < _source.size(); it++)
@@ -151,7 +147,5 @@ void OGF::DumpFaces()
         clMsg("face #%4d: %4d %4d %4d", i, int(data.faces[i].v[0]), int(data.faces[i].v[1]), int(data.faces[i].v[2]));
     clMsg("fast:");
     for (u32 i = 0; i < fast_path_data.faces.size(); i++)
-        clMsg(
-            "face #%4d: %4d %4d %4d", i, int(fast_path_data.faces[i].v[0]), int(fast_path_data.faces[i].v[1]),
-            int(fast_path_data.faces[i].v[2]));
+        clMsg("face #%4d: %4d %4d %4d", i, int(fast_path_data.faces[i].v[0]), int(fast_path_data.faces[i].v[1]), int(fast_path_data.faces[i].v[2]));
 }

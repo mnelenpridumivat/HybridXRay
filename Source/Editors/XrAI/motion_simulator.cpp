@@ -63,11 +63,7 @@ IC float       classifyPoint(const Fvector& point, const Fvector& planeO, const 
 // Notes : Normalized directional vectors expected
 // Return: distance to plane in world units, -1 if no intersection.
 // -----------------------------------------------------------------------
-IC float intersectRayPlane(
-    const Fvector& rayOrigin,
-    const Fvector& rayDirection,
-    const Fvector& planeOrigin,
-    const Fvector& planeNormal)
+IC float intersectRayPlane(const Fvector& rayOrigin, const Fvector& rayDirection, const Fvector& planeOrigin, const Fvector& planeNormal)
 {
     float numer = classifyPoint(rayOrigin, planeOrigin, planeNormal);
     float denom = planeNormal.dotproduct(rayDirection);
@@ -115,13 +111,12 @@ IC void closestPointOnLine(Fvector& res, const Fvector& a, const Fvector& b, con
     // set length of V to t. V is normalized so this is easy
     res.mad(a, V, t);
 }
-IC void closestPointOnEdge(
-    Fvector&       res,    // result
-    const Fvector& a,
-    const Fvector& b,      // points
-    const Fvector& ED,
-    float          elen,   // edge direction (b-a) and length
-    const Fvector& P)      // query point
+IC void closestPointOnEdge(Fvector& res,   // result
+    const Fvector&                  a,
+    const Fvector&                  b,   // points
+    const Fvector&                  ED,
+    float                           elen,   // edge direction (b-a) and length
+    const Fvector&                  P)                       // query point
 {
     // Determine t (the length of the xr_vector from ‘a’ to ‘p’)
     Fvector c;

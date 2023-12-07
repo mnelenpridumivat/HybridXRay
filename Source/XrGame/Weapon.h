@@ -34,12 +34,12 @@ public:
     virtual ~CWeapon();
 
     // Generic
-    virtual void Load(LPCSTR section);
+    virtual void     Load(LPCSTR section);
 
-    virtual BOOL net_Spawn(CSE_Abstract* DC);
-    virtual void net_Destroy();
-    virtual void net_Export(NET_Packet& P);
-    virtual void net_Import(NET_Packet& P);
+    virtual BOOL     net_Spawn(CSE_Abstract* DC);
+    virtual void     net_Destroy();
+    virtual void     net_Export(NET_Packet& P);
+    virtual void     net_Import(NET_Packet& P);
 
     virtual CWeapon* cast_weapon()
     {
@@ -101,7 +101,7 @@ protected:
     ALife::_TIME_ID m_dwWeaponRemoveTime;
     ALife::_TIME_ID m_dwWeaponIndependencyTime;
 
-    virtual bool IsHudModeNow();
+    virtual bool    IsHudModeNow();
 
 public:
     void         signal_HideComplete();
@@ -151,22 +151,22 @@ public:
     }
 
 protected:
-    bool m_bTriStateReload;
-    u8   m_sub_state;
+    bool         m_bTriStateReload;
+    u8           m_sub_state;
     // a misfire happens, you'll need to rearm weapon
-    bool bMisfire;
+    bool         bMisfire;
 
     BOOL         m_bAutoSpawnAmmo;
     virtual bool AllowBore();
 
 public:
-    bool IsGrenadeLauncherAttached() const;
-    bool IsScopeAttached() const;
-    bool IsSilencerAttached() const;
+    bool                      IsGrenadeLauncherAttached() const;
+    bool                      IsScopeAttached() const;
+    bool                      IsSilencerAttached() const;
 
-    virtual bool GrenadeLauncherAttachable();
-    virtual bool ScopeAttachable();
-    virtual bool SilencerAttachable();
+    virtual bool              GrenadeLauncherAttachable();
+    virtual bool              ScopeAttachable();
+    virtual bool              SilencerAttachable();
 
     ALife::EWeaponAddonStatus get_GrenadeLauncherStatus() const
     {
@@ -187,13 +187,13 @@ public:
     };
 
     // обновление видимости для косточек аддонов
-    void UpdateAddonsVisibility();
-    void UpdateHUDAddonsVisibility();
+    void         UpdateAddonsVisibility();
+    void         UpdateHUDAddonsVisibility();
     // инициализация свойств присоединенных аддонов
     virtual void InitAddons();
 
     // для отоброажения иконок апгрейдов в интерфейсе
-    int GetScopeX()
+    int          GetScopeX()
     {
         return pSettings->r_s32(m_scopes[m_cur_scope], "scope_x");
     }
@@ -244,9 +244,10 @@ public:
     {
         m_flagsAddOnState = st;
     }   // dont use!!! for buy menu only!!!
+
 protected:
     // состояние подключенных аддонов
-    u8 m_flagsAddOnState;
+    u8                        m_flagsAddOnState;
 
     // возможность подключения различных аддонов
     ALife::EWeaponAddonStatus m_eScopeStatus;
@@ -254,30 +255,30 @@ protected:
     ALife::EWeaponAddonStatus m_eGrenadeLauncherStatus;
 
     // названия секций подключаемых аддонов
-    shared_str m_sScopeName;
-    shared_str m_sSilencerName;
-    shared_str m_sGrenadeLauncherName;
+    shared_str                m_sScopeName;
+    shared_str                m_sSilencerName;
+    shared_str                m_sGrenadeLauncherName;
 
     // смещение иконов апгрейдов в инвентаре
-    int m_iScopeX, m_iScopeY;
-    int m_iSilencerX, m_iSilencerY;
-    int m_iGrenadeLauncherX, m_iGrenadeLauncherY;
+    int                       m_iScopeX, m_iScopeY;
+    int                       m_iSilencerX, m_iSilencerY;
+    int                       m_iGrenadeLauncherX, m_iGrenadeLauncherY;
 
 protected:
     struct SZoomParams
     {
-        bool m_bZoomEnabled;   // разрешение режима приближения
-        bool m_bHideCrosshairInZoom;
+        bool                  m_bZoomEnabled;   // разрешение режима приближения
+        bool                  m_bHideCrosshairInZoom;
         //		bool			m_bZoomDofEnabled;
 
-        bool  m_bIsZoomModeNow;       // когда режим приближения включен
-        float m_fCurrentZoomFactor;   // текущий фактор приближения
-        float m_fZoomRotateTime;      // время приближения
+        bool                  m_bIsZoomModeNow;       // когда режим приближения включен
+        float                 m_fCurrentZoomFactor;   // текущий фактор приближения
+        float                 m_fZoomRotateTime;      // время приближения
 
-        float m_fIronSightZoomFactor;   // коэффициент увеличения прицеливания
-        float m_fScopeZoomFactor;       // коэффициент увеличения прицела
+        float                 m_fIronSightZoomFactor;   // коэффициент увеличения прицеливания
+        float                 m_fScopeZoomFactor;       // коэффициент увеличения прицела
 
-        float m_fZoomRotationFactor;
+        float                 m_fZoomRotationFactor;
 
         //		Fvector			m_ZoomDof;
         //		Fvector4		m_ReloadDof;
@@ -307,7 +308,7 @@ public:
     };
     CUIWindow* ZoomTexture();
 
-    bool ZoomHideCrosshair()
+    bool       ZoomHideCrosshair()
     {
         return m_zoom_params.m_bHideCrosshairInZoom || ZoomTexture();
     }
@@ -323,12 +324,12 @@ public:
 
     virtual float CurrentZoomFactor();
     // показывает, что оружие находится в соостоянии поворота для приближенного прицеливания
-    bool IsRotatingToZoom() const
+    bool          IsRotatingToZoom() const
     {
         return (m_zoom_params.m_fZoomRotationFactor < 1.f);
     }
 
-    virtual u8 GetCurrentHudOffsetIdx();
+    virtual u8    GetCurrentHudOffsetIdx();
 
     virtual float Weight() const;
     virtual u32   Cost() const;
@@ -362,13 +363,13 @@ public:
     }
 
 protected:
-    LPCSTR  m_strap_bone0;
-    LPCSTR  m_strap_bone1;
-    Fmatrix m_StrapOffset;
-    bool    m_strapped_mode;
-    bool    m_can_be_strapped;
+    LPCSTR          m_strap_bone0;
+    LPCSTR          m_strap_bone1;
+    Fmatrix         m_StrapOffset;
+    bool            m_strapped_mode;
+    bool            m_can_be_strapped;
 
-    Fmatrix m_Offset;
+    Fmatrix         m_Offset;
     // 0-используется без участия рук, 1-одна рука, 2-две руки
     EHandDependence eHandDependence;
     bool            m_bIsSingleHanded;
@@ -434,17 +435,17 @@ public:
     virtual void debug_draw_firedeps();
 
 protected:
-    virtual void SetDefaults();
+    virtual void  SetDefaults();
 
-    virtual bool MovingAnimAllowedNow();
-    virtual void OnStateSwitch(u32 S);
-    virtual void OnAnimationEnd(u32 state);
+    virtual bool  MovingAnimAllowedNow();
+    virtual void  OnStateSwitch(u32 S);
+    virtual void  OnAnimationEnd(u32 state);
 
     // трассирование полета пули
     virtual void  FireTrace(const Fvector& P, const Fvector& D);
     virtual float GetWeaponDeterioration();
 
-    virtual void FireStart()
+    virtual void  FireStart()
     {
         CShootingObject::FireStart();
     }
@@ -517,7 +518,7 @@ protected:
         float m_fPDM_disp_crouch;
         float m_fPDM_disp_crouch_no_acc;
     };
-    SPDM m_pdm;
+    SPDM                    m_pdm;
 
     float                   m_crosshair_inertion;
     first_bullet_controller m_first_bullet_controller;
@@ -528,8 +529,8 @@ protected:
 
     // для сталкеров, чтоб они знали эффективные границы использования
     // оружия
-    float m_fMinRadius;
-    float m_fMaxRadius;
+    float   m_fMinRadius;
+    float   m_fMaxRadius;
 
 protected:
     // для второго ствола
@@ -538,7 +539,7 @@ protected:
     void UpdateFlameParticles2();
 
 protected:
-    shared_str m_sFlameParticles2;
+    shared_str        m_sFlameParticles2;
     // объект партиклов для стрельбы из 2-го ствола
     CParticlesObject* m_pFlameParticles2;
 
@@ -555,13 +556,13 @@ public:
     {
         return iMagazineSize;
     }
-    int GetSuitableAmmoTotal(bool use_item_to_spawn = false) const;
+    int           GetSuitableAmmoTotal(bool use_item_to_spawn = false) const;
 
-    void SetAmmoElapsed(int ammo_count);
+    void          SetAmmoElapsed(int ammo_count);
 
-    virtual void OnMagazineEmpty();
-    void         SpawnAmmo(u32 boxCurr = 0xffffffff, LPCSTR ammoSect = NULL, u32 ParentID = 0xffffffff);
-    bool         SwitchAmmoType(u32 flags);
+    virtual void  OnMagazineEmpty();
+    void          SpawnAmmo(u32 boxCurr = 0xffffffff, LPCSTR ammoSect = NULL, u32 ParentID = 0xffffffff);
+    bool          SwitchAmmoType(u32 flags);
 
     virtual float Get_PDM_Base() const
     {
@@ -593,13 +594,13 @@ public:
     };
 
 protected:
-    int iAmmoElapsed;    // ammo in magazine, currently
-    int iMagazineSize;   // size (in bullets) of magazine
+    int          iAmmoElapsed;    // ammo in magazine, currently
+    int          iMagazineSize;   // size (in bullets) of magazine
 
     // для подсчета в GetSuitableAmmoTotal
-    mutable int m_iAmmoCurrentTotal;
-    mutable u32 m_BriefInfo_CalcFrame;   // кадр на котором просчитали кол-во патронов
-    bool        m_bAmmoWasSpawned;
+    mutable int  m_iAmmoCurrentTotal;
+    mutable u32  m_BriefInfo_CalcFrame;   // кадр на котором просчитали кол-во патронов
+    bool         m_bAmmoWasSpawned;
 
     virtual bool IsNecessaryItem(const shared_str& item_sect);
 
@@ -619,22 +620,22 @@ public:
     */
 
     DEFINE_VECTOR(shared_str, SCOPES_VECTOR, SCOPES_VECTOR_IT);
-    SCOPES_VECTOR m_scopes;
-    u8            m_cur_scope;
+    SCOPES_VECTOR         m_scopes;
+    u8                    m_cur_scope;
 
-    CWeaponAmmo* m_pCurrentAmmo;
-    u8           m_ammoType;
+    CWeaponAmmo*          m_pCurrentAmmo;
+    u8                    m_ammoType;
     //-	shared_str				m_ammoName; <== deleted
-    bool m_bHasTracers;
-    u8   m_u8TracerColorID;
-    u8   m_set_next_ammoType_on_reload;
+    bool                  m_bHasTracers;
+    u8                    m_u8TracerColorID;
+    u8                    m_set_next_ammoType_on_reload;
     // Multitype ammo support
     xr_vector<CCartridge> m_magazine;
     CCartridge            m_DefaultCartridge;
     float                 m_fCurrentCartirdgeDisp;
 
-    bool    unlimited_ammo();
-    IC bool can_be_strapped() const
+    bool                  unlimited_ammo();
+    IC bool               can_be_strapped() const
     {
         return m_can_be_strapped;
     };
@@ -684,7 +685,7 @@ private:
     bool         m_activation_speed_is_overriden;
     virtual bool ActivationSpeedOverriden(Fvector& dest, bool clear_override);
 
-    bool m_bRememberActorNVisnStatus;
+    bool         m_bRememberActorNVisnStatus;
 
 public:
     virtual void SetActivationSpeedOverride(Fvector const& speed);
@@ -692,7 +693,7 @@ public:
     {
         return m_bRememberActorNVisnStatus;
     };
-    virtual void EnableActorNVisnAfterZoom();
+    virtual void             EnableActorNVisnAfterZoom();
 
     virtual void             DumpActiveParams(shared_str const& section_name, CInifile& dst_ini) const;
     virtual shared_str const GetAnticheatSectionName() const

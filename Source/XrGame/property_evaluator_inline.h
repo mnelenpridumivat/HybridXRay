@@ -8,8 +8,8 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _object_type>
-#define CEvaluator CPropertyEvaluator<_object_type>
+#define TEMPLATE_SPECIALIZATION template<typename _object_type>
+#define CEvaluator              CPropertyEvaluator<_object_type>
 
 TEMPLATE_SPECIALIZATION
 IC CEvaluator::CPropertyEvaluator(_object_type* object, LPCSTR evaluator_name)

@@ -2,7 +2,7 @@
 
 #include "../states/state_custom_action.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION   template<typename _Object>
 
 #define CStateCustomGroupAbstract CStateCustomGroup<_Object>
 

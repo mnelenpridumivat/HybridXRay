@@ -32,13 +32,13 @@ DEFINE_MAP(CHARACTER_COMMUNITY_INDEX, SRelation, COMMUNITY_RELATION_MAP, COMMUNI
 // структура, существует для каждого персонажа в игре
 struct RELATION_DATA: public IPureSerializeObject<IReader, IWriter>
 {
-    virtual void clear();
+    virtual void           clear();
 
-    virtual void load(IReader&);
-    virtual void save(IWriter&);
+    virtual void           load(IReader&);
+    virtual void           save(IWriter&);
 
     // личные отношения
-    PERSONAL_RELATION_MAP personal;
+    PERSONAL_RELATION_MAP  personal;
     // отношения с группировками
     COMMUNITY_RELATION_MAP communities;
 };

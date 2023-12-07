@@ -17,9 +17,9 @@ void CUIInventoryUpgradeWnd::LoadCellsBacks(CUIXml& uiXml)
 {
     XML_NODE* stored_root = uiXml.GetLocalRoot();
 
-    int cnt = uiXml.GetNodesNum("cell_states", 0, "state");
+    int       cnt         = uiXml.GetNodesNum("cell_states", 0, "state");
 
-    XML_NODE* node = uiXml.NavigateToNode("cell_states", 0);
+    XML_NODE* node        = uiXml.NavigateToNode("cell_states", 0);
     uiXml.SetLocalRoot(node);
     for (int i_st = 0; i_st < cnt; ++i_st)
     {
@@ -100,11 +100,7 @@ UIUpgrade::ViewState CUIInventoryUpgradeWnd::SelectCellState(LPCSTR state_str)
     return UIUpgrade::STATE_UNKNOWN;
 }
 
-void CUIInventoryUpgradeWnd::SetCellState(
-    UIUpgrade::ViewState state,
-    LPCSTR               texture_name,
-    LPCSTR               texture_name2,
-    u32                  color)
+void CUIInventoryUpgradeWnd::SetCellState(UIUpgrade::ViewState state, LPCSTR texture_name, LPCSTR texture_name2, u32 color)
 {
     m_cell_textures[state]  = texture_name;
     m_point_textures[state] = texture_name2;
@@ -124,15 +120,14 @@ void CUIInventoryUpgradeWnd::LoadSchemes(CUIXml& uiXml)
 {
     XML_NODE* stored_root = uiXml.GetLocalRoot();
 
-    XML_NODE* tmpl_root = uiXml.NavigateToNode("templates", 0);
+    XML_NODE* tmpl_root   = uiXml.NavigateToNode("templates", 0);
     uiXml.SetLocalRoot(tmpl_root);
 
     Frect t_cell_item;
 
     t_cell_item.x1 = uiXml.ReadAttribFlt("cell_item", 0, "x");
     t_cell_item.y1 = uiXml.ReadAttribFlt("cell_item", 0, "y");
-    t_cell_item.x2 =
-        t_cell_item.x1 + uiXml.ReadAttribFlt("cell_item", 0, "width") * (UI().is_widescreen() ? 0.8f : 1.0f);
+    t_cell_item.x2 = t_cell_item.x1 + uiXml.ReadAttribFlt("cell_item", 0, "width") * (UI().is_widescreen() ? 0.8f : 1.0f);
     t_cell_item.y2 = t_cell_item.y1 + uiXml.ReadAttribFlt("cell_item", 0, "height");
 
     int tmpl_count = uiXml.GetNodesNum(tmpl_root, "template");

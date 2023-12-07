@@ -21,6 +21,7 @@ public:
     void     compile_2c(CBlender_Compile& C);
     void     compile_3(CBlender_Compile& C);
     void     compile_3c(CBlender_Compile& C);
+
 public:
     virtual LPCSTR getComment()
     {

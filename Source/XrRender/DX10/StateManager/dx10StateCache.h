@@ -5,6 +5,7 @@
 template<class IDeviceState, class StateDecs> class dx10StateCache
 {
     //	Public interface
+
 public:
     dx10StateCache();
     ~dx10StateCache();
@@ -20,17 +21,20 @@ public:
     //	Private functionality
 
     //	Private declarations
+
 private:
     struct StateRecord
     {
         u32           m_crc;
         IDeviceState* m_pState;
     };
+
 private:
     void          CreateState(StateDecs desc, IDeviceState** ppIState);
     IDeviceState* FindState(const StateDecs& desc, u32 StateCRC);
 
     //	Private data
+
 private:
     //	This must be cleared on device destroy
     xr_vector<StateRecord> m_StateArray;

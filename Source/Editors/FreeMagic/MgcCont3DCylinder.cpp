@@ -20,7 +20,7 @@ Cylinder Mgc::ContCylinder(int iQuantity, const Vector3* akPoint)
 {
     Cylinder kCylinder;
 
-    Line3 kLine;
+    Line3    kLine;
     OrthogonalLineFit(iQuantity, akPoint, kLine.Origin(), kLine.Direction());
 
     Real fMaxRadiusSqr = 0.0f;

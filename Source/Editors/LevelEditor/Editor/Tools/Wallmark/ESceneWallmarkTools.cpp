@@ -194,7 +194,7 @@ void ESceneWallmarkTool::RefiningSlots()
 extern ECORE_API float r_ssaDISCARD;
 const int              MAX_R_VERTEX = 4096;
 
-void ESceneWallmarkTool::OnRender(int priority, bool strictB2F)
+void                   ESceneWallmarkTool::OnRender(int priority, bool strictB2F)
 {
     if (!m_Flags.is(flDrawWallmark))
         return;
@@ -213,7 +213,7 @@ void ESceneWallmarkTool::OnRender(int priority, bool strictB2F)
             RCache.set_xform_world(Fidentity);
             RCache.set_xform_project(EDevice->mProject);
 
-            float ssaCLIP = r_ssaDISCARD / 4;
+            float     ssaCLIP  = r_ssaDISCARD / 4;
 
             u32       w_offset = 0;
             FVF::LIT* w_verts  = (FVF::LIT*)RCache.Vertex.Lock(MAX_R_VERTEX, hGeom->vb_stride, w_offset);
@@ -590,7 +590,7 @@ void ESceneWallmarkTool::OnDeviceDestroy()
     hGeom.destroy();
 }
 
-void ESceneWallmarkTool::OnSynchronize() {}
+void                          ESceneWallmarkTool::OnSynchronize() {}
 
 // allocate
 ESceneWallmarkTool::wallmark* ESceneWallmarkTool::wm_allocate()
@@ -643,7 +643,7 @@ void ESceneWallmarkTool::RecurseTri(u32 t, Fmatrix& mView, wallmark& W)
     CDB::TRI* T = sml_collector.getT() + t;
     if (T->dummy)
         return;
-    T->dummy = 0xffffffff;
+    T->dummy        = 0xffffffff;
 
     // Some vars
     u32*     v_ids  = T->verts;

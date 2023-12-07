@@ -35,13 +35,13 @@
 #include "Kinematics.h"
 
 #define GROUND_FRICTION 10.0f
-#define AIR_FRICTION 0.01f
-#define WALL_FRICTION 3.0f
+#define AIR_FRICTION    0.01f
+#define WALL_FRICTION   3.0f
 // #define AIR_RESIST		0.001f
 
-#define def_X_SIZE_2 0.35f
-#define def_Y_SIZE_2 0.8f
-#define def_Z_SIZE_2 0.35f
+#define def_X_SIZE_2    0.35f
+#define def_Y_SIZE_2    0.8f
+#define def_Z_SIZE_2    0.35f
 
 const u64 after_creation_collision_hit_block_steps_number = 100;
 
@@ -50,12 +50,9 @@ CPHMovementControl::CPHMovementControl(CObject* parent)
     pObject = parent;
 
 #ifdef DEBUG
-    if (debug_output().ph_dbg_draw_mask1().test(ph_m1_DbgTrackObject) && (!!pObject->cName()) &&
-        stricmp(debug_output().PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
+    if (debug_output().ph_dbg_draw_mask1().test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(debug_output().PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
     {
-        Msg("CPHMovementControl::CPHMovementControl %s (constructor) %f,%f,%pObjectf",
-            debug_output().PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y,
-            pObject->Position().z);
+        Msg("CPHMovementControl::CPHMovementControl %s (constructor) %f,%f,%pObjectf", debug_output().PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
     }
 
 #endif
@@ -82,10 +79,10 @@ CPHMovementControl::CPHMovementControl(CObject* parent)
     // fWallFriction		= WALL_FRICTION;
     // fGroundFriction		= GROUND_FRICTION;
     // fFriction			= fAirFriction;
-    bIsAffectedByGravity = TRUE;
-    fActualVelocity      = 0;
-    m_fGroundDelayFactor = 1.f;
-    gcontact_HealthLost  = 0;
+    bIsAffectedByGravity   = TRUE;
+    fActualVelocity        = 0;
+    m_fGroundDelayFactor   = 1.f;
+    gcontact_HealthLost    = 0;
 
     fContactSpeed          = 0.f;
     fAirControlParam       = 0.f;
@@ -153,13 +150,7 @@ void CPHMovementControl::in_shedule_Update(u32 DT)
         phcapture_destroy(m_capture);
 }
 
-void CPHMovementControl::Calculate(
-    Fvector&       vAccel,
-    const Fvector& camDir,
-    float /**ang_speed/**/,
-    float jump,
-    float /**dt/**/,
-    bool /**bLight/**/)
+void CPHMovementControl::Calculate(Fvector& vAccel, const Fvector& camDir, float /**ang_speed/**/, float jump, float /**dt/**/, bool /**bLight/**/)
 {
     Fvector previous_position;
     previous_position.set(vPosition);
@@ -184,7 +175,7 @@ void CPHMovementControl::Calculate(
     m_character->GetSavedVelocity(vVelocity);
     fActualVelocity = vVelocity.magnitude();
     // Msg("saved avel %f", fActualVelocity);
-    gcontact_Was = m_character->ContactWas();
+    gcontact_Was    = m_character->ContactWas();
 
     //////
 
@@ -213,9 +204,7 @@ void CPHMovementControl::Calculate(
     // SCollisionHitCallback* cc= O ? O->get_collision_hit_callback() : NULL;
     ICollisionDamageInfo* cdi = CollisionDamageInfo();
     if (cdi->HitCallback())
-        cdi->HitCallback()->call(
-            (m_character->PhysicsRefObject()), fMinCrashSpeed, fMaxCrashSpeed, fContactSpeed, gcontact_HealthLost,
-            CollisionDamageInfo());
+        cdi->HitCallback()->call((m_character->PhysicsRefObject()), fMinCrashSpeed, fMaxCrashSpeed, fContactSpeed, gcontact_HealthLost, CollisionDamageInfo());
 
     ////////
 
@@ -272,10 +261,7 @@ void CPHMovementControl::UpdateCollisionDamage()
 #include <ai_object_location.h>
 #include "../xrCore/_vector3d_ext.h"
 
-bool CPHMovementControl::MakeJumpPath(
-    xr_vector<DetailPathManager::STravelPathPoint>& out_path,
-    u32&                                            travel_point,
-    Fvector&                                        out_deviation)
+bool CPHMovementControl::MakeJumpPath(xr_vector<DetailPathManager::STravelPathPoint>& out_path, u32& travel_point, Fvector& out_deviation)
 {
     if (!m_character->JumpState())
         return false;
@@ -298,23 +284,22 @@ bool CPHMovementControl::MakeJumpPath(
     if (self_vel.magnitude() < 0.00001f)
         return false;
 
-    Fvector const self_pos  = monster->Position();
-    Fvector const enemy_pos = enemy->Position();
+    Fvector const self_pos      = monster->Position();
+    Fvector const enemy_pos     = enemy->Position();
 
     Fvector const self_to_enemy = enemy_pos - self_pos;
 
     if (angle_between_vectors(self_vel, self_to_enemy) > deg2rad(90.f))
         return false;
 
-    Fvector const self_vel_normalized = normalize(self_vel);
-    Fvector const self_to_enemy_projection_on_self_vel =
-        self_vel_normalized * dotproduct(self_to_enemy, self_vel_normalized);
-    Fvector const deviation = self_to_enemy - self_to_enemy_projection_on_self_vel;
+    Fvector const self_vel_normalized                  = normalize(self_vel);
+    Fvector const self_to_enemy_projection_on_self_vel = self_vel_normalized * dotproduct(self_to_enemy, self_vel_normalized);
+    Fvector const deviation                            = self_to_enemy - self_to_enemy_projection_on_self_vel;
 
-    float const factor = jump_control->relative_time();
+    float const   factor                               = jump_control->relative_time();
 
-    out_deviation   = deviation * 8.f * factor;
-    out_deviation.y = 0;
+    out_deviation                                      = deviation * 8.f * factor;
+    out_deviation.y                                    = 0;
 
     DetailPathManager::STravelPathPoint start_point, target_point;
     start_point.position  = self_pos;
@@ -331,28 +316,21 @@ bool CPHMovementControl::MakeJumpPath(
     return true;
 }
 
-void CPHMovementControl::Calculate(
-    const xr_vector<DetailPathManager::STravelPathPoint>& in_path,
-    float                                                 speed,
-    u32&                                                  travel_point,
-    float&                                                precision)
+void CPHMovementControl::Calculate(const xr_vector<DetailPathManager::STravelPathPoint>& in_path, float speed, u32& travel_point, float& precision)
 {
 #ifdef DEBUG
-    if (debug_output().ph_dbg_draw_mask1().test(ph_m1_DbgTrackObject) && (!!pObject->cName()) &&
-        stricmp(debug_output().PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
+    if (debug_output().ph_dbg_draw_mask1().test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(debug_output().PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
     {
-        Msg("CPHMovementControl::Calculate in %s (Object Position) %f,%f,%f", debug_output().PH_DBG_ObjectTrackName(),
-            pObject->Position().x, pObject->Position().y, pObject->Position().z);
-        Msg("CPHMovementControl::Calculate in %s (CPHMovementControl::vPosition) %f,%f,%f",
-            debug_output().PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
+        Msg("CPHMovementControl::Calculate in %s (Object Position) %f,%f,%f", debug_output().PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
+        Msg("CPHMovementControl::Calculate in %s (CPHMovementControl::vPosition) %f,%f,%f", debug_output().PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
     }
 #endif
 
-    xr_vector<DetailPathManager::STravelPathPoint> replacing_path;
-    Fvector                                        deviation = {0, 0, 0};
-    bool const add_deviation                                 = MakeJumpPath(replacing_path, travel_point, deviation);
+    xr_vector<DetailPathManager::STravelPathPoint>        replacing_path;
+    Fvector                                               deviation     = {0, 0, 0};
+    bool const                                            add_deviation = MakeJumpPath(replacing_path, travel_point, deviation);
 
-    xr_vector<DetailPathManager::STravelPathPoint> const& path = add_deviation ? replacing_path : in_path;
+    xr_vector<DetailPathManager::STravelPathPoint> const& path          = add_deviation ? replacing_path : in_path;
 
     if (bNonInteractiveMode)
     {
@@ -372,7 +350,7 @@ void CPHMovementControl::Calculate(
     Fvector new_position;
     m_character->IPosition(new_position);
 
-    int index = 0;   // nearest point
+    int  index = 0;   // nearest point
     // float distance;//distance
 
     bool near_line;
@@ -499,7 +477,7 @@ void CPHMovementControl::Calculate(
     m_character->GetSmothedVelocity(vVelocity);
     fActualVelocity = vVelocity.magnitude();
 
-    gcontact_Was = m_character->ContactWas();
+    gcontact_Was    = m_character->ContactWas();
     UpdateCollisionDamage();
     // const ICollisionDamageInfo* di=m_character->CollisionDamageInfo();
     // fContactSpeed=0.f;
@@ -521,11 +499,10 @@ void CPHMovementControl::Calculate(
     // m_character->Reinit();
 }
 
-void CPHMovementControl::PathNearestPoint(
-    const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
-    const Fvector&                                        new_position,   // in position
-    int&                                                  index,          // in start from; out nearest
-    bool&                                                 near_line       // out type
+void CPHMovementControl::PathNearestPoint(const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
+    const Fvector&                                                                              new_position,   // in position
+    int&                                                                                        index,          // in start from; out nearest
+    bool&                                                                                       near_line       // out type
 )
 {
     Fvector from_first, from_second, dir;
@@ -597,24 +574,20 @@ void CPHMovementControl::PathNearestPoint(
         near_line = false;
     }
 #ifdef DEBUG
-    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) &&
-        stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
+    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
     {
-        Msg("CPHMovementControl::Calculate out %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            pObject->Position().x, pObject->Position().y, pObject->Position().z);
-        Msg("CPHMovementControl::Calculate out %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            vPosition.x, vPosition.y, vPosition.z);
+        Msg("CPHMovementControl::Calculate out %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
+        Msg("CPHMovementControl::Calculate out %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
     }
 #endif
     return;
 }
 
-void CPHMovementControl::PathNearestPointFindUp(
-    const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
-    const Fvector&                                        new_position,   // in position
-    int&                                                  index,          // in start from; out nearest
-    float                                                 radius,         // out m_path_distance in exit radius
-    bool&                                                 near_line       // out type
+void CPHMovementControl::PathNearestPointFindUp(const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
+    const Fvector&                                                                                    new_position,   // in position
+    int&                                                                                              index,          // in start from; out nearest
+    float                                                                                             radius,         // out m_path_distance in exit radius
+    bool&                                                                                             near_line       // out type
 )
 {
     Fvector from_first, from_second, dir;
@@ -696,12 +669,11 @@ void CPHMovementControl::PathNearestPointFindUp(
     return;
 }
 
-void CPHMovementControl::PathNearestPointFindDown(
-    const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
-    const Fvector&                                        new_position,   // in position
-    int&                                                  index,          // in start from; out nearest
-    float                                                 radius,         // out m_path_distance in exit radius
-    bool&                                                 near_line       // out type
+void CPHMovementControl::PathNearestPointFindDown(const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
+    const Fvector&                                                                                      new_position,   // in position
+    int&                                                                                                index,          // in start from; out nearest
+    float                                                                                               radius,         // out m_path_distance in exit radius
+    bool&                                                                                               near_line       // out type
 )
 {
     Fvector from_first, from_second, dir;
@@ -784,11 +756,7 @@ void CPHMovementControl::PathNearestPointFindDown(
     return;
 }
 
-void CPHMovementControl::CorrectPathDir(
-    const Fvector&                                        real_path_dir,
-    const xr_vector<DetailPathManager::STravelPathPoint>& path,
-    int                                                   index,
-    Fvector&                                              corrected_path_dir)
+void CPHMovementControl::CorrectPathDir(const Fvector& real_path_dir, const xr_vector<DetailPathManager::STravelPathPoint>& path, int index, Fvector& corrected_path_dir)
 {
     const float epsilon      = 0.1f;
     float       plane_motion = dXZMag(real_path_dir);
@@ -816,12 +784,7 @@ void CPHMovementControl::CorrectPathDir(
         corrected_path_dir.set(real_path_dir);
     }
 }
-void CPHMovementControl::PathDIrLine(
-    const xr_vector<DetailPathManager::STravelPathPoint>& path,
-    int                                                   index,
-    float                                                 distance,
-    float                                                 precesition,
-    Fvector&                                              dir)
+void CPHMovementControl::PathDIrLine(const xr_vector<DetailPathManager::STravelPathPoint>& path, int index, float distance, float precesition, Fvector& dir)
 {
     Fvector to_path_point;
     Fvector corrected_path_dir;
@@ -842,12 +805,7 @@ void CPHMovementControl::PathDIrLine(
     dir.normalize_safe();
 }
 
-void CPHMovementControl::PathDIrPoint(
-    const xr_vector<DetailPathManager::STravelPathPoint>& path,
-    int                                                   index,
-    float                                                 distance,
-    float                                                 precesition,
-    Fvector&                                              dir)
+void CPHMovementControl::PathDIrPoint(const xr_vector<DetailPathManager::STravelPathPoint>& path, int index, float distance, float precesition, Fvector& dir)
 {
     Fvector to_path_point;
     Fvector corrected_path_dir;
@@ -915,7 +873,7 @@ void CPHMovementControl::Load(LPCSTR section)
 
     // xr_strcpy(m_capture_bone,pSettings->r_string(section,"capture_bone"));
 
-    Fbox bb;
+    Fbox    bb;
 
     // m_PhysicMovementControl: BOX
     Fvector vBOX1_center = pSettings->r_fvector3(section, "ph_box1_center");
@@ -941,13 +899,11 @@ void CPHMovementControl::Load(LPCSTR section)
     float    cs_min            = pSettings->r_float(section, "ph_crash_speed_min");
     float    cs_max            = pSettings->r_float(section, "ph_crash_speed_max");
     float    mass              = pSettings->r_float(section, "ph_mass");
-    xr_token retrictor_types[] = {
-        {"actor", rtActor}, {"medium_monster", rtMonsterMedium}, {"stalker", rtStalker}, {"none", rtNone}, {0, 0}};
+    xr_token retrictor_types[] = {{"actor", rtActor}, {"medium_monster", rtMonsterMedium}, {"stalker", rtStalker}, {"none", rtNone}, {0, 0}};
 
     if (pSettings->line_exist(section, "actor_restrictor"))
         SetRestrictionType(ERestrictionType(pSettings->r_token(section, "actor_restrictor", retrictor_types)));
-    fCollisionDamageFactor =
-        READ_IF_EXISTS(pSettings, r_float, section, "ph_collision_damage_factor", fCollisionDamageFactor);
+    fCollisionDamageFactor = READ_IF_EXISTS(pSettings, r_float, section, "ph_collision_damage_factor", fCollisionDamageFactor);
     R_ASSERT3(fCollisionDamageFactor <= 1.f, "ph_collision_damage_factor >1.", section);
     SetCrashSpeeds(cs_min, cs_max);
     SetMass(mass);
@@ -1016,13 +972,10 @@ void CPHMovementControl::SetEnvironment(int enviroment, int old_enviroment)
 void CPHMovementControl::SetPosition(const Fvector& P)
 {
 #ifdef DEBUG
-    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) &&
-        stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
+    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
     {
-        Msg("CPHMovementControl::SetPosition %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            pObject->Position().x, pObject->Position().y, pObject->Position().z);
-        Msg("CPHMovementControl::SetPosition %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            vPosition.x, vPosition.y, vPosition.z);
+        Msg("CPHMovementControl::SetPosition %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
+        Msg("CPHMovementControl::SetPosition %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
     }
 #endif
     vPosition.set(P);
@@ -1031,17 +984,13 @@ void CPHMovementControl::SetPosition(const Fvector& P)
 }
 bool CPHMovementControl::TryPosition(Fvector& pos)
 {
-    VERIFY_BOUNDARIES2(
-        pos, ph_boundaries(), m_character->PhysicsRefObject(), "CPHMovementControl::TryPosition	arqument pos");
+    VERIFY_BOUNDARIES2(pos, ph_boundaries(), m_character->PhysicsRefObject(), "CPHMovementControl::TryPosition	arqument pos");
 
 #ifdef DEBUG
-    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) &&
-        stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
+    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
     {
-        Msg("CPHMovementControl::TryPosition %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            pObject->Position().x, pObject->Position().y, pObject->Position().z);
-        Msg("CPHMovementControl::TryPosition %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            vPosition.x, vPosition.y, vPosition.z);
+        Msg("CPHMovementControl::TryPosition %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
+        Msg("CPHMovementControl::TryPosition %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
     }
 #endif
     if (m_character->b_exist)
@@ -1057,22 +1006,17 @@ bool CPHMovementControl::TryPosition(Fvector& pos)
 
 void CPHMovementControl::GetPosition(Fvector& P)
 {
-    VERIFY_BOUNDARIES2(
-        P, ph_boundaries(), m_character->PhysicsRefObject(), "CPHMovementControl::GetPosition	arqument pos");
+    VERIFY_BOUNDARIES2(P, ph_boundaries(), m_character->PhysicsRefObject(), "CPHMovementControl::GetPosition	arqument pos");
 
 #ifdef DEBUG
-    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) &&
-        stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
+    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
     {
-        Msg("CPHMovementControl::GetPosition %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            pObject->Position().x, pObject->Position().y, pObject->Position().z);
-        Msg("CPHMovementControl::GetPosition %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            vPosition.x, vPosition.y, vPosition.z);
+        Msg("CPHMovementControl::GetPosition %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
+        Msg("CPHMovementControl::GetPosition %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
     }
 #endif
     P.set(vPosition);
-    VERIFY_BOUNDARIES2(
-        vPosition, ph_boundaries(), m_character->PhysicsRefObject(), "CPHMovementControl::GetPosition	out pos");
+    VERIFY_BOUNDARIES2(vPosition, ph_boundaries(), m_character->PhysicsRefObject(), "CPHMovementControl::GetPosition	out pos");
 }
 
 void CPHMovementControl::AllocateCharacterObject(CharacterType type)
@@ -1094,13 +1038,10 @@ void CPHMovementControl::AllocateCharacterObject(CharacterType type)
     m_character->SetMas(fMass);
     m_character->SetPosition(vPosition);
 #ifdef DEBUG
-    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) &&
-        stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
+    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
     {
-        Msg("CPHMovementControl::AllocateCharacterObject %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            pObject->Position().x, pObject->Position().y, pObject->Position().z);
-        Msg("CPHMovementControl::AllocateCharacterObject %s (CPHMovementControl::vPosition) %f,%f,%f",
-            PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
+        Msg("CPHMovementControl::AllocateCharacterObject %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
+        Msg("CPHMovementControl::AllocateCharacterObject %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
     }
 #endif
 }
@@ -1141,7 +1082,7 @@ Fvector CPHMovementControl::PHCaptureGetNearestElemPos(const CPhysicsShellHolder
 
     CPhysicsElement* ph_elem = object->m_pPhysicsShell->NearestToPoint(vPosition);
 
-    Fvector v;
+    Fvector          v;
     ph_elem->GetGlobalPositionDynamic(&v);
 
     return v;
@@ -1151,7 +1092,7 @@ Fmatrix CPHMovementControl::PHCaptureGetNearestElemTransform(CPhysicsShellHolder
 {
     CPhysicsElement* ph_elem = object->m_pPhysicsShell->NearestToPoint(vPosition);
 
-    Fmatrix m;
+    Fmatrix          m;
     ph_elem->GetGlobalTransformDynamic(&m);
 
     return m;
@@ -1211,9 +1152,7 @@ void CPHMovementControl::GetJumpMinVelParam(Fvector& min_vel, float& time, JumpT
 
 float CPHMovementControl::JumpMinVelTime(const Fvector& end_point)
 {
-    return ThrowMinVelTime(
-        Fvector().sub(end_point, smart_cast<CGameObject*>(m_character->PhysicsRefObject())->Position()),
-        physics_world()->Gravity());
+    return ThrowMinVelTime(Fvector().sub(end_point, smart_cast<CGameObject*>(m_character->PhysicsRefObject())->Position()), physics_world()->Gravity());
 }
 
 void CPHMovementControl::GetJumpParam(Fvector& velocity, JumpType& type, const Fvector& end_point, float time)
@@ -1256,13 +1195,10 @@ void CPHMovementControl::CreateCharacter()
     m_character->SetMaterial(m_material);
     m_character->SetAirControlFactor(fAirControlParam);
 #ifdef DEBUG
-    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) &&
-        stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
+    if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && (!!pObject->cName()) && stricmp(PH_DBG_ObjectTrackName(), *pObject->cName()) == 0)
     {
-        Msg("CPHMovementControl::CreateCharacter %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            pObject->Position().x, pObject->Position().y, pObject->Position().z);
-        Msg("CPHMovementControl::CreateCharacter %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(),
-            vPosition.x, vPosition.y, vPosition.z);
+        Msg("CPHMovementControl::CreateCharacter %s (Object Position) %f,%f,%f", PH_DBG_ObjectTrackName(), pObject->Position().x, pObject->Position().y, pObject->Position().z);
+        Msg("CPHMovementControl::CreateCharacter %s (CPHMovementControl::vPosition) %f,%f,%f", PH_DBG_ObjectTrackName(), vPosition.x, vPosition.y, vPosition.z);
     }
 #endif
     m_character->SetPosition(vPosition);
@@ -1435,8 +1371,7 @@ void CPHMovementControl::TraceBorder(const Fvector& prev_position)
 
     STraceBorderQParams p(this, dir);
     storage.r_clear();
-    g_pGameLevel->ObjectSpace.RayQuery(
-        storage, RD, BorderTraceCallback, &p, NULL, smart_cast<CObject*>(m_character->PhysicsRefObject()));
+    g_pGameLevel->ObjectSpace.RayQuery(storage, RD, BorderTraceCallback, &p, NULL, smart_cast<CObject*>(m_character->PhysicsRefObject()));
 }
 
 void CPHMovementControl::UpdateObjectBox(CPHCharacter* ach)
@@ -1492,8 +1427,8 @@ const IPhysicsElement* CPHMovementControl::IElement() const
     return m_character;
 }
 
-static const u32   move_steps_max_num = 20;
-static const float move_velocity      = 1.f;
+static const u32   move_steps_max_num  = 20;
+static const float move_velocity       = 1.f;
 
 static const float fmove_steps_max_num = move_steps_max_num;
 void               CPHMovementControl::VirtualMoveTo(const Fvector& in_pos, Fvector& out_pos)
@@ -1504,8 +1439,7 @@ void               CPHMovementControl::VirtualMoveTo(const Fvector& in_pos, Fvec
     class ph_character_state_save
     {
     public:
-        ph_character_state_save(CPHCharacter* character):
-            character_(character), saved_callback_(character->ObjectContactCallBack())
+        ph_character_state_save(CPHCharacter* character): character_(character), saved_callback_(character->ObjectContactCallBack())
         {
             character_->get_State(sv_state);
             ///////////////////////////////////////
@@ -1799,8 +1733,7 @@ bool CPHMovementControl::JumpState()
 ///
 bool CPHMovementControl::PhysicsOnlyMode()
 {
-    return m_character && m_character->b_exist && m_character->IsEnabled() &&
-        (m_character->JumpState() || m_character->ForcedPhysicsControl());
+    return m_character && m_character->b_exist && m_character->IsEnabled() && (m_character->JumpState() || m_character->ForcedPhysicsControl());
 }
 
 void CPHMovementControl::SetRestrictionType(ERestrictionType rt)
@@ -1833,13 +1766,7 @@ IPhysicsShellHolder* CPHMovementControl::PhysicsRefObject()
     return m_character->PhysicsRefObject();
 }
 
-void CPHMovementControl::actor_calculate(
-    Fvector&       vAccel,
-    const Fvector& camDir,
-    float          ang_speed,
-    float          jump,
-    float          dt,
-    bool           bLight)
+void CPHMovementControl::actor_calculate(Fvector& vAccel, const Fvector& camDir, float ang_speed, float jump, float dt, bool bLight)
 {
     Calculate(vAccel, camDir, ang_speed, jump, dt, bLight);
 }

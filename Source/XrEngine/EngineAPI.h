@@ -49,6 +49,7 @@ private:
     HMODULE hRender;
     HMODULE hTuner;
 #endif
+
 public:
     BENCH_SEC_SCRAMBLEMEMBER1
     Factory_Create*  pCreate;

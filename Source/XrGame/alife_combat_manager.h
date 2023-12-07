@@ -38,6 +38,7 @@ class CALifeCombatManager: public virtual CALifeSimulatorBase, CRandom
     bfCheckIfRetreated			(int						iCombatGroupIndex); void					vfFinishCombat
     (ALife::ECombatResult		tCombatResult);
     /**/
+
 public:
     CALifeCombatManager(xrServer* server, LPCSTR section);
     /**
@@ -47,10 +48,7 @@ public:
                 ALife::ERelationType	relation_type				(CSE_ALifeMonsterAbstract
     *tpALifeMonsterAbstract1,	CSE_ALifeMonsterAbstract*tpALifeMonsterAbstract2) const;
     /**/
-    void kill_entity(
-        CSE_ALifeMonsterAbstract*   l_tpALifeMonsterAbstract,
-        const GameGraph::_GRAPH_ID& l_tGraphID,
-        CSE_ALifeSchedulable*       schedulable);
+    void kill_entity(CSE_ALifeMonsterAbstract* l_tpALifeMonsterAbstract, const GameGraph::_GRAPH_ID& l_tGraphID, CSE_ALifeSchedulable* schedulable);
 };
 
 #include "alife_combat_manager_inline.h"

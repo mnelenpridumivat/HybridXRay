@@ -69,7 +69,7 @@ namespace smart_cover
 #ifdef DEBUG
         virtual void OnRender();
 #endif   // DEBUG
-        bool inside(Fvector const& position) const;
+        bool            inside(Fvector const& position) const;
 
         IC float const& enter_min_enemy_distance() const;
         IC float const& exit_min_enemy_distance() const;

@@ -36,7 +36,7 @@
 // #define M_PI            3.14159265358979323846
 // #endif
 
-#define AINT_EPSILON (1e-5f)
+#define AINT_EPSILON     (1e-5f)
 #define AINT_BIG_EPSILON (.01f)
 
 inline int equal(float x, float y, const float eps = AINT_EPSILON)
@@ -131,8 +131,8 @@ private:
     friend class AngleIntList;
     float low, high;
 
-    int merge_aux(const AngleInt& a, AngleInt& b, float eps) const;
-    int merge(const AngleInt& a, AngleInt& b, float eps) const;
+    int   merge_aux(const AngleInt& a, AngleInt& b, float eps) const;
+    int   merge(const AngleInt& a, AngleInt& b, float eps) const;
 
 public:
     // Splits an angle interval of the form low > high into two intervals with high > low
@@ -194,9 +194,9 @@ public:
     // returns the midpoint of the range
     float Mid() const;
 
-    int IsSubsetOf(const AngleInt& a, float eps = AINT_BIG_EPSILON) const;
-    int IsSupersetOf(const AngleInt& a, float eps = AINT_BIG_EPSILON) const;
-    int OldIsSupersetOf(const AngleInt& a, float eps = AINT_BIG_EPSILON) const;
+    int   IsSubsetOf(const AngleInt& a, float eps = AINT_BIG_EPSILON) const;
+    int   IsSupersetOf(const AngleInt& a, float eps = AINT_BIG_EPSILON) const;
+    int   OldIsSupersetOf(const AngleInt& a, float eps = AINT_BIG_EPSILON) const;
 
     // determines if a can be merged with *this. Returns 1 if the nodes
     // can be merged and returns the result in b
@@ -284,7 +284,7 @@ public:
     AngleInt* Largest() const;
 
     // returns T if a is in the angle range of any of the entries
-    int InRange(float a, float eps = AINT_BIG_EPSILON) const
+    int       InRange(float a, float eps = AINT_BIG_EPSILON) const
     {
         for (AngleIntListNode* t = head; t; t = t->next)
             if (t->D.InRange(a, eps))
@@ -294,9 +294,9 @@ public:
 
     float Distance(float a) const;
 
-    void wrap(float eps = AINT_BIG_EPSILON);
+    void  wrap(float eps = AINT_BIG_EPSILON);
 
-    int NumIntervals() const;
+    int   NumIntervals() const;
 };
 
 void Union(const AngleIntList& a, const AngleIntList& b, AngleIntList& c);

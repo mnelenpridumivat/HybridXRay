@@ -12,10 +12,7 @@
 namespace award_system
 {
 
-    killer_victim_angle::killer_victim_angle(game_state_accumulator* owner):
-        inherited(owner), m_killer_victim_angle_cos(1.f)
-    {
-    }
+    killer_victim_angle::killer_victim_angle(game_state_accumulator* owner): inherited(owner), m_killer_victim_angle_cos(1.f) {}
 
     void killer_victim_angle::reset_game()
     {
@@ -27,11 +24,7 @@ namespace award_system
         return u32(acosf(m_killer_victim_angle_cos) * (180.f / PI));
     }
 
-    void killer_victim_angle::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void killer_victim_angle::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
         if (!tmp_local_player)
@@ -45,8 +38,8 @@ namespace award_system
         if (!victim_actor || !killer_actor)
             return;
 
-        Fvector killer_dir;
-        Fvector victim_velocity;
+        Fvector                   killer_dir;
+        Fvector                   victim_velocity;
 
         CCharacterPhysicsSupport* tmp_cphys = victim_actor->character_physics_support();
         if (!tmp_cphys)

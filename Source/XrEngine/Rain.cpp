@@ -29,9 +29,9 @@ static const float drop_max_wind_vel = 20.0f;
 static const float drop_speed_min    = 40.f;
 static const float drop_speed_max    = 80.f;
 
-const int   max_particles   = 1000;
-const int   particles_cache = 400;
-const float particles_time  = .3f;
+const int          max_particles     = 1000;
+const int          particles_cache   = 400;
+const float        particles_time    = .3f;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -89,7 +89,7 @@ void CEffect_Rain::Born(Item& dest, float radius)
     dest.D.random_dir(axis, deg2rad(drop_angle));
     dest.P.set(x + view.x - dest.D.x * source_offset, source_offset + view.y, z + view.z - dest.D.z * source_offset);
     //	dest.P.set			(x+view.x,height+view.y,z+view.z);
-    dest.fSpeed = ::Random.randF(drop_speed_min, drop_speed_max);
+    dest.fSpeed  = ::Random.randF(drop_speed_min, drop_speed_max);
 
     float height = max_distance;
     RenewItem(dest, height, RayPick(dest.P, dest.D, height, collide::rqtBoth));
@@ -159,8 +159,8 @@ void CEffect_Rain::OnFrame()
             hemi_val         = _max(hemi_val, hemi_cube[5]);
 
             //		float f					= 0.9f*hemi_factor + 0.1f*hemi_val;
-            float f = hemi_val;
-            float t = Device->fTimeDelta;
+            float f          = hemi_val;
+            float t          = Device->fTimeDelta;
             clamp(t, 0.001f, 1.0f);
             hemi_factor = hemi_factor * (1.0f - t) + f * t;
         }
@@ -424,7 +424,7 @@ void CEffect_Rain::Hit(Fvector& pos)
 
     const Fsphere& bv_sphere = m_pRender->GetDropBounds();
 
-    P->time = particles_time;
+    P->time                  = particles_time;
     P->mXForm.rotateY(::Random.randF(PI_MUL_2));
     P->mXForm.translate_over(pos);
     P->mXForm.transform_tiny(P->bounds.P, bv_sphere.P);

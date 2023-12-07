@@ -23,16 +23,15 @@ namespace DetailPathManager
     enum EDetailPathType;
 };
 
-template <typename _Graph, typename _VertexEvaluator, typename _vertex_id_type> class CBaseLocationSelector;
+template<typename _Graph, typename _VertexEvaluator, typename _vertex_id_type> class CBaseLocationSelector;
 
-template <typename _Graph, typename _VertexEvaluator, typename _vertex_id_type, typename _index_type>
-class CBasePathManager;
+template<typename _Graph, typename _VertexEvaluator, typename _vertex_id_type, typename _index_type> class CBasePathManager;
 
-template <typename _dist_type, typename _index_type, typename _iteration_type> struct SVertexType;
+template<typename _dist_type, typename _index_type, typename _iteration_type> struct SVertexType;
 
-template <typename _dist_type, typename _index_type, typename _iteration_type> struct SBaseParameters;
+template<typename _dist_type, typename _index_type, typename _iteration_type> struct SBaseParameters;
 
-template <typename _dist_type, typename _index_type, typename _iteration_type> struct SGameVertex;
+template<typename _dist_type, typename _index_type, typename _iteration_type> struct SGameVertex;
 
 class CEnemyLocationPredictor;
 class CPatrolPathManager;
@@ -64,13 +63,13 @@ private:
     friend class CDetailPathBuilder;
 
 protected:
-    typedef MonsterSpace::SBoneRotation         CBoneRotation;
-    typedef MovementManager::EPathType          EPathType;
-    typedef DetailPathManager::STravelPathPoint CTravelPathPoint;
-    typedef GraphEngineSpace::CBaseParameters   CBaseParameters;
-    typedef GraphEngineSpace::CGameVertexParams CGameVertexParams;
+    typedef MonsterSpace::SBoneRotation                                               CBoneRotation;
+    typedef MovementManager::EPathType                                                EPathType;
+    typedef DetailPathManager::STravelPathPoint                                       CTravelPathPoint;
+    typedef GraphEngineSpace::CBaseParameters                                         CBaseParameters;
+    typedef GraphEngineSpace::CGameVertexParams                                       CGameVertexParams;
 
-    typedef CBaseLocationSelector<IGameGraph, SGameVertex<float, u32, u32>, u32> CGameLocationSelector;
+    typedef CBaseLocationSelector<IGameGraph, SGameVertex<float, u32, u32>, u32>      CGameLocationSelector;
 
     typedef CBasePathManager<IGameGraph, SGameVertex<float, u32, u32>, u32, u32>      CGamePathManager;
     typedef CBasePathManager<ILevelGraph, SBaseParameters<float, u32, u32>, u32, u32> CLevelPathManager;
@@ -176,25 +175,25 @@ public:
     IC void                            set_body_orientation(const MonsterSpace::SBoneRotation& orientation);
     IC const CBoneRotation&            body_orientation() const;
     void                               update_path();
-    virtual void move_along_path(CPHMovementControl* movement_control, Fvector& dest_position, float time_delta);
+    virtual void                       move_along_path(CPHMovementControl* movement_control, Fvector& dest_position, float time_delta);
 
-    IC float speed() const;
-    float    speed(CPHMovementControl* movement_control) const;
+    IC float                           speed() const;
+    float                              speed(CPHMovementControl* movement_control) const;
 
-    virtual void on_travel_point_change(const u32& previous_travel_point_index);
-    virtual void on_build_path() {}
+    virtual void                       on_travel_point_change(const u32& previous_travel_point_index);
+    virtual void                       on_build_path() {}
 
-    template <typename T> IC bool accessible(T position_or_vertex_id, float radius = EPS_L) const;
+    template<typename T> IC bool       accessible(T position_or_vertex_id, float radius = EPS_L) const;
 
-    IC void extrapolate_path(bool value);
-    IC bool extrapolate_path() const;
+    IC void                            extrapolate_path(bool value);
+    IC bool                            extrapolate_path() const;
 
-    bool distance_to_destination_greater(const float& distance_to_check) const;
+    bool                               distance_to_destination_greater(const float& distance_to_check) const;
 
-    IC bool      wait_for_distributed_computation() const;
-    virtual bool can_use_distributed_computations(u32 option) const;
+    IC bool                            wait_for_distributed_computation() const;
+    virtual bool                       can_use_distributed_computations(u32 option) const;
 
-    void clear_path();
+    void                               clear_path();
 
 public:
     IC CGameVertexParams*     base_game_params() const;
@@ -218,14 +217,7 @@ protected:
 
 protected:
     Fvector path_position(const float& time_to_check);
-    Fvector path_position(
-        const float&   velocity,
-        const Fvector& position,
-        const float&   time_delta,
-        u32&           current_travel_point,
-        float&         dist,
-        float&         dist_to_target,
-        Fvector&       dir_to_target);
+    Fvector path_position(const float& velocity, const Fvector& position, const float& time_delta, u32& current_travel_point, float& dist, float& dist_to_target, Fvector& dir_to_target);
 
 protected:
     virtual CRestrictedObject* create_restricted_object();
@@ -239,13 +231,9 @@ private:
 
 public:
     virtual const float& prediction_speed() const;
-    Fvector              predict_position(
-                     const float&   time_delta,
-                     const Fvector& position,
-                     u32&           current_travel_point,
-                     const float&   prediction_speed) const;
-    Fvector predict_position(const float& time_delta) const;
-    Fvector target_position() const;
+    Fvector              predict_position(const float& time_delta, const Fvector& position, u32& current_travel_point, const float& prediction_speed) const;
+    Fvector              predict_position(const float& time_delta) const;
+    Fvector              target_position() const;
 };
 
 #include "movement_manager_inline.h"

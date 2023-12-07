@@ -9,8 +9,8 @@ class CTrade
 {
     xr_vector<CObject*> m_nearest;
 
-    bool TradeState;   // режим торговли. true - включен
-    u32  m_dwLastTradeTime;
+    bool                TradeState;   // режим торговли. true - включен
+    u32                 m_dwLastTradeTime;
 
     typedef enum tagTraderType
     {
@@ -26,7 +26,7 @@ class CTrade
         CEntity*         base;
         CInventoryOwner* inv_owner;
 
-        void Set(EOwnerType t, CEntity* b, CInventoryOwner* io)
+        void             Set(EOwnerType t, CEntity* b, CInventoryOwner* io)
         {
             type      = t;
             base      = b;
@@ -56,21 +56,21 @@ public:
         return TradeState;
     }
 
-    void OnPerformTrade(u32 money_get, u32 money_put);
+    void             OnPerformTrade(u32 money_get, u32 money_put);
 
-    void TransferItem(CInventoryItem* pItem, bool bBuying);
+    void             TransferItem(CInventoryItem* pItem, bool bBuying);
 
     CInventoryOwner* GetPartner();
     CTrade*          GetPartnerTrade();
     CInventory*      GetPartnerInventory();
 
-    u32 GetItemPrice(CInventoryItem* pItem, bool b_buying);
+    u32              GetItemPrice(CInventoryItem* pItem, bool b_buying);
 
-    void UpdateTrade();
+    void             UpdateTrade();
 
 private:
-    bool SetPartner(CEntity* p);
-    void RemovePartner();
+    bool        SetPartner(CEntity* p);
+    void        RemovePartner();
 
     CInventory& GetTradeInv(SInventoryOwner owner);
 };

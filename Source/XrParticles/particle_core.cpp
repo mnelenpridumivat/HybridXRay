@@ -9,7 +9,7 @@ using namespace PAPI;
 // To offset [0 .. 1] vectors to [-.5 .. .5]
 static pVector vHalf(0.5, 0.5, 0.5);
 
-ICF pVector RandVec()
+ICF pVector    RandVec()
 {
     return pVector(drand48(), drand48(), drand48());
 }
@@ -26,7 +26,8 @@ float PAPI::NRand(float sigma)
     do
     {
         y = -logf(drand48());
-    } while (drand48() > expf(-_sqr(y - 1.0f) * 0.5f));
+    }
+    while (drand48() > expf(-_sqr(y - 1.0f) * 0.5f));
 
     if (rand() & 0x1)
         return y * sigma * ONE_OVER_SIGMA_EXP;
@@ -35,8 +36,7 @@ float PAPI::NRand(float sigma)
 }
 ////////////////////////////////////////////////////////////////////////////////
 // Stuff for the pDomain.
-pDomain::
-    pDomain(PDomainEnum dtype, float a0, float a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8)
+pDomain::pDomain(PDomainEnum dtype, float a0, float a1, float a2, float a3, float a4, float a5, float a6, float a7, float a8)
 {
     type = dtype;
     switch (type)
@@ -44,7 +44,8 @@ pDomain::
         case PDPoint:
             p1 = pVector(a0, a1, a2);
             break;
-        case PDLine: {
+        case PDLine:
+        {
             p1 = pVector(a0, a1, a2);
             pVector tmp(a3, a4, a5);
             // p2 is vector3 from p1 to other endpoint.
@@ -84,13 +85,33 @@ pDomain::
                 p2.z = a2;
             }
             break;
-        case PDTriangle: {
+        case PDTriangle:
+        {
             p1          = pVector(a0, a1, a2);
             pVector tp2 = pVector(a3, a4, a5);
             pVector tp3 = pVector(a6, a7, a8);
 
-            u = tp2 - p1;
-            v = tp3 - p1;
+            u           = tp2 - p1;
+            v           = tp3 - p1;
+
+            // The rest of this is needed for bouncing.
+            radius1Sqr  = u.length();
+            pVector tu  = u / radius1Sqr;
+            radius2Sqr  = v.length();
+            pVector tv  = v / radius2Sqr;
+
+            p2          = tu ^ tv;   // This is the non-unit normal.
+            p2.normalize_safe();     // Must normalize it.
+
+            // radius1 stores the d of the plane eqn.
+            radius1 = -(p1 * p2);
+        }
+        break;
+        case PDRectangle:
+        {
+            p1         = pVector(a0, a1, a2);
+            u          = pVector(a3, a4, a5);
+            v          = pVector(a6, a7, a8);
 
             // The rest of this is needed for bouncing.
             radius1Sqr = u.length();
@@ -98,32 +119,15 @@ pDomain::
             radius2Sqr = v.length();
             pVector tv = v / radius2Sqr;
 
-            p2 = tu ^ tv;          // This is the non-unit normal.
-            p2.normalize_safe();   // Must normalize it.
+            p2         = tu ^ tv;   // This is the non-unit normal.
+            p2.normalize_safe();    // Must normalize it.
 
             // radius1 stores the d of the plane eqn.
             radius1 = -(p1 * p2);
         }
         break;
-        case PDRectangle: {
-            p1 = pVector(a0, a1, a2);
-            u  = pVector(a3, a4, a5);
-            v  = pVector(a6, a7, a8);
-
-            // The rest of this is needed for bouncing.
-            radius1Sqr = u.length();
-            pVector tu = u / radius1Sqr;
-            radius2Sqr = v.length();
-            pVector tv = v / radius2Sqr;
-
-            p2 = tu ^ tv;          // This is the non-unit normal.
-            p2.normalize_safe();   // Must normalize it.
-
-            // radius1 stores the d of the plane eqn.
-            radius1 = -(p1 * p2);
-        }
-        break;
-        case PDPlane: {
+        case PDPlane:
+        {
             p1 = pVector(a0, a1, a2);
             p2 = pVector(a3, a4, a5);
             p2.normalize_safe();   // Must normalize it.
@@ -148,7 +152,8 @@ pDomain::
             radius2Sqr = radius2 * radius2;
             break;
         case PDCone:
-        case PDCylinder: {
+        case PDCylinder:
+        {
             // p2 is a vector3 from p1 to the other end of cylinder.
             // p1 is apex of cone.
 
@@ -166,7 +171,7 @@ pDomain::
                 radius1 = a7;
                 radius2 = a6;
             }
-            radius1Sqr = _sqr(radius1);
+            radius1Sqr   = _sqr(radius1);
 
             // Given an arbitrary nonzero vector3 n, make two orthonormal
             // vectors u and v forming a frame [u,v,n.normalize()].
@@ -190,7 +195,8 @@ pDomain::
             v = n ^ u;
         }
         break;
-        case PDBlob: {
+        case PDBlob:
+        {
             p1         = pVector(a0, a1, a2);
             radius1    = a3;
             float tmp  = 1.f / radius1;
@@ -198,7 +204,8 @@ pDomain::
             radius2    = ONEOVERSQRT2PI * tmp;
         }
         break;
-        case PDDisc: {
+        case PDDisc:
+        {
             p1 = pVector(a0, a1, a2);   // Center point
             p2 = pVector(a3, a4, a5);   // Normal (not used in Within and Generate)
             p2.normalize_safe();
@@ -236,20 +243,20 @@ BOOL pDomain::Within(const pVector& pos) const
     switch (type)
     {
         case PDBox:
-            return !(
-                (pos.x < p1.x) || (pos.x > p2.x) || (pos.y < p1.y) || (pos.y > p2.y) || (pos.z < p1.z) ||
-                (pos.z > p2.z));
+            return !((pos.x < p1.x) || (pos.x > p2.x) || (pos.y < p1.y) || (pos.y > p2.y) || (pos.z < p1.z) || (pos.z > p2.z));
         case PDPlane:
             // Distance from plane = n * p + d
             // Inside is the positive half-space.
             return pos * p2 >= -radius1;
-        case PDSphere: {
+        case PDSphere:
+        {
             pVector rvec(pos - p1);
             float   rSqr = rvec.length2();
             return rSqr <= radius1Sqr && rSqr >= radius2Sqr;
         }
         case PDCylinder:
-        case PDCone: {
+        case PDCone:
+        {
             // This is painful and slow. Might be better to do quick
             // accept/reject tests.
             // Let p2 = vector3 from base to tip of the cylinder
@@ -265,7 +272,7 @@ BOOL pDomain::Within(const pVector& pos) const
 
             // Check axial distance
             // radius2Sqr stores 1 / (p2.p2)
-            float dist = (p2 * x) * radius2Sqr;
+            float   dist = (p2 * x) * radius2Sqr;
             if (dist < 0.0f || dist > 1.0f)
                 return FALSE;
 
@@ -278,10 +285,11 @@ BOOL pDomain::Within(const pVector& pos) const
             else
                 return (rSqr <= radius1Sqr && rSqr >= _sqr(radius2));
         }
-        case PDBlob: {
+        case PDBlob:
+        {
             pVector x(pos - p1);
             // return exp(-0.5 * xSq * Sqr(oneOverSigma)) * ONEOVERSQRT2PI * oneOverSigma;
-            float Gx = expf(x.length2() * radius2Sqr) * radius2;
+            float   Gx = expf(x.length2() * radius2Sqr) * radius2;
             return (drand48() < Gx);
         }
         case PDPoint:
@@ -311,7 +319,8 @@ void pDomain::Generate(pVector& pos) const
             pos.y = p1.y + (p2.y - p1.y) * drand48();
             pos.z = p1.z + (p2.z - p1.z) * drand48();
             break;
-        case PDTriangle: {
+        case PDTriangle:
+        {
             float r1 = drand48();
             float r2 = drand48();
             if (r1 + r2 < 1.0f)
@@ -339,15 +348,16 @@ void pDomain::Generate(pVector& pos) const
                 pos = p1 + pos * (radius2 + drand48() * (radius1 - radius2));
             break;
         case PDCylinder:
-        case PDCone: {
+        case PDCone:
+        {
             // For a cone, p2 is the apex of the cone.
             float dist  = drand48();                        // Distance between base and tip
             float theta = drand48() * 2.0f * float(M_PI);   // Angle around axis
             // Distance from axis
-            float r = radius2 + drand48() * (radius1 - radius2);
+            float r     = radius2 + drand48() * (radius1 - radius2);
 
-            float x = r * _cos(theta);   // Weighting of each frame vector3
-            float y = r * _sin(theta);
+            float x     = r * _cos(theta);   // Weighting of each frame vector3
+            float y     = r * _sin(theta);
 
             // Scale radius along axis for cones
             if (type == PDCone)
@@ -365,15 +375,16 @@ void pDomain::Generate(pVector& pos) const
             pos.z = p1.z + NRand(radius1);
 
             break;
-        case PDDisc: {
+        case PDDisc:
+        {
             float theta = drand48() * 2.0f * float(M_PI);   // Angle around normal
             // Distance from center
-            float r = radius2 + drand48() * (radius1 - radius2);
+            float r     = radius2 + drand48() * (radius1 - radius2);
 
-            float x = r * _cos(theta);   // Weighting of each frame vector3
-            float y = r * _sin(theta);
+            float x     = r * _cos(theta);   // Weighting of each frame vector3
+            float y     = r * _sin(theta);
 
-            pos = p1 + u * x + v * y;
+            pos         = p1 + u * x + v * y;
         }
         break;
         default:
@@ -385,7 +396,8 @@ void pDomain::transform(const pDomain& domain, const Fmatrix& m)
 {
     switch (type)
     {
-        case PDBox: {
+        case PDBox:
+        {
             Fbox* bb_dest = (Fbox*)&p1;
             Fbox* bb_from = (Fbox*)&domain.p1;
             bb_dest->xform(*bb_from, m);

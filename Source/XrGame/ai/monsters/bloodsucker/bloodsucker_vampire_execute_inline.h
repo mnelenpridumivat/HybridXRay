@@ -8,14 +8,14 @@
 // #include "../../../ActorCondition.h"
 #include "../../../HudManager.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                 template<typename _Object>
 
 #define CStateBloodsuckerVampireExecuteAbstract CStateBloodsuckerVampireExecute<_Object>
 
-#define VAMPIRE_TIME_HOLD 4000
-#define VAMPIRE_HIT_IMPULSE 40.f
-#define VAMPIRE_MIN_DIST 0.5f
-#define VAMPIRE_MAX_DIST 1.f
+#define VAMPIRE_TIME_HOLD                       4000
+#define VAMPIRE_HIT_IMPULSE                     40.f
+#define VAMPIRE_MIN_DIST                        0.5f
+#define VAMPIRE_MAX_DIST                        1.f
 
 TEMPLATE_SPECIALIZATION
 void CStateBloodsuckerVampireExecuteAbstract::initialize()
@@ -161,8 +161,7 @@ bool CStateBloodsuckerVampireExecuteAbstract::check_start_conditions()
     if (!object->done_enough_hits_before_vampire())
         return false;
 
-    u32 const vertex_id = ai().level_graph().check_position_in_direction(
-        object->ai_location().level_vertex_id(), object->Position(), enemy->Position());
+    u32 const vertex_id = ai().level_graph().check_position_in_direction(object->ai_location().level_vertex_id(), object->Position(), enemy->Position());
     if (!ai().level_graph().valid_vertex_id(vertex_id))
         return false;
 

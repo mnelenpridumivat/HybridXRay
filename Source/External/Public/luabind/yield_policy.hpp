@@ -1,4 +1,4 @@
-// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
+﻿// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -20,43 +20,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 #ifndef LUABIND_YIELD_POLICY_HPP_INCLUDED
 #define LUABIND_YIELD_POLICY_HPP_INCLUDED
 
 #include "config.hpp"
 #include "detail/policy.hpp"
 
-namespace luabind { namespace detail 
+namespace luabind
 {
-	struct yield_policy
-	{
-		static void precall(lua_State*, const index_map&) {}
-		static void postcall(lua_State*, const index_map&) {}
-	};
+    namespace detail
+    {
+        struct yield_policy
+        {
+            static void precall(lua_State*, const index_map&) {}
+            static void postcall(lua_State*, const index_map&) {}
+        };
 
-	template<class T>
-	struct has_yield
-	{
-		BOOST_STATIC_CONSTANT(bool,
-			value = (boost::is_same<yield_policy, typename T::head>::value ||
-					  has_yield<typename T::tail>::value));
-	};
+        template<class T> struct has_yield
+        {
+            BOOST_STATIC_CONSTANT(bool, value = (boost::is_same<yield_policy, typename T::head>::value || has_yield<typename T::tail>::value));
+        };
 
-	template<>
-	struct has_yield<null_type>
-	{
-		BOOST_STATIC_CONSTANT(bool, value = false);
-	};
-}}
+        template<> struct has_yield<null_type>
+        {
+            BOOST_STATIC_CONSTANT(bool, value = false);
+        };
+    }   // namespace detail
+}   // namespace luabind
 
 namespace luabind
 {
-	namespace 
-	{
-		LUABIND_ANONYMOUS_FIX detail::policy_cons<detail::yield_policy, detail::null_type> yield;
-	}
-}
+    namespace
+    {
+        LUABIND_ANONYMOUS_FIX detail::policy_cons<detail::yield_policy, detail::null_type> yield;
+    }
+}   // namespace luabind
 
-#endif // LUABIND_YIELD_POLICY_HPP_INCLUDED
-
+#endif   // LUABIND_YIELD_POLICY_HPP_INCLUDED

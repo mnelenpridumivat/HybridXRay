@@ -69,18 +69,18 @@ public:
     void     Clear();
     void     ProcessNewLines();
 
-    void Draw(CGameFont* pFont, float x, float y) const;
-    bool IsEmpty()
+    void     Draw(CGameFont* pFont, float x, float y) const;
+    bool     IsEmpty()
     {
         return m_subLines.empty();
     }
 
 protected:
-    int            GetSize();
-    const CUILine* Cut2Pos(Position& pos, bool to_first = true);
-    const CUILine* GetEmptyLine();
+    int                   GetSize();
+    const CUILine*        Cut2Pos(Position& pos, bool to_first = true);
+    const CUILine*        GetEmptyLine();
 
     xr_vector<CUISubLine> m_subLines;
 
-    CUILine* m_tmpLine;
+    CUILine*              m_tmpLine;
 };

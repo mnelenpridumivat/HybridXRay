@@ -25,8 +25,7 @@ bool TUI_ControlSpawnAdd::Start(TShiftState Shift)
     UISpawnTool* F = (UISpawnTool*)parent_tool->pForm;
     if (F->IsAttachObject())
     {
-        CCustomObject* from =
-            Scene->RayPickObject(UI->ZFar(), UI->m_CurrentRStart, UI->m_CurrentRDir, OBJCLASS_DUMMY, 0, 0);
+        CCustomObject* from = Scene->RayPickObject(UI->ZFar(), UI->m_CurrentRStart, UI->m_CurrentRDir, OBJCLASS_DUMMY, 0, 0);
         if (from && from->FClassID != OBJCLASS_SPAWNPOINT)
         {
             ObjectList lst;

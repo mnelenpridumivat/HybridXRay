@@ -44,7 +44,7 @@ namespace inventory
         public:
             UpgradeBase();
             virtual ~UpgradeBase();
-            void construct(const shared_str& upgrade_id, Manager& manager_r);
+            void                 construct(const shared_str& upgrade_id, Manager& manager_r);
 
             IC const shared_str& id() const;
             IC LPCSTR            id_str() const;
@@ -55,15 +55,15 @@ namespace inventory
 //	virtual		void		test_all_upgrades( CInventoryItem& item );
 #endif   // DEBUG
 
-            virtual bool is_root();
-            bool         make_known();
-            virtual bool contain_upgrade(const shared_str& upgrade_id);
-            virtual void fill_root_container(Root* root);
+            virtual bool               is_root();
+            bool                       make_known();
+            virtual bool               contain_upgrade(const shared_str& upgrade_id);
+            virtual void               fill_root_container(Root* root);
 
             virtual UpgradeStateResult can_install(CInventoryItem& item, bool loading);
 
-            virtual void highlight_up(){};
-            virtual void highlight_down(){};
+            virtual void               highlight_up(){};
+            virtual void               highlight_down(){};
 
         protected:
             typedef xr_vector<Group*> Groups_type;

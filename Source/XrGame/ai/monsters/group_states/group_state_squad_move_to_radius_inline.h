@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                template<typename _Object>
 
 //////////////////////////////////////////////////////////////////////////
 // CStateGroupSquadMoveToRadiusEx with path rebuild options
@@ -28,7 +28,7 @@ void CStateGroupSquadMoveToRadiusExAbstract::execute()
             float   m_heading, m_pitch;
             Fvector m_enemy_position = object->EnemyMan.get_enemy()->Position();
 
-            Fvector to_direction = object->Home->get_home_point();
+            Fvector to_direction     = object->Home->get_home_point();
             to_direction.sub(m_enemy_position);
             to_direction.normalize_safe();
 
@@ -106,7 +106,7 @@ void CStateGroupSquadMoveToRadiusAbstract::execute()
 {
     Fvector m_enemy_position = object->EnemyMan.get_enemy()->Position();
 
-    Fvector to_direction = object->Position();
+    Fvector to_direction     = object->Position();
     to_direction.sub(m_enemy_position);
     to_direction.normalize_safe();
 

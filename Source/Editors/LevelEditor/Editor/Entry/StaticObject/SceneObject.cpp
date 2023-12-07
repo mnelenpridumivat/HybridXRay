@@ -9,7 +9,7 @@ CSceneObject::CSceneObject(LPVOID data, LPCSTR name): CCustomObject(data, name)
 
 void CSceneObject::Construct(LPVOID data)
 {
-    FClassID = OBJCLASS_SCENEOBJECT;
+    FClassID        = OBJCLASS_SCENEOBJECT;
 
     m_ReferenceName = "";
     m_pReference    = 0;
@@ -23,7 +23,7 @@ void CSceneObject::Construct(LPVOID data)
 
 CSceneObject::~CSceneObject()
 {
-    for (CSurface*& i : m_Surfaces)
+    for (CSurface*& i: m_Surfaces)
     {
         i->OnDeviceDestroy();
         xr_delete(i);
@@ -239,7 +239,7 @@ void CSceneObject::GetFullTransformToLocal(Fmatrix& m)
 
 CEditableObject* CSceneObject::UpdateReference()
 {
-    for (CSurface* i : m_Surfaces)
+    for (CSurface* i: m_Surfaces)
     {
         i->OnDeviceDestroy();
         xr_delete(i);
@@ -293,7 +293,7 @@ void CSceneObject::ReferenceChange(PropValue* sender)
 void CSceneObject::OnChangeShader(PropValue* sender)
 {
     OnChangeSurface(sender);
-    for (CSurface* i : m_Surfaces)
+    for (CSurface* i: m_Surfaces)
     {
         i->OnDeviceDestroy();
     }
@@ -329,25 +329,19 @@ void CSceneObject::FillProp(LPCSTR pref, PropItemVec& items)
                 if ((*s_it)->m_GameMtlName != occ_name)
                 {
                     PropValue* V;
-                    V = PHelper().CreateChoose(
-                        items, PrepareKey(Pref2.c_str(), "Texture"), &(*s_it)->m_Texture, smTexture);
+                    V = PHelper().CreateChoose(items, PrepareKey(Pref2.c_str(), "Texture"), &(*s_it)->m_Texture, smTexture);
                     V->OnChangeEvent.bind(this, &CSceneObject::OnChangeShader);
-                    V = PHelper().CreateChoose(
-                        items, PrepareKey(Pref2.c_str(), "Shader"), &(*s_it)->m_ShaderName, smEShader);
+                    V = PHelper().CreateChoose(items, PrepareKey(Pref2.c_str(), "Shader"), &(*s_it)->m_ShaderName, smEShader);
                     V->OnChangeEvent.bind(this, &CSceneObject::OnChangeShader);
-                    V = PHelper().CreateChoose(
-                        items, PrepareKey(Pref2.c_str(), "Compile"), &(*s_it)->m_ShaderXRLCName, smCShader);
+                    V = PHelper().CreateChoose(items, PrepareKey(Pref2.c_str(), "Compile"), &(*s_it)->m_ShaderXRLCName, smCShader);
                     V->OnChangeEvent.bind(this, &CSceneObject::OnChangeSurface);
-                    auto VA = PHelper().CreateChoose(
-                        items, PrepareKey(Pref2.c_str(), "Game Mtl"), &(*s_it)->m_GameMtlName, smGameMaterial);
+                    auto VA = PHelper().CreateChoose(items, PrepareKey(Pref2.c_str(), "Game Mtl"), &(*s_it)->m_GameMtlName, smGameMaterial);
                     VA->OnChangeEvent.bind(this, &CSceneObject::OnChangeSurface);
                     VA->OnAfterEditEvent.bind(this, &CSceneObject::AfterEditGameMtl);
                 }
             }
         }
-        PHelper()
-            .CreateButton(items, PrepareKey(Pref1.c_str(), "Action"), "Clear", ButtonValue::flFirstOnly)
-            ->OnBtnClickEvent.bind(this, &CSceneObject::OnClickClearSurface);
+        PHelper().CreateButton(items, PrepareKey(Pref1.c_str(), "Action"), "Clear", ButtonValue::flFirstOnly)->OnBtnClickEvent.bind(this, &CSceneObject::OnClickClearSurface);
     }
 }
 
@@ -402,7 +396,7 @@ bool CSceneObject::GetSummaryInfo(SSceneSummary* inf)
 
 extern xr_token ECORE_API eo_type_token[];
 
-void CSceneObject::OnShowHint(AStringVec& dest)
+void                      CSceneObject::OnShowHint(AStringVec& dest)
 {
     inherited::OnShowHint(dest);
     dest.push_back(xr_string("Reference: ") + *m_ReferenceName);
@@ -428,8 +422,7 @@ void CSceneObject::OnShowHint(AStringVec& dest)
             }
         }
         else if (pinf.e_obj->m_objectFlags.is(CEditableObject::eoHOM))
-        {
-        }
+        {}
         else
         {
             dest.push_back(xr_string("Texture: ") + xr_string(surf->_Texture()));
@@ -455,7 +448,7 @@ bool CSceneObject::Validate(bool bMsg)
 
 void CSceneObject::ClearSurface()
 {
-    for (CSurface* i : m_Surfaces)
+    for (CSurface* i: m_Surfaces)
     {
         i->OnDeviceDestroy();
         xr_delete(i);

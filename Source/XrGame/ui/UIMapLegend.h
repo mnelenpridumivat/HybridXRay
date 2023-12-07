@@ -28,7 +28,7 @@ public:
     UIMapLegend();
     virtual ~UIMapLegend();
 
-    void init_from_xml(CUIXml& xml, LPCSTR path);
+    void         init_from_xml(CUIXml& xml, LPCSTR path);
 
     virtual void Show(bool status);
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
@@ -37,8 +37,8 @@ private:   // m_
     CUIFrameWindow* m_background;
     CUIScrollView*  m_list;
 
-    CUIStatic*   m_caption;
-    CUI3tButton* m_btn_close;
+    CUIStatic*      m_caption;
+    CUI3tButton*    m_btn_close;
 
 };   // class UIMapLegend
 

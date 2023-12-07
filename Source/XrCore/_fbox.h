@@ -1,7 +1,7 @@
 ﻿#ifndef __FBOX
 #define __FBOX
 
-template <class T> class _box3
+template<class T> class _box3
 {
 public:
     typedef T           TYPE;
@@ -548,12 +548,12 @@ public:
     }
 };
 
-typedef _box3<float>  Fbox;
-typedef _box3<float>  Fbox3;
-typedef _box3<double> Dbox;
-typedef _box3<double> Dbox3;
+typedef _box3<float>   Fbox;
+typedef _box3<float>   Fbox3;
+typedef _box3<double>  Dbox;
+typedef _box3<double>  Dbox3;
 
-template <class T> BOOL _valid(const _box3<T>& c)
+template<class T> BOOL _valid(const _box3<T>& c)
 {
     return _valid(min) && _valid(max);
 }

@@ -8,19 +8,16 @@ doug_lea_allocator g_render_lua_allocator(s_fake_array, s_arena_size, "render:lu
 doug_lea_allocator g_render_lua_allocator(0, 0, "render:lua");
 #endif   // #ifdef USE_ARENA_ALLOCATOR
 
-#define RENDER_OBJECT(P, B)                                                                                                    \
-    {                                                                                                                          \
-        try                                                                                                                    \
-        {                                                                                                                      \
-            (N->val)->RenderRoot(P, B);                                                                                        \
-        }                                                                                                                      \
-        catch (...)                                                                                                            \
-        {                                                                                                                      \
-            ELog.DlgMsg(                                                                                                       \
-                mtError,                                                                                                       \
-                "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type B] - Tools: '%s' Object: '%s'", \
-                (N->val)->FParentTools->ClassName(), (N->val)->GetName());                                                     \
-        }                                                                                                                      \
+#define RENDER_OBJECT(P, B)                                                                                                                                                                                \
+    {                                                                                                                                                                                                      \
+        try                                                                                                                                                                                                \
+        {                                                                                                                                                                                                  \
+            (N->val)->RenderRoot(P, B);                                                                                                                                                                    \
+        }                                                                                                                                                                                                  \
+        catch (...)                                                                                                                                                                                        \
+        {                                                                                                                                                                                                  \
+            ELog.DlgMsg(mtError, "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type B] - Tools: '%s' Object: '%s'", (N->val)->FParentTools->ClassName(), (N->val)->GetName()); \
+        }                                                                                                                                                                                                  \
     }
 
 void object_Normal_0(EScene::mapObject_Node* N)
@@ -56,26 +53,23 @@ void object_StrictB2F_3(EScene::mapObject_Node* N)
     RENDER_OBJECT(3, true);
 }
 
-#define RENDER_SCENE_TOOLS(P, B)                                                                                      \
-    {                                                                                                                 \
-        SceneMToolsIt s_it  = scene_tools.begin();                                                                    \
-        SceneMToolsIt s_end = scene_tools.end();                                                                      \
-        for (; s_it != s_end; s_it++)                                                                                 \
-        {                                                                                                             \
-            EDevice->SetShader(B ? EDevice->m_SelectionShader : EDevice->m_WireShader);                               \
-            RCache.set_xform_world(Fidentity);                                                                        \
-            try                                                                                                       \
-            {                                                                                                         \
-                (*s_it)->OnRenderRoot(P, B);                                                                          \
-            }                                                                                                         \
-            catch (...)                                                                                               \
-            {                                                                                                         \
-                ELog.DlgMsg(                                                                                          \
-                    mtError,                                                                                          \
-                    "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type B] - Tools: '%s'", \
-                    (*s_it)->ClassName());                                                                            \
-            }                                                                                                         \
-        }                                                                                                             \
+#define RENDER_SCENE_TOOLS(P, B)                                                                                                                              \
+    {                                                                                                                                                         \
+        SceneMToolsIt s_it  = scene_tools.begin();                                                                                                            \
+        SceneMToolsIt s_end = scene_tools.end();                                                                                                              \
+        for (; s_it != s_end; s_it++)                                                                                                                         \
+        {                                                                                                                                                     \
+            EDevice->SetShader(B ? EDevice->m_SelectionShader : EDevice->m_WireShader);                                                                       \
+            RCache.set_xform_world(Fidentity);                                                                                                                \
+            try                                                                                                                                               \
+            {                                                                                                                                                 \
+                (*s_it)->OnRenderRoot(P, B);                                                                                                                  \
+            }                                                                                                                                                 \
+            catch (...)                                                                                                                                       \
+            {                                                                                                                                                 \
+                ELog.DlgMsg(mtError, "Please notify AlexMX!!! Critical error has occured in render routine!!! [Type B] - Tools: '%s'", (*s_it)->ClassName()); \
+            }                                                                                                                                                 \
+        }                                                                                                                                                     \
     }
 
 void EScene::RenderSky(const Fmatrix& camera)

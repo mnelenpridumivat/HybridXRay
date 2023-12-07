@@ -27,7 +27,7 @@
 
 CUIProgressShape* g_MissileForceShape = NULL;
 
-void create_force_progress()
+void              create_force_progress()
 {
     VERIFY(!g_MissileForceShape);
     CUIXml uiXml;
@@ -61,17 +61,17 @@ void CMissile::Load(LPCSTR section)
 {
     inherited::Load(section);
 
-    m_fMinForce       = pSettings->r_float(section, "force_min");
-    m_fConstForce     = pSettings->r_float(section, "force_const");
-    m_fMaxForce       = pSettings->r_float(section, "force_max");
-    m_fForceGrowSpeed = pSettings->r_float(section, "force_grow_speed");
+    m_fMinForce        = pSettings->r_float(section, "force_min");
+    m_fConstForce      = pSettings->r_float(section, "force_const");
+    m_fMaxForce        = pSettings->r_float(section, "force_max");
+    m_fForceGrowSpeed  = pSettings->r_float(section, "force_grow_speed");
 
     m_dwDestroyTimeMax = pSettings->r_u32(section, "destroy_time");
 
-    m_vThrowPoint = pSettings->r_fvector3(section, "throw_point");
-    m_vThrowDir   = pSettings->r_fvector3(section, "throw_dir");
+    m_vThrowPoint      = pSettings->r_fvector3(section, "throw_point");
+    m_vThrowDir        = pSettings->r_fvector3(section, "throw_dir");
 
-    m_ef_weapon_type = READ_IF_EXISTS(pSettings, r_u32, section, "ef_weapon_type", u32(-1));
+    m_ef_weapon_type   = READ_IF_EXISTS(pSettings, r_u32, section, "ef_weapon_type", u32(-1));
 }
 
 BOOL CMissile::net_Spawn(CSE_Abstract* DC)
@@ -148,8 +148,7 @@ void CMissile::spawn_fake_missile()
 
     if (!getDestroy())
     {
-        CSE_Abstract* object = Level().spawn_item(
-            *cNameSect(), Position(), (g_dedicated_server) ? u32(-1) : ai_location().level_vertex_id(), ID(), true);
+        CSE_Abstract*    object       = Level().spawn_item(*cNameSect(), Position(), (g_dedicated_server) ? u32(-1) : ai_location().level_vertex_id(), ID(), true);
 
         CSE_ALifeObject* alife_object = smart_cast<CSE_ALifeObject*>(object);
         VERIFY(alife_object);
@@ -196,7 +195,7 @@ void CMissile::OnH_B_Independent(bool just_before_destroy)
 
 extern u32 hud_adj_mode;
 
-void CMissile::UpdateCL()
+void       CMissile::UpdateCL()
 {
     m_dwStateTime += Device->dwTimeDelta;
 
@@ -248,17 +247,20 @@ void CMissile::State(u32 state)
 {
     switch (GetState())
     {
-        case eShowing: {
+        case eShowing:
+        {
             SetPending(TRUE);
             PlayHUDMotion("anm_show", FALSE, this, GetState());
         }
         break;
-        case eIdle: {
+        case eIdle:
+        {
             SetPending(FALSE);
             PlayAnimIdle();
         }
         break;
-        case eHiding: {
+        case eHiding:
+        {
             if (H_Parent())
             {
                 SetPending(TRUE);
@@ -266,7 +268,8 @@ void CMissile::State(u32 state)
             }
         }
         break;
-        case eHidden: {
+        case eHidden:
+        {
             if (1 /*GetHUD()*/)
             {
                 StopCurrentAnimWithoutCallback();
@@ -280,23 +283,27 @@ void CMissile::State(u32 state)
             SetPending(FALSE);
         }
         break;
-        case eThrowStart: {
+        case eThrowStart:
+        {
             SetPending(TRUE);
             m_fThrowForce = m_fMinForce;
             PlayHUDMotion("anm_throw_begin", TRUE, this, GetState());
         }
         break;
-        case eReady: {
+        case eReady:
+        {
             PlayHUDMotion("anm_throw_idle", TRUE, this, GetState());
         }
         break;
-        case eThrow: {
+        case eThrow:
+        {
             SetPending(TRUE);
             m_throw = false;
             PlayHUDMotion("anm_throw", TRUE, this, GetState());
         }
         break;
-        case eThrowEnd: {
+        case eThrowEnd:
+        {
             SwitchState(eShowing);
         }
         break;
@@ -320,17 +327,20 @@ void CMissile::OnAnimationEnd(u32 state)
 {
     switch (state)
     {
-        case eHiding: {
+        case eHiding:
+        {
             setVisible(FALSE);
             SwitchState(eHidden);
         }
         break;
-        case eShowing: {
+        case eShowing:
+        {
             setVisible(TRUE);
             SwitchState(eIdle);
         }
         break;
-        case eThrowStart: {
+        case eThrowStart:
+        {
             if (!m_fake_missile && !smart_cast<CMissile*>(H_Parent()))
                 spawn_fake_missile();
 
@@ -340,11 +350,13 @@ void CMissile::OnAnimationEnd(u32 state)
                 SwitchState(eReady);
         }
         break;
-        case eThrow: {
+        case eThrow:
+        {
             SwitchState(eThrowEnd);
         }
         break;
-        case eThrowEnd: {
+        case eThrowEnd:
+        {
             SwitchState(eShowing);
         }
         break;
@@ -397,8 +409,8 @@ void CMissile::UpdateXForm()
         Fmatrix& mR = V->LL_GetTransform(u16(boneR));
 
         // Calculate
-        Fmatrix mRes;
-        Fvector R, D, N;
+        Fmatrix  mRes;
+        Fvector  R, D, N;
         D.sub(mL.c, mR.c);
         D.normalize_safe();
         R.crossproduct(mR.j, D);
@@ -469,7 +481,7 @@ void CMissile::Throw()
     //.	m_fake_missile->m_throw				= true;
     //.	Msg("fm %d",m_fake_missile->ID());
 
-    CInventoryOwner* inventory_owner = smart_cast<CInventoryOwner*>(H_Parent());
+    CInventoryOwner* inventory_owner  = smart_cast<CInventoryOwner*>(H_Parent());
     VERIFY(inventory_owner);
     if (inventory_owner->use_default_throw_force())
         m_fake_missile->m_fThrowForce = m_constpower ? m_fConstForce : m_fThrowForce;
@@ -493,7 +505,8 @@ void CMissile::OnEvent(NET_Packet& P, u16 type)
     u16 id;
     switch (type)
     {
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             P.r_u16(id);
             CMissile* missile = smart_cast<CMissile*>(Level().Objects.net_Find(id));
             m_fake_missile    = missile;
@@ -501,7 +514,8 @@ void CMissile::OnEvent(NET_Packet& P, u16 type)
             missile->Position().set(Position());
             break;
         }
-        case GE_OWNERSHIP_REJECT: {
+        case GE_OWNERSHIP_REJECT:
+        {
             P.r_u16(id);
             bool IsFakeMissile = false;
             if (m_fake_missile && (id == m_fake_missile->ID()))
@@ -536,7 +550,8 @@ bool CMissile::Action(u16 cmd, u32 flags)
 
     switch (cmd)
     {
-        case kWPN_FIRE: {
+        case kWPN_FIRE:
+        {
             m_constpower = true;
             if (flags & CMD_START)
             {
@@ -550,7 +565,8 @@ bool CMissile::Action(u16 cmd, u32 flags)
         }
         break;
 
-        case kWPN_ZOOM: {
+        case kWPN_ZOOM:
+        {
             m_constpower = false;
             if (flags & CMD_START)
             {
@@ -721,12 +737,7 @@ void CMissile::render_item_ui()
     g_MissileForceShape->Draw();
 }
 
-void CMissile::ExitContactCallback(
-    bool&     do_colide,
-    bool      bo1,
-    dContact& c,
-    SGameMtl* /*material_1*/,
-    SGameMtl* /*material_2*/)
+void CMissile::ExitContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/)
 {
     dxGeomUserData *gd1 = NULL, *gd2 = NULL;
     if (bo1)

@@ -9,10 +9,7 @@
 #include "pch.hpp"
 #include "property_boolean.hpp"
 
-property_boolean::property_boolean(boolean_getter_type const& getter, boolean_setter_type const& setter):
-    m_getter(new boolean_getter_type(getter)), m_setter(new boolean_setter_type(setter))
-{
-}
+property_boolean::property_boolean(boolean_getter_type const& getter, boolean_setter_type const& setter): m_getter(new boolean_getter_type(getter)), m_setter(new boolean_setter_type(setter)) {}
 
 property_boolean::~property_boolean()
 {

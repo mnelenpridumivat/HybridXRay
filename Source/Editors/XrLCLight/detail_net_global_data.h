@@ -24,6 +24,7 @@ namespace lc_net
         {
             data_cleanup();
         }
+
     protected:
         void   create_data_file(LPCSTR path);
         bool   create_data(LPCSTR path);

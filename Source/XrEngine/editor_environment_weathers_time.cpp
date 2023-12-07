@@ -32,11 +32,7 @@ static inline XrWeatherEditor::color create_color(float const& r, float const& g
     return (result);
 }
 
-time::time(XrWeatherEditor::environment::manager* manager, weather const* weather, shared_str const& id):
-    CEnvDescriptorMixer(id), m_manager(*manager), m_weather(weather), m_property_holder(0), m_ambient(""), m_sun(""),
-    m_thunderbolt_collection("")
-{
-}
+time::time(XrWeatherEditor::environment::manager* manager, weather const* weather, shared_str const& id): CEnvDescriptorMixer(id), m_manager(*manager), m_weather(weather), m_property_holder(0), m_ambient(""), m_sun(""), m_thunderbolt_collection("") {}
 
 time::~time()
 {
@@ -61,7 +57,7 @@ void time::load(CInifile& config)
     //time",m_identifier.c_str()); 	exec_time					= tm.x*3600.f+tm.y*60.f+tm.z;
     //	exec_time_loaded			= exec_time;
 
-    m_ambient = config.r_string(m_identifier, "ambient");
+    m_ambient                = config.r_string(m_identifier, "ambient");
     //	ambient						= config.r_fvector3(m_identifier, "ambient_color");
     //	clouds_texture_name			= config.r_string(m_identifier, "clouds_texture");
     //	far_plane					= config.r_float(m_identifier, 	"far_plane");
@@ -247,8 +243,7 @@ void time::thunderbolt_setter(LPCSTR value)
         return;
 
     m_thunderbolt_collection = value;
-    tb_id                    = m_manager.eff_Thunderbolt->AppendDef(
-        m_manager, m_manager.m_thunderbolt_collections_config, m_manager.m_thunderbolts_config, value);
+    tb_id                    = m_manager.eff_Thunderbolt->AppendDef(m_manager, m_manager.m_thunderbolt_collections_config, m_manager.m_thunderbolts_config, value);
 }
 
 LPCSTR time::sky_texture_getter() const
@@ -316,16 +311,10 @@ void time::fill(XrWeatherEditor::property_holder_collection* collection)
     string_setter_type                                           string_setter;
     string_setter.bind(this, &time::id_setter);
 
-    m_property_holder->add_property(
-        "id", "properties", "this option is resposible for time interval", m_identifier.c_str(), string_getter,
-        string_setter);
+    m_property_holder->add_property("id", "properties", "this option is resposible for time interval", m_identifier.c_str(), string_getter, string_setter);
 
-    m_property_holder->add_property(
-        "color", "sun", "this option is resposible for sun color", (XrWeatherEditor::color const&)sun_color,
-        (XrWeatherEditor::color&)sun_color);
-    m_property_holder->add_property(
-        "shafts intensity", "sun", "this option is resposible for sun shafts intensity", m_fSunShaftsIntensity,
-        m_fSunShaftsIntensity, 0.f, 1.f);
+    m_property_holder->add_property("color", "sun", "this option is resposible for sun color", (XrWeatherEditor::color const&)sun_color, (XrWeatherEditor::color&)sun_color);
+    m_property_holder->add_property("shafts intensity", "sun", "this option is resposible for sun shafts intensity", m_fSunShaftsIntensity, m_fSunShaftsIntensity, 0.f, 1.f);
 
     typedef XrWeatherEditor::property_holder::float_getter_type float_getter_type;
     float_getter_type                                           sun_altitude_getter;
@@ -335,9 +324,7 @@ void time::fill(XrWeatherEditor::property_holder_collection* collection)
     float_setter_type                                           sun_altitude_setter;
     sun_altitude_setter.bind(this, &time::sun_altitude_setter);
 
-    m_property_holder->add_property(
-        "altitude", "sun", "this option is resposible for sun altitude (in degrees)", sun_altitude_getter(),
-        sun_altitude_getter, sun_altitude_setter, -360.f, 360.f);
+    m_property_holder->add_property("altitude", "sun", "this option is resposible for sun altitude (in degrees)", sun_altitude_getter(), sun_altitude_getter, sun_altitude_setter, -360.f, 360.f);
 
     float_getter_type sun_longitude_getter;
     sun_longitude_getter.bind(this, &time::sun_longitude_getter);
@@ -345,22 +332,17 @@ void time::fill(XrWeatherEditor::property_holder_collection* collection)
     float_setter_type sun_longitude_setter;
     sun_longitude_setter.bind(this, &time::sun_longitude_setter);
 
-    m_property_holder->add_property(
-        "longitude", "sun", "this option is resposible for sun longitude (in degrees)", sun_longitude_getter(),
-        sun_longitude_getter, sun_longitude_setter, -360.f, 360.f);
+    m_property_holder->add_property("longitude", "sun", "this option is resposible for sun longitude (in degrees)", sun_longitude_getter(), sun_longitude_getter, sun_longitude_setter, -360.f, 360.f);
 
-    typedef XrWeatherEditor::property_holder::string_collection_getter_type collection_getter_type;
-    collection_getter_type                                                  collection_getter;
+    typedef XrWeatherEditor::property_holder::string_collection_getter_type      collection_getter_type;
+    collection_getter_type                                                       collection_getter;
 
     typedef XrWeatherEditor::property_holder::string_collection_size_getter_type collection_size_getter_type;
     collection_size_getter_type                                                  collection_size_getter;
 
     collection_getter.bind(this, &time::suns_collection);
     collection_size_getter.bind(this, &time::suns_collection_size);
-    m_property_holder->add_property(
-        "sun", "sun", "this option is resposible for ambient", m_sun.c_str(), m_sun, collection_getter,
-        collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box,
-        XrWeatherEditor::property_holder::cannot_enter_text);
+    m_property_holder->add_property("sun", "sun", "this option is resposible for ambient", m_sun.c_str(), m_sun, collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
 
     string_getter_type sky_texture_getter;
     sky_texture_getter.bind(this, &time::sky_texture_getter);
@@ -368,19 +350,11 @@ void time::fill(XrWeatherEditor::property_holder_collection* collection)
     string_setter_type sky_texture_setter;
     sky_texture_setter.bind(this, &time::sky_texture_setter);
 
-    m_property_holder->add_property(
-        "texture", "hemisphere", "this option is resposible for sky texture", sky_texture_name.c_str(),
-        sky_texture_getter, sky_texture_setter, ".dds", "Texture files (*.dds)|*.dds",
-        detail::real_path("$game_textures$", "").c_str(), "Select texture...",
-        XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
+    m_property_holder->add_property("texture", "hemisphere", "this option is resposible for sky texture", sky_texture_name.c_str(), sky_texture_getter, sky_texture_setter, ".dds", "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
 
-    m_property_holder->add_property(
-        "sky color", "hemisphere", "this option is resposible for sky color", (XrWeatherEditor::color const&)sky_color,
-        (XrWeatherEditor::color&)sky_color);
+    m_property_holder->add_property("sky color", "hemisphere", "this option is resposible for sky color", (XrWeatherEditor::color const&)sky_color, (XrWeatherEditor::color&)sky_color);
 
-    m_property_holder->add_property(
-        "hemi color", "hemisphere", "this option is resposible for hemisphere color",
-        (XrWeatherEditor::color const&)hemi_color, (XrWeatherEditor::color&)hemi_color);
+    m_property_holder->add_property("hemi color", "hemisphere", "this option is resposible for hemisphere color", (XrWeatherEditor::color const&)hemi_color, (XrWeatherEditor::color&)hemi_color);
 
     typedef ::XrWeatherEditor::property_holder::float_getter_type float_getter_type;
     float_getter_type                                             float_getter;
@@ -390,81 +364,45 @@ void time::fill(XrWeatherEditor::property_holder_collection* collection)
 
     float_getter.bind(this, &time::sky_rotation_getter);
     float_setter.bind(this, &time::sky_rotation_setter);
-    m_property_holder->add_property(
-        "sky rotation", "hemisphere", "this option is resposible for sky rotation", sky_rotation, float_getter,
-        float_setter, -360.0f, 360.f);
+    m_property_holder->add_property("sky rotation", "hemisphere", "this option is resposible for sky rotation", sky_rotation, float_getter, float_setter, -360.0f, 360.f);
 
     string_getter.bind(this, &time::clouds_texture_getter);
     string_setter.bind(this, &time::clouds_texture_setter);
-    m_property_holder->add_property(
-        "texture", "clouds", "this option is resposible for clouds texture", clouds_texture_name.c_str(), string_getter,
-        string_setter, ".dds", "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(),
-        "Select texture...", XrWeatherEditor::property_holder::cannot_enter_text,
-        XrWeatherEditor::property_holder::remove_extension);
+    m_property_holder->add_property("texture", "clouds", "this option is resposible for clouds texture", clouds_texture_name.c_str(), string_getter, string_setter, ".dds", "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
 
-    m_property_holder->add_property(
-        "color", "clouds", "this option is resposible for clouds color", (XrWeatherEditor::color const&)clouds_color,
-        (XrWeatherEditor::color&)clouds_color);
+    m_property_holder->add_property("color", "clouds", "this option is resposible for clouds color", (XrWeatherEditor::color const&)clouds_color, (XrWeatherEditor::color&)clouds_color);
 
-    m_property_holder->add_property(
-        "transparency", "clouds", "this option is resposible for clouds transparency", clouds_color.w, clouds_color.w,
-        0.f, 1.f);
+    m_property_holder->add_property("transparency", "clouds", "this option is resposible for clouds transparency", clouds_color.w, clouds_color.w, 0.f, 1.f);
 
-    m_property_holder->add_property(
-        "color", "ambient", "this option is resposible for ambient color", (XrWeatherEditor::color const&)ambient,
-        (XrWeatherEditor::color&)ambient);
+    m_property_holder->add_property("color", "ambient", "this option is resposible for ambient color", (XrWeatherEditor::color const&)ambient, (XrWeatherEditor::color&)ambient);
 
     collection_getter.bind(this, &time::ambients_collection);
     collection_size_getter.bind(this, &time::ambients_collection_size);
 
     string_getter.bind(this, &time::ambient_getter);
     string_setter.bind(this, &time::ambient_setter);
-    m_property_holder->add_property(
-        "ambient", "ambient", "this option is resposible for ambient", m_ambient.c_str(), string_getter, string_setter,
-        collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box,
-        XrWeatherEditor::property_holder::cannot_enter_text);
+    m_property_holder->add_property("ambient", "ambient", "this option is resposible for ambient", m_ambient.c_str(), string_getter, string_setter, collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
 
-    m_property_holder->add_property(
-        "color", "fog", "this option is resposible for fog density (0..1)", (XrWeatherEditor::color const&)fog_color,
-        (XrWeatherEditor::color&)fog_color);
-    m_property_holder->add_property(
-        "far plane", "fog", "this option is resposible for far plane", far_plane, far_plane);
-    m_property_holder->add_property(
-        "distance", "fog", "this option is resposible for fog distance (shoudl be less than far plane)", fog_distance,
-        fog_distance);
-    m_property_holder->add_property(
-        "density", "fog", "this option is resposible for fog density (0..1)", fog_density, fog_density, 0.f, 1.f);
-    m_property_holder->add_property(
-        "water intensity", "fog", "this option is resposible for water intensity (0..1)", m_fWaterIntensity,
-        m_fWaterIntensity, 0.f, 1.f);
+    m_property_holder->add_property("color", "fog", "this option is resposible for fog density (0..1)", (XrWeatherEditor::color const&)fog_color, (XrWeatherEditor::color&)fog_color);
+    m_property_holder->add_property("far plane", "fog", "this option is resposible for far plane", far_plane, far_plane);
+    m_property_holder->add_property("distance", "fog", "this option is resposible for fog distance (shoudl be less than far plane)", fog_distance, fog_distance);
+    m_property_holder->add_property("density", "fog", "this option is resposible for fog density (0..1)", fog_density, fog_density, 0.f, 1.f);
+    m_property_holder->add_property("water intensity", "fog", "this option is resposible for water intensity (0..1)", m_fWaterIntensity, m_fWaterIntensity, 0.f, 1.f);
 
-    m_property_holder->add_property(
-        "rain color", "rain", "this option is resposible for rain color", (XrWeatherEditor::color const&)rain_color,
-        (XrWeatherEditor::color&)rain_color);
-    m_property_holder->add_property(
-        "rain density", "rain", "this option is resposible for rain density (0..1)", rain_density, rain_density, 0.f,
-        1.f);
+    m_property_holder->add_property("rain color", "rain", "this option is resposible for rain color", (XrWeatherEditor::color const&)rain_color, (XrWeatherEditor::color&)rain_color);
+    m_property_holder->add_property("rain density", "rain", "this option is resposible for rain density (0..1)", rain_density, rain_density, 0.f, 1.f);
 
     collection_getter.bind(this, &time::thunderbolts_collection);
     collection_size_getter.bind(this, &time::thunderbolts_collection_size);
-    m_property_holder->add_property(
-        "collection", "thunderbolts", "this option is resposible for ambient", m_thunderbolt_collection.c_str(),
-        m_thunderbolt_collection, collection_getter, collection_size_getter,
-        XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
+    m_property_holder->add_property("collection", "thunderbolts", "this option is resposible for ambient", m_thunderbolt_collection.c_str(), m_thunderbolt_collection, collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
 
-    m_property_holder->add_property(
-        "duration", "thunderbolts", "this option is resposible for thunderbolt duration", bolt_duration, bolt_duration);
-    m_property_holder->add_property(
-        "period", "thunderbolts", "this option is resposible for thunderbolt period", bolt_period, bolt_period);
+    m_property_holder->add_property("duration", "thunderbolts", "this option is resposible for thunderbolt duration", bolt_duration, bolt_duration);
+    m_property_holder->add_property("period", "thunderbolts", "this option is resposible for thunderbolt period", bolt_period, bolt_period);
 
     float_getter.bind(this, &time::wind_direction_getter);
     float_setter.bind(this, &time::wind_direction_setter);
-    m_property_holder->add_property(
-        "direction", "wind", "this option is resposible for wind direction (in degrees)", wind_direction, float_getter,
-        float_setter, -360.f, 360.f);
-    m_property_holder->add_property(
-        "velocity", "wind", "this option is resposible for wind velocity (meters per second)", wind_velocity,
-        wind_velocity, 0.f, 1000.f);
+    m_property_holder->add_property("direction", "wind", "this option is resposible for wind direction (in degrees)", wind_direction, float_getter, float_setter, -360.f, 360.f);
+    m_property_holder->add_property("velocity", "wind", "this option is resposible for wind velocity (meters per second)", wind_velocity, wind_velocity, 0.f, 1000.f);
 }
 
 void time::lerp(CEnvironment* parent, CEnvDescriptor& A, CEnvDescriptor& B, float f, CEnvModifier& M, float m_power)
@@ -492,15 +430,15 @@ void time::lerp(CEnvironment* parent, CEnvDescriptor& A, CEnvDescriptor& B, floa
     u32 current_time_u32 = iFloor(current_time);
     current_time_u32     = current_time_u32 % (24 * 60 * 60);
 
-    u32 hours = current_time_u32 / (60 * 60);
+    u32 hours            = current_time_u32 / (60 * 60);
     current_time_u32 %= (60 * 60);
 
-    u32 minutes = current_time_u32 / 60;
-    u32 seconds = current_time_u32 % 60;
+    u32      minutes = current_time_u32 / 60;
+    u32      seconds = current_time_u32 % 60;
 
     string16 temp;
     xr_sprintf(temp, "%02d:%02d:%02d", hours, minutes, seconds);
-    m_identifier = temp;
+    m_identifier             = temp;
 
     time& a                  = static_cast<time&>(A);
     m_ambient                = a.m_ambient;

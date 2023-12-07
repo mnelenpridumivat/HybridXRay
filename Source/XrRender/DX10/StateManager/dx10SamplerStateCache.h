@@ -13,6 +13,7 @@ public:
     //	State handle
     typedef u32                SHandle;
     typedef xr_vector<SHandle> HArray;
+
 public:
     dx10SamplerStateCache();
     ~dx10SamplerStateCache();
@@ -36,6 +37,7 @@ public:
     void ResetDeviceState();
 
     //	Private declarations
+
 private:
     typedef ID3DSamplerState IDeviceState;
     typedef D3D_SAMPLER_DESC StateDecs;
@@ -45,6 +47,7 @@ private:
         u32           m_crc;
         IDeviceState* m_pState;
     };
+
 private:
     void    CreateState(StateDecs desc, IDeviceState** ppIState);
     SHandle FindState(const StateDecs& desc, u32 StateCRC);
@@ -52,6 +55,7 @@ private:
     void    PrepareSamplerStates(HArray& samplers, ID3DSamplerState* pSS[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT], SHandle pCurrentState[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT], u32& uiMin, u32& uiMax) const;
 
     //	Private data
+
 private:
     //	This must be cleared on device destroy
     xr_vector<StateRecord> m_StateArray;

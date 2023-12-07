@@ -21,6 +21,7 @@ public:
         dbgShaderWindow = 0,
         dbgShaderCount
     };
+
 public:
     virtual ~IDebugRender() {}
     virtual void Render()                                                                                                               = 0;

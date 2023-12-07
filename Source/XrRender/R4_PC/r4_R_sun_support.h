@@ -19,6 +19,7 @@ public:
     sun::ray            light_ray;
     Fvector3            light_cuboid_points[LIGHT_CUBOIDVERTICES_COUNT];
     _poly               light_cuboid_polys[LIGHT_CUBOIDSIDEPOLYS_COUNT];
+
 public:
     void compute_planes()
     {
@@ -302,10 +303,12 @@ public:
             return p0 == E.p0 && p1 == E.p1;
         }
     };
+
 public:
     xr_vector<Fvector3> points;
     xr_vector<_poly>    polys;
     xr_vector<_edge>    edges;
+
 public:
     void compute_planes()
     {

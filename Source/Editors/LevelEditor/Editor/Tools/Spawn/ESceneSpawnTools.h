@@ -48,7 +48,7 @@ public:
         return 1;
     }
 
-    void FillProp(LPCSTR pref, PropItemVec& items);
+    void         FillProp(LPCSTR pref, PropItemVec& items);
 
     virtual void Clear(bool bSpecific = false)
     {
@@ -68,9 +68,9 @@ public:
     {
         return true;
     }
-    virtual bool LoadSelection(IReader&);
-    virtual void SaveSelection(IWriter&);
-    virtual int  MultiRenameObjects();
+    virtual bool           LoadSelection(IReader&);
+    virtual void           SaveSelection(IWriter&);
+    virtual int            MultiRenameObjects();
     /*
         virtual void		GetStaticDesc			(int& v_cnt, int& f_cnt, bool b_selected_only);
         virtual bool		ExportStatic			(SceneBuilder* B, bool b_selected_only);

@@ -31,14 +31,14 @@ shell_root CPHShellSplitterHolder::SplitJoint(u16 aspl)
     CPHShell*      new_shell_desc = smart_cast<CPHShell*>(new_shell);
     new_shell_desc->mXFORM.set(m_pShell->mXFORM);
     new_shell_desc->m_object_in_root.set(m_pShell->m_object_in_root);
-    SPLITTER_I splitter      = m_splitters.begin() + aspl;
-    u16        start_element = splitter->m_element;
-    u16        start_joint   = splitter->m_joint;
+    SPLITTER_I      splitter      = m_splitters.begin() + aspl;
+    u16             start_element = splitter->m_element;
+    u16             start_joint   = splitter->m_joint;
 
-    u16 end_element = m_pShell->joints[start_joint]->JointDestroyInfo()->m_end_element;
-    u16 end_joint   = m_pShell->joints[start_joint]->JointDestroyInfo()->m_end_joint;
+    u16             end_element   = m_pShell->joints[start_joint]->JointDestroyInfo()->m_end_element;
+    u16             end_joint     = m_pShell->joints[start_joint]->JointDestroyInfo()->m_end_joint;
 
-    shell_root ret = mk_pair(new_shell, (m_pShell->joints[start_joint])->BoneID());
+    shell_root      ret           = mk_pair(new_shell, (m_pShell->joints[start_joint])->BoneID());
 
     CShellSplitInfo split_inf;
     split_inf.m_bone_id      = m_pShell->joints[start_joint]->BoneID();
@@ -62,11 +62,7 @@ shell_root CPHShellSplitterHolder::SplitJoint(u16 aspl)
     return ret;
 }
 
-void CPHShellSplitterHolder::PassEndSplitters(
-    const CShellSplitInfo& spl_inf,
-    CPHShell*              dest,
-    u16                    jt_add_shift,
-    u16                    el_add_shift)
+void CPHShellSplitterHolder::PassEndSplitters(const CShellSplitInfo& spl_inf, CPHShell* dest, u16 jt_add_shift, u16 el_add_shift)
 {
     CPHShellSplitterHolder*& dest_holder = dest->m_spliter_holder;
     if (!dest_holder)
@@ -78,9 +74,7 @@ void CPHShellSplitterHolder::PassEndSplitters(
     u16              shift_e = spl_inf.m_end_el_num - spl_inf.m_start_el_num;
     u16              shift_j = spl_inf.m_end_jt_num - spl_inf.m_start_jt_num;
 
-    R_ASSERT2(
-        source_elements.size() >= spl_inf.m_start_el_num && source_elements.size() >= spl_inf.m_end_el_num,
-        "wrong spl_inf");
+    R_ASSERT2(source_elements.size() >= spl_inf.m_start_el_num && source_elements.size() >= spl_inf.m_end_el_num, "wrong spl_inf");
 
     for (; i_elem != e_elem; ++i_elem)   // until start elem in both joint or elem split fractures
                                          // end elems have to be corrected
@@ -113,9 +107,7 @@ void CPHShellSplitterHolder::PassEndSplitters(
     JOINT_I        i_joint       = source_joints.begin(), e_joint;
     if (u16(-1) != spl_inf.m_start_jt_num)
     {
-        R_ASSERT2(
-            source_joints.size() >= spl_inf.m_start_jt_num && source_joints.size() >= spl_inf.m_end_jt_num,
-            "wrong spl_inf");
+        R_ASSERT2(source_joints.size() >= spl_inf.m_start_jt_num && source_joints.size() >= spl_inf.m_end_jt_num, "wrong spl_inf");
         e_joint = source_joints.begin() + spl_inf.m_start_jt_num;
         for (; i_joint != e_joint; i_joint++)
         {
@@ -294,8 +286,7 @@ void CPHShellSplitterHolder::PassEndSplitters(
 static ELEMENT_PAIR_VECTOR new_elements;
 DEFINE_VECTOR(Fmatrix, TRANSFORM_VECTOR, TRANSFORM_I)
 static TRANSFORM_VECTOR bones_bind_forms;
-shell_root
-    CPHShellSplitterHolder::ElementSingleSplit(const element_fracture& split_elem, const CPHElement* source_element)
+shell_root              CPHShellSplitterHolder::ElementSingleSplit(const element_fracture& split_elem, const CPHElement* source_element)
 {
     // const CPHShellSplitter& splitter=m_splitters[aspl];
     // CPHElement* element=m_pShell->elements[splitter.m_element];
@@ -323,7 +314,7 @@ shell_root
 
                 CPHElement *el1 = (split_elem.first), *el2 = static_cast<CPHElement*>(joint->PSecond_element());
 
-                dBodyID body1 = el1->get_body(), body2 = el2->get_body();
+                dBodyID     body1 = el1->get_body(), body2 = el2->get_body();
                 dVectorSet(safe_pos1, dBodyGetPosition(body1));
                 dVectorSet(safe_pos2, dBodyGetPosition(body2));
 
@@ -355,7 +346,7 @@ shell_root
     // the last new shell will have all splitted old elements end joints and one new element reattached to old joint
     // m_splitters.erase(m_splitters.begin()+aspl);
     // now aspl points to the next splitter
-    if ((split_elem.first)->FracturesHolder())   // if this element can be splitted add a splitter for it
+    if ((split_elem.first)->FracturesHolder())                                        // if this element can be splitted add a splitter for it
         new_shell_last_desc->AddSplitter(CPHShellSplitter::splElement, 0, u16(-1));   //
 
     new_shell_last_desc->add_Element(split_elem.first);
@@ -460,12 +451,14 @@ void CPHShellSplitterHolder::PhTune(dReal step)
     {
         switch (i->m_type)
         {
-            case CPHShellSplitter::splElement: {
+            case CPHShellSplitter::splElement:
+            {
                 CPHElement* element = m_pShell->elements[i->m_element];
                 element->FracturesHolder()->PhTune(element->get_body());
                 break;
             }
-            case CPHShellSplitter::splJoint: {
+            case CPHShellSplitter::splJoint:
+            {
                 break;
             }
             default:
@@ -480,7 +473,8 @@ void CPHShellSplitterHolder::PhDataUpdate(dReal step)
     {
         switch (i->m_type)
         {
-            case CPHShellSplitter::splElement: {
+            case CPHShellSplitter::splElement:
+            {
                 CPHElement* element = m_pShell->elements[i->m_element];
                 dBodyID     body    = element->get_body();   //! element->EnabledStateOnStep()
                 if (!dBodyIsEnabled(body))
@@ -488,8 +482,9 @@ void CPHShellSplitterHolder::PhDataUpdate(dReal step)
                 i->m_breaked = (element->FracturesHolder()->PhDataUpdate(element)) || i->m_breaked;
                 break;
             }
-            case CPHShellSplitter::splJoint: {
-                CPHJoint* j = m_pShell->joints[i->m_joint];
+            case CPHShellSplitter::splJoint:
+            {
+                CPHJoint* j  = m_pShell->joints[i->m_joint];
                 // if(j->bActive)
                 i->m_breaked = j->JointDestroyInfo()->Update() || i->m_breaked;
                 break;

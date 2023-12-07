@@ -35,24 +35,24 @@ void CUIRankFraction::init_from_xml(CUIXml& xml)
 {
     CUIXmlInit::InitWindow(xml, "fraction_stand_wnd", 0, this);
 
-    m_sn              = UIHelper::CreateStatic(xml, "serial_number", this);
-    m_name            = UIHelper::CreateStatic(xml, "name", this);
-    m_icon            = UIHelper::CreateStatic(xml, "icon", this);
-    m_location_static = UIHelper::CreateStatic(xml, "location_static", this);
-    m_location_value  = UIHelper::CreateStatic(xml, "location_value", this);
-    m_power_static    = UIHelper::CreateStatic(xml, "power_static", this);
-    m_power_value     = UIHelper::CreateStatic(xml, "power_value", this);
+    m_sn                    = UIHelper::CreateStatic(xml, "serial_number", this);
+    m_name                  = UIHelper::CreateStatic(xml, "name", this);
+    m_icon                  = UIHelper::CreateStatic(xml, "icon", this);
+    m_location_static       = UIHelper::CreateStatic(xml, "location_static", this);
+    m_location_value        = UIHelper::CreateStatic(xml, "location_value", this);
+    m_power_static          = UIHelper::CreateStatic(xml, "power_static", this);
+    m_power_value           = UIHelper::CreateStatic(xml, "power_value", this);
 
     m_relation_minus        = UIHelper::CreateProgressBar(xml, "relation_minus", this);
     m_relation_center_minus = UIHelper::CreateProgressBar(xml, "relation_center_minus", this);
     m_relation_center_plus  = UIHelper::CreateProgressBar(xml, "relation_center_plus", this);
     m_relation_plus         = UIHelper::CreateProgressBar(xml, "relation_plus", this);
 
-    m_origin_static = UIHelper::CreateStatic(xml, "origin_static", this);
-    m_border_minus  = UIHelper::CreateStatic(xml, "border_minus", this);
-    m_border_plus   = UIHelper::CreateStatic(xml, "border_plus", this);
-    m_enemy_static  = UIHelper::CreateStatic(xml, "enemy_static", this);
-    m_frined_static = UIHelper::CreateStatic(xml, "frined_static", this);
+    m_origin_static         = UIHelper::CreateStatic(xml, "origin_static", this);
+    m_border_minus          = UIHelper::CreateStatic(xml, "border_minus", this);
+    m_border_plus           = UIHelper::CreateStatic(xml, "border_plus", this);
+    m_enemy_static          = UIHelper::CreateStatic(xml, "enemy_static", this);
+    m_frined_static         = UIHelper::CreateStatic(xml, "frined_static", this);
 
     Fvector2 pos;
     m_location_static->AdjustWidthToText();

@@ -65,8 +65,7 @@ IC u32 common_edge_idx(const MxFace& base_f, u32 base_edge_idx, const MxFace& te
 }
 bool do_constrain(u32 base_edge_idx, u32 test_edg_idx, face_props& base_fprops, face_props& test_fprops)
 {
-    return (test_fprops.material != base_fprops.material) || (test_fprops.sector != base_fprops.sector) ||
-        !do_connect_faces_by_faces_edge_flags(base_fprops.flags, test_fprops.flags, base_edge_idx, test_edg_idx);
+    return (test_fprops.material != base_fprops.material) || (test_fprops.sector != base_fprops.sector) || !do_connect_faces_by_faces_edge_flags(base_fprops.flags, test_fprops.flags, base_edge_idx, test_edg_idx);
 }
 
 DEFINE_VECTOR(face_props, FPVec, FPVecIt);
@@ -101,10 +100,7 @@ void SimplifyCFORM(CDB::CollectorPacked& CL)
     {
         CDB::TRI& t = CL.getT(f_idx);
         mdl->add_face(t.verts[0], t.verts[1], t.verts[2]);
-        FPs[f_idx].set(
-            t.material, t.sector,
-            Fvector().mknormal(*(CL.getV() + t.verts[0]), *(CL.getV() + t.verts[1]), *(CL.getV() + t.verts[2])),
-            CL.getfFlags(f_idx));
+        FPs[f_idx].set(t.material, t.sector, Fvector().mknormal(*(CL.getV() + t.verts[0]), *(CL.getV() + t.verts[1]), *(CL.getV() + t.verts[2])), CL.getfFlags(f_idx));
     }
     CL.clear();
 
@@ -186,9 +182,7 @@ void SimplifyCFORM(CDB::CollectorPacked& CL)
         {
             MxFace&     F  = mdl->face(f_idx);
             face_props& FP = FPs[f_idx];
-            CL.add_face(
-                *((Fvector*)&mdl->vertex(F[0])), *((Fvector*)&mdl->vertex(F[1])), *((Fvector*)&mdl->vertex(F[2])),
-                FP.material, FP.sector, FP.flags);
+            CL.add_face(*((Fvector*)&mdl->vertex(F[0])), *((Fvector*)&mdl->vertex(F[1])), *((Fvector*)&mdl->vertex(F[2])), FP.material, FP.sector, FP.flags);
         }
     }
 

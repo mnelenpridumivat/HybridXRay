@@ -1,7 +1,7 @@
 ﻿#ifndef __V2D__
 #define __V2D__
 
-template <class T> struct _vector2
+template<class T> struct _vector2
 {
 public:
     typedef T           TYPE;
@@ -10,7 +10,7 @@ public:
     typedef const Self& SelfCRef;
 
 public:
-    T x, y;
+    T          x, y;
 
     IC SelfRef set(float _u, float _v)
     {
@@ -292,7 +292,7 @@ typedef _vector2<float>  Fvector2;
 typedef _vector2<double> Dvector2;
 typedef _vector2<int>    Ivector2;
 
-template <class T> BOOL _valid(const _vector2<T>& v)
+template<class T> BOOL   _valid(const _vector2<T>& v)
 {
     return _valid((T)v.x) && _valid((T)v.y);
 }

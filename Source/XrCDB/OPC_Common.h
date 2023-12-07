@@ -40,7 +40,7 @@ struct VertexPointers
  *	\param		user_data		[in] user-defined data from SetCallback()
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-typedef void (*OPC_CALLBACK)(udword triangle_index, VertexPointers& triangle, udword user_data);
+typedef void     (*OPC_CALLBACK)(udword triangle_index, VertexPointers& triangle, udword user_data);
 
 class OPCODE_API CollisionAABB
 {

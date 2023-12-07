@@ -118,9 +118,9 @@ private:
     AngleInt    limits;
     float       sin_low, sin_high;
 
-    float theta1_d_aux(float v, float delta) const;
+    float       theta1_d_aux(float v, float delta) const;
 
-    void clip(int family, float psi0, float psi1, float low, float high, AngleIntList& a) const;
+    void        clip(int family, float psi0, float psi1, float low, float high, AngleIntList& a) const;
 
 public:
     void init(int jt_type, float a, float b, float c, float low, float high);
@@ -182,7 +182,7 @@ public:
     }
 
     // Reports where discontinuities can occur for theta(family)
-    int Discontinuity(int family, float psi[2]) const;
+    int       Discontinuity(int family, float psi[2]) const;
 
     AngleInt& Limit()
     {
@@ -200,14 +200,14 @@ public:
     float theta_d(int family, float psi) const;
 
     // Solves for psi st theta(family,psi) = v. 0 to 2 solns
-    int Solve(int family, float v, float sin_v, float psi[2]) const;
+    int   Solve(int family, float v, float sin_v, float psi[2]) const;
 
     // Given a joint limit, return a set of joint limits
     // for psi. psi1 contains valid regions for the first
     // family, and psi2 contains valid regions for the
     // second family
 
-    void PsiLimits(AngleIntList& psi1, AngleIntList& psi2) const;
+    void  PsiLimits(AngleIntList& psi1, AngleIntList& psi2) const;
 };
 
 //
@@ -263,7 +263,7 @@ private:
     AngleInt    limits;
     float       tan_low, tan_high;
 
-    float theta1_d_aux(float v, float delta) const;
+    float       theta1_d_aux(float v, float delta) const;
 
 #if 0
     void clip(int family, 
@@ -273,50 +273,16 @@ private:
 #else
     void clip(float low, float high, int family, int n, const float p[], AngleIntList& f) const;
 
-    void store_intersections(
-        int          n,
-        const float* s,
-        float        low,
-        float        high,
-        float        tan_l,
-        float        tan_h,
-        int&         n1,
-        float*       f1,
-        int&         n2,
-        float*       f2) const;
+    void store_intersections(int n, const float* s, float low, float high, float tan_l, float tan_h, int& n1, float* f1, int& n2, float* f2) const;
 #endif
 
     // Used by Solve and Solve2
     int solve_aux(float v, float tan_v, float* solns) const;
 
 public:
-    void init(
-        int   jt_type,
-        float a1,
-        float b1,
-        float c1,
-        float a2,
-        float b2,
-        float c2,
-        float a3,
-        float b3,
-        float c3,
-        float low,
-        float high);
+    void init(int jt_type, float a1, float b1, float c1, float a2, float b2, float c2, float a3, float b3, float c3, float low, float high);
 
-    ComplexJtLimit(
-        int   jt_type,
-        float a1,
-        float b1,
-        float c1,
-        float a2,
-        float b2,
-        float c2,
-        float a3,
-        float b3,
-        float c3,
-        float low,
-        float high)
+    ComplexJtLimit(int jt_type, float a1, float b1, float c1, float a2, float b2, float c2, float a3, float b3, float c3, float low, float high)
     {
         init(jt_type, a1, b1, c1, a2, b2, c2, a3, b3, c3, low, high);
     }
@@ -338,11 +304,11 @@ public:
         eq.Reset(a, b, c);
     }
 
-    void ResetJtLimits(float low, float high);
+    void  ResetJtLimits(float low, float high);
 
-    void SetLow(float low);
+    void  SetLow(float low);
 
-    void SetHigh(float high);
+    void  SetHigh(float high);
 
     // Given psi calcuate joint variable. Two solns
 
@@ -364,19 +330,19 @@ public:
     // paramter in case this routine is called repeatedly
     // the singular pts are only computed once.
 
-    void PsiLimits(int num_singular, float singular_pts[], AngleIntList& psi1, AngleIntList& psi2) const;
+    void  PsiLimits(int num_singular, float singular_pts[], AngleIntList& psi1, AngleIntList& psi2) const;
 
     //
     // Returns the values of psi for which tan(theta) = 0
     //
-    int CritPoints(float psi[2]) const;
+    int   CritPoints(float psi[2]) const;
 
     //
     // Returns the values for which tan(theta) is singular
     //
-    int Singularities(float psi[4]) const;
+    int   Singularities(float psi[4]) const;
 
-    int InRange(float t)
+    int   InRange(float t)
     {
         return limits.InRange(t);
     }
@@ -386,8 +352,8 @@ public:
     //    returns the number of solutions
     //
 
-    int  Solve(int family, float v, float tan_v, float psi[2]) const;
-    void Solve2(float v, float tan_v, int& n1, float psi_1[2], int& n2, float psi_2[2]) const;
+    int   Solve(int family, float v, float tan_v, float psi[2]) const;
+    void  Solve2(float v, float tan_v, int& n1, float psi_1[2], int& n2, float psi_2[2]) const;
 
     float Low() const
     {

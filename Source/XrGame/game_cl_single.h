@@ -24,7 +24,7 @@ public:
     virtual float           GetEnvironmentGameTimeFactor();
     virtual void            SetEnvironmentGameTimeFactor(const float fTimeFactor);
 
-    void OnDifficultyChanged();
+    void                    OnDifficultyChanged();
 };
 
 // game difficulty
@@ -38,8 +38,8 @@ enum ESingleGameDifficulty
     egd_force_u32 = u32(-1)
 };
 
-extern ESingleGameDifficulty g_SingleGameDifficulty;
-xr_token                     difficulty_type_token[];
+extern ESingleGameDifficulty                 g_SingleGameDifficulty;
+xr_token                                     difficulty_type_token[];
 
 typedef enum_exporter<ESingleGameDifficulty> CScriptGameDifficulty;
 add_to_type_list(CScriptGameDifficulty)

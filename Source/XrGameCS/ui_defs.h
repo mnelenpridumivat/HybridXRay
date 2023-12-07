@@ -1,7 +1,7 @@
-#ifndef	ui_defs_included
-#define	ui_defs_included
+﻿#ifndef ui_defs_included
+#define ui_defs_included
 #pragma once
 
-typedef	FactoryPtr<IUIShader>	ui_shader;
+typedef FactoryPtr<IUIShader> ui_shader;
 
-#endif	//	ui_defs_included
+#endif   //	ui_defs_included

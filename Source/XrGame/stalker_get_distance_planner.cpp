@@ -18,10 +18,7 @@
 using namespace StalkerSpace;
 using namespace StalkerDecisionSpace;
 
-CStalkerGetDistancePlanner::CStalkerGetDistancePlanner(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerGetDistancePlanner::CStalkerGetDistancePlanner(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 CStalkerGetDistancePlanner::~CStalkerGetDistancePlanner() {}
 
@@ -40,15 +37,11 @@ void CStalkerGetDistancePlanner::setup(CAI_Stalker* object, CPropertyStorage* st
 
 void CStalkerGetDistancePlanner::add_evaluators()
 {
-    add_evaluator(
-        eWorldPropertyInCover,
-        xr_new<CStalkerPropertyEvaluatorMember>(
-            (CPropertyStorage*)0,   //&CScriptActionPlanner::m_storage,
+    add_evaluator(eWorldPropertyInCover,
+        xr_new<CStalkerPropertyEvaluatorMember>((CPropertyStorage*)0,   //&CScriptActionPlanner::m_storage,
             eWorldPropertyInCover, true, true, "in cover"));
 
-    add_evaluator(
-        eWorldPropertyTooFarToKillEnemy,
-        xr_new<CStalkerPropertyEvaluatorTooFarToKillEnemy>(m_object, "too far to kill"));
+    add_evaluator(eWorldPropertyTooFarToKillEnemy, xr_new<CStalkerPropertyEvaluatorTooFarToKillEnemy>(m_object, "too far to kill"));
 }
 
 void CStalkerGetDistancePlanner::add_actions()

@@ -28,9 +28,7 @@ void CSE_ALifeMonsterAbstract::add_online(const bool& update_registries)
     brain().on_switch_online();
 }
 
-void CSE_ALifeMonsterAbstract::add_offline(
-    const xr_vector<ALife::_OBJECT_ID>& saved_children,
-    const bool&                         update_registries)
+void CSE_ALifeMonsterAbstract::add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries)
 {
     inherited1::add_offline(saved_children, update_registries);
     brain().on_switch_offline();
@@ -154,10 +152,7 @@ CSE_ALifeItemWeapon* CSE_ALifeMonsterAbstract::tpfGetBestWeapon(ALife::EHitType&
     return (m_tpCurrentBestWeapon);
 }
 
-ALife::EMeetActionType CSE_ALifeMonsterAbstract::tfGetActionType(
-    CSE_ALifeSchedulable* tpALifeSchedulable,
-    int                   iGroupIndex,
-    bool                  bMutualDetection)
+ALife::EMeetActionType CSE_ALifeMonsterAbstract::tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection)
 {
     return (ALife::eMeetActionTypeIgnore);
     /**
@@ -186,8 +181,7 @@ bool CSE_ALifeMonsterAbstract::bfActive()
     CSE_ALifeGroupAbstract* l_tpALifeGroupAbstract = smart_cast<CSE_ALifeGroupAbstract*>(this);
     return (
         /**/ interactive() && /**/
-        ((l_tpALifeGroupAbstract && (l_tpALifeGroupAbstract->m_wCount > 0)) ||
-         (!l_tpALifeGroupAbstract && (get_health() > EPS_L))));
+        ((l_tpALifeGroupAbstract && (l_tpALifeGroupAbstract->m_wCount > 0)) || (!l_tpALifeGroupAbstract && (get_health() > EPS_L))));
 }
 
 CSE_ALifeDynamicObject* CSE_ALifeMonsterAbstract::tpfGetBestDetector()
@@ -214,15 +208,11 @@ void CSE_ALifeMonsterAbstract::vfCheckForPopulationChanges()
     ALife::_TIME_ID l_tTimeID = ai().alife().time_manager().game_time();
     if (l_tTimeID >= l_tpALifeGroupAbstract->m_tNextBirthTime)
     {
-        ai().ef_storage().alife().member() = this;
-        l_tpALifeGroupAbstract->m_tNextBirthTime =
-            l_tTimeID + ALife::_TIME_ID(ai().ef_storage().m_pfBirthSpeed->ffGetValue() * 24 * 60 * 60 * 1000);
+        ai().ef_storage().alife().member()       = this;
+        l_tpALifeGroupAbstract->m_tNextBirthTime = l_tTimeID + ALife::_TIME_ID(ai().ef_storage().m_pfBirthSpeed->ffGetValue() * 24 * 60 * 60 * 1000);
         if (randF(100) < ai().ef_storage().m_pfBirthProbability->ffGetValue())
         {
-            u32 l_dwBornCount = iFloor(
-                float(l_tpALifeGroupAbstract->m_wCount) * randF(.5f, 1.5f) *
-                    ai().ef_storage().m_pfBirthPercentage->ffGetValue() / 100.f +
-                .5f);
+            u32 l_dwBornCount = iFloor(float(l_tpALifeGroupAbstract->m_wCount) * randF(.5f, 1.5f) * ai().ef_storage().m_pfBirthPercentage->ffGetValue() / 100.f + .5f);
             if (l_dwBornCount)
             {
                 l_tpALifeGroupAbstract->m_tpMembers.resize(l_tpALifeGroupAbstract->m_wCount + l_dwBornCount);
@@ -262,11 +252,7 @@ bool CSE_ALifeMonsterAbstract::redundant() const
         return (false);
 
     ALife::_TIME_ID current_time = alife().time_manager().game_time();
-    VERIFY2(
-        m_game_death_time <= current_time,
-        make_string(
-            "incorrect death time for monster %s[death time = %I64d][current time = %I64d]", name_replace(),
-            m_game_death_time, current_time));
+    VERIFY2(m_game_death_time <= current_time, make_string("incorrect death time for monster %s[death time = %I64d][current time = %I64d]", name_replace(), m_game_death_time, current_time));
     if ((m_game_death_time + m_stay_after_death_time_interval) > current_time)
         return (false);
 

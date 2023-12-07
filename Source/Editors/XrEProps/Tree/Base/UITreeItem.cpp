@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 
-UITreeItem::UITreeItem(shared_str _Name, SLocalizedString _HintText):
-    Name(_Name), HintText(_HintText)
+UITreeItem::UITreeItem(shared_str _Name, SLocalizedString _HintText): Name(_Name), HintText(_HintText)
 {
     Owner = nullptr;
 }

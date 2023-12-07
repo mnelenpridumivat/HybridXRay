@@ -15,6 +15,7 @@ class CBlender_Screen_SET: public IBlender
     xrP_BOOL    oLighting;
     xrP_BOOL    oFog;
     xrP_BOOL    oClamp;
+
 public:
     virtual LPCSTR getComment()
     {

@@ -23,11 +23,7 @@ namespace award_system
         m_kills_count = 0;
     }
 
-    void player_state_toughy::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void player_state_toughy::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
 
@@ -38,10 +34,7 @@ namespace award_system
             return;
 
         u16 weapon_gid = m_owner->get_object_id(weapon_id);
-        if (!m_owner->is_item_in_group(weapon_gid, ammunition_group::gid_pistols) &&
-            !m_owner->is_item_in_group(weapon_gid, ammunition_group::gid_assault) &&
-            !m_owner->is_item_in_group(weapon_gid, ammunition_group::gid_shotguns) &&
-            !m_owner->is_item_in_group(weapon_gid, ammunition_group::gid_knife))
+        if (!m_owner->is_item_in_group(weapon_gid, ammunition_group::gid_pistols) && !m_owner->is_item_in_group(weapon_gid, ammunition_group::gid_assault) && !m_owner->is_item_in_group(weapon_gid, ammunition_group::gid_shotguns) && !m_owner->is_item_in_group(weapon_gid, ammunition_group::gid_knife))
         {
             return;
         }

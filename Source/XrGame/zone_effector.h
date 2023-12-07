@@ -19,10 +19,10 @@ public:
 
     CActor* m_pActor;
 
-    void  Load(LPCSTR section);
-    void  Update(float dist, float radius, ALife::EHitType hit_type);
-    void  Stop();
-    float GetFactor();
+    void    Load(LPCSTR section);
+    void    Update(float dist, float radius, ALife::EHitType hit_type);
+    void    Stop();
+    float   GetFactor();
 
 private:
     void Activate();

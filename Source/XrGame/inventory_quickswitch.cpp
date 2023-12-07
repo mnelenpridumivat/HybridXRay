@@ -9,17 +9,12 @@ class next_weapon_searcher
 {
 public:
     typedef xr_set<PIItem> exception_items_t;
-    next_weapon_searcher(priority_group& pg, PIItem& best_fit, exception_items_t& except_set, bool ignore_ammo):
-        m_prior_group(pg), m_best_fit(best_fit), m_best_fit_cost(0), m_best_fit_ammo_elapsed(0),
-        m_except_set(except_set), m_ignore_ammo(ignore_ammo)
+    next_weapon_searcher(priority_group& pg, PIItem& best_fit, exception_items_t& except_set, bool ignore_ammo): m_prior_group(pg), m_best_fit(best_fit), m_best_fit_cost(0), m_best_fit_ammo_elapsed(0), m_except_set(except_set), m_ignore_ammo(ignore_ammo)
     {
         m_best_fit = NULL;
     };
 
-    next_weapon_searcher(next_weapon_searcher const& copy):
-        m_prior_group(copy.m_prior_group), m_best_fit(copy.m_best_fit), m_best_fit_cost(copy.m_best_fit_cost),
-        m_best_fit_ammo_elapsed(copy.m_best_fit_ammo_elapsed), m_except_set(copy.m_except_set),
-        m_ignore_ammo(copy.m_ignore_ammo){};
+    next_weapon_searcher(next_weapon_searcher const& copy): m_prior_group(copy.m_prior_group), m_best_fit(copy.m_best_fit), m_best_fit_cost(copy.m_best_fit_cost), m_best_fit_ammo_elapsed(copy.m_best_fit_ammo_elapsed), m_except_set(copy.m_except_set), m_ignore_ammo(copy.m_ignore_ammo){};
 
     void operator()(PIItem const& item)
     {
@@ -54,8 +49,7 @@ public:
             return;
         }
 
-        if ((tmp_cost + (tmp_ammo_count * ammo_to_cost_map_koef)) >
-            (m_best_fit_cost + (m_best_fit_ammo_elapsed * ammo_to_cost_map_koef)))
+        if ((tmp_cost + (tmp_ammo_count * ammo_to_cost_map_koef)) > (m_best_fit_cost + (m_best_fit_ammo_elapsed * ammo_to_cost_map_koef)))
         {
             m_best_fit              = item;
             m_best_fit_cost         = tmp_weapon->Cost();
@@ -129,7 +123,7 @@ bool CInventory::ActivateNextItemInActiveSlot()
     }
 
     m_activ_last_items.push_back(new_item);
-    PIItem current_item = ActiveItem();
+    PIItem     current_item = ActiveItem();
 
     NET_Packet P;
     bool       res;
@@ -184,24 +178,23 @@ enum enum_priorities_groups
     epg_groups_count
 };
 
-char const* groups_names[CInventory::qs_priorities_count] = {
-    "pistols", "shotgun", "assault", "sniper_rifles", "heavy_weapons"};
+char const*        groups_names[CInventory::qs_priorities_count] = {"pistols", "shotgun", "assault", "sniper_rifles", "heavy_weapons"};
 
-u32 g_slot2_pistol_switch_priority  = 0;
-u32 g_slot2_shotgun_switch_priority = 1;
-u32 g_slot2_assault_switch_priority = 2;
-u32 g_slot2_sniper_switch_priority  = 4;
-u32 g_slot2_heavy_switch_priority   = 3;
+u32                g_slot2_pistol_switch_priority                = 0;
+u32                g_slot2_shotgun_switch_priority               = 1;
+u32                g_slot2_assault_switch_priority               = 2;
+u32                g_slot2_sniper_switch_priority                = 4;
+u32                g_slot2_heavy_switch_priority                 = 3;
 
-u32 g_slot3_pistol_switch_priority  = 4;   // not switch
-u32 g_slot3_shotgun_switch_priority = 2;
-u32 g_slot3_assault_switch_priority = 0;
-u32 g_slot3_sniper_switch_priority  = 1;
-u32 g_slot3_heavy_switch_priority   = 3;
+u32                g_slot3_pistol_switch_priority                = 4;   // not switch
+u32                g_slot3_shotgun_switch_priority               = 2;
+u32                g_slot3_assault_switch_priority               = 0;
+u32                g_slot3_sniper_switch_priority                = 1;
+u32                g_slot3_heavy_switch_priority                 = 3;
 
-static char const* teamdata_section = "deathmatch_team0";
+static char const* teamdata_section                              = "deathmatch_team0";
 
-void CInventory::InitPriorityGroupsForQSwitch()
+void               CInventory::InitPriorityGroupsForQSwitch()
 {
     STATIC_CHECK(epg_groups_count == CInventory::qs_priorities_count, groups_count_problem);
     for (int i = epg_pistols; i < epg_groups_count; ++i)

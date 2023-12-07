@@ -30,17 +30,17 @@ typedef xr_vector<std::pair<shared_str, int>> STORY_PAIRS;
 extern STORY_PAIRS                            story_ids;
 extern STORY_PAIRS                            spawn_story_ids;
 
-extern void show_smart_cast_stats();
-extern void clear_smart_cast_stats();
-extern void release_smart_cast_stats();
-extern void dump_list_wnd();
-extern void dump_list_lines();
-extern void dump_list_sublines();
-extern void clean_wnd_rects();
-extern void dump_list_xmls();
-extern void CreateUIGeom();
-extern void DestroyUIGeom();
-extern void InitHudSoundSettings();
+extern void                                   show_smart_cast_stats();
+extern void                                   clear_smart_cast_stats();
+extern void                                   release_smart_cast_stats();
+extern void                                   dump_list_wnd();
+extern void                                   dump_list_lines();
+extern void                                   dump_list_sublines();
+extern void                                   clean_wnd_rects();
+extern void                                   dump_list_xmls();
+extern void                                   CreateUIGeom();
+extern void                                   DestroyUIGeom();
+extern void                                   InitHudSoundSettings();
 
 #include "../xrEngine/IGame_Persistent.h"
 void init_game_globals()
@@ -65,9 +65,9 @@ void init_game_globals()
 extern CUIXml* g_uiSpotXml;
 extern CUIXml* pWpnScopeXml;
 
-extern void destroy_lua_wpn_params();
+extern void    destroy_lua_wpn_params();
 
-void clean_game_globals()
+void           clean_game_globals()
 {
     destroy_lua_wpn_params();
     // destroy ai space

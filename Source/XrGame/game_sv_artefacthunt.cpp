@@ -24,15 +24,15 @@ extern s32  g_sv_dm_dwTimeLimit;
 extern BOOL g_sv_dm_bAnomaliesEnabled;
 extern BOOL g_sv_tdm_bAutoTeamSwap;
 //-------------------------------------------------------
-u32  g_sv_ah_dwArtefactRespawnDelta  = 30;
-int  g_sv_ah_dwArtefactsNum          = 10;
-u32  g_sv_ah_dwArtefactStayTime      = 3;
-int  g_sv_ah_iReinforcementTime      = 15;   // 0 - Immediate, -1 - after artefact spawn , other - reinforcement
-BOOL g_sv_ah_bBearerCantSprint       = FALSE;
-BOOL g_sv_ah_bShildedBases           = TRUE;
-BOOL g_sv_ah_bAfReturnPlayersToBases = TRUE;
+u32         g_sv_ah_dwArtefactRespawnDelta  = 30;
+int         g_sv_ah_dwArtefactsNum          = 10;
+u32         g_sv_ah_dwArtefactStayTime      = 3;
+int         g_sv_ah_iReinforcementTime      = 15;   // 0 - Immediate, -1 - after artefact spawn , other - reinforcement
+BOOL        g_sv_ah_bBearerCantSprint       = FALSE;
+BOOL        g_sv_ah_bShildedBases           = TRUE;
+BOOL        g_sv_ah_bAfReturnPlayersToBases = TRUE;
 //-------------------------------------------------------
-int game_sv_ArtefactHunt::Get_ArtefactsCount()
+int         game_sv_ArtefactHunt::Get_ArtefactsCount()
 {
     return g_sv_ah_dwArtefactsNum;
 };
@@ -98,7 +98,8 @@ void game_sv_ArtefactHunt::Create(shared_str& options)
                 u16 GameType = O->r_u16();
                 switch (type)
                 {
-                    case rptArtefactSpawn: {
+                    case rptArtefactSpawn:
+                    {
                         if (GameType & eGameIDArtefactHunt)
                         {
                             Artefact_rpoints.push_back(R);
@@ -116,19 +117,19 @@ void game_sv_ArtefactHunt::Create(shared_str& options)
     //---------------------------------------------------------------
     Artefact_PrepareForSpawn();
 
-    m_ArtefactsSpawnedTotal = 0;
+    m_ArtefactsSpawnedTotal     = 0;
     //---------------------------------------------------------------
-    artefactBearerID    = 0;
-    m_iAfBearerMenaceID = 0;
-    teamInPossession    = 0;
-    m_dwArtefactID      = 0;
+    artefactBearerID            = 0;
+    m_iAfBearerMenaceID         = 0;
+    teamInPossession            = 0;
+    m_dwArtefactID              = 0;
 
     bNoLostMessage              = false;
     m_bArtefactWasBringedToBase = true;
 
-    m_bSwapBases = false;
+    m_bSwapBases                = false;
     //---------------------------------------------------------------
-    m_iMoney_for_BuySpawn = READ_IF_EXISTS(pSettings, r_s32, "artefacthunt_gamedata", "spawn_cost", -10000);
+    m_iMoney_for_BuySpawn       = READ_IF_EXISTS(pSettings, r_s32, "artefacthunt_gamedata", "spawn_cost", -10000);
     //---------------------------------------------------------------
     Set_RankUp_Allowed(false);
     ArtefactChooserRandom.seed(u32(CPU::QPC() & 0xffffffff));
@@ -138,10 +139,10 @@ void game_sv_ArtefactHunt::OnRoundStart()
 {
     inherited::OnRoundStart();
 
-    m_delayedRoundEnd       = false;
-    m_delayedTeamEliminated = false;
+    m_delayedRoundEnd         = false;
+    m_delayedTeamEliminated   = false;
 
-    m_ArtefactsSpawnedTotal = 0;
+    m_ArtefactsSpawnedTotal   = 0;
 
     m_dwNextReinforcementTime = Level().timeServer();
 
@@ -159,17 +160,20 @@ KILL_RES game_sv_ArtefactHunt::GetKillResult(game_PlayerState* pKiller, game_Pla
     KILL_RES Res = inherited::GetKillResult(pKiller, pVictim);
     switch (Res)
     {
-        case KR_TEAMMATE: {
+        case KR_TEAMMATE:
+        {
             if (pVictim->GameID == artefactBearerID)
                 Res = KR_TEAMMATE_CRITICAL;
         }
         break;
-        case KR_RIVAL: {
+        case KR_RIVAL:
+        {
             if (pVictim->GameID == artefactBearerID)
                 Res = KR_RIVAL_CRITICAL;
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     };
@@ -182,7 +186,8 @@ bool game_sv_ArtefactHunt::OnKillResult(KILL_RES KillResult, game_PlayerState* p
     TeamStruct* pTeam = GetTeamData(u8(pKiller->team));
     switch (KillResult)
     {
-        case KR_TEAMMATE_CRITICAL: {
+        case KR_TEAMMATE_CRITICAL:
+        {
             //.			pKiller->kills -= 1;
             pKiller->m_iTeamKills++;
             if (pTeam)
@@ -190,7 +195,8 @@ bool game_sv_ArtefactHunt::OnKillResult(KILL_RES KillResult, game_PlayerState* p
             res = false;
         }
         break;
-        case KR_RIVAL_CRITICAL: {
+        case KR_RIVAL_CRITICAL:
+        {
             //.			pKiller->kills += 1;
             pKiller->m_iRivalKills++;
             pKiller->m_iKillsInRowCurr++;
@@ -205,7 +211,8 @@ bool game_sv_ArtefactHunt::OnKillResult(KILL_RES KillResult, game_PlayerState* p
             res = true;
         }
         break;
-        default: {
+        default:
+        {
             res = inherited::OnKillResult(KillResult, pKiller, pVictim);
         }
         break;
@@ -213,42 +220,34 @@ bool game_sv_ArtefactHunt::OnKillResult(KILL_RES KillResult, game_PlayerState* p
     return res;
 }
 
-void game_sv_ArtefactHunt::OnGiveBonus(
-    KILL_RES          KillResult,
-    game_PlayerState* pKiller,
-    game_PlayerState* pVictim,
-    KILL_TYPE         KillType,
-    SPECIAL_KILL_TYPE SpecialKillType,
-    CSE_Abstract*     pWeaponA)
+void game_sv_ArtefactHunt::OnGiveBonus(KILL_RES KillResult, game_PlayerState* pKiller, game_PlayerState* pVictim, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType, CSE_Abstract* pWeaponA)
 {
     if (!pKiller)
         return;
     switch (KillResult)
     {
-        case KR_RIVAL: {
+        case KR_RIVAL:
+        {
             if (pVictim->GameID == m_iAfBearerMenaceID)
                 Player_AddExperience(pKiller, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "assist_kill", 0));
 
             inherited::OnGiveBonus(KR_RIVAL, pKiller, pVictim, KillType, SpecialKillType, pWeaponA);
         }
         break;
-        case KR_RIVAL_CRITICAL: {
+        case KR_RIVAL_CRITICAL:
+        {
             inherited::OnGiveBonus(KR_RIVAL, pKiller, pVictim, KillType, SpecialKillType, pWeaponA);
         }
         break;
-        default: {
+        default:
+        {
             inherited::OnGiveBonus(KillResult, pKiller, pVictim, KillType, SpecialKillType, pWeaponA);
         }
         break;
     }
 }
 
-void game_sv_ArtefactHunt::OnPlayerKillPlayer(
-    game_PlayerState* ps_killer,
-    game_PlayerState* ps_killed,
-    KILL_TYPE         KillType,
-    SPECIAL_KILL_TYPE SpecialKillType,
-    CSE_Abstract*     pWeaponA)
+void game_sv_ArtefactHunt::OnPlayerKillPlayer(game_PlayerState* ps_killer, game_PlayerState* ps_killed, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType, CSE_Abstract* pWeaponA)
 {
     inherited::OnPlayerKillPlayer(ps_killer, ps_killed, KillType, SpecialKillType, pWeaponA);
 
@@ -264,7 +263,8 @@ void game_sv_ArtefactHunt::OnPlayerReady(ClientID id)
     //	if	(GAME_PHASE_INPROGRESS == phase) return;
     switch (m_phase)
     {
-        case GAME_PHASE_INPROGRESS: {
+        case GAME_PHASE_INPROGRESS:
+        {
             CSE_Abstract*  pOwner = xrCData->owner;
             CSE_Spectator* pS     = smart_cast<CSE_Spectator*>(pOwner);
 
@@ -296,13 +296,7 @@ void game_sv_ArtefactHunt::OnPlayerBuySpawn(ClientID sender)
     }
 };
 
-bool game_sv_ArtefactHunt::assign_rp_tmp(
-    game_PlayerState*    ps_who,
-    xr_vector<RPoint>&   rps,
-    xr_vector<u32>&      dest,
-    xr_vector<u32>&      rpIDEnemy,
-    xr_vector<ClientID>& EnemyIt,
-    bool                 force_find)
+bool game_sv_ArtefactHunt::assign_rp_tmp(game_PlayerState* ps_who, xr_vector<RPoint>& rps, xr_vector<u32>& dest, xr_vector<u32>& rpIDEnemy, xr_vector<ClientID>& EnemyIt, bool force_find)
 {
     struct rpoints_blocker
     {
@@ -316,7 +310,7 @@ bool game_sv_ArtefactHunt::assign_rp_tmp(
         bool                  blocked;
         bool                  teams_not_empty;
 
-        void operator()(IClient* client)
+        void                  operator()(IClient* client)
         {
             if (blocked)
                 return;
@@ -353,7 +347,7 @@ bool game_sv_ArtefactHunt::assign_rp_tmp(
 
     for (u32 p = 0; p < rps.size(); ++p)
     {
-        RPoint rp = rps[p];
+        RPoint rp                 = rps[p];
 
         tmp_blocker.rp            = &rp;
         tmp_blocker.rpoint_number = p;
@@ -478,9 +472,7 @@ void game_sv_ArtefactHunt::CheckRPUnblock()
 {
     if (rpointsBlocked.empty())
         return;
-    rpointsBlocked.erase(
-        std::remove_if(rpointsBlocked.begin(), rpointsBlocked.end(), RemoveBlockedRPointPredicate()),
-        rpointsBlocked.end());
+    rpointsBlocked.erase(std::remove_if(rpointsBlocked.begin(), rpointsBlocked.end(), RemoveBlockedRPointPredicate()), rpointsBlocked.end());
     /*for (u32 b=0; b<rpointsBlocked.size(); )
     {
         RPoint* pRP = rpointsBlocked[b];
@@ -575,8 +567,7 @@ BOOL game_sv_ArtefactHunt::OnTouch(u16 eid_who, u16 eid_what, BOOL bForced)
                                 if (!l_pC->net_Ready || pstate->IsSkip() || pstate->team != ps_who->team)
                                     return;
 
-                                m_owner->Player_AddExperience(
-                                    pstate, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "af_first_take_all", 0));
+                                m_owner->Player_AddExperience(pstate, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "af_first_take_all", 0));
                             }
                         };
                         experience_adder exp_adder;
@@ -619,8 +610,8 @@ void game_sv_ArtefactHunt::OnDetach(u16 eid_who, u16 eid_what)
             m_iAfBearerMenaceID = 0;
             teamInPossession    = 0;
             signal_Syncronize();
-            m_eAState             = ON_FIELD;
-            m_bArtefactWasDropped = true;
+            m_eAState                 = ON_FIELD;
+            m_bArtefactWasDropped     = true;
 
             xrClientData*     xrCData = e_who->owner;
             game_PlayerState* ps_who  = xrCData->ps;
@@ -733,15 +724,13 @@ void game_sv_ArtefactHunt::OnArtefactOnBase(ClientID id_who)
                 if (pstate->team == ps->team)
                 {
                     m_owner->Player_AddMoney(pstate, pTeam->m_iM_TargetSucceedAll);
-                    m_owner->Player_AddExperience(
-                        pstate, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "target_succeed_all", 0));
+                    m_owner->Player_AddExperience(pstate, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "target_succeed_all", 0));
                 }
                 else
                 {
                     m_owner->Player_AddMoney(pstate, pTeam->m_iM_TargetFailed);
                     if (!m_bArtefactWasDropped)
-                        pstate->experience_New *=
-                            READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "target_failed_all_mul", 1.0f);
+                        pstate->experience_New *= READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "target_failed_all_mul", 1.0f);
                 };
                 m_owner->Player_AddExperience(pstate, 0);
                 m_owner->Player_ExperienceFin(pstate);
@@ -856,7 +845,8 @@ void game_sv_ArtefactHunt::Update()
     switch (Phase())
     {
         case GAME_PHASE_TEAM1_ELIMINATED:
-        case GAME_PHASE_TEAM2_ELIMINATED: {
+        case GAME_PHASE_TEAM2_ELIMINATED:
+        {
             if (m_delayedTeamEliminated && m_TeamEliminatedDelay < Device->TimerAsync())
             {
                 switch_Phase(GAME_PHASE_INPROGRESS);
@@ -868,10 +858,12 @@ void game_sv_ArtefactHunt::Update()
             };
         }
         break;
-        case GAME_PHASE_PENDING: {
+        case GAME_PHASE_PENDING:
+        {
         }
         break;
-        case GAME_PHASE_INPROGRESS: {
+        case GAME_PHASE_INPROGRESS:
+        {
             UpdatePlayersNotSendedMoveRespond();
             //---------------------------------------------------
             CheckRPUnblock();
@@ -973,7 +965,7 @@ void game_sv_ArtefactHunt::Assign_Artefact_RPoint(CSE_Abstract* E)
     R_ASSERT(E);
     const xr_vector<RPoint>& rp = Artefact_rpoints;
     //.	xr_vector<u8>&	rpID		= ArtefactsRPoints_ID;
-    RPoint r;
+    RPoint                   r;
     /*
         if (rpID.empty())
         {
@@ -989,7 +981,7 @@ void game_sv_ArtefactHunt::Assign_Artefact_RPoint(CSE_Abstract* E)
         r	= rp[m_LastRespawnPointID];
         rpID.erase(rpID.begin()+ID);
     */
-    u32 ID = ArtefactChooserRandom.randI((int)rp.size());
+    u32                      ID = ArtefactChooserRandom.randI((int)rp.size());
 #ifndef MASTER_GOLD
     Msg("---select artefact RPoint [%d]", ID);
 #endif   // #ifndef MASTER_GOLD
@@ -1031,15 +1023,15 @@ void game_sv_ArtefactHunt::net_Export_State(NET_Packet& P, ClientID id_to)
 
 void game_sv_ArtefactHunt::Artefact_PrepareForSpawn()
 {
-    m_dwArtefactID = 0;
+    m_dwArtefactID        = 0;
 
-    m_eAState = NOARTEFACT;
+    m_eAState             = NOARTEFACT;
 
     m_dwArtefactSpawnTime = Device->dwTimeGlobal + Get_ArtefactsRespawnDelta() * 1000;
 
-    artefactBearerID    = 0;
-    m_iAfBearerMenaceID = 0;
-    teamInPossession    = 0;
+    artefactBearerID      = 0;
+    m_iAfBearerMenaceID   = 0;
+    teamInPossession      = 0;
 
     signal_Syncronize();
 };
@@ -1471,7 +1463,7 @@ void game_sv_ArtefactHunt::ReadOptions(shared_str& options)
     g_sv_ah_dwArtefactStayTime     = get_option_i(*options, "astime", g_sv_ah_dwArtefactStayTime);
     g_sv_dm_dwFragLimit            = 0;
     //----------------------------------------------------------------------------
-    g_sv_ah_iReinforcementTime = get_option_i(*options, "reinf", g_sv_ah_iReinforcementTime);
+    g_sv_ah_iReinforcementTime     = get_option_i(*options, "reinf", g_sv_ah_iReinforcementTime);
     if (g_sv_ah_iReinforcementTime < 0)
         g_sv_ah_iReinforcementTime = -1;
     //----------------------------------------------------------------------------
@@ -1480,14 +1472,14 @@ void game_sv_ArtefactHunt::ReadOptions(shared_str& options)
 static bool g_bConsoleCommandsCreated_AHUNT = false;
 void        game_sv_ArtefactHunt::ConsoleCommands_Create(){};
 
-void game_sv_ArtefactHunt::ConsoleCommands_Clear(){};
+void        game_sv_ArtefactHunt::ConsoleCommands_Clear(){};
 
 //  [7/5/2005]
 #ifdef DEBUG
 
 extern Flags32 dbg_net_Draw_Flags;
 
-void game_sv_ArtefactHunt::OnRender()
+void           game_sv_ArtefactHunt::OnRender()
 {
     if (dbg_net_Draw_Flags.test(dbg_draw_rp))
     {
@@ -1559,7 +1551,7 @@ void game_sv_ArtefactHunt::OnPlayerHitPlayer(u16 id_hitter, u16 id_hitted, NET_P
 
 void game_sv_ArtefactHunt::SwapTeams()
 {
-    BOOL old_team_swap = g_sv_tdm_bAutoTeamSwap;
+    BOOL old_team_swap     = g_sv_tdm_bAutoTeamSwap;
     // swap rpoints
     /*xr_vector<RPoint> tmpRPoints;
     tmpRPoints = rpoints[1];

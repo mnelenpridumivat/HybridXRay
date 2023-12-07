@@ -10,38 +10,38 @@ class CControllerAnimation: public CControlAnimationBase
 {
     typedef CControlAnimationBase inherited;
 
-    CController* m_controller;
+    CController*                  m_controller;
 
 public:
     enum ELegsActionType
     {
-        eLegsTypeBase = u32(1) << 15,
+        eLegsTypeBase              = u32(1) << 15,
 
         // -----------------------------------------
 
-        eLegsTypeStand       = eLegsTypeBase << 1,
-        eLegsTypeSteal       = eLegsTypeBase << 2,
-        eLegsTypeStealMotion = eLegsTypeBase << 3,
-        eLegsTypeWalk        = eLegsTypeBase << 4,
-        eLegsTypeRun         = eLegsTypeBase << 5,
+        eLegsTypeStand             = eLegsTypeBase << 1,
+        eLegsTypeSteal             = eLegsTypeBase << 2,
+        eLegsTypeStealMotion       = eLegsTypeBase << 3,
+        eLegsTypeWalk              = eLegsTypeBase << 4,
+        eLegsTypeRun               = eLegsTypeBase << 5,
 
         // -----------------------------------------
 
-        eLegsStand          = eLegsTypeStand | 1,
-        eLegsSteal          = eLegsTypeSteal | 1,
-        eLegsRun            = eLegsTypeRun | 1,
-        eLegsWalk           = eLegsTypeWalk | 1,
-        eLegsBackRun        = eLegsTypeRun | 2,
-        eLegsRunFwdLeft     = eLegsTypeRun | 3,
-        eLegsRunFwdRight    = eLegsTypeRun | 4,
-        eLegsRunBkwdLeft    = eLegsTypeRun | 5,
-        eLegsRunBkwdRight   = eLegsTypeRun | 6,
-        eLegsStealFwd       = eLegsTypeStealMotion | 1,
-        eLegsStealBkwd      = eLegsTypeStealMotion | 2,
-        eLegsStealFwdLeft   = eLegsTypeStealMotion | 3,
-        eLegsStealFwdRight  = eLegsTypeStealMotion | 4,
-        eLegsStealBkwdLeft  = eLegsTypeStealMotion | 5,
-        eLegsStealBkwdRight = eLegsTypeStealMotion | 6,
+        eLegsStand                 = eLegsTypeStand | 1,
+        eLegsSteal                 = eLegsTypeSteal | 1,
+        eLegsRun                   = eLegsTypeRun | 1,
+        eLegsWalk                  = eLegsTypeWalk | 1,
+        eLegsBackRun               = eLegsTypeRun | 2,
+        eLegsRunFwdLeft            = eLegsTypeRun | 3,
+        eLegsRunFwdRight           = eLegsTypeRun | 4,
+        eLegsRunBkwdLeft           = eLegsTypeRun | 5,
+        eLegsRunBkwdRight          = eLegsTypeRun | 6,
+        eLegsStealFwd              = eLegsTypeStealMotion | 1,
+        eLegsStealBkwd             = eLegsTypeStealMotion | 2,
+        eLegsStealFwdLeft          = eLegsTypeStealMotion | 3,
+        eLegsStealFwdRight         = eLegsTypeStealMotion | 4,
+        eLegsStealBkwdLeft         = eLegsTypeStealMotion | 5,
+        eLegsStealBkwdRight        = eLegsTypeStealMotion | 6,
 
         eLegsStandDamaged          = eLegsTypeStand | 2,
         eLegsRunDamaged            = eLegsTypeRun | 7,
@@ -50,7 +50,7 @@ public:
         eLegsRunStrafeLeftDamaged  = eLegsTypeRun | 9,
         eLegsRunStrafeRightDamaged = eLegsTypeRun | 10,
 
-        eLegsUndefined = u32(-1),
+        eLegsUndefined             = u32(-1),
     };
 
     enum ETorsoActionType
@@ -81,7 +81,7 @@ private:
     DEFINE_MAP(ELegsActionType, PATH_ROTATIONS_VEC, PATH_ROTATIONS_MAP, PATH_ROTATIONS_MAP_IT);
     PATH_ROTATIONS_MAP m_path_rotations;
 
-    bool m_wait_torso_anim_end;
+    bool               m_wait_torso_anim_end;
 
 public:
     virtual void reinit();
@@ -91,22 +91,22 @@ public:
     virtual void update_frame();
 
     // load
-    void load();
-    void add_path_rotation(ELegsActionType action, float angle, ELegsActionType type);
+    void         load();
+    void         add_path_rotation(ELegsActionType action, float angle, ELegsActionType type);
 
-    void set_body_state(ETorsoActionType, ELegsActionType);
+    void         set_body_state(ETorsoActionType, ELegsActionType);
 
-    void set_path_params();
-    void on_switch_controller();
+    void         set_path_params();
+    void         on_switch_controller();
 
 private:
-    void select_velocity();
-    void set_path_direction();
+    void           select_velocity();
+    void           set_path_direction();
 
-    void select_torso_animation();
-    void select_legs_animation();
+    void           select_torso_animation();
+    void           select_legs_animation();
 
     SPathRotations get_path_rotation(float cur_yaw);
 
-    bool is_moving();
+    bool           is_moving();
 };

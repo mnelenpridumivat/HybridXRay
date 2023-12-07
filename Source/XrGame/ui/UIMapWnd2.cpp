@@ -26,8 +26,7 @@ void CUIMapWnd::init_xml_nav(CUIXml& xml)
     AddCallback(m_btn_nav[btn_legend], BUTTON_DOWN, CUIWndCallback::void_function(this, &CUIMapWnd::OnBtnLegend_Push));
     //	AddCallback( m_btn_nav[btn_up]->WindowName(),			BUTTON_DOWN, CUIWndCallback::void_function( this,
     //&CUIMapWnd::OnBtnUp_Push		) );
-    AddCallback(
-        m_btn_nav[btn_zoom_more], BUTTON_DOWN, CUIWndCallback::void_function(this, &CUIMapWnd::OnBtnZoomMore_Push));
+    AddCallback(m_btn_nav[btn_zoom_more], BUTTON_DOWN, CUIWndCallback::void_function(this, &CUIMapWnd::OnBtnZoomMore_Push));
 
     //	AddCallback( m_btn_nav[btn_left]->WindowName(),			BUTTON_DOWN, CUIWndCallback::void_function( this,
     //&CUIMapWnd::OnBtnLeft_Push	) );
@@ -35,12 +34,10 @@ void CUIMapWnd::init_xml_nav(CUIXml& xml)
     //	AddCallback( m_btn_nav[btn_right]->WindowName(),		BUTTON_DOWN, CUIWndCallback::void_function( this,
     //&CUIMapWnd::OnBtnRight_Push	) );
 
-    AddCallback(
-        m_btn_nav[btn_zoom_less], BUTTON_DOWN, CUIWndCallback::void_function(this, &CUIMapWnd::OnBtnZoomLess_Push));
+    AddCallback(m_btn_nav[btn_zoom_less], BUTTON_DOWN, CUIWndCallback::void_function(this, &CUIMapWnd::OnBtnZoomLess_Push));
     //	AddCallback( m_btn_nav[btn_down]->WindowName(),			BUTTON_DOWN, CUIWndCallback::void_function( this,
     //&CUIMapWnd::OnBtnDown_Push	) );
-    AddCallback(
-        m_btn_nav[btn_zoom_reset], BUTTON_DOWN, CUIWndCallback::void_function(this, &CUIMapWnd::OnBtnZoomReset_Push));
+    AddCallback(m_btn_nav[btn_zoom_reset], BUTTON_DOWN, CUIWndCallback::void_function(this, &CUIMapWnd::OnBtnZoomReset_Push));
 }
 
 void CUIMapWnd::UpdateNav()
@@ -55,18 +52,15 @@ void CUIMapWnd::UpdateNav()
     {
         MoveMap(Fvector2().set(0.0f, m_map_move_step));
     }
-    else if (
-        m_btn_nav[btn_left]->CursorOverWindow() && m_btn_nav[btn_left]->GetButtonState() == CUIButton::BUTTON_PUSHED)
+    else if (m_btn_nav[btn_left]->CursorOverWindow() && m_btn_nav[btn_left]->GetButtonState() == CUIButton::BUTTON_PUSHED)
     {
         MoveMap(Fvector2().set(m_map_move_step, 0.0f));
     }
-    else if (
-        m_btn_nav[btn_right]->CursorOverWindow() && m_btn_nav[btn_right]->GetButtonState() == CUIButton::BUTTON_PUSHED)
+    else if (m_btn_nav[btn_right]->CursorOverWindow() && m_btn_nav[btn_right]->GetButtonState() == CUIButton::BUTTON_PUSHED)
     {
         MoveMap(Fvector2().set(-m_map_move_step, 0.0f));
     }
-    else if (
-        m_btn_nav[btn_down]->CursorOverWindow() && m_btn_nav[btn_down]->GetButtonState() == CUIButton::BUTTON_PUSHED)
+    else if (m_btn_nav[btn_down]->CursorOverWindow() && m_btn_nav[btn_down]->GetButtonState() == CUIButton::BUTTON_PUSHED)
     {
         MoveMap(Fvector2().set(0.0f, -m_map_move_step));
     }

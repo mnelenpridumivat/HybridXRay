@@ -1295,10 +1295,10 @@ bool CLevelMain::SelectionFrustum(CFrustum& frustum)
     Fvector  st, d, p[4];
     Ivector2 pt[4];
 
-    float depth = 0;
+    float    depth = 0;
 
-    float x1 = m_StartCp.x, x2 = m_CurrentCp.x;
-    float y1 = m_StartCp.y, y2 = m_CurrentCp.y;
+    float    x1 = m_StartCp.x, x2 = m_CurrentCp.x;
+    float    y1 = m_StartCp.y, y2 = m_CurrentCp.y;
 
     if (!(x1 != x2 && y1 != y2))
         return false;

@@ -262,35 +262,35 @@ struct dcVector3
 
 /* Class ID */
 
-extern int dTriListClass;
+extern int         dTriListClass;
 
 /* Per triangle callback */
 
-typedef int dTriCallback(dGeomID TriList, dGeomID RefObject, int TriangleIndex);
+typedef int        dTriCallback(dGeomID TriList, dGeomID RefObject, int TriangleIndex);
 
-void dGeomTriListSetCallback(dGeomID g, dTriCallback* Callback);
+void               dGeomTriListSetCallback(dGeomID g, dTriCallback* Callback);
 
-dTriCallback* dGeomTriListGetCallback(dGeomID g);
+dTriCallback*      dGeomTriListGetCallback(dGeomID g);
 
 /* Per object callback */
 
-typedef void dTriArrayCallback(dGeomID TriList, dGeomID RefObject, const int* TriIndices, int TriCount);
+typedef void       dTriArrayCallback(dGeomID TriList, dGeomID RefObject, const int* TriIndices, int TriCount);
 
-void dGeomTriListSetArrayCallback(dGeomID g, dTriArrayCallback* ArrayCallback);
+void               dGeomTriListSetArrayCallback(dGeomID g, dTriArrayCallback* ArrayCallback);
 
 dTriArrayCallback* dGeomTriListGetArrayCallback(dGeomID g);
 
 /* Construction */
 
-dxGeom* dCreateTriList(dSpaceID space, dTriCallback* Callback, dTriArrayCallback* ArrayCallback);
+dxGeom*            dCreateTriList(dSpaceID space, dTriCallback* Callback, dTriArrayCallback* ArrayCallback);
 
 /* Setting data */
 
-void dGeomTriListBuild(dGeomID g, const dcVector3* Vertices, int VertexCount, const int* Indices, int IndexCount);
+void               dGeomTriListBuild(dGeomID g, const dcVector3* Vertices, int VertexCount, const int* Indices, int IndexCount);
 
 /* Getting data */
 
-void dGeomTriListGetTriangle(dGeomID g, int Index, dVector3* v0, dVector3* v1, dVector3* v2);
+void               dGeomTriListGetTriangle(dGeomID g, int Index, dVector3* v0, dVector3* v1, dVector3* v2);
 
 /* Internal types */
 
@@ -298,9 +298,9 @@ class dcTriListCollider;
 
 struct dxTriList
 {
-    dReal p[4];   // dxPlane
+    dReal              p[4];   // dxPlane
 
-    dTriCallback* Callback;
+    dTriCallback*      Callback;
 
     dTriArrayCallback* ArrayCallback;
 
@@ -311,7 +311,7 @@ struct dcPlane
 {
     dcVector3 Normal;
 
-    float Distance;
+    float     Distance;
 
     dcPlane() {}
 
@@ -321,9 +321,9 @@ struct dcPlane
 
         dcVector3 v = v2 - v0;
 
-        Normal = u.CrossProduct(v);
+        Normal      = u.CrossProduct(v);
 
-        Distance = v0.DotProduct(Normal);
+        Distance    = v0.DotProduct(Normal);
 
         Normalize();
     }
@@ -343,12 +343,12 @@ struct dcPlane
     }
 };
 
-template <class T> const T& dcMAX(const T& x, const T& y)
+template<class T> const T& dcMAX(const T& x, const T& y)
 {
     return x > y ? x : y;
 }
 
-template <class T> const T& dcMIN(const T& x, const T& y)
+template<class T> const T& dcMIN(const T& x, const T& y)
 {
     return x < y ? x : y;
 }

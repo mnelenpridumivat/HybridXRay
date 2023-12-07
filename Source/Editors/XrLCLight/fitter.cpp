@@ -15,12 +15,7 @@ IC REAL dfEvaluation(REAL& A, REAL& C, REAL& D)
     return (A * C + D);
 }
 
-REAL dfComputeEvalResults(
-    xr_vector<xr_vector<REAL>>& daEvalResults,
-    xr_vector<xr_vector<REAL>>& A,
-    xr_vector<xr_vector<REAL>>& B,
-    xr_vector<REAL>&            C,
-    xr_vector<REAL>&            D)
+REAL dfComputeEvalResults(xr_vector<xr_vector<REAL>>& daEvalResults, xr_vector<xr_vector<REAL>>& A, xr_vector<xr_vector<REAL>>& B, xr_vector<REAL>& C, xr_vector<REAL>& D)
 {
     REAL dResult          = 0.0;
     u32  dwTestCount      = (u32)B.size();
@@ -38,11 +33,7 @@ REAL dfComputeEvalResults(
     return (dResult);
 }
 
-xr_vector<REAL>& dafGradient(
-    xr_vector<xr_vector<REAL>>& daEvalResults,
-    xr_vector<REAL>&            daResult,
-    xr_vector<xr_vector<REAL>>& B,
-    REAL                        dNormaFactor)
+xr_vector<REAL>& dafGradient(xr_vector<xr_vector<REAL>>& daEvalResults, xr_vector<REAL>& daResult, xr_vector<xr_vector<REAL>>& B, REAL dNormaFactor)
 {
     REAL dNorma           = 0.0;
     u32  dwTestCount      = (u32)B.size();
@@ -63,16 +54,7 @@ xr_vector<REAL>& dafGradient(
     return (daResult);
 }
 
-void vfOptimizeParameters(
-    xr_vector<xr_vector<REAL>>& A,
-    xr_vector<xr_vector<REAL>>& B,
-    xr_vector<REAL>&            C,
-    xr_vector<REAL>&            D,
-    REAL                        dEpsilon,
-    REAL                        dAlpha,
-    REAL                        dBeta,
-    REAL                        dNormaFactor,
-    u32                         dwMaxIterationCount)
+void vfOptimizeParameters(xr_vector<xr_vector<REAL>>& A, xr_vector<xr_vector<REAL>>& B, xr_vector<REAL>& C, xr_vector<REAL>& D, REAL dEpsilon, REAL dAlpha, REAL dBeta, REAL dNormaFactor, u32 dwMaxIterationCount)
 {
     u32                        dwTestCount = (u32)B.size();
     xr_vector<REAL>            daGradient;
@@ -102,8 +84,7 @@ void vfOptimizeParameters(
     {
         dPreviousFunctional = dFunctional;
         dafGradient(daEvalResults, daGradient, B, dNormaFactor);
-        std::transform(
-            daGradient.begin(), daGradient.end(), daGradient.begin(), std::bind2nd(std::multiplies<REAL>(), -dAlpha));
+        std::transform(daGradient.begin(), daGradient.end(), daGradient.begin(), std::bind2nd(std::multiplies<REAL>(), -dAlpha));
         std::transform(daDelta.begin(), daDelta.end(), daDelta.begin(), std::bind2nd(std::multiplies<REAL>(), dBeta));
         std::transform(daGradient.begin(), daGradient.end(), daDelta.begin(), daDelta.begin(), std::plus<REAL>());
         std::transform(C.begin(), C.end(), daDelta.begin(), C.begin(), std::plus<REAL>());

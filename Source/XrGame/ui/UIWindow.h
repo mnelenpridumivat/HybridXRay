@@ -16,7 +16,7 @@ struct _12b
 extern poolSS<_12b, 128> ui_allocator;
 #endif
 
-template <class T> class uialloc
+template<class T> class uialloc
 {
 public:
     typedef size_t    size_type;
@@ -28,7 +28,7 @@ public:
     typedef T         value_type;
 
 public:
-    template <class _Other> struct rebind
+    template<class _Other> struct rebind
     {
         typedef uialloc<_Other> other;
     };
@@ -44,8 +44,8 @@ public:
     }
     uialloc() {}
     uialloc(const uialloc<T>&) {}
-    template <class _Other> uialloc(const uialloc<_Other>&) {}
-    template <class _Other> uialloc<T>& operator=(const uialloc<_Other>&)
+    template<class _Other> uialloc(const uialloc<_Other>&) {}
+    template<class _Other> uialloc<T>& operator=(const uialloc<_Other>&)
     {
         return (*this);
     }
@@ -85,11 +85,11 @@ public:
         return (0 < _Count ? _Count : 1);
     }
 };
-template <class _Ty, class _Other> inline bool operator==(const uialloc<_Ty>&, const uialloc<_Other>&)
+template<class _Ty, class _Other> inline bool operator==(const uialloc<_Ty>&, const uialloc<_Other>&)
 {
     return (true);
 }
-template <class _Ty, class _Other> inline bool operator!=(const uialloc<_Ty>&, const uialloc<_Other>&)
+template<class _Ty, class _Other> inline bool operator!=(const uialloc<_Ty>&, const uialloc<_Other>&)
 {
     return (false);
 }
@@ -141,8 +141,8 @@ public:
         else
             return m_pParentWnd->GetTop();
     }
-    CUIWindow* GetCurrentMouseHandler();
-    CUIWindow* GetChildMouseHandler();
+    CUIWindow*   GetCurrentMouseHandler();
+    CUIWindow*   GetChildMouseHandler();
 
     virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
     virtual bool OnKeyboardHold(int dik);
@@ -159,8 +159,8 @@ public:
 
     // захватить/освободить мышь окном
     // сообщение посылается дочерним окном родительскому
-    void       SetCapture(CUIWindow* pChildWindow, bool capture_status);
-    CUIWindow* GetMouseCapturer()
+    void         SetCapture(CUIWindow* pChildWindow, bool capture_status);
+    CUIWindow*   GetMouseCapturer()
     {
         return m_pMouseCapturer;
     }
@@ -171,9 +171,9 @@ public:
     {
         m_pMessageTarget = pWindow;
     }
-    CUIWindow* GetMessageTarget();
+    CUIWindow*   GetMessageTarget();
 
-    void SetKeyboardCapture(CUIWindow* pChildWindow, bool capture_status);
+    void         SetKeyboardCapture(CUIWindow* pChildWindow, bool capture_status);
 
     // обработка сообщений не предусмотреных стандартными обработчиками
     // ф-ция должна переопределяться
@@ -200,7 +200,7 @@ public:
     {
         return GetVisible();
     }
-    void ShowChildren(bool show);
+    void    ShowChildren(bool show);
 
     // абсолютные координаты
     IC void GetAbsoluteRect(Frect& r);
@@ -230,9 +230,9 @@ public:
     // обновление окна передпрорисовкой
     virtual void Update();
 
-    void    SetPPMode();
-    void    ResetPPMode();
-    IC bool GetPPMode()
+    void         SetPPMode();
+    void         ResetPPMode();
+    IC bool      GetPPMode()
     {
         return m_bPP;
     };
@@ -270,7 +270,7 @@ public:
     }
     CUIWindow* FindChild(const shared_str name);
 
-    IC bool CursorOverWindow() const
+    IC bool    CursorOverWindow() const
     {
         return m_bCursorOverWindow;
     }
@@ -296,39 +296,39 @@ protected:
             m_ChildWndList.erase(it);
     };
 
-    shared_str m_windowName;
+    shared_str  m_windowName;
     // список дочерних окон
     WINDOW_LIST m_ChildWndList;
 
     // указатель на родительское окно
-    CUIWindow* m_pParentWnd;
+    CUIWindow*  m_pParentWnd;
 
     // дочернее окно которое, захватило ввод мыши
-    CUIWindow* m_pMouseCapturer;
+    CUIWindow*  m_pMouseCapturer;
 
     // дочернее окно которое, захватило ввод клавиатуры
-    CUIWindow* m_pKeyboardCapturer;
+    CUIWindow*  m_pKeyboardCapturer;
 
     // кому шлем сообщения
-    CUIWindow* m_pMessageTarget;
+    CUIWindow*  m_pMessageTarget;
 
     // Последняя позиция мышки
-    Fvector2 cursor_pos;
+    Fvector2    cursor_pos;
 
     // время прошлого клика мышки
     // для определения DoubleClick
-    u32 m_dwLastClickTime;
-    u32 m_dwFocusReceiveTime;
+    u32         m_dwLastClickTime;
+    u32         m_dwFocusReceiveTime;
 
     // флаг автоматического удаления во время вызова деструктора
-    bool m_bAutoDelete;
+    bool        m_bAutoDelete;
 
-    bool m_bPP;
-    bool m_bIsEnabled;
+    bool        m_bPP;
+    bool        m_bIsEnabled;
 
     // Если курсор над окном
-    bool m_bCursorOverWindow;
-    bool m_bCustomDraw;
+    bool        m_bCursorOverWindow;
+    bool        m_bCustomDraw;
 
 #ifdef DEBUG
     int m_dbg_id;

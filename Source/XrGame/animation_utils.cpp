@@ -43,7 +43,7 @@ void anim_bone_fix::fix(u16 bone_id, IKinematics& K)
     bone          = &bi;
     CBoneData& bd = K.LL_GetData(bone_id);
 
-    parent = &K.LL_GetBoneInstance(bd.GetParentID());
+    parent        = &K.LL_GetBoneInstance(bd.GetParentID());
     matrix.mul_43(Fmatrix().invert(parent->mTransform), bi.mTransform);
     bi.set_callback(bctCustom, callback, this, TRUE);
 }

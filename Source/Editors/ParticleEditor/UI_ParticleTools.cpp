@@ -74,7 +74,7 @@ bool CParticleTool::OnCreate()
 
     m_ParentAnimator = xr_new<CObjectAnimator>();
 
-    m_ObjectProps = xr_new<UIPropertiesForm>();
+    m_ObjectProps    = xr_new<UIPropertiesForm>();
     FillObjectPrefs();
     return true;
 }
@@ -464,14 +464,14 @@ CCommandVar CParticleTool::Compact(CCommandVar p1, CCommandVar p2)
 
     for (PS::PGDIt g_it = RImplementation.PSLibrary.FirstPGD(); g_it != RImplementation.PSLibrary.LastPGD(); ++g_it)
     {
-        PS::CPGDef* pg         = (*g_it);
-        shared_str& group_name = pg->m_Name;
-        xr_string   group_path = EFS.ExtractFilePath(group_name.c_str());
+        PS::CPGDef*                                     pg         = (*g_it);
+        shared_str&                                     group_name = pg->m_Name;
+        xr_string                                       group_path = EFS.ExtractFilePath(group_name.c_str());
 
-        xr_vector<PS::CPGDef::SEffect*>::const_iterator pe_it   = pg->m_Effects.begin();
-        xr_vector<PS::CPGDef::SEffect*>::const_iterator pe_it_e = pg->m_Effects.end();
+        xr_vector<PS::CPGDef::SEffect*>::const_iterator pe_it      = pg->m_Effects.begin();
+        xr_vector<PS::CPGDef::SEffect*>::const_iterator pe_it_e    = pg->m_Effects.end();
 
-        xr_string tmp;
+        xr_string                                       tmp;
 
         for (; pe_it != pe_it_e; ++pe_it)
         {
@@ -748,7 +748,7 @@ bool CParticleTool::MouseStart(TShiftState Shift)
             {
                 if (m_EditObject)
                 {
-                    float dist = UI->ZFar();
+                    float        dist = UI->ZFar();
                     SRayPickInfo pinf;
                     if (m_EditObject->RayPick(dist, UI->m_CurrentRStart, UI->m_CurrentRDir, Fidentity, &pinf))
                         m_Transform.c.set(pinf.pt);
@@ -756,12 +756,12 @@ bool CParticleTool::MouseStart(TShiftState Shift)
                 else
                 {
                     // pick grid
-                    Fvector normal = {0.f, 1.f, 0.f};
-                    float clcheck = UI->m_CurrentRDir.dotproduct(normal);
-                    if(fis_zero(clcheck))
+                    Fvector normal  = {0.f, 1.f, 0.f};
+                    float   clcheck = UI->m_CurrentRDir.dotproduct(normal);
+                    if (fis_zero(clcheck))
                         return false;
-                    float alpha = - UI->m_CurrentRStart.dotproduct(normal) / clcheck;
-                    if(alpha <= 0)
+                    float alpha = -UI->m_CurrentRStart.dotproduct(normal) / clcheck;
+                    if (alpha <= 0)
                         return false;
 
                     m_Transform.c.mad(UI->m_CurrentRStart, UI->m_CurrentRDir, alpha);
@@ -802,7 +802,7 @@ void CParticleTool::MouseMove(TShiftState Shift)
             break;
         case etaMove:
             m_Transform.c.add(m_MovedAmount);
-        break;
+            break;
         case etaRotate:
         {
             Fmatrix mR;

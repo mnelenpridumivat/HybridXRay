@@ -67,12 +67,10 @@ namespace lc_net
     };
 
     template<class e> struct list_glob<gl_last, e>
-    {
-    };
+    {};
 
     template<class e> class it
-    {
-    };
+    {};
 
     /*template< class e >
     struct list_exec;
@@ -120,12 +118,10 @@ namespace lc_net
     };
 
     template<> struct list_exec<type_execution<et_last>>
-    {
-    };
+    {};
 
     template<> struct list_exec<type_net_globals<gl_last>>
-    {
-    };
+    {};
 
     template<typename e> enum_table<e>::enum_table()
     {

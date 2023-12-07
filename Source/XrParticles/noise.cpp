@@ -14,12 +14,12 @@ __forceinline int iFloor_SSE(float const x)
 
 //==============================================================================
 // Perlin's noise from Texturing and Modeling...
-#define B 256
+#define B              256
 
-#define DOT(a, b) (a[0] * b[0] + a[1] * b[1] + a[2] * b[2])
+#define DOT(a, b)      (a[0] * b[0] + a[1] * b[1] + a[2] * b[2])
 #define AT(rx, ry, rz) (rx * q[0] + ry * q[1] + rz * q[2]);
-#define S_CURVE(t) (t * t * (3.f - 2.f * t))
-#define LERP(t, a, b) (a + t * (b - a))
+#define S_CURVE(t)     (t * t * (3.f - 2.f * t))
+#define LERP(t, a, b)  (a + t * (b - a))
 
 #ifndef _EDITOR
 #define PN_SETUP(i, b0, b1, r0, r1) \
@@ -44,7 +44,7 @@ static int   p[B + B + 2];
 static float g[B + B + 2][3];
 
 //--------------------------------------------------------------------
-void noise3Init()
+void         noise3Init()
 {
     int   i, j, k;
     float v[3], s;
@@ -62,7 +62,8 @@ void noise3Init()
                 v[j] = float((rnd % (B + B)) - B) / B;
             }
             s = DOT(v, v);
-        } while (s > 1.0);
+        }
+        while (s > 1.0);
         s = _sqrt(s);
         for (j = 0; j < 3; j++)
             g[i][j] = v[j] / s;
@@ -107,45 +108,45 @@ float noise3(const Fvector& vec)
     PN_SETUP(1, by0, by1, ry0, ry1);
     PN_SETUP(2, bz0, bz1, rz0, rz1);
 
-    i = p[bx0];
-    j = p[bx1];
+    i   = p[bx0];
+    j   = p[bx1];
 
     b00 = p[i + by0];
     b10 = p[j + by0];
     b01 = p[i + by1];
     b11 = p[j + by1];
 
-    sx = S_CURVE(rx0);
-    sy = S_CURVE(ry0);
-    sz = S_CURVE(rz0);
+    sx  = S_CURVE(rx0);
+    sy  = S_CURVE(ry0);
+    sz  = S_CURVE(rz0);
 
-    q = g[b00 + bz0];
-    u = AT(rx0, ry0, rz0);
-    q = g[b10 + bz0];
-    v = AT(rx1, ry0, rz0);
-    a = LERP(sx, u, v);
+    q   = g[b00 + bz0];
+    u   = AT(rx0, ry0, rz0);
+    q   = g[b10 + bz0];
+    v   = AT(rx1, ry0, rz0);
+    a   = LERP(sx, u, v);
 
-    q = g[b01 + bz0];
-    u = AT(rx0, ry1, rz0);
-    q = g[b11 + bz0];
-    v = AT(rx1, ry1, rz0);
-    b = LERP(sx, u, v);
+    q   = g[b01 + bz0];
+    u   = AT(rx0, ry1, rz0);
+    q   = g[b11 + bz0];
+    v   = AT(rx1, ry1, rz0);
+    b   = LERP(sx, u, v);
 
-    c = LERP(sy, a, b);
+    c   = LERP(sy, a, b);
 
-    q = g[b00 + bz1];
-    u = AT(rx0, ry0, rz1);
-    q = g[b10 + bz1];
-    v = AT(rx1, ry0, rz1);
-    a = LERP(sx, u, v);
+    q   = g[b00 + bz1];
+    u   = AT(rx0, ry0, rz1);
+    q   = g[b10 + bz1];
+    v   = AT(rx1, ry0, rz1);
+    a   = LERP(sx, u, v);
 
-    q = g[b01 + bz1];
-    u = AT(rx0, ry1, rz1);
-    q = g[b11 + bz1];
-    v = AT(rx1, ry1, rz1);
-    b = LERP(sx, u, v);
+    q   = g[b01 + bz1];
+    u   = AT(rx0, ry1, rz1);
+    q   = g[b11 + bz1];
+    v   = AT(rx1, ry1, rz1);
+    b   = LERP(sx, u, v);
 
-    d = LERP(sy, a, b);
+    d   = LERP(sy, a, b);
 
     return 1.5f * LERP(sz, c, d);
 }

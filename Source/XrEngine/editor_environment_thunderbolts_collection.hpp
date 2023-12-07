@@ -29,10 +29,7 @@ namespace XrWeatherEditor
             class manager;
             class thunderbolt_id;
 
-            class collection:
-                public SThunderboltCollection,
-                public XrWeatherEditor::property_holder_holder,
-                private boost::noncopyable
+            class collection: public SThunderboltCollection, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             public:
                 collection(manager const& manager, shared_str const& id);

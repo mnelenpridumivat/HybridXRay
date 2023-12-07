@@ -10,97 +10,53 @@
 #include "control_path_builder_base.h"
 
 // DEBUG purpose only
-char* dbg_anim_name_table[] = {
-    "eAnimStandIdle",
-    "eAnimStandTurnLeft",
-    "eAnimStandTurnRight",
+char* dbg_anim_name_table[] = {"eAnimStandIdle", "eAnimStandTurnLeft", "eAnimStandTurnRight",
 
-    "eAnimSitIdle",
-    "eAnimLieIdle",
+    "eAnimSitIdle", "eAnimLieIdle",
 
-    "eAnimSitToSleep",
-    "eAnimLieToSleep",
-    "eAnimStandSitDown",
-    "eAnimStandLieDown",
-    "eAnimLieStandUp",
-    "eAnimSitStandUp",
-    "eAnimStandLieDownEat",
-    "eAnimSitLieDown",
-    "eAnimLieSitUp",
-    "eAnimSleepStandUp",
+    "eAnimSitToSleep", "eAnimLieToSleep", "eAnimStandSitDown", "eAnimStandLieDown", "eAnimLieStandUp", "eAnimSitStandUp", "eAnimStandLieDownEat", "eAnimSitLieDown", "eAnimLieSitUp", "eAnimSleepStandUp",
 
-    "eAnimWalkFwd",
-    "eAnimWalkBkwd",
-    "eAnimWalkTurnLeft",
-    "eAnimWalkTurnRight",
+    "eAnimWalkFwd", "eAnimWalkBkwd", "eAnimWalkTurnLeft", "eAnimWalkTurnRight",
 
-    "eAnimRun",
-    "eAnimRunTurnLeft",
-    "eAnimRunTurnRight",
-    "eAnimFastTurn",
+    "eAnimRun", "eAnimRunTurnLeft", "eAnimRunTurnRight", "eAnimFastTurn",
 
-    "eAnimAttack",
-    "eAnimAttackFromBack",
-    "eAnimAttackRun",
+    "eAnimAttack", "eAnimAttackFromBack", "eAnimAttackRun",
 
-    "eAnimEat",
-    "eAnimSleep",
-    "eAnimDie",
+    "eAnimEat", "eAnimSleep", "eAnimDie",
 
-    "eAnimDragCorpse",
-    "eAnimCheckCorpse",
-    "eAnimScared",
-    "eAnimAttackJump",
+    "eAnimDragCorpse", "eAnimCheckCorpse", "eAnimScared", "eAnimAttackJump",
 
     "eAnimLookAround",
 
-    "eAnimJump",
-    "eAnimSteal",
+    "eAnimJump", "eAnimSteal",
 
-    "eAnimJumpStart",
-    "eAnimJumpGlide",
-    "eAnimJumpFinish",
+    "eAnimJumpStart", "eAnimJumpGlide", "eAnimJumpFinish",
 
-    "eAnimJumpLeft",
-    "eAnimJumpRight",
+    "eAnimJumpLeft", "eAnimJumpRight",
 
-    "eAnimStandDamaged",
-    "eAnimWalkDamaged",
-    "eAnimRunDamaged",
+    "eAnimStandDamaged", "eAnimWalkDamaged", "eAnimRunDamaged",
 
-    "eAnimSniff",
-    "eAnimHowling",
-    "eAnimThreaten",
+    "eAnimSniff", "eAnimHowling", "eAnimThreaten",
 
-    "eAnimMiscAction_00",
-    "eAnimMiscAction_01",
+    "eAnimMiscAction_00", "eAnimMiscAction_01",
 
-    "eAnimUpperStandIdle",
-    "eAnimUpperStandTurnLeft",
-    "eAnimUpperStandTurnRight",
+    "eAnimUpperStandIdle", "eAnimUpperStandTurnLeft", "eAnimUpperStandTurnRight",
 
-    "eAnimStandToUpperStand",
-    "eAnimUppperStandToStand",
+    "eAnimStandToUpperStand", "eAnimUppperStandToStand",
 
-    "eAnimUpperWalkFwd",
-    "eAnimUpperThreaten",
-    "eAnimUpperAttack",
+    "eAnimUpperWalkFwd", "eAnimUpperThreaten", "eAnimUpperAttack",
 
     "eAnimAttackPsi",
 
-    "eAnimTeleRaise",
-    "eAnimTeleFire",
-    "eAnimGraviPrepare",
-    "eAnimGraviFire",
+    "eAnimTeleRaise", "eAnimTeleFire", "eAnimGraviPrepare", "eAnimGraviFire",
 
-    "eAnimCount",
-    "eAnimUndefined"};
+    "eAnimCount", "eAnimUndefined"};
 
 //////////////////////////////////////////////////////////////////////////
 // m_tAction processing
 //////////////////////////////////////////////////////////////////////////
 
-void CControlAnimationBase::update_frame()
+void  CControlAnimationBase::update_frame()
 {
     update();
 
@@ -162,7 +118,7 @@ void CControlAnimationBase::set_override_animation(pcstr name)
         {
             pcstr const anim_index_string = name + anim_item->target_name.size();
 
-            u32 anim_index = 0;
+            u32         anim_index        = 0;
             sscanf(anim_index_string, "%d", &anim_index);
             set_override_animation((EMotionAnim)anim_type, anim_index);
 
@@ -213,7 +169,7 @@ void CControlAnimationBase::SetTurnAnimation()
     m_man->direction().get_heading(yaw_current, yaw_target);
     float delta_yaw = angle_difference(yaw_target, yaw_current);
 
-    bool turn_left = true;
+    bool  turn_left = true;
     if (from_right(yaw_target, yaw_current))
         turn_left = false;
 
@@ -224,8 +180,7 @@ void CControlAnimationBase::SetTurnAnimation()
         return;
     }
 
-    if (m_object->control().path_builder().is_moving_on_path() && m_object->path().enabled() &&
-        (delta_yaw > MOVE_TURN_ANGLE))
+    if (m_object->control().path_builder().is_moving_on_path() && m_object->path().enabled() && (delta_yaw > MOVE_TURN_ANGLE))
     {
         m_object->SetTurnAnimation(turn_left);
         return;
@@ -249,27 +204,21 @@ void CControlAnimationBase::SelectVelocities()
 
     if (b_moving)
     {
-        u32 cur_point_velocity_index =
-            m_object->movement().detail().path()[m_object->movement().detail().curr_travel_point_index()].velocity;
+        u32 cur_point_velocity_index  = m_object->movement().detail().path()[m_object->movement().detail().curr_travel_point_index()].velocity;
 
         u32 next_point_velocity_index = u32(-1);
         if (m_object->movement().detail().path().size() > m_object->movement().detail().curr_travel_point_index() + 1)
-            next_point_velocity_index = m_object->movement()
-                                            .detail()
-                                            .path()[m_object->movement().detail().curr_travel_point_index() + 1]
-                                            .velocity;
+            next_point_velocity_index = m_object->movement().detail().path()[m_object->movement().detail().curr_travel_point_index() + 1].velocity;
 
         // если сейчас стоит на месте и есть след точка (т.е. должен быть в движении),
         // то реализовать поворот на месте, а дальше форсировать скорость со следующей точки
-        if ((cur_point_velocity_index == MonsterMovement::eVelocityParameterStand) &&
-            (next_point_velocity_index != u32(-1)))
+        if ((cur_point_velocity_index == MonsterMovement::eVelocityParameterStand) && (next_point_velocity_index != u32(-1)))
         {
             if (!m_object->control().direction().is_turning())
                 cur_point_velocity_index = next_point_velocity_index;
         }
 
-        const CDetailPathManager::STravelParams& current_velocity =
-            m_object->movement().detail().velocity(cur_point_velocity_index);
+        const CDetailPathManager::STravelParams& current_velocity = m_object->movement().detail().velocity(cur_point_velocity_index);
         path_vel.set(_abs(current_velocity.linear_velocity), current_velocity.real_angular_velocity);
     }
 
@@ -345,8 +294,7 @@ void CControlAnimationBase::SelectVelocities()
         if (m_tAction == ACT_ATTACK)
         {
             float vel = item_it->velocity.velocity.angular_real;
-            m_object->dir().set_heading_speed(
-                vel * m_object->m_melee_rotation_factor);   // todo: make as an external factor
+            m_object->dir().set_heading_speed(vel * m_object->m_melee_rotation_factor);   // todo: make as an external factor
         }
         else
             m_object->dir().set_heading_speed(item_it->velocity.velocity.angular_real);

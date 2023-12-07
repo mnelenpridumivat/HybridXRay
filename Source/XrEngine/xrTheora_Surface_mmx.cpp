@@ -2,7 +2,7 @@
 
 #include "xrTheora_Surface_mmx.h"
 
-#pragma warning(disable : 4731)
+#pragma warning(disable:4731)
 
 #pragma pack(push, 1)
 
@@ -42,26 +42,13 @@ typedef tv_sshort tv_sshort_tables[256][4];
         }
 */
 
-lp_tv_uchar tv_yuv2argb(
-    lp_tv_uchar argb_plane,
-    tv_slong    argb_width,
-    tv_slong    argb_height,
-    lp_tv_uchar y_plane,
-    tv_slong    y_width,
-    tv_slong    y_height,
-    tv_slong    y_stride,
-    lp_tv_uchar u_plane,
-    lp_tv_uchar v_plane,
-    tv_slong    uv_width,
-    tv_slong    uv_height,
-    tv_slong    uv_stride,
-    tv_slong    width_diff)
+lp_tv_uchar tv_yuv2argb(lp_tv_uchar argb_plane, tv_slong argb_width, tv_slong argb_height, lp_tv_uchar y_plane, tv_slong y_width, tv_slong y_height, tv_slong y_stride, lp_tv_uchar u_plane, lp_tv_uchar v_plane, tv_slong uv_width, tv_slong uv_height, tv_slong uv_stride, tv_slong width_diff)
 {
     tv_sshort_tables ttl;
 
     __asm {
 		push  ebx
-            // helper constants
+               // helper constants
 		mov   esi,-14487936
 		mov   edi,-5822464
 		mov   ecx,-2785792
@@ -104,15 +91,15 @@ _tb_loop:
     lp_tv_uchar line1 = argb_plane;
     lp_tv_uchar line2 = line1 + 4 * argb_width;
 
-    lp_tv_uchar y1 = y_plane;
-    lp_tv_uchar y2 = y1 + y_stride;
+    lp_tv_uchar y1    = y_plane;
+    lp_tv_uchar y2    = y1 + y_stride;
 
-    lp_tv_uchar u = u_plane;
-    lp_tv_uchar v = v_plane;
+    lp_tv_uchar u     = u_plane;
+    lp_tv_uchar v     = v_plane;
 
-    int nTempX;
-    int nTempY;
-    int nTempX_;
+    int         nTempX;
+    int         nTempY;
+    int         nTempX_;
 
     for (nTempY = 0; nTempY < argb_height; nTempY += 2)
     {
@@ -218,7 +205,7 @@ _tb_loop:
 				;px3 = 00 | P6.R | P6.G | P6.B | 00 | P5.R | P5.G | P5.B |
 				;px4 = 00 | P8.R | P8.G | P8.B | 00 | P7.R | P7.G | P7.B |
 
-                     // Oh, real sex!
+                    // Oh, real sex!
 				pcmpeqd mm0,mm0  ; mm0 = 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1
 
 				movq mm5,mm6  ; mm5 = P8.G | P7.G | P4.G | P3.G | P6.G | P5.G | P2.G | P1.G
@@ -280,4 +267,4 @@ _tb_loop:
     return argb_plane;
 }   // tv_yuv2argb
 
-#pragma warning(default : 4731)
+#pragma warning(default:4731)

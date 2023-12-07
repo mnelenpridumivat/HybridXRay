@@ -33,9 +33,7 @@ void CStalkerALifePlanner::setup(CAI_Stalker* object, CPropertyStorage* storage)
 void CStalkerALifePlanner::add_evaluators()
 {
     add_evaluator(eWorldPropertyPuzzleSolved, xr_new<CStalkerPropertyEvaluatorConst>(false, "zone puzzle solved"));
-    add_evaluator(
-        eWorldPropertySmartTerrainTask,
-        xr_new<CStalkerPropertyEvaluatorSmartTerrainTask>(m_object, "under smart terrain"));
+    add_evaluator(eWorldPropertySmartTerrainTask, xr_new<CStalkerPropertyEvaluatorSmartTerrainTask>(m_object, "under smart terrain"));
     add_evaluator(eWorldPropertyALife, xr_new<CStalkerPropertyEvaluatorALife>(m_object, "ALife Simulator"));
 }
 

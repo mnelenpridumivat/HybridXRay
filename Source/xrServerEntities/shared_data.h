@@ -6,11 +6,13 @@ template<class T> class CSingleton
 private:
     static T*  _self;
     static int _refcount;
+
 public:
     // whether singleton will delete itself on FreeInst
     // when _refcount = 0
     // otherwise user should call DestroySingleton() manually
     static bool _on_self_delete;
+
 public:
     CSingleton() {}
     virtual ~CSingleton()
@@ -27,6 +29,7 @@ public:
         VERIFY(_refcount == 0);
         xr_delete(_self);
     };
+
 public:
     static T* Instance()
     {
@@ -56,6 +59,7 @@ template<class SHARED_TYPE, class KEY_TYPE> class CSharedObj: public CSingleton<
 {
     xr_map<KEY_TYPE, SHARED_TYPE*>                            _shared_tab;
     typedef typename xr_map<KEY_TYPE, SHARED_TYPE*>::iterator SHARED_DATA_MAP_IT;
+
 public:
     CSharedObj(){};
     virtual ~CSharedObj()
@@ -89,6 +93,7 @@ public:
 class CSharedResource
 {
     bool loaded;
+
 public:
     CSharedResource()
     {
@@ -109,9 +114,9 @@ template<class SHARED_TYPE, class KEY_TYPE, bool auto_delete = true> class CShar
 {
     SHARED_TYPE*                       _sd;
     CSharedObj<SHARED_TYPE, KEY_TYPE>* pSharedObj;
+
 public:
-    CSharedClass():
-        _sd(NULL)
+    CSharedClass(): _sd(NULL)
     {
         pSharedObj                  = CSharedObj<SHARED_TYPE, KEY_TYPE>::Instance();
         pSharedObj->_on_self_delete = auto_delete;

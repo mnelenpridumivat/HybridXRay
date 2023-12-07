@@ -137,16 +137,16 @@ protected:
     const Point*           mVerts;   //!< User-defined vertices
 #endif
     // Dequantization coeffs
-    Point mCenterCoeff;
-    Point mExtentsCoeff;
+    Point  mCenterCoeff;
+    Point  mExtentsCoeff;
     // Stats
     udword mNbVolumeBVTests;     //!< Number of Volume-BV tests
     udword mNbVolumePrimTests;   //!< Number of Volume-Primitive tests
                                  // Internal methods
-    void _Dump(const AABBCollisionNode* node);
-    void _Dump(const AABBNoLeafNode* node);
-    void _Dump(const AABBQuantizedNode* node);
-    void _Dump(const AABBQuantizedNoLeafNode* node);
+    void   _Dump(const AABBCollisionNode* node);
+    void   _Dump(const AABBNoLeafNode* node);
+    void   _Dump(const AABBQuantizedNode* node);
+    void   _Dump(const AABBQuantizedNoLeafNode* node);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**

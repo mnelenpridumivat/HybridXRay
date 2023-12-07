@@ -99,11 +99,7 @@ IC void CPatrolPathManager::set_path(shared_str path_name)
     set_path(ai().patrol_paths().path(path_name), path_name);
 }
 
-IC void CPatrolPathManager::set_path(
-    shared_str             path_name,
-    const EPatrolStartType patrol_start_type,
-    const EPatrolRouteType patrol_route_type,
-    bool                   random)
+IC void CPatrolPathManager::set_path(shared_str path_name, const EPatrolStartType patrol_start_type, const EPatrolRouteType patrol_route_type, bool random)
 {
     set_path(ai().patrol_paths().path(path_name), path_name);
     set_start_type(patrol_start_type);

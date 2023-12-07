@@ -21,11 +21,11 @@ extern "C"
         SCWebServices mWebServices;
         gsi_u32       mGameId;
         // gsi_u32	  mOptionsFlags;
-        gsi_bool    mInit;
-        const char* mServiceURL;
-        GSCoreMgr*  mSdkCore;
-        gsi_u8      mSessionId[SC_SESSION_GUID_SIZE];
-        gsi_u8      mConnectionId[SC_CONNECTION_GUID_SIZE];
+        gsi_bool      mInit;
+        const char*   mServiceURL;
+        GSCoreMgr*    mSdkCore;
+        gsi_u8        mSessionId[SC_SESSION_GUID_SIZE];
+        gsi_u8        mConnectionId[SC_CONNECTION_GUID_SIZE];
     } SCInterface;
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -34,8 +34,8 @@ extern "C"
     SCResult sciInterfaceInit(SCInterface* theInterface);
     void     sciInterfaceDestroy(SCInterface* theInterface);
 
-    void sciInterfaceSetSessionId(SCInterface* theInterface, const char* theSessionId);
-    void sciInterfaceSetConnectionId(SCInterface* theInterface, const char* theConnectionId);
+    void     sciInterfaceSetSessionId(SCInterface* theInterface, const char* theSessionId);
+    void     sciInterfaceSetConnectionId(SCInterface* theInterface, const char* theConnectionId);
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

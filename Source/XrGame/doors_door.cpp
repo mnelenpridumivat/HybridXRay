@@ -21,9 +21,7 @@ static bool valid(door_state const state)
     return (state == doors::door_state_open) || (state == doors::door_state_closed);
 }
 
-door::door(CPhysicObject* object):
-    m_object(*object), m_state(door_state_open), m_previous_state(door_state_open), m_target_state(door_state_open),
-    m_registered_position(object->Position()), m_locked(false)
+door::door(CPhysicObject* object): m_object(*object), m_state(door_state_open), m_previous_state(door_state_open), m_target_state(door_state_open), m_registered_position(object->Position()), m_locked(false)
 {
     VERIFY(valid(m_state));
     VERIFY(valid(m_target_state));
@@ -159,8 +157,7 @@ void door::change_state()
     m_object.callback(GameObject::eUseObject)(m_object.lua_game_object(), (CScriptGameObject*)0);
 #ifdef DEBUG
     if (g_debug_doors)
-        Msg("door[%s] started to change its state to [%s]", m_object.cName().c_str(),
-            m_target_state == door_state_open ? "open" : "closed");
+        Msg("door[%s] started to change its state to [%s]", m_object.cName().c_str(), m_target_state == door_state_open ? "open" : "closed");
 #endif   // #ifdef DEBUG
 }
 
@@ -179,11 +176,10 @@ void door::change_state(actor* const initiator, door_state const start_state, do
         m_target_state = start_state;
 #ifdef DEBUG
         if (g_debug_doors)
-            Msg("door[%s] added initiator[%s] to keep door %s", m_object.cName().c_str(), initiator->get_name(),
-                m_target_state == door_state_open ? "open" : "closed");
-#endif   // #ifdef DEBUG
-         //		if ( !xr_strcmp( "sim_default_duty_28212", initiator->get_name()) ) {
-         //			int i=0; (void)i;
+            Msg("door[%s] added initiator[%s] to keep door %s", m_object.cName().c_str(), initiator->get_name(), m_target_state == door_state_open ? "open" : "closed");
+#endif   // #ifdef DEBUG                                                           \
+         //		if ( !xr_strcmp( "sim_default_duty_28212", initiator->get_name()) ) { \
+         //			int i=0; (void)i;                                                    \
          //		}
         change_state();
         return;
@@ -193,11 +189,10 @@ void door::change_state(actor* const initiator, door_state const start_state, do
     {
 #ifdef DEBUG
         if (g_debug_doors)
-            Msg("door[%s] added initiator[%s] to keep door %s", m_object.cName().c_str(), initiator->get_name(),
-                m_target_state == door_state_open ? "open" : "closed");
-#endif   // #ifdef DEBUG
-         //		if ( !xr_strcmp( "sim_default_duty_28212", initiator->get_name()) ) {
-         //			int i=0; (void)i;
+            Msg("door[%s] added initiator[%s] to keep door %s", m_object.cName().c_str(), initiator->get_name(), m_target_state == door_state_open ? "open" : "closed");
+#endif   // #ifdef DEBUG                                                           \
+         //		if ( !xr_strcmp( "sim_default_duty_28212", initiator->get_name()) ) { \
+         //			int i=0; (void)i;                                                    \
          //		}
         VERIFY(std::find(m_initiators.begin(), m_initiators.end(), initiator) == m_initiators.end());
         m_initiators.push_back(initiator);
@@ -211,11 +206,10 @@ void door::change_state(actor* const initiator, door_state const start_state, do
     {
 #ifdef DEBUG
         if (g_debug_doors)
-            Msg("door[%s] removed initiator[%s] to keep door %s", m_object.cName().c_str(), initiator->get_name(),
-                m_target_state == door_state_open ? "open" : "closed");
-#endif   // #ifdef DEBUG
-         //		if ( !xr_strcmp( "sim_default_duty_28212", initiator->get_name()) ) {
-         //			int i=0; (void)i;
+            Msg("door[%s] removed initiator[%s] to keep door %s", m_object.cName().c_str(), initiator->get_name(), m_target_state == door_state_open ? "open" : "closed");
+#endif   // #ifdef DEBUG                                                           \
+         //		if ( !xr_strcmp( "sim_default_duty_28212", initiator->get_name()) ) { \
+         //			int i=0; (void)i;                                                    \
          //		}
         m_initiators.erase(found);
     }
@@ -228,11 +222,10 @@ void door::change_state(actor* const initiator, door_state const start_state, do
         m_target_state = m_previous_state;
 #ifdef DEBUG
         if (g_debug_doors)
-            Msg("door[%s] restores its state to %s", m_object.cName().c_str(),
-                m_target_state == door_state_open ? "open" : "closed");
-#endif   // #ifdef DEBUG
-         //		if ( !xr_strcmp( "sim_default_duty_28212", initiator->get_name()) ) {
-         //			int i=0; (void)i;
+            Msg("door[%s] restores its state to %s", m_object.cName().c_str(), m_target_state == door_state_open ? "open" : "closed");
+#endif   // #ifdef DEBUG                                                           \
+         //		if ( !xr_strcmp( "sim_default_duty_28212", initiator->get_name()) ) { \
+         //			int i=0; (void)i;                                                    \
          //		}
         change_state();
     }

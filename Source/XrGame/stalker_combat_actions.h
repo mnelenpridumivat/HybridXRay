@@ -306,7 +306,7 @@ class CStalkerCombatActionThrowGrenade: public CStalkerActionCombatBase
 protected:
     typedef CStalkerActionCombatBase inherited;
 
-    ALife::_OBJECT_ID m_grenade_id;
+    ALife::_OBJECT_ID                m_grenade_id;
 
 public:
     CStalkerCombatActionThrowGrenade(CAI_Stalker* object, LPCSTR action_name = "");

@@ -6,10 +6,9 @@
 #define TRANSLATE_TYPE(val) EEffectorPPType(val ? u32(u64(typeid(this).name())) : u32(u64(this) & u32(-1)))
 
 #pragma warning(push)
-#pragma warning(disable : 4355)   // 'this' : used in base member initializer list
+#pragma warning(disable:4355)   // 'this' : used in base member initializer list
 
-CPPEffectorCustom::CPPEffectorCustom(const SPPInfo& ppi, bool one_instance, bool destroy_from_engine):
-    inherited(TRANSLATE_TYPE(one_instance), flt_max, destroy_from_engine)
+CPPEffectorCustom::CPPEffectorCustom(const SPPInfo& ppi, bool one_instance, bool destroy_from_engine): inherited(TRANSLATE_TYPE(one_instance), flt_max, destroy_from_engine)
 {
     m_state  = ppi;
     m_factor = 0.f;
@@ -35,12 +34,7 @@ BOOL CPPEffectorCustom::Process(SPPInfo& pp)
 
 //////////////////////////////////////////////////////////////////////////
 
-CPPEffectorControlled::CPPEffectorControlled(
-    CPPEffectorController* controller,
-    const SPPInfo&         ppi,
-    bool                   one_instance,
-    bool                   destroy_from_engine):
-    inherited(ppi, one_instance, destroy_from_engine)
+CPPEffectorControlled::CPPEffectorControlled(CPPEffectorController* controller, const SPPInfo& ppi, bool one_instance, bool destroy_from_engine): inherited(ppi, one_instance, destroy_from_engine)
 {
     m_controller = controller;
 }

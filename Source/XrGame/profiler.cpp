@@ -16,7 +16,7 @@
 #ifdef PROFILE_CRITICAL_SECTIONS
 static volatile LONG critical_section_counter = 0;
 
-void add_profile_portion(LPCSTR id, const u64& time)
+void                 add_profile_portion(LPCSTR id, const u64& time)
 {
     if (!*id)
         return;
@@ -114,7 +114,7 @@ void CProfiler::setup_timer(LPCSTR timer_id, const u64& timer_time, const u32& c
             *j = '/';
             k  = j + 1;
         }
-        i = m_timers.insert(std::make_pair(shared_str(timer_id), CProfileStats())).first;
+        i                      = m_timers.insert(std::make_pair(shared_str(timer_id), CProfileStats())).first;
 
         CProfileStats& current = (*i).second;
         current.m_min_time     = _time;
@@ -188,8 +188,8 @@ void CProfiler::show_stats(CGameFont* game_font, bool show)
     if (!m_portions.empty())
     {
         std::sort(m_portions.begin(), m_portions.end(), CProfilePortionPredicate());
-        u64 timer_time = 0;
-        u32 call_count = 0;
+        u64                      timer_time = 0;
+        u32                      call_count = 0;
 
         PORTIONS::const_iterator I = m_portions.begin(), J = I;
         PORTIONS::const_iterator E = m_portions.end();
@@ -249,8 +249,7 @@ void CProfiler::show_stats(CGameFont* game_font, bool show)
 
         game_font->OutNext(
             //			"%s.. %8.3f %8.3f %8.3f %8.3f %8.3f %8d %12.3f",
-            "%s%c%c %8.3f %8.3f %8.3f %6.1f %8d %12.3f", *(*I).second.m_name, white_character, white_character,
-            (*I).second.m_time, average, (*I).second.m_max_time,
+            "%s%c%c %8.3f %8.3f %8.3f %6.1f %8d %12.3f", *(*I).second.m_name, white_character, white_character, (*I).second.m_time, average, (*I).second.m_max_time,
             float((*I).second.m_call_count) / m_call_count,   // float((*I).second.m_count),
             //			(*I).second.m_min_time,
             (*I).second.m_call_count, (*I).second.m_total_time);
@@ -268,7 +267,8 @@ void CProfiler::add_profile_portion(const CProfileResultPortion& profile_portion
     do
     {
         Sleep(0);
-    } while (!InterlockedExchange(&critical_section_counter, 1));
+    }
+    while (!InterlockedExchange(&critical_section_counter, 1));
 #endif   // PROFILE_CRITICAL_SECTIONS
 
     m_section.Enter();

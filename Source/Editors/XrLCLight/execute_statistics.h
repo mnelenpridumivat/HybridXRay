@@ -18,6 +18,7 @@ public:
     void  read(INetReader& r);
     void  write(IWriter& w) const;
     void  log() const;
+
 private:
 };   // class execute_statistics
 class execute_statistics

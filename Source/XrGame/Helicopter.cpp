@@ -96,7 +96,7 @@ void CHelicopter::Load(LPCSTR section)
     m_sAmmoType = pSettings->r_string(section, "ammo_class");
     m_CurrentAmmo.Load(*m_sAmmoType, 0);
 
-    m_sRocketSection = pSettings->r_string(section, "rocket_class");
+    m_sRocketSection             = pSettings->r_string(section, "rocket_class");
 
     m_use_rocket_on_attack       = !!pSettings->r_bool(section, "use_rocket");
     m_use_mgun_on_attack         = !!pSettings->r_bool(section, "use_mgun");
@@ -109,13 +109,13 @@ void CHelicopter::Load(LPCSTR section)
     m_barrel_dir_tolerance       = pSettings->r_float(section, "barrel_dir_tolerance");
 
     // lighting & sounds
-    m_smoke_particle = pSettings->r_string(section, "smoke_particle");
+    m_smoke_particle             = pSettings->r_string(section, "smoke_particle");
 
-    m_light_range      = pSettings->r_float(section, "light_range");
-    m_light_brightness = pSettings->r_float(section, "light_brightness");
+    m_light_range                = pSettings->r_float(section, "light_range");
+    m_light_brightness           = pSettings->r_float(section, "light_brightness");
 
-    m_light_color   = pSettings->r_fcolor(section, "light_color");
-    m_light_color.a = 1.f;
+    m_light_color                = pSettings->r_fcolor(section, "light_color");
+    m_light_color.a              = 1.f;
     m_light_color.mul_rgb(m_light_brightness);
     LPCSTR lanim = pSettings->r_string(section, "light_color_animmator");
     m_lanim      = LALib.FindItem(lanim);
@@ -158,15 +158,15 @@ BOOL CHelicopter::net_Spawn(CSE_Abstract* DC)
     IKinematics* K         = smart_cast<IKinematics*>(Visual());
     CInifile*    pUserData = K->LL_UserData();
 
-    m_rotate_x_bone       = K->LL_BoneID(pUserData->r_string("helicopter_definition", "wpn_rotate_x_bone"));
-    m_rotate_y_bone       = K->LL_BoneID(pUserData->r_string("helicopter_definition", "wpn_rotate_y_bone"));
-    m_fire_bone           = K->LL_BoneID(pUserData->r_string("helicopter_definition", "wpn_fire_bone"));
-    m_death_bones_to_hide = pUserData->r_string("on_death_mode", "scale_bone");
-    m_left_rocket_bone    = K->LL_BoneID(pUserData->r_string("helicopter_definition", "left_rocket_bone"));
-    m_right_rocket_bone   = K->LL_BoneID(pUserData->r_string("helicopter_definition", "right_rocket_bone"));
+    m_rotate_x_bone        = K->LL_BoneID(pUserData->r_string("helicopter_definition", "wpn_rotate_x_bone"));
+    m_rotate_y_bone        = K->LL_BoneID(pUserData->r_string("helicopter_definition", "wpn_rotate_y_bone"));
+    m_fire_bone            = K->LL_BoneID(pUserData->r_string("helicopter_definition", "wpn_fire_bone"));
+    m_death_bones_to_hide  = pUserData->r_string("on_death_mode", "scale_bone");
+    m_left_rocket_bone     = K->LL_BoneID(pUserData->r_string("helicopter_definition", "left_rocket_bone"));
+    m_right_rocket_bone    = K->LL_BoneID(pUserData->r_string("helicopter_definition", "right_rocket_bone"));
 
-    m_smoke_bone = K->LL_BoneID(pUserData->r_string("helicopter_definition", "smoke_bone"));
-    m_light_bone = K->LL_BoneID(pUserData->r_string("helicopter_definition", "light_bone"));
+    m_smoke_bone           = K->LL_BoneID(pUserData->r_string("helicopter_definition", "smoke_bone"));
+    m_light_bone           = K->LL_BoneID(pUserData->r_string("helicopter_definition", "light_bone"));
 
     CExplosive::Load(pUserData, "explosion");
     CExplosive::SetInitiator(ID());
@@ -222,7 +222,7 @@ BOOL CHelicopter::net_Spawn(CSE_Abstract* DC)
     setVisible(TRUE);
     setEnabled(TRUE);
 
-    m_stepRemains = 0.0f;
+    m_stepRemains  = 0.0f;
 
     // lighting
     m_light_render = ::Render->light_create();
@@ -281,7 +281,7 @@ void CHelicopter::net_Save(NET_Packet& P)
 
 float GetCurrAcc(float V0, float V1, float dist, float a0, float a1);
 
-void CHelicopter::MoveStep()
+void  CHelicopter::MoveStep()
 {
     Fvector dir, pathDir;
     float   desired_H = m_movement.currPathH;
@@ -294,14 +294,13 @@ void CHelicopter::MoveStep()
         dir.normalize_safe();
         pathDir = dir;
         dir.getHP(desired_H, desired_P);
-        float speed_ = _min(m_movement.GetSpeedInDestPoint(), GetMaxVelocity());
+        float        speed_ = _min(m_movement.GetSpeedInDestPoint(), GetMaxVelocity());
 
-        static float ang = pSettings->r_float(cNameSect(), "magic_angle");
+        static float ang    = pSettings->r_float(cNameSect(), "magic_angle");
         if (m_movement.curLinearSpeed > GetMaxVelocity() || angle_difference(m_movement.currPathH, desired_H) > ang)
             m_movement.curLinearAcc = -m_movement.LinearAcc_bk;
         else
-            m_movement.curLinearAcc = GetCurrAcc(
-                m_movement.curLinearSpeed, speed_, dist * 0.95f, m_movement.LinearAcc_fw, -m_movement.LinearAcc_bk);
+            m_movement.curLinearAcc = GetCurrAcc(m_movement.curLinearSpeed, speed_, dist * 0.95f, m_movement.LinearAcc_fw, -m_movement.LinearAcc_bk);
 
         angle_lerp(m_movement.currPathH, desired_H, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
         angle_lerp(m_movement.currPathP, desired_P, m_movement.GetAngSpeedPitch(m_movement.curLinearSpeed), STEP);
@@ -324,7 +323,7 @@ void CHelicopter::MoveStep()
         {
             m_movement.curLinearAcc = -m_movement.LinearAcc_bk;
 
-            float vp = m_movement.curLinearSpeed * STEP + (m_movement.curLinearAcc * STEP * STEP) / 2.0f;
+            float vp                = m_movement.curLinearSpeed * STEP + (m_movement.curLinearAcc * STEP * STEP) / 2.0f;
             dir.setHP(m_movement.currPathH, m_movement.currPathP);
             dir.normalize_safe();
             m_movement.currP.mad(dir, vp);
@@ -346,13 +345,11 @@ void CHelicopter::MoveStep()
 
         float center_desired_H, tmp_P;
         desired_dir.getHP(center_desired_H, tmp_P);
-        angle_lerp(
-            m_body.currBodyHPB.x, center_desired_H, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
+        angle_lerp(m_body.currBodyHPB.x, center_desired_H, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
     }
     else
     {
-        angle_lerp(
-            m_body.currBodyHPB.x, m_movement.currPathH, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
+        angle_lerp(m_body.currBodyHPB.x, m_movement.currPathH, m_movement.GetAngSpeedHeading(m_movement.curLinearSpeed), STEP);
     }
 
     float needBodyP = -m_body.model_pitch_k * m_movement.curLinearSpeed;
@@ -364,7 +361,7 @@ void CHelicopter::MoveStep()
     Fvector cp;
     cp.crossproduct(pathDir, dir);
     (cp.y > 0.0) ? sign = 1.0f : sign = -1.0f;
-    float ang_diff = angle_difference(m_movement.currPathH, desired_H);
+    float ang_diff  = angle_difference(m_movement.currPathH, desired_H);
 
     float needBodyB = -ang_diff * sign * m_body.model_bank_k * m_movement.curLinearSpeed;
     angle_lerp(m_body.currBodyHPB.z, needBodyB, m_body.model_angSpeedBank, STEP);
@@ -412,9 +409,7 @@ void CHelicopter::UpdateCL()
         //		F->SetSizeI			(0.02f);
         F->OutSetI(0.f, -0.8f);
         F->SetColor(0xffffffff);
-        F->OutNext(
-            "Heli: speed=%4.4f acc=%4.4f dist=%4.4f", m_movement.curLinearSpeed, m_movement.curLinearAcc,
-            m_movement.GetDistanceToDestPosition());
+        F->OutNext("Heli: speed=%4.4f acc=%4.4f dist=%4.4f", m_movement.curLinearSpeed, m_movement.curLinearAcc, m_movement.GetDistanceToDestPosition());
     }
 #endif
 

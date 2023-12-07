@@ -1,82 +1,88 @@
+п»ї//////////////////////////////////////////////////////////////////////////
+// GraviZone.h:		РіСЂР°РІРёС‚Р°С†РёРѕРЅРЅР°СЏ Р°РЅРѕРјР°Р»РёСЏ
 //////////////////////////////////////////////////////////////////////////
-// GraviZone.h:		гравитационная аномалия
-//////////////////////////////////////////////////////////////////////////
-//					состоит как бы из 2х зон
-//					одна затягивает объект, другая взрывает и 
-//					все неживые объекты (предметы и трупы)
-//					поднимает в воздух и качает там какое-то
-//					время
+//					СЃРѕСЃС‚РѕРёС‚ РєР°Рє Р±С‹ РёР· 2С… Р·РѕРЅ
+//					РѕРґРЅР° Р·Р°С‚СЏРіРёРІР°РµС‚ РѕР±СЉРµРєС‚, РґСЂСѓРіР°СЏ РІР·СЂС‹РІР°РµС‚ Рё
+//					РІСЃРµ РЅРµР¶РёРІС‹Рµ РѕР±СЉРµРєС‚С‹ (РїСЂРµРґРјРµС‚С‹ Рё С‚СЂСѓРїС‹)
+//					РїРѕРґРЅРёРјР°РµС‚ РІ РІРѕР·РґСѓС… Рё РєР°С‡Р°РµС‚ С‚Р°Рј РєР°РєРѕРµ-С‚Рѕ
+//					РІСЂРµРјСЏ
 //////////////////////////////////////////////////////////////////////////
 
 #pragma once
 #include "customzone.h"
 #include "ai/monsters/telekinesis.h"
 
-
-
-class CBaseGraviZone : public CCustomZone
+class CBaseGraviZone: public CCustomZone
 {
 private:
-	typedef		CCustomZone					inherited;
+    typedef CCustomZone inherited;
 
 public:
-					CBaseGraviZone(void);
-	virtual			~CBaseGraviZone(void);
+    CBaseGraviZone(void);
+    virtual ~CBaseGraviZone(void);
 
-	virtual void	Load (LPCSTR section);
+    virtual void  Load(LPCSTR section);
 
-	virtual BOOL	net_Spawn		(CSE_Abstract* DC);
-	virtual void	net_Destroy		();
-	virtual	void	net_Relcase		(CObject* O);
+    virtual BOOL  net_Spawn(CSE_Abstract* DC);
+    virtual void  net_Destroy();
+    virtual void  net_Relcase(CObject* O);
 
+    //РІРѕР·РґРµР№СЃС‚РІРёРµ Р·РѕРЅРѕР№ РЅР° РѕР±СЉРµРєС‚
+    virtual void  Affect(SZoneObjectInfo* O);
+    virtual void  AffectPull(CPhysicsShellHolder* GO, const Fvector& throw_in_dir, float dist);
+    virtual void  AffectPullAlife(CEntityAlive* EA, const Fvector& throw_in_dir, float dist);
+    virtual void  AffectPullDead(CPhysicsShellHolder* GO, const Fvector& throw_in_dir, float dist);
+    virtual void  AffectThrow(SZoneObjectInfo* O, CPhysicsShellHolder* GO, const Fvector& throw_in_dir, float dist);
+    virtual void  ThrowInCenter(Fvector& C);
+    virtual bool  CheckAffectField(CPhysicsShellHolder* GO, float dist_to_radius);
+    virtual void  shedule_Update(u32 dt);
+    virtual bool  BlowoutState();
+    virtual bool  IdleState();
 
-	//воздействие зоной на объект
-	virtual void	Affect(SZoneObjectInfo* O);
-	virtual void	AffectPull(CPhysicsShellHolder* GO,const Fvector& throw_in_dir,float dist);
-	virtual void	AffectPullAlife(CEntityAlive* EA,const Fvector& throw_in_dir,float dist);
-	virtual void	AffectPullDead(CPhysicsShellHolder* GO,const Fvector& throw_in_dir,float dist);
-	virtual void	AffectThrow(SZoneObjectInfo* O, CPhysicsShellHolder* GO,const Fvector& throw_in_dir,float dist);
-	virtual void	ThrowInCenter(Fvector& C);
-	virtual bool	CheckAffectField(CPhysicsShellHolder* GO,float dist_to_radius);
-	virtual void	shedule_Update		(u32 dt);
-	virtual bool	BlowoutState();
-	virtual bool	IdleState();
+    virtual float BlowoutRadiusPercent(CPhysicsShellHolder* /*GO*/)
+    {
+        return m_fBlowoutRadiusPercent;
+    }
 
-	virtual float	BlowoutRadiusPercent(CPhysicsShellHolder* /*GO*/){return m_fBlowoutRadiusPercent;}
 protected:
-	virtual CTelekinesis& Telekinesis()						=0;
+    virtual CTelekinesis& Telekinesis() = 0;
+
 protected:
-	//сила импульса втягивания в зону (для веса 100 кг)
-	float			m_fThrowInImpulse;
-	//сила импульса втягивания в зону для живых существ
-	float			m_fThrowInImpulseAlive;
-	//коэфф. затягивания (чем меньше, тем плавнее затягивает)
-	float			m_fThrowInAtten;
-	//радиус действия выброса (в процентах от всего)
-	float			m_fBlowoutRadiusPercent;
+    //СЃРёР»Р° РёРјРїСѓР»СЊСЃР° РІС‚СЏРіРёРІР°РЅРёСЏ РІ Р·РѕРЅСѓ (РґР»СЏ РІРµСЃР° 100 РєРі)
+    float      m_fThrowInImpulse;
+    //СЃРёР»Р° РёРјРїСѓР»СЊСЃР° РІС‚СЏРіРёРІР°РЅРёСЏ РІ Р·РѕРЅСѓ РґР»СЏ Р¶РёРІС‹С… СЃСѓС‰РµСЃС‚РІ
+    float      m_fThrowInImpulseAlive;
+    //РєРѕСЌС„С„. Р·Р°С‚СЏРіРёРІР°РЅРёСЏ (С‡РµРј РјРµРЅСЊС€Рµ, С‚РµРј РїР»Р°РІРЅРµРµ Р·Р°С‚СЏРіРёРІР°РµС‚)
+    float      m_fThrowInAtten;
+    //СЂР°РґРёСѓСЃ РґРµР№СЃС‚РІРёСЏ РІС‹Р±СЂРѕСЃР° (РІ РїСЂРѕС†РµРЅС‚Р°С… РѕС‚ РІСЃРµРіРѕ)
+    float      m_fBlowoutRadiusPercent;
 
+    //РїР°СЂР°РјРµС‚СЂС‹ С‚РµР»РµРєРёРЅРµР·Р°
+    float      m_fTeleHeight;
+    u32        m_dwTimeToTele;
+    u32        m_dwTelePause;
+    u32        m_dwTeleTime;
 
-	//параметры телекинеза	
-	float			m_fTeleHeight;
-	u32				m_dwTimeToTele;
-	u32				m_dwTelePause;
-	u32				m_dwTeleTime;
+    //РёРјСЏ РїР°СЂС‚РёРєР»РѕРІ С‚РµР»РµРєРёРЅРµР·Р°
+    void       PlayTeleParticles(CGameObject* pObject);
+    void       StopTeleParticles(CGameObject* pObject);
 
-	//имя партиклов телекинеза
-	void			PlayTeleParticles(CGameObject* pObject);
-	void			StopTeleParticles(CGameObject* pObject);
-
-	shared_str		m_sTeleParticlesBig;
-	shared_str		m_sTeleParticlesSmall;
+    shared_str m_sTeleParticlesBig;
+    shared_str m_sTeleParticlesSmall;
 };
 
-class CGraviZone	: public CBaseGraviZone
+class CGraviZone: public CBaseGraviZone
 {
-	typedef		CBaseGraviZone				inherited;
-	CTelekinesis m_telekinesis;
+    typedef CBaseGraviZone inherited;
+    CTelekinesis           m_telekinesis;
+
 protected:
-	virtual CTelekinesis& Telekinesis()						{return m_telekinesis;}
+    virtual CTelekinesis& Telekinesis()
+    {
+        return m_telekinesis;
+    }
+
 public:
-						CGraviZone		(void)			{}
-	virtual				~CGraviZone		(void)			{}
+    CGraviZone(void) {}
+    virtual ~CGraviZone(void) {}
 };

@@ -12,7 +12,7 @@
 extern tread_models*  read_models;
 extern twrite_models* write_models;
 
-void xrMU_Reference::Load(IReader& F, xr_vector<xrMU_Model*>& mu_models)
+void                  xrMU_Reference::Load(IReader& F, xr_vector<xrMU_Model*>& mu_models)
 {
     b_mu_reference R;
     F.r(&R, sizeof(R));
@@ -51,9 +51,7 @@ void xrMU_Reference::export_cform_game(CDB::CollectorPacked& CL)
 
                 for (u32 vit = 0; vit < 3; vit++)
                 {
-                    u32 g_id =
-                        u32(std::lower_bound(model->m_vertices.begin(), model->m_vertices.end(), F->v[vit]) -
-                            model->m_vertices.begin());
+                    u32 g_id            = u32(std::lower_bound(model->m_vertices.begin(), model->m_vertices.end(), F->v[vit]) - model->m_vertices.begin());
                     cfVertexMarks[g_id] = true;
                 }
             }
@@ -71,7 +69,7 @@ void xrMU_Reference::export_cform_game(CDB::CollectorPacked& CL)
     u32 Offset = (u32)CL.getTS();
     for (xrMU_Model::v_faces_it F = cfFaces->begin(); F != cfFaces->end(); F++)
     {
-        _face* T = *F;
+        _face*  T = *F;
 
         // xform
         Fvector P[3];

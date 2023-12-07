@@ -18,6 +18,7 @@ public:
     typedef typename _edge_type::_edge_weight_type _edge_weight_type;
     typedef xr_vector<_edge_type>                  EDGES;
     typedef xr_vector<CVertex*>                    VERTICES;
+
 private:
     _vertex_id_type m_vertex_id;
     EDGES           m_edges;
@@ -27,6 +28,7 @@ private:
     VERTICES        m_vertices;
     // this counter is use for fast edge count computation in graph
     u32*            m_edge_count;
+
 public:
     IC CVertex(const _data_type& data, const _vertex_id_type& vertex_id, u32* edge_count);
     IC ~CVertex();

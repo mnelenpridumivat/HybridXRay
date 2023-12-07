@@ -87,8 +87,7 @@ void CLevelSpawnConstructor::init()
     {
         IReader* stream = FS.r_open(file_name);
         VERIFY(stream);
-        m_game_spawn_constructor->patrol_path_storage().load_raw(
-            &level_graph(), &cross_table(), &game_graph(), *stream);
+        m_game_spawn_constructor->patrol_path_storage().load_raw(&level_graph(), &cross_table(), &game_graph(), *stream);
         FS.r_close(stream);
     }
 }
@@ -347,13 +346,10 @@ void CLevelSpawnConstructor::correct_objects()
         position.y += y_shift_correction;
         m_spawns[i]->m_tNodeID = level_graph().vertex(u32(-1), position);
         VERIFY(level_graph().valid_vertex_id(m_spawns[i]->m_tNodeID));
-        if (m_spawns[i]->used_ai_locations() &&
-            !level_graph().inside(level_graph().vertex(m_spawns[i]->m_tNodeID), position))
+        if (m_spawns[i]->used_ai_locations() && !level_graph().inside(level_graph().vertex(m_spawns[i]->m_tNodeID), position))
         {
             Fvector new_position = level_graph().vertex_position(m_spawns[i]->m_tNodeID);
-            clMsg(
-                "[%s][%s][%s] : position changed from [%f][%f][%f] -> [%f][%f][%f]", *m_level.name(),
-                *m_spawns[i]->s_name, m_spawns[i]->name_replace(), VPUSH(position), VPUSH(new_position));
+            clMsg("[%s][%s][%s] : position changed from [%f][%f][%f] -> [%f][%f][%f]", *m_level.name(), *m_spawns[i]->s_name, m_spawns[i]->name_replace(), VPUSH(position), VPUSH(new_position));
             m_spawns[i]->o_Position = new_position;
         }
         u32 dwBest = cross_table().vertex(m_spawns[i]->m_tNodeID).game_vertex_id();
@@ -361,18 +357,10 @@ void CLevelSpawnConstructor::correct_objects()
         {
             string4096 S1;
             char*      S = S1;
-            S += xr_sprintf(
-                S, sizeof(S1) - (S1 - &S[0]),
-                "Corresponding graph vertex for the spawn point is located on the ANOTHER level\n",
-                m_spawns[i]->name_replace());
-            S += xr_sprintf(
-                S, sizeof(S1) - (S1 - &S[0]), "Current level  : [%d][%s]\n", m_level.id(),
-                *game_graph().header().level(m_level.id()).name());
-            S += xr_sprintf(
-                S, sizeof(S1) - (S1 - &S[0]), "Conflict level : [%d][%s]\n", game_graph().vertex(dwBest)->level_id(),
-                *game_graph().header().level(game_graph().vertex(dwBest)->level_id()).name());
-            S += xr_sprintf(
-                S, sizeof(S1) - (S1 - &S[0]), "Probably, you filled offsets in \"game_levels.ltx\" incorrect");
+            S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Corresponding graph vertex for the spawn point is located on the ANOTHER level\n", m_spawns[i]->name_replace());
+            S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Current level  : [%d][%s]\n", m_level.id(), *game_graph().header().level(m_level.id()).name());
+            S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Conflict level : [%d][%s]\n", game_graph().vertex(dwBest)->level_id(), *game_graph().header().level(game_graph().vertex(dwBest)->level_id()).name());
+            S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Probably, you filled offsets in \"game_levels.ltx\" incorrect");
             R_ASSERT2(game_graph().vertex(dwBest)->level_id() == m_level.id(), S1);
         }
 
@@ -381,15 +369,11 @@ void CLevelSpawnConstructor::correct_objects()
         {
             string4096 S1;
             char*      S = S1;
-            S += xr_sprintf(
-                S, sizeof(S1) - (S1 - &S[0]), "Can't find a corresponding GRAPH VERTEX for the spawn-point %s\n",
-                m_spawns[i]->name_replace());
+            S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Can't find a corresponding GRAPH VERTEX for the spawn-point %s\n", m_spawns[i]->name_replace());
             S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Level ID    : %d\n", m_level.id());
             S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Spawn index : %d\n", i);
             S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Spawn node  : %d\n", m_spawns[i]->m_tNodeID);
-            S += xr_sprintf(
-                S, sizeof(S1) - (S1 - &S[0]), "Spawn point : [%7.2f][%7.2f][%7.2f]\n", m_spawns[i]->o_Position.x,
-                m_spawns[i]->o_Position.y, m_spawns[i]->o_Position.z);
+            S += xr_sprintf(S, sizeof(S1) - (S1 - &S[0]), "Spawn point : [%7.2f][%7.2f][%7.2f]\n", m_spawns[i]->o_Position.x, m_spawns[i]->o_Position.y, m_spawns[i]->o_Position.z);
             R_ASSERT2(dwBest != -1, S1);
         }
         m_spawns[i]->m_tGraphID  = (GameGraph::_GRAPH_ID)dwBest;
@@ -441,9 +425,11 @@ class remove_invalid_zones_predicate
 {
 public:
     typedef CLevelSpawnConstructor::SPAWN_STORAGE SPAWN_STORAGE;
+
 private:
     const SPAWN_STORAGE*          m_zones;
     const CLevelSpawnConstructor* m_level_spawn_constructor;
+
 public:
     IC remove_invalid_zones_predicate(const CLevelSpawnConstructor* level_spawn_constructor, const SPAWN_STORAGE* zones)
     {
@@ -494,22 +480,15 @@ void CLevelSpawnConstructor::generate_artefact_spawn_positions()
         //		}
 
         zone->m_tNodeID = level_graph().vertex(zone->m_tNodeID, zone->o_Position);
-        if (!level_graph().valid_vertex_position(zone->o_Position) ||
-            !level_graph().inside(zone->m_tNodeID, zone->o_Position))
+        if (!level_graph().valid_vertex_position(zone->o_Position) || !level_graph().inside(zone->m_tNodeID, zone->o_Position))
             zone->m_tNodeID = level_graph().vertex(u32(-1), zone->o_Position);
         const CGameLevelCrossTable::CCell& cell = cross_table().vertex(zone->m_tNodeID);
         zone->m_tGraphID                        = cell.game_vertex_id();
         zone->m_fDistance                       = cell.distance();
 
-        graph_engine().search(
-            level_graph(), zone->m_tNodeID, zone->m_tNodeID, &l_tpaStack,
-            SFlooder<float, u32, u32>(zone->m_offline_interactive_radius, u32(-1), u32(-1)));
+        graph_engine().search(level_graph(), zone->m_tNodeID, zone->m_tNodeID, &l_tpaStack, SFlooder<float, u32, u32>(zone->m_offline_interactive_radius, u32(-1), u32(-1)));
 
-        l_tpaStack.erase(
-            std::remove_if(
-                l_tpaStack.begin(), l_tpaStack.end(),
-                remove_too_far_predicate(&level_graph(), zone->o_Position, zone->m_offline_interactive_radius)),
-            l_tpaStack.end());
+        l_tpaStack.erase(std::remove_if(l_tpaStack.begin(), l_tpaStack.end(), remove_too_far_predicate(&level_graph(), zone->o_Position, zone->m_offline_interactive_radius)), l_tpaStack.end());
         /*
                 if (zone->m_artefact_spawn_count >= l_tpaStack.size())
                 {
@@ -572,8 +551,7 @@ void CLevelSpawnConstructor::fill_level_changers()
                 bool ok = false;
                 for (u32 ii = 0, nn = game_graph().header().vertex_count(); ii < nn; ++ii)
                 {
-                    if ((game_graph().vertex(ii)->level_id() != m_level.id()) ||
-                        !game_graph().vertex(ii)->level_point().similar((*I)->o_Position, .001f))
+                    if ((game_graph().vertex(ii)->level_id() != m_level.id()) || !game_graph().vertex(ii)->level_point().similar((*I)->o_Position, .001f))
                         continue;
                     level_changers()[i]->m_tNextGraphID  = (GameGraph::_GRAPH_ID)ii;
                     level_changers()[i]->m_tNextPosition = (*I)->o_Position;
@@ -583,10 +561,7 @@ void CLevelSpawnConstructor::fill_level_changers()
                     break;
                 }
 
-                R_ASSERT3(
-                    ok,
-                    "Cannot find a correspndance between graph and graph points from level editor! Rebuild graph for the level ",
-                    *level_changers()[i]->m_caLevelToChange);
+                R_ASSERT3(ok, "Cannot find a correspndance between graph and graph points from level editor! Rebuild graph for the level ", *level_changers()[i]->m_caLevelToChange);
 
                 level_changers().erase(level_changers().begin() + i);
                 --i;
@@ -597,9 +572,7 @@ void CLevelSpawnConstructor::fill_level_changers()
 
         if (!found)
         {
-            clMsg(
-                "Graph point %s not found (level changer %s)", *level_changers()[i]->m_caLevelPointToChange,
-                level_changers()[i]->name_replace());
+            clMsg("Graph point %s not found (level changer %s)", *level_changers()[i]->m_caLevelPointToChange, level_changers()[i]->name_replace());
             VERIFY(false);
         }
     }

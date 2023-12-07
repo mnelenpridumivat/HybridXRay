@@ -102,15 +102,15 @@ struct XRCORE_API xr_token2
 };
 
 // generic
-template <class T> IC T _min(T a, T b)
+template<class T> IC T _min(T a, T b)
 {
     return a < b ? a : b;
 }
-template <class T> IC T _max(T a, T b)
+template<class T> IC T _max(T a, T b)
 {
     return a > b ? a : b;
 }
-template <class T> IC T _sqr(T a)
+template<class T> IC T _sqr(T a)
 {
     return a * a;
 }
@@ -251,17 +251,17 @@ IC s64 _max(s64 x, s64 y)
     return x - ((x - y) & ((x - y) >> (sizeof(s64) * 8 - 1)));
 };
 
-IC u32 xr_strlen(const char* S);
+IC u32   xr_strlen(const char* S);
 
 // string management
 
 // return pointer to ".ext"
 IC char* strext(const char* S)
 {
-    std::string path = S;
+    std::string path            = S;
 
-    int delimiterOffset = (int)path.find_last_of('\\');
-    int pointOffset     = (int)path.find_last_of('.');
+    int         delimiterOffset = (int)path.find_last_of('\\');
+    int         pointOffset     = (int)path.find_last_of('.');
 
     if (delimiterOffset < pointOffset)
         return (char*)strrchr(S, '.');
@@ -308,7 +308,7 @@ inline int __cdecl xr_sprintf(LPSTR destination, size_t const buffer_size, LPCST
     return vsprintf_s(destination, buffer_size, format_string, args);
 }
 
-template <int count> inline int __cdecl xr_sprintf(char (&destination)[count], LPCSTR format_string, ...)
+template<int count> inline int __cdecl xr_sprintf(char (&destination)[count], LPCSTR format_string, ...)
 {
     va_list args;
     va_start(args, format_string);
@@ -343,7 +343,7 @@ inline int __cdecl xr_sprintf(LPSTR destination, size_t const buffer_size, LPCST
     return vsnprintf_s(destination, buffer_size, buffer_size - 1, format_string, args);
 }
 
-template <int count> inline int __cdecl xr_sprintf(char (&destination)[count], LPCSTR format_string, ...)
+template<int count> inline int __cdecl xr_sprintf(char (&destination)[count], LPCSTR format_string, ...)
 {
     va_list args;
     va_start(args, format_string);
@@ -353,18 +353,18 @@ template <int count> inline int __cdecl xr_sprintf(char (&destination)[count], L
 
 #pragma deprecated(strcpy, strcpy_s, sprintf, sprintf_s, strcat, strcat_s)
 
-template <int count> inline errno_t xr_strcpy(char (&destination)[count], LPCSTR source)
+template<int count> inline errno_t xr_strcpy(char (&destination)[count], LPCSTR source)
 {
     return xr_strcpy(destination, count, source);
 }
 
-template <int count> inline errno_t xr_strcat(char (&destination)[count], LPCSTR source)
+template<int count> inline errno_t xr_strcat(char (&destination)[count], LPCSTR source)
 {
     return xr_strcat(destination, count, source);
 }
 #endif   // #if 1
 
-XRCORE_API char* timestamp(string64& dest);
+XRCORE_API char*      timestamp(string64& dest);
 
 extern XRCORE_API u32 crc32(const void* P, u32 len);
 extern XRCORE_API u32 crc32(const void* P, u32 len, u32 starting_crc);

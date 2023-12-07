@@ -24,10 +24,7 @@ private:
     typedef System::Object                 Object;
 
 public:
-    property_boolean_values_value(
-        boolean_getter_type const& getter,
-        boolean_setter_type const& setter,
-        LPCSTR                     values[2]);
+    property_boolean_values_value(boolean_getter_type const& getter, boolean_setter_type const& setter, LPCSTR values[2]);
     virtual void set_value(Object ^ object) override;
 
 public:

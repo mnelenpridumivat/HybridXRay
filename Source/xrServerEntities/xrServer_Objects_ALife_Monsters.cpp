@@ -339,11 +339,9 @@ shared_str CSE_ALifeTraderAbstract::specific_character()
                 if (spec_char.data()->m_bDefaultForCommunity)
                     m_DefaultCharacters.push_back(id);
 
-                if (char_info.data()->m_Rank == NO_RANK ||
-                    _abs(spec_char.Rank() - char_info.data()->m_Rank) < RANK_DELTA)
+                if (char_info.data()->m_Rank == NO_RANK || _abs(spec_char.Rank() - char_info.data()->m_Rank) < RANK_DELTA)
                 {
-                    if (char_info.data()->m_Reputation == NO_REPUTATION ||
-                        _abs(spec_char.Reputation() - char_info.data()->m_Reputation) < REPUTATION_DELTA)
+                    if (char_info.data()->m_Reputation == NO_REPUTATION || _abs(spec_char.Reputation() - char_info.data()->m_Reputation) < REPUTATION_DELTA)
                     {
 #ifdef XRGAME_EXPORTS
                         int* count = NULL;
@@ -357,8 +355,7 @@ shared_str CSE_ALifeTraderAbstract::specific_character()
                 }
             }
         }
-        R_ASSERT3(
-            !m_DefaultCharacters.empty(), "no default specific character set for class", *char_info.data()->m_Class);
+        R_ASSERT3(!m_DefaultCharacters.empty(), "no default specific character set for class", *char_info.data()->m_Class);
 
 #ifdef XRGAME_EXPORTS
         if (m_CheckedCharacters.empty())
@@ -529,8 +526,7 @@ void CSE_ALifeTraderAbstract::UPDATE_Read(NET_Packet& tNetPacket){};
 // CSE_ALifeTrader
 ////////////////////////////////////////////////////////////////////////////
 
-CSE_ALifeTrader::CSE_ALifeTrader(LPCSTR caSection):
-    CSE_ALifeDynamicObjectVisual(caSection), CSE_ALifeTraderAbstract(caSection)
+CSE_ALifeTrader::CSE_ALifeTrader(LPCSTR caSection): CSE_ALifeDynamicObjectVisual(caSection), CSE_ALifeTraderAbstract(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -634,8 +630,7 @@ void CSE_ALifeTrader::FillProps(LPCSTR _pref, PropItemVec& items)
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeCustomZone
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeCustomZone::CSE_ALifeCustomZone(LPCSTR caSection):
-    CSE_ALifeSpaceRestrictor(caSection)
+CSE_ALifeCustomZone::CSE_ALifeCustomZone(LPCSTR caSection): CSE_ALifeSpaceRestrictor(caSection)
 {
     m_owner_id = u32(-1);
     //	m_maxPower					= pSettings->r_float(caSection,"min_start_power");
@@ -706,20 +701,16 @@ void CSE_ALifeCustomZone::UPDATE_Write(NET_Packet& tNetPacket)
 void CSE_ALifeCustomZone::FillProps(LPCSTR pref, PropItemVec& items)
 {
     inherited::FillProps(pref, items);
-    PHelper().CreateU32(
-        items, PrepareKey(pref, *s_name, "on/off mode\\Shift time (sec)"), &m_start_time_shift, 0, 100000);
-    PHelper().CreateU32(
-        items, PrepareKey(pref, *s_name, "on/off mode\\Enabled time (sec)"), &m_enabled_time, 0, 100000);
-    PHelper().CreateU32(
-        items, PrepareKey(pref, *s_name, "on/off mode\\Disabled time (sec)"), &m_disabled_time, 0, 100000);
+    PHelper().CreateU32(items, PrepareKey(pref, *s_name, "on/off mode\\Shift time (sec)"), &m_start_time_shift, 0, 100000);
+    PHelper().CreateU32(items, PrepareKey(pref, *s_name, "on/off mode\\Enabled time (sec)"), &m_enabled_time, 0, 100000);
+    PHelper().CreateU32(items, PrepareKey(pref, *s_name, "on/off mode\\Disabled time (sec)"), &m_disabled_time, 0, 100000);
 }
 #endif   // #ifndef XRGAME_EXPORTS
 
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeAnomalousZone
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeAnomalousZone::CSE_ALifeAnomalousZone(LPCSTR caSection):
-    CSE_ALifeCustomZone(caSection)
+CSE_ALifeAnomalousZone::CSE_ALifeAnomalousZone(LPCSTR caSection): CSE_ALifeCustomZone(caSection)
 {
     m_offline_interactive_radius = 30.f;
     m_artefact_spawn_count       = 32;
@@ -832,10 +823,8 @@ void CSE_ALifeAnomalousZone::UPDATE_Write(NET_Packet& tNetPacket)
 void CSE_ALifeAnomalousZone::FillProps(LPCSTR pref, PropItemVec& items)
 {
     inherited1::FillProps(pref, items);
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "offline interactive radius"), &m_offline_interactive_radius, 0.f, 100.f);
-    PHelper().CreateU16(
-        items, PrepareKey(pref, *s_name, "ALife\\Artefact spawn places count"), &m_artefact_spawn_count, 32, 256);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "offline interactive radius"), &m_offline_interactive_radius, 0.f, 100.f);
+    PHelper().CreateU16(items, PrepareKey(pref, *s_name, "ALife\\Artefact spawn places count"), &m_artefact_spawn_count, 32, 256);
     PHelper().CreateFlag32(items, PrepareKey(pref, *s_name, "ALife\\Visible for AI"), &m_flags, flVisibleForAI);
 }
 #endif   // #ifndef XRGAME_EXPORTS
@@ -843,8 +832,7 @@ void CSE_ALifeAnomalousZone::FillProps(LPCSTR pref, PropItemVec& items)
 //////////////////////////////////////////////////////////////////////////
 // SE_ALifeTorridZone
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifeTorridZone::CSE_ALifeTorridZone(LPCSTR caSection):
-    CSE_ALifeCustomZone(caSection), CSE_Motion() {}
+CSE_ALifeTorridZone::CSE_ALifeTorridZone(LPCSTR caSection): CSE_ALifeCustomZone(caSection), CSE_Motion() {}
 
 CSE_ALifeTorridZone::~CSE_ALifeTorridZone() {}
 
@@ -887,8 +875,7 @@ void CSE_ALifeTorridZone::FillProps(LPCSTR pref, PropItemVec& values)
 //////////////////////////////////////////////////////////////////////////
 // CSE_ALifeZoneVisual
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifeZoneVisual::CSE_ALifeZoneVisual(LPCSTR caSection):
-    CSE_ALifeAnomalousZone(caSection), CSE_Visual(caSection)
+CSE_ALifeZoneVisual::CSE_ALifeZoneVisual(LPCSTR caSection): CSE_ALifeAnomalousZone(caSection), CSE_Visual(caSection)
 {
     if (pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -935,17 +922,14 @@ void CSE_ALifeZoneVisual::FillProps(LPCSTR pref, PropItemVec& values)
     inherited2::FillProps(pref, values);
     ISE_Abstract* abstract = smart_cast<ISE_Abstract*>(this);
     VERIFY(abstract);
-    PHelper().CreateChoose(
-        values, PrepareKey(pref, abstract->name(), "Attack animation"), &attack_animation, smSkeletonAnims, 0,
-        (void*)*visual_name);
+    PHelper().CreateChoose(values, PrepareKey(pref, abstract->name(), "Attack animation"), &attack_animation, smSkeletonAnims, 0, (void*)*visual_name);
 }
 #endif   // #ifndef XRGAME_EXPORTS
 //-------------------------------------------------------------------------
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeCreatureAbstract
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeCreatureAbstract::CSE_ALifeCreatureAbstract(LPCSTR caSection):
-    CSE_ALifeDynamicObjectVisual(caSection)
+CSE_ALifeCreatureAbstract::CSE_ALifeCreatureAbstract(LPCSTR caSection): CSE_ALifeDynamicObjectVisual(caSection)
 {
     s_team = s_squad = s_group = 0;
     o_model                    = 0.f;
@@ -1136,19 +1120,17 @@ IC void CSE_ALifeCreatureAbstract::set_killer_id(ALife::_OBJECT_ID const killer_
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeMonsterAbstract
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeMonsterAbstract::CSE_ALifeMonsterAbstract(LPCSTR caSection):
-    CSE_ALifeCreatureAbstract(caSection), CSE_ALifeSchedulable(caSection)
+CSE_ALifeMonsterAbstract::CSE_ALifeMonsterAbstract(LPCSTR caSection): CSE_ALifeCreatureAbstract(caSection), CSE_ALifeSchedulable(caSection)
 {
-    m_group_id           = 0xffff;
+    m_group_id                = 0xffff;
 
-    m_tNextGraphID       = m_tGraphID;
-    m_tPrevGraphID       = m_tGraphID;
-    m_fCurSpeed          = 0.0f;
-    m_fDistanceFromPoint = 0.0f;
-    m_fDistanceToPoint   = 0.0f;
-    m_fGoingSpeed        = pSettings->r_float(caSection, "going_speed");
-    m_fCurrentLevelGoingSpeed =
-        READ_IF_EXISTS(pSettings, r_float, caSection, "current_level_going_speed", m_fGoingSpeed);
+    m_tNextGraphID            = m_tGraphID;
+    m_tPrevGraphID            = m_tGraphID;
+    m_fCurSpeed               = 0.0f;
+    m_fDistanceFromPoint      = 0.0f;
+    m_fDistanceToPoint        = 0.0f;
+    m_fGoingSpeed             = pSettings->r_float(caSection, "going_speed");
+    m_fCurrentLevelGoingSpeed = READ_IF_EXISTS(pSettings, r_float, caSection, "current_level_going_speed", m_fGoingSpeed);
 
     setup_location_types(m_tpaTerrain, pSettings, pSettings->r_string(caSection, "terrain"));
 
@@ -1197,8 +1179,7 @@ CSE_ALifeMonsterAbstract::CSE_ALifeMonsterAbstract(LPCSTR caSection):
     m_rank             = (pSettings->line_exist(caSection, "rank")) ? pSettings->r_s32(caSection, "rank") : 0;
 
 #ifdef XRGAME_EXPORTS
-    m_stay_after_death_time_interval =
-        generate_time(1, 1, 1, pSettings->r_u32("monsters_common", "stay_after_death_time_interval"), 0, 0);
+    m_stay_after_death_time_interval = generate_time(1, 1, 1, pSettings->r_u32("monsters_common", "stay_after_death_time_interval"), 0, 0);
 #endif   // XRGAME_EXPORTS
 }
 
@@ -1320,12 +1301,8 @@ void CSE_ALifeMonsterAbstract::FillProps(LPCSTR pref, PropItemVec& items)
     if (pSettings->line_exist(s_name, "SpaceRestrictionSection"))
     {
         LPCSTR gcs = pSettings->r_string(s_name, "SpaceRestrictionSection");
-        PHelper().CreateChoose(
-            items, PrepareKey(pref, *s_name, "out space restrictions"), &m_out_space_restrictors, smSpawnItem, 0,
-            (void*)gcs, 16);
-        PHelper().CreateChoose(
-            items, PrepareKey(pref, *s_name, "in space restrictions"), &m_in_space_restrictors, smSpawnItem, 0,
-            (void*)gcs, 16);
+        PHelper().CreateChoose(items, PrepareKey(pref, *s_name, "out space restrictions"), &m_out_space_restrictors, smSpawnItem, 0, (void*)gcs, 16);
+        PHelper().CreateChoose(items, PrepareKey(pref, *s_name, "in space restrictions"), &m_in_space_restrictors, smSpawnItem, 0, (void*)gcs, 16);
     }
 }
 #endif   // #ifndef XRGAME_EXPORTS
@@ -1360,8 +1337,7 @@ bool CSE_ALifeMonsterAbstract::has_detector()
 // CSE_ALifeCreatureActor
 ////////////////////////////////////////////////////////////////////////////
 
-CSE_ALifeCreatureActor::CSE_ALifeCreatureActor(LPCSTR caSection):
-    CSE_ALifeCreatureAbstract(caSection), CSE_ALifeTraderAbstract(caSection), CSE_PHSkeleton(caSection)
+CSE_ALifeCreatureActor::CSE_ALifeCreatureActor(LPCSTR caSection): CSE_ALifeCreatureAbstract(caSection), CSE_ALifeTraderAbstract(caSection), CSE_PHSkeleton(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -1552,8 +1528,7 @@ void CSE_ALifeCreatureActor::spawn_supplies()
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeCreatureCrow
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeCreatureCrow::CSE_ALifeCreatureCrow(LPCSTR caSection):
-    CSE_ALifeCreatureAbstract(caSection)
+CSE_ALifeCreatureCrow::CSE_ALifeCreatureCrow(LPCSTR caSection): CSE_ALifeCreatureAbstract(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -1603,8 +1578,7 @@ bool CSE_ALifeCreatureCrow::used_ai_locations() const
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeCreaturePhantom
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeCreaturePhantom::CSE_ALifeCreaturePhantom(LPCSTR caSection):
-    CSE_ALifeCreatureAbstract(caSection)
+CSE_ALifeCreaturePhantom::CSE_ALifeCreaturePhantom(LPCSTR caSection): CSE_ALifeCreatureAbstract(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -1649,8 +1623,7 @@ bool CSE_ALifeCreaturePhantom::used_ai_locations() const
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeMonsterRat
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeMonsterRat::CSE_ALifeMonsterRat(LPCSTR caSection):
-    CSE_ALifeMonsterAbstract(caSection), CSE_ALifeInventoryItem(caSection)
+CSE_ALifeMonsterRat::CSE_ALifeMonsterRat(LPCSTR caSection): CSE_ALifeMonsterAbstract(caSection), CSE_ALifeInventoryItem(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -1781,30 +1754,23 @@ void CSE_ALifeMonsterRat::FillProps(LPCSTR pref, PropItemVec& items)
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Minimum speed"), &fMinSpeed, 0, 10, 0.1f);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Maximum speed"), &fMaxSpeed, 0, 10, 0.1f);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Attack speed"), &fAttackSpeed, 0, 10, 0.1f);
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "Personal", "Pursuit distance"), &fMaxPursuitRadius, 0, 300, 10);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Pursuit distance"), &fMaxPursuitRadius, 0, 300, 10);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Home distance"), &fMaxHomeRadius, 0, 300, 10);
     // morale
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "Morale", "Success attack quant"), &fMoraleSuccessAttackQuant, -100, 100, 5);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Morale", "Success attack quant"), &fMoraleSuccessAttackQuant, -100, 100, 5);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Morale", "Death quant"), &fMoraleDeathQuant, -100, 100, 5);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Morale", "Fear quant"), &fMoraleFearQuant, -100, 100, 5);
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "Morale", "Restore quant"), &fMoraleRestoreQuant, -100, 100, 5);
-    PHelper().CreateU16(
-        items, PrepareKey(pref, *s_name, "Morale", "Restore time interval"), &u16MoraleRestoreTimeInterval, 0, 65535,
-        500);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Morale", "Restore quant"), &fMoraleRestoreQuant, -100, 100, 5);
+    PHelper().CreateU16(items, PrepareKey(pref, *s_name, "Morale", "Restore time interval"), &u16MoraleRestoreTimeInterval, 0, 65535, 500);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Morale", "Minimum value"), &fMoraleMinValue, -100, 100, 5);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Morale", "Maximum value"), &fMoraleMaxValue, -100, 100, 5);
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "Morale", "Normal value"), &fMoraleNormalValue, -100, 100, 5);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Morale", "Normal value"), &fMoraleNormalValue, -100, 100, 5);
     // attack
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Attack", "Hit power"), &fHitPower, 0, 200, 5);
     PHelper().CreateU16(items, PrepareKey(pref, *s_name, "Attack", "Hit interval"), &u16HitInterval, 0, 65535, 500);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Attack", "Distance"), &fAttackDistance, 0, 300, 10);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Attack", "Maximum angle"), &fAttackAngle, 0, 180, 10);
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "Attack", "Success probability"), &fAttackSuccessProbability, 0, 100, 1);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Attack", "Success probability"), &fAttackSuccessProbability, 0, 100, 1);
 }
 #endif   // #ifndef XRGAME_EXPORTS
 
@@ -1816,8 +1782,7 @@ bool CSE_ALifeMonsterRat::bfUseful()
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeMonsterZombie
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeMonsterZombie::CSE_ALifeMonsterZombie(LPCSTR caSection):
-    CSE_ALifeMonsterAbstract(caSection)
+CSE_ALifeMonsterZombie::CSE_ALifeMonsterZombie(LPCSTR caSection): CSE_ALifeMonsterAbstract(caSection)
 {
     if (pSettings->section_exist(caSection) && pSettings->line_exist(caSection, "visual"))
         set_visual(pSettings->r_string(caSection, "visual"));
@@ -1900,8 +1865,7 @@ void CSE_ALifeMonsterZombie::FillProps(LPCSTR pref, PropItemVec& items)
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Minimum speed"), &fMinSpeed, 0, 10, 0.1f);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Maximum speed"), &fMaxSpeed, 0, 10, 0.1f);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Attack speed"), &fAttackSpeed, 0, 10, 0.1f);
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "Personal", "Pursuit distance"), &fMaxPursuitRadius, 0, 300, 10);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Pursuit distance"), &fMaxPursuitRadius, 0, 300, 10);
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Personal", "Home distance"), &fMaxHomeRadius, 0, 300, 10);
     // attack
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "Attack", "Hit power"), &fHitPower, 0, 200, 5);
@@ -1914,8 +1878,7 @@ void CSE_ALifeMonsterZombie::FillProps(LPCSTR pref, PropItemVec& items)
 //////////////////////////////////////////////////////////////////////////
 // CSE_ALifeMonsterBase
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifeMonsterBase::CSE_ALifeMonsterBase(LPCSTR caSection):
-    CSE_ALifeMonsterAbstract(caSection), CSE_PHSkeleton(caSection)
+CSE_ALifeMonsterBase::CSE_ALifeMonsterBase(LPCSTR caSection): CSE_ALifeMonsterAbstract(caSection), CSE_PHSkeleton(caSection)
 {
     set_visual(pSettings->r_string(caSection, "visual"));
     m_spec_object_id = 0xffff;
@@ -1970,8 +1933,7 @@ void CSE_ALifeMonsterBase::FillProps(LPCSTR pref, PropItemVec& values)
 //////////////////////////////////////////////////////////////////////////
 // CSE_ALifePsyDogPhantom
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifePsyDogPhantom::CSE_ALifePsyDogPhantom(LPCSTR caSection):
-    CSE_ALifeMonsterBase(caSection) {}
+CSE_ALifePsyDogPhantom::CSE_ALifePsyDogPhantom(LPCSTR caSection): CSE_ALifeMonsterBase(caSection) {}
 
 CSE_ALifePsyDogPhantom::~CSE_ALifePsyDogPhantom() {}
 
@@ -2005,10 +1967,7 @@ void CSE_ALifePsyDogPhantom::FillProps(LPCSTR pref, PropItemVec& values)
 //////////////////////////////////////////////////////////////////////////
 // CSE_ALifeHumanAbstract
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifeHumanAbstract::CSE_ALifeHumanAbstract(LPCSTR caSection):
-    CSE_ALifeTraderAbstract(caSection), CSE_ALifeMonsterAbstract(caSection)
-{
-}
+CSE_ALifeHumanAbstract::CSE_ALifeHumanAbstract(LPCSTR caSection): CSE_ALifeTraderAbstract(caSection), CSE_ALifeMonsterAbstract(caSection) {}
 
 CSE_ALifeHumanAbstract::~CSE_ALifeHumanAbstract() {}
 
@@ -2083,8 +2042,7 @@ void CSE_ALifeHumanAbstract::FillProps(LPCSTR pref, PropItemVec& items)
 //////////////////////////////////////////////////////////////////////////
 // CSE_ALifeHumanStalker
 //////////////////////////////////////////////////////////////////////////
-CSE_ALifeHumanStalker::CSE_ALifeHumanStalker(LPCSTR caSection):
-    CSE_ALifeHumanAbstract(caSection), CSE_PHSkeleton(caSection)
+CSE_ALifeHumanStalker::CSE_ALifeHumanStalker(LPCSTR caSection): CSE_ALifeHumanAbstract(caSection), CSE_PHSkeleton(caSection)
 {
     m_trader_flags.set(eTraderFlagInfiniteAmmo, TRUE);
     m_start_dialog = "";
@@ -2141,10 +2099,7 @@ void CSE_ALifeHumanStalker::FillProps(LPCSTR pref, PropItemVec& values)
 // CSE_ALifeOnlineOfflineGroup
 //////////////////////////////////////////////////////////////////////////
 
-CSE_ALifeOnlineOfflineGroup::CSE_ALifeOnlineOfflineGroup(LPCSTR caSection):
-    CSE_ALifeDynamicObject(caSection), CSE_ALifeSchedulable(caSection)
-{
-}
+CSE_ALifeOnlineOfflineGroup::CSE_ALifeOnlineOfflineGroup(LPCSTR caSection): CSE_ALifeDynamicObject(caSection), CSE_ALifeSchedulable(caSection) {}
 
 CSE_Abstract* CSE_ALifeOnlineOfflineGroup::base()
 {

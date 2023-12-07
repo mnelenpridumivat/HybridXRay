@@ -19,41 +19,28 @@ CClientSpawnManager::~CClientSpawnManager()
     VERIFY(m_registry.empty());
 }
 
-void CClientSpawnManager::add(
-    ALife::_OBJECT_ID             requesting_id,
-    ALife::_OBJECT_ID             requested_id,
-    const luabind::functor<void>& functor,
-    const luabind::object&        object)
+void CClientSpawnManager::add(ALife::_OBJECT_ID requesting_id, ALife::_OBJECT_ID requested_id, const luabind::functor<void>& functor, const luabind::object& object)
 {
     CSpawnCallback callback;
     callback.m_callback.set(functor, object);
     add(requesting_id, requested_id, callback);
 }
 
-void CClientSpawnManager::add(
-    ALife::_OBJECT_ID             requesting_id,
-    ALife::_OBJECT_ID             requested_id,
-    const luabind::functor<void>& lua_function)
+void CClientSpawnManager::add(ALife::_OBJECT_ID requesting_id, ALife::_OBJECT_ID requested_id, const luabind::functor<void>& lua_function)
 {
     CSpawnCallback callback;
     callback.m_callback.set(lua_function);
     add(requesting_id, requested_id, callback);
 }
 
-void CClientSpawnManager::add(
-    ALife::_OBJECT_ID    requesting_id,
-    ALife::_OBJECT_ID    requested_id,
-    const CALLBACK_TYPE& object_callback)
+void CClientSpawnManager::add(ALife::_OBJECT_ID requesting_id, ALife::_OBJECT_ID requested_id, const CALLBACK_TYPE& object_callback)
 {
     CSpawnCallback callback;
     callback.m_object_callback = object_callback;
     add(requesting_id, requested_id, callback);
 }
 
-void CClientSpawnManager::add(
-    ALife::_OBJECT_ID requesting_id,
-    ALife::_OBJECT_ID requested_id,
-    CSpawnCallback&   spawn_callback)
+void CClientSpawnManager::add(ALife::_OBJECT_ID requesting_id, ALife::_OBJECT_ID requested_id, CSpawnCallback& spawn_callback)
 {
     CObject* object = Level().Objects.net_Find(requesting_id);
     if (object)
@@ -81,18 +68,12 @@ void CClientSpawnManager::add(
     merge_spawn_callbacks(spawn_callback, (*J).second);
 }
 
-void CClientSpawnManager::remove(
-    REQUESTED_REGISTRY& registry,
-    ALife::_OBJECT_ID   requesting_id,
-    ALife::_OBJECT_ID   requested_id,
-    bool                no_warning)
+void CClientSpawnManager::remove(REQUESTED_REGISTRY& registry, ALife::_OBJECT_ID requesting_id, ALife::_OBJECT_ID requested_id, bool no_warning)
 {
     REQUESTED_REGISTRY::iterator I = registry.find(requested_id);
     if (I == registry.end())
     {
-        ai().script_engine().script_log(
-            eLuaMessageTypeError, "There is no spawn callback on object with id %d from object with id %d!",
-            requesting_id, requested_id);
+        ai().script_engine().script_log(eLuaMessageTypeError, "There is no spawn callback on object with id %d from object with id %d!", requesting_id, requested_id);
         return;
     }
 
@@ -104,9 +85,7 @@ void CClientSpawnManager::remove(ALife::_OBJECT_ID requesting_id, ALife::_OBJECT
     REQUEST_REGISTRY::iterator I = m_registry.find(requesting_id);
     if (I == m_registry.end())
     {
-        ai().script_engine().script_log(
-            eLuaMessageTypeError, "There is no spawn callback on object with id %d from object with id %d!",
-            requesting_id, requested_id);
+        ai().script_engine().script_log(eLuaMessageTypeError, "There is no spawn callback on object with id %d from object with id %d!", requesting_id, requested_id);
         return;
     }
 
@@ -168,8 +147,7 @@ void CClientSpawnManager::merge_spawn_callbacks(CSpawnCallback& new_callback, CS
     old_callback.m_callback        = new_callback.m_callback;
 }
 
-const CClientSpawnManager::CSpawnCallback*
-    CClientSpawnManager::callback(ALife::_OBJECT_ID requesting_id, ALife::_OBJECT_ID requested_id) const
+const CClientSpawnManager::CSpawnCallback* CClientSpawnManager::callback(ALife::_OBJECT_ID requesting_id, ALife::_OBJECT_ID requested_id) const
 {
     REQUEST_REGISTRY::const_iterator I = m_registry.find(requested_id);
     if (I == m_registry.end())
@@ -197,8 +175,7 @@ void CClientSpawnManager::dump() const
         REQUESTED_REGISTRY::const_iterator i = (*I).second.begin();
         REQUESTED_REGISTRY::const_iterator e = (*I).second.end();
         for (; i != e; ++i)
-            Msg("[%d][%d], i.e. object with id %d waits for object with id %d", (*I).first, (*i).first, (*i).first,
-                (*I).first);
+            Msg("[%d][%d], i.e. object with id %d waits for object with id %d", (*I).first, (*i).first, (*i).first, (*I).first);
     }
 }
 

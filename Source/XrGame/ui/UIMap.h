@@ -10,8 +10,8 @@ class CUICustomMap: public CUIStatic, public CUIWndCallback
 protected:
     shared_str m_name;
 
-    Frect   m_BoundRect_;   // real map size (meters)
-    Flags16 m_flags;
+    Frect      m_BoundRect_;   // real map size (meters)
+    Flags16    m_flags;
     enum EFlags
     {
         eLocked = (1 << 0),
@@ -31,25 +31,20 @@ public:
     CUICustomMap();
     virtual ~CUICustomMap();
 
-    virtual void SetActivePoint(const Fvector& vNewPoint);
+    virtual void     SetActivePoint(const Fvector& vNewPoint);
 
-    void Initialize(shared_str name, LPCSTR sh_name);
-    virtual Fvector2
-        ConvertRealToLocal(const Fvector2& src, bool for_drawing);   // meters->pixels (relatively own left-top pos)
-    Fvector2 ConvertLocalToReal(const Fvector2& src, Frect const& bound_rect);
-    Fvector2 ConvertRealToLocalNoTransform(
-        const Fvector2& src,
-        Frect const&    bound_rect);   // meters->pixels (relatively own left-top pos)
+    void             Initialize(shared_str name, LPCSTR sh_name);
+    virtual Fvector2 ConvertRealToLocal(const Fvector2& src, bool for_drawing);   // meters->pixels (relatively own left-top pos)
+    Fvector2         ConvertLocalToReal(const Fvector2& src, Frect const& bound_rect);
+    Fvector2         ConvertRealToLocalNoTransform(const Fvector2& src,
+                Frect const&                                       bound_rect);   // meters->pixels (relatively own left-top pos)
 
-    virtual bool GetPointerTo(
-        const Fvector2& src,
-        float           item_radius,
-        Fvector2&       pos,
-        float&          heading);   // position and heading for drawing pointer to src pos
+    virtual bool     GetPointerTo(const Fvector2& src, float item_radius, Fvector2& pos,
+            float& heading);   // position and heading for drawing pointer to src pos
 
-    void     FitToWidth(float width);
-    void     FitToHeight(float height);
-    Fvector2 GetCurrentZoom() const
+    void             FitToWidth(float width);
+    void             FitToHeight(float height);
+    Fvector2         GetCurrentZoom() const
     {
         return Fvector2().set(GetWndRect().height() / BoundRect().height(), GetWndRect().width() / BoundRect().width());
     }
@@ -57,7 +52,7 @@ public:
     {
         return m_BoundRect_;
     }
-    virtual void OptimalFit(const Frect& r);
+    virtual void      OptimalFit(const Frect& r);
 
     const shared_str& MapName()
     {
@@ -99,14 +94,13 @@ class CUIGlobalMap: public CUICustomMap
 {
     typedef CUICustomMap inherited;
 
-    shared_str m_prev_active_map;
-    CUIMapWnd* m_mapWnd;
-    float      m_minZoom;
-    float      m_max_zoom;
+    shared_str           m_prev_active_map;
+    CUIMapWnd*           m_mapWnd;
+    float                m_minZoom;
+    float                m_max_zoom;
 
 public:
-    virtual Fvector2
-        ConvertRealToLocal(const Fvector2& src, bool for_drawing);   // pixels->pixels (relatively own left-top pos)
+    virtual Fvector2 ConvertRealToLocal(const Fvector2& src, bool for_drawing);   // pixels->pixels (relatively own left-top pos)
 
     CUIGlobalMap(CUIMapWnd* pMapWnd);
     virtual ~CUIGlobalMap();
@@ -130,13 +124,13 @@ public:
 
     virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
 
-    CUIMapWnd* MapWnd()
+    CUIMapWnd*   MapWnd()
     {
         return m_mapWnd;
     }
-    void MoveWndDelta(const Fvector2& d);
+    void         MoveWndDelta(const Fvector2& d);
 
-    float CalcOpenRect(const Fvector2& center_point, Frect& map_desired_rect, float tgt_zoom);
+    float        CalcOpenRect(const Fvector2& center_point, Frect& map_desired_rect, float tgt_zoom);
 
     void         ClipByVisRect();
     virtual void Update();
@@ -150,8 +144,8 @@ class CUILevelMap: public CUICustomMap
 {
     typedef CUICustomMap inherited;
 
-    CUIMapWnd* m_mapWnd;
-    Frect      m_GlobalRect;   // virtual map size (meters)
+    CUIMapWnd*           m_mapWnd;
+    Frect                m_GlobalRect;   // virtual map size (meters)
     CUILevelMap(const CUILevelMap& obj) {}
 
     CUILevelMap& operator=(const CUILevelMap& obj) {}
@@ -169,8 +163,8 @@ public:
     virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
 
-    Frect      CalcWndRectOnGlobal();
-    CUIMapWnd* MapWnd()
+    Frect        CalcWndRectOnGlobal();
+    CUIMapWnd*   MapWnd()
     {
         return m_mapWnd;
     }
@@ -190,11 +184,8 @@ public:
     CUIMiniMap();
     virtual ~CUIMiniMap();
     virtual void Draw();
-    virtual bool GetPointerTo(
-        const Fvector2& src,
-        float           item_radius,
-        Fvector2&       pos,
-        float&          heading);   // position and heading for drawing pointer to src pos
+    virtual bool GetPointerTo(const Fvector2& src, float item_radius, Fvector2& pos,
+        float& heading);   // position and heading for drawing pointer to src pos
     virtual bool NeedShowPointer(Frect r);
     virtual bool IsRectVisible(Frect r);
 

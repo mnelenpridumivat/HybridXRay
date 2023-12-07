@@ -3,20 +3,19 @@
 #include "dTriBox.h"
 #include "dcTriListCollider.h"
 
-int dcTriListCollider::dSortedTriBox(
-    const dReal* triSideAx0,
-    const dReal* triSideAx1,
-    const dReal* triAx,
+int dcTriListCollider::dSortedTriBox(const dReal* triSideAx0,
+    const dReal*                                  triSideAx1,
+    const dReal*                                  triAx,
     // const dReal* v0,
     // const dReal* v1,
     // const dReal* v2,
-    CDB::TRI*     T,
-    dReal         dist,
-    dxGeom*       o1,
-    dxGeom*       o2,
-    int           flags,
-    dContactGeom* contact,
-    int           skip)
+    CDB::TRI*                                     T,
+    dReal                                         dist,
+    dxGeom*                                       o1,
+    dxGeom*                                       o2,
+    int                                           flags,
+    dContactGeom*                                 contact,
+    int                                           skip)
 {
     VERIFY(skip >= (int)sizeof(dContactGeom));
     VERIFY(dGeomGetClass(o1) == dBoxClass);
@@ -39,13 +38,12 @@ int dcTriListCollider::dSortedTriBox(
     dReal outDepth;
     char  signum;   //,sn;
 
-    dReal sidePr = dFabs(dDOT14(triAx, R + 0) * hside[0]) + dFabs(dDOT14(triAx, R + 1) * hside[1]) +
-        dFabs(dDOT14(triAx, R + 2) * hside[2]);
+    dReal sidePr = dFabs(dDOT14(triAx, R + 0) * hside[0]) + dFabs(dDOT14(triAx, R + 1) * hside[1]) + dFabs(dDOT14(triAx, R + 2) * hside[2]);
 
-    dReal depth = sidePr - dist;   // dFabs(dist);
-    outDepth    = depth;
-    signum      = -1;   // dist<0.f ? -1 : 1;
-    code        = 0;
+    dReal depth  = sidePr - dist;   // dFabs(dist);
+    outDepth     = depth;
+    signum       = -1;   // dist<0.f ? -1 : 1;
+    code         = 0;
 
     if (depth < 0.f)
         return 0;
@@ -57,9 +55,9 @@ int dcTriListCollider::dSortedTriBox(
 
     if (code == 0)
     {
-        norm[0] = triAx[0] * signum;
-        norm[1] = triAx[1] * signum;
-        norm[2] = triAx[2] * signum;
+        norm[0]  = triAx[0] * signum;
+        norm[1]  = triAx[1] * signum;
+        norm[2]  = triAx[2] * signum;
 
         /////////////////////////////////////////// from geom.cpp dCollideBP
         dReal Q1 = -signum * dDOT14(triAx, R + 0);
@@ -72,9 +70,9 @@ int dcTriListCollider::dSortedTriBox(
         dReal B2 = dFabs(A2);
         dReal B3 = dFabs(A3);
 
-        pos[0] = p[0];
-        pos[1] = p[1];
-        pos[2] = p[2];
+        pos[0]   = p[0];
+        pos[1]   = p[1];
+        pos[2]   = p[2];
 
 #define FOO(i, op)                 \
     pos[0] op hside[i] * R[0 + i]; \
@@ -154,7 +152,7 @@ int dcTriListCollider::dSortedTriBox(
         {
             if (B3 < B2)
             {
-            use_side_3:   // use side 3
+use_side_3:   // use side 3
                 BAR(1, 2, 3);
                 if (maxc == 2)
                     goto done;
@@ -175,19 +173,19 @@ int dcTriListCollider::dSortedTriBox(
             }
         }
 
-    contact2_1:
+contact2_1:
         BAR(2, 0, 1);
         goto done;
-    contact2_2:
+contact2_2:
         BAR(2, 1, 2);
         goto done;
-    contact2_3:
+contact2_3:
         BAR(2, 2, 3);
         goto done;
 #undef FOO
 #undef BAR
 
-    done:;
+done:;
 
         ////////////////////////////////////////////////////////////// end (from geom.cpp dCollideBP)
     }
@@ -196,7 +194,7 @@ int dcTriListCollider::dSortedTriBox(
     contact->pos[1] = pos[1];
     contact->pos[2] = pos[2];
 
-    contact->depth = outDepth;
+    contact->depth  = outDepth;
 
     for (i = 0; i < ret; ++i)
     {
@@ -276,16 +274,7 @@ IC bool normalize_if_possible(dReal* v)
     return true;
 }
 
-int dcTriListCollider::dTriBox(
-    const dReal*  v0,
-    const dReal*  v1,
-    const dReal*  v2,
-    Triangle*     T,
-    dxGeom*       o1,
-    dxGeom*       o2,
-    int           flags,
-    dContactGeom* contact,
-    int           skip)
+int dcTriListCollider::dTriBox(const dReal* v0, const dReal* v1, const dReal* v2, Triangle* T, dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int skip)
 {
     VERIFY(skip >= (int)sizeof(dContactGeom));
     VERIFY(dGeomGetClass(o1) == dBoxClass);
@@ -310,30 +299,29 @@ int dcTriListCollider::dTriBox(
     const dReal* triSideAx1 = T->side1;   //{v2[0]-v1[0],v2[1]-v1[1],v2[2]-v1[2]};
     dVector3     triSideAx2 = {v0[0] - v2[0], v0[1] - v2[1], v0[2] - v2[2]};
     // dCROSS(triAx,=,triSideAx0,triSideAx1);
-    int   code = 0;
-    dReal outDepth;
-    dReal signum;
+    int          code       = 0;
+    dReal        outDepth;
+    dReal        signum;
     // sepparation along tri plane normal;
-    const dReal* triAx = T->norm;
+    const dReal* triAx  = T->norm;
     // accurate_normalize(triAx);
 
-    dReal sidePr = dFabs(dDOT14(triAx, R + 0) * hside[0]) + dFabs(dDOT14(triAx, R + 1) * hside[1]) +
-        dFabs(dDOT14(triAx, R + 2) * hside[2]);
+    dReal        sidePr = dFabs(dDOT14(triAx, R + 0) * hside[0]) + dFabs(dDOT14(triAx, R + 1) * hside[1]) + dFabs(dDOT14(triAx, R + 2) * hside[2]);
 
-    dReal dist = -T->dist;
+    dReal        dist   = -T->dist;
     // dist=dDOT(triAx,v0)-dDOT(triAx,p);
-    dReal depth = sidePr - dFabs(dist);
-    outDepth    = depth;
-    signum      = dist < 0.f ? -1.f : 1.f;
-    code        = 0;
+    dReal        depth  = sidePr - dFabs(dist);
+    outDepth            = depth;
+    signum              = dist < 0.f ? -1.f : 1.f;
+    code                = 0;
     if (depth < 0.f)
         return 0;
 
-    bool isPdist0, isPdist1, isPdist2;
-    bool test0 = true, test1 = true, test2 = true;
-    bool test00, test01, test02;
-    bool test10, test11, test12;
-    bool test20, test21, test22;
+    bool  isPdist0, isPdist1, isPdist2;
+    bool  test0 = true, test1 = true, test2 = true;
+    bool  test00, test01, test02;
+    bool  test10, test11, test12;
+    bool  test20, test21, test22;
 
     dReal depth0, depth1, depth2;
     dReal dist0, dist1, dist2;
@@ -392,30 +380,30 @@ int dcTriListCollider::dTriBox(
     else                                                     \
         return 0;
 
-#define TEST(sd, c)                                   \
-                                                      \
-    dist0 = dDOT14(v0, R + sd) - dDOT14(p, R + sd);   \
-    dist1 = dDOT14(v1, R + sd) - dDOT14(p, R + sd);   \
-    dist2 = dDOT14(v2, R + sd) - dDOT14(p, R + sd);   \
-                                                      \
-    isPdist0 = dist0 > 0.f;                           \
-    isPdist1 = dist1 > 0.f;                           \
-    isPdist2 = dist2 > 0.f;                           \
-                                                      \
-    depth0    = hside[sd] - dFabs(dist0);             \
-    depth1    = hside[sd] - dFabs(dist1);             \
-    depth2    = hside[sd] - dFabs(dist2);             \
-    test0##sd = depth0 > 0.f;                         \
-    test1##sd = depth1 > 0.f;                         \
-    test2##sd = depth2 > 0.f;                         \
-                                                      \
-    test0 = test0 && test0##sd;                       \
-    test1 = test1 && test1##sd;                       \
-    test2 = test2 && test2##sd;                       \
-                                                      \
-    if (isPdist0 == isPdist1 && isPdist1 == isPdist2) \
-    {                                                 \
-        CMP(sd, c)                                    \
+#define TEST(sd, c)                                     \
+                                                        \
+    dist0     = dDOT14(v0, R + sd) - dDOT14(p, R + sd); \
+    dist1     = dDOT14(v1, R + sd) - dDOT14(p, R + sd); \
+    dist2     = dDOT14(v2, R + sd) - dDOT14(p, R + sd); \
+                                                        \
+    isPdist0  = dist0 > 0.f;                            \
+    isPdist1  = dist1 > 0.f;                            \
+    isPdist2  = dist2 > 0.f;                            \
+                                                        \
+    depth0    = hside[sd] - dFabs(dist0);               \
+    depth1    = hside[sd] - dFabs(dist1);               \
+    depth2    = hside[sd] - dFabs(dist2);               \
+    test0##sd = depth0 > 0.f;                           \
+    test1##sd = depth1 > 0.f;                           \
+    test2##sd = depth2 > 0.f;                           \
+                                                        \
+    test0     = test0 && test0##sd;                     \
+    test1     = test1 && test1##sd;                     \
+    test2     = test2 && test2##sd;                     \
+                                                        \
+    if (isPdist0 == isPdist1 && isPdist1 == isPdist2)   \
+    {                                                   \
+        CMP(sd, c)                                      \
     }
 
     TEST(0, 1)
@@ -427,7 +415,7 @@ int dcTriListCollider::dTriBox(
 
     unsigned int i;
 
-    dVector3 axis, outAx;
+    dVector3     axis, outAx;
 
     /*
     #define TEST(ax,ox,c) \
@@ -462,7 +450,7 @@ int dcTriListCollider::dTriBox(
         }\
     }
     */
-    dVector3 pos;
+    dVector3     pos;
 
 #define TEST(ax, ox, c)                                                                                                \
     for (i = 0; i < 3; ++i)                                                                                            \
@@ -470,12 +458,12 @@ int dcTriListCollider::dTriBox(
         dCROSS114(axis, =, triSideAx##ax, R + i);                                                                      \
         if (!normalize_if_possible(axis))                                                                              \
             continue;                                                                                                  \
-        int ix1 = (i + 1) % 3;                                                                                         \
-        int ix2 = (i + 2) % 3;                                                                                         \
-        sidePr  = dFabs(dDOT14(axis, R + ix1) * hside[ix1]) + dFabs(dDOT14(axis, R + ix2) * hside[ix2]);               \
+        int ix1     = (i + 1) % 3;                                                                                     \
+        int ix2     = (i + 2) % 3;                                                                                     \
+        sidePr      = dFabs(dDOT14(axis, R + ix1) * hside[ix1]) + dFabs(dDOT14(axis, R + ix2) * hside[ix2]);           \
                                                                                                                        \
-        dist##ax = dDOT(v##ax, axis) - dDOT(p, axis);                                                                  \
-        dist##ox = dDOT(v##ox, axis) - dDOT(p, axis);                                                                  \
+        dist##ax    = dDOT(v##ax, axis) - dDOT(p, axis);                                                               \
+        dist##ox    = dDOT(v##ox, axis) - dDOT(p, axis);                                                               \
                                                                                                                        \
         isPdist##ax = dist##ax > 0.f;                                                                                  \
         isPdist##ox = dist##ox > 0.f;                                                                                  \
@@ -530,9 +518,9 @@ int dcTriListCollider::dTriBox(
 
     if (code == 0)
     {
-        norm[0] = triAx[0] * signum;
-        norm[1] = triAx[1] * signum;
-        norm[2] = triAx[2] * signum;
+        norm[0]  = triAx[0] * signum;
+        norm[1]  = triAx[1] * signum;
+        norm[2]  = triAx[2] * signum;
 
         /////////////////////////////////////////// from geom.cpp dCollideBP
         dReal Q1 = -signum * dDOT14(triAx, R + 0);
@@ -545,9 +533,9 @@ int dcTriListCollider::dTriBox(
         dReal B2 = dFabs(A2);
         dReal B3 = dFabs(A3);
 
-        pos[0] = p[0];
-        pos[1] = p[1];
-        pos[2] = p[2];
+        pos[0]   = p[0];
+        pos[1]   = p[1];
+        pos[2]   = p[2];
 
 #define FOO(i, op)                 \
     pos[0] op hside[i] * R[0 + i]; \
@@ -705,20 +693,23 @@ int dcTriListCollider::dTriBox(
         }
         switch ((code - 1) / 3)
         {
-            case 0: {
+            case 0:
+            {
                 norm[0] = R[0] * signum;
                 norm[1] = R[4] * signum;
                 norm[2] = R[8] * signum;
             }
             break;
 
-            case 1: {
+            case 1:
+            {
                 norm[0] = R[1] * signum;
                 norm[1] = R[5] * signum;
                 norm[2] = R[9] * signum;
             }
             break;
-            case 2: {
+            case 2:
+            {
                 norm[0] = R[2] * signum;
                 norm[1] = R[6] * signum;
                 norm[2] = R[10] * signum;
@@ -805,7 +796,7 @@ int dcTriListCollider::dTriBox(
     // contact->pos[1] = crossprg[1];
     // contact->pos[2] = crossprg[2];
 
-    contact->depth = outDepth;
+    contact->depth  = outDepth;
 
     //}
     for (u32 i = 0; i < ret; ++i)

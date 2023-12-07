@@ -55,7 +55,7 @@ bool SceneBuilder::RenumerateSectors()
 {
     m_iDefaultSectorNum = -1;
 
-    SPBItem* pb = UI->ProgressStart(Scene->ObjCount(OBJCLASS_SECTOR), "Renumerate sectors...");
+    SPBItem* pb         = UI->ProgressStart(Scene->ObjCount(OBJCLASS_SECTOR), "Renumerate sectors...");
 
     int      sector_num = 0;
     ObjectIt _F         = Scene->FirstObj(OBJCLASS_SECTOR);

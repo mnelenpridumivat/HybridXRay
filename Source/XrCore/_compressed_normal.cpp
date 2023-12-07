@@ -2,13 +2,13 @@
 #pragma hdrstop
 
 // upper 3 bits
-#define pvSIGN_MASK 0xe000
-#define pvXSIGN_MASK 0x8000
-#define pvYSIGN_MASK 0x4000
-#define pvZSIGN_MASK 0x2000
+#define pvSIGN_MASK   0xe000
+#define pvXSIGN_MASK  0x8000
+#define pvYSIGN_MASK  0x4000
+#define pvZSIGN_MASK  0x2000
 
 // middle 6 bits - xbits
-#define pvTOP_MASK 0x1f80
+#define pvTOP_MASK    0x1f80
 
 // lower 7 bits - ybits
 #define pvBOTTOM_MASK 0x007f
@@ -16,7 +16,7 @@
 // static lookup table for unit vector3 decompression
 float pvUVAdjustment[0x2000];
 
-void pvInitializeStatics(void)
+void  pvInitializeStatics(void)
 {
     for (int idx = 0; idx < 0x2000; idx++)
     {
@@ -31,9 +31,9 @@ void pvInitializeStatics(void)
         }
 
         // convert to 3D vectors
-        float x = float(xbits);
-        float y = float(ybits);
-        float z = float(126 - xbits - ybits);
+        float x             = float(xbits);
+        float y             = float(ybits);
+        float z             = float(126 - xbits - ybits);
 
         // calculate the amount of normalization required
         pvUVAdjustment[idx] = 1.0f / _sqrt(y * y + z * z + x * x);
@@ -43,10 +43,10 @@ void pvInitializeStatics(void)
 u16 pvCompress(const Fvector& vec)
 {
     // save copy
-    Fvector tmp = vec;
+    Fvector tmp  = vec;
 
     // input vector3 does not have to be unit length
-    u16 mVec = 0;
+    u16     mVec = 0;
 
     if (negative(tmp.x))
     {

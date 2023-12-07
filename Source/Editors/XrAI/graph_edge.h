@@ -14,9 +14,11 @@ public:
     typedef _edge_weight_type                      _edge_weight_type;
     typedef _vertex_type                           _vertex_type;
     typedef typename _vertex_type::_vertex_id_type _vertex_id_type;
+
 private:
     _edge_weight_type m_weight;
     _vertex_type*     m_vertex;
+
 public:
     IC                          CEdge(const _edge_weight_type& weight, _vertex_type* vertex);
     IC const _edge_weight_type& weight() const;

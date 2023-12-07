@@ -15,11 +15,7 @@
 #include "../string_table.h"
 
 extern int g_sv_adm_menu_ping_limit;
-xr_token   g_ban_times[] = {{"ui_mp_am_10_minutes", 600},    {"ui_mp_am_30_minutes", 1800},
-                            {"ui_mp_am_1_hour", 3600},       {"ui_mp_am_6_hours", 21600},
-                            {"ui_mp_am_1_day", 86400},       {"ui_mp_am_1_week", 604800},
-                            {"ui_mp_am_1_month", 2592000},   {"ui_mp_am_3_monthes", 7776000},
-                            {"ui_mp_am_forever", 999999999}, {0, 0}};
+xr_token   g_ban_times[] = {{"ui_mp_am_10_minutes", 600}, {"ui_mp_am_30_minutes", 1800}, {"ui_mp_am_1_hour", 3600}, {"ui_mp_am_6_hours", 21600}, {"ui_mp_am_1_day", 86400}, {"ui_mp_am_1_week", 604800}, {"ui_mp_am_1_month", 2592000}, {"ui_mp_am_3_monthes", 7776000}, {"ui_mp_am_forever", 999999999}, {0, 0}};
 
 CUIMpPlayersAdm::CUIMpPlayersAdm()
 {
@@ -119,9 +115,7 @@ void CUIMpPlayersAdm::FillPlayersList(u32 const)
         //		if(b->first!=Game().local_svdpnid)
         {
             string512 tmp_string;
-            xr_sprintf(
-                tmp_string, "%s, id:%u, ip:%s, ping:%u", b->second->getName(), b->first.value(),
-                b->second->m_player_ip.c_str(), b->second->ping);
+            xr_sprintf(tmp_string, "%s, id:%u, ip:%s, ping:%u", b->second->getName(), b->first.value(), b->second->m_player_ip.c_str(), b->second->ping);
 
             CUIListBoxItem* itm = m_pPlayersList->AddTextItem(tmp_string);
             itm->SetTAG(b->first.value());
@@ -142,7 +136,8 @@ void CUIMpPlayersAdm::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
 {
     switch (msg)
     {
-        case BUTTON_CLICKED: {
+        case BUTTON_CLICKED:
+        {
             if (pWnd == m_pRefreshBtn)
                 RefreshPlayersList();
             else if (pWnd == m_pScreenAllBtn)
@@ -221,8 +216,8 @@ void CUIMpPlayersAdm::BanSelPlayer()
     if (!itm)
         return;
 
-    u32 client_id = itm->GetTAG();
-    int ban_time  = m_pBanPlayerCombo->CurrentID();
+    u32       client_id = itm->GetTAG();
+    int       ban_time  = m_pBanPlayerCombo->CurrentID();
     //	int ban_time = m_pBanTimeTrack->GetIValue();
     string512 tmp_string;
     xr_sprintf(tmp_string, "ra sv_banplayer %u %d", client_id, ban_time);

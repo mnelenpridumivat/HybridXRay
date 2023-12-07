@@ -24,7 +24,7 @@ extern "C"
 ///////////////////////////////////////////////////////////////////////////////
 // URL for sake webservice
 #define SAKE_MAX_URL_LENGTH 128
-    extern char sakeiSoapUrl[SAKE_MAX_URL_LENGTH];
+    extern char                  sakeiSoapUrl[SAKE_MAX_URL_LENGTH];
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -45,8 +45,8 @@ extern "C"
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     // Authentication
-    void SAKE_CALL sakeSetGame(SAKE sake, const gsi_char* gameName, int gameId, const gsi_char* secretKey);
-    void SAKE_CALL sakeSetProfile(SAKE sake, int profileId, const char* loginTicket);
+    void SAKE_CALL              sakeSetGame(SAKE sake, const gsi_char* gameName, int gameId, const gsi_char* secretKey);
+    void SAKE_CALL              sakeSetProfile(SAKE sake, int profileId, const char* loginTicket);
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -144,13 +144,7 @@ extern "C"
         SAKERequestResult_UNKNOWN_ERROR
     } SAKERequestResult;
 
-    typedef void (*SAKERequestCallback)(
-        SAKE              sake,
-        SAKERequest       request,
-        SAKERequestResult result,
-        void*             inputData,
-        void*             outputData,
-        void*             userData);
+    typedef void                     (*SAKERequestCallback)(SAKE sake, SAKERequest request, SAKERequestResult result, void* inputData, void* outputData, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // get start request result
@@ -168,8 +162,7 @@ extern "C"
     {
         int mRecordId;
     } SAKECreateRecordOutput;
-    SAKERequest SAKE_CALL
-        sakeCreateRecord(SAKE sake, SAKECreateRecordInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeCreateRecord(SAKE sake, SAKECreateRecordInput* input, SAKERequestCallback callback, void* userData);
 
     //////////////////////////// ///////////////////////////////////////////////////
     // update record
@@ -180,8 +173,7 @@ extern "C"
         SAKEField* mFields;
         int        mNumFields;
     } SAKEUpdateRecordInput;
-    SAKERequest SAKE_CALL
-        sakeUpdateRecord(SAKE sake, SAKEUpdateRecordInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeUpdateRecord(SAKE sake, SAKEUpdateRecordInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // delete record
@@ -190,8 +182,7 @@ extern "C"
         char* mTableId;
         int   mRecordId;
     } SAKEDeleteRecordInput;
-    SAKERequest SAKE_CALL
-        sakeDeleteRecord(SAKE sake, SAKEDeleteRecordInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeDeleteRecord(SAKE sake, SAKEDeleteRecordInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // search for records
@@ -215,8 +206,7 @@ extern "C"
         int         mNumRecords;
         SAKEField** mRecords;
     } SAKESearchForRecordsOutput;
-    SAKERequest SAKE_CALL
-        sakeSearchForRecords(SAKE sake, SAKESearchForRecordsInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeSearchForRecords(SAKE sake, SAKESearchForRecordsInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // get my records
@@ -231,8 +221,7 @@ extern "C"
         int         mNumRecords;
         SAKEField** mRecords;
     } SAKEGetMyRecordsOutput;
-    SAKERequest SAKE_CALL
-        sakeGetMyRecords(SAKE sake, SAKEGetMyRecordsInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeGetMyRecords(SAKE sake, SAKEGetMyRecordsInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // get specific records
@@ -249,11 +238,7 @@ extern "C"
         int         mNumRecords;
         SAKEField** mRecords;
     } SAKEGetSpecificRecordsOutput;
-    SAKERequest SAKE_CALL sakeGetSpecificRecords(
-        SAKE                         sake,
-        SAKEGetSpecificRecordsInput* input,
-        SAKERequestCallback          callback,
-        void*                        userData);
+    SAKERequest SAKE_CALL sakeGetSpecificRecords(SAKE sake, SAKEGetSpecificRecordsInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // get random record
@@ -268,8 +253,7 @@ extern "C"
     {
         SAKEField* mRecord;
     } SAKEGetRandomRecordOutput;
-    SAKERequest SAKE_CALL
-        sakeGetRandomRecord(SAKE sake, SAKEGetRandomRecordInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeGetRandomRecord(SAKE sake, SAKEGetRandomRecordInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // rate record
@@ -284,8 +268,7 @@ extern "C"
         int   mNumRatings;
         float mAverageRating;
     } SAKERateRecordOutput;
-    SAKERequest SAKE_CALL
-        sakeRateRecord(SAKE sake, SAKERateRecordInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeRateRecord(SAKE sake, SAKERateRecordInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // get record limit
@@ -298,8 +281,7 @@ extern "C"
         int mLimitPerOwner;
         int mNumOwned;
     } SAKEGetRecordLimitOutput;
-    SAKERequest SAKE_CALL
-        sakeGetRecordLimit(SAKE sake, SAKEGetRecordLimitInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeGetRecordLimit(SAKE sake, SAKEGetRecordLimitInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     // get record count
@@ -313,20 +295,19 @@ extern "C"
     {
         int mCount;
     } SAKEGetRecordCountOutput;
-    SAKERequest SAKE_CALL
-        sakeGetRecordCount(SAKE sake, SAKEGetRecordCountInput* input, SAKERequestCallback callback, void* userData);
+    SAKERequest SAKE_CALL sakeGetRecordCount(SAKE sake, SAKEGetRecordCountInput* input, SAKERequestCallback callback, void* userData);
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     // read request utility
-    SAKEField* SAKE_CALL sakeGetFieldByName(const char* name, SAKEField* fields, int numFields);
+    SAKEField* SAKE_CALL  sakeGetFieldByName(const char* name, SAKEField* fields, int numFields);
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     // Files
 
 #define SAKE_FILE_RESULT_HEADER "Sake-File-Result:"
-#define SAKE_FILE_ID_HEADER "Sake-File-Id:"
+#define SAKE_FILE_ID_HEADER     "Sake-File-Id:"
 
     // Sake-File-Result from the HTTP response header
     typedef enum

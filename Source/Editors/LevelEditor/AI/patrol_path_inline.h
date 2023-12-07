@@ -18,8 +18,7 @@ IC const CPatrolPath::CVertex* CPatrolPath::point(shared_str name) const
     return (0);
 }
 
-template <typename T>
-IC const CPatrolPath::CVertex* CPatrolPath::point(const Fvector& position, const T& evaluator) const
+template<typename T> IC const CPatrolPath::CVertex* CPatrolPath::point(const Fvector& position, const T& evaluator) const
 {
     const CPatrolPath::CVertex* nearest       = 0;
     float                       best_distance = flt_max;

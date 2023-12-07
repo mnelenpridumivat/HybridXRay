@@ -8,15 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                                     \
-    template <                                                                                                      \
-        typename _operator_condition, typename _operator, typename _condition_state, typename _condition_evaluator, \
-        typename _operator_id_type, bool _reverse_search, typename _operator_ptr, typename _condition_evaluator_ptr>
+#define TEMPLATE_SPECIALIZATION template<typename _operator_condition, typename _operator, typename _condition_state, typename _condition_evaluator, typename _operator_id_type, bool _reverse_search, typename _operator_ptr, typename _condition_evaluator_ptr>
 
-#define CProblemSolverAbstract                                                                                      \
-    CProblemSolver<                                                                                                 \
-        _operator_condition, _operator, _condition_state, _condition_evaluator, _operator_id_type, _reverse_search, \
-        _operator_ptr, _condition_evaluator_ptr>
+#define CProblemSolverAbstract  CProblemSolver<_operator_condition, _operator, _condition_state, _condition_evaluator, _operator_id_type, _reverse_search, _operator_ptr, _condition_evaluator_ptr>
 
 TEMPLATE_SPECIALIZATION
 IC CProblemSolverAbstract::CProblemSolver()
@@ -176,8 +170,7 @@ IC void CProblemSolverAbstract::remove_evaluator(const _condition_type& conditio
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CProblemSolverAbstract::_condition_evaluator_ptr
-    CProblemSolverAbstract::evaluator(const _condition_type& condition_id) const
+IC typename CProblemSolverAbstract::_condition_evaluator_ptr CProblemSolverAbstract::evaluator(const _condition_type& condition_id) const
 {
     EVALUATORS::const_iterator I = evaluators().find(condition_id);
     THROW(evaluators().end() != I);
@@ -191,10 +184,7 @@ IC const typename CProblemSolverAbstract::EVALUATORS& CProblemSolverAbstract::ev
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CProblemSolverAbstract::evaluate_condition(
-    typename xr_vector<COperatorCondition>::const_iterator& I,
-    typename xr_vector<COperatorCondition>::const_iterator& E,
-    const _condition_type&                                  condition_id) const
+IC void CProblemSolverAbstract::evaluate_condition(typename xr_vector<COperatorCondition>::const_iterator& I, typename xr_vector<COperatorCondition>::const_iterator& E, const _condition_type& condition_id) const
 {
     size_t index = I - m_current_state.conditions().begin();
     m_current_state.add_condition(I, COperatorCondition(condition_id, evaluator(condition_id)->evaluate()));
@@ -203,10 +193,7 @@ IC void CProblemSolverAbstract::evaluate_condition(
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CProblemSolverAbstract::_edge_value_type CProblemSolverAbstract::get_edge_weight(
-    const _index_type&    vertex_index0,
-    const _index_type&    vertex_index1,
-    const const_iterator& i) const
+IC typename CProblemSolverAbstract::_edge_value_type CProblemSolverAbstract::get_edge_weight(const _index_type& vertex_index0, const _index_type& vertex_index1, const const_iterator& i) const
 {
     _edge_value_type current, min;
     current = (*i).m_operator->weight(vertex_index1, vertex_index0);
@@ -222,15 +209,12 @@ IC bool CProblemSolverAbstract::is_accessible(const _index_type& vertex_index) c
 }
 
 TEMPLATE_SPECIALIZATION
-IC const typename CProblemSolverAbstract::_index_type&
-    CProblemSolverAbstract::value(const _index_type& vertex_index, const_iterator& i, bool reverse_search) const
+IC const typename CProblemSolverAbstract::_index_type& CProblemSolverAbstract::value(const _index_type& vertex_index, const_iterator& i, bool reverse_search) const
 {
     if (reverse_search)
     {
-        if ((*i).m_operator->applicable_reverse(
-                (*i).m_operator->effects(), (*i).m_operator->conditions(), vertex_index))
-            m_applied = (*i).m_operator->apply_reverse(
-                vertex_index, (*i).m_operator->effects(), m_temp, (*i).m_operator->conditions());
+        if ((*i).m_operator->applicable_reverse((*i).m_operator->effects(), (*i).m_operator->conditions(), vertex_index))
+            m_applied = (*i).m_operator->apply_reverse(vertex_index, (*i).m_operator->effects(), m_temp, (*i).m_operator->conditions());
         else
             m_applied = false;
     }
@@ -376,24 +360,18 @@ IC void CProblemSolverAbstract::solve()
     m_solution_changed = true;
     m_current_state.clear();
 
-    m_failed = !ai().graph_engine().search(
-        *this, reverse_search ? target_state() : current_state(), reverse_search ? current_state() : target_state(),
-        &m_solution,
-        GraphEngineSpace::CSolverBaseParameters(
-            GraphEngineSpace::_solver_dist_type(-1), GraphEngineSpace::_solver_condition_type(-1), 8000));
+    m_failed = !ai().graph_engine().search(*this, reverse_search ? target_state() : current_state(), reverse_search ? current_state() : target_state(), &m_solution, GraphEngineSpace::CSolverBaseParameters(GraphEngineSpace::_solver_dist_type(-1), GraphEngineSpace::_solver_condition_type(-1), 8000));
 #endif
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CProblemSolverAbstract::_edge_value_type
-    CProblemSolverAbstract::estimate_edge_weight(const _index_type& condition) const
+IC typename CProblemSolverAbstract::_edge_value_type CProblemSolverAbstract::estimate_edge_weight(const _index_type& condition) const
 {
     return (estimate_edge_weight_impl<reverse_search>(condition));
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CProblemSolverAbstract::_edge_value_type
-    CProblemSolverAbstract::estimate_edge_weight_impl(const _index_type& condition) const
+IC typename CProblemSolverAbstract::_edge_value_type CProblemSolverAbstract::estimate_edge_weight_impl(const _index_type& condition) const
 {
     STATIC_CHECK(!reverse_search, This_function_cannot_be_used_in_the_REVERSE_search);
     _edge_value_type                              result = 0;
@@ -420,8 +398,7 @@ IC typename CProblemSolverAbstract::_edge_value_type
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CProblemSolverAbstract::_edge_value_type
-    CProblemSolverAbstract::estimate_edge_weight_impl(const _index_type& condition, bool) const
+IC typename CProblemSolverAbstract::_edge_value_type CProblemSolverAbstract::estimate_edge_weight_impl(const _index_type& condition, bool) const
 {
     STATIC_CHECK(reverse_search, This_function_cannot_be_used_in_the_STRAIGHT_search);
     _edge_value_type                              result = 0;

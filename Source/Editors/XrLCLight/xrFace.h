@@ -42,9 +42,9 @@ struct XRLC_LIGHT_API     DataFace: public base_Face
 {
 public:
     // Vertex*					v[3];			// vertices
-    Fvector           N;            // face normal
+    Fvector           N;   // face normal
 
-    svector<_TCF, 2>  tc;           // TC
+    svector<_TCF, 2>  tc;   // TC
 
     void*             pDeflector;   // does the face has LM-UV map?
     CLightmap*        lmap_layer;
@@ -77,8 +77,6 @@ namespace detail
 {
     typedef xr_vector<Vertex>::iterator dummy_compiler_treatment;
 }   // namespace detail
-
-
 
 #include "xrFaceInline.h"
 

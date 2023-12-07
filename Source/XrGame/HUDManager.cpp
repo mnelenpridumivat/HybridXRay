@@ -162,7 +162,7 @@ void CHUDManager::OnFrame()
 
 ENGINE_API extern float psHUD_FOV;
 
-void CHUDManager::Render_First()
+void                    CHUDManager::Render_First()
 {
     if (!psHUD_Flags.is(HUD_WEAPON | HUD_WEAPON_RT | HUD_WEAPON_RT2 | HUD_DRAW_RT2))
         return;
@@ -243,7 +243,7 @@ void CHUDManager::RenderActiveItemUI()
 
 extern ENGINE_API BOOL bShowPauseString;
 // отрисовка элементов интерфейса
-void CHUDManager::RenderUI()
+void                   CHUDManager::RenderUI()
 {
     if (!psHUD_Flags.is(HUD_DRAW_RT2))
         return;
@@ -266,7 +266,7 @@ void CHUDManager::RenderUI()
     {
         CGameFont* pFont = UI().Font().pFontGraffiti50Russian;
         pFont->SetColor(0x80FF0000);
-        LPCSTR _str = CStringTable().translate("st_game_paused").c_str();
+        LPCSTR   _str = CStringTable().translate("st_game_paused").c_str();
 
         Fvector2 _pos;
         _pos.set(UI_BASE_WIDTH / 2.0f, UI_BASE_HEIGHT / 2.0f);
@@ -277,7 +277,7 @@ void CHUDManager::RenderUI()
     }
 }
 
-void CHUDManager::OnEvent(EVENT E, u64 P1, u64 P2) {}
+void                CHUDManager::OnEvent(EVENT E, u64 P1, u64 P2) {}
 
 collide::rq_result& CHUDManager::GetCurrentRayQuery()
 {
@@ -333,7 +333,7 @@ void CHUDManager::SetGrenadeMarkType(LPCSTR tex_name)
 #include "ui\UIMainInGameWnd.h"
 extern CUIXml* pWpnScopeXml;
 
-void CHUDManager::Load()
+void           CHUDManager::Load()
 {
     if (!pUIGame)
     {

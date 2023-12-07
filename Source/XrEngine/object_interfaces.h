@@ -28,9 +28,7 @@ public:
     virtual void save(_storage_type& storage) = 0;
 };
 
-template<typename _storage_type_load, typename _storage_type_save> class IPureSerializeObject:
-    public IPureLoadableObject<_storage_type_load>,
-    public IPureSavableObject<_storage_type_save>
+template<typename _storage_type_load, typename _storage_type_save> class IPureSerializeObject: public IPureLoadableObject<_storage_type_load>, public IPureSavableObject<_storage_type_save>
 {
 public:
 };

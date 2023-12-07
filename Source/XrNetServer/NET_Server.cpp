@@ -7,26 +7,26 @@
 #include "../xrGameSpy/xrGameSpy_MainDefs.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
 static INetLog* pSvNetLog = NULL;
 
-#define NET_BANNED_STR "Player banned by server!"
+#define NET_BANNED_STR           "Player banned by server!"
 #define NET_PROTECTED_SERVER_STR "Access denied by protected server for this player!"
-#define NET_NOTFOR_SUBNET_STR "Your IP does not present in server's subnet"
+#define NET_NOTFOR_SUBNET_STR    "Your IP does not present in server's subnet"
 
-void dump_URL(LPCSTR p, IDirectPlay8Address* A);
+void                     dump_URL(LPCSTR p, IDirectPlay8Address* A);
 
-LPCSTR nameTraffic = "traffic.net";
+LPCSTR                   nameTraffic         = "traffic.net";
 
-XRNETSERVER_API int psNET_ServerUpdate  = 30;   // FPS
-XRNETSERVER_API int psNET_ServerPending = 3;
+XRNETSERVER_API int      psNET_ServerUpdate  = 30;   // FPS
+XRNETSERVER_API int      psNET_ServerPending = 3;
 
 XRNETSERVER_API ClientID BroadcastCID(0xffffffff);
 
-void ip_address::set(LPCSTR src_string)
+void                     ip_address::set(LPCSTR src_string)
 {
     u32 buff[4];
     int cnt = sscanf(src_string, "%d.%d.%d.%d", &buff[0], &buff[1], &buff[2], &buff[3]);
@@ -57,9 +57,7 @@ void IBannedClient::Load(CInifile& ini, const shared_str& sect)
 
     tm                _tm_banned;
     const shared_str& time_to = ini.r_string(sect, "time_to");
-    int               res_t   = sscanf(
-        time_to.c_str(), "%02d.%02d.%d_%02d:%02d:%02d", &_tm_banned.tm_mday, &_tm_banned.tm_mon, &_tm_banned.tm_year,
-        &_tm_banned.tm_hour, &_tm_banned.tm_min, &_tm_banned.tm_sec);
+    int               res_t   = sscanf(time_to.c_str(), "%02d.%02d.%d_%02d:%02d:%02d", &_tm_banned.tm_mday, &_tm_banned.tm_mon, &_tm_banned.tm_year, &_tm_banned.tm_hour, &_tm_banned.tm_min, &_tm_banned.tm_sec);
     VERIFY(res_t == 6);
 
     _tm_banned.tm_mon -= 1;
@@ -80,9 +78,7 @@ xr_string IBannedClient::BannedTimeTo() const
     string256 res;
     tm*       _tm_banned;
     _tm_banned = _localtime64(&BanTime);
-    xr_sprintf(
-        res, sizeof(res), "%02d.%02d.%d_%02d:%02d:%02d", _tm_banned->tm_mday, _tm_banned->tm_mon + 1,
-        _tm_banned->tm_year + 1900, _tm_banned->tm_hour, _tm_banned->tm_min, _tm_banned->tm_sec);
+    xr_sprintf(res, sizeof(res), "%02d.%02d.%d_%02d:%02d:%02d", _tm_banned->tm_mday, _tm_banned->tm_mon + 1, _tm_banned->tm_year + 1900, _tm_banned->tm_hour, _tm_banned->tm_min, _tm_banned->tm_sec);
 
     return res;
 }
@@ -103,15 +99,14 @@ void IClientStatistic::Update(DPN_CONNECTION_INFO& CI)
     u32 time_global = TimeGlobal(device_timer);
     if (time_global - dwBaseTime >= 999)
     {
-        dwBaseTime = time_global;
+        dwBaseTime            = time_global;
 
-        mps_recive       = CI.dwMessagesReceived - mps_receive_base;
-        mps_receive_base = CI.dwMessagesReceived;
+        mps_recive            = CI.dwMessagesReceived - mps_receive_base;
+        mps_receive_base      = CI.dwMessagesReceived;
 
-        u32 cur_msend = CI.dwMessagesTransmittedHighPriority + CI.dwMessagesTransmittedNormalPriority +
-            CI.dwMessagesTransmittedLowPriority;
-        mps_send      = cur_msend - mps_send_base;
-        mps_send_base = cur_msend;
+        u32 cur_msend         = CI.dwMessagesTransmittedHighPriority + CI.dwMessagesTransmittedNormalPriority + CI.dwMessagesTransmittedLowPriority;
+        mps_send              = cur_msend - mps_send_base;
+        mps_send_base         = cur_msend;
 
         dwBytesSendedPerSec   = dwBytesSended;
         dwBytesSended         = 0;
@@ -122,10 +117,9 @@ void IClientStatistic::Update(DPN_CONNECTION_INFO& CI)
 }
 
 // {0218FA8B-515B-4bf2-9A5F-2F079D1759F3}
-static const GUID NET_GUID = {0x218fa8b, 0x515b, 0x4bf2, {0x9a, 0x5f, 0x2f, 0x7, 0x9d, 0x17, 0x59, 0xf3}};
+static const GUID     NET_GUID                           = {0x218fa8b, 0x515b, 0x4bf2, {0x9a, 0x5f, 0x2f, 0x7, 0x9d, 0x17, 0x59, 0xf3}};
 // {8D3F9E5E-A3BD-475b-9E49-B0E77139143C}
-static const GUID CLSID_NETWORKSIMULATOR_DP8SP_TCPIP =
-    {0x8d3f9e5e, 0xa3bd, 0x475b, {0x9e, 0x49, 0xb0, 0xe7, 0x71, 0x39, 0x14, 0x3c}};
+static const GUID     CLSID_NETWORKSIMULATOR_DP8SP_TCPIP = {0x8d3f9e5e, 0xa3bd, 0x475b, {0x9e, 0x49, 0xb0, 0xe7, 0x71, 0x39, 0x14, 0x3c}};
 
 static HRESULT WINAPI Handler(PVOID pvUserContext, DWORD dwMessageType, PVOID pMessage)
 {
@@ -195,7 +189,8 @@ IPureServer::IPureServer(CTimer* timer, BOOL Dedicated):
     m_bDedicated(Dedicated)
 #ifdef PROFILE_CRITICAL_SECTIONS
     ,
-    csPlayers(MUTEX_PROFILE_ID(IPureServer::csPlayers)), csMessage(MUTEX_PROFILE_ID(IPureServer::csMessage))
+    csPlayers(MUTEX_PROFILE_ID(IPureServer::csPlayers)),
+    csMessage(MUTEX_PROFILE_ID(IPureServer::csMessage))
 #endif   // PROFILE_CRITICAL_SECTIONS
 {
     device_timer = timer;
@@ -235,8 +230,8 @@ IPureServer::EConnect IPureServer::Connect(LPCSTR options, GameDescriptionData& 
     // Parse options
     string4096 session_name;
 
-    string64 password_str = "";
-    u32      dwMaxPlayers = 0;
+    string64   password_str = "";
+    u32        dwMaxPlayers = 0;
 
     // sertanly we can use game_descr structure for determinig level_name, but for backward compatibility we save next
     // line...
@@ -290,17 +285,16 @@ IPureServer::EConnect IPureServer::Connect(LPCSTR options, GameDescriptionData& 
         //---------------------------
 #ifdef DEBUG
         string1024 tmp;
-#endif   // DEBUG
-         //	HRESULT CoInitializeExRes = CoInitializeEx(NULL, 0);
-         //	if (CoInitializeExRes != S_OK && CoInitializeExRes != S_FALSE)
-         //	{
-         //		DXTRACE_ERR(tmp, CoInitializeExRes);
-         //		CHK_DX(CoInitializeExRes);
+#endif   // DEBUG                                                          \
+         //	HRESULT CoInitializeExRes = CoInitializeEx(NULL, 0);           \
+         //	if (CoInitializeExRes != S_OK && CoInitializeExRes != S_FALSE) \
+         //	{                                                              \
+         //		DXTRACE_ERR(tmp, CoInitializeExRes);                          \
+         //		CHK_DX(CoInitializeExRes);                                    \
          //	};
         //---------------------------
         // Create the IDirectPlay8Client object.
-        HRESULT CoCreateInstanceRes = CoCreateInstance(
-            CLSID_DirectPlay8Server, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Server, (LPVOID*)&NET);
+        HRESULT CoCreateInstanceRes = CoCreateInstance(CLSID_DirectPlay8Server, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Server, (LPVOID*)&NET);
         //---------------------------
         if (CoCreateInstanceRes != S_OK)
         {
@@ -362,29 +356,24 @@ IPureServer::EConnect IPureServer::Connect(LPCSTR options, GameDescriptionData& 
 
         // Create our IDirectPlay8Address Device Address, --- Set the SP for our Device Address
         net_Address_device = NULL;
-        CHK_DX(CoCreateInstance(
-            CLSID_DirectPlay8Address, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Address,
-            (LPVOID*)&net_Address_device));
+        CHK_DX(CoCreateInstance(CLSID_DirectPlay8Address, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Address, (LPVOID*)&net_Address_device));
         CHK_DX(net_Address_device->SetSP(bSimulator ? &CLSID_NETWORKSIMULATOR_DP8SP_TCPIP : &CLSID_DP8SP_TCPIP));
 
         DWORD dwTraversalMode = DPNA_TRAVERSALMODE_NONE;
-        CHK_DX(net_Address_device->AddComponent(
-            DPNA_KEY_TRAVERSALMODE, &dwTraversalMode, sizeof(dwTraversalMode), DPNA_DATATYPE_DWORD));
+        CHK_DX(net_Address_device->AddComponent(DPNA_KEY_TRAVERSALMODE, &dwTraversalMode, sizeof(dwTraversalMode), DPNA_DATATYPE_DWORD));
 
         HRESULT HostSuccess = S_FALSE;
         // We are now ready to host the app and will try different ports
-        psNET_Port = dwServerPort;
+        psNET_Port          = dwServerPort;
         while (HostSuccess != S_OK)
         {
-            CHK_DX(
-                net_Address_device->AddComponent(DPNA_KEY_PORT, &psNET_Port, sizeof(psNET_Port), DPNA_DATATYPE_DWORD));
+            CHK_DX(net_Address_device->AddComponent(DPNA_KEY_PORT, &psNET_Port, sizeof(psNET_Port), DPNA_DATATYPE_DWORD));
 
-            HostSuccess = NET->Host(
-                &dpAppDesc,               // AppDesc
-                &net_Address_device, 1,   // Device Address
-                NULL, NULL,               // Reserved
-                NULL,                     // Player Context
-                0);                       // dwFlags
+            HostSuccess = NET->Host(&dpAppDesc,   // AppDesc
+                &net_Address_device, 1,           // Device Address
+                NULL, NULL,                       // Reserved
+                NULL,                             // Player Context
+                0);                               // dwFlags
             if (HostSuccess != S_OK)
             {
                 //			xr_string res = Debug.error2string(HostSuccess);
@@ -449,7 +438,8 @@ HRESULT IPureServer::net_Handler(u32 dwMessageType, PVOID pMessage)
 
     switch (dwMessageType)
     {
-        case DPN_MSGID_ENUM_HOSTS_QUERY: {
+        case DPN_MSGID_ENUM_HOSTS_QUERY:
+        {
             PDPNMSG_ENUM_HOSTS_QUERY msg = PDPNMSG_ENUM_HOSTS_QUERY(pMessage);
             if (0 == msg->dwReceivedDataSize)
                 return S_FALSE;
@@ -462,13 +452,14 @@ HRESULT IPureServer::net_Handler(u32 dwMessageType, PVOID pMessage)
             return S_OK;
         }
         break;
-        case DPN_MSGID_CREATE_PLAYER: {
+        case DPN_MSGID_CREATE_PLAYER:
+        {
             PDPNMSG_CREATE_PLAYER msg      = PDPNMSG_CREATE_PLAYER(pMessage);
             const u32             max_size = 1024;
             char                  bufferData[max_size];
             DWORD                 bufferSize = max_size;
             ZeroMemory(bufferData, bufferSize);
-            string512 res;
+            string512        res;
 
             // retreive info
             DPN_PLAYER_INFO* Pinfo = (DPN_PLAYER_INFO*)bufferData;
@@ -497,10 +488,10 @@ HRESULT IPureServer::net_Handler(u32 dwMessageType, PVOID pMessage)
             new_client(&cl_data);
         }
         break;
-        case DPN_MSGID_DESTROY_PLAYER: {
-            PDPNMSG_DESTROY_PLAYER msg = PDPNMSG_DESTROY_PLAYER(pMessage);
-            IClient*               tmp_client =
-                net_players.GetFoundClient(ClientIdSearchPredicate(static_cast<ClientID>(msg->dpnidPlayer)));
+        case DPN_MSGID_DESTROY_PLAYER:
+        {
+            PDPNMSG_DESTROY_PLAYER msg        = PDPNMSG_DESTROY_PLAYER(pMessage);
+            IClient*               tmp_client = net_players.GetFoundClient(ClientIdSearchPredicate(static_cast<ClientID>(msg->dpnidPlayer)));
             if (tmp_client)
             {
                 tmp_client->flags.bConnected = FALSE;
@@ -511,13 +502,14 @@ HRESULT IPureServer::net_Handler(u32 dwMessageType, PVOID pMessage)
             }
         }
         break;
-        case DPN_MSGID_RECEIVE: {
+        case DPN_MSGID_RECEIVE:
+        {
             PDPNMSG_RECEIVE pMsg     = PDPNMSG_RECEIVE(pMessage);
             void*           m_data   = pMsg->pReceiveData;
             u32             m_size   = pMsg->dwReceiveDataSize;
             DPNID           m_sender = pMsg->dpnidSender;
 
-            MSYS_PING* m_ping = (MSYS_PING*)m_data;
+            MSYS_PING*      m_ping   = (MSYS_PING*)m_data;
 
             if ((m_size > 2 * sizeof(u32)) && (m_ping->sign1 == 0x12071980) && (m_ping->sign2 == 0x26111975))
             {
@@ -539,10 +531,11 @@ HRESULT IPureServer::net_Handler(u32 dwMessageType, PVOID pMessage)
         }
         break;
 
-        case DPN_MSGID_INDICATE_CONNECT: {
+        case DPN_MSGID_INDICATE_CONNECT:
+        {
             PDPNMSG_INDICATE_CONNECT msg = (PDPNMSG_INDICATE_CONNECT)pMessage;
 
-            ip_address HAddr;
+            ip_address               HAddr;
             GetClientAddress(msg->pAddressPlayer, HAddr);
 
             if (GetBannedClient(HAddr))
@@ -657,10 +650,7 @@ void IPureServer::SendBroadcast_LL(ClientID exclude, void* data, u32 size, u32 d
         void*        m_data;
         u32          m_size;
         u32          m_dwFlags;
-        ClientSenderFunctor(IPureServer* owner, void* data, u32 size, u32 dwFlags):
-            m_owner(owner), m_data(data), m_size(size), m_dwFlags(dwFlags)
-        {
-        }
+        ClientSenderFunctor(IPureServer* owner, void* data, u32 size, u32 dwFlags): m_owner(owner), m_data(data), m_size(size), m_dwFlags(dwFlags) {}
         void operator()(IClient* client)
         {
             m_owner->SendTo_LL(client->ID, m_data, m_size, m_dwFlags);
@@ -803,14 +793,7 @@ bool IPureServer::DisconnectAddress(const ip_address& Address, LPCSTR reason)
         IPureServer*             m_owner;
         buffer_vector<IClient*>* dest;
         ip_address const*        address_to_disconnect;
-        ToDisconnectFillerFunctor(
-            IPureServer*             owner,
-            buffer_vector<IClient*>* dest_disconnect,
-            ip_address const*        address):
-            m_owner(owner),
-            dest(dest_disconnect), address_to_disconnect(address)
-        {
-        }
+        ToDisconnectFillerFunctor(IPureServer* owner, buffer_vector<IClient*>* dest_disconnect, ip_address const* address): m_owner(owner), dest(dest_disconnect), address_to_disconnect(address) {}
         void operator()(IClient* client)
         {
             ip_address tmp_address;
@@ -955,7 +938,7 @@ void IPureServer::BannedList_Load()
     string_path temp;
     FS.update_path(temp, "$app_data_root$", GetBannedListName());
 
-    CInifile ini(temp);
+    CInifile         ini(temp);
 
     CInifile::RootIt it   = ini.sections().begin();
     CInifile::RootIt it_e = ini.sections().end();

@@ -22,10 +22,7 @@
 // CAgentManagerActionNoOrders
 //////////////////////////////////////////////////////////////////////////
 
-CAgentManagerActionNoOrders::CAgentManagerActionNoOrders(CAgentManager* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CAgentManagerActionNoOrders::CAgentManagerActionNoOrders(CAgentManager* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CAgentManagerActionNoOrders::finalize()
 {
@@ -37,19 +34,13 @@ void CAgentManagerActionNoOrders::finalize()
 // CAgentManagerActionGatherItems
 //////////////////////////////////////////////////////////////////////////
 
-CAgentManagerActionGatherItems::CAgentManagerActionGatherItems(CAgentManager* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CAgentManagerActionGatherItems::CAgentManagerActionGatherItems(CAgentManager* object, LPCSTR action_name): inherited(object, action_name) {}
 
 //////////////////////////////////////////////////////////////////////////
 // CAgentManagerActionKillEnemy
 //////////////////////////////////////////////////////////////////////////
 
-CAgentManagerActionKillEnemy::CAgentManagerActionKillEnemy(CAgentManager* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CAgentManagerActionKillEnemy::CAgentManagerActionKillEnemy(CAgentManager* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CAgentManagerActionKillEnemy::initialize()
 {
@@ -78,10 +69,7 @@ void CAgentManagerActionKillEnemy::execute()
 // CAgentManagerActionReactOnDanger
 //////////////////////////////////////////////////////////////////////////
 
-CAgentManagerActionReactOnDanger::CAgentManagerActionReactOnDanger(CAgentManager* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CAgentManagerActionReactOnDanger::CAgentManagerActionReactOnDanger(CAgentManager* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CAgentManagerActionReactOnDanger::initialize()
 {

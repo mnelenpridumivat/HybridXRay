@@ -37,10 +37,12 @@ class CTextureDescrMngr
     map_CS m_detail_scalers;
 
     void   LoadTHM(LPCSTR initial);
+
 public:
     ~CTextureDescrMngr();
     void Load();
     void UnLoad();
+
 public:
     shared_str GetBumpName(const shared_str& tex_name) const;
     float      GetMaterial(const shared_str& tex_name) const;

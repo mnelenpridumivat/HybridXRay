@@ -94,7 +94,7 @@ struct R_Light
     float   attenuation1;   // Linear attenuation
     float   attenuation2;   // Quadratic attenuation
 
-    Fvector tri[3];         // Cached triangle for ray-testing
+    Fvector tri[3];   // Cached triangle for ray-testing
 };
 
 struct SCover
@@ -186,9 +186,8 @@ IC CNodePositionCompressor::CNodePositionCompressor(NodePosition& Pdest, Fvector
 {
     float sp         = 1 / g_params.fPatchSize;
     int   row_length = iFloor((H.aabb.max.z - H.aabb.min.z) / H.size + EPS_L + 1.5f);
-    int   pxz        = iFloor((Psrc.x - H.aabb.min.x) * sp + EPS_L + .5f) * row_length +
-        iFloor((Psrc.z - H.aabb.min.z) * sp + EPS_L + .5f);
-    int py = iFloor(65535.f * (Psrc.y - H.aabb.min.y) / (H.size_y) + EPS_L);
+    int   pxz        = iFloor((Psrc.x - H.aabb.min.x) * sp + EPS_L + .5f) * row_length + iFloor((Psrc.z - H.aabb.min.z) * sp + EPS_L + .5f);
+    int   py         = iFloor(65535.f * (Psrc.y - H.aabb.min.y) / (H.size_y) + EPS_L);
     VERIFY(pxz < (1 << MAX_NODE_BIT_COUNT) - 1);
     Pdest.xz(pxz);
     clamp(py, 0, 65535);

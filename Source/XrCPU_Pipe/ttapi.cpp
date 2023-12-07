@@ -7,7 +7,7 @@ typedef struct TTAPI_WORKER_PARAMS
     LPPTTAPI_WORKER_FUNC lpWorkerFunc;
     LPVOID               lpvWorkerFuncParams;
     DWORD                dwPadding[13];
-}* PTTAPI_WORKER_PARAMS;
+}*                           PTTAPI_WORKER_PARAMS;
 
 typedef PTTAPI_WORKER_PARAMS LPTTAPI_WORKER_PARAMS;
 
@@ -58,7 +58,7 @@ DWORD WINAPI ttapiThreadProc(LPVOID lpParameter)
         while (_InterlockedCompareExchange(&pParams->vlFlag, 0, 0))
             Sleep(100);
 
-    process:
+process:
 
         if (pParams->lpWorkerFunc)
             pParams->lpWorkerFunc(pParams->lpvWorkerFuncParams);
@@ -95,8 +95,7 @@ void SetThreadName(DWORD dwThreadID, LPCSTR szThreadName)
         RaiseException(0x406D1388, 0, sizeof(info) / sizeof(DWORD), (ULONG_PTR*)&info);
     }
     __except (EXCEPTION_CONTINUE_EXECUTION)
-    {
-    }
+    {}
 }
 
 DWORD ttapi_Init()
@@ -131,8 +130,7 @@ DWORD ttapi_Init()
         // Initializing "enter" "critical section"
         _InterlockedExchange(&ttapi_worker_params[i].vlFlag, 1);
 
-        if ((ttapi_threads_handles[i] =
-                 CreateThread(NULL, 0, &ttapiThreadProc, &ttapi_worker_params[i], 0, &dwThreadId)) == NULL)
+        if ((ttapi_threads_handles[i] = CreateThread(NULL, 0, &ttapiThreadProc, &ttapi_worker_params[i], 0, &dwThreadId)) == NULL)
             return 0;
 
         // Setting preferred processor
@@ -178,8 +176,7 @@ VOID ttapi_RunAllWorkers()
             _InterlockedExchange(&ttapi_worker_params[i].vlFlag, 0);
 
         // Running last worker in current thread
-        ttapi_worker_params[ttapi_thread_workers].lpWorkerFunc(
-            ttapi_worker_params[ttapi_thread_workers].lpvWorkerFuncParams);
+        ttapi_worker_params[ttapi_thread_workers].lpWorkerFunc(ttapi_worker_params[ttapi_thread_workers].lpvWorkerFuncParams);
 
         // Waiting task queue to become empty
         while (_InterlockedCompareExchange(&ttapi_queue_size.size, 0, 0))
@@ -187,8 +184,7 @@ VOID ttapi_RunAllWorkers()
     }
     else
         // Running the only worker in current thread
-        ttapi_worker_params[ttapi_thread_workers].lpWorkerFunc(
-            ttapi_worker_params[ttapi_thread_workers].lpvWorkerFuncParams);
+        ttapi_worker_params[ttapi_thread_workers].lpWorkerFunc(ttapi_worker_params[ttapi_thread_workers].lpvWorkerFuncParams);
 
     // Cleaning active workers count
     ttapi_assigned_workers = 0;
@@ -213,11 +209,11 @@ VOID ttapi_Done()
     free(ttapi_threads_handles);
     ttapi_threads_handles = NULL;
     free(ttapi_worker_params);
-    ttapi_worker_params = NULL;
+    ttapi_worker_params    = NULL;
 
     ttapi_workers_count    = 0;
     ttapi_threads_count    = 0;
     ttapi_assigned_workers = 0;
 
-    ttapi_initialized = FALSE;
+    ttapi_initialized      = FALSE;
 }

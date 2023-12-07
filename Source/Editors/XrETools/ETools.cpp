@@ -6,8 +6,7 @@ auto __vsnprintf = _vsnprintf;
 
 namespace ETOOLS
 {
-    ETOOLS_API bool
-        TestRayTriA(const Fvector& C, const Fvector& D, Fvector** p, float& u, float& v, float& range, bool bCull)
+    ETOOLS_API bool TestRayTriA(const Fvector& C, const Fvector& D, Fvector** p, float& u, float& v, float& range, bool bCull)
     {
         Fvector edge1, edge2, tvec, pvec, qvec;
         float   det, inv_det;
@@ -54,8 +53,7 @@ namespace ETOOLS
         return true;
     }
     //-- Ray-Triangle : 1st level of indirection --------------------------------
-    ETOOLS_API bool
-        TestRayTriB(const Fvector& C, const Fvector& D, Fvector* p, float& u, float& v, float& range, bool bCull)
+    ETOOLS_API bool TestRayTriB(const Fvector& C, const Fvector& D, Fvector* p, float& u, float& v, float& range, bool bCull)
     {
         Fvector edge1, edge2, tvec, pvec, qvec;
         float   det, inv_det;
@@ -141,18 +139,11 @@ namespace ETOOLS
     {
         xr_delete(M);
     }
-    ETOOLS_API void
-        collector_add_face_d(CDB::Collector* CL, const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy)
+    ETOOLS_API void collector_add_face_d(CDB::Collector* CL, const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy)
     {
         CL->add_face_D(v0, v1, v2, dummy);
     }
-    ETOOLS_API void collector_add_face_pd(
-        CDB::Collector* CL,
-        const Fvector&  v0,
-        const Fvector&  v1,
-        const Fvector&  v2,
-        u32             dummy,
-        float           eps)
+    ETOOLS_API void collector_add_face_pd(CDB::Collector* CL, const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy, float eps)
     {
         CL->add_face_packed_D(v0, v1, v2, dummy, eps);
     }
@@ -165,12 +156,7 @@ namespace ETOOLS
     {
         xr_delete(M);
     }
-    ETOOLS_API void collectorp_add_face_d(
-        CDB::CollectorPacked* CL,
-        const Fvector&        v0,
-        const Fvector&        v1,
-        const Fvector&        v2,
-        u32                   dummy)
+    ETOOLS_API void collectorp_add_face_d(CDB::CollectorPacked* CL, const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy)
     {
         CL->add_face_D(v0, v1, v2, dummy, u32(-1));
     }
@@ -219,12 +205,7 @@ namespace ETOOLS
     {
         XRC.ray_query(m_def, r_start, r_dir, r_range);
     }
-    ETOOLS_API void ray_query_m(
-        const Fmatrix&    inv_parent,
-        const CDB::MODEL* m_def,
-        const Fvector&    r_start,
-        const Fvector&    r_dir,
-        float             r_range)
+    ETOOLS_API void ray_query_m(const Fmatrix& inv_parent, const CDB::MODEL* m_def, const Fvector& r_start, const Fvector& r_dir, float r_range)
     {
         XRC.ray_query(inv_parent, m_def, r_start, r_dir, r_range);
     }

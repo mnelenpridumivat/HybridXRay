@@ -20,6 +20,7 @@ public:
     GameGraph::TERRAIN_VECTOR m_tpaTerrain;
 
 #ifdef XRGAME_EXPORTS
+
 public:
     virtual void                          on_location_change() const = 0;
     virtual CSE_ALifeDynamicObject const& get_object() const         = 0;

@@ -10,7 +10,7 @@ static const Fvector Y        = {0, 1, 0};
 static const Fvector Z        = {0, 0, 1};
 static const Fvector basis[3] = {X, Y, Z};
 
-IC void SetJoint(CPhysicsJoint& J, const SJointIKData& joint_data)
+IC void              SetJoint(CPhysicsJoint& J, const SJointIKData& joint_data)
 {
     J.SetAnchorVsSecondElement(0, 0, 0);
     J.SetJointSDfactors(joint_data.spring_factor, joint_data.damping_factor);
@@ -48,8 +48,8 @@ IC void SetJointRLimit(CPhysicsJoint& J, const IBoneData& bone_data, u8 limit_nu
 
 IC CPhysicsJoint* CtreateHinge(const IBoneData& bone_data, u8 limit_num, CPhysicsElement* root_e, CPhysicsElement* E)
 {
-    u8            axis_num = 0;
-    const Fvector axis     = basis[limit_num];
+    u8                  axis_num   = 0;
+    const Fvector       axis       = basis[limit_num];
 
     const SJointIKData& joint_data = bone_data.get_IK_data();
     CPhysicsJoint*      J          = P_create_Joint(CPhysicsJoint::hinge, root_e, E);
@@ -63,12 +63,11 @@ IC CPhysicsJoint* CtreateHinge(const IBoneData& bone_data, u8 limit_num, CPhysic
     return J;
 }
 
-IC CPhysicsJoint*
-    CtreateFullControl(const IBoneData& bone_data, u8 limit_num[3], CPhysicsElement* root_e, CPhysicsElement* E)
+IC CPhysicsJoint* CtreateFullControl(const IBoneData& bone_data, u8 limit_num[3], CPhysicsElement* root_e, CPhysicsElement* E)
 {
     const SJointIKData& joint_data = bone_data.get_IK_data();
     // CPhysicsJoint	* J = P_create_Joint(CPhysicsJoint::hinge,root_e,E);
-    CPhysicsJoint* J = P_create_Joint(CPhysicsJoint::full_control, root_e, E);
+    CPhysicsJoint*      J          = P_create_Joint(CPhysicsJoint::full_control, root_e, E);
     SetJoint(*J, joint_data);
     // J->SetAnchorVsSecondElement	(0,0,0);
     // J->SetJointSDfactors(joint_data.spring_factor,joint_data.damping_factor);
@@ -139,9 +138,7 @@ IC CPhysicsJoint* BuildGenericJoint(const IBoneData& bone_data, CPhysicsElement*
 {
     const SJointIKData& joint_data = bone_data.get_IK_data();
 
-    bool eqx = !!fsimilar(joint_data.limits[0].limit.x, joint_data.limits[0].limit.y),
-         eqy = !!fsimilar(joint_data.limits[1].limit.x, joint_data.limits[1].limit.y),
-         eqz = !!fsimilar(joint_data.limits[2].limit.x, joint_data.limits[2].limit.y);
+    bool                eqx = !!fsimilar(joint_data.limits[0].limit.x, joint_data.limits[0].limit.y), eqy = !!fsimilar(joint_data.limits[1].limit.x, joint_data.limits[1].limit.y), eqz = !!fsimilar(joint_data.limits[2].limit.x, joint_data.limits[2].limit.y);
 
     if (eqx)
     {

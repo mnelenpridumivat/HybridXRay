@@ -90,8 +90,8 @@ void CTLSprite::Render(Fvector& pos, u32 color, float radius, const Fvector& D)
     if ((s1.p.w <= 0) || (s2.p.w <= 0))
         return;
 
-    float l1 = radius / s1.p.w * 1.4142f;
-    float l2 = radius / s2.p.w * 1.4142f;
+    float    l1 = radius / s1.p.w * 1.4142f;
+    float    l2 = radius / s2.p.w * 1.4142f;
 
     Fvector2 dir, R;
     dir.set(s2.p.x - s1.p.x, s2.p.y - s1.p.y);

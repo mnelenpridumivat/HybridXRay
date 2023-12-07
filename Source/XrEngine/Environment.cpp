@@ -65,13 +65,13 @@ CEnvironment::CEnvironment(): m_ambients_config(0)
     m_paused = false;
 #endif
 
-    fGameTime   = 0.f;
-    fTimeFactor = 12.f;
+    fGameTime            = 0.f;
+    fTimeFactor          = 12.f;
 
     wind_strength_factor = 0.f;
     wind_gust_factor     = 0.f;
 
-    wind_blast_strength = 0.f;
+    wind_blast_strength  = 0.f;
     wind_blast_direction.set(1.f, 0.f, 0.f);
 
     wind_blast_strength_start_value = 0.f;
@@ -94,27 +94,20 @@ CEnvironment::CEnvironment(): m_ambients_config(0)
     //	tsky1					= Device->Resources->_CreateTexture("$user$sky1");
 
     string_path file_name;
-    m_ambients_config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\ambients.ltx"), TRUE, TRUE, FALSE);
-    m_sound_channels_config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\sound_channels.ltx"), TRUE, TRUE, FALSE);
-    m_effects_config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\effects.ltx"), TRUE, TRUE, FALSE);
-    m_suns_config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\suns.ltx"), TRUE, TRUE, FALSE);
-    m_thunderbolt_collections_config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\thunderbolt_collections.ltx"), TRUE, TRUE, FALSE);
-    m_thunderbolts_config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\thunderbolts.ltx"), TRUE, TRUE, FALSE);
+    m_ambients_config                = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\ambients.ltx"), TRUE, TRUE, FALSE);
+    m_sound_channels_config          = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\sound_channels.ltx"), TRUE, TRUE, FALSE);
+    m_effects_config                 = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\effects.ltx"), TRUE, TRUE, FALSE);
+    m_suns_config                    = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\suns.ltx"), TRUE, TRUE, FALSE);
+    m_thunderbolt_collections_config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\thunderbolt_collections.ltx"), TRUE, TRUE, FALSE);
+    m_thunderbolts_config            = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\thunderbolts.ltx"), TRUE, TRUE, FALSE);
 
-    CInifile* config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\environment.ltx"), TRUE, TRUE, FALSE);
+    CInifile* config                 = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\environment.ltx"), TRUE, TRUE, FALSE);
     // params
-    p_var_alt     = deg2rad(config->r_float("environment", "altitude"));
-    p_var_long    = deg2rad(config->r_float("environment", "delta_longitude"));
-    p_min_dist    = _min(.95f, config->r_float("environment", "min_dist_factor"));
-    p_tilt        = deg2rad(config->r_float("environment", "tilt"));
-    p_second_prop = config->r_float("environment", "second_propability");
+    p_var_alt                        = deg2rad(config->r_float("environment", "altitude"));
+    p_var_long                       = deg2rad(config->r_float("environment", "delta_longitude"));
+    p_min_dist                       = _min(.95f, config->r_float("environment", "min_dist_factor"));
+    p_tilt                           = deg2rad(config->r_float("environment", "tilt"));
+    p_second_prop                    = config->r_float("environment", "second_propability");
     clamp(p_second_prop, 0.f, 1.f);
     p_sky_color = config->r_float("environment", "sky_color");
     p_sun_color = config->r_float("environment", "sun_color");
@@ -275,14 +268,13 @@ bool CEnvironment::SetWeatherFX(shared_str name)
         CurrentWeather     = &it->second;
         CurrentWeatherName = it->first;
 
-        float rewind_tm = WFX_TRANS_TIME * fTimeFactor;
-        float start_tm  = fGameTime + rewind_tm;
+        float rewind_tm    = WFX_TRANS_TIME * fTimeFactor;
+        float start_tm     = fGameTime + rewind_tm;
         float current_length;
         float current_weight;
         if (Current[0]->exec_time > Current[1]->exec_time)
         {
-            float x        = fGameTime > Current[0]->exec_time ? fGameTime - Current[0]->exec_time :
-                                                                 (DAY_LENGTH - Current[0]->exec_time) + fGameTime;
+            float x        = fGameTime > Current[0]->exec_time ? fGameTime - Current[0]->exec_time : (DAY_LENGTH - Current[0]->exec_time) + fGameTime;
             current_length = (DAY_LENGTH - Current[0]->exec_time) + Current[1]->exec_time;
             current_weight = x / current_length;
         }
@@ -299,8 +291,7 @@ bool CEnvironment::SetWeatherFX(shared_str name)
         IEnvDescriptor* CE = CurrentWeather->at(CurrentWeather->size() - 2);
         IEnvDescriptor* CT = CurrentWeather->at(CurrentWeather->size() - 1);
         C0->copy(*Current[0]);
-        C0->exec_time =
-            NormalizeTime(fGameTime - ((rewind_tm / (Current[1]->exec_time - fGameTime)) * current_length - rewind_tm));
+        C0->exec_time = NormalizeTime(fGameTime - ((rewind_tm / (Current[1]->exec_time - fGameTime)) * current_length - rewind_tm));
         C1->copy(*Current[1]);
         C1->exec_time = NormalizeTime(start_tm);
         for (EnvIt t_it = CurrentWeather->begin() + 2; t_it != CurrentWeather->end() - 1; t_it++)
@@ -352,8 +343,7 @@ void CEnvironment::StopWFX()
     Current[0] = WFX_end_desc[0];
     Current[1] = WFX_end_desc[1];
 #ifdef WEATHER_LOGGING
-    Msg("WFX - end. Weather: '%s' Desc: '%s'/'%s' GameTime: %3.2f", CurrentWeatherName.c_str(),
-        Current[0]->m_identifier.c_str(), Current[1]->m_identifier.c_str(), fGameTime);
+    Msg("WFX - end. Weather: '%s' Desc: '%s'/'%s' GameTime: %3.2f", CurrentWeatherName.c_str(), Current[0]->m_identifier.c_str(), Current[1]->m_identifier.c_str(), fGameTime);
 #endif
 }
 
@@ -419,8 +409,7 @@ void CEnvironment::SelectEnvs(float gt)
             Current[0] = Current[1];
             SelectEnv(CurrentWeather, Current[1], gt);
 #ifdef WEATHER_LOGGING
-            Msg("Weather: '%s' Desc: '%s' Time: %3.2f/%3.2f", CurrentWeatherName.c_str(),
-                Current[1]->m_identifier.c_str(), Current[1]->exec_time, fGameTime);
+            Msg("Weather: '%s' Desc: '%s' Time: %3.2f/%3.2f", CurrentWeatherName.c_str(), Current[1]->m_identifier.c_str(), Current[1]->exec_time, fGameTime);
 #endif
         }
     }
@@ -494,7 +483,7 @@ void CEnvironment::OnFrame()
     PerlinNoise1D->SetFrequency(wind_gust_factor * MAX_NOISE_FREQ);
     wind_strength_factor = clampr(PerlinNoise1D->GetContinious(Device->fTimeGlobal) + 0.5f, 0.f, 1.f);
 
-    shared_str l_id = (current_weight < 0.5f) ? Current[0]->lens_flare_id : Current[1]->lens_flare_id;
+    shared_str l_id      = (current_weight < 0.5f) ? Current[0]->lens_flare_id : Current[1]->lens_flare_id;
     eff_LensFlare->OnFrame(l_id);
     shared_str t_id = (current_weight < 0.5f) ? Current[0]->tb_id : Current[1]->tb_id;
     eff_Thunderbolt->OnFrame(t_id, CurrentEnv->bolt_period, CurrentEnv->bolt_duration);
@@ -506,22 +495,20 @@ void CEnvironment::OnFrame()
 
 void CEnvironment::calculate_dynamic_sun_dir()
 {
-    float g = (360.0f / 365.25f) * (180.0f + fGameTime / DAY_LENGTH);
+    float g         = (360.0f / 365.25f) * (180.0f + fGameTime / DAY_LENGTH);
 
-    g = deg2rad(g);
+    g               = deg2rad(g);
 
     //	Declination
-    float D = 0.396372f - 22.91327f * _cos(g) + 4.02543f * _sin(g) - 0.387205f * _cos(2 * g) + 0.051967f * _sin(2 * g) -
-        0.154527f * _cos(3 * g) + 0.084798f * _sin(3 * g);
+    float D         = 0.396372f - 22.91327f * _cos(g) + 4.02543f * _sin(g) - 0.387205f * _cos(2 * g) + 0.051967f * _sin(2 * g) - 0.154527f * _cos(3 * g) + 0.084798f * _sin(3 * g);
 
     //	Now calculate the time correction for solar angle:
-    float TC =
-        0.004297f + 0.107029f * _cos(g) - 1.837877f * _sin(g) - 0.837378f * _cos(2 * g) - 2.340475f * _sin(2 * g);
+    float TC        = 0.004297f + 0.107029f * _cos(g) - 1.837877f * _sin(g) - 0.837378f * _cos(2 * g) - 2.340475f * _sin(2 * g);
 
     //	IN degrees
     float Longitude = -30.4f;
 
-    float SHA = (fGameTime / (DAY_LENGTH / 24) - 12) * 15 + Longitude + TC;
+    float SHA       = (fGameTime / (DAY_LENGTH / 24) - 12) * 15 + Longitude + TC;
 
     //	Need this to correctly determine SHA sign
     if (SHA > 180)
@@ -534,12 +521,12 @@ void CEnvironment::calculate_dynamic_sun_dir()
     float const LatitudeR = deg2rad(Latitude);
 
     //	Now we can calculate the Sun Zenith Angle (SZA):
-    float cosSZA = _sin(LatitudeR) * _sin(deg2rad(D)) + _cos(LatitudeR) * _cos(deg2rad(D)) * _cos(deg2rad(SHA));
+    float       cosSZA    = _sin(LatitudeR) * _sin(deg2rad(D)) + _cos(LatitudeR) * _cos(deg2rad(D)) * _cos(deg2rad(SHA));
 
     clamp(cosSZA, -1.0f, 1.0f);
 
-    float SZA = acosf(cosSZA);
-    float SEA = PI / 2 - SZA;
+    float       SZA                    = acosf(cosSZA);
+    float       SEA                    = PI / 2 - SZA;
 
     //	To finish we will calculate the Azimuth Angle (AZ):
     float       cosAZ                  = 0.f;
@@ -550,7 +537,7 @@ void CEnvironment::calculate_dynamic_sun_dir()
         cosAZ = (_sin(deg2rad(D)) - _sin(LatitudeR) * _cos(SZA)) / sin_SZA_X_cos_Latitude;
 
     clamp(cosAZ, -1.0f, 1.0f);
-    float AZ = acosf(cosAZ);
+    float          AZ       = acosf(cosAZ);
 
     const Fvector2 minAngle = Fvector2().set(deg2rad(1.0f), deg2rad(3.0f));
 
@@ -598,8 +585,7 @@ SThunderboltCollection* CEnvironment::thunderbolt_collection(CInifile* pIni, CIn
     return (result);
 }
 
-SThunderboltCollection*
-    CEnvironment::thunderbolt_collection(xr_vector<SThunderboltCollection*>& collection, shared_str const& id)
+SThunderboltCollection* CEnvironment::thunderbolt_collection(xr_vector<SThunderboltCollection*>& collection, shared_str const& id)
 {
     typedef xr_vector<SThunderboltCollection*> Container;
     Container::iterator                        i = collection.begin();
@@ -618,8 +604,8 @@ CLensFlareDescriptor* CEnvironment::add_flare(xr_vector<CLensFlareDescriptor*>& 
 {
     typedef xr_vector<CLensFlareDescriptor*> Flares;
 
-    Flares::const_iterator i = collection.begin();
-    Flares::const_iterator e = collection.end();
+    Flares::const_iterator                   i = collection.begin();
+    Flares::const_iterator                   e = collection.end();
     for (; i != e; ++i)
     {
         if ((*i)->section == id)

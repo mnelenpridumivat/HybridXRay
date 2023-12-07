@@ -24,6 +24,7 @@ class CALifeInteractionManager: public CALifeCombatManager, public CALifeCommuni
         ALife::WEAPON_P_VECTOR			m_temp_weapons;
 
     /**/
+
 public:
     CALifeInteractionManager(xrServer* server, LPCSTR section);
     /**

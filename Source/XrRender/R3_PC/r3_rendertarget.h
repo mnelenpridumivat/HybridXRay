@@ -17,6 +17,7 @@ private:
     u32 dwWidth;
     u32 dwHeight;
     u32 dwAccumulatorClearMark;
+
 public:
     enum eStencilOptimizeMode
     {
@@ -107,6 +108,7 @@ public:
     ref_texture    t_noise[TEX_jitter_count];
     ID3DTexture2D* t_noise_surf_mipped;
     ref_texture    t_noise_mipped;
+
 private:
     // OCCq
 
@@ -187,12 +189,14 @@ private:
     ref_shader        s_combine;
     ref_shader        s_combine_msaa[8];
     ref_shader        s_combine_volumetric;
+
 public:
     ref_shader s_postprocess;
     ref_shader s_postprocess_msaa;
     ref_geom   g_postprocess;
     ref_shader s_menu;
     ref_geom   g_menu;
+
 private:
     float           im_noise_time;
     u32             im_noise_shift_w;
@@ -216,6 +220,7 @@ private:
 
     //	Igor: used for volumetric lights
     bool            m_bHasActiveVolumetric;
+
 public:
     CRenderTarget();
     ~CRenderTarget();

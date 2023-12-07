@@ -47,7 +47,7 @@ struct PM_API PM_Result
 {
     WORD*   permutePTR;   // You need to permute vertices according to this
     u32     permuteSIZE;
-    Vsplit* splitPTR;     // Ready to use Vsplit records
+    Vsplit* splitPTR;   // Ready to use Vsplit records
     u32     splitSIZE;
     WORD*   facefixPTR;   // Ready to use FaceFix records
     u32     facefixSIZE;
@@ -62,16 +62,7 @@ extern "C"
     // FIRST:
     //			Call following function and...
     //			...then create all of your vertices preserving their order
-    PM_API void __cdecl PM_Init(
-        u32   dwRelevantUV,
-        u32   dwRelevantUVMASK,
-        u32   dwMinVertCount,
-        float w_UV               = 0.5f,
-        float w_Pos              = 1.f,
-        float w_Norm             = 1.f,
-        float p_BorderHeuristic  = 150.f,
-        float p_BorderHeuristicD = 0.07f,
-        float p_QualityHeuristic = 0.85f);
+    PM_API void __cdecl PM_Init(u32 dwRelevantUV, u32 dwRelevantUVMASK, u32 dwMinVertCount, float w_UV = 0.5f, float w_Pos = 1.f, float w_Norm = 1.f, float p_BorderHeuristic = 150.f, float p_BorderHeuristicD = 0.07f, float p_QualityHeuristic = 0.85f);
 
     PM_API void __cdecl PM_CreateVertex(float x, float y, float z, int _id, P_UV* uv);
 

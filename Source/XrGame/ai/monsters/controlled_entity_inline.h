@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION   template<typename _Object>
 
 #define CControlledEntityAbstract CControlledEntity<_Object>
 
@@ -27,7 +27,7 @@ void CControlledEntityAbstract::set_task_attack(const CEntity* e)
 TEMPLATE_SPECIALIZATION
 void CControlledEntityAbstract::set_under_control(CController* controller)
 {
-    m_controller = controller;
+    m_controller      = controller;
 
     saved_id.team_id  = m_object->g_Team();
     saved_id.squad_id = m_object->g_Squad();

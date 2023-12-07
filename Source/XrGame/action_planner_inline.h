@@ -8,15 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                               \
-    template <                                                                                                \
-        typename _object_type, bool _reverse_search, typename _world_operator, typename _condition_evaluator, \
-        typename _world_operator_ptr, typename _condition_evaluator_ptr>
+#define TEMPLATE_SPECIALIZATION template<typename _object_type, bool _reverse_search, typename _world_operator, typename _condition_evaluator, typename _world_operator_ptr, typename _condition_evaluator_ptr>
 
-#define CPlanner                                                                                   \
-    CActionPlanner<                                                                                \
-        _object_type, _reverse_search, _world_operator, _condition_evaluator, _world_operator_ptr, \
-        _condition_evaluator_ptr>
+#define CPlanner                CActionPlanner<_object_type, _reverse_search, _world_operator, _condition_evaluator, _world_operator_ptr, _condition_evaluator_ptr>
 
 TEMPLATE_SPECIALIZATION
 IC CPlanner::CActionPlanner(): m_initialized(false), m_solving(false)
@@ -65,8 +59,7 @@ void CPlanner::update()
         {
             show_current_world_state();
             show_target_world_state();
-            Msg("%6d : Solution for object %s [%d vertices searched]", Device->dwTimeGlobal, object_name(),
-                ai().graph_engine().solver_algorithm().data_storage().get_visited_node_count());
+            Msg("%6d : Solution for object %s [%d vertices searched]", Device->dwTimeGlobal, object_name(), ai().graph_engine().solver_algorithm().data_storage().get_visited_node_count());
             for (int i = 0; i < (int)solution().size(); ++i)
                 Msg("%s", action2string(solution()[i]));
         }
@@ -152,19 +145,14 @@ IC bool CPlanner::initialized() const
 TEMPLATE_SPECIALIZATION
 IC void CPlanner::add_condition(_world_operator* action, _condition_type condition_id, _value_type condition_value)
 {
-    VERIFY2(
-        !m_solving,
-        make_string(
-            "do not change preconditions during planner update, object %s, id[%d]", object_name(), condition_id));
+    VERIFY2(!m_solving, make_string("do not change preconditions during planner update, object %s, id[%d]", object_name(), condition_id));
     action->add_condition(CWorldProperty(condition_id, condition_value));
 }
 
 TEMPLATE_SPECIALIZATION
 IC void CPlanner::add_effect(_world_operator* action, _condition_type condition_id, _value_type condition_value)
 {
-    VERIFY2(
-        !m_solving,
-        make_string("do not change effects during planner update, object %s, id[%d]", object_name(), condition_id));
+    VERIFY2(!m_solving, make_string("do not change effects during planner update, object %s, id[%d]", object_name(), condition_id));
     action->add_effect(CWorldProperty(condition_id, condition_value));
 }
 
@@ -191,9 +179,7 @@ LPCSTR CPlanner::object_name() const
 TEMPLATE_SPECIALIZATION
 IC void CPlanner::add_operator(const _edge_type& operator_id, _operator_ptr _operator)
 {
-    VERIFY2(
-        !m_solving,
-        make_string("do not add operators during planner update, object %s, id[%d]", object_name(), operator_id));
+    VERIFY2(!m_solving, make_string("do not add operators during planner update, object %s, id[%d]", object_name(), operator_id));
     inherited::add_operator(operator_id, _operator);
     _operator->setup(m_object, &m_storage);
 #ifdef LOG_ACTION
@@ -204,18 +190,14 @@ IC void CPlanner::add_operator(const _edge_type& operator_id, _operator_ptr _ope
 TEMPLATE_SPECIALIZATION
 IC void CPlanner::remove_operator(const _edge_type& operator_id)
 {
-    VERIFY2(
-        !m_solving,
-        make_string("do not remove operators during planner update, object %s, id[%d]", object_name(), operator_id));
+    VERIFY2(!m_solving, make_string("do not remove operators during planner update, object %s, id[%d]", object_name(), operator_id));
     inherited::remove_operator(operator_id);
 }
 
 TEMPLATE_SPECIALIZATION
 IC void CPlanner::add_evaluator(const _condition_type& condition_id, _condition_evaluator_ptr evaluator)
 {
-    VERIFY2(
-        !m_solving,
-        make_string("do not add evaluators during planner update, object %s, id[%d]", object_name(), condition_id));
+    VERIFY2(!m_solving, make_string("do not add evaluators during planner update, object %s, id[%d]", object_name(), condition_id));
     inherited::add_evaluator(condition_id, evaluator);
     evaluator->setup(m_object, &m_storage);
 }
@@ -223,9 +205,7 @@ IC void CPlanner::add_evaluator(const _condition_type& condition_id, _condition_
 TEMPLATE_SPECIALIZATION
 IC void CPlanner::remove_evaluator(const _condition_type& condition_id)
 {
-    VERIFY2(
-        !m_solving,
-        make_string("do not remove evaluators during planner update, object %s, id[%d]", object_name(), condition_id));
+    VERIFY2(!m_solving, make_string("do not remove evaluators during planner update, object %s, id[%d]", object_name(), condition_id));
     inherited::remove_evaluator(condition_id);
 }
 
@@ -248,10 +228,8 @@ IC void CPlanner::show_current_world_state()
     EVALUATORS::const_iterator E = evaluators().end();
     for (; I != E; ++I)
     {
-        xr_vector<COperatorCondition>::const_iterator J = std::lower_bound(
-            current_state().conditions().begin(), current_state().conditions().end(),
-            CWorldProperty((*I).first, false));
-        char temp = '?';
+        xr_vector<COperatorCondition>::const_iterator J    = std::lower_bound(current_state().conditions().begin(), current_state().conditions().end(), CWorldProperty((*I).first, false));
+        char                                          temp = '?';
         if ((J != current_state().conditions().end()) && ((*J).condition() == (*I).first))
         {
             temp = (*J).value() ? '+' : '-';
@@ -268,9 +246,8 @@ IC void CPlanner::show_target_world_state()
     EVALUATORS::const_iterator E = evaluators().end();
     for (; I != E; ++I)
     {
-        xr_vector<COperatorCondition>::const_iterator J = std::lower_bound(
-            target_state().conditions().begin(), target_state().conditions().end(), CWorldProperty((*I).first, false));
-        char temp = '?';
+        xr_vector<COperatorCondition>::const_iterator J    = std::lower_bound(target_state().conditions().begin(), target_state().conditions().end(), CWorldProperty((*I).first, false));
+        char                                          temp = '?';
         if ((J != target_state().conditions().end()) && ((*J).condition() == (*I).first))
         {
             temp = (*J).value() ? '+' : '-';
@@ -303,15 +280,13 @@ IC void CPlanner::show(LPCSTR offset)
                 xr_vector<COperatorCondition>::const_iterator i = (*I).m_operator->conditions().conditions().begin();
                 xr_vector<COperatorCondition>::const_iterator e = (*I).m_operator->conditions().conditions().end();
                 for (; i != e; ++i)
-                    Msg("%s	condition [%d][%s] = %s", offset, (*i).condition(), property2string((*i).condition()),
-                        (*i).value() ? "TRUE" : "FALSE");
+                    Msg("%s	condition [%d][%s] = %s", offset, (*i).condition(), property2string((*i).condition()), (*i).value() ? "TRUE" : "FALSE");
             }
             {
                 xr_vector<COperatorCondition>::const_iterator i = (*I).m_operator->effects().conditions().begin();
                 xr_vector<COperatorCondition>::const_iterator e = (*I).m_operator->effects().conditions().end();
                 for (; i != e; ++i)
-                    Msg("%s	effect    [%d][%s] = %s", offset, (*i).condition(), property2string((*i).condition()),
-                        (*i).value() ? "TRUE" : "FALSE");
+                    Msg("%s	effect    [%d][%s] = %s", offset, (*i).condition(), property2string((*i).condition()), (*i).value() ? "TRUE" : "FALSE");
             }
 
             (*I).m_operator->show(temp);

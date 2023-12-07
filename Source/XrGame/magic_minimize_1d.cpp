@@ -15,8 +15,8 @@ void Minimize1D::GetMinimum(float fT0, float fT1, float fTInitial, float& rfTMin
 {
     VERIFY(fT0 <= fTInitial && fTInitial <= fT1);
 
-    m_fTMin = flt_max;
-    m_fFMin = flt_max;
+    m_fTMin         = flt_max;
+    m_fFMin         = flt_max;
 
     float fF0       = m_oF(fT0, m_pvUserData);
     float fFInitial = m_oF(fTInitial, m_pvUserData);

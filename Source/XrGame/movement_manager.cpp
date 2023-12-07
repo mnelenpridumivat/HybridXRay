@@ -58,11 +58,11 @@ CMovementManager::~CMovementManager()
 
 void CMovementManager::Load(LPCSTR section)
 {
-    m_restricted_object = create_restricted_object();
-    m_location_manager  = xr_new<CLocationManager>(m_object);
+    m_restricted_object      = create_restricted_object();
+    m_location_manager       = xr_new<CLocationManager>(m_object);
 
-    m_base_game_selector  = xr_new<CGameVertexParams>(locations().vertex_types());
-    m_base_level_selector = xr_new<CBaseParameters>();
+    m_base_game_selector     = xr_new<CGameVertexParams>(locations().vertex_types());
+    m_base_level_selector    = xr_new<CBaseParameters>();
 
     m_game_location_selector = xr_new<CGameLocationSelector>(m_restricted_object, m_location_manager);
     m_game_path_manager      = xr_new<CGamePathManager>(m_restricted_object);
@@ -70,8 +70,8 @@ void CMovementManager::Load(LPCSTR section)
     m_detail_path_manager    = xr_new<CDetailPathManager>(m_restricted_object);
     m_patrol_path_manager    = xr_new<CPatrolPathManager>(m_restricted_object, m_object);
 
-    m_level_path_builder  = xr_new<CLevelPathBuilder>(this);
-    m_detail_path_builder = xr_new<CDetailPathBuilder>(this);
+    m_level_path_builder     = xr_new<CLevelPathBuilder>(this);
+    m_detail_path_builder    = xr_new<CDetailPathBuilder>(this);
 
     extrapolate_path(false);
 
@@ -179,17 +179,18 @@ void CMovementManager::update_path()
         patrol().make_inactual();
         switch (m_path_type)
         {
-            case ePathTypeGamePath: {
+            case ePathTypeGamePath:
+            {
                 m_path_state = ePathStateSelectGameVertex;
                 break;
             }
-            case ePathTypeLevelPath: {
+            case ePathTypeLevelPath:
+            {
                 m_path_state = ePathStateBuildLevelPath;
                 if (!restrictions().accessible(level_path().dest_vertex_id()))
                 {
                     Fvector temp;
-                    level_path().set_dest_vertex(restrictions().accessible_nearest(
-                        ai().level_graph().vertex_position(level_path().dest_vertex_id()), temp));
+                    level_path().set_dest_vertex(restrictions().accessible_nearest(ai().level_graph().vertex_position(level_path().dest_vertex_id()), temp));
                     detail().set_dest_position(temp);
                 }
                 else
@@ -201,12 +202,14 @@ void CMovementManager::update_path()
                 }
                 break;
             }
-            case ePathTypePatrolPath: {
+            case ePathTypePatrolPath:
+            {
                 //				Msg				("[%6d][%s] actuality is false",Device->dwFrame,*object().cName());
                 m_path_state = ePathStateSelectPatrolPoint;
                 break;
             }
-            case ePathTypeNoPath: {
+            case ePathTypeNoPath:
+            {
                 m_path_state = ePathStateDummy;
                 break;
             }
@@ -218,19 +221,23 @@ void CMovementManager::update_path()
 
     switch (m_path_type)
     {
-        case ePathTypeGamePath: {
+        case ePathTypeGamePath:
+        {
             process_game_path();
             break;
         }
-        case ePathTypeLevelPath: {
+        case ePathTypeLevelPath:
+        {
             process_level_path();
             break;
         }
-        case ePathTypePatrolPath: {
+        case ePathTypePatrolPath:
+        {
             process_patrol_path();
             break;
         }
-        case ePathTypeNoPath: {
+        case ePathTypeNoPath:
+        {
             break;
         }
         default:
@@ -393,20 +400,16 @@ void CMovementManager::build_level_path()
     //build_level_path",Device->dwTimeGlobal,Device->dwFrame,++i,timer.GetElapsed_sec()*1000.f);
 }
 
-Fvector CMovementManager::predict_position(
-    const float&   time_delta,
-    const Fvector& start_position,
-    u32&           current_travel_point,
-    const float&   velocity) const
+Fvector CMovementManager::predict_position(const float& time_delta, const Fvector& start_position, u32& current_travel_point, const float& velocity) const
 {
     typedef xr_vector<DetailPathManager::STravelPathPoint> PATH;
     const PATH&                                            path = detail().path();
     if (path.empty())
         return (start_position);
 
-    float distance_to_check = velocity * time_delta;
+    float      distance_to_check = velocity * time_delta;
 
-    const u32& path_size = path.size();
+    const u32& path_size         = path.size();
     if (current_travel_point == path_size - 1)
         return (path.back().position);
 

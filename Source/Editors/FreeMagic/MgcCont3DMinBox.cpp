@@ -33,12 +33,12 @@ static Real Volume(const Real* afAngle, void* pvUserData)
     int            iQuantity = ((PointArray*)pvUserData)->m_iQuantity;
     const Vector3* akPoint   = ((PointArray*)pvUserData)->m_akPoint;
 
-    Real    fCos0 = Math::Cos(afAngle[0]);
-    Real    fSin0 = Math::Sin(afAngle[0]);
-    Real    fCos1 = Math::Cos(afAngle[1]);
-    Real    fSin1 = Math::Sin(afAngle[1]);
-    Vector3 kAxis(fCos0 * fSin1, fSin0 * fSin1, fCos1);
-    Matrix3 kRot;
+    Real           fCos0     = Math::Cos(afAngle[0]);
+    Real           fSin0     = Math::Sin(afAngle[0]);
+    Real           fCos1     = Math::Cos(afAngle[1]);
+    Real           fSin1     = Math::Sin(afAngle[1]);
+    Vector3        kAxis(fCos0 * fSin1, fSin0 * fSin1, fCos1);
+    Matrix3        kRot;
     kRot.FromAxisAngle(kAxis, afAngle[2]);
 
     Vector3 kMin = akPoint[0] * kRot, kMax = kMin;
@@ -97,8 +97,8 @@ static void MinimalBoxForAngles(int iQuantity, const Vector3* akPoint, Real afAn
             kMax.z = kTest.z;
     }
 
-    Vector3 kMid = 0.5f * (kMax + kMin);
-    Vector3 kRng = 0.5f * (kMax - kMin);
+    Vector3 kMid    = 0.5f * (kMax + kMin);
+    Vector3 kRng    = 0.5f * (kMax - kMin);
 
     rkBox.Center()  = kRot * kMid;
     rkBox.Axis(0)   = kRot.GetColumn(0);
@@ -117,14 +117,14 @@ Box3 Mgc::MinBox(int iQuantity, const Vector3* akPoint)
     PointArray kPA(iQuantity, akPoint);
     MinimizeND kMinimizer(3, Volume, iMaxLevel, iMaxBracket, iMaxIterations, &kPA);
 
-    Real afA0[3] = {0.0f, 0.0f, 0.0f};
+    Real       afA0[3]    = {0.0f, 0.0f, 0.0f};
 
-    Real afA1[3] = {Math::_PI, Math::HALF_PI, Math::_PI};
+    Real       afA1[3]    = {Math::_PI, Math::HALF_PI, Math::_PI};
 
     // compute some samples to narrow down the search region
-    Real      fMinVolume = Math::MAX_REAL;
-    Real      afAngle[3], afAInitial[3];
-    const int iMax = 3;
+    Real       fMinVolume = Math::MAX_REAL;
+    Real       afAngle[3], afAInitial[3];
+    const int  iMax = 3;
     for (int i0 = 0; i0 <= iMax; i0++)
     {
         afAngle[0] = afA0[0] + i0 * (afA1[0] - afA0[0]) / iMax;

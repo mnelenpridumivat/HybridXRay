@@ -58,8 +58,8 @@ CEditableObject::CEditableObject(LPCSTR name): m_physics_shell(0), m_object_xfor
 
     a_vPosition.set(0.f, 0.f, 0.f);
     a_vRotate.set(0.f, 0.f, 0.f);
-    a_vScale      = 1.f;
-    a_vAdjustMass = TRUE;
+    a_vScale                = 1.f;
+    a_vAdjustMass           = TRUE;
 
     bOnModified             = false;
     m_RefCount              = 0;
@@ -226,7 +226,8 @@ LPCSTR CEditableObject::GenerateSurfaceName(const char* base_name)
         {
             sprintf(nm, "%s_%d", base_name, idx);
             idx++;
-        } while (FindSurfaceByName(nm));
+        }
+        while (FindSurfaceByName(nm));
     }
     return nm;
 }
@@ -293,7 +294,7 @@ void CEditableObject::GetFaceWorld(const Fmatrix& parent, CEditableMesh* M, int 
 
 void CEditableObject::Optimize()
 {
-/*
+    /*
     for (EditMeshIt m_def = m_Meshes.begin(); m_def != m_Meshes.end(); m_def++)
     {
         (*m_def)->OptimizeMesh(false);

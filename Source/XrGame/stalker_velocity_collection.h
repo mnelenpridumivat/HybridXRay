@@ -19,11 +19,7 @@ private:
 
 public:
     CStalkerVelocityCollection(const shared_str& section);
-    inline float velocity(
-        const MonsterSpace::EMentalState&       mental_state,
-        const MonsterSpace::EBodyState&         body_state,
-        const MonsterSpace::EMovementType&      movement_type,
-        const MonsterSpace::EMovementDirection& movement_direction) const;
+    inline float velocity(const MonsterSpace::EMentalState& mental_state, const MonsterSpace::EBodyState& body_state, const MonsterSpace::EMovementType& movement_type, const MonsterSpace::EMovementDirection& movement_direction) const;
 };
 
 #include "stalker_velocity_collection_inline.h"

@@ -11,23 +11,19 @@ using XrWeatherEditor::environment::detail::logical_string_predicate;
 using XrWeatherEditor::environment::effects::effect;
 using XrWeatherEditor::environment::effects::manager;
 
-template <> void property_collection<manager::effect_container_type, manager>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<manager::effect_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<manager::effect_container_type, manager>::create()
+template<> XrWeatherEditor::property_holder* property_collection<manager::effect_container_type, manager>::create()
 {
     effect* object = xr_new<effect>(m_holder, generate_unique_id("effect_unique_id_").c_str());
     object->fill(this);
     return (object->object());
 }
 
-manager::manager(::XrWeatherEditor::environment::manager* environment):
-    m_environment(*environment), m_collection(0), m_changed(true)
+manager::manager(::XrWeatherEditor::environment::manager* environment): m_environment(*environment), m_collection(0), m_changed(true)
 {
     m_collection = xr_new<collection_type>(&m_effects, this, &m_changed);
 }
@@ -41,8 +37,7 @@ manager::~manager()
 void manager::load()
 {
     string_path file_name;
-    CInifile*   config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\effects.ltx"), TRUE, TRUE, FALSE);
+    CInifile*   config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\effects.ltx"), TRUE, TRUE, FALSE);
 
     VERIFY(m_effects.empty());
 
@@ -64,12 +59,11 @@ void manager::load()
 
 void manager::save()
 {
-    string_path file_name;
-    CInifile*   config =
-        xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\effects.ltx"), FALSE, FALSE, TRUE);
+    string_path                     file_name;
+    CInifile*                       config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\effects.ltx"), FALSE, FALSE, TRUE);
 
-    effect_container_type::iterator i = m_effects.begin();
-    effect_container_type::iterator e = m_effects.end();
+    effect_container_type::iterator i      = m_effects.begin();
+    effect_container_type::iterator e      = m_effects.end();
     for (; i != e; ++i)
         (*i)->save(*config);
 

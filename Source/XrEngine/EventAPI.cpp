@@ -2,8 +2,8 @@
 #include "eventapi.h"
 #include "xr_ioconsole.h"
 
-extern void msRead();
-extern void msCreate(LPCSTR name);
+extern void      msRead();
+extern void      msCreate(LPCSTR name);
 
 //---------------------------------------------------------------------
 class ENGINE_API CEvent

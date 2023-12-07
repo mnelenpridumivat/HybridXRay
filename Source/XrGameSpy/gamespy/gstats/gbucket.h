@@ -34,19 +34,19 @@ extern "C"
     void        FreeBucketSet(bucketset_t set);
     char*       DumpBucketSet(bucketset_t set);
 
-    void* BucketNew(bucketset_t set, char* name, BucketType type, void* initialvalue);
-    void* BucketSet(bucketset_t set, char* name, void* value);
-    void* BucketAdd(bucketset_t set, char* name, void* value);
-    void* BucketSub(bucketset_t set, char* name, void* value);
-    void* BucketMult(bucketset_t set, char* name, void* value);
-    void* BucketDiv(bucketset_t set, char* name, void* value);
-    void* BucketConcat(bucketset_t set, char* name, void* value);
-    void* BucketAvg(bucketset_t set, char* name, void* value);
-    void* BucketGet(bucketset_t set, char* name);
+    void*       BucketNew(bucketset_t set, char* name, BucketType type, void* initialvalue);
+    void*       BucketSet(bucketset_t set, char* name, void* value);
+    void*       BucketAdd(bucketset_t set, char* name, void* value);
+    void*       BucketSub(bucketset_t set, char* name, void* value);
+    void*       BucketMult(bucketset_t set, char* name, void* value);
+    void*       BucketDiv(bucketset_t set, char* name, void* value);
+    void*       BucketConcat(bucketset_t set, char* name, void* value);
+    void*       BucketAvg(bucketset_t set, char* name, void* value);
+    void*       BucketGet(bucketset_t set, char* name);
 
     /* Helper functions */
-    void* bint(int i);
-    void* bfloat(double f);
+    void*       bint(int i);
+    void*       bfloat(double f);
 #define bstring(a) ((void*)a)
 
 #ifdef __cplusplus

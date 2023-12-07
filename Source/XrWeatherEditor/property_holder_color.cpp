@@ -17,42 +17,17 @@ ref class property_converter_color;
 
 using Flobbster::Windows::Forms::PropertySpec;
 
-XrWeatherEditor::property_value* property_holder::add_property(
-    LPCSTR                              identifier,
-    LPCSTR                              category,
-    LPCSTR                              description,
-    XrWeatherEditor::color const&       default_value,
-    color_getter_type const&            getter,
-    color_setter_type const&            setter,
-    readonly_enum const&                read_only,
-    notify_parent_on_change_enum const& notify_parent,
-    password_char_enum const&           password,
-    refresh_grid_on_change_enum const&  refresh_grid)
+XrWeatherEditor::property_value* property_holder::add_property(LPCSTR identifier, LPCSTR category, LPCSTR description, XrWeatherEditor::color const& default_value, color_getter_type const& getter, color_setter_type const& setter, readonly_enum const& read_only, notify_parent_on_change_enum const& notify_parent, password_char_enum const& password, refresh_grid_on_change_enum const& refresh_grid)
 {
-    PropertySpec ^ spec = gcnew PropertySpec(
-        to_string(identifier), Color::typeid, to_string(category), to_string(description),
-        Color(default_value.r, default_value.g, default_value.b), property_editor_color::typeid,
-        property_converter_color::typeid);
+    PropertySpec ^ spec = gcnew PropertySpec(to_string(identifier), Color::typeid, to_string(category), to_string(description), Color(default_value.r, default_value.g, default_value.b), property_editor_color::typeid, property_converter_color::typeid);
     m_container->add_property(spec, gcnew property_color(getter, setter, spec->Attributes));
 
     return (nullptr);
 }
 
-XrWeatherEditor::property_value* property_holder::add_property(
-    LPCSTR                              identifier,
-    LPCSTR                              category,
-    LPCSTR                              description,
-    XrWeatherEditor::color const&       default_value,
-    XrWeatherEditor::color&             value,
-    readonly_enum const&                read_only,
-    notify_parent_on_change_enum const& notify_parent,
-    password_char_enum const&           password,
-    refresh_grid_on_change_enum const&  refresh_grid)
+XrWeatherEditor::property_value* property_holder::add_property(LPCSTR identifier, LPCSTR category, LPCSTR description, XrWeatherEditor::color const& default_value, XrWeatherEditor::color& value, readonly_enum const& read_only, notify_parent_on_change_enum const& notify_parent, password_char_enum const& password, refresh_grid_on_change_enum const& refresh_grid)
 {
-    PropertySpec ^ spec = gcnew PropertySpec(
-        to_string(identifier), Color::typeid, to_string(category), to_string(description),
-        Color(default_value.r, default_value.g, default_value.b), property_editor_color::typeid,
-        property_converter_color::typeid);
+    PropertySpec ^ spec = gcnew PropertySpec(to_string(identifier), Color::typeid, to_string(category), to_string(description), Color(default_value.r, default_value.g, default_value.b), property_editor_color::typeid, property_converter_color::typeid);
     m_container->add_property(spec, gcnew property_color_reference(value, spec->Attributes));
 
     return (nullptr);

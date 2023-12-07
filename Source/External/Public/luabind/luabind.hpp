@@ -1,4 +1,4 @@
-// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
+﻿// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 #ifndef LUABIND_BIND_HPP_INCLUDED
 #define LUABIND_BIND_HPP_INCLUDED
 #ifdef _MSC_VER
@@ -28,7 +27,7 @@
 #pragma warning(disable:4458)
 #endif
 #define _HAS_AUTO_PTR_ETC 1
-# include <memory>
+#include <memory>
 #include "config.hpp"
 #include "class.hpp"
 #include "function.hpp"
@@ -37,4 +36,4 @@
 #ifdef _MSC_VER
 #pragma warning(pop)
 #endif
-#endif // LUABIND_BIND_HPP_INCLUDED
+#endif   // LUABIND_BIND_HPP_INCLUDED

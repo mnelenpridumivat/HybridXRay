@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION           template<typename _Object>
 
 #define CStateMonsterFindEnemyRunAbstract CStateMonsterFindEnemyRun<_Object>
 
@@ -56,8 +56,7 @@ void CStateMonsterFindEnemyRunAbstract::execute()
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterFindEnemyRunAbstract::check_completion()
 {
-    if ((object->ai_location().level_vertex_id() == target_vertex) &&
-        !object->control().path_builder().is_moving_on_path())
+    if ((object->ai_location().level_vertex_id() == target_vertex) && !object->control().path_builder().is_moving_on_path())
         return true;
 
     return false;

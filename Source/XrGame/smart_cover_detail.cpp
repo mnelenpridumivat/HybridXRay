@@ -8,11 +8,7 @@
 #include "pch_script.h"
 #include "smart_cover_detail.h"
 
-float smart_cover::detail::parse_float(
-    luabind::object const& table,
-    LPCSTR                 identifier,
-    float const&           min_threshold,
-    float const&           max_threshold)
+float smart_cover::detail::parse_float(luabind::object const& table, LPCSTR identifier, float const& min_threshold, float const& max_threshold)
 {
     VERIFY2(table.type() == LUA_TTABLE, "invalid loophole description passed");
     luabind::object lua_result = table[identifier];

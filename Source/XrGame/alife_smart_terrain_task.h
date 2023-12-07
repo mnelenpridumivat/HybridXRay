@@ -25,6 +25,7 @@ private:
     u32                  m_level_vertex_id;
 
 #ifdef DEBUG
+
 private:
     IC const shared_str& patrol_path_name() const;
     IC const u32&        patrol_point_index() const;

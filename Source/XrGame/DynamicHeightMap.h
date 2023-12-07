@@ -17,10 +17,10 @@ class CHM_Static
 {
     struct Slot
     {
-        float data[dhm_precision][dhm_precision];
+        float   data[dhm_precision][dhm_precision];
 
-        BOOL bReady;
-        int  x, z;
+        BOOL    bReady;
+        int     x, z;
 
         IC void set(int _x, int _z)
         {

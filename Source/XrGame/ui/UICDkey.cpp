@@ -29,8 +29,7 @@ CUICDkey::CUICDkey()
 void CUICDkey::assign_callbacks()
 {
     m_editor_control->assign_callback(DIK_V, text_editor::ks_Ctrl, Callback(this, &CUICDkey::paste_from_clipboard));
-    m_editor_control->assign_callback(
-        DIK_INSERT, text_editor::ks_Shift, Callback(this, &CUICDkey::paste_from_clipboard));
+    m_editor_control->assign_callback(DIK_INSERT, text_editor::ks_Shift, Callback(this, &CUICDkey::paste_from_clipboard));
 }
 
 struct inappropriate_characters
@@ -109,7 +108,7 @@ void CUICDkey::Draw()
     {
         edt_size = 63;
     }
-    xx_str[edt_size] = 0;
+    xx_str[edt_size]   = 0;
 
     string64 xx_str1   = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
     LPCSTR   edt_str1  = ec().str_before_cursor();
@@ -130,7 +129,7 @@ void CUICDkey::Draw()
         float _h = TextItemControl()->m_pFont->CurrentHeight_();
         UI().ClientToScreenScaledHeight(_h);
 
-        out.y = rect.top + (m_wndSize.y - _h) / 2.0f;
+        out.y       = rect.top + (m_wndSize.y - _h) / 2.0f;
 
         float w_tmp = 0.0f;
         int   i     = (int)xr_strlen(res1);

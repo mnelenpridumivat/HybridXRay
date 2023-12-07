@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION           template<typename _Object>
 #define CStateChimeraThreatenRoarAbstract CStateChimeraThreatenRoar<_Object>
 
 TEMPLATE_SPECIALIZATION

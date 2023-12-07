@@ -4,7 +4,7 @@
 #include "monster_state_hitted_moveout.h"
 #include "monster_state_home_point_danger.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION     template<typename _Object>
 
 #define CStateMonsterHittedAbstract CStateMonsterHitted<_Object>
 

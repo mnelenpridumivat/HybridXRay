@@ -9,11 +9,15 @@
 #pragma once
 
 IC CStalkerAnimationPair::CStalkerAnimationPair(CAI_Stalker* object):
-    m_object(object), m_step_dependence(false), m_global_animation(false), m_callback_on_collision(false),
+    m_object(object),
+    m_step_dependence(false),
+    m_global_animation(false),
+    m_callback_on_collision(false),
     m_target_matrix(0)
 #ifdef DEBUG
     ,
-    m_object_name("unassigned"), m_animation_type_name("unassigned")
+    m_object_name("unassigned"),
+    m_animation_type_name("unassigned")
 #endif
 {
     reset();

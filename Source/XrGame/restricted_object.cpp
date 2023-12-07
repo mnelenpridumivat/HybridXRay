@@ -239,9 +239,7 @@ shared_str CRestrictedObject::base_out_restrictions() const
     STOP_PROFILE
 }
 
-IC void CRestrictedObject::add_object_restriction(
-    ALife::_OBJECT_ID                         id,
-    const RestrictionSpace::ERestrictorTypes& restrictor_type)
+IC void CRestrictedObject::add_object_restriction(ALife::_OBJECT_ID id, const RestrictionSpace::ERestrictorTypes& restrictor_type)
 {
     NET_Packet net_packet;
     object().u_EventGen(net_packet, GE_ADD_RESTRICTION, object().ID());
@@ -250,9 +248,7 @@ IC void CRestrictedObject::add_object_restriction(
     Level().Send(net_packet, net_flags(TRUE, TRUE));
 }
 
-IC void CRestrictedObject::remove_object_restriction(
-    ALife::_OBJECT_ID                         id,
-    const RestrictionSpace::ERestrictorTypes& restrictor_type)
+IC void CRestrictedObject::remove_object_restriction(ALife::_OBJECT_ID id, const RestrictionSpace::ERestrictorTypes& restrictor_type)
 {
     NET_Packet net_packet;
     object().u_EventGen(net_packet, GE_REMOVE_RESTRICTION, object().ID());
@@ -261,12 +257,7 @@ IC void CRestrictedObject::remove_object_restriction(
     Level().Send(net_packet, net_flags(TRUE, TRUE));
 }
 
-template <typename P, bool value> IC void CRestrictedObject::construct_restriction_string(
-    LPSTR                               temp_restrictions,
-    u32 const                           temp_restrictions_size,
-    const xr_vector<ALife::_OBJECT_ID>& restrictions,
-    shared_str                          current_restrictions,
-    const P&                            p)
+template<typename P, bool value> IC void CRestrictedObject::construct_restriction_string(LPSTR temp_restrictions, u32 const temp_restrictions_size, const xr_vector<ALife::_OBJECT_ID>& restrictions, shared_str current_restrictions, const P& p)
 {
     u32 count                                      = 0;
     *temp_restrictions                             = 0;
@@ -289,11 +280,11 @@ template <typename P, bool value> IC void CRestrictedObject::construct_restricti
     }
 }
 
-template <bool add> struct CRestrictionPredicate
+template<bool add> struct CRestrictionPredicate
 {
     RestrictionSpace::ERestrictorTypes m_restrictor_type;
 
-    IC CRestrictionPredicate(RestrictionSpace::ERestrictorTypes restrictor_type)
+    IC                                 CRestrictionPredicate(RestrictionSpace::ERestrictorTypes restrictor_type)
     {
         m_restrictor_type = restrictor_type;
     }
@@ -307,9 +298,7 @@ template <bool add> struct CRestrictionPredicate
     }
 };
 
-void CRestrictedObject::add_restrictions(
-    const xr_vector<ALife::_OBJECT_ID>& out_restrictions,
-    const xr_vector<ALife::_OBJECT_ID>& in_restrictions)
+void CRestrictedObject::add_restrictions(const xr_vector<ALife::_OBJECT_ID>& out_restrictions, const xr_vector<ALife::_OBJECT_ID>& in_restrictions)
 {
     if (out_restrictions.empty() && in_restrictions.empty())
         return;
@@ -319,12 +308,8 @@ void CRestrictedObject::add_restrictions(
     string4096 temp_out_restrictions;
     string4096 temp_in_restrictions;
 
-    construct_restriction_string<CRestrictionPredicate<true>, true>(
-        temp_out_restrictions, sizeof(temp_out_restrictions), out_restrictions, this->out_restrictions(),
-        CRestrictionPredicate<true>(RestrictionSpace::eRestrictorTypeOut));
-    construct_restriction_string<CRestrictionPredicate<true>, true>(
-        temp_in_restrictions, sizeof(temp_in_restrictions), in_restrictions, this->in_restrictions(),
-        CRestrictionPredicate<true>(RestrictionSpace::eRestrictorTypeIn));
+    construct_restriction_string<CRestrictionPredicate<true>, true>(temp_out_restrictions, sizeof(temp_out_restrictions), out_restrictions, this->out_restrictions(), CRestrictionPredicate<true>(RestrictionSpace::eRestrictorTypeOut));
+    construct_restriction_string<CRestrictionPredicate<true>, true>(temp_in_restrictions, sizeof(temp_in_restrictions), in_restrictions, this->in_restrictions(), CRestrictionPredicate<true>(RestrictionSpace::eRestrictorTypeIn));
 
     Level().space_restriction_manager().add_restrictions(object().ID(), temp_out_restrictions, temp_in_restrictions);
 
@@ -333,9 +318,7 @@ void CRestrictedObject::add_restrictions(
     STOP_PROFILE;
 }
 
-void CRestrictedObject::remove_restrictions(
-    const xr_vector<ALife::_OBJECT_ID>& out_restrictions,
-    const xr_vector<ALife::_OBJECT_ID>& in_restrictions)
+void CRestrictedObject::remove_restrictions(const xr_vector<ALife::_OBJECT_ID>& out_restrictions, const xr_vector<ALife::_OBJECT_ID>& in_restrictions)
 {
     if (out_restrictions.empty() && in_restrictions.empty())
         return;
@@ -345,12 +328,8 @@ void CRestrictedObject::remove_restrictions(
     string4096 temp_out_restrictions;
     string4096 temp_in_restrictions;
 
-    construct_restriction_string<CRestrictionPredicate<false>, false>(
-        temp_out_restrictions, sizeof(temp_out_restrictions), out_restrictions, this->out_restrictions(),
-        CRestrictionPredicate<false>(RestrictionSpace::eRestrictorTypeOut));
-    construct_restriction_string<CRestrictionPredicate<false>, false>(
-        temp_in_restrictions, sizeof(temp_in_restrictions), in_restrictions, this->in_restrictions(),
-        CRestrictionPredicate<false>(RestrictionSpace::eRestrictorTypeIn));
+    construct_restriction_string<CRestrictionPredicate<false>, false>(temp_out_restrictions, sizeof(temp_out_restrictions), out_restrictions, this->out_restrictions(), CRestrictionPredicate<false>(RestrictionSpace::eRestrictorTypeOut));
+    construct_restriction_string<CRestrictionPredicate<false>, false>(temp_in_restrictions, sizeof(temp_in_restrictions), in_restrictions, this->in_restrictions(), CRestrictionPredicate<false>(RestrictionSpace::eRestrictorTypeIn));
 
     Level().space_restriction_manager().remove_restrictions(object().ID(), temp_out_restrictions, temp_in_restrictions);
 
@@ -402,8 +381,7 @@ void CRestrictedObject::remove_all_restrictions()
     remove_all_restrictions(RestrictionSpace::eRestrictorTypeOut);
     remove_all_restrictions(RestrictionSpace::eRestrictorTypeIn);
 
-    if (Level().space_restriction_manager().in_restrictions(object().ID()).size() ||
-        Level().space_restriction_manager().out_restrictions(object().ID()).size())
+    if (Level().space_restriction_manager().in_restrictions(object().ID()).size() || Level().space_restriction_manager().out_restrictions(object().ID()).size())
         actual(false);
 
     Level().space_restriction_manager().restrict(object().ID(), "", "");

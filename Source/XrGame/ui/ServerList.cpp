@@ -41,12 +41,12 @@ CServerList::CServerList()
     m_bShowServerInfo = false;
     m_bAnimation      = false;
 
-    m_sort_func   = "none";
-    m_message_box = xr_new<CUIMessageBoxEx>();
+    m_sort_func       = "none";
+    m_message_box     = xr_new<CUIMessageBoxEx>();
     m_message_box->InitMessageBox("message_box_password");
     m_message_box->SetMessageTarget(this);
 
-    m_b_local = false;
+    m_b_local              = false;
 
     m_last_retreived_index = u32(-1);
     m_need_refresh_fr      = u32(-1);
@@ -157,9 +157,7 @@ void CServerList::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
             return;
         xr_string command;
 
-        item->CreateConsoleCommand(
-            command, m_playerName.c_str(), m_message_box->m_pMessageBox->GetUserPassword(),
-            m_message_box->GetPassword());
+        item->CreateConsoleCommand(command, m_playerName.c_str(), m_message_box->m_pMessageBox->GetUserPassword(), m_message_box->GetPassword());
         Console->Execute(command.c_str());
     }
     else if (WINDOW_LBUTTON_DB_CLICK == msg && &m_list[LST_SERVER] == pWnd)
@@ -194,9 +192,9 @@ void CServerList::AfterDisappear()
 
 void CServerList::FillUpDetailedServerInfo()
 {
-    bool t1    = false;
-    bool t2    = false;
-    bool spect = false;
+    bool               t1    = false;
+    bool               t2    = false;
+    bool               spect = false;
 
     CUIListItemServer* pItem = (CUIListItemServer*)m_list[LST_SERVER].GetSelectedItem();
     if (pItem)
@@ -207,9 +205,9 @@ void CServerList::FillUpDetailedServerInfo()
 
         if (2 == teams)
         {
-            LPSTR _buff = NULL;
+            LPSTR                           _buff = NULL;
 
-            CUIListBoxItem* pItemAdv;
+            CUIListBoxItem*                 pItemAdv;
 
             // TEAM 1
             xr_vector<PlayerInfo>::iterator it;
@@ -223,9 +221,7 @@ void CServerList::FillUpDetailedServerInfo()
 
                 if (!t1)   // add header
                 {
-                    STRCONCAT(
-                        _buff, CStringTable().translate("ui_st_team").c_str(), "\"", CTeamInfo::GetTeam1_name().c_str(),
-                        "\"");
+                    STRCONCAT(_buff, CStringTable().translate("ui_st_team").c_str(), "\"", CTeamInfo::GetTeam1_name().c_str(), "\"");
 
                     pItemAdv = m_list[LST_PLAYERS].AddItem();
                     pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
@@ -261,9 +257,7 @@ void CServerList::FillUpDetailedServerInfo()
 
                 if (!t2)
                 {
-                    STRCONCAT(
-                        _buff, CStringTable().translate("ui_st_team").c_str(), "\"", CTeamInfo::GetTeam2_name().c_str(),
-                        "\"");
+                    STRCONCAT(_buff, CStringTable().translate("ui_st_team").c_str(), "\"", CTeamInfo::GetTeam2_name().c_str(), "\"");
 
                     m_list[LST_PLAYERS].AddTextItem(_buff);
 
@@ -321,7 +315,7 @@ void CServerList::FillUpDetailedServerInfo()
                 PlayerInfo      pf       = *it;
                 CUIListBoxItem* pItemAdv = m_list[LST_PLAYERS].AddItem();
 
-                char buf[16];
+                char            buf[16];
 
                 pItemAdv->SetTextColor(m_list[LST_PLAYERS].GetTextColor());
                 pItemAdv->SetFont(m_list[LST_PLAYERS].GetFont());
@@ -429,16 +423,12 @@ void CServerList::InitFromXml(CUIXml& xml_doc, LPCSTR path)
     CUIXmlInit::InitListBox(xml_doc, strconcat(sizeof(buf), buf, path, ":list"), 0, &m_list[LST_SERVER]);
     m_fListH[0] = m_list[LST_SERVER].GetHeight();
     m_fListH[1] = xml_doc.ReadAttribFlt(buf, 0, "height2");
-    CUIXmlInit::InitListBox(
-        xml_doc, strconcat(sizeof(buf), buf, path, ":list_server_properties"), 0, &m_list[LST_SRV_PROP]);
+    CUIXmlInit::InitListBox(xml_doc, strconcat(sizeof(buf), buf, path, ":list_server_properties"), 0, &m_list[LST_SRV_PROP]);
     CUIXmlInit::InitListBox(xml_doc, strconcat(sizeof(buf), buf, path, ":list_players_list"), 0, &m_list[LST_PLAYERS]);
     CUIXmlInit::InitFrameWindow(xml_doc, strconcat(sizeof(buf), buf, path, ":frame"), 0, &m_frame[LST_SERVER]);
-    CUIXmlInit::InitFrameWindow(
-        xml_doc, strconcat(sizeof(buf), buf, path, ":list_server_properties:frame"), 0, &m_frame[LST_SRV_PROP]);
-    CUIXmlInit::InitFrameWindow(
-        xml_doc, strconcat(sizeof(buf), buf, path, ":list_players_list:frame"), 0, &m_frame[LST_PLAYERS]);
-    CUIXmlInit::InitFont(
-        xml_doc, strconcat(sizeof(buf), buf, path, ":list_item:text"), 0, m_itemInfo.text_color, m_itemInfo.text_font);
+    CUIXmlInit::InitFrameWindow(xml_doc, strconcat(sizeof(buf), buf, path, ":list_server_properties:frame"), 0, &m_frame[LST_SRV_PROP]);
+    CUIXmlInit::InitFrameWindow(xml_doc, strconcat(sizeof(buf), buf, path, ":list_players_list:frame"), 0, &m_frame[LST_PLAYERS]);
+    CUIXmlInit::InitFont(xml_doc, strconcat(sizeof(buf), buf, path, ":list_item:text"), 0, m_itemInfo.text_color, m_itemInfo.text_font);
     CUIXmlInit::InitEditBox(xml_doc, strconcat(sizeof(buf), buf, path, ":edit_gs_filter"), 0, &m_edit_gs_filter);
     m_fEditPos[0] = m_edit_gs_filter.GetWndPos().y;
     m_fEditPos[1] = xml_doc.ReadAttribFlt(buf, 0, "y2");
@@ -717,7 +707,7 @@ void CServerList::SrvInfo2LstSrvInfo(const ServerInfo* pServerInfo)
     m_itemInfo.info.icons.punkbuster = false;   //	= pServerInfo->m_bPunkBuster;
     m_itemInfo.info.icons.user_pass  = pServerInfo->m_bUserPass;
 
-    m_itemInfo.info.Index = pServerInfo->Index;
+    m_itemInfo.info.Index            = pServerInfo->Index;
 }
 
 bool CServerList::sort_by_ServerName(int p1, int p2)
@@ -764,8 +754,7 @@ bool CServerList::sort_by_Players(int p1, int p2)
     gs_browser.GetServerInfoByIndex(&info1, p1);
     gs_browser.GetServerInfoByIndex(&info2, p2);
 
-    return (g_bSort_Ascending) ? (info1.m_ServerNumPlayers < info2.m_ServerNumPlayers) :
-                                 (info1.m_ServerNumPlayers > info2.m_ServerNumPlayers);
+    return (g_bSort_Ascending) ? (info1.m_ServerNumPlayers < info2.m_ServerNumPlayers) : (info1.m_ServerNumPlayers > info2.m_ServerNumPlayers);
 }
 
 bool CServerList::sort_by_Ping(int p1, int p2)

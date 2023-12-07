@@ -49,8 +49,7 @@ void CAgentExplosiveManager::register_explosive(const CExplosive* explosive, con
             return;
     }
     {
-        TO_BE_DESTROYED::iterator I =
-            std::find(m_explosives_to_remove.begin(), m_explosives_to_remove.end(), game_object->ID());
+        TO_BE_DESTROYED::iterator I = std::find(m_explosives_to_remove.begin(), m_explosives_to_remove.end(), game_object->ID());
         if (I != m_explosives_to_remove.end())
             return;
     }
@@ -80,8 +79,7 @@ bool CAgentExplosiveManager::process_explosive(CMemberOrder& member)
         float dist_sqr = (*I).m_game_object->Position().distance_to_sqr(member.object().Position());
         if (dist_sqr < min_dist_sqr)
         {
-            if ((*I).m_reactor &&
-                ((*I).m_reactor->Position().distance_to_sqr((*I).m_game_object->Position()) <= min_dist_sqr))
+            if ((*I).m_reactor && ((*I).m_reactor->Position().distance_to_sqr((*I).m_game_object->Position()) <= min_dist_sqr))
                 continue;
             min_dist_sqr = dist_sqr;
             best_grenade = &*I;
@@ -125,8 +123,7 @@ void CAgentExplosiveManager::react_on_explosives()
             reaction.m_processing                    = true;
         }
 
-        m_explosives.erase(
-            std::remove_if(m_explosives.begin(), m_explosives.end(), CRemoveExplosivesPredicate()), m_explosives.end());
+        m_explosives.erase(std::remove_if(m_explosives.begin(), m_explosives.end(), CRemoveExplosivesPredicate()), m_explosives.end());
     }
 }
 

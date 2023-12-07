@@ -34,11 +34,14 @@ private:
     typedef std::pair<u32, u32>                     PAIR;
     typedef std::pair<float, PAIR>                  TRIPPLE;
     typedef xr_vector<TRIPPLE>                      TRIPPLES;
+
 private:
     LPCSTR m_graph_name;
     LPCSTR m_cross_table_name;
+
 private:
     shared_str m_level_name;
+
 private:
     CLevelGraph*          m_level_graph;
     graph_type*           m_graph;
@@ -55,11 +58,13 @@ private:
     TRIPPLES              m_tripples;
     xr_vector<u32>        m_path;
     CGraphEngine*         m_graph_engine;
+
 private:
     void create_graph(const float& start, const float& amount);
     void load_level_graph(const float& start, const float& amount);
     void load_graph_point(NET_Packet& net_packet);
     void load_graph_points(const float& start, const float& amount);
+
 private:
     void mark_vertices(u32 level_vertex_id);
     void fill_marks(const float& start, const float& amount);
@@ -69,6 +74,7 @@ private:
     void save_cross_table(const float& start, const float& amount);
     void build_cross_table(const float& start, const float& amount);
     void load_cross_table(const float& start, const float& amount);
+
 private:
     void  fill_neighbours(const u32& game_vertex_id);
     float path_distance(const u32& game_vertex_id0, const u32& game_vertex_id1);
@@ -80,10 +86,12 @@ private:
     void  optimize_graph(const float& start, const float& amount);
     void  save_graph(const float& start, const float& amount);
     void  build_graph(const float& start, const float& amount);
+
 private:
     IC CLevelGraph&          level_graph() const;
     IC graph_type&           graph() const;
     IC CGameLevelCrossTable& cross() const;
+
 public:
     CGameGraphBuilder();
     ~CGameGraphBuilder();

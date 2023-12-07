@@ -8,8 +8,7 @@
 #include "IPhysicsShellHolder.h"
 #include "../xrEngine/bone.h"
 
-CPhysicsShellAnimator::CPhysicsShellAnimator(CPhysicsShell* _pPhysicsShell, CInifile const* ini, LPCSTR section):
-    m_pPhysicsShell(_pPhysicsShell)
+CPhysicsShellAnimator::CPhysicsShellAnimator(CPhysicsShell* _pPhysicsShell, CInifile const* ini, LPCSTR section): m_pPhysicsShell(_pPhysicsShell)
 {
     VERIFY(ini->section_exist(section));
     IPhysicsShellHolder* obj = (*(_pPhysicsShell->Elements().begin()))->PhysicsRefObject();
@@ -24,8 +23,7 @@ CPhysicsShellAnimator::CPhysicsShellAnimator(CPhysicsShell* _pPhysicsShell, CIni
     }
 
     if (all_bones)
-        for (xr_vector<CPHElement*>::iterator i = m_pPhysicsShell->Elements().begin();
-             i != m_pPhysicsShell->Elements().end(); i++)
+        for (xr_vector<CPHElement*>::iterator i = m_pPhysicsShell->Elements().begin(); i != m_pPhysicsShell->Elements().end(); i++)
             CreateJoint(*i);
 
     if (ini->line_exist(section, "leave_joints") && xr_strcmp(ini->r_string(section, "leave_joints"), "all") == 0)
@@ -54,17 +52,9 @@ void CPhysicsShellAnimator::CreateJoints(LPCSTR controled)
         string64 n;
         _GetItem(controled, i, n);
         u16 bid = m_pPhysicsShell->PKinematics()->LL_BoneID(n);
-        VERIFY2(
-            bid != BI_NONE,
-            make_string(
-                "shell_animation - controled bone %s not found! object: %s, model: %s", n, obj->ObjectName(),
-                obj->ObjectNameVisual()));
+        VERIFY2(bid != BI_NONE, make_string("shell_animation - controled bone %s not found! object: %s, model: %s", n, obj->ObjectName(), obj->ObjectNameVisual()));
         CPHElement* e = smart_cast<CPHElement*>(m_pPhysicsShell->get_Element(bid));
-        VERIFY2(
-            e,
-            make_string(
-                "shell_animation - controled bone %s has no physics collision! object: %s, model: %s", n,
-                obj->ObjectName(), obj->ObjectNameVisual()));
+        VERIFY2(e, make_string("shell_animation - controled bone %s has no physics collision! object: %s, model: %s", n, obj->ObjectName(), obj->ObjectNameVisual()));
         CreateJoint(e);
     }
 }
@@ -73,12 +63,8 @@ void CPhysicsShellAnimator::CreateJoint(CPHElement* e)
     CPhysicsShellAnimatorBoneData PhysicsShellAnimatorBoneDataC;
     PhysicsShellAnimatorBoneDataC.m_element             = e;
     PhysicsShellAnimatorBoneDataC.m_anim_fixed_dJointID = dJointCreateFixed(0, 0);
-    ((CPHShell*)(m_pPhysicsShell))
-        ->Island()
-        .DActiveIsland()
-        ->AddJoint(PhysicsShellAnimatorBoneDataC.m_anim_fixed_dJointID);
-    dJointAttach(
-        PhysicsShellAnimatorBoneDataC.m_anim_fixed_dJointID, PhysicsShellAnimatorBoneDataC.m_element->get_body(), 0);
+    ((CPHShell*)(m_pPhysicsShell))->Island().DActiveIsland()->AddJoint(PhysicsShellAnimatorBoneDataC.m_anim_fixed_dJointID);
+    dJointAttach(PhysicsShellAnimatorBoneDataC.m_anim_fixed_dJointID, PhysicsShellAnimatorBoneDataC.m_element->get_body(), 0);
     dJointSetFixed(PhysicsShellAnimatorBoneDataC.m_anim_fixed_dJointID);
     m_bones_data.push_back(PhysicsShellAnimatorBoneDataC);
 }

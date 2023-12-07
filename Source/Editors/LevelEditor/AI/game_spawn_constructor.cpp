@@ -32,21 +32,18 @@ CGameSpawnConstructor::~CGameSpawnConstructor()
 IC shared_str CGameSpawnConstructor::actor_level_name()
 {
     string256 temp;
-    return (strconcat(
-        sizeof(temp), temp,
-        *game_graph().header().level(game_graph().vertex(m_actor->CastALifeObject()->m_tGraphID)->level_id()).name(),
-        ".spawn"));
+    return (strconcat(sizeof(temp), temp, *game_graph().header().level(game_graph().vertex(m_actor->CastALifeObject()->m_tGraphID)->level_id()).name(), ".spawn"));
 }
 
 extern void read_levels(CInifile* ini, xr_set<CLevelInfo>& m_levels, bool rebuild_graph, xr_vector<LPCSTR>*);
 void        fill_needed_levels(LPSTR levels, xr_vector<LPCSTR>& result);
 
-bool CGameSpawnConstructor::load_spawns(LPCSTR name, bool no_separator_check)
+bool        CGameSpawnConstructor::load_spawns(LPCSTR name, bool no_separator_check)
 {
-    m_spawn_id = 0;
+    m_spawn_id            = 0;
 
     // init spawn graph
-    m_spawn_graph = xr_new<SPAWN_GRAPH>();
+    m_spawn_graph         = xr_new<SPAWN_GRAPH>();
 
     // init ini file
     //	m_game_info							= xr_new<CInifile>(INI_FILE);
@@ -132,8 +129,7 @@ bool CGameSpawnConstructor::verify_spawns(ALife::_SPAWN_ID spawn_id)
     xr_vector<ALife::_SPAWN_ID>::iterator J = std::find(m_temp0.begin(), m_temp0.end(), spawn_id);
     if (J != m_temp0.end())
     {
-        Msg("! RECURSIVE Spawn group chain found in spawn",
-            m_spawn_graph->vertex(spawn_id)->data()->object().name_replace());
+        Msg("! RECURSIVE Spawn group chain found in spawn", m_spawn_graph->vertex(spawn_id)->data()->object().name_replace());
         return false;
     }
     m_temp0.push_back(spawn_id);
@@ -282,8 +278,7 @@ void CGameSpawnConstructor::add_story_object(ALife::_STORY_ID id, ISE_ALifeDynam
     if (I != m_story_objects.end())
     {
         Msg("# Object %s, story id %d", object->CastAbstract()->name_replace(), object->CastALifeObject()->m_story_id);
-        Msg("# Object %s, story id %d", (*I).second->CastAbstract()->name_replace(),
-            (*I).second->CastALifeObject()->m_story_id);
+        Msg("# Object %s, story id %d", (*I).second->CastAbstract()->name_replace(), (*I).second->CastALifeObject()->m_story_id);
         VERIFY3(I == m_story_objects.end(), "There are several objects which has the same unique story ID, level ", level_name);
     }
 
@@ -305,7 +300,7 @@ void CGameSpawnConstructor::remove_object(ISE_Abstract* object)
 
 bool CGameSpawnConstructor::process_actor(LPCSTR start_level_name)
 {
-    m_actor = 0;
+    m_actor                         = 0;
 
     LEVEL_SPAWN_STORAGE::iterator I = m_level_spawns.begin();
     LEVEL_SPAWN_STORAGE::iterator E = m_level_spawns.end();
@@ -314,8 +309,7 @@ bool CGameSpawnConstructor::process_actor(LPCSTR start_level_name)
         if (!(*I)->actor())
             continue;
 
-        Msg("~ Actor is on the level %s",
-            *game_graph().header().level(game_graph().vertex((*I)->actor()->CastALifeObject()->m_tGraphID)->level_id()).name());
+        Msg("~ Actor is on the level %s", *game_graph().header().level(game_graph().vertex((*I)->actor()->CastALifeObject()->m_tGraphID)->level_id()).name());
 
         if (m_actor)
         {
@@ -420,7 +414,8 @@ void clear_temp_folder()
             continue;
 
         files.push_back(file.name);
-    } while (!_findnext(handle, &file));
+    }
+    while (!_findnext(handle, &file));
 
     _findclose(handle);
 

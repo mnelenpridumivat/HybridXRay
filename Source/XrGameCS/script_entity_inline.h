@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_entity_inline.h
 //	Created 	: 06.10.2003
 //  Modified 	: 14.12.2004
@@ -8,8 +8,8 @@
 
 #pragma once
 
-IC	CGameObject	&CScriptEntity::object	() const
+IC CGameObject& CScriptEntity::object() const
 {
-	VERIFY			(m_object);
-	return			(*m_object);
+    VERIFY(m_object);
+    return (*m_object);
 }

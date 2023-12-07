@@ -119,15 +119,9 @@ bool actor_mp_state_holder::relevant(const actor_mp_state& state)
 #ifdef USE_DIFFERENCES
     m_mask = 0;
 
-    m_mask |= is_similar(m_state.physics_linear_velocity.x, state.physics_linear_velocity.x) ?
-        physics_linear_velocity_x_flag :
-        0;
-    m_mask |= is_similar(m_state.physics_linear_velocity.y, state.physics_linear_velocity.y) ?
-        physics_linear_velocity_y_flag :
-        0;
-    m_mask |= is_similar(m_state.physics_linear_velocity.z, state.physics_linear_velocity.z) ?
-        physics_linear_velocity_z_flag :
-        0;
+    m_mask |= is_similar(m_state.physics_linear_velocity.x, state.physics_linear_velocity.x) ? physics_linear_velocity_x_flag : 0;
+    m_mask |= is_similar(m_state.physics_linear_velocity.y, state.physics_linear_velocity.y) ? physics_linear_velocity_y_flag : 0;
+    m_mask |= is_similar(m_state.physics_linear_velocity.z, state.physics_linear_velocity.z) ? physics_linear_velocity_z_flag : 0;
     m_mask |= is_similar(m_state.physics_position.x, state.physics_position.x) ? physics_position_x_flag : 0;
     m_mask |= is_similar(m_state.physics_position.y, state.physics_position.y) ? physics_position_y_flag : 0;
     m_mask |= is_similar(m_state.physics_position.z, state.physics_position.z) ? physics_position_z_flag : 0;
@@ -167,14 +161,11 @@ void actor_mp_state_holder::write(NET_Packet& packet)
     clamp(m_state.physics_linear_velocity.z, min_linear_velocity_component, max_linear_velocity_component);
 
     if (check(physics_linear_velocity_x_flag))
-        packet.w_float_q8(
-            m_state.physics_linear_velocity.x, min_linear_velocity_component, max_linear_velocity_component);
+        packet.w_float_q8(m_state.physics_linear_velocity.x, min_linear_velocity_component, max_linear_velocity_component);
     if (check(physics_linear_velocity_y_flag))
-        packet.w_float_q8(
-            m_state.physics_linear_velocity.y, min_linear_velocity_component, max_linear_velocity_component);
+        packet.w_float_q8(m_state.physics_linear_velocity.y, min_linear_velocity_component, max_linear_velocity_component);
     if (check(physics_linear_velocity_z_flag))
-        packet.w_float_q8(
-            m_state.physics_linear_velocity.z, min_linear_velocity_component, max_linear_velocity_component);
+        packet.w_float_q8(m_state.physics_linear_velocity.z, min_linear_velocity_component, max_linear_velocity_component);
     if (check(physics_position_x_flag))
         packet.w_float(m_state.physics_position.x);
     if (check(physics_position_y_flag))
@@ -184,14 +175,11 @@ void actor_mp_state_holder::write(NET_Packet& packet)
     if (check(model_yaw_flag))
         packet.w_float(m_state.model_yaw);   // packet.w_float_q8	(m_state.model_yaw		,0.f	,PI_MUL_2);
     if (check(camera_yaw_flag))
-        packet.w_float_q8(
-            m_state.camera_yaw, 0.f, PI_MUL_2);   // packet.w_float		(m_state.camera_yaw						);
+        packet.w_float_q8(m_state.camera_yaw, 0.f, PI_MUL_2);   // packet.w_float		(m_state.camera_yaw						);
     if (check(camera_pitch_flag))
-        packet.w_float_q8(
-            m_state.camera_pitch, 0.f, PI_MUL_2);   // packet.w_float		(m_state.camera_pitch					);
+        packet.w_float_q8(m_state.camera_pitch, 0.f, PI_MUL_2);   // packet.w_float		(m_state.camera_pitch					);
     if (check(camera_roll_flag))
-        packet.w_float_q8(
-            m_state.camera_roll, 0.f, PI_MUL_2);   // packet.w_float		(m_state.camera_roll					);
+        packet.w_float_q8(m_state.camera_roll, 0.f, PI_MUL_2);   // packet.w_float		(m_state.camera_roll					);
 
 #ifdef USE_LOGIC_ACCELERATION
     if (check(logic_acceleration_flag))
@@ -238,14 +226,11 @@ void actor_mp_state_holder::read(NET_Packet& packet)
     packet.r_u32(m_state.time);
 
     if (check(physics_linear_velocity_x_flag))
-        packet.r_float_q8(
-            m_state.physics_linear_velocity.x, min_linear_velocity_component, max_linear_velocity_component);
+        packet.r_float_q8(m_state.physics_linear_velocity.x, min_linear_velocity_component, max_linear_velocity_component);
     if (check(physics_linear_velocity_y_flag))
-        packet.r_float_q8(
-            m_state.physics_linear_velocity.y, min_linear_velocity_component, max_linear_velocity_component);
+        packet.r_float_q8(m_state.physics_linear_velocity.y, min_linear_velocity_component, max_linear_velocity_component);
     if (check(physics_linear_velocity_z_flag))
-        packet.r_float_q8(
-            m_state.physics_linear_velocity.z, min_linear_velocity_component, max_linear_velocity_component);
+        packet.r_float_q8(m_state.physics_linear_velocity.z, min_linear_velocity_component, max_linear_velocity_component);
     if (check(physics_position_x_flag))
         packet.r_float(m_state.physics_position.x);
     if (check(physics_position_y_flag))
@@ -255,14 +240,11 @@ void actor_mp_state_holder::read(NET_Packet& packet)
     if (check(model_yaw_flag))
         packet.r_float(m_state.model_yaw);   // packet.r_float_q8	(m_state.model_yaw,0.f,PI_MUL_2			);
     if (check(camera_yaw_flag))
-        packet.r_float_q8(
-            m_state.camera_yaw, 0.f, PI_MUL_2);   // packet.r_float		(m_state.camera_yaw						);
+        packet.r_float_q8(m_state.camera_yaw, 0.f, PI_MUL_2);   // packet.r_float		(m_state.camera_yaw						);
     if (check(camera_pitch_flag))
-        packet.r_float_q8(
-            m_state.camera_pitch, 0.f, PI_MUL_2);   // packet.r_float		(m_state.camera_pitch					);
+        packet.r_float_q8(m_state.camera_pitch, 0.f, PI_MUL_2);   // packet.r_float		(m_state.camera_pitch					);
     if (check(camera_roll_flag))
-        packet.r_float_q8(
-            m_state.camera_roll, 0.f, PI_MUL_2);   // packet.r_float		(m_state.camera_roll					);
+        packet.r_float_q8(m_state.camera_roll, 0.f, PI_MUL_2);   // packet.r_float		(m_state.camera_roll					);
 
 #ifdef USE_LOGIC_ACCELERATION
     if (check(logic_acceleration_flag))
@@ -271,7 +253,7 @@ void actor_mp_state_holder::read(NET_Packet& packet)
     m_state.logic_acceleration.set(0.f, 0.f, 0.f);
 #endif   // USE_LOGIC_ACCELERATION
 
-    m_state.position = m_state.physics_position;
+    m_state.position    = m_state.physics_position;
 
     u32 current         = 0;
     u32 total_bit_count = 0;

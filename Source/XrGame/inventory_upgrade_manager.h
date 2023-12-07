@@ -58,18 +58,18 @@ namespace inventory
             Upgrade*  add_upgrade(shared_str const& upgrade_id, Group& parent_group);
             Property* add_property(shared_str const& property_id);
 
-            bool make_known_upgrade(CInventoryItem& item, shared_str const& upgrade_id);
-            bool make_known_upgrade(shared_str const& upgrade_id);
-            bool is_known_upgrade(CInventoryItem& item, shared_str const& upgrade_id);
-            bool is_known_upgrade(shared_str const& upgrade_id);
+            bool      make_known_upgrade(CInventoryItem& item, shared_str const& upgrade_id);
+            bool      make_known_upgrade(shared_str const& upgrade_id);
+            bool      is_known_upgrade(CInventoryItem& item, shared_str const& upgrade_id);
+            bool      is_known_upgrade(shared_str const& upgrade_id);
             //*			bool		is_disabled_upgrade( CInventoryItem& item, shared_str const& upgrade_id );
 
-            bool upgrade_install(CInventoryItem& item, shared_str const& upgrade_id, bool loading);
-            void init_install(CInventoryItem& item);
+            bool      upgrade_install(CInventoryItem& item, shared_str const& upgrade_id, bool loading);
+            void      init_install(CInventoryItem& item);
 
-            bool   compute_range(LPCSTR parameter, float& low, float& high);
-            LPCSTR get_item_scheme(CInventoryItem& item);
-            LPCSTR get_upgrade_by_index(CInventoryItem& item, Ivector2 const& index);
+            bool      compute_range(LPCSTR parameter, float& low, float& high);
+            LPCSTR    get_item_scheme(CInventoryItem& item);
+            LPCSTR    get_upgrade_by_index(CInventoryItem& item, Ivector2 const& index);
 
 #ifdef DEBUG
             void log_hierarchy();
@@ -80,13 +80,13 @@ namespace inventory
             void reset_highlight(CInventoryItem& item);
 
         private:
-            void load_all_inventory();
-            void load_all_properties();
+            void        load_all_inventory();
+            void        load_all_properties();
 
             Upgrade*    upgrade_verify(shared_str const& item_section, shared_str const& upgrade_id);
             static bool item_upgrades_exist(shared_str const& item_id);
 
-            void compute_range_section(LPCSTR section, LPCSTR parameter, float& low, float& high);
+            void        compute_range_section(LPCSTR section, LPCSTR parameter, float& low, float& high);
 
         private:
             Roots_type    m_roots;

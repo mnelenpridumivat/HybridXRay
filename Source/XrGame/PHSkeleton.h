@@ -15,8 +15,8 @@ class CPHSkeleton: public CPHDestroyableNotificate
     u32                 m_remove_time;
     PHSHELL_PAIR_VECTOR m_unsplited_shels;
 
-    shared_str m_startup_anim;
-    flags8     m_flags;
+    shared_str          m_startup_anim;
+    flags8              m_flags;
 
 private:
     // Creating
@@ -53,6 +53,7 @@ protected:
     bool         Spawn(CSE_Abstract* D);   // net_spawn
     void         Update(u32 dt);           // shedule update
     void         Load(LPCSTR section);     // client load
+
 public:
     void    SetAutoRemove(u32 time = existence_time);
     void    SetNotNeedSave();

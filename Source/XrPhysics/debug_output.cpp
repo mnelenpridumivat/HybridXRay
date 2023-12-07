@@ -4,8 +4,8 @@
 
 static class DebugOutputEmptyImpl: public IDebugOutput
 {
-    Flags32 m1;
-    Flags32 m2;
+    Flags32                m1;
+    Flags32                m2;
 
     virtual const Flags32& ph_dbg_draw_mask() const
     {
@@ -43,9 +43,9 @@ static class DebugOutputEmptyImpl: public IDebugOutput
     // virtual	void DBG_DrawBind( CObject &O )											=0;
     // virtual	void DBG_PhysBones( CObject &O )										=0;
     // virtual	void DBG_DrawBones( CObject &O )										=0;
-    virtual void DBG_DrawFrameStart() {}
-    virtual void PH_DBG_Render() {}
-    virtual void PH_DBG_Clear() {}
+    virtual void   DBG_DrawFrameStart() {}
+    virtual void   PH_DBG_Render() {}
+    virtual void   PH_DBG_Clear() {}
 
     virtual LPCSTR PH_DBG_ObjectTrackName()
     {

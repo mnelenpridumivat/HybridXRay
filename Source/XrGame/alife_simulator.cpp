@@ -21,11 +21,11 @@
 #include "moving_objects.h"
 #endif   // DEBUG
 
-LPCSTR alife_section = "alife";
+LPCSTR      alife_section = "alife";
 
 extern void destroy_lua_wpn_params();
 
-void restart_all()
+void        restart_all()
 {
     if (strstr(Core.Params, "-keep_lua"))
         return;
@@ -40,9 +40,7 @@ void restart_all()
 #endif   // DEBUG
 }
 
-CALifeSimulator::CALifeSimulator(xrServer* server, shared_str* command_line):
-    CALifeUpdateManager(server, alife_section), CALifeInteractionManager(server, alife_section),
-    CALifeSimulatorBase(server, alife_section)
+CALifeSimulator::CALifeSimulator(xrServer* server, shared_str* command_line): CALifeUpdateManager(server, alife_section), CALifeInteractionManager(server, alife_section), CALifeSimulatorBase(server, alife_section)
 {
     restart_all();
 
@@ -53,9 +51,7 @@ CALifeSimulator::CALifeSimulator(xrServer* server, shared_str* command_line):
     typedef IGame_Persistent::params params;
     params&                          p = g_pGamePersistent->m_game_params;
 
-    R_ASSERT2(
-        xr_strlen(p.m_game_or_spawn) && !xr_strcmp(p.m_alife, "alife") && !xr_strcmp(p.m_game_type, "single"),
-        "Invalid server options!");
+    R_ASSERT2(xr_strlen(p.m_game_or_spawn) && !xr_strcmp(p.m_alife, "alife") && !xr_strcmp(p.m_game_type, "single"), "Invalid server options!");
 
     string256 temp;
     xr_strcpy(temp, p.m_game_or_spawn);
@@ -63,7 +59,7 @@ CALifeSimulator::CALifeSimulator(xrServer* server, shared_str* command_line):
     xr_strcat(temp, p.m_game_type);
     xr_strcat(temp, "/");
     xr_strcat(temp, p.m_alife);
-    *command_line = temp;
+    *command_line                              = temp;
 
     LPCSTR                 start_game_callback = pSettings->r_string(alife_section, "start_game_callback");
     luabind::functor<void> functor;
@@ -120,8 +116,7 @@ struct string_prdicate
 
 IReader const* CALifeSimulator::get_config(shared_str config) const
 {
-    configs_type::iterator const found =
-        std::find_if(m_configs_lru.begin(), m_configs_lru.end(), string_prdicate(config));
+    configs_type::iterator const found = std::find_if(m_configs_lru.begin(), m_configs_lru.end(), string_prdicate(config));
     if (found != m_configs_lru.end())
     {
         configs_type::value_type temp = *found;

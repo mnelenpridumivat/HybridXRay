@@ -208,7 +208,7 @@ void read(INetReader& r, CDB::TRI& tri, xrLC_GlobalData& lc_global_data)
 static xr_vector<Fvector>  verts;
 static xr_vector<CDB::TRI> tris;
 
-void read(INetReader& r, CDB::MODEL*& m, xrLC_GlobalData& lc_global_data)
+void                       read(INetReader& r, CDB::MODEL*& m, xrLC_GlobalData& lc_global_data)
 {
     verts.clear();
     tris.clear();
@@ -456,8 +456,7 @@ template<typename T> std::pair<u32, u32> get_id(const xr_vector<xrMU_Model*>& mu
     {
         const T* _v;
         u32&     _id;
-        find(const T* v, u32& id):
-            _v(v), _id(id) {}
+        find(const T* v, u32& id): _v(v), _id(id) {}
         bool operator()(const xrMU_Model* m)
         {
             VERIFY(m);

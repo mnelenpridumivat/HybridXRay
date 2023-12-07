@@ -3,7 +3,7 @@
 #pragma once
 
 // 1. class or not class
-template <typename T> struct is_class
+template<typename T> struct is_class
 {
     struct _yes
     {
@@ -14,8 +14,8 @@ template <typename T> struct is_class
         char _a[2];
     };
 
-    template <class U> static _yes is_class_tester(void (U::*)(void));
-    template <class U> static _no  is_class_tester(...);
+    template<class U> static _yes is_class_tester(void (U::*)(void));
+    template<class U> static _no  is_class_tester(...);
 
     enum
     {
@@ -24,7 +24,7 @@ template <typename T> struct is_class
 };
 
 // 2. is polymorphic (class)
-template <typename T> struct is_pm_class
+template<typename T> struct is_pm_class
 {
     struct c1: public T
     {
@@ -48,9 +48,9 @@ template <typename T> struct is_pm_class
 };
 
 // 3. select result based on class/not class
-template <bool _is_class> struct is_pm_classify
+template<bool _is_class> struct is_pm_classify
 {
-    template <typename _T> struct _detail
+    template<typename _T> struct _detail
     {
         enum
         {
@@ -58,9 +58,9 @@ template <bool _is_class> struct is_pm_classify
         };
     };
 };
-template <> struct is_pm_classify<false>
+template<> struct is_pm_classify<false>
 {
-    template <typename _T> struct _detail
+    template<typename _T> struct _detail
     {
         enum
         {
@@ -68,7 +68,7 @@ template <> struct is_pm_classify<false>
         };
     };
 };
-template <typename T> struct is_polymorphic
+template<typename T> struct is_polymorphic
 {
     enum
     {

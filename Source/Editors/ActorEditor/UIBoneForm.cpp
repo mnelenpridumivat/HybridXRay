@@ -263,7 +263,7 @@ void UIBoneForm::Save()
     {
         if (m_List[k].size())
         {
-            for (auto node : m_List[k])
+            for (auto node: m_List[k])
             {
                 b_use[m_EditObject->FindBoneByNameIdx(node.name.c_str())]++;
             }
@@ -286,7 +286,7 @@ void UIBoneForm::Save()
             m_BoneParts->push_back(SBonePart());
             SBonePart& BP = m_BoneParts->back();
             BP.alias      = m_Name[k];
-            for (auto node : m_List[k])
+            for (auto node: m_List[k])
             {
                 BP.bones.push_back(node.name);
             }
@@ -308,7 +308,7 @@ void UIBoneForm::SaveTo()
         {
             sprintf(buff, "part_%d", i);
             ini.w_string(buff, "partition_name", m_Name[i]);
-            for (auto node : m_List[i])
+            for (auto node: m_List[i])
             {
                 ini.w_string(buff, node.name.c_str(), NULL);
             }

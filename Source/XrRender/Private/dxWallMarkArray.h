@@ -16,6 +16,7 @@ public:
     virtual wm_shader GenerateWallmark();
 
     ref_shader*       dxGenerateWallmark();
+
 private:
     DEFINE_VECTOR(ref_shader, ShaderVec, ShaderIt);
 

@@ -13,9 +13,9 @@ private:
     CMapLocation*     m_map_location;
     int               m_location_level;
 
-    CUIStatic* m_border_static;
+    CUIStatic*        m_border_static;
 
-    bool m_mark_focused;
+    bool              m_mark_focused;
 
 public:
     bool     m_bScale;
@@ -41,8 +41,8 @@ public:
     virtual bool   OnMouseDown(int mouse_btn);
     virtual void   OnFocusLost();
 
-    void show_static_border(bool status);
-    void mark_focused();
+    void           show_static_border(bool status);
+    void           mark_focused();
 };
 
 class CMapSpotPointer: public CMapSpot
@@ -104,14 +104,14 @@ class CComplexMapSpot: public CMapSpot
 {
     typedef CMapSpot inherited;
 
-    CUIStaticOrig* m_left_icon;
-    CUIStaticOrig* m_right_icon;
-    CUIStaticOrig* m_top_icon;
-    CUIStaticOrig* m_timer;
+    CUIStaticOrig*   m_left_icon;
+    CUIStaticOrig*   m_right_icon;
+    CUIStaticOrig*   m_top_icon;
+    CUIStaticOrig*   m_timer;
 
-    bool            m_infinity_time;
-    int             m_last_delay;
-    ALife::_TIME_ID m_timer_finish;
+    bool             m_infinity_time;
+    int              m_last_delay;
+    ALife::_TIME_ID  m_timer_finish;
 
 public:
     CComplexMapSpot(CMapLocation*);
@@ -120,7 +120,7 @@ public:
     virtual void Update();
     virtual void SetWndSize(const Fvector2& size);
 
-    void SetLeftTexture(LPCSTR texture_name)
+    void         SetLeftTexture(LPCSTR texture_name)
     {
         VERIFY2(m_left_icon, texture_name);
         m_left_icon->InitTexture(texture_name);

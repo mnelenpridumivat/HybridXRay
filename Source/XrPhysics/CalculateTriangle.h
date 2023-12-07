@@ -7,8 +7,8 @@
 #include "ode_redefine.h"
 #include "../xrcdb/xr_area.h"
 // #include "phworld.h"
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4267)
+#pragma warning(disable:4995)
+#pragma warning(disable:4267)
 ICF void GetNormal(CDB::TRI* XTri, Fvector& n, const Fvector* V_array)
 {
     // VERIFY(g_pGameLevel);
@@ -23,8 +23,7 @@ ICF void CalculateInitTriangle(CDB::TRI* XTri, Triangle& triangle, const Fvector
 {
     // VERIFY(g_pGameLevel);
     // const Fvector* V_array=inl_ph_world().ObjectSpace().GetStaticVerts();
-    const float* VRT[3] = {
-        (dReal*)&V_array[XTri->verts[0]], (dReal*)&V_array[XTri->verts[1]], (dReal*)&V_array[XTri->verts[2]]};
+    const float* VRT[3] = {(dReal*)&V_array[XTri->verts[0]], (dReal*)&V_array[XTri->verts[1]], (dReal*)&V_array[XTri->verts[2]]};
     dVectorSub(triangle.side0, VRT[1], VRT[0]);
     dVectorSub(triangle.side1, VRT[2], VRT[1]);
     triangle.T = XTri;
@@ -49,16 +48,7 @@ ICF void CalculateTriangle(CDB::TRI* XTri, dGeomID g, Triangle& triangle, const 
     CalculateTriangle(XTri, p, triangle, V_array);
 }
 
-inline bool TriContainPoint(
-    const dReal* v0,
-    const dReal* v1,
-    const dReal* v2,
-    const dReal* triSideAx0,
-    const dReal* triSideAx1,
-    const dReal* triSideAx2,
-    const dReal* triAx,
-    const dReal* pos,
-    u16&         c)
+inline bool TriContainPoint(const dReal* v0, const dReal* v1, const dReal* v2, const dReal* triSideAx0, const dReal* triSideAx1, const dReal* triSideAx2, const dReal* triAx, const dReal* pos, u16& c)
 {
     c = 0;
     dVector3 cross0, cross1, cross2;
@@ -83,15 +73,7 @@ inline bool TriContainPoint(
     return true;
 }
 
-ICF bool TriContainPoint(
-    const dReal* v0,
-    const dReal* v1,
-    const dReal* v2,
-    const dReal* triAx,
-    const dReal* triSideAx0,
-    const dReal* triSideAx1,
-    const dReal* pos,
-    u16&         c)
+ICF bool TriContainPoint(const dReal* v0, const dReal* v1, const dReal* v2, const dReal* triAx, const dReal* triSideAx0, const dReal* triSideAx1, const dReal* pos, u16& c)
 {
     dVector3 triSideAx2 = {v0[0] - v2[0], v0[1] - v2[1], v0[2] - v2[2]};
     return TriContainPoint(v0, v1, v2, triSideAx0, triSideAx1, triSideAx2, triAx, pos, c);
@@ -102,8 +84,7 @@ ICF bool TriContainPoint(Triangle* T, const float* pos, u16& c, const Fvector* V
     // dReal* triSideAx1, const dReal* pos) VERIFY( g_pGameLevel ); const Fvector*
     // V_array=inl_ph_world().ObjectSpace().GetStaticVerts();
     CDB::TRI*    XTri   = T->T;
-    const float* VRT[3] = {
-        (dReal*)&V_array[XTri->verts[0]], (dReal*)&V_array[XTri->verts[1]], (dReal*)&V_array[XTri->verts[2]]};
+    const float* VRT[3] = {(dReal*)&V_array[XTri->verts[0]], (dReal*)&V_array[XTri->verts[1]], (dReal*)&V_array[XTri->verts[2]]};
     return TriContainPoint(VRT[0], VRT[1], VRT[2], T->norm, T->side0, T->side1, pos, c);
 }
 
@@ -161,10 +142,9 @@ ICF float DistToTri(Triangle* T, const float* pos, float* dir, float* p, ETriDis
         return T->dist;
     }
     CDB::TRI*    XTri   = T->T;
-    const float* VRT[3] = {
-        (dReal*)&V_array[XTri->verts[0]], (dReal*)&V_array[XTri->verts[1]], (dReal*)&V_array[XTri->verts[2]]};
-    u16   cd    = u16(-1);
-    float tdist = 0.f;
+    const float* VRT[3] = {(dReal*)&V_array[XTri->verts[0]], (dReal*)&V_array[XTri->verts[1]], (dReal*)&V_array[XTri->verts[2]]};
+    u16          cd     = u16(-1);
+    float        tdist  = 0.f;
 
     switch (code)
     {
@@ -215,5 +195,5 @@ ICF float DistToTri(Triangle* T, const float* pos, float* dir, float* p, ETriDis
 
     // return _min(_min(DistToFragmenton(pos)))
 }
-#pragma warning(default : 4995)
-#pragma warning(default : 4267)
+#pragma warning(default:4995)
+#pragma warning(default:4267)

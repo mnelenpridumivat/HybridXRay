@@ -263,8 +263,7 @@ void CReadMemoryBlock::r(void* p, int cnt) const
     position += cnt;
 }
 
-CReadMemoryBlock::CReadMemoryBlock(const u32 buff_size_, u8* buffer):
-    buf_size(buff_size_), file_size(0), position(0), _buffer(buffer)
+CReadMemoryBlock::CReadMemoryBlock(const u32 buff_size_, u8* buffer): buf_size(buff_size_), file_size(0), position(0), _buffer(buffer)
 {
     /*
         data = (u8*)	Memory.mem_alloc	(file_size_
@@ -294,8 +293,7 @@ void CMemoryWriteBlock::send(IGenericStream* _stream)
     _stream->Write(&block_size, sizeof(block_size));
     _stream->Write(pointer(), block_size);
 }
-CFileWriteBlock::CFileWriteBlock(LPCSTR fn, u32 _size, bool _reopen):
-    IWriteBlock(_size), file_name(fn), file(0), file_map(0), reopen(_reopen)
+CFileWriteBlock::CFileWriteBlock(LPCSTR fn, u32 _size, bool _reopen): IWriteBlock(_size), file_name(fn), file(0), file_map(0), reopen(_reopen)
 {
     if (reopen)
         return;
@@ -415,8 +413,7 @@ DWORD __stdcall CGenStreamOnFile::Read(void* Data, DWORD count)
     return count;
 }
 
-INetIWriterGenStream::INetIWriterGenStream(IGenericStream* _stream, u32 inital_size):
-    stream(_stream), block_size(inital_size)
+INetIWriterGenStream::INetIWriterGenStream(IGenericStream* _stream, u32 inital_size): stream(_stream), block_size(inital_size)
 {
     R_ASSERT(_stream);
     u32 const position = _stream->GetPos();

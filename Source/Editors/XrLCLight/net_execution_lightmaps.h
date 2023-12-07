@@ -13,6 +13,7 @@ namespace lc_net
     {
         u32 from;
         u32 to;
+
     public:
         net_execution_impl(): from(u32(-1)), to(u32(-1)) {}
         void construct(u32 _from, u32 _to)
@@ -33,8 +34,7 @@ namespace lc_net
 #endif
     };
     template<> struct add_global<et_lightmaps, gl_lm_data>
-    {
-    };
+    {};
     // execution_lightmaps
 };   // namespace lc_net
 #endif

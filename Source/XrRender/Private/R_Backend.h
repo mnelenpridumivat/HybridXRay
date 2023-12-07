@@ -81,6 +81,7 @@ public:
         mtMaxVertexShaderTextures = 4,
     };
 #endif   //	USE_DX10
+
 public:
     // Dynamic geometry streams
     _VertexStream    Vertex;
@@ -110,6 +111,7 @@ public:
     DWORD                  dummy1;   //	Padding to avoid warning
     DWORD                  dummy2;   //	Padding to avoid warning
 #endif
+
 private:
     // Render-targets
     ID3DRenderTargetView* pRT[4];
@@ -191,6 +193,7 @@ private:
 #endif
 
     void Invalidate();
+
 public:
     struct _stats
     {
@@ -214,6 +217,7 @@ public:
 
         R_statistics r;
     } stat;
+
 public:
     IC CTexture* get_ActiveTexture(u32 stage)
     {
@@ -362,10 +366,12 @@ public:
     ICF void set_VS(ref_vs& _vs);
 #if defined(USE_DX10) || defined(USE_DX11)
     ICF void set_VS(SVS* _vs);
+
 protected:   //	In DX10 we need input shader signature which is stored in ref_vs
 #endif       //	USE_DX10
     ICF void set_VS(ID3DVertexShader* _vs, LPCSTR _n = 0);
 #if defined(USE_DX10) || defined(USE_DX11)
+
 public:
 #endif   //	USE_DX10
 
@@ -603,6 +609,7 @@ public:
     };
 
 #if defined(USE_DX10) || defined(USE_DX11)
+
 private:
     //	DirectX 10 internal functionality
     // void CreateConstantBuffers();
@@ -611,6 +618,7 @@ private:
     void ApplyRTandZB();
     void ApplyPrimitieTopology(D3D_PRIMITIVE_TOPOLOGY Topology);
     bool CBuffersNeedUpdate(ref_cbuffer buf1[MaxCBuffers], ref_cbuffer buf2[MaxCBuffers], u32& uiMin, u32& uiMax);
+
 private:
     ID3DBlob* m_pInputSignature;
 

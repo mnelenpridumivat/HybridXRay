@@ -15,8 +15,7 @@
 // #include "xrMU_Model.h"
 
 struct STextureParams;
-extern "C" bool __declspec(dllimport)
-    DXTCompress(LPCSTR out_name, u8* raw_data, u8* normal_map, u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth);
+extern "C" bool __declspec(dllimport) DXTCompress(LPCSTR out_name, u8* raw_data, u8* normal_map, u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth);
 
 // #include "../xrLCLight/xrLC_GlobalData.h"
 // #include "../xrLCLight/xrface.h"
@@ -65,6 +64,7 @@ public:
 
     void                        mem_Compact();
     void                        mem_CompactSubdivs();
+
 public:
     void Load(const b_params& P, const IReader& fs);
     void Run(LPCSTR path);

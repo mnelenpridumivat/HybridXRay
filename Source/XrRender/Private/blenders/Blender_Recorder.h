@@ -26,6 +26,7 @@ public:
     BOOL              bDetail_Bump;
     BOOL              bUseSteepParallax;
     int               iElement;
+
 public:
     CSimulator     RS;
     IBlender*      BT;
@@ -40,6 +41,7 @@ public:
     };
     u32 TessMethod;
 #endif
+
 private:
     SPass            dest;
     R_constant_table ctable;
@@ -64,6 +66,7 @@ private:
     {
         return v ? 0x01 : 0;
     }
+
 public:
     CSimulator& R()
     {

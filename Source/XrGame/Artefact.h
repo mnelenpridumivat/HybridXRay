@@ -40,7 +40,7 @@ public:
     {
         return TRUE;
     }
-    virtual void create_physic_shell();
+    virtual void       create_physic_shell();
 
     virtual CArtefact* cast_artefact()
     {
@@ -48,23 +48,23 @@ public:
     }
 
 protected:
-    virtual void UpdateCLChild(){};
-    virtual void CreateArtefactActivation();
+    virtual void               UpdateCLChild(){};
+    virtual void               CreateArtefactActivation();
 
     SArtefactActivation*       m_activationObj;
     SArtefactDetectorsSupport* m_detectorObj;
 
-    u16        m_CarringBoneID;
-    shared_str m_sParticlesName;
+    u16                        m_CarringBoneID;
+    shared_str                 m_sParticlesName;
 
-    ref_light m_pTrailLight;
-    Fcolor    m_TrailLightColor;
-    float     m_fTrailLightRange;
-    u8        m_af_rank;
-    bool      m_bLightsEnabled;
-    float     m_additional_weight;
+    ref_light                  m_pTrailLight;
+    Fcolor                     m_TrailLightColor;
+    float                      m_fTrailLightRange;
+    u8                         m_af_rank;
+    bool                       m_bLightsEnabled;
+    float                      m_additional_weight;
 
-    virtual void UpdateLights();
+    virtual void               UpdateLights();
 
 public:
     IC u8 GetAfRank() const
@@ -75,10 +75,10 @@ public:
     {
         return m_bCanSpawnZone;
     };
-    void ActivateArtefact();
-    void FollowByPath(LPCSTR path_name, int start_idx, Fvector magic_force);
-    bool CanBeInvisible();
-    void SwitchVisibility(bool);
+    void         ActivateArtefact();
+    void         FollowByPath(LPCSTR path_name, int start_idx, Fvector magic_force);
+    bool         CanBeInvisible();
+    void         SwitchVisibility(bool);
 
     void         SwitchAfParticles(bool bOn);
     virtual void StartLights();
@@ -87,7 +87,7 @@ public:
     virtual void PhDataUpdate(float step);
     virtual void PhTune(float step){};
 
-    float AdditionalInventoryWeight() const
+    float        AdditionalInventoryWeight() const
     {
         return m_additional_weight;
     }
@@ -146,8 +146,8 @@ public:
 
 struct SArtefactDetectorsSupport
 {
-    CArtefact* m_parent;
-    ref_sound  m_sound;
+    CArtefact*                  m_parent;
+    ref_sound                   m_sound;
 
     Fvector                     m_path_moving_force;
     u32                         m_switchVisTime;

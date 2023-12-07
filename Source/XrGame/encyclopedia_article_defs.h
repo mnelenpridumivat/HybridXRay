@@ -16,19 +16,16 @@ struct ARTICLE_DATA: public IPureSerializeObject<IReader, IWriter>
 
     ARTICLE_DATA(): article_id(NULL), receive_time(0), readed(false), article_type(eEncyclopediaArticle) {}
 
-    ARTICLE_DATA(shared_str id, ALife::_TIME_ID time, EArticleType articleType):
-        article_id(id), receive_time(time), readed(false), article_type(articleType)
-    {
-    }
+    ARTICLE_DATA(shared_str id, ALife::_TIME_ID time, EArticleType articleType): article_id(id), receive_time(time), readed(false), article_type(articleType) {}
 
-    virtual void load(IReader& stream);
-    virtual void save(IWriter&);
+    virtual void    load(IReader& stream);
+    virtual void    save(IWriter&);
 
     ALife::_TIME_ID receive_time;
     shared_str      article_id;
     bool            readed;
 
-    EArticleType article_type;
+    EArticleType    article_type;
 };
 
 DEFINE_VECTOR(shared_str, ARTICLE_ID_VECTOR, ARTICLE_ID_IT);

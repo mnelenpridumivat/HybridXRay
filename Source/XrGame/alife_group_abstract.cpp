@@ -23,7 +23,7 @@ void CSE_ALifeGroupAbstract::switch_online()
     VERIFY(object);
 
     R_ASSERT(!object->m_bOnline);
-    object->m_bOnline = true;
+    object->m_bOnline  = true;
 
     ALife::OBJECT_IT I = m_tpMembers.begin(), B = I;
     ALife::OBJECT_IT E = m_tpMembers.end();
@@ -52,15 +52,14 @@ void CSE_ALifeGroupAbstract::switch_offline()
     VERIFY(object);
 
     R_ASSERT(object->m_bOnline);
-    object->m_bOnline = false;
+    object->m_bOnline  = false;
 
     ALife::OBJECT_IT I = m_tpMembers.begin();
     ALife::OBJECT_IT E = m_tpMembers.end();
     if (I != E)
     {
-        CSE_ALifeMonsterAbstract* tpGroupMember =
-            smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(*I));
-        CSE_ALifeMonsterAbstract* tpGroup = smart_cast<CSE_ALifeMonsterAbstract*>(this);
+        CSE_ALifeMonsterAbstract* tpGroupMember = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(*I));
+        CSE_ALifeMonsterAbstract* tpGroup       = smart_cast<CSE_ALifeMonsterAbstract*>(this);
         if (tpGroupMember && tpGroup)
         {
             tpGroup->m_fCurSpeed                       = tpGroup->m_fCurrentLevelGoingSpeed;
@@ -142,8 +141,7 @@ void CSE_ALifeGroupAbstract::try_switch_offline()
     for (; i < N_; ++i)
     {
         // casting group member to the abstract monster to get access to the Health property
-        CSE_ALifeMonsterAbstract* tpGroupMember =
-            smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(m_tpMembers[i]));
+        CSE_ALifeMonsterAbstract* tpGroupMember = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(m_tpMembers[i]));
         if (!tpGroupMember)
             continue;
 
@@ -161,8 +159,7 @@ void CSE_ALifeGroupAbstract::try_switch_offline()
                 // to switch offline
                 break;
 
-            if (I->alife().graph().actor()->o_Position.distance_to(tpGroupMember->o_Position) <=
-                I->alife().offline_distance())
+            if (I->alife().graph().actor()->o_Position.distance_to(tpGroupMember->o_Position) <= I->alife().offline_distance())
                 // so, it is not ready, breaking a cycle, because we can't
                 // switch group offline since not all the group members are ready
                 // to switch offline

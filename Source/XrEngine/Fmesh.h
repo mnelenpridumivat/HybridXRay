@@ -21,7 +21,7 @@ enum MT
     MT_SKELETON_RIGID      = 10,
     MT_TREE_PM             = 11,
 
-    MT_3DFLUIDVOLUME = 12,
+    MT_3DFLUIDVOLUME       = 12,
 };
 
 enum OGF_Chuncks
@@ -64,7 +64,7 @@ enum OGF_SkeletonVertType
     OGF_VERTEXFORMAT_FVF_NL = 3 * 0x12071980,
 };
 
-const u16 xrOGF_SMParamsVersion = 4;
+const u16         xrOGF_SMParamsVersion = 4;
 
 // OGF_DESC
 struct ENGINE_API ogf_desc

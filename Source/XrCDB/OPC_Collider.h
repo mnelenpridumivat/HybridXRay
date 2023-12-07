@@ -27,10 +27,10 @@ enum CollisionFlag
     OPC_CONTACT            = (1 << 2),   //!< Final contact status after a collision query
     OPC_TEMPORAL_HIT       = (1 << 3),   //!< There has been an early exit due to temporal coherence
 
-    OPC_CONTACT_FOUND    = OPC_FIRST_CONTACT | OPC_CONTACT,
-    OPC_TEMPORAL_CONTACT = OPC_TEMPORAL_HIT | OPC_CONTACT,
+    OPC_CONTACT_FOUND      = OPC_FIRST_CONTACT | OPC_CONTACT,
+    OPC_TEMPORAL_CONTACT   = OPC_TEMPORAL_HIT | OPC_CONTACT,
 
-    OPC_FORCE_DWORD = 0x7fffffff
+    OPC_FORCE_DWORD        = 0x7fffffff
 };
 
 class OPCODE_API Collider
@@ -141,8 +141,9 @@ public:
     //							{
     //								return "Collider::ValidateSettings: pure virtual function called!";
     //							}
+
 protected:
-    udword mFlags;   //!< Bit flags
+    udword               mFlags;   //!< Bit flags
     // Internal methods
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

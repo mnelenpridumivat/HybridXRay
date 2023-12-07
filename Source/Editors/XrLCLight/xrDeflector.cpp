@@ -253,15 +253,7 @@ void CDeflector::GetRect(Fvector2& min, Fvector2& max)
     }
 }
 
-void CDeflector::RemapUV(
-    xr_vector<UVtri>& dest,
-    u32               base_u,
-    u32               base_v,
-    u32               size_u,
-    u32               size_v,
-    u32               lm_u,
-    u32               lm_v,
-    BOOL              bRotate)
+void CDeflector::RemapUV(xr_vector<UVtri>& dest, u32 base_u, u32 base_v, u32 size_u, u32 size_v, u32 lm_u, u32 lm_v, BOOL bRotate)
 {
     dest.clear();
     dest.reserve(UVpolys.size());

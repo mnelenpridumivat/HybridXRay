@@ -8,7 +8,7 @@
 #include "ai_space.h"
 #include "alife_simulator.h"
 
-template <typename _registry_type> class CALifeRegistryWrapper
+template<typename _registry_type> class CALifeRegistryWrapper
 {
 public:
     IC CALifeRegistryWrapper()
@@ -33,15 +33,14 @@ public:
 
 private:
     // id - владельца реестра
-    u16 holder_id;
+    u16                                      holder_id;
 
     // реестр на случай, если нет ALife (для отладки)
     //	typename _registry_type::_data	local_registry;
     typename _registry_type::OBJECT_REGISTRY local_registry;
 };
 
-template <typename _registry_type>
-const typename _registry_type::_data* CALifeRegistryWrapper<_registry_type>::objects_ptr(u16 id)
+template<typename _registry_type> const typename _registry_type::_data* CALifeRegistryWrapper<_registry_type>::objects_ptr(u16 id)
 {
     //	if(NULL == ai().get_alife()) return &local_registry;
     if (NULL == ai().get_alife())
@@ -63,8 +62,7 @@ const typename _registry_type::_data* CALifeRegistryWrapper<_registry_type>::obj
     return registy_container;
 }
 
-template <typename _registry_type>
-typename _registry_type::_data& CALifeRegistryWrapper<_registry_type>::objects(u16 id)
+template<typename _registry_type> typename _registry_type::_data& CALifeRegistryWrapper<_registry_type>::objects(u16 id)
 {
     //	if(NULL == ai().get_alife()) return local_registry;
     if (NULL == ai().get_alife())
@@ -93,13 +91,12 @@ typename _registry_type::_data& CALifeRegistryWrapper<_registry_type>::objects(u
     return *registy_container;
 }
 
-template <typename _registry_type>
-const typename _registry_type::_data* CALifeRegistryWrapper<_registry_type>::objects_ptr()
+template<typename _registry_type> const typename _registry_type::_data* CALifeRegistryWrapper<_registry_type>::objects_ptr()
 {
     return objects_ptr(holder_id);
 }
 
-template <typename _registry_type> typename _registry_type::_data& CALifeRegistryWrapper<_registry_type>::objects()
+template<typename _registry_type> typename _registry_type::_data& CALifeRegistryWrapper<_registry_type>::objects()
 {
     return objects(holder_id);
 }

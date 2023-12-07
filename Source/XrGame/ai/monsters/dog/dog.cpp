@@ -22,7 +22,7 @@
 
 CAI_Dog::CAI_Dog()
 {
-    StateMan = xr_new<CStateManagerDog>(this);
+    StateMan         = xr_new<CStateManagerDog>(this);
 
     min_move_dist    = u32(5);
     max_move_dist    = u32(7);
@@ -407,9 +407,7 @@ LPCSTR CAI_Dog::get_current_animation()
 void CAI_Dog::reload(LPCSTR section)
 {
     inherited::reload(section);
-    com_man().load_jump_data(
-        0, "jump_ataka_01", "jump_ataka_02", "jump_ataka_03", MonsterMovement::eVelocityParameterRunNormal,
-        MonsterMovement::eVelocityParameterRunNormal, 0);
+    com_man().load_jump_data(0, "jump_ataka_01", "jump_ataka_02", "jump_ataka_03", MonsterMovement::eVelocityParameterRunNormal, MonsterMovement::eVelocityParameterRunNormal, 0);
 }
 
 void CAI_Dog::HitEntityInJump(const CEntity* pEntity)

@@ -1,60 +1,82 @@
-#pragma once
+ï»¿#pragma once
 
-enum EUIItemAlign{
-	alNone	= 0x0000,
-	alLeft	= 0x0001,
-	alRight	= 0x0002,
-	alTop	= 0x0004,
-	alBottom= 0x0008,
-	alCenter= 0x0010
+enum EUIItemAlign
+{
+    alNone   = 0x0000,
+    alLeft   = 0x0001,
+    alRight  = 0x0002,
+    alTop    = 0x0004,
+    alBottom = 0x0008,
+    alCenter = 0x0010
 };
 
 class CUICustomItem
 {
 protected:
-	enum {
-		flValidRect				=(1<<0),
-		flValidOriginalRect		=(1<<1),
-		flValidHeadingPivot		=(1<<2),
-		flFixedLTWhileHeading	=(1<<3),
-	};
-	//ïðÿìîóãîëüíèê(â ïèêñåëÿõ) 
-	//ãåîì. ðåãèîí  íà êîòîðûé íàòÿãèêàåòñÿ òåêñòóðà ñ òåêñòóðíûìè êîîðäèíàòàìè iOriginalRect
-	Frect			iVisRect;
+    enum
+    {
+        flValidRect           = (1 << 0),
+        flValidOriginalRect   = (1 << 1),
+        flValidHeadingPivot   = (1 << 2),
+        flFixedLTWhileHeading = (1 << 3),
+    };
+    //Ð¿Ñ€ÑÐ¼Ð¾ÑƒÐ³Ð¾Ð»ÑŒÐ½Ð¸Ðº(Ð² Ð¿Ð¸ÐºÑÐµÐ»ÑÑ…)
+    //Ð³ÐµÐ¾Ð¼. Ñ€ÐµÐ³Ð¸Ð¾Ð½  Ð½Ð° ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ð¹ Ð½Ð°Ñ‚ÑÐ³Ð¸ÐºÐ°ÐµÑ‚ÑÑ Ñ‚ÐµÐºÑÑ‚ÑƒÑ€Ð° Ñ Ñ‚ÐµÐºÑÑ‚ÑƒÑ€Ð½Ñ‹Ð¼Ð¸ ÐºÐ¾Ð¾Ñ€Ð´Ð¸Ð½Ð°Ñ‚Ð°Ð¼Ð¸ iOriginalRect
+    Frect    iVisRect;
 
-	//ôðåéì òåêñòóðû â ïèêñåëÿõ îòí. 0/0
-	Frect			iOriginalRect;
+    //Ñ„Ñ€ÐµÐ¹Ð¼ Ñ‚ÐµÐºÑÑ‚ÑƒÑ€Ñ‹ Ð² Ð¿Ð¸ÐºÑÐµÐ»ÑÑ… Ð¾Ñ‚Ð½. 0/0
+    Frect    iOriginalRect;
 
-	// òî÷êà, îòíîñèòåëüíî êîòîðîé ïðèìåíÿåì ïîâîðîò
-	Fvector2		iHeadingPivot;
-	Fvector2		iHeadingOffset;
+    // Ñ‚Ð¾Ñ‡ÐºÐ°, Ð¾Ñ‚Ð½Ð¾ÑÐ¸Ñ‚ÐµÐ»ÑŒÐ½Ð¾ ÐºÐ¾Ñ‚Ð¾Ñ€Ð¾Ð¹ Ð¿Ñ€Ð¸Ð¼ÐµÐ½ÑÐµÐ¼ Ð¿Ð¾Ð²Ð¾Ñ€Ð¾Ñ‚
+    Fvector2 iHeadingPivot;
+    Fvector2 iHeadingOffset;
 
-	Flags32			uFlags;
-	u32				uAlign;
+    Flags32  uFlags;
+    u32      uAlign;
 
 public:
-					CUICustomItem			();
-	virtual			~CUICustomItem			();
-	IC void			SetRect					(float x1, float y1, float x2, float y2){iVisRect.set(x1,y1,x2,y2); uFlags.set(flValidRect,TRUE); }
-	IC void			SetRect					(const Frect& r){iVisRect.set(r); uFlags.set(flValidRect, TRUE); }
-	  void			SetOriginalRect			(float x, float y, float width, float height);
+    CUICustomItem();
+    virtual ~CUICustomItem();
+    IC void SetRect(float x1, float y1, float x2, float y2)
+    {
+        iVisRect.set(x1, y1, x2, y2);
+        uFlags.set(flValidRect, TRUE);
+    }
+    IC void SetRect(const Frect& r)
+    {
+        iVisRect.set(r);
+        uFlags.set(flValidRect, TRUE);
+    }
+    void     SetOriginalRect(float x, float y, float width, float height);
 
-	IC Frect		GetRect					() {return iVisRect;}
-	   Frect		GetOriginalRect			() const;
-	
-	   void			SetHeadingPivot			(const Fvector2& p, const Fvector2& offset, bool fixedLT);
-	   void			ResetHeadingPivot		();
-	   IC bool		GetFixedLTWhileHeading	() const								{return !!uFlags.test(flFixedLTWhileHeading);}
-	   Fvector2		GetHeadingPivot			()										{return iHeadingPivot;}
-	   
-	   void			Render					(const Fvector2& pos, u32 color, 
-												float x1, float y1, 
-												float x2, float y2);
+    IC Frect GetRect()
+    {
+        return iVisRect;
+    }
+    Frect   GetOriginalRect() const;
 
-	   void			Render					(const Fvector2& pos, u32 color);
-	   void			Render					(const Fvector2& pos, u32 color, float angle);
+    void    SetHeadingPivot(const Fvector2& p, const Fvector2& offset, bool fixedLT);
+    void    ResetHeadingPivot();
+    IC bool GetFixedLTWhileHeading() const
+    {
+        return !!uFlags.test(flFixedLTWhileHeading);
+    }
+    Fvector2 GetHeadingPivot()
+    {
+        return iHeadingPivot;
+    }
 
-	IC void			SetAlign				(u32 align)					{uAlign=align;};
-	IC u32			GetAlign				()							{return uAlign;}
+    void    Render(const Fvector2& pos, u32 color, float x1, float y1, float x2, float y2);
 
+    void    Render(const Fvector2& pos, u32 color);
+    void    Render(const Fvector2& pos, u32 color, float angle);
+
+    IC void SetAlign(u32 align)
+    {
+        uAlign = align;
+    };
+    IC u32 GetAlign()
+    {
+        return uAlign;
+    }
 };

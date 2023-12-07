@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-template <typename Object> CStateBurerAttackGravi<Object>::CStateBurerAttackGravi(Object* obj): inherited(obj)
+template<typename Object> CStateBurerAttackGravi<Object>::CStateBurerAttackGravi(Object* obj): inherited(obj)
 {
     m_next_gravi_allowed_tick = 0;
     m_anim_end_tick           = 0;
 }
 
-template <typename Object> void CStateBurerAttackGravi<Object>::initialize()
+template<typename Object> void CStateBurerAttackGravi<Object>::initialize()
 {
     inherited::initialize();
     m_action                  = ACTION_GRAVI_STARTED;
@@ -17,7 +17,7 @@ template <typename Object> void CStateBurerAttackGravi<Object>::initialize()
     object->set_script_capture(false);
 }
 
-template <typename Object> void CStateBurerAttackGravi<Object>::execute()
+template<typename Object> void CStateBurerAttackGravi<Object>::execute()
 {
     switch (m_action)
     {
@@ -54,13 +54,13 @@ template <typename Object> void CStateBurerAttackGravi<Object>::execute()
     object->set_action(ACT_STAND_IDLE);
 }
 
-template <typename Object> void CStateBurerAttackGravi<Object>::finalize()
+template<typename Object> void CStateBurerAttackGravi<Object>::finalize()
 {
     inherited::finalize();
     object->set_script_capture(true);
 }
 
-template <typename Object> void CStateBurerAttackGravi<Object>::critical_finalize()
+template<typename Object> void CStateBurerAttackGravi<Object>::critical_finalize()
 {
     inherited::critical_finalize();
 
@@ -68,7 +68,7 @@ template <typename Object> void CStateBurerAttackGravi<Object>::critical_finaliz
     object->set_script_capture(false);
 }
 
-template <typename Object> bool CStateBurerAttackGravi<Object>::check_start_conditions()
+template<typename Object> bool CStateBurerAttackGravi<Object>::check_start_conditions()
 {
     // обработать объекты
     if (object->get_force_gravi_attack())
@@ -88,14 +88,14 @@ template <typename Object> bool CStateBurerAttackGravi<Object>::check_start_cond
     return true;
 }
 
-template <typename Object> bool CStateBurerAttackGravi<Object>::check_completion()
+template<typename Object> bool CStateBurerAttackGravi<Object>::check_completion()
 {
     return m_action == ACTION_COMPLETED;
 }
 
 //////////////////////////////////////////////////////////////////////////
 
-template <typename Object> void CStateBurerAttackGravi<Object>::ExecuteGraviStart()
+template<typename Object> void CStateBurerAttackGravi<Object>::ExecuteGraviStart()
 {
     float const time     = object->anim().get_animation_length(eAnimGraviFire, 0);
     m_anim_end_tick      = current_time() + TTime(time * 1000);
@@ -104,10 +104,10 @@ template <typename Object> void CStateBurerAttackGravi<Object>::ExecuteGraviStar
     object->StartGraviPrepare();
 }
 
-template <typename Object> void CStateBurerAttackGravi<Object>::ExecuteGraviContinue()
+template<typename Object> void CStateBurerAttackGravi<Object>::ExecuteGraviContinue()
 {
     // проверить на грави удар
-    float dist = object->Position().distance_to(object->EnemyMan.get_enemy()->Position());
+    float dist         = object->Position().distance_to(object->EnemyMan.get_enemy()->Position());
 
     float time_to_hold = (abs(dist - object->m_gravi.min_dist) / object->m_gravi.min_dist);
     clamp(time_to_hold, 0.f, 1.f);
@@ -119,7 +119,7 @@ template <typename Object> void CStateBurerAttackGravi<Object>::ExecuteGraviCont
     }
 }
 
-template <typename Object> void CStateBurerAttackGravi<Object>::ExecuteGraviFire()
+template<typename Object> void CStateBurerAttackGravi<Object>::ExecuteGraviFire()
 {
     Fvector from_pos;
     Fvector target_pos;

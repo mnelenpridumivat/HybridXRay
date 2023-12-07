@@ -51,7 +51,7 @@ void CUIFrameLineWnd::Draw()
 
 static Fvector2 pt_offset = {-0.5f, -0.5f};
 
-void draw_rect(Fvector2 LTp, Fvector2 RBp, Fvector2 LTt, Fvector2 RBt, u32 clr, Fvector2 const& ts)
+void            draw_rect(Fvector2 LTp, Fvector2 RBp, Fvector2 LTt, Fvector2 RBt, u32 clr, Fvector2 const& ts)
 {
     UI().AlignPixel(LTp.x);
     UI().AlignPixel(LTp.y);
@@ -121,14 +121,7 @@ void CUIFrameLineWnd::DrawElements()
     UIRender->FlushPrimitive();
 }
 
-bool CUIFrameLineWnd::inc_pos(
-    Frect&    rect,
-    int       counter,
-    int       i,
-    Fvector2& LTp,
-    Fvector2& RBp,
-    Fvector2& LTt,
-    Fvector2& RBt)
+bool CUIFrameLineWnd::inc_pos(Frect& rect, int counter, int i, Fvector2& LTp, Fvector2& RBp, Fvector2& LTt, Fvector2& RBt)
 {
     if (i == flFirst || i == flSecond)
     {
@@ -146,27 +139,23 @@ bool CUIFrameLineWnd::inc_pos(
     }
     else   // i==flBack
     {
-        if ((bHorizontal && rect.lt.x + m_tex_rect[flSecond].width() + EPS_L >= rect.rb.x) ||
-            (!bHorizontal && rect.lt.y + m_tex_rect[flSecond].height() + EPS_L >= rect.rb.y))
+        if ((bHorizontal && rect.lt.x + m_tex_rect[flSecond].width() + EPS_L >= rect.rb.x) || (!bHorizontal && rect.lt.y + m_tex_rect[flSecond].height() + EPS_L >= rect.rb.y))
             return false;
 
-        LTt = m_tex_rect[i].lt;
-        LTp = rect.lt;
+        LTt                  = m_tex_rect[i].lt;
+        LTp                  = rect.lt;
 
-        bool b_draw_reminder = (bHorizontal) ?
-            (rect.lt.x + m_tex_rect[flBack].width() > rect.rb.x - m_tex_rect[flSecond].width()) :
-            (rect.lt.y + m_tex_rect[flBack].height() > rect.rb.y - m_tex_rect[flSecond].height());
+        bool b_draw_reminder = (bHorizontal) ? (rect.lt.x + m_tex_rect[flBack].width() > rect.rb.x - m_tex_rect[flSecond].width()) : (rect.lt.y + m_tex_rect[flBack].height() > rect.rb.y - m_tex_rect[flSecond].height());
         if (b_draw_reminder)
         {   // draw reminder
-            float rem_len = (bHorizontal) ? rect.rb.x - m_tex_rect[flSecond].width() - rect.lt.x :
-                                            rect.rb.y - m_tex_rect[flSecond].height() - rect.lt.y;
+            float rem_len = (bHorizontal) ? rect.rb.x - m_tex_rect[flSecond].width() - rect.lt.x : rect.rb.y - m_tex_rect[flSecond].height() - rect.lt.y;
 
             if (bHorizontal)
             {
                 RBt.y = m_tex_rect[i].rb.y;
                 RBt.x = m_tex_rect[i].lt.x + rem_len;
 
-                RBp = rect.lt;
+                RBp   = rect.lt;
                 RBp.x += rem_len;
                 RBp.y += m_tex_rect[i].height();
             }
@@ -175,7 +164,7 @@ bool CUIFrameLineWnd::inc_pos(
                 RBt.y = m_tex_rect[i].lt.y + rem_len;
                 RBt.x = m_tex_rect[i].rb.x;
 
-                RBp = rect.lt;
+                RBp   = rect.lt;
                 RBp.x += m_tex_rect[i].width();
                 RBp.y += rem_len;
             }

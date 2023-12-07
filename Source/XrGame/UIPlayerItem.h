@@ -22,21 +22,21 @@ private:
     typedef associative_vector<shared_str, CUIStatsIcon*> TMapStrToUIStatic;
     // this is for the case when user disconnects.
     // we just call method RemovePlayer
-    UITeamState*  m_teamState;
-    UITeamPanels* m_teamPanels;
-    XML_NODE*     m_player_node_root;
-    ETeam         m_prevTeam;
-    s32           m_checkPoints;
+    UITeamState*                                          m_teamState;
+    UITeamPanels*                                         m_teamPanels;
+    XML_NODE*                                             m_player_node_root;
+    ETeam                                                 m_prevTeam;
+    s32                                                   m_checkPoints;
 
-    TMapStrToUIText   m_text_params;
-    TMapStrToUIStatic m_icon_params;
+    TMapStrToUIText                                       m_text_params;
+    TMapStrToUIStatic                                     m_icon_params;
 
-    ClientID myClientId;
+    ClientID                                              myClientId;
     UIPlayerItem();
-    inline s32 CalculateCheckPoints(game_PlayerState const* ps) const;
+    inline s32  CalculateCheckPoints(game_PlayerState const* ps) const;
 
-    void InitTextParams(CUIXml& uiXml);
-    void InitIconParams(CUIXml& uiXml);
+    void        InitTextParams(CUIXml& uiXml);
+    void        InitIconParams(CUIXml& uiXml);
 
     inline void UpdateTextParams(game_PlayerState const* ps);
     inline void UpdateIconParams(game_PlayerState const* ps);

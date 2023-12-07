@@ -20,10 +20,7 @@
 
 using XrWeatherEditor::window_ide;
 
-ide_impl::ide_impl(XrWeatherEditor::engine* engine):
-    m_engine(engine), m_window(nullptr), m_paused(false), m_in_idle(false)
-{
-}
+ide_impl::ide_impl(XrWeatherEditor::engine* engine): m_engine(engine), m_window(nullptr), m_paused(false), m_in_idle(false) {}
 
 ide_impl::~ide_impl() {}
 
@@ -88,10 +85,7 @@ void ide_impl::pause()
     m_window->view().pause();
 }
 
-XrWeatherEditor::property_holder* ide_impl::create_property_holder(
-    LPCSTR                                       display_name,
-    XrWeatherEditor::property_holder_collection* collection,
-    XrWeatherEditor::property_holder_holder*     holder)
+XrWeatherEditor::property_holder* ide_impl::create_property_holder(LPCSTR display_name, XrWeatherEditor::property_holder_collection* collection, XrWeatherEditor::property_holder_holder* holder)
 {
     return (new ::property_holder(m_engine, display_name, collection, holder));
 }
@@ -116,11 +110,7 @@ void ide_impl::environment_weathers(property_holder* property_holder)
     m_window->weather().property_grid()->SelectedObject = properties->container();
 }
 
-void ide_impl::weather_editor_setup(
-    weathers_getter_type const&      weathers_getter,
-    weathers_size_getter_type const& weathers_size_getter,
-    frames_getter_type const&        frames_getter,
-    frames_size_getter_type const&   frames_size_getter)
+void ide_impl::weather_editor_setup(weathers_getter_type const& weathers_getter, weathers_size_getter_type const& weathers_size_getter, frames_getter_type const& frames_getter, frames_size_getter_type const& frames_size_getter)
 {
     m_window->weather_editor().weathers_ids(weathers_getter, weathers_size_getter, frames_getter, frames_size_getter);
 }

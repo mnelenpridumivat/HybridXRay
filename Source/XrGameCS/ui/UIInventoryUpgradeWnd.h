@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: UIInventoryUpgradeWnd.h
 //	Created 	: 06.10.2007
 //	Author		: Evgeniy Sokolov
@@ -12,13 +12,17 @@
 #include "UIInvUpgrade.h"
 
 extern const LPCSTR g_inventory_upgrade_xml;
-#define		MAX_UI_UPGRADE_CELLS		25
+#define MAX_UI_UPGRADE_CELLS 25
 
-namespace inventory { namespace upgrade {
-	class Manager;
-	class Upgrade;
-	class Property;
-} } // namespace upgrade, inventory
+namespace inventory
+{
+    namespace upgrade
+    {
+        class Manager;
+        class Upgrade;
+        class Property;
+    }   // namespace upgrade
+}   // namespace inventory
 
 class UIUpgrade;
 class CInventoryItem;
@@ -26,84 +30,91 @@ class CUIItemInfo;
 class CUIFrameLineWnd;
 class CUI3tButtonEx;
 
-class CUIInventoryUpgradeWnd : public CUIWindow
+class CUIInventoryUpgradeWnd: public CUIWindow
 {
 private:
-	typedef CUIWindow	inherited;
-	
-	typedef inventory::upgrade::Manager		Manager_type;
-	typedef inventory::upgrade::Upgrade 	Upgrade_type;
-	typedef inventory::upgrade::Property 	Property_type;
-	typedef xr_vector<UIUpgrade*>			UI_Upgrades_type;
+    typedef CUIWindow                    inherited;
 
-private: // sub-classes
-	struct Scheme
-	{
-		shared_str			name;
-		UI_Upgrades_type	cells;
+    typedef inventory::upgrade::Manager  Manager_type;
+    typedef inventory::upgrade::Upgrade  Upgrade_type;
+    typedef inventory::upgrade::Property Property_type;
+    typedef xr_vector<UIUpgrade*>        UI_Upgrades_type;
 
-						Scheme();
-		virtual			~Scheme();
-	};
-	typedef xr_vector<Scheme*>	SCHEMES;
+private:   // sub-classes
+    struct Scheme
+    {
+        shared_str       name;
+        UI_Upgrades_type cells;
 
-public: // func
-							CUIInventoryUpgradeWnd();
-	virtual					~CUIInventoryUpgradeWnd();
+        Scheme();
+        virtual ~Scheme();
+    };
+    typedef xr_vector<Scheme*> SCHEMES;
 
-	virtual void			Init();
-			void			InitInventory( CInventoryItem* item, bool can_upgrade );
+public:   // func
+    CUIInventoryUpgradeWnd();
+    virtual ~CUIInventoryUpgradeWnd();
 
-	IC CInventoryItem const*	get_inventory() const { return m_inv_item; }
-	IC LPCSTR				get_cell_texture( UIUpgrade::ViewState state ) const { return m_cell_textures[state].c_str(); }
-//	IC u32					get_cell_color(   UIUpgrade::ViewState state ) const { return m_cell_colors[state]; }
-//-	   u32					get_cell_color2(  UIUpgrade::ViewState state ) const;
+    virtual void             Init();
+    void                     InitInventory(CInventoryItem* item, bool can_upgrade);
 
-	virtual void			Show( bool status );
-	virtual void			Update();
-	virtual void			Reset();
-			void			UpdateAllUpgrades();
+    IC CInventoryItem const* get_inventory() const
+    {
+        return m_inv_item;
+    }
+    IC LPCSTR get_cell_texture(UIUpgrade::ViewState state) const
+    {
+        return m_cell_textures[state].c_str();
+    }
+    //	IC u32					get_cell_color(   UIUpgrade::ViewState state ) const { return m_cell_colors[state]; }
+    //-	   u32					get_cell_color2(  UIUpgrade::ViewState state ) const;
 
-			bool			DBClickOnUIUpgrade( Upgrade_type const* upgr );
-			void			AskUsing( LPCSTR text, LPCSTR upgrade_name );
-			void			OnMesBoxYes();
+    virtual void Show(bool status);
+    virtual void Update();
+    virtual void Reset();
+    void         UpdateAllUpgrades();
 
-			void			HighlightHierarchy( shared_str const& upgrade_id );
-			void			ResetHighlight();
-			void			set_info_cur_upgrade( Upgrade_type* upgrade );
-	UIUpgrade*				FindUIUpgrade( Upgrade_type const* upgr );
+    bool         DBClickOnUIUpgrade(Upgrade_type const* upgr);
+    void         AskUsing(LPCSTR text, LPCSTR upgrade_name);
+    void         OnMesBoxYes();
+
+    void         HighlightHierarchy(shared_str const& upgrade_id);
+    void         ResetHighlight();
+    void         set_info_cur_upgrade(Upgrade_type* upgrade);
+    UIUpgrade*   FindUIUpgrade(Upgrade_type const* upgr);
 
 private:
-			void			LoadCellsBacks( CUIXml& uiXml );
-			void			LoadCellStates( LPCSTR state_str, LPCSTR texture_name, u32 color );
-	UIUpgrade::ViewState	SelectCellState( LPCSTR state_str );
-			void			SetCellState( UIUpgrade::ViewState state, LPCSTR texture_name, u32 color );
-			bool			VerirfyCells();
+    void                 LoadCellsBacks(CUIXml& uiXml);
+    void                 LoadCellStates(LPCSTR state_str, LPCSTR texture_name, u32 color);
+    UIUpgrade::ViewState SelectCellState(LPCSTR state_str);
+    void                 SetCellState(UIUpgrade::ViewState state, LPCSTR texture_name, u32 color);
+    bool                 VerirfyCells();
 
-			void			LoadSchemes( CUIXml& uiXml );
-			void			SetCurScheme( const shared_str& id );
-			bool			install_item( CInventoryItem& inv_item, bool can_upgrade );
-			Manager_type&	get_manager();
+    void                 LoadSchemes(CUIXml& uiXml);
+    void                 SetCurScheme(const shared_str& id);
+    bool                 install_item(CInventoryItem& inv_item, bool can_upgrade);
+    Manager_type&        get_manager();
+
 public:
-	CUI3tButtonEx*			m_btn_repair;
+    CUI3tButtonEx* m_btn_repair;
 
 protected:
-	CUIStatic*				m_background;
-//	CUIFrameLineWnd*		m_delimiter;
-	CUIItemInfo*			m_item_info;
-//	Fvector2				m_info_orig_pos;
-	CInventoryItem*			m_inv_item;
+    CUIStatic*      m_background;
+    //	CUIFrameLineWnd*		m_delimiter;
+    CUIItemInfo*    m_item_info;
+    //	Fvector2				m_info_orig_pos;
+    CInventoryItem* m_inv_item;
 
-	shared_str				m_cell_textures[UIUpgrade::STATE_COUNT];
-//	u32						m_cell_colors[UIUpgrade::STATE_COUNT];
-	shared_str				m_border_texture;
-	shared_str				m_ink_texture;
+    shared_str      m_cell_textures[UIUpgrade::STATE_COUNT];
+    //	u32						m_cell_colors[UIUpgrade::STATE_COUNT];
+    shared_str      m_border_texture;
+    shared_str      m_ink_texture;
 
-	SCHEMES					m_schemes;
-	Scheme*					m_current_scheme;
-	LPCSTR					m_cur_upgrade_id;
-	CUIWindow*				m_scheme_wnd;
+    SCHEMES         m_schemes;
+    Scheme*         m_current_scheme;
+    LPCSTR          m_cur_upgrade_id;
+    CUIWindow*      m_scheme_wnd;
 
-}; // class CUIInventoryUpgradeWnd
+};   // class CUIInventoryUpgradeWnd
 
-#endif // UI_INVENTORY_UPGRADE_WND_H_INCLUDED
+#endif   // UI_INVENTORY_UPGRADE_WND_H_INCLUDED

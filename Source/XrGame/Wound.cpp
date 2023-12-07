@@ -19,7 +19,7 @@ CWound::CWound(u16 bone_num)
     m_iBoneNum         = bone_num;
     m_iParticleBoneNum = BI_NONE;
 
-    m_fDropTime = 0.f;
+    m_fDropTime        = 0.f;
 }
 
 CWound::~CWound(void) {}

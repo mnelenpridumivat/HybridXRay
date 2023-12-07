@@ -26,16 +26,10 @@ void CObjectHandlerPlanner::add_evaluators(CWeapon* weapon)
     add_evaluator(uid(id, eWorldPropertyHidden), xr_new<CObjectPropertyEvaluatorWeaponHidden>(weapon, m_object));
 
     // dynamic member properties
-    add_evaluator(
-        uid(id, eWorldPropertyAimed1), xr_new<CObjectPropertyEvaluatorMember>(&m_storage, eWorldPropertyAimed1, true));
-    add_evaluator(
-        uid(id, eWorldPropertyAimed2), xr_new<CObjectPropertyEvaluatorMember>(&m_storage, eWorldPropertyAimed2, true));
-    add_evaluator(
-        uid(id, eWorldPropertyStrapped),
-        xr_new<CObjectPropertyEvaluatorMember>(&m_storage, eWorldPropertyStrapped, true));
-    add_evaluator(
-        uid(id, eWorldPropertyStrapped2Idle),
-        xr_new<CObjectPropertyEvaluatorMember>(&m_storage, eWorldPropertyStrapped2Idle, true));
+    add_evaluator(uid(id, eWorldPropertyAimed1), xr_new<CObjectPropertyEvaluatorMember>(&m_storage, eWorldPropertyAimed1, true));
+    add_evaluator(uid(id, eWorldPropertyAimed2), xr_new<CObjectPropertyEvaluatorMember>(&m_storage, eWorldPropertyAimed2, true));
+    add_evaluator(uid(id, eWorldPropertyStrapped), xr_new<CObjectPropertyEvaluatorMember>(&m_storage, eWorldPropertyStrapped, true));
+    add_evaluator(uid(id, eWorldPropertyStrapped2Idle), xr_new<CObjectPropertyEvaluatorMember>(&m_storage, eWorldPropertyStrapped2Idle, true));
 
     // dynamic properties
     add_evaluator(uid(id, eWorldPropertyAmmo1), xr_new<CObjectPropertyEvaluatorAmmo>(weapon, m_object, 0));
@@ -177,8 +171,7 @@ void CObjectHandlerPlanner::add_operators(CWeapon* weapon)
     add_operator(uid(id, eWorldOperatorAim2), action);
 
     // aim_queue1
-    action =
-        xr_new<CObjectActionQueueWait>(weapon, m_object, &m_storage, uid(id, eWorldPropertyQueueWait1), "aim_queue1");
+    action = xr_new<CObjectActionQueueWait>(weapon, m_object, &m_storage, uid(id, eWorldPropertyQueueWait1), "aim_queue1");
     add_condition(action, id, eWorldPropertyHidden, false);
     add_condition(action, id, eWorldPropertySwitch1, true);
     add_condition(action, id, eWorldPropertyQueueWait1, false);
@@ -189,8 +182,7 @@ void CObjectHandlerPlanner::add_operators(CWeapon* weapon)
     add_operator(uid(id, eWorldOperatorQueueWait1), action);
 
     // aim_queue2
-    action =
-        xr_new<CObjectActionQueueWait>(weapon, m_object, &m_storage, uid(id, eWorldPropertyQueueWait2), "aim_queue2");
+    action = xr_new<CObjectActionQueueWait>(weapon, m_object, &m_storage, uid(id, eWorldPropertyQueueWait2), "aim_queue2");
     add_condition(action, id, eWorldPropertyHidden, false);
     add_condition(action, id, eWorldPropertySwitch1, true);
     add_condition(action, id, eWorldPropertyQueueWait2, false);
@@ -214,8 +206,7 @@ void CObjectHandlerPlanner::add_operators(CWeapon* weapon)
     add_operator(uid(id, eWorldOperatorFire1), action);
 
     // fire no reload
-    action = xr_new<CObjectActionFireNoReload>(
-        weapon, m_object, &m_storage, uid(id, eWorldPropertyQueueWait1), "fire_no_reload");
+    action = xr_new<CObjectActionFireNoReload>(weapon, m_object, &m_storage, uid(id, eWorldPropertyQueueWait1), "fire_no_reload");
     add_condition(action, id, eWorldPropertyHidden, false);
     //	add_condition		(action,id,eWorldPropertyEmpty1,	false);
     //	add_condition		(action,id,eWorldPropertyAimed1,	true);

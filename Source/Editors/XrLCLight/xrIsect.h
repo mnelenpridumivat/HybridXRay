@@ -43,19 +43,18 @@
 #define LI_INTERSECT 1
 #define LI_EQUAL     2
 
-__forceinline int lines_intersect(
-    float  x1,
-    float  y1, /* First line segment */
-    float  x2,
-    float  y2,
+__forceinline int lines_intersect(float x1,
+    float                               y1, /* First line segment */
+    float                               x2,
+    float                               y2,
 
-    float  x3,
-    float  y3, /* Second line segment */
-    float  x4,
-    float  y4,
+    float                               x3,
+    float                               y3, /* Second line segment */
+    float                               x4,
+    float                               y4,
 
-    float* x,
-    float* y /* Output value: point of intersection */
+    float*                              x,
+    float*                              y /* Output value: point of intersection */
 )
 {
     float a1, a2, b1, b2, c1, c2; /* Coefficients of line eqns. */

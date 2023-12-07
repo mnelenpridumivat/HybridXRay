@@ -30,12 +30,12 @@ If you are sharing a game socket with the SDK, you can use these bytes to determ
 pass a packet to NNProcessData
 */
 #define NATNEG_MAGIC_LEN 6
-#define NN_MAGIC_0 0xFD
-#define NN_MAGIC_1 0xFC
-#define NN_MAGIC_2 0x1E
-#define NN_MAGIC_3 0x66
-#define NN_MAGIC_4 0x6A
-#define NN_MAGIC_5 0xB2
+#define NN_MAGIC_0       0xFD
+#define NN_MAGIC_1       0xFC
+#define NN_MAGIC_2       0x1E
+#define NN_MAGIC_3       0x66
+#define NN_MAGIC_4       0x6A
+#define NN_MAGIC_5       0xB2
 
     // This external array contains all 6 magic bytes - you can use it with memcmp to quickly check incoming packets for
     // the bytes
@@ -90,17 +90,13 @@ pass a packet to NNProcessData
     } NegotiateError;
 
     // Callback prototype for your progress function
-    typedef void (*NegotiateProgressFunc)(NegotiateState state, void* userdata);
+    typedef void   (*NegotiateProgressFunc)(NegotiateState state, void* userdata);
 
     // Callback prototype for your negotiation completed function
-    typedef void (*NegotiateCompletedFunc)(
-        NegotiateResult     result,
-        SOCKET              gamesocket,
-        struct sockaddr_in* remoteaddr,
-        void*               userdata);
+    typedef void   (*NegotiateCompletedFunc)(NegotiateResult result, SOCKET gamesocket, struct sockaddr_in* remoteaddr, void* userdata);
 
     // Callback prototype for your NAT detection results function
-    typedef void (*NatDetectionResultsFunc)(gsi_bool success, NAT nat);
+    typedef void   (*NatDetectionResultsFunc)(gsi_bool success, NAT nat);
 
     /*
     NNBeginNegotiation
@@ -112,12 +108,7 @@ pass a packet to NNProcessData
     completedcallback: Callback function that will be called when negotiation is complete.
     userdata: Pointer for your own use that will be passed into the callback functions.
     */
-    NegotiateError NNBeginNegotiation(
-        int                    cookie,
-        int                    clientindex,
-        NegotiateProgressFunc  progresscallback,
-        NegotiateCompletedFunc completedcallback,
-        void*                  userdata);
+    NegotiateError NNBeginNegotiation(int cookie, int clientindex, NegotiateProgressFunc progresscallback, NegotiateCompletedFunc completedcallback, void* userdata);
 
     /*
     NNBeginNegotiationWithSocket
@@ -126,20 +117,14 @@ pass a packet to NNProcessData
     Incoming traffic is not processed automatically - you will need to read the data off the socket and pass NN packets
     to NNProcessData
     */
-    NegotiateError NNBeginNegotiationWithSocket(
-        SOCKET                 gamesocket,
-        int                    cookie,
-        int                    clientindex,
-        NegotiateProgressFunc  progresscallback,
-        NegotiateCompletedFunc completedcallback,
-        void*                  userdata);
+    NegotiateError NNBeginNegotiationWithSocket(SOCKET gamesocket, int cookie, int clientindex, NegotiateProgressFunc progresscallback, NegotiateCompletedFunc completedcallback, void* userdata);
 
     /*
     NNThink
     -------------------
     Processes any negotiation requests that are in progress
     */
-    void NNThink();
+    void           NNThink();
 
     /*
     NNProcessData
@@ -147,14 +132,14 @@ pass a packet to NNProcessData
     When sharing a socket with the NAT Negotiation SDK, you must read incoming data and pass packets that start the the
     NN magic bytes to this function for processing, along with the address they came from.
     */
-    void NNProcessData(char* data, int len, struct sockaddr_in* fromaddr);
+    void           NNProcessData(char* data, int len, struct sockaddr_in* fromaddr);
 
     /*
     NNCancel
     -------------------
     Cancels a NAT Negotiation request in progress
     */
-    void NNCancel(int cookie);
+    void           NNCancel(int cookie);
 
     /*
     NNFreeNegotiateList
@@ -163,7 +148,7 @@ pass a packet to NNProcessData
     The list will be re-allocated at a later time if you start additional negotiations.
     If any negotiations are outstanding this will cancel them.
     */
-    void NNFreeNegotiateList();
+    void           NNFreeNegotiateList();
 
     /*
     NNStartNatDetection
@@ -173,8 +158,8 @@ pass a packet to NNProcessData
     NegotiateError NNStartNatDetection(NatDetectionResultsFunc resultscallback);
 
     // Used for over-riding the default negotiation hostnames. Should not be used normally.
-    extern char* Matchup2Hostname;
-    extern char* Matchup1Hostname;
+    extern char*   Matchup2Hostname;
+    extern char*   Matchup1Hostname;
 
 #ifdef __cplusplus
 }

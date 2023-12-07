@@ -8,8 +8,7 @@ IBContainer  g_IB, x_IB;
 
 bool         CBuild::IsOGFContainersEmpty()
 {
-    return g_SWI.is_empty() && x_SWI.is_empty() && g_VB.is_empty() && x_VB.is_empty() && g_IB.is_empty() &&
-        x_IB.is_empty();
+    return g_SWI.is_empty() && x_SWI.is_empty() && g_VB.is_empty() && x_VB.is_empty() && g_IB.is_empty() && x_IB.is_empty();
 }
 
 static u32 g_batch_count;
@@ -118,11 +117,7 @@ void CBuild::SaveTREE(IWriter& fs)
     }
     fs.w(MFS.pointer(), MFS.size());
     fs.close_chunk();
-    clMsg(
-        "Average: %d verts/%d faces, 50(%2.1f), 100(%2.1f), 500(%2.1f), 1000(%2.1f), 5000(%2.1f)",
-        g_batch_verts / g_batch_count, g_batch_faces / g_batch_count, 100.f * float(g_batch_50) / float(g_batch_count),
-        100.f * float(g_batch_100) / float(g_batch_count), 100.f * float(g_batch_500) / float(g_batch_count),
-        100.f * float(g_batch_1000) / float(g_batch_count), 100.f * float(g_batch_5000) / float(g_batch_count));
+    clMsg("Average: %d verts/%d faces, 50(%2.1f), 100(%2.1f), 500(%2.1f), 1000(%2.1f), 5000(%2.1f)", g_batch_verts / g_batch_count, g_batch_faces / g_batch_count, 100.f * float(g_batch_50) / float(g_batch_count), 100.f * float(g_batch_100) / float(g_batch_count), 100.f * float(g_batch_500) / float(g_batch_count), 100.f * float(g_batch_1000) / float(g_batch_count), 100.f * float(g_batch_5000) / float(g_batch_count));
     mem_Compact();
 
     SaveGEOMs("level.geom", g_VB, g_IB, g_SWI);    // Normal

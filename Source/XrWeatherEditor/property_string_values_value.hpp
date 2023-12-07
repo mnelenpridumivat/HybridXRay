@@ -24,11 +24,7 @@ public:
     typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
 
 public:
-    property_string_values_value(
-        string_getter_type const& getter,
-        string_setter_type const& setter,
-        LPCSTR const*             values,
-        u32 const&                value_count);
+    property_string_values_value(string_getter_type const& getter, string_setter_type const& setter, LPCSTR const* values, u32 const& value_count);
 
     virtual collection_type ^ values() { return m_collection; };
 

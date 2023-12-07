@@ -18,25 +18,25 @@
 #include <boost/type_traits/remove_const.hpp>
 namespace object_type_traits = boost;
 #else
-#define declare_has(a)                                                                  \
-    template <typename T> struct has_##a                                                \
-    {                                                                                   \
-        template <typename P> static detail::yes select(detail::other<typename P::a>*); \
-        template <typename P> static detail::no  select(...);                           \
-        enum                                                                            \
-        {                                                                               \
-            value = sizeof(detail::yes) == sizeof(select<T>(0))                         \
-        };                                                                              \
+#define declare_has(a)                                                                 \
+    template<typename T> struct has_##a                                                \
+    {                                                                                  \
+        template<typename P> static detail::yes select(detail::other<typename P::a>*); \
+        template<typename P> static detail::no  select(...);                           \
+        enum                                                                           \
+        {                                                                              \
+            value = sizeof(detail::yes) == sizeof(select<T>(0))                        \
+        };                                                                             \
     };
 
-template <bool expression, typename T1, typename T2> struct _if
+template<bool expression, typename T1, typename T2> struct _if
 {
-    template <bool> struct selector
+    template<bool> struct selector
     {
         typedef T2 result;
     };
 
-    template <> struct selector<true>
+    template<> struct selector<true>
     {
         typedef T1 result;
     };
@@ -44,9 +44,9 @@ template <bool expression, typename T1, typename T2> struct _if
     typedef typename selector<expression>::result result;
 };
 
-template <typename T1, typename T2> struct is_type
+template<typename T1, typename T2> struct is_type
 {
-    template <typename T> struct selector
+    template<typename T> struct selector
     {
         enum
         {
@@ -54,7 +54,7 @@ template <typename T1, typename T2> struct is_type
         };
     };
 
-    template <> struct selector<T1>
+    template<> struct selector<T1>
     {
         enum
         {
@@ -68,7 +68,7 @@ template <typename T1, typename T2> struct is_type
     };
 };
 
-template <typename T> struct type
+template<typename T> struct type
 {
     typedef T result;
 };
@@ -85,54 +85,53 @@ namespace object_type_traits
         {
             char a[2];
         };
-        template <typename T> struct other
-        {
-        };
+        template<typename T> struct other
+        {};
     };   // namespace detail
 
-    template <typename T> struct remove_pointer
+    template<typename T> struct remove_pointer
     {
         typedef T type;
     };
 
-    template <typename T> struct remove_pointer<T*>
+    template<typename T> struct remove_pointer<T*>
     {
         typedef T type;
     };
 
-    template <typename T> struct remove_pointer<T* const>
+    template<typename T> struct remove_pointer<T* const>
     {
         typedef T type;
     };
 
-    template <typename T> struct remove_reference
+    template<typename T> struct remove_reference
     {
         typedef T type;
     };
 
-    template <typename T> struct remove_reference<T&>
+    template<typename T> struct remove_reference<T&>
     {
         typedef T type;
     };
 
-    template <typename T> struct remove_reference<T const&>
+    template<typename T> struct remove_reference<T const&>
     {
         typedef T type;
     };
 
-    template <typename T> struct remove_const
+    template<typename T> struct remove_const
     {
         typedef T type;
     };
 
-    template <typename T> struct remove_const<T const>
+    template<typename T> struct remove_const<T const>
     {
         typedef T type;
     };
 
-    template <typename T> struct is_void
+    template<typename T> struct is_void
     {
-        template <typename P> struct select
+        template<typename P> struct select
         {
             enum
             {
@@ -140,7 +139,7 @@ namespace object_type_traits
             };
         };
 
-        template <> struct select<void>
+        template<> struct select<void>
         {
             enum
             {
@@ -154,7 +153,7 @@ namespace object_type_traits
         };
     };
 
-    template <typename T> struct is_const
+    template<typename T> struct is_const
     {
         enum
         {
@@ -162,7 +161,7 @@ namespace object_type_traits
         };
     };
 
-    template <typename T> struct is_const<T const>
+    template<typename T> struct is_const<T const>
     {
         enum
         {
@@ -170,10 +169,10 @@ namespace object_type_traits
         };
     };
 
-    template <typename T> struct is_pointer
+    template<typename T> struct is_pointer
     {
-        template <typename P> static detail::yes select(detail::other<P*>);
-        static detail::no                        select(...);
+        template<typename P> static detail::yes select(detail::other<P*>);
+        static detail::no                       select(...);
 
         enum
         {
@@ -181,10 +180,10 @@ namespace object_type_traits
         };
     };
 
-    template <typename T> struct is_reference
+    template<typename T> struct is_reference
     {
-        template <typename P> static detail::yes select(detail::other<P&>);
-        static detail::no                        select(...);
+        template<typename P> static detail::yes select(detail::other<P&>);
+        static detail::no                       select(...);
 
         enum
         {
@@ -192,7 +191,7 @@ namespace object_type_traits
         };
     };
 
-    template <typename _T1, typename _T2> struct is_same
+    template<typename _T1, typename _T2> struct is_same
     {
         typedef typename remove_const<_T1>::type T1;
         typedef typename remove_const<_T2>::type T2;
@@ -204,13 +203,13 @@ namespace object_type_traits
         };
     };
 
-    template <typename _T1, typename _T2> struct is_base_and_derived
+    template<typename _T1, typename _T2> struct is_base_and_derived
     {
         typedef typename remove_const<_T1>::type T1;
         typedef typename remove_const<_T2>::type T2;
 
-        static detail::yes select(T1*);
-        static detail::no  select(...);
+        static detail::yes                       select(T1*);
+        static detail::no                        select(...);
 
         enum
         {
@@ -219,13 +218,10 @@ namespace object_type_traits
         };
     };
 
-    template <template <typename _1> class T1, typename T2, typename T3>
-    struct is_base_and_derived_or_same_for_template_template_1_1
+    template<template<typename _1> class T1, typename T2, typename T3> struct is_base_and_derived_or_same_for_template_template_1_1
     {
-        template <typename P> static
-            typename _if<is_base_and_derived<P, T3>::value || is_same<P, T3>::value, detail::yes, detail::no>::result
-                          select(T1<P>*);
-        static detail::no select(...);
+        template<typename P> static typename _if<is_base_and_derived<P, T3>::value || is_same<P, T3>::value, detail::yes, detail::no>::result select(T1<P>*);
+        static detail::no                                                                                                                     select(...);
 
         enum
         {
@@ -233,10 +229,10 @@ namespace object_type_traits
         };
     };
 
-    template <template <typename _1> class T1, typename T2> struct is_base_and_derived_or_same_from_template
+    template<template<typename _1> class T1, typename T2> struct is_base_and_derived_or_same_from_template
     {
-        template <typename P> static detail::yes select(T1<P>*);
-        static detail::no                        select(...);
+        template<typename P> static detail::yes select(T1<P>*);
+        static detail::no                       select(...);
 
         enum
         {
@@ -252,7 +248,7 @@ namespace object_type_traits
     declare_has(size_type);
     //		declare_has(value_compare);
 
-    template <typename T> struct is_stl_container
+    template<typename T> struct is_stl_container
     {
         enum
         {

@@ -35,13 +35,13 @@ void CControlPathBuilder::reinit()
     m_data.try_min_time = true;
 
     m_data.target_position.set(0.f, 0.f, 0.f);
-    m_data.target_node = u32(-1);
+    m_data.target_node              = u32(-1);
 
-    m_data.enable      = false;
-    m_data.extrapolate = false;
+    m_data.enable                   = false;
+    m_data.extrapolate              = false;
 
-    m_data.velocity_mask  = u32(-1);
-    m_data.desirable_mask = u32(-1);
+    m_data.velocity_mask            = u32(-1);
+    m_data.desirable_mask           = u32(-1);
 
     m_data.path_type                = MovementManager::ePathTypeLevelPath;
     m_data.game_graph_target_vertex = u32(-1);
@@ -55,8 +55,7 @@ void CControlPathBuilder::update_schedule()
     // position and node will be in valid state
     if (m_data.path_type != MovementManager::ePathTypePatrolPath)
     {
-        if (!accessible(m_data.target_position) ||
-            ((m_data.target_node != u32(-1)) && (!accessible(m_data.target_node))))
+        if (!accessible(m_data.target_position) || ((m_data.target_node != u32(-1)) && (!accessible(m_data.target_node))))
         {
             return;
         }
@@ -142,8 +141,7 @@ bool CControlPathBuilder::build_special(const Fvector& target, u32 node, u32 vel
     {
         // нода в прямой видимости?
         restrictions().add_border(object().Position(), target);
-        node = ai().level_graph().check_position_in_direction(
-            object().ai_location().level_vertex_id(), object().Position(), target);
+        node = ai().level_graph().check_position_in_direction(object().ai_location().level_vertex_id(), object().Position(), target);
         restrictions().remove_border();
 
         if (!ai().level_graph().valid_vertex_id(node) || !accessible(node))
@@ -194,8 +192,7 @@ bool CControlPathBuilder::is_path_end(float dist_to_end)
         return true;
 
     // count distance from current object position to the path end
-    float cur_dist_to_end =
-        object().Position().distance_to(detail().path()[detail().curr_travel_point_index() + 1].position);
+    float cur_dist_to_end = object().Position().distance_to(detail().path()[detail().curr_travel_point_index() + 1].position);
     for (u32 i = detail().curr_travel_point_index() + 1; i < detail().path().size() - 1; i++)
     {
         cur_dist_to_end += detail().path()[i].position.distance_to(detail().path()[i + 1].position);
@@ -210,9 +207,7 @@ bool CControlPathBuilder::is_path_end(float dist_to_end)
 
 bool CControlPathBuilder::valid_destination(const Fvector& pos, u32 node)
 {
-    return (
-        ai().level_graph().valid_vertex_id(node) && ai().level_graph().valid_vertex_position(pos) &&
-        ai().level_graph().inside(node, pos));
+    return (ai().level_graph().valid_vertex_id(node) && ai().level_graph().valid_vertex_position(pos) && ai().level_graph().inside(node, pos));
 }
 
 bool CControlPathBuilder::valid_and_accessible(Fvector& pos, u32 node)
@@ -239,12 +234,9 @@ void CControlPathBuilder::fix_position(const Fvector& pos, u32 node, Fvector& re
 #ifdef DEBUG
         if (level_vertex_id != node)
         {
-            Msg("! src_node[%d] res_node[%d] src_pos[%f,%f,%f] res_pos[%f,%f,%f]", node, level_vertex_id, VPUSH(pos),
-                VPUSH(res_pos));
+            Msg("! src_node[%d] res_node[%d] src_pos[%f,%f,%f] res_pos[%f,%f,%f]", node, level_vertex_id, VPUSH(pos), VPUSH(res_pos));
         }
-        VERIFY3(
-            (level_vertex_id == node) || show_restrictions(m_restricted_object),
-            "Invalid restrictions (see log for details) for object ", *(CControl_Com::m_object->cName()));
+        VERIFY3((level_vertex_id == node) || show_restrictions(m_restricted_object), "Invalid restrictions (see log for details) for object ", *(CControl_Com::m_object->cName()));
 #endif
     }
 }
@@ -254,12 +246,7 @@ bool CControlPathBuilder::is_moving_on_path()
     return (!detail().completed(inherited_com::m_object->Position()) && enabled());
 }
 
-bool CControlPathBuilder::get_node_in_radius(
-    u32   src_node,
-    float min_radius,
-    float max_radius,
-    u32   attempts,
-    u32&  dest_node)
+bool CControlPathBuilder::get_node_in_radius(u32 src_node, float min_radius, float max_radius, u32 attempts, u32& dest_node)
 {
     Fvector vertex_position = ai().level_graph().vertex_position(src_node);
 
@@ -291,7 +278,7 @@ void CControlPathBuilder::make_inactual()
 
 extern CActor* g_actor;
 
-bool CControlPathBuilder::can_use_distributed_computations(u32 option) const
+bool           CControlPathBuilder::can_use_distributed_computations(u32 option) const
 {
     if (!g_actor)
         return true;
@@ -303,16 +290,11 @@ bool CControlPathBuilder::can_use_distributed_computations(u32 option) const
     return inherited::can_use_distributed_computations(option);
 }
 
-u32 CControlPathBuilder::find_nearest_vertex(
-    const u32&     level_vertex_id,
-    const Fvector& target_position,
-    const float&   range)
+u32 CControlPathBuilder::find_nearest_vertex(const u32& level_vertex_id, const Fvector& target_position, const float& range)
 {
     xr_vector<u32> temp;
 
-    ai().graph_engine().search(
-        ai().level_graph(), level_vertex_id, level_vertex_id, &temp,
-        GraphEngineSpace::CNearestVertexParameters(target_position, range));
+    ai().graph_engine().search(ai().level_graph(), level_vertex_id, level_vertex_id, &temp, GraphEngineSpace::CNearestVertexParameters(target_position, range));
 
     VERIFY(!temp.empty());
     VERIFY(temp.size() == 1);

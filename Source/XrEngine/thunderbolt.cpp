@@ -142,8 +142,7 @@ CEffect_Thunderbolt::~CEffect_Thunderbolt()
     // hGeom_gradient.destroy		();
 }
 
-shared_str
-    CEffect_Thunderbolt::AppendDef(IEnvironment& environment, CInifile* pIni, CInifile* thunderbolts, LPCSTR sect)
+shared_str CEffect_Thunderbolt::AppendDef(IEnvironment& environment, CInifile* pIni, CInifile* thunderbolts, LPCSTR sect)
 {
 #pragma FIXME("Panda: я это сломал!")
     if (!sect || (0 == sect[0]))
@@ -259,9 +258,7 @@ void CEffect_Thunderbolt::OnFrame(shared_str id, float period, float duration)
         Fvector fClr;
         int     frame;
         u32     uClr = current->color_anim->CalculateRGB(current_time / life_time, frame);
-        fClr.set(
-            clampr(float(color_get_R(uClr) / 255.f), 0.f, 1.f), clampr(float(color_get_G(uClr) / 255.f), 0.f, 1.f),
-            clampr(float(color_get_B(uClr) / 255.f), 0.f, 1.f));
+        fClr.set(clampr(float(color_get_R(uClr) / 255.f), 0.f, 1.f), clampr(float(color_get_G(uClr) / 255.f), 0.f, 1.f), clampr(float(color_get_B(uClr) / 255.f), 0.f, 1.f));
 
         lightning_phase = 1.5f * (current_time / life_time);
         clamp(lightning_phase, 0.f, 1.f);

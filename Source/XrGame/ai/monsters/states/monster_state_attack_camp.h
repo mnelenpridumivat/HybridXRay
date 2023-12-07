@@ -2,12 +2,12 @@
 
 #include "../state.h"
 
-template <typename _Object> class CStateMonsterAttackCamp: public CState<_Object>
+template<typename _Object> class CStateMonsterAttackCamp: public CState<_Object>
 {
     typedef CState<_Object>  inherited;
     typedef CState<_Object>* state_ptr;
 
-    u32 m_target_node;
+    u32                      m_target_node;
 
 public:
     CStateMonsterAttackCamp(_Object* obj);

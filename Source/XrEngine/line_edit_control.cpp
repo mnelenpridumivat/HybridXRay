@@ -118,7 +118,7 @@ namespace text_editor
 	if ( is_windows_vista_or_later )
 		return		!!(GetKeyState(VK_CAPITAL) & 1);
 	else
-#else    // #if 0
+#else   // #if 0
         return false;
 #endif   // #if 0
     }
@@ -140,17 +140,17 @@ namespace text_editor
     {
         m_edit_str[0] = 0;
         clear_inserted();
-        m_undo_buf[0] = 0;
+        m_undo_buf[0]        = 0;
 
-        m_buf0[0] = 0;
-        m_buf1[0] = 0;
-        m_buf2[0] = 0;
-        m_buf3[0] = 0;
+        m_buf0[0]            = 0;
+        m_buf1[0]            = 0;
+        m_buf2[0]            = 0;
+        m_buf3[0]            = 0;
 
-        m_cur_pos      = 0;
-        m_select_start = 0;
-        m_p1           = 0;
-        m_p2           = 0;
+        m_cur_pos            = 0;
+        m_select_start       = 0;
+        m_p1                 = 0;
+        m_p2                 = 0;
 
         m_accel              = 1.0f;
         m_cur_time           = 0.0f;
@@ -159,13 +159,13 @@ namespace text_editor
         m_last_key_time      = 0.0f;
         m_last_changed_frame = 0;
 
-        m_hold_mode       = false;
-        m_insert_mode     = false;
-        m_repeat_mode     = false;
-        m_mark            = false;
-        m_cursor_view     = false;
-        m_need_update     = false;
-        m_unselected_mode = false;
+        m_hold_mode          = false;
+        m_insert_mode        = false;
+        m_repeat_mode        = false;
+        m_mark               = false;
+        m_cursor_view        = false;
+        m_need_update        = false;
+        m_unselected_mode    = false;
 
         update_key_states();
     }
@@ -363,7 +363,7 @@ namespace text_editor
 
     void line_edit_control::create_key_state(u32 const dik, key_state state)
     {
-        Base* prev = m_actions[dik];
+        Base* prev     = m_actions[dik];
         // if ( m_actions[dik] )
         //{
         //	xr_delete( m_actions[dik] );
@@ -411,9 +411,9 @@ namespace text_editor
         strncpy_s(m_edit_str, m_buffer_size, str, str_size);
         m_edit_str[str_size] = 0;
 
-        m_cur_pos      = str_size;
-        m_select_start = m_cur_pos;
-        m_accel        = 1.0f;
+        m_cur_pos            = str_size;
+        m_select_start       = m_cur_pos;
+        m_accel              = 1.0f;
         update_bufs();
     }
 
@@ -550,10 +550,10 @@ namespace text_editor
     void line_edit_control::update_bufs()
     {
         // separate_buffer
-        m_buf0[0] = 0;
-        m_buf1[0] = 0;
-        m_buf2[0] = 0;
-        m_buf3[0] = 0;
+        m_buf0[0]     = 0;
+        m_buf1[0]     = 0;
+        m_buf2[0]     = 0;
+        m_buf3[0]     = 0;
 
         int edit_size = (int)xr_strlen(m_edit_str);
         int ds        = (m_cursor_view && m_insert_mode && m_p2 < edit_size) ? 1 : 0;
@@ -598,12 +598,10 @@ namespace text_editor
         strncpy_s(buf + m_p1, m_buffer_size - m_p1, m_inserted, _min(new_size, m_buffer_size - m_p1));   // part 2
 
         u8 ds = (m_insert_mode && m_p2 < old_edit_size) ? 1 : 0;
-        strncpy_s(
-            buf + m_p1 + new_size, m_buffer_size - m_p1 - new_size, m_edit_str + m_p2 + ds,
-            _min(old_edit_size - m_p2 - ds, m_buffer_size - m_p1 - new_size));   // part 3
+        strncpy_s(buf + m_p1 + new_size, m_buffer_size - m_p1 - new_size, m_edit_str + m_p2 + ds, _min(old_edit_size - m_p2 - ds, m_buffer_size - m_p1 - new_size));   // part 3
         buf[m_buffer_size] = 0;
 
-        int szn = m_p1 + new_size + old_edit_size - m_p2 - ds;
+        int szn            = m_p1 + new_size + old_edit_size - m_p2 - ds;
         if (szn < m_buffer_size)
         {
             strncpy_s(m_edit_str, m_buffer_size, buf, szn);   // part 1+2+3

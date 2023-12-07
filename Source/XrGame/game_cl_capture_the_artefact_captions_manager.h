@@ -21,10 +21,10 @@ private:
     void                        ShowPendingCaptions();
     void                        ShowScoreCaptions();
 
-    u32        dwLastTimeRemains;
-    string1024 warmup_message;
-    string64   timelimit_message;
-    void       ConvertTime2String(string64& str, u32 time);
+    u32                         dwLastTimeRemains;
+    string1024                  warmup_message;
+    string64                    timelimit_message;
+    void                        ConvertTime2String(string64& str, u32 time);
 
 public:
     CTAGameClCaptionsManager();

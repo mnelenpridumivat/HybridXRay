@@ -73,7 +73,7 @@ namespace MonsterSpace
         eObjectActionEmpty1,
         eObjectActionNoItems = eObjectActionIdle | u16(-1),
         //
-        eObjectActionDummy = u32(-1),
+        eObjectActionDummy   = u32(-1),
     };
 
     struct SBoneRotation

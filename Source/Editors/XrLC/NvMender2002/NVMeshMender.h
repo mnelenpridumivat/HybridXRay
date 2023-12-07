@@ -159,6 +159,7 @@ private:
             return (v1 < rhs.v1);
         }
     };
+
 public:
     void SetLastError(const xr_string& rhs) const
     {
@@ -194,8 +195,7 @@ public:
             return *this;
         }
 
-        VertexAttribute(const char* pName = ""):
-            Name_(pName)
+        VertexAttribute(const char* pName = ""): Name_(pName)
         {
             ;
         }
@@ -230,22 +230,8 @@ public:
         DontWeightNormalsByFaceSize
     };
 
-    bool NVMeshMender::Munge(
-        const NVMeshMender::VAVector& input,
-        NVMeshMender::VAVector&       output,
-        const float                   bSmoothCreaseAngleRadians = 3.141592654f / 3.0f,
-        const float*                  pTextureMatrix            = 0,
-        const Option                  _FixTangents              = FixTangents,
-        const Option                  _FixCylindricalTexGen     = FixCylindricalTexGen,
-        const Option                  _WeightNormalsByFaceSize  = WeightNormalsByFaceSize);
-    bool NVMeshMender::MungeD3DX(
-        const NVMeshMender::VAVector& input,
-        NVMeshMender::VAVector&       output,
-        const float                   bSmoothCreaseAngleRadians = 3.141592654f / 3.0f,
-        const float*                  pTextureMatrix            = 0,
-        const Option                  _FixTangents              = FixTangents,
-        const Option                  _FixCylindricalTexGen     = FixCylindricalTexGen,
-        const Option                  _WeightNormalsByFaceSize  = WeightNormalsByFaceSize);
+    bool NVMeshMender::Munge(const NVMeshMender::VAVector& input, NVMeshMender::VAVector& output, const float bSmoothCreaseAngleRadians = 3.141592654f / 3.0f, const float* pTextureMatrix = 0, const Option _FixTangents = FixTangents, const Option _FixCylindricalTexGen = FixCylindricalTexGen, const Option _WeightNormalsByFaceSize = WeightNormalsByFaceSize);
+    bool NVMeshMender::MungeD3DX(const NVMeshMender::VAVector& input, NVMeshMender::VAVector& output, const float bSmoothCreaseAngleRadians = 3.141592654f / 3.0f, const float* pTextureMatrix = 0, const Option _FixTangents = FixTangents, const Option _FixCylindricalTexGen = FixCylindricalTexGen, const Option _WeightNormalsByFaceSize = WeightNormalsByFaceSize);
 };
 
 #endif   //_NVMeshMender_H_

@@ -51,11 +51,10 @@
 #include "debug_text_tree.h"
 #endif
 
-#pragma warning(disable : 4355)
+#pragma warning(disable:4355)
 #pragma warning(push)
 
-CBaseMonster::CBaseMonster():
-    m_psy_aura(this, "psy"), m_fire_aura(this, "fire"), m_radiation_aura(this, "radiation"), m_base_aura(this, "base")
+CBaseMonster::CBaseMonster(): m_psy_aura(this, "psy"), m_fire_aura(this, "fire"), m_radiation_aura(this, "radiation"), m_base_aura(this, "base")
 {
     m_pPhysics_support = xr_new<CCharacterPhysicsSupport>(CCharacterPhysicsSupport::etBitting, this);
 
@@ -90,25 +89,25 @@ CBaseMonster::CBaseMonster():
     m_anomaly_detector = xr_new<CAnomalyDetector>(this);
     CoverMan           = xr_new<CMonsterCoverManager>(this);
 
-    Home = xr_new<CMonsterHome>(this);
+    Home               = xr_new<CMonsterHome>(this);
 
     com_man().add_ability(ControlCom::eComCriticalWound);
 
-    EatedCorpse = NULL;
+    EatedCorpse                            = NULL;
 
-    m_steer_manager      = NULL;
-    m_grouping_behaviour = NULL;
+    m_steer_manager                        = NULL;
+    m_grouping_behaviour                   = NULL;
 
     m_last_grouping_behaviour_update_tick  = 0;
     m_feel_enemy_who_just_hit_max_distance = 0;
     m_feel_enemy_max_distance              = 0;
 
-    m_anti_aim       = NULL;
-    m_head_bone_name = "bip01_head";
+    m_anti_aim                             = NULL;
+    m_head_bone_name                       = "bip01_head";
 
-    m_first_tick_enemy_inaccessible = 0;
-    m_last_tick_enemy_inaccessible  = 0;
-    m_first_tick_object_not_at_home = 0;
+    m_first_tick_enemy_inaccessible        = 0;
+    m_last_tick_enemy_inaccessible         = 0;
+    m_first_tick_object_not_at_home        = 0;
 }
 
 #pragma warning(pop)
@@ -143,20 +142,20 @@ void CBaseMonster::update_pos_by_grouping_behaviour()
 
     Fvector acc = get_steer_manager()->calc_acceleration();
 
-    acc.y = 0;   // remove vertical component
+    acc.y       = 0;   // remove vertical component
 
     if (!m_last_grouping_behaviour_update_tick)
     {
         m_last_grouping_behaviour_update_tick = Device->dwTimeGlobal;
     }
 
-    const float dt = 0.001f * (Device->dwTimeGlobal - m_last_grouping_behaviour_update_tick);
+    const float dt                        = 0.001f * (Device->dwTimeGlobal - m_last_grouping_behaviour_update_tick);
 
     m_last_grouping_behaviour_update_tick = Device->dwTimeGlobal;
 
-    const Fvector old_pos  = Position();
-    Fvector       offs     = acc * dt;
-    const float   offs_mag = magnitude(offs);
+    const Fvector old_pos                 = Position();
+    Fvector       offs                    = acc * dt;
+    const float   offs_mag                = magnitude(offs);
 
     if (offs_mag < 0.000001f)
     {
@@ -172,7 +171,7 @@ void CBaseMonster::update_pos_by_grouping_behaviour()
         offs.set_length(0.005f);
     }
 
-    Fvector new_pos = old_pos + offs;
+    Fvector   new_pos    = old_pos + offs;
 
     const u32 old_vertex = ai_location().level_vertex_id();
     u32       new_vertex = ai().level_graph().check_position_in_direction(old_vertex, old_pos, new_pos);
@@ -207,9 +206,7 @@ void CBaseMonster::update_pos_by_grouping_behaviour()
 
 bool accessible_epsilon(CBaseMonster* const object, Fvector const pos, float epsilon)
 {
-    Fvector const offsets[] = {
-        Fvector().set(0.f, 0.f, 0.f), Fvector().set(-epsilon, 0.f, 0.f), Fvector().set(+epsilon, 0.f, 0.f),
-        Fvector().set(0.f, 0.f, -epsilon), Fvector().set(0.f, 0.f, +epsilon)};
+    Fvector const offsets[] = {Fvector().set(0.f, 0.f, 0.f), Fvector().set(-epsilon, 0.f, 0.f), Fvector().set(+epsilon, 0.f, 0.f), Fvector().set(0.f, 0.f, -epsilon), Fvector().set(0.f, 0.f, +epsilon)};
 
     for (u32 i = 0; i < sizeof(offsets) / sizeof(offsets[0]); ++i)
     {
@@ -226,11 +223,11 @@ static bool enemy_inaccessible(CBaseMonster* const object)
     if (!enemy)
         return false;
 
-    Fvector const enemy_pos      = enemy->Position();
-    Fvector const enemy_vert_pos = ai().level_graph().vertex_position(enemy->ai_location().level_vertex_id());
+    Fvector const enemy_pos         = enemy->Position();
+    Fvector const enemy_vert_pos    = ai().level_graph().vertex_position(enemy->ai_location().level_vertex_id());
 
-    float const xz_dist_to_vertex = enemy_vert_pos.distance_to_xz(enemy_pos);
-    float const y_dist_to_vertex  = _abs(enemy_vert_pos.y - enemy_pos.y);
+    float const   xz_dist_to_vertex = enemy_vert_pos.distance_to_xz(enemy_pos);
+    float const   y_dist_to_vertex  = _abs(enemy_vert_pos.y - enemy_pos.y);
 
     if (xz_dist_to_vertex > 0.5f && y_dist_to_vertex > 3.f)
         return true;
@@ -550,8 +547,7 @@ void CBaseMonster::set_state_sound(u32 type, bool once)
     else
     {
         // handle situation, when monster want to play attack sound for the first time
-        if ((type == MonsterSound::eMonsterSoundAggressive) &&
-            (m_prev_sound_type != MonsterSound::eMonsterSoundAggressive))
+        if ((type == MonsterSound::eMonsterSoundAggressive) && (m_prev_sound_type != MonsterSound::eMonsterSoundAggressive))
         {
             sound().play(MonsterSound::eMonsterSoundAttackHit);
         }
@@ -610,11 +606,11 @@ BOOL CBaseMonster::feel_touch_contact(CObject* O)
 
 void CBaseMonster::TranslateActionToPathParams()
 {
-    bool bEnablePath = true;
-    u32  vel_mask    = 0;
-    u32  des_mask    = 0;
+    bool    bEnablePath = true;
+    u32     vel_mask    = 0;
+    u32     des_mask    = 0;
 
-    EAction action = anim().m_tAction;
+    EAction action      = anim().m_tAction;
     switch (action)
     {
         case ACT_STAND_IDLE:
@@ -805,17 +801,12 @@ void CBaseMonster::set_action(EAction action)
     anim().m_tAction = action;
 }
 
-CParticlesObject* CBaseMonster::PlayParticles(
-    const shared_str& name,
-    const Fvector&    position,
-    const Fvector&    dir,
-    BOOL              auto_remove,
-    BOOL              xformed)
+CParticlesObject* CBaseMonster::PlayParticles(const shared_str& name, const Fvector& position, const Fvector& dir, BOOL auto_remove, BOOL xformed)
 {
     CParticlesObject* ps = CParticlesObject::Create(name.c_str(), auto_remove);
 
     // вычислить позицию и направленность партикла
-    Fmatrix matrix;
+    Fmatrix           matrix;
 
     matrix.identity();
     matrix.k.set(dir);
@@ -848,19 +839,13 @@ void CBaseMonster::load_effector(LPCSTR section, LPCSTR line, SAttackEffector& e
     effector.ppi.noise.fps       = pSettings->r_float(ppi_section, "noise_fps");
     VERIFY(!fis_zero(effector.ppi.noise.fps));
 
-    sscanf(
-        pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &effector.ppi.color_base.r,
-        &effector.ppi.color_base.g, &effector.ppi.color_base.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &effector.ppi.color_gray.r,
-        &effector.ppi.color_gray.g, &effector.ppi.color_gray.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &effector.ppi.color_add.r, &effector.ppi.color_add.g,
-        &effector.ppi.color_add.b);
+    sscanf(pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &effector.ppi.color_base.r, &effector.ppi.color_base.g, &effector.ppi.color_base.b);
+    sscanf(pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &effector.ppi.color_gray.r, &effector.ppi.color_gray.g, &effector.ppi.color_gray.b);
+    sscanf(pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &effector.ppi.color_add.r, &effector.ppi.color_add.g, &effector.ppi.color_add.b);
 
-    effector.time         = pSettings->r_float(ppi_section, "time");
-    effector.time_attack  = pSettings->r_float(ppi_section, "time_attack");
-    effector.time_release = pSettings->r_float(ppi_section, "time_release");
+    effector.time             = pSettings->r_float(ppi_section, "time");
+    effector.time_attack      = pSettings->r_float(ppi_section, "time_attack");
+    effector.time_release     = pSettings->r_float(ppi_section, "time_release");
 
     effector.ce_time          = pSettings->r_float(ppi_section, "ce_time");
     effector.ce_amplitude     = pSettings->r_float(ppi_section, "ce_amplitude");
@@ -888,8 +873,7 @@ bool CBaseMonster::check_start_conditions(ControlCom::EControlType type)
     {
         EMonsterState state = StateMan->get_state_type();
 
-        if (!is_state(state, eStateAttack_Run) && !is_state(state, eStateAttack_Melee) &&
-            !is_state(state, eStateAttack_RunAttack))
+        if (!is_state(state, eStateAttack_Run) && !is_state(state, eStateAttack_Melee) && !is_state(state, eStateAttack_RunAttack))
         {
             return false;
         }
@@ -1031,9 +1015,9 @@ void CBaseMonster::update_eyes_visibility()
 
     R_ASSERT(left_eye_bone_id != u16(-1) && right_eye_bone_id != u16(-1));
 
-    bool eyes_visible = !g_Alive() || get_screen_space_coverage_diagonal() > 0.05f;
+    bool       eyes_visible = !g_Alive() || get_screen_space_coverage_diagonal() > 0.05f;
 
-    bool const was_visible = !!skeleton->LL_GetBoneVisible(left_eye_bone_id);
+    bool const was_visible  = !!skeleton->LL_GetBoneVisible(left_eye_bone_id);
     skeleton->LL_SetBoneVisible(left_eye_bone_id, eyes_visible, true);
     skeleton->LL_SetBoneVisible(right_eye_bone_id, eyes_visible, true);
 
@@ -1046,7 +1030,7 @@ void CBaseMonster::update_eyes_visibility()
 
 float CBaseMonster::get_screen_space_coverage_diagonal()
 {
-    Fbox b = Visual()->getVisData().box;
+    Fbox    b = Visual()->getVisData().box;
 
     Fmatrix xform;
     xform.mul(Device->mFullTransform, XFORM());
@@ -1063,8 +1047,8 @@ float CBaseMonster::get_screen_space_coverage_diagonal()
         mx.y = _max(mx.y, p.y);
     }
 
-    float const width  = mx.x - mn.x;
-    float const height = mx.y - mn.y;
+    float const width            = mx.x - mn.x;
+    float const height           = mx.y - mn.y;
 
     float const average_diagonal = _sqrt(width * height);
     return average_diagonal;

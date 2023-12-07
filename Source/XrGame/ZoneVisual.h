@@ -17,5 +17,6 @@ public:
     virtual void UpdateBlowout();
 
 protected:
+
 private:
 };

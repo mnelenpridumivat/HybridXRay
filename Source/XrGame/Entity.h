@@ -38,20 +38,20 @@ public:
         m_entity_condition->SetHealth(value);
         return value;
     }
-    float m_fMorale;
+    float        m_fMorale;
     // Team params
-    int id_Team;
-    int id_Squad;
-    int id_Group;
+    int          id_Team;
+    int          id_Squad;
+    int          id_Group;
 
     virtual void ChangeTeam(int team, int squad, int group);
 
     struct SEntityState
     {
-        u32   bJump : 1;
-        u32   bCrouch : 1;
-        u32   bFall : 1;
-        u32   bSprint : 1;
+        u32   bJump  :1;
+        u32   bCrouch:1;
+        u32   bFall  :1;
+        u32   bSprint:1;
         float fVelocity;
         float fAVelocity;
     };
@@ -69,16 +69,16 @@ public:
 
 public:
     // Core events
-    virtual void Load(LPCSTR section);
-    virtual void reinit();
-    virtual void reload(LPCSTR section);
-    virtual BOOL net_Spawn(CSE_Abstract* DC);
-    virtual void net_Destroy();
+    virtual void           Load(LPCSTR section);
+    virtual void           reinit();
+    virtual void           reload(LPCSTR section);
+    virtual BOOL           net_Spawn(CSE_Abstract* DC);
+    virtual void           net_Destroy();
 
-    virtual void shedule_Update(u32 dt);
+    virtual void           shedule_Update(u32 dt);
 
-    bool IsFocused() const;
-    bool IsMyCamera() const;
+    bool                   IsFocused() const;
+    bool                   IsMyCamera() const;
 
     //	virtual float			g_Health			()const	{ return GetfHealth();}
     /*	virtual*/ IC float GetMaxHealth() const
@@ -115,7 +115,7 @@ public:
     virtual float CalcCondition(float hit);
 
     // if false - hits go through and dont hit
-    virtual bool in_solid_state()
+    virtual bool  in_solid_state()
     {
         return true;
     }
@@ -140,7 +140,7 @@ public:
 
     virtual void Die(CObject* who);
     //			void			KillEntity			(CObject* who);
-    void KillEntity(u16 whoID);
+    void         KillEntity(u16 whoID);
 
     // Events
     virtual void OnEvent(NET_Packet& P, u16 type);
@@ -158,8 +158,8 @@ public:
     u32             m_level_death_time;
     ALife::_TIME_ID m_game_death_time;
 
-    void         set_death_time();
-    virtual void set_ready_to_save();
+    void            set_death_time();
+    virtual void    set_ready_to_save();
 
 private:
     ALife::_OBJECT_ID m_killer_id;

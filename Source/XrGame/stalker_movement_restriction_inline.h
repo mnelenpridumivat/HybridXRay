@@ -8,10 +8,7 @@
 
 #pragma once
 
-IC CStalkerMovementRestrictor::CStalkerMovementRestrictor(
-    CAI_Stalker* object,
-    bool         use_enemy_info,
-    bool         notify_agent_manager)
+IC CStalkerMovementRestrictor::CStalkerMovementRestrictor(CAI_Stalker* object, bool use_enemy_info, bool notify_agent_manager)
 {
     m_object               = object;
     m_agent_manager        = &object->agent_manager();

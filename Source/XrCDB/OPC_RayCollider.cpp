@@ -201,15 +201,21 @@ using namespace Opcode;
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 RayCollider::RayCollider():
-    mNbRayBVTests(0), mNbRayPrimTests(0), mNbIntersections(0), mClosestHit(false), mCulling(true),
+    mNbRayBVTests(0),
+    mNbRayPrimTests(0),
+    mNbIntersections(0),
+    mClosestHit(false),
+    mCulling(true),
 #ifdef OPC_USE_CALLBACKS
-    mUserData(0), mObjCallback(null),
+    mUserData(0),
+    mObjCallback(null),
 #else
-    mFaces(null), mVerts(null),
+    mFaces(null),
+    mVerts(null),
 #endif
-    mStabbedFaces(null), mMaxDist(flt_max)
-{
-}
+    mStabbedFaces(null),
+    mMaxDist(flt_max)
+{}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**
@@ -328,8 +334,8 @@ BOOL RayCollider::InitQuery(const Ray& world_ray, const Matrix4x4* world, udword
     if (IR(mMaxDist) != IEEE_MAX_FLOAT)
     {
         // For Segment-AABB overlap
-        mData  = 0.5f * mDir * mMaxDist;
-        mData2 = mOrigin + mData;
+        mData   = 0.5f * mDir * mMaxDist;
+        mData2  = mOrigin + mData;
 
         // Precompute mFDir;
         mFDir.x = _abs(mData.x);
@@ -531,11 +537,7 @@ bool RayCollider::Collide(const Ray& world_ray, const AABBQuantizedTree* tree, c
  *	\warning	SCALE NOT SUPPORTED. The matrix must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool RayCollider::Collide(
-    const Ray&                     world_ray,
-    const AABBQuantizedNoLeafTree* tree,
-    const Matrix4x4*               world,
-    udword*                        cache)
+bool RayCollider::Collide(const Ray& world_ray, const AABBQuantizedNoLeafTree* tree, const Matrix4x4* world, udword* cache)
 {
     // Checkings
     if (!tree)
@@ -640,12 +642,8 @@ void RayCollider::_Stab(const AABBQuantizedNode* node)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Perform Segment-AABB overlap test
     if (!SegmentAABBOverlap(Center, Extents))
@@ -706,12 +704,8 @@ void RayCollider::_Stab(const AABBQuantizedNoLeafNode* node)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Perform Segment-AABB overlap test
     if (!SegmentAABBOverlap(Center, Extents))
@@ -799,12 +793,8 @@ void RayCollider::_UnboundedStab(const AABBQuantizedNode* node)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Perform Ray-AABB overlap test
     if (!RayAABBOverlap(Center, Extents))
@@ -865,12 +855,8 @@ void RayCollider::_UnboundedStab(const AABBQuantizedNoLeafNode* node)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Perform Ray-AABB overlap test
     if (!RayAABBOverlap(Center, Extents))

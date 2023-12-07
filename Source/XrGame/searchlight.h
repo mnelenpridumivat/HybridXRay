@@ -8,16 +8,16 @@ class CProjector: public CScriptObject
 {
     typedef CScriptObject inherited;
 
-    friend void BoneCallbackX(CBoneInstance* B);
-    friend void BoneCallbackY(CBoneInstance* B);
+    friend void           BoneCallbackX(CBoneInstance* B);
+    friend void           BoneCallbackY(CBoneInstance* B);
 
-    float     fBrightness;
-    CLAItem*  lanim;
-    Fvector   m_pos;
-    ref_light light_render;
-    ref_glow  glow_render;
+    float                 fBrightness;
+    CLAItem*              lanim;
+    Fvector               m_pos;
+    ref_light             light_render;
+    ref_glow              glow_render;
 
-    u16 guid_bone;
+    u16                   guid_bone;
 
     struct SBoneRot
     {
@@ -46,15 +46,15 @@ public:
     virtual bool bfAssignWatch(CScriptEntityAction* tpEntityAction);
     virtual bool bfAssignObject(CScriptEntityAction* tpEntityAction);
 
-    Fvector GetCurrentDirection();
+    Fvector      GetCurrentDirection();
 
 private:
-    void TurnOn();
-    void TurnOff();
+    void             TurnOn();
+    void             TurnOff();
 
     // Rotation routines
     static void _BCL BoneCallbackX(CBoneInstance* B);
     static void _BCL BoneCallbackY(CBoneInstance* B);
 
-    void SetTarget(const Fvector& target_pos);
+    void             SetTarget(const Fvector& target_pos);
 };

@@ -28,18 +28,18 @@ namespace Mgc
         ~ConvexHull2D();
 
         // two different methods to compute convex hull
-        void ByDivideAndConquer();
-        void ByIncremental();
+        void         ByDivideAndConquer();
+        void         ByIncremental();
 
         // hull stored in counterclockwise order
-        int        GetQuantity() const;
-        const int* GetIndices() const;
+        int          GetQuantity() const;
+        const int*   GetIndices() const;
 
         // remove collinear points on hull
-        void RemoveCollinear();
+        void         RemoveCollinear();
 
         // test if point is contained by hull
-        bool ContainsPoint(const Vector2& rkP) const;
+        bool         ContainsPoint(const Vector2& rkP) const;
 
         // The 'vertex equality' epsilon is used to set Vector2::FUZZ for fuzzy
         // equality of vector components.  Two vectors (x0,y0) and (x1,y1) are
@@ -98,32 +98,32 @@ namespace Mgc
             ORDER_COLLINEAR_CONTAIN
         };
 
-        int CollinearTest(const Vector2& rkP, const Vector2& rkQ0, const Vector2& rkQ1) const;
+        int            CollinearTest(const Vector2& rkP, const Vector2& rkQ0, const Vector2& rkQ1) const;
 
         // construct convex hull using divide-and-conquer
-        void GetHull(int i0, int i1, const SVArray& rkSVArray, SVArray& rkHull);
-        void Merge(SVArray& rkLHull, SVArray& rkRHull, SVArray& rkHull);
-        void MergeLinear(const SortedVertex& rkP, SVArray& rkHull);
-        void GetTangent(const SVArray& rkLHull, const SVArray& rkRHull, int& riL, int& riR);
+        void           GetHull(int i0, int i1, const SVArray& rkSVArray, SVArray& rkHull);
+        void           Merge(SVArray& rkLHull, SVArray& rkRHull, SVArray& rkHull);
+        void           MergeLinear(const SortedVertex& rkP, SVArray& rkHull);
+        void           GetTangent(const SVArray& rkLHull, const SVArray& rkRHull, int& riL, int& riR);
 
         // construct convex hull incrementally
-        void MergeLinear(const SortedVertex& rkP);
-        void MergePlanar(const SortedVertex& rkP);
+        void           MergeLinear(const SortedVertex& rkP);
+        void           MergePlanar(const SortedVertex& rkP);
 
         // vertex information
         int            m_iVQuantity;
         const Vector2* m_akVertex;
 
         // hull information
-        int     m_iHullType;
-        SVArray m_kHull;
+        int            m_iHullType;
+        SVArray        m_kHull;
 
         // indices for ordered vertices of hull
-        int  m_iHQuantity;
-        int* m_aiHIndex;
+        int            m_iHQuantity;
+        int*           m_aiHIndex;
 
-        static Real ms_fVeqEpsilon;
-        static Real ms_fColEpsilon;
+        static Real    ms_fVeqEpsilon;
+        static Real    ms_fColEpsilon;
     };
 
 #include "MgcConvexHull2D.inl"

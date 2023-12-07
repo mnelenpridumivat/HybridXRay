@@ -10,14 +10,14 @@ enum ECursorStyle
 
 class C3DCursor
 {
-    float      d_angle;
-    u32        dwColor;
-    FvectorVec m_RenderBuffer;
+    float        d_angle;
+    u32          dwColor;
+    FvectorVec   m_RenderBuffer;
 
-    Fvector brush_start, brush_dir;
-    Fmatrix brush_mat;
-    float   brush_radius;
-    float   brush_up_depth, brush_dn_depth;
+    Fvector      brush_start, brush_dir;
+    Fmatrix      brush_mat;
+    float        brush_radius;
+    float        brush_up_depth, brush_dn_depth;
 
     bool         m_Visible;
     void         GetPickPoint(Fvector& src, Fvector& dst, Fvector* N);

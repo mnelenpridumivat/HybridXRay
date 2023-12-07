@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: actor_script.cpp
 //	Created 	: 17.01.2008
 //  Modified 	: 17.01.2008
@@ -12,15 +12,10 @@
 
 using namespace luabind;
 
-#pragma optimize("s",on)
-void CActor::script_register(lua_State *L)
+#pragma optimize("s", on)
+void CActor::script_register(lua_State* L)
 {
-	module(L)
-	[
-		class_<CActor,CGameObject>("CActor")
-			.def(constructor<>()),
+    module(L)[class_<CActor, CGameObject>("CActor").def(constructor<>()),
 
-		class_<CLevelChanger,CGameObject>("CLevelChanger")
-			.def(constructor<>())
-	];
+        class_<CLevelChanger, CGameObject>("CLevelChanger").def(constructor<>())];
 }

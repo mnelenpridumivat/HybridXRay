@@ -13,16 +13,16 @@
 extern s32  g_sv_dm_dwFragLimit;
 extern BOOL g_sv_dm_bPDAHunt;
 //-------------------------------------------------------
-BOOL  g_sv_tdm_bAutoTeamBalance      = FALSE;
-BOOL  g_sv_tdm_bAutoTeamSwap         = TRUE;
-BOOL  g_sv_tdm_bFriendlyIndicators   = FALSE;
-BOOL  g_sv_tdm_bFriendlyNames        = FALSE;
-float g_sv_tdm_fFriendlyFireModifier = 1.0f;
+BOOL        g_sv_tdm_bAutoTeamBalance      = FALSE;
+BOOL        g_sv_tdm_bAutoTeamSwap         = TRUE;
+BOOL        g_sv_tdm_bFriendlyIndicators   = FALSE;
+BOOL        g_sv_tdm_bFriendlyNames        = FALSE;
+float       g_sv_tdm_fFriendlyFireModifier = 1.0f;
 //-------------------------------------------------------
-int g_sv_tdm_iTeamKillLimit      = 3;
-int g_sv_tdm_bTeamKillPunishment = TRUE;
+int         g_sv_tdm_iTeamKillLimit        = 3;
+int         g_sv_tdm_bTeamKillPunishment   = TRUE;
 //-------------------------------------------------------
-BOOL game_sv_TeamDeathmatch::isFriendlyFireEnabled()
+BOOL        game_sv_TeamDeathmatch::isFriendlyFireEnabled()
 {
     return (int(g_sv_tdm_fFriendlyFireModifier * 100.0f) > 0);
 };
@@ -268,7 +268,7 @@ void game_sv_TeamDeathmatch::OnPlayerConnect(ClientID id_who)
     xrClientData*     xrCData = m_server->ID_to_client(id_who);
     game_PlayerState* ps_who  = get_id(id_who);
     //	LPCSTR	options				=	get_name_id	(id_who);
-    ps_who->team = AutoTeam();   // u8(get_option_i(options,"team",AutoTeam()));
+    ps_who->team              = AutoTeam();   // u8(get_option_i(options,"team",AutoTeam()));
 
     if (ps_who->IsSkip())
         return;
@@ -373,12 +373,7 @@ void game_sv_TeamDeathmatch::OnPlayerChangeTeam(ClientID id_who, s16 team)
     SetPlayersDefItems(ps_who);
 }
 
-void game_sv_TeamDeathmatch::OnPlayerKillPlayer(
-    game_PlayerState* ps_killer,
-    game_PlayerState* ps_killed,
-    KILL_TYPE         KillType,
-    SPECIAL_KILL_TYPE SpecialKillType,
-    CSE_Abstract*     pWeaponA)
+void game_sv_TeamDeathmatch::OnPlayerKillPlayer(game_PlayerState* ps_killer, game_PlayerState* ps_killed, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType, CSE_Abstract* pWeaponA)
 {
     s16 OldKillsKiller = 0;
     s16 OldKillsVictim = 0;
@@ -419,7 +414,7 @@ void game_sv_TeamDeathmatch::OnPlayerKillPlayer(
                         game_PlayerState* ps_killer;
                         IClient*          server_client;
 
-                        bool operator()(IClient* client)
+                        bool              operator()(IClient* client)
                         {
                             xrClientData* pCL = (xrClientData*)client;
                             if (!pCL || pCL == server_client)
@@ -460,12 +455,14 @@ KILL_RES game_sv_TeamDeathmatch::GetKillResult(game_PlayerState* pKiller, game_P
     KILL_RES Res = inherited::GetKillResult(pKiller, pVictim);
     switch (Res)
     {
-        case KR_RIVAL: {
+        case KR_RIVAL:
+        {
             if (pKiller->team == pVictim->team)
                 Res = KR_TEAMMATE;
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     };
@@ -478,7 +475,8 @@ bool game_sv_TeamDeathmatch::OnKillResult(KILL_RES KillResult, game_PlayerState*
     TeamStruct* pTeam = GetTeamData(u8(pKiller->team));
     switch (KillResult)
     {
-        case KR_TEAMMATE: {
+        case KR_TEAMMATE:
+        {
             //.			pKiller->kills -= 1;
             pKiller->m_iTeamKills++;
             if (pTeam)
@@ -486,7 +484,8 @@ bool game_sv_TeamDeathmatch::OnKillResult(KILL_RES KillResult, game_PlayerState*
             res = false;
         }
         break;
-        default: {
+        default:
+        {
             res = inherited::OnKillResult(KillResult, pKiller, pVictim);
         }
         break;
@@ -514,10 +513,7 @@ u32 game_sv_TeamDeathmatch::RP_2_Use(CSE_Abstract* E)
     return (rpoints[Team].size()) ? Team : 0;
 };
 
-void game_sv_TeamDeathmatch::OnPlayerHitPlayer_Case(
-    game_PlayerState* ps_hitter,
-    game_PlayerState* ps_hitted,
-    SHit*             pHitS)
+void game_sv_TeamDeathmatch::OnPlayerHitPlayer_Case(game_PlayerState* ps_hitter, game_PlayerState* ps_hitted, SHit* pHitS)
 {
     // if (pHitS->hit_type != ALife::eHitTypePhysicStrike)
     //{
@@ -560,7 +556,8 @@ void game_sv_TeamDeathmatch::Update()
     {
         case GAME_PHASE_TEAM1_SCORES:
         case GAME_PHASE_TEAM2_SCORES:
-        case GAME_PHASE_TEAMS_IN_A_DRAW: {
+        case GAME_PHASE_TEAMS_IN_A_DRAW:
+        {
             if (m_delayedRoundEnd && m_roundEndDelay < Device->TimerAsync())
             {
                 OnRoundEnd();   // eRoundEnd_Finish
@@ -598,10 +595,10 @@ void game_sv_TeamDeathmatch::ReadOptions(shared_str& options)
 {
     inherited::ReadOptions(options);
     //-------------------------------
-    g_sv_tdm_bAutoTeamBalance    = get_option_i(*options, "abalance", (g_sv_tdm_bAutoTeamBalance ? 1 : 0)) != 0;
-    g_sv_tdm_bAutoTeamSwap       = get_option_i(*options, "aswap", (g_sv_tdm_bAutoTeamSwap ? 1 : 0)) != 0;
-    g_sv_tdm_bFriendlyIndicators = get_option_i(*options, "fi", (g_sv_tdm_bFriendlyIndicators ? 1 : 0)) != 0;
-    g_sv_tdm_bFriendlyNames      = get_option_i(*options, "fn", (g_sv_tdm_bFriendlyNames ? 1 : 0)) != 0;
+    g_sv_tdm_bAutoTeamBalance      = get_option_i(*options, "abalance", (g_sv_tdm_bAutoTeamBalance ? 1 : 0)) != 0;
+    g_sv_tdm_bAutoTeamSwap         = get_option_i(*options, "aswap", (g_sv_tdm_bAutoTeamSwap ? 1 : 0)) != 0;
+    g_sv_tdm_bFriendlyIndicators   = get_option_i(*options, "fi", (g_sv_tdm_bFriendlyIndicators ? 1 : 0)) != 0;
+    g_sv_tdm_bFriendlyNames        = get_option_i(*options, "fn", (g_sv_tdm_bFriendlyNames ? 1 : 0)) != 0;
 
     float fFF                      = get_option_f(*options, "ffire", g_sv_tdm_fFriendlyFireModifier);
     g_sv_tdm_fFriendlyFireModifier = fFF;
@@ -610,7 +607,7 @@ void game_sv_TeamDeathmatch::ReadOptions(shared_str& options)
 static bool g_bConsoleCommandsCreated_TDM = false;
 void        game_sv_TeamDeathmatch::ConsoleCommands_Create(){};
 
-void game_sv_TeamDeathmatch::ConsoleCommands_Clear()
+void        game_sv_TeamDeathmatch::ConsoleCommands_Clear()
 {
     inherited::ConsoleCommands_Clear();
 };
@@ -680,8 +677,7 @@ BOOL game_sv_TeamDeathmatch::OnTouchItem(CSE_ActorMP* actor, CSE_Abstract* item)
                         u_EventGen(P, GE_OWNERSHIP_REJECT, item->ID);
                         P.w_u16(e_child_item->ID);
 
-                        m_server->Process_event_reject(
-                            P, m_server->GetServerClient()->ID, 0, item->ID, e_child_item->ID);
+                        m_server->Process_event_reject(P, m_server->GetServerClient()->ID, 0, item->ID, e_child_item->ID);
                         continue;
                     }
                 }
@@ -701,8 +697,7 @@ BOOL game_sv_TeamDeathmatch::OnTouchItem(CSE_ActorMP* actor, CSE_Abstract* item)
         DestroyGameItem(item);
         if (g_sv_dm_bPDAHunt && actor->owner && actor->owner->ps)
         {
-            Player_AddBonusMoney(
-                actor->owner->ps, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "pda_taken", 0), SKT_PDA);
+            Player_AddBonusMoney(actor->owner->ps, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "pda_taken", 0), SKT_PDA);
         };
 
         //-------------------------------
@@ -721,9 +716,9 @@ void game_sv_TeamDeathmatch::OnDetachItem(CSE_ActorMP* actor, CSE_Abstract* item
         // move all items from player to rukzak
         xr_vector<u16>::const_iterator it_e = actor->children.end();
 
-        xr_vector<CSE_Abstract*> to_transfer;
-        xr_vector<CSE_Abstract*> to_destroy;
-        xr_vector<CSE_Abstract*> to_reject;
+        xr_vector<CSE_Abstract*>       to_transfer;
+        xr_vector<CSE_Abstract*>       to_destroy;
+        xr_vector<CSE_Abstract*>       to_reject;
         // may be there is a sense to move next invokation into the ProcessDeath method...
         FillDeathActorRejectItems(actor, to_reject);
 
@@ -752,9 +747,9 @@ void game_sv_TeamDeathmatch::OnDetachItem(CSE_ActorMP* actor, CSE_Abstract* item
 
         xr_vector<CSE_Abstract*>::const_iterator tr_it_e = to_transfer.end();
 
-        NET_Packet EventPack;
-        NET_Packet PacketReject;
-        NET_Packet PacketTake;
+        NET_Packet                               EventPack;
+        NET_Packet                               PacketReject;
+        NET_Packet                               PacketTake;
         EventPack.w_begin(M_EVENT_PACK);
 
         for (xr_vector<CSE_Abstract*>::const_iterator tr_it = to_transfer.begin(); tr_it != tr_it_e; ++tr_it)
@@ -769,13 +764,9 @@ void game_sv_TeamDeathmatch::OnDetachItem(CSE_ActorMP* actor, CSE_Abstract* item
         if (EventPack.B.count > 2)
             u_EventSend(EventPack);
 
-        std::for_each(
-            to_destroy.begin(), to_destroy.end(),
-            std::bind1st(std::mem_fun<void, game_sv_mp, CSE_Abstract*>(&game_sv_mp::DestroyGameItem), this));
+        std::for_each(to_destroy.begin(), to_destroy.end(), std::bind1st(std::mem_fun<void, game_sv_mp, CSE_Abstract*>(&game_sv_mp::DestroyGameItem), this));
 
-        std::for_each(
-            to_reject.begin(), to_reject.end(),
-            std::bind1st(std::mem_fun<void, game_sv_mp, CSE_Abstract*>(&game_sv_mp::RejectGameItem), this));
+        std::for_each(to_reject.begin(), to_reject.end(), std::bind1st(std::mem_fun<void, game_sv_mp, CSE_Abstract*>(&game_sv_mp::RejectGameItem), this));
     };
 }
 

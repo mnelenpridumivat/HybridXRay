@@ -30,6 +30,7 @@ public:
     collide::ray_cache RayCache;
     u32                qid_pass;
     u32                qid_total;
+
 public:
     CGlow();
     virtual ~CGlow();
@@ -58,6 +59,7 @@ class CGlowManager
 
     BOOL                b_hardware;
     u32                 dwTestID;
+
 public:
     void add(ref_glow g);
 

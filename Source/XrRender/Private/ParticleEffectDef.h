@@ -90,12 +90,14 @@ namespace PS
         float         m_fCollideOneMinusFriction;
         float         m_fCollideResilience;
         float         m_fCollideSqrCutoff;
+
     public:
         BOOL SaveActionList(IWriter& F);
         BOOL LoadActionList(IReader& F);
         // execute
         void ExecuteAnimate(PAPI::Particle* particles, u32 p_cnt, float dt);
         void ExecuteCollision(PAPI::Particle* particles, u32 p_cnt, float dt, CParticleEffect* owner, CollisionCallback cb);
+
     public:
         CPEDef();
         ~CPEDef();
@@ -116,10 +118,12 @@ namespace PS
 
 #ifdef REDITOR
         // change Copy&Equal if variables changed
+
     public:
         DEFINE_VECTOR(EParticleAction*, EPAVec, EPAVecIt);
         EPAVec m_EActionList;
         bool   m_EditChoose;
+
     public:
         void              FindActionByName(LPCSTR new_name, bool& res);
         bool              NameOnAfterEdit(PropValue* sender, shared_str& edit_val);

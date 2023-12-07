@@ -32,11 +32,11 @@ void CEliteDetector::UpdateAf()
     if (m_artefacts.m_ItemInfos.size() == 0)
         return;
 
-    CAfList::ItemsMapIt it_b = m_artefacts.m_ItemInfos.begin();
-    CAfList::ItemsMapIt it_e = m_artefacts.m_ItemInfos.end();
-    CAfList::ItemsMapIt it   = it_b;
+    CAfList::ItemsMapIt it_b         = m_artefacts.m_ItemInfos.begin();
+    CAfList::ItemsMapIt it_e         = m_artefacts.m_ItemInfos.end();
+    CAfList::ItemsMapIt it           = it_b;
 
-    Fvector detector_pos = Position();
+    Fvector             detector_pos = Position();
     for (; it_b != it_e; ++it_b)
     {
         CArtefact* pAf = it_b->first;
@@ -145,7 +145,7 @@ void CUIArtefactDetectorElite::Draw()
 
     IUIRender::ePointType bk = UI().m_currentPointType;
 
-    UI().m_currentPointType = IUIRender::pttLIT;
+    UI().m_currentPointType  = IUIRender::pttLIT;
 
     UIRender->CacheSetXformWorld(LM);
     UIRender->CacheSetCullMode(IUIRender::cmNONE);

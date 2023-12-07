@@ -204,8 +204,7 @@ public:
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     inline_ bool Intersect(const AABB& a) const
     {
-        if (mMax.x < a.mMin.x || a.mMax.x < mMin.x || mMax.y < a.mMin.y || a.mMax.y < mMin.y || mMax.z < a.mMin.z ||
-            a.mMax.z < mMin.z)
+        if (mMax.x < a.mMin.x || a.mMax.x < mMin.x || mMax.y < a.mMin.y || a.mMax.y < mMin.y || mMax.z < a.mMin.z || a.mMax.z < mMin.z)
             return false;
 
         return true;
@@ -221,8 +220,7 @@ public:
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     inline_ bool Intersect(const AABB& a, udword axis) const
     {
-        if (((const float*)mMax)[axis] < ((const float*)a.mMin)[axis] ||
-            ((const float*)a.mMax)[axis] < ((const float*)mMin)[axis])
+        if (((const float*)mMax)[axis] < ((const float*)a.mMin)[axis] || ((const float*)a.mMax)[axis] < ((const float*)mMin)[axis])
             return false;
         return true;
     }
@@ -548,9 +546,7 @@ public:
     inline_ bool GomezIntersect(const AABB& a)
     {
         Point T = mCenter - a.mCenter;   // Vector from A to B
-        return (
-            (fabsf(T.x) <= (a.mExtents.x + mExtents.x)) && (fabsf(T.y) <= (a.mExtents.y + mExtents.y)) &&
-            (fabsf(T.z) <= (a.mExtents.z + mExtents.z)));
+        return ((fabsf(T.x) <= (a.mExtents.x + mExtents.x)) && (fabsf(T.y) <= (a.mExtents.y + mExtents.y)) && (fabsf(T.z) <= (a.mExtents.z + mExtents.z)));
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

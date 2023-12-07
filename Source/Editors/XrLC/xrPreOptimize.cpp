@@ -170,12 +170,8 @@ void CBuild::PreOptimize()
     }
 
     Status("Cleanup...");
-    lc_global_data()->g_vertices().erase(
-        std::remove(lc_global_data()->g_vertices().begin(), lc_global_data()->g_vertices().end(), (Vertex*)0),
-        lc_global_data()->g_vertices().end());
-    lc_global_data()->g_faces().erase(
-        std::remove(lc_global_data()->g_faces().begin(), lc_global_data()->g_faces().end(), (Face*)0),
-        lc_global_data()->g_faces().end());
+    lc_global_data()->g_vertices().erase(std::remove(lc_global_data()->g_vertices().begin(), lc_global_data()->g_vertices().end(), (Vertex*)0), lc_global_data()->g_vertices().end());
+    lc_global_data()->g_faces().erase(std::remove(lc_global_data()->g_faces().begin(), lc_global_data()->g_faces().end(), (Face*)0), lc_global_data()->g_faces().end());
     {
         for (int ix = 0; ix < HDIM_X + 1; ix++)
             for (int iy = 0; iy < HDIM_Y + 1; iy++)
@@ -185,11 +181,8 @@ void CBuild::PreOptimize()
                 }
     }
     mem_Compact();
-    clMsg(
-        "%d vertices removed. (%d left)", Vcount - lc_global_data()->g_vertices().size(),
-        lc_global_data()->g_vertices().size());
-    clMsg(
-        "%d faces removed. (%d left)", Fcount - lc_global_data()->g_faces().size(), lc_global_data()->g_faces().size());
+    clMsg("%d vertices removed. (%d left)", Vcount - lc_global_data()->g_vertices().size(), lc_global_data()->g_vertices().size());
+    clMsg("%d faces removed. (%d left)", Fcount - lc_global_data()->g_faces().size(), lc_global_data()->g_faces().size());
 
     // -------------------------------------------------------------
     /*

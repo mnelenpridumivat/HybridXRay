@@ -146,9 +146,9 @@ void CUIMpTradeWnd::OnRootTabChanged(CUIWindow* w, void* d)
 void CUIMpTradeWnd::OnSubLevelBtnClicked(CUIWindow* w, void* d)
 {
     CheckDragItemToDestroy();
-    CUITabButtonMP* btn = smart_cast<CUITabButtonMP*>(w);
+    CUITabButtonMP* btn  = smart_cast<CUITabButtonMP*>(w);
 
-    shared_str curr = btn->m_temp_id;
+    shared_str      curr = btn->m_temp_id;
     m_store_hierarchy->MoveDown(curr);
 
     UpdateShop();

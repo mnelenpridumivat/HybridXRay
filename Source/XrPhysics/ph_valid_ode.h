@@ -11,8 +11,7 @@ IC BOOL dV_valid(const dReal* v)
 
 IC BOOL dM_valid(const dReal* m)
 {
-    return _valid(m[0]) && _valid(m[1]) && _valid(m[2]) && _valid(m[4]) && _valid(m[5]) && _valid(m[6]) &&
-        _valid(m[8]) && _valid(m[9]) && _valid(m[10]);
+    return _valid(m[0]) && _valid(m[1]) && _valid(m[2]) && _valid(m[4]) && _valid(m[5]) && _valid(m[6]) && _valid(m[8]) && _valid(m[9]) && _valid(m[10]);
 }
 
 IC BOOL dV4_valid(const dReal* v4)
@@ -29,6 +28,5 @@ IC BOOL dMass_valide(const dMass* m)
 }
 IC BOOL dBodyStateValide(const dBodyID body)
 {
-    return dM_valid(dBodyGetRotation(body)) && dV_valid(dBodyGetPosition(body)) && dV_valid(dBodyGetLinearVel(body)) &&
-        dV_valid(dBodyGetAngularVel(body)) && dV_valid(dBodyGetTorque(body)) && dV_valid(dBodyGetForce(body));
+    return dM_valid(dBodyGetRotation(body)) && dV_valid(dBodyGetPosition(body)) && dV_valid(dBodyGetLinearVel(body)) && dV_valid(dBodyGetAngularVel(body)) && dV_valid(dBodyGetTorque(body)) && dV_valid(dBodyGetForce(body));
 }

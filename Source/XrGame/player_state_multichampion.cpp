@@ -32,9 +32,9 @@ namespace award_system
         if (!m_can_be_multichampion)
             return 0;
 
-        s32 max_score = calculate_spots(tmp_local_player);
-        s16 min_death = tmp_local_player->m_iDeaths;
-        u8  max_arts  = tmp_local_player->af_count;
+        s32               max_score        = calculate_spots(tmp_local_player);
+        s16               min_death        = tmp_local_player->m_iDeaths;
+        u8                max_arts         = tmp_local_player->af_count;
 
         game_PlayerState* max_score_player = tmp_local_player;
         game_PlayerState* max_arts_player  = tmp_local_player;
@@ -74,8 +74,7 @@ namespace award_system
             }
         }
 
-        if ((min_death_player == tmp_local_player) && (max_score_player == tmp_local_player) &&
-            (max_arts_player == tmp_local_player))
+        if ((min_death_player == tmp_local_player) && (max_score_player == tmp_local_player) && (max_arts_player == tmp_local_player))
         {
             m_can_be_multichampion = false;
             return 1;

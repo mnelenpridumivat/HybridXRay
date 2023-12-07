@@ -26,6 +26,7 @@ public:
 
 #ifdef DEBUG
 #ifndef AI_COMPILER
+
 private:
     // ref_shader			sh_debug;
     debug_shader sh_debug;

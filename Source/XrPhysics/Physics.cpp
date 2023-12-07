@@ -11,13 +11,13 @@
 #include "debug_output.h"
 #endif
 ///////////////////////////////////////////////////////////////
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4267)
+#pragma warning(disable:4995)
+#pragma warning(disable:4267)
 #include "ode/src/collision_kernel.h"
 #include "ode/src/joint.h"
 #include "ode/src/objects.h"
-#pragma warning(default : 4267)
-#pragma warning(default : 4995)
+#pragma warning(default:4267)
+#pragma warning(default:4995)
 
 extern CPHWorld* ph_world;
 ///////////////////////////////////////////////////////////////////
@@ -26,38 +26,38 @@ extern CPHWorld* ph_world;
 // union dInfBytes dInfinityValue = {{0,0,0x80,0x7f}};
 // PhysicsStepTimeCallback		*physics_step_time_callback				= 0;
 
-const float default_w_limit = 9.8174770f;   //(M_PI/16.f/(fixed_step=0.02f));
-const float default_l_limit = 150.f;        //(3.f/fixed_step=0.02f);
-const float default_l_scale = 1.01f;
-const float default_w_scale = 1.01f;
-const float default_k_l     = 0.0002f;   // square resistance !!
-const float default_k_w     = 0.05f;
+const float                                  default_w_limit                          = 9.8174770f;   //(M_PI/16.f/(fixed_step=0.02f));
+const float                                  default_l_limit                          = 150.f;        //(3.f/fixed_step=0.02f);
+const float                                  default_l_scale                          = 1.01f;
+const float                                  default_w_scale                          = 1.01f;
+const float                                  default_k_l                              = 0.0002f;   // square resistance !!
+const float                                  default_k_w                              = 0.05f;
 
-extern const u16 max_joint_allowed_for_exeact_integration = 30;
+extern const u16                             max_joint_allowed_for_exeact_integration = 30;
 
 // base	params
-const float base_fixed_step = 0.02f;
-const float base_erp        = 0.54545456f;
-const float base_cfm        = 1.1363636e-006f;
+const float                                  base_fixed_step                          = 0.02f;
+const float                                  base_erp                                 = 0.54545456f;
+const float                                  base_cfm                                 = 1.1363636e-006f;
 // base params
-float fixed_step    = 0.01f;
-float world_cfm     = CFM(SPRING_S(base_cfm, base_erp, base_fixed_step), DAMPING(base_cfm, base_erp));
-float world_erp     = ERP(SPRING_S(base_cfm, base_erp, base_fixed_step), DAMPING(base_cfm, base_erp));
-float world_spring  = 1.0f * SPRING(world_cfm, world_erp);
-float world_damping = 1.0f * DAMPING(world_cfm, world_erp);
+float                                        fixed_step                               = 0.01f;
+float                                        world_cfm                                = CFM(SPRING_S(base_cfm, base_erp, base_fixed_step), DAMPING(base_cfm, base_erp));
+float                                        world_erp                                = ERP(SPRING_S(base_cfm, base_erp, base_fixed_step), DAMPING(base_cfm, base_erp));
+float                                        world_spring                             = 1.0f * SPRING(world_cfm, world_erp);
+float                                        world_damping                            = 1.0f * DAMPING(world_cfm, world_erp);
 
-const float default_world_gravity = 2 * 9.81f;
+const float                                  default_world_gravity                    = 2 * 9.81f;
 
 /////////////////////////////////////////////////////
 
-int   phIterations = 18;
-float phTimefactor = 1.f;
+int                                          phIterations                             = 18;
+float                                        phTimefactor                             = 1.f;
 // float		phBreakCommonFactor										= 0.01f;
 // float		phRigidBreakWeaponFactor								= 1.f;
-Fbox phBoundaries = {1000.f, 1000.f, -1000.f, -1000.f};
+Fbox                                         phBoundaries                             = {1000.f, 1000.f, -1000.f, -1000.f};
 // float		ph_tri_query_ex_aabb_rate								= 1.3f;
 // int			ph_tri_clear_disable_count								= 10;
-dWorldID phWorld;
+dWorldID                                     phWorld;
 
 /////////////////////////////////////
 dJointGroupID                                ContactGroup;
@@ -89,16 +89,15 @@ IC void add_contact_body_effector(dBodyID body, const dContact& c, SGameMtl* mat
     }
 }
 
-IC static int
-    CollideIntoGroup(dGeomID o1, dGeomID o2, dJointGroupID jointGroup, CPHIsland* world, const int& MAX_CONTACTS)
+IC static int CollideIntoGroup(dGeomID o1, dGeomID o2, dJointGroupID jointGroup, CPHIsland* world, const int& MAX_CONTACTS)
 {
-    const int RS = 800 + 10;
-    const int N  = RS;
+    const int       RS = 800 + 10;
+    const int       N  = RS;
 
     static dContact contacts[RS];
     int             collided_contacts = 0;
     // get the contacts up to a maximum of N contacts
-    int n;
+    int             n;
 
     VERIFY(o1);
     VERIFY(o2);
@@ -123,13 +122,13 @@ IC static int
         u16                 material_idx_1 = 0;
         u16                 material_idx_2 = 0;
 
-        surface.mu         = 1.f;     // 5000.f;
-        surface.soft_erp   = 1.f;     // ERP(world_spring,world_damping);
-        surface.soft_cfm   = 1.f;     // CFM(world_spring,world_damping);
-        surface.bounce     = 0.01f;   // 0.1f;
-        surface.bounce_vel = 1.5f;    // 0.005f;
-        usr_data_1         = retrieveGeomUserData(g1);
-        usr_data_2         = retrieveGeomUserData(g2);
+        surface.mu                         = 1.f;     // 5000.f;
+        surface.soft_erp                   = 1.f;     // ERP(world_spring,world_damping);
+        surface.soft_cfm                   = 1.f;     // CFM(world_spring,world_damping);
+        surface.bounce                     = 0.01f;   // 0.1f;
+        surface.bounce_vel                 = 1.5f;    // 0.005f;
+        usr_data_1                         = retrieveGeomUserData(g1);
+        usr_data_2                         = retrieveGeomUserData(g2);
         ///////////////////////////////////////////////////////////////////////////////////////////////////
         if (usr_data_2)
             material_idx_2 = usr_data_2->material;
@@ -147,21 +146,21 @@ IC static int
         SGameMtl* material_2 = GMLibrary().GetMaterialByIdx(material_idx_2);
         ////////////////params can be changed in
         ///callbacks//////////////////////////////////////////////////////////////////////////
-        surface.mode     = dContactApprox1 | dContactSoftERP | dContactSoftCFM;
-        float spring     = material_2->fPHSpring * material_1->fPHSpring * world_spring;
-        float damping    = material_2->fPHDamping * material_1->fPHDamping * world_damping;
-        surface.soft_erp = ERP(spring, damping);
-        surface.soft_cfm = CFM(spring, damping);
-        surface.mu       = material_2->fPHFriction * material_1->fPHFriction;
+        surface.mode         = dContactApprox1 | dContactSoftERP | dContactSoftCFM;
+        float spring         = material_2->fPHSpring * material_1->fPHSpring * world_spring;
+        float damping        = material_2->fPHDamping * material_1->fPHDamping * world_damping;
+        surface.soft_erp     = ERP(spring, damping);
+        surface.soft_cfm     = CFM(spring, damping);
+        surface.mu           = material_2->fPHFriction * material_1->fPHFriction;
         /////////////////////////////////////////////////////////////////////////////////////////////////
 
-        Flags32& flags_1 = material_1->Flags;
-        Flags32& flags_2 = material_2->Flags;
+        Flags32& flags_1     = material_1->Flags;
+        Flags32& flags_2     = material_2->Flags;
 
         if (is_tri_1)
         {
 #pragma warning(push)
-#pragma warning(disable : 4245)
+#pragma warning(disable:4245)
             if (material_1->Flags.test(SGameMtl::flSlowDown) && !(usr_data_2->pushing_neg || usr_data_2->pushing_b_neg))
 #pragma warning(pop)
             {
@@ -187,7 +186,7 @@ IC static int
         if (is_tri_2)
         {
 #pragma warning(push)
-#pragma warning(disable : 4245)
+#pragma warning(disable:4245)
             if (material_2->Flags.test(SGameMtl::flSlowDown) && !(usr_data_1->pushing_neg || usr_data_1->pushing_b_neg))
 #pragma warning(pop)
             {
@@ -228,11 +227,9 @@ IC static int
 
         if (usr_data_2)
         {
-            usr_data_2->pushing_b_neg = usr_data_2->pushing_b_neg &&
-                !GMLibrary().GetMaterialByIdx(usr_data_2->b_neg_tri->material)->Flags.test(SGameMtl::flPassable);
-            usr_data_2->pushing_neg = usr_data_2->pushing_neg &&
-                !GMLibrary().GetMaterialByIdx(usr_data_2->neg_tri->material)->Flags.test(SGameMtl::flPassable);
-            pushing_neg = usr_data_2->pushing_b_neg || usr_data_2->pushing_neg;
+            usr_data_2->pushing_b_neg = usr_data_2->pushing_b_neg && !GMLibrary().GetMaterialByIdx(usr_data_2->b_neg_tri->material)->Flags.test(SGameMtl::flPassable);
+            usr_data_2->pushing_neg   = usr_data_2->pushing_neg && !GMLibrary().GetMaterialByIdx(usr_data_2->neg_tri->material)->Flags.test(SGameMtl::flPassable);
+            pushing_neg               = usr_data_2->pushing_b_neg || usr_data_2->pushing_neg;
             if (usr_data_2->ph_object)
             {
                 usr_data_2->ph_object->InitContact(&c, do_collide, material_idx_1, material_idx_2);
@@ -241,11 +238,9 @@ IC static int
         ///////////////////////////////////////////////////////////////////////////////////////
         if (usr_data_1)
         {
-            usr_data_1->pushing_b_neg = usr_data_1->pushing_b_neg &&
-                !GMLibrary().GetMaterialByIdx(usr_data_1->b_neg_tri->material)->Flags.test(SGameMtl::flPassable);
-            usr_data_1->pushing_neg = usr_data_1->pushing_neg &&
-                !GMLibrary().GetMaterialByIdx(usr_data_1->neg_tri->material)->Flags.test(SGameMtl::flPassable);
-            pushing_neg = usr_data_1->pushing_b_neg || usr_data_1->pushing_neg;
+            usr_data_1->pushing_b_neg = usr_data_1->pushing_b_neg && !GMLibrary().GetMaterialByIdx(usr_data_1->b_neg_tri->material)->Flags.test(SGameMtl::flPassable);
+            usr_data_1->pushing_neg   = usr_data_1->pushing_neg && !GMLibrary().GetMaterialByIdx(usr_data_1->neg_tri->material)->Flags.test(SGameMtl::flPassable);
+            pushing_neg               = usr_data_1->pushing_b_neg || usr_data_1->pushing_neg;
             if (usr_data_1->ph_object)
             {
                 usr_data_1->ph_object->InitContact(&c, do_collide, material_idx_1, material_idx_2);
@@ -407,16 +402,14 @@ void BodyCutForce(dBodyID body, float l_limit, float w_limit)
     dReal        force_mag = dSqrt(dDOT(force, force));
 
     // body mass
-    dMass m;
+    dMass        m;
     dBodyGetMass(body, &m);
 
     dReal force_limit = l_limit / fixed_step * m.mass;
 
     if (force_mag > force_limit)
     {
-        dBodySetForce(
-            body, force[0] / force_mag * force_limit, force[1] / force_mag * force_limit,
-            force[2] / force_mag * force_limit);
+        dBodySetForce(body, force[0] / force_mag * force_limit, force[1] / force_mag * force_limit, force[2] / force_mag * force_limit);
     }
 
     const dReal* torque     = dBodyGetTorque(body);
@@ -483,26 +476,26 @@ float E_NLD(dBodyID b1, dBodyID b2, const dReal* norm)   // norm - from 2 to 1
     dMass m1, m2;
     dBodyGetMass(b1, &m1);
     dBodyGetMass(b2, &m2);
-    const dReal* vel1 = dBodyGetLinearVel(b1);
-    const dReal* vel2 = dBodyGetLinearVel(b2);
+    const dReal* vel1    = dBodyGetLinearVel(b1);
+    const dReal* vel2    = dBodyGetLinearVel(b2);
 
-    dReal vel_pr1 = dDOT(vel1, norm);
-    dReal vel_pr2 = dDOT(vel2, norm);
+    dReal        vel_pr1 = dDOT(vel1, norm);
+    dReal        vel_pr2 = dDOT(vel2, norm);
 
     if (vel_pr1 > vel_pr2)
         return 0.f;   // exit if the bodies are departing
 
-    dVector3 impuls1 = {vel1[0] * m1.mass, vel1[1] * m1.mass, vel1[2] * m1.mass};
-    dVector3 impuls2 = {vel2[0] * m2.mass, vel2[1] * m2.mass, vel2[2] * m2.mass};
+    dVector3 impuls1          = {vel1[0] * m1.mass, vel1[1] * m1.mass, vel1[2] * m1.mass};
+    dVector3 impuls2          = {vel2[0] * m2.mass, vel2[1] * m2.mass, vel2[2] * m2.mass};
 
-    dVector3 c_mas_impuls = {impuls1[0] + impuls2[0], impuls1[1] + impuls2[1], impuls1[2] + impuls2[2]};
-    dReal    cmass        = m1.mass + m2.mass;
-    dVector3 c_mass_vel   = {c_mas_impuls[0] / cmass, c_mas_impuls[1] / cmass, c_mas_impuls[2] / cmass};
+    dVector3 c_mas_impuls     = {impuls1[0] + impuls2[0], impuls1[1] + impuls2[1], impuls1[2] + impuls2[2]};
+    dReal    cmass            = m1.mass + m2.mass;
+    dVector3 c_mass_vel       = {c_mas_impuls[0] / cmass, c_mas_impuls[1] / cmass, c_mas_impuls[2] / cmass};
 
-    dReal c_mass_vel_prg = dDOT(c_mass_vel, norm);
+    dReal    c_mass_vel_prg   = dDOT(c_mass_vel, norm);
 
-    dReal kin_energy_start = vel_pr1 * vel_pr1 * m1.mass / 2.f + vel_pr2 * vel_pr2 * m2.mass / 2.f;
-    dReal kin_energy_end   = c_mass_vel_prg * c_mass_vel_prg * cmass / 2.f;
+    dReal    kin_energy_start = vel_pr1 * vel_pr1 * m1.mass / 2.f + vel_pr2 * vel_pr2 * m2.mass / 2.f;
+    dReal    kin_energy_end   = c_mass_vel_prg * c_mass_vel_prg * cmass / 2.f;
 
     return (kin_energy_start - kin_energy_end);
 }

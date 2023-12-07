@@ -9,14 +9,11 @@
 #ifndef PROPERTY_COLLECTION_INLINE_HPP_INCLUDED
 #define PROPERTY_COLLECTION_INLINE_HPP_INCLUDED
 
-#define SPECIALIZATION template <typename container_type, typename holder_type>
+#define SPECIALIZATION      template<typename container_type, typename holder_type>
 #define PROPERTY_COLLECTION property_collection<container_type, holder_type>
 
 SPECIALIZATION
-inline PROPERTY_COLLECTION::property_collection(container_type* container, holder_type* holder, bool* changed):
-    m_container(*container), m_holder(*holder), m_changed(changed)
-{
-}
+inline PROPERTY_COLLECTION::property_collection(container_type* container, holder_type* holder, bool* changed): m_container(*container), m_holder(*holder), m_changed(changed) {}
 
 SPECIALIZATION
 inline PROPERTY_COLLECTION::~property_collection()
@@ -94,7 +91,7 @@ SPECIALIZATION
 int PROPERTY_COLLECTION::index(property_holder* holder)
 {
     typedef typename container_type::iterator iterator_type;
-    iterator_type i = std::find_if(m_container.begin(), m_container.end(), predicate(holder));
+    iterator_type                             i = std::find_if(m_container.begin(), m_container.end(), predicate(holder));
     if (i == m_container.end())
         return (-1);
 

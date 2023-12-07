@@ -16,12 +16,7 @@ bool property_collection_converter::CanConvertTo(ITypeDescriptorContext ^ contex
     return (type == System::String::typeid);
 }
 
-Object ^
-    property_collection_converter::ConvertTo(
-        ITypeDescriptorContext ^ context,
-        CultureInfo ^ culture,
-        Object ^ value,
-        Type ^ type)
+Object ^ property_collection_converter::ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ type)
 {
     return ("< ... >");
 }

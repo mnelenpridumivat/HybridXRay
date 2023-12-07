@@ -32,8 +32,7 @@ private:
 public:
     property_editor_tree_values();
     virtual UITypeEditorEditStyle GetEditStyle(ITypeDescriptorContext ^ context) override;
-    virtual System::Object ^
-        EditValue(ITypeDescriptorContext ^ context, IServiceProvider ^ provider, Object ^ value) override;
+    virtual System::Object ^ EditValue(ITypeDescriptorContext ^ context, IServiceProvider ^ provider, Object ^ value) override;
 
 private:
     XrWeatherEditor::window_tree_values ^ m_dialog;

@@ -35,17 +35,17 @@ class game_sv_GameState: public game_GameState
     typedef game_GameState inherited;
 
 protected:
-    xrServer* m_server;
+    xrServer*            m_server;
 
     GameEventQueue*      m_event_queue;
     item_respawn_manager m_item_respawner;
 
     // Events
-    virtual void OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, ClientID sender);
+    virtual void         OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, ClientID sender);
 
-    virtual void ReadOptions(shared_str& options);
-    virtual void ConsoleCommands_Create();
-    virtual void ConsoleCommands_Clear();
+    virtual void         ReadOptions(shared_str& options);
+    virtual void         ConsoleCommands_Create();
+    virtual void         ConsoleCommands_Clear();
 
     struct SMapRot
     {
@@ -66,12 +66,12 @@ public:
     float             rpoints_MinDist[TEAM_COUNT];
     xr_vector<RPoint> rpoints[TEAM_COUNT];
     DEF_VECTOR(RPRef, RPoint*);
-    RPRef rpointsBlocked;
+    RPRef            rpointsBlocked;
 
     ERoundEnd_Result round_end_reason;
 
-    virtual void SaveMapList();
-    virtual bool HasMapRotation()
+    virtual void     SaveMapList();
+    virtual bool     HasMapRotation()
     {
         return m_bMapRotation;
     };
@@ -125,27 +125,27 @@ public:
     virtual game_PlayerState* get_id(ClientID id);
 
     // virtual		LPCSTR				get_name_it				(u32 it);
-    virtual LPCSTR get_name_id(ClientID id);
-    LPCSTR         get_player_name_id(ClientID id);
-    virtual u16    get_id_2_eid(ClientID id);
+    virtual LPCSTR            get_name_id(ClientID id);
+    LPCSTR                    get_player_name_id(ClientID id);
+    virtual u16               get_id_2_eid(ClientID id);
     // virtual		ClientID			get_it_2_id				(u32 it);*/
-    virtual u32   get_players_count();
-    CSE_Abstract* get_entity_from_eid(u16 id);
-    RPoint        getRP(u16 team_idx, u32 rp_idx);
-    u32           getRPcount(u16 team_idx);
+    virtual u32               get_players_count();
+    CSE_Abstract*             get_entity_from_eid(u16 id);
+    RPoint                    getRP(u16 team_idx, u32 rp_idx);
+    u32                       getRPcount(u16 team_idx);
     // Signals
-    virtual void signal_Syncronize();
-    virtual void assign_RP(CSE_Abstract* E, game_PlayerState* ps_who);
-    virtual bool IsPointFreezed(RPoint* rp);
-    virtual void SetPointFreezed(RPoint* rp);
+    virtual void              signal_Syncronize();
+    virtual void              assign_RP(CSE_Abstract* E, game_PlayerState* ps_who);
+    virtual bool              IsPointFreezed(RPoint* rp);
+    virtual void              SetPointFreezed(RPoint* rp);
 
 #ifdef DEBUG
     virtual void OnRender();
 #endif
 
-    virtual void  OnSwitchPhase(u32 old_phase, u32 new_phase);
-    CSE_Abstract* spawn_begin(LPCSTR N);
-    CSE_Abstract* spawn_end(CSE_Abstract* E, ClientID id);
+    virtual void            OnSwitchPhase(u32 old_phase, u32 new_phase);
+    CSE_Abstract*           spawn_begin(LPCSTR N);
+    CSE_Abstract*           spawn_end(CSE_Abstract* E, ClientID id);
 
     // Utilities
     float                   get_option_f(LPCSTR lst, LPCSTR name, float def = 0.0f);
@@ -157,7 +157,7 @@ public:
     void                    u_EventSend(NET_Packet& P, u32 dwFlags = DPNSEND_GUARANTEED);
 
     // Events
-    virtual BOOL OnPreCreate(CSE_Abstract* E)
+    virtual BOOL            OnPreCreate(CSE_Abstract* E)
     {
         return TRUE;
     };
@@ -178,10 +178,9 @@ public:
     // Main
     virtual void Create(shared_str& options);
     virtual void Update();
-    virtual void net_Export_State(NET_Packet& P, ClientID id_to);   // full state
-    virtual void
-        net_Export_Update(NET_Packet& P, ClientID id_to, ClientID id);   // just incremental update for specific client
-    virtual void net_Export_GameTime(NET_Packet& P);                     // update GameTime only for remote clients
+    virtual void net_Export_State(NET_Packet& P, ClientID id_to);                 // full state
+    virtual void net_Export_Update(NET_Packet& P, ClientID id_to, ClientID id);   // just incremental update for specific client
+    virtual void net_Export_GameTime(NET_Packet& P);                              // update GameTime only for remote clients
 
     virtual bool change_level(NET_Packet& net_packet, ClientID sender);
     virtual void save_game(NET_Packet& net_packet, ClientID sender);
@@ -189,12 +188,12 @@ public:
     virtual void reload_game(NET_Packet& net_packet, ClientID sender);
     virtual void switch_distance(NET_Packet& net_packet, ClientID sender);
 
-    void AddDelayedEvent(NET_Packet& tNetPacket, u16 type, u32 time, ClientID sender);
-    void ProcessDelayedEvent();
+    void         AddDelayedEvent(NET_Packet& tNetPacket, u16 type, u32 time, ClientID sender);
+    void         ProcessDelayedEvent();
     // this method will delete all events for entity that already not exist (in case when player was kicked)
-    void CleanDelayedEventFor(u16 id_entity_victim);
-    void CleanDelayedEventFor(ClientID const& clientId);
-    void CleanDelayedEvents();
+    void         CleanDelayedEventFor(u16 id_entity_victim);
+    void         CleanDelayedEventFor(ClientID const& clientId);
+    void         CleanDelayedEvents();
 
     virtual BOOL isFriendlyFireEnabled()
     {
@@ -212,12 +211,12 @@ public:
     virtual void       sls_default(){};
     virtual shared_str level_name(const shared_str& server_options) const;
 
-    static shared_str parse_level_name(const shared_str& server_options);
-    static shared_str parse_level_version(const shared_str& server_options);
+    static shared_str  parse_level_name(const shared_str& server_options);
+    static shared_str  parse_level_version(const shared_str& server_options);
 
-    virtual void on_death(CSE_Abstract* e_dest, CSE_Abstract* e_src);
+    virtual void       on_death(CSE_Abstract* e_dest, CSE_Abstract* e_src);
 
-    virtual void DumpOnlineStatistic(){};
+    virtual void       DumpOnlineStatistic(){};
 
-    bool CheckNewPlayer(xrClientData* CL);
+    bool               CheckNewPlayer(xrClientData* CL);
 };

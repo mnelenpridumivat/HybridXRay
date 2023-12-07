@@ -58,9 +58,9 @@ struct SActorState
     MotionID   m_torso_idle;
     MotionID   m_head_idle;
 
-    MotionID m_damage[DAMAGE_FX_COUNT];
-    void     Create(IKinematicsAnimated* K, LPCSTR base);
-    void     CreateClimb(IKinematicsAnimated* K);
+    MotionID   m_damage[DAMAGE_FX_COUNT];
+    void       Create(IKinematicsAnimated* K, LPCSTR base);
+    void       CreateClimb(IKinematicsAnimated* K);
 };
 
 struct SActorSprintState
@@ -74,7 +74,7 @@ struct SActorSprintState
     MotionID legs_jump_ls;
     MotionID legs_jump_rs;
 
-    void Create(IKinematicsAnimated* K);
+    void     Create(IKinematicsAnimated* K);
 };
 
 struct SActorMotions

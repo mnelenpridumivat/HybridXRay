@@ -39,26 +39,26 @@ class CLevelTool: public CToolCustom
         //  flSimulating		= (1<<4)
     };
 
-    int        iNeedAction;
-    ObjClassID iNeedTarget;
-    int        iNeedSubTarget;
+    int               iNeedAction;
+    ObjClassID        iNeedTarget;
+    int               iNeedSubTarget;
 
-    ESceneToolBase* pCurTool;
+    ESceneToolBase*   pCurTool;
 
-    TfrmObjectList* pObjectListForm;
+    TfrmObjectList*   pObjectListForm;
 
-    void SetTargetAction();
+    void              SetTargetAction();
 
-    void RealSetAction(ETAction act);
-    void RealSetTarget(ObjClassID tgt, int sub_tgt, bool bForced);   //=false);
+    void              RealSetAction(ETAction act);
+    void              RealSetTarget(ObjClassID tgt, int sub_tgt, bool bForced);   //=false);
 
     UIPropertiesForm* m_Props;
     UIPropertiesForm* m_WorldProps;
     void              OnPropsModified();
     void              OnPropsClose();
 
-    void RealUpdateProperties();
-    void RealUpdateObjectList();
+    void              RealUpdateProperties();
+    void              RealUpdateObjectList();
 
 public:
     float     fFogness;
@@ -115,9 +115,9 @@ public:
 
     virtual LPCSTR GetInfo();
 
-    virtual void ZoomObject(BOOL bSelOnly);
+    virtual void   ZoomObject(BOOL bSelOnly);
 
-    virtual bool Load(LPCSTR name)
+    virtual bool   Load(LPCSTR name)
     {
         return true;
     }
@@ -173,24 +173,24 @@ private:
 
 public:
     // specified functions
-    void Reset();
+    void         Reset();
 
-    void ResetSubTarget();
+    void         ResetSubTarget();
 
-    void OnObjectsUpdate();
+    void         OnObjectsUpdate();
 
-    ObjClassID CurrentClassID();
+    ObjClassID   CurrentClassID();
 
     void         ShowObjectList();
     virtual bool GetSelectionPosition(Fmatrix& result);
 
     // commands
-    CCommandVar CommandChangeTarget(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandShowObjectList(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandEnableTarget(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandShowTarget(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandReadonlyTarget(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandMultiRenameObjects(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandChangeTarget(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandShowObjectList(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandEnableTarget(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandShowTarget(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandReadonlyTarget(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandMultiRenameObjects(CCommandVar p1, CCommandVar p2);
 
 public:
     void RunGame(const char* Params = "");

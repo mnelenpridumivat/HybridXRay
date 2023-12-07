@@ -32,18 +32,17 @@ private:
     bool            m_is_any_wounded;
 
 protected:
-    template <typename T>
-    IC void           setup_mask(xr_vector<T>& objects, CMemberEnemy& enemy, const squad_mask_type& non_combat_members);
-    IC void           setup_mask(CMemberEnemy& enemy, const squad_mask_type& non_combat_members);
-    void              fill_enemies();
-    void              compute_enemy_danger();
-    void              assign_enemies();
-    void              permutate_enemies();
-    void              assign_wounded();
-    void              assign_enemy_masks();
-    float             evaluate(const CEntityAlive* object0, const CEntityAlive* object1) const;
-    void              exchange_enemies(CMemberOrder& member0, CMemberOrder& member1);
-    IC CAgentManager& object() const;
+    template<typename T> IC void setup_mask(xr_vector<T>& objects, CMemberEnemy& enemy, const squad_mask_type& non_combat_members);
+    IC void                      setup_mask(CMemberEnemy& enemy, const squad_mask_type& non_combat_members);
+    void                         fill_enemies();
+    void                         compute_enemy_danger();
+    void                         assign_enemies();
+    void                         permutate_enemies();
+    void                         assign_wounded();
+    void                         assign_enemy_masks();
+    float                        evaluate(const CEntityAlive* object0, const CEntityAlive* object1) const;
+    void                         exchange_enemies(CMemberOrder& member0, CMemberOrder& member1);
+    IC CAgentManager&            object() const;
 
 public:
     IC          CAgentEnemyManager(CAgentManager* object);

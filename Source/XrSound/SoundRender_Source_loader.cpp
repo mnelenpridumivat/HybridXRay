@@ -53,7 +53,7 @@ void CSoundRender_Source::decompress(u32 line, OggVorbis_File* ovf)
     u32   left      = (u32)_min(left_file, line_size);
 
     // seek
-    u32 cur_pos = u32(ov_pcm_tell(ovf));
+    u32   cur_pos   = u32(ov_pcm_tell(ovf));
     if (cur_pos != buf_offs)
         ov_pcm_seek(ovf, buf_offs);
 
@@ -86,19 +86,19 @@ void CSoundRender_Source::LoadWave(LPCSTR pName)
 
     ZeroMemory(&m_wformat, sizeof(WAVEFORMATEX));
 
-    m_wformat.nSamplesPerSec = (ovi->rate);   // 44100;
-    m_wformat.wFormatTag     = WAVE_FORMAT_PCM;
-    m_wformat.nChannels      = u16(ovi->channels);
-    m_wformat.wBitsPerSample = 16;
+    m_wformat.nSamplesPerSec  = (ovi->rate);   // 44100;
+    m_wformat.wFormatTag      = WAVE_FORMAT_PCM;
+    m_wformat.nChannels       = u16(ovi->channels);
+    m_wformat.wBitsPerSample  = 16;
 
     m_wformat.nBlockAlign     = m_wformat.wBitsPerSample / 8 * m_wformat.nChannels;
     m_wformat.nAvgBytesPerSec = m_wformat.nSamplesPerSec * m_wformat.nBlockAlign;
 
-    s64 pcm_total = ov_pcm_total(&ovf, -1);
-    dwBytesTotal  = u32(pcm_total * m_wformat.nBlockAlign);
-    fTimeTotal    = s_f_def_source_footer + dwBytesTotal / float(m_wformat.nAvgBytesPerSec);
+    s64 pcm_total             = ov_pcm_total(&ovf, -1);
+    dwBytesTotal              = u32(pcm_total * m_wformat.nBlockAlign);
+    fTimeTotal                = s_f_def_source_footer + dwBytesTotal / float(m_wformat.nAvgBytesPerSec);
 
-    vorbis_comment* ovm = ov_comment(&ovf, -1);
+    vorbis_comment* ovm       = ov_comment(&ovf, -1);
     if (ovm->comments)
     {
         IReader F(ovm->user_comments[0], ovm->comment_lengths[0]);

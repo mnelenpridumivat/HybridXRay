@@ -59,8 +59,7 @@ bool Vector3::operator==(const Vector3& rkVector) const
     }
     else
     {
-        return Math::FAbs(x - rkVector.x) <= FUZZ && Math::FAbs(y - rkVector.y) <= FUZZ &&
-            Math::FAbs(z - rkVector.z) <= FUZZ;
+        return Math::FAbs(x - rkVector.x) <= FUZZ && Math::FAbs(y - rkVector.y) <= FUZZ && Math::FAbs(z - rkVector.z) <= FUZZ;
     }
 }
 //----------------------------------------------------------------------------
@@ -72,8 +71,7 @@ bool Vector3::operator!=(const Vector3& rkVector) const
     }
     else
     {
-        return Math::FAbs(x - rkVector.x) > FUZZ || Math::FAbs(y - rkVector.y) > FUZZ ||
-            Math::FAbs(z - rkVector.z) > FUZZ;
+        return Math::FAbs(x - rkVector.x) > FUZZ || Math::FAbs(y - rkVector.y) > FUZZ || Math::FAbs(z - rkVector.z) > FUZZ;
     }
 }
 //----------------------------------------------------------------------------

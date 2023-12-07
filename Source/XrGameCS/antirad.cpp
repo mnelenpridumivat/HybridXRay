@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // Antirad.cpp
-// Antirad - таблетки выводящие радиацию
+// Antirad - С‚Р°Р±Р»РµС‚РєРё РІС‹РІРѕРґСЏС‰РёРµ СЂР°РґРёР°С†РёСЋ
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -8,51 +8,46 @@
 #include "antirad.h"
 #include "PhysicsShell.h"
 
-CAntirad::CAntirad(void) 
+CAntirad::CAntirad(void) {}
+
+CAntirad::~CAntirad(void) {}
+
+BOOL CAntirad::net_Spawn(CSE_Abstract* DC)
 {
+    return (inherited::net_Spawn(DC));
 }
 
-CAntirad::~CAntirad(void) 
+void CAntirad::Load(LPCSTR section)
 {
+    inherited::Load(section);
 }
 
-
-BOOL CAntirad::net_Spawn(CSE_Abstract* DC) 
+void CAntirad::net_Destroy()
 {
-	return		(inherited::net_Spawn(DC));
+    inherited::net_Destroy();
 }
 
-void CAntirad::Load(LPCSTR section) 
+void CAntirad::shedule_Update(u32 dt)
 {
-	inherited::Load(section);
+    inherited::shedule_Update(dt);
 }
 
-void CAntirad::net_Destroy() 
+void CAntirad::UpdateCL()
 {
-	inherited::net_Destroy();
+    inherited::UpdateCL();
 }
 
-void CAntirad::shedule_Update(u32 dt) 
+void CAntirad::OnH_A_Chield()
 {
-	inherited::shedule_Update(dt);
+    inherited::OnH_A_Chield();
 }
 
-void CAntirad::UpdateCL() 
+void CAntirad::OnH_B_Independent(bool just_before_destroy)
 {
-	inherited::UpdateCL();
+    inherited::OnH_B_Independent(just_before_destroy);
 }
 
-void CAntirad::OnH_A_Chield() 
+void CAntirad::renderable_Render()
 {
-	inherited::OnH_A_Chield		();
-}
-
-void CAntirad::OnH_B_Independent(bool just_before_destroy) 
-{
-	inherited::OnH_B_Independent(just_before_destroy);
-}
-
-void CAntirad::renderable_Render() 
-{
-	inherited::renderable_Render();
+    inherited::renderable_Render();
 }

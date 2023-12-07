@@ -139,9 +139,7 @@ void CBuild::BuildCForm()
         fhandles.clear();
         for (_mesh::CFVIter fv_it = mesh.cfv_iter(fit); fv_it; ++fv_it)
             fhandles.push_back(fv_it.handle());
-        CL.add_face_D(
-            reinterpret_cast<Fvector&>(mesh.point(fhandles[0])), reinterpret_cast<Fvector&>(mesh.point(fhandles[1])),
-            reinterpret_cast<Fvector&>(mesh.point(fhandles[2])), fit->props());
+        CL.add_face_D(reinterpret_cast<Fvector&>(mesh.point(fhandles[0])), reinterpret_cast<Fvector&>(mesh.point(fhandles[1])), reinterpret_cast<Fvector&>(mesh.point(fhandles[2])), fit->props());
     }
     Status("Restoring fail-faces...");
     for (u32 it = 0; it < failedfaces.size(); it++)

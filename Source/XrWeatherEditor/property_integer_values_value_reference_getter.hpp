@@ -13,9 +13,7 @@
 #include "property_integer_values_value_base.hpp"
 
 public
-ref class property_integer_values_value_reference_getter:
-    public property_integer_reference,
-    public property_integer_values_value_base
+ref class property_integer_values_value_reference_getter: public property_integer_reference, public property_integer_values_value_base
 {
 public:
     typedef XrWeatherEditor::property_holder                    property_holder;
@@ -30,10 +28,7 @@ private:
     typedef System::Collections::IList IList;
 
 public:
-    property_integer_values_value_reference_getter(
-        int&                                      value,
-        string_collection_getter_type const&      collection_getter,
-        string_collection_size_getter_type const& collection_size_getter);
+    property_integer_values_value_reference_getter(int& value, string_collection_getter_type const& collection_getter, string_collection_size_getter_type const& collection_size_getter);
     virtual ~property_integer_values_value_reference_getter();
     !property_integer_values_value_reference_getter();
     virtual Object ^ get_value() override;

@@ -41,13 +41,15 @@ using namespace Opcode;
 VolumeCollider::VolumeCollider():
     mTouchedPrimitives(null),
 #ifdef OPC_USE_CALLBACKS
-    mUserData(0), mObjCallback(null),
+    mUserData(0),
+    mObjCallback(null),
 #else
-    mFaces(null), mVerts(null),
+    mFaces(null),
+    mVerts(null),
 #endif
-    mNbVolumeBVTests(0), mNbVolumePrimTests(0)
-{
-}
+    mNbVolumeBVTests(0),
+    mNbVolumePrimTests(0)
+{}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /**

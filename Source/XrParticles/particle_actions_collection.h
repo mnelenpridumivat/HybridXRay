@@ -6,11 +6,11 @@
 #include "particle_core.h"
 namespace PAPI
 {
-#define _METHODS                                                            \
-    virtual void Load(IReader& F);                                          \
-    virtual void Save(IWriter& F);                                          \
-    virtual void Execute(ParticleEffect* pe, const float dt, float& m_max); \
-    virtual void Transform(const Fmatrix& m);
+#define _METHODS                                                                    \
+    virtual void         Load(IReader& F);                                          \
+    virtual void         Save(IWriter& F);                                          \
+    virtual void         Execute(ParticleEffect* pe, const float dt, float& m_max); \
+    virtual void         Transform(const Fmatrix& m);
 
     struct PARTICLES_API PAAvoid: public ParticleAction
     {

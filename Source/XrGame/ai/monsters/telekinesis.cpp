@@ -16,10 +16,9 @@ CTelekinesis::~CTelekinesis()
     }
 }
 
-CTelekineticObject*
-    CTelekinesis::activate(CPhysicsShellHolder* obj, float strength, float height, u32 max_time_keep, bool rot)
+CTelekineticObject* CTelekinesis::activate(CPhysicsShellHolder* obj, float strength, float height, u32 max_time_keep, bool rot)
 {
-    active = true;
+    active                          = true;
 
     CTelekineticObject* tele_object = alloc_tele_object();
     if (!tele_object->init(this, obj, strength, height, max_time_keep, rot))
@@ -206,9 +205,7 @@ void CTelekinesis::PhDataUpdate(float step)
 
 static bool RemovePred(CTelekineticObject* tele_object)
 {
-    return (
-        !tele_object->get_object() || tele_object->get_object()->getDestroy() ||
-        !tele_object->get_object()->PPhysicsShell() || !tele_object->get_object()->PPhysicsShell()->isActive());
+    return (!tele_object->get_object() || tele_object->get_object()->getDestroy() || !tele_object->get_object()->PPhysicsShell() || !tele_object->get_object()->PPhysicsShell()->isActive());
 }
 
 void CTelekinesis::clear_notrelevant()

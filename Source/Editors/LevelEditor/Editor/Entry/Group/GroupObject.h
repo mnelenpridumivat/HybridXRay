@@ -45,7 +45,7 @@ public:
         return m_ObjectsInGroup.size();
     }
 
-    bool SetReference(LPCSTR nm);
+    bool           SetReference(LPCSTR nm);
     virtual LPCSTR RefName()
     {
         return m_ReferenceName_.size() ? m_ReferenceName_.c_str() : "group";

@@ -45,11 +45,13 @@ public:
 class dxEnvDescriptorRender: public IEnvDescriptorRender
 {
     friend class dxEnvDescriptorMixerRender;
+
 public:
     virtual void OnDeviceCreate(IEnvDescriptor& owner);
     virtual void OnDeviceDestroy();
 
     virtual void Copy(IEnvDescriptorRender& _in);
+
 private:
     ref_texture sky_texture;
     ref_texture sky_texture_env;
@@ -65,6 +67,7 @@ public:
     virtual void Clear();
     virtual void lerp(IEnvDescriptorRender* inA, IEnvDescriptorRender* inB);
     // private:
+
 public:
     STextureList sky_r_textures;
     STextureList sky_r_textures_env;
@@ -85,6 +88,7 @@ public:
     virtual void                                        OnDeviceCreate();
     virtual void                                        OnDeviceDestroy();
     virtual particles_systems::library_interface const& particles_systems_library();
+
 private:
     CBlender_skybox m_b_skybox;
 

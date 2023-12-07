@@ -19,23 +19,19 @@ using XrWeatherEditor::environment::sound_channels::channel;
 using XrWeatherEditor::environment::sound_channels::manager;
 using XrWeatherEditor::environment::sound_channels::source;
 
-template <> void property_collection<channel::sound_container_type, channel>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<channel::sound_container_type, channel>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<channel::sound_container_type, channel>::create()
+template<> XrWeatherEditor::property_holder* property_collection<channel::sound_container_type, channel>::create()
 {
     source* object = xr_new<source>("");
     object->fill(this);
     return (object->object());
 }
 
-channel::channel(manager const& manager, shared_str const& id):
-    m_manager(manager), m_property_holder(0), m_collection(0)
+channel::channel(manager const& manager, shared_str const& id): m_manager(manager), m_property_holder(0), m_collection(0)
 {
     m_load_section = id;
     m_sound_dist   = Fvector2().set(0.f, 0.f);
@@ -128,29 +124,14 @@ void channel::fill(XrWeatherEditor::property_holder_collection* collection)
     string_setter_type                                           string_setter;
     string_setter.bind(this, &channel::id_setter);
 
-    m_property_holder->add_property(
-        "id", "properties", "this option is resposible for sound channel id", m_load_section.c_str(), string_getter,
-        string_setter);
-    m_property_holder->add_property(
-        "minimum distance", "properties", "this option is resposible for minimum distance (in meters)", m_sound_dist.x,
-        m_sound_dist.x);
-    m_property_holder->add_property(
-        "maximum distance", "properties", "this option is resposible for maximum distance (in meters)", m_sound_dist.y,
-        m_sound_dist.y);
-    m_property_holder->add_property(
-        "period 0", "properties", "this option is resposible for minimum start time interval (in seconds)",
-        m_sound_period.x, m_sound_period.x);
-    m_property_holder->add_property(
-        "period 1", "properties", "this option is resposible for maximum start time interval (in seconds)",
-        m_sound_period.y, m_sound_period.y);
-    m_property_holder->add_property(
-        "period 2", "properties", "this option is resposible for minimum pause interval (in seconds)", m_sound_period.z,
-        m_sound_period.z);
-    m_property_holder->add_property(
-        "period 3", "properties", "this option is resposible for maximum pause interval (in seconds)", m_sound_period.w,
-        m_sound_period.w);
-    m_property_holder->add_property(
-        "sounds", "properties", "this option is resposible for sound sources", m_collection);
+    m_property_holder->add_property("id", "properties", "this option is resposible for sound channel id", m_load_section.c_str(), string_getter, string_setter);
+    m_property_holder->add_property("minimum distance", "properties", "this option is resposible for minimum distance (in meters)", m_sound_dist.x, m_sound_dist.x);
+    m_property_holder->add_property("maximum distance", "properties", "this option is resposible for maximum distance (in meters)", m_sound_dist.y, m_sound_dist.y);
+    m_property_holder->add_property("period 0", "properties", "this option is resposible for minimum start time interval (in seconds)", m_sound_period.x, m_sound_period.x);
+    m_property_holder->add_property("period 1", "properties", "this option is resposible for maximum start time interval (in seconds)", m_sound_period.y, m_sound_period.y);
+    m_property_holder->add_property("period 2", "properties", "this option is resposible for minimum pause interval (in seconds)", m_sound_period.z, m_sound_period.z);
+    m_property_holder->add_property("period 3", "properties", "this option is resposible for maximum pause interval (in seconds)", m_sound_period.w, m_sound_period.w);
+    m_property_holder->add_property("sounds", "properties", "this option is resposible for sound sources", m_collection);
 }
 
 channel::property_holder_type* channel::object()

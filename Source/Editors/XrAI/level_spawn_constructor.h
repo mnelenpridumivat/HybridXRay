@@ -36,6 +36,7 @@ public:
     //	typedef xr_vector<CSE_Abstract*>							GROUP_OBJECTS;
     //	typedef xr_map<shared_str,GROUP_OBJECTS*>					SPAWN_GRPOUP_OBJECTS;
     //	typedef xr_map<shared_str,CSE_SpawnGroup*>					SPAWN_GROUPS;
+
 private:
     CGameGraph::SLevel      m_level;
     SPAWN_STORAGE           m_spawns;
@@ -50,8 +51,10 @@ private:
     CGraphEngine*           m_graph_engine;
     LEVEL_CHANGER_STORAGE   m_level_changers;
     bool                    m_no_separator_check;
+
 private:
     const CGameLevelCrossTable* m_cross_table;
+
 protected:
     void                           init();
     void                           load_objects();
@@ -81,11 +84,9 @@ protected:
     IC CGraphEngine&               graph_engine() const;
     IC LEVEL_CHANGER_STORAGE&      level_changers() const;
     IC u32                         level_id(shared_str level_name) const;
+
 public:
-    IC CLevelSpawnConstructor(
-        const CGameGraph::SLevel& level,
-        CGameSpawnConstructor*    game_spawn_constructor,
-        bool                      no_separator_check);
+    IC CLevelSpawnConstructor(const CGameGraph::SLevel& level, CGameSpawnConstructor* game_spawn_constructor, bool no_separator_check);
     virtual ~CLevelSpawnConstructor();
     virtual void               Execute();
     IC CSE_ALifeCreatureActor* actor() const;

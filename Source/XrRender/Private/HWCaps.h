@@ -11,6 +11,7 @@ public:
     {
         MAX_GPUS = 8
     };
+
 public:
     struct caps_Geometry
     {
@@ -33,6 +34,7 @@ public:
         u32 bNonPow2      :1;
         u32 bCubemap      :1;
     };
+
 public:
     // force flags
     BOOL          bForceGPU_REF;

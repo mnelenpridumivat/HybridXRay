@@ -14,16 +14,7 @@ using System::String;
 using System::Collections::ArrayList;
 using System::Collections::IList;
 
-property_integer_values_value_getter::property_integer_values_value_getter(
-    integer_getter_type const&                getter,
-    integer_setter_type const&                setter,
-    string_collection_getter_type const&      collection_getter,
-    string_collection_size_getter_type const& collection_size_getter):
-    inherited(getter, setter),
-    m_collection_getter(new string_collection_getter_type(collection_getter)),
-    m_collection_size_getter(new string_collection_size_getter_type(collection_size_getter))
-{
-}
+property_integer_values_value_getter::property_integer_values_value_getter(integer_getter_type const& getter, integer_setter_type const& setter, string_collection_getter_type const& collection_getter, string_collection_size_getter_type const& collection_size_getter): inherited(getter, setter), m_collection_getter(new string_collection_getter_type(collection_getter)), m_collection_size_getter(new string_collection_size_getter_type(collection_size_getter)) {}
 
 property_integer_values_value_getter::~property_integer_values_value_getter()
 {

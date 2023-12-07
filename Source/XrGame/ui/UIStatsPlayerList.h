@@ -26,22 +26,22 @@ public:
     virtual void Update();
 
 protected:
-    void         InitHeader(CUIXml& xml_doc, LPCSTR path);
-    void         InitTeamHeader(CUIXml& xml_doc, LPCSTR path);
-    virtual void RecalcSize();
-    void         ShowHeader(bool bShow);
-    LPCSTR       GetST_entry(LPCSTR itm);
+    void                     InitHeader(CUIXml& xml_doc, LPCSTR path);
+    void                     InitTeamHeader(CUIXml& xml_doc, LPCSTR path);
+    virtual void             RecalcSize();
+    void                     ShowHeader(bool bShow);
+    LPCSTR                   GetST_entry(LPCSTR itm);
 
-    int  m_CurTeam;
-    bool m_bSpectator;
-    bool m_bStatus_mode;
+    int                      m_CurTeam;
+    bool                     m_bSpectator;
+    bool                     m_bStatus_mode;
 
     xr_vector<PI_FIELD_INFO> m_field_info;
 
-    CUIStatic*  m_header;
-    CUIWindow*  m_header_team;
-    CUITextWnd* m_header_text;
-    u32         m_prev_upd_time;
+    CUIStatic*               m_header;
+    CUIWindow*               m_header_team;
+    CUITextWnd*              m_header_text;
+    u32                      m_prev_upd_time;
 
     typedef struct
     {

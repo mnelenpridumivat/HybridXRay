@@ -10,22 +10,27 @@ shared_str CGameSpy_GP::TryToTranslate(GPResult const& res)
     LPCSTR tmp_string = NULL;
     switch (res)
     {
-        case GP_MEMORY_ERROR: {
+        case GP_MEMORY_ERROR:
+        {
             STRCONCAT(tmp_string, "mp_gp_memory_error");
         }
         break;
-        case GP_PARAMETER_ERROR: {
+        case GP_PARAMETER_ERROR:
+        {
             STRCONCAT(tmp_string, "mp_gp_parameter_error");
         }
         break;
-        case GP_NETWORK_ERROR: {
+        case GP_NETWORK_ERROR:
+        {
             STRCONCAT(tmp_string, "mp_gp_network_error");
         }
         break;
-        case GP_SERVER_ERROR: {
+        case GP_SERVER_ERROR:
+        {
             STRCONCAT(tmp_string, "mp_gp_server_error");
         }
-        default: {
+        default:
+        {
             string16 digit_dest;
             _itoa_s(res, digit_dest, 10);
             STRCONCAT(tmp_string, "mp_gp_unknown_error_", digit_dest);
@@ -79,33 +84,17 @@ void CGameSpy_GP::ShutDown()
         xrGS_gpDestroy(&m_GPConnection);
 }
 
-GPResult CGameSpy_GP::NewUser(
-    shared_str const& nick,
-    shared_str const& unique_nick,
-    shared_str const& email,
-    shared_str const& password,
-    GPCallback        callback,
-    void*             param)
+GPResult CGameSpy_GP::NewUser(shared_str const& nick, shared_str const& unique_nick, shared_str const& email, shared_str const& password, GPCallback callback, void* param)
 {
-    return xrGS_gpNewUserA(
-        &m_GPConnection, nick.c_str(), unique_nick.c_str(), email.c_str(), password.c_str(), NULL, GP_NON_BLOCKING,
-        callback, param);
+    return xrGS_gpNewUserA(&m_GPConnection, nick.c_str(), unique_nick.c_str(), email.c_str(), password.c_str(), NULL, GP_NON_BLOCKING, callback, param);
 }
 
-GPResult CGameSpy_GP::ProfileSearch(
-    shared_str const& nick,
-    shared_str const& unique_nick,
-    shared_str const& email,
-    GPCallback        callback,
-    void*             param)
+GPResult CGameSpy_GP::ProfileSearch(shared_str const& nick, shared_str const& unique_nick, shared_str const& email, GPCallback callback, void* param)
 {
-    return xrGS_gpProfileSearchA(
-        &m_GPConnection, nick.c_str(), unique_nick.c_str(), email.c_str(), NULL, NULL, 0, GP_NON_BLOCKING, callback,
-        param);
+    return xrGS_gpProfileSearchA(&m_GPConnection, nick.c_str(), unique_nick.c_str(), email.c_str(), NULL, NULL, 0, GP_NON_BLOCKING, callback, param);
 }
 
-GPResult
-    CGameSpy_GP::GetUserNicks(shared_str const& email, shared_str const& password, GPCallback callback, void* param)
+GPResult CGameSpy_GP::GetUserNicks(shared_str const& email, shared_str const& password, GPCallback callback, void* param)
 {
     return xrGS_gpGetUserNicksA(&m_GPConnection, email.c_str(), password.c_str(), GP_NON_BLOCKING, callback, param);
 }
@@ -120,15 +109,9 @@ GPResult CGameSpy_GP::DeleteProfile(GPCallback callback, void* param)
     return xrGS_gpDeleteProfile(&m_GPConnection, callback, param);
 }
 
-GPResult CGameSpy_GP::Connect(
-    shared_str const& email,
-    shared_str const& nick,
-    shared_str const& password,
-    GPCallback        callback,
-    void*             param)
+GPResult CGameSpy_GP::Connect(shared_str const& email, shared_str const& nick, shared_str const& password, GPCallback callback, void* param)
 {
-    return xrGS_gpConnectA(
-        &m_GPConnection, nick.c_str(), email.c_str(), password.c_str(), GP_FIREWALL, GP_NON_BLOCKING, callback, param);
+    return xrGS_gpConnectA(&m_GPConnection, nick.c_str(), email.c_str(), password.c_str(), GP_FIREWALL, GP_NON_BLOCKING, callback, param);
 }
 
 void CGameSpy_GP::Disconnect()

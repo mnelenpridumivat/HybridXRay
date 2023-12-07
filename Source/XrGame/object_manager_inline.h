@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename T>
+#define TEMPLATE_SPECIALIZATION template<typename T>
 
-#define CAbstractObjectManager CObjectManager<T>
+#define CAbstractObjectManager  CObjectManager<T>
 
 TEMPLATE_SPECIALIZATION
 CAbstractObjectManager::CObjectManager()

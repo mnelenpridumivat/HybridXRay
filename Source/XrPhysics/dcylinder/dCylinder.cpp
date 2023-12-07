@@ -17,7 +17,7 @@ struct dxCylinder
 
 int dCylinderClassUser = -1;
 
-#define NUMC_MASK (0xffff)
+#define NUMC_MASK        (0xffff)
 
 #define CONTACT(p, skip) ((dContactGeom*)(((char*)p) + (skip)))
 
@@ -32,14 +32,7 @@ int dCylinderClassUser = -1;
 // computes distances O1-O3, O1-O4, O2-O3, O2-O4
 // in "point" returns mean point between intersection points with smallest distance
 /////////////////////////////////////////////////////////////////////////////////////////////////
-inline bool circleIntersection(
-    const dReal* n1,
-    const dReal* cp1,
-    dReal        r1,
-    const dReal* n2,
-    const dReal* cp2,
-    dReal        r2,
-    dVector3     point)
+inline bool circleIntersection(const dReal* n1, const dReal* cp1, dReal r1, const dReal* n2, const dReal* cp2, dReal r2, dVector3 point)
 {
     dReal    c1    = dDOT14(cp1, n1);
     dReal    c2    = dDOT14(cp2, n2);
@@ -92,11 +85,11 @@ inline bool circleIntersection(
         t3 = -B_A - dSqrt(D);
         t4 = -B_A + dSqrt(D);
     }
-    dVector3 O1 = {lp[0] + n[0] * t1, lp[1] + n[1] * t1, lp[2] + n[2] * t1};
-    dVector3 O2 = {lp[0] + n[0] * t2, lp[1] + n[1] * t2, lp[2] + n[2] * t2};
+    dVector3 O1   = {lp[0] + n[0] * t1, lp[1] + n[1] * t1, lp[2] + n[2] * t1};
+    dVector3 O2   = {lp[0] + n[0] * t2, lp[1] + n[1] * t2, lp[2] + n[2] * t2};
 
-    dVector3 O3 = {lp[0] + n[0] * t3, lp[1] + n[1] * t3, lp[2] + n[2] * t3};
-    dVector3 O4 = {lp[0] + n[0] * t4, lp[1] + n[1] * t4, lp[2] + n[2] * t4};
+    dVector3 O3   = {lp[0] + n[0] * t3, lp[1] + n[1] * t3, lp[2] + n[2] * t3};
+    dVector3 O4   = {lp[0] + n[0] * t4, lp[1] + n[1] * t4, lp[2] + n[2] * t4};
 
     dVector3 L1_3 = {O3[0] - O1[0], O3[1] - O1[1], O3[2] - O1[2]};
     dVector3 L1_4 = {O4[0] - O1[0], O4[1] - O1[1], O4[2] - O1[2]};
@@ -104,11 +97,11 @@ inline bool circleIntersection(
     dVector3 L2_3 = {O3[0] - O2[0], O3[1] - O2[1], O3[2] - O2[2]};
     dVector3 L2_4 = {O4[0] - O2[0], O4[1] - O2[1], O4[2] - O2[2]};
 
-    dReal l1_3 = dDOT(L1_3, L1_3);
-    dReal l1_4 = dDOT(L1_4, L1_4);
+    dReal    l1_3 = dDOT(L1_3, L1_3);
+    dReal    l1_4 = dDOT(L1_4, L1_4);
 
-    dReal l2_3 = dDOT(L2_3, L2_3);
-    dReal l2_4 = dDOT(L2_4, L2_4);
+    dReal    l2_3 = dDOT(L2_3, L2_3);
+    dReal    l2_4 = dDOT(L2_4, L2_4);
 
     if (l1_3 < l1_4)
         if (l2_3 < l2_4)
@@ -174,13 +167,7 @@ inline bool circleIntersection(
     return true;
 }
 
-void lineClosestApproach(
-    const dVector3 pa,
-    const dVector3 ua,
-    const dVector3 pb,
-    const dVector3 ub,
-    dReal*         alpha,
-    dReal*         beta)
+void lineClosestApproach(const dVector3 pa, const dVector3 ua, const dVector3 pb, const dVector3 ub, dReal* alpha, dReal* beta)
 {
     dVector3 p;
     p[0]       = pb[0] - pa[0];
@@ -206,26 +193,12 @@ void lineClosestApproach(
 
 // @@@ some stuff to optimize here, reuse code in contact point calculations.
 
-extern "C" int dCylBox(
-    const dVector3 p1,
-    const dMatrix3 R1,
-    const dReal    radius,
-    const dReal    lz,
-    const dVector3 p2,
-    const dMatrix3 R2,
-    const dVector3 side2,
-    dVector3       normal,
-    dReal*         depth,
-    int*           code,
-    int            maxc,
-    dContactGeom*  contact,
-    int            skip)
+extern "C" int dCylBox(const dVector3 p1, const dMatrix3 R1, const dReal radius, const dReal lz, const dVector3 p2, const dMatrix3 R2, const dVector3 side2, dVector3 normal, dReal* depth, int* code, int maxc, dContactGeom* contact, int skip)
 {
     dVector3     p, pp, normalC;
     const dReal* normalR = 0;
-    dReal B1, B2, B3, R11, R12, R13, R21, R22, R23, R31, R32, R33, Q11, Q12, Q13, Q21, Q22, Q23, Q31, Q32, Q33, s, s2,
-        l, sQ21, sQ22, sQ23;
-    int i, invert_normal;
+    dReal        B1, B2, B3, R11, R12, R13, R21, R22, R23, R31, R32, R33, Q11, Q12, Q13, Q21, Q22, Q23, Q31, Q32, Q33, s, s2, l, sQ21, sQ22, sQ23;
+    int          i, invert_normal;
 
     // get _vector_ from centers of box 1 to box 2, relative to box 1
     p[0] = p2[0] - p1[0];
@@ -241,25 +214,25 @@ extern "C" int dCylBox(
     B3        = side2[2] * REAL(0.5);
 
     // Rij is R1'*R2, i.e. the relative rotation between R1 and R2
-    R11 = dDOT44(R1 + 0, R2 + 0);
-    R12 = dDOT44(R1 + 0, R2 + 1);
-    R13 = dDOT44(R1 + 0, R2 + 2);
-    R21 = dDOT44(R1 + 1, R2 + 0);
-    R22 = dDOT44(R1 + 1, R2 + 1);
-    R23 = dDOT44(R1 + 1, R2 + 2);
-    R31 = dDOT44(R1 + 2, R2 + 0);
-    R32 = dDOT44(R1 + 2, R2 + 1);
-    R33 = dDOT44(R1 + 2, R2 + 2);
+    R11       = dDOT44(R1 + 0, R2 + 0);
+    R12       = dDOT44(R1 + 0, R2 + 1);
+    R13       = dDOT44(R1 + 0, R2 + 2);
+    R21       = dDOT44(R1 + 1, R2 + 0);
+    R22       = dDOT44(R1 + 1, R2 + 1);
+    R23       = dDOT44(R1 + 1, R2 + 2);
+    R31       = dDOT44(R1 + 2, R2 + 0);
+    R32       = dDOT44(R1 + 2, R2 + 1);
+    R33       = dDOT44(R1 + 2, R2 + 2);
 
-    Q11 = dFabs(R11);
-    Q12 = dFabs(R12);
-    Q13 = dFabs(R13);
-    Q21 = dFabs(R21);
-    Q22 = dFabs(R22);
-    Q23 = dFabs(R23);
-    Q31 = dFabs(R31);
-    Q32 = dFabs(R32);
-    Q33 = dFabs(R33);
+    Q11       = dFabs(R11);
+    Q12       = dFabs(R12);
+    Q13       = dFabs(R13);
+    Q21       = dFabs(R21);
+    Q22       = dFabs(R22);
+    Q23       = dFabs(R23);
+    Q31       = dFabs(R31);
+    Q32       = dFabs(R32);
+    Q33       = dFabs(R33);
 
     //   * see if the axis separates the box with cylinder. if so, return 0.
     //   * find the depth of the penetration along the separating axis (s2)
@@ -328,7 +301,7 @@ extern "C" int dCylBox(
     dVector3 tAx, Ax, pb;
     {
         // making Ax which is perpendicular to cyl ax to box position//
-        proj = dDOT14(p2, R1 + 1) - dDOT14(p1, R1 + 1);
+        proj  = dDOT14(p2, R1 + 1) - dDOT14(p1, R1 + 1);
 
         Ax[0] = p2[0] - p1[0] - R1[1] * proj;
         Ax[1] = p2[1] - p1[1] - R1[5] * proj;
@@ -350,7 +323,7 @@ extern "C" int dCylBox(
             pb[i] += sign * B3 * R2[i * 4 + 2];
 
         // building axis which is normal to cylinder ax to the nearest box vertex
-        proj = dDOT14(pb, R1 + 1) - dDOT14(p1, R1 + 1);
+        proj  = dDOT14(pb, R1 + 1) - dDOT14(p1, R1 + 1);
 
         Ax[0] = pb[0] - p1[0] - R1[1] * proj;
         Ax[1] = pb[1] - p1[1] - R1[5] * proj;
@@ -363,7 +336,7 @@ extern "C" int dCylBox(
     TEST(p[0] * Ax[0] + p[1] * Ax[1] + p[2] * Ax[2], (radius + boxProj), Ax[0], Ax[1], Ax[2], 4);
 
     // next three test used to handle collisions between cylinder circles and box ages
-    proj = dDOT14(p1, R2 + 0) - dDOT14(p2, R2 + 0);
+    proj   = dDOT14(p1, R2 + 0) - dDOT14(p2, R2 + 0);
 
     tAx[0] = -p1[0] + p2[0] + R2[0] * proj;
     tAx[1] = -p1[1] + p2[1] + R2[4] * proj;
@@ -387,15 +360,15 @@ extern "C" int dCylBox(
 
     boxProj = dFabs(dDOT14(Ax, R2 + 1) * B2) + dFabs(dDOT14(Ax, R2 + 0) * B1) + dFabs(dDOT14(Ax, R2 + 2) * B3);
 
-    _cos = dFabs(dDOT14(Ax, R1 + 1));
-    cos1 = dDOT14(Ax, R1 + 0);
-    cos3 = dDOT14(Ax, R1 + 2);
-    _sin = dSqrt(cos1 * cos1 + cos3 * cos3);
+    _cos    = dFabs(dDOT14(Ax, R1 + 1));
+    cos1    = dDOT14(Ax, R1 + 0);
+    cos3    = dDOT14(Ax, R1 + 2);
+    _sin    = dSqrt(cos1 * cos1 + cos3 * cos3);
 
     TEST(p[0] * Ax[0] + p[1] * Ax[1] + p[2] * Ax[2], (_sin * radius + _cos * hlz + boxProj), Ax[0], Ax[1], Ax[2], 5);
 
     // same thing with the second axis of the box
-    proj = dDOT14(p1, R2 + 1) - dDOT14(p2, R2 + 1);
+    proj   = dDOT14(p1, R2 + 1) - dDOT14(p2, R2 + 1);
 
     tAx[0] = -p1[0] + p2[0] + R2[1] * proj;
     tAx[1] = -p1[1] + p2[1] + R2[5] * proj;
@@ -413,14 +386,14 @@ extern "C" int dCylBox(
 
     boxProj = dFabs(dDOT14(Ax, R2 + 0) * B1) + dFabs(dDOT14(Ax, R2 + 1) * B2) + dFabs(dDOT14(Ax, R2 + 2) * B3);
 
-    _cos = dFabs(dDOT14(Ax, R1 + 1));
-    cos1 = dDOT14(Ax, R1 + 0);
-    cos3 = dDOT14(Ax, R1 + 2);
-    _sin = dSqrt(cos1 * cos1 + cos3 * cos3);
+    _cos    = dFabs(dDOT14(Ax, R1 + 1));
+    cos1    = dDOT14(Ax, R1 + 0);
+    cos3    = dDOT14(Ax, R1 + 2);
+    _sin    = dSqrt(cos1 * cos1 + cos3 * cos3);
     TEST(p[0] * Ax[0] + p[1] * Ax[1] + p[2] * Ax[2], (_sin * radius + _cos * hlz + boxProj), Ax[0], Ax[1], Ax[2], 6);
 
     // same thing with the third axis of the box
-    proj = dDOT14(p1, R2 + 2) - dDOT14(p2, R2 + 2);
+    proj  = dDOT14(p1, R2 + 2) - dDOT14(p2, R2 + 2);
 
     Ax[0] = -p1[0] + p2[0] + R2[2] * proj;
     Ax[1] = -p1[1] + p2[1] + R2[6] * proj;
@@ -437,10 +410,10 @@ extern "C" int dCylBox(
     dNormalize3(Ax);
     boxProj = dFabs(dDOT14(Ax, R2 + 1) * B2) + dFabs(dDOT14(Ax, R2 + 2) * B3) + dFabs(dDOT14(Ax, R2 + 0) * B1);
 
-    _cos = dFabs(dDOT14(Ax, R1 + 1));
-    cos1 = dDOT14(Ax, R1 + 0);
-    cos3 = dDOT14(Ax, R1 + 2);
-    _sin = dSqrt(cos1 * cos1 + cos3 * cos3);
+    _cos    = dFabs(dDOT14(Ax, R1 + 1));
+    cos1    = dDOT14(Ax, R1 + 0);
+    cos3    = dDOT14(Ax, R1 + 2);
+    _sin    = dSqrt(cos1 * cos1 + cos3 * cos3);
     TEST(p[0] * Ax[0] + p[1] * Ax[1] + p[2] * Ax[2], (_sin * radius + _cos * hlz + boxProj), Ax[0], Ax[1], Ax[2], 7);
 
 #undef TEST
@@ -671,21 +644,7 @@ extern "C" int dCylBox(
 
 //****************************************************************************
 
-extern "C" int dCylCyl(
-    const dVector3 p1,
-    const dMatrix3 R1,
-    const dReal    radius1,
-    const dReal    lz1,
-    const dVector3 p2,
-    const dMatrix3 R2,
-    const dReal    radius2,
-    const dReal    lz2,
-    dVector3       normal,
-    dReal*         depth,
-    int*           code,
-    int            maxc,
-    dContactGeom*  contact,
-    int            skip)
+extern "C" int dCylCyl(const dVector3 p1, const dMatrix3 R1, const dReal radius1, const dReal lz1, const dVector3 p2, const dMatrix3 R2, const dReal radius2, const dReal lz2, dVector3 normal, dReal* depth, int* code, int maxc, dContactGeom* contact, int skip)
 {
     dVector3     p, pp1, pp2, normalC;
     const dReal* normalR = 0;
@@ -720,8 +679,8 @@ extern "C" int dCylCyl(
     invert_normal = 0;
     *code         = 0;
 
-    dReal c_cos = dFabs(dDOT44(R1 + 1, R2 + 1));
-    dReal c_sin = dSqrt(1.f - (c_cos > 1.f ? 1.f : c_cos));
+    dReal c_cos   = dFabs(dDOT44(R1 + 1, R2 + 1));
+    dReal c_sin   = dSqrt(1.f - (c_cos > 1.f ? 1.f : c_cos));
 
     TEST(pp1[1], (hlz1 + radius2 * c_sin + hlz2 * c_cos), R1 + 1, 0);   // pp
 
@@ -783,7 +742,7 @@ extern "C" int dCylCyl(
             pb[i] -= cos3 * radius2 * R2[i * 4 + 2];
 
         // making perpendicular to cyl1 ax passing across pb
-        proj = dDOT14(pb, R1 + 1) - dDOT14(p1, R1 + 1);
+        proj  = dDOT14(pb, R1 + 1) - dDOT14(p1, R1 + 1);
 
         Ax[0] = pb[0] - p1[0] - R1[1] * proj;
         Ax[1] = pb[1] - p1[1] - R1[5] * proj;
@@ -831,7 +790,7 @@ extern "C" int dCylCyl(
         for (i = 0; i < 3; ++i)
             pa[i] += cos3 * radius1 * R1[i * 4 + 2];
 
-        proj = dDOT14(pa, R2 + 1) - dDOT14(p2, R2 + 1);
+        proj  = dDOT14(pa, R2 + 1) - dDOT14(p2, R2 + 1);
 
         Ax[0] = pa[0] - p2[0] - R2[1] * proj;
         Ax[1] = pa[1] - p2[1] - R2[5] * proj;
@@ -874,23 +833,23 @@ extern "C" int dCylCyl(
         dVector3 tAx, tAx1;
         circleIntersection(R1 + 1, ca, radius1, R2 + 1, cb, radius2, point);
 
-        Ax[0] = point[0] - ca[0];
-        Ax[1] = point[1] - ca[1];
-        Ax[2] = point[2] - ca[2];
+        Ax[0]   = point[0] - ca[0];
+        Ax[1]   = point[1] - ca[1];
+        Ax[2]   = point[2] - ca[2];
 
-        cos1 = dDOT14(Ax, R1 + 0);
-        cos3 = dDOT14(Ax, R1 + 2);
+        cos1    = dDOT14(Ax, R1 + 0);
+        cos3    = dDOT14(Ax, R1 + 2);
 
-        tAx[0] = cos3 * R1[0] - cos1 * R1[2];
-        tAx[1] = cos3 * R1[4] - cos1 * R1[6];
-        tAx[2] = cos3 * R1[8] - cos1 * R1[10];
+        tAx[0]  = cos3 * R1[0] - cos1 * R1[2];
+        tAx[1]  = cos3 * R1[4] - cos1 * R1[6];
+        tAx[2]  = cos3 * R1[8] - cos1 * R1[10];
 
-        Ax[0] = point[0] - cb[0];
-        Ax[1] = point[1] - cb[1];
-        Ax[2] = point[2] - cb[2];
+        Ax[0]   = point[0] - cb[0];
+        Ax[1]   = point[1] - cb[1];
+        Ax[2]   = point[2] - cb[2];
 
-        cos1 = dDOT14(Ax, R2 + 0);
-        cos3 = dDOT14(Ax, R2 + 2);
+        cos1    = dDOT14(Ax, R2 + 0);
+        cos3    = dDOT14(Ax, R2 + 2);
 
         tAx1[0] = cos3 * R2[0] - cos1 * R2[2];
         tAx1[1] = cos3 * R2[4] - cos1 * R2[6];
@@ -1066,9 +1025,9 @@ extern "C" int dCylCyl(
             vertex[i] -= cos3 * radius2 * R2[i * 4 + 2];
 
         dReal A1, A3, centerDepth, Q1, Q3;
-        centerDepth = *depth - radius2 * (factor);
-        Q1          = -(dDOT14(normal, R2 + 0));
-        Q3          = -(dDOT14(normal, R2 + 2));
+        centerDepth                          = *depth - radius2 * (factor);
+        Q1                                   = -(dDOT14(normal, R2 + 0));
+        Q3                                   = -(dDOT14(normal, R2 + 2));
 
         A1                                   = -(-cos1 * M_COS_PI_3 - cos3 * M_SIN_PI_3) * radius2;
         A3                                   = -(-cos3 * M_COS_PI_3 + cos1 * M_SIN_PI_3) * radius2;
@@ -1116,9 +1075,9 @@ extern "C" int dCylCyl(
             vertex[i] += cos3 * radius1 * R1[i * 4 + 2];
 
         dReal A1, A3, centerDepth, Q1, Q3;
-        centerDepth = *depth - radius1 * (factor);
-        Q1          = (dDOT(R2 + 1, R1 + 0));
-        Q3          = (dDOT(R2 + 1, R1 + 2));
+        centerDepth                          = *depth - radius1 * (factor);
+        Q1                                   = (dDOT(R2 + 1, R1 + 0));
+        Q3                                   = (dDOT(R2 + 1, R1 + 2));
 
         A1                                   = (-cos1 * M_COS_PI_3 - cos3 * M_SIN_PI_3) * radius1;
         A3                                   = (-cos3 * M_COS_PI_3 + cos1 * M_SIN_PI_3) * radius1;
@@ -1216,7 +1175,7 @@ int dCollideCylS(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int s
 
     dReal    proj, _cos, _sin, cos1, cos3;
     dVector3 Ax;
-    proj = dDOT14(p2, R + 1) - dDOT14(p1, R + 1);
+    proj  = dDOT14(p2, R + 1) - dDOT14(p1, R + 1);
 
     Ax[0] = p2[0] - p1[0] - R[1] * proj;
     Ax[1] = p2[1] - p1[1] - R[5] * proj;
@@ -1300,9 +1259,7 @@ int dCollideCylB(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int s
     dVector3 boxSides;
     dGeomCylinderGetParams(o1, &cylRadius, &cylLength);
     dGeomBoxGetLengths(o2, boxSides);
-    int num = dCylBox(
-        dGeomGetPosition(o1), dGeomGetRotation(o1), cylRadius, cylLength, dGeomGetPosition(o2), dGeomGetRotation(o2),
-        boxSides, normal, &depth, &code, flags & NUMC_MASK, contact, skip);
+    int num = dCylBox(dGeomGetPosition(o1), dGeomGetRotation(o1), cylRadius, cylLength, dGeomGetPosition(o2), dGeomGetRotation(o2), boxSides, normal, &depth, &code, flags & NUMC_MASK, contact, skip);
     for (int i = 0; i < num; ++i)
     {
         CONTACT(contact, i * skip)->normal[0] = -normal[0];
@@ -1323,9 +1280,7 @@ int dCollideCylCyl(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int
     dReal    cylLength1, cylLength2;
     dGeomCylinderGetParams(o1, &cylRadius1, &cylLength1);
     dGeomCylinderGetParams(o2, &cylRadius2, &cylLength2);
-    int num = dCylCyl(
-        dGeomGetPosition(o1), dGeomGetRotation(o1), cylRadius1, cylLength1, dGeomGetPosition(o2), dGeomGetRotation(o2),
-        cylRadius2, cylLength2, normal, &depth, &code, flags & NUMC_MASK, contact, skip);
+    int num = dCylCyl(dGeomGetPosition(o1), dGeomGetRotation(o1), cylRadius1, cylLength1, dGeomGetPosition(o2), dGeomGetRotation(o2), cylRadius2, cylLength2, normal, &depth, &code, flags & NUMC_MASK, contact, skip);
 
     for (int i = 0; i < num; ++i)
     {
@@ -1348,13 +1303,13 @@ int dCollideCylPlane(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, i
     VERIFY(skip >= (int)sizeof(dContactGeom));
     VERIFY(dGeomGetClass(o1) == dCylinderClassUser);
     VERIFY(dGeomGetClass(o2) == dPlaneClass);
-    contact->g1 = const_cast<dxGeom*>(o1);
-    contact->g2 = const_cast<dxGeom*>(o2);
+    contact->g1      = const_cast<dxGeom*>(o1);
+    contact->g2      = const_cast<dxGeom*>(o2);
 
     unsigned int ret = 0;
 
-    dReal radius;
-    dReal hlz;
+    dReal        radius;
+    dReal        hlz;
     dGeomCylinderGetParams(o1, &radius, &hlz);
     hlz /= REAL(2.);
     const dReal* R = dGeomGetRotation(o1);   // rotation of cylinder
@@ -1364,13 +1319,13 @@ int dCollideCylPlane(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, i
     dGeomPlaneGetParams(o2, n);
     pp = n[3];
     dReal cos1, sin1;
-    cos1 = dFabs(dDOT14(n, R + 1));
+    cos1           = dFabs(dDOT14(n, R + 1));
 
-    cos1 = cos1 < REAL(1.) ? cos1 : REAL(1.);   // cos1 may slightly exeed 1.f
-    sin1 = dSqrt(REAL(1.) - cos1 * cos1);
+    cos1           = cos1 < REAL(1.) ? cos1 : REAL(1.);   // cos1 may slightly exeed 1.f
+    sin1           = dSqrt(REAL(1.) - cos1 * cos1);
     //////////////////////////////
 
-    dReal sidePr = cos1 * hlz + sin1 * radius;
+    dReal sidePr   = cos1 * hlz + sin1 * radius;
 
     dReal dist     = -pp + dDOT(n, p);
     dReal outDepth = sidePr - dist;
@@ -1381,18 +1336,18 @@ int dCollideCylPlane(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, i
     dVector3 pos;
 
     /////////////////////////////////////////// from geom.cpp dCollideBP
-    dReal Q1     = dDOT14(n, R + 0);
-    dReal Q2     = dDOT14(n, R + 1);
-    dReal Q3     = dDOT14(n, R + 2);
-    dReal factor = dSqrt(Q1 * Q1 + Q3 * Q3);
-    factor       = factor ? factor : 1.f;
-    dReal A1     = radius * Q1 / factor;
-    dReal A2     = hlz * Q2;
-    dReal A3     = radius * Q3 / factor;
+    dReal    Q1     = dDOT14(n, R + 0);
+    dReal    Q2     = dDOT14(n, R + 1);
+    dReal    Q3     = dDOT14(n, R + 2);
+    dReal    factor = dSqrt(Q1 * Q1 + Q3 * Q3);
+    factor          = factor ? factor : 1.f;
+    dReal A1        = radius * Q1 / factor;
+    dReal A2        = hlz * Q2;
+    dReal A3        = radius * Q3 / factor;
 
-    pos[0] = p[0];
-    pos[1] = p[1];
-    pos[2] = p[2];
+    pos[0]          = p[0];
+    pos[1]          = p[1];
+    pos[2]          = p[2];
 
     pos[0] -= A1 * R[0];
     pos[1] -= A1 * R[4];
@@ -1467,19 +1422,19 @@ int dCollideCylRay(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int
     const dReal* p   = dGeomGetPosition(o1);   // position of the cylinder
     dVector3     start, dir;
     dGeomRayGet(o2, start, dir);   // position and orientation of the ray
-    dReal length = dGeomRayGetLength(o2);
+    dReal    length = dGeomRayGetLength(o2);
 
     // compute some useful info
     dVector3 cs, q, r;
     dReal    C, k;
-    cs[0] = start[0] - p[0];
-    cs[1] = start[1] - p[1];
-    cs[2] = start[2] - p[2];
-    k     = dDOT41(R + 1, cs);   // position of ray start along cyl axis (Y)
-    q[0]  = k * R[0 * 4 + 1] - cs[0];
-    q[1]  = k * R[1 * 4 + 1] - cs[1];
-    q[2]  = k * R[2 * 4 + 1] - cs[2];
-    C     = dDOT(q, q) - radius * radius;
+    cs[0]          = start[0] - p[0];
+    cs[1]          = start[1] - p[1];
+    cs[2]          = start[2] - p[2];
+    k              = dDOT41(R + 1, cs);   // position of ray start along cyl axis (Y)
+    q[0]           = k * R[0 * 4 + 1] - cs[0];
+    q[1]           = k * R[1 * 4 + 1] - cs[1];
+    q[2]           = k * R[2 * 4 + 1] - cs[2];
+    C              = dDOT(q, q) - radius * radius;
     // if C < 0 then ray start position within infinite extension of cylinder
     // if ray start position is inside the cylinder
     int inside_cyl = 0;
@@ -1599,21 +1554,21 @@ static void dCylinderAABB(dxGeom* geom, dReal aabb[6])
 {
     dReal radius, lz;
     dGeomCylinderGetParams(geom, &radius, &lz);
-    const dReal* R   = dGeomGetRotation(geom);
-    const dReal* pos = dGeomGetPosition(geom);
+    const dReal* R      = dGeomGetRotation(geom);
+    const dReal* pos    = dGeomGetPosition(geom);
 
-    dReal xrange = REAL(0.5) * dFabs(R[1] * lz) + (dSqrt(R[0] * R[0] + R[2] * R[2]) * radius);
+    dReal        xrange = REAL(0.5) * dFabs(R[1] * lz) + (dSqrt(R[0] * R[0] + R[2] * R[2]) * radius);
 
-    dReal yrange = REAL(0.5) * dFabs(R[5] * lz) + (dSqrt(R[4] * R[4] + R[6] * R[6]) * radius);
+    dReal        yrange = REAL(0.5) * dFabs(R[5] * lz) + (dSqrt(R[4] * R[4] + R[6] * R[6]) * radius);
 
-    dReal zrange = REAL(0.5) * dFabs(R[9] * lz) + (dSqrt(R[8] * R[8] + R[10] * R[10]) * radius);
+    dReal        zrange = REAL(0.5) * dFabs(R[9] * lz) + (dSqrt(R[8] * R[8] + R[10] * R[10]) * radius);
 
-    aabb[0] = pos[0] - xrange;
-    aabb[1] = pos[0] + xrange;
-    aabb[2] = pos[1] - yrange;
-    aabb[3] = pos[1] + yrange;
-    aabb[4] = pos[2] - zrange;
-    aabb[5] = pos[2] + zrange;
+    aabb[0]             = pos[0] - xrange;
+    aabb[1]             = pos[0] + xrange;
+    aabb[2]             = pos[1] - yrange;
+    aabb[3]             = pos[1] + yrange;
+    aabb[4]             = pos[2] - zrange;
+    aabb[5]             = pos[2] + zrange;
 }
 
 dxGeom* dCreateCylinder(dSpaceID space, dReal r, dReal lz)
@@ -1635,8 +1590,8 @@ dxGeom* dCreateCylinder(dSpaceID space, dReal r, dReal lz)
         dSpaceAdd(space, g);
     dxCylinder* c = (dxCylinder*)dGeomGetClassData(g);
 
-    c->radius = r;
-    c->lz     = lz;
+    c->radius     = r;
+    c->lz         = lz;
     return g;
 }
 

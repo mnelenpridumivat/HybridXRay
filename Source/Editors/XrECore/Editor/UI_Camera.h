@@ -18,10 +18,10 @@ class ECORE_API CUI_Camera
     float        m_FlySpeed;
     float        m_FlyAltitude;
 
-    Fmatrix m_CamMat;
-    Fvector m_HPB;
-    Fvector m_Position;
-    Fvector m_Target;
+    Fmatrix      m_CamMat;
+    Fvector      m_HPB;
+    Fvector      m_Position;
+    Fvector      m_Target;
 
 protected:
     friend class CEditorRenderDevice;
@@ -31,10 +31,10 @@ protected:
     float m_Zfar;
     float m_SR, m_SM;
 
-    void Pan(float X, float Z);
-    void Scale(float Y);
-    void Rotate(float X, float Y);
-    void ArcBall(TShiftState Shift, float X, float Y);
+    void  Pan(float X, float Z);
+    void  Scale(float Y);
+    void  Rotate(float X, float Y);
+    void  ArcBall(TShiftState Shift, float X, float Y);
 
 public:
     CUI_Camera();

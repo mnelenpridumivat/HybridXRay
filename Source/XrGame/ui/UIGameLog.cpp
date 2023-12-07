@@ -111,8 +111,7 @@ void CUIGameLog::Update()
         (*it)->GetAbsoluteRect(r);
         r.shrink(3.0f, 3.0f);
 
-        if (!(visible_rect.in(r.x1, r.y1) && visible_rect.in(r.x2, r.y1) && visible_rect.in(r.x1, r.y2) &&
-              visible_rect.in(r.x2, r.y2)))
+        if (!(visible_rect.in(r.x1, r.y1) && visible_rect.in(r.x2, r.y1) && visible_rect.in(r.x1, r.y2) && visible_rect.in(r.x2, r.y2)))
             toDelList.push_back(*it);
     }
 

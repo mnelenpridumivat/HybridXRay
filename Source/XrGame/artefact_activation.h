@@ -43,20 +43,20 @@ public:
     EActivationStates        m_cur_activation_state;
     float                    m_cur_state_time;
 
-    ref_light m_light;
-    ref_sound m_snd;
+    ref_light                m_light;
+    ref_sound                m_snd;
 
-    u32 m_owner_id;
+    u32                      m_owner_id;
 
-    virtual void UpdateActivation();
-    virtual void Load();
-    virtual void Start();
-    virtual void Stop();
-    virtual void ChangeEffects();
-    virtual void UpdateEffects();
-    virtual void SpawnAnomaly();
-    virtual void PhDataUpdate(float step);
-    bool         IsInProgress();
+    virtual void             UpdateActivation();
+    virtual void             Load();
+    virtual void             Start();
+    virtual void             Stop();
+    virtual void             ChangeEffects();
+    virtual void             UpdateEffects();
+    virtual void             SpawnAnomaly();
+    virtual void             PhDataUpdate(float step);
+    bool                     IsInProgress();
 
 private:
     bool m_in_process;

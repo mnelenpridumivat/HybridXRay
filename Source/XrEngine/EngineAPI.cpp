@@ -42,8 +42,8 @@ CEngineAPI::~CEngineAPI()
     }
 }
 
-extern u32     renderer_value;   // con cmd
-ENGINE_API int g_current_renderer = 0;
+extern u32      renderer_value;   // con cmd
+ENGINE_API int  g_current_renderer = 0;
 
 ENGINE_API bool is_enough_address_space_available()
 {
@@ -349,9 +349,9 @@ void CEngineAPI::CreateRendererList()
                     bBreakLoop = true;
                 break;
             case 4:   // "renderer_r_dx10"
-            // if (xrGameManager::GetGame() != EGame::COP)
-            //         bBreakLoop = true;
-            //     break;
+                      // if (xrGameManager::GetGame() != EGame::COP)
+                      //         bBreakLoop = true;
+                      //     break;
                 if (!bSupports_r3)
                     bBreakLoop = true;
                 break;
@@ -399,8 +399,8 @@ void CEngineAPI::CreateRendererList()
             break;
         _tmp.back() = xr_strdup(val);
     }
-    u32 _cnt          = _tmp.size() + 1;
-    vid_quality_token = xr_alloc<xr_token>(_cnt);
+    u32 _cnt                         = _tmp.size() + 1;
+    vid_quality_token                = xr_alloc<xr_token>(_cnt);
 
     vid_quality_token[_cnt - 1].id   = -1;
     vid_quality_token[_cnt - 1].name = NULL;

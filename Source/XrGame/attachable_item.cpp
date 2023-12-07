@@ -139,7 +139,7 @@ float ATT_ITEM_ROT_CURR  = 0.1f;
 float ATT_ITEM_MOVE_STEP = 0.001f;
 float ATT_ITEM_ROT_STEP  = 0.01f;
 
-void attach_adjust_mode_keyb(int dik)
+void  attach_adjust_mode_keyb(int dik)
 {
     if (!CAttachableItem::m_dbgItem)
         return;
@@ -147,7 +147,7 @@ void attach_adjust_mode_keyb(int dik)
     bool b_move = !!(pInput->iGetAsyncKeyState(DIK_LSHIFT));
     bool b_rot  = !!(pInput->iGetAsyncKeyState(DIK_LMENU));
 
-    int axis = -1;
+    int  axis   = -1;
     if (pInput->iGetAsyncKeyState(DIK_Z))
         axis = 0;
     else if (pInput->iGetAsyncKeyState(DIK_X))
@@ -160,28 +160,32 @@ void attach_adjust_mode_keyb(int dik)
 
     switch (dik)
     {
-        case DIK_LEFT: {
+        case DIK_LEFT:
+        {
             if (b_move)
                 CAttachableItem::mov(axis, ATT_ITEM_MOVE_CURR);
             else
                 CAttachableItem::rot(axis, ATT_ITEM_ROT_CURR);
         }
         break;
-        case DIK_RIGHT: {
+        case DIK_RIGHT:
+        {
             if (b_move)
                 CAttachableItem::mov(axis, -ATT_ITEM_MOVE_CURR);
             else
                 CAttachableItem::rot(axis, -ATT_ITEM_ROT_CURR);
         }
         break;
-        case DIK_PRIOR: {
+        case DIK_PRIOR:
+        {
             if (b_move)
                 ATT_ITEM_MOVE_CURR += ATT_ITEM_MOVE_STEP;
             else
                 ATT_ITEM_ROT_CURR += ATT_ITEM_ROT_STEP;
         }
         break;
-        case DIK_NEXT: {
+        case DIK_NEXT:
+        {
             if (b_move)
                 ATT_ITEM_MOVE_CURR -= ATT_ITEM_MOVE_STEP;
             else

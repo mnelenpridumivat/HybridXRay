@@ -18,7 +18,7 @@ public:
     virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
 
 private:
-    void Init();
+    void           Init();
 
     CUIStatic*     m_pCaption;
     CUIStatic*     m_pBackground;

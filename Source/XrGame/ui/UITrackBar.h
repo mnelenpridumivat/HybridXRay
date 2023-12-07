@@ -53,8 +53,8 @@ public:
     void SetOptFBounds(float fmin, float fmax);
 
 protected:
-    void UpdatePos();
-    void UpdatePosRelativeToMouse();
+    void         UpdatePos();
+    void         UpdatePosRelativeToMouse();
 
     CUI3tButton* m_pSlider;
     bool         m_b_invert;

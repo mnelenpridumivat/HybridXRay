@@ -22,11 +22,7 @@ IC CScriptParticleAction::CScriptParticleAction()
     m_bAutoRemove = true;
 }
 
-IC CScriptParticleAction::CScriptParticleAction(
-    LPCSTR                 caPartcileToRun,
-    LPCSTR                 caBoneName,
-    const CParticleParams& tParticleParams,
-    bool                   bAutoRemove)
+IC CScriptParticleAction::CScriptParticleAction(LPCSTR caPartcileToRun, LPCSTR caBoneName, const CParticleParams& tParticleParams, bool bAutoRemove)
 {
     SetBone(caBoneName);
     SetPosition(tParticleParams.m_tParticlePosition);
@@ -35,10 +31,7 @@ IC CScriptParticleAction::CScriptParticleAction(
     SetParticle(caPartcileToRun, bAutoRemove);
 }
 
-IC CScriptParticleAction::CScriptParticleAction(
-    LPCSTR                 caPartcileToRun,
-    const CParticleParams& tParticleParams,
-    bool                   bAutoRemove)
+IC CScriptParticleAction::CScriptParticleAction(LPCSTR caPartcileToRun, const CParticleParams& tParticleParams, bool bAutoRemove)
 {
     SetParticle(caPartcileToRun, bAutoRemove);
     SetPosition(tParticleParams.m_tParticlePosition);

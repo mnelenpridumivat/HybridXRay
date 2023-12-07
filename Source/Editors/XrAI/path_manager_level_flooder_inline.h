@@ -8,25 +8,15 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION \
-    template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+#define TEMPLATE_SPECIALIZATION  template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 
-#define CLevelFlooderPathManager                                                                                \
-    CPathManager<                                                                                               \
-        CLevelGraph, _DataStorage, SFlooder<_dist_type, _index_type, _iteration_type>, _dist_type, _index_type, \
-        _iteration_type>
+#define CLevelFlooderPathManager CPathManager<CLevelGraph, _DataStorage, SFlooder<_dist_type, _index_type, _iteration_type>, _dist_type, _index_type, _iteration_type>
 
 TEMPLATE_SPECIALIZATION
 CLevelFlooderPathManager::~CPathManager() {}
 
 TEMPLATE_SPECIALIZATION
-IC void CLevelFlooderPathManager::setup(
-    const _Graph*           _graph,
-    _DataStorage*           _data_storage,
-    xr_vector<_index_type>* _path,
-    const _index_type&      _start_node_index,
-    const _index_type&      _goal_node_index,
-    const _Parameters&      parameters)
+IC void CLevelFlooderPathManager::setup(const _Graph* _graph, _DataStorage* _data_storage, xr_vector<_index_type>* _path, const _index_type& _start_node_index, const _index_type& _goal_node_index, const _Parameters& parameters)
 {
     inherited::setup(_graph, _data_storage, _path, _start_node_index, _goal_node_index, parameters);
     //		graph->unpack_xz		(graph->vertex(_start_node_index),start_position.x,start_position.y);
@@ -46,10 +36,7 @@ IC bool CLevelFlooderPathManager::is_goal_reached(const _index_type& node_index)
 }
 
 TEMPLATE_SPECIALIZATION
-IC _dist_type CLevelFlooderPathManager::evaluate(
-    const _index_type& node_index1,
-    const _index_type& node_index2,
-    const _Graph::const_iterator& /**i/**/)
+IC _dist_type CLevelFlooderPathManager::evaluate(const _index_type& node_index1, const _index_type& node_index2, const _Graph::const_iterator& /**i/**/)
 {
     VERIFY(graph);
     return (m_cell_dist);
@@ -76,8 +63,7 @@ TEMPLATE_SPECIALIZATION
 IC bool CLevelFlooderPathManager::is_limit_reached(const _iteration_type iteration_count) const
 {
     VERIFY(data_storage);
-    return (
-        (iteration_count >= max_iteration_count) || (data_storage->get_visited_node_count() >= max_visited_node_count));
+    return ((iteration_count >= max_iteration_count) || (data_storage->get_visited_node_count() >= max_visited_node_count));
 }
 
 TEMPLATE_SPECIALIZATION

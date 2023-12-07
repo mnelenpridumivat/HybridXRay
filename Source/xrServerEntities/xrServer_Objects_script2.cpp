@@ -12,8 +12,7 @@ void CSE_PHSkeleton::script_register(lua_State* L)
 
 void CSE_AbstractVisual::script_register(lua_State* L)
 {
-    module(L)[luabind_class_abstract2(CSE_AbstractVisual, "CSE_AbstractVisual", CSE_Visual, CSE_Abstract)
-                  .def("getStartupAnimation", &CSE_AbstractVisual::getStartupAnimation)];
+    module(L)[luabind_class_abstract2(CSE_AbstractVisual, "CSE_AbstractVisual", CSE_Visual, CSE_Abstract).def("getStartupAnimation", &CSE_AbstractVisual::getStartupAnimation)];
 }
 
 /**

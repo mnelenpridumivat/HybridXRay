@@ -25,11 +25,7 @@ namespace award_system
         virtual void reset_game();
 
         virtual void OnWeapon_Fire(u16 sender, u16 sender_weapon_id);
-        virtual void OnPlayerKilled(
-            u16                                     killer_id,
-            u16                                     target_id,
-            u16                                     weapon_id,
-            std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
+        virtual void OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
 
     protected:
         struct kill_shot_id
@@ -40,8 +36,8 @@ namespace award_system
 
         typedef obsolete_queue<buffer_vector<kill_shot_id>, 2> kills_times_t;
 
-        kills_times_t m_kills;
-        u32           m_shot_count;
+        kills_times_t                                          m_kills;
+        u32                                                    m_shot_count;
     };   // class double_shot_double_kill
 
     ADD_ACCUMULATIVE_STATE(acpv_double_shot_double_kill_time, double_shot_double_kill);

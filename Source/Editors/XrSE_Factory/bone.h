@@ -88,8 +88,7 @@ struct ECORE_API SBoneShape
             case stSphere:
                 return !fis_zero(sphere.R);
             case stCylinder:
-                return !fis_zero(cylinder.m_height) && !fis_zero(cylinder.m_radius) &&
-                    !fis_zero(cylinder.m_direction.square_magnitude());
+                return !fis_zero(cylinder.m_height) && !fis_zero(cylinder.m_radius) && !fis_zero(cylinder.m_direction.square_magnitude());
         };
         return true;
     }
@@ -194,10 +193,12 @@ class ECORE_API CBone
     Fmatrix    last_transform;
 
     Fmatrix    render_transform;
+
 public:
     int     SelfID;
     CBone*  parent;
     BoneVec children;
+
 public:
     // editor part
     Flags8 flags;
@@ -211,6 +212,7 @@ public:
 
     float        mass;
     Fvector      center_of_mass;
+
 public:
     CBone();
     virtual ~CBone();

@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -32,9 +32,6 @@ geom transform
 #include <ode/common.h>
 #include "collision_kernel.h"
 
-
-int dCollideTransform (dxGeom *o1, dxGeom *o2, int flags,
-		       dContactGeom *contact, int skip);
-
+int dCollideTransform(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int skip);
 
 #endif

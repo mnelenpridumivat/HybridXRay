@@ -2,13 +2,13 @@
 
 #include "../state.h"
 
-template <typename _Object> class CStateGroupHearDangerousSound: public CState<_Object>
+template<typename _Object> class CStateGroupHearDangerousSound: public CState<_Object>
 {
 protected:
     typedef CState<_Object>  inherited;
     typedef CState<_Object>* state_ptr;
 
-    u32 m_target_node;
+    u32                      m_target_node;
 
 public:
     CStateGroupHearDangerousSound(_Object* obj);

@@ -79,6 +79,7 @@ public:
     BOOL    Active();
     //	static CScriptDebugger* GetDebugger	() { return m_pDebugger; };
     LRESULT _SendMessage(UINT message, WPARAM wParam, LPARAM lParam);
+
 protected:
     void                   DrawVariableInfo(char* varName);
     void                   DrawCurrentState();

@@ -69,9 +69,7 @@ bool CEnemyManager::useful(const CEntityAlive* entity_alive) const
     if (!ai().get_level_graph() || !ai().level_graph().valid_vertex_id(entity_alive->ai_location().level_vertex_id()))
         return (false);
 
-    if (m_object->human_being() && !entity_alive->human_being() && !expedient(entity_alive) &&
-        (evaluate(entity_alive) >= m_ignore_monster_threshold) &&
-        (m_object->Position().distance_to(entity_alive->Position()) >= m_max_ignore_distance))
+    if (m_object->human_being() && !entity_alive->human_being() && !expedient(entity_alive) && (evaluate(entity_alive) >= m_ignore_monster_threshold) && (m_object->Position().distance_to(entity_alive->Position()) >= m_max_ignore_distance))
         return (false);
 
     return (m_useful_callback ? m_useful_callback(m_object->lua_game_object(), entity_alive->lua_game_object()) : true);
@@ -135,7 +133,7 @@ float CEnemyManager::evaluate(const CEntityAlive* object) const
     ai().ef_storage().non_alife().member()      = m_object;
     ai().ef_storage().non_alife().enemy()       = object;
 
-    float distance = m_object->Position().distance_to_sqr(object->Position());
+    float distance                              = m_object->Position().distance_to_sqr(object->Position());
     return (penalty + distance / 100.f + ai().ef_storage().m_pfVictoryProbability->ffGetValue() / 100.f);
 #else    // USE_EVALUATOR
     float distance = m_object->Position().distance_to_sqr(object->Position());
@@ -201,8 +199,7 @@ void CEnemyManager::ignore_monster_threshold(const float& ignore_monster_thresho
 
 void CEnemyManager::restore_ignore_monster_threshold()
 {
-    m_ignore_monster_threshold =
-        READ_IF_EXISTS(pSettings, r_float, *m_object->cNameSect(), "ignore_monster_threshold", 1.f);
+    m_ignore_monster_threshold = READ_IF_EXISTS(pSettings, r_float, *m_object->cNameSect(), "ignore_monster_threshold", 1.f);
 }
 
 float CEnemyManager::ignore_monster_threshold() const
@@ -377,7 +374,7 @@ void CEnemyManager::try_change_enemy()
 {
     const CEntityAlive* previous_selected = selected();
 
-    bool only_wounded;
+    bool                only_wounded;
     process_wounded(only_wounded);
     if (!need_update(only_wounded))
         return;

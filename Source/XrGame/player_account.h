@@ -42,11 +42,11 @@ public:
     void set_player_name(char const* new_name);
 
 protected:
-    shared_str m_player_name;
-    shared_str m_clan_name;
-    u32        m_profile_id;
-    bool       m_clan_leader;
-    bool       m_online_account;
+    shared_str                    m_player_name;
+    shared_str                    m_clan_name;
+    u32                           m_profile_id;
+    bool                          m_clan_leader;
+    bool                          m_online_account;
 
     gamespy_profile::all_awards_t m_awards;
 };   // class player_account

@@ -12,7 +12,7 @@ class CZombie: public CBaseMonster, public CControlledEntity<CZombie>
     typedef CBaseMonster               inherited;
     typedef CControlledEntity<CZombie> CControlled;
 
-    bonesManipulation Bones;
+    bonesManipulation                  Bones;
 
 public:
     CZombie();
@@ -32,8 +32,8 @@ public:
 
     virtual void shedule_Update(u32 dt);
 
-    static void BoneCallback(CBoneInstance* B);
-    void        vfAssignBones();
+    static void  BoneCallback(CBoneInstance* B);
+    void         vfAssignBones();
 
     virtual bool use_center_to_aim() const
     {
@@ -44,22 +44,22 @@ public:
         return "zombie";
     }
 
-    CBoneInstance* bone_spine;
-    CBoneInstance* bone_head;
+    CBoneInstance*       bone_spine;
+    CBoneInstance*       bone_head;
 
     SAnimationTripleData anim_triple_death[FAKE_DEATH_TYPES_COUNT];
     u8                   active_triple_idx;
 
-    u32 time_dead_start;
-    u32 last_hit_frame;
-    u32 time_resurrect;
+    u32                  time_dead_start;
+    u32                  last_hit_frame;
+    u32                  time_resurrect;
 
-    u8    fake_death_count;
-    float health_death_threshold;
-    u8    fake_death_left;
+    u8                   fake_death_count;
+    float                health_death_threshold;
+    u8                   fake_death_left;
 
-    bool fake_death_fall_down();   // return true if everything is ok
-    void fake_death_stand_up();
+    bool                 fake_death_fall_down();   // return true if everything is ok
+    void                 fake_death_stand_up();
 
 #ifdef _DEBUG
     virtual void debug_on_key(int key);

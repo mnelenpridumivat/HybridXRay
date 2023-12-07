@@ -22,14 +22,11 @@
 
 //! Common interface for a node of an implicit tree
 #define IMPLEMENT_IMPLICIT_NODE(baseclass, volume) \
+                                                   \
 public:                                            \
     /* Constructor / Destructor */                 \
-    inline_ baseclass(): mData(0)                  \
-    {                                              \
-    }                                              \
-    inline_ ~baseclass()                           \
-    {                                              \
-    }                                              \
+    inline_ baseclass(): mData(0) {}               \
+    inline_ ~baseclass() {}                        \
     /* Leaf test */                                \
     inline_ BOOL IsLeaf() const                    \
     {                                              \
@@ -59,14 +56,11 @@ public:                                            \
 
 //! Common interface for a node of a no-leaf tree
 #define IMPLEMENT_NOLEAF_NODE(baseclass, volume) \
+                                                 \
 public:                                          \
     /* Constructor / Destructor */               \
-    inline_ baseclass(): mData(0), mData2(0)     \
-    {                                            \
-    }                                            \
-    inline_ ~baseclass()                         \
-    {                                            \
-    }                                            \
+    inline_ baseclass(): mData(0), mData2(0) {}  \
+    inline_ ~baseclass() {}                      \
     /* Leaf tests */                             \
     inline_ BOOL HasLeaf() const                 \
     {                                            \
@@ -165,12 +159,13 @@ class OPCODE_API AABBQuantizedNoLeafNode
 
 //! Common interface for a collision tree
 #define IMPLEMENT_COLLISION_TREE(baseclass, volume) \
+                                                    \
 public:                                             \
     /* Constructor / Destructor */                  \
     baseclass();                                    \
     virtual ~baseclass();                           \
     /* Build from a standard tree */                \
-    virtual bool Build(AABBTree* tree);             \
+    virtual bool          Build(AABBTree* tree);    \
     /* Data access */                               \
     inline_ const volume* GetNodes() const          \
     {                                               \

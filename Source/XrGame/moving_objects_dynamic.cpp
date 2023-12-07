@@ -20,7 +20,7 @@
 #endif   // MASTER_GOLD
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -74,9 +74,9 @@ struct collision
 {
     const moving_object* m_object;
 
-    IC collision(const moving_object* object): m_object(object) {}
+    IC                   collision(const moving_object* object): m_object(object) {}
 
-    IC bool operator()(const moving_objects::COLLISION_TIME& object) const
+    IC bool              operator()(const moving_objects::COLLISION_TIME& object) const
     {
         if (object.second.second.first == m_object)
             return (true);
@@ -92,12 +92,11 @@ struct already_wait_predicate
 {
     const moving_objects::COLLISIONS* m_collisions;
 
-    IC already_wait_predicate(const moving_objects::COLLISIONS& collisions): m_collisions(&collisions) {}
+    IC                                already_wait_predicate(const moving_objects::COLLISIONS& collisions): m_collisions(&collisions) {}
 
-    IC bool operator()(moving_object* object) const
+    IC bool                           operator()(moving_object* object) const
     {
-        moving_objects::COLLISIONS::const_iterator I =
-            std::find_if(m_collisions->begin(), m_collisions->end(), collision(object));
+        moving_objects::COLLISIONS::const_iterator I = std::find_if(m_collisions->begin(), m_collisions->end(), collision(object));
         if (I == m_collisions->end())
             return (false);
 
@@ -149,25 +148,18 @@ void moving_objects::fill_nearest_moving(moving_object* object)
         }
     };
 
-    m_nearest_moving.erase(
-        std::remove_if(m_nearest_moving.begin(), m_nearest_moving.end(), &already_computed::predicate),
-        m_nearest_moving.end());
+    m_nearest_moving.erase(std::remove_if(m_nearest_moving.begin(), m_nearest_moving.end(), &already_computed::predicate), m_nearest_moving.end());
 
     u32             size = m_nearest_moving.size();
     moving_object** temp = (moving_object**)_alloca(size * sizeof(moving_object*));
     std::copy(m_nearest_moving.begin(), m_nearest_moving.end(), temp);
     std::sort(temp, temp + size);
-    m_nearest_moving.erase(
-        std::set_difference(
-            temp, temp + size, m_visited_emitters.begin(), m_visited_emitters.end(), m_nearest_moving.begin()),
-        m_nearest_moving.end());
+    m_nearest_moving.erase(std::set_difference(temp, temp + size, m_visited_emitters.begin(), m_visited_emitters.end(), m_nearest_moving.begin()), m_nearest_moving.end());
 }
 
 void moving_objects::remove_already_waited()
 {
-    m_nearest_moving.erase(
-        std::remove_if(m_nearest_moving.begin(), m_nearest_moving.end(), already_wait_predicate(m_collisions)),
-        m_nearest_moving.end());
+    m_nearest_moving.erase(std::remove_if(m_nearest_moving.begin(), m_nearest_moving.end(), already_wait_predicate(m_collisions)), m_nearest_moving.end());
 }
 
 void moving_objects::generate_emitters()
@@ -193,11 +185,7 @@ void moving_objects::generate_emitters()
     u32 size = m_collision_emitters.size();
     m_collision_emitters.resize(size + m_nearest_moving.size());
 
-    m_collision_emitters.erase(
-        std::set_difference(
-            m_nearest_moving.begin(), m_nearest_moving.end(), m_collision_emitters.begin(),
-            m_collision_emitters.begin() + size, m_collision_emitters.begin() + size),
-        m_collision_emitters.end());
+    m_collision_emitters.erase(std::set_difference(m_nearest_moving.begin(), m_nearest_moving.end(), m_collision_emitters.begin(), m_collision_emitters.begin() + size, m_collision_emitters.begin() + size), m_collision_emitters.end());
 
     std::inplace_merge(m_collision_emitters.begin(), m_collision_emitters.begin() + size, m_collision_emitters.end());
 }
@@ -250,7 +238,7 @@ bool moving_objects::fill_collisions(moving_object* object, const Fvector& objec
         ++i;
         bool break_cycle = false;
 
-        bool priority = ::priority::predicate(object, *I);
+        bool priority    = ::priority::predicate(object, *I);
         if (priority)
         {
             if (!collided_dynamic(object, object_position, (*I), (*I)->predict_position(time_to_check), action))
@@ -272,9 +260,7 @@ bool moving_objects::fill_collisions(moving_object* object, const Fvector& objec
                 VERIFY(action == possible_action_1_can_wait_2);
         }
 
-        m_collisions.push_back(std::make_pair(
-            time_to_check,
-            std::make_pair(action, std::make_pair(priority ? object : (*I), !priority ? object : (*I)))));
+        m_collisions.push_back(std::make_pair(time_to_check, std::make_pair(action, std::make_pair(priority ? object : (*I), !priority ? object : (*I)))));
 
         if (break_cycle)
             return (false);
@@ -309,11 +295,7 @@ bool moving_objects::fill_collisions(moving_object* object, const Fvector& objec
                     continue;
             }
 
-            m_collisions.push_back(std::make_pair(
-                time_to_check,
-                std::make_pair(
-                    priority ? possible_action_2_can_wait_1 : possible_action_1_can_wait_2,
-                    std::make_pair(priority ? object : test, !priority ? object : test))));
+            m_collisions.push_back(std::make_pair(time_to_check, std::make_pair(priority ? possible_action_2_can_wait_1 : possible_action_1_can_wait_2, std::make_pair(priority ? object : test, !priority ? object : test))));
         }
 
         VERIFY(m_collisions.size() >= collision_count);
@@ -351,8 +333,7 @@ bool moving_objects::fill_collisions(moving_object* object, const Fvector& objec
 
 bool moving_objects::already_wait(moving_object* object) const
 {
-    moving_objects::COLLISIONS::const_iterator I =
-        std::find_if(m_collisions.begin(), m_collisions.end(), collision(object));
+    moving_objects::COLLISIONS::const_iterator I = std::find_if(m_collisions.begin(), m_collisions.end(), collision(object));
     if (I == m_collisions.end())
         return (false);
 
@@ -416,9 +397,9 @@ struct decision_predicate
 {
     const moving_object* m_object;
 
-    IC decision_predicate(const moving_object* object): m_object(object) {}
+    IC                   decision_predicate(const moving_object* object): m_object(object) {}
 
-    IC bool operator()(const decision& decision) const
+    IC bool              operator()(const decision& decision) const
     {
         return (m_object == decision.first);
     }
@@ -428,7 +409,7 @@ void moving_objects::resolve_collisions()
 {
     std::sort(m_collisions.begin(), m_collisions.end(), &priority::predicate2);
 
-    m_previous_collisions = m_collisions;
+    m_previous_collisions          = m_collisions;
 
     u32             collidee_count = m_collisions.size() * 2 + m_visited_emitters.size();
     moving_object** collidees      = (moving_object**)_alloca(collidee_count * sizeof(moving_object*));
@@ -474,18 +455,18 @@ void moving_objects::resolve_collisions()
         {
             switch ((*I).second.first)
             {
-                case possible_action_1_can_wait_2: {
-                    decision* object = std::find_if(
-                        decisions, decisions + decision_count, decision_predicate((*I).second.second.first));
+                case possible_action_1_can_wait_2:
+                {
+                    decision* object = std::find_if(decisions, decisions + decision_count, decision_predicate((*I).second.second.first));
                     VERIFY(object != (decisions + decision_count));
                     *object = std::make_pair(object->first, moving_object::action_wait);
                     //					(*I).second.second.second->dynamic_query().merge((*I).second.second.first->dynamic_query());
                     (*I).second.second.second->dynamic_query().add(&object->first->object());
                     continue;
                 }
-                case possible_action_2_can_wait_1: {
-                    decision* object = std::find_if(
-                        decisions, decisions + decision_count, decision_predicate((*I).second.second.second));
+                case possible_action_2_can_wait_1:
+                {
+                    decision* object = std::find_if(decisions, decisions + decision_count, decision_predicate((*I).second.second.second));
                     VERIFY(object != (decisions + decision_count));
                     *object = std::make_pair(object->first, moving_object::action_wait);
                     //					(*I).second.second.first->dynamic_query().merge((*I).second.second.second->dynamic_query());
@@ -525,8 +506,7 @@ void moving_objects::query_action_dynamic(moving_object* object)
         moving_object* object = m_collision_emitters.back();
         m_collision_emitters.pop_back();
 
-        m_visited_emitters.insert(
-            std::lower_bound(m_visited_emitters.begin(), m_visited_emitters.end(), object), object);
+        m_visited_emitters.insert(std::lower_bound(m_visited_emitters.begin(), m_visited_emitters.end(), object), object);
 
         fill_nearest_moving(object);
         generate_emitters();

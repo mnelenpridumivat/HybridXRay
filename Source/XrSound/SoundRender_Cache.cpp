@@ -35,8 +35,8 @@ void CSoundRender_Cache::move2top(cache_line* line)
         next->prev = prev;
 
     // register at top
-    line->prev = NULL;
-    line->next = c_begin;
+    line->prev    = NULL;
+    line->next    = c_begin;
 
     // track begin
     c_begin->prev = line;

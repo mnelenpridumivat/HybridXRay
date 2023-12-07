@@ -22,132 +22,127 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #include "colourset.h"
 
-namespace nvsquish {
-
-// @@ Add flags:
-// - MatchTransparent
-// - WeightColorByAlpha
-
-	
-ColourSet::ColourSet( u8 const* rgba, int flags, bool createMinimalSet/*=false*/ )
-  : m_count( 0 ), 
-	m_transparent( false )
+namespace nvsquish
 {
-	// check the compression mode for dxt1
-	bool isDxt1 = ( ( flags & kDxt1 ) != 0 );
-	bool weightByAlpha = ( ( flags & kWeightColourByAlpha ) != 0 );
 
-	// create the minimal set
-	for( int i = 0; i < 16; ++i )
-	{
-		if (createMinimalSet)
-		{
-			// check for transparent pixels when using dxt1
-			if( isDxt1 && rgba[4*i + 3] == 0 )
-			{
-				m_remap[i] = -1;
-				m_transparent = true;
-				continue;
-			}
+    // @@ Add flags:
+    // - MatchTransparent
+    // - WeightColorByAlpha
 
-			// loop over previous points for a match
-			for( int j = 0;; ++j )
-			{
-				// allocate a new point
-				if( j == i )
-				{
-					// normalise coordinates to [0,1]
-					float x = ( float )rgba[4*i + 2] / 255.0f;
-					float y = ( float )rgba[4*i + 1] / 255.0f;
-					float z = ( float )rgba[4*i + 0] / 255.0f;
-					
-					// ensure there is always non-zero weight even for zero alpha
-					float w = ( float )( rgba[4*i + 3] + 1 ) / 256.0f;
+    ColourSet::ColourSet(u8 const* rgba, int flags, bool createMinimalSet /*=false*/): m_count(0), m_transparent(false)
+    {
+        // check the compression mode for dxt1
+        bool isDxt1        = ((flags & kDxt1) != 0);
+        bool weightByAlpha = ((flags & kWeightColourByAlpha) != 0);
 
-					// add the point
-					m_points[m_count] = Vec3( x, y, z );
-					m_weights[m_count] = ( weightByAlpha ? w : 1.0f );
-					m_remap[i] = m_count;
-					
-					// advance
-					++m_count;
-					break;
-				}
-			
-				// check for a match
-				bool match = ( rgba[4*i] == rgba[4*j] )
-					&& ( rgba[4*i + 1] == rgba[4*j + 1] )
-					&& ( rgba[4*i + 2] == rgba[4*j + 2] )
-					&& ( rgba[4*j + 3] != 0 || !isDxt1 ); // @@ I think this check is not necessary.
+        // create the minimal set
+        for (int i = 0; i < 16; ++i)
+        {
+            if (createMinimalSet)
+            {
+                // check for transparent pixels when using dxt1
+                if (isDxt1 && rgba[4 * i + 3] == 0)
+                {
+                    m_remap[i]    = -1;
+                    m_transparent = true;
+                    continue;
+                }
 
-				if( match )
-				{
-					// get the index of the match
-					int index = m_remap[j];
-					
-					// ensure there is always non-zero weight even for zero alpha
-					float w = ( float )( rgba[4*i + 3] + 1 ) / 256.0f;
+                // loop over previous points for a match
+                for (int j = 0;; ++j)
+                {
+                    // allocate a new point
+                    if (j == i)
+                    {
+                        // normalise coordinates to [0,1]
+                        float x            = (float)rgba[4 * i + 2] / 255.0f;
+                        float y            = (float)rgba[4 * i + 1] / 255.0f;
+                        float z            = (float)rgba[4 * i + 0] / 255.0f;
 
-					// map to this point and increase the weight
-					m_weights[index] += ( weightByAlpha ? w : 1.0f );
-					m_remap[i] = index;
-					break;
-				}
-			}
-		}
-		else
-		{
-			// check for transparent pixels when using dxt1
-			if( isDxt1 && rgba[4*i + 3] == 0 )
-			{
-				m_remap[i] = -1;
-				m_transparent = true;
-			}
-			else
-			{
-				m_remap[i] = m_count;
-			}
+                        // ensure there is always non-zero weight even for zero alpha
+                        float w            = (float)(rgba[4 * i + 3] + 1) / 256.0f;
 
-			// normalise coordinates to [0,1]
-			float x = ( float )rgba[4*i + 2] / 255.0f;
-			float y = ( float )rgba[4*i + 1] / 255.0f;
-			float z = ( float )rgba[4*i + 0] / 255.0f;
-			
-			// ensure there is always non-zero weight even for zero alpha
-			float w = ( float )( rgba[4*i + 3] + 1 ) / 256.0f;
+                        // add the point
+                        m_points[m_count]  = Vec3(x, y, z);
+                        m_weights[m_count] = (weightByAlpha ? w : 1.0f);
+                        m_remap[i]         = m_count;
 
-			// add the point
-			m_points[m_count] = Vec3( x, y, z );
-			m_weights[m_count] = ( weightByAlpha ? w : 1.0f );
-			
-			// advance
-			++m_count;
-		}
-	}
-	
+                        // advance
+                        ++m_count;
+                        break;
+                    }
+
+                    // check for a match
+                    bool match = (rgba[4 * i] == rgba[4 * j]) && (rgba[4 * i + 1] == rgba[4 * j + 1]) && (rgba[4 * i + 2] == rgba[4 * j + 2]) && (rgba[4 * j + 3] != 0 || !isDxt1);   // @@ I think this check is not necessary.
+
+                    if (match)
+                    {
+                        // get the index of the match
+                        int   index = m_remap[j];
+
+                        // ensure there is always non-zero weight even for zero alpha
+                        float w     = (float)(rgba[4 * i + 3] + 1) / 256.0f;
+
+                        // map to this point and increase the weight
+                        m_weights[index] += (weightByAlpha ? w : 1.0f);
+                        m_remap[i] = index;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // check for transparent pixels when using dxt1
+                if (isDxt1 && rgba[4 * i + 3] == 0)
+                {
+                    m_remap[i]    = -1;
+                    m_transparent = true;
+                }
+                else
+                {
+                    m_remap[i] = m_count;
+                }
+
+                // normalise coordinates to [0,1]
+                float x            = (float)rgba[4 * i + 2] / 255.0f;
+                float y            = (float)rgba[4 * i + 1] / 255.0f;
+                float z            = (float)rgba[4 * i + 0] / 255.0f;
+
+                // ensure there is always non-zero weight even for zero alpha
+                float w            = (float)(rgba[4 * i + 3] + 1) / 256.0f;
+
+                // add the point
+                m_points[m_count]  = Vec3(x, y, z);
+                m_weights[m_count] = (weightByAlpha ? w : 1.0f);
+
+                // advance
+                ++m_count;
+            }
+        }
+
 #if SQUISH_USE_SIMD
-	// generate vector values
-	for( int i = 0; i < m_count; ++i )
-	{
-		m_points_simd[i] = Vec4(m_points[i].X(), m_points[i].Y(), m_points[i].Z(), 1);
-		m_weights_simd[i] = VEC4_CONST(m_weights[i]);
-	}
+        // generate vector values
+        for (int i = 0; i < m_count; ++i)
+        {
+            m_points_simd[i]  = Vec4(m_points[i].X(), m_points[i].Y(), m_points[i].Z(), 1);
+            m_weights_simd[i] = VEC4_CONST(m_weights[i]);
+        }
 #endif
-}
+    }
 
-void ColourSet::RemapIndices( u8 const* source, u8* target ) const
-{
-	for( int i = 0; i < 16; ++i )
-	{
-		int j = m_remap[i];
-		if( j == -1 )
-			target[i] = 3;
-		else
-			target[i] = source[j];
-	}
-}
+    void ColourSet::RemapIndices(u8 const* source, u8* target) const
+    {
+        for (int i = 0; i < 16; ++i)
+        {
+            int j = m_remap[i];
+            if (j == -1)
+                target[i] = 3;
+            else
+                target[i] = source[j];
+        }
+    }
 
-} // namespace squish
+}   // namespace nvsquish

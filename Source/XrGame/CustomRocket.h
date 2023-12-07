@@ -77,6 +77,7 @@ public:
     //////////////////////////////////////////////////////////////////////////
     //	Rocket Properties
     //////////////////////////////////////////////////////////////////////////
+
 public:
 #ifdef DEBUG
     CGameObject* owner()
@@ -99,13 +100,13 @@ public:
 
 protected:
     // указатель на владельца RocketLauncher - который стреляет ракету
-    CGameObject* m_pOwner;
+    CGameObject*  m_pOwner;
 
     SRoketContact m_contact;
     // параметры которые задаются RocketLauncher-ом перед пуском
-    Fmatrix m_LaunchXForm;
-    Fvector m_vLaunchVelocity;
-    Fvector m_vLaunchAngularVelocity;
+    Fmatrix       m_LaunchXForm;
+    Fvector       m_vLaunchVelocity;
+    Fvector       m_vLaunchAngularVelocity;
 
     enum ERocketState
     {
@@ -119,34 +120,30 @@ protected:
     ERocketState m_eState;
 
     // двигатель присутствует
-    bool m_bEnginePresent;
+    bool         m_bEnginePresent;
     // время работы двигателя с момента старта
-    int m_dwEngineWorkTime;
+    int          m_dwEngineWorkTime;
     // сила работы двигателя (размер импульса в секунду)
-    float m_fEngineImpulse;
-    float m_fEngineImpulseUp;
+    float        m_fEngineImpulse;
+    float        m_fEngineImpulseUp;
     // текущее время работы двигателя
-    int m_dwEngineTime;
+    int          m_dwEngineTime;
 
     // обработка столкновения
     virtual void Contact(const Fvector& pos, const Fvector& normal);
     void         PlayContact();
-    static void  ObjectContactCallback(
-         bool&     do_colide,
-         bool      bo1,
-         dContact& c,
-         SGameMtl* /*material_1*/,
-         SGameMtl* /*material_2*/);
+    static void  ObjectContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/);
 
     //////////////////////////////////////////////////////////////////////////
     //	Lights
     //////////////////////////////////////////////////////////////////////////
+
 protected:
     // флаг, что подсветка может быть включена
-    bool m_bLightsEnabled;
+    bool      m_bLightsEnabled;
     // флаг, что подсветка будет остановлена
     // вместе с двигателем
-    bool m_bStopLightsWithEngine;
+    bool      m_bStopLightsWithEngine;
     // подсветка во время полета и работы двигателя
     ref_light m_pTrailLight;
     Fcolor    m_TrailLightColor;
@@ -161,6 +158,7 @@ protected:
     //////////////////////////////////////////////////////////////////////////
     //	Particles
     //////////////////////////////////////////////////////////////////////////
+
 protected:
     // имя партиклов двигателя
     shared_str        m_sEngineParticles;
@@ -169,12 +167,13 @@ protected:
     shared_str        m_sFlyParticles;
     CParticlesObject* m_pFlyParticles;
 
-    Fvector m_vPrevVel;
-    float   m_time_to_explode;
+    Fvector           m_vPrevVel;
+    float             m_time_to_explode;
 #ifdef DEBUG
     float gbg_rocket_speed1;
     float gbg_rocket_speed2;
 #endif
+
 protected:
     virtual void StartEngineParticles();
     virtual void StopEngineParticles();

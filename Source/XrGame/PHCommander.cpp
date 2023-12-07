@@ -204,12 +204,7 @@ void CPHCommander::remove_call(CPHReqComparerV* cmp_condition, CPHReqComparerV* 
     remove_call(cmp_condition, cmp_action, m_calls);
 }
 
-bool CPHCommander::add_call_unique(
-    CPHCondition*    condition,
-    CPHReqComparerV* cmp_condition,
-    CPHAction*       action,
-    CPHReqComparerV* cmp_action,
-    PHCALL_STORAGE&  cs)
+bool CPHCommander::add_call_unique(CPHCondition* condition, CPHReqComparerV* cmp_condition, CPHAction* action, CPHReqComparerV* cmp_action, PHCALL_STORAGE& cs)
 {
     if (cs.end() == find_call(cmp_condition, cmp_action, cs))
     {
@@ -218,11 +213,7 @@ bool CPHCommander::add_call_unique(
     }
     return false;
 }
-bool CPHCommander::add_call_unique(
-    CPHCondition*    condition,
-    CPHReqComparerV* cmp_condition,
-    CPHAction*       action,
-    CPHReqComparerV* cmp_action)
+bool CPHCommander::add_call_unique(CPHCondition* condition, CPHReqComparerV* cmp_condition, CPHAction* action, CPHReqComparerV* cmp_action)
 {
     return add_call_unique(condition, cmp_condition, action, cmp_action, m_calls);
 }
@@ -259,9 +250,9 @@ void CPHCommander::remove_calls(CPHReqComparerV* cmp_object)
 {
     if (m_IsWork)
     {
-        size_t id = std::find_if(
-                        m_calls.begin(), m_calls.end(),
-                        [&cmp_object](CPHCall* call) {
+        size_t id = std::find_if(m_calls.begin(), m_calls.end(),
+                        [&cmp_object](CPHCall* call)
+                        {
                             return call->is_any(cmp_object);
                         }) -
             m_calls.begin();
@@ -274,11 +265,7 @@ void CPHCommander::remove_calls(CPHReqComparerV* cmp_object)
     remove_calls(cmp_object, m_calls);
 }
 
-void CPHCommander::add_call_unique_as(
-    CPHCondition*    condition,
-    CPHReqComparerV* cmp_condition,
-    CPHAction*       action,
-    CPHReqComparerV* cmp_action)
+void CPHCommander::add_call_unique_as(CPHCondition* condition, CPHReqComparerV* cmp_condition, CPHAction* action, CPHReqComparerV* cmp_action)
 {
     add_call_unique(condition, cmp_condition, action, cmp_action, m_calls_as_add_buffer);
 }

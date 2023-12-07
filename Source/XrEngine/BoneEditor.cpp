@@ -53,7 +53,8 @@ void CBone::ShapeScale(const Fvector& _amount)
 {
     switch (shape.type)
     {
-        case SBoneShape::stBox: {
+        case SBoneShape::stBox:
+        {
             Fvector amount = _amount;
             //		Fmatrix _IT;_IT.invert(_LTransform());
             //		_IT.transform_dir(amount,_amount);
@@ -152,17 +153,17 @@ void CBone::ClampByLimits()
 }
 
 #endif
-#define BONE_VERSION 0x0002
+#define BONE_VERSION                 0x0002
 //------------------------------------------------------------------------------
-#define BONE_CHUNK_VERSION 0x0001
-#define BONE_CHUNK_DEF 0x0002
-#define BONE_CHUNK_BIND_POSE 0x0003
-#define BONE_CHUNK_MATERIAL 0x0004
-#define BONE_CHUNK_SHAPE 0x0005
-#define BONE_CHUNK_IK_JOINT 0x0006
-#define BONE_CHUNK_MASS 0x0007
-#define BONE_CHUNK_FLAGS 0x0008
-#define BONE_CHUNK_IK_JOINT_BREAK 0x0009
+#define BONE_CHUNK_VERSION           0x0001
+#define BONE_CHUNK_DEF               0x0002
+#define BONE_CHUNK_BIND_POSE         0x0003
+#define BONE_CHUNK_MATERIAL          0x0004
+#define BONE_CHUNK_SHAPE             0x0005
+#define BONE_CHUNK_IK_JOINT          0x0006
+#define BONE_CHUNK_MASS              0x0007
+#define BONE_CHUNK_FLAGS             0x0008
+#define BONE_CHUNK_IK_JOINT_BREAK    0x0009
 #define BONE_CHUNK_IK_JOINT_FRICTION 0x0010
 
 CBone::CBone()

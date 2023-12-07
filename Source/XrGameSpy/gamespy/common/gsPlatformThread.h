@@ -142,19 +142,19 @@ typedef void (*GSThreadFunc)(void* arg);
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 #if !defined(GSI_NO_THREADS)
-    int  gsiStartThread(GSThreadFunc aThreadFunc, gsi_u32 theStackSize, void* arg, GSIThreadID* theThreadIdOut);
-    void gsiCancelThread(GSIThreadID theThreadID);
-    void gsiExitThread(GSIThreadID theThreadID);
-    void gsiCleanupThread(GSIThreadID theThreadID);
+    int            gsiStartThread(GSThreadFunc aThreadFunc, gsi_u32 theStackSize, void* arg, GSIThreadID* theThreadIdOut);
+    void           gsiCancelThread(GSIThreadID theThreadID);
+    void           gsiExitThread(GSIThreadID theThreadID);
+    void           gsiCleanupThread(GSIThreadID theThreadID);
 
     // Thread Synchronization - Startup/Shutdown
-    gsi_u32 gsiHasThreadShutdown(GSIThreadID theThreadID);
+    gsi_u32        gsiHasThreadShutdown(GSIThreadID theThreadID);
 
     // Thread Synchronization - Critical Section
-    void gsiInitializeCriticalSection(GSICriticalSection* theCrit);
-    void gsiEnterCriticalSection(GSICriticalSection* theCrit);
-    void gsiLeaveCriticalSection(GSICriticalSection* theCrit);
-    void gsiDeleteCriticalSection(GSICriticalSection* theCrit);
+    void           gsiInitializeCriticalSection(GSICriticalSection* theCrit);
+    void           gsiEnterCriticalSection(GSICriticalSection* theCrit);
+    void           gsiLeaveCriticalSection(GSICriticalSection* theCrit);
+    void           gsiDeleteCriticalSection(GSICriticalSection* theCrit);
 
     // Thread Synchronization - Semaphore
     GSISemaphoreID gsiCreateSemaphore(gsi_i32 theInitialCount, gsi_i32 theMaxCount, char* theName);
@@ -177,7 +177,7 @@ typedef void (*GSThreadFunc)(void* arg);
 #define gsiDeleteCriticalSection(a)
 
 #define gsiCreateSemaphore(a, b, c) (-1)
-#define gsiWaitForSemaphore(a, b) (0)
+#define gsiWaitForSemaphore(a, b)   (0)
 #define gsiReleaseSemaphore(a, b)
 #define gsiCloseSemaphore(a)
 

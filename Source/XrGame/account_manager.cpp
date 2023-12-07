@@ -42,8 +42,7 @@ namespace gamespy_gp
         if (profiles_count)
         {
             Msg("- GameSpy account profiles:");
-            for (profiles_store_t::const_iterator i = m_result_profiles.begin(), ie = m_result_profiles.end(); i != ie;
-                 ++i)
+            for (profiles_store_t::const_iterator i = m_result_profiles.begin(), ie = m_result_profiles.end(); i != ie; ++i)
             {
                 Msg("- %s", i->c_str());
             }
@@ -56,8 +55,7 @@ namespace gamespy_gp
         if (description)
             Msg("- GameSpy suggested unique nicks: %s", description);
 
-        for (suggested_nicks_t::const_iterator i = m_suggested_nicks.begin(), ie = m_suggested_nicks.end(); i != ie;
-             ++i)
+        for (suggested_nicks_t::const_iterator i = m_suggested_nicks.begin(), ie = m_suggested_nicks.end(); i != ie; ++i)
         {
             Msg("- %s", i->c_str());
         }
@@ -143,8 +141,7 @@ namespace gamespy_gp
 
         for (u32 i = 0; i < unick_length; ++i)
         {
-            bool valid = (unick[i] >= 34) && (unick[i] <= 126) && (unick[i] != 44) && (unick[i] != 92) &&
-                (unick[i] != 39) && (unick[i] != '%');
+            bool valid = (unick[i] >= 34) && (unick[i] <= 126) && (unick[i] != 44) && (unick[i] != 92) && (unick[i] != 39) && (unick[i] != '%');
             if (!valid)
             {
                 Msg("! ERROR: bad %d symbol", i);
@@ -172,8 +169,7 @@ namespace gamespy_gp
         }
         char const* tmp_endchar = email + email_length;
         char const* tmp_char    = std::find(email, tmp_endchar, '@');
-        if ((tmp_char == tmp_endchar) || (tmp_char == email) || (tmp_char + 1 == tmp_endchar) ||
-            !isalnum(*(tmp_char + 1)) || !isalnum(*(tmp_char - 1)))
+        if ((tmp_char == tmp_endchar) || (tmp_char == email) || (tmp_char + 1 == tmp_endchar) || !isalnum(*(tmp_char + 1)) || !isalnum(*(tmp_char - 1)))
         {
             Msg("! ERROR: bad email");
             m_verifyer_error = "mp_gp_bad_email";
@@ -206,27 +202,20 @@ namespace gamespy_gp
         return true;
     }
 
-    void account_manager::create_profile(
-        char const*          nick,
-        char const*          unique_nick,
-        char const*          email,
-        char const*          password,
-        account_operation_cb opcb)
+    void account_manager::create_profile(char const* nick, char const* unique_nick, char const* email, char const* password, account_operation_cb opcb)
     {
         if (!opcb)
             m_account_creation_cb.bind(this, &account_manager::only_log_creation_cb);
         else
             m_account_creation_cb = opcb;
 
-        if (!verify_nick(nick) || !verify_unique_nick(unique_nick) || !verify_email(email) ||
-            !verify_password(password))
+        if (!verify_nick(nick) || !verify_unique_nick(unique_nick) || !verify_email(email) || !verify_password(password))
         {
             m_account_creation_cb(false, get_verify_error_descr());
             return;
         }
 
-        GPResult tmp_res =
-            m_gamespy_gp->NewUser(nick, unique_nick, email, password, &account_manager::new_user_cb, this);
+        GPResult tmp_res = m_gamespy_gp->NewUser(nick, unique_nick, email, password, &account_manager::new_user_cb, this);
         if (tmp_res != GP_NO_ERROR)
         {
             m_account_creation_cb(false, CGameSpy_GP::TryToTranslate(tmp_res).c_str());
@@ -293,8 +282,7 @@ namespace gamespy_gp
         VERIFY(!m_account_profiles_cb);
         m_account_profiles_cb = profiles_cb;
 
-        GPResult tmp_res =
-            m_gamespy_gp->GetUserNicks(args.m_t1.c_str(), args.m_t2.c_str(), &account_manager::user_nicks_cb, this);
+        GPResult tmp_res      = m_gamespy_gp->GetUserNicks(args.m_t1.c_str(), args.m_t2.c_str(), &account_manager::user_nicks_cb, this);
 
         if (tmp_res != GP_NO_ERROR)
         {
@@ -342,8 +330,7 @@ namespace gamespy_gp
         VERIFY(!m_found_email_cb);
         m_found_email_cb = found_email_cb;
 
-        GPResult tmp_res = m_gamespy_gp->ProfileSearch(
-            shared_str(), shared_str(), email.m_t1.c_str(), &account_manager::search_profile_cb, this);
+        GPResult tmp_res = m_gamespy_gp->ProfileSearch(shared_str(), shared_str(), email.m_t1.c_str(), &account_manager::search_profile_cb, this);
 
         if (tmp_res != GP_NO_ERROR)
         {
@@ -428,7 +415,7 @@ namespace gamespy_gp
         VERIFY(tmp_inst);
         GPGetUserNicksResponseArg* tmp_arg = static_cast<GPGetUserNicksResponseArg*>(arg);
 
-        account_profiles_cb tmp_cb = tmp_inst->m_account_profiles_cb;
+        account_profiles_cb        tmp_cb  = tmp_inst->m_account_profiles_cb;
         tmp_inst->m_account_profiles_cb.clear();
 
         if (tmp_arg->result != GP_NO_ERROR)
@@ -491,7 +478,7 @@ namespace gamespy_gp
         VERIFY(tmp_inst);
         GPProfileSearchResponseArg* tmp_arg = static_cast<GPProfileSearchResponseArg*>(arg);
 
-        found_email_cb tmp_cb = tmp_inst->m_found_email_cb;
+        found_email_cb              tmp_cb  = tmp_inst->m_found_email_cb;
         tmp_inst->m_found_email_cb.clear();
 
         if (tmp_arg->result != GP_NO_ERROR)

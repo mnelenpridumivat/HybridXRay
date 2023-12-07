@@ -30,6 +30,7 @@ public:
         cmCW,
         cmCCW,
     };
+
 public:
     // virtual ~IUIRender() {;}
 

@@ -32,7 +32,7 @@ void CImage::SaveTGA(LPCSTR name, BOOL b24)
     tga.width      = dwWidth;
     tga.scanlenght = dwWidth * 4;
 
-    IWriter* F = FS.w_open(name);
+    IWriter* F     = FS.w_open(name);
     if (F)
     {
         tga.maketga(*F);
@@ -110,7 +110,7 @@ void CImage::Grayscale()
     {
         for (u32 j = 0; j < dwWidth; j++)
         {
-            BYTE* p = (BYTE*)&(ptr[i * dwWidth * 4 + j * 4]);
+            BYTE* p    = (BYTE*)&(ptr[i * dwWidth * 4 + j * 4]);
             // Approximate values for each component's contribution to luminance.
             // Based upon the NTSC standard described in ITU-R Recommendation BT.709.
             float grey = float(p[0]) * 0.2125f + float(p[1]) * 0.7154f + float(p[2]) * 0.0721f;
@@ -157,33 +157,33 @@ void CImage::LoadT(char *name)
 //    Load an TGA file
 //-----------------------------------------------------------------------------
 
-#define UPPER_LEFT 0x20
-#define LOWER_LEFT 0x00
+#define UPPER_LEFT      0x20
+#define LOWER_LEFT      0x00
 
-#define TWO_INTERLEAVE 0x40
+#define TWO_INTERLEAVE  0x40
 #define FOUR_INTERLEAVE 0x80
 
-#define BASE 0
-#define RUN 1
-#define LITERAL 2
+#define BASE            0
+#define RUN             1
+#define LITERAL         2
 
 #ifndef RGBA_GETALPHA
 #define RGBA_GETALPHA(rgb) u32((rgb) >> 24)
-#define RGBA_GETRED(rgb) u32(((rgb) >> 16) & 0xff)
+#define RGBA_GETRED(rgb)   u32(((rgb) >> 16) & 0xff)
 #define RGBA_GETGREEN(rgb) u32(((rgb) >> 8) & 0xff)
-#define RGBA_GETBLUE(rgb) u32((rgb)&0xff)
+#define RGBA_GETBLUE(rgb)  u32((rgb) & 0xff)
 #endif
 
 #pragma pack(push, 1)   // Gotta pack these structures!
 struct TGAHeader
 {
-    BYTE idlen;
-    BYTE cmtype;
-    BYTE imgtype;
+    BYTE  idlen;
+    BYTE  cmtype;
+    BYTE  imgtype;
 
-    u16  cmorg;
-    u16  cmlen;
-    BYTE cmes;
+    u16   cmorg;
+    u16   cmlen;
+    BYTE  cmes;
 
     short xorg;
     short yorg;
@@ -196,7 +196,7 @@ struct TGAHeader
 
 extern u32* Stbi_Load(const char*, u32&, u32&);
 
-void CImage::Load(LPCSTR name)
+void        CImage::Load(LPCSTR name)
 {
     VERIFY(!pData);
     pData = Stbi_Load((LPSTR)name, dwWidth, dwHeight);
@@ -206,8 +206,8 @@ bool CImage::LoadTGA(LPCSTR name)
 {
     destructor<IReader> TGA(FS.r_open(name));
 
-    TGAHeader hdr;
-    BOOL      hflip, vflip;
+    TGAHeader           hdr;
+    BOOL                hflip, vflip;
 
     TGA().r(&hdr, sizeof(TGAHeader));
 
@@ -240,15 +240,15 @@ bool CImage::LoadTGA(LPCSTR name)
     if (hdr.cmlen)
         TGA().advance(hdr.cmlen * ((hdr.cmes + 7) / 8));
 
-    hflip = (hdr.desc & 0x10) ? TRUE : FALSE;   // Need hflip
-    vflip = (hdr.desc & 0x20) ? TRUE : FALSE;   // Need vflip
+    hflip    = (hdr.desc & 0x10) ? TRUE : FALSE;   // Need hflip
+    vflip    = (hdr.desc & 0x20) ? TRUE : FALSE;   // Need vflip
 
     dwWidth  = hdr.width;
     dwHeight = hdr.height;
     bAlpha   = (hdr.pixsize == 32);
 
     // Alloc memory
-    pData = (u32*)xr_malloc(dwWidth * dwHeight * 4);
+    pData    = (u32*)xr_malloc(dwWidth * dwHeight * 4);
 
     u32  pixel;
     u32* ptr = pData;

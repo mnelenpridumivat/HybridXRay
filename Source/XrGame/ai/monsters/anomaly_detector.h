@@ -6,17 +6,17 @@ class CAnomalyDetector
 {
     CBaseMonster* m_object;
 
-    float m_radius;
-    u32   m_time_to_rememeber;
+    float         m_radius;
+    u32           m_time_to_rememeber;
 
-    bool m_active;
+    bool          m_active;
 
     struct SAnomalyInfo
     {
         CObject* object;
         u32      time_registered;
 
-        bool operator==(CObject* obj)
+        bool     operator==(CObject* obj)
         {
             return (object == obj);
         }

@@ -172,9 +172,7 @@ u32 ILevelGraph::vertex(u32 current_node_id, const Fvector& position) const
 
 u32 ILevelGraph::vertex_id(const Fvector& position) const
 {
-    VERIFY2(
-        valid_vertex_position(position),
-        make_string("invalid position for ILevelGraph::vertex_id specified: [%f][%f][%f]", VPUSH(position)));
+    VERIFY2(valid_vertex_position(position), make_string("invalid position for ILevelGraph::vertex_id specified: [%f][%f][%f]", VPUSH(position)));
 
     CPosition _vertex_position = vertex_position(position);
     CVertex*  B                = m_nodes;
@@ -229,7 +227,7 @@ u32 ILevelGraph::vertex_id(const Fvector& position) const
 
 static const int max_guess_vertex_count = 4;
 
-u32 ILevelGraph::guess_vertex_id(u32 const& current_vertex_id, Fvector const& position) const
+u32              ILevelGraph::guess_vertex_id(u32 const& current_vertex_id, Fvector const& position) const
 {
     VERIFY(valid_vertex_id(current_vertex_id));
 
@@ -244,16 +242,16 @@ u32 ILevelGraph::guess_vertex_id(u32 const& current_vertex_id, Fvector const& po
 
     SContour vertex_contour;
     contour(vertex_contour, current_vertex_id);
-    Fvector best_point;
-    float   result_distance  = nearest(best_point, position, vertex_contour);
-    u32     result_vertex_id = current_vertex_id;
+    Fvector        best_point;
+    float          result_distance  = nearest(best_point, position, vertex_contour);
+    u32            result_vertex_id = current_vertex_id;
 
-    CVertex const* B       = m_nodes;
-    CVertex const* E       = m_nodes + header().vertex_count();
-    u32            start_x = (u32)_max(0, int(x) - max_guess_vertex_count);
-    u32            stop_x  = _min(max_x(), x + (u32)max_guess_vertex_count);
-    u32            start_z = (u32)_max(0, int(z) - max_guess_vertex_count);
-    u32            stop_z  = _min(max_z(), z + (u32)max_guess_vertex_count);
+    CVertex const* B                = m_nodes;
+    CVertex const* E                = m_nodes + header().vertex_count();
+    u32            start_x          = (u32)_max(0, int(x) - max_guess_vertex_count);
+    u32            stop_x           = _min(max_x(), x + (u32)max_guess_vertex_count);
+    u32            start_z          = (u32)_max(0, int(z) - max_guess_vertex_count);
+    u32            stop_z           = _min(max_z(), z + (u32)max_guess_vertex_count);
     for (u32 i = start_x; i <= stop_x; ++i)
     {
         for (u32 j = start_z; j <= stop_z; ++j)

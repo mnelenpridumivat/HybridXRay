@@ -15,7 +15,7 @@ namespace award_system
         stalker_flair(game_state_accumulator* owner);
         virtual ~stalker_flair(){};
 
-        virtual void update(){};
+        virtual void        update(){};
 
         virtual u32 const   get_u32_param();
         virtual float const get_float_param()

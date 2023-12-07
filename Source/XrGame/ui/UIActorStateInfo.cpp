@@ -86,9 +86,9 @@ void ui_actor_state_wnd::UpdateActorInfo(CInventoryOwner* owner)
 
     float value = 0.0f;
 
-    value = actor->conditions().GetHealth();
-    value = floor(value * 55) / 55;   // number of sticks in progress bar
-                                      // show bleeding icon
+    value       = actor->conditions().GetHealth();
+    value       = floor(value * 55) / 55;   // number of sticks in progress bar
+                                            // show bleeding icon
     m_state[stt_health]->set_progress(value);
     value = actor->conditions().BleedingSpeed();
     m_state[stt_bleeding]->show_static(false, 1);
@@ -131,15 +131,15 @@ void ui_actor_state_wnd::UpdateActorInfo(CInventoryOwner* owner)
     m_state[stt_shock]->set_progress(0.0f);
     m_state[stt_power]->set_progress(0.0f);
 
-    float burn_value = 0.0f;
-    float radi_value = 0.0f;
-    float cmbn_value = 0.0f;
-    float tele_value = 0.0f;
-    float woun_value = 0.0f;
-    float shoc_value = 0.0f;
-    float fwou_value = 0.0f;
+    float                                         burn_value             = 0.0f;
+    float                                         radi_value             = 0.0f;
+    float                                         cmbn_value             = 0.0f;
+    float                                         tele_value             = 0.0f;
+    float                                         woun_value             = 0.0f;
+    float                                         shoc_value             = 0.0f;
+    float                                         fwou_value             = 0.0f;
 
-    CEntityCondition::BOOSTER_MAP cur_booster_influences = actor->conditions().GetCurBoosterInfluences();
+    CEntityCondition::BOOSTER_MAP                 cur_booster_influences = actor->conditions().GetCurBoosterInfluences();
     CEntityCondition::BOOSTER_MAP::const_iterator it;
     it = cur_booster_influences.find(eBoostRadiationProtection);
     if (it != cur_booster_influences.end())

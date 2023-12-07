@@ -7,7 +7,7 @@
 
 #ifdef ENGINE_BUILD
 #define R_BEGIN Device.Statistic->clRAY.Begin()
-#define R_END Device.Statistic->clRAY.End()
+#define R_END   Device.Statistic->clRAY.End()
 #else
 #define R_BEGIN
 #define R_END
@@ -167,8 +167,7 @@ namespace RAPID
                         rp_inf.id    = B->tri_index[i];
                         rp_inf.range = 0;
                         tri& T       = model1->tris[rp_inf.id];
-                        if (TestRayTri(
-                                rmodel_C, rmodel_D, T.verts, rp_inf.u, rp_inf.v, rp_inf.range, ray_flags & RAY_CULL))
+                        if (TestRayTri(rmodel_C, rmodel_D, T.verts, rp_inf.u, rp_inf.v, rp_inf.range, ray_flags & RAY_CULL))
                         {
                             if (rp_inf.range > 0)
                             {
@@ -220,8 +219,7 @@ namespace RAPID
                         rp_inf.id    = B->tri_index[i];
                         rp_inf.range = 0;
                         tri& T       = model1->tris[rp_inf.id];
-                        if (TestRayTri(
-                                rmodel_C, rmodel_D, T.verts, rp_inf.u, rp_inf.v, rp_inf.range, ray_flags & RAY_CULL))
+                        if (TestRayTri(rmodel_C, rmodel_D, T.verts, rp_inf.u, rp_inf.v, rp_inf.range, ray_flags & RAY_CULL))
                         {
                             if (rp_inf.range > 0)
                             {
@@ -278,8 +276,8 @@ namespace RAPID
         rmodel_L2W      = (Fmatrix*)parent;
 
         // reset the report fields
-        min_raypick_id = -1;
-        model1         = o1;
+        min_raypick_id  = -1;
+        model1          = o1;
         RayContact.clear();
 
         // make the call

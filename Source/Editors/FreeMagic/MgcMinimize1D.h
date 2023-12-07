@@ -29,7 +29,7 @@ namespace Mgc
         int&   MaxBracket();
         void*& UserData();
 
-        void GetMinimum(Real fT0, Real fT1, Real fTInitial, Real& rfTMin, Real& rfFMin);
+        void   GetMinimum(Real fT0, Real fT1, Real fTInitial, Real& rfTMin, Real& rfFMin);
 
     protected:
         Function m_oF;
@@ -37,11 +37,11 @@ namespace Mgc
         Real     m_fTMin, m_fFMin;
         void*    m_pvUserData;
 
-        void GetMinimum(Real fT0, Real fF0, Real fT1, Real fF1, int iLevel);
+        void     GetMinimum(Real fT0, Real fF0, Real fT1, Real fF1, int iLevel);
 
-        void GetMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel);
+        void     GetMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel);
 
-        void GetBracketedMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel);
+        void     GetBracketedMinimum(Real fT0, Real fF0, Real fTm, Real fFm, Real fT1, Real fF1, int iLevel);
     };
 
 #include "MgcMinimize1D.inl"

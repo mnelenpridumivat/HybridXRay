@@ -32,7 +32,7 @@ private:
     typedef Property_type::FunctorParams_type PropertyFunctorParams_type;
 
 protected:
-    shared_str m_property_id;
+    shared_str  m_property_id;
 
     CUIStatic*  m_ui_icon;
     CUITextWnd* m_ui_text;
@@ -45,9 +45,9 @@ public:
     bool           init_property(shared_str const& property_id);
     Property_type* get_property();
 
-    bool read_value_from_section(LPCSTR section, LPCSTR param, float& result);
-    bool compute_value(ItemUpgrades_type const& item_upgrades);
-    bool show_result(LPCSTR values);
+    bool           read_value_from_section(LPCSTR section, LPCSTR param, float& result);
+    bool           compute_value(ItemUpgrades_type const& item_upgrades);
+    bool           show_result(LPCSTR values);
 
 };   // class UIProperty
 

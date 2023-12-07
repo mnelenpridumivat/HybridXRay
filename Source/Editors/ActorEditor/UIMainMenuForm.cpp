@@ -35,10 +35,10 @@ void UIMainMenuForm::Draw()
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Separator();
-            
+
             if (ImGui::BeginMenu("Open Recent"_RU >> u8"Недавние файлы", ""))
             {
-                for (auto& str : EPrefs->scene_recent_list)
+                for (auto& str: EPrefs->scene_recent_list)
                 {
                     if (ImGui::MenuItem(str.c_str(), ""))
                     {
@@ -257,9 +257,7 @@ void UIMainMenuForm::Draw()
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::BeginMenu("Fill Mode"_RU >> u8"Режим отображения"))
                 {
-                    bool selected[3] = {
-                        EDevice->dwFillMode == D3DFILL_POINT, EDevice->dwFillMode == D3DFILL_WIREFRAME,
-                        EDevice->dwFillMode == D3DFILL_SOLID};
+                    bool selected[3] = {EDevice->dwFillMode == D3DFILL_POINT, EDevice->dwFillMode == D3DFILL_WIREFRAME, EDevice->dwFillMode == D3DFILL_SOLID};
                     if (ImGui::MenuItem("Point"_RU >> u8"Точки", "", &selected[0]))
                     {
                         EDevice->dwFillMode = D3DFILL_POINT;
@@ -454,8 +452,7 @@ void UIMainMenuForm::Draw()
                 if (ImGui::IsItemHovered())
                 {
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                    ImGui::SetTooltip("Opens the ImGui Demo Helper, where you can get acquainted with ImGui functionality, visually see demo examples, etc. and so on.."_RU >>
-                                    u8"Открывает Демонстрационный Хелпер по ImGui, где можно ознакомиться с функционалом ImGui, наглядно посмотреть демонстрационные примеры и т.д. и т.п..");
+                    ImGui::SetTooltip("Opens the ImGui Demo Helper, where you can get acquainted with ImGui functionality, visually see demo examples, etc. and so on.."_RU >> u8"Открывает Демонстрационный Хелпер по ImGui, где можно ознакомиться с функционалом ImGui, наглядно посмотреть демонстрационные примеры и т.д. и т.п..");
                 }
             }
             ImGui::EndMenu();

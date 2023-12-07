@@ -68,6 +68,7 @@ public:
     RENDER_FACTORY_INTERFACE(FlareRender)
 #endif   // _EDITOR
     RENDER_FACTORY_INTERFACE(FontRender)
+
 protected:
     // virtual IEnvDescriptorRender *CreateEnvDescriptorRender() = 0;
     // virtual void DestroyEnvDescriptorRender(IEnvDescriptorRender *pObject) = 0;

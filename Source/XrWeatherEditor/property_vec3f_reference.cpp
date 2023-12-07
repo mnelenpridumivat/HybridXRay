@@ -11,10 +11,7 @@
 
 using XrWeatherEditor::vec3f;
 
-property_vec3f_reference::property_vec3f_reference(vec3f& value):
-    m_value(new value_holder<vec3f>(value)), inherited(value)
-{
-}
+property_vec3f_reference::property_vec3f_reference(vec3f& value): m_value(new value_holder<vec3f>(value)), inherited(value) {}
 
 property_vec3f_reference::~property_vec3f_reference()
 {

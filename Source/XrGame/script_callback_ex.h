@@ -19,10 +19,10 @@ IC bool compare_safe(const luabind::object& o1, const luabind::object& o2)
     return (o1 == o2);
 }
 
-#define comma ,
-#define concatenizer(a, b) a##b
-#define left_comment concatenizer(/, *)
-#define right_comment concatenizer(*, /)
+#define comma                       ,
+#define concatenizer(a, b)          a##b
+#define left_comment                concatenizer(/, *)
+#define right_comment               concatenizer(*, /)
 #define param_generator(a, b, c, d) a##b##c d##b
 
 #if XRAY_EXCEPTIONS
@@ -69,10 +69,9 @@ IC bool compare_safe(const luabind::object& o1, const luabind::object& o2)
         macros_return_operator(0);                                                             \
     }
 
-#define function_body(_1, _2, _3, _4, _5, _6) \
-    function_body_ex(_1, _2, _3, _4, const, _5, _6) function_body_ex(_1, _2, _3, _4, , _5, _6)
+#define function_body(_1, _2, _3, _4, _5, _6) function_body_ex(_1, _2, _3, _4, const, _5, _6) function_body_ex(_1, _2, _3, _4, , _5, _6)
 
-template <typename _return_type> class CScriptCallbackEx_
+template<typename _return_type> class CScriptCallbackEx_
 {
 public:
     typedef _return_type return_type;
@@ -80,7 +79,7 @@ public:
 private:
     typedef luabind::functor<_return_type> functor_type;
     typedef luabind::object                object_type;
-    typedef bool (CScriptCallbackEx_::*unspecified_bool_type)() const;
+    typedef bool                           (CScriptCallbackEx_::*unspecified_bool_type)() const;
 
 protected:
     functor_type m_functor;

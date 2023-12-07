@@ -67,12 +67,12 @@ public:
     }
 
 public:
-    BOOL net_Ready;
-    BOOL net_Processed;   // Internal flag for connectivity-graph
+    BOOL                net_Ready;
+    BOOL                net_Processed;   // Internal flag for connectivity-graph
 
-    u16 m_wVersion;
-    u16 m_script_version;
-    u16 RespawnTime;
+    u16                 m_wVersion;
+    u16                 m_script_version;
+    u16                 RespawnTime;
 
     u16                 ID;           // internal ID
     u16                 ID_Parent;    // internal ParentID, 0xffff means no parent
@@ -80,43 +80,37 @@ public:
     class xrClientData* owner;
 
     // spawn data
-    shared_str s_name;
+    shared_str          s_name;
     //.	u8								s_gameid;
-    GameTypeChooser m_gameType;
-    u8              s_RP;
-    Flags16         s_flags;   // state flags
-    xr_vector<u16>  children;
+    GameTypeChooser     m_gameType;
+    u8                  s_RP;
+    Flags16             s_flags;   // state flags
+    xr_vector<u16>      children;
 
     // update data
-    Fvector    o_Position;
-    Fvector    o_Angle;
-    CLASS_ID   m_tClassID;
-    int        m_script_clsid;
-    shared_str m_ini_string;
-    CInifile*  m_ini_file;
+    Fvector             o_Position;
+    Fvector             o_Angle;
+    CLASS_ID            m_tClassID;
+    int                 m_script_clsid;
+    shared_str          m_ini_string;
+    CInifile*           m_ini_file;
 
     // for ALife control
-    bool             m_bALifeControl;
-    ALife::_SPAWN_ID m_tSpawnID;
+    bool                m_bALifeControl;
+    ALife::_SPAWN_ID    m_tSpawnID;
 
     // ALife spawn params
     // obsolete, just because we hope to uncomment all this stuff
-    Flags32 m_spawn_flags;
+    Flags32             m_spawn_flags;
 
     // client object custom data serialization
-    xr_vector<u8> client_data;
+    xr_vector<u8>       client_data;
 
 public:
-    virtual void Spawn_Write(NET_Packet& tNetPacket, BOOL bLocal) = 0;
-    virtual BOOL Spawn_Read(NET_Packet& tNetPacket)               = 0;
-    virtual void FillProp(LPCSTR pref, PropItemVec& items);
-    virtual void on_render(
-        CDUInterface*        du,
-        ISE_AbstractLEOwner* owner,
-        bool                 bSelected,
-        const Fmatrix&       parent,
-        int                  priority,
-        bool                 strictB2F);
+    virtual void             Spawn_Write(NET_Packet& tNetPacket, BOOL bLocal) = 0;
+    virtual BOOL             Spawn_Read(NET_Packet& tNetPacket)               = 0;
+    virtual void             FillProp(LPCSTR pref, PropItemVec& items);
+    virtual void             on_render(CDUInterface* du, ISE_AbstractLEOwner* owner, bool bSelected, const Fmatrix& parent, int priority, bool strictB2F);
     virtual visual_data*     visual_collection() const;
     virtual u32              visual_collection_size() const;
     virtual void             set_additional_info(void* info);

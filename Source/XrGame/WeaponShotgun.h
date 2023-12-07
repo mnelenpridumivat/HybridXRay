@@ -34,12 +34,12 @@ protected:
     void         TriStateReload();
     virtual void OnStateSwitch(u32 S);
 
-    bool       HaveCartridgeInInventory(u8 cnt);
-    virtual u8 AddCartridge(u8 cnt);
+    bool         HaveCartridgeInInventory(u8 cnt);
+    virtual u8   AddCartridge(u8 cnt);
 
-    ESoundTypes m_eSoundOpen;
-    ESoundTypes m_eSoundAddCartridge;
-    ESoundTypes m_eSoundClose;
+    ESoundTypes  m_eSoundOpen;
+    ESoundTypes  m_eSoundAddCartridge;
+    ESoundTypes  m_eSoundClose;
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };

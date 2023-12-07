@@ -74,7 +74,8 @@ void C3DCursor::Render()
 
             switch (eStyle)
             {
-                case csLasso: {
+                case csLasso:
+                {
                     Fmatrix m_ViewMat;
                     Fvector at;
                     at.sub(pinf.pt, N);
@@ -92,13 +93,12 @@ void C3DCursor::Render()
                     //                UI->D3D_RenderNearer(0.0001);
                     RCache.set_xform_world(Fidentity);
                     EDevice->SetShader(EDevice->m_WireShader);
-                    DU_impl.DrawPrimitiveL(
-                        D3DPT_LINESTRIP, m_RenderBuffer.size(), m_RenderBuffer.data(), m_RenderBuffer.size(), dwColor,
-                        true, true);
+                    DU_impl.DrawPrimitiveL(D3DPT_LINESTRIP, m_RenderBuffer.size(), m_RenderBuffer.data(), m_RenderBuffer.size(), dwColor, true, true);
                     //                UI->D3D_ResetNearer();
                 }
                 break;
-                case csPoint: {
+                case csPoint:
+                {
                     FVF::TL pt[5];
                     pt[0].transform(pinf.pt, EDevice->mFullTransform);
                     pt[0].color = dwColor;
@@ -130,8 +130,7 @@ bool C3DCursor::PrepareBrush()
     // GetCursorPos(&start_pt); start_pt=UI->GetD3DWindow()->ScreenToClient(start_pt);
     pt.set(iFloor(start_pt.x), iFloor(start_pt.y));
     EDevice->m_Camera.MouseRayFromPoint(brush_start, brush_dir, pt);
-    bPickObject = !!Scene->RayPickObject(
-        pinf.inf.range, brush_start, brush_dir, OBJCLASS_SCENEOBJECT, &pinf, Scene->GetSnapList(false));
+    bPickObject = !!Scene->RayPickObject(pinf.inf.range, brush_start, brush_dir, OBJCLASS_SCENEOBJECT, &pinf, Scene->GetSnapList(false));
     if (!bPickObject)
         bPickGround = LUI->PickGround(pinf.pt, brush_start, brush_dir);
     if (bPickObject || bPickGround)

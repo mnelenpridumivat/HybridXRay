@@ -15,10 +15,7 @@ CSE_ALifeItemWeapon* CSE_ALifeSmartZone::tpfGetBestWeapon(ALife::EHitType& tHitT
     return (m_tpCurrentBestWeapon);
 }
 
-ALife::EMeetActionType CSE_ALifeSmartZone::tfGetActionType(
-    CSE_ALifeSchedulable* tpALifeSchedulable,
-    int                   iGroupIndex,
-    bool                  bMutualDetection)
+ALife::EMeetActionType CSE_ALifeSmartZone::tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection)
 {
     CSE_ALifeObject* object = smart_cast<CSE_ALifeObject*>(tpALifeSchedulable->base());
     VERIFY(object);

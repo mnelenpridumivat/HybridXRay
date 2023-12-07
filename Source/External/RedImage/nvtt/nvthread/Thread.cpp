@@ -1,19 +1,18 @@
-// This code is in the public domain -- castano@gmail.com
+﻿// This code is in the public domain -- castano@gmail.com
 
 #include "Thread.h"
 
 #if NV_OS_WIN32
-    #include "Win32.h"
+#include "Win32.h"
 #elif NV_OS_USE_PTHREAD
-    #include <pthread.h>
-    #include <unistd.h> // usleep
+#include <pthread.h>
+#include <unistd.h>   // usleep
 #endif
 
 #if NV_USE_TELEMETRY
 #include <telemetry.h>
 extern HTELEMETRY tmContext;
 #endif
-
 
 using namespace nv;
 
@@ -25,16 +24,16 @@ struct Thread::Private
     pthread_t thread;
 #endif
 
-    ThreadFunc * func;
-    void * arg;
-    const char * name;
+    ThreadFunc* func;
+    void*       arg;
+    const char* name;
 };
-
 
 #if NV_OS_WIN32
 
-unsigned long __stdcall threadFunc(void * arg) {
-    Thread::Private * thread = (Thread::Private *)arg;
+unsigned long __stdcall threadFunc(void* arg)
+{
+    Thread::Private* thread = (Thread::Private*)arg;
     thread->func(thread->arg);
     return 0;
 }
@@ -42,60 +41,58 @@ unsigned long __stdcall threadFunc(void * arg) {
 // SetThreadName implementation from msdn:
 // http://msdn.microsoft.com/en-us/library/xcb2z8hs.aspx
 
-const DWORD MS_VC_EXCEPTION=0x406D1388;
+const DWORD MS_VC_EXCEPTION = 0x406D1388;
 
-#pragma pack(push,8)
+#pragma pack(push, 8)
 typedef struct tagTHREADNAME_INFO
 {
-    DWORD dwType; // Must be 0x1000.
-    LPCSTR szName; // Pointer to name (in user addr space).
-    DWORD dwThreadID; // Thread ID (-1=caller thread).
-    DWORD dwFlags; // Reserved for future use, must be zero.
+    DWORD  dwType;       // Must be 0x1000.
+    LPCSTR szName;       // Pointer to name (in user addr space).
+    DWORD  dwThreadID;   // Thread ID (-1=caller thread).
+    DWORD  dwFlags;      // Reserved for future use, must be zero.
 } THREADNAME_INFO;
 #pragma pack(pop)
 
 static void setThreadName(DWORD dwThreadID, const char* threadName)
 {
     THREADNAME_INFO info;
-    info.dwType = 0x1000;
-    info.szName = threadName;
+    info.dwType     = 0x1000;
+    info.szName     = threadName;
     info.dwThreadID = dwThreadID;
-    info.dwFlags = 0;
+    info.dwFlags    = 0;
 #ifndef POSH_COMPILER_GCC
     __try
     {
 #endif
-        RaiseException( MS_VC_EXCEPTION, 0, sizeof(info)/sizeof(ULONG_PTR), (ULONG_PTR*)&info );
+        RaiseException(MS_VC_EXCEPTION, 0, sizeof(info) / sizeof(ULONG_PTR), (ULONG_PTR*)&info);
 #ifndef POSH_COMPILER_GCC
     }
-    __except(EXCEPTION_EXECUTE_HANDLER)
-    {
-    }
+    __except (EXCEPTION_EXECUTE_HANDLER)
+    {}
 #endif
 }
 
-
 #elif NV_OS_USE_PTHREAD
 
-extern "C" void * threadFunc(void * arg) {
-    Thread::Private * thread = (Thread::Private *)arg;
+extern "C" void* threadFunc(void* arg)
+{
+    Thread::Private* thread = (Thread::Private*)arg;
     thread->func(thread->arg);
     pthread_exit(0);
 }
 
 #endif
 
-
-Thread::Thread() : p(new Private)
+Thread::Thread(): p(new Private)
 {
     p->thread = 0;
-    p->name = NULL;
+    p->name   = NULL;
 }
 
-Thread::Thread(const char * name) : p(new Private)
+Thread::Thread(const char* name): p(new Private)
 {
     p->thread = 0;
-    p->name = name;
+    p->name   = name;
 }
 
 Thread::~Thread()
@@ -103,33 +100,34 @@ Thread::~Thread()
     nvDebugCheck(p->thread == 0);
 }
 
-void Thread::setName(const char * name)
+void Thread::setName(const char* name)
 {
     nvCheck(p->name == NULL);
     p->name = name;
 }
 
-void Thread::start(ThreadFunc * func, void * arg)
+void Thread::start(ThreadFunc* func, void* arg)
 {
     p->func = func;
-    p->arg = arg;
+    p->arg  = arg;
 
 #if NV_OS_WIN32
     DWORD threadId;
     p->thread = CreateThread(NULL, 0, threadFunc, p.ptr(), 0, &threadId);
     //p->thread = (HANDLE)_beginthreadex (0, 0, threadFunc, p.ptr(), 0, NULL);     // @@ So that we can call CRT functions...
     nvDebugCheck(p->thread != NULL);
-    if (p->name != NULL) {
+    if (p->name != NULL)
+    {
         setThreadName(threadId, p->name);
-    #if NV_USE_TELEMETRY
+#if NV_USE_TELEMETRY
         tmThreadName(tmContext, threadId, p->name);
-    #endif
+#endif
     }
 #elif NV_OS_ORBIS
     int ret = scePthreadCreate(&p->thread, NULL, threadFunc, p.ptr(), p->name ? p->name : "nv::Thread");
     nvDebugCheck(ret == 0);
-	// use any non-system core
-	scePthreadSetaffinity(p->thread, 0x3F);
+    // use any non-system core
+    scePthreadSetaffinity(p->thread, 0x3F);
     scePthreadSetprio(p->thread, (SCE_KERNEL_PRIO_FIFO_DEFAULT + SCE_KERNEL_PRIO_FIFO_HIGHEST) / 2);
 #elif NV_OS_USE_PTHREAD
     int result = pthread_create(&p->thread, NULL, threadFunc, p.ptr());
@@ -140,19 +138,19 @@ void Thread::start(ThreadFunc * func, void * arg)
 void Thread::wait()
 {
 #if NV_OS_WIN32
-    DWORD status = WaitForSingleObject (p->thread, INFINITE);
-    nvCheck (status ==  WAIT_OBJECT_0);
-    BOOL ok = CloseHandle (p->thread);
+    DWORD status = WaitForSingleObject(p->thread, INFINITE);
+    nvCheck(status == WAIT_OBJECT_0);
+    BOOL ok   = CloseHandle(p->thread);
     p->thread = NULL;
-    nvCheck (ok);
+    nvCheck(ok);
 #elif NV_OS_USE_PTHREAD
     int result = pthread_join(p->thread, NULL);
-    p->thread = 0;
+    p->thread  = 0;
     nvDebugCheck(result == 0);
 #endif
 }
 
-bool Thread::isRunning () const
+bool Thread::isRunning() const
 {
 #if NV_OS_WIN32
     return p->thread != NULL;
@@ -163,7 +161,8 @@ bool Thread::isRunning () const
 
 /*static*/ void Thread::spinWait(uint count)
 {
-    for (uint i = 0; i < count; i++) {}
+    for (uint i = 0; i < count; i++)
+    {}
 }
 
 /*static*/ void Thread::yield()
@@ -185,9 +184,9 @@ bool Thread::isRunning () const
 #endif
 }
 
-/*static*/ void Thread::wait(Thread * threads, uint count)
+/*static*/ void Thread::wait(Thread* threads, uint count)
 {
-/*#if NV_OS_WIN32
+    /*#if NV_OS_WIN32
     // @@ Is there any advantage in doing this?
     nvDebugCheck(count < MAXIMUM_WAIT_OBJECTS);
 
@@ -205,9 +204,9 @@ bool Thread::isRunning () const
 
     delete [] handles;
 #else*/
-    for (uint i = 0; i < count; i++) {
+    for (uint i = 0; i < count; i++)
+    {
         threads[i].wait();
     }
-//#endif
+    //#endif
 }
-

@@ -97,8 +97,7 @@ void CGameGraphBuilder::load_graph_point(NET_Packet& net_packet)
         {
             if ((*I).second->data().tLocalPoint.distance_to_sqr(vertex.tLocalPoint) < EPS_L)
             {
-                Msg("! removing graph point [%s][%f][%f][%f] because it is too close to the another graph point",
-                    entity->name_replace(), VPUSH(entity->o_Position));
+                Msg("! removing graph point [%s][%f][%f][%f] because it is too close to the another graph point", entity->name_replace(), VPUSH(entity->o_Position));
                 F_entity_Destroy(entity);
                 return;
             }
@@ -106,12 +105,10 @@ void CGameGraphBuilder::load_graph_point(NET_Packet& net_packet)
     }
 
     vertex.tGlobalPoint = graph_point->o_Position;
-    vertex.tNodeID =
-        level_graph().valid_vertex_position(vertex.tLocalPoint) ? level_graph().vertex_id(vertex.tLocalPoint) : u32(-1);
+    vertex.tNodeID      = level_graph().valid_vertex_position(vertex.tLocalPoint) ? level_graph().vertex_id(vertex.tLocalPoint) : u32(-1);
     if (!level_graph().valid_vertex_id(vertex.tNodeID))
     {
-        Msg("! removing graph point [%s][%f][%f][%f] because it is outside of the AI map", entity->name_replace(),
-            VPUSH(entity->o_Position));
+        Msg("! removing graph point [%s][%f][%f][%f] because it is outside of the AI map", entity->name_replace(), VPUSH(entity->o_Position));
         F_entity_Destroy(entity);
         return;
     }
@@ -123,8 +120,7 @@ void CGameGraphBuilder::load_graph_point(NET_Packet& net_packet)
         {
             if ((*I).second->data().tNodeID == vertex.tNodeID)
             {
-                Msg("! removing graph point [%s][%f][%f][%f] because it has the same AI node as another graph point",
-                    entity->name_replace(), VPUSH(entity->o_Position));
+                Msg("! removing graph point [%s][%f][%f][%f] because it has the same AI node as another graph point", entity->name_replace(), VPUSH(entity->o_Position));
                 F_entity_Destroy(entity);
                 return;
             }
@@ -132,9 +128,7 @@ void CGameGraphBuilder::load_graph_point(NET_Packet& net_packet)
     }
 
     vertex.tNeighbourCount = 0;
-    Memory.mem_copy(
-        vertex.tVertexTypes, graph_point->m_tLocations,
-        GameGraph::LOCATION_TYPE_COUNT * sizeof(GameGraph::_LOCATION_ID));
+    Memory.mem_copy(vertex.tVertexTypes, graph_point->m_tLocations, GameGraph::LOCATION_TYPE_COUNT * sizeof(GameGraph::_LOCATION_ID));
     vertex.tLevelID         = 0;
     vertex.tDeathPointCount = 0;
     vertex.dwPointOffset    = 0;
@@ -359,8 +353,7 @@ void CGameGraphBuilder::save_cross_table(const float& start, const float& amount
         CGameLevelCrossTable::CCell tCrossTableCell;
         tCrossTableCell.tGraphIndex = (GameGraph::_GRAPH_ID)m_results[i];
         VERIFY(graph().header().vertex_count() > tCrossTableCell.tGraphIndex);
-        tCrossTableCell.fDistance =
-            float(m_distances[tCrossTableCell.tGraphIndex][i]) * level_graph().header().cell_size();
+        tCrossTableCell.fDistance = float(m_distances[tCrossTableCell.tGraphIndex][i]) * level_graph().header().cell_size();
         tMemoryStream.w(&tCrossTableCell, sizeof(tCrossTableCell));
     }
 
@@ -424,7 +417,7 @@ void CGameGraphBuilder::fill_neighbours(const u32& game_vertex_id)
     m_marks.assign(level_graph().header().vertex_count(), false);
     m_current_fringe.clear();
 
-    u32 level_vertex_id = graph().vertex(game_vertex_id)->data().level_vertex_id();
+    u32                         level_vertex_id = graph().vertex(game_vertex_id)->data().level_vertex_id();
 
     CLevelGraph::const_iterator I, E;
     m_mark_stack.reserve(8192);
@@ -450,8 +443,7 @@ void CGameGraphBuilder::fill_neighbours(const u32& game_vertex_id)
             VERIFY(next_game_vertex_id < graph().vertices().size());
             if (next_game_vertex_id != (GameGraph::_GRAPH_ID)game_vertex_id)
             {
-                if (std::find(m_current_fringe.begin(), m_current_fringe.end(), next_game_vertex_id) ==
-                    m_current_fringe.end())
+                if (std::find(m_current_fringe.begin(), m_current_fringe.end(), next_game_vertex_id) == m_current_fringe.end())
                     m_current_fringe.push_back(next_game_vertex_id);
                 continue;
             }
@@ -478,20 +470,17 @@ float CGameGraphBuilder::path_distance(const u32& game_vertex_id0, const u32& ga
     //	float					pure_distance = vertex0.data().level_point().distance_to(vertex1.data().level_point());
     VERIFY(pure_distance < parameters.max_range);
 
-    u32 level_vertex_id = level_graph().check_position_in_direction(
-        vertex0.data().level_vertex_id(), vertex0.data().level_point(), vertex1.data().level_point());
+    u32 level_vertex_id = level_graph().check_position_in_direction(vertex0.data().level_vertex_id(), vertex0.data().level_point(), vertex1.data().level_point());
     if (level_graph().valid_vertex_id(level_vertex_id))
         return (pure_distance);
 
-    bool successfull = m_graph_engine->search(
-        level_graph(), vertex0.data().level_vertex_id(), vertex1.data().level_vertex_id(), &m_path, parameters);
+    bool successfull = m_graph_engine->search(level_graph(), vertex0.data().level_vertex_id(), vertex1.data().level_vertex_id(), &m_path, parameters);
 
     if (successfull)
         return (parameters.m_distance);
 
     Msg("Cannot build path from [%d] to [%d]", game_vertex_id0, game_vertex_id1);
-    Msg("Cannot build path from [%f][%f][%f] to [%f][%f][%f]", VPUSH(vertex0.data().level_point()),
-        VPUSH(vertex1.data().level_point()));
+    Msg("Cannot build path from [%f][%f][%f] to [%f][%f][%f]", VPUSH(vertex0.data().level_point()), VPUSH(vertex1.data().level_point()));
     R_ASSERT2(false, "Cannot build path, check AI map");
     return (flt_max);
 }
@@ -553,9 +542,7 @@ void CGameGraphBuilder::create_tripples(const float& start, const float& amount)
 
             const graph_type::CEdge* edge = graph().vertex((*i).vertex_id())->edge((*I).first);
 
-            m_tripples.push_back(std::make_pair(
-                _min((*i).weight(), edge ? edge->weight() : (*i).weight()),
-                std::make_pair((*I).first, (*i).vertex_id())));
+            m_tripples.push_back(std::make_pair(_min((*i).weight(), edge ? edge->weight() : (*i).weight()), std::make_pair((*I).first, (*i).vertex_id())));
         }
     }
 
@@ -579,14 +566,8 @@ void CGameGraphBuilder::process_tripple(const TRIPPLE& tripple)
         edge = vertex1.edge((*I).vertex_id());
         if (edge)
         {
-            VERIFY(
-                _min(
-                    (*I).weight(),
-                    graph().edge((*I).vertex_id(), tripple.second.first) ? graph().edge((*I).vertex_id(), tripple.second.first)->weight() : (*I).weight()) <= tripple.first);
-            VERIFY(
-                _min(
-                    edge->weight(),
-                    graph().edge(edge->vertex_id(), tripple.second.second) ? graph().edge(edge->vertex_id(), tripple.second.second)->weight() : (*I).weight()) <= tripple.first);
+            VERIFY(_min((*I).weight(), graph().edge((*I).vertex_id(), tripple.second.first) ? graph().edge((*I).vertex_id(), tripple.second.first)->weight() : (*I).weight()) <= tripple.first);
+            VERIFY(_min(edge->weight(), graph().edge(edge->vertex_id(), tripple.second.second) ? graph().edge(edge->vertex_id(), tripple.second.second)->weight() : (*I).weight()) <= tripple.first);
             if (vertex0.edge(tripple.second.second))
                 graph().remove_edge(tripple.second.first, tripple.second.second);
             if (vertex1.edge(tripple.second.first))
@@ -597,10 +578,7 @@ void CGameGraphBuilder::process_tripple(const TRIPPLE& tripple)
         edge = graph().vertex((*I).vertex_id())->edge(tripple.second.second);
         if (edge)
         {
-            VERIFY(
-                _min(
-                    (*I).weight(),
-                    graph().edge((*I).vertex_id(), tripple.second.first) ? graph().edge((*I).vertex_id(), tripple.second.first)->weight() : (*I).weight()) <= tripple.first);
+            VERIFY(_min((*I).weight(), graph().edge((*I).vertex_id(), tripple.second.first) ? graph().edge((*I).vertex_id(), tripple.second.first)->weight() : (*I).weight()) <= tripple.first);
             VERIFY(edge->weight() <= tripple.first);
             if (vertex0.edge(tripple.second.second))
                 graph().remove_edge(tripple.second.first, tripple.second.second);

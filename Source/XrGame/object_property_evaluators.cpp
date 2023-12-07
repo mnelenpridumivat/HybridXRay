@@ -19,15 +19,7 @@
 // CObjectPropertyEvaluatorState
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorState::CObjectPropertyEvaluatorState(
-    CWeapon*     item,
-    CAI_Stalker* owner,
-    u32          state,
-    bool         equality):
-    inherited(item, owner),
-    m_state(state), m_equality(equality)
-{
-}
+CObjectPropertyEvaluatorState::CObjectPropertyEvaluatorState(CWeapon* item, CAI_Stalker* owner, u32 state, bool equality): inherited(item, owner), m_state(state), m_equality(equality) {}
 
 CObjectPropertyEvaluatorState::_value_type CObjectPropertyEvaluatorState::evaluate()
 {
@@ -35,10 +27,7 @@ CObjectPropertyEvaluatorState::_value_type CObjectPropertyEvaluatorState::evalua
     return (_value_type((m_item->GetState() == m_state) == m_equality));
 }
 
-CObjectPropertyEvaluatorWeaponHidden::CObjectPropertyEvaluatorWeaponHidden(CWeapon* item, CAI_Stalker* owner):
-    inherited(item, owner)
-{
-}
+CObjectPropertyEvaluatorWeaponHidden::CObjectPropertyEvaluatorWeaponHidden(CWeapon* item, CAI_Stalker* owner): inherited(item, owner) {}
 
 CObjectPropertyEvaluatorWeaponHidden::_value_type CObjectPropertyEvaluatorWeaponHidden::evaluate()
 {
@@ -50,10 +39,7 @@ CObjectPropertyEvaluatorWeaponHidden::_value_type CObjectPropertyEvaluatorWeapon
 // CObjectPropertyEvaluatorAmmo
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorAmmo::CObjectPropertyEvaluatorAmmo(CWeapon* item, CAI_Stalker* owner, u32 ammo_type):
-    inherited(item, owner), m_ammo_type(ammo_type)
-{
-}
+CObjectPropertyEvaluatorAmmo::CObjectPropertyEvaluatorAmmo(CWeapon* item, CAI_Stalker* owner, u32 ammo_type): inherited(item, owner), m_ammo_type(ammo_type) {}
 
 CObjectPropertyEvaluatorAmmo::_value_type CObjectPropertyEvaluatorAmmo::evaluate()
 {
@@ -67,10 +53,7 @@ CObjectPropertyEvaluatorAmmo::_value_type CObjectPropertyEvaluatorAmmo::evaluate
 // CObjectPropertyEvaluatorEmpty
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorEmpty::CObjectPropertyEvaluatorEmpty(CWeapon* item, CAI_Stalker* owner, u32 ammo_type):
-    inherited(item, owner), m_ammo_type(ammo_type)
-{
-}
+CObjectPropertyEvaluatorEmpty::CObjectPropertyEvaluatorEmpty(CWeapon* item, CAI_Stalker* owner, u32 ammo_type): inherited(item, owner), m_ammo_type(ammo_type) {}
 
 CObjectPropertyEvaluatorEmpty::_value_type CObjectPropertyEvaluatorEmpty::evaluate()
 {
@@ -84,10 +67,7 @@ CObjectPropertyEvaluatorEmpty::_value_type CObjectPropertyEvaluatorEmpty::evalua
 // CObjectPropertyEvaluatorFull
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorFull::CObjectPropertyEvaluatorFull(CWeapon* item, CAI_Stalker* owner, u32 ammo_type):
-    inherited(item, owner), m_ammo_type(ammo_type)
-{
-}
+CObjectPropertyEvaluatorFull::CObjectPropertyEvaluatorFull(CWeapon* item, CAI_Stalker* owner, u32 ammo_type): inherited(item, owner), m_ammo_type(ammo_type) {}
 
 CObjectPropertyEvaluatorFull::_value_type CObjectPropertyEvaluatorFull::evaluate()
 {
@@ -101,17 +81,13 @@ CObjectPropertyEvaluatorFull::_value_type CObjectPropertyEvaluatorFull::evaluate
 // CObjectPropertyEvaluatorReady
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorReady::CObjectPropertyEvaluatorReady(CWeapon* item, CAI_Stalker* owner, u32 ammo_type):
-    inherited(item, owner), m_ammo_type(ammo_type)
-{
-}
+CObjectPropertyEvaluatorReady::CObjectPropertyEvaluatorReady(CWeapon* item, CAI_Stalker* owner, u32 ammo_type): inherited(item, owner), m_ammo_type(ammo_type) {}
 
 CObjectPropertyEvaluatorReady::_value_type CObjectPropertyEvaluatorReady::evaluate()
 {
     if (!m_ammo_type)
         //		return		(_value_type(!m_item->IsMisfire() && m_item->GetAmmoElapsed()));
-        return (_value_type(
-            !m_item->IsMisfire() && (m_item->GetAmmoElapsed() && (m_item->GetState() != CWeapon::eReload))));
+        return (_value_type(!m_item->IsMisfire() && (m_item->GetAmmoElapsed() && (m_item->GetState() != CWeapon::eReload))));
     else
         return (_value_type(false));
 }
@@ -120,8 +96,7 @@ CObjectPropertyEvaluatorReady::_value_type CObjectPropertyEvaluatorReady::evalua
 // CObjectPropertyEvaluatorQueue
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorQueue::CObjectPropertyEvaluatorQueue(CWeapon* item, CAI_Stalker* owner, u32 type):
-    inherited(item, owner), m_type(type)
+CObjectPropertyEvaluatorQueue::CObjectPropertyEvaluatorQueue(CWeapon* item, CAI_Stalker* owner, u32 type): inherited(item, owner), m_type(type)
 {
     m_magazined = smart_cast<CWeaponMagazined*>(item);
 }
@@ -159,15 +134,7 @@ CObjectPropertyEvaluatorNoItems::_value_type CObjectPropertyEvaluatorNoItems::ev
 // CObjectPropertyEvaluatorMissile
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorMissile::CObjectPropertyEvaluatorMissile(
-    CMissile*    item,
-    CAI_Stalker* owner,
-    u32          state,
-    bool         equality):
-    inherited(item, owner),
-    m_state(state), m_equality(equality)
-{
-}
+CObjectPropertyEvaluatorMissile::CObjectPropertyEvaluatorMissile(CMissile* item, CAI_Stalker* owner, u32 state, bool equality): inherited(item, owner), m_state(state), m_equality(equality) {}
 
 CObjectPropertyEvaluatorMissile::_value_type CObjectPropertyEvaluatorMissile::evaluate()
 {
@@ -179,10 +146,7 @@ CObjectPropertyEvaluatorMissile::_value_type CObjectPropertyEvaluatorMissile::ev
 // CObjectPropertyEvaluatorMissileStarted
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorMissileStarted::CObjectPropertyEvaluatorMissileStarted(CMissile* item, CAI_Stalker* owner):
-    inherited(item, owner)
-{
-}
+CObjectPropertyEvaluatorMissileStarted::CObjectPropertyEvaluatorMissileStarted(CMissile* item, CAI_Stalker* owner): inherited(item, owner) {}
 
 CObjectPropertyEvaluatorMissileStarted::_value_type CObjectPropertyEvaluatorMissileStarted::evaluate()
 {
@@ -197,10 +161,7 @@ CObjectPropertyEvaluatorMissileStarted::_value_type CObjectPropertyEvaluatorMiss
 // CObjectPropertyEvaluatorMissileHidden
 //////////////////////////////////////////////////////////////////////////
 
-CObjectPropertyEvaluatorMissileHidden::CObjectPropertyEvaluatorMissileHidden(CMissile* item, CAI_Stalker* owner):
-    inherited(item, owner)
-{
-}
+CObjectPropertyEvaluatorMissileHidden::CObjectPropertyEvaluatorMissileHidden(CMissile* item, CAI_Stalker* owner): inherited(item, owner) {}
 
 CObjectPropertyEvaluatorMissileHidden::_value_type CObjectPropertyEvaluatorMissileHidden::evaluate()
 {

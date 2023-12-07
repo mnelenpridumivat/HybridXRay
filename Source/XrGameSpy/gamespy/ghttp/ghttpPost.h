@@ -40,40 +40,29 @@ extern "C"
         GHTTPBool         completed;          // prevent re-post in the event of a redirect.
     } GHIPostingState;
 
-    GHTTPPost ghiNewPost(void);
+    GHTTPPost        ghiNewPost(void);
 
-    void ghiPostSetAutoFree(GHTTPPost post, GHTTPBool autoFree);
+    void             ghiPostSetAutoFree(GHTTPPost post, GHTTPBool autoFree);
 
-    GHTTPBool ghiIsPostAutoFree(GHTTPPost post);
+    GHTTPBool        ghiIsPostAutoFree(GHTTPPost post);
 
-    void ghiFreePost(GHTTPPost post);
+    void             ghiFreePost(GHTTPPost post);
 
-    GHTTPBool ghiPostAddString(GHTTPPost post, const char* name, const char* string);
+    GHTTPBool        ghiPostAddString(GHTTPPost post, const char* name, const char* string);
 
-    GHTTPBool ghiPostAddFileFromDisk(
-        GHTTPPost   post,
-        const char* name,
-        const char* filename,
-        const char* reportFilename,
-        const char* contentType);
+    GHTTPBool        ghiPostAddFileFromDisk(GHTTPPost post, const char* name, const char* filename, const char* reportFilename, const char* contentType);
 
-    GHTTPBool ghiPostAddFileFromMemory(
-        GHTTPPost   post,
-        const char* name,
-        const char* buffer,
-        int         bufferLen,
-        const char* reportFilename,
-        const char* contentType);
+    GHTTPBool        ghiPostAddFileFromMemory(GHTTPPost post, const char* name, const char* buffer, int bufferLen, const char* reportFilename, const char* contentType);
 
-    GHTTPBool ghiPostAddXml(GHTTPPost post, GSXmlStreamWriter xmlSoap);
+    GHTTPBool        ghiPostAddXml(GHTTPPost post, GSXmlStreamWriter xmlSoap);
 
-    void ghiPostSetCallback(GHTTPPost post, ghttpPostCallback callback, void* param);
+    void             ghiPostSetCallback(GHTTPPost post, ghttpPostCallback callback, void* param);
 
-    const char* ghiPostGetContentType(struct GHIConnection* connection);
+    const char*      ghiPostGetContentType(struct GHIConnection* connection);
 
-    GHTTPBool ghiPostInitState(struct GHIConnection* connection);
+    GHTTPBool        ghiPostInitState(struct GHIConnection* connection);
 
-    void ghiPostCleanupState(struct GHIConnection* connection);
+    void             ghiPostCleanupState(struct GHIConnection* connection);
 
     GHIPostingResult ghiPostDoPosting(struct GHIConnection* connection);
 

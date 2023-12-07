@@ -6,22 +6,12 @@
 
 CScenePhyscs g_scene_physics;
 
-bool CScenePhyscs ::Simulating()
+bool         CScenePhyscs ::Simulating()
 {
     return !!physics_world();
 }
 
-BOOL GetStaticCformData(
-    const Fmatrix&   parent,
-    CEditableMesh*   mesh,
-    CEditableObject* object,
-    Fvector*         verts,
-    int&             vert_cnt,
-    int&             vert_it,
-    CDB::TRI*        faces,
-    int&             face_cnt,
-    int&             face_it,
-    CSceneObject*    obj);
+BOOL GetStaticCformData(const Fmatrix& parent, CEditableMesh* mesh, CEditableObject* object, Fvector* verts, int& vert_cnt, int& vert_it, CDB::TRI* faces, int& face_cnt, int& face_it, CSceneObject* obj);
 BOOL GetStaticCformData(CSceneObject* obj, mesh_build_data& data, bool b_selected_only)
 {
     Fmatrix          T = obj->_Transform();
@@ -34,9 +24,7 @@ BOOL GetStaticCformData(CSceneObject* obj, mesh_build_data& data, bool b_selecte
         //	if
         //(!BuildMesh(T,O,*M,sect_num,l_verts,l_vert_cnt,l_vert_it,l_faces,l_face_cnt,l_face_it,l_smgroups,obj->_Transform()))
 
-        if (!::GetStaticCformData(
-                T, *M, O, data.l_verts, data.l_vert_cnt, data.l_vert_it, data.l_faces, data.l_face_cnt, data.l_face_it,
-                obj))
+        if (!::GetStaticCformData(T, *M, O, data.l_verts, data.l_vert_cnt, data.l_vert_it, data.l_faces, data.l_face_cnt, data.l_face_it, obj))
             return FALSE;
     }
 
@@ -66,7 +54,8 @@ BOOL GetStaticCformData(ObjectList& lst, mesh_build_data& data, bool b_selected_
                 //     l_portals.push_back(b_portal());
                 //     BuildPortal(&l_portals.back(),(CPortal*)(*_F));
                 //     break;
-            case OBJCLASS_SCENEOBJECT: {
+            case OBJCLASS_SCENEOBJECT:
+            {
                 CSceneObject* obj = (CSceneObject*)(*_F);
                 if (obj->IsStatic())
                     bResult = GetStaticCformData(obj, data, b_selected_only);
@@ -108,7 +97,7 @@ bool CScenePhyscs::CreateObjectSpace(bool b_selected_only)
         return FALSE;
     ESceneToolBase* pCurrentTool = Scene->GetOTool(cls);
 
-    bool bResult = true;
+    bool            bResult      = true;
 
     mesh_build_data build_data;
 
@@ -195,9 +184,9 @@ void CScenePhyscs::DestroyWorld()
 
 void CScenePhyscs::GenerateCFrom(CObjectSpace* To, CDB::build_callback cb)
 {
-    bool bResult = true;
+    bool                bResult = true;
 
-    mesh_build_data build_data;
+    mesh_build_data     build_data;
 
     SceneToolsMapPairIt t_it  = Scene->FirstTool();
     SceneToolsMapPairIt t_end = Scene->LastTool();
@@ -214,8 +203,8 @@ void CScenePhyscs::GenerateCFrom(CObjectSpace* To, CDB::build_callback cb)
     build_data.l_faces = xr_alloc<CDB::TRI>(build_data.l_face_cnt);
     build_data.l_verts = xr_alloc<Fvector>(build_data.l_vert_cnt);
 
-    t_it  = Scene->FirstTool();
-    t_end = Scene->LastTool();
+    t_it               = Scene->FirstTool();
+    t_end              = Scene->LastTool();
     for (; t_it != t_end; ++t_it)
     {
         ESceneToolBase* mt = t_it->second;

@@ -15,11 +15,7 @@ class CCharacterPhysicsSupport;
 class ICollisionDamageInfo;
 class CIKLimbsController;
 
-class CPhysicsShellHolder:
-    public CGameObject,
-    public CParticlesPlayer,
-    public IObjectPhysicsCollision,
-    public IPhysicsShellHolder
+class CPhysicsShellHolder: public CGameObject, public CParticlesPlayer, public IObjectPhysicsCollision, public IPhysicsShellHolder
 
 {
     bool b_sheduled;
@@ -45,7 +41,7 @@ public:
 public:
     typedef CGameObject inherited;
 
-    CPhysicsShell* m_pPhysicsShell;
+    CPhysicsShell*      m_pPhysicsShell;
 
     CPhysicsShellHolder();
     virtual ~CPhysicsShellHolder();
@@ -122,15 +118,15 @@ public:
     }
 
 public:
-    virtual void PHGetLinearVell(Fvector& velocity);
-    virtual void PHSetLinearVell(Fvector& velocity);
-    virtual void PHSetMaterial(LPCSTR m);
-    virtual void PHSetMaterial(u16 m);
-    void         PHSaveState(NET_Packet& P);
-    void         PHLoadState(IReader& P);
-    virtual f32  GetMass();
-    virtual void PHHit(SHit& H);
-    virtual void Hit(SHit* pHDS);
+    virtual void            PHGetLinearVell(Fvector& velocity);
+    virtual void            PHSetLinearVell(Fvector& velocity);
+    virtual void            PHSetMaterial(LPCSTR m);
+    virtual void            PHSetMaterial(u16 m);
+    void                    PHSaveState(NET_Packet& P);
+    void                    PHLoadState(IReader& P);
+    virtual f32             GetMass();
+    virtual void            PHHit(SHit& H);
+    virtual void            Hit(SHit* pHDS);
     ///////////////////////////////////////////////////////////////////////
     virtual u16             PHGetSyncItemsNumber();
     virtual CPHSynchronize* PHGetSyncItem(u16 item);
@@ -138,21 +134,21 @@ public:
     virtual void            PHFreeze();
     virtual float           EffectiveGravity();
     ///////////////////////////////////////////////////////////////
-    virtual void create_physic_shell();
-    virtual void activate_physic_shell();
-    virtual void setup_physic_shell();
-    virtual void deactivate_physics_shell();
+    virtual void            create_physic_shell();
+    virtual void            activate_physic_shell();
+    virtual void            setup_physic_shell();
+    virtual void            deactivate_physics_shell();
 
-    virtual void net_Destroy();
-    virtual BOOL net_Spawn(CSE_Abstract* DC);
-    virtual void save(NET_Packet& output_packet);
-    virtual void load(IReader& input_packet);
-    void         init();
+    virtual void            net_Destroy();
+    virtual BOOL            net_Spawn(CSE_Abstract* DC);
+    virtual void            save(NET_Packet& output_packet);
+    virtual void            load(IReader& input_packet);
+    void                    init();
 
-    virtual void OnChangeVisual();
+    virtual void            OnChangeVisual();
     // для наследования CParticlesPlayer
-    virtual void UpdateCL();
-    void         correct_spawn_pos();
+    virtual void            UpdateCL();
+    void                    correct_spawn_pos();
 
 protected:
     virtual bool has_shell_collision_place(const CPhysicsShellHolder* obj) const;
@@ -175,23 +171,23 @@ private:   // IPhysicsShellHolder
     virtual u16 _BCL                    ObjectID() const;
     virtual ICollisionForm* _BCL        ObjectCollisionModel();
     // virtual	IRenderVisual*			_BCL					ObjectVisual						() ;
-    virtual IKinematics* _BCL    ObjectKinematics();
-    virtual IDamageSource* _BCL  ObjectCastIDamageSource();
-    virtual void _BCL            ObjectProcessingDeactivate();
-    virtual void _BCL            ObjectProcessingActivate();
-    virtual void _BCL            ObjectSpatialMove();
-    virtual CPhysicsShell*& _BCL ObjectPPhysicsShell();
+    virtual IKinematics* _BCL           ObjectKinematics();
+    virtual IDamageSource* _BCL         ObjectCastIDamageSource();
+    virtual void _BCL                   ObjectProcessingDeactivate();
+    virtual void _BCL                   ObjectProcessingActivate();
+    virtual void _BCL                   ObjectSpatialMove();
+    virtual CPhysicsShell*& _BCL        ObjectPPhysicsShell();
     //	virtual	void						enable_notificate					()						;
-    virtual bool _BCL has_parent_object();
+    virtual bool _BCL                   has_parent_object();
     //	virtual	void						on_physics_disable					()						;
-    virtual IPHCapture* _BCL PHCapture();
-    virtual bool _BCL        IsInventoryItem();
-    virtual bool _BCL        IsActor();
-    virtual bool _BCL        IsStalker();
+    virtual IPHCapture* _BCL            PHCapture();
+    virtual bool _BCL                   IsInventoryItem();
+    virtual bool _BCL                   IsActor();
+    virtual bool _BCL                   IsStalker();
     // virtual	void						SetWeaponHideState					( u16 State, bool bSet )=0;
-    virtual void _BCL            HideAllWeapons(bool v);   //(SetWeaponHideState(INV_STATE_BLOCK_ALL,true))
-    virtual void _BCL            MovementCollisionEnable(bool enable);
-    virtual CPHSoundPlayer* _BCL ObjectPhSoundPlayer()
+    virtual void _BCL                   HideAllWeapons(bool v);   //(SetWeaponHideState(INV_STATE_BLOCK_ALL,true))
+    virtual void _BCL                   MovementCollisionEnable(bool enable);
+    virtual CPHSoundPlayer* _BCL        ObjectPhSoundPlayer()
     {
         return ph_sound_player();
     }

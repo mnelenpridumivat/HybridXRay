@@ -21,12 +21,11 @@
 #include "../PDA.h"
 #include "WeaponMagazinedWGrenade.h"
 
-CUIHudStatesWnd::CUIHudStatesWnd():
-    m_b_force_update(true), m_timer_1sec(0), m_last_health(0.0f), m_radia_self(0.0f), m_radia_hit(0.0f)
+CUIHudStatesWnd::CUIHudStatesWnd(): m_b_force_update(true), m_timer_1sec(0), m_last_health(0.0f), m_radia_self(0.0f), m_radia_hit(0.0f)
 {
     for (int i = 0; i < ALife::infl_max_count; ++i)
     {
-        m_zone_cur_power[i] = 0.0f;
+        m_zone_cur_power[i]   = 0.0f;
         //--		m_zone_max_power[i] = 1.0f;
         m_zone_feel_radius[i] = 1.0f;
     }
@@ -36,9 +35,9 @@ CUIHudStatesWnd::CUIHudStatesWnd():
     m_zone_hit_type[ALife::infl_psi]     = ALife::eHitTypeTelepatic;
     m_zone_hit_type[ALife::infl_electra] = ALife::eHitTypeShock;
 
-    m_zone_feel_radius_max = 0.0f;
+    m_zone_feel_radius_max               = 0.0f;
 
-    m_health_blink = pSettings->r_float("actor_condition", "hud_health_blink");
+    m_health_blink                       = pSettings->r_float("actor_condition", "hud_health_blink");
     clamp(m_health_blink, 0.0f, 1.0f);
 
     m_fake_indicators_update = false;
@@ -95,12 +94,12 @@ void CUIHudStatesWnd::InitFromXml(CUIXml& xml, LPCSTR path)
     CUIXmlInit::InitWindow(xml, path, 0, this);
     XML_NODE* stored_root = xml.GetLocalRoot();
 
-    XML_NODE* new_root = xml.NavigateToNode(path, 0);
+    XML_NODE* new_root    = xml.NavigateToNode(path, 0);
     xml.SetLocalRoot(new_root);
 
-    m_back           = UIHelper::CreateStatic(xml, "back", this);
-    m_ui_health_bar  = UIHelper::CreateProgressBar(xml, "progress_bar_health", this);
-    m_ui_stamina_bar = UIHelper::CreateProgressBar(xml, "progress_bar_stamina", this);
+    m_back                    = UIHelper::CreateStatic(xml, "back", this);
+    m_ui_health_bar           = UIHelper::CreateProgressBar(xml, "progress_bar_health", this);
+    m_ui_stamina_bar          = UIHelper::CreateProgressBar(xml, "progress_bar_stamina", this);
     //	m_back_v          = UIHelper::CreateStatic( xml, "back_v", this );
     //	m_static_armor    = UIHelper::CreateStatic( xml, "static_armor", this );
 
@@ -118,13 +117,13 @@ void CUIHudStatesWnd::InitFromXml(CUIXml& xml, LPCSTR path)
 
     //	m_lanim_name				= xml.ReadAttrib( "indik_rad", 0, "light_anim", "" );
 
-    m_ui_weapon_cur_ammo = UIHelper::CreateTextWnd(xml, "static_cur_ammo", this);
-    m_ui_weapon_fmj_ammo = UIHelper::CreateTextWnd(xml, "static_fmj_ammo", this);
-    m_ui_weapon_ap_ammo  = UIHelper::CreateTextWnd(xml, "static_ap_ammo", this);
-    m_fire_mode          = UIHelper::CreateTextWnd(xml, "static_fire_mode", this);
-    m_ui_grenade         = UIHelper::CreateTextWnd(xml, "static_grenade", this);
+    m_ui_weapon_cur_ammo      = UIHelper::CreateTextWnd(xml, "static_cur_ammo", this);
+    m_ui_weapon_fmj_ammo      = UIHelper::CreateTextWnd(xml, "static_fmj_ammo", this);
+    m_ui_weapon_ap_ammo       = UIHelper::CreateTextWnd(xml, "static_ap_ammo", this);
+    m_fire_mode               = UIHelper::CreateTextWnd(xml, "static_fire_mode", this);
+    m_ui_grenade              = UIHelper::CreateTextWnd(xml, "static_grenade", this);
 
-    m_ui_weapon_icon = UIHelper::CreateStatic(xml, "static_wpn_icon", this);
+    m_ui_weapon_icon          = UIHelper::CreateStatic(xml, "static_wpn_icon", this);
     m_ui_weapon_icon->SetShader(InventoryUtilities::GetEquipmentIconsShader());
     //	m_ui_weapon_icon->Enable	( false );
     m_ui_weapon_icon_rect = m_ui_weapon_icon->GetWndRect();
@@ -410,7 +409,7 @@ void CUIHudStatesWnd::UpdateZones()
         }
     }
 
-    m_radia_self = actor->conditions().GetRadiation();
+    m_radia_self         = actor->conditions().GetRadiation();
 
     float zone_max_power = actor->conditions().GetZoneMaxPower(ALife::infl_rad);
     float power          = actor->conditions().GetInjuriousMaterialDamage();
@@ -467,28 +466,26 @@ void CUIHudStatesWnd::UpdateZones()
     CZoneList::ItemsMapIt ite = Level().hud_zones_list->m_ItemInfos.end();
     for (; itb != ite; ++itb)
     {
-        CCustomZone* pZone     = itb->first;
-        ITEM_INFO&   zone_info = itb->second;
-        ITEM_TYPE*   zone_type = zone_info.curr_ref;
+        CCustomZone*          pZone     = itb->first;
+        ITEM_INFO&            zone_info = itb->second;
+        ITEM_TYPE*            zone_type = zone_info.curr_ref;
 
-        ALife::EHitType       hit_type = pZone->GetHitType();
-        ALife::EInfluenceType z_type   = get_indik_type(hit_type);
+        ALife::EHitType       hit_type  = pZone->GetHitType();
+        ALife::EInfluenceType z_type    = get_indik_type(hit_type);
         /*		if ( z_type == indik_type_max )
                 {
                     continue;
                 }
         */
 
-        Fvector P = Device->vCameraPosition;
+        Fvector               P         = Device->vCameraPosition;
         P.y -= 0.5f;
         float dist_to_zone = 0.0f;
         float rad_zone     = 0.0f;
         pZone->CalcDistanceTo(P, dist_to_zone, rad_zone);
         clamp(dist_to_zone, 0.0f, flt_max * 0.5f);
 
-        float fRelPow =
-            (dist_to_zone / (rad_zone + (z_type == ALife::infl_max_count) ? 5.0f : m_zone_feel_radius[z_type] + 0.1f)) -
-            0.1f;
+        float fRelPow  = (dist_to_zone / (rad_zone + (z_type == ALife::infl_max_count) ? 5.0f : m_zone_feel_radius[z_type] + 0.1f)) - 0.1f;
 
         zone_max_power = actor->conditions().GetZoneMaxPower(z_type);
         power          = pZone->Power(dist_to_zone, rad_zone);
@@ -576,13 +573,13 @@ void CUIHudStatesWnd::UpdateIndicatorType(CActor* actor, ALife::EInfluenceType t
     float           hit_power = m_zone_cur_power[type];
     ALife::EHitType hit_type  = m_zone_hit_type[type];
 
-    CCustomOutfit* outfit  = actor->GetOutfit();
-    CHelmet*       helmet  = smart_cast<CHelmet*>(actor->inventory().ItemFromSlot(HELMET_SLOT));
-    float          protect = (outfit) ? outfit->GetDefHitTypeProtection(hit_type) : 0.0f;
+    CCustomOutfit*  outfit    = actor->GetOutfit();
+    CHelmet*        helmet    = smart_cast<CHelmet*>(actor->inventory().ItemFromSlot(HELMET_SLOT));
+    float           protect   = (outfit) ? outfit->GetDefHitTypeProtection(hit_type) : 0.0f;
     protect += (helmet) ? helmet->GetDefHitTypeProtection(hit_type) : 0.0f;
     protect += actor->GetProtection_ArtefactsOnBelt(hit_type);
 
-    CEntityCondition::BOOSTER_MAP cur_booster_influences = actor->conditions().GetCurBoosterInfluences();
+    CEntityCondition::BOOSTER_MAP                 cur_booster_influences = actor->conditions().GetCurBoosterInfluences();
     CEntityCondition::BOOSTER_MAP::const_iterator it;
     if (hit_type == ALife::eHitTypeChemicalBurn)
     {
@@ -730,13 +727,13 @@ void CUIHudStatesWnd::FakeUpdateIndicatorType(u8 t, float power)
     float           hit_power = power;
     ALife::EHitType hit_type  = m_zone_hit_type[type];
 
-    CCustomOutfit* outfit  = actor->GetOutfit();
-    CHelmet*       helmet  = smart_cast<CHelmet*>(actor->inventory().ItemFromSlot(HELMET_SLOT));
-    float          protect = (outfit) ? outfit->GetDefHitTypeProtection(hit_type) : 0.0f;
+    CCustomOutfit*  outfit    = actor->GetOutfit();
+    CHelmet*        helmet    = smart_cast<CHelmet*>(actor->inventory().ItemFromSlot(HELMET_SLOT));
+    float           protect   = (outfit) ? outfit->GetDefHitTypeProtection(hit_type) : 0.0f;
     protect += (helmet) ? helmet->GetDefHitTypeProtection(hit_type) : 0.0f;
     protect += actor->GetProtection_ArtefactsOnBelt(hit_type);
 
-    CEntityCondition::BOOSTER_MAP cur_booster_influences = actor->conditions().GetCurBoosterInfluences();
+    CEntityCondition::BOOSTER_MAP                 cur_booster_influences = actor->conditions().GetCurBoosterInfluences();
     CEntityCondition::BOOSTER_MAP::const_iterator it;
     if (hit_type == ALife::eHitTypeChemicalBurn)
     {

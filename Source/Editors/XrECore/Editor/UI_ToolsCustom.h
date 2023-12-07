@@ -48,6 +48,7 @@ enum ETFlags
 class ECORE_API CToolCustom
 {
     friend class CCustomPreferences;
+
 protected:
     bool     m_bReady;
 
@@ -69,15 +70,17 @@ protected:
     Fvector  m_RotateVector;
     float    m_fRotateSnapValue;
     float    m_RotateAmount;
+
 public:
-    Fvector  m_fScaleFixedValue;
-    float    m_MoveSnap;
-    float    m_MoveSnapTo;
-    float    m_RotateSnapAngle;
-    float    m_ScaleFixed;
+    Fvector m_fScaleFixedValue;
+    float   m_MoveSnap;
+    float   m_MoveSnapTo;
+    float   m_RotateSnapAngle;
+    float   m_ScaleFixed;
+
 public:
-    float    fFogness;
-    u32      dwFogColor;
+    float fFogness;
+    u32   dwFogColor;
 
 public:
     xr_string m_LastFileName;
@@ -267,8 +270,8 @@ public:
     CEditableObject* m_pAxisMoveObject;
     Fmatrix          m_axis_xform;
 
-    virtual bool GetSelectionPosition(Fmatrix& result) = 0;
-    virtual bool UpdateCamera()
+    virtual bool     GetSelectionPosition(Fmatrix& result) = 0;
+    virtual bool     UpdateCamera()
     {
         return false;
     }

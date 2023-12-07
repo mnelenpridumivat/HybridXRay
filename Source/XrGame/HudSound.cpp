@@ -33,7 +33,7 @@ void HUD_SOUND_ITEM::LoadSound(LPCSTR section, LPCSTR line, ref_sound& snd, int 
     LPCSTR    str = pSettings->r_string(section, line);
     string256 buf_str;
 
-    int count = _GetItemCount(str);
+    int       count = _GetItemCount(str);
     R_ASSERT(count);
 
     _GetItem(str, 0, buf_str);
@@ -72,13 +72,7 @@ void HUD_SOUND_ITEM::DestroySound(HUD_SOUND_ITEM& hud_snd)
     hud_snd.m_activeSnd = NULL;
 }
 
-void HUD_SOUND_ITEM::PlaySound(
-    HUD_SOUND_ITEM& hud_snd,
-    const Fvector&  position,
-    const CObject*  parent,
-    bool            b_hud_mode,
-    bool            looped,
-    u8              index)
+void HUD_SOUND_ITEM::PlaySound(HUD_SOUND_ITEM& hud_snd, const Fvector& position, const CObject* parent, bool b_hud_mode, bool looped, u8 index)
 {
     if (hud_snd.sounds.empty())
         return;
@@ -95,9 +89,7 @@ void HUD_SOUND_ITEM::PlaySound(
 
     hud_snd.m_activeSnd = &hud_snd.sounds[index];
 
-    hud_snd.m_activeSnd->snd.play_at_pos(
-        const_cast<CObject*>(parent), flags & sm_2D ? Fvector().set(0, 0, 0) : position, flags,
-        hud_snd.m_activeSnd->delay);
+    hud_snd.m_activeSnd->snd.play_at_pos(const_cast<CObject*>(parent), flags & sm_2D ? Fvector().set(0, 0, 0) : position, flags, hud_snd.m_activeSnd->delay);
 
     hud_snd.m_activeSnd->snd.set_volume(hud_snd.m_activeSnd->volume * b_hud_mode ? psHUDSoundVolume : 1.0f);
 }
@@ -138,13 +130,7 @@ HUD_SOUND_ITEM* HUD_SOUND_COLLECTION::FindSoundItem(LPCSTR alias, bool b_assert)
     }
 }
 
-void HUD_SOUND_COLLECTION::PlaySound(
-    LPCSTR         alias,
-    const Fvector& position,
-    const CObject* parent,
-    bool           hud_mode,
-    bool           looped,
-    u8             index)
+void HUD_SOUND_COLLECTION::PlaySound(LPCSTR alias, const Fvector& position, const CObject* parent, bool hud_mode, bool looped, u8 index)
 {
     xr_vector<HUD_SOUND_ITEM>::iterator it   = m_sound_items.begin();
     xr_vector<HUD_SOUND_ITEM>::iterator it_e = m_sound_items.end();

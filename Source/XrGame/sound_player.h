@@ -29,7 +29,7 @@ public:
         u32         m_max_count;
         ESoundTypes m_type;
 
-        IC bool operator==(const CSoundCollectionParams& object) const
+        IC bool     operator==(const CSoundCollectionParams& object) const
         {
             if (m_sound_prefix != object.m_sound_prefix)
                 return (false);
@@ -106,8 +106,7 @@ public:
         bool operator()(CSoundSingle& sound)
         {
             VERIFY(sound.m_sound);
-            bool result = (sound.m_synchro_mask & m_sound_mask) ||
-                (!sound.m_sound->_feedback() && (sound.m_stop_time <= Device->dwTimeGlobal));
+            bool result = (sound.m_synchro_mask & m_sound_mask) || (!sound.m_sound->_feedback() && (sound.m_stop_time <= Device->dwTimeGlobal));
             if (result)
                 sound.destroy();
             return (result);
@@ -125,10 +124,10 @@ private:
     CObject*                m_object;
     shared_str              m_sound_prefix;
 
-    IC Fvector compute_sound_point(const CSoundSingle& sound);
-    void       remove_inappropriate_sounds(u32 sound_mask);
-    void       update_playing_sounds();
-    bool       check_sound_legacy(u32 internal_type) const;
+    IC Fvector              compute_sound_point(const CSoundSingle& sound);
+    void                    remove_inappropriate_sounds(u32 sound_mask);
+    void                    update_playing_sounds();
+    bool                    check_sound_legacy(u32 internal_type) const;
 
 public:
     CSoundPlayer(CObject* object);
@@ -136,27 +135,13 @@ public:
     virtual void reinit();
     virtual void reload(LPCSTR section);
     void         unload();
-    u32
-         add(LPCSTR             prefix,
-             u32                max_count,
-             ESoundTypes        type,
-             u32                priority,
-             u32                mask,
-             u32                internal_type,
-             LPCSTR             bone_name,
-             CSound_UserDataPtr data = 0);
-    void remove(u32 internal_type);
-    void clear();
-    void play(
-        u32 internal_type,
-        u32 max_start_time = 0,
-        u32 min_start_time = 0,
-        u32 max_stop_time  = 0,
-        u32 min_stop_time  = 0,
-        u32 id             = u32(-1));
-    void     update(float time_delta);
-    IC void  set_sound_mask(u32 sound_mask);
-    IC void  remove_active_sounds(u32 sound_mask);
+    u32          add(LPCSTR prefix, u32 max_count, ESoundTypes type, u32 priority, u32 mask, u32 internal_type, LPCSTR bone_name, CSound_UserDataPtr data = 0);
+    void         remove(u32 internal_type);
+    void         clear();
+    void         play(u32 internal_type, u32 max_start_time = 0, u32 min_start_time = 0, u32 max_stop_time = 0, u32 min_stop_time = 0, u32 id = u32(-1));
+    void         update(float time_delta);
+    IC void      set_sound_mask(u32 sound_mask);
+    IC void      remove_active_sounds(u32 sound_mask);
     IC const xr_vector<CSoundSingle>& playing_sounds() const;
     IC u32                            active_sound_count(bool only_playing = false) const;
     bool                              need_bone_data() const;

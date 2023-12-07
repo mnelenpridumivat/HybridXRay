@@ -16,11 +16,12 @@
 // Designed to hold _unsorted_ data, but only RemoveItem()
 // actually disturbs the order, so you can use it for general arrays
 // if you don't use that function.
-template <class T> class ArbitraryList
+template<class T> class ArbitraryList
 {
     T*  pT;              // The list.
     u32 iSize;           // The current size of the list.
     u32 iReservedSize;   // The current reserved size of the list.
+
 public:
     // Constructor, with optional initial size setting.
     ArbitraryList(u32 iInitialSize = 0)

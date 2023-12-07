@@ -31,13 +31,17 @@ protected:
 
     xr_vector<GCVertex> verts;
 
-    GCHash  VM;
-    Fvector VMmin, VMscale;
-    Fvector VMeps;
-    float   eps;
-    u32     sx, sy, sz;
+    GCHash              VM;
+    Fvector             VMmin, VMscale;
+    Fvector             VMeps;
+    float               eps;
+    u32                 sx, sy, sz;
 
-    IC U32Vec& get_element(u32 ix, u32 iy, u32 iz) { VERIFY((ix < sx) && (iy < sy) && (iz < sz)); return VM[iz * sy * sx + iy * sx + ix]; }
+    IC U32Vec&          get_element(u32 ix, u32 iy, u32 iz)
+    {
+        VERIFY((ix < sx) && (iy < sy) && (iz < sz));
+        return VM[iz * sy * sx + iy * sx + ix];
+    }
 
 public:
     VCPacked(const Fbox& bb, float eps = EPS, u32 clpSX = 24, u32 clpSY = 16, u32 clpSZ = 24, int apx_vertices = 5000);
@@ -47,9 +51,9 @@ public:
     }
     virtual void clear();
 
-    u32 add_vert(const Fvector& V);
+    u32          add_vert(const Fvector& V);
 
-    GCVertex* getV()
+    GCVertex*    getV()
     {
         return &*verts.begin();
     }
@@ -58,8 +62,16 @@ public:
         return verts.size();
     }
 
-    void getHASH_size(u32& x, u32& y, u32& z) { x = sx; y = sy; z = sz; }
-    U32Vec& getHASH_elem(u32 ix, u32 iy, u32 iz) { return get_element(ix, iy, iz); }
+    void getHASH_size(u32& x, u32& y, u32& z)
+    {
+        x = sx;
+        y = sy;
+        z = sz;
+    }
+    U32Vec& getHASH_elem(u32 ix, u32 iy, u32 iz)
+    {
+        return get_element(ix, iy, iz);
+    }
 
     xr_vector<GCVertex>& Vertices()
     {
@@ -79,15 +91,7 @@ class ECORE_API GCPacked: public VCPacked
     }
 
 public:
-    GCPacked(
-        const Fbox& bb,
-        float       eps          = EPS,
-        u32         clpMX        = 24,
-        u32         clpMY        = 16,
-        u32         clpMZ        = 24,
-        int         apx_vertices = 5000,
-        int         apx_faces    = 5000):
-        VCPacked(bb, eps, clpMX, clpMY, clpMZ, apx_vertices)
+    GCPacked(const Fbox& bb, float eps = EPS, u32 clpMX = 24, u32 clpMY = 16, u32 clpMZ = 24, int apx_vertices = 5000, int apx_faces = 5000): VCPacked(bb, eps, clpMX, clpMY, clpMZ, apx_vertices)
     {
         faces.reserve(apx_faces);
     }
@@ -95,14 +99,14 @@ public:
     {
         clear();
     }
-    virtual void clear();
+    virtual void       clear();
 
     xr_vector<GCFace>& Faces()
     {
         return faces;
     }
 
-    void add_face(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy = 0);
+    void    add_face(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy = 0);
 
     GCFace* getF()
     {

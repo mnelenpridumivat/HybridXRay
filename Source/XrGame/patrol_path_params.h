@@ -25,12 +25,7 @@ public:
     u32                                 m_previous_index;
 
 public:
-    CPatrolPathParams(
-        LPCSTR                                    caPatrolPathToGo,
-        const PatrolPathManager::EPatrolStartType tPatrolPathStart = PatrolPathManager::ePatrolStartTypeNearest,
-        const PatrolPathManager::EPatrolRouteType tPatrolPathStop  = PatrolPathManager::ePatrolRouteTypeContinue,
-        bool                                      bRandom          = true,
-        u32                                       index            = u32(-1));
+    CPatrolPathParams(LPCSTR caPatrolPathToGo, const PatrolPathManager::EPatrolStartType tPatrolPathStart = PatrolPathManager::ePatrolStartTypeNearest, const PatrolPathManager::EPatrolRouteType tPatrolPathStop = PatrolPathManager::ePatrolRouteTypeContinue, bool bRandom = true, u32 index = u32(-1));
     virtual ~CPatrolPathParams();
     u32                  count() const;
     const Fvector&       point(u32 index) const;

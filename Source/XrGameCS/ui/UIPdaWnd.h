@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "UIDialogWnd.h"
 #include "../encyclopedia_article_defs.h"
@@ -22,60 +22,69 @@ class CUILogsWnd;
 class CUIAnimatedStatic;
 class UIHint;
 
-
 class CUIPdaWnd: public CUIDialogWnd
 {
-	typedef CUIDialogWnd	inherited;
+    typedef CUIDialogWnd inherited;
+
 protected:
-	CUITabControl*			UITabControl;
-	CUI3tButtonEx*			m_btn_close;
+    CUITabControl*     UITabControl;
+    CUI3tButtonEx*     m_btn_close;
 
-	CUIStatic*				UIMainPdaFrame;
-	CUIStatic*				UINoice;
-	
-	CUIStatic*				m_caption;
-	shared_str				m_caption_const;
-	CUIAnimatedStatic*		m_anim_static;
+    CUIStatic*         UIMainPdaFrame;
+    CUIStatic*         UINoice;
 
-	// Текущий активный диалог
-	CUIWindow*				m_pActiveDialog;
-	shared_str				m_sActiveSection;
+    CUIStatic*         m_caption;
+    shared_str         m_caption_const;
+    CUIAnimatedStatic* m_anim_static;
 
-	UIHint*					m_hint_wnd;
+    // РўРµРєСѓС‰РёР№ Р°РєС‚РёРІРЅС‹Р№ РґРёР°Р»РѕРі
+    CUIWindow*         m_pActiveDialog;
+    shared_str         m_sActiveSection;
 
-public:
-	CUITaskWnd*				pUITaskWnd;
-	CUIFactionWarWnd*		pUIFactionWarWnd;
-	CUIRankingWnd*			pUIRankingWnd;
-	CUILogsWnd*				pUILogsWnd;
-
-	virtual void			Reset				();
+    UIHint*            m_hint_wnd;
 
 public:
-							CUIPdaWnd			();
-	virtual					~CUIPdaWnd			();
+    CUITaskWnd*       pUITaskWnd;
+    CUIFactionWarWnd* pUIFactionWarWnd;
+    CUIRankingWnd*    pUIRankingWnd;
+    CUILogsWnd*       pUILogsWnd;
 
-	virtual void 			Init				();
+    virtual void      Reset();
 
-	virtual void 			SendMessage			(CUIWindow* pWnd, s16 msg, void* pData = NULL);
+public:
+    CUIPdaWnd();
+    virtual ~CUIPdaWnd();
 
-	virtual void 			Draw				();
-	virtual void 			Update				();
-	virtual void 			Show				();
-	virtual void 			Hide				();
-	virtual bool			OnMouse				(float x, float y, EUIMessages mouse_action) {CUIDialogWnd::OnMouse(x,y,mouse_action);return true;} //always true because StopAnyMove() == false
-		
-			UIHint*			get_hint_wnd		() const { return m_hint_wnd; }
-			void			DrawHint			();
+    virtual void Init();
 
-			void			SetActiveCaption	();
-			void			SetCaption			(LPCSTR text);
-			void			Show_SecondTaskWnd	(bool status);
-			void			Show_MapLegendWnd	(bool status);
+    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = NULL);
 
-			void			SetActiveSubdialog	(const shared_str& section);
-	virtual bool			StopAnyMove			(){return false;}
+    virtual void Draw();
+    virtual void Update();
+    virtual void Show();
+    virtual void Hide();
+    virtual bool OnMouse(float x, float y, EUIMessages mouse_action)
+    {
+        CUIDialogWnd::OnMouse(x, y, mouse_action);
+        return true;
+    }   //always true because StopAnyMove() == false
 
-			void			UpdatePda			();
+    UIHint* get_hint_wnd() const
+    {
+        return m_hint_wnd;
+    }
+    void         DrawHint();
 
+    void         SetActiveCaption();
+    void         SetCaption(LPCSTR text);
+    void         Show_SecondTaskWnd(bool status);
+    void         Show_MapLegendWnd(bool status);
+
+    void         SetActiveSubdialog(const shared_str& section);
+    virtual bool StopAnyMove()
+    {
+        return false;
+    }
+
+    void UpdatePda();
 };

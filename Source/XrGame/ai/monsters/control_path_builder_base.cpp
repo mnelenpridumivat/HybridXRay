@@ -129,8 +129,7 @@ void CControlPathBuilderBase::set_target_accessible(STarget& target, const Fvect
 void CControlPathBuilderBase::on_path_built()
 {
     // проверка на конец пути
-    if (!m_man->path_builder().detail().path().empty() &&
-        (m_man->path_builder().detail().curr_travel_point_index() < m_man->path_builder().detail().path().size() - 1))
+    if (!m_man->path_builder().detail().path().empty() && (m_man->path_builder().detail().curr_travel_point_index() < m_man->path_builder().detail().path().size() - 1))
         m_path_end = false;
 }
 
@@ -149,10 +148,7 @@ void CControlPathBuilderBase::on_path_updated()
         m_failed = true;
 
     // проверка на конец пути, если этот путь не конечный
-    if ((m_man->path_builder().detail().path().empty() ||
-         (m_man->path_builder().detail().curr_travel_point_index() >=
-          m_man->path_builder().detail().path().size() - 1)) &&
-        m_man->path_builder().detail().actual() && m_man->path_builder().enabled() &&
+    if ((m_man->path_builder().detail().path().empty() || (m_man->path_builder().detail().curr_travel_point_index() >= m_man->path_builder().detail().path().size() - 1)) && m_man->path_builder().detail().actual() && m_man->path_builder().enabled() &&
         // конечный путь?
         m_target_set.node() != m_object->ai_location().level_vertex_id() && m_target_actual)
     {

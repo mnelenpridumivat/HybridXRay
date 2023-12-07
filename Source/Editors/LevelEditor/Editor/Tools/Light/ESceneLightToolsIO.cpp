@@ -10,8 +10,8 @@ enum
     CHUNK_LCONTROLS_LAST = 0x1003ul,
     CHUNK_FLAGS          = 0x1004ul,
     //	CHUNK_HEMI				= 0x1005ul, // obsolette
-    CHUNK_SUN_SHADOW = 0x1006ul,
-    CHUNK_HEMI2      = 0x1007ul,
+    CHUNK_SUN_SHADOW     = 0x1006ul,
+    CHUNK_HEMI2          = 0x1007ul,
 };
 
 bool ESceneLightTool::LoadLTX(CInifile& ini)
@@ -27,8 +27,8 @@ bool ESceneLightTool::LoadLTX(CInifile& ini)
 
     m_Flags.assign(ini.r_u32("main", "flags"));
 
-    m_SunShadowDir    = ini.r_fvector2("main", "sun_shadow_dir");
-    lcontrol_last_idx = ini.r_u32("main", "lcontrol_last_idx");
+    m_SunShadowDir         = ini.r_fvector2("main", "sun_shadow_dir");
+    lcontrol_last_idx      = ini.r_u32("main", "lcontrol_last_idx");
 
     CInifile::Sect    S    = ini.r_section("lcontrols");
     CInifile::SectCIt it   = S.Data.begin();

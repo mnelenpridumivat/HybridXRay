@@ -39,11 +39,9 @@ namespace ControlCom
     };
 
     struct IComData
-    {
-    };
+    {};
     struct IEventData
-    {
-    };
+    {};
 
     enum EEventType
     {

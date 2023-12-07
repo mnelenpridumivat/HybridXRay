@@ -60,37 +60,37 @@ class CControlJump: public CControl_ComCustom<SControlJumpData>
     };
 
     // loadable parameters
-    u32     m_delay_after_jump;
-    float   m_jump_factor;
-    float   m_trace_ground_range;
-    float   m_hit_trace_range;
-    float   m_build_line_distance;
-    float   m_min_distance;
-    float   m_max_distance;
-    float   m_max_angle;
-    float   m_max_height;
-    float   m_auto_aim_factor;
-    Fvector m_jump_start_pos;
+    u32            m_delay_after_jump;
+    float          m_jump_factor;
+    float          m_trace_ground_range;
+    float          m_hit_trace_range;
+    float          m_build_line_distance;
+    float          m_min_distance;
+    float          m_max_distance;
+    float          m_max_angle;
+    float          m_max_height;
+    float          m_auto_aim_factor;
+    Fvector        m_jump_start_pos;
 
     // run-time params
-    u32     m_time_next_allowed;
-    u32     m_time_started;      // time jump started
-    float   m_jump_time;         // physical-counted time of jump
-    float   m_blend_speed;       // current anim blend speed
-    Fvector m_target_position;   // save target position for internal needs
+    u32            m_time_next_allowed;
+    u32            m_time_started;      // time jump started
+    float          m_jump_time;         // physical-counted time of jump
+    float          m_blend_speed;       // current anim blend speed
+    Fvector        m_target_position;   // save target position for internal needs
 
-    u32     m_last_saved_pos_time;
-    Fvector m_last_saved_pos;
+    u32            m_last_saved_pos_time;
+    Fvector        m_last_saved_pos;
 
     // state flags
-    bool m_object_hitted;
-    bool m_velocity_bounced;
+    bool           m_object_hitted;
+    bool           m_velocity_bounced;
 
     // animation
     EStateAnimJump m_anim_state_prev;
     EStateAnimJump m_anim_state_current;
 
-    u32 m_last_time_added_impulse;
+    u32            m_last_time_added_impulse;
 
 public:
     virtual void load(LPCSTR section);
@@ -100,9 +100,9 @@ public:
     virtual void on_release();
     virtual void on_event(ControlCom::EEventType, ControlCom::IEventData*);
 
-    float relative_time();
-    bool  in_auto_aim();
-    float get_auto_aim_factor() const
+    float        relative_time();
+    bool         in_auto_aim();
+    float        get_auto_aim_factor() const
     {
         return m_auto_aim_factor;
     }
@@ -116,13 +116,13 @@ public:
     // check for distance and angle difference
     virtual bool can_jump(CObject* target);
 
-    bool can_jump(Fvector const& target, bool const aggressive_jump);
-    bool jump_intersect_geometry(Fvector const& target, CObject* ignored_object);
+    bool         can_jump(Fvector const& target, bool const aggressive_jump);
+    bool         jump_intersect_geometry(Fvector const& target, CObject* ignored_object);
 
     // stop/break jump and all of jumping states
     virtual void stop();
 
-    float get_max_distance() const
+    float        get_max_distance() const
     {
         return m_max_distance;
     }
@@ -139,25 +139,25 @@ public:
     void remove_links(CObject* object);
 
 private:
-    void calculate_jump_time(Fvector const& target, bool check_force_factor);
+    void    calculate_jump_time(Fvector const& target, bool check_force_factor);
     // service routines
     // build path after jump
-    void grounding();
+    void    grounding();
     // get target position according to object center point
     Fvector get_target(CObject* obj);
     // check for hit object
-    void hit_test();
+    void    hit_test();
 
     // check current jump state
-    bool is_on_the_ground();
+    bool    is_on_the_ground();
 
     // position prediction
     Fvector predict_position(CObject* obj, const Fvector& pos);
 
-    void start_jump(const Fvector& point);
+    void    start_jump(const Fvector& point);
 
     // animation control method
-    void select_next_anim_state();
+    void    select_next_anim_state();
 
     IC bool is_flag(SControlJumpData::EFlags flag);
 };

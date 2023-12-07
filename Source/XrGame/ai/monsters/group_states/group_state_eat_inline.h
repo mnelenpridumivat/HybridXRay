@@ -11,11 +11,11 @@
 #include "group_state_custom.h"
 #include "group_state_eat_eat.h "
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION template<typename _Object>
 
-#define CStateGroupEatAbstract CStateGroupEat<_Object>
+#define CStateGroupEatAbstract  CStateGroupEat<_Object>
 
-#define TIME_NOT_HUNGRY 20000
+#define TIME_NOT_HUNGRY         20000
 
 TEMPLATE_SPECIALIZATION
 CStateGroupEatAbstract::CStateGroupEat(_Object* obj): inherited(obj)
@@ -330,9 +330,7 @@ bool CStateGroupEatAbstract::check_start_conditions()
 {
     if (object->EatedCorpse)
         return true;
-    return (
-        object->CorpseMan.get_corpse() && object->Home->at_home(object->CorpseMan.get_corpse()->Position()) &&
-        hungry() && !const_cast<CEntityAlive*>(object->CorpseMan.get_corpse())->is_locked_corpse());
+    return (object->CorpseMan.get_corpse() && object->Home->at_home(object->CorpseMan.get_corpse()->Position()) && hungry() && !const_cast<CEntityAlive*>(object->CorpseMan.get_corpse())->is_locked_corpse());
 }
 
 TEMPLATE_SPECIALIZATION

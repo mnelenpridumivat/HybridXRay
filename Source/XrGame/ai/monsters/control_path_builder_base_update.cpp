@@ -55,7 +55,7 @@ void CControlPathBuilderBase::update_target_point()
     m_last_time_target_set = Device->dwTimeGlobal;
 
     // параметры установлены, включаем актуальность
-    m_target_actual = true;
+    m_target_actual        = true;
 }
 
 void CControlPathBuilderBase::set_path_builder_params()
@@ -96,9 +96,7 @@ void CControlPathBuilderBase::update_path_builder_state()
     }
 
     // ждать пока не будет построен путь (путь должен быть гарантированно построен)
-    if ((m_last_time_target_set > m_time_path_updated_external) ||
-        (!m_man->path_builder().detail().actual() &&
-         (m_man->path_builder().detail().time_path_built() < m_last_time_target_set)))
+    if ((m_last_time_target_set > m_time_path_updated_external) || (!m_man->path_builder().detail().actual() && (m_man->path_builder().detail().time_path_built() < m_last_time_target_set)))
     {
         m_state |= eStateWaitNewPath;
     }
@@ -111,7 +109,7 @@ void CControlPathBuilderBase::update_path_builder_state()
         m_state &= ~eStatePathValid;
         m_state &= ~eStateWaitNewPath;
 
-        m_failed = false;
+        m_failed                     = false;
 
         m_time_global_failed_started = time();
     }

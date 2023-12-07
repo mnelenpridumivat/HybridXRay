@@ -22,11 +22,7 @@ namespace award_system
             return m_killer_victim_angle_cos;
         };
         virtual void reset_game();
-        virtual void OnPlayerKilled(
-            u16                                     killer_id,
-            u16                                     target_id,
-            u16                                     weapon_id,
-            std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
+        virtual void OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
 
     protected:
         float m_killer_victim_angle_cos;

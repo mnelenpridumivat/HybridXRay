@@ -30,15 +30,18 @@ namespace lc_net
     {
     public:
         typedef xr_vector<xr_vector<e_net_globals>*> type_table;
+
     private:
         friend type_table& inter_get_table<e>(enum_table& table);
         type_table         gl_table;
+
     public:
         enum_table();
         const xr_vector<e_net_globals>& get_globals(e et) const
         {
             return *gl_table[et];
         }
+
     private:
     };
     typedef enum_table<execution_types> execution_globals_reg;

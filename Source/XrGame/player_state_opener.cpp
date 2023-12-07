@@ -21,11 +21,7 @@ namespace award_system
         m_opener_ready = false;
     }
 
-    void player_state_opener::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void player_state_opener::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
 
@@ -40,8 +36,7 @@ namespace award_system
             return;
 
         u16 victim_armor = m_owner->get_armor_of_player(victim_player);
-        if ((kill_type.second == SKT_KNIFEKILL) &&
-            m_owner->is_item_in_group(victim_armor, ammunition_group::gid_exo_outfit))
+        if ((kill_type.second == SKT_KNIFEKILL) && m_owner->is_item_in_group(victim_armor, ammunition_group::gid_exo_outfit))
         {
             m_opener_ready = true;
         }

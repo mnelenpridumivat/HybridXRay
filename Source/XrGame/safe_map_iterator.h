@@ -8,14 +8,7 @@
 
 #pragma once
 
-template <
-    typename _key_type,
-    typename _data_type,
-    typename _predicate   = std::less<_key_type>,
-    bool use_time_limit   = true,
-    typename _cycle_type  = u64,
-    bool use_first_update = true>
-class CSafeMapIterator
+template<typename _key_type, typename _data_type, typename _predicate = std::less<_key_type>, bool use_time_limit = true, typename _cycle_type = u64, bool use_first_update = true> class CSafeMapIterator
 {
 public:
     typedef xr_map<_key_type, _data_type*, _predicate> _REGISTRY;
@@ -39,15 +32,14 @@ protected:
 public:
     IC CSafeMapIterator();
     virtual ~CSafeMapIterator();
-    IC void add(const _key_type& id, _data_type* value, bool no_assert = false);
-    IC void remove(const _key_type& id, bool no_assert = false);
-    template <typename _update_predicate>
-    IC u32              update(const _update_predicate& predicate, bool const iterate_as_first_time_next_time);
-    IC void             set_process_time(const float& process_time);
-    IC const _REGISTRY& objects() const;
-    IC void             clear();
-    IC bool             empty() const;
-    IC void             begin();
+    IC void                                     add(const _key_type& id, _data_type* value, bool no_assert = false);
+    IC void                                     remove(const _key_type& id, bool no_assert = false);
+    template<typename _update_predicate> IC u32 update(const _update_predicate& predicate, bool const iterate_as_first_time_next_time);
+    IC void                                     set_process_time(const float& process_time);
+    IC const _REGISTRY&                         objects() const;
+    IC void                                     clear();
+    IC bool                                     empty() const;
+    IC void                                     begin();
 };
 
 #include "safe_map_iterator_inline.h"

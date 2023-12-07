@@ -28,11 +28,7 @@ private:
     typedef System::Collections::IList IList;
 
 public:
-    property_integer_values_value_getter(
-        integer_getter_type const&                getter,
-        integer_setter_type const&                setter,
-        string_collection_getter_type const&      collection_getter,
-        string_collection_size_getter_type const& collection_size_getter);
+    property_integer_values_value_getter(integer_getter_type const& getter, integer_setter_type const& setter, string_collection_getter_type const& collection_getter, string_collection_size_getter_type const& collection_size_getter);
     virtual ~property_integer_values_value_getter();
     !property_integer_values_value_getter();
     virtual Object ^ get_value() override;

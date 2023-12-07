@@ -17,8 +17,7 @@ void CCar::InitDebug()
 }
 void CCar::DbgSheduleUpdate()
 {
-    if (ph_dbg_draw_mask.test(phDbgDrawCarPlots) && m_pPhysicsShell && OwnerActor() &&
-        static_cast<CObject*>(Owner()) == Level().CurrentViewEntity())
+    if (ph_dbg_draw_mask.test(phDbgDrawCarPlots) && m_pPhysicsShell && OwnerActor() && static_cast<CObject*>(Owner()) == Level().CurrentViewEntity())
     {
         DbgCreatePlots();
     }
@@ -31,7 +30,7 @@ void CCar::DbgSheduleUpdate()
 static float torq_pow_max_ratio = 1.f;
 static float rpm_pow_max_ratio  = 1.f;
 
-void CCar::DbgCreatePlots()
+void         CCar::DbgCreatePlots()
 {
     if (b_plots)
         return;
@@ -39,9 +38,7 @@ void CCar::DbgCreatePlots()
     e_state_drive     = drive;
     //////////////////////////////
     int y_pos = 0, y_w = 100;
-    m_dbg_power_rpm.Init(
-        CFunctionGraph::type_function(this, &CCar::Parabola), m_min_rpm, m_max_rpm, 0, y_pos, 500, y_w, 1000,
-        color_xrgb(0, 0, 255));
+    m_dbg_power_rpm.Init(CFunctionGraph::type_function(this, &CCar::Parabola), m_min_rpm, m_max_rpm, 0, y_pos, 500, y_w, 1000, color_xrgb(0, 0, 255));
     m_dbg_power_rpm.AddMarker(CStatGraph::stVert, 0, color_xrgb(255, 0, 0));
     m_dbg_power_rpm.AddMarker(CStatGraph::stHor, 0, color_xrgb(0, 0, 255));
     m_dbg_power_rpm.AddMarker(CStatGraph::stVert, 0, color_xrgb(0, 0, 0));
@@ -51,8 +48,7 @@ void CCar::DbgCreatePlots()
 
     y_pos += y_w + 10;
 
-    m_dbg_torque_rpm.Init(
-        CFunctionGraph::type_function(this, &CCar::TorqueRpmFun), m_min_rpm, m_max_rpm, 0, y_pos, 500, y_w, 1000);
+    m_dbg_torque_rpm.Init(CFunctionGraph::type_function(this, &CCar::TorqueRpmFun), m_min_rpm, m_max_rpm, 0, y_pos, 500, y_w, 1000);
     m_dbg_torque_rpm.AddMarker(CStatGraph::stVert, 0, color_xrgb(255, 0, 0));
     m_dbg_torque_rpm.AddMarker(CStatGraph::stHor, 0, color_xrgb(0, 255, 0));
     m_dbg_torque_rpm.AddMarker(CStatGraph::stVert, 0, color_xrgb(0, 0, 0));
@@ -121,8 +117,7 @@ void CCar::DbgUbdateCl()
             UI().Font().pFontStat->SetColor(color_rgba(0xff, 0xff, 0xff, 0xff));
             UI().Font().pFontStat->OutSet(120, 530);
             UI().Font().pFontStat->OutNext(s);
-            UI().Font().pFontStat->SetColor(
-                color_xrgb(255, !b_transmission_switching * 255, !b_transmission_switching * 255));
+            UI().Font().pFontStat->SetColor(color_xrgb(255, !b_transmission_switching * 255, !b_transmission_switching * 255));
             UI().Font().pFontStat->OutNext("Transmission num:      [%d]", m_current_transmission_num);
             UI().Font().pFontStat->SetColor(color_rgba(0xff, 0xff, 0xff, 0xff));
             UI().Font().pFontStat->OutNext("gear ratio:			  [%3.2f]", m_current_gear_ratio);

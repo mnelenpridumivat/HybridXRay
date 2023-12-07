@@ -16,9 +16,8 @@
 // T_INIT		-	класс где определена статическая InitIdToIndex
 //					функция инициализации section_name и line_name
 
-#define TEMPLATE_SPECIALIZATION \
-    template <u32 ITEM_REC_NUM, typename ITEM_DATA, typename T_ID, typename T_INDEX, typename T_INIT>
-#define CSINI_IdToIndex CIni_IdToIndex<ITEM_REC_NUM, ITEM_DATA, T_ID, T_INDEX, T_INIT>
+#define TEMPLATE_SPECIALIZATION template<u32 ITEM_REC_NUM, typename ITEM_DATA, typename T_ID, typename T_INDEX, typename T_INIT>
+#define CSINI_IdToIndex         CIni_IdToIndex<ITEM_REC_NUM, ITEM_DATA, T_ID, T_INDEX, T_INIT>
 
 TEMPLATE_SPECIALIZATION
 class CIni_IdToIndex
@@ -28,16 +27,16 @@ public:
     typedef T_ID    id_type;
 
 protected:
-    typedef xr_vector<ITEM_DATA> T_VECTOR;
-    static T_VECTOR*             m_pItemDataVector;
+    typedef xr_vector<ITEM_DATA>  T_VECTOR;
+    static T_VECTOR*              m_pItemDataVector;
 
-    template <u32 NUM> static void LoadItemData(u32, LPCSTR)
+    template<u32 NUM> static void LoadItemData(u32, LPCSTR)
     {
         STATIC_CHECK(false, Specialization_for_LoadItemData_in_CIni_IdToIndex_not_found);
         NODEFAULT;
     }
 
-    template <> static void LoadItemData<0>(u32 count, LPCSTR cfgRecord)
+    template<> static void LoadItemData<0>(u32 count, LPCSTR cfgRecord)
     {
         for (u32 k = 0; k < count; k += 1)
         {
@@ -51,7 +50,7 @@ protected:
         }
     }
 
-    template <> static void LoadItemData<1>(u32 count, LPCSTR cfgRecord)
+    template<> static void LoadItemData<1>(u32 count, LPCSTR cfgRecord)
     {
         for (u32 k = 0; k < count; k += 2)
         {
@@ -78,7 +77,7 @@ public:
     static const ITEM_DATA* GetById(const T_ID& str_id, bool no_assert = false);
     static const ITEM_DATA* GetByIndex(T_INDEX index, bool no_assert = false);
 
-    static const T_INDEX IdToIndex(const T_ID& str_id, T_INDEX default_index = T_INDEX(-1), bool no_assert = false)
+    static const T_INDEX    IdToIndex(const T_ID& str_id, T_INDEX default_index = T_INDEX(-1), bool no_assert = false)
     {
         const ITEM_DATA* item = GetById(str_id, no_assert);
         return item ? item->index : default_index;

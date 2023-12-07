@@ -20,6 +20,7 @@ public:
     {
         return !!pTexture;
     }
+
 public:
     ID3DTexture2D*        pSurface;
     ID3DRenderTargetView* pRT;

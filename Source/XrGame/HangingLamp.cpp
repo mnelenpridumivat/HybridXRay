@@ -111,8 +111,7 @@ BOOL CHangingLamp::net_Spawn(CSE_Abstract* DC)
     light_render = ::Render->light_create();
     light_render->set_shadow(!!lamp->flags.is(CSE_ALifeObjectHangingLamp::flCastShadow));
     light_render->set_volumetric(!!lamp->flags.is(CSE_ALifeObjectHangingLamp::flVolumetric));
-    light_render->set_type(
-        lamp->flags.is(CSE_ALifeObjectHangingLamp::flTypeSpot) ? IRender_Light::SPOT : IRender_Light::POINT);
+    light_render->set_type(lamp->flags.is(CSE_ALifeObjectHangingLamp::flTypeSpot) ? IRender_Light::SPOT : IRender_Light::POINT);
     light_render->set_range(lamp->range);
     light_render->set_color(clr);
     light_render->set_cone(lamp->spot_cone_angle);
@@ -144,7 +143,7 @@ BOOL CHangingLamp::net_Spawn(CSE_Abstract* DC)
 
     fHealth = lamp->m_health;
 
-    lanim = LALib.FindItem(*lamp->color_animator);
+    lanim   = LALib.FindItem(*lamp->color_animator);
 
     CPHSkeleton::Spawn(e);
     if (smart_cast<IKinematicsAnimated*>(Visual()))
@@ -333,11 +332,7 @@ void CHangingLamp::TurnOff()
         IKinematics* K = smart_cast<IKinematics*>(Visual());
         VERIFY(K);
         K->LL_SetBoneVisible(light_bone, FALSE, TRUE);
-        VERIFY2(
-            K->LL_GetBonesVisible() != 0,
-            make_string(
-                "can not Turn Off lamp: %s, visual %s - because all bones become invisible", cNameVisual().c_str(),
-                cName().c_str()));
+        VERIFY2(K->LL_GetBonesVisible() != 0, make_string("can not Turn Off lamp: %s, visual %s - because all bones become invisible", cNameVisual().c_str(), cName().c_str()));
     }
     if (!PPhysicsShell())   // if we have physiccs_shell it will call processing deactivate when disable
         processing_deactivate();
@@ -349,8 +344,7 @@ void CHangingLamp::TurnOff()
 void CHangingLamp::Hit(SHit* pHDS)
 {
     SHit HDS = *pHDS;
-    callback(GameObject::eHit)(
-        lua_game_object(), HDS.power, HDS.dir, smart_cast<const CGameObject*>(HDS.who)->lua_game_object(), HDS.bone());
+    callback(GameObject::eHit)(lua_game_object(), HDS.power, HDS.dir, smart_cast<const CGameObject*>(HDS.who)->lua_game_object(), HDS.bone());
     BOOL bWasAlive = Alive();
 
     if (m_pPhysicsShell)
@@ -375,7 +369,7 @@ void              CHangingLamp::CreateBody(CSE_ALifeObjectHangingLamp* lamp)
 
     IKinematics* pKinematics = smart_cast<IKinematics*>(Visual());
 
-    m_pPhysicsShell = P_create_Shell();
+    m_pPhysicsShell          = P_create_Shell();
 
     bone_map.clear();
     LPCSTR fixed_bones = *lamp->fixed_bones;
@@ -441,8 +435,5 @@ BOOL CHangingLamp::UsedAI_Locations()
 #pragma optimize("s", on)
 void CHangingLamp::script_register(lua_State* L)
 {
-    luabind::module(L)[luabind::class_<CHangingLamp, CGameObject>("hanging_lamp")
-                           .def(luabind::constructor<>())
-                           .def("turn_on", &CHangingLamp::TurnOn)
-                           .def("turn_off", &CHangingLamp::TurnOff)];
+    luabind::module(L)[luabind::class_<CHangingLamp, CGameObject>("hanging_lamp").def(luabind::constructor<>()).def("turn_on", &CHangingLamp::TurnOn).def("turn_off", &CHangingLamp::TurnOff)];
 }

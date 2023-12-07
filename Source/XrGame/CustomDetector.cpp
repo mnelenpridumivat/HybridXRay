@@ -57,8 +57,7 @@ bool CCustomDetector::CheckCompatibilityInt(CHudItem* itm, u16* slot_to_activate
     {
         CWeapon* W = smart_cast<CWeapon*>(itm);
         if (W)
-            bres = bres && (W->GetState() != CHUDState::eBore) && (W->GetState() != CWeapon::eReload) &&
-                (W->GetState() != CWeapon::eSwitch) && !W->IsZoomed();
+            bres = bres && (W->GetState() != CHUDState::eBore) && (W->GetState() != CWeapon::eReload) && (W->GetState() != CWeapon::eSwitch) && !W->IsZoomed();
     }
     return bres;
 }
@@ -123,20 +122,23 @@ void CCustomDetector::OnStateSwitch(u32 S)
 
     switch (S)
     {
-        case eShowing: {
+        case eShowing:
+        {
             g_player_hud->attach_item(this);
             m_sounds.PlaySound("sndShow", Fvector().set(0, 0, 0), this, true, false);
             PlayHUDMotion(m_bFastAnimMode ? "anm_show_fast" : "anm_show", FALSE /*TRUE*/, this, GetState());
             SetPending(TRUE);
         }
         break;
-        case eHiding: {
+        case eHiding:
+        {
             m_sounds.PlaySound("sndHide", Fvector().set(0, 0, 0), this, true, false);
             PlayHUDMotion(m_bFastAnimMode ? "anm_hide_fast" : "anm_hide", FALSE /*TRUE*/, this, GetState());
             SetPending(TRUE);
         }
         break;
-        case eIdle: {
+        case eIdle:
+        {
             PlayAnimIdle();
             SetPending(FALSE);
         }
@@ -149,11 +151,13 @@ void CCustomDetector::OnAnimationEnd(u32 state)
     inherited::OnAnimationEnd(state);
     switch (state)
     {
-        case eShowing: {
+        case eShowing:
+        {
             SwitchState(eIdle);
         }
         break;
-        case eHiding: {
+        case eHiding:
+        {
             SwitchState(eHidden);
             TurnDetectorInternal(false);
             g_player_hud->detach_item(this);
@@ -334,9 +338,9 @@ void CCustomDetector::UpdateNightVisionMode(bool b_on) {}
 
 BOOL CAfList::feel_touch_contact(CObject* O)
 {
-    TypesMapIt it = m_TypesMap.find(O->cNameSect());
+    TypesMapIt it  = m_TypesMap.find(O->cNameSect());
 
-    bool res = (it != m_TypesMap.end());
+    bool       res = (it != m_TypesMap.end());
     if (res)
     {
         CArtefact* pAf = smart_cast<CArtefact*>(O);

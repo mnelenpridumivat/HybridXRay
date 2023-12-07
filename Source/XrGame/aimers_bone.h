@@ -17,15 +17,10 @@
 namespace aimers
 {
 
-    template <u32 bone_count> class bone: public base
+    template<u32 bone_count> class bone: public base
     {
     public:
-        bone(
-            CGameObject*   object,
-            LPCSTR         animation_id,
-            bool           animation_start,
-            Fvector const& target,
-            LPCSTR (&bones)[bone_count]);
+        bone(CGameObject* object, LPCSTR animation_id, bool animation_start, Fvector const& target, LPCSTR (&bones)[bone_count]);
         inline Fmatrix const& get_bone(u32 const& bone_id) const;
 
     private:

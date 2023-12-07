@@ -320,11 +320,9 @@ void IGame_Level::SoundEvent_Dispatch()
         VERIFY(D.dest && D.source);
         if (D.source->feedback)
         {
-            D.dest->feel_sound_new(
-                D.source->g_object, D.source->g_type, D.source->g_userdata,
+            D.dest->feel_sound_new(D.source->g_object, D.source->g_type, D.source->g_userdata,
 
-                D.source->feedback->is_2D() ? Device->vCameraPosition : D.source->feedback->get_params()->position,
-                D.power);
+                D.source->feedback->is_2D() ? Device->vCameraPosition : D.source->feedback->get_params()->position, D.power);
         }
         snd_Events.pop_back();
     }

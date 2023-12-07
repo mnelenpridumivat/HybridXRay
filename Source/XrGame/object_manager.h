@@ -8,7 +8,7 @@
 
 #pragma once
 
-template <typename T> class CObjectManager
+template<typename T> class CObjectManager
 {
 public:
     typedef xr_vector<T*> OBJECTS;

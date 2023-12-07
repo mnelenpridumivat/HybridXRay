@@ -24,19 +24,14 @@ namespace award_system
             SPECIAL_KILL_TYPE m_spec_kill_type;
         };   // struct kill
 
-        static unsigned int const                                    max_kills_count = 10;
-        typedef obsolete_queue<buffer_vector<kill>, max_kills_count> kills_t;
+        static unsigned int const                                               max_kills_count = 10;
+        typedef obsolete_queue<buffer_vector<kill>, max_kills_count>            kills_t;
         // key: (initiator, victim)
         typedef associative_vector<std::pair<shared_str, shared_str>, kills_t*> kills_map_t;
 
-        void add_kill(
-            shared_str const&       killer,
-            shared_str const&       victim,
-            u16                     weapon_id,
-            KILL_TYPE const         kill_type,
-            SPECIAL_KILL_TYPE const spec_kill_type);
+        void                                                                    add_kill(shared_str const& killer, shared_str const& victim, u16 weapon_id, KILL_TYPE const kill_type, SPECIAL_KILL_TYPE const spec_kill_type);
 
-        template <typename Predicate> u32 const fetch_kills(Predicate& predicate, buffer_vector<kill>& dest_kills);
+        template<typename Predicate> u32 const                                  fetch_kills(Predicate& predicate, buffer_vector<kill>& dest_kills);
 
     private:
         kills_map_t m_kills;

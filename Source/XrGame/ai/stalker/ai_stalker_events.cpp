@@ -29,7 +29,8 @@ void CAI_Stalker::OnEvent(NET_Packet& P, u16 type)
     switch (type)
     {
         case GE_TRADE_BUY:
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             u16 id;
             P.r_u16(id);
             CObject* O = Level().Objects.net_Find(id);
@@ -67,7 +68,8 @@ void CAI_Stalker::OnEvent(NET_Packet& P, u16 type)
             break;
         }
         case GE_TRADE_SELL:
-        case GE_OWNERSHIP_REJECT: {
+        case GE_OWNERSHIP_REJECT:
+        {
             u16 id;
             P.r_u16(id);
 
@@ -157,9 +159,6 @@ void CAI_Stalker::feel_touch_new(CObject* O)
         return;
     }
 
-    VERIFY2(
-        std::find(m_ignored_touched_objects.begin(), m_ignored_touched_objects.end(), O) ==
-            m_ignored_touched_objects.end(),
-        make_string("object %s is already in ignroed touched objects list", O->cName().c_str()));
+    VERIFY2(std::find(m_ignored_touched_objects.begin(), m_ignored_touched_objects.end(), O) == m_ignored_touched_objects.end(), make_string("object %s is already in ignroed touched objects list", O->cName().c_str()));
     m_ignored_touched_objects.push_back(O);
 }

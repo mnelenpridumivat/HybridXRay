@@ -3,15 +3,13 @@
 
 #define MAX_MB_CHARS 4096
 
-typedef unsigned short int wide_char;
+typedef unsigned short int    wide_char;
 
-ENGINE_API unsigned short int
-    mbhMulti2Wide(wide_char* WideStr, wide_char* WidePos, const unsigned short int WideStrSize, const char* MultiStr);
+ENGINE_API unsigned short int mbhMulti2Wide(wide_char* WideStr, wide_char* WidePos, const unsigned short int WideStrSize, const char* MultiStr);
 
-__inline BOOL IsNeedSpaceCharacter(wide_char wc)
+__inline BOOL                 IsNeedSpaceCharacter(wide_char wc)
 {
-    return (
-        (wc == 0x0020) ||
+    return ((wc == 0x0020) ||
 
         (wc == 0x3000) ||
 
@@ -26,8 +24,7 @@ __inline BOOL IsNeedSpaceCharacter(wide_char wc)
 
 __inline BOOL IsBadStartCharacter(wide_char wc)
 {
-    return (
-        IsNeedSpaceCharacter(wc) ||
+    return (IsNeedSpaceCharacter(wc) ||
 
         (wc == 0x0021) || (wc == 0x002C) ||
         //		( wc == 0x002D )  ||
@@ -38,8 +35,7 @@ __inline BOOL IsBadStartCharacter(wide_char wc)
 
 __inline BOOL IsBadEndCharacter(wide_char wc)
 {
-    return (
-        (wc == 0x0028) ||
+    return ((wc == 0x0028) ||
 
         (wc == 0xFF08) ||
 
@@ -48,9 +44,7 @@ __inline BOOL IsBadEndCharacter(wide_char wc)
 
 __inline BOOL IsAlphaCharacter(wide_char wc)
 {
-    return (
-        ((wc >= 0x0030) && (wc <= 0x0039)) || ((wc >= 0x0041) && (wc <= 0x005A)) ||
-        ((wc >= 0x0061) && (wc <= 0x007A)) ||
+    return (((wc >= 0x0030) && (wc <= 0x0039)) || ((wc >= 0x0041) && (wc <= 0x005A)) || ((wc >= 0x0061) && (wc <= 0x007A)) ||
 
         ((wc >= 0xFF10) && (wc <= 0xFF19)) || ((wc >= 0xFF21) && (wc <= 0xFF3A)) || ((wc >= 0xFF41) && (wc <= 0xFF5A)));
 }

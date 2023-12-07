@@ -82,7 +82,8 @@ void CEditableMesh::RebuildVMaps()
                 st_VMap*   vmap    = m_VMaps[o_pt_it->vmap_index];
                 switch (vmap->type)
                 {
-                    case vmtUV: {
+                    case vmtUV:
+                    {
                         int& pm = m_VertVMap[F.pv[k].pindex];
                         if (-1 == pm)
                         {   // point map
@@ -134,7 +135,8 @@ void CEditableMesh::RebuildVMaps()
                         }
                     }
                     break;
-                    case vmtWeight: {
+                    case vmtWeight:
+                    {
                         int vm_idx = FindVMapByName(nVMaps, vmap->name.c_str(), vmap->type, false);
                         if (-1 == vm_idx)
                         {
@@ -167,9 +169,9 @@ void CEditableMesh::RebuildVMaps()
 #define MX 25
 #define MY 15
 #define MZ 25
-static Fvector VMmin, VMscale;
-static U32Vec  VM[MX + 1][MY + 1][MZ + 1];
-static Fvector VMeps;
+static Fvector    VMmin, VMscale;
+static U32Vec     VM[MX + 1][MY + 1][MZ + 1];
+static Fvector    VMeps;
 
 static FvectorVec m_NewPoints;
 bool              CEditableMesh::OptimizeFace(st_Face& face)
@@ -264,8 +266,7 @@ void CEditableMesh::OptimizeMesh(BOOL NoOpt)
             for (int y = 0; y < MY + 1; y++)
                 for (int z = 0; z < MZ + 1; z++)
                     VM[x][y][z].clear();
-        VMscale.set(
-            m_Box.max.x - m_Box.min.x + EPS_S, m_Box.max.y - m_Box.min.y + EPS_S, m_Box.max.z - m_Box.min.z + EPS_S);
+        VMscale.set(m_Box.max.x - m_Box.min.x + EPS_S, m_Box.max.y - m_Box.min.y + EPS_S, m_Box.max.z - m_Box.min.z + EPS_S);
         VMmin.set(m_Box.min.x, m_Box.min.y, m_Box.min.z);
 
         VMeps.set(VMscale.x / MX / 2, VMscale.y / MY / 2, VMscale.z / MZ / 2);
@@ -303,10 +304,10 @@ void CEditableMesh::OptimizeMesh(BOOL NoOpt)
             st_Face* old_faces = m_Faces;
             u32*     old_sg    = m_SmoothGroups;
 
-            m_Faces        = xr_alloc<st_Face>(m_FaceCount - i_del_face);
-            m_SmoothGroups = xr_alloc<u32>(m_FaceCount - i_del_face);
+            m_Faces            = xr_alloc<st_Face>(m_FaceCount - i_del_face);
+            m_SmoothGroups     = xr_alloc<u32>(m_FaceCount - i_del_face);
 
-            u32 new_dk = 0;
+            u32 new_dk         = 0;
             for (u32 dk = 0; dk < m_FaceCount; ++dk)
             {
                 if (faces_mark[dk])

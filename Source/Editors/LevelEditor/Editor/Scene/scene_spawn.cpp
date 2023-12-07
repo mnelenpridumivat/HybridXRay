@@ -30,8 +30,7 @@ bool EScene::BuildSpawn()
     UI->ShowConsole();
     m_spawn_data.clear();
     CGameSpawnConstructor SpawnConstructor;
-    if (!SpawnConstructor.build(
-            Scene->m_LevelOp.m_FNLevelPath.c_str(), m_spawn_data, Scene->m_LevelOp.m_FNLevelPath.c_str(), true))
+    if (!SpawnConstructor.build(Scene->m_LevelOp.m_FNLevelPath.c_str(), m_spawn_data, Scene->m_LevelOp.m_FNLevelPath.c_str(), true))
     {
         ELog.DlgMsg(mtError, mbOK, "! Failed build spawn! \nSee log.");
         UI->CloseConsole();
@@ -51,8 +50,7 @@ bool EScene::BuildForPCPlay()
     strconcat(sizeof(N2), N2, FileName, "\\level.ltx");
     strconcat(sizeof(N3), N3, FileName, "\\level.geom");
     strconcat(sizeof(N4), N4, FileName, "\\level.cform");
-    if (!FS.exist("$game_levels$", N1) || !FS.exist("$game_levels$", N2) || !FS.exist("$game_levels$", N3) ||
-        !FS.exist("$game_levels$", N4))
+    if (!FS.exist("$game_levels$", N1) || !FS.exist("$game_levels$", N2) || !FS.exist("$game_levels$", N3) || !FS.exist("$game_levels$", N4))
     {
         ELog.DlgMsg(mtError, mbOK, "Level is not builded!");
         return false;
@@ -90,8 +88,7 @@ bool EScene::BuildForPCPlay()
     }
 
     CGameSpawnConstructor SpawnConstructor;
-    if (!SpawnConstructor.build(
-            Scene->m_LevelOp.m_FNLevelPath.c_str(), "editor", Scene->m_LevelOp.m_FNLevelPath.c_str(), true))
+    if (!SpawnConstructor.build(Scene->m_LevelOp.m_FNLevelPath.c_str(), "editor", Scene->m_LevelOp.m_FNLevelPath.c_str(), true))
     {
         ELog.DlgMsg(mtError, mbOK, "! Failed build spawn! \nSee log.");
         UI->CloseConsole();

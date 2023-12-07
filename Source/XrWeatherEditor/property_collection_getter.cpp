@@ -9,10 +9,7 @@
 #include "pch.hpp"
 #include "property_collection_getter.hpp"
 
-property_collection_getter::property_collection_getter(collection_getter_type const& getter):
-    m_getter(new collection_getter_type(getter))
-{
-}
+property_collection_getter::property_collection_getter(collection_getter_type const& getter): m_getter(new collection_getter_type(getter)) {}
 
 property_collection_getter::~property_collection_getter()
 {

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_update_manager_inline.h
 //	Created 	: 25.12.2002
 //  Modified 	: 12.05.2004
@@ -8,7 +8,7 @@
 
 #pragma once
 
-IC	float CALifeUpdateManager::update_monster_factor	() const
+IC float CALifeUpdateManager::update_monster_factor() const
 {
-	return						(m_update_monster_factor);
+    return (m_update_monster_factor);
 }

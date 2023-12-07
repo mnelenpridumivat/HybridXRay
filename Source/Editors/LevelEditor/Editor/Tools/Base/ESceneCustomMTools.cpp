@@ -4,7 +4,7 @@
 
 ESceneToolBase::ESceneToolBase(ObjClassID cls)
 {
-    FClassID = cls;
+    FClassID    = cls;
     // controls
     sub_target  = 0;
     pCurControl = 0;

@@ -16,8 +16,8 @@ public:
     void   SetTextST(LPCSTR text);
     LPCSTR GetText();
     //--
-    void SetTextColor(u32 color);
-    u32  GetTextColor()
+    void   SetTextColor(u32 color);
+    u32    GetTextColor()
     {
         return m_dwTextColor;
     }
@@ -50,44 +50,44 @@ public:
         return !!uFlags.test(flPasswordMode);
     };
 
-    void SetColoringMode(bool mode);
-    void SetCutWordsMode(bool mode);
-    void SetUseNewLineMode(bool mode);
-    void SetEllipsis(bool mode);
+    void         SetColoringMode(bool mode);
+    void         SetCutWordsMode(bool mode);
+    void         SetUseNewLineMode(bool mode);
+    void         SetEllipsis(bool mode);
 
-    void Draw(float x, float y);
+    void         Draw(float x, float y);
 
     // CDeviceResetNotifier methods
     virtual void OnDeviceReset();
 
     // own methods
-    void  Reset();
-    void  ParseText(bool force = false);
-    float GetVisibleHeight();
+    void         Reset();
+    void         ParseText(bool force = false);
+    float        GetVisibleHeight();
 
-    Fvector2 m_TextOffset;
-    Fvector2 m_wndSize;
-    Fvector2 m_wndPos;
+    Fvector2     m_TextOffset;
+    Fvector2     m_wndSize;
+    Fvector2     m_wndPos;
 
 protected:
     // %c[255,255,255,255]
-    u32      GetColorFromText(const xr_string& str) const;
-    float    GetIndentByAlign() const;
-    float    GetVIndentByAlign();
-    void     CutFirstColoredTextEntry(xr_string& entry, u32& color, xr_string& text) const;
-    CUILine* ParseTextToColoredLine(const xr_string& str);
+    u32                           GetColorFromText(const xr_string& str) const;
+    float                         GetIndentByAlign() const;
+    float                         GetVIndentByAlign();
+    void                          CutFirstColoredTextEntry(xr_string& entry, u32& color, xr_string& text) const;
+    CUILine*                      ParseTextToColoredLine(const xr_string& str);
 
     typedef xr_vector<CUILine>    LinesVector;
     typedef LinesVector::iterator LinesVector_it;
     LinesVector                   m_lines;   // parsed text
 
-    shared_str m_text;
+    shared_str                    m_text;
 
-    ETextAlignment  m_eTextAlign;
-    EVTextAlignment m_eVTextAlign;
-    u32             m_dwTextColor;
+    ETextAlignment                m_eTextAlign;
+    EVTextAlignment               m_eVTextAlign;
+    u32                           m_dwTextColor;
 
-    CGameFont* m_pFont;
+    CGameFont*                    m_pFont;
 
     enum
     {

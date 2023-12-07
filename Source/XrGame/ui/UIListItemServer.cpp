@@ -8,19 +8,19 @@ CUIListItemServer::CUIListItemServer(float height): inherited(height)
     m_iconPass      = AddIconField(5.0f);
     m_iconDedicated = AddIconField(5.0f);
     //	m_iconPunkBuster	= AddIconField(5.0f);
-    m_iconUserPass = AddIconField(5.0f);
+    m_iconUserPass  = AddIconField(5.0f);
 
-    m_server  = GetTextItem();
-    m_map     = AddTextField("", 5.0f);
-    m_game    = AddTextField("", 5.0f);
-    m_players = AddTextField("", 5.0f);
-    m_ping    = AddTextField("", 5.0f);
-    m_version = AddTextField("", 5.0f);
+    m_server        = GetTextItem();
+    m_map           = AddTextField("", 5.0f);
+    m_game          = AddTextField("", 5.0f);
+    m_players       = AddTextField("", 5.0f);
+    m_ping          = AddTextField("", 5.0f);
+    m_version       = AddTextField("", 5.0f);
 }
 
 void CUIListItemServer::InitItemServer(LIST_SRV_ITEM& params)
 {
-    float offset = 0.0f;
+    float offset    = 0.0f;
 
     float icon_size = CUITextureMaster::GetTextureHeight("ui_icon_password");
 
@@ -99,13 +99,13 @@ void CUIListItemServer::InitItemServer(LIST_SRV_ITEM& params)
 }
 
 #include "../string_table.h"
-u32 cut_string_by_length(CGameFont* pFont, LPCSTR src, LPSTR dst, u32 dst_size, float length);
+u32  cut_string_by_length(CGameFont* pFont, LPCSTR src, LPSTR dst, u32 dst_size, float length);
 
 void CUIListItemServer::SetParams(LIST_SRV_ITEM& params)
 {
     string1024 buff;
 
-    LPCSTR _srv_name = CStringTable().translate(params.info.server).c_str();
+    LPCSTR     _srv_name = CStringTable().translate(params.info.server).c_str();
     cut_string_by_length(m_map->GetFont(), _srv_name, buff, sizeof(buff), m_server->GetWidth());
     m_server->SetText(buff);
 
@@ -129,11 +129,7 @@ void CUIListItemServer::SetParams(LIST_SRV_ITEM& params)
     SetTAG(params.info.Index);
 }
 
-void CUIListItemServer::CreateConsoleCommand(
-    xr_string& command,
-    LPCSTR     player_name,
-    LPCSTR     player_pass,
-    LPCSTR     server_psw)
+void CUIListItemServer::CreateConsoleCommand(xr_string& command, LPCSTR player_name, LPCSTR player_pass, LPCSTR server_psw)
 {
     command = "start client(";
     command += *m_srv_info.info.address;

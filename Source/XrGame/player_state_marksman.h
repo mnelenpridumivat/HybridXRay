@@ -23,15 +23,11 @@ namespace award_system
         };
         virtual void reset_game();
 
-        virtual void OnPlayerKilled(
-            u16                                     killer_id,
-            u16                                     target_id,
-            u16                                     weapon_id,
-            std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
+        virtual void OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
         virtual void OnPlayerSpawned(game_PlayerState const* ps);
 
     protected:
-        static int const max_kill_dist = 80;
+        static int const                      max_kill_dist = 80;
         // data of the vector is float - kill distance - used only for debug.
         associative_vector<shared_str, float> m_sniper_victims;
         u32                                   m_spawn_time;

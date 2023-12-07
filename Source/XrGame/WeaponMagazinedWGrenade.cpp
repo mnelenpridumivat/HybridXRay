@@ -145,9 +145,7 @@ void CWeaponMagazinedWGrenade::OnShot()
 
 bool CWeaponMagazinedWGrenade::SwitchMode()
 {
-    bool bUsefulStateToSwitch =
-        ((eIdle == GetState()) || (eHidden == GetState()) || (eMisfire == GetState()) || (eMagEmpty == GetState())) &&
-        (!IsPending());
+    bool bUsefulStateToSwitch = ((eIdle == GetState()) || (eHidden == GetState()) || (eMisfire == GetState()) || (eMagEmpty == GetState())) && (!IsPending());
 
     if (!bUsefulStateToSwitch)
         return false;
@@ -174,7 +172,7 @@ void CWeaponMagazinedWGrenade::PerformSwitchGL()
 {
     m_bGrenadeMode = !m_bGrenadeMode;
 
-    iMagazineSize = m_bGrenadeMode ? 1 : iMagazineSize2;
+    iMagazineSize  = m_bGrenadeMode ? 1 : iMagazineSize2;
 
     m_ammoTypes.swap(m_ammoTypes2);
 
@@ -197,7 +195,7 @@ void CWeaponMagazinedWGrenade::PerformSwitchGL()
         m_magazine2.push_back(l_magazine.back());
         l_magazine.pop_back();
     }
-    iAmmoElapsed = (int)m_magazine.size();
+    iAmmoElapsed          = (int)m_magazine.size();
 
     m_BriefInfo_CalcFrame = 0;
 }
@@ -226,7 +224,8 @@ bool CWeaponMagazinedWGrenade::Action(u16 cmd, u32 flags)
 
     switch (cmd)
     {
-        case kWPN_FUNC: {
+        case kWPN_FUNC:
+        {
             if (flags & CMD_START && !IsPending())
                 SwitchState(eSwitch);
             return true;
@@ -277,13 +276,15 @@ void CWeaponMagazinedWGrenade::OnEvent(NET_Packet& P, u16 type)
     u16 id;
     switch (type)
     {
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             P.r_u16(id);
             CRocketLauncher::AttachRocket(id, this);
         }
         break;
         case GE_OWNERSHIP_REJECT:
-        case GE_LAUNCH_ROCKET: {
+        case GE_LAUNCH_ROCKET:
+        {
             bool bLaunch = (type == GE_LAUNCH_ROCKET);
             P.r_u16(id);
             CRocketLauncher::DetachRocket(id, bLaunch);
@@ -352,8 +353,7 @@ void CWeaponMagazinedWGrenade::LaunchGrenade()
 //.				DBG_OpenCashedDraw();
 //.				DBG_DrawLine(p1,Fvector().add(p1,d),color_xrgb(255,0,0));
 #endif
-                u8 canfire0 = TransferenceAndThrowVelToThrowDir(
-                    Transference, CRocketLauncher::m_fLaunchSpeed, EffectiveGravity(), res);
+                u8 canfire0 = TransferenceAndThrowVelToThrowDir(Transference, CRocketLauncher::m_fLaunchSpeed, EffectiveGravity(), res);
 #ifdef DEBUG
 //.				if(canfire0>0)DBG_DrawLine(p1,Fvector().add(p1,res[0]),color_xrgb(0,255,0));
 //.				if(canfire0>1)DBG_DrawLine(p1,Fvector().add(p1,res[1]),color_xrgb(0,0,255));
@@ -426,7 +426,8 @@ void CWeaponMagazinedWGrenade::OnStateSwitch(u32 S)
 {
     switch (S)
     {
-        case eSwitch: {
+        case eSwitch:
+        {
             if (!SwitchMode())
             {
                 SwitchState(eIdle);
@@ -444,11 +445,13 @@ void CWeaponMagazinedWGrenade::OnAnimationEnd(u32 state)
 {
     switch (state)
     {
-        case eSwitch: {
+        case eSwitch:
+        {
             SwitchState(eIdle);
         }
         break;
-        case eFire: {
+        case eFire:
+        {
             if (m_bGrenadeMode)
                 Reload();
         }
@@ -473,9 +476,7 @@ bool CWeaponMagazinedWGrenade::CanAttach(PIItem pIItem)
 {
     CGrenadeLauncher* pGrenadeLauncher = smart_cast<CGrenadeLauncher*>(pIItem);
 
-    if (pGrenadeLauncher && ALife::eAddonAttachable == m_eGrenadeLauncherStatus &&
-        0 == (m_flagsAddOnState & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) &&
-        !xr_strcmp(*m_sGrenadeLauncherName, pIItem->object().cNameSect()))
+    if (pGrenadeLauncher && ALife::eAddonAttachable == m_eGrenadeLauncherStatus && 0 == (m_flagsAddOnState & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) && !xr_strcmp(*m_sGrenadeLauncherName, pIItem->object().cNameSect()))
         return true;
     else
         return inherited::CanAttach(pIItem);
@@ -483,9 +484,7 @@ bool CWeaponMagazinedWGrenade::CanAttach(PIItem pIItem)
 
 bool CWeaponMagazinedWGrenade::CanDetach(LPCSTR item_section_name)
 {
-    if (ALife::eAddonAttachable == m_eGrenadeLauncherStatus &&
-        0 != (m_flagsAddOnState & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) &&
-        !xr_strcmp(*m_sGrenadeLauncherName, item_section_name))
+    if (ALife::eAddonAttachable == m_eGrenadeLauncherStatus && 0 != (m_flagsAddOnState & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) && !xr_strcmp(*m_sGrenadeLauncherName, item_section_name))
         return true;
     else
         return inherited::CanDetach(item_section_name);
@@ -495,9 +494,7 @@ bool CWeaponMagazinedWGrenade::Attach(PIItem pIItem, bool b_send_event)
 {
     CGrenadeLauncher* pGrenadeLauncher = smart_cast<CGrenadeLauncher*>(pIItem);
 
-    if (pGrenadeLauncher && ALife::eAddonAttachable == m_eGrenadeLauncherStatus &&
-        0 == (m_flagsAddOnState & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) &&
-        !xr_strcmp(*m_sGrenadeLauncherName, pIItem->object().cNameSect()))
+    if (pGrenadeLauncher && ALife::eAddonAttachable == m_eGrenadeLauncherStatus && 0 == (m_flagsAddOnState & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) && !xr_strcmp(*m_sGrenadeLauncherName, pIItem->object().cNameSect()))
     {
         m_flagsAddOnState |= CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher;
 
@@ -523,9 +520,7 @@ bool CWeaponMagazinedWGrenade::Attach(PIItem pIItem, bool b_send_event)
 
 bool CWeaponMagazinedWGrenade::Detach(LPCSTR item_section_name, bool b_spawn_item)
 {
-    if (ALife::eAddonAttachable == m_eGrenadeLauncherStatus &&
-        0 != (m_flagsAddOnState & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) &&
-        !xr_strcmp(*m_sGrenadeLauncherName, item_section_name))
+    if (ALife::eAddonAttachable == m_eGrenadeLauncherStatus && 0 != (m_flagsAddOnState & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) && !xr_strcmp(*m_sGrenadeLauncherName, item_section_name))
     {
         m_flagsAddOnState &= ~CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher;
         if (m_bGrenadeMode)
@@ -762,16 +757,12 @@ void CWeaponMagazinedWGrenade::net_Import(NET_Packet& P)
 
 bool CWeaponMagazinedWGrenade::IsNecessaryItem(const shared_str& item_sect)
 {
-    return (
-        std::find(m_ammoTypes.begin(), m_ammoTypes.end(), item_sect) != m_ammoTypes.end() ||
-        std::find(m_ammoTypes2.begin(), m_ammoTypes2.end(), item_sect) != m_ammoTypes2.end());
+    return (std::find(m_ammoTypes.begin(), m_ammoTypes.end(), item_sect) != m_ammoTypes.end() || std::find(m_ammoTypes2.begin(), m_ammoTypes2.end(), item_sect) != m_ammoTypes2.end());
 }
 
 u8 CWeaponMagazinedWGrenade::GetCurrentHudOffsetIdx()
 {
-    bool b_aiming =
-        ((IsZoomed() && m_zoom_params.m_fZoomRotationFactor <= 1.f) ||
-         (!IsZoomed() && m_zoom_params.m_fZoomRotationFactor > 0.f));
+    bool b_aiming = ((IsZoomed() && m_zoom_params.m_fZoomRotationFactor <= 1.f) || (!IsZoomed() && m_zoom_params.m_fZoomRotationFactor > 0.f));
 
     if (!b_aiming)
         return 0;
@@ -785,11 +776,11 @@ bool CWeaponMagazinedWGrenade::install_upgrade_ammo_class(LPCSTR section, bool t
 {
     LPCSTR str;
 
-    bool result   = process_if_exists(section, "ammo_mag_size", &CInifile::r_s32, iMagazineSize2, test);
+    bool   result = process_if_exists(section, "ammo_mag_size", &CInifile::r_s32, iMagazineSize2, test);
     iMagazineSize = m_bGrenadeMode ? 1 : iMagazineSize2;
 
     //	ammo_class = ammo_5.45x39_fmj, ammo_5.45x39_ap  // name of the ltx-section of used ammo
-    bool result2 = process_if_exists_set(section, "ammo_class", &CInifile::r_string, str, test);
+    bool result2  = process_if_exists_set(section, "ammo_class", &CInifile::r_string, str, test);
     if (result2 && !test)
     {
         xr_vector<shared_str>& ammo_types = m_bGrenadeMode ? m_ammoTypes2 : m_ammoTypes;
@@ -812,10 +803,10 @@ bool CWeaponMagazinedWGrenade::install_upgrade_ammo_class(LPCSTR section, bool t
 bool CWeaponMagazinedWGrenade::install_upgrade_impl(LPCSTR section, bool test)
 {
     LPCSTR str;
-    bool   result = inherited::install_upgrade_impl(section, test);
+    bool   result  = inherited::install_upgrade_impl(section, test);
 
     //	grenade_class = ammo_vog-25, ammo_vog-25p          // name of the ltx-section of used grenades
-    bool result2 = process_if_exists_set(section, "grenade_class", &CInifile::r_string, str, test);
+    bool   result2 = process_if_exists_set(section, "grenade_class", &CInifile::r_string, str, test);
     if (result2 && !test)
     {
         xr_vector<shared_str>& ammo_types = !m_bGrenadeMode ? m_ammoTypes2 : m_ammoTypes;

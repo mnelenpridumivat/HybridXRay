@@ -21,7 +21,7 @@ extern ENGINE_API string512   g_sLaunchOnExit_app;
 extern ENGINE_API string512   g_sLaunchOnExit_params;
 extern ENGINE_API string_path g_sLaunchWorkingFolder;
 
-LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
+LPCSTR                        GameTypeToString(EGameIDs gt, bool bShort);
 
 CUIMapList::CUIMapList()
 {
@@ -123,16 +123,16 @@ void CUIMapList::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
 
 void CUIMapList::OnListItemClicked()
 {
-    xr_string map_name = "intro\\intro_map_pic_";
+    xr_string                     map_name = "intro\\intro_map_pic_";
 
-    CUIListBoxItem*               itm  = m_pList1->GetSelectedItem();
-    u32                           _idx = (u32)(__int64)(itm->GetData());
-    const SGameTypeMaps::SMapItm& M    = GetMapNameInt(GetCurGameType(), _idx);
+    CUIListBoxItem*               itm      = m_pList1->GetSelectedItem();
+    u32                           _idx     = (u32)(__int64)(itm->GetData());
+    const SGameTypeMaps::SMapItm& M        = GetMapNameInt(GetCurGameType(), _idx);
 
     map_name += M.map_name.c_str();
     xr_string full_name = map_name + ".dds";
 
-    Frect orig_rect = m_pMapPic->GetTextureRect();
+    Frect     orig_rect = m_pMapPic->GetTextureRect();
 
     if (FS.exist("$game_textures$", full_name.c_str()))
         m_pMapPic->InitTexture(map_name.c_str());
@@ -146,7 +146,7 @@ void CUIMapList::OnListItemClicked()
 
 xr_token g_GameModes[];
 
-void CUIMapList::OnModeChange()
+void     CUIMapList::OnModeChange()
 {
     UpdateMapList(GetCurGameType());
 }
@@ -245,7 +245,7 @@ void CUIMapList::LoadMapList()
     GAME_WEATHERS_CIT it            = game_weathers.begin();
     GAME_WEATHERS_CIT it_e          = game_weathers.end();
 
-    u32 cnt = 0;
+    u32               cnt           = 0;
     for (; it != it_e; ++it, ++cnt)
     {
         AddWeather((*it).m_weather_name, (*it).m_start_time, cnt);

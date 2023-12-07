@@ -23,8 +23,8 @@ class ENGINE_API IGame_ObjectPool
     ObjectVec                   m_PrefetchObjects;
 
 public:
-    void prefetch();
-    void clear();
+    void     prefetch();
+    void     clear();
 
     CObject* create(LPCSTR name);
     void     destroy(CObject* O);

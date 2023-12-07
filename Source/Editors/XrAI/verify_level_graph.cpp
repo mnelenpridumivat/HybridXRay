@@ -92,8 +92,7 @@ void verify_level_graph(LPCSTR name, bool verbose)
         return;
     }
 
-    stack_storage =
-        (CLevelGraph::CVertex**)xr_malloc(level_graph->header().vertex_count() * sizeof(CLevelGraph::CVertex*));
+    stack_storage = (CLevelGraph::CVertex**)xr_malloc(level_graph->header().vertex_count() * sizeof(CLevelGraph::CVertex*));
 
     xr_vector<bool> marks;
 
@@ -109,8 +108,7 @@ void verify_level_graph(LPCSTR name, bool verbose)
         for (; I != E; ++I)
         {
             u32 neighbour_vertex_id = level_graph->value(vertex, I);
-            if (level_graph->valid_vertex_id(neighbour_vertex_id) &&
-                single_link(*level_graph, neighbour_vertex_id, i, (I + 2) % 4))
+            if (level_graph->valid_vertex_id(neighbour_vertex_id) && single_link(*level_graph, neighbour_vertex_id, i, (I + 2) % 4))
             {
                 single_links.push_back(neighbour_vertex_id);
             }
@@ -155,9 +153,7 @@ void verify_level_graph(LPCSTR name, bool verbose)
             if (!*II)
             {
                 valid = false;
-                Msg("AI-map is NOT valid :\nNode \n%6d[%f][%f][%f]\ncannot be reached from the node\n%6d[%f][%f][%f]\n",
-                    u32(II - BB), VPUSH(level_graph->vertex_position(u32(II - BB))), *I,
-                    VPUSH(level_graph->vertex_position(*I)));
+                Msg("AI-map is NOT valid :\nNode \n%6d[%f][%f][%f]\ncannot be reached from the node\n%6d[%f][%f][%f]\n", u32(II - BB), VPUSH(level_graph->vertex_position(u32(II - BB))), *I, VPUSH(level_graph->vertex_position(*I)));
                 break;
             }
 

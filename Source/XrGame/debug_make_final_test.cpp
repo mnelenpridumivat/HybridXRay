@@ -10,18 +10,15 @@
 #include "debug_make_final.hpp"
 
 struct A: private boost::noncopyable
-{
-};
+{};
 
 struct B: public A, private debug::make_final<B>
-{
-};
+{};
 
 struct C: B
-{
-};
+{};
 
-B b;
+B  b;
 
 // the next 2 lines won't compile
 C* c0 = new C();

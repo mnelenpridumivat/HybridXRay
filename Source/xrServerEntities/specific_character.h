@@ -91,9 +91,7 @@ class CInventoryOwner;
 class CCharacterInfo;
 class CSE_ALifeTraderAbstract;
 
-class CSpecificCharacter:
-    public CSharedClass<SSpecificCharacterData, shared_str, false>,
-    public CXML_IdToIndex<CSpecificCharacter>
+class CSpecificCharacter: public CSharedClass<SSpecificCharacterData, shared_str, false>, public CXML_IdToIndex<CSpecificCharacter>
 {
 private:
     typedef CSharedClass<SSpecificCharacterData, shared_str, false> inherited_shared;
@@ -103,11 +101,13 @@ private:
     friend CInventoryOwner;
     friend CCharacterInfo;
     friend CSE_ALifeTraderAbstract;
+
 public:
     CSpecificCharacter();
     ~CSpecificCharacter();
 
     virtual void Load(shared_str id);
+
 protected:
     const SSpecificCharacterData* data() const
     {
@@ -125,6 +125,7 @@ protected:
     static void  InitXmlIdToIndex();
 
     shared_str   m_OwnId;
+
 public:
 #ifdef XRGAME_EXPORTS
     LPCSTR                             Name() const;

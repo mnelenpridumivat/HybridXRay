@@ -18,11 +18,7 @@ using System::Collections::ArrayList;
 using System::ComponentModel::PropertyDescriptorCollection;
 using System::ComponentModel::TypeDescriptor;
 
-PropertyDescriptorCollection ^
-    property_container_converter::GetProperties(
-        ITypeDescriptorContext ^ context,
-        Object ^ value,
-        array<Attribute ^> ^ attributes)
+PropertyDescriptorCollection ^ property_container_converter::GetProperties(ITypeDescriptorContext ^ context, Object ^ value, array<Attribute ^> ^ attributes)
 {
     PropertyDescriptorCollection ^ current = TypeDescriptor::GetProperties(value, attributes);
     VERIFY(current);
@@ -63,12 +59,7 @@ bool property_container_converter::CanConvertTo(ITypeDescriptorContext ^ context
     return (inherited::CanConvertTo(context, destination_type));
 }
 
-Object ^
-    property_container_converter::ConvertTo(
-        ITypeDescriptorContext ^ context,
-        CultureInfo ^ culture,
-        Object ^ value,
-        Type ^ destination_type)
+Object ^ property_container_converter::ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type)
 {
     if (destination_type != String::typeid)
         return (inherited::ConvertTo(context, culture, value, destination_type));

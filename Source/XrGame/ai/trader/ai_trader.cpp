@@ -134,8 +134,7 @@ BOOL CAI_Trader::net_Spawn(CSE_Abstract* DC)
     set_money(l_tpTrader->m_dwMoney, false);
 
     // Установка callback на кости
-    CBoneInstance* bone_head = &smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(
-        smart_cast<IKinematics*>(Visual())->LL_BoneID("bip01_head"));
+    CBoneInstance* bone_head = &smart_cast<IKinematics*>(Visual())->LL_GetBoneInstance(smart_cast<IKinematics*>(Visual())->LL_BoneID("bip01_head"));
     bone_head->set_callback(bctCustom, BoneCallback, this);
 
     shedule.t_min = 100;
@@ -192,7 +191,8 @@ void CAI_Trader::OnEvent(NET_Packet& P, u16 type)
             }
             break;
         case GE_TRADE_SELL:
-        case GE_OWNERSHIP_REJECT: {
+        case GE_OWNERSHIP_REJECT:
+        {
             P.r_u16(id);
             Obj                      = Level().Objects.net_Find(id);
             bool just_before_destroy = !P.r_eof() && P.r_u8();
@@ -357,7 +357,7 @@ ALife::ERelationType CAI_Trader::tfGetRelationType(const CEntityAlive* tpEntityA
 {
     const CInventoryOwner* pOtherIO = smart_cast<const CInventoryOwner*>(tpEntityAlive);
 
-    ALife::ERelationType relation = ALife::eRelationTypeDummy;
+    ALife::ERelationType   relation = ALife::eRelationTypeDummy;
 
     if (pOtherIO && !(const_cast<CEntityAlive*>(tpEntityAlive)->cast_base_monster()))
         relation = RELATION_REGISTRY().GetRelationType(static_cast<const CInventoryOwner*>(this), pOtherIO);

@@ -47,8 +47,7 @@ namespace gamespy_profile
     {
         m_scores_operation_cb = opcb;
 
-        SAKERequest reqres =
-            m_sake_obj->GetMyRecords(&m_get_records_input, &best_scores_store::get_my_player_scores_cb, this);
+        SAKERequest reqres    = m_sake_obj->GetMyRecords(&m_get_records_input, &best_scores_store::get_my_player_scores_cb, this);
 
         if (!reqres)
         {
@@ -63,8 +62,7 @@ namespace gamespy_profile
         for (int i = 0; i != bst_score_types_count; ++i)
         {
             enum_best_score_type bstype = static_cast<enum_best_score_type>(i);
-            m_ltx_result_scores.insert(
-                std::make_pair(bstype, ini.r_u32(get_best_score_name(bstype), best_score_value_line)));
+            m_ltx_result_scores.insert(std::make_pair(bstype, ini.r_u32(get_best_score_name(bstype), best_score_value_line)));
         }
     }
 
@@ -95,8 +93,7 @@ namespace gamespy_profile
         if (m_ltx_result_scores.empty())
             return true;
 
-        for (all_best_scores_t::const_iterator i = m_ltx_result_scores.begin(), ie = m_ltx_result_scores.end(); i != ie;
-             ++i)
+        for (all_best_scores_t::const_iterator i = m_ltx_result_scores.begin(), ie = m_ltx_result_scores.end(); i != ie; ++i)
         {
             all_best_scores_t::const_iterator tmp_iter = m_result_scores.find(i->first);
             R_ASSERT(tmp_iter != m_result_scores.end());
@@ -107,13 +104,7 @@ namespace gamespy_profile
         return true;
     }
 
-    void __cdecl best_scores_store::get_my_player_scores_cb(
-        SAKE              sake,
-        SAKERequest       request,
-        SAKERequestResult result,
-        void*             inputData,
-        void*             outputData,
-        void*             userData)
+    void __cdecl best_scores_store::get_my_player_scores_cb(SAKE sake, SAKERequest request, SAKERequestResult result, void* inputData, void* outputData, void* userData)
     {
         best_scores_store* my_inst = static_cast<best_scores_store*>(userData);
         VERIFY(my_inst && my_inst->m_scores_operation_cb);

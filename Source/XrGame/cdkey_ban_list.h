@@ -39,7 +39,7 @@ private:
     void                              erase_expired_ban_items();
     typedef xr_vector<banned_client*> ban_list_t;
 
-    ban_list_t m_ban_list;
+    ban_list_t                        m_ban_list;
 };   // class cdkey_ban_list
 
 #endif   // #ifndef CDKEY_BAN_LIST_H

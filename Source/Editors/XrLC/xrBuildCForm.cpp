@@ -145,8 +145,7 @@ void        CBuild::BuildCForm()
         TestEdge(T->v[1], T->v[2], T);
         TestEdge(T->v[2], T->v[0], T);
 
-        CL.add_face(
-            T->v[0]->P, T->v[1]->P, T->v[2]->P, T->dwMaterialGame, materials()[T->dwMaterial].sector, T->sm_group);
+        CL.add_face(T->v[0]->P, T->v[1]->P, T->v[2]->P, T->dwMaterialGame, materials()[T->dwMaterial].sector, T->sm_group);
         Progress(p_total += p_cost);   // progress
     }
     if (bCriticalErrCnt)

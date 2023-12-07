@@ -117,7 +117,7 @@ bool SBPart::prepare(SBAdjVec& adjs, u32 bone_face_min)
         int bone_cnt_max  = (bone_cnt_calc < 62) ? (bone_cnt_calc <= 0 ? 1 : bone_cnt_calc) : 62;
         int bone_face_max = iFloor(float(m_Faces.size()) / bone_cnt_max + 0.5f);
         bone_face_max *= 4.f;
-        int bone_idx = 0;
+        int       bone_idx         = 0;
         // create big fragment
         u32       face_accum_total = 0;
         xr_string parent_bone      = "";
@@ -157,7 +157,8 @@ bool SBPart::prepare(SBAdjVec& adjs, u32 bone_face_min)
                 face_accum_total += face_accum;
             }
             // create bone
-        } while (bone_idx < bone_cnt_max);
+        }
+        while (bone_idx < bone_cnt_max);
 
         // attach small single face to big fragment
         u32 face_accum_total_saved = face_accum_total;
@@ -246,9 +247,9 @@ bool SBPart::Export(IWriter& F, u8 infl)
         return false;
     }
 
-    bool bRes = true;
+    bool                  bRes       = true;
 
-    u32 bone_count = m_Bones.size();
+    u32                   bone_count = m_Bones.size();
 
     xr_vector<FvectorVec> bone_points;
     bone_points.resize(bone_count);

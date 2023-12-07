@@ -53,38 +53,38 @@ public:
 public:
     FactoryPtr<IEnvDescriptorRender> m_pDescriptor;
 
-    float exec_time;
-    float exec_time_loaded;
+    float                            exec_time;
+    float                            exec_time_loaded;
 
-    shared_str sky_texture_name;
-    shared_str sky_texture_env_name;
-    shared_str clouds_texture_name;
+    shared_str                       sky_texture_name;
+    shared_str                       sky_texture_env_name;
+    shared_str                       clouds_texture_name;
 
-    Fvector4 clouds_color;
-    Fvector3 sky_color;
-    float    sky_rotation;
+    Fvector4                         clouds_color;
+    Fvector3                         sky_color;
+    float                            sky_rotation;
 
-    float far_plane;
+    float                            far_plane;
 
-    Fvector3 fog_color;
-    float    fog_density;
-    float    fog_distance;
+    Fvector3                         fog_color;
+    float                            fog_density;
+    float                            fog_distance;
 
-    float    rain_density;
-    Fvector3 rain_color;
+    float                            rain_density;
+    Fvector3                         rain_color;
 
-    float bolt_period;
-    float bolt_duration;
+    float                            bolt_period;
+    float                            bolt_duration;
 
-    float wind_velocity;
-    float wind_direction;
+    float                            wind_velocity;
+    float                            wind_direction;
 
-    Fvector3 ambient;
-    Fvector4 hemi_color;   // w = R2 correction
-    Fvector3 sun_color;
-    Fvector3 sun_dir;
+    Fvector3                         ambient;
+    Fvector4                         hemi_color;   // w = R2 correction
+    Fvector3                         sun_color;
+    Fvector3                         sun_dir;
 
-    IEnvAmbient* env_ambient;
+    IEnvAmbient*                     env_ambient;
 
 #ifdef DEBUG
     shared_str sect_name;
@@ -101,14 +101,13 @@ public:
     FactoryPtr<IEnvDescriptorMixerRender> m_pDescriptorMixer;
     float                                 weight;
 
-    float fog_near;
-    float fog_far;
+    float                                 fog_near;
+    float                                 fog_far;
 
 public:
-    virtual void
-        lerp(IEnvironment* parent, IEnvDescriptor& A, IEnvDescriptor& B, float f, IEnvModifier& M, float m_power) = 0;
-    virtual void clear()                                                                                          = 0;
-    virtual void destroy()                                                                                        = 0;
+    virtual void lerp(IEnvironment* parent, IEnvDescriptor& A, IEnvDescriptor& B, float f, IEnvModifier& M, float m_power) = 0;
+    virtual void clear()                                                                                                   = 0;
+    virtual void destroy()                                                                                                 = 0;
 };
 
 class ENGINE_API IEnvironment
@@ -144,56 +143,56 @@ protected:
     FactoryPtr<IEnvironmentRender> m_pRender;
     CPerlinNoise1D*                PerlinNoise1D;
 
-    float fGameTime;
+    float                          fGameTime;
 
 public:
-    BOOL  bNeed_re_create_env;
-    float wind_strength_factor;
-    float wind_gust_factor;
+    BOOL                     bNeed_re_create_env;
+    float                    wind_strength_factor;
+    float                    wind_gust_factor;
     // Environments
-    IEnvDescriptorMixer* CurrentEnv;
-    IEnvDescriptor*      Current[2];
+    IEnvDescriptorMixer*     CurrentEnv;
+    IEnvDescriptor*          Current[2];
 
-    bool            bWFX;
-    float           wfx_time;
-    IEnvDescriptor* WFX_end_desc[2];
+    bool                     bWFX;
+    float                    wfx_time;
+    IEnvDescriptor*          WFX_end_desc[2];
 
-    EnvVec*    CurrentWeather;
-    shared_str CurrentWeatherName;
-    shared_str CurrentCycleName;
+    EnvVec*                  CurrentWeather;
+    shared_str               CurrentWeatherName;
+    shared_str               CurrentCycleName;
 
     EnvsMap                  WeatherCycles;
     EnvsMap                  WeatherFXs;
     xr_vector<IEnvModifier*> Modifiers;
     EnvAmbVec                Ambients;
 
-    CEffect_Rain*        eff_Rain;
-    CLensFlare*          eff_LensFlare;
-    CEffect_Thunderbolt* eff_Thunderbolt;
+    CEffect_Rain*            eff_Rain;
+    CLensFlare*              eff_LensFlare;
+    CEffect_Thunderbolt*     eff_Thunderbolt;
 
-    float fTimeFactor;
+    float                    fTimeFactor;
 
-    virtual void SelectEnvs(float gt) = 0;
+    virtual void             SelectEnvs(float gt)                 = 0;
 
-    virtual IEnvAmbient* AppendEnvAmb(const shared_str& sect) = 0;
+    virtual IEnvAmbient*     AppendEnvAmb(const shared_str& sect) = 0;
 
-    virtual void Invalidate() = 0;
+    virtual void             Invalidate()                         = 0;
 
 public:
     virtual ~IEnvironment() {}
 
-    virtual void load()   = 0;
-    virtual void unload() = 0;
+    virtual void load()                        = 0;
+    virtual void unload()                      = 0;
 
-    virtual void mods_load()   = 0;
-    virtual void mods_unload() = 0;
+    virtual void mods_load()                   = 0;
+    virtual void mods_unload()                 = 0;
 
-    virtual void OnFrame() = 0;
+    virtual void OnFrame()                     = 0;
 
-    virtual void RenderSky()    = 0;
-    virtual void RenderClouds() = 0;
-    virtual void RenderFlares() = 0;
-    virtual void RenderLast()   = 0;
+    virtual void RenderSky()                   = 0;
+    virtual void RenderClouds()                = 0;
+    virtual void RenderFlares()                = 0;
+    virtual void RenderLast()                  = 0;
 
     virtual bool SetWeatherFX(shared_str name) = 0;
     virtual bool IsWFXPlaying()
@@ -207,10 +206,10 @@ public:
     }
     virtual void SetGameTime(float game_time, float time_factor) = 0;
 
-    virtual void OnDeviceCreate()  = 0;
-    virtual void OnDeviceDestroy() = 0;
+    virtual void OnDeviceCreate()                                = 0;
+    virtual void OnDeviceDestroy()                               = 0;
 
-    IC float GetGameTime() const
+    IC float     GetGameTime() const
     {
         return fGameTime;
     }

@@ -25,13 +25,8 @@ void CHelicopter::script_register(lua_State* L)
     module(L)[class_<CHelicopter, CGameObject>("CHelicopter")
                   .def(constructor<>())
                   .enum_("state")[value("eAlive", int(CHelicopter::eAlive)), value("eDead", int(CHelicopter::eDead))]
-                  .enum_("movement_state")
-                      [value("eMovNone", int(eMovNone)), value("eMovToPoint", int(eMovToPoint)),
-                       value("eMovPatrolPath", int(eMovPatrolPath)), value("eMovRoundPath", int(eMovRoundPath)),
-                       value("eMovLanding", int(eMovLanding)), value("eMovTakeOff", int(eMovTakeOff))]
-                  .enum_("hunt_state")
-                      [value("eEnemyNone", int(eEnemyNone)), value("eEnemyPoint", int(eEnemyPoint)),
-                       value("eEnemyEntity", int(eEnemyEntity))]
+                  .enum_("movement_state")[value("eMovNone", int(eMovNone)), value("eMovToPoint", int(eMovToPoint)), value("eMovPatrolPath", int(eMovPatrolPath)), value("eMovRoundPath", int(eMovRoundPath)), value("eMovLanding", int(eMovLanding)), value("eMovTakeOff", int(eMovTakeOff))]
+                  .enum_("hunt_state")[value("eEnemyNone", int(eEnemyNone)), value("eEnemyPoint", int(eEnemyPoint)), value("eEnemyEntity", int(eEnemyEntity))]
                   .enum_("body_state")[value("eBodyByPath", int(eBodyByPath)), value("eBodyToPoint", int(eBodyToPoint))]
 
                   .def("GetState", &CHelicopter::state_script)
@@ -93,7 +88,7 @@ void CHelicopter::script_register(lua_State* L)
                   .def_readonly("m_exploded", &CHelicopter::m_exploded)
                   .def_readonly("m_dead", &CHelicopter::m_dead)
 
-              //				.def_readwrite("", &CHelicopter::)
+        //				.def_readwrite("", &CHelicopter::)
 
     ];
 }

@@ -1,8 +1,7 @@
 ﻿namespace award_system
 {
 
-    template <typename Predicate>
-    u32 const kills_store::fetch_kills(Predicate& predicate, buffer_vector<kill>& dest_kills)
+    template<typename Predicate> u32 const kills_store::fetch_kills(Predicate& predicate, buffer_vector<kill>& dest_kills)
     {
         u32 ret_count = 0;
         for (kills_map_t::const_iterator i = m_kills.begin(), ie = m_kills.end(); i != ie; ++i)

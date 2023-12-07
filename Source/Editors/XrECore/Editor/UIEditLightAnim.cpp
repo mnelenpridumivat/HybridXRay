@@ -114,9 +114,7 @@ void UIEditLightAnim::Draw()
                         canvas_size.x = m_PointerWeight - 2;
                     if (canvas_size.y > POINTER_HEIGHT)
                         canvas_size.y = POINTER_HEIGHT;
-                    if ((ImGui::GetIO().MousePos.x >= canvas_pos.x && ImGui::GetIO().MousePos.y >= canvas_pos.y) &&
-                        (ImGui::GetIO().MousePos.x <= (canvas_pos.x + canvas_size.x) &&
-                         ImGui::GetIO().MousePos.y <= (canvas_pos.y + canvas_size.y)))
+                    if ((ImGui::GetIO().MousePos.x >= canvas_pos.x && ImGui::GetIO().MousePos.y >= canvas_pos.y) && (ImGui::GetIO().MousePos.x <= (canvas_pos.x + canvas_size.x) && ImGui::GetIO().MousePos.y <= (canvas_pos.y + canvas_size.y)))
                     {
                         if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
                         {
@@ -279,8 +277,7 @@ void UIEditLightAnim::Draw()
         {
             RenderItem();
         }
-        ImGui::Image(
-            m_CurrentItem ? m_ItemTexture : m_TextureNull->surface_get(), ImGui::CalcItemSize(ImVec2(-1, -1), 32, 32));
+        ImGui::Image(m_CurrentItem ? m_ItemTexture : m_TextureNull->surface_get(), ImGui::CalcItemSize(ImVec2(-1, -1), 32, 32));
     }
     ImGui::EndChild();
 }
@@ -524,8 +521,8 @@ void UIEditLightAnim::RenderPointer()
         }
         // draw pointer
         {
-            u32 Color = 0xFF00FF00;
-            int t = iFloor((float(m_PointerValue) / float(m_CurrentItem->iFrameCount)) * (m_PointerWeight)) + half_segment;
+            u32    Color = 0xFF00FF00;
+            int    t     = iFloor((float(m_PointerValue) / float(m_CurrentItem->iFrameCount)) * (m_PointerWeight)) + half_segment;
             ImVec4 rp;
             rp.x = t;
             rp.w = 1 + (POINTER_HEIGHT - 2);

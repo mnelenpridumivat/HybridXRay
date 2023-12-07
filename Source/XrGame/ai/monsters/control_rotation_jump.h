@@ -22,13 +22,13 @@ class CControlRotationJump: public CControl_ComCustom<SControlRotationJumpData>
     typedef CControl_ComCustom<SControlRotationJumpData> inherited;
     u32                                                  m_time_next_rotation_jump;
 
-    float m_target_velocity;
-    float m_start_velocity;
-    float m_accel;
-    float m_dist;
-    float m_time;
+    float                                                m_target_velocity;
+    float                                                m_start_velocity;
+    float                                                m_accel;
+    float                                                m_dist;
+    float                                                m_time;
 
-    bool m_right_side;
+    bool                                                 m_right_side;
 
     enum EStage
     {

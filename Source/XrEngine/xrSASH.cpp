@@ -7,9 +7,7 @@
 
 xrSASH ENGINE_API g_SASH;
 
-xrSASH::xrSASH():
-    m_bInited(false), m_bOpenAutomate(false), m_bBenchmarkRunning(false), m_bRunning(false), m_bReinitEngine(false),
-    m_bExecutingConsoleCommand(false)
+xrSASH::xrSASH(): m_bInited(false), m_bOpenAutomate(false), m_bBenchmarkRunning(false), m_bRunning(false), m_bReinitEngine(false), m_bExecutingConsoleCommand(false)
 {
     ;
 }
@@ -156,11 +154,11 @@ void xrSASH::ReportNative(LPCSTR pszTestName)
     string_path fname;
     xr_sprintf(fname, sizeof(fname), "%s.result", pszTestName);
     FS.update_path(fname, "$app_data_root$", fname);
-    CInifile res(fname, FALSE, FALSE, TRUE);
+    CInifile  res(fname, FALSE, FALSE, TRUE);
 
     // min/max/average
-    float fMinFps = flt_max;
-    float fMaxFps = flt_min;
+    float     fMinFps     = flt_max;
+    float     fMaxFps     = flt_min;
 
     const u32 iWindowSize = 15;
 
@@ -550,7 +548,7 @@ void xrSASH::DescribeOption(char* pszOptionName, const oaOptionDependency& Depen
     oaNamedOptionStruct Option;
     oaInitOption(&Option);
 
-    Option.Dependency = Dependency;
+    Option.Dependency     = Dependency;
 
     CConsole::vecCMD_IT I = Console->Commands.find(pszOptionName);
     if (I == Console->Commands.end())
@@ -566,7 +564,7 @@ void xrSASH::DescribeOption(char* pszOptionName, const oaOptionDependency& Depen
     CCC_Float*        pFloat = dynamic_cast<CCC_Float*>(pCmd);
     CCC_Integer*      pInt   = dynamic_cast<CCC_Integer*>(pCmd);
 
-    Option.Name = pszOptionName;
+    Option.Name              = pszOptionName;
 
     Msg("SASH:: Registering option \"%s\".", pszOptionName);
 
@@ -615,7 +613,7 @@ void xrSASH::DescribeOption(char* pszOptionName, const oaOptionDependency& Depen
 
 void xrSASH::GetOption(char* pszOptionName)
 {
-    oaValue Val;
+    oaValue             Val;
 
     CConsole::vecCMD_IT I = Console->Commands.find(pszOptionName);
     if (I == Console->Commands.end())

@@ -73,7 +73,7 @@ enum
 
 class CLevelMain: public TUI
 {
-    typedef TUI inherited;
+    typedef TUI  inherited;
 
     virtual void RealUpdateScene();
     virtual void RealQuit();
@@ -85,15 +85,15 @@ public:
     CLevelMain();
     virtual ~CLevelMain();
 
-    virtual LPSTR GetCaption();
+    virtual LPSTR  GetCaption();
 
-    virtual void ResetStatus();
-    virtual void SetStatus(LPCSTR s, bool bOutLog = true);
-    virtual void ProgressDraw();
-    virtual void OutCameraPos();
-    virtual void OutUICursorPos();
-    virtual void OutGridSize();
-    virtual void OutInfo();
+    virtual void   ResetStatus();
+    virtual void   SetStatus(LPCSTR s, bool bOutLog = true);
+    virtual void   ProgressDraw();
+    virtual void   OutCameraPos();
+    virtual void   OutUICursorPos();
+    virtual void   OutGridSize();
+    virtual void   OutInfo();
 
     virtual LPCSTR EditorName()
     {
@@ -108,18 +108,18 @@ public:
         else
             return "Level Editor [CoP]";
     }
-    virtual HICON EditorIcon() override;
+    virtual HICON    EditorIcon() override;
 
-    void ShowContextMenu(int cls);
-    bool PickGround(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap = 1, Fvector* hitnormal = 0);
-    bool ScenePickObjectGeometry(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap = 1, Fvector* hitnormal = 0);
-    bool SelectionFrustum(CFrustum& frustum);
+    void             ShowContextMenu(int cls);
+    bool             PickGround(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap = 1, Fvector* hitnormal = 0);
+    bool             ScenePickObjectGeometry(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap = 1, Fvector* hitnormal = 0);
+    bool             SelectionFrustum(CFrustum& frustum);
 
-    virtual bool ApplyShortCut(DWORD Key, TShiftState Shift);
-    virtual bool ApplyGlobalShortCut(DWORD Key, TShiftState Shift);
+    virtual bool     ApplyShortCut(DWORD Key, TShiftState Shift);
+    virtual bool     ApplyGlobalShortCut(DWORD Key, TShiftState Shift);
 
     // commands
-    virtual void RegisterCommands();
+    virtual void     RegisterCommands();
 
     virtual void     SaveSettings(CInifile*);
     virtual void     LoadSettings(CInifile*);
@@ -128,7 +128,7 @@ public:
     bool             KeyDown(WORD Key, TShiftState Shift);
     virtual void     OnStats(CGameFont* font);
 
-    virtual bool IsPlayInEditor();
+    virtual bool     IsPlayInEditor();
 
 private:
 };

@@ -53,7 +53,7 @@ void CEncyclopediaArticle::load_shared(LPCSTR)
 {
     const ITEM_DATA& item_data = *id_to_index::GetById(m_ArticleId);
 
-    CUIXml* pXML = item_data._xml;
+    CUIXml*          pXML      = item_data._xml;
     pXML->SetLocalRoot(pXML->GetRoot());
 
     // loading from XML
@@ -61,13 +61,13 @@ void CEncyclopediaArticle::load_shared(LPCSTR)
     THROW3(pNode, "encyclopedia article id=", *item_data.id);
 
     // текст
-    data()->text = pXML->Read(pNode, "text", 0, "");
+    data()->text  = pXML->Read(pNode, "text", 0, "");
     // имя
-    data()->name = pXML->ReadAttrib(pNode, "name", "");
+    data()->name  = pXML->ReadAttrib(pNode, "name", "");
     // группа
     data()->group = pXML->ReadAttrib(pNode, "group", "");
     // секция ltx, откуда читать данные
-    LPCSTR ltx = pXML->Read(pNode, "ltx", 0, NULL);
+    LPCSTR ltx    = pXML->Read(pNode, "ltx", 0, NULL);
 
     if (ltx)
     {

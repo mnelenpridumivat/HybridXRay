@@ -17,7 +17,7 @@ class PRS;
 class PR;
 
 #define MATRIX4X4_EPSILON (1.0e-7f)
-#define ROW *(*this)
+#define ROW               *(*this)
 
 class ICEMATHS_API Matrix4x4
 {
@@ -28,23 +28,7 @@ public:
     //! Empty constructor.
     inline_ Matrix4x4() {}
     //! Constructor from 16 values
-    inline_ Matrix4x4(
-        float m00,
-        float m01,
-        float m02,
-        float m03,
-        float m10,
-        float m11,
-        float m12,
-        float m13,
-        float m20,
-        float m21,
-        float m22,
-        float m23,
-        float m30,
-        float m31,
-        float m32,
-        float m33)
+    inline_ Matrix4x4(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)
     {
         m[0][0] = m00;
         m[0][1] = m01;
@@ -72,8 +56,7 @@ public:
     inline_ ~Matrix4x4() {}
 
     //! Assign values (rotation only)
-    inline_ Matrix4x4&
-        Set(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22)
+    inline_ Matrix4x4& Set(float m00, float m01, float m02, float m10, float m11, float m12, float m20, float m21, float m22)
     {
         m[0][0] = m00;
         m[0][1] = m01;
@@ -87,23 +70,7 @@ public:
         return *this;
     }
     //! Assign values
-    inline_ Matrix4x4&
-        Set(float m00,
-            float m01,
-            float m02,
-            float m03,
-            float m10,
-            float m11,
-            float m12,
-            float m13,
-            float m20,
-            float m21,
-            float m22,
-            float m23,
-            float m30,
-            float m31,
-            float m32,
-            float m33)
+    inline_ Matrix4x4& Set(float m00, float m01, float m02, float m03, float m10, float m11, float m12, float m13, float m20, float m21, float m22, float m23, float m30, float m31, float m32, float m33)
     {
         m[0][0] = m00;
         m[0][1] = m01;
@@ -366,7 +333,7 @@ public:
     Matrix4x4& Rotozoom(float angle, float zoom, float posx, float posy);
 
     //! Sets a rotation matrix around the X axis.
-    void RotX(float angle)
+    void       RotX(float angle)
     {
         float Cos = _cos(angle), Sin = _sin(angle);
         Identity();
@@ -397,7 +364,7 @@ public:
     Matrix4x4& Rot(float angle, Point& p1, Point& p2);
 
     //! Transposes the matrix.
-    void Transpose()
+    void       Transpose()
     {
         IR(m[1][0]) ^= IR(m[0][1]);
         IR(m[0][1]) ^= IR(m[1][0]);
@@ -420,16 +387,16 @@ public:
     }
 
     //! Computes a cofactor. Used for matrix inversion.
-    float CoFactor(udword row, udword col) const;
+    float      CoFactor(udword row, udword col) const;
     //! Computes the determinant of the matrix.
-    float Determinant() const;
+    float      Determinant() const;
     //! Inverts the matrix. Determinant must be different from zero, else matrix can't be inverted.
     Matrix4x4& Invert();
     //				Matrix&	ComputeAxisMatrix(Point& axis, float angle);
 
     // Cast operators
     //! Casts a Matrix4x4 to a Matrix3x3.
-    inline_ operator Matrix3x3() const
+    inline_    operator Matrix3x3() const
     {
         return Matrix3x3(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1], m[1][2], m[2][0], m[2][1], m[2][2]);
     }
@@ -464,26 +431,13 @@ public:
     //! Operator for Matrix4x4 Mul = Matrix4x4 * Matrix4x4;
     inline_ Matrix4x4 operator*(const Matrix4x4& mat) const
     {
-        return Matrix4x4(
-            m[0][0] * mat.m[0][0] + m[0][1] * mat.m[1][0] + m[0][2] * mat.m[2][0] + m[0][3] * mat.m[3][0],
-            m[0][0] * mat.m[0][1] + m[0][1] * mat.m[1][1] + m[0][2] * mat.m[2][1] + m[0][3] * mat.m[3][1],
-            m[0][0] * mat.m[0][2] + m[0][1] * mat.m[1][2] + m[0][2] * mat.m[2][2] + m[0][3] * mat.m[3][2],
-            m[0][0] * mat.m[0][3] + m[0][1] * mat.m[1][3] + m[0][2] * mat.m[2][3] + m[0][3] * mat.m[3][3],
+        return Matrix4x4(m[0][0] * mat.m[0][0] + m[0][1] * mat.m[1][0] + m[0][2] * mat.m[2][0] + m[0][3] * mat.m[3][0], m[0][0] * mat.m[0][1] + m[0][1] * mat.m[1][1] + m[0][2] * mat.m[2][1] + m[0][3] * mat.m[3][1], m[0][0] * mat.m[0][2] + m[0][1] * mat.m[1][2] + m[0][2] * mat.m[2][2] + m[0][3] * mat.m[3][2], m[0][0] * mat.m[0][3] + m[0][1] * mat.m[1][3] + m[0][2] * mat.m[2][3] + m[0][3] * mat.m[3][3],
 
-            m[1][0] * mat.m[0][0] + m[1][1] * mat.m[1][0] + m[1][2] * mat.m[2][0] + m[1][3] * mat.m[3][0],
-            m[1][0] * mat.m[0][1] + m[1][1] * mat.m[1][1] + m[1][2] * mat.m[2][1] + m[1][3] * mat.m[3][1],
-            m[1][0] * mat.m[0][2] + m[1][1] * mat.m[1][2] + m[1][2] * mat.m[2][2] + m[1][3] * mat.m[3][2],
-            m[1][0] * mat.m[0][3] + m[1][1] * mat.m[1][3] + m[1][2] * mat.m[2][3] + m[1][3] * mat.m[3][3],
+            m[1][0] * mat.m[0][0] + m[1][1] * mat.m[1][0] + m[1][2] * mat.m[2][0] + m[1][3] * mat.m[3][0], m[1][0] * mat.m[0][1] + m[1][1] * mat.m[1][1] + m[1][2] * mat.m[2][1] + m[1][3] * mat.m[3][1], m[1][0] * mat.m[0][2] + m[1][1] * mat.m[1][2] + m[1][2] * mat.m[2][2] + m[1][3] * mat.m[3][2], m[1][0] * mat.m[0][3] + m[1][1] * mat.m[1][3] + m[1][2] * mat.m[2][3] + m[1][3] * mat.m[3][3],
 
-            m[2][0] * mat.m[0][0] + m[2][1] * mat.m[1][0] + m[2][2] * mat.m[2][0] + m[2][3] * mat.m[3][0],
-            m[2][0] * mat.m[0][1] + m[2][1] * mat.m[1][1] + m[2][2] * mat.m[2][1] + m[2][3] * mat.m[3][1],
-            m[2][0] * mat.m[0][2] + m[2][1] * mat.m[1][2] + m[2][2] * mat.m[2][2] + m[2][3] * mat.m[3][2],
-            m[2][0] * mat.m[0][3] + m[2][1] * mat.m[1][3] + m[2][2] * mat.m[2][3] + m[2][3] * mat.m[3][3],
+            m[2][0] * mat.m[0][0] + m[2][1] * mat.m[1][0] + m[2][2] * mat.m[2][0] + m[2][3] * mat.m[3][0], m[2][0] * mat.m[0][1] + m[2][1] * mat.m[1][1] + m[2][2] * mat.m[2][1] + m[2][3] * mat.m[3][1], m[2][0] * mat.m[0][2] + m[2][1] * mat.m[1][2] + m[2][2] * mat.m[2][2] + m[2][3] * mat.m[3][2], m[2][0] * mat.m[0][3] + m[2][1] * mat.m[1][3] + m[2][2] * mat.m[2][3] + m[2][3] * mat.m[3][3],
 
-            m[3][0] * mat.m[0][0] + m[3][1] * mat.m[1][0] + m[3][2] * mat.m[2][0] + m[3][3] * mat.m[3][0],
-            m[3][0] * mat.m[0][1] + m[3][1] * mat.m[1][1] + m[3][2] * mat.m[2][1] + m[3][3] * mat.m[3][1],
-            m[3][0] * mat.m[0][2] + m[3][1] * mat.m[1][2] + m[3][2] * mat.m[2][2] + m[3][3] * mat.m[3][2],
-            m[3][0] * mat.m[0][3] + m[3][1] * mat.m[1][3] + m[3][2] * mat.m[2][3] + m[3][3] * mat.m[3][3]);
+            m[3][0] * mat.m[0][0] + m[3][1] * mat.m[1][0] + m[3][2] * mat.m[2][0] + m[3][3] * mat.m[3][0], m[3][0] * mat.m[0][1] + m[3][1] * mat.m[1][1] + m[3][2] * mat.m[2][1] + m[3][3] * mat.m[3][1], m[3][0] * mat.m[0][2] + m[3][1] * mat.m[1][2] + m[3][2] * mat.m[2][2] + m[3][3] * mat.m[3][2], m[3][0] * mat.m[0][3] + m[3][1] * mat.m[1][3] + m[3][2] * mat.m[2][3] + m[3][3] * mat.m[3][3]);
     }
 
     //! Operator for HPoint Mul = Matrix4x4 * HPoint;
@@ -493,27 +447,19 @@ public:
     //! Operator for Point Mul = Matrix4x4 * Point;
     inline_ Point operator*(const Point& v) const
     {
-        return Point(
-            m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3],
-            m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z + m[1][3],
-            m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z + m[2][3]);
+        return Point(m[0][0] * v.x + m[0][1] * v.y + m[0][2] * v.z + m[0][3], m[1][0] * v.x + m[1][1] * v.y + m[1][2] * v.z + m[1][3], m[2][0] * v.x + m[2][1] * v.y + m[2][2] * v.z + m[2][3]);
     }
 
     //! Operator for Matrix4x4 Scale = Matrix4x4 * float;
     inline_ Matrix4x4 operator*(float s) const
     {
-        return Matrix4x4(
-            m[0][0] * s, m[0][1] * s, m[0][2] * s, m[0][3] * s, m[1][0] * s, m[1][1] * s, m[1][2] * s, m[1][3] * s,
-            m[2][0] * s, m[2][1] * s, m[2][2] * s, m[2][3] * s, m[3][0] * s, m[3][1] * s, m[3][2] * s, m[3][3] * s);
+        return Matrix4x4(m[0][0] * s, m[0][1] * s, m[0][2] * s, m[0][3] * s, m[1][0] * s, m[1][1] * s, m[1][2] * s, m[1][3] * s, m[2][0] * s, m[2][1] * s, m[2][2] * s, m[2][3] * s, m[3][0] * s, m[3][1] * s, m[3][2] * s, m[3][3] * s);
     }
 
     //! Operator for Matrix4x4 Scale = float * Matrix4x4;
     inline_ friend Matrix4x4 operator*(float s, const Matrix4x4& mat)
     {
-        return Matrix4x4(
-            s * mat.m[0][0], s * mat.m[0][1], s * mat.m[0][2], s * mat.m[0][3], s * mat.m[1][0], s * mat.m[1][1],
-            s * mat.m[1][2], s * mat.m[1][3], s * mat.m[2][0], s * mat.m[2][1], s * mat.m[2][2], s * mat.m[2][3],
-            s * mat.m[3][0], s * mat.m[3][1], s * mat.m[3][2], s * mat.m[3][3]);
+        return Matrix4x4(s * mat.m[0][0], s * mat.m[0][1], s * mat.m[0][2], s * mat.m[0][3], s * mat.m[1][0], s * mat.m[1][1], s * mat.m[1][2], s * mat.m[1][3], s * mat.m[2][0], s * mat.m[2][1], s * mat.m[2][2], s * mat.m[2][3], s * mat.m[3][0], s * mat.m[3][1], s * mat.m[3][2], s * mat.m[3][3]);
     }
 
     //! Operator for Matrix4x4 Div = Matrix4x4 / float;
@@ -522,18 +468,13 @@ public:
         if (s)
             s = 1.0f / s;
 
-        return Matrix4x4(
-            m[0][0] * s, m[0][1] * s, m[0][2] * s, m[0][3] * s, m[1][0] * s, m[1][1] * s, m[1][2] * s, m[1][3] * s,
-            m[2][0] * s, m[2][1] * s, m[2][2] * s, m[2][3] * s, m[3][0] * s, m[3][1] * s, m[3][2] * s, m[3][3] * s);
+        return Matrix4x4(m[0][0] * s, m[0][1] * s, m[0][2] * s, m[0][3] * s, m[1][0] * s, m[1][1] * s, m[1][2] * s, m[1][3] * s, m[2][0] * s, m[2][1] * s, m[2][2] * s, m[2][3] * s, m[3][0] * s, m[3][1] * s, m[3][2] * s, m[3][3] * s);
     }
 
     //! Operator for Matrix4x4 Div = float / Matrix4x4;
     inline_ friend Matrix4x4 operator/(float s, const Matrix4x4& mat)
     {
-        return Matrix4x4(
-            s / mat.m[0][0], s / mat.m[0][1], s / mat.m[0][2], s / mat.m[0][3], s / mat.m[1][0], s / mat.m[1][1],
-            s / mat.m[1][2], s / mat.m[1][3], s / mat.m[2][0], s / mat.m[2][1], s / mat.m[2][2], s / mat.m[2][3],
-            s / mat.m[3][0], s / mat.m[3][1], s / mat.m[3][2], s / mat.m[3][3]);
+        return Matrix4x4(s / mat.m[0][0], s / mat.m[0][1], s / mat.m[0][2], s / mat.m[0][3], s / mat.m[1][0], s / mat.m[1][1], s / mat.m[1][2], s / mat.m[1][3], s / mat.m[2][0], s / mat.m[2][1], s / mat.m[2][2], s / mat.m[2][3], s / mat.m[3][0], s / mat.m[3][1], s / mat.m[3][2], s / mat.m[3][3]);
     }
 
     //! Operator for Matrix4x4 += Matrix4x4;

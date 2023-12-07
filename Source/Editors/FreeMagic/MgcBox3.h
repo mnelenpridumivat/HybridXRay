@@ -31,12 +31,12 @@ namespace Mgc
         Vector3*       Axes();
         const Vector3* Axes() const;
 
-        Real&       Extent(int i);
-        const Real& Extent(int i) const;
-        Real*       Extents();
-        const Real* Extents() const;
+        Real&          Extent(int i);
+        const Real&    Extent(int i) const;
+        Real*          Extents();
+        const Real*    Extents() const;
 
-        void ComputeVertices(Vector3 akVertex[8]) const;
+        void           ComputeVertices(Vector3 akVertex[8]) const;
 
     protected:
         Vector3 m_kCenter;

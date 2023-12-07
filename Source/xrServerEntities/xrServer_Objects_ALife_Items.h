@@ -22,6 +22,7 @@
 class CSE_ALifeItemAmmo;
 
 SERVER_ENTITY_DECLARE_BEGIN0(CSE_ALifeInventoryItem)
+
 public:
 enum
 {
@@ -39,6 +40,7 @@ union mask_num_items
     };
     u8 common;
 };
+
 public:
 float                 m_fCondition;
 float                 m_fMass;
@@ -49,6 +51,7 @@ float                 m_fDeteriorationValue;
 CSE_ALifeObject*      m_self;
 u32                   m_last_update_time;
 xr_vector<shared_str> m_upgrades;
+
 public:
 CSE_ALifeInventoryItem(LPCSTR caSection);
 virtual ~CSE_ALifeInventoryItem();
@@ -69,6 +72,7 @@ virtual BOOL Net_Relevant();
 
 bool         has_upgrade(const shared_str& upgrade_id);
 void         add_upgrade(const shared_str& upgrade_id);
+
 private:
 bool             prev_freezed;
 bool             freezed;
@@ -76,6 +80,7 @@ u32              m_freeze_time;
 static const u32 m_freeze_delta_time;
 static const u32 random_limit;
 CRandom          m_relevent_random;
+
 public:
 // end of the virtual inheritance dependant code
 
@@ -93,10 +98,7 @@ SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifeInventoryItem)
 #define script_type_list save_type_list(CSE_ALifeInventoryItem)
 
-    SERVER_ENTITY_DECLARE_BEGIN2(
-        CSE_ALifeItem,
-        CSE_ALifeDynamicObjectVisual,
-        CSE_ALifeInventoryItem) bool m_physics_disabled;
+    SERVER_ENTITY_DECLARE_BEGIN2(CSE_ALifeItem, CSE_ALifeDynamicObjectVisual, CSE_ALifeInventoryItem) bool m_physics_disabled;
 
 CSE_ALifeItem(LPCSTR caSection);
 virtual ~CSE_ALifeItem();
@@ -188,7 +190,7 @@ struct grenade_count_t
         grenades_type  = (b >> 6);
         grenades_count = b & 0x3f;   // 111111
     }
-};                                   // struct grenade_count_t
+};   // struct grenade_count_t
 grenade_count_t a_elapsed_grenades;
 
 float           m_fHitPower;
@@ -258,8 +260,7 @@ SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifeItemWeaponShotGun)
 #define script_type_list save_type_list(CSE_ALifeItemWeaponShotGun)
 
-    SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeItemWeaponAutoShotGun, CSE_ALifeItemWeaponShotGun)
-        CSE_ALifeItemWeaponAutoShotGun(LPCSTR caSection);
+    SERVER_ENTITY_DECLARE_BEGIN(CSE_ALifeItemWeaponAutoShotGun, CSE_ALifeItemWeaponShotGun) CSE_ALifeItemWeaponAutoShotGun(LPCSTR caSection);
 virtual ~CSE_ALifeItemWeaponAutoShotGun();
 
 virtual CSE_ALifeItemWeapon* cast_item_weapon()

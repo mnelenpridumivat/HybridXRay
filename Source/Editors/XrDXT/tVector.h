@@ -1,8 +1,7 @@
 ﻿#pragma once
 #include <windows.h>
 
-template <class _Type>
-class nvVector
+template<class _Type> class nvVector
 {
     _Type* m_data;
 
@@ -75,7 +74,7 @@ public:
         {
             allocated_size = allocated_size * 2;
 
-            _Type* temp = tvallocate(allocated_size);
+            _Type* temp    = tvallocate(allocated_size);
 
             // copy old data to new area
             for (size_t i = 0; i < current_size; i++)

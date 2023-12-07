@@ -4,11 +4,11 @@
 
 struct SIniFileStream: public IIniFileStream
 {
-    CInifile*  ini;
-    shared_str sect;
-    string128  tmp_buff;
-    u32        counter;
-    LPCSTR     gen_name();
+    CInifile*    ini;
+    shared_str   sect;
+    string128    tmp_buff;
+    u32          counter;
+    LPCSTR       gen_name();
 
     virtual void move_begin()
     {

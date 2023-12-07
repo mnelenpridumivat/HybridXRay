@@ -30,7 +30,7 @@ namespace smart_cover
     }   // namespace transitions
 }   // namespace smart_cover
 
-template <typename _return_type> class CScriptCallbackEx;
+template<typename _return_type> class CScriptCallbackEx;
 
 class CEntityAlive;
 
@@ -68,6 +68,7 @@ public:
     IC void         apply_loophole_direction_distance(float const& value);
 
     // forced to be public
+
 public:
     transition_action const& current_transition();
     bool                     exit_transition();
@@ -110,14 +111,12 @@ private:
     void on_smart_cover_exit();
 
     // fov range checks
+
 private:
-    bool in_min_acceptable_range(
-        shared_str const& cover_id,
-        shared_str const& loophole_id,
-        Fvector const&    position,
-        float const&      min_range) const;
+    bool in_min_acceptable_range(shared_str const& cover_id, shared_str const& loophole_id, Fvector const& position, float const& min_range) const;
 
     // loopholes stuff
+
 private:
     loophole_type const& nearest_enterable_loophole();
     loophole_type const& loophole(cover_type const& cover, shared_str const& loophole_id) const;
@@ -137,39 +136,18 @@ private:
     typedef xr_vector<shared_str> LoopholePath;
 
 private:
-    void loophole_path(
-        smart_cover::cover const& cover,
-        shared_str const&         source,
-        shared_str const&         target,
-        LoopholePath&             path) const;
-    void build_enter_path();
-    void build_exit_path();
-    void build_exit_path_to_cover();
-    void actualize_path();
-    void try_actualize_path();
-    transition_action const&
-        action(smart_cover::cover const& cover, shared_str const& loophole_id0, shared_str const& loophole_id1) const;
-    transition_action const& nearest_action(
-        smart_cover::cover const& cover,
-        shared_str const&         loophole_id0,
-        shared_str const&         loophole_id1,
-        Fvector const&            position,
-        Fvector&                  result_position,
-        u32&                      result_vertex_id,
-        EBodyState*               target_body_state) const;
-    bool  fill_enemy_position(Fvector& position) const;
-    bool  update_script_cover();
-    float exit_path_weight(
-        u32 const&     source_node,
-        Fvector const& source_position,
-        u32 const&     target_node,
-        Fvector const& target_position) const;
-    float enter_path(
-        LoopholePath*             result,
-        Fvector const&            position,
-        u32 const                 level_vertex_id,
-        smart_cover::cover const& cover,
-        shared_str const&         target_loophole_id);
+    void                     loophole_path(smart_cover::cover const& cover, shared_str const& source, shared_str const& target, LoopholePath& path) const;
+    void                     build_enter_path();
+    void                     build_exit_path();
+    void                     build_exit_path_to_cover();
+    void                     actualize_path();
+    void                     try_actualize_path();
+    transition_action const& action(smart_cover::cover const& cover, shared_str const& loophole_id0, shared_str const& loophole_id1) const;
+    transition_action const& nearest_action(smart_cover::cover const& cover, shared_str const& loophole_id0, shared_str const& loophole_id1, Fvector const& position, Fvector& result_position, u32& result_vertex_id, EBodyState* target_body_state) const;
+    bool                     fill_enemy_position(Fvector& position) const;
+    bool                     update_script_cover();
+    float                    exit_path_weight(u32 const& source_node, Fvector const& source_position, u32 const& target_node, Fvector const& target_position) const;
+    float                    enter_path(LoopholePath* result, Fvector const& position, u32 const level_vertex_id, smart_cover::cover const& cover, shared_str const& target_loophole_id);
 
 private:
     void setup_movement_params();

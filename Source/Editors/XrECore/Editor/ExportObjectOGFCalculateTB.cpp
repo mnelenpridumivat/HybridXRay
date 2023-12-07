@@ -55,16 +55,13 @@ void CObjectOGFCollectorPacked::CalculateTB()
     fill_mender_input(m_Verts, m_Faces, mender_in_out_verts, mender_in_out_indices);
 
     MeshMender mender;
-    if (!mender.Mend(
-            mender_in_out_verts, mender_in_out_indices, mender_mapping_out_to_in_vert, 1, 0.5, 0.5, 0.0f,
-            MeshMender::DONT_CALCULATE_NORMALS, MeshMender::RESPECT_SPLITS, MeshMender::DONT_FIX_CYLINDRICAL))
+    if (!mender.Mend(mender_in_out_verts, mender_in_out_indices, mender_mapping_out_to_in_vert, 1, 0.5, 0.5, 0.0f, MeshMender::DONT_CALCULATE_NORMALS, MeshMender::RESPECT_SPLITS, MeshMender::DONT_FIX_CYLINDRICAL))
     {
         Debug.fatal(DEBUG_INFO, "NVMeshMender failed ");
         // Debug.fatal(DEBUG_INFO,"NVMeshMender failed (%s)",mender.GetLastError().c_str());
     }
 
-    retrive_data_from_mender_otput(
-        m_Verts, m_Faces, mender_in_out_verts, mender_in_out_indices, mender_mapping_out_to_in_vert);
+    retrive_data_from_mender_otput(m_Verts, m_Faces, mender_in_out_verts, mender_in_out_indices, mender_mapping_out_to_in_vert);
     // t_remove_isolated_verts(m_Verts, m_Faces);
 
     mender_in_out_verts.clear();

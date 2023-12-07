@@ -20,8 +20,8 @@ struct SAINode   // definition of "patch" or "node"
         };
         SAINode* n[4];
     };
-    Fplane  Plane;     // plane of patch
-    Fvector Pos;       // position of patch center
+    Fplane  Plane;   // plane of patch
+    Fvector Pos;     // position of patch center
 
     enum
     {
@@ -29,10 +29,10 @@ struct SAINode   // definition of "patch" or "node"
         flHLSelected = (1 << 1),
         //    	flHide		= (1<<2), 	// obsolette
 
-        flN1 = (1 << 4),
-        flN2 = (1 << 5),
-        flN3 = (1 << 6),
-        flN4 = (1 << 7),
+        flN1         = (1 << 4),
+        flN2         = (1 << 5),
+        flN3         = (1 << 6),
+        flN4         = (1 << 7),
     };
     Flags8 flags;
     u32    idx;
@@ -68,15 +68,15 @@ struct SAINode   // definition of "patch" or "node"
                 cnt++;
         return cnt;
     }
-    void PointLF(Fvector& D, float patch_size);
-    void PointFR(Fvector& D, float patch_size);
-    void PointRB(Fvector& D, float patch_size);
-    void PointBL(Fvector& D, float patch_size);
+    void  PointLF(Fvector& D, float patch_size);
+    void  PointFR(Fvector& D, float patch_size);
+    void  PointRB(Fvector& D, float patch_size);
+    void  PointBL(Fvector& D, float patch_size);
 
-    void LoadStream(IReader&, ESceneAIMapTool*);
-    void SaveStream(IWriter&, ESceneAIMapTool*);
-    void LoadLTX(CInifile& ini, LPCSTR sect_name, ESceneAIMapTool*);
-    void SaveLTX(CInifile& ini, LPCSTR sect_name, ESceneAIMapTool*);
+    void  LoadStream(IReader&, ESceneAIMapTool*);
+    void  SaveStream(IWriter&, ESceneAIMapTool*);
+    void  LoadLTX(CInifile& ini, LPCSTR sect_name, ESceneAIMapTool*);
+    void  SaveLTX(CInifile& ini, LPCSTR sect_name, ESceneAIMapTool*);
 
     void* operator new(std::size_t size);
     void* operator new(std::size_t size, SAINode*);
@@ -95,42 +95,42 @@ class ESceneAIMapTool: public ESceneToolBase
     typedef ESceneToolBase inherited;
     ObjectList             m_SnapObjects;
     // hash
-    AINodeVec m_HASH[HDIM_X + 1][HDIM_Z + 1];
-    AINodeVec m_Nodes;
+    AINodeVec              m_HASH[HDIM_X + 1][HDIM_Z + 1];
+    AINodeVec              m_Nodes;
 
-    SAIParams m_Params;
-    Fbox      m_AIBBox;
+    SAIParams              m_Params;
+    Fbox                   m_AIBBox;
 
-    ref_geom    m_RGeom;
-    ref_shader  m_Shader;
-    CDB::MODEL* m_CFModel;
+    ref_geom               m_RGeom;
+    ref_shader             m_Shader;
+    CDB::MODEL*            m_CFModel;
 
 protected:
-    void       hash_FillFromNodes();
-    void       hash_Initialize();
-    void       hash_Clear();
-    void       HashRect(const Fvector& v, float radius, Irect& result);
-    AINodeVec* HashMap(int ix, int iz);
-    AINodeVec* HashMap(Fvector& V);
-    SAINode*   FindNode(Fvector& vAt, float eps = 0.05f);
-    SAINode*   FindNeighbor(SAINode* N, int side, bool bIgnoreConstraints);
-    void       MotionSimulate(Fvector& result, Fvector& start, Fvector& end, float _radius, float _height);
+    void         hash_FillFromNodes();
+    void         hash_Initialize();
+    void         hash_Clear();
+    void         HashRect(const Fvector& v, float radius, Irect& result);
+    AINodeVec*   HashMap(int ix, int iz);
+    AINodeVec*   HashMap(Fvector& V);
+    SAINode*     FindNode(Fvector& vAt, float eps = 0.05f);
+    SAINode*     FindNeighbor(SAINode* N, int side, bool bIgnoreConstraints);
+    void         MotionSimulate(Fvector& result, Fvector& start, Fvector& end, float _radius, float _height);
 
-    SAINode* BuildNode(Fvector& vFrom, Fvector& vAt, bool bIgnoreConstraints, bool bSuperIgnoreConstraints = false);
-    int      BuildNodes(const Fvector& pos, int sz, bool bIgnoreConstraints);
-    void     BuildNodes(bool bFromSelectedOnly);
-    BOOL     CreateNode(Fvector& vAt, SAINode& N, bool bIgnoreConstraints);
-    BOOL     CanTravel(Fvector _from, Fvector _at);
+    SAINode*     BuildNode(Fvector& vFrom, Fvector& vAt, bool bIgnoreConstraints, bool bSuperIgnoreConstraints = false);
+    int          BuildNodes(const Fvector& pos, int sz, bool bIgnoreConstraints);
+    void         BuildNodes(bool bFromSelectedOnly);
+    BOOL         CreateNode(Fvector& vAt, SAINode& N, bool bIgnoreConstraints);
+    BOOL         CanTravel(Fvector _from, Fvector _at);
 
-    SAINode* GetNode(Fvector vAt, bool bIgnoreConstraints);
-    void     UpdateLinks(SAINode* N, bool bIgnoreConstraints);
+    SAINode*     GetNode(Fvector vAt, bool bIgnoreConstraints);
+    void         UpdateLinks(SAINode* N, bool bIgnoreConstraints);
 
-    void UnpackPosition(Fvector& Pdest, const SNodePositionOld& Psrc, Fbox& bb, SAIParams& params);
-    u32  UnpackLink(u32& L);
-    void PackPosition(SNodePositionOld& Dest, Fvector& Src, Fbox& bb, SAIParams& params);
+    void         UnpackPosition(Fvector& Pdest, const SNodePositionOld& Psrc, Fbox& bb, SAIParams& params);
+    u32          UnpackLink(u32& L);
+    void         PackPosition(SNodePositionOld& Dest, Fvector& Src, Fbox& bb, SAIParams& params);
 
-    bool RealUpdateSnapList();
-    int  RemoveOutOfBoundsNodes();
+    bool         RealUpdateSnapList();
+    int          RemoveOutOfBoundsNodes();
 
     // controls
     virtual void CreateControls();
@@ -150,14 +150,14 @@ public:
         flSlowCalculate  = (1 << 2),
         flUpdateHL       = (1 << 15),
     };
-    Flags32 m_Flags;
+    Flags32        m_Flags;
 
     float          m_VisRadius;
     float          m_SmoothHeight;
     u32            m_BrushSize;
     xr_vector<u16> m_ignored_materials;
 
-    bool PickObjects(Fvector& dest, const Fvector& start, const Fvector& dir, float dist);
+    bool           PickObjects(Fvector& dest, const Fvector& start, const Fvector& dir, float dist);
 
 public:
     ESceneAIMapTool();
@@ -183,8 +183,8 @@ public:
     }
 
     // selection manipulate
-    SAINode* PickNode(const Fvector& start, const Fvector& dir, float& dist);
-    virtual int RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
+    SAINode*     PickNode(const Fvector& start, const Fvector& dir, float& dist);
+    virtual int  RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly);
     virtual int  FrustumSelect(int flag, const CFrustum& frustum);
     virtual void SelectObjects(bool flag);
     virtual void InvertSelection();
@@ -195,7 +195,7 @@ public:
     virtual void Clear(bool bOnlyNodes = false);
 
     // definition
-    IC LPCSTR ClassName()
+    IC LPCSTR    ClassName()
     {
         return "ai_map";
     }
@@ -247,11 +247,11 @@ public:
     {
         return false;
     }
-    virtual void GetBBox(Fbox& bb, bool bSelOnly);
+    virtual void  GetBBox(Fbox& bb, bool bSelOnly);
 
     // properties
-    virtual void FillPropObjects(LPCSTR pref, PropItemVec& items){};
-    virtual void FillProp(LPCSTR pref, PropItemVec& items);
+    virtual void  FillPropObjects(LPCSTR pref, PropItemVec& items){};
+    virtual void  FillProp(LPCSTR pref, PropItemVec& items);
 
     // other
     int           AddNode(const Fvector& pos, bool bIgnoreConstraints, bool bAutoLink, int cnt);

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../state.h"
 
-template <typename Object> class CStateBurerAttack: public CState<Object>
+template<typename Object> class CStateBurerAttack: public CState<Object>
 {
     typedef CState<Object>  inherited;
     typedef CState<Object>* state_ptr;

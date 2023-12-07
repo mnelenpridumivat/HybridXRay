@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "UIFrameLineWnd.h"
 
 class CUIStatic;
@@ -11,19 +11,21 @@ class CEliteDetector;
 class CUIArtefactDetectorBase
 {
 public:
-	virtual			~CUIArtefactDetectorBase	()	{};
-	virtual void	update						()	{};
+    virtual ~CUIArtefactDetectorBase(){};
+    virtual void update(){};
 };
 
-class CUIDetectorWave :public CUIFrameLineWnd
+class CUIDetectorWave: public CUIFrameLineWnd
 {
-	typedef CUIFrameLineWnd inherited;
+    typedef CUIFrameLineWnd inherited;
+
 protected:
-	float			m_curr_v;
-	float			m_step;
+    float m_curr_v;
+    float m_step;
+
 public:
-					CUIDetectorWave		():m_curr_v(0.0f),m_step(0.0f){};
-			void	InitFromXML			(CUIXml& xml, LPCSTR path);
-			void	SetVelocity			(float v);
-	virtual void	Update				();
+    CUIDetectorWave(): m_curr_v(0.0f), m_step(0.0f){};
+    void         InitFromXML(CUIXml& xml, LPCSTR path);
+    void         SetVelocity(float v);
+    virtual void Update();
 };

@@ -92,6 +92,7 @@ static void r_sphere(INetReader& r, Fsphere& v)
 template<typename type> class get_id_standart
 {
     static const u32 id_none = u32(-1);
+
 public:
     static void preset(const xr_vector<type*>& vec) {}
     static u32  get_id(const type* f, const xr_vector<type*>& vec)
@@ -107,6 +108,7 @@ public:
 template<typename type> class get_id_self_index
 {
     static const u32 id_none = u32(-1);
+
 public:
     static void preset(const xr_vector<type*>& vec)
     {
@@ -130,6 +132,7 @@ template<typename T, typename get_id_type> class t_write
 {
 public:
     typedef T type;
+
 private:
     typedef get_id_type                               id_type;
     typedef vector_serialize<t_write<T, get_id_type>> t_serialize;
@@ -170,6 +173,7 @@ template<typename T, typename get_id_type> class t_read
 {
 public:
     typedef T type;
+
 private:
     typedef vector_serialize<t_read<T, get_id_type>> t_serialize;
     typedef get_id_type                              id_type;
@@ -214,8 +218,10 @@ template<typename action> class vector_serialize
     typedef typename action::type    type;
     typedef typename action::id_type id_type;
     action                           serialize;
+
 public:
     static const u32 id_none = u32(-1);
+
 public:
     vector_serialize(xr_vector<type*>* _vec): serialize(*_vec) {}
     vector_serialize(const xr_vector<type*>* _vec): serialize(*_vec) {}

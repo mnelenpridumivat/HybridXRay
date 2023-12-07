@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: inventory_upgrade_root_inline.h
 //	Created 	: 01.11.2007
 //  Modified 	: 27.11.2007
@@ -11,15 +11,15 @@
 
 namespace inventory
 {
-namespace upgrade
-{
+    namespace upgrade
+    {
 
-IC LPCSTR Root::scheme() const
-{
-	return	m_upgrade_scheme.c_str();
-}
+        IC LPCSTR Root::scheme() const
+        {
+            return m_upgrade_scheme.c_str();
+        }
 
-} // namespace upgrade
-} // namespace inventory
+    }   // namespace upgrade
+}   // namespace inventory
 
-#endif // INVENTORY_UPGRADE_ROOT_INLINE_H_INCLUDED
+#endif   // INVENTORY_UPGRADE_ROOT_INLINE_H_INCLUDED

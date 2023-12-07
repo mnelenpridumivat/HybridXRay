@@ -10,8 +10,7 @@
 
 struct CDataStorageBinaryHeap
 {
-    template<typename _data_storage, template<typename _T> class _vertex = CEmptyClassTemplate> class CDataStorage:
-        public _data_storage::template CDataStorage<_vertex>
+    template<typename _data_storage, template<typename _T> class _vertex = CEmptyClassTemplate> class CDataStorage: public _data_storage::template CDataStorage<_vertex>
     {
     public:
         typedef typename _data_storage::template CDataStorage<_vertex> inherited;
@@ -26,10 +25,12 @@ struct CDataStorageBinaryHeap
                 return (node1->f() > node2->f());
             };
         };
+
     protected:
         CGraphVertex** m_heap;
         CGraphVertex** m_heap_head;
         CGraphVertex** m_heap_tail;
+
     public:
         IC CDataStorage(const u32 vertex_count);
         virtual ~CDataStorage();

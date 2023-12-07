@@ -41,66 +41,66 @@ public:
     rat_state_manager* m_state_manager;
 
 public:
-    void init_state_manager();
-    void select_speed();
-    void move(bool bCanAdjustSpeed = true, bool bStraightForward = false);
-    void make_turn();
-    void update_morale_broadcast(float const& value, float const& radius);
-    void update_morale();
-    void load_animations();
-    void fire(bool const& value);
-    void movement_type(float const& velocity);
-    void update_home_position();
-    void select_next_home_position();
+    void                init_state_manager();
+    void                select_speed();
+    void                move(bool bCanAdjustSpeed = true, bool bStraightForward = false);
+    void                make_turn();
+    void                update_morale_broadcast(float const& value, float const& radius);
+    void                update_morale();
+    void                load_animations();
+    void                fire(bool const& value);
+    void                movement_type(float const& velocity);
+    void                update_home_position();
+    void                select_next_home_position();
     // for state manager
-    SRotation sub_rotation();
+    SRotation           sub_rotation();
 
-    bool switch_to_attack_melee();
-    bool switch_if_enemy();
-    bool switch_to_free_recoil();
-    bool switch_to_eat();
-    bool switch_if_position();
-    bool switch_if_diff();
-    bool switch_if_porsuit();
-    bool switch_if_no_enemy();
-    bool switch_if_alife();
-    bool switch_if_dist_no_angle();
-    bool switch_if_dist_angle();
-    bool switch_if_lost_time();
-    bool switch_if_lost_rtime();
-    bool switch_if_time();
-    bool switch_if_home();
+    bool                switch_to_attack_melee();
+    bool                switch_if_enemy();
+    bool                switch_to_free_recoil();
+    bool                switch_to_eat();
+    bool                switch_if_position();
+    bool                switch_if_diff();
+    bool                switch_if_porsuit();
+    bool                switch_if_no_enemy();
+    bool                switch_if_alife();
+    bool                switch_if_dist_no_angle();
+    bool                switch_if_dist_angle();
+    bool                switch_if_lost_time();
+    bool                switch_if_lost_rtime();
+    bool                switch_if_time();
+    bool                switch_if_home();
 
-    bool get_morale();
-    bool get_if_dw_time();
-    bool get_if_tp_entity();
-    bool get_alife();
+    bool                get_morale();
+    bool                get_if_dw_time();
+    bool                get_if_tp_entity();
+    bool                get_alife();
 
-    void set_previous_query_time();
-    void set_dir();
-    void set_dir_m();
-    void set_sp_dir();
-    void set_way_point();
-    void set_home_pos();
-    void set_rew_position();
-    void set_rew_cur_position();
-    void set_goal_time(float f_val = 0.f);
-    void set_movement_type(bool bCanAdjustSpeed = true, bool bStraightForward = false);
-    void set_firing(bool b_val = false);
+    void                set_previous_query_time();
+    void                set_dir();
+    void                set_dir_m();
+    void                set_sp_dir();
+    void                set_way_point();
+    void                set_home_pos();
+    void                set_rew_position();
+    void                set_rew_cur_position();
+    void                set_goal_time(float f_val = 0.f);
+    void                set_movement_type(bool bCanAdjustSpeed = true, bool bStraightForward = false);
+    void                set_firing(bool b_val = false);
 
-    void activate_state_free_active();
-    void activate_state_free_passive();
-    void activate_state_move();
-    void activate_move();
-    void activate_turn();
-    void activate_state_attack_range();
-    void activate_state_free_recoil();
-    void activate_state_home();
-    void activate_state_eat();
+    void                activate_state_free_active();
+    void                activate_state_free_passive();
+    void                activate_state_move();
+    void                activate_move();
+    void                activate_turn();
+    void                activate_state_attack_range();
+    void                activate_state_free_recoil();
+    void                activate_state_home();
+    void                activate_state_eat();
 
-    void init_state_under_fire();
-    void init_free_recoil();
-    void init_free_active();
+    void                init_state_under_fire();
+    void                init_free_recoil();
+    void                init_free_active();
 
     bool                calc_node(const Fvector& next_position);
     Fvector             calc_position();
@@ -143,7 +143,7 @@ protected:
 //////////////////////////
 // STRUCTURES
 //////////////////////////
-#define TIME_TO_GO 2000
+#define TIME_TO_GO     2000
 #define TIME_TO_RETURN 500
 
     typedef struct tagSNormalGlobalAnimations
@@ -184,8 +184,8 @@ protected:
         eRatActionAttackEnd,
     };
 
-    ERatAction m_tAction;
-    bool       m_turning;
+    ERatAction           m_tAction;
+    bool                 m_turning;
 
     // FSM
     xr_stack<ERatStates> m_tStateStack;
@@ -195,30 +195,30 @@ protected:
     bool                 m_bStateChanged;
 
     // ANIMATIONS
-    SRatAnimations m_tRatAnimations;
-    MotionID       m_tpCurrentGlobalAnimation;
-    CBlend*        m_tpCurrentGlobalBlend;
+    SRatAnimations       m_tRatAnimations;
+    MotionID             m_tpCurrentGlobalAnimation;
+    CBlend*              m_tpCurrentGlobalBlend;
 
     // ATTACK
-    bool  m_bActionStarted;
-    bool  m_bFiring;
-    u32   m_dwStartAttackTime;
-    float m_fAttackSpeed;
+    bool                 m_bActionStarted;
+    bool                 m_bFiring;
+    u32                  m_dwStartAttackTime;
+    float                m_fAttackSpeed;
     // HIT
-    u32     m_hit_time;
-    Fvector m_hit_direction;
-    Fvector m_tHitPosition;
-    float   m_fHitPower;
-    u32     m_dwHitInterval;
+    u32                  m_hit_time;
+    Fvector              m_hit_direction;
+    Fvector              m_tHitPosition;
+    float                m_fHitPower;
+    u32                  m_dwHitInterval;
     // HIT PHYS
-    float           m_saved_impulse;
-    Fvector         m_saved_hit_position;
-    Fvector         m_saved_hit_dir;
-    Fvector         m_tNewPosition;
-    Fvector         m_tOldPosition;
-    ALife::EHitType m_saved_hit_type;
+    float                m_saved_impulse;
+    Fvector              m_saved_hit_position;
+    Fvector              m_saved_hit_dir;
+    Fvector              m_tNewPosition;
+    Fvector              m_tOldPosition;
+    ALife::EHitType      m_saved_hit_type;
     // PHYS
-    float m_phMass;
+    float                m_phMass;
 
     typedef struct tagSSimpleSound
     {
@@ -229,88 +229,88 @@ protected:
         CEntityAlive* tpEntity;
     } SSimpleSound;
 
-    float m_fMaxSpeed;
-    float m_fMinSpeed;
+    float        m_fMaxSpeed;
+    float        m_fMinSpeed;
     // SOUND BEING FELT
     SSimpleSound m_tLastSound;
 
     // BEHAVIOUR
-    Fvector m_tGoalDir;
-    Fvector m_tNewDir;
-    Fvector m_tCurrentDir;
-    Fvector m_tHPB;
-    float   m_fDHeading;
-    Fvector m_tRecoilPosition;
+    Fvector      m_tGoalDir;
+    Fvector      m_tNewDir;
+    Fvector      m_tCurrentDir;
+    Fvector      m_tHPB;
+    float        m_fDHeading;
+    Fvector      m_tRecoilPosition;
 
     // constants
-    float   m_fGoalChangeDelta;
-    float   m_fSafeSpeed;
-    float   m_fASpeed;
-    Fvector m_tVarGoal;
-    float   m_fIdleSoundDelta;
-    Fvector m_tSpawnPosition;
-    float   m_fAngleSpeed;
-    float   m_fSafeGoalChangeDelta;
-    Fvector m_tGoalVariation;
-    float   m_fNullASpeed;
-    float   m_fMinASpeed;
-    float   m_fMaxASpeed;
-    float   m_fAttackASpeed;
+    float        m_fGoalChangeDelta;
+    float        m_fSafeSpeed;
+    float        m_fASpeed;
+    Fvector      m_tVarGoal;
+    float        m_fIdleSoundDelta;
+    Fvector      m_tSpawnPosition;
+    float        m_fAngleSpeed;
+    float        m_fSafeGoalChangeDelta;
+    Fvector      m_tGoalVariation;
+    float        m_fNullASpeed;
+    float        m_fMinASpeed;
+    float        m_fMaxASpeed;
+    float        m_fAttackASpeed;
 
     // variables
-    float m_fGoalChangeTime;
-    bool  m_bNoWay;
+    float        m_fGoalChangeTime;
+    bool         m_bNoWay;
 
     // Morale
-    float m_fMoraleSuccessAttackQuant;
-    float m_fMoraleDeathQuant;
-    float m_fMoraleFearQuant;
-    float m_fMoraleRestoreQuant;
-    u32   m_dwMoraleRestoreTimeInterval;
-    u32   m_dwMoraleLastUpdateTime;
-    float m_fMoraleMinValue;
-    float m_fMoraleMaxValue;
-    float m_fMoraleNormalValue;
-    float m_fMoraleDeathDistance;
+    float        m_fMoraleSuccessAttackQuant;
+    float        m_fMoraleDeathQuant;
+    float        m_fMoraleFearQuant;
+    float        m_fMoraleRestoreQuant;
+    u32          m_dwMoraleRestoreTimeInterval;
+    u32          m_dwMoraleLastUpdateTime;
+    float        m_fMoraleMinValue;
+    float        m_fMoraleMaxValue;
+    float        m_fMoraleNormalValue;
+    float        m_fMoraleDeathDistance;
 
     // active
-    float m_fChangeActiveStateProbability;
-    u32   m_dwActiveCountPercent;
-    u32   m_dwActiveScheduleMin;
-    u32   m_dwActiveScheduleMax;
-    u32   m_dwPassiveScheduleMin;
-    u32   m_dwPassiveScheduleMax;
-    u32   m_dwStandingCountPercent;
-    bool  m_bStanding;
-    bool  m_bActive;
+    float        m_fChangeActiveStateProbability;
+    u32          m_dwActiveCountPercent;
+    u32          m_dwActiveScheduleMin;
+    u32          m_dwActiveScheduleMax;
+    u32          m_dwPassiveScheduleMin;
+    u32          m_dwPassiveScheduleMax;
+    u32          m_dwStandingCountPercent;
+    bool         m_bStanding;
+    bool         m_bActive;
 
     // attack parameters
-    float m_fAttackDistance;
-    float m_fAttackAngle;
-    float m_fMaxPursuitRadius;
-    float m_fMaxHomeRadius;
+    float        m_fAttackDistance;
+    float        m_fAttackAngle;
+    float        m_fMaxPursuitRadius;
+    float        m_fMaxHomeRadius;
 
     // DDD
-    u32   m_dwActionRefreshRate;
-    float m_fAttackSuccessProbability;
+    u32          m_dwActionRefreshRate;
+    float        m_fAttackSuccessProbability;
 
     // former constants
-    u32   m_dwLostMemoryTime;
-    u32   m_dwLostRecoilTime;
-    float m_fUnderFireDistance;
-    u32   m_dwRetreatTime;
-    float m_fRetreatDistance;
-    float m_fAttackStraightDistance;
-    float m_fStableDistance;
-    float m_fWallMinTurnValue;
-    float m_fWallMaxTurnValue;
-    float m_fSoundThreshold;
+    u32          m_dwLostMemoryTime;
+    u32          m_dwLostRecoilTime;
+    float        m_fUnderFireDistance;
+    u32          m_dwRetreatTime;
+    float        m_fRetreatDistance;
+    float        m_fAttackStraightDistance;
+    float        m_fStableDistance;
+    float        m_fWallMinTurnValue;
+    float        m_fWallMaxTurnValue;
+    float        m_fSoundThreshold;
 
     // eat troops
-    BOOL m_bEatMemberCorpses;
-    BOOL m_bCannibalism;
-    u32  m_dwEatCorpseInterval;
-    u32  m_previous_query_time;
+    BOOL         m_bEatMemberCorpses;
+    BOOL         m_bCannibalism;
+    u32          m_dwEatCorpseInterval;
+    u32          m_previous_query_time;
 
 public:
     float m_fSpeed;
@@ -333,19 +333,19 @@ public:
     //////////////////////////
     // FSM STATES
     //////////////////////////
-    void Death();
-    void FreeHuntingActive();
-    void FreeHuntingPassive();
-    void AttackFire();
-    void AttackRun();
-    void UnderFire();
-    void Retreat();
-    void Pursuit();
-    void FreeRecoil();
-    void ReturnHome();
-    void EatCorpse();
-    void test_movement();
-    void init();
+    void    Death();
+    void    FreeHuntingActive();
+    void    FreeHuntingPassive();
+    void    AttackFire();
+    void    AttackRun();
+    void    UnderFire();
+    void    Retreat();
+    void    Pursuit();
+    void    FreeRecoil();
+    void    ReturnHome();
+    void    EatCorpse();
+    void    test_movement();
+    void    init();
 
 public:
     CAI_Rat();
@@ -415,8 +415,7 @@ public:
     virtual void Think();
     virtual void SelectAnimation(const Fvector& _view, const Fvector& _move, float speed);
     virtual void Exec_Action(float dt);
-    virtual void
-        feel_sound_new(CObject* who, int type, CSound_UserDataPtr user_data, const Fvector& Position, float power);
+    virtual void feel_sound_new(CObject* who, int type, CSound_UserDataPtr user_data, const Fvector& Position, float power);
     virtual void feel_touch_new(CObject* O);
     virtual BOOL feel_touch_on_contact(CObject* O);
     virtual BOOL feel_vision_isRelevant(CObject*);
@@ -443,7 +442,7 @@ public:
     virtual bool Useful() const;
     virtual BOOL UsedAI_Locations();
     ///////////////////////////////////////////////////////////////////////
-    virtual u16 PHGetSyncItemsNumber()
+    virtual u16  PHGetSyncItemsNumber()
     {
         return inherited ::PHGetSyncItemsNumber();
     }
@@ -493,7 +492,7 @@ public:
     virtual float get_custom_pitch_speed(float def_speed);
 
     // serialization
-    virtual void save(NET_Packet& output_packet)
+    virtual void  save(NET_Packet& output_packet)
     {
         inherited::save(output_packet);
     }
@@ -511,6 +510,7 @@ public:
 #ifdef _DEBUG
     void draw_way();
 #endif
+
 private:
     steering_behaviour::manager* m_behaviour_manager;
 

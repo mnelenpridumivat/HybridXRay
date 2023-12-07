@@ -140,7 +140,7 @@ public:
      *	\return		true if success
      */
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    bool SetSize(udword nb);
+    bool         SetSize(udword nb);
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
@@ -148,14 +148,14 @@ public:
      *	\return		true if success
      */
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    bool Refit();
+    bool         Refit();
 
     // Checks whether the container already contains a given value.
-    bool Contains(udword entry, udword* location = null) const;
+    bool         Contains(udword entry, udword* location = null) const;
     // Deletes an entry - doesn't preserve insertion order.
-    bool Delete(udword entry);
+    bool         Delete(udword entry);
     // Deletes an entry - does preserve insertion order.
-    bool DeleteKeepingOrder(udword entry);
+    bool         DeleteKeepingOrder(udword entry);
     //! Deletes the very last entry.
     inline_ void DeleteLastEntry()
     {
@@ -169,8 +169,8 @@ public:
     }
 
     // Helpers
-    Container& FindNext(udword& entry, bool wrap = false);
-    Container& FindPrev(udword& entry, bool wrap = false);
+    Container&     FindNext(udword& entry, bool wrap = false);
+    Container&     FindPrev(udword& entry, bool wrap = false);
     // Data access.
     inline_ udword GetNbEntries() const
     {
@@ -206,7 +206,7 @@ public:
     udword GetUsedRam() const;
 
     //! Operator for Container A = Container B
-    void operator=(const Container& object)
+    void   operator=(const Container& object)
     {
         SetSize(object.GetNbEntries());
         CopyMemory(mEntries, object.GetEntries(), mMaxNbEntries * sizeof(udword));
@@ -227,9 +227,10 @@ private:
     static udword mNbContainers;   //!< Number of containers around
     static udword mUsedRam;        //!< Amount of bytes used by containers in the system
 #endif
+
 private:
     // Resizing
-    bool Resize(udword needed = 1);
+    bool    Resize(udword needed = 1);
     // Data
     udword  mMaxNbEntries;   //!< Maximum possible number of entries
     udword  mCurNbEntries;   //!< Current number of entries

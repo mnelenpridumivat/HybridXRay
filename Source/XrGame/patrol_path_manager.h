@@ -15,7 +15,7 @@
 #include "patrol_path_manager_space.h"
 #include "script_callback_ex.h"
 
-template <typename _return_type> class CScriptCallbackEx;
+template<typename _return_type> class CScriptCallbackEx;
 
 class CRestrictedObject;
 class CGameObject;
@@ -62,25 +62,21 @@ public:
     IC const CPatrolPath*    get_path() const;
     IC void                  set_path(const CPatrolPath* path, shared_str path_name);
     IC void                  set_path(shared_str path_name);
-    IC void                  set_path(
-                         shared_str             path_name,
-                         const EPatrolStartType patrol_start_type = ePatrolStartTypeNearest,
-                         const EPatrolRouteType patrol_route_type = ePatrolRouteTypeContinue,
-                         bool                   random            = true);
-    IC void               set_start_type(const EPatrolStartType patrol_start_type);
-    IC void               set_route_type(const EPatrolRouteType patrol_route_type);
-    IC void               set_random(bool random);
-    IC bool               actual() const;
-    shared_str            path_name() const;
-    void                  set_previous_point(int point_index);
-    void                  set_start_point(int point_index);
-    IC bool               completed() const;
-    IC bool               failed() const;
-    void                  select_point(const Fvector& position, u32& dest_vertex_id);
-    IC const Fvector&     destination_position() const;
-    IC u32                get_current_point_index() const;
-    IC CRestrictedObject& object() const;
-    bool                  extrapolate_path();
+    IC void                  set_path(shared_str path_name, const EPatrolStartType patrol_start_type = ePatrolStartTypeNearest, const EPatrolRouteType patrol_route_type = ePatrolRouteTypeContinue, bool random = true);
+    IC void                  set_start_type(const EPatrolStartType patrol_start_type);
+    IC void                  set_route_type(const EPatrolRouteType patrol_route_type);
+    IC void                  set_random(bool random);
+    IC bool                  actual() const;
+    shared_str               path_name() const;
+    void                     set_previous_point(int point_index);
+    void                     set_start_point(int point_index);
+    IC bool                  completed() const;
+    IC bool                  failed() const;
+    void                     select_point(const Fvector& position, u32& dest_vertex_id);
+    IC const Fvector&        destination_position() const;
+    IC u32                   get_current_point_index() const;
+    IC CRestrictedObject&    object() const;
+    bool                     extrapolate_path();
 
 private:
     u32  get_next_point(u32 prev_point_index);

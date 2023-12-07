@@ -21,8 +21,8 @@ namespace inventory
         public:
             Group();
             virtual ~Group();
-            void construct(const shared_str& group_id, UpgradeBase& parent_upgrade, Manager& manager_r);
-            void add_parent_upgrade(UpgradeBase& parent_upgrade);
+            void                 construct(const shared_str& group_id, UpgradeBase& parent_upgrade, Manager& manager_r);
+            void                 add_parent_upgrade(UpgradeBase& parent_upgrade);
 
             IC const shared_str& id() const;
             IC LPCSTR            id_str() const;
@@ -31,18 +31,18 @@ namespace inventory
             void log_hierarchy(LPCSTR nesting);
 #endif   // DEBUG
 
-            void fill_root(Root* root);
+            void               fill_root(Root* root);
 
             UpgradeStateResult can_install(CInventoryItem& item, UpgradeBase& test_upgrade, bool loading);
 
-            void highlight_up();
-            void highlight_down();
+            void               highlight_up();
+            void               highlight_down();
 
         private:
             typedef xr_vector<UpgradeBase*> Upgrades_type;
 
         private:
-            shared_str m_id;
+            shared_str    m_id;
 
             Upgrades_type m_parent_upgrades;
             Upgrades_type m_included_upgrades;

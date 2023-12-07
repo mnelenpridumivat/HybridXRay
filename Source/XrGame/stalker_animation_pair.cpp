@@ -18,13 +18,11 @@
 #include "phdebug.h"
 #endif
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
-void CStalkerAnimationPair::synchronize(
-    IKinematicsAnimated*         skeleton_animated,
-    const CStalkerAnimationPair& stalker_animation) const
+void CStalkerAnimationPair::synchronize(IKinematicsAnimated* skeleton_animated, const CStalkerAnimationPair& stalker_animation) const
 {
     if (!blend())
         return;
@@ -46,19 +44,10 @@ void CStalkerAnimationPair::synchronize(
 }
 
 #ifndef USE_HEAD_BONE_PART_FAKE
-void CStalkerAnimationPair::play_global_animation(
-    IKinematicsAnimated* skeleton_animated,
-    PlayCallback         callback,
-    const bool&          use_animation_movement_control)
+void CStalkerAnimationPair::play_global_animation(IKinematicsAnimated* skeleton_animated, PlayCallback callback, const bool& use_animation_movement_control)
 #else
 
-void CStalkerAnimationPair::play_global_animation(
-    IKinematicsAnimated* skeleton_animated,
-    PlayCallback         callback,
-    const u32&           bone_part,
-    const bool&          use_animation_movement_control,
-    const bool&          local_animation,
-    bool                 mix_animations)
+void CStalkerAnimationPair::play_global_animation(IKinematicsAnimated* skeleton_animated, PlayCallback callback, const u32& bone_part, const bool& use_animation_movement_control, const bool& local_animation, bool mix_animations)
 #endif
 {
     // DBG_OpenCashedDraw();
@@ -100,22 +89,9 @@ void CStalkerAnimationPair::play_global_animation(
 }
 
 #ifndef USE_HEAD_BONE_PART_FAKE
-void CStalkerAnimationPair::play(
-    IKinematicsAnimated* skeleton_animated,
-    PlayCallback         callback,
-    const bool&          use_animation_movement_control,
-    const bool&          local_animation,
-    bool                 continue_interrupted_animation,
-    bool                 mix_animations)
+void CStalkerAnimationPair::play(IKinematicsAnimated* skeleton_animated, PlayCallback callback, const bool& use_animation_movement_control, const bool& local_animation, bool continue_interrupted_animation, bool mix_animations)
 #else
-void CStalkerAnimationPair::play(
-    IKinematicsAnimated* skeleton_animated,
-    PlayCallback         callback,
-    const bool&          use_animation_movement_control,
-    const bool&          local_animation,
-    bool                 continue_interrupted_animation,
-    const u32&           bone_part,
-    bool                 mix_animations)
+void CStalkerAnimationPair::play(IKinematicsAnimated* skeleton_animated, PlayCallback callback, const bool& use_animation_movement_control, const bool& local_animation, bool continue_interrupted_animation, const u32& bone_part, bool mix_animations)
 #endif
 {
     VERIFY(animation());
@@ -178,11 +154,9 @@ void CStalkerAnimationPair::play(
     }
     else
 #ifndef USE_HEAD_BONE_PART_FAKE
-        play_global_animation(
-            skeleton_animated, callback, use_animation_movement_control, local_animation, mix_animations);
+        play_global_animation(skeleton_animated, callback, use_animation_movement_control, local_animation, mix_animations);
 #else
-        play_global_animation(
-            skeleton_animated, callback, bone_part, use_animation_movement_control, local_animation, mix_animations);
+        play_global_animation(skeleton_animated, callback, bone_part, use_animation_movement_control, local_animation, mix_animations);
 #endif
     m_actual = true;
 
@@ -195,17 +169,13 @@ void CStalkerAnimationPair::play(
         CMotionDef* motion = skeleton_animated->LL_GetMotionDef(animation());
         VERIFY(motion);
         LPCSTR name = skeleton_animated->LL_MotionDefName_dbg(animation()).first;
-        Msg("%6d [%s][%s][%s][%d][%c][%c][%c][%f][%f][%f]", Device->dwTimeGlobal, m_object_name, m_animation_type_name,
-            name, motion->bone_or_part, (!(motion->flags & esmStopAtEnd)) ? '+' : '-',
-            use_animation_movement_control ? '+' : '-', local_animation ? '+' : '-',
-            VPUSH((m_target_matrix ? m_target_matrix->c : m_object->XFORM().c)));
+        Msg("%6d [%s][%s][%s][%d][%c][%c][%c][%f][%f][%f]", Device->dwTimeGlobal, m_object_name, m_animation_type_name, name, motion->bone_or_part, (!(motion->flags & esmStopAtEnd)) ? '+' : '-', use_animation_movement_control ? '+' : '-', local_animation ? '+' : '-', VPUSH((m_target_matrix ? m_target_matrix->c : m_object->XFORM().c)));
     }
 #endif
 }
 
 #ifdef DEBUG
-std::pair<LPCSTR, LPCSTR>*
-    CStalkerAnimationPair::blend_id(IKinematicsAnimated* skeleton_animated, std::pair<LPCSTR, LPCSTR>& result) const
+std::pair<LPCSTR, LPCSTR>* CStalkerAnimationPair::blend_id(IKinematicsAnimated* skeleton_animated, std::pair<LPCSTR, LPCSTR>& result) const
 {
     if (!blend())
         return (0);
@@ -245,9 +215,9 @@ void CStalkerAnimationPair::select_animation(const ANIM_VECTOR& array, const ANI
 
     float                             accumulator = 0.f;
     ANIMATION_WEIGHTS::const_iterator I = weights->begin(), B = I;
-    ANIMATION_WEIGHTS::const_iterator E = weights->end();
+    ANIMATION_WEIGHTS::const_iterator E          = weights->end();
 
-    u32 array_size = array.size();
+    u32                               array_size = array.size();
     if (array_size < weights->size())
         E = B + array_size;
 
@@ -296,11 +266,9 @@ void CStalkerAnimationPair::on_animation_end()
 
     u32                                callback_count = m_callbacks.size();
     typedef buffer_vector<CALLBACK_ID> Callbacks;
-    Callbacks                          callbacks(
-        _alloca(callback_count * sizeof(Callbacks::value_type)), callback_count, m_callbacks.begin(),
-        m_callbacks.end());
-    Callbacks::const_iterator i = callbacks.begin();
-    Callbacks::const_iterator e = callbacks.end();
+    Callbacks                          callbacks(_alloca(callback_count * sizeof(Callbacks::value_type)), callback_count, m_callbacks.begin(), m_callbacks.end());
+    Callbacks::const_iterator          i = callbacks.begin();
+    Callbacks::const_iterator          e = callbacks.end();
     for (; i != e; ++i)
         (*i)();
 }
@@ -312,9 +280,7 @@ void CStalkerAnimationPair::target_matrix(Fvector const& position, Fvector const
     m_target_matrix        = &m_target_matrix_impl;
 }
 
-bool CStalkerAnimationPair::use_animation_movement_control(
-    IKinematicsAnimated* skeleton_animated,
-    MotionID const&      motion_id) const
+bool CStalkerAnimationPair::use_animation_movement_control(IKinematicsAnimated* skeleton_animated, MotionID const& motion_id) const
 {
     CMotionDef* motion_def = skeleton_animated->LL_GetMotionDef(motion_id);
     VERIFY(motion_def);

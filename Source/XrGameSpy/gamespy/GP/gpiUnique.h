@@ -20,23 +20,12 @@ Please see the GameSpy Presence SDK documentation for more information
 
 // FUNCTIONS
 ///////////
-GPResult gpiRegisterUniqueNick(
-    GPConnection* connection,
-    const char    uniquenick[GP_UNIQUENICK_LEN],
-    const char    cdkey[GP_CDKEY_LEN],
-    GPEnum        blocking,
-    GPCallback    callback,
-    void*         param);
+GPResult gpiRegisterUniqueNick(GPConnection* connection, const char uniquenick[GP_UNIQUENICK_LEN], const char cdkey[GP_CDKEY_LEN], GPEnum blocking, GPCallback callback, void* param);
 
 GPResult gpiProcessRegisterUniqueNick(GPConnection* connection, GPIOperation* operation, const char* input);
 
 // Seperated registration of unique nick and cdkey
-GPResult gpiRegisterCdKey(
-    GPConnection* connection,
-    const char    cdkey[GP_CDKEY_LEN],
-    GPEnum        blocking,
-    GPCallback    callback,
-    void*         param);
+GPResult gpiRegisterCdKey(GPConnection* connection, const char cdkey[GP_CDKEY_LEN], GPEnum blocking, GPCallback callback, void* param);
 
 GPResult gpiProcessRegisterCdKey(GPConnection* connection, GPIOperation* operation, const char* input);
 

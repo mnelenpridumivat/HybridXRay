@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <int m_iDimensions>
-#define _MinimizeND MinimizeND<m_iDimensions>
+#define TEMPLATE_SPECIALIZATION template<int m_iDimensions>
+#define _MinimizeND             MinimizeND<m_iDimensions>
 
 TEMPLATE_SPECIALIZATION
 inline int& _MinimizeND::MaxLevel()
@@ -22,8 +22,7 @@ inline void*& _MinimizeND::UserData()
 }
 
 TEMPLATE_SPECIALIZATION
-_MinimizeND::MinimizeND(Function oF, int iMaxLevel, int iMaxBracket, int iMaxIterations, void* pvUserData):
-    m_kMinimizer(LineFunction, iMaxLevel, iMaxBracket)
+_MinimizeND::MinimizeND(Function oF, int iMaxLevel, int iMaxBracket, int iMaxIterations, void* pvUserData): m_kMinimizer(LineFunction, iMaxLevel, iMaxBracket)
 {
     VERIFY(m_iDimensions >= 1 && oF);
 
@@ -37,19 +36,14 @@ _MinimizeND::MinimizeND(Function oF, int iMaxLevel, int iMaxBracket, int iMaxIte
 }
 
 TEMPLATE_SPECIALIZATION
-void _MinimizeND::GetMinimum(
-    const float* afT0,
-    const float* afT1,
-    const float* afTInitial,
-    float*       afTMin,
-    float&       rfFMin)
+void _MinimizeND::GetMinimum(const float* afT0, const float* afT1, const float* afTInitial, float* afTMin, float& rfFMin)
 {
     // for 1D function callback
     m_kMinimizer.UserData() = this;
 
     // initial guess
-    int iQuantity = m_iDimensions * sizeof(float);
-    m_fFCurr      = m_oF(afTInitial, m_pvUserData);
+    int iQuantity           = m_iDimensions * sizeof(float);
+    m_fFCurr                = m_oF(afTInitial, m_pvUserData);
     memcpy(m_afTSave, afTInitial, iQuantity);
     memcpy(m_afTCurr, afTInitial, iQuantity);
 

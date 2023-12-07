@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2007 nVidia, Inc.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. 
 
@@ -23,28 +23,68 @@ using namespace nv;
 using namespace AVPCL;
 
 // global flags
-bool AVPCL::flag_premult = false;
-bool AVPCL::flag_nonuniform = false;
+bool AVPCL::flag_premult        = false;
+bool AVPCL::flag_nonuniform     = false;
 bool AVPCL::flag_nonuniform_ati = false;
 
 // global mode
-bool AVPCL::mode_rgb = false;		// true if image had constant alpha = 255
+bool AVPCL::mode_rgb            = false;   // true if image had constant alpha = 255
 
-void AVPCL::compress(const Tile &t, char *block)
+void AVPCL::compress(const Tile& t, char* block)
 {
-	char tempblock[AVPCL::BLOCKSIZE];
-	float msebest = FLT_MAX;
+    char  tempblock[AVPCL::BLOCKSIZE];
+    float msebest   = FLT_MAX;
 
-	float mse_mode0 = AVPCL::compress_mode0(t, tempblock);		if(mse_mode0 < msebest) { msebest = mse_mode0; memcpy(block, tempblock, AVPCL::BLOCKSIZE); }
-	float mse_mode1 = AVPCL::compress_mode1(t, tempblock);		if(mse_mode1 < msebest) { msebest = mse_mode1; memcpy(block, tempblock, AVPCL::BLOCKSIZE); }
-	float mse_mode2 = AVPCL::compress_mode2(t, tempblock);		if(mse_mode2 < msebest) { msebest = mse_mode2; memcpy(block, tempblock, AVPCL::BLOCKSIZE); }
-	float mse_mode3 = AVPCL::compress_mode3(t, tempblock);		if(mse_mode3 < msebest) { msebest = mse_mode3; memcpy(block, tempblock, AVPCL::BLOCKSIZE); }
-	float mse_mode4 = AVPCL::compress_mode4(t, tempblock);		if(mse_mode4 < msebest) { msebest = mse_mode4; memcpy(block, tempblock, AVPCL::BLOCKSIZE); }
-	float mse_mode5 = AVPCL::compress_mode5(t, tempblock);		if(mse_mode5 < msebest) { msebest = mse_mode5; memcpy(block, tempblock, AVPCL::BLOCKSIZE); }
-	float mse_mode6 = AVPCL::compress_mode6(t, tempblock);		if(mse_mode6 < msebest) { msebest = mse_mode6; memcpy(block, tempblock, AVPCL::BLOCKSIZE); }
-	float mse_mode7 = AVPCL::compress_mode7(t, tempblock);		if(mse_mode7 < msebest) { msebest = mse_mode7; memcpy(block, tempblock, AVPCL::BLOCKSIZE); }
-		
-	/*if (errfile)
+    float mse_mode0 = AVPCL::compress_mode0(t, tempblock);
+    if (mse_mode0 < msebest)
+    {
+        msebest = mse_mode0;
+        memcpy(block, tempblock, AVPCL::BLOCKSIZE);
+    }
+    float mse_mode1 = AVPCL::compress_mode1(t, tempblock);
+    if (mse_mode1 < msebest)
+    {
+        msebest = mse_mode1;
+        memcpy(block, tempblock, AVPCL::BLOCKSIZE);
+    }
+    float mse_mode2 = AVPCL::compress_mode2(t, tempblock);
+    if (mse_mode2 < msebest)
+    {
+        msebest = mse_mode2;
+        memcpy(block, tempblock, AVPCL::BLOCKSIZE);
+    }
+    float mse_mode3 = AVPCL::compress_mode3(t, tempblock);
+    if (mse_mode3 < msebest)
+    {
+        msebest = mse_mode3;
+        memcpy(block, tempblock, AVPCL::BLOCKSIZE);
+    }
+    float mse_mode4 = AVPCL::compress_mode4(t, tempblock);
+    if (mse_mode4 < msebest)
+    {
+        msebest = mse_mode4;
+        memcpy(block, tempblock, AVPCL::BLOCKSIZE);
+    }
+    float mse_mode5 = AVPCL::compress_mode5(t, tempblock);
+    if (mse_mode5 < msebest)
+    {
+        msebest = mse_mode5;
+        memcpy(block, tempblock, AVPCL::BLOCKSIZE);
+    }
+    float mse_mode6 = AVPCL::compress_mode6(t, tempblock);
+    if (mse_mode6 < msebest)
+    {
+        msebest = mse_mode6;
+        memcpy(block, tempblock, AVPCL::BLOCKSIZE);
+    }
+    float mse_mode7 = AVPCL::compress_mode7(t, tempblock);
+    if (mse_mode7 < msebest)
+    {
+        msebest = mse_mode7;
+        memcpy(block, tempblock, AVPCL::BLOCKSIZE);
+    }
+
+    /*if (errfile)
 	{
 		float errs[21];
 		int nerrs = 8;
@@ -97,28 +137,45 @@ static void setbits(char *b, int start, int len, int bits)
 }
 */
 
-void AVPCL::decompress(const char *cblock, Tile &t)
+void AVPCL::decompress(const char* cblock, Tile& t)
 {
-	char block[AVPCL::BLOCKSIZE];
-	memcpy(block, cblock, AVPCL::BLOCKSIZE);
+    char block[AVPCL::BLOCKSIZE];
+    memcpy(block, cblock, AVPCL::BLOCKSIZE);
 
-	switch(getmode(block))
-	{
-	case 0:	AVPCL::decompress_mode0(block, t);	break;
-	case 1:	AVPCL::decompress_mode1(block, t);	break;
-	case 2:	AVPCL::decompress_mode2(block, t);	break;
-	case 3:	AVPCL::decompress_mode3(block, t);	break;
-	case 4:	AVPCL::decompress_mode4(block, t);	break;
-	case 5:	AVPCL::decompress_mode5(block, t);	break;
-	case 6:	AVPCL::decompress_mode6(block, t);	break;
-	case 7:	AVPCL::decompress_mode7(block, t);	break;
-	case 8: // return a black tile if you get a reserved mode
-		for (int y=0; y<Tile::TILE_H; ++y)
-			for (int x=0; x<Tile::TILE_W; ++x)
-				t.data[y][x].set(0, 0, 0, 0);
-		break;
-	default: nvUnreachable();
-	}
+    switch (getmode(block))
+    {
+        case 0:
+            AVPCL::decompress_mode0(block, t);
+            break;
+        case 1:
+            AVPCL::decompress_mode1(block, t);
+            break;
+        case 2:
+            AVPCL::decompress_mode2(block, t);
+            break;
+        case 3:
+            AVPCL::decompress_mode3(block, t);
+            break;
+        case 4:
+            AVPCL::decompress_mode4(block, t);
+            break;
+        case 5:
+            AVPCL::decompress_mode5(block, t);
+            break;
+        case 6:
+            AVPCL::decompress_mode6(block, t);
+            break;
+        case 7:
+            AVPCL::decompress_mode7(block, t);
+            break;
+        case 8:   // return a black tile if you get a reserved mode
+            for (int y = 0; y < Tile::TILE_H; ++y)
+                for (int x = 0; x < Tile::TILE_W; ++x)
+                    t.data[y][x].set(0, 0, 0, 0);
+            break;
+        default:
+            nvUnreachable();
+    }
 }
 
 /*

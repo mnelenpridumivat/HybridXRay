@@ -56,18 +56,18 @@ public:
     virtual void OnActivate();
 
     // group function
-    void UngroupObjects(bool bUndo = true);
-    void GroupObjects(bool bUndo = true);
+    void         UngroupObjects(bool bUndo = true);
+    void         GroupObjects(bool bUndo = true);
 
-    void CenterToGroup();
-    void AlignToObject();
+    void         CenterToGroup();
+    void         AlignToObject();
 
-    void MakeThumbnail();
+    void         MakeThumbnail();
 
-    void   SaveSelectedObject();
-    void   ReloadRefsSelectedObject();
-    void   SetCurrentObject(LPCSTR nm);
-    LPCSTR GetCurrentObject()
+    void         SaveSelectedObject();
+    void         ReloadRefsSelectedObject();
+    void         SetCurrentObject(LPCSTR nm);
+    LPCSTR       GetCurrentObject()
     {
         return m_CurrentObject.c_str();
     }

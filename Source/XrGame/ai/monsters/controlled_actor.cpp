@@ -10,7 +10,7 @@
 #define SPEED_MIN 0.5f
 #define SPEED_MAX 4.f
 #define EPS_ANGLE 1 * PI / 180
-#define MAX_DIST PI
+#define MAX_DIST  PI
 
 void CControlledActor::reinit()
 {
@@ -52,7 +52,7 @@ void CControlledActor::look_point(const Fvector& point)
 void CControlledActor::update_turn()
 {
     // get yaw and pitch to target
-    float cam_target_yaw, cam_target_pitch;
+    float   cam_target_yaw, cam_target_pitch;
 
     Fvector P, D, N;
     m_actor->cam_Active()->Get(P, D, N);

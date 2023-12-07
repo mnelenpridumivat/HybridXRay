@@ -14,21 +14,24 @@ class XREUI_API XrUIManager
 {
 public:
     XrUIManager();
-    void Push(XrUI* ui, bool need_deleted = true);
+    void                             Push(XrUI* ui, bool need_deleted = true);
 
-    template<typename T>
-    inline bool IsPushedOfType() const
+    template<typename T> inline bool IsPushedOfType() const
     {
-      return std::any_of(m_UIArray.begin(), m_UIArray.end(), [](XrUI* Form){return dynamic_cast<T*>(Form);});
+        return std::any_of(m_UIArray.begin(), m_UIArray.end(),
+            [](XrUI* Form)
+            {
+                return dynamic_cast<T*>(Form);
+            });
     }
 
     void Draw();
 
     virtual ~XrUIManager();
 
-    LRESULT WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-    void    Initialize(HWND hWnd, IDirect3DDevice9* device, const char* ini_path);
-    void    Destroy();
+    LRESULT      WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+    void         Initialize(HWND hWnd, IDirect3DDevice9* device, const char* ini_path);
+    void         Destroy();
 
     void         ResetBegin();
     void         ResetEnd();

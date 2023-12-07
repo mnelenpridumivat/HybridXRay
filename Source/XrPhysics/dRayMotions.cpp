@@ -8,11 +8,11 @@ int dCollideCylRay(dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int
 // #pragma warning(default:4995)
 // #pragma warning(default:4267)
 
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4267)
+#pragma warning(disable:4995)
+#pragma warning(disable:4267)
 #include "ode/src/collision_std.h"
-#pragma warning(default : 4995)
-#pragma warning(default : 4267)
+#pragma warning(default:4995)
+#pragma warning(default:4267)
 struct dxRayMotions
 {
     dGeomID ray;

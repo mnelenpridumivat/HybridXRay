@@ -6,6 +6,7 @@ public:
     xrP_Integer oAREF;
     xrP_BOOL    oBlend;
     bool        lmapped;
+
 public:
     virtual LPCSTR getComment()
     {

@@ -19,6 +19,7 @@ class CAI_Stalker;
 class CStalkerAnimationPair
 {
 #ifdef USE_HEAD_BONE_PART_FAKE
+
 public:
     enum
     {
@@ -52,6 +53,7 @@ public:
     bool m_just_started;
 
 #ifdef DEBUG
+
 private:
     LPCSTR m_object_name;
     LPCSTR m_animation_type_name;
@@ -60,26 +62,15 @@ private:
 private:
     void select_animation(const ANIM_VECTOR& array, const ANIMATION_WEIGHTS* weights);
 #ifndef USE_HEAD_BONE_PART_FAKE
-    void play_global_animation(
-        IKinematicsAnimated* skeleton_animated,
-        PlayCallback         callback,
-        const bool&          use_animation_movement_control,
-        const bool&          local_animation,
-        bool                 mix_animations);
+    void play_global_animation(IKinematicsAnimated* skeleton_animated, PlayCallback callback, const bool& use_animation_movement_control, const bool& local_animation, bool mix_animations);
 #else    // USE_HEAD_BONE_PART_FAKE
-    void play_global_animation(
-        IKinematicsAnimated* skeleton_animated,
-        PlayCallback         callback,
-        const u32&           bone_part,
-        const bool&          use_animation_movement_control,
-        const bool&          local_animation,
-        bool                 mix_animations);
+    void play_global_animation(IKinematicsAnimated* skeleton_animated, PlayCallback callback, const u32& bone_part, const bool& use_animation_movement_control, const bool& local_animation, bool mix_animations);
 #endif   // USE_HEAD_BONE_PART_FAKE
 
 public:
-    IC   CStalkerAnimationPair(CAI_Stalker* object);
-    void reset();
-    void synchronize(IKinematicsAnimated* skeleton_animated, const CStalkerAnimationPair& stalker_animation_pair) const;
+    IC                 CStalkerAnimationPair(CAI_Stalker* object);
+    void               reset();
+    void               synchronize(IKinematicsAnimated* skeleton_animated, const CStalkerAnimationPair& stalker_animation_pair) const;
     MotionID           select(const ANIM_VECTOR& array, const ANIMATION_WEIGHTS* weights = 0);
     IC bool            actual() const;
     IC bool            animation(const MotionID& animation);
@@ -93,25 +84,13 @@ public:
 
 public:
 #ifndef USE_HEAD_BONE_PART_FAKE
-    void play(
-        IKinematicsAnimated* skeleton_animated,
-        PlayCallback         callback,
-        const bool&          use_animation_movement_control,
-        const bool&          local_animation,
-        bool                 continue_interrupted_animation = true,
-        bool                 mix_animations                 = true);
+    void play(IKinematicsAnimated* skeleton_animated, PlayCallback callback, const bool& use_animation_movement_control, const bool& local_animation, bool continue_interrupted_animation = true, bool mix_animations = true);
 #else    // USE_HEAD_BONE_PART_FAKE
-    void play(
-        IKinematicsAnimated* skeleton_animated,
-        PlayCallback         callback,
-        const bool&          use_animation_movement_control,
-        const bool&          local_animation,
-        bool                 continue_interrupted_animation = true,
-        const u32&           bone_part                      = all_bone_parts,
-        bool                 mix_animations                 = true);
+    void play(IKinematicsAnimated* skeleton_animated, PlayCallback callback, const bool& use_animation_movement_control, const bool& local_animation, bool continue_interrupted_animation = true, const u32& bone_part = all_bone_parts, bool mix_animations = true);
 #endif   // USE_HEAD_BONE_PART_FAKE
 
 #ifdef DEBUG
+
 public:
     IC void   set_dbg_info(LPCSTR object_name, LPCSTR animation_type_name);
     BLEND_ID* blend_id(IKinematicsAnimated* skeleton_animated, BLEND_ID& result) const;
@@ -128,7 +107,7 @@ public:
     IC void               target_matrix();
     IC void               target_matrix(Fmatrix const& matrix);
     void                  target_matrix(Fvector const& position, Fvector const& direction);
-    bool use_animation_movement_control(IKinematicsAnimated* skeleton_animated, MotionID const& motion_id) const;
+    bool                  use_animation_movement_control(IKinematicsAnimated* skeleton_animated, MotionID const& motion_id) const;
 };
 
 #include "stalker_animation_pair_inline.h"

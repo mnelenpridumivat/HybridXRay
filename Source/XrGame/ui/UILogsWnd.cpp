@@ -30,11 +30,10 @@
 
 #define PDA_LOGS_XML "pda_logs.xml"
 
-extern u64 generate_time(u32 years, u32 months, u32 days, u32 hours, u32 minutes, u32 seconds, u32 milliseconds = 0);
-extern void
-    split_time(u64 time, u32& years, u32& months, u32& days, u32& hours, u32& minutes, u32& seconds, u32& milliseconds);
+extern u64  generate_time(u32 years, u32 months, u32 days, u32 hours, u32 minutes, u32 seconds, u32 milliseconds = 0);
+extern void split_time(u64 time, u32& years, u32& months, u32& days, u32& hours, u32& minutes, u32& seconds, u32& milliseconds);
 
-u64 const day2ms = u64(24 * 60 * 60 * 1000);
+u64 const   day2ms = u64(24 * 60 * 60 * 1000);
 
 CUILogsWnd::CUILogsWnd()
 {
@@ -58,7 +57,7 @@ void CUILogsWnd::Show(bool status)
         //		m_actor_ch_info->InitCharacter( Actor()->object_id() );
         m_selected_period = GetShiftPeriod(Level().GetGameTime(), 0);
         //		if(current_period != m_selected_period)
-        m_need_reload = true;
+        m_need_reload     = true;
         Update();
     }
     // InventoryUtilities::SendInfoToActor("ui_pda_news_hide");
@@ -104,7 +103,7 @@ void CUILogsWnd::Init()
     // m_actor_ch_info->InitCharacterInfo( &m_uiXml, "actor_ch_info" );
 
     //	m_center_background	= UIHelper::CreateStatic( m_uiXml, "center_background", this );
-    m_center_caption = UIHelper::CreateTextWnd(m_uiXml, "center_caption", this);
+    m_center_caption    = UIHelper::CreateTextWnd(m_uiXml, "center_caption", this);
 
     string256 buf;
     xr_strcpy(buf, sizeof(buf), m_center_caption->GetText());
@@ -130,8 +129,8 @@ void CUILogsWnd::Init()
     m_period_caption = UIHelper::CreateTextWnd(m_uiXml, "period_caption", this);
     m_period         = UIHelper::CreateTextWnd(m_uiXml, "period", this);
 
-    m_prev_period = UIHelper::Create3tButton(m_uiXml, "btn_prev_period", this);
-    m_next_period = UIHelper::Create3tButton(m_uiXml, "btn_next_period", this);
+    m_prev_period    = UIHelper::Create3tButton(m_uiXml, "btn_prev_period", this);
+    m_next_period    = UIHelper::Create3tButton(m_uiXml, "btn_next_period", this);
 
     Register(m_filter_news);
     Register(m_filter_talk);
@@ -154,7 +153,7 @@ void itemToCache(CUIWindow* w)
 
 extern CActor* g_actor;
 
-void CUILogsWnd::ReLoadNews()
+void           CUILogsWnd::ReLoadNews()
 {
     m_news_in_queue.clear();
     if (!g_actor)
@@ -172,15 +171,15 @@ void CUILogsWnd::ReLoadNews()
     ALife::_TIME_ID end_period = GetShiftPeriod(m_selected_period, 1);
 
     VERIFY(m_filter_news && m_filter_talk);
-    GAME_NEWS_VECTOR& news_vector = Actor()->game_news_registry->registry().objects();
+    GAME_NEWS_VECTOR&          news_vector = Actor()->game_news_registry->registry().objects();
 
     //	u32 currentNews = 0;
 
-    bool filter_news = m_filter_news->GetCheck();
-    bool filter_talk = m_filter_talk->GetCheck();
+    bool                       filter_news = m_filter_news->GetCheck();
+    bool                       filter_talk = m_filter_talk->GetCheck();
 
-    GAME_NEWS_VECTOR::iterator ib = news_vector.begin();
-    GAME_NEWS_VECTOR::iterator ie = news_vector.end();
+    GAME_NEWS_VECTOR::iterator ib          = news_vector.begin();
+    GAME_NEWS_VECTOR::iterator ie          = news_vector.end();
     for (u32 idx = 0; ib != ie; ++ib, ++idx)
     {
         bool            add = false;
@@ -318,13 +317,15 @@ bool CUILogsWnd::OnKeyboardAction(int dik, EUIMessages keyboard_action)
             case DIK_UP:
             case DIK_DOWN:
             case DIK_PRIOR:
-            case DIK_NEXT: {
+            case DIK_NEXT:
+            {
                 on_scroll_keys(dik);
                 return true;
             }
             break;
             case DIK_RCONTROL:
-            case DIK_LCONTROL: {
+            case DIK_LCONTROL:
+            {
                 m_ctrl_press = true;
                 return true;
             }
@@ -342,7 +343,8 @@ bool CUILogsWnd::OnKeyboardHold(int dik)
         case DIK_UP:
         case DIK_DOWN:
         case DIK_PRIOR:
-        case DIK_NEXT: {
+        case DIK_NEXT:
+        {
             on_scroll_keys(dik);
             return true;
         }
@@ -357,21 +359,24 @@ void CUILogsWnd::on_scroll_keys(int dik)
 
     switch (dik)
     {
-        case DIK_UP: {
+        case DIK_UP:
+        {
             int orig = m_list->ScrollBar()->GetStepSize();
             m_list->ScrollBar()->SetStepSize(1);
             m_list->ScrollBar()->TryScrollDec();
             m_list->ScrollBar()->SetStepSize(orig);
             break;
         }
-        case DIK_DOWN: {
+        case DIK_DOWN:
+        {
             int orig = m_list->ScrollBar()->GetStepSize();
             m_list->ScrollBar()->SetStepSize(1);
             m_list->ScrollBar()->TryScrollInc();
             m_list->ScrollBar()->SetStepSize(orig);
             break;
         }
-        case DIK_PRIOR: {
+        case DIK_PRIOR:
+        {
             if (m_ctrl_press)
             {
                 m_list->ScrollToBegin();
@@ -380,7 +385,8 @@ void CUILogsWnd::on_scroll_keys(int dik)
             m_list->ScrollBar()->TryScrollDec();
             break;
         }
-        case DIK_NEXT: {
+        case DIK_NEXT:
+        {
             if (m_ctrl_press)
             {
                 m_list->ScrollToEnd();

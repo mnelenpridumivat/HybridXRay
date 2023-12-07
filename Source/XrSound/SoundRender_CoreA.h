@@ -48,8 +48,8 @@ class CSoundRender_CoreA: public CSoundRender_Core
     };
     SListener Listener;
 
-    BOOL EAXQuerySupport(BOOL bDeferred, const GUID* guid, u32 prop, void* val, u32 sz);
-    BOOL EAXTestSupport(BOOL bDeferred);
+    BOOL      EAXQuerySupport(BOOL bDeferred, const GUID* guid, u32 prop, void* val, u32 sz);
+    BOOL      EAXTestSupport(BOOL bDeferred);
 
 protected:
     virtual void i_eax_set(const GUID* guid, u32 prop, void* val, u32 sz);
@@ -60,11 +60,11 @@ public:
     CSoundRender_CoreA();
     virtual ~CSoundRender_CoreA();
 
-    virtual void _initialize(int stage);
-    virtual void _clear();
-    virtual void _restart();
+    virtual void           _initialize(int stage);
+    virtual void           _clear();
+    virtual void           _restart();
 
-    virtual void set_master_volume(float f);
+    virtual void           set_master_volume(float f);
 
     virtual const Fvector& listener_position()
     {

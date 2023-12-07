@@ -25,15 +25,12 @@ public:
     typedef System::ComponentModel::TypeConverter::StandardValuesCollection StandardValuesCollection;
 
 public:
-    virtual PropertyDescriptorCollection ^
-        GetProperties(ITypeDescriptorContext ^ context, Object ^ value, array<Attribute ^> ^ attributes) override;
+    virtual PropertyDescriptorCollection ^ GetProperties(ITypeDescriptorContext ^ context, Object ^ value, array<Attribute ^> ^ attributes) override;
     virtual bool GetPropertiesSupported(ITypeDescriptorContext ^ context) override;
 
 public:
     virtual bool CanConvertTo(ITypeDescriptorContext ^ context, Type ^ destination_type) override;
-    virtual Object ^
-        ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type)
-            override;
+    virtual Object ^ ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type) override;
     virtual bool CanConvertFrom(ITypeDescriptorContext ^ context, Type ^ source_type) override;
     virtual Object ^ ConvertFrom(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value) override;
 };   // ref class property_converter_color

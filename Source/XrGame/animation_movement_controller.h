@@ -34,11 +34,7 @@ private:
     void                 BlendDestroy(CBlend& blend);
 
 public:
-    animation_movement_controller(
-        Fmatrix*       _pObjXForm,
-        const Fmatrix& inital_pose,
-        IKinematics*   _pKinematicsC,
-        CBlend*        b);
+    animation_movement_controller(Fmatrix* _pObjXForm, const Fmatrix& inital_pose, IKinematics* _pKinematicsC, CBlend* b);
     virtual ~animation_movement_controller();
     void ObjStartXform(Fmatrix& m) const
     {

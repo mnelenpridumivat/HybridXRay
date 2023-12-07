@@ -20,15 +20,12 @@ using XrWeatherEditor::environment::weathers::manager;
 using XrWeatherEditor::environment::weathers::time;
 using XrWeatherEditor::environment::weathers::weather;
 
-template <> void property_collection<weather::container_type, weather>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<weather::container_type, weather>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<weather::container_type, weather>::create()
+template<> XrWeatherEditor::property_holder* property_collection<weather::container_type, weather>::create()
 {
     using ::XrWeatherEditor::environment::weathers::time;
     time* object = xr_new<time>(&m_holder.m_manager, &m_holder, m_holder.generate_unique_id().c_str());
@@ -36,8 +33,7 @@ template <> XrWeatherEditor::property_holder* property_collection<weather::conta
     return (object->object());
 }
 
-weather::weather(XrWeatherEditor::environment::manager* manager, shared_str const& id):
-    m_manager(*manager), m_id(id), m_property_holder(0), m_collection(0)
+weather::weather(XrWeatherEditor::environment::manager* manager, shared_str const& id): m_manager(*manager), m_id(id), m_property_holder(0), m_collection(0)
 {
     m_collection = xr_new<collection_type>(&m_times, this);
 }
@@ -84,10 +80,10 @@ void weather::save()
     string_path file_name;
     FS.update_path(file_name, "$game_weathers$", m_id.c_str());
     xr_strcat(file_name, ".ltx");
-    CInifile* config = xr_new<CInifile>(file_name, FALSE, FALSE, TRUE);
+    CInifile*                config = xr_new<CInifile>(file_name, FALSE, FALSE, TRUE);
 
-    container_type::iterator i = m_times.begin();
-    container_type::iterator e = m_times.end();
+    container_type::iterator i      = m_times.begin();
+    container_type::iterator e      = m_times.end();
     for (; i != e; ++i)
         (*i)->save(*config);
 
@@ -121,9 +117,7 @@ void weather::fill(XrWeatherEditor::property_holder_collection* collection)
     string_setter_type                                           string_setter;
     string_setter.bind(this, &weather::id_setter);
 
-    m_property_holder->add_property(
-        "id", "properties", "this option is resposible for weather identifier", m_id.c_str(), string_getter,
-        string_setter);
+    m_property_holder->add_property("id", "properties", "this option is resposible for weather identifier", m_id.c_str(), string_getter, string_setter);
     m_property_holder->add_property("times", "properties", "this option is resposible for times", m_collection);
 }
 
@@ -338,7 +332,7 @@ bool weather::add_time_frame(char const* buffer, u32 const& buffer_size)
 
     container_type::iterator found = std::lower_bound(m_times.begin(), m_times.end(), section, &id::predicate);
 
-    u32 index = u32(found - m_times.begin());
+    u32                      index = u32(found - m_times.begin());
     m_times.insert(found, object);
     m_manager.WeatherCycles[m_id].insert(m_manager.WeatherCycles[m_id].begin() + index, object);
     return (true);
@@ -349,10 +343,10 @@ void weather::reload_time_frame(shared_str const& frame_id)
     string_path file_name;
     FS.update_path(file_name, "$game_weathers$", m_id.c_str());
     xr_strcat(file_name, ".ltx");
-    CInifile* config = CInifile::Create(file_name);
+    CInifile*                config = CInifile::Create(file_name);
 
-    container_type::iterator i = m_times.begin();
-    container_type::iterator e = m_times.end();
+    container_type::iterator i      = m_times.begin();
+    container_type::iterator e      = m_times.end();
     for (; i != e; ++i)
     {
         if (frame_id._get() != (*i)->id()._get())

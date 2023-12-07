@@ -35,7 +35,7 @@
 namespace Wml
 {
 
-    template <int N, class Real> class Matrix
+    template<int N, class Real> class Matrix
     {
     public:
         // Construction.  In the second constructor, if bZero is 'true', the
@@ -50,8 +50,8 @@ namespace Wml
         void MakeDiagonal(const Real* afDiag);
 
         // member access
-                        operator const Real*() const;
-                        operator Real*();
+        operator const Real*() const;
+        operator Real*();
         const Real*     operator[](int iRow) const;
         Real*           operator[](int iRow);
         Real            operator()(int iRow, int iCol) const;
@@ -63,34 +63,34 @@ namespace Wml
         void            GetColumnMajor(Real* afCMajor) const;
 
         // assignment
-        Matrix& operator=(const Matrix& rkM);
+        Matrix&         operator=(const Matrix& rkM);
 
         // comparison
-        bool operator==(const Matrix& rkM) const;
-        bool operator!=(const Matrix& rkM) const;
-        bool operator<(const Matrix& rkM) const;
-        bool operator<=(const Matrix& rkM) const;
-        bool operator>(const Matrix& rkM) const;
-        bool operator>=(const Matrix& rkM) const;
+        bool            operator==(const Matrix& rkM) const;
+        bool            operator!=(const Matrix& rkM) const;
+        bool            operator<(const Matrix& rkM) const;
+        bool            operator<=(const Matrix& rkM) const;
+        bool            operator>(const Matrix& rkM) const;
+        bool            operator>=(const Matrix& rkM) const;
 
         // arithmetic operations
-        Matrix operator+(const Matrix& rkM) const;
-        Matrix operator-(const Matrix& rkM) const;
-        Matrix operator*(const Matrix& rkM) const;
-        Matrix operator*(Real fScalar) const;
-        Matrix operator/(Real fScalar) const;
-        Matrix operator-() const;
+        Matrix          operator+(const Matrix& rkM) const;
+        Matrix          operator-(const Matrix& rkM) const;
+        Matrix          operator*(const Matrix& rkM) const;
+        Matrix          operator*(Real fScalar) const;
+        Matrix          operator/(Real fScalar) const;
+        Matrix          operator-() const;
 
         // arithmetic updates
-        Matrix& operator+=(const Matrix& rkM);
-        Matrix& operator-=(const Matrix& rkM);
-        Matrix& operator*=(Real fScalar);
-        Matrix& operator/=(Real fScalar);
+        Matrix&         operator+=(const Matrix& rkM);
+        Matrix&         operator-=(const Matrix& rkM);
+        Matrix&         operator*=(Real fScalar);
+        Matrix&         operator/=(Real fScalar);
 
         // matrix products
-        Matrix Transpose() const;                         // M^T
-        Matrix TransposeTimes(const Matrix& rkM) const;   // this^T * M
-        Matrix TimesTranspose(const Matrix& rkM) const;   // this * M^T
+        Matrix          Transpose() const;                         // M^T
+        Matrix          TransposeTimes(const Matrix& rkM) const;   // this^T * M
+        Matrix          TimesTranspose(const Matrix& rkM) const;   // this * M^T
 
         // matrix-vector operations
         Vector<N, Real> operator*(const Vector<N, Real>& rkV) const;                           // M * v
@@ -101,16 +101,16 @@ namespace Wml
         static int I(int iRow, int iCol);
 
         // support for comparisons
-        int CompareArrays(const Matrix& rkM) const;
+        int        CompareArrays(const Matrix& rkM) const;
 
-        Real m_afEntry[N * N];
+        Real       m_afEntry[N * N];
     };
 
     // c * M
-    template <int N, class Real> Matrix<N, Real> operator*(Real fScalar, const Matrix<N, Real>& rkM);
+    template<int N, class Real> Matrix<N, Real> operator*(Real fScalar, const Matrix<N, Real>& rkM);
 
     // v^T * M
-    template <int N, class Real> Vector<N, Real> operator*(const Vector<N, Real>& rkV, const Matrix<N, Real>& rkM);
+    template<int N, class Real> Vector<N, Real> operator*(const Vector<N, Real>& rkV, const Matrix<N, Real>& rkM);
 
 #include "WmlMatrix.inl"
 

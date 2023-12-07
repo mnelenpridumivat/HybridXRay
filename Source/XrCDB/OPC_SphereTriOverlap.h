@@ -8,16 +8,16 @@ BOOL SphereCollider::SphereTriOverlap(const Point& vert0, const Point& vert1, co
     Point TriEdge0 = vert1 - vert0;
     Point TriEdge1 = vert2 - vert0;
 
-    Point kDiff = vert0 - mCenter;
-    float fA00  = TriEdge0.SquareMagnitude();
-    float fA01  = TriEdge0 | TriEdge1;
-    float fA11  = TriEdge1.SquareMagnitude();
-    float fB0   = kDiff | TriEdge0;
-    float fB1   = kDiff | TriEdge1;
-    float fC    = kDiff.SquareMagnitude();
-    float fDet  = _abs(fA00 * fA11 - fA01 * fA01);
-    float u     = fA01 * fB1 - fA11 * fB0;
-    float v     = fA01 * fB0 - fA00 * fB1;
+    Point kDiff    = vert0 - mCenter;
+    float fA00     = TriEdge0.SquareMagnitude();
+    float fA01     = TriEdge0 | TriEdge1;
+    float fA11     = TriEdge1.SquareMagnitude();
+    float fB0      = kDiff | TriEdge0;
+    float fB1      = kDiff | TriEdge1;
+    float fC       = kDiff.SquareMagnitude();
+    float fDet     = _abs(fA00 * fA11 - fA01 * fA01);
+    float u        = fA01 * fB1 - fA11 * fB0;
+    float v        = fA01 * fB0 - fA00 * fB1;
     float SqrDist;
 
     if (u + v <= fDet)

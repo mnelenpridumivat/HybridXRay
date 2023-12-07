@@ -45,9 +45,7 @@ CGameSpawnConstructor::~CGameSpawnConstructor()
 IC shared_str CGameSpawnConstructor::actor_level_name()
 {
     string256 temp;
-    return (strconcat(
-        sizeof(temp), temp, *game_graph().header().level(game_graph().vertex(m_actor->m_tGraphID)->level_id()).name(),
-        ".spawn"));
+    return (strconcat(sizeof(temp), temp, *game_graph().header().level(game_graph().vertex(m_actor->m_tGraphID)->level_id()).name(), ".spawn"));
 }
 
 extern void read_levels(CInifile* ini, xr_set<CLevelInfo>& m_levels, bool rebuild_graph, xr_vector<LPCSTR>*);
@@ -94,10 +92,7 @@ void        CGameSpawnConstructor::load_spawns(LPCSTR name, bool no_separator_ch
     }
 
     string256 temp;
-    xr_sprintf(
-        temp,
-        "There are no valid levels (with AI-map and graph) in the section 'levels' in the '%s' to build spawn file from!",
-        GAME_CONFIG);
+    xr_sprintf(temp, "There are no valid levels (with AI-map and graph) in the section 'levels' in the '%s' to build spawn file from!", GAME_CONFIG);
     R_ASSERT2(!m_level_spawns.empty(), temp);
 }
 
@@ -124,9 +119,7 @@ void CGameSpawnConstructor::process_spawns()
 void CGameSpawnConstructor::verify_spawns(ALife::_SPAWN_ID spawn_id)
 {
     xr_vector<ALife::_SPAWN_ID>::iterator J = std::find(m_temp0.begin(), m_temp0.end(), spawn_id);
-    R_ASSERT3(
-        J == m_temp0.end(), "RECURSIVE Spawn group chain found in spawn",
-        m_spawn_graph->vertex(spawn_id)->data()->object().name_replace());
+    R_ASSERT3(J == m_temp0.end(), "RECURSIVE Spawn group chain found in spawn", m_spawn_graph->vertex(spawn_id)->data()->object().name_replace());
     m_temp0.push_back(spawn_id);
 
     SPAWN_GRAPH::CVertex*       vertex = m_spawn_graph->vertex(spawn_id);
@@ -223,9 +216,7 @@ void CGameSpawnConstructor::add_story_object(ALife::_STORY_ID id, CSE_ALifeDynam
     {
         Msg("Object %s, story id %d", object->name_replace(), object->m_story_id);
         Msg("Object %s, story id %d", (*I).second->name_replace(), (*I).second->m_story_id);
-        VERIFY3(
-            I == m_story_objects.end(), "There are several objects which has the same unique story ID, level ",
-            level_name);
+        VERIFY3(I == m_story_objects.end(), "There are several objects which has the same unique story ID, level ", level_name);
     }
 
     m_story_objects.insert(std::make_pair(id, object));
@@ -255,8 +246,7 @@ void CGameSpawnConstructor::process_actor(LPCSTR start_level_name)
         if (!(*I)->actor())
             continue;
 
-        Msg("Actor is on the level %s",
-            *game_graph().header().level(game_graph().vertex((*I)->actor()->m_tGraphID)->level_id()).name());
+        Msg("Actor is on the level %s", *game_graph().header().level(game_graph().vertex((*I)->actor()->m_tGraphID)->level_id()).name());
         VERIFY2(!m_actor, "There must be the SINGLE level with ACTOR!");
         m_actor = (*I)->actor();
     }
@@ -274,7 +264,7 @@ void CGameSpawnConstructor::process_actor(LPCSTR start_level_name)
     GraphEngineSpace::CGameLevelParams evaluator(level.id());
     CGraphEngine*                      graph_engine = xr_new<CGraphEngine>(game_graph().header().vertex_count());
 
-    bool failed = !graph_engine->search(game_graph(), m_actor->m_tGraphID, GameGraph::_GRAPH_ID(-1), 0, evaluator);
+    bool                               failed       = !graph_engine->search(game_graph(), m_actor->m_tGraphID, GameGraph::_GRAPH_ID(-1), 0, evaluator);
     if (failed)
     {
         Msg("! Cannot build path via game graph from the current level to the level %s!", start_level_name);

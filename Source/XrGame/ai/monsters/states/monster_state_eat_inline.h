@@ -14,7 +14,7 @@
 #include "../../../level_debug.h"
 #endif
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION  template<typename _Object>
 
 #define CStateMonsterEatAbstract CStateMonsterEat<_Object>
 
@@ -267,9 +267,7 @@ bool CStateMonsterEatAbstract::check_completion()
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterEatAbstract::check_start_conditions()
 {
-    return (
-        object->CorpseMan.get_corpse() && object->Home->at_home(object->CorpseMan.get_corpse()->Position()) &&
-        hungry() && !monster_squad().get_squad(object)->is_locked_corpse(object->CorpseMan.get_corpse()));
+    return (object->CorpseMan.get_corpse() && object->Home->at_home(object->CorpseMan.get_corpse()->Position()) && hungry() && !monster_squad().get_squad(object)->is_locked_corpse(object->CorpseMan.get_corpse()));
 }
 
 #define TIME_NOT_HUNGRY 20000

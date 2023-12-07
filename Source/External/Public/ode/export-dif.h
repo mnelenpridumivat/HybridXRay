@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -25,8 +25,6 @@
 
 #include "common.h"
 
-
-void dWorldExportDIF (dWorldID w, FILE *file, const char *world_name);
-
+void dWorldExportDIF(dWorldID w, FILE* file, const char* world_name);
 
 #endif

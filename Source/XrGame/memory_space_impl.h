@@ -15,14 +15,14 @@
 #include "ai_object_location.h"
 #include "level_graph.h"
 
-template <typename T> IC SRotation CObjectParams<T>::orientation(const T* object) const
+template<typename T> IC SRotation CObjectParams<T>::orientation(const T* object) const
 {
     Fvector t;
     object->XFORM().getHPB(t.x, t.y, t.z);
     return (SRotation(t.x, t.y, 0.f));
 }
 
-template <typename T> IC void CObjectParams<T>::fill(const T* game_object)
+template<typename T> IC void CObjectParams<T>::fill(const T* game_object)
 {
 #ifdef USE_ORIENTATION
     m_orientation = game_object ? orientation(game_object) : SRotation(0.f, 0.f, 0.f);
@@ -43,18 +43,18 @@ template <typename T> IC void CObjectParams<T>::fill(const T* game_object)
         m_position = Fvector().set(0.f, 0.f, 0.f);
 }
 
-template <typename T> IC CMemoryObject<T>::CMemoryObject()
+template<typename T> IC CMemoryObject<T>::CMemoryObject()
 {
     m_squad_mask.one();
     m_object = 0;
 }
 
-template <typename T> IC bool CMemoryObject<T>::operator==(u16 id) const
+template<typename T> IC bool CMemoryObject<T>::operator==(u16 id) const
 {
     return (object_id(m_object) == id);
 }
 
-template <typename T> IC void CMemoryObject<T>::fill(const T* game_object, const T* self, const squad_mask_type& mask)
+template<typename T> IC void CMemoryObject<T>::fill(const T* game_object, const T* self, const squad_mask_type& mask)
 {
 #ifdef USE_UPDATE_COUNT
     ++m_update_count;
@@ -78,7 +78,7 @@ template <typename T> IC void CMemoryObject<T>::fill(const T* game_object, const
     SMemoryObject::fill();
 }
 
-template <typename T> IC u16 object_id(const T* object)
+template<typename T> IC u16 object_id(const T* object)
 {
     return (object ? u16(object->ID()) : u16(0xffff));
 }

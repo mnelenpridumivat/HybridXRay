@@ -24,15 +24,15 @@ public:
     CUIAchievements(CUIScrollView* parent);
     virtual ~CUIAchievements();
 
-    void init_from_xml(CUIXml& xml);
-    void Update();
+    void         init_from_xml(CUIXml& xml);
+    void         Update();
 
-    void SetName(LPCSTR name);
-    void SetDescription(LPCSTR desc);
-    void SetHint(LPCSTR hint);
-    void SetIcon(LPCSTR icon);
-    void SetFunctor(LPCSTR func);
-    void SetRepeatable(bool repeat);
+    void         SetName(LPCSTR name);
+    void         SetDescription(LPCSTR desc);
+    void         SetHint(LPCSTR hint);
+    void         SetIcon(LPCSTR icon);
+    void         SetFunctor(LPCSTR func);
+    void         SetRepeatable(bool repeat);
 
     virtual void DrawHint();
     virtual void Reset();

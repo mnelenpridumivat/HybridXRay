@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "snork.h"
 #include "snork_jump.h"
 //#include "../jump_ability.h"
@@ -8,8 +8,8 @@
 //CSnorkJump::CSnorkJump(CSnork *monster)
 //{
 //	m_object				= monster;
-//	
-//	//m_jumper				= xr_new<CJumpingAbility>();				
+//
+//	//m_jumper				= xr_new<CJumpingAbility>();
 //	//m_jumper->init_external	(m_object);
 //	//m_jumper->reinit		(MotionID(),MotionID(),MotionID());
 //}
@@ -36,7 +36,7 @@
 //	//	} else if (dist < 2.f) {
 //	//		m_jumper->stop();
 //	//		init_jump_specific();
-//	//		
+//	//
 //	//		Fvector dir;
 //	//		float h,p;
 //	//		float h2,p2;
@@ -45,7 +45,7 @@
 //	//		dir.set		(1,0,0);
 //	//		dir.setHP	(h,p2);
 //	//		dir.normalize();
-//	//		
+//	//
 //	//		Fvector pos;
 //	//		pos.mad		(m_target_object->Position(), dir, 4.f);
 //	//		pos.y+=2.f;
@@ -64,7 +64,7 @@
 //	//CObject *target = const_cast<CEntityAlive *>(m_object->EnemyMan.get_enemy());
 //	CObject *target = Level().CurrentEntity();
 //	if (!target) return;
-//	 
+//
 //	m_specific_jump		= false;
 //	m_target_object		= target;
 //	m_velocity_mask		= velocity_mask;
@@ -74,14 +74,14 @@
 //	Fvector target_position;
 //	target->Center				(target_position);
 //
-//	// получить вектор направления и его мир угол
+//	// РїРѕР»СѓС‡РёС‚СЊ РІРµРєС‚РѕСЂ РЅР°РїСЂР°РІР»РµРЅРёСЏ Рё РµРіРѕ РјРёСЂ СѓРіРѕР»
 //	Fvector		dir;
 //	float		dir_yaw, dir_pitch;
 //
 //	dir.sub		(target_position, source_position);
 //	dir.getHP	(dir_yaw, dir_pitch);
 //
-//	// проверка на angle и на dist
+//	// РїСЂРѕРІРµСЂРєР° РЅР° angle Рё РЅР° dist
 //	float yaw_current, yaw_target;
 //	m_object->control().direction().get_heading(yaw_current, yaw_target);
 //	if (angle_difference(yaw_current, -dir_yaw) < PI_DIV_6) {
@@ -107,12 +107,12 @@
 //	float			yaw, pitch;
 //	Fvector().sub	(m_target_object->Position(), m_object->Position()).getHP(yaw, pitch);
 //
-//	// получить вектор направления и его мир угол
-//	//// проверка на angle и на dist
+//	// РїРѕР»СѓС‡РёС‚СЊ РІРµРєС‚РѕСЂ РЅР°РїСЂР°РІР»РµРЅРёСЏ Рё РµРіРѕ РјРёСЂ СѓРіРѕР»
+//	//// РїСЂРѕРІРµСЂРєР° РЅР° angle Рё РЅР° dist
 //	//if (angle_difference(m_object->movement().m_body.current.yaw, -yaw) < PI_DIV_2) {
 //	//	return;
 //	//}
-//	
+//
 //	// 2. Trace geometry
 //	m_cur_dist = trace_current(10.f);
 //	if (m_cur_dist > 10.f) return;
@@ -158,7 +158,7 @@
 //float CSnorkJump::trace_current(float dist)
 //{
 //	float ret_val = flt_max;
-//	
+//
 //	BOOL				enabled = m_object->getEnabled();
 //	m_object->setEnabled(FALSE);
 //	collide::rq_result	l_rq;

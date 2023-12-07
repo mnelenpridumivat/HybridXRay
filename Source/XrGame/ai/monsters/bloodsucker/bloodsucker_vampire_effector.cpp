@@ -1,16 +1,15 @@
 ﻿#include "stdafx.h"
 #include "bloodsucker_vampire_effector.h"
 
-CVampirePPEffector::CVampirePPEffector(const SPPInfo& ppi, float life_time):
-    inherited(EEffectorPPType(eCEHit), life_time)
+CVampirePPEffector::CVampirePPEffector(const SPPInfo& ppi, float life_time): inherited(EEffectorPPType(eCEHit), life_time)
 {
     state   = ppi;
     m_total = life_time;
 }
 
-#define TIME_ATTACK 0.2f
-#define PERIODS 2
-#define RAD_TO_PERC(rad) ((rad - PI_DIV_2) / (PERIODS * PI_MUL_2))
+#define TIME_ATTACK       0.2f
+#define PERIODS           2
+#define RAD_TO_PERC(rad)  ((rad - PI_DIV_2) / (PERIODS * PI_MUL_2))
 #define PERC_TO_RAD(perc) (perc * (PERIODS * PI_MUL_2) + PI_DIV_2)
 
 BOOL CVampirePPEffector::Process(SPPInfo& pp)
@@ -47,15 +46,14 @@ BOOL CVampirePPEffector::Process(SPPInfo& pp)
 #define DELTA_ANGLE_X 10 * PI / 180
 #define DELTA_ANGLE_Y DELTA_ANGLE_X
 #define DELTA_ANGLE_Z DELTA_ANGLE_X
-#define ANGLE_SPEED 0.2f
+#define ANGLE_SPEED   0.2f
 #define BEST_DISTANCE 0.3f
-CVampireCameraEffector::CVampireCameraEffector(float time, const Fvector& src, const Fvector& tgt):
-    inherited(eCEVampire, time)
+CVampireCameraEffector::CVampireCameraEffector(float time, const Fvector& src, const Fvector& tgt): inherited(eCEVampire, time)
 {
     fLifeTime    = time;
     m_time_total = time;
 
-    m_dist = src.distance_to(tgt);
+    m_dist       = src.distance_to(tgt);
 
     if (m_dist < BEST_DISTANCE)
     {
@@ -81,7 +79,7 @@ BOOL CVampireCameraEffector::ProcessCam(SCamEffectorInfo& info)
         return FALSE;
 
     // процент оставшегося времени
-    float time_left_perc = fLifeTime / m_time_total;
+    float   time_left_perc = fLifeTime / m_time_total;
 
     // Инициализация
     Fmatrix Mdef;

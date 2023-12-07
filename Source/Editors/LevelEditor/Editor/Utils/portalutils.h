@@ -28,8 +28,7 @@ struct SVertex: public Fvector
     {
         std::sort(link[0].begin(), link[0].end());
         std::sort(link[1].begin(), link[1].end());
-        std::set_intersection(
-            link[0].begin(), link[0].end(), link[1].begin(), link[1].end(), inserter(ulink, ulink.begin()));
+        std::set_intersection(link[0].begin(), link[0].end(), link[1].begin(), link[1].end(), inserter(ulink, ulink.begin()));
         VERIFY(ulink.size() <= 2);
     }
 };
@@ -42,20 +41,20 @@ class CPortalUtils
     int CalculateSelectedPortals(ObjectList& sectors);
 
 public:
-    bool CalculateConvexHull(FvectorVec& points);
-    int  CalculatePortals(CSector* SF, CSector* SB);
-    int  CalculateSelectedPortals();
-    int  CalculateAllPortals();
+    bool     CalculateConvexHull(FvectorVec& points);
+    int      CalculatePortals(CSector* SF, CSector* SB);
+    int      CalculateSelectedPortals();
+    int      CalculateAllPortals();
     //.	int  CalculateAllPortals2();
-    void RemoveAllPortals();
-    void RemoveSectorPortal(CSector* S);
-    bool CreateDefaultSector();
-    bool RemoveDefaultSector();
+    void     RemoveAllPortals();
+    void     RemoveSectorPortal(CSector* S);
+    bool     CreateDefaultSector();
+    bool     RemoveDefaultSector();
 
     CSector* FindSector(CSceneObject* o, CEditableMesh* m);
 
     //	void CreateDebugCollection();
-    bool Validate(bool bMsg);
+    bool     Validate(bool bMsg);
 
     CSector* GetSelectedSector();
 };

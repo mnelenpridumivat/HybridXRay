@@ -36,6 +36,7 @@ private:
     bool m_is_start_attack;
     // m_PhysicMovementControl
     // CPHMovementControl		*m_PhysicMovementControl;
+
 public:
     // General
     CEntityAlive();
@@ -48,39 +49,39 @@ public:
     virtual void      reload(LPCSTR section);
 
     // object serialization
-    virtual void save(NET_Packet& output_packet);
-    virtual void load(IReader& input_packet);
+    virtual void      save(NET_Packet& output_packet);
+    virtual void      load(IReader& input_packet);
 
-    virtual BOOL net_Spawn(CSE_Abstract* DC);
-    virtual void net_Destroy();
-    virtual BOOL net_SaveRelevant();
+    virtual BOOL      net_Spawn(CSE_Abstract* DC);
+    virtual void      net_Destroy();
+    virtual BOOL      net_SaveRelevant();
 
-    virtual void shedule_Update(u32 dt);
-    virtual void create_anim_mov_ctrl(CBlend* b, Fmatrix* start_pose, bool local_animation);
-    virtual void destroy_anim_mov_ctrl();
+    virtual void      shedule_Update(u32 dt);
+    virtual void      create_anim_mov_ctrl(CBlend* b, Fmatrix* start_pose, bool local_animation);
+    virtual void      destroy_anim_mov_ctrl();
 
-    virtual void HitImpulse(float amount, Fvector& vWorldDir, Fvector& vLocalDir);
-    virtual void Hit(SHit* pHDS);
-    virtual void Die(CObject* who);
-    virtual void g_WeaponBones(int& L, int& R1, int& R2) = 0;
-    void         set_lock_corpse(bool b_l_corpse);
-    bool         is_locked_corpse();
+    virtual void      HitImpulse(float amount, Fvector& vWorldDir, Fvector& vLocalDir);
+    virtual void      Hit(SHit* pHDS);
+    virtual void      Die(CObject* who);
+    virtual void      g_WeaponBones(int& L, int& R1, int& R2) = 0;
+    void              set_lock_corpse(bool b_l_corpse);
+    bool              is_locked_corpse();
     //	virtual float			GetfHealth				() const;
     //	virtual float			SetfHealth				(float value);
 
     //	virtual float			g_Health				()	const;
     //	virtual float			g_MaxHealth				()	const;
 
-    virtual float g_Radiation() const;
-    virtual float SetfRadiation(float value);
+    virtual float     g_Radiation() const;
+    virtual float     SetfRadiation(float value);
 
-    virtual float CalcCondition(float hit);
+    virtual float     CalcCondition(float hit);
 
     // Visibility related
-    virtual float ffGetFov() const   = 0;
-    virtual float ffGetRange() const = 0;
+    virtual float     ffGetFov() const   = 0;
+    virtual float     ffGetRange() const = 0;
 
-    virtual bool human_being() const
+    virtual bool      human_being() const
     {
         return (false);
     }
@@ -89,10 +90,10 @@ public:
     // IC	CPHMovementControl*					PMovement					()						{return
     // m_PhysicMovementControl;}
 
-    virtual u16             PHGetSyncItemsNumber();
-    virtual CPHSynchronize* PHGetSyncItem(u16 item);
-    virtual void            PHUnFreeze();
-    virtual void            PHFreeze();
+    virtual u16                    PHGetSyncItemsNumber();
+    virtual CPHSynchronize*        PHGetSyncItem(u16 item);
+    virtual void                   PHUnFreeze();
+    virtual void                   PHFreeze();
 
     virtual void                   PHGetLinearVell(Fvector& velocity);
     virtual CPHSoundPlayer*        ph_sound_player();
@@ -117,24 +118,19 @@ protected:
     static float       m_fStartBurnWoundSize;
     static float       m_fStopBurnWoundSize;
 
-    virtual void BloodyWallmarks(float P, const Fvector& dir, s16 element, const Fvector& position_in_object_space);
-    static void  LoadBloodyWallmarks(LPCSTR section);
+    virtual void       BloodyWallmarks(float P, const Fvector& dir, s16 element, const Fvector& position_in_object_space);
+    static void        LoadBloodyWallmarks(LPCSTR section);
 
 public:
     static void UnloadBloodyWallmarks();
 
-    void ClearBloodWounds()
+    void        ClearBloodWounds()
     {
         m_BloodWounds.clear();
     };
 
 protected:
-    virtual void PlaceBloodWallmark(
-        const Fvector&  dir,
-        const Fvector&  start_pos,
-        float           trace_dist,
-        float           wallmark_size,
-        IWallMarkArray* pwallmarks_vector);
+    virtual void                       PlaceBloodWallmark(const Fvector& dir, const Fvector& start_pos, float trace_dist, float wallmark_size, IWallMarkArray* pwallmarks_vector);
 
     // информация о кровавых отметках на стенах, общая для всех CEntityAlive
     static FactoryPtr<IWallMarkArray>* m_pBloodMarksVector;
@@ -160,6 +156,7 @@ protected:
     virtual void UpdateBloodDrops();
 
     // отношения между существами и персонажами в зоне
+
 public:
     virtual ALife::ERelationType tfGetRelationType(const CEntityAlive* tpEntityAlive) const;
     virtual bool                 is_relation_enemy(const CEntityAlive* tpEntityAlive) const;
@@ -194,10 +191,10 @@ public:
     virtual u32 ef_detector_type() const;
 
 public:
-    virtual void OnHitHealthLoss(float NewHealth){};   // вызывается если entity теряет здоровье
-    virtual void OnCriticalHitHealthLoss(){};          // вызывается если entity умрет от хита
-    virtual void OnCriticalWoundHealthLoss(){};        // вызывается если entity умрет от потери крови
-    virtual void OnCriticalRadiationHealthLoss(){};    // вызывается если entity умрет от радиации
+    virtual void                  OnHitHealthLoss(float NewHealth){};   // вызывается если entity теряет здоровье
+    virtual void                  OnCriticalHitHealthLoss(){};          // вызывается если entity умрет от хита
+    virtual void                  OnCriticalWoundHealthLoss(){};        // вызывается если entity умрет от потери крови
+    virtual void                  OnCriticalRadiationHealthLoss(){};    // вызывается если entity умрет от радиации
 
     virtual CVisualMemoryManager* visual_memory() const
     {

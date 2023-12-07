@@ -90,7 +90,7 @@ bool CLight::LoadLTX(CInifile& ini, LPCSTR sect_name)
     m_Cone         = ini.r_float(sect_name, "cone");
     m_VirtualSize  = ini.r_float(sect_name, "virtual_size");
 
-    m_UseInD3D = ini.r_bool(sect_name, "use_in_d3d");
+    m_UseInD3D     = ini.r_bool(sect_name, "use_in_d3d");
     m_Flags.assign(ini.r_u32(sect_name, "light_flags"));
     m_LControl = ini.r_u32(sect_name, "light_control");
 
@@ -147,7 +147,7 @@ void CLight::SaveLTX(CInifile& ini, LPCSTR sect_name)
 
 bool CLight::LoadStream(IReader& F)
 {
-    u16 version = 0;
+    u16        version = 0;
 
     string1024 buf;
     R_ASSERT(F.r_chunk(LIGHT_CHUNK_VERSION, &version));

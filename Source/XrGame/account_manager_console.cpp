@@ -23,9 +23,7 @@ void CCC_CreateGameSpyAccount::Execute(LPCSTR args)
     string256 tmp_email;
     string256 tmp_password;
 
-    sscanf_s(
-        args, "%s %s %s %s", tmp_nick, sizeof(tmp_nick), tmp_unick, sizeof(tmp_unick), tmp_email, sizeof(tmp_email),
-        tmp_password, sizeof(tmp_password));
+    sscanf_s(args, "%s %s %s %s", tmp_nick, sizeof(tmp_nick), tmp_unick, sizeof(tmp_unick), tmp_email, sizeof(tmp_email), tmp_password, sizeof(tmp_password));
 
     VERIFY(MainMenu() && MainMenu()->GetGS());
     CGameSpy_GP* tmp_gp = MainMenu()->GetGS()->GetGameSpyGP();
@@ -76,8 +74,7 @@ void CCC_GameSpyLogin::Execute(LPCSTR args)
     string256 tmp_nick;
     string256 tmp_password;
 
-    sscanf_s(
-        args, "%s %s %s", tmp_email, sizeof(tmp_email), tmp_nick, sizeof(tmp_nick), tmp_password, sizeof(tmp_password));
+    sscanf_s(args, "%s %s %s", tmp_email, sizeof(tmp_email), tmp_nick, sizeof(tmp_nick), tmp_password, sizeof(tmp_password));
 
     VERIFY(MainMenu() && MainMenu()->GetGS());
     CGameSpy_GP* tmp_gp = MainMenu()->GetGS()->GetGameSpyGP();
@@ -98,9 +95,7 @@ void CCC_GameSpyLogout::Execute(LPCSTR args)
 static char const* print_time(time_t const& src_time, string64& dest_time)
 {
     tm* tmp_tm = _localtime64(&src_time);
-    xr_sprintf(
-        dest_time, sizeof(dest_time), "%02d.%02d.%d_%02d:%02d:%02d", tmp_tm->tm_mday, tmp_tm->tm_mon + 1,
-        tmp_tm->tm_year + 1900, tmp_tm->tm_hour, tmp_tm->tm_min, tmp_tm->tm_sec);
+    xr_sprintf(dest_time, sizeof(dest_time), "%02d.%02d.%d_%02d:%02d:%02d", tmp_tm->tm_mday, tmp_tm->tm_mon + 1, tmp_tm->tm_year + 1900, tmp_tm->tm_hour, tmp_tm->tm_min, tmp_tm->tm_sec);
     return dest_time;
 }
 
@@ -129,19 +124,14 @@ void CCC_GameSpyPrintProfile::Execute(LPCSTR args)
             string64 rdate_str;
             rdate_str[0] = 0;
             print_time(i->second.m_last_reward_date, rdate_str);
-            Msg("- (award: %s), (count: %u), (last reward date: %s)",
-                gamespy_profile::get_award_name(static_cast<gamespy_profile::enum_awards_t>(i->first)),
-                i->second.m_count, rdate_str);
+            Msg("- (award: %s), (count: %u), (last reward date: %s)", gamespy_profile::get_award_name(static_cast<gamespy_profile::enum_awards_t>(i->first)), i->second.m_count, rdate_str);
         }
 
         Msg("- Best player scores:");
         gamespy_profile::all_best_scores_t const& tmp_best_scores = tmp_store->get_best_scores();
-        for (gamespy_profile::all_best_scores_t::const_iterator i = tmp_best_scores.begin(), ie = tmp_best_scores.end();
-             i < ie; ++i)
+        for (gamespy_profile::all_best_scores_t::const_iterator i = tmp_best_scores.begin(), ie = tmp_best_scores.end(); i < ie; ++i)
         {
-            Msg("- (score: %s), (score: %d)",
-                gamespy_profile::get_best_score_name(static_cast<gamespy_profile::enum_best_score_type>(i->first)),
-                i->second);
+            Msg("- (score: %s), (score: %d)", gamespy_profile::get_best_score_name(static_cast<gamespy_profile::enum_best_score_type>(i->first)), i->second);
         }
     }
     else
@@ -180,7 +170,7 @@ void CCC_GameSpyDeleteProfile::Execute(LPCSTR args)
 
 static gamespy_profile::all_best_scores_t debug_best_scores;
 
-void CCC_GameSpyProfile::Execute(LPCSTR args)
+void                                      CCC_GameSpyProfile::Execute(LPCSTR args)
 {
     VERIFY(MainMenu());
     gamespy_gp::login_manager* tmp_lmngr = MainMenu()->GetLoginMngr();
@@ -205,8 +195,7 @@ void CCC_GameSpyProfile::Execute(LPCSTR args)
         );
         parameters_tuple1<gamespy_profile::store_operation_cb> tmp_args;
         tmp_prof_store->load_profile(tmp_args);*/
-        tmp_prof_store->load_current_profile(
-            gamespy_profile::store_operation_cb(), gamespy_profile::store_operation_cb());
+        tmp_prof_store->load_current_profile(gamespy_profile::store_operation_cb(), gamespy_profile::store_operation_cb());
     }
     else if (!xr_strcmp(tmp_command, "reward"))
     {
@@ -220,9 +209,7 @@ void CCC_GameSpyProfile::Execute(LPCSTR args)
             Msg("! Bad award id");
             return;
         }
-        tmp_ssubmitter->reward_with_award(
-            static_cast<gamespy_profile::enum_awards_t>(tmp_award_id), 1, tmp_curr_prof,
-            gamespy_profile::store_operation_cb());
+        tmp_ssubmitter->reward_with_award(static_cast<gamespy_profile::enum_awards_t>(tmp_award_id), 1, tmp_curr_prof, gamespy_profile::store_operation_cb());
     }
     else if (!xr_strcmp(tmp_command, "bestscore"))
     {
@@ -241,8 +228,7 @@ void CCC_GameSpyProfile::Execute(LPCSTR args)
             Msg("! Bad scoreid");
         }
         debug_best_scores.clear();
-        debug_best_scores.insert(
-            std::make_pair(static_cast<gamespy_profile::enum_best_score_type>(score_id), score_value));
+        debug_best_scores.insert(std::make_pair(static_cast<gamespy_profile::enum_best_score_type>(score_id), score_value));
         tmp_ssubmitter->set_best_scores(&debug_best_scores, tmp_curr_prof, gamespy_profile::store_operation_cb());
     }
 }

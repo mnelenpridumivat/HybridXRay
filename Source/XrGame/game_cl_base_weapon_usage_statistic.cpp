@@ -62,9 +62,9 @@ void HitData::net_load(NET_Packet* P, victims_table const& vt, bone_table const&
 
 Weapon_Statistic::Weapon_Statistic(LPCSTR Name)
 {
-    WName     = Name;
-    InvName   = NULL;
-    NumBought = 0;
+    WName           = Name;
+    InvName         = NULL;
+    NumBought       = 0;
 
     m_dwRoundsFired = m_dwRoundsFired_d = 0;
     m_dwBulletsFired = m_dwBulletsFired_d = 0;
@@ -88,13 +88,13 @@ void      Weapon_Statistic::net_save(NET_Packet* P, victims_table const& vt, bon
         victims_table const& vtable;
         bone_table const&    btable;
 
-        CompleteFilter& operator=(CompleteFilter& copy)
+        CompleteFilter&      operator=(CompleteFilter& copy)
         {
             return *this;
         };   // C4512
+
     public:
-        CompleteFilter(u32& hits_count_result, NET_Packet* P, victims_table const& vt, bone_table const& bt):
-            complete_hits_count(hits_count_result), packet_to_write(P), vtable(vt), btable(bt){};
+        CompleteFilter(u32& hits_count_result, NET_Packet* P, victims_table const& vt, bone_table const& bt): complete_hits_count(hits_count_result), packet_to_write(P), vtable(vt), btable(bt){};
         bool operator()(HitData& hit)
         {
             if (hit.Completed)
@@ -116,7 +116,7 @@ void      Weapon_Statistic::net_save(NET_Packet* P, victims_table const& vt, bon
     P->w_u32(m_dwHitsScored_d);
     m_dwHitsScored_d = 0;
     P->w_u32(m_dwKillsScored_d);
-    m_dwKillsScored_d = 0;
+    m_dwKillsScored_d      = 0;
 
     u32 hit_count_position = P->w_tell();
     u32 complete_hits      = 0;
@@ -347,10 +347,10 @@ void Player_Statistic::net_save(NET_Packet* P)
     victims_table::victims_table_t vt_storage(_alloca(sizeof(victims_table::victims_table_t::value_type) * 255), 255);
     bone_table::bone_table_t       bt_storage(_alloca(sizeof(bone_table::bone_table_t::value_type) * 65), 65);
 
-    victims_table vict_table(vt_storage);
-    bone_table    bone_table(bt_storage);
+    victims_table                  vict_table(vt_storage);
+    bone_table                     bone_table(bt_storage);
 
-    u32 tables_size = create_victims_table(vict_table);
+    u32                            tables_size = create_victims_table(vict_table);
     tables_size += create_bone_table(bone_table);
     if (NET_PacketSizeLimit - P->w_tell() < tables_size + Weapon_Statistic::net_packet_size)
         return;
@@ -369,13 +369,13 @@ void Player_Statistic::net_save(NET_Packet* P)
 void Player_Statistic::net_load(NET_Packet* P)
 {
     m_dwTotalShots += P->r_u32();
-    u32 NumWeapons = P->r_u32();
+    u32                            NumWeapons = P->r_u32();
 
     victims_table::victims_table_t vt_storage(_alloca(sizeof(victims_table::victims_table_t::value_type) * 255), 255);
     bone_table::bone_table_t       bt_storage(_alloca(sizeof(bone_table::bone_table_t::value_type) * 65), 65);
 
-    victims_table vict_table(vt_storage);
-    bone_table    bone_table(bt_storage);
+    victims_table                  vict_table(vt_storage);
+    bone_table                     bone_table(bt_storage);
 
     vict_table.net_load(P);
     bone_table.net_load(P);
@@ -393,7 +393,8 @@ void Player_Statistic::net_load(NET_Packet* P)
 WeaponUsageStatistic::WeaponUsageStatistic()
 #ifdef PROFILE_CRITICAL_SECTIONS
     :
-    m_mutex(MUTEX_PROFILE_ID(WeaponUsageStatistic)){}
+    m_mutex(MUTEX_PROFILE_ID(WeaponUsageStatistic))
+{}
 #endif   // PROFILE_CRITICAL_SECTIONS
 {
     Clear();
@@ -618,9 +619,9 @@ void WeaponUsageStatistic::OnBullet_Check_Request(SHit* pHDS)
 {
     if (!pHDS || OnClient())
         return;
-    s16 BoneID   = pHDS->bone();
-    u32 BulletID = pHDS->BulletID;
-    u32 SenderID = pHDS->SenderID;
+    s16     BoneID   = pHDS->bone();
+    u32     BulletID = pHDS->BulletID;
+    u32     SenderID = pHDS->SenderID;
 
     BChA_it pSenderI = std::find(m_Requests.begin(), m_Requests.end(), SenderID);
     if (pSenderI == m_Requests.end() || (*pSenderI) != SenderID)
@@ -671,12 +672,12 @@ void WeaponUsageStatistic::Send_Check_Respond()
         Bullet_Check_Array& BChA_Request = m_Requests[i];
         if (BChA_Request.Requests.empty())
             continue;
-        Bullet_Check_Respond_True* pSTrue  = (Bullet_Check_Respond_True*)STrue;
-        u32*                       pSFalse = (u32*)SFalse;
+        Bullet_Check_Respond_True* pSTrue   = (Bullet_Check_Respond_True*)STrue;
+        u32*                       pSFalse  = (u32*)SFalse;
         //-----------------------------------------------------
-        u32 NumFalse = 0;
-        u32 NumTrue  = 0;
-        u32 j        = 0;
+        u32                        NumFalse = 0;
+        u32                        NumTrue  = 0;
+        u32                        j        = 0;
         while (j < BChA_Request.Requests.size())
         {
             Bullet_Check_Request& curBChR = BChA_Request.Requests[j];
@@ -732,8 +733,8 @@ void WeaponUsageStatistic::On_Check_Respond(NET_Packet* P)
     statistic_sync_quard syncg(m_mutex);
     if (!P)
         return;
-    u8 NumFalse = P->r_u8();
-    u8 NumTrue  = P->r_u8();
+    u8          NumFalse = P->r_u8();
+    u8          NumTrue  = P->r_u8();
 
     u8          i;
     ABULLETS_it BulletIt;
@@ -817,10 +818,7 @@ void WeaponUsageStatistic::OnPlayerAddMoney(game_PlayerState* ps, s32 MoneyAmoun
     PlayerStat.m_dwCurMoneyRoundDelta += MoneyAmount;
 };
 
-void WeaponUsageStatistic::OnPlayerKillPlayer(
-    game_PlayerState* ps,
-    KILL_TYPE         KillType,
-    SPECIAL_KILL_TYPE SpecialKillType)
+void WeaponUsageStatistic::OnPlayerKillPlayer(game_PlayerState* ps, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType)
 {
     if (!CollectData())
         return;
@@ -858,7 +856,7 @@ void WeaponUsageStatistic::OnExplosionKill(game_PlayerState* ps, const SHit& hit
 
     statistic_sync_quard syncg(m_mutex);
 
-    CObject* killer = hit.who;
+    CObject*             killer = hit.who;
     if (!killer)
         return;
 
@@ -869,8 +867,8 @@ void WeaponUsageStatistic::OnExplosionKill(game_PlayerState* ps, const SHit& hit
 
     Player_Statistic& PlayerStatKiller = *(FindPlayer(killerPS->getName()));
 
-    CObject*        weapon_object = Level().Objects.net_Find(hit.weaponID);
-    WEAPON_STATS_it WeaponIt      = PlayerStatKiller.FindPlayersWeapon(weapon_object->cNameSect().c_str());
+    CObject*          weapon_object    = Level().Objects.net_Find(hit.weaponID);
+    WEAPON_STATS_it   WeaponIt         = PlayerStatKiller.FindPlayersWeapon(weapon_object->cNameSect().c_str());
     ++WeaponIt->m_dwHitsScored;
     ++WeaponIt->m_dwKillsScored;
     ++WeaponIt->m_explosion_kills;
@@ -1035,13 +1033,13 @@ void WeaponUsageStatistic::OnUpdateRequest(NET_Packet*)
 
     statistic_sync_quard syncg(m_mutex);
 
-    game_PlayerState* local_player = Game().local_player;
+    game_PlayerState*    local_player = Game().local_player;
     if (!xr_strlen(local_player->getName()))
         return;
 
     Player_Statistic& PS = *(FindPlayer(local_player->getName()));
     //-------------------------------------------------
-    NET_Packet P;
+    NET_Packet        P;
     P.w_begin(M_STATISTIC_UPDATE_RESPOND);
     //-------------------------------------------------
     P.w_stringZ(PS.PName);
@@ -1057,7 +1055,7 @@ void WeaponUsageStatistic::OnUpdateRespond(NET_Packet* P, shared_str const& send
 
     statistic_sync_quard syncg(m_mutex);
 
-    shared_str PName;
+    shared_str           PName;
     P->r_stringZ(PName);
     Player_Statistic& PS = *(FindPlayer(*PName));
     PS.PDigest           = sender_digest;

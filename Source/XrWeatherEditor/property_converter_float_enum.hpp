@@ -29,9 +29,7 @@ public:
     virtual bool GetStandardValuesSupported(ITypeDescriptorContext ^ context) override;
     virtual bool GetStandardValuesExclusive(ITypeDescriptorContext ^ context) override;
     virtual StandardValuesCollection ^ GetStandardValues(ITypeDescriptorContext ^ context) override;
-    virtual Object ^
-        ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type)
-            override;
+    virtual Object ^ ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type) override;
 };   // ref class property_converter_float_enum
 
 #endif   // ifndef PROPERTY_CONVERTER_FLOAT_ENUM_HPP_INCLUDED

@@ -12,14 +12,14 @@
 #include "device.h"
 extern XRCDB_API BOOL* cdb_bDebug;
 
-void SetupGPU(IRenderDeviceRender* pRender)
+void                   SetupGPU(IRenderDeviceRender* pRender)
 {
     // Command line
     char* lpCmdLine = Core.Params;
 
-    BOOL bForceGPU_SW;
-    BOOL bForceGPU_NonPure;
-    BOOL bForceGPU_REF;
+    BOOL  bForceGPU_SW;
+    BOOL  bForceGPU_NonPure;
+    BOOL  bForceGPU_REF;
 
     if (strstr(lpCmdLine, "-gpu_sw") != NULL)
         bForceGPU_SW = TRUE;
@@ -195,12 +195,11 @@ void CRenderDevice::Create()
 
     fFOV    = 90.f;
     fASPECT = 1.f;
-    m_pRender->Create(
-        m_hWnd, dwWidth, dwHeight, fWidth_2, fHeight_2,
+    m_pRender->Create(m_hWnd, dwWidth, dwHeight, fWidth_2, fHeight_2,
 #ifdef INGAME_EDITOR
         WeatherEditor() ? false :
 #endif   // #ifdef INGAME_EDITOR
-                          true);
+                        true);
 
     string_path fname;
     FS.update_path(fname, "$game_data$", "shaders.xr");

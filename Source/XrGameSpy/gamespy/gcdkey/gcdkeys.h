@@ -38,14 +38,14 @@ define below, or provide it as an option to your compiler.
     If the app resolves the hostname, an
     IP can be stored here before calling
     gcd_init */
-    extern char gcd_hostname[64];
+    extern char  gcd_hostname[64];
 
     /********
     gcd_init
     Initializes the Server API and creates the socket
     Should only be called once (unless gcd_shutdown has been called)
     *********/
-    int gcd_init(int gameid);
+    int          gcd_init(int gameid);
 
 /********
 gcd_init_qr2
@@ -68,41 +68,33 @@ you can simply pass in NULL.
     Frees the socket and client structures
     Also calls gcd_disconnect_all to make sure all users are signaled as offline
     *********/
-    void gcd_shutdown(void);
+    void  gcd_shutdown(void);
 
     /********
     gcd_authenticate_user
     Creates a new client and sends a request for authorization to the
     validation server.
     *********/
-    void gcd_authenticate_user(
-        int                   gameid,
-        int                   localid,
-        unsigned int          userip,
-        const char*           challenge,
-        const char*           response,
-        AuthCallBackFn        authfn,
-        RefreshAuthCallBackFn refreshfn,
-        void*                 instance);
+    void  gcd_authenticate_user(int gameid, int localid, unsigned int userip, const char* challenge, const char* response, AuthCallBackFn authfn, RefreshAuthCallBackFn refreshfn, void* instance);
 
     /********
     gcd_authenticate_user
     Creates a new client and sends a request for authorization to the
     validation server.
     *********/
-    void gcd_process_reauth(int gameid, int localid, int hint, const char* response);
+    void  gcd_process_reauth(int gameid, int localid, int hint, const char* response);
 
     /********
     gcd_disconnect_user
     Notify the validation server that a user has disconnected
     *********/
-    void gcd_disconnect_user(int gameid, int localid);
+    void  gcd_disconnect_user(int gameid, int localid);
 
     /********
     gcd_disconnect_all
     Calls gcd_disconnect_user for each user still online (shortcut)
     *********/
-    void gcd_disconnect_all(int gameid);
+    void  gcd_disconnect_all(int gameid);
 
     /********
     gcd_think
@@ -110,7 +102,7 @@ you can simply pass in NULL.
     and calls the callback to indicate whether a client was
     authorized or not
     *********/
-    void gcd_think(void);
+    void  gcd_think(void);
 
     /********
     gcd_getkeyhash

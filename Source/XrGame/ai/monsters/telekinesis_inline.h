@@ -1,13 +1,13 @@
 ﻿#pragma once
 
-template <typename _Object> CTelekinesis<_Object>::CTelekinesis()
+template<typename _Object> CTelekinesis<_Object>::CTelekinesis()
 {
     active = false;
 }
 
-template <typename _Object> CTelekinesis<_Object>::~CTelekinesis() {}
+template<typename _Object> CTelekinesis<_Object>::~CTelekinesis() {}
 
-template <typename _Object> void CTelekinesis<_Object>::InitExtern(_Object* pO, float s, float h, u32 keep_time)
+template<typename _Object> void CTelekinesis<_Object>::InitExtern(_Object* pO, float s, float h, u32 keep_time)
 {
     control_object = pO;
     strength       = s;
@@ -15,7 +15,7 @@ template <typename _Object> void CTelekinesis<_Object>::InitExtern(_Object* pO, 
     max_time_keep  = keep_time;
 }
 
-template <typename _Object> void CTelekinesis<_Object>::Activate()
+template<typename _Object> void CTelekinesis<_Object>::Activate()
 {
     if (active)
         return;
@@ -49,7 +49,7 @@ template <typename _Object> void CTelekinesis<_Object>::Activate()
         CPHUpdateObject::Activate();
 }
 
-template <typename _Object> void CTelekinesis<_Object>::Deactivate()
+template<typename _Object> void CTelekinesis<_Object>::Deactivate()
 {
     active = false;
 
@@ -63,7 +63,7 @@ template <typename _Object> void CTelekinesis<_Object>::Deactivate()
     CPHUpdateObject::Deactivate();
 }
 
-template <typename _Object> void CTelekinesis<_Object>::Throw(const Fvector& target)
+template<typename _Object> void CTelekinesis<_Object>::Throw(const Fvector& target)
 {
     if (!active)
         return;
@@ -76,7 +76,7 @@ template <typename _Object> void CTelekinesis<_Object>::Throw(const Fvector& tar
     Deactivate();
 }
 
-template <typename _Object> void CTelekinesis<_Object>::UpdateSched()
+template<typename _Object> void CTelekinesis<_Object>::UpdateSched()
 {
     if (!active)
         return;
@@ -116,7 +116,7 @@ template <typename _Object> void CTelekinesis<_Object>::UpdateSched()
     }
 }
 
-template <typename _Object> void CTelekinesis<_Object>::PhDataUpdate(dReal step)
+template<typename _Object> void CTelekinesis<_Object>::PhDataUpdate(dReal step)
 {
     if (!active)
         return;
@@ -137,7 +137,7 @@ template <typename _Object> void CTelekinesis<_Object>::PhDataUpdate(dReal step)
     }
 }
 
-template <typename _Object> void CTelekinesis<_Object>::PhTune(dReal step)
+template<typename _Object> void CTelekinesis<_Object>::PhTune(dReal step)
 {
     for (u32 i = 0; i < objects.size(); i++)
     {

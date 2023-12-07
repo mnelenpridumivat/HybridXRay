@@ -17,15 +17,14 @@ struct CBorderMergePredicate
 {
     CSpaceRestrictionShape* m_restriction;
 
-    IC CBorderMergePredicate(CSpaceRestrictionShape* restriction)
+    IC                      CBorderMergePredicate(CSpaceRestrictionShape* restriction)
     {
         m_restriction = restriction;
     }
 
     IC void operator()(const ILevelGraph::CVertex& vertex) const
     {
-        if (m_restriction->inside(ai().level_graph().vertex_id(&vertex), true) &&
-            !m_restriction->inside(ai().level_graph().vertex_id(&vertex), false))
+        if (m_restriction->inside(ai().level_graph().vertex_id(&vertex), true) && !m_restriction->inside(ai().level_graph().vertex_id(&vertex), false))
             m_restriction->m_border.push_back(ai().level_graph().vertex_id(&vertex));
     }
 
@@ -40,7 +39,7 @@ struct CShapeTestPredicate
 {
     CSpaceRestrictionShape* m_restriction;
 
-    IC CShapeTestPredicate(CSpaceRestrictionShape* restriction)
+    IC                      CShapeTestPredicate(CSpaceRestrictionShape* restriction)
     {
         m_restriction = restriction;
     }
@@ -58,18 +57,17 @@ void CSpaceRestrictionShape::fill_shape(const CCF_Shape::shape_def& shape)
     Fvector start, dest;
     switch (shape.type)
     {
-        case 0: {
+        case 0:
+        {
             start.sub(Fvector().set(shape.data.sphere.P), Fvector().set(shape.data.sphere.R, 0.f, shape.data.sphere.R));
             dest.add(Fvector().set(shape.data.sphere.P), Fvector().set(shape.data.sphere.R, 0.f, shape.data.sphere.R));
             start.add(m_restrictor->Position());
             dest.add(m_restrictor->Position());
             break;
         }
-        case 1: {
-            Fvector points[8] = {Fvector().set(-.5f, -.5f, -.5f), Fvector().set(-.5f, -.5f, +.5f),
-                                 Fvector().set(-.5f, +.5f, -.5f), Fvector().set(-.5f, +.5f, +.5f),
-                                 Fvector().set(+.5f, -.5f, -.5f), Fvector().set(+.5f, -.5f, +.5f),
-                                 Fvector().set(+.5f, +.5f, -.5f), Fvector().set(+.5f, +.5f, +.5f)};
+        case 1:
+        {
+            Fvector points[8] = {Fvector().set(-.5f, -.5f, -.5f), Fvector().set(-.5f, -.5f, +.5f), Fvector().set(-.5f, +.5f, -.5f), Fvector().set(-.5f, +.5f, +.5f), Fvector().set(+.5f, -.5f, -.5f), Fvector().set(+.5f, -.5f, +.5f), Fvector().set(+.5f, +.5f, -.5f), Fvector().set(+.5f, +.5f, +.5f)};
             start             = Fvector().set(flt_max, flt_max, flt_max);
             dest              = Fvector().set(flt_min, flt_min, flt_min);
             Fmatrix Q;
@@ -136,8 +134,7 @@ void CSpaceRestrictionShape::test_correctness()
     ai().level_graph().set_mask(border());
 
     xr_vector<u32> nodes;
-    ai().graph_engine().search(
-        ai().level_graph(), m_test_storage.back(), m_test_storage.back(), &nodes, GraphEngineSpace::CFlooder());
+    ai().graph_engine().search(ai().level_graph(), m_test_storage.back(), m_test_storage.back(), &nodes, GraphEngineSpace::CFlooder());
 
     ai().level_graph().clear_mask(border());
 

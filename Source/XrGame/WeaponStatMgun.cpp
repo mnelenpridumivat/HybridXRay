@@ -31,8 +31,7 @@ void CWeaponStatMgun::BoneCallbackY(CBoneInstance* B)
 CWeaponStatMgun::CWeaponStatMgun()
 {
     m_Ammo = xr_new<CCartridge>();
-    camera = xr_new<CCameraFirstEye>(
-        this, CCameraBase::flRelativeLink | CCameraBase::flPositionRigid | CCameraBase::flDirectionRigid);
+    camera = xr_new<CCameraFirstEye>(this, CCameraBase::flRelativeLink | CCameraBase::flPositionRigid | CCameraBase::flDirectionRigid);
     camera->Load("mounted_weapon_cam");
 }
 
@@ -97,7 +96,7 @@ BOOL CWeaponStatMgun::net_Spawn(CSE_Abstract* DC)
     fixed_bones.push_back(K->LL_GetBoneRoot());
     PPhysicsShell() = P_build_Shell(this, false, fixed_bones);
 
-    CBoneData& bdX = K->LL_GetData(m_rotate_x_bone);
+    CBoneData& bdX  = K->LL_GetData(m_rotate_x_bone);
     VERIFY(bdX.IK_data.type == jtJoint);
     m_lim_x_rot.set(bdX.IK_data.limits[0].limit.x, bdX.IK_data.limits[0].limit.y);
     CBoneData& bdY = K->LL_GetData(m_rotate_y_bone);
@@ -264,7 +263,8 @@ void CWeaponStatMgun::Action(u16 id, u32 flags)
     inheritedHolder::Action(id, flags);
     switch (id)
     {
-        case kWPN_FIRE: {
+        case kWPN_FIRE:
+        {
             if (flags == CMD_START)
                 FireStart();
             else

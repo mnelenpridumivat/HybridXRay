@@ -47,8 +47,8 @@ CEnvironmentSOC::CEnvironmentSOC()
     ed_from_time = 0.f;
     ed_to_time   = DAY_LENGTH;
 #endif
-    fGameTime   = 0.f;
-    fTimeFactor = 12.f;
+    fGameTime            = 0.f;
+    fTimeFactor          = 12.f;
 
     wind_strength_factor = 0.f;
     wind_gust_factor     = 0.f;
@@ -182,14 +182,13 @@ bool CEnvironmentSOC::SetWeatherFX(shared_str name)
         CurrentWeather     = &it->second;
         CurrentWeatherName = it->first;
 
-        float rewind_tm = WFX_TRANS_TIME * fTimeFactor;
-        float start_tm  = fGameTime + rewind_tm;
+        float rewind_tm    = WFX_TRANS_TIME * fTimeFactor;
+        float start_tm     = fGameTime + rewind_tm;
         float current_length;
         float current_weight;
         if (Current[0]->exec_time > Current[1]->exec_time)
         {
-            float x        = fGameTime > Current[0]->exec_time ? fGameTime - Current[0]->exec_time :
-                                                                 (DAY_LENGTH - Current[0]->exec_time) + fGameTime;
+            float x        = fGameTime > Current[0]->exec_time ? fGameTime - Current[0]->exec_time : (DAY_LENGTH - Current[0]->exec_time) + fGameTime;
             current_length = (DAY_LENGTH - Current[0]->exec_time) + Current[1]->exec_time;
             current_weight = x / current_length;
         }
@@ -206,8 +205,7 @@ bool CEnvironmentSOC::SetWeatherFX(shared_str name)
         IEnvDescriptor* CE = CurrentWeather->at(CurrentWeather->size() - 2);
         IEnvDescriptor* CT = CurrentWeather->at(CurrentWeather->size() - 1);
         C0->copy(*Current[0]);
-        C0->exec_time =
-            NormalizeTime(fGameTime - ((rewind_tm / (Current[1]->exec_time - fGameTime)) * current_length - rewind_tm));
+        C0->exec_time = NormalizeTime(fGameTime - ((rewind_tm / (Current[1]->exec_time - fGameTime)) * current_length - rewind_tm));
         C1->copy(*Current[1]);
         C1->exec_time = NormalizeTime(start_tm);
         for (EnvIt t_it = CurrentWeather->begin() + 2; t_it != CurrentWeather->end() - 1; t_it++)
@@ -247,8 +245,7 @@ void CEnvironmentSOC::StopWFX()
     Current[0] = WFX_end_desc[0];
     Current[1] = WFX_end_desc[1];
 #ifdef WEATHER_LOGGING
-    Msg("WFX - end. Weather: '%s' Desc: '%s'/'%s' GameTime: %3.2f", CurrentWeatherName.c_str(),
-        Current[0]->sect_name.c_str(), Current[1]->sect_name.c_str(), fGameTime);
+    Msg("WFX - end. Weather: '%s' Desc: '%s'/'%s' GameTime: %3.2f", CurrentWeatherName.c_str(), Current[0]->sect_name.c_str(), Current[1]->sect_name.c_str(), fGameTime);
 #endif
 }
 
@@ -314,8 +311,7 @@ void CEnvironmentSOC::SelectEnvs(float gt)
             Current[0] = Current[1];
             SelectEnv(CurrentWeather, Current[1], gt);
 #ifdef WEATHER_LOGGING
-            Msg("Weather: '%s' Desc: '%s' Time: %3.2f/%3.2f", CurrentWeatherName.c_str(), Current[1]->sect_name.c_str(),
-                Current[1]->exec_time, fGameTime);
+            Msg("Weather: '%s' Desc: '%s' Time: %3.2f/%3.2f", CurrentWeatherName.c_str(), Current[1]->sect_name.c_str(), Current[1]->exec_time, fGameTime);
 #endif
         }
     }
@@ -358,7 +354,7 @@ void CEnvironmentSOC::OnFrame()
     SelectEnvs(fGameTime);
     VERIFY(Current[0] && Current[1]);
 
-    float current_weight = TimeWeight(fGameTime, Current[0]->exec_time, Current[1]->exec_time);
+    float           current_weight = TimeWeight(fGameTime, Current[0]->exec_time, Current[1]->exec_time);
 
     // modifiers
     CEnvSOCModifier EM;

@@ -21,9 +21,9 @@ extern "C"
 
     // start resolving a hostname
     // returns 0 on success, -1 on error
-    int gsiStartResolvingHostname(const char* hostname, GSIResolveHostnameHandle* handle);
+    int          gsiStartResolvingHostname(const char* hostname, GSIResolveHostnameHandle* handle);
     // cancel a resolve in progress
-    void gsiCancelResolvingHostname(GSIResolveHostnameHandle handle);
+    void         gsiCancelResolvingHostname(GSIResolveHostnameHandle handle);
     // returns GSI_STILL_RESOLVING if still resolving the hostname
     // returns GSI_ERROR_RESOLVING if it was unable to resolve the hostname
     // on success, returns the IP of the host in network byte order
@@ -61,7 +61,7 @@ extern "C"
     void B64Decode(const char* input, char* output, int inlen, int* outlen, int encodingType);
 
     // returns the length of the binary data represented by the base64 input string
-    int B64DecodeLen(const char* input, int encodingType);
+    int  B64DecodeLen(const char* input, int encodingType);
 
     typedef struct
     {
@@ -70,7 +70,7 @@ extern "C"
         int         encodingType;
     } B64StreamData;
 
-    void B64InitEncodeStream(B64StreamData* data, const char* input, int len, int encodingType);
+    void     B64InitEncodeStream(B64StreamData* data, const char* input, int len, int encodingType);
 
     // returns gsi_false if the stream has ended
     gsi_bool B64EncodeStream(B64StreamData* data, char output[4]);
@@ -96,9 +96,9 @@ extern "C"
     ///////////////////////////////////////////////////////////////////////////////
     // time functions
 
-    gsi_time current_time();          // milliseconds
-    gsi_time current_time_hires();    // microseconds
-    void     msleep(gsi_time msec);   // milliseconds
+    gsi_time   current_time();          // milliseconds
+    gsi_time   current_time_hires();    // microseconds
+    void       msleep(gsi_time msec);   // milliseconds
 
     // GSI equivalent of common C-lib time functions
     struct tm* gsiSecondsToDate(const time_t* timp);     // gmtime
@@ -113,15 +113,15 @@ extern "C"
     time_t time(time_t* timer);
 
 #define gmtime(t) gsiSecondsToDate(t)
-#define ctime(t) gsiSecondsToString(t)
+#define ctime(t)  gsiSecondsToString(t)
 #define mktime(t) gsiDateToSeconds(t)
 #elif defined(_REVOLUTION)
 time_t     gsiTimeInSec(time_t* timer);
 struct tm* gsiGetGmTime(time_t* theTime);
 char*      gsiCTime(time_t* theTime);
-#define time(t) gsiTimeInSec(t)
+#define time(t)   gsiTimeInSec(t)
 #define gmtime(t) gsiGetGmTime(t)
-#define ctime(t) gsiCTime(t)
+#define ctime(t)  gsiCTime(t)
 #else
 #include <time.h>
 #endif
@@ -130,7 +130,7 @@ char*      gsiCTime(time_t* theTime);
 #define SOMAXCONN 5
 #endif
 
-    typedef const char* (*GetUniqueIDFunction)();
+    typedef const char*        (*GetUniqueIDFunction)();
 
     extern GetUniqueIDFunction GOAGetUniqueID;
 

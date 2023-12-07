@@ -17,16 +17,17 @@ private:
     typedef CShootingObject     inheritedShooting;
 
 private:
-    CCameraBase* camera;
+    CCameraBase*         camera;
     //
-    static void _BCL BoneCallbackX(CBoneInstance* B);
-    static void _BCL BoneCallbackY(CBoneInstance* B);
-    void             SetBoneCallbacks();
-    void             ResetBoneCallbacks();
+    static void _BCL     BoneCallbackX(CBoneInstance* B);
+    static void _BCL     BoneCallbackY(CBoneInstance* B);
+    void                 SetBoneCallbacks();
+    void                 ResetBoneCallbacks();
 
     HUD_SOUND_COLLECTION m_sounds;
 
     // casts
+
 public:
     virtual CHolderCustom* cast_holder_custom()
     {
@@ -34,6 +35,7 @@ public:
     }
 
     // general
+
 public:
     CWeaponStatMgun();
     virtual ~CWeaponStatMgun();
@@ -50,11 +52,12 @@ public:
     virtual void Hit(SHit* pHDS);
 
     // shooting
+
 private:
-    u16     m_rotate_x_bone, m_rotate_y_bone, m_fire_bone, m_camera_bone;
-    float   m_tgt_x_rot, m_tgt_y_rot, m_cur_x_rot, m_cur_y_rot, m_bind_x_rot, m_bind_y_rot;
-    Fvector m_bind_x, m_bind_y;
-    Fvector m_fire_dir, m_fire_pos;
+    u16         m_rotate_x_bone, m_rotate_y_bone, m_fire_bone, m_camera_bone;
+    float       m_tgt_x_rot, m_tgt_y_rot, m_cur_x_rot, m_cur_y_rot, m_bind_x_rot, m_bind_y_rot;
+    Fvector     m_bind_x, m_bind_y;
+    Fvector     m_fire_dir, m_fire_pos;
 
     Fmatrix     m_i_bind_x_xform, m_i_bind_y_xform, m_fire_bone_xform;
     Fvector2    m_lim_x_rot, m_lim_y_rot;   // in bone space
@@ -71,19 +74,20 @@ protected:
     virtual const Fvector& get_CurrentFirePoint();
     virtual const Fmatrix& get_ParticlesXFORM();
 
-    virtual void FireStart();
-    virtual void FireEnd();
-    virtual void UpdateFire();
-    virtual void OnShot();
-    void         AddShotEffector();
-    void         RemoveShotEffector();
-    void         SetDesiredDir(float h, float p);
-    virtual bool IsHudModeNow()
+    virtual void           FireStart();
+    virtual void           FireEnd();
+    virtual void           UpdateFire();
+    virtual void           OnShot();
+    void                   AddShotEffector();
+    void                   RemoveShotEffector();
+    void                   SetDesiredDir(float h, float p);
+    virtual bool           IsHudModeNow()
     {
         return false;
     };
 
     // HolderCustom
+
 public:
     virtual bool Use(const Fvector& pos, const Fvector& dir, const Fvector& foot_pos)
     {

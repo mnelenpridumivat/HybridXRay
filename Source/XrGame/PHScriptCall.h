@@ -153,8 +153,7 @@ class CPHScriptGameObjectCondition: public CPHScriptObjectConditionN
     bool     b_obsolete;
 
 public:
-    CPHScriptGameObjectCondition(const luabind::object& object, const luabind::functor<bool>& functor, CObject* gobj):
-        CPHScriptObjectConditionN(object, functor)
+    CPHScriptGameObjectCondition(const luabind::object& object, const luabind::functor<bool>& functor, CObject* gobj): CPHScriptObjectConditionN(object, functor)
     {
         m_obj      = gobj;
         b_obsolete = false;
@@ -183,8 +182,7 @@ class CPHScriptGameObjectAction: public CPHScriptObjectActionN
     CObject* m_obj;
 
 public:
-    CPHScriptGameObjectAction(const luabind::object& object, const luabind::functor<void>& functor, CObject* gobj):
-        CPHScriptObjectActionN(object, functor)
+    CPHScriptGameObjectAction(const luabind::object& object, const luabind::functor<void>& functor, CObject* gobj): CPHScriptObjectActionN(object, functor)
     {
         m_obj = gobj;
     }

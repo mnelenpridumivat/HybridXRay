@@ -14,10 +14,7 @@
 
 using aimers::base;
 
-base::base(CGameObject* object, LPCSTR animation_id, bool animation_start, Fvector const& target):
-    m_object(*object), m_kinematics(smart_cast<IKinematics&>(*object->Visual())),
-    m_animated(smart_cast<IKinematicsAnimated&>(*object->Visual())), m_target(target),
-    m_animation_id(m_animated.LL_MotionID(animation_id)), m_animation_start(animation_start)
+base::base(CGameObject* object, LPCSTR animation_id, bool animation_start, Fvector const& target): m_object(*object), m_kinematics(smart_cast<IKinematics&>(*object->Visual())), m_animated(smart_cast<IKinematicsAnimated&>(*object->Visual())), m_target(target), m_animation_id(m_animated.LL_MotionID(animation_id)), m_animation_start(animation_start)
 {
     animation_movement_controller const* controller = m_object.animation_movement();
     if (!controller)
@@ -42,11 +39,7 @@ void base::callback(CBoneInstance* bone)
     VERIFY2(_valid(bone->mTransform), "base::callback ");
 }
 
-void base::aim_at_position(
-    Fvector const& bone_position,
-    Fvector const& object_position,
-    Fvector        object_direction,
-    Fmatrix&       result)
+void base::aim_at_position(Fvector const& bone_position, Fvector const& object_position, Fvector object_direction, Fmatrix& result)
 {
 #if 0
 	Msg									(
@@ -91,11 +84,7 @@ void base::aim_at_position(
 
     float const invert_magnitude = 1.f / direction_target.magnitude();
     direction_target.mul(invert_magnitude);
-    VERIFY2(
-        fsimilar(direction_target.magnitude(), 1.f),
-        make_string(
-            "[%f][%f] [%f][%f][%f] [%f][%f][%f]", direction_target.magnitude(), invert_magnitude, VPUSH(m_target),
-            VPUSH(bone_position)));
+    VERIFY2(fsimilar(direction_target.magnitude(), 1.f), make_string("[%f][%f] [%f][%f][%f] [%f][%f][%f]", direction_target.magnitude(), invert_magnitude, VPUSH(m_target), VPUSH(bone_position)));
 
     float const to_circle_center = sphere_radius_sqr * invert_magnitude;
     VERIFY(_valid(to_circle_center));
@@ -103,11 +92,7 @@ void base::aim_at_position(
     VERIFY(_valid(circle_center));
 
     Fplane const plane = Fplane().build(circle_center, direction_target);
-    VERIFY2(
-        _valid(plane),
-        make_string(
-            "[%f][%f][%f] [%f][%f][%f] [%f][%f][%f] %f", VPUSH(circle_center), VPUSH(direction_target), VPUSH(plane.n),
-            plane.d));
+    VERIFY2(_valid(plane), make_string("[%f][%f][%f] [%f][%f][%f] [%f][%f][%f] %f", VPUSH(circle_center), VPUSH(direction_target), VPUSH(plane.n), plane.d));
     Fvector projection;
     plane.project(projection, current_point);
     VERIFY(_valid(projection));
@@ -183,7 +168,7 @@ void base::aim_at_position(
             target2target_point.set(0.f, 0.f, EPS_L);
         Fvector const new_direction = target2target_point.normalize();
 
-        Fvector old_direction;
+        Fvector       old_direction;
         transform0.transform_dir(old_direction, object_direction);
         Fvector     cross_product = Fvector().crossproduct(old_direction, new_direction);
         float const sin_alpha     = clampr(cross_product.magnitude(), -1.f, 1.f);

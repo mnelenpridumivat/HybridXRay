@@ -18,7 +18,7 @@ UITeamState::UITeamState()
 }
 UITeamState::UITeamState(ETeam teamId, UITeamPanels* teamPanels)
 {
-    myTeam = teamId;
+    myTeam       = teamId;
     /*myScrollList = xr_new<CUIScrollView>();
     myScrollList->SetAutoDelete(true);
 
@@ -85,9 +85,9 @@ int UITeamState::InitScrollPanels()
 {
     XML_NODE* scroll_panels_root = mainUiXml->NavigateToNode("scroll_panels", 0);
     VERIFY2(scroll_panels_root, "scroll_panels tag not found");
-    XML_NODE* tempRoot = mainUiXml->GetLocalRoot();
+    XML_NODE* tempRoot     = mainUiXml->GetLocalRoot();
 
-    int panels_count = mainUiXml->ReadAttribInt(scroll_panels_root, "count", 0);
+    int       panels_count = mainUiXml->ReadAttribInt(scroll_panels_root, "count", 0);
     VERIFY2(panels_count, "count of scroll panels is 0, minimum is 1");
 
     for (int i = 0; i < panels_count; ++i)
@@ -268,8 +268,8 @@ s32 UITeamState::GetSummaryFrags() const
     typedef game_cl_GameState::PLAYERS_MAP::const_iterator PlCIter;
     game_cl_GameState::PLAYERS_MAP&                        playersMap = Game().players;
 
-    s32     sum   = 0;
-    PlCIter eiter = playersMap.end();
+    s32                                                    sum        = 0;
+    PlCIter                                                eiter      = playersMap.end();
 
     for (PlCIter i = playersMap.begin(); i != eiter; ++i)
     {

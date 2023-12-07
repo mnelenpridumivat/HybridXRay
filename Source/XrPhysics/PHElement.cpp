@@ -20,13 +20,13 @@
 #endif   // DEBUG
 
 ///////////////////////////////////////////////////////////////
-#pragma warning(disable : 4995)
-#pragma warning(disable : 4267)
+#pragma warning(disable:4995)
+#pragma warning(disable:4267)
 
 #include "ode/src/collision_kernel.h"
 
-#pragma warning(default : 4267)
-#pragma warning(default : 4995)
+#pragma warning(default:4267)
+#pragma warning(default:4995)
 ///////////////////////////////////////////////////////////////////
 
 #include "ExtendedGeom.h"
@@ -49,13 +49,13 @@ CPHElement::CPHElement()   // aux
 
     // temp_for_push_out=NULL;
 
-    m_body = NULL;
+    m_body    = NULL;
     // bActive=false;
     // bActivating=false;
     m_flags.set(flActive, FALSE);
     m_flags.set(flActivating, FALSE);
-    m_parent_element = NULL;
-    m_shell          = NULL;
+    m_parent_element  = NULL;
+    m_shell           = NULL;
 
     k_w               = default_k_w;
     k_l               = default_k_l;   // 1.8f;
@@ -435,10 +435,8 @@ void CPHElement::PhDataUpdate(dReal step)
     {
         Msg("angular vel %f,%f,%f", angular_velocity[0], angular_velocity[1], angular_velocity[2]);
         Msg("linear vel %f,%f,%f", linear_velocity[0], linear_velocity[1], linear_velocity[2]);
-        Msg("position  %f,%f,%f", dBodyGetPosition(m_body)[0], dBodyGetPosition(m_body)[1],
-            dBodyGetPosition(m_body)[2]);
-        Msg("quaternion  %f,%f,%f,%f", dBodyGetQuaternion(m_body)[0], dBodyGetQuaternion(m_body)[1],
-            dBodyGetQuaternion(m_body)[2], dBodyGetQuaternion(m_body)[3]);
+        Msg("position  %f,%f,%f", dBodyGetPosition(m_body)[0], dBodyGetPosition(m_body)[1], dBodyGetPosition(m_body)[2]);
+        Msg("quaternion  %f,%f,%f,%f", dBodyGetQuaternion(m_body)[0], dBodyGetQuaternion(m_body)[1], dBodyGetQuaternion(m_body)[2], dBodyGetQuaternion(m_body)[3]);
         Msg("matrix");
         Msg("x  %f,%f,%f", dBodyGetRotation(m_body)[0], dBodyGetRotation(m_body)[4], dBodyGetRotation(m_body)[8]);
         Msg("y  %f,%f,%f", dBodyGetRotation(m_body)[1], dBodyGetRotation(m_body)[5], dBodyGetRotation(m_body)[9]);
@@ -452,15 +450,13 @@ void CPHElement::PhDataUpdate(dReal step)
 #endif
     VERIFY(!fis_zero(m_l_scale));
     VERIFY(!fis_zero(m_w_scale));
-    dBodySetLinearVel(
-        m_body, linear_velocity[0] / m_l_scale, linear_velocity[1] / m_l_scale, linear_velocity[2] / m_l_scale);
-    dBodySetAngularVel(
-        m_body, angular_velocity[0] / m_w_scale, angular_velocity[1] / m_w_scale, angular_velocity[2] / m_w_scale);
+    dBodySetLinearVel(m_body, linear_velocity[0] / m_l_scale, linear_velocity[1] / m_l_scale, linear_velocity[2] / m_l_scale);
+    dBodySetAngularVel(m_body, angular_velocity[0] / m_w_scale, angular_velocity[1] / m_w_scale, angular_velocity[2] / m_w_scale);
 
     ///////////////////scale changes values directly so get base values after it/////////////////////////
     /////////////////////////////base values////////////////////////////////////////////////////////////
-    dReal linear_velocity_smag = dDOT(linear_velocity, linear_velocity);
-    dReal linear_velocity_mag  = _sqrt(linear_velocity_smag);
+    dReal linear_velocity_smag  = dDOT(linear_velocity, linear_velocity);
+    dReal linear_velocity_mag   = _sqrt(linear_velocity_smag);
 
     dReal angular_velocity_smag = dDOT(angular_velocity, angular_velocity);
     dReal angular_velocity_mag  = _sqrt(angular_velocity_smag);
@@ -477,8 +473,7 @@ void CPHElement::PhDataUpdate(dReal step)
     if (linear_velocity_mag > m_l_limit)
     {
         CutVelocity(m_l_limit, m_w_limit);
-        VERIFY_BOUNDARIES2(
-            cast_fv(dBodyGetPosition(m_body)), phBoundaries, PhysicsRefObject(), "PhDataUpdate end, body position");
+        VERIFY_BOUNDARIES2(cast_fv(dBodyGetPosition(m_body)), phBoundaries, PhysicsRefObject(), "PhDataUpdate end, body position");
         linear_velocity_smag  = dDOT(linear_velocity, linear_velocity);
         linear_velocity_mag   = _sqrt(linear_velocity_smag);
         angular_velocity_smag = dDOT(angular_velocity, angular_velocity);
@@ -527,8 +522,7 @@ void CPHElement::PhDataUpdate(dReal step)
             dBodySetPosition(m_body,pos.x,pos.y,pos.z);				   //hack
         }															   //hack
     */
-    VERIFY_BOUNDARIES2(
-        cast_fv(dBodyGetPosition(m_body)), phBoundaries, PhysicsRefObject(), "PhDataUpdate end, body position");
+    VERIFY_BOUNDARIES2(cast_fv(dBodyGetPosition(m_body)), phBoundaries, PhysicsRefObject(), "PhDataUpdate end, body position");
     UpdateInterpolation();
 
     if (!dBodyIsEnabled(m_body))
@@ -664,9 +658,7 @@ void CPHElement::applyImpulseTrace(const Fvector& pos, const Fvector& dir, float
             IKinematics* K = m_shell->PKinematics();
             if (K)
             {
-                Fmatrix()
-                    .mul_43(Fmatrix().invert(K->LL_GetTransform(m_SelfID)), K->LL_GetTransform(id))
-                    .transform(body_pos, pos);
+                Fmatrix().mul_43(Fmatrix().invert(K->LL_GetTransform(m_SelfID)), K->LL_GetTransform(id)).transform(body_pos, pos);
                 body_pos.sub(m_mass_center);
             }
             else
@@ -689,8 +681,7 @@ void CPHElement::applyImpulseTrace(const Fvector& pos, const Fvector& dir, float
         dbg_position.add(cast_fv(dBodyGetPosition(m_body)));
         debug_output().DBG_DrawPoint(dbg_position, 0.01f, D3DCOLOR_XRGB(255, 255, 255));
         debug_output().DBG_DrawLine(cast_fv(dBodyGetPosition(m_body)), dbg_position, D3DCOLOR_XRGB(255, 255, 255));
-        debug_output().DBG_DrawLine(
-            dbg_position, Fvector().add(dbg_position, Fvector().mul(dir, 0.4f)), D3DCOLOR_XRGB(255, 0, 255));
+        debug_output().DBG_DrawLine(dbg_position, Fvector().add(dbg_position, Fvector().mul(dir, 0.4f)), D3DCOLOR_XRGB(255, 0, 255));
         debug_output().DBG_ClosedCashedDraw(10000);
     }
 #endif
@@ -855,7 +846,7 @@ void CPHElement::BoneGlPos(Fmatrix& m, const Fmatrix& BoneTransform) const
 void CPHElement::GetAnimBonePos(Fmatrix& bp)
 {
     VERIFY(m_shell->PKinematics());
-    IKinematics* pK = m_shell->PKinematics();
+    IKinematics*   pK = m_shell->PKinematics();
     // IKinematicsAnimated *ak = pK->dcast_PKinematicsAnimated();
     // VERIFY(ak);
     CBoneInstance* BI = &pK->LL_GetBoneInstance(m_SelfID);
@@ -1176,7 +1167,7 @@ void CPHElement::add_geom(CODEGeom* g)
     Fmatrix bf;
     PHDynamicData::DMXPStoFMX(dBodyGetRotation(m_body), dBodyGetPosition(m_body), bf);
 
-    Fmatrix diff = Fmatrix().mul_43(Fmatrix().invert(bf), gf);
+    Fmatrix  diff = Fmatrix().mul_43(Fmatrix().invert(bf), gf);
 
     dMatrix3 m;
     PHDynamicData::FMXtoDMX(diff, m);
@@ -1197,41 +1188,34 @@ void CPHElement::remove_geom(CODEGeom* g)
 
 #pragma todo(remake it using Geometry functions)
 
-void CPHElement::add_Mass(
-    const SBoneShape& shape,
-    const Fmatrix&    offset,
-    const Fvector&    mass_center,
-    float             mass,
-    CPHFracture*      fracture)
+void CPHElement::add_Mass(const SBoneShape& shape, const Fmatrix& offset, const Fvector& mass_center, float mass, CPHFracture* fracture)
 {
     dMass    m;
     dMatrix3 DMatx;
     switch (shape.type)
     {
-        case SBoneShape::stBox: {
-            dMassSetBox(
-                &m, 1.f, shape.box.m_halfsize.x * 2.f, shape.box.m_halfsize.y * 2.f, shape.box.m_halfsize.z * 2.f);
+        case SBoneShape::stBox:
+        {
+            dMassSetBox(&m, 1.f, shape.box.m_halfsize.x * 2.f, shape.box.m_halfsize.y * 2.f, shape.box.m_halfsize.z * 2.f);
             dMassAdjust(&m, mass);
             Fmatrix box_transform;
             shape.box.xform_get(box_transform);
             PHDynamicData::FMX33toDMX(shape.box.m_rotate, DMatx);
             dMassRotate(&m, DMatx);
-            dMassTranslate(
-                &m, shape.box.m_translate.x - mass_center.x, shape.box.m_translate.y - mass_center.y,
-                shape.box.m_translate.z - mass_center.z);
+            dMassTranslate(&m, shape.box.m_translate.x - mass_center.x, shape.box.m_translate.y - mass_center.y, shape.box.m_translate.z - mass_center.z);
             break;
         }
-        case SBoneShape::stSphere: {
+        case SBoneShape::stSphere:
+        {
             shape.sphere;
             dMassSetSphere(&m, 1.f, shape.sphere.R);
             dMassAdjust(&m, mass);
-            dMassTranslate(
-                &m, shape.sphere.P.x - mass_center.x, shape.sphere.P.y - mass_center.y,
-                shape.sphere.P.z - mass_center.z);
+            dMassTranslate(&m, shape.sphere.P.x - mass_center.x, shape.sphere.P.y - mass_center.y, shape.sphere.P.z - mass_center.z);
             break;
         }
 
-        case SBoneShape::stCylinder: {
+        case SBoneShape::stCylinder:
+        {
             const Fvector& pos = shape.cylinder.m_center;
             Fvector        l;
             l.sub(pos, mass_center);

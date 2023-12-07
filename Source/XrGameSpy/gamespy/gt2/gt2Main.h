@@ -36,7 +36,7 @@ devsupport@gamespy.com
 // using either the original or another different magic string.
 // the string can consist of any number of characters, as long as there's at least one character, and the
 // length define matches the string's length.
-#define GTI2_MAGIC_STRING "\xFE\xFE"
+#define GTI2_MAGIC_STRING     "\xFE\xFE"
 #define GTI2_MAGIC_STRING_LEN 2
 
 // the size of the buffer into which GT2 directly receives messages.  this buffer is declared on the stack,
@@ -57,15 +57,15 @@ devsupport@gamespy.com
 // a server will disconnect a client that doesn't not successfully connect within this time (in milliseconds).
 // if the connectAttemptCallback has been called, and GT2 is awaiting an accept/reject, the attempt will
 // not be timed-out (although the client may abort the attempt at any time).
-#define GTI2_SERVER_TIMEOUT (1 * 60 * 1000)
+#define GTI2_SERVER_TIMEOUT   (1 * 60 * 1000)
 // the time (in milliseconds) GT2 waits between resending a message whose delivery has not yet been confirmed.
-#define GTI2_RESEND_TIME 1000
+#define GTI2_RESEND_TIME      1000
 // the time (in milliseconds) GT2 waits after receiving a message it must acknowledge before it actually sends
 // the ack.  this allows it to combine acks, or include acks as part of other reliable messages it sends.
 // if an ack is pending, a new incoming message does not reset this timer.
 #define GTI2_PENDING_ACK_TIME 100
 // if GT2 does not send a message for this amount of time (in milliseconds), it sends a keep-alive message.
-#define GTI2_KEEP_ALIVE_TIME (30 * 1000)
+#define GTI2_KEEP_ALIVE_TIME  (30 * 1000)
 // if this is defined, it sets the percentage of sent datagrams to drop.  this is good for simulating what will
 // happen on a high packet loss connection.
 // #define GTI2_DROP_SEND_RATE     30
@@ -124,8 +124,8 @@ typedef enum
     GTI2MsgNack,        // alert sender to missing reliable message(s)
     GTI2MsgPing,        // used to determine latency
     GTI2MsgPong,        // a reply to a ping
-    GTI2MsgClosed   // confirmation of connection closure (GTI2MsgClose or GTI2MsgReject) - also sent in response to bad
-                    // messages from unknown addresses
+    GTI2MsgClosed       // confirmation of connection closure (GTI2MsgClose or GTI2MsgReject) - also sent in response to bad
+                        // messages from unknown addresses
 
     // unreliable messages don't really have a message type, just the magic string repeated at the start
 } GTI2MessageType;
@@ -159,83 +159,82 @@ typedef struct GTI2OutgoingBufferMessage
 
 typedef struct GTI2Socket
 {
-    SOCKET socket;   // the network socket used for all network communication
+    SOCKET                         socket;   // the network socket used for all network communication
 
-    unsigned int   ip;     // the ip this socket is bound to
-    unsigned short port;   // the port this socket is bound to
+    unsigned int                   ip;     // the ip this socket is bound to
+    unsigned short                 port;   // the port this socket is bound to
 
-    HashTable connections;         // the connections that are using this socket
-    DArray    closedConnections;   // connections that are closed no longer get a spot in the hash table
+    HashTable                      connections;         // the connections that are using this socket
+    DArray                         closedConnections;   // connections that are closed no longer get a spot in the hash table
 
-    GT2Bool close;   // if true, a close was attempted inside a callback, and it should be closed as soon as possible
-    GT2Bool error;   // if true, there was a socket error using this socket
+    GT2Bool                        close;   // if true, a close was attempted inside a callback, and it should be closed as soon as possible
+    GT2Bool                        error;   // if true, there was a socket error using this socket
 
-    int                       callbackLevel;            // if >0, then we're inside a callback (or recursive callbacks)
-    gt2ConnectAttemptCallback connectAttemptCallback;   // if set, callback used to handle incoming connection attempts
-    gt2SocketErrorCallback    socketErrorCallback;      // if set, call this in case of an error
-    gt2DumpCallback           sendDumpCallback;         // if set, gets called for every datagram sent
-    gt2DumpCallback receiveDumpCallback;   // if set, gets called for every datagram and connection reset received
+    int                            callbackLevel;                 // if >0, then we're inside a callback (or recursive callbacks)
+    gt2ConnectAttemptCallback      connectAttemptCallback;        // if set, callback used to handle incoming connection attempts
+    gt2SocketErrorCallback         socketErrorCallback;           // if set, call this in case of an error
+    gt2DumpCallback                sendDumpCallback;              // if set, gets called for every datagram sent
+    gt2DumpCallback                receiveDumpCallback;           // if set, gets called for every datagram and connection reset received
     gt2UnrecognizedMessageCallback unrecognizedMessageCallback;   // if set, gets called for all unrecognized messages
 
-    void* data;   // user data
+    void*                          data;   // user data
 
-    int outgoingBufferSize;   // per-connection buffer sizes
-    int incomingBufferSize;
+    int                            outgoingBufferSize;   // per-connection buffer sizes
+    int                            incomingBufferSize;
 
-    GTI2ProtocolType protocolType;   // set to UDP or VDP protocol depending on the call to create socket
-                                     // also used as an offset for VDP sockets
-    int     protocolOffset;
-    GT2Bool broadcastEnabled;   // set to true if the socket has already been broadcast enabled
+    GTI2ProtocolType               protocolType;   // set to UDP or VDP protocol depending on the call to create socket
+                                                   // also used as an offset for VDP sockets
+    int                            protocolOffset;
+    GT2Bool                        broadcastEnabled;   // set to true if the socket has already been broadcast enabled
 } GTI2Socket;
 
 typedef struct GTI2Connection
 {
     // ip and port uniquely identify this connection on this socket
-    unsigned int   ip;     // the ip on the other side of this connection (network byte order)
-    unsigned short port;   // the port on the other side of this connection (host byte order)
+    unsigned int           ip;     // the ip on the other side of this connection (network byte order)
+    unsigned short         port;   // the port on the other side of this connection (host byte order)
 
-    GTI2Socket* socket;   // the parent socket
+    GTI2Socket*            socket;   // the parent socket
 
-    GTI2ConnectionState state;   // connection state
+    GTI2ConnectionState    state;   // connection state
 
-    GT2Bool initiated;   // if true, the local side of the connection initiated the connection (client)
+    GT2Bool                initiated;   // if true, the local side of the connection initiated the connection (client)
 
-    GT2Bool freeAtAcceptReject;   // if true, don't free the connection until accept/reject is called
+    GT2Bool                freeAtAcceptReject;   // if true, don't free the connection until accept/reject is called
 
-    GT2Result connectionResult;   // the result of the connect attempt
+    GT2Result              connectionResult;   // the result of the connect attempt
 
-    gsi_time startTime;   // the time the connection was created
-    gsi_time timeout;     // the timeout value passed into gt2Connect
+    gsi_time               startTime;   // the time the connection was created
+    gsi_time               timeout;     // the timeout value passed into gt2Connect
 
     int                    callbackLevel;   // if >0, then we're inside a callback (or recursive callbacks)
     GT2ConnectionCallbacks callbacks;       // connection callbacks
 
-    char* initialMessage;      // this is the initial message for the client
-    int   initialMessageLen;   // the initial message length
+    char*                  initialMessage;      // this is the initial message for the client
+    int                    initialMessageLen;   // the initial message length
 
-    void* data;   // user data
+    void*                  data;   // user data
 
-    GTI2Buffer incomingBuffer;           // buffer for incoming data
-    GTI2Buffer outgoingBuffer;           // buffer for outgoing data
-    DArray     incomingBufferMessages;   // identifies incoming messages stored in the buffer
-    DArray     outgoingBufferMessages;   // identifies outgoing messages stored in the buffer
+    GTI2Buffer             incomingBuffer;           // buffer for incoming data
+    GTI2Buffer             outgoingBuffer;           // buffer for outgoing data
+    DArray                 incomingBufferMessages;   // identifies incoming messages stored in the buffer
+    DArray                 outgoingBufferMessages;   // identifies outgoing messages stored in the buffer
 
-    unsigned short serialNumber;           // serial number of the next message to be sent out
-    unsigned short expectedSerialNumber;   // the next serial number we're expecting from the remote side
+    unsigned short         serialNumber;           // serial number of the next message to be sent out
+    unsigned short         expectedSerialNumber;   // the next serial number we're expecting from the remote side
 
-    char response[GTI2_RESPONSE_LEN];   // after the challenge is sent during negotiation, this is the response we're
-                                        // expecting
+    char                   response[GTI2_RESPONSE_LEN];   // after the challenge is sent during negotiation, this is the response we're
+                                                          // expecting
 
-    gsi_time lastSend;        // the last time something was sent on this connection
-    gsi_time challengeTime;   // the time the challenge was sent
+    gsi_time               lastSend;        // the last time something was sent on this connection
+    gsi_time               challengeTime;   // the time the challenge was sent
 
-    GT2Bool
-        pendingAck;   // if true, there is an ack waiting to go out, either on its own or as part of a reliable message
+    GT2Bool                pendingAck;   // if true, there is an ack waiting to go out, either on its own or as part of a reliable message
 
-    gsi_time pendingAckTime;   // the time at which the pending ack was first set
+    gsi_time               pendingAckTime;   // the time at which the pending ack was first set
 
-    DArray sendFilters;      // filters that apply to outgoing data
-    DArray receiveFilters;   // filters that apply to incoming data
+    DArray                 sendFilters;      // filters that apply to outgoing data
+    DArray                 receiveFilters;   // filters that apply to incoming data
 
 } GTI2Connection;
 

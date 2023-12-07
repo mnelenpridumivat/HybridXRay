@@ -22,7 +22,7 @@
 #include "xrServer_info.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -101,7 +101,7 @@ IClient* xrServer::client_Create()
 {
     return xr_new<xrClientData>();
 }
-void xrServer::client_Replicate() {}
+void     xrServer::client_Replicate() {}
 
 IClient* xrServer::client_Find_Get(ClientID ID)
 {
@@ -130,16 +130,18 @@ IClient* xrServer::client_Find_Get(ClientID ID)
     return newCL;
 };
 
-u32 g_sv_Client_Reconnect_Time = 3;
+u32  g_sv_Client_Reconnect_Time = 3;
 
 void xrServer::client_Destroy(IClient* C)
 {
     // Delete assosiated entity
     // xrClientData*	D = (xrClientData*)C;
     // CSE_Abstract* E = D->owner;
-    IClient* alife_client = net_players.FindAndEraseClient([&C](IClient* A) -> bool {
-        return A == C;
-    });
+    IClient* alife_client = net_players.FindAndEraseClient(
+        [&C](IClient* A) -> bool
+        {
+            return A == C;
+        });
 
     // VERIFY(alife_client);
     if (alife_client)
@@ -169,7 +171,8 @@ void xrServer::client_Destroy(IClient* C)
             }
             else
                 break;
-        } while (true);
+        }
+        while (true);
 
         if (pOwner)
         {
@@ -393,14 +396,16 @@ u32 xrServer::OnDelayedMessage(NET_Packet& P, ClientID sender)   // Non-Zero mea
 
     switch (type)
     {
-        case M_CLIENT_REQUEST_CONNECTION_DATA: {
+        case M_CLIENT_REQUEST_CONNECTION_DATA:
+        {
             IClient* tmp_client = net_players.GetFoundClient(ClientIdSearchPredicate(sender));
             VERIFY(tmp_client);
             OnCL_Connected(tmp_client);
             // OnCL_Connected				(CL);
         }
         break;
-        case M_REMOTE_CONTROL_CMD: {
+        case M_REMOTE_CONTROL_CMD:
+        {
             if (CL->m_admin_rights.m_has_admin_rights)
             {
                 string1024 buff;
@@ -432,7 +437,8 @@ u32 xrServer::OnDelayedMessage(NET_Packet& P, ClientID sender)   // Non-Zero mea
             }
         }
         break;
-        case M_FILE_TRANSFER: {
+        case M_FILE_TRANSFER:
+        {
             m_file_transfers->on_message(&P, sender);
         }
         break;
@@ -452,7 +458,7 @@ u32 xrServer::OnMessageSync(NET_Packet& P, ClientID sender)
 }
 
 extern float g_fCatchObjectTime;
-u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broadcasting with "flags" as returned
+u32          xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broadcasting with "flags" as returned
 {
     u16 type;
     P.r_begin(type);
@@ -462,24 +468,28 @@ u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broa
 
     switch (type)
     {
-        case M_UPDATE: {
+        case M_UPDATE:
+        {
             Process_update(P, sender);   // No broadcast
             VERIFY(verify_entities());
         }
         break;
-        case M_SPAWN: {
+        case M_SPAWN:
+        {
             if (CL->flags.bLocal)
                 Process_spawn(P, sender);
 
             VERIFY(verify_entities());
         }
         break;
-        case M_EVENT: {
+        case M_EVENT:
+        {
             Process_event(P, sender);
             VERIFY(verify_entities());
         }
         break;
-        case M_EVENT_PACK: {
+        case M_EVENT_PACK:
+        {
             NET_Packet tmpP;
             while (!P.r_eof())
             {
@@ -490,7 +500,8 @@ u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broa
             };
         }
         break;
-        case M_CL_UPDATE: {
+        case M_CL_UPDATE:
+        {
             xrClientData* CL = ID_to_client(sender);
             if (!CL)
                 break;
@@ -507,7 +518,8 @@ u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broa
             VERIFY(verify_entities());
         }
         break;
-        case M_MOVE_PLAYERS_RESPOND: {
+        case M_MOVE_PLAYERS_RESPOND:
+        {
             xrClientData* CL = ID_to_client(sender);
             if (!CL)
                 break;
@@ -516,7 +528,8 @@ u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broa
         }
         break;
         //-------------------------------------------------------------------
-        case M_CL_INPUT: {
+        case M_CL_INPUT:
+        {
             xrClientData* CL = ID_to_client(sender);
             if (CL)
                 CL->net_Ready = TRUE;
@@ -525,23 +538,27 @@ u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broa
             VERIFY(verify_entities());
         }
         break;
-        case M_GAMEMESSAGE: {
+        case M_GAMEMESSAGE:
+        {
             SendBroadcast(BroadcastCID, P, net_flags(TRUE, TRUE));
             VERIFY(verify_entities());
         }
         break;
-        case M_CLIENTREADY: {
+        case M_CLIENTREADY:
+        {
             game->OnPlayerConnectFinished(sender);
             // game->signal_Syncronize	();
             VERIFY(verify_entities());
         }
         break;
-        case M_SWITCH_DISTANCE: {
+        case M_SWITCH_DISTANCE:
+        {
             game->switch_distance(P, sender);
             VERIFY(verify_entities());
         }
         break;
-        case M_CHANGE_LEVEL: {
+        case M_CHANGE_LEVEL:
+        {
             if (game->change_level(P, sender))
             {
                 SendBroadcast(BroadcastCID, P, net_flags(TRUE, TRUE));
@@ -549,65 +566,78 @@ u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broa
             VERIFY(verify_entities());
         }
         break;
-        case M_SAVE_GAME: {
+        case M_SAVE_GAME:
+        {
             game->save_game(P, sender);
             VERIFY(verify_entities());
         }
         break;
-        case M_LOAD_GAME: {
+        case M_LOAD_GAME:
+        {
             game->load_game(P, sender);
             SendBroadcast(BroadcastCID, P, net_flags(TRUE, TRUE));
             VERIFY(verify_entities());
         }
         break;
-        case M_RELOAD_GAME: {
+        case M_RELOAD_GAME:
+        {
             SendBroadcast(BroadcastCID, P, net_flags(TRUE, TRUE));
             VERIFY(verify_entities());
         }
         break;
-        case M_SAVE_PACKET: {
+        case M_SAVE_PACKET:
+        {
             Process_save(P, sender);
             VERIFY(verify_entities());
         }
         break;
-        case M_CLIENT_REQUEST_CONNECTION_DATA: {
+        case M_CLIENT_REQUEST_CONNECTION_DATA:
+        {
             AddDelayedPacket(P, sender);
         }
         break;
-        case M_CHAT_MESSAGE: {
+        case M_CHAT_MESSAGE:
+        {
             xrClientData* l_pC = ID_to_client(sender);
             OnChatMessage(&P, l_pC);
         }
         break;
-        case M_SV_MAP_NAME: {
+        case M_SV_MAP_NAME:
+        {
             xrClientData* l_pC = ID_to_client(sender);
             OnProcessClientMapData(P, l_pC->ID);
         }
         break;
-        case M_SV_DIGEST: {
+        case M_SV_DIGEST:
+        {
             R_ASSERT(CL);
             ProcessClientDigest(CL, &P);
         }
         break;
-        case M_CHANGE_LEVEL_GAME: {
+        case M_CHANGE_LEVEL_GAME:
+        {
             ClientID CID;
             CID.set(0xffffffff);
             SendBroadcast(CID, P, net_flags(TRUE, TRUE));
         }
         break;
-        case M_CL_AUTH: {
+        case M_CL_AUTH:
+        {
             game->AddDelayedEvent(P, GAME_EVENT_PLAYER_AUTH, 0, sender);
         }
         break;
-        case M_CREATE_PLAYER_STATE: {
+        case M_CREATE_PLAYER_STATE:
+        {
             game->AddDelayedEvent(P, GAME_EVENT_CREATE_PLAYER_STATE, 0, sender);
         }
         break;
-        case M_STATISTIC_UPDATE: {
+        case M_STATISTIC_UPDATE:
+        {
             SendBroadcast(BroadcastCID, P, net_flags(TRUE, TRUE));
         }
         break;
-        case M_STATISTIC_UPDATE_RESPOND: {
+        case M_STATISTIC_UPDATE_RESPOND:
+        {
             // client method for collecting statistics are called from two places : 1 - this, 2 -
             // game_sv_mp::WritePlayerStats
             if (GameID() != eGameIDSingle)
@@ -631,12 +661,14 @@ u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broa
             // if (SV_Client) SendTo	(SV_Client->ID, P, net_flags(TRUE, TRUE));
         }
         break;
-        case M_PLAYER_FIRE: {
+        case M_PLAYER_FIRE:
+        {
             if (game)
                 game->OnPlayerFire(sender, P);
         }
         break;
-        case M_REMOTE_CONTROL_AUTH: {
+        case M_REMOTE_CONTROL_AUTH:
+        {
             string512  reason;
             shared_str user;
             shared_str pass;
@@ -675,22 +707,27 @@ u32 xrServer::OnMessage(NET_Packet& P, ClientID sender)   // Non-Zero means broa
         }
         break;
 
-        case M_REMOTE_CONTROL_CMD: {
+        case M_REMOTE_CONTROL_CMD:
+        {
             AddDelayedPacket(P, sender);
         }
         break;
-        case M_BATTLEYE: {
+        case M_BATTLEYE:
+        {
         }
         break;
-        case M_FILE_TRANSFER: {
+        case M_FILE_TRANSFER:
+        {
             AddDelayedPacket(P, sender);
         }
         break;
-        case M_SECURE_KEY_SYNC: {
+        case M_SECURE_KEY_SYNC:
+        {
             PerformSecretKeysSyncAck(CL, P);
         }
         break;
-        case M_SECURE_MESSAGE: {
+        case M_SECURE_MESSAGE:
+        {
             OnSecureMessage(P, CL);
         }
         break;
@@ -771,10 +808,7 @@ void xrServer::SendBroadcast(ClientID exclude, NET_Packet& P, u32 dwFlags)
         void*     m_data;
         u32       m_size;
         u32       m_dwFlags;
-        ClientSenderFunctor(xrServer* owner, void* data, u32 size, u32 dwFlags):
-            m_owner(owner), m_data(data), m_size(size), m_dwFlags(dwFlags)
-        {
-        }
+        ClientSenderFunctor(xrServer* owner, void* data, u32 size, u32 dwFlags): m_owner(owner), m_data(data), m_size(size), m_dwFlags(dwFlags) {}
         void operator()(IClient* client)
         {
             m_owner->SendTo_LL(client->ID, m_data, m_size, m_dwFlags);
@@ -883,8 +917,7 @@ void xrServer::OnChatMessage(NET_Packet* P, xrClientData* CL)
                 return;
             if (m_team != -1 && ps->team != m_team)
                 return;
-            if (m_sender_ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) &&
-                !ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
+            if (m_sender_ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) && !ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
             {
                 return;
             }
@@ -903,7 +936,7 @@ void xrServer::OnChatMessage(NET_Packet* P, xrClientData* CL)
 static BOOL _ve_initialized = FALSE;
 static BOOL _ve_use         = TRUE;
 
-bool xrServer::verify_entities() const
+bool        xrServer::verify_entities() const
 {
     if (!_ve_initialized)
     {
@@ -920,9 +953,7 @@ bool xrServer::verify_entities() const
     {
         VERIFY2((*I).first != 0xffff, "SERVER : Invalid entity id as a map key - 0xffff");
         VERIFY2((*I).second, "SERVER : Null entity object in the map");
-        VERIFY3(
-            (*I).first == (*I).second->ID, "SERVER : ID mismatch - map key doesn't correspond to the real entity ID",
-            (*I).second->name_replace());
+        VERIFY3((*I).first == (*I).second->ID, "SERVER : ID mismatch - map key doesn't correspond to the real entity ID", (*I).second->name_replace());
         verify_entity((*I).second);
     }
     return (true);
@@ -934,19 +965,10 @@ void xrServer::verify_entity(const CSE_Abstract* entity) const
     if (entity->ID_Parent != 0xffff)
     {
         xrS_entities::const_iterator J = entities.find(entity->ID_Parent);
-        VERIFY2(
-            J != entities.end(),
-            make_string("SERVER : Cannot find parent in the map [%s][%s]", entity->name_replace(), entity->name())
-                .c_str());
+        VERIFY2(J != entities.end(), make_string("SERVER : Cannot find parent in the map [%s][%s]", entity->name_replace(), entity->name()).c_str());
         VERIFY3((*J).second, "SERVER : Null entity object in the map", entity->name_replace());
-        VERIFY3(
-            (*J).first == (*J).second->ID, "SERVER : ID mismatch - map key doesn't correspond to the real entity ID",
-            (*J).second->name_replace());
-        VERIFY3(
-            std::find((*J).second->children.begin(), (*J).second->children.end(), entity->ID) !=
-                (*J).second->children.end(),
-            "SERVER : Parent/Children relationship mismatch - Object has parent, but corresponding parent doesn't have children",
-            (*J).second->name_replace());
+        VERIFY3((*J).first == (*J).second->ID, "SERVER : ID mismatch - map key doesn't correspond to the real entity ID", (*J).second->name_replace());
+        VERIFY3(std::find((*J).second->children.begin(), (*J).second->children.end(), entity->ID) != (*J).second->children.end(), "SERVER : Parent/Children relationship mismatch - Object has parent, but corresponding parent doesn't have children", (*J).second->name_replace());
     }
 
     xr_vector<u16>::const_iterator I = entity->children.begin();
@@ -957,13 +979,8 @@ void xrServer::verify_entity(const CSE_Abstract* entity) const
         xrS_entities::const_iterator J = entities.find(*I);
         VERIFY3(J != entities.end(), "SERVER : Cannot find children in the map", entity->name_replace());
         VERIFY3((*J).second, "SERVER : Null entity object in the map", entity->name_replace());
-        VERIFY3(
-            (*J).first == (*J).second->ID, "SERVER : ID mismatch - map key doesn't correspond to the real entity ID",
-            (*J).second->name_replace());
-        VERIFY3(
-            (*J).second->ID_Parent == entity->ID,
-            "SERVER : Parent/Children relationship mismatch - Object has children, but children doesn't have parent",
-            (*J).second->name_replace());
+        VERIFY3((*J).first == (*J).second->ID, "SERVER : ID mismatch - map key doesn't correspond to the real entity ID", (*J).second->name_replace());
+        VERIFY3((*J).second->ID_Parent == entity->ID, "SERVER : Parent/Children relationship mismatch - Object has children, but children doesn't have parent", (*J).second->name_replace());
     }
 }
 
@@ -1013,9 +1030,9 @@ void xrServer::AddDelayedPacket(NET_Packet& Packet, ClientID Sender)
     DelayedPackestCS.Leave();
 }
 
-u32 g_sv_dwMaxClientPing      = 2000;
-u32 g_sv_time_for_ping_check  = 15000;   // 15 sec
-u8  g_sv_maxPingWarningsCount = 5;
+u32  g_sv_dwMaxClientPing      = 2000;
+u32  g_sv_time_for_ping_check  = 15000;   // 15 sec
+u8   g_sv_maxPingWarningsCount = 5;
 
 void xrServer::PerformCheckClientsForMaxPing()
 {
@@ -1033,8 +1050,7 @@ void xrServer::PerformCheckClientsForMaxPing()
             if (client == m_owner->GetServerClient())
                 return;
 
-            if (ps->ping > g_sv_dwMaxClientPing &&
-                Client->m_ping_warn.m_dwLastMaxPingWarningTime + g_sv_time_for_ping_check < Device->dwTimeGlobal)
+            if (ps->ping > g_sv_dwMaxClientPing && Client->m_ping_warn.m_dwLastMaxPingWarningTime + g_sv_time_for_ping_check < Device->dwTimeGlobal)
             {
                 ++Client->m_ping_warn.m_maxPingWarnings;
                 Client->m_ping_warn.m_dwLastMaxPingWarningTime = Device->dwTimeGlobal;
@@ -1070,16 +1086,15 @@ extern int  g_sv_mp_iDumpStatsPeriod;
 extern BOOL g_bCollectStatisticData;
 
 // xr_token game_types[];
-LPCSTR GameTypeToString(EGameIDs gt, bool bShort);
+LPCSTR      GameTypeToString(EGameIDs gt, bool bShort);
 
-void xrServer::GetServerInfo(CServerInfo* si)
+void        xrServer::GetServerInfo(CServerInfo* si)
 {
     string32  tmp;
     string256 tmp256;
 
     si->AddItem("Server port", itoa(GetPort(), tmp, 10), RGB(128, 128, 255));
-    LPCSTR time =
-        InventoryUtilities::GetTimeAsString(Device->dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay).c_str();
+    LPCSTR time = InventoryUtilities::GetTimeAsString(Device->dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay).c_str();
     si->AddItem("Uptime", time, RGB(255, 228, 0));
 
     //	xr_strcpy( tmp256, get_token_name(game_types, game->Type() ) );

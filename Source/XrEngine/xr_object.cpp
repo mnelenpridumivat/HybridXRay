@@ -16,7 +16,7 @@
 #include "xr_collide_form.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <intrin.h>
 #pragma warning(pop)
 
@@ -71,11 +71,11 @@ void CObject::cNameVisual_set(shared_str N)
     {
         IRenderVisual* old_v = renderable.visual;
 
-        NameVisual        = N;
-        renderable.visual = Render->model_Create(*N);
+        NameVisual           = N;
+        renderable.visual    = Render->model_Create(*N);
 
-        IKinematics* old_k = old_v ? old_v->dcast_PKinematics() : NULL;
-        IKinematics* new_k = renderable.visual->dcast_PKinematics();
+        IKinematics* old_k   = old_v ? old_v->dcast_PKinematics() : NULL;
+        IKinematics* new_k   = renderable.visual->dcast_PKinematics();
 
         /*
         if(old_k && new_k){
@@ -175,11 +175,11 @@ CObject::CObject(): ISpatial(g_SpatialSpace), dwFrame_AsCrow(u32(-1))
     // Transform
     Props.storage = 0;
 
-    Parent = NULL;
+    Parent        = NULL;
 
-    NameObject  = NULL;
-    NameSection = NULL;
-    NameVisual  = NULL;
+    NameObject    = NULL;
+    NameSection   = NULL;
+    NameVisual    = NULL;
 
 #ifdef DEBUG
     dbg_update_shedule = u32(-1) / 2;
@@ -354,9 +354,7 @@ void CObject::UpdateCL()
         float dist = Device->vCameraPosition.distance_to_sqr(Position());
         if (dist < CROW_RADIUS * CROW_RADIUS)
             MakeMeCrow();
-        else if (
-            (Visual() && Visual()->getVisData().hom_frame + 2 > Device->dwFrame) &&
-            (dist < CROW_RADIUS2 * CROW_RADIUS2))
+        else if ((Visual() && Visual()->getVisData().hom_frame + 2 > Device->dwFrame) && (dist < CROW_RADIUS2 * CROW_RADIUS2))
             MakeMeCrow();
     }
 }
@@ -479,15 +477,15 @@ Fvector CObject::get_last_local_point_on_mesh(Fvector const& local_point, u16 co
 {
     VERIFY(bone_id == u16(-1));
 
-    Fvector result;
+    Fvector        result;
     // Fetch data
     Fmatrix        mE;
     const Fmatrix& M = XFORM();
     const Fbox&    B = CFORM()->getBBox();
 
     // Build OBB + Ellipse and X-form point
-    Fvector c, r;
-    Fmatrix T, mR, mS;
+    Fvector        c, r;
+    Fmatrix        T, mR, mS;
     B.getcenter(c);
     B.getradius(r);
     T.translate(c);

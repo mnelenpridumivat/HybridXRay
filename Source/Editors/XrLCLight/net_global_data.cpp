@@ -40,6 +40,7 @@ namespace lc_net
         u32                                   _id;
         u32                                   _use_count;
         bool                                  _clear;
+
     public:
         tnet_global_data(): _id(0), _use_count(0), _clear(false) {}
         void clear()
@@ -58,6 +59,7 @@ namespace lc_net
         {
             return _id;
         }
+
     private:
         virtual void add_ref()
         {

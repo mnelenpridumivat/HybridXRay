@@ -11,9 +11,9 @@ class CUIProgressShape: public CUIStatic
 public:
     CUIProgressShape();
     virtual ~CUIProgressShape();
-    void SetPos(int pos, int max);
-    void SetPos(float pos);
-    void SetTextVisible(bool b);
+    void         SetPos(int pos, int max);
+    void         SetPos(float pos);
+    void         SetTextVisible(bool b);
 
     virtual void Draw();
 

@@ -9,7 +9,7 @@ protected:
     int  mSeed;
     bool mReady;
 
-    int p[SAMPLE_SIZE + SAMPLE_SIZE + 2];
+    int  p[SAMPLE_SIZE + SAMPLE_SIZE + 2];
 
 protected:
     int              mOctaves;
@@ -66,7 +66,7 @@ private:
 
     float g2[SAMPLE_SIZE + SAMPLE_SIZE + 2][2];
 
-    void init();
+    void  init();
 
 public:
     CPerlinNoise2D(int seed): CPerlinNoiseCustom(seed) {}
@@ -81,7 +81,7 @@ private:
 
     float g3[SAMPLE_SIZE + SAMPLE_SIZE + 2][3];
 
-    void init();
+    void  init();
 
 public:
     CPerlinNoise3D(int seed): CPerlinNoiseCustom(seed) {}

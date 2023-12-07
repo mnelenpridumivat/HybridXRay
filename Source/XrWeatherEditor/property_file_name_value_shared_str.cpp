@@ -11,19 +11,7 @@
 
 using System::String;
 
-property_file_name_value_shared_str::property_file_name_value_shared_str(
-    XrWeatherEditor::engine* engine,
-    shared_str&              value,
-    System::String ^ DefaultExt_,
-    System::String ^ Filter_,
-    System::String ^ InitialDirectory_,
-    System::String ^ Title_,
-    bool remove_extension):
-    inherited(engine, value),
-    DefaultExt(DefaultExt_), Filter(Filter_), InitialDirectory(InitialDirectory_), Title(Title_),
-    m_remove_extension(remove_extension)
-{
-}
+property_file_name_value_shared_str::property_file_name_value_shared_str(XrWeatherEditor::engine* engine, shared_str& value, System::String ^ DefaultExt_, System::String ^ Filter_, System::String ^ InitialDirectory_, System::String ^ Title_, bool remove_extension): inherited(engine, value), DefaultExt(DefaultExt_), Filter(Filter_), InitialDirectory(InitialDirectory_), Title(Title_), m_remove_extension(remove_extension) {}
 
 String ^ property_file_name_value_shared_str::default_extension()
 {

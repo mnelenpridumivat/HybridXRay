@@ -2,11 +2,11 @@
 #include "../state.h"
 #include "state_data.h"
 
-template <typename _Object> class CStateMonsterCustomActionLook: public CState<_Object>
+template<typename _Object> class CStateMonsterCustomActionLook: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
-    SStateDataActionLook data;
+    SStateDataActionLook    data;
 
 public:
     CStateMonsterCustomActionLook(_Object* obj);

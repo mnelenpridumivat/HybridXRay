@@ -14,6 +14,7 @@ public:
     virtual void           Render(CEffect_Rain& owner);
 
     virtual const Fsphere& GetDropBounds() const;
+
 private:
     // Visualization	(rain)
     ref_shader           SH_Rain;

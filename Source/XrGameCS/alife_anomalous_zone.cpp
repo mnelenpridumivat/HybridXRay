@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_anomalous_zone.cpp
 //	Created 	: 27.10.2005
 //  Modified 	: 27.10.2005
@@ -19,31 +19,31 @@
 #include <malloc.h>
 #pragma warning(pop)
 
-CSE_ALifeItemWeapon	*CSE_ALifeAnomalousZone::tpfGetBestWeapon(ALife::EHitType &tHitType, float &fHitPower)
+CSE_ALifeItemWeapon* CSE_ALifeAnomalousZone::tpfGetBestWeapon(ALife::EHitType& tHitType, float& fHitPower)
 {
-	m_tpCurrentBestWeapon		= 0;
-	m_tTimeID					= ai().alife().time_manager().game_time();
-	fHitPower					= 1.0f;//m_maxPower;
-	tHitType					= m_tHitType;
-	return						(m_tpCurrentBestWeapon);
+    m_tpCurrentBestWeapon = 0;
+    m_tTimeID             = ai().alife().time_manager().game_time();
+    fHitPower             = 1.0f;   //m_maxPower;
+    tHitType              = m_tHitType;
+    return (m_tpCurrentBestWeapon);
 }
 
-ALife::EMeetActionType CSE_ALifeAnomalousZone::tfGetActionType(CSE_ALifeSchedulable *tpALifeSchedulable, int iGroupIndex, bool bMutualDetection)
+ALife::EMeetActionType CSE_ALifeAnomalousZone::tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection)
 {
-	return						(ALife::eMeetActionTypeAttack);
+    return (ALife::eMeetActionTypeAttack);
 }
 
 bool CSE_ALifeAnomalousZone::bfActive()
 {
-	return						(false/*fis_zero(m_maxPower,EPS_L)*/ || !interactive());
+    return (false /*fis_zero(m_maxPower,EPS_L)*/ || !interactive());
 }
 
-CSE_ALifeDynamicObject *CSE_ALifeAnomalousZone::tpfGetBestDetector()
+CSE_ALifeDynamicObject* CSE_ALifeAnomalousZone::tpfGetBestDetector()
 {
-	VERIFY2						(false,"This function shouldn't be called");
-	NODEFAULT;
+    VERIFY2(false, "This function shouldn't be called");
+    NODEFAULT;
 #ifdef DEBUG
-	return						(0);
+    return (0);
 #endif
 }
 /*
@@ -125,8 +125,8 @@ void CSE_ALifeAnomalousZone::spawn_artefacts				()
 	}
 }*/
 
-void CSE_ALifeAnomalousZone::on_spawn						()
+void CSE_ALifeAnomalousZone::on_spawn()
 {
-	inherited::on_spawn		();
-//	spawn_artefacts			();
+    inherited::on_spawn();
+    //	spawn_artefacts			();
 }

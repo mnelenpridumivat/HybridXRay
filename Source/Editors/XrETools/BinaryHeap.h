@@ -20,6 +20,7 @@ private:
     // A flag that says using FindNext, RemoveNext and RemoveCurrent are OK to call.
     bool bFindNextValid;
 #endif
+
 public:
     BinaryHeap(void)
     {
@@ -187,9 +188,7 @@ public:
             // And bubble the last item back down the tree.
             while ((iCurrentPos << 1) < iCurrentSize)
             {
-                if ((MovedSort >= pBlobArray[(iCurrentPos << 1) + 0].Sort) &&
-                    ((((iCurrentPos << 1) + 1) >= iCurrentSize) ||
-                        (MovedSort >= pBlobArray[(iCurrentPos << 1) + 1].Sort)))
+                if ((MovedSort >= pBlobArray[(iCurrentPos << 1) + 0].Sort) && ((((iCurrentPos << 1) + 1) >= iCurrentSize) || (MovedSort >= pBlobArray[(iCurrentPos << 1) + 1].Sort)))
                 {
                     // Yep - fits here.
                     break;
@@ -197,8 +196,7 @@ public:
                 else
                 {
                     // Find the bigger of the two, and move it up.
-                    if ((((iCurrentPos << 1) + 1) < iCurrentSize) &&
-                        (pBlobArray[(iCurrentPos << 1) + 0].Sort < pBlobArray[(iCurrentPos << 1) + 1].Sort))
+                    if ((((iCurrentPos << 1) + 1) < iCurrentSize) && (pBlobArray[(iCurrentPos << 1) + 0].Sort < pBlobArray[(iCurrentPos << 1) + 1].Sort))
                     {
                         pBlobArray[iCurrentPos] = pBlobArray[(iCurrentPos << 1) + 1];
                         iCurrentPos             = (iCurrentPos << 1) + 1;

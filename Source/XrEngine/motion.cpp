@@ -4,8 +4,8 @@
 #include "motion.h"
 #include "envelope.h"
 
-#define EOBJ_OMOTION 0x1100
-#define EOBJ_SMOTION 0x1200
+#define EOBJ_OMOTION         0x1100
+#define EOBJ_SMOTION         0x1200
 #define EOBJ_OMOTION_VERSION 0x0005
 #define EOBJ_SMOTION_VERSION 0x0007
 
@@ -365,9 +365,9 @@ void CSMotion::_Evaluate(int bone_idx, float t, Fvector& T, Fvector& R)
     T.y              = envs[ctPositionY]->Evaluate(t);
     T.z              = envs[ctPositionZ]->Evaluate(t);
 
-    R.y = envs[ctRotationH]->Evaluate(t);
-    R.x = envs[ctRotationP]->Evaluate(t);
-    R.z = envs[ctRotationB]->Evaluate(t);
+    R.y              = envs[ctRotationH]->Evaluate(t);
+    R.x              = envs[ctRotationP]->Evaluate(t);
+    R.z              = envs[ctRotationB]->Evaluate(t);
 }
 
 void CSMotion::WorldRotate(int boneId, float h, float p, float b)
@@ -516,7 +516,7 @@ bool CSMotion::Load(IReader& F)
 
 void CSMotion::Optimize()
 {
-/*
+    /*
     for (BoneMotionIt bm_it = bone_mots.begin(); bm_it != bone_mots.end(); bm_it++)
     {
         for (int ch = 0; ch < ctMaxChannel; ch++)

@@ -13,18 +13,13 @@ namespace award_system
         m_kill_times.clear();
     }
 
-    void player_state_mad::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void player_state_mad::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
         if (!tmp_local_player)
             return;
 
-        if ((tmp_local_player->GameID == killer_id) &&
-            ((kill_type.second == SKT_KNIFEKILL) || (kill_type.second == SKT_BACKSTAB)))
+        if ((tmp_local_player->GameID == killer_id) && ((kill_type.second == SKT_KNIFEKILL) || (kill_type.second == SKT_BACKSTAB)))
         {
             m_kill_times.push_back(Device->dwTimeGlobal);
         }

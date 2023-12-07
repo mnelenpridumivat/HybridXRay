@@ -9,6 +9,7 @@ class UITeamPanels;
 class UIPanelsClassFactory
 {
 private:
+
 public:
     UIPanelsClassFactory();
     ~UIPanelsClassFactory();

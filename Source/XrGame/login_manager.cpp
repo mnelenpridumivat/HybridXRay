@@ -68,8 +68,7 @@ namespace gamespy_gp
         m_last_password      = login_args.m_t3;   // password;
         m_login_operation_cb = logincb;
 
-        GPResult tmp_res =
-            m_gamespy_gp->Connect(m_last_email, m_last_nick, m_last_password, &login_manager::login_cb, this);
+        GPResult tmp_res     = m_gamespy_gp->Connect(m_last_email, m_last_nick, m_last_password, &login_manager::login_cb, this);
 
         if (tmp_res != GP_NO_ERROR)
         {
@@ -194,7 +193,7 @@ namespace gamespy_gp
         m_login_operation_cb = logincb;
         m_last_unick         = new_unick.m_t1;
 
-        GPResult tmp_res = m_gamespy_gp->SetUniqueNick(m_last_unick, &login_manager::setunick_cb, this);
+        GPResult tmp_res     = m_gamespy_gp->SetUniqueNick(m_last_unick, &login_manager::setunick_cb, this);
 
         if (tmp_res != GP_NO_ERROR)
         {
@@ -252,9 +251,9 @@ namespace gamespy_gp
 
     void __cdecl login_manager::setunick_cb(GPConnection* connection, void* arg, void* param)
     {
-        login_manager* my_inst = static_cast<login_manager*>(param);
+        login_manager*     my_inst = static_cast<login_manager*>(param);
 
-        login_operation_cb tmp_cb = my_inst->m_login_operation_cb;
+        login_operation_cb tmp_cb  = my_inst->m_login_operation_cb;
         my_inst->m_login_operation_cb.clear();
 
         GPRegisterUniqueNickResponseArg* tmp_res = static_cast<GPRegisterUniqueNickResponseArg*>(arg);
@@ -277,7 +276,7 @@ namespace gamespy_gp
         login_manager*        my_inst = static_cast<login_manager*>(param);
         GPConnectResponseArg* tmp_res = static_cast<GPConnectResponseArg*>(arg);
 
-        login_operation_cb tmp_cb = my_inst->m_login_operation_cb;
+        login_operation_cb    tmp_cb  = my_inst->m_login_operation_cb;
 
         VERIFY(my_inst);
         VERIFY(tmp_res);
@@ -304,8 +303,7 @@ namespace gamespy_gp
         my_inst->m_current_profile = xr_new<profile>(tmp_res->profile, tmp_res->uniquenick, tmp_ticket_dest, true);
         my_inst->m_gamespy_patching->PtTrackUsage(tmp_res->profile);
 
-        my_inst->m_gamespy_atlas->WSLoginProfile(
-            my_inst->m_last_email, my_inst->m_last_nick, my_inst->m_last_password, &login_manager::wslogin_cb, my_inst);
+        my_inst->m_gamespy_atlas->WSLoginProfile(my_inst->m_last_email, my_inst->m_last_nick, my_inst->m_last_password, &login_manager::wslogin_cb, my_inst);
     }
 
     void __cdecl login_manager::wslogin_cb(GHTTPResult httpResult, WSLoginResponse* response, void* userData)
@@ -356,7 +354,7 @@ namespace gamespy_gp
 
     static const u32 pass_key_seed = 0x07071984;
 
-    void login_manager::save_password_to_registry(char const* password)
+    void             login_manager::save_password_to_registry(char const* password)
     {
         using namespace secure_messaging;
         if (!password || (xr_strlen(password) == 0))
@@ -379,10 +377,9 @@ namespace gamespy_gp
     {
         using namespace secure_messaging;
         xr_strcpy(m_reg_password, "");
-        u8 tmp_password_dest[128];   // max password length is 30 symbols...
+        u8  tmp_password_dest[128];   // max password length is 30 symbols...
 
-        u32 pass_size =
-            ReadRegistry_BinaryValue(REGISTRY_VALUE_USERPASSWORD, tmp_password_dest, sizeof(tmp_password_dest));
+        u32 pass_size = ReadRegistry_BinaryValue(REGISTRY_VALUE_USERPASSWORD, tmp_password_dest, sizeof(tmp_password_dest));
 
         if (pass_size)
         {

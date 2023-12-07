@@ -20,14 +20,7 @@ XRGAMESPY_API void xrGS_gcd_shutdown(void)
 {
     gcd_shutdown();
 }
-XRGAMESPY_API void xrGS_gcd_authenticate_user(
-    int                   localid,
-    unsigned int          userip,
-    char*                 challenge,
-    char*                 response,
-    AuthCallBackFn        authfn,
-    RefreshAuthCallBackFn refreshfn,
-    void*                 instance)
+XRGAMESPY_API void xrGS_gcd_authenticate_user(int localid, unsigned int userip, char* challenge, char* response, AuthCallBackFn authfn, RefreshAuthCallBackFn refreshfn, void* instance)
 {
     gcd_authenticate_user(GAMESPY_GAMEID, localid, userip, challenge, response, authfn, refreshfn, instance);
 }

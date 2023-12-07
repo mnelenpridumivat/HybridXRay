@@ -17,11 +17,7 @@ public:
     virtual ~CUIAchivementIndicator();
     virtual void Update();
 
-    void AddAchivement(
-        shared_str const& achivement_name,
-        shared_str const& color_animation,
-        u32 const         width,
-        u32 const         height);
+    void         AddAchivement(shared_str const& achivement_name, shared_str const& color_animation, u32 const width, u32 const height);
 
 protected:
     CUIGameLog* m_achivement_log;

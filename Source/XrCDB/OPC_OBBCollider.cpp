@@ -116,12 +116,7 @@ const char* OBBCollider::ValidateSettings()
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool OBBCollider::Collide(
-    OBBCache&        cache,
-    const OBB&       box,
-    OPCODE_Model*    model,
-    const Matrix4x4* worldb,
-    const Matrix4x4* worldm)
+bool OBBCollider::Collide(OBBCache& cache, const OBB& box, OPCODE_Model* model, const Matrix4x4* worldb, const Matrix4x4* worldm)
 {
     // Checkings
     if (!model)
@@ -192,7 +187,7 @@ BOOL OBBCollider::InitQuery(OBBCache& cache, const OBB& box, const Matrix4x4* wo
         Matrix4x4 WorldBtoM = WorldB * InvWorldM;
         Matrix4x4 WorldMtoB = *worldm * InvWorldB;
 
-        mRModelToBox = WorldMtoB;
+        mRModelToBox        = WorldMtoB;
         WorldMtoB.GetTrans(mTModelToBox);
         mRBoxToModel = WorldBtoM;
         WorldBtoM.GetTrans(mTBoxToModel);
@@ -216,24 +211,24 @@ BOOL OBBCollider::InitQuery(OBBCache& cache, const OBB& box, const Matrix4x4* wo
     }
 
     // Precompute bounds for box-in-box test
-    mB0 = mBoxExtents - mTModelToBox;
-    mB1 = -mBoxExtents - mTModelToBox;
+    mB0                = mBoxExtents - mTModelToBox;
+    mB1                = -mBoxExtents - mTModelToBox;
 
     // Precompute box-box data - Courtesy of Erwin de Vries
-    Point Box = mBoxExtents;
-    mBBx1     = Box.x * mAR.m[0][0] + Box.y * mAR.m[1][0] + Box.z * mAR.m[2][0];
-    mBBy1     = Box.x * mAR.m[0][1] + Box.y * mAR.m[1][1] + Box.z * mAR.m[2][1];
-    mBBz1     = Box.x * mAR.m[0][2] + Box.y * mAR.m[1][2] + Box.z * mAR.m[2][2];
+    Point Box          = mBoxExtents;
+    mBBx1              = Box.x * mAR.m[0][0] + Box.y * mAR.m[1][0] + Box.z * mAR.m[2][0];
+    mBBy1              = Box.x * mAR.m[0][1] + Box.y * mAR.m[1][1] + Box.z * mAR.m[2][1];
+    mBBz1              = Box.x * mAR.m[0][2] + Box.y * mAR.m[1][2] + Box.z * mAR.m[2][2];
 
-    mBB_1 = Box.y * mAR.m[2][0] + Box.z * mAR.m[1][0];
-    mBB_2 = Box.x * mAR.m[2][0] + Box.z * mAR.m[0][0];
-    mBB_3 = Box.x * mAR.m[1][0] + Box.y * mAR.m[0][0];
-    mBB_4 = Box.y * mAR.m[2][1] + Box.z * mAR.m[1][1];
-    mBB_5 = Box.x * mAR.m[2][1] + Box.z * mAR.m[0][1];
-    mBB_6 = Box.x * mAR.m[1][1] + Box.y * mAR.m[0][1];
-    mBB_7 = Box.y * mAR.m[2][2] + Box.z * mAR.m[1][2];
-    mBB_8 = Box.x * mAR.m[2][2] + Box.z * mAR.m[0][2];
-    mBB_9 = Box.x * mAR.m[1][2] + Box.y * mAR.m[0][2];
+    mBB_1              = Box.y * mAR.m[2][0] + Box.z * mAR.m[1][0];
+    mBB_2              = Box.x * mAR.m[2][0] + Box.z * mAR.m[0][0];
+    mBB_3              = Box.x * mAR.m[1][0] + Box.y * mAR.m[0][0];
+    mBB_4              = Box.y * mAR.m[2][1] + Box.z * mAR.m[1][1];
+    mBB_5              = Box.x * mAR.m[2][1] + Box.z * mAR.m[0][1];
+    mBB_6              = Box.x * mAR.m[1][1] + Box.y * mAR.m[0][1];
+    mBB_7              = Box.y * mAR.m[2][2] + Box.z * mAR.m[1][2];
+    mBB_8              = Box.x * mAR.m[2][2] + Box.z * mAR.m[0][2];
+    mBB_9              = Box.x * mAR.m[1][2] + Box.y * mAR.m[0][2];
 
     // 3) Setup destination pointer
     mTouchedPrimitives = &cache.TouchedPrimitives;
@@ -286,12 +281,7 @@ BOOL OBBCollider::InitQuery(OBBCache& cache, const OBB& box, const Matrix4x4* wo
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool OBBCollider::Collide(
-    OBBCache&                cache,
-    const OBB&               box,
-    const AABBCollisionTree* tree,
-    const Matrix4x4*         worldb,
-    const Matrix4x4*         worldm)
+bool OBBCollider::Collide(OBBCache& cache, const OBB& box, const AABBCollisionTree* tree, const Matrix4x4* worldb, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree)
@@ -326,12 +316,7 @@ bool OBBCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool OBBCollider::Collide(
-    OBBCache&             cache,
-    const OBB&            box,
-    const AABBNoLeafTree* tree,
-    const Matrix4x4*      worldb,
-    const Matrix4x4*      worldm)
+bool OBBCollider::Collide(OBBCache& cache, const OBB& box, const AABBNoLeafTree* tree, const Matrix4x4* worldb, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree)
@@ -366,12 +351,7 @@ bool OBBCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool OBBCollider::Collide(
-    OBBCache&                cache,
-    const OBB&               box,
-    const AABBQuantizedTree* tree,
-    const Matrix4x4*         worldb,
-    const Matrix4x4*         worldm)
+bool OBBCollider::Collide(OBBCache& cache, const OBB& box, const AABBQuantizedTree* tree, const Matrix4x4* worldb, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree)
@@ -410,12 +390,7 @@ bool OBBCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool OBBCollider::Collide(
-    OBBCache&                      cache,
-    const OBB&                     box,
-    const AABBQuantizedNoLeafTree* tree,
-    const Matrix4x4*               worldb,
-    const Matrix4x4*               worldm)
+bool OBBCollider::Collide(OBBCache& cache, const OBB& box, const AABBQuantizedNoLeafTree* tree, const Matrix4x4* worldb, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree)
@@ -482,8 +457,7 @@ inline_ BOOL OBBCollider::OBBContainsBox(const Point& bc, const Point& be)
     // - compute model-box's AABB in OBB space
     // - test AABB-in-AABB
     float NCx = bc.x * mRModelToBox.m[0][0] + bc.y * mRModelToBox.m[1][0] + bc.z * mRModelToBox.m[2][0];
-    float NEx =
-        _abs(mRModelToBox.m[0][0] * be.x) + _abs(mRModelToBox.m[1][0] * be.y) + _abs(mRModelToBox.m[2][0] * be.z);
+    float NEx = _abs(mRModelToBox.m[0][0] * be.x) + _abs(mRModelToBox.m[1][0] * be.y) + _abs(mRModelToBox.m[2][0] * be.z);
 
     if (mB0.x < NCx + NEx)
         return FALSE;
@@ -491,8 +465,7 @@ inline_ BOOL OBBCollider::OBBContainsBox(const Point& bc, const Point& be)
         return FALSE;
 
     float NCy = bc.x * mRModelToBox.m[0][1] + bc.y * mRModelToBox.m[1][1] + bc.z * mRModelToBox.m[2][1];
-    float NEy =
-        _abs(mRModelToBox.m[0][1] * be.x) + _abs(mRModelToBox.m[1][1] * be.y) + _abs(mRModelToBox.m[2][1] * be.z);
+    float NEy = _abs(mRModelToBox.m[0][1] * be.x) + _abs(mRModelToBox.m[1][1] * be.y) + _abs(mRModelToBox.m[2][1] * be.z);
 
     if (mB0.y < NCy + NEy)
         return FALSE;
@@ -500,8 +473,7 @@ inline_ BOOL OBBCollider::OBBContainsBox(const Point& bc, const Point& be)
         return FALSE;
 
     float NCz = bc.x * mRModelToBox.m[0][2] + bc.y * mRModelToBox.m[1][2] + bc.z * mRModelToBox.m[2][2];
-    float NEz =
-        _abs(mRModelToBox.m[0][2] * be.x) + _abs(mRModelToBox.m[1][2] * be.y) + _abs(mRModelToBox.m[2][2] * be.z);
+    float NEz = _abs(mRModelToBox.m[0][2] * be.x) + _abs(mRModelToBox.m[1][2] * be.y) + _abs(mRModelToBox.m[2][2] * be.z);
 
     if (mB0.z < NCz + NEz)
         return FALSE;
@@ -559,12 +531,8 @@ void OBBCollider::_Collide(const AABBQuantizedNode* node)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Perform OBB-AABB overlap test
     if (!BoxBoxOverlap(Extents, Center))
@@ -629,12 +597,8 @@ void OBBCollider::_Collide(const AABBQuantizedNoLeafNode* node)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Perform OBB-AABB overlap test
     if (!BoxBoxOverlap(Extents, Center))

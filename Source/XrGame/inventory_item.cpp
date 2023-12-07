@@ -52,15 +52,15 @@ CInventoryItem::CInventoryItem()
     m_flags.set(FUsingCondition, FALSE);
     m_fCondition = 1.0f;
 
-    m_name = m_nameShort = NULL;
+    m_name = m_nameShort         = NULL;
 
     m_ItemCurrPlace.value        = 0;
     m_ItemCurrPlace.type         = eItemPlaceUndefined;
     m_ItemCurrPlace.base_slot_id = NO_ACTIVE_SLOT;
     m_ItemCurrPlace.slot_id      = NO_ACTIVE_SLOT;
 
-    m_Description = "";
-    m_section_id  = 0;
+    m_Description                = "";
+    m_section_id                 = 0;
     m_flags.set(FIsHelperItem, FALSE);
 }
 
@@ -69,9 +69,7 @@ CInventoryItem::~CInventoryItem()
     delete_data(m_net_updateData);
 
 #ifndef MASTER_GOLD
-    bool B_GOOD =
-        (!m_pInventory ||
-         (std::find(m_pInventory->m_all.begin(), m_pInventory->m_all.end(), this) == m_pInventory->m_all.end()));
+    bool B_GOOD = (!m_pInventory || (std::find(m_pInventory->m_all.begin(), m_pInventory->m_all.end(), this) == m_pInventory->m_all.end()));
     if (!B_GOOD)
     {
         CObject* p = object().H_Parent();
@@ -79,8 +77,7 @@ CInventoryItem::~CInventoryItem()
         if (p)
             Msg("parent name is [%s]", p->cName().c_str());
 
-        Msg("! ERROR item_id[%d] H_Parent=[%s][%d] [%d]", object().ID(), p ? p->cName().c_str() : "none",
-            p ? p->ID() : -1, Device->dwFrame);
+        Msg("! ERROR item_id[%d] H_Parent=[%s][%d] [%d]", object().ID(), p ? p->cName().c_str() : "none", p ? p->ID() : -1, Device->dwFrame);
     }
 #endif   // #ifndef MASTER_GOLD
 }
@@ -97,14 +94,14 @@ void CInventoryItem::Load(LPCSTR section)
     m_name      = CStringTable().translate(pSettings->r_string(section, "inv_name"));
     m_nameShort = CStringTable().translate(pSettings->r_string(section, "inv_name_short"));
 
-    m_weight = pSettings->r_float(section, "inv_weight");
+    m_weight    = pSettings->r_float(section, "inv_weight");
     R_ASSERT(m_weight >= 0.f);
 
     m_cost                       = pSettings->r_u32(section, "cost");
     u32 sl                       = pSettings->r_u32(section, "slot");
     m_ItemCurrPlace.base_slot_id = (sl == -1) ? 0 : (sl + 1);
 
-    m_Description = CStringTable().translate(pSettings->r_string(section, "description"));
+    m_Description                = CStringTable().translate(pSettings->r_string(section, "description"));
 
     m_flags.set(Fbelt, READ_IF_EXISTS(pSettings, r_bool, section, "belt", FALSE));
     m_can_trade = READ_IF_EXISTS(pSettings, r_bool, section, "can_take", TRUE);
@@ -233,7 +230,8 @@ void CInventoryItem::OnEvent(NET_Packet& P, u16 type)
 {
     switch (type)
     {
-        case GE_ADDON_ATTACH: {
+        case GE_ADDON_ATTACH:
+        {
             u16 ItemID;
             P.r_u16(ItemID);
             CInventoryItem* ItemToAttach = smart_cast<CInventoryItem*>(Level().Objects.net_Find(ItemID));
@@ -242,13 +240,15 @@ void CInventoryItem::OnEvent(NET_Packet& P, u16 type)
             Attach(ItemToAttach, true);
         }
         break;
-        case GE_ADDON_DETACH: {
+        case GE_ADDON_DETACH:
+        {
             string64 i_name;
             P.r_stringZ(i_name);
             Detach(i_name, true);
         }
         break;
-        case GE_CHANGE_POS: {
+        case GE_CHANGE_POS:
+        {
             Fvector p;
             P.r_vec3(p);
             CPHSynchronize* pSyncObj = NULL;
@@ -282,7 +282,7 @@ bool CInventoryItem::Detach(const char* item_section_name, bool b_spawn_item)
         l_tpALifeDynamicObject->m_tNodeID = (g_dedicated_server) ? u32(-1) : object().ai_location().level_vertex_id();
 
         // Fill
-        D->s_name = item_section_name;
+        D->s_name                         = item_section_name;
         D->set_name_replace("");
         //.		D->s_gameid			=	u8(GameID());
         D->s_RP = 0xff;
@@ -347,8 +347,8 @@ BOOL CInventoryItem::net_Spawn(CSE_Abstract* DC)
 
     m_dwItemIndependencyTime = 0;
 
-    m_just_after_spawn = true;
-    m_activated        = false;
+    m_just_after_spawn       = true;
+    m_activated              = false;
     return TRUE;
 }
 
@@ -763,7 +763,7 @@ void CInventoryItem::load(IReader& packet)
     //--	load_data( m_upgrades, packet );
     //--	install_loaded_upgrades();
 
-    u8 tmp = packet.r_u8();
+    u8 tmp                = packet.r_u8();
     if (!tmp)
         return;
 
@@ -1157,10 +1157,7 @@ void CInventoryItem::Interpolate()
         pSyncObj->set_State(newState);
     }
 }
-float CInventoryItem::interpolate_states(
-    net_update_IItem const& first,
-    net_update_IItem const& last,
-    SPHNetState&            current)
+float CInventoryItem::interpolate_states(net_update_IItem const& first, net_update_IItem const& last, SPHNetState& current)
 {
     float ret_val = 0.f;
     u32   CurTime = Device->dwTimeGlobal;
@@ -1170,7 +1167,7 @@ float CInventoryItem::interpolate_states(
 
     float factor = float(CurTime - last.dwTimeStamp) / float(last.dwTimeStamp - first.dwTimeStamp);
 
-    ret_val = factor;
+    ret_val      = factor;
     if (factor > 1.f)
     {
         factor = 1.f;
@@ -1278,8 +1275,8 @@ void CInventoryItem::UpdateXForm()
     Fmatrix& mL = V->LL_GetTransform(u16(boneL));
     Fmatrix& mR = V->LL_GetTransform(u16(boneR));
     // Calculate
-    Fmatrix mRes;
-    Fvector R, D, N;
+    Fmatrix  mRes;
+    Fvector  R, D, N;
     D.sub(mL.c, mR.c);
     D.normalize_safe();
 

@@ -22,23 +22,23 @@ struct SControlledInfo
 class CControlledEntityBase
 {
 public:
-    virtual bool is_under_control() = 0;
+    virtual bool             is_under_control()                         = 0;
 
-    virtual void             set_data(const SControlledInfo& info) = 0;
-    virtual SControlledInfo& get_data()                            = 0;
+    virtual void             set_data(const SControlledInfo& info)      = 0;
+    virtual SControlledInfo& get_data()                                 = 0;
 
-    virtual void set_task_follow(const CEntity* e) = 0;
-    virtual void set_task_attack(const CEntity* e) = 0;
+    virtual void             set_task_follow(const CEntity* e)          = 0;
+    virtual void             set_task_attack(const CEntity* e)          = 0;
 
-    virtual void set_under_control(CController* controller) = 0;
-    virtual void free_from_control()                        = 0;
+    virtual void             set_under_control(CController* controller) = 0;
+    virtual void             free_from_control()                        = 0;
 
-    virtual void on_reinit()  = 0;
-    virtual void on_die()     = 0;
-    virtual void on_destroy() = 0;
+    virtual void             on_reinit()                                = 0;
+    virtual void             on_die()                                   = 0;
+    virtual void             on_destroy()                               = 0;
 };
 
-template <typename _Object> class CControlledEntity: public CControlledEntityBase
+template<typename _Object> class CControlledEntity: public CControlledEntityBase
 {
     SControlledInfo m_data;
 
@@ -77,7 +77,7 @@ public:
     virtual void on_die();
     virtual void on_destroy();
 
-    void init_external(_Object* obj)
+    void         init_external(_Object* obj)
     {
         m_object = obj;
     }

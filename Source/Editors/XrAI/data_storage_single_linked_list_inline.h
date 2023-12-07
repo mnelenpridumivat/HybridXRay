@@ -8,10 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION \
-    template<bool sorted> template<typename _data_storage, template<typename _T> class _vertex>
+#define TEMPLATE_SPECIALIZATION template<bool sorted> template<typename _data_storage, template<typename _T> class _vertex>
 
-#define CSingleLinkedList CDataStorageSingleLinkedList<sorted>::CDataStorage<_data_storage, _vertex>
+#define CSingleLinkedList       CDataStorageSingleLinkedList<sorted>::CDataStorage<_data_storage, _vertex>
 
 TEMPLATE_SPECIALIZATION
 IC CSingleLinkedList::CDataStorage(const u32 vertex_count, const _dist_type _max_distance): inherited(vertex_count)

@@ -72,10 +72,10 @@ float CUIPdaKillMessage::InitIcon(CUIStatic& refStatic, float x, IconInfo& info)
     float scale      = 0;
     Frect rect       = info.m_rect;
 
-    float width  = rect.width();
-    float height = rect.height();
+    float width      = rect.width();
+    float height     = rect.height();
 
-    scale = selfHeight / height;
+    scale            = selfHeight / height;
     if (scale > 1)
         scale = 1;
     width  = width * scale;

@@ -174,7 +174,7 @@ void UISoundEditorForm::OnSyncCurrentClick(ButtonValue* V, bool& bModif, bool& b
     {
         ESoundThumbnail* pTHM = *it;
 
-        string_path src_name, game_name;
+        string_path      src_name, game_name;
         FS.update_path(src_name, _sounds_, pTHM->SrcName());
         strconcat(sizeof(src_name), src_name, src_name, ".wav");
 
@@ -193,12 +193,14 @@ void UISoundEditorForm::OnAttClick(ButtonValue* V, bool& bModif, bool& bSafe)
     ESoundThumbnail* thm = m_THM_Current.back();
     switch (V->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             float dist = thm->MinDist() / (0.01f * psSoundRolloff);
             thm->SetMaxDist(dist + 0.1f * dist);
         }
         break;
-        case 1: {
+        case 1:
+        {
             float dist = psSoundRolloff * (thm->MaxDist() - (0.1f / 1.1f) * thm->MaxDist()) * 0.01f;
             thm->SetMinDist(dist);
         }
@@ -300,15 +302,15 @@ void UISoundEditorForm::PlaySound(LPCSTR name, u32& size, u32& time)
 }
 void UISoundEditorForm::OnAttenuationDraw(CanvasValue* sender)
 {
-#define WIETH 90
+#define WIETH  90
 #define HEIGHT 80.f
     ESoundThumbnail* thm           = m_THM_Current.back();
     float            d_cost        = thm->MaxDist() / WIETH;
     static float     values[WIETH] = {};
     for (int d = 1; d < WIETH + 1; d++)
     {
-        float R = d * d_cost;
-        float b = thm->MinDist() / (psSoundRolloff * R);
+        float R  = d * d_cost;
+        float b  = thm->MinDist() / (psSoundRolloff * R);
         //		float b = m_Brightness/(m_Attenuation0+m_Attenuation1*R+m_Attenuation2*R*R);
         float bb = (HEIGHT * b);
         float y  = floorf(bb);

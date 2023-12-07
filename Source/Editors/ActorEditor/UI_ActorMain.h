@@ -26,7 +26,7 @@ enum
 
 class CActorMain: public TUI
 {
-    typedef TUI inherited;
+    typedef TUI  inherited;
 
     virtual void RealUpdateScene();
 
@@ -34,15 +34,15 @@ public:
     CActorMain();
     virtual ~CActorMain();
 
-    virtual LPSTR GetCaption();
+    virtual LPSTR  GetCaption();
 
-    virtual void ResetStatus();
-    virtual void SetStatus(LPCSTR s, bool bOutLog);
-    virtual void ProgressDraw();
-    virtual void OutCameraPos();
-    virtual void OutUICursorPos();
-    virtual void OutGridSize();
-    virtual void OutInfo();
+    virtual void   ResetStatus();
+    virtual void   SetStatus(LPCSTR s, bool bOutLog);
+    virtual void   ProgressDraw();
+    virtual void   OutCameraPos();
+    virtual void   OutUICursorPos();
+    virtual void   OutGridSize();
+    virtual void   OutInfo();
 
     virtual LPCSTR EditorName()
     {
@@ -57,7 +57,7 @@ public:
         else
             return "Actor Editor [CoP]";
     }
-    HICON EditorIcon() override;
+    HICON        EditorIcon() override;
 
     virtual bool ApplyShortCut(DWORD Key, TShiftState Shift);
     virtual bool ApplyGlobalShortCut(DWORD Key, TShiftState Shift);
@@ -66,7 +66,7 @@ public:
     virtual void RegisterCommands();
 
 protected:
-    virtual void OnDrawUI();
+    virtual void     OnDrawUI();
 
     virtual Ivector2 GetRenderMousePosition() const;
 };
@@ -78,8 +78,8 @@ class CAEPreferences: public CCustomPreferences
 
 public:
     CAEPreferences(): bAlwaysShowKeyBar12(FALSE), bAlwaysShowKeyBar34(FALSE) {}
-    BOOL bAlwaysShowKeyBar12;
-    BOOL bAlwaysShowKeyBar34;
+    BOOL         bAlwaysShowKeyBar12;
+    BOOL         bAlwaysShowKeyBar34;
 
     virtual void Load(CInifile*);
     virtual void Save(CInifile*);

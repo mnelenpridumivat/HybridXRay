@@ -223,7 +223,7 @@ bool CGroupObject::LoadStream(IReader& F)
         {
             // m_PObjects = xr_new<SStringVec>();
             R_ASSERT(F.find_chunk(GROUPOBJ_CHUNK_OPEN_OBJECT_LIST));
-            u32 cnt = F.r_u32();
+            u32       cnt = F.r_u32();
             xr_string tmp;
             for (u32 k = 0; k < cnt; k++)
             {

@@ -19,6 +19,7 @@ namespace lc_net
     {
         u32 start;
         u32 end;
+
     public:
         net_execution_impl(): start(u32(-1)), end(-1) {}
         void construct(u32 _x, u32 _z);   // { start = _start;end = _end; }
@@ -29,9 +30,8 @@ namespace lc_net
         bool execute(net_task_callback& net_callback);
     };
     template<> struct add_global<et_detail_light, gl_detail_cl_data>
-    {
-    };
+    {};
     // execution_lightmaps
-};       // namespace lc_net
+};   // namespace lc_net
 
 #endif   // #ifndef NET_EXECUTION_DETAIL_LIGHT_H_INCLUDED

@@ -23,7 +23,7 @@ namespace steering_behaviour
         const float near_zero = 0.0001f;
         static vec  zero_vec  = {0.f, 0.f, 0.f};
 
-        vec random_vec()
+        vec         random_vec()
         {
             struct local
             {
@@ -33,8 +33,7 @@ namespace steering_behaviour
                 }
             };
 
-            return normalize(
-                cr_fvector3(local::random_component(), local::random_component(), local::random_component()));
+            return normalize(cr_fvector3(local::random_component(), local::random_component(), local::random_component()));
         }
 
         ICF float min(float a, float b)
@@ -75,7 +74,7 @@ namespace steering_behaviour
         const vec   dest2pos     = m_p_params->dest - m_p_params->pos;
         const float dest2pos_mag = magnitude(dest2pos);
 
-        const float dist = detail::max(dest2pos_mag, detail::near_zero);
+        const float dist         = detail::max(dest2pos_mag, detail::near_zero);
 
         if (dist > m_p_params->max_evade_range)
         {
@@ -84,8 +83,7 @@ namespace steering_behaviour
 
         STEER_ASSERT(m_p_params->pf_random_dir != NULL);
 
-        const vec pos2dest_norm = (dest2pos_mag > detail::near_zero) ? (dest2pos * (1.f / dest2pos_mag)) :
-                                                                       normalize((*m_p_params->pf_random_dir)());
+        const vec pos2dest_norm = (dest2pos_mag > detail::near_zero) ? (dest2pos * (1.f / dest2pos_mag)) : normalize((*m_p_params->pf_random_dir)());
 
         return pos2dest_norm * calc_dist_factor(dist);
     }
@@ -155,9 +153,9 @@ namespace steering_behaviour
     {
         m_wander_angle += (rand() % 2 ? +1 : -1) * m_p_params->angle_change;
 
-        const vec dir = m_p_params->dir;
+        const vec   dir          = m_p_params->dir;
 
-        const vec proj_dir = cr_fvector3(proj_x(dir), proj_y(dir), 0);
+        const vec   proj_dir     = cr_fvector3(proj_x(dir), proj_y(dir), 0);
 
         const float proj_dir_mag = magnitude(proj_dir);
 
@@ -169,12 +167,12 @@ namespace steering_behaviour
         const float cosa = _cos(m_wander_angle);
         const float sina = _sin(m_wander_angle);
 
-        vec res     = detail::zero_vec;
-        proj_x(res) = proj_dir.x * cosa - proj_dir.y * sina;
-        proj_y(res) = proj_dir.x * sina + proj_dir.y * cosa;
+        vec         res  = detail::zero_vec;
+        proj_x(res)      = proj_dir.x * cosa - proj_dir.y * sina;
+        proj_y(res)      = proj_dir.x * sina + proj_dir.y * cosa;
 
-        res = normalize(res);
-        res = res + dir * m_p_params->conservativeness;
+        res              = normalize(res);
+        res              = res + dir * m_p_params->conservativeness;
 
         return normalize(res) * m_p_params->factor.x;
     }
@@ -212,23 +210,22 @@ namespace steering_behaviour
         const vec up    = normalize(m_p_params->up);
         const vec right = normalize(crossproduct(dir, up));
 
-        vec steer = detail::zero_vec;
+        vec       steer = detail::zero_vec;
         for (params::Probes::iterator i = m_p_params->probes.begin(), e = m_p_params->probes.end(); i != e; ++i)
         {
             const vec local_probe = *i;
-            const vec probe =
-                cr_fvector3(dotproduct(local_probe, right), dotproduct(local_probe, up), dotproduct(local_probe, dir));
+            const vec probe       = cr_fvector3(dotproduct(local_probe, right), dotproduct(local_probe, up), dotproduct(local_probe, dir));
 
-            vec point_on_obstacle, normal;
+            vec       point_on_obstacle, normal;
             if (m_p_params->test_obstacle(probe, point_on_obstacle, normal))
             {
                 const float dist        = magnitude(point_on_obstacle - m_p_params->pos);
                 const float dist_factor = calc_dist_factor(dist);
 
-                const vec thrust = dir * (-dist_factor);
-                const vec turn   = right * dotproduct(normalize(normal), right) * m_p_params->turn_factor * dist_factor;
+                const vec   thrust      = dir * (-dist_factor);
+                const vec   turn        = right * dotproduct(normalize(normal), right) * m_p_params->turn_factor * dist_factor;
 
-                steer = steer + thrust + turn;
+                steer                   = steer + thrust + turn;
             }
         }
 
@@ -246,19 +243,16 @@ namespace steering_behaviour
 
         int num_nearest = 0;
         vec cur_nearest;
-        for (m_p_params->first_nearest(cur_nearest); !m_p_params->nomore_nearest();
-             m_p_params->next_nearest(cur_nearest))
+        for (m_p_params->first_nearest(cur_nearest); !m_p_params->nomore_nearest(); m_p_params->next_nearest(cur_nearest))
         {
             const vec   point2pos     = m_p_params->pos - cur_nearest;
             const float point2pos_mag = magnitude(point2pos);
 
             if (point2pos_mag < m_p_params->max_separate_range)
             {
-                const vec pos2dest_norm = (point2pos_mag > detail::near_zero) ?
-                    (point2pos * (1.f / point2pos_mag)) :
-                    normalize((*m_p_params->pf_random_dir)());
+                const vec pos2dest_norm = (point2pos_mag > detail::near_zero) ? (point2pos * (1.f / point2pos_mag)) : normalize((*m_p_params->pf_random_dir)());
 
-                steer = steer + pos2dest_norm * calc_dist_factor(m_p_params->separation_factor, point2pos_mag);
+                steer                   = steer + pos2dest_norm * calc_dist_factor(m_p_params->separation_factor, point2pos_mag);
             }
 
             sum_nearest = sum_nearest + cur_nearest;

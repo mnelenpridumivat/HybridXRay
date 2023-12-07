@@ -215,8 +215,7 @@ int res_init(res_state* state, int channels, int outfreq, int infreq, res_parame
     return 0;
 }
 
-static SAMPLE
-    sum(float const* scale, int count, SAMPLE const* source, SAMPLE const* trigger, SAMPLE const* reset, int srcstep)
+static SAMPLE sum(float const* scale, int count, SAMPLE const* source, SAMPLE const* trigger, SAMPLE const* reset, int srcstep)
 {
     float total = 0.0;
 
@@ -233,16 +232,7 @@ static SAMPLE
     return total;
 }
 
-static int push(
-    res_state const* const state,
-    SAMPLE*                pool,
-    int* const             poolfill,
-    int* const             offset,
-    SAMPLE*                dest,
-    int                    dststep,
-    SAMPLE const*          source,
-    int                    srcstep,
-    size_t                 srclen)
+static int push(res_state const* const state, SAMPLE* pool, int* const poolfill, int* const offset, SAMPLE* dest, int dststep, SAMPLE const* source, int srcstep, size_t srclen)
 {
     SAMPLE *const destbase = dest, *poolhead = pool + *poolfill, *poolend = pool + state->taps, *newpool = pool;
     SAMPLE const *refill, *base, *endpoint;
@@ -363,9 +353,7 @@ int res_push_interleaved(res_state* state, SAMPLE* dest, SAMPLE const* source, s
     {
         poolfill = state->poolfill;
         offset   = state->offset;
-        result   = push(
-            state, state->pool + i * state->taps, &poolfill, &offset, dest + i, state->channels, source + i,
-            state->channels, srclen);
+        result   = push(state, state->pool + i * state->taps, &poolfill, &offset, dest + i, state->channels, source + i, state->channels, srclen);
     }
     state->poolfill = poolfill;
     state->offset   = offset;
@@ -389,8 +377,7 @@ int res_drain(res_state* state, SAMPLE** dstlist)
     {
         poolfill = state->poolfill;
         offset   = state->offset;
-        result =
-            push(state, state->pool + i * state->taps, &poolfill, &offset, dstlist[i], 1, tail, 1, state->taps / 2 - 1);
+        result   = push(state, state->pool + i * state->taps, &poolfill, &offset, dstlist[i], 1, tail, 1, state->taps / 2 - 1);
     }
 
     free(tail);
@@ -416,9 +403,7 @@ int res_drain_interleaved(res_state* state, SAMPLE* dest)
     {
         poolfill = state->poolfill;
         offset   = state->offset;
-        result   = push(
-            state, state->pool + i * state->taps, &poolfill, &offset, dest + i, state->channels, tail, 1,
-            state->taps / 2 - 1);
+        result   = push(state, state->pool + i * state->taps, &poolfill, &offset, dest + i, state->channels, tail, 1, state->taps / 2 - 1);
     }
 
     free(tail);

@@ -110,14 +110,12 @@ void EDetailManager::OnRender(int priority, bool strictB2F)
                             bool        bSel = m_Selected[z * dtH.size_x + x];
                             DetailSlot* slot = dtSlots + z * dtH.size_x + x;
                             c.x              = fromSlotX(x);
-                            c.y        = slot->r_ybase() + slot->r_yheight() * 0.5f;   //(slot->y_max+slot->y_min)*0.5f;
-                            float dist = EDevice->m_Camera.GetPosition().distance_to_sqr(c);
+                            c.y              = slot->r_ybase() + slot->r_yheight() * 0.5f;   //(slot->y_max+slot->y_min)*0.5f;
+                            float dist       = EDevice->m_Camera.GetPosition().distance_to_sqr(c);
                             if ((dist < dist_lim) && ::Render->ViewBase.testSphere_dirty(c, DETAIL_SLOT_SIZE_2))
                             {
                                 bbox.min.set(c.x - DETAIL_SLOT_SIZE_2, slot->r_ybase(), c.z - DETAIL_SLOT_SIZE_2);
-                                bbox.max.set(
-                                    c.x + DETAIL_SLOT_SIZE_2, slot->r_ybase() + slot->r_yheight(),
-                                    c.z + DETAIL_SLOT_SIZE_2);
+                                bbox.max.set(c.x + DETAIL_SLOT_SIZE_2, slot->r_ybase() + slot->r_yheight(), c.z + DETAIL_SLOT_SIZE_2);
                                 bbox.shrink(0.05f);
                                 DU_impl.DrawSelectionBoxB(bbox, bSel ? &selected : &inactive);
                             }
@@ -237,9 +235,9 @@ bool EDetailManager::LoadColorIndices(IReader& F)
     VERIFY(objects.empty());
     VERIFY(m_ColorIndices.empty());
 
-    bool bRes = true;
+    bool     bRes = true;
     // objects
-    IReader* OBJ = F.open_chunk(DETMGR_CHUNK_OBJECTS);
+    IReader* OBJ  = F.open_chunk(DETMGR_CHUNK_OBJECTS);
     if (OBJ)
     {
         IReader* O = OBJ->open_chunk(0);
@@ -469,10 +467,10 @@ void EDetailManager::SaveSelection(IWriter& F)
 
 bool EDetailManager::Export(LPCSTR path)
 {
-    xr_string fn   = xr_string(path) + "build.details";
-    bool      bRes = true;
+    xr_string     fn   = xr_string(path) + "build.details";
+    bool          bRes = true;
 
-    SPBItem*      pb = UI->ProgressStart(5, "Making details...");
+    SPBItem*      pb   = UI->ProgressStart(5, "Making details...");
     CMemoryWriter F;
 
     pb->Inc("merge textures");
@@ -484,7 +482,7 @@ bool EDetailManager::Export(LPCSTR path)
     U32Vec      remap;
     U8Vec       remap_object(objects.size(), u8(-1));
 
-    int slot_cnt = dtH.size_x * dtH.size_z;
+    int         slot_cnt = dtH.size_x * dtH.size_z;
     for (int slot_idx = 0; slot_idx < slot_cnt; slot_idx++)
     {
         DetailSlot* it = &dtSlots[slot_idx];
@@ -502,14 +500,13 @@ bool EDetailManager::Export(LPCSTR path)
 
     U8It remap_object_it = remap_object.begin();
 
-    u32 new_idx = 0;
+    u32  new_idx         = 0;
     for (DetailIt d_it = objects.begin(); d_it != objects.end(); d_it++, remap_object_it++)
         if ((*remap_object_it == 1) && (textures_set.find(((EDetail*)(*d_it))->GetTextureName()) != textures_set.end()))
             *remap_object_it = (u8)new_idx++;
 
     xr_string do_tex_name = ChangeFileExt(fn, "_details");
-    int       res         = ImageLib.CreateMergedTexture(
-        textures, do_tex_name.c_str(), STextureParams::tfDXT5, 256, 8192, 256, 8192, offsets, scales, rotated, remap);
+    int       res         = ImageLib.CreateMergedTexture(textures, do_tex_name.c_str(), STextureParams::tfDXT5, 256, 8192, 256, 8192, offsets, scales, rotated, remap);
     if (1 != res)
         bRes = FALSE;
 
@@ -559,11 +556,11 @@ bool EDetailManager::Export(LPCSTR path)
         {
             DetailSlot& it = dt_slots[slot_idx];
             // zero colors need lighting
-            it.c_dir  = 0;
-            it.c_hemi = 0;
-            it.c_r    = 0;
-            it.c_g    = 0;
-            it.c_b    = 0;
+            it.c_dir       = 0;
+            it.c_hemi      = 0;
+            it.c_r         = 0;
+            it.c_g         = 0;
+            it.c_b         = 0;
             for (int part = 0; part < 4; part++)
             {
                 u8 id = it.r_id(part);

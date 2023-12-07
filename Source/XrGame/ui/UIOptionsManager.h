@@ -36,7 +36,7 @@ protected:
     typedef xr_map<group_name, items_list>           groups;
     typedef xr_map<group_name, items_list>::iterator groups_it;
 
-    groups m_groups;
+    groups                                           m_groups;
 
     enum
     {

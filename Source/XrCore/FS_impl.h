@@ -20,8 +20,8 @@ struct find_chunk_counter
 {
     CTimer timer;
 
-    u64 ticks;
-    u32 calls;
+    u64    ticks;
+    u32    calls;
 
     find_chunk_counter()
     {
@@ -68,10 +68,9 @@ struct find_chunk_auto_timer
 #ifdef FIND_CHUNK_STD
 
 struct IReaderBase_Test
-{
-};
+{};
 
-template <typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompressed)
+template<typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompressed)
 {
 #ifdef FIND_CHUNK_BENCHMARK_ENABLE
     find_chunk_auto_timer timer;
@@ -103,17 +102,16 @@ template <typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompresse
 #ifdef FIND_CHUNK_HEU
 
 struct IReaderBase_Test
-{
-};
-#pragma warning(disable : 4701)
+{};
+#pragma warning(disable:4701)
 
-template <typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompressed)
+template<typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompressed)
 {
 #ifdef FIND_CHUNK_BENCHMARK_ENABLE
     find_chunk_auto_timer timer;
 #endif   // FIND_CHUNK_BENCHMARK_ENABLE
 
-    u32 dwSize, dwType;
+    u32  dwSize, dwType;
 
     bool success = false;
 
@@ -171,7 +169,7 @@ template <typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompresse
     return dwSize;
 }
 
-#pragma warning(default : 4701)
+#pragma warning(default:4701)
 
 #endif   // #ifdef FIND_CHUNK_HEU
 
@@ -185,7 +183,7 @@ struct IReaderBase_Test
     id2pos_container                     id2pos;
 };
 
-template <typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompressed)
+template<typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompressed)
 {
 #ifdef FIND_CHUNK_BENCHMARK_ENABLE
     find_chunk_auto_timer timer;
@@ -213,10 +211,10 @@ template <typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompresse
         {
             u32 dwPos = impl().tell();
 
-            dwType = r_u32();
-            dwSize = r_u32();
+            dwType    = r_u32();
+            dwSize    = r_u32();
 
-            u32 dwId = dwType & (~CFS_CompressMark);
+            u32 dwId  = dwType & (~CFS_CompressMark);
             VERIFY((u32)impl().tell() + dwSize <= (u32)impl().length());
 
             m_test->id2pos.insert(IReaderBase_Test::id2pos_container::value_type(dwId, dwPos));
@@ -252,11 +250,11 @@ struct IReaderBase_Test
 {
     typedef xr_hash_map<u32, u32> id2pos_container;
 
-    id2pos_container id2pos;
-    u32              last_pos;
+    id2pos_container              id2pos;
+    u32                           last_pos;
 };
 
-template <typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompressed)
+template<typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompressed)
 {
 #ifdef FIND_CHUNK_BENCHMARK_ENABLE
     find_chunk_auto_timer timer;
@@ -289,8 +287,8 @@ template <typename T> IC u32 IReaderBase<T>::find_chunk(u32 ID, BOOL* bCompresse
     {
         u32 dwPos = impl().tell();
 
-        dwType = r_u32();
-        dwSize = r_u32();
+        dwType    = r_u32();
+        dwSize    = r_u32();
 
         VERIFY((u32)impl().tell() + dwSize <= (u32)impl().length());
 

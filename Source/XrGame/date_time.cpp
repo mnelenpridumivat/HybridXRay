@@ -17,7 +17,8 @@
         generate_time(year, 2, 28, 0, 0, 0, 0);                          \
         if ((year % 400 == 0) || ((year % 4 == 0) && (year % 100 != 0))) \
             generate_time(year, 2, 29, 0, 0, 0, 0);                      \
-    } while (0)
+    }                                                                    \
+    while (0)
 
 	generate_time	( 1, 1,  1, 0, 0, 0, 0);
 	generate_time	( 1, 2, 28, 0, 0, 0, 0);
@@ -73,15 +74,7 @@ static u64 generate_time_impl(u32 years, u32 months, u32 days, u32 hours, u32 mi
     return (result);
 }
 
-static void split_time_impl(
-    u64  time,
-    u32& years,
-    u32& months,
-    u32& days,
-    u32& hours,
-    u32& minutes,
-    u32& seconds,
-    u32& milliseconds)
+static void split_time_impl(u64 time, u32& years, u32& months, u32& days, u32& hours, u32& minutes, u32& seconds, u32& milliseconds)
 {
     milliseconds = u32(time % 1000);
     time /= 1000;

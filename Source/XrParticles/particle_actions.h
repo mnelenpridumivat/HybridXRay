@@ -22,8 +22,8 @@ namespace PAPI
         virtual void Execute(ParticleEffect* pe, const float dt, float& m_max) = 0;
         virtual void Transform(const Fmatrix& m)                               = 0;
 
-        virtual void Load(IReader& F) = 0;
-        virtual void Save(IWriter& F) = 0;
+        virtual void Load(IReader& F)                                          = 0;
+        virtual void Save(IWriter& F)                                          = 0;
     };
     DEFINE_VECTOR(ParticleAction*, PAVec, PAVecIt);
     class ParticleActions

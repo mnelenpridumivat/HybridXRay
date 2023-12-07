@@ -9,15 +9,7 @@
 #include "pch.hpp"
 #include "property_float_limited_reference.hpp"
 
-property_float_limited_reference::property_float_limited_reference(
-    float& value,
-    float const % increment_factor,
-    float const % min,
-    float const % max):
-    inherited(value, increment_factor),
-    m_min(min), m_max(max)
-{
-}
+property_float_limited_reference::property_float_limited_reference(float& value, float const % increment_factor, float const % min, float const % max): inherited(value, increment_factor), m_min(min), m_max(max) {}
 
 System::Object ^ property_float_limited_reference::get_value()
 {

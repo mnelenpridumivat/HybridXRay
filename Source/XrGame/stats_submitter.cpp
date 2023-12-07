@@ -10,8 +10,7 @@
 namespace gamespy_profile
 {
 
-    stats_submitter::stats_submitter(CGameSpy_Full* fullgs):
-        m_ltx_file(p_number, q_number, g_number, &stats_submitter::fill_private_key)
+    stats_submitter::stats_submitter(CGameSpy_Full* fullgs): m_ltx_file(p_number, q_number, g_number, &stats_submitter::fill_private_key)
     {
         shedule.t_min = 500;
         shedule.t_max = 1000;
@@ -27,11 +26,7 @@ namespace gamespy_profile
 
     stats_submitter::~stats_submitter() {}
 
-    void stats_submitter::reward_with_award(
-        enum_awards_t              award_id,
-        u32 const                  count,
-        gamespy_gp::profile const* profile,
-        store_operation_cb         opcb)
+    void stats_submitter::reward_with_award(enum_awards_t award_id, u32 const count, gamespy_gp::profile const* profile, store_operation_cb opcb)
     {
         if (!opcb)
         {
@@ -51,10 +46,7 @@ namespace gamespy_profile
         begin_session();
     }
 
-    void stats_submitter::set_best_scores(
-        all_best_scores_t const*   scores,
-        gamespy_gp::profile const* profile,
-        store_operation_cb         opcb)
+    void stats_submitter::set_best_scores(all_best_scores_t const* scores, gamespy_gp::profile const* profile, store_operation_cb opcb)
     {
         if (!opcb)
         {
@@ -73,11 +65,7 @@ namespace gamespy_profile
         begin_session();
     }
 
-    void stats_submitter::submit_all(
-        all_awards_t const*        awards,
-        all_best_scores_t const*   scores,
-        gamespy_gp::profile const* profile,
-        store_operation_cb         opcb)
+    void stats_submitter::submit_all(all_awards_t const* awards, all_best_scores_t const* scores, gamespy_gp::profile const* profile, store_operation_cb opcb)
     {
         if (!opcb)
         {
@@ -121,9 +109,7 @@ namespace gamespy_profile
     void      stats_submitter::begin_session()
     {
         VERIFY(m_last_operation_profile && m_last_operation_cb);
-        SCResult tmp_result = m_atlas_obj->CreateSession(
-            &m_last_operation_profile->mCertificate, &m_last_operation_profile->mPrivateData,
-            &stats_submitter::created_session_cb, operation_timeout_value, this);
+        SCResult tmp_result = m_atlas_obj->CreateSession(&m_last_operation_profile->mCertificate, &m_last_operation_profile->mPrivateData, &stats_submitter::created_session_cb, operation_timeout_value, this);
 
         if (tmp_result != SCResult_NO_ERROR)
         {
@@ -135,11 +121,7 @@ namespace gamespy_profile
         Engine.Sheduler.Register(this, FALSE);
     }
 
-    void __cdecl stats_submitter::created_session_cb(
-        const SCInterfacePtr theInterface,
-        GHTTPResult          theHttpResult,
-        SCResult             theResult,
-        void*                theUserData)
+    void __cdecl stats_submitter::created_session_cb(const SCInterfacePtr theInterface, GHTTPResult theHttpResult, SCResult theResult, void* theUserData)
     {
         stats_submitter* my_inst = static_cast<stats_submitter*>(theUserData);
         VERIFY(my_inst && my_inst->m_last_operation_profile);
@@ -157,10 +139,7 @@ namespace gamespy_profile
             Engine.Sheduler.Unregister(my_inst);
             return;
         }
-        SCResult tmp_result = my_inst->m_atlas_obj->SetReportIntention(
-            NULL, gsi_true, &my_inst->m_last_operation_profile->mCertificate,
-            &my_inst->m_last_operation_profile->mPrivateData, &stats_submitter::set_intension_cb,
-            stats_submitter::operation_timeout_value, my_inst);
+        SCResult tmp_result = my_inst->m_atlas_obj->SetReportIntention(NULL, gsi_true, &my_inst->m_last_operation_profile->mCertificate, &my_inst->m_last_operation_profile->mPrivateData, &stats_submitter::set_intension_cb, stats_submitter::operation_timeout_value, my_inst);
 
         if (tmp_result != SCResult_NO_ERROR)
         {
@@ -171,11 +150,7 @@ namespace gamespy_profile
         }
     }
 
-    void __cdecl stats_submitter::set_intension_cb(
-        const SCInterfacePtr theInterface,
-        GHTTPResult          theHttpResult,
-        SCResult             theResult,
-        void*                theUserData)
+    void __cdecl stats_submitter::set_intension_cb(const SCInterfacePtr theInterface, GHTTPResult theHttpResult, SCResult theResult, void* theUserData)
     {
         stats_submitter* my_inst = static_cast<stats_submitter*>(theUserData);
         VERIFY(my_inst && my_inst->m_last_operation_profile);
@@ -195,9 +170,7 @@ namespace gamespy_profile
         }
         char const* tmp_connection_id = my_inst->m_atlas_obj->GetConnectionId();
         VERIFY(tmp_connection_id);
-        xr_strcpy(
-            static_cast<char*>((void*)my_inst->m_atlas_connection_id), sizeof(my_inst->m_atlas_connection_id),
-            tmp_connection_id);
+        xr_strcpy(static_cast<char*>((void*)my_inst->m_atlas_connection_id), sizeof(my_inst->m_atlas_connection_id), tmp_connection_id);
 
         if (!my_inst->prepare_report())
         {
@@ -207,10 +180,7 @@ namespace gamespy_profile
             return;
         }
 
-        SCResult tmp_result = my_inst->m_atlas_obj->SubmitReport(
-            my_inst->m_atlas_report, gsi_true, &my_inst->m_last_operation_profile->mCertificate,
-            &my_inst->m_last_operation_profile->mPrivateData, &stats_submitter::submitted_cb,
-            stats_submitter::operation_timeout_value, my_inst);
+        SCResult tmp_result = my_inst->m_atlas_obj->SubmitReport(my_inst->m_atlas_report, gsi_true, &my_inst->m_last_operation_profile->mCertificate, &my_inst->m_last_operation_profile->mPrivateData, &stats_submitter::submitted_cb, stats_submitter::operation_timeout_value, my_inst);
         if (tmp_result != SCResult_NO_ERROR)
         {
             my_inst->m_last_operation_cb(false, CGameSpy_ATLAS::TryToTranslate(tmp_result).c_str());
@@ -220,11 +190,7 @@ namespace gamespy_profile
         }
     }
 
-    void __cdecl stats_submitter::submitted_cb(
-        const SCInterfacePtr theInterface,
-        GHTTPResult          theHttpResult,
-        SCResult             theResult,
-        void*                theUserData)
+    void __cdecl stats_submitter::submitted_cb(const SCInterfacePtr theInterface, GHTTPResult theHttpResult, SCResult theResult, void* theUserData)
     {
         stats_submitter* my_inst = static_cast<stats_submitter*>(theUserData);
         VERIFY(my_inst && my_inst->m_last_operation_profile);
@@ -271,9 +237,7 @@ namespace gamespy_profile
         if (tmp_res != SCResult_NO_ERROR)
             return false;
 
-        tmp_res = m_atlas_obj->ReportSetPlayerData(
-            m_atlas_report, 0, m_atlas_connection_id, 0, SCGameResult_NONE, m_last_operation_profile->m_profile_id,
-            &m_last_operation_profile->mCertificate);
+        tmp_res = m_atlas_obj->ReportSetPlayerData(m_atlas_report, 0, m_atlas_connection_id, 0, SCGameResult_NONE, m_last_operation_profile->m_profile_id, &m_last_operation_profile->mCertificate);
         VERIFY2(tmp_res == SCResult_NO_ERROR, "failed to set player data");
         if (tmp_res != SCResult_NO_ERROR)
             return false;
@@ -281,15 +245,18 @@ namespace gamespy_profile
         bool report_creation_result = false;
         switch (m_report_type)
         {
-            case ert_set_award: {
+            case ert_set_award:
+            {
                 report_creation_result = create_award_inc_report();
             }
             break;
-            case ert_set_best_scores: {
+            case ert_set_best_scores:
+            {
                 report_creation_result = create_best_scores_report();
             }
             break;
-            case ert_synchronize_profile: {
+            case ert_synchronize_profile:
+            {
                 report_creation_result = create_all_awards_report();
                 report_creation_result &= create_best_scores_report();
             }
@@ -308,8 +275,7 @@ namespace gamespy_profile
 
     bool stats_submitter::add_player_name_to_report()
     {
-        SCResult tmp_res =
-            m_atlas_obj->ReportAddStringValue(m_atlas_report, KEY_PlayerName, m_last_operation_profile->unique_nick());
+        SCResult tmp_res = m_atlas_obj->ReportAddStringValue(m_atlas_report, KEY_PlayerName, m_last_operation_profile->unique_nick());
         VERIFY(tmp_res == SCResult_NO_ERROR);
         if (tmp_res != SCResult_NO_ERROR)
             return false;
@@ -322,14 +288,12 @@ namespace gamespy_profile
         __time32_t tmp_time = 0;
         _time32(&tmp_time);
 
-        SCResult tmp_res = m_atlas_obj->ReportAddIntValue(
-            m_atlas_report, get_award_id_key(m_last_award_id), static_cast<gsi_i32>(m_last_award_count));
+        SCResult tmp_res = m_atlas_obj->ReportAddIntValue(m_atlas_report, get_award_id_key(m_last_award_id), static_cast<gsi_i32>(m_last_award_count));
         VERIFY(tmp_res == SCResult_NO_ERROR);
         if (tmp_res != SCResult_NO_ERROR)
             return false;
 
-        tmp_res = m_atlas_obj->ReportAddIntValue(
-            m_atlas_report, get_award_reward_date_key(m_last_award_id), static_cast<gsi_i32>(tmp_time));
+        tmp_res = m_atlas_obj->ReportAddIntValue(m_atlas_report, get_award_reward_date_key(m_last_award_id), static_cast<gsi_i32>(tmp_time));
         VERIFY(tmp_res == SCResult_NO_ERROR);
         if (tmp_res != SCResult_NO_ERROR)
             return false;
@@ -341,12 +305,9 @@ namespace gamespy_profile
     {
         VERIFY(m_last_best_scores);
         SCResult tmp_res;
-        for (all_best_scores_t::const_iterator si = m_last_best_scores->begin(), sie = m_last_best_scores->end();
-             si != sie; ++si)
+        for (all_best_scores_t::const_iterator si = m_last_best_scores->begin(), sie = m_last_best_scores->end(); si != sie; ++si)
         {
-            tmp_res = m_atlas_obj->ReportAddIntValue(
-                m_atlas_report, get_best_score_id_key(static_cast<gamespy_profile::enum_best_score_type>(si->first)),
-                si->second);
+            tmp_res = m_atlas_obj->ReportAddIntValue(m_atlas_report, get_best_score_id_key(static_cast<gamespy_profile::enum_best_score_type>(si->first)), si->second);
             VERIFY(tmp_res == SCResult_NO_ERROR);
             if (tmp_res != SCResult_NO_ERROR)
                 return false;
@@ -357,18 +318,14 @@ namespace gamespy_profile
     bool stats_submitter::create_all_awards_report()
     {
         VERIFY(m_last_all_awards);
-        for (all_awards_t::const_iterator ai = m_last_all_awards->begin(), aie = m_last_all_awards->end(); ai != aie;
-             ++ai)
+        for (all_awards_t::const_iterator ai = m_last_all_awards->begin(), aie = m_last_all_awards->end(); ai != aie; ++ai)
         {
-            SCResult tmp_res = m_atlas_obj->ReportAddIntValue(
-                m_atlas_report, get_award_id_key(ai->first), static_cast<gsi_i32>(ai->second.m_count));
+            SCResult tmp_res = m_atlas_obj->ReportAddIntValue(m_atlas_report, get_award_id_key(ai->first), static_cast<gsi_i32>(ai->second.m_count));
             VERIFY(tmp_res == SCResult_NO_ERROR);
             if (tmp_res != SCResult_NO_ERROR)
                 return false;
 
-            tmp_res = m_atlas_obj->ReportAddIntValue(
-                m_atlas_report, get_award_reward_date_key(ai->first),
-                static_cast<gsi_i32>(ai->second.m_last_reward_date));
+            tmp_res = m_atlas_obj->ReportAddIntValue(m_atlas_report, get_award_reward_date_key(ai->first), static_cast<gsi_i32>(ai->second.m_last_reward_date));
             VERIFY(tmp_res == SCResult_NO_ERROR);
             if (tmp_res != SCResult_NO_ERROR)
                 return false;
@@ -392,7 +349,7 @@ namespace gamespy_profile
         awards_store* tmp_awards_store = tmp_prof_store->get_awards_store();
         VERIFY(tmp_awards_store);
 
-        all_awards_t& tmp_awards = tmp_awards_store->get_player_awards();
+        all_awards_t&          tmp_awards = tmp_awards_store->get_player_awards();
 
         all_awards_t::iterator award_iter = tmp_awards.find(award_id);
         R_ASSERT(award_iter != tmp_awards.end());
@@ -435,7 +392,7 @@ namespace gamespy_profile
         all_awards_t&      tmp_awards      = tmp_awards_store->get_player_awards();
         all_best_scores_t& tmp_best_scores = tmp_bs_store->get_player_best_scores();
 
-        CInifile& ltx_to_write = m_ltx_file.get_ltx();
+        CInifile&          ltx_to_write    = m_ltx_file.get_ltx();
         ltx_to_write.sections().clear();
 
         for (all_awards_t::const_iterator i = tmp_awards.begin(), ie = tmp_awards.end(); i != ie; ++i)

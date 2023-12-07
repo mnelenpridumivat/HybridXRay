@@ -45,7 +45,7 @@ void game_cl_CaptureTheArtefact::OnSpeechMessage(NET_Packet& P)
         return;
     if (VariantID && VariantID >= pMMessage->aVariants.size())
         return;
-    TEAMSOUND& Variant = pMMessage->aVariants[VariantID];
+    TEAMSOUND&        Variant = pMMessage->aVariants[VariantID];
 
     // only one string :(
     cl_Message_Sound* pMSound = &(Variant[ps->team]);

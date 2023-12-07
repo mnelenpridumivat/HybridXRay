@@ -11,7 +11,6 @@
 
 public
 interface class property_container_holder
-{
-};   // interface class property_container_holder
+{};   // interface class property_container_holder
 
 #endif   // #ifndef PROPERTY_CONTAINER_HOLDER_HPP_INCLUDED

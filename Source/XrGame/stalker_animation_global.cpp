@@ -49,22 +49,13 @@ MotionID CStalkerAnimationManager::global_critical_hit()
         return (global().animation());
 
     CWeapon* weapon = smart_cast<CWeapon*>(object().inventory().ActiveItem());
-    VERIFY2(
-        weapon,
-        make_string(
-            "current active item: %s",
-            object().inventory().ActiveItem() ? *object().inventory().ActiveItem()->object().cName() :
-                                                "no active item"));
+    VERIFY2(weapon, make_string("current active item: %s", object().inventory().ActiveItem() ? *object().inventory().ActiveItem()->object().cName() : "no active item"));
 
     u32 animation_slot = weapon->animation_slot();
     VERIFY(animation_slot >= 1);
     VERIFY(animation_slot <= 3);
 
-    return (global().select(
-        m_data_storage->m_part_animations.A[eBodyStateStand]
-            .m_global.A[object().critical_wound_type() + 6 * (animation_slot - 1)]
-            .A,
-        &object().critical_wound_weights()));
+    return (global().select(m_data_storage->m_part_animations.A[eBodyStateStand].m_global.A[object().critical_wound_type() + 6 * (animation_slot - 1)].A, &object().critical_wound_weights()));
 }
 
 MotionID CStalkerAnimationManager::assign_global_animation(bool& animation_movement_controller)

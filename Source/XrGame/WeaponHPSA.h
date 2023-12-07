@@ -12,6 +12,7 @@ private:
     typedef CWeaponPistol inherited;
 
 protected:
+
 public:
     CWeaponHPSA();
     virtual ~CWeaponHPSA();

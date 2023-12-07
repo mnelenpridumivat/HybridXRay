@@ -9,9 +9,7 @@ UIKeyPressForm::~UIKeyPressForm() {}
 
 void UIKeyPressForm::Draw()
 {
-    if (!ImGui::BeginPopupModal(
-            "PressKey", 0, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove,
-            true))
+    if (!ImGui::BeginPopupModal("PressKey", 0, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove, true))
     {
         ImGui::EndPopup();
         return;

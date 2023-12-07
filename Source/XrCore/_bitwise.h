@@ -3,16 +3,16 @@
 #pragma once
 
 // float values defines
-#define fdSGN 0x080000000     // mask for sign bit
-#define fdMABS 0x07FFFFFFF    // mask for absolute value (~sgn)
-#define fdMANT 0x0007FFFFF    // mask for mantissa
-#define fdEXPO 0x07F800000    // mask for exponent
-#define fdONE 0x03F800000     // 1.0f
-#define fdHALF 0x03F000000    // 0.5f
-#define fdTWO 0x040000000     // 2.0
-#define fdOOB 0x000000000     // "out of bounds" value
-#define fdNAN 0x07fffffff     // "Not a number" value
-#define fdMAX 0x07F7FFFFF     // FLT_MAX
+#define fdSGN   0x080000000   // mask for sign bit
+#define fdMABS  0x07FFFFFFF   // mask for absolute value (~sgn)
+#define fdMANT  0x0007FFFFF   // mask for mantissa
+#define fdEXPO  0x07F800000   // mask for exponent
+#define fdONE   0x03F800000   // 1.0f
+#define fdHALF  0x03F000000   // 0.5f
+#define fdTWO   0x040000000   // 2.0
+#define fdOOB   0x000000000   // "out of bounds" value
+#define fdNAN   0x07fffffff   // "Not a number" value
+#define fdMAX   0x07F7FFFFF   // FLT_MAX
 #define fdRLE10 0x03ede5bdb   // 1/ln10
 
 // integer math on floats

@@ -54,8 +54,7 @@ namespace lc_net
         if (rest_size != 0)
         {
             tnet_execution_base<et_vertex_light>* el = execution_factory.create<et_vertex_light>();
-            el->implementation().construct(
-                vertex_light_task_number * task_size, vertex_light_task_number * task_size + rest_size);
+            el->implementation().construct(vertex_light_task_number * task_size, vertex_light_task_number * task_size + rest_size);
             get_task_manager().add_task(el);
         }
 

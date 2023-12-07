@@ -10,7 +10,7 @@ class CActorCameraManager: public CCameraManager
 {
     typedef CCameraManager inherited;
 
-    SCamEffectorInfo m_cam_info_hud;
+    SCamEffectorInfo       m_cam_info_hud;
 
 protected:
     virtual void UpdateCamEffectors();
@@ -28,11 +28,11 @@ public:
 
 typedef fastdelegate::FastDelegate0<float> GET_KOEFF_FUNC;
 
-void AddEffector(CActor* A, int type, const shared_str& sect_name);
-void AddEffector(CActor* A, int type, const shared_str& sect_name, float factor);
-void AddEffector(CActor* A, int type, const shared_str& sect_name, GET_KOEFF_FUNC);
-void AddEffector(CActor* A, int type, const shared_str& sect_name, CEffectorController*);
-void RemoveEffector(CActor* A, int type);
+void                                       AddEffector(CActor* A, int type, const shared_str& sect_name);
+void                                       AddEffector(CActor* A, int type, const shared_str& sect_name, float factor);
+void                                       AddEffector(CActor* A, int type, const shared_str& sect_name, GET_KOEFF_FUNC);
+void                                       AddEffector(CActor* A, int type, const shared_str& sect_name, CEffectorController*);
+void                                       RemoveEffector(CActor* A, int type);
 
 class CEffectorController
 {
@@ -99,7 +99,7 @@ class CAnimatorCamEffectorScriptCB: public CAnimatorCamEffector
 {
     typedef CAnimatorCamEffector inherited;
 
-    shared_str cb_name;
+    shared_str                   cb_name;
 
 public:
     CAnimatorCamEffectorScriptCB(LPCSTR _cb)
@@ -171,8 +171,8 @@ public:
 public:
     SndShockEffector();
     virtual ~SndShockEffector();
-    void Start(CActor* A, float snd_length, float power);
-    void Update();
+    void          Start(CActor* A, float snd_length, float power);
+    void          Update();
 
     virtual BOOL  Valid();
     BOOL          InWork();
@@ -184,24 +184,18 @@ class CControllerPsyHitCamEffector: public CEffectorCam
 {
     typedef CEffectorCam inherited;
 
-    float   m_time_total;
-    float   m_time_current;
-    Fvector m_dangle_target;
-    Fvector m_dangle_current;
-    Fvector m_position_source;
-    Fvector m_direction;
-    float   m_distance;
-    float   m_base_fov;
-    float   m_dest_fov;
+    float                m_time_total;
+    float                m_time_current;
+    Fvector              m_dangle_target;
+    Fvector              m_dangle_current;
+    Fvector              m_position_source;
+    Fvector              m_direction;
+    float                m_distance;
+    float                m_base_fov;
+    float                m_dest_fov;
 
 public:
-    CControllerPsyHitCamEffector(
-        ECamEffectorType type,
-        const Fvector&   src_pos,
-        const Fvector&   target_pos,
-        float            time,
-        float            base_fov,
-        float            dest_fov);
+    CControllerPsyHitCamEffector(ECamEffectorType type, const Fvector& src_pos, const Fvector& target_pos, float time, float base_fov, float dest_fov);
     virtual BOOL ProcessCam(SCamEffectorInfo& info);
 };
 //////////////////////////////////////////////////////////////////////////

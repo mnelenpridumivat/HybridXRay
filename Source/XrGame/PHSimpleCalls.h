@@ -28,6 +28,7 @@ public:
         return m_step;
     }
 #endif
+
 private:
     IC bool time_out() const;
     DECLARE_SCRIPT_REGISTER_FUNCTION

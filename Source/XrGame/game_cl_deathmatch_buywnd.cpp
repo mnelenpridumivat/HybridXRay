@@ -16,7 +16,7 @@
 
 void TryToDefuseWeapon(CWeapon const* weapon, TIItemContainer const& all_items, buffer_vector<shared_str>& dest_ammo);
 
-s16 game_cl_Deathmatch::GetBuyMenuItemIndex(u8 Addons, u8 ItemID)
+s16  game_cl_Deathmatch::GetBuyMenuItemIndex(u8 Addons, u8 ItemID)
 {
     s16 ID = (s16(Addons) << 0x08) | s16(ItemID);
     return ID;
@@ -26,14 +26,14 @@ void game_cl_Deathmatch::OnBuyMenu_Ok()
 {
     if (!m_bBuyEnabled)
         return;
-    CObject* l_pObj = Level().CurrentEntity();
+    CObject*     l_pObj    = Level().CurrentEntity();
 
     CGameObject* l_pPlayer = smart_cast<CGameObject*>(l_pObj);
     if (!l_pPlayer)
         return;
-    CActor* pActor = smart_cast<CActor*>(l_pObj);
+    CActor*           pActor = smart_cast<CActor*>(l_pObj);
 
-    game_PlayerState* Pl = local_player;
+    game_PlayerState* Pl     = local_player;
     if (!Pl)
         return;
 
@@ -63,9 +63,9 @@ void game_cl_Deathmatch::OnBuyMenu_Ok()
             u8 ItemID = 0;
             pCurBuyMenu->GetWeaponIndexByName(_pitem.sect_name, SlotID, ItemID);
 
-            u8 Addons = _pitem.addon_state;
+            u8  Addons = _pitem.addon_state;
 
-            s16 ID = GetBuyMenuItemIndex(Addons, ItemID);
+            s16 ID     = GetBuyMenuItemIndex(Addons, ItemID);
             //			pCurPresetItems->push_back(ID);
             tmpItems.push_back(ID);
         }
@@ -146,8 +146,7 @@ void game_cl_Deathmatch::SetBuyMenuItems(PRESET_ITEMS* pItems, BOOL OnlyPreset)
     {
         // defusing all weapons
         u32              max_addammo_count = pCurActor->inventory().m_all.size();
-        aditional_ammo_t add_ammo(
-            _alloca(sizeof(aditional_ammo_t::value_type) * (max_addammo_count * 2)), (max_addammo_count * 2));
+        aditional_ammo_t add_ammo(_alloca(sizeof(aditional_ammo_t::value_type) * (max_addammo_count * 2)), (max_addammo_count * 2));
         TryToDefuseAllWeapons(add_ammo);
 
         // проверяем слоты
@@ -244,7 +243,7 @@ void game_cl_Deathmatch::SetBuyMenuItems(PRESET_ITEMS* pItems, BOOL OnlyPreset)
                 pCurBuyMenu->ItemToRuck(pItem->object().cNameSect(), Addons);
             }
         };
-        for (auto& ammo : add_ammo)
+        for (auto& ammo: add_ammo)
         {
             AdditionalAmmoInserter(ammo);
         }
@@ -344,14 +343,12 @@ void game_cl_Deathmatch::CheckItem(PIItem pItem, PRESET_ITEMS* pPresetItems, BOO
                 if (pWeapon->IsGrenadeLauncherAttached())
                 {
                     if ((DesiredAddons & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher) || !OnlyPreset)
-                        pCurBuyMenu->AddonToSlot(
-                            CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher, pWeapon->BaseSlot(), true);
+                        pCurBuyMenu->AddonToSlot(CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher, pWeapon->BaseSlot(), true);
                 }
                 else
                 {
                     if (DesiredAddons & CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher)
-                        pCurBuyMenu->AddonToSlot(
-                            CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher, pWeapon->BaseSlot(), false);
+                        pCurBuyMenu->AddonToSlot(CSE_ALifeItemWeapon::eWeaponAddonGrenadeLauncher, pWeapon->BaseSlot(), false);
                 }
             }
         };
@@ -376,10 +373,7 @@ void game_cl_Deathmatch::CheckItem(PIItem pItem, PRESET_ITEMS* pPresetItems, BOO
     };
 };
 
-void game_cl_Deathmatch::LoadTeamDefaultPresetItems(
-    const shared_str& caSection,
-    IBuyWnd*          pBuyMenu,
-    PRESET_ITEMS*     pPresetItems)
+void game_cl_Deathmatch::LoadTeamDefaultPresetItems(const shared_str& caSection, IBuyWnd* pBuyMenu, PRESET_ITEMS* pPresetItems)
 {
     if (!pSettings->line_exist(caSection, "default_items"))
         return;
@@ -529,9 +523,7 @@ void game_cl_Deathmatch::TryToDefuseAllWeapons(aditional_ammo_t& dest_ammo)
     game_PlayerState* ps = Game().local_player;
     VERIFY2(ps, "local player not initialized");
     CActor* actor = smart_cast<CActor*>(Level().Objects.net_Find(ps->GameID));
-    R_ASSERT2(
-        actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD),
-        make_string("bad actor: not found in game (GameID = %d)", ps->GameID).c_str());
+    R_ASSERT2(actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD), make_string("bad actor: not found in game (GameID = %d)", ps->GameID).c_str());
 
     TIItemContainer const& all_items = actor->inventory().m_all;
 
@@ -548,10 +540,7 @@ struct AmmoSearcherPredicate
     u16        additional_ammo_count;
     shared_str ammo_section;
 
-    AmmoSearcherPredicate(u16 ammo_elapsed, shared_str const& ammo_sect):
-        additional_ammo_count(ammo_elapsed), ammo_section(ammo_sect)
-    {
-    }
+    AmmoSearcherPredicate(u16 ammo_elapsed, shared_str const& ammo_sect): additional_ammo_count(ammo_elapsed), ammo_section(ammo_sect) {}
 
     bool operator()(PIItem const& item)
     {

@@ -29,7 +29,7 @@ extern "C"
 
     // start an available check for a particular game
     // return 0 if no error starting up, non-zero if there's an error
-    void GSIStartAvailableCheck(const gsi_char* gamename);
+    void               GSIStartAvailableCheck(const gsi_char* gamename);
 
     // let the available check think
     // continue to call this while it returns GSIACWaiting
@@ -38,11 +38,11 @@ extern "C"
     // continue to use the GameSpy SDKs.  the backend services are not available
     // for the game.  in this case, you can show the user a
     // message based on the particular result.
-    GSIACResult GSIAvailableCheckThink(void);
+    GSIACResult        GSIAvailableCheckThink(void);
 
     // this should only be used if the availability check needs to be aborted
     // for example, if the player leaves the game's multiplayer area before the check completes
-    void GSICancelAvailableCheck(void);
+    void               GSICancelAvailableCheck(void);
 
     // internal use only
     extern GSIACResult __GSIACResult;

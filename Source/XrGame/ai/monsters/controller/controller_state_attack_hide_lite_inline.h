@@ -6,7 +6,7 @@
 #include "../../../level.h"
 #include "../../../level_debug.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION          template<typename _Object>
 #define CStateControllerHideLiteAbstract CStateControlHideLite<_Object>
 
 TEMPLATE_SPECIALIZATION
@@ -58,8 +58,7 @@ void CStateControllerHideLiteAbstract::finalize()
 TEMPLATE_SPECIALIZATION
 bool CStateControllerHideLiteAbstract::check_completion()
 {
-    if ((object->ai_location().level_vertex_id() == target.node) &&
-        !object->control().path_builder().is_moving_on_path())
+    if ((object->ai_location().level_vertex_id() == target.node) && !object->control().path_builder().is_moving_on_path())
         return true;
 
     return (!object->EnemyMan.see_enemy_now());

@@ -95,7 +95,7 @@ BOOL      CPhysicsShellHolder::net_Spawn(CSE_Abstract* DC)
     st_enable_state = (u8)stNotDefitnite;
     b_sheduled      = true;
     BOOL ret        = inherited::net_Spawn(DC);   // load
-                                           // create_physic_shell			();
+                                                  // create_physic_shell			();
     if (PPhysicsShell() && PPhysicsShell()->isFullActive())
     {
         PPhysicsShell()->GetGlobalTransformDynamic(&XFORM());
@@ -129,8 +129,7 @@ void CPhysicsShellHolder::PHHit(SHit& H)
 //						 Fvector p_in_object_space, float impulse, ALife::EHitType hit_type)
 void CPhysicsShellHolder::Hit(SHit* pHDS)
 {
-    bool const is_special_burn_hit_2_self = (pHDS->who == this) && (pHDS->boneID == BI_NONE) &&
-        ((pHDS->hit_type == ALife::eHitTypeBurn) || (pHDS->hit_type == ALife::eHitTypeLightBurn));
+    bool const is_special_burn_hit_2_self = (pHDS->who == this) && (pHDS->boneID == BI_NONE) && ((pHDS->hit_type == ALife::eHitTypeBurn) || (pHDS->hit_type == ALife::eHitTypeLightBurn));
     if (!is_special_burn_hit_2_self)
     {
         PHHit(*pHDS);

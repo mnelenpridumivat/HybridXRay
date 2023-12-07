@@ -33,18 +33,18 @@ public:
     void         SetVisibleForBtn(ESKINMENU_BTN btn, bool state);
     void         SetCurSkin(int skin);
 
-    int GetActiveIndex();
-    s16 GetTeam()
+    int          GetActiveIndex();
+    s16          GetTeam()
     {
         return m_team;
     };
     virtual void Update();
 
 protected:
-    void OnBtnOK();
-    void OnBtnCancel();
-    void OnKeyLeft();
-    void OnKeyRight();
+    void       OnBtnOK();
+    void       OnBtnCancel();
+    void       OnKeyLeft();
+    void       OnKeyRight();
 
     void       InitSkins();
     void       UpdateSkins();
@@ -52,12 +52,12 @@ protected:
     CUIStatic* m_pBackground;
     CUIStatic* m_pFrames;
 #define p_image_count 6
-    CUIStatix* m_pImage[p_image_count];
+    CUIStatix*           m_pImage[p_image_count];
     //	CUI3tButton*	m_pButtons[2];
     //	CUIAnimatedStatic* m_pAnims[2];
-    CUI3tButton* m_pBtnAutoSelect;
-    CUI3tButton* m_pBtnSpectator;
-    CUI3tButton* m_pBtnBack;
+    CUI3tButton*         m_pBtnAutoSelect;
+    CUI3tButton*         m_pBtnSpectator;
+    CUI3tButton*         m_pBtnBack;
 
     shared_str           m_strSection;
     shared_str           m_shader;

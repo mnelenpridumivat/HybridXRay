@@ -36,7 +36,7 @@
 
 extern u32 hud_adj_mode;
 
-void CActor::IR_OnKeyboardPress(int cmd)
+void       CActor::IR_OnKeyboardPress(int cmd)
 {
     if (hud_adj_mode && pInput->iGetAsyncKeyState(DIK_LSHIFT))
         return;
@@ -51,7 +51,8 @@ void CActor::IR_OnKeyboardPress(int cmd)
 
     switch (cmd)
     {
-        case kWPN_FIRE: {
+        case kWPN_FIRE:
+        {
             if ((mstate_wishful & mcLookout) && !IsGameTypeSingle())
                 return;
 
@@ -68,7 +69,8 @@ void CActor::IR_OnKeyboardPress(int cmd)
             }
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     }
@@ -95,15 +97,18 @@ void CActor::IR_OnKeyboardPress(int cmd)
 #endif   // DEBUG
     switch (cmd)
     {
-        case kJUMP: {
+        case kJUMP:
+        {
             mstate_wishful |= mcJump;
         }
         break;
-        case kSPRINT_TOGGLE: {
+        case kSPRINT_TOGGLE:
+        {
             mstate_wishful ^= mcSprint;
         }
         break;
-        case kCROUCH: {
+        case kCROUCH:
+        {
             if (psActorFlags.test(AF_CROUCH_TOGGLE))
                 mstate_wishful ^= mcCrouch;
         }
@@ -117,16 +122,19 @@ void CActor::IR_OnKeyboardPress(int cmd)
         case kCAM_3:
             cam_Set(eacFreeLook);
             break;
-        case kNIGHT_VISION: {
+        case kNIGHT_VISION:
+        {
             SwitchNightVision();
             break;
         }
-        case kTORCH: {
+        case kTORCH:
+        {
             SwitchTorch();
             break;
         }
 
-        case kDETECTOR: {
+        case kDETECTOR:
+        {
             PIItem det_active = inventory().ItemFromSlot(DETECTOR_SLOT);
             if (det_active)
             {
@@ -162,11 +170,13 @@ void CActor::IR_OnKeyboardPress(int cmd)
             b_DropActivated = TRUE;
             f_DropPower     = 0;
             break;
-        case kNEXT_SLOT: {
+        case kNEXT_SLOT:
+        {
             OnNextWeaponSlot();
         }
         break;
-        case kPREV_SLOT: {
+        case kPREV_SLOT:
+        {
             OnPrevWeaponSlot();
         }
         break;
@@ -174,7 +184,8 @@ void CActor::IR_OnKeyboardPress(int cmd)
         case kQUICK_USE_1:
         case kQUICK_USE_2:
         case kQUICK_USE_3:
-        case kQUICK_USE_4: {
+        case kQUICK_USE_4:
+        {
             const shared_str& item_name = g_quick_use_slots[cmd - kQUICK_USE_1];
             if (item_name.size())
             {
@@ -277,8 +288,7 @@ void CActor::IR_OnKeyboardHold(int cmd)
     }
 
 #ifdef DEBUG
-    if (psActorFlags.test(AF_NO_CLIP) &&
-        (cmd == kFWD || cmd == kBACK || cmd == kL_STRAFE || cmd == kR_STRAFE || cmd == kJUMP || cmd == kCROUCH))
+    if (psActorFlags.test(AF_NO_CLIP) && (cmd == kFWD || cmd == kBACK || cmd == kL_STRAFE || cmd == kR_STRAFE || cmd == kJUMP || cmd == kCROUCH))
     {
         NoClipFly(cmd);
         return;
@@ -322,7 +332,8 @@ void CActor::IR_OnKeyboardHold(int cmd)
         case kBACK:
             mstate_wishful |= mcBack;
             break;
-        case kCROUCH: {
+        case kCROUCH:
+        {
             if (!psActorFlags.test(AF_CROUCH_TOGGLE))
                 mstate_wishful |= mcCrouch;
         }
@@ -351,10 +362,10 @@ void CActor::IR_OnMouseMove(int dx, int dy)
         return;
     }
 
-    float LookFactor = GetLookFactor();
+    float        LookFactor = GetLookFactor();
 
-    CCameraBase* C     = cameras[cam_active];
-    float        scale = (C->f_fov / g_fov) * psMouseSens * psMouseSensScale / 50.f / LookFactor;
+    CCameraBase* C          = cameras[cam_active];
+    float        scale      = (C->f_fov / g_fov) * psMouseSens * psMouseSensScale / 50.f / LookFactor;
     if (dx)
     {
         float d = float(dx) * scale;
@@ -476,8 +487,7 @@ void CActor::ActorUse()
                     {
                         if (!m_pPersonWeLookingAt->deadbody_closed_status())
                         {
-                            if (pEntityAliveWeLookingAt->AlreadyDie() &&
-                                pEntityAliveWeLookingAt->GetLevelDeathTime() + 3000 < Device->dwTimeGlobal)
+                            if (pEntityAliveWeLookingAt->AlreadyDie() && pEntityAliveWeLookingAt->GetLevelDeathTime() + 3000 < Device->dwTimeGlobal)
                                 // 99.9% dead
                                 pGameSP->StartCarBody(this, m_pPersonWeLookingAt);
                         }
@@ -516,8 +526,7 @@ void CActor::ActorUse()
 
 BOOL CActor::HUDview() const
 {
-    return IsFocused() && (cam_active == eacFirstEye) &&
-        ((!m_holder) || (m_holder && m_holder->allowWeapon() && m_holder->HUDView()));
+    return IsFocused() && (cam_active == eacFirstEye) && ((!m_holder) || (m_holder && m_holder->allowWeapon() && m_holder->HUDView()));
 }
 
 static u16 SlotsToCheck[] = {
@@ -539,7 +548,7 @@ void CActor::OnNextWeaponSlot()
 
     u32 NumSlotsToCheck = sizeof(SlotsToCheck) / sizeof(SlotsToCheck[0]);
 
-    u32 CurSlot = 0;
+    u32 CurSlot         = 0;
     for (; CurSlot < NumSlotsToCheck; CurSlot++)
     {
         if (SlotsToCheck[CurSlot] == ActiveSlot)
@@ -605,9 +614,9 @@ float CActor::GetLookFactor()
     if (m_input_external_handler)
         return m_input_external_handler->mouse_scale_factor();
 
-    float factor = 1.f;
+    float  factor = 1.f;
 
-    PIItem pItem = inventory().ActiveItem();
+    PIItem pItem  = inventory().ActiveItem();
 
     if (pItem)
         factor *= pItem->GetControlInertionFactor();
@@ -723,7 +732,8 @@ void CActor::NoClipFly(int cmd)
         case kTORCH:
             SwitchTorch();
             break;
-        case kDETECTOR: {
+        case kDETECTOR:
+        {
             PIItem det_active = inventory().ItemFromSlot(DETECTOR_SLOT);
             if (det_active)
             {

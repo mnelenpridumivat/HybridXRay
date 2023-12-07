@@ -24,7 +24,7 @@ protected:
     float    m_MinPos;
     float    m_MaxPos;
 
-    float m_CurrentLength;
+    float    m_CurrentLength;
 
     bool     m_bBackgroundPresent;
     Fvector2 m_BackgroundOffset;
@@ -37,6 +37,7 @@ public:
     Fcolor m_middleColor;
     Fcolor m_maxColor;
     float  m_inertion;   //
+
 public:
     CUIStatic m_UIProgressItem;
     CUIStatic m_UIBackgroundItem;

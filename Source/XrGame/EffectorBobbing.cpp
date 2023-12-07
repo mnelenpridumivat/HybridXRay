@@ -4,9 +4,9 @@
 #include "actor.h"
 #include "actor_defs.h"
 
-#define BOBBING_SECT "bobbing_effector"
+#define BOBBING_SECT   "bobbing_effector"
 
-#define CROUCH_FACTOR 0.75f
+#define CROUCH_FACTOR  0.75f
 #define SPEED_REMINDER 5.f
 
 //////////////////////////////////////////////////////////////////////
@@ -15,17 +15,17 @@
 
 CEffectorBobbing::CEffectorBobbing(): CEffectorCam(eCEBobbing, 10000.f)
 {
-    fTime           = 0;
-    fReminderFactor = 0;
-    is_limping      = false;
+    fTime            = 0;
+    fReminderFactor  = 0;
+    is_limping       = false;
 
     m_fAmplitudeRun  = pSettings->r_float(BOBBING_SECT, "run_amplitude");
     m_fAmplitudeWalk = pSettings->r_float(BOBBING_SECT, "walk_amplitude");
     m_fAmplitudeLimp = pSettings->r_float(BOBBING_SECT, "limp_amplitude");
 
-    m_fSpeedRun  = pSettings->r_float(BOBBING_SECT, "run_speed");
-    m_fSpeedWalk = pSettings->r_float(BOBBING_SECT, "walk_speed");
-    m_fSpeedLimp = pSettings->r_float(BOBBING_SECT, "limp_speed");
+    m_fSpeedRun      = pSettings->r_float(BOBBING_SECT, "run_speed");
+    m_fSpeedWalk     = pSettings->r_float(BOBBING_SECT, "walk_speed");
+    m_fSpeedLimp     = pSettings->r_float(BOBBING_SECT, "limp_speed");
 }
 
 CEffectorBobbing::~CEffectorBobbing() {}
@@ -67,7 +67,7 @@ BOOL CEffectorBobbing::ProcessCam(SCamEffectorInfo& info)
         Fvector dangle;
         float   k = ((dwMState & ACTOR_DEFS::mcCrouch) ? CROUCH_FACTOR : 1.f);
 
-        float A, ST;
+        float   A, ST;
 
         if (isActorAccelerated(dwMState, m_bZoomMode))
         {

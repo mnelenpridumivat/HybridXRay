@@ -25,6 +25,7 @@ protected:
     CElevatorState m_elevator_state;
     ////////////////////////////damage////////////////////////////////////////
 #ifdef DEBUG
+
 public:
 #endif
     struct SCollisionDamageInfo
@@ -57,86 +58,87 @@ public:
         return m_collision_damage_info;
     }
 #endif
+
 protected:
-    SCollisionDamageInfo m_collision_damage_info;
+    SCollisionDamageInfo      m_collision_damage_info;
     /////////////////////////// callback
     ObjectContactCallbackFun* m_object_contact_callback;
     ////////////////////////// geometry
-    Fvector m_last_move;
-    dGeomID m_geom_shell;
-    dGeomID m_wheel;
-    dGeomID m_hat;
-    dGeomID m_cap;
+    Fvector                   m_last_move;
+    dGeomID                   m_geom_shell;
+    dGeomID                   m_wheel;
+    dGeomID                   m_hat;
+    dGeomID                   m_cap;
 
-    dGeomID m_hat_transform;
-    dGeomID m_wheel_transform;
-    dGeomID m_shell_transform;
-    dGeomID m_cap_transform;
+    dGeomID                   m_hat_transform;
+    dGeomID                   m_wheel_transform;
+    dGeomID                   m_shell_transform;
+    dGeomID                   m_cap_transform;
 
-    dSpaceID m_space;
+    dSpaceID                  m_space;
 
-    dReal m_radius;
-    dReal m_cyl_hight;
+    dReal                     m_radius;
+    dReal                     m_cyl_hight;
     ///////////////////////////////////
     // dJointID m_capture_joint;
     // dJointFeedback m_capture_joint_feedback;
     ////////////////////////// movement
-    dVector3 m_control_force;
-    Fvector  m_acceleration;
-    Fvector  m_cam_dir;
-    dVector3 m_wall_contact_normal;
-    dVector3 m_ground_contact_normal;
-    dVector3 m_clamb_depart_position;
-    dVector3 m_depart_position;
-    dVector3 m_wall_contact_position;
-    dVector3 m_ground_contact_position;
-    dReal    jump_up_velocity;   //=6.0f;//5.6f;
-    dReal    m_collision_damage_factor;
-    dReal    m_max_velocity;
+    dVector3                  m_control_force;
+    Fvector                   m_acceleration;
+    Fvector                   m_cam_dir;
+    dVector3                  m_wall_contact_normal;
+    dVector3                  m_ground_contact_normal;
+    dVector3                  m_clamb_depart_position;
+    dVector3                  m_depart_position;
+    dVector3                  m_wall_contact_position;
+    dVector3                  m_ground_contact_position;
+    dReal                     jump_up_velocity;   //=6.0f;//5.6f;
+    dReal                     m_collision_damage_factor;
+    dReal                     m_max_velocity;
 
-    float m_air_control_factor;
+    float                     m_air_control_factor;
 
-    dVector3 m_jump_depart_position;
-    dVector3 m_death_position;
-    Fvector  m_jump_accel;
+    dVector3                  m_jump_depart_position;
+    dVector3                  m_death_position;
+    Fvector                   m_jump_accel;
 
-    Fvector m_last_environment_update;
-    u16     m_last_picked_material;
+    Fvector                   m_last_environment_update;
+    u16                       m_last_picked_material;
     // movement state
-    bool is_contact;
-    bool was_contact;
-    bool b_depart;
-    bool b_meet;
-    bool b_side_contact;
-    bool b_was_side_contact;
-    bool b_any_contacts;
-    bool b_air_contact_state;
+    bool                      is_contact;
+    bool                      was_contact;
+    bool                      b_depart;
+    bool                      b_meet;
+    bool                      b_side_contact;
+    bool                      b_was_side_contact;
+    bool                      b_any_contacts;
+    bool                      b_air_contact_state;
 
-    bool b_valide_ground_contact;
-    bool b_valide_wall_contact;
-    bool b_on_object;
-    bool b_was_on_object;
-    bool b_on_ground;
-    bool b_lose_ground;
-    bool b_collision_restrictor_touch;
-    u32  m_contact_count;
+    bool                      b_valide_ground_contact;
+    bool                      b_valide_wall_contact;
+    bool                      b_on_object;
+    bool                      b_was_on_object;
+    bool                      b_on_ground;
+    bool                      b_lose_ground;
+    bool                      b_collision_restrictor_touch;
+    u32                       m_contact_count;
 
-    bool    is_control;
-    bool    b_meet_control;
-    bool    b_lose_control;
-    bool    was_control;
-    bool    b_stop_control;
-    bool    b_depart_control;
-    bool    b_jump;
-    bool    b_jumping;
-    bool    b_clamb_jump;
-    bool    b_external_impulse;
-    u64     m_ext_impuls_stop_step;
-    Fvector m_ext_imulse;
-    bool    b_death_pos;
-    bool    b_foot_mtl_check;
-    dReal   m_friction_factor;
-    bool    b_non_interactive;
+    bool                      is_control;
+    bool                      b_meet_control;
+    bool                      b_lose_control;
+    bool                      was_control;
+    bool                      b_stop_control;
+    bool                      b_depart_control;
+    bool                      b_jump;
+    bool                      b_jumping;
+    bool                      b_clamb_jump;
+    bool                      b_external_impulse;
+    u64                       m_ext_impuls_stop_step;
+    Fvector                   m_ext_imulse;
+    bool                      b_death_pos;
+    bool                      b_foot_mtl_check;
+    dReal                     m_friction_factor;
+    bool                      b_non_interactive;
 
 public:
     CPHSimpleCharacter();
@@ -159,6 +161,7 @@ public:
     }
     virtual void get_spatial_params();
     /////////////////CPHCharacter////////////////////////////////////////////
+
 public:
     // update
 
@@ -233,12 +236,7 @@ public:
 private:
     void        RemoveObjectContactCallback(ObjectContactCallbackFun* callback);
     void        AddObjectContactCallback(ObjectContactCallbackFun* callback);
-    static void TestRestrictorContactCallbackFun(
-        bool&     do_colide,
-        bool      bo1,
-        dContact& c,
-        SGameMtl* material_1,
-        SGameMtl* material_2);
+    static void TestRestrictorContactCallbackFun(bool& do_colide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2);
 
 public:
     virtual ObjectContactCallbackFun* ObjectContactCallBack();
@@ -343,8 +341,8 @@ public:
     bool         ValidateWalkOnObject();
 
 private:
-    void CheckCaptureJoint();
-    void ApplyAcceleration();
+    void         CheckCaptureJoint();
+    void         ApplyAcceleration();
 
     u16          RetriveContactBone();
     void         SafeAndLimitVelocity();
@@ -352,8 +350,7 @@ private:
     void         UpdateDynamicDamage(dContact* c, u16 obj_material_idx, dBodyID b, bool bo1);
     IC void      FootProcess(dContact* c, bool& do_collide, bool bo);
     IC void      foot_material_update(u16 tri_material, u16 foot_material_idx);
-    static void
-        TestPathCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/);
+    static void  TestPathCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/);
     virtual void Collide();
     void         OnStartCollidePhase();
 
@@ -395,7 +392,7 @@ public:
 const dReal def_spring_rate  = 0.5f;
 const dReal def_dumping_rate = 20.1f;
 
-IC bool ignore_material(u16 material_idx)
+IC bool     ignore_material(u16 material_idx)
 {
     SGameMtl* material = GMLibrary().GetMaterialByIdx(material_idx);
     return !!material->Flags.test(SGameMtl::flActorObstacle);

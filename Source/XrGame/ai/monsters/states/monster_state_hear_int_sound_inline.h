@@ -2,7 +2,7 @@
 
 #include "state_custom_action_look.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                   template<typename _Object>
 
 #define CStateMonsterHearInterestingSoundAbstract CStateMonsterHearInterestingSound<_Object>
 

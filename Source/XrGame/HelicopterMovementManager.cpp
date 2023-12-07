@@ -30,13 +30,13 @@ void SHeliMovementState::Load(LPCSTR section)
         isAdnAcc = pSettings->r_float(section, "flag_by_new_acc");
     else
         isAdnAcc = 0;
-    onPointRangeDist = pSettings->r_float(section, "on_point_range_dist");
-    maxLinearSpeed   = pSettings->r_float(section, "velocity");
-    min_altitude     = pSettings->r_float(section, "min_altitude");
+    onPointRangeDist  = pSettings->r_float(section, "on_point_range_dist");
+    maxLinearSpeed    = pSettings->r_float(section, "velocity");
+    min_altitude      = pSettings->r_float(section, "min_altitude");
 
-    float y0 = pSettings->r_float(section, "path_angular_sp_pitch_0");
-    PitchSpB = y0;
-    PitchSpK = (angularSpeedPitch - PitchSpB) / maxLinearSpeed;
+    float y0          = pSettings->r_float(section, "path_angular_sp_pitch_0");
+    PitchSpB          = y0;
+    PitchSpK          = (angularSpeedPitch - PitchSpB) / maxLinearSpeed;
 
     y0                = pSettings->r_float(section, "path_angular_sp_heading_0");
     HeadingSpB        = y0;
@@ -113,20 +113,18 @@ void SHeliMovementState::UpdatePatrolPath()
     if (AlreadyOnPoint())
     {
         float dist = GetDistanceToDestPosition();
-        parent->callback(GameObject::eHelicopterOnPoint)(
-            dist, currP, currPatrolVertex ? currPatrolVertex->vertex_id() : -1);
+        parent->callback(GameObject::eHelicopterOnPoint)(dist, currP, currPatrolVertex ? currPatrolVertex->vertex_id() : -1);
         CPatrolPath::const_iterator b, e;
         currPatrolPath->begin(currPatrolVertex, b, e);
         if (b != e)
         {
-            if (need_to_del_path &&
-                currPatrolVertex->data().flags())   // fake flags that signals entrypoint for round path
+            if (need_to_del_path && currPatrolVertex->data().flags())   // fake flags that signals entrypoint for round path
                 SetPointFlags(currPatrolVertex->vertex_id(), 0);
 
             currPatrolVertex = currPatrolPath->vertex((*b).vertex_id());
 
-            Fvector p    = currPatrolVertex->data().position();
-            desiredPoint = p;
+            Fvector p        = currPatrolVertex->data().position();
+            desiredPoint     = p;
         }
         else
         {
@@ -193,8 +191,7 @@ void SHeliMovementState::getPathAltitude(Fvector& point, float base_altitude)
 
     VERIFY(_valid(point));
 
-    float minY =
-        boundingVolume.min.y;   //+(m_boundingVolume.max.y-m_boundingVolume.min.y)*m_heli->m_data.m_alt_korridor;
+    float minY = boundingVolume.min.y;   //+(m_boundingVolume.max.y-m_boundingVolume.min.y)*m_heli->m_data.m_alt_korridor;
     float maxY = boundingVolume.max.y + base_altitude;
     clamp(point.y, minY, maxY);
     VERIFY(_valid(point));
@@ -227,9 +224,9 @@ void SHeliMovementState::goPatrolByPatrolPath(LPCSTR path_name, int start_idx)
     need_to_del_path = false;
     currPatrolVertex = currPatrolPath->vertex(patrol_begin_idx);
 
-    desiredPoint = currPatrolVertex->data().position();
+    desiredPoint     = currPatrolVertex->data().position();
 
-    type = eMovPatrolPath;
+    type             = eMovPatrolPath;
 }
 
 void SHeliMovementState::save(NET_Packet& output_packet)
@@ -274,9 +271,9 @@ void SHeliMovementState::load(IReader& input_packet)
     patrol_begin_idx = input_packet.r_u32();
     input_packet.r_stringZ(patrol_path_name);
 
-    maxLinearSpeed = input_packet.r_float();
-    LinearAcc_fw   = input_packet.r_float();
-    LinearAcc_bk   = input_packet.r_float();
+    maxLinearSpeed   = input_packet.r_float();
+    LinearAcc_fw     = input_packet.r_float();
+    LinearAcc_bk     = input_packet.r_float();
 
     speedInDestPoint = input_packet.r_float();
 
@@ -292,9 +289,9 @@ void SHeliMovementState::load(IReader& input_packet)
 
     input_packet.r_fvector3(round_center);
 
-    round_radius = input_packet.r_float();
+    round_radius     = input_packet.r_float();
 
-    round_reverse = !!input_packet.r_u8();
+    round_reverse    = !!input_packet.r_u8();
 
     onPointRangeDist = input_packet.r_float();
 
@@ -316,21 +313,16 @@ float SHeliMovementState::GetSafeAltitude()
     return boundingVolume.max.y + safe_altitude_add;
 }
 
-void SHeliMovementState::CreateRoundPoints(
-    Fvector            center,
-    float              radius,
-    float              start_h,
-    float              end_h,
-    xr_vector<STmpPt>& round_points)
+void SHeliMovementState::CreateRoundPoints(Fvector center, float radius, float start_h, float end_h, xr_vector<STmpPt>& round_points)
 {
-    float height = center.y;
+    float        height    = center.y;
 
     float        round_len = 2 * PI * radius;
     static float dist      = 30.0f;   // dist between points
     float        td        = 2 * PI * dist / round_len;
     float        dir_h     = 0.0f;
 
-    dir_h = start_h;
+    dir_h                  = start_h;
     while (dir_h + td < end_h)
     {
         Fvector dir, new_pt;
@@ -365,12 +357,12 @@ void SHeliMovementState::goByRoundPath(Fvector center_, float radius_, bool cloc
         CPatrolPath* tmp = const_cast<CPatrolPath*>(currPatrolPath);
         xr_delete(tmp);
     }
-    need_to_del_path    = true;
-    u32          pt_idx = 0;
-    CPatrolPath* pp     = xr_new<CPatrolPath>("heli_round_path");
+    need_to_del_path                    = true;
+    u32                         pt_idx  = 0;
+    CPatrolPath*                pp      = xr_new<CPatrolPath>("heli_round_path");
 
-    float start_h = 0.0f;
-    float end_h   = PI_MUL_2 - EPS;
+    float                       start_h = 0.0f;
+    float                       end_h   = PI_MUL_2 - EPS;
 
     xr_vector<STmpPt>           round_points;
     xr_vector<STmpPt>::iterator it, it_e;
@@ -384,24 +376,23 @@ void SHeliMovementState::goByRoundPath(Fvector center_, float radius_, bool cloc
     {
         string128 pt_name;
         xr_sprintf(pt_name, "heli_round_path_pt_%d", pt_idx);
-        CPatrolPoint pt = CPatrolPoint(
-            (ILevelGraph*)0, (CGameLevelCrossTable*)0, (IGameGraph*)0, pp, (*it).point, u32(-1), 0, pt_name);
+        CPatrolPoint pt = CPatrolPoint((ILevelGraph*)0, (CGameLevelCrossTable*)0, (IGameGraph*)0, pp, (*it).point, u32(-1), 0, pt_name);
         pp->add_vertex(pt, pt_idx);
         if (pt_idx)
             pp->add_edge(pt_idx - 1, pt_idx, 1.f);
     }
     pp->add_edge(pt_idx - 1, 0, 1.f);
 
-    currPatrolPath = pp;
+    currPatrolPath                                     = pp;
 
     // find nearest point to start from...
-    u32   start_vertex_id = 0;
-    float min_dist        = flt_max;
-    float stop_t          = curLinearSpeed / LinearAcc_bk;
-    float stop_path       = curLinearSpeed * stop_t - LinearAcc_bk * stop_t * stop_t / 2.0f;
+    u32                                start_vertex_id = 0;
+    float                              min_dist        = flt_max;
+    float                              stop_t          = curLinearSpeed / LinearAcc_bk;
+    float                              stop_path       = curLinearSpeed * stop_t - LinearAcc_bk * stop_t * stop_t / 2.0f;
 
-    CPatrolPath::const_vertex_iterator b = currPatrolPath->vertices().begin();
-    CPatrolPath::const_vertex_iterator e = currPatrolPath->vertices().end();
+    CPatrolPath::const_vertex_iterator b               = currPatrolPath->vertices().begin();
+    CPatrolPath::const_vertex_iterator e               = currPatrolPath->vertices().end();
     for (; b != e; ++b)
     {
         float d = (*b).second->data().position().distance_to(currP);
@@ -416,16 +407,14 @@ void SHeliMovementState::goByRoundPath(Fvector center_, float radius_, bool cloc
     currPatrolVertex = currPatrolPath->vertex(start_vertex_id);
     desiredPoint     = currPatrolVertex->data().position();
 
-    type = eMovRoundPath;
+    type             = eMovRoundPath;
 }
 
 void SHeliMovementState::SetPointFlags(u32 idx, u32 new_flags)
 {
     CPatrolPath*  p       = const_cast<CPatrolPath*>(currPatrolPath);
     CPatrolPoint* pt_curr = &p->vertex(idx)->data();
-    CPatrolPoint* pt_new  = xr_new<CPatrolPoint>(
-        (ILevelGraph*)0, (CGameLevelCrossTable*)0, (IGameGraph*)0, currPatrolPath, pt_curr->position(), u32(-1),
-        new_flags, pt_curr->name());
+    CPatrolPoint* pt_new  = xr_new<CPatrolPoint>((ILevelGraph*)0, (CGameLevelCrossTable*)0, (IGameGraph*)0, currPatrolPath, pt_curr->position(), u32(-1), new_flags, pt_curr->name());
 
     p->vertex(idx)->data(*pt_new);
     //	xr_delete(pt_curr);

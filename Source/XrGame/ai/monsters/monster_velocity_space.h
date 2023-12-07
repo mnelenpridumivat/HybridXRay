@@ -5,10 +5,10 @@ namespace MonsterMovement
 
     enum EMovementParameters
     {
-        eVelocityParameterIdle       = u32(1) << 1,
-        eVelocityParameterStand      = u32(1) << 4,
-        eVelocityParameterWalkNormal = u32(1) << 3,
-        eVelocityParameterRunNormal  = u32(1) << 2,
+        eVelocityParameterIdle         = u32(1) << 1,
+        eVelocityParameterStand        = u32(1) << 4,
+        eVelocityParameterWalkNormal   = u32(1) << 3,
+        eVelocityParameterRunNormal    = u32(1) << 2,
 
         eVelocityParameterWalkDamaged  = u32(1) << 5,
         eVelocityParameterRunDamaged   = u32(1) << 6,
@@ -19,23 +19,20 @@ namespace MonsterMovement
         eVelocityParameterWalkSmelling = u32(1) << 11,
         eVelocityParameterWalkGrowl    = u32(1) << 12,
 
-        eVelocityParamsWalkGrowl    = eVelocityParameterStand | eVelocityParameterWalkGrowl,
-        eVelocityParamsWalkSmelling = eVelocityParameterStand | eVelocityParameterWalkSmelling,
-        eVelocityParamsWalk         = eVelocityParameterStand | eVelocityParameterWalkNormal,
-        eVelocityParamsWalkDamaged  = eVelocityParameterStand | eVelocityParameterWalkDamaged,
-        eVelocityParamsRun = eVelocityParameterStand | eVelocityParameterWalkNormal | eVelocityParameterRunNormal,
-        eVelocityParamsRunDamaged =
-            eVelocityParameterStand | eVelocityParameterWalkDamaged | eVelocityParameterRunDamaged,
-        eVelocityParamsAttackNorm =
-            eVelocityParameterStand | eVelocityParameterWalkNormal | eVelocityParameterRunNormal,
-        eVelocityParamsAttackDamaged =
-            eVelocityParameterStand | eVelocityParameterWalkDamaged | eVelocityParameterRunDamaged,
-        eVelocityParamsSteal     = eVelocityParameterStand | eVelocityParameterSteal,
-        eVelocityParamsDrag      = eVelocityParameterStand | eVelocityParameterDrag,
-        eVelocityParamsInvisible = eVelocityParameterInvisible | eVelocityParameterStand,
-        eVelocityParamsRunAttack = eVelocityParameterRunAttack | eVelocityParameterStand,
+        eVelocityParamsWalkGrowl       = eVelocityParameterStand | eVelocityParameterWalkGrowl,
+        eVelocityParamsWalkSmelling    = eVelocityParameterStand | eVelocityParameterWalkSmelling,
+        eVelocityParamsWalk            = eVelocityParameterStand | eVelocityParameterWalkNormal,
+        eVelocityParamsWalkDamaged     = eVelocityParameterStand | eVelocityParameterWalkDamaged,
+        eVelocityParamsRun             = eVelocityParameterStand | eVelocityParameterWalkNormal | eVelocityParameterRunNormal,
+        eVelocityParamsRunDamaged      = eVelocityParameterStand | eVelocityParameterWalkDamaged | eVelocityParameterRunDamaged,
+        eVelocityParamsAttackNorm      = eVelocityParameterStand | eVelocityParameterWalkNormal | eVelocityParameterRunNormal,
+        eVelocityParamsAttackDamaged   = eVelocityParameterStand | eVelocityParameterWalkDamaged | eVelocityParameterRunDamaged,
+        eVelocityParamsSteal           = eVelocityParameterStand | eVelocityParameterSteal,
+        eVelocityParamsDrag            = eVelocityParameterStand | eVelocityParameterDrag,
+        eVelocityParamsInvisible       = eVelocityParameterInvisible | eVelocityParameterStand,
+        eVelocityParamsRunAttack       = eVelocityParameterRunAttack | eVelocityParameterStand,
 
-        eVelocityParameterCustom = u32(1) << 12,
+        eVelocityParameterCustom       = u32(1) << 12,
     };
 
     enum EMovementParametersChimera
@@ -59,8 +56,8 @@ namespace MonsterMovement
         eControllerVelocityParameterMoveFwd  = eVelocityParameterCustom << 1,
         eControllerVelocityParameterMoveBkwd = eVelocityParameterCustom << 2,
 
-        eControllerVelocityParamsMoveFwd  = eControllerVelocityParameterMoveFwd | eVelocityParameterStand,
-        eControllerVelocityParamsMoveBkwd = eControllerVelocityParameterMoveBkwd | eVelocityParameterStand,
+        eControllerVelocityParamsMoveFwd     = eControllerVelocityParameterMoveFwd | eVelocityParameterStand,
+        eControllerVelocityParamsMoveBkwd    = eControllerVelocityParameterMoveBkwd | eVelocityParameterStand,
     };
 
     enum EMovementParametersGiant

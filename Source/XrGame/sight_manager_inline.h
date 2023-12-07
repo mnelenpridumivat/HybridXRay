@@ -26,17 +26,17 @@ IC bool CSightManager::enabled() const
     return (m_enabled);
 }
 
-template <typename T1, typename T2, typename T3> IC void CSightManager::setup(T1 _1, T2 _2, T3 _3)
+template<typename T1, typename T2, typename T3> IC void CSightManager::setup(T1 _1, T2 _2, T3 _3)
 {
     setup(CSightAction(_1, _2, _3));
 }
 
-template <typename T1, typename T2> IC void CSightManager::setup(T1 _1, T2 _2)
+template<typename T1, typename T2> IC void CSightManager::setup(T1 _1, T2 _2)
 {
     setup(CSightAction(_1, _2));
 }
 
-template <typename T1> IC void CSightManager::setup(T1 _1)
+template<typename T1> IC void CSightManager::setup(T1 _1)
 {
     setup(CSightAction(_1));
 }
@@ -62,10 +62,7 @@ IC void CSightManager::bone_aiming()
     m_aiming_type  = aiming_none;
 }
 
-IC void CSightManager::bone_aiming(
-    shared_str const&          animation_id,
-    animation_frame_type const animation_frame,
-    aiming_type const          aiming_type)
+IC void CSightManager::bone_aiming(shared_str const& animation_id, animation_frame_type const animation_frame, aiming_type const aiming_type)
 {
     VERIFY(aiming_none != aiming_type);
 

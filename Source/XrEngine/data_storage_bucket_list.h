@@ -10,28 +10,25 @@
 
 #include "data_storage_double_linked_list.h"
 
-template <typename _path_id_type, typename _bucket_id_type, u32 bucket_count, bool clear_buckets>
-struct CDataStorageBucketList
+template<typename _path_id_type, typename _bucket_id_type, u32 bucket_count, bool clear_buckets> struct CDataStorageBucketList
 {
-    template <template <typename _T> class T1> struct BucketList
+    template<template<typename _T> class T1> struct BucketList
     {
-        template <typename T2> struct _vertex: public T1<T2>
+        template<typename T2> struct _vertex: public T1<T2>
         {
             _path_id_type   m_path_id;
             _bucket_id_type m_bucket_id;
         };
     };
 
-    template <typename _data_storage, template <typename _T> class _vertex = CEmptyClassTemplate> class CDataStorage:
-        public CDataStorageDoubleLinkedList<false>::CDataStorage<_data_storage, BucketList<_vertex>::_vertex>
+    template<typename _data_storage, template<typename _T> class _vertex = CEmptyClassTemplate> class CDataStorage: public CDataStorageDoubleLinkedList<false>::CDataStorage<_data_storage, BucketList<_vertex>::_vertex>
     {
     public:
-        typedef typename CDataStorageDoubleLinkedList<false>::CDataStorage<_data_storage, BucketList<_vertex>::_vertex>
-                                                   inherited;
-        typedef typename inherited::inherited_base inherited_base;
-        typedef typename inherited::CGraphVertex   CGraphVertex;
-        typedef typename CGraphVertex::_dist_type  _dist_type;
-        typedef typename CGraphVertex::_index_type _index_type;
+        typedef typename CDataStorageDoubleLinkedList<false>::CDataStorage<_data_storage, BucketList<_vertex>::_vertex> inherited;
+        typedef typename inherited::inherited_base                                                                      inherited_base;
+        typedef typename inherited::CGraphVertex                                                                        CGraphVertex;
+        typedef typename CGraphVertex::_dist_type                                                                       _dist_type;
+        typedef typename CGraphVertex::_index_type                                                                      _index_type;
 
     protected:
         _dist_type    m_min_bucket_value;

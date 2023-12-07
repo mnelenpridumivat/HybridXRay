@@ -73,6 +73,7 @@ private:
     bool m_start_new_script_animation;
 
 #ifdef USE_HEAD_BONE_PART_FAKE
+
 private:
     u32 m_script_bone_part_mask;
 #endif   // USE_HEAD_BONE_PART_FAKE
@@ -197,13 +198,8 @@ public:
     void         play_delayed_callbacks();
 
 public:
-    void add_script_animation(LPCSTR animation, bool hand_usage = false, bool use_movement_controller = false);
-    void add_script_animation(
-        LPCSTR  animation,
-        bool    hand_usage,
-        Fvector position,
-        Fvector rotation,
-        bool    local_animation);
+    void                        add_script_animation(LPCSTR animation, bool hand_usage = false, bool use_movement_controller = false);
+    void                        add_script_animation(LPCSTR animation, bool hand_usage, Fvector position, Fvector rotation, bool local_animation);
     IC void                     clear_script_animations();
     IC void                     pop_script_animation();
     IC const SCRIPT_ANIMATIONS& script_animations() const;
@@ -220,6 +216,7 @@ public:
     IC const bool&            special_danger_move() const;
 
 #ifdef DEBUG
+
 private:
     void add_animation_stats(const ANIMATION_ID& animation_id, const BLEND_ID* blend_id, bool just_started);
 

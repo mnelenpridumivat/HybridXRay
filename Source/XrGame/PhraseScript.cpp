@@ -23,8 +23,7 @@ void CDialogScriptHelper::Load(CUIXml* uiXml, XML_NODE* phrase_node)
     LoadSequence(uiXml, phrase_node, "disable_info", m_DisableInfo);
 }
 
-template <class T>
-void CDialogScriptHelper::LoadSequence(CUIXml* uiXml, XML_NODE* phrase_node, LPCSTR tag, T& str_vector)
+template<class T> void CDialogScriptHelper::LoadSequence(CUIXml* uiXml, XML_NODE* phrase_node, LPCSTR tag, T& str_vector)
 {
     int tag_num = uiXml->GetNodesNum(phrase_node, tag);
     str_vector.clear();
@@ -76,12 +75,7 @@ void CDialogScriptHelper::TransferInfo(const CInventoryOwner* pOwner) const
         Actor()->TransferInfo(m_DisableInfo[i], false);
 }
 
-LPCSTR CDialogScriptHelper::GetScriptText(
-    LPCSTR             str_to_translate,
-    const CGameObject* pSpeakerGO1,
-    const CGameObject* pSpeakerGO2,
-    LPCSTR             dialog_id,
-    LPCSTR             phrase_id)
+LPCSTR CDialogScriptHelper::GetScriptText(LPCSTR str_to_translate, const CGameObject* pSpeakerGO1, const CGameObject* pSpeakerGO2, LPCSTR dialog_id, LPCSTR phrase_id)
 {
     if (!m_sScriptTextFunc.size())
         return str_to_translate;
@@ -140,12 +134,7 @@ void CDialogScriptHelper::Action(const CGameObject* pSpeakerGO, LPCSTR dialog_id
     TransferInfo(smart_cast<const CInventoryOwner*>(pSpeakerGO));
 }
 
-bool CDialogScriptHelper::Precondition(
-    const CGameObject* pSpeakerGO1,
-    const CGameObject* pSpeakerGO2,
-    LPCSTR             dialog_id,
-    LPCSTR             phrase_id,
-    LPCSTR             next_phrase_id) const
+bool CDialogScriptHelper::Precondition(const CGameObject* pSpeakerGO1, const CGameObject* pSpeakerGO2, LPCSTR dialog_id, LPCSTR phrase_id, LPCSTR next_phrase_id) const
 {
     bool predicate_result = true;
 
@@ -163,8 +152,7 @@ bool CDialogScriptHelper::Precondition(
         THROW(*Preconditions()[i]);
         bool functor_exists = ai().script_engine().functor(*Preconditions()[i], lua_function);
         THROW3(functor_exists, "Cannot find phrase precondition", *Preconditions()[i]);
-        predicate_result = lua_function(
-            pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id, next_phrase_id);
+        predicate_result = lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id, next_phrase_id);
         if (!predicate_result)
         {
 #ifdef DEBUG
@@ -177,11 +165,7 @@ bool CDialogScriptHelper::Precondition(
     return predicate_result;
 }
 
-void CDialogScriptHelper::Action(
-    const CGameObject* pSpeakerGO1,
-    const CGameObject* pSpeakerGO2,
-    LPCSTR             dialog_id,
-    LPCSTR             phrase_id) const
+void CDialogScriptHelper::Action(const CGameObject* pSpeakerGO1, const CGameObject* pSpeakerGO2, LPCSTR dialog_id, LPCSTR phrase_id) const
 {
     TransferInfo(smart_cast<const CInventoryOwner*>(pSpeakerGO1));
 
@@ -196,7 +180,6 @@ void CDialogScriptHelper::Action(
             lua_function(pSpeakerGO1->lua_game_object(), pSpeakerGO2->lua_game_object(), dialog_id, phrase_id);
         }
         catch (...)
-        {
-        }
+        {}
     }
 }

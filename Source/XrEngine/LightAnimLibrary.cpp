@@ -4,13 +4,13 @@
 #include "..\Editors\Public\ItemListTypes.h"
 #include "LightAnimLibrary.h"
 //---------------------------------------------------------------------------
-#define LANIM_VERSION 0x0001
+#define LANIM_VERSION     0x0001
 //---------------------------------------------------------------------------
-#define CHUNK_VERSION 0x0000
-#define CHUNK_ITEM_LIST 0x0001
+#define CHUNK_VERSION     0x0000
+#define CHUNK_ITEM_LIST   0x0001
 //---------------------------------------------------------------------------
 #define CHUNK_ITEM_COMMON 0x0001
-#define CHUNK_ITEM_KEYS 0x0002
+#define CHUNK_ITEM_KEYS   0x0002
 //---------------------------------------------------------------------------
 
 ELightAnimLibrary LALib;
@@ -338,8 +338,7 @@ void ELightAnimLibrary::RemoveObject(LPCSTR _fname, EItemType type, bool& res)
 void ELightAnimLibrary::RenameObject(LPCSTR nm0, LPCSTR nm1, EItemType type)
 {
     if (TYPE_FOLDER == type)
-    {
-    }
+    {}
     else if (TYPE_OBJECT == type)
     {
         CLAItem* I = FindItem(nm0);

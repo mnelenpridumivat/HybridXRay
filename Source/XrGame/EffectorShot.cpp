@@ -23,20 +23,20 @@ void CWeaponShotEffector::Initialize(const CameraRecoil& cam_recoil)
 
 void CWeaponShotEffector::Reset()
 {
-    m_angle_vert = 0.0f;
-    m_angle_horz = 0.0f;
+    m_angle_vert      = 0.0f;
+    m_angle_horz      = 0.0f;
 
     m_prev_angle_vert = 0.0f;
     m_prev_angle_horz = 0.0f;
 
-    m_delta_vert = 0.0f;
-    m_delta_horz = 0.0f;
+    m_delta_vert      = 0.0f;
+    m_delta_horz      = 0.0f;
 
-    m_LastSeed    = 0;
-    m_single_shot = false;
-    m_first_shot  = false;
-    m_actived     = false;
-    m_shot_end    = true;
+    m_LastSeed        = 0;
+    m_single_shot     = false;
+    m_first_shot      = false;
+    m_actived         = false;
+    m_shot_end        = true;
 }
 
 void CWeaponShotEffector::Shot(CWeapon* weapon)
@@ -50,15 +50,14 @@ void CWeaponShotEffector::Shot(CWeapon* weapon)
     }
     m_single_shot = (weapon->GetCurrentFireMode() == 1);
 
-    float angle = m_cam_recoil.Dispersion * weapon->cur_silencer_koef.cam_dispersion;
+    float angle   = m_cam_recoil.Dispersion * weapon->cur_silencer_koef.cam_dispersion;
     angle += m_cam_recoil.DispersionInc * weapon->cur_silencer_koef.cam_disper_inc * (float)m_shot_numer;
     Shot2(angle);
 }
 
 void CWeaponShotEffector::Shot2(float angle)
 {
-    m_angle_vert +=
-        angle * (m_cam_recoil.DispersionFrac + m_Random.randF(-1.0f, 1.0f) * (1.0f - m_cam_recoil.DispersionFrac));
+    m_angle_vert += angle * (m_cam_recoil.DispersionFrac + m_Random.randF(-1.0f, 1.0f) * (1.0f - m_cam_recoil.DispersionFrac));
 
     clamp(m_angle_vert, -m_cam_recoil.MaxAngleVert, m_cam_recoil.MaxAngleVert);
     if (fis_zero(m_angle_vert - m_cam_recoil.MaxAngleVert))
@@ -81,7 +80,7 @@ void CWeaponShotEffector::Relax()
     float time_to_relax    = _abs(m_angle_vert) / m_cam_recoil.RelaxSpeed;
     float relax_speed_horz = (fis_zero(time_to_relax)) ? 0.0f : _abs(m_angle_horz) / time_to_relax;
 
-    float dt = Device->fTimeDelta;
+    float dt               = Device->fTimeDelta;
 
     if (m_angle_horz >= 0.0f)   // h
     {
@@ -124,8 +123,8 @@ void CWeaponShotEffector::Update()
         m_actived = false;
     }
 
-    m_delta_vert = m_angle_vert - m_prev_angle_vert;
-    m_delta_horz = m_angle_horz - m_prev_angle_horz;
+    m_delta_vert      = m_angle_vert - m_prev_angle_vert;
+    m_delta_horz      = m_angle_horz - m_prev_angle_horz;
 
     m_prev_angle_vert = m_angle_vert;
     m_prev_angle_horz = m_angle_horz;

@@ -41,7 +41,7 @@ bool ESceneAIMapTool::Export(LPCSTR path)
     xr_string fn = xr_string(path) + "build.aimap";
 
     // export
-    IWriter* F = FS.w_open(fn.c_str());
+    IWriter*  F  = FS.w_open(fn.c_str());
 
     if (F)
     {
@@ -65,10 +65,7 @@ bool ESceneAIMapTool::Export(LPCSTR path)
 
         if (nodesCount > defaultMaxNodesCount)
         {
-            ELog.DlgMsg(
-                mtInformation,
-                "~Warning. AI-Map contains %u nodes. Original compiler/game can handle only %u nodes. Extra: %u nodes",
-                nodesCount, defaultMaxNodesCount, nodesCount - defaultMaxNodesCount);
+            ELog.DlgMsg(mtInformation, "~Warning. AI-Map contains %u nodes. Original compiler/game can handle only %u nodes. Extra: %u nodes", nodesCount, defaultMaxNodesCount, nodesCount - defaultMaxNodesCount);
         }
 
         F->w_u32(nodesCount);

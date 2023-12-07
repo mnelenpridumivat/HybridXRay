@@ -14,11 +14,5 @@ using namespace luabind;
 #pragma optimize("s", on)
 void CALifeSmartTerrainTask::script_register(lua_State* L)
 {
-    module(L)[class_<CALifeSmartTerrainTask>("CALifeSmartTerrainTask")
-                  .def(constructor<LPCSTR>())
-                  .def(constructor<LPCSTR, u32>())
-                  .def(constructor<GameGraph::_GRAPH_ID, u32>())
-                  .def("game_vertex_id", &CALifeSmartTerrainTask::game_vertex_id)
-                  .def("level_vertex_id", &CALifeSmartTerrainTask::level_vertex_id)
-                  .def("position", &CALifeSmartTerrainTask::position)];
+    module(L)[class_<CALifeSmartTerrainTask>("CALifeSmartTerrainTask").def(constructor<LPCSTR>()).def(constructor<LPCSTR, u32>()).def(constructor<GameGraph::_GRAPH_ID, u32>()).def("game_vertex_id", &CALifeSmartTerrainTask::game_vertex_id).def("level_vertex_id", &CALifeSmartTerrainTask::level_vertex_id).def("position", &CALifeSmartTerrainTask::position)];
 }

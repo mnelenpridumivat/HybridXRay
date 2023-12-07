@@ -16,9 +16,9 @@ class CGameSpy_Full
 {
     HMODULE m_hGameSpyDLL;
 
-    void LoadGameSpy();
+    void    LoadGameSpy();
 
-    bool m_bServicesAlreadyChecked;
+    bool    m_bServicesAlreadyChecked;
 
 public:
     CGameSpy_Full();
@@ -56,7 +56,7 @@ public:
     void        Update();
     const char* GetGameVersion();
 
-    void CoreThink(gsi_time theMs)
+    void        CoreThink(gsi_time theMs)
     {
         xrGS_gsCoreThink(theMs);
     };
@@ -70,7 +70,7 @@ private:
     CGameSpy_SAKE*      m_pGS_SAKE;
     CGameSpy_ATLAS*     m_pGS_ATLAS;
 
-    void CoreInitialize()
+    void                CoreInitialize()
     {
         xrGS_gsCoreInitialize();
     };

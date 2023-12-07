@@ -25,8 +25,7 @@ namespace award_system
     struct last_hits_fetcher
     {
         typedef hits_store::bullet_hits_map_t::key_type key_type;
-        last_hits_fetcher(shared_str const& killer_name, shared_str const& victim_name):
-            m_killer_name(killer_name), m_victim_name(victim_name)
+        last_hits_fetcher(shared_str const& killer_name, shared_str const& victim_name): m_killer_name(killer_name), m_victim_name(victim_name)
         {
             m_last_hit_time = 0;
         };
@@ -56,11 +55,7 @@ namespace award_system
         u32        m_last_hit_time;
     };
 
-    void faster_than_bullets_time::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void faster_than_bullets_time::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
         if (!tmp_local_player)

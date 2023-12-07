@@ -35,7 +35,7 @@ class CPHMovementControl: public IPHMovementControl
 {
     collide::rq_results storage;
 
-    static const int path_few_point = 10;
+    static const int    path_few_point = 10;
 
 public:
     CObject* ParentObject()
@@ -84,18 +84,17 @@ public:
     float Jump(const Fvector& end_point);
     bool  JumpState();
     ///
-    bool PhysicsOnlyMode();
-    void GetJumpMinVelParam(
-        Fvector&       min_vel,
-        float&         time,
-        JumpType&      type,
-        const Fvector& end_point);   // returns vector of velocity of jump with minimal start speed
-                                     // in min_vel and correspondent jump time in time
+    bool  PhysicsOnlyMode();
+    void  GetJumpMinVelParam(Fvector& min_vel,
+         float&                       time,
+         JumpType&                    type,
+         const Fvector&               end_point);                   // returns vector of velocity of jump with minimal start speed
+                                                      // in min_vel and correspondent jump time in time
     float JumpMinVelTime(const Fvector& end_point);   // return time of jump with min start speed
     // input: end_point and time; return velocity and type of jump
-    void GetJumpParam(Fvector& velocity, JumpType& type, const Fvector& end_point, float time);
-    bool b_exect_position;
-    int  in_dead_area_count;
+    void  GetJumpParam(Fvector& velocity, JumpType& type, const Fvector& end_point, float time);
+    bool  b_exect_position;
+    int   in_dead_area_count;
 
 public:
     enum EEnvironment
@@ -119,49 +118,49 @@ public:
     }
 
 private:
-    void TraceBorder(const Fvector& previous_position);
-    void CheckEnvironment(const Fvector& V);
+    void          TraceBorder(const Fvector& previous_position);
+    void          CheckEnvironment(const Fvector& V);
 
     CharacterType eCharacterType;
     CPHCharacter* m_character;
     IPHCapture*   m_capture;
 
-    float m_fGroundDelayFactor;
-    BOOL  bIsAffectedByGravity;
+    float         m_fGroundDelayFactor;
+    BOOL          bIsAffectedByGravity;
     //------------------------------
-    CObject*     pObject;
-    EEnvironment eOldEnvironment;
-    EEnvironment eEnvironment;
-    Fbox         aabb;
-    Fbox         boxes[4];
+    CObject*      pObject;
+    EEnvironment  eOldEnvironment;
+    EEnvironment  eEnvironment;
+    Fbox          aabb;
+    Fbox          boxes[4];
 
-    u32     trying_times[4];
-    Fvector trying_poses[4];
-    u64     block_damage_step_end;
-    DWORD   m_dwCurBox;
+    u32           trying_times[4];
+    Fvector       trying_poses[4];
+    u64           block_damage_step_end;
+    DWORD         m_dwCurBox;
 
-    float fMass;
-    float fMinCrashSpeed;
-    float fMaxCrashSpeed;
-    float fCollisionDamageFactor;
-    float fAirControlParam;
+    float         fMass;
+    float         fMinCrashSpeed;
+    float         fMaxCrashSpeed;
+    float         fCollisionDamageFactor;
+    float         fAirControlParam;
 
-    Fvector vVelocity;
-    Fvector vPosition;
+    Fvector       vVelocity;
+    Fvector       vPosition;
 
-    Fvector vPathPoint;
-    Fvector _vPathDir;
-    int     m_path_size;
-    int     m_start_index;
+    Fvector       vPathPoint;
+    Fvector       _vPathDir;
+    int           m_path_size;
+    int           m_start_index;
 
-    float m_path_distance;
-    u16   m_material;
+    float         m_path_distance;
+    u16           m_material;
 
-    float fLastMotionMag;
+    float         fLastMotionMag;
 
-    float fActualVelocity;
-    float fContactSpeed;
-    float fLastUpdateTime;
+    float         fActualVelocity;
+    float         fContactSpeed;
+    float         fLastUpdateTime;
 
 public:
     Fvector vExternalImpulse;
@@ -182,7 +181,7 @@ public:
     void dbg_Draw();
 #endif
 
-    void SetPLastMaterialIDX(u16* p);
+    void           SetPLastMaterialIDX(u16* p);
     //	dBodyID				GetBody						( )		;
     const Fvector& GetVelocity()
     {
@@ -192,7 +191,7 @@ public:
     {
         return _vPathDir;
     }
-    void SetPathDir(const Fvector& v);
+    void  SetPathDir(const Fvector& v);
 
     void  GetCharacterVelocity(Fvector& velocity);
     float GetVelocityMagnitude()
@@ -275,7 +274,7 @@ public:
         boxes[id].set(BB);
         aabb.set(BB);
     }
-    void SetMass(float M);
+    void  SetMass(float M);
 
     float GetMass()
     {
@@ -287,63 +286,53 @@ public:
         fMaxCrashSpeed = max;
     }
 
-    void SetPosition(const Fvector& P);
-    void GetPosition(Fvector& P);
-    void GetCharacterPosition(Fvector& P);
-    void InterpolatePosition(Fvector& P);
-    bool TryPosition(Fvector& pos);
-    bool IsCharacterEnabled();
-    void DisableCharacter();
-    void Calculate(Fvector& vAccel, const Fvector& camDir, float ang_speed, float jump, float dt, bool bLight);
-    void Calculate(
-        const xr_vector<DetailPathManager::STravelPathPoint>& path,    // in path
-        float                                                 speed,   // in speed
-        u32&   travel_point,                                           // in- travel start, out - current trev point
-        float& precesition                                             // in- tolerance, out - precesition
-    );
-    void  AddControlVel(const Fvector& vel);
-    void  SetVelocityLimit(float val);
-    float VelocityLimit();
-    void  PathNearestPoint(
-         const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
-         const Fvector&                                        new_position,   // in position
-         int&                                                  index,          // out nearest
-         bool&                                                 type            // out type
-     );                                                                        // return nearest point
-    void PathNearestPointFindUp(
-        const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
-        const Fvector&                                        new_position,   // in position
-        int&                                                  index,          // out nearest
-        float                                                 radius,         // in exit radius
-        bool&                                                 near_line       // out type
-    );
-    void PathNearestPointFindDown(
-        const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
-        const Fvector&                                        new_position,   // in position
-        int&                                                  index,          // out nearest
-        float                                                 radius,         // in exit radius
-        bool&                                                 near_line       // out type
-    );
+    void                        SetPosition(const Fvector& P);
+    void                        GetPosition(Fvector& P);
+    void                        GetCharacterPosition(Fvector& P);
+    void                        InterpolatePosition(Fvector& P);
+    bool                        TryPosition(Fvector& pos);
+    bool                        IsCharacterEnabled();
+    void                        DisableCharacter();
+    void                        Calculate(Fvector& vAccel, const Fvector& camDir, float ang_speed, float jump, float dt, bool bLight);
+    void                        Calculate(const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
+                               float                                                            speed,          // in speed
+                               u32&                                                             travel_point,   // in- travel start, out - current trev point
+                               float&                                                           precesition     // in- tolerance, out - precesition
+                           );
+    void                        AddControlVel(const Fvector& vel);
+    void                        SetVelocityLimit(float val);
+    float                       VelocityLimit();
+    void                        PathNearestPoint(const xr_vector<DetailPathManager::STravelPathPoint>& path,                 // in path
+                               const Fvector&                                                          new_position,         // in position
+                               int&                                                                    index,                // out nearest
+                               bool&                                                                   type                  // out type
+                           );                                                                                                // return nearest point
+    void                        PathNearestPointFindUp(const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
+                               const Fvector&                                                                new_position,   // in position
+                               int&                                                                          index,          // out nearest
+                               float                                                                         radius,         // in exit radius
+                               bool&                                                                         near_line       // out type
+                           );
+    void                        PathNearestPointFindDown(const xr_vector<DetailPathManager::STravelPathPoint>& path,           // in path
+                               const Fvector&                                                                  new_position,   // in position
+                               int&                                                                            index,          // out nearest
+                               float                                                                           radius,         // in exit radius
+                               bool&                                                                           near_line       // out type
+                           );
 
-    void PathDIrPoint(
-        const xr_vector<DetailPathManager::STravelPathPoint>& path,          // in path
-        int                                                   index,         // in index
-        float                                                 distance,      // in distance
-        float                                                 precesition,   // in precesition
-        Fvector&                                              dir            // out dir
-    );
-    void PathDIrLine(
-        const xr_vector<DetailPathManager::STravelPathPoint>& path,          // in path
-        int                                                   index,         // in point
-        float                                                 distance,      // in distance
-        float                                                 precesition,   // in precesition
-        Fvector&                                              dir            // out dir
-    );
-    void CorrectPathDir(
-        const Fvector&                                        real_path_dir,
-        const xr_vector<DetailPathManager::STravelPathPoint>& path,
-        int                                                   index,
-        Fvector&                                              corrected_path_dir);
+    void                        PathDIrPoint(const xr_vector<DetailPathManager::STravelPathPoint>& path,          // in path
+                               int                                                                 index,         // in index
+                               float                                                               distance,      // in distance
+                               float                                                               precesition,   // in precesition
+                               Fvector&                                                            dir            // out dir
+                           );
+    void                        PathDIrLine(const xr_vector<DetailPathManager::STravelPathPoint>& path,          // in path
+                               int                                                                index,         // in point
+                               float                                                              distance,      // in distance
+                               float                                                              precesition,   // in precesition
+                               Fvector&                                                           dir            // out dir
+                           );
+    void                        CorrectPathDir(const Fvector& real_path_dir, const xr_vector<DetailPathManager::STravelPathPoint>& path, int index, Fvector& corrected_path_dir);
 
     //	void				Move					(Fvector& Dest, Fvector& Motion, BOOL bDynamic=FALSE){};
     void                        SetApplyGravity(BOOL flag);
@@ -379,10 +368,7 @@ public:
 private:
     void actor_calculate(Fvector& vAccel, const Fvector& camDir, float ang_speed, float jump, float dt, bool bLight);
     void UpdateCollisionDamage();
-    bool MakeJumpPath(
-        xr_vector<DetailPathManager::STravelPathPoint>& out_path,
-        u32&                                            travel_point,
-        Fvector&                                        dist_to_enemy);
+    bool MakeJumpPath(xr_vector<DetailPathManager::STravelPathPoint>& out_path, u32& travel_point, Fvector& dist_to_enemy);
 };
 
 #endif

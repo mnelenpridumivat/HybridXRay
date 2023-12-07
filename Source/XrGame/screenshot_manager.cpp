@@ -42,16 +42,16 @@ void jpeg_encode_callback(long progress)
 
 screenshot_manager::screenshot_manager()
 {
-    m_state = 0;
+    m_state                        = 0;
 
-    m_jpeg_buffer          = NULL;
-    m_jpeg_buffer_capacity = 0;
+    m_jpeg_buffer                  = NULL;
+    m_jpeg_buffer_capacity         = 0;
 
     m_buffer_for_compress          = NULL;
     m_buffer_for_compress_capacity = 0;
 
-    m_make_start_event = NULL;
-    m_make_done_event  = NULL;
+    m_make_start_event             = NULL;
+    m_make_done_event              = NULL;
 }
 screenshot_manager::~screenshot_manager()
 {
@@ -81,7 +81,7 @@ void screenshot_manager::realloc_jpeg_buffer(u32 new_size)
 }
 
 #define RESULT_PIXEL_SIZE 3
-#define STRING_SIZE (RESULT_PIXEL_SIZE * RESULT_WIDTH)
+#define STRING_SIZE       (RESULT_PIXEL_SIZE * RESULT_WIDTH)
 // method get the pixel
 void screenshot_manager::prepare_image()
 {
@@ -98,8 +98,8 @@ void screenshot_manager::prepare_image()
     u32*               rgba   = reinterpret_cast<u32*>(++sizes);     // then RGBA data
     rgb24map*          dest   = reinterpret_cast<rgb24map*>(rgba);   // WARNING sorce and dest stored in one place ...
 
-    float dx = float(*width) / RESULT_WIDTH;
-    float dy = float(*height) / RESULT_HEIGHT;
+    float              dx     = float(*width) / RESULT_WIDTH;
+    float              dy     = float(*height) / RESULT_HEIGHT;
 
     // removin alfa byte with resize(first pixel)
     for (int y = 0; y < RESULT_HEIGHT; ++y)
@@ -336,8 +336,7 @@ void screenshot_manager::compress_image()
 {
     realloc_compress_buffer(m_jpeg_buffer_size);
 
-    m_buffer_for_compress_size =
-        ppmd_compress(m_buffer_for_compress, m_buffer_for_compress_capacity, m_jpeg_buffer, m_jpeg_buffer_size);
+    m_buffer_for_compress_size = ppmd_compress(m_buffer_for_compress, m_buffer_for_compress_capacity, m_jpeg_buffer, m_jpeg_buffer_size);
 }
 
 #ifdef DEBUG

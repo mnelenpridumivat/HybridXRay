@@ -45,11 +45,13 @@ private:
     Fvector            param_color_add;
 
     u32                frame_distort;
+
 public:
     IDirect3DSurface9* pTempZB;
 
     //	Igor: for async screenshots
     IDirect3DSurface9* pFB;   // 32bit		(r,g,b,a) is situated in the system memory
+
 private:
     BOOL Create();
     bool NeedColorMapping();
@@ -63,6 +65,7 @@ private:
     void calc_tc_noise(Fvector2& p0, Fvector2& p1);
     void calc_tc_duality_ss(Fvector2& r0, Fvector2& r1, Fvector2& l0, Fvector2& l1);
     void phase_distortion();
+
 public:
     CRenderTarget();
     ~CRenderTarget();

@@ -23,11 +23,7 @@ using System::ComponentModel::TypeDescriptor;
 
 typedef PropertyBag::PropertySpecDescriptor PropertySpecDescriptor;
 
-PropertyDescriptorCollection ^
-    property_converter_vec3f::GetProperties(
-        ITypeDescriptorContext ^ context,
-        Object ^ value,
-        array<Attribute ^> ^ attributes)
+PropertyDescriptorCollection ^ property_converter_vec3f::GetProperties(ITypeDescriptorContext ^ context, Object ^ value, array<Attribute ^> ^ attributes)
 {
     PropertyDescriptorCollection ^ current = TypeDescriptor::GetProperties(value, attributes);
     VERIFY(current);
@@ -57,12 +53,7 @@ bool property_converter_vec3f::CanConvertTo(ITypeDescriptorContext ^ context, Ty
     return (inherited::CanConvertTo(context, destination_type));
 }
 
-Object ^
-    property_converter_vec3f::ConvertTo(
-        ITypeDescriptorContext ^ context,
-        CultureInfo ^ culture,
-        Object ^ value,
-        Type ^ destination_type)
+Object ^ property_converter_vec3f::ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type)
 {
     if (destination_type == String::typeid)
     {
@@ -70,10 +61,7 @@ Object ^
         XrWeatherEditor::vec3f vec3f   = safe_cast < property_vec3f_base
     %>
     (container->container_holder()).get_value_raw();
-    return (
-        "" + property_converter_float().ConvertTo(context, culture, vec3f.x, String::typeid) + " " +
-        property_converter_float().ConvertTo(context, culture, vec3f.y, String::typeid) + " " +
-        property_converter_float().ConvertTo(context, culture, vec3f.z, String::typeid) + "");
+    return ("" + property_converter_float().ConvertTo(context, culture, vec3f.x, String::typeid) + " " + property_converter_float().ConvertTo(context, culture, vec3f.y, String::typeid) + " " + property_converter_float().ConvertTo(context, culture, vec3f.z, String::typeid) + "");
 }
 
 if (destination_type == Vec3f::typeid)
@@ -107,15 +95,15 @@ Object ^ property_converter_vec3f::ConvertFrom(ITypeDescriptorContext ^ context,
         int comma           = string->IndexOf(" ");
         String ^ real_value = string->Substring(0, comma);
         Vec3f vec3f;
-        vec3f.x = float ::Parse(real_value);
+        vec3f.x    = float ::Parse(real_value);
 
         string     = string->Substring(comma + 1, string->Length - comma - 1);
         comma      = string->IndexOf(" ");
         real_value = string->Substring(0, comma);
         vec3f.y    = float ::Parse(real_value);
 
-        string  = string->Substring(comma + 1, string->Length - comma - 1);
-        vec3f.z = float ::Parse(string);
+        string     = string->Substring(comma + 1, string->Length - comma - 1);
+        vec3f.z    = float ::Parse(string);
 
         return (vec3f);
     }

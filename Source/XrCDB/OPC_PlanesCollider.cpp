@@ -102,12 +102,7 @@ const char* PlanesCollider::ValidateSettings()
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool PlanesCollider::Collide(
-    PlanesCache&     cache,
-    const Plane*     planes,
-    udword           nb_planes,
-    OPCODE_Model*    model,
-    const Matrix4x4* worldm)
+bool PlanesCollider::Collide(PlanesCache& cache, const Plane* planes, udword nb_planes, OPCODE_Model* model, const Matrix4x4* worldm)
 {
     // Checkings
     if (!planes || !model)
@@ -223,12 +218,7 @@ BOOL PlanesCollider::InitQuery(PlanesCache& cache, const Plane* planes, udword n
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool PlanesCollider::Collide(
-    PlanesCache&             cache,
-    const Plane*             planes,
-    udword                   nb_planes,
-    const AABBCollisionTree* tree,
-    const Matrix4x4*         worldm)
+bool PlanesCollider::Collide(PlanesCache& cache, const Plane* planes, udword nb_planes, const AABBCollisionTree* tree, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree || !planes || !nb_planes)
@@ -263,12 +253,7 @@ bool PlanesCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool PlanesCollider::Collide(
-    PlanesCache&          cache,
-    const Plane*          planes,
-    udword                nb_planes,
-    const AABBNoLeafTree* tree,
-    const Matrix4x4*      worldm)
+bool PlanesCollider::Collide(PlanesCache& cache, const Plane* planes, udword nb_planes, const AABBNoLeafTree* tree, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree || !planes || !nb_planes)
@@ -303,12 +288,7 @@ bool PlanesCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool PlanesCollider::Collide(
-    PlanesCache&             cache,
-    const Plane*             planes,
-    udword                   nb_planes,
-    const AABBQuantizedTree* tree,
-    const Matrix4x4*         worldm)
+bool PlanesCollider::Collide(PlanesCache& cache, const Plane* planes, udword nb_planes, const AABBQuantizedTree* tree, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree || !planes || !nb_planes)
@@ -347,12 +327,7 @@ bool PlanesCollider::Collide(
  *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-bool PlanesCollider::Collide(
-    PlanesCache&                   cache,
-    const Plane*                   planes,
-    udword                         nb_planes,
-    const AABBQuantizedNoLeafTree* tree,
-    const Matrix4x4*               worldm)
+bool PlanesCollider::Collide(PlanesCache& cache, const Plane* planes, udword nb_planes, const AABBQuantizedNoLeafTree* tree, const Matrix4x4* worldm)
 {
     // Checkings
     if (!tree || !planes || !nb_planes)
@@ -429,15 +404,11 @@ void PlanesCollider::_Collide(const AABBQuantizedNode* node, udword clipmask)
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Test the box against the planes. If the box is completely culled, so are its children, hence we exit.
-    udword OutClipMask;
+    udword               OutClipMask;
     if (!PlanesAABBOverlap(Center, Extents, OutClipMask, clipmask))
         return;
 
@@ -521,15 +492,11 @@ void PlanesCollider::_Collide(const AABBQuantizedNoLeafNode* node, udword clipma
 {
     // Dequantize box
     const QuantizedAABB* Box = &node->mAABB;
-    const Point          Center(
-                 float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y,
-                 float(Box->mCenter[2]) * mCenterCoeff.z);
-    const Point Extents(
-        float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y,
-        float(Box->mExtents[2]) * mExtentsCoeff.z);
+    const Point          Center(float(Box->mCenter[0]) * mCenterCoeff.x, float(Box->mCenter[1]) * mCenterCoeff.y, float(Box->mCenter[2]) * mCenterCoeff.z);
+    const Point          Extents(float(Box->mExtents[0]) * mExtentsCoeff.x, float(Box->mExtents[1]) * mExtentsCoeff.y, float(Box->mExtents[2]) * mExtentsCoeff.z);
 
     // Test the box against the planes. If the box is completely culled, so are its children, hence we exit.
-    udword OutClipMask;
+    udword               OutClipMask;
     if (!PlanesAABBOverlap(Center, Extents, OutClipMask, clipmask))
         return;
 

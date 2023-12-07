@@ -23,19 +23,19 @@ extern "C"
 
     //  !!!!!!WARNING!!!!!!  Encryption is fastest when digit type is the default system type, (ex: gsi_u32 on 32bit
     //  processor)
-#define GS_LARGEINT_DIGIT_TYPE gsi_u32
-#define GS_LARGEINT_DIGIT_LONG_TYPE gsi_u64
+#define GS_LARGEINT_DIGIT_TYPE       gsi_u32
+#define GS_LARGEINT_DIGIT_LONG_TYPE  gsi_u64
 
 #define GS_LARGEINT_DIGIT_SIZE_BYTES (sizeof(GS_LARGEINT_DIGIT_TYPE))
-#define GS_LARGEINT_DIGIT_SIZE_BITS (GS_LARGEINT_DIGIT_SIZE_BYTES * 8)
+#define GS_LARGEINT_DIGIT_SIZE_BITS  (GS_LARGEINT_DIGIT_SIZE_BYTES * 8)
 
 // short forms for legibility
-#define l_word GS_LARGEINT_DIGIT_TYPE
-#define l_dword GS_LARGEINT_DIGIT_LONG_TYPE
+#define l_word                       GS_LARGEINT_DIGIT_TYPE
+#define l_dword                      GS_LARGEINT_DIGIT_LONG_TYPE
 
 // #define GS_LARGEINT_BYTE_SIZE       32     // binary size of system data type
 // #define GS_LARGEINT_INT_SIZE        (GS_LARGEINT_BINARY_SIZE/GS_LARGEINT_BYTE_SIZE)  // size in values
-#define GS_LARGEINT_MAX_DIGITS (GS_LARGEINT_BINARY_SIZE / GS_LARGEINT_DIGIT_SIZE_BITS)
+#define GS_LARGEINT_MAX_DIGITS       (GS_LARGEINT_BINARY_SIZE / GS_LARGEINT_DIGIT_SIZE_BITS)
 
 #define GS_LARGEINT_KARATSUBA_CUTOFF 32
 
@@ -55,11 +55,7 @@ extern "C"
 
     // Modular exponentiation (and helpers)
     //   -- uses Montgomery exponentiation, reduction, multiplication
-    gsi_bool gsLargeIntPowerMod(
-        const gsLargeInt_t* base,
-        const gsLargeInt_t* power,
-        const gsLargeInt_t* mod,
-        gsLargeInt_t*       dest);
+    gsi_bool gsLargeIntPowerMod(const gsLargeInt_t* base, const gsLargeInt_t* power, const gsLargeInt_t* mod, gsLargeInt_t* dest);
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -67,11 +63,7 @@ extern "C"
     gsi_bool gsLargeIntAdd(const gsLargeInt_t* src1, const gsLargeInt_t* src2, gsLargeInt_t* dest);
     gsi_bool gsLargeIntSub(const gsLargeInt_t* src1, const gsLargeInt_t* fromsrc2, gsLargeInt_t* dest);
     gsi_bool gsLargeIntMult(const gsLargeInt_t* src1, const gsLargeInt_t* src2, gsLargeInt_t* dest);
-    gsi_bool gsLargeIntDiv(
-        const gsLargeInt_t* src1,
-        const gsLargeInt_t* divisor,
-        gsLargeInt_t*       dest,
-        gsLargeInt_t*       remainder);
+    gsi_bool gsLargeIntDiv(const gsLargeInt_t* src1, const gsLargeInt_t* divisor, gsLargeInt_t* dest, gsLargeInt_t* remainder);
 
     // Karatsuba requires that the sizes be equal and a power of two
     gsi_bool gsLargeIntKMult(const gsLargeInt_t* src1, const gsLargeInt_t* src2, gsLargeInt_t* dest);

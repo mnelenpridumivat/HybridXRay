@@ -65,7 +65,7 @@ const u32 prime[dimension + 1] = {499, 491, 487, 503, 509};
 // defs for decreasing alpha factor
 #define alphabiasshift  10   // alpha starts at 1.0
 #define initalpha       (((int)1) << alphabiasshift)
-int alphadec;                // biased by 10 bits
+int alphadec;   // biased by 10 bits
 
 // radbias and alpharadbias used for radpower calculation
 #define radbiasshift   8
@@ -84,7 +84,7 @@ static pixel   network[netsize];       // the network itself
 int            netindex[netsize];      // for network lookup - really netsize
 int            bias[netsize];          // bias and freq arrays for learning
 int            freq[netsize];
-int            radpower[initrad];      // radpower for precomputation
+int            radpower[initrad];   // radpower for precomputation
 
 // Initialise network in range (0,0,0) to (255,255,255) and set parameters
 // -----------------------------------------------------------------------
@@ -146,7 +146,7 @@ void inxbuild()
         {
             q = network[j];
             if (q[0] < smallval)
-            {                      // index on g
+            {   // index on g
                 smallpos = j;
                 smallval = q[0];   // index on g
             }
@@ -189,8 +189,8 @@ u8 inxsearch(u8* s)
 
     bestd = netsize * dimension + 1;   // biggest possible dist is netsize*3
     best  = -1;
-    i     = netindex[s[0]];            // index on g
-    j     = i - 1;                     // start at netindex[g] and work outwards
+    i     = netindex[s[0]];   // index on g
+    j     = i - 1;            // start at netindex[g] and work outwards
 
     while ((i < netsize) || (j >= 0))
     {
@@ -446,14 +446,8 @@ void        xrPalettizeCovers()
     float l_sum     = 0.f;
     for (int i = 0; i < (int)N; ++i)
     {
-        l_sum += _abs(g_nodes[i].cover[0] - float(g_covers_palette[g_nodes[i].cover_index].cover[0]) / 255.f) +
-            _abs(g_nodes[i].cover[1] - float(g_covers_palette[g_nodes[i].cover_index].cover[1]) / 255.f) +
-            _abs(g_nodes[i].cover[2] - float(g_covers_palette[g_nodes[i].cover_index].cover[2]) / 255.f) +
-            _abs(g_nodes[i].cover[3] - float(g_covers_palette[g_nodes[i].cover_index].cover[3]) / 255.f);
-        l_sum_sqr += _sqr(g_nodes[i].cover[0] - float(g_covers_palette[g_nodes[i].cover_index].cover[0]) / 255.f) +
-            _sqr(g_nodes[i].cover[1] - float(g_covers_palette[g_nodes[i].cover_index].cover[1]) / 255.f) +
-            _sqr(g_nodes[i].cover[2] - float(g_covers_palette[g_nodes[i].cover_index].cover[2]) / 255.f) +
-            _sqr(g_nodes[i].cover[3] - float(g_covers_palette[g_nodes[i].cover_index].cover[3]) / 255.f);
+        l_sum += _abs(g_nodes[i].cover[0] - float(g_covers_palette[g_nodes[i].cover_index].cover[0]) / 255.f) + _abs(g_nodes[i].cover[1] - float(g_covers_palette[g_nodes[i].cover_index].cover[1]) / 255.f) + _abs(g_nodes[i].cover[2] - float(g_covers_palette[g_nodes[i].cover_index].cover[2]) / 255.f) + _abs(g_nodes[i].cover[3] - float(g_covers_palette[g_nodes[i].cover_index].cover[3]) / 255.f);
+        l_sum_sqr += _sqr(g_nodes[i].cover[0] - float(g_covers_palette[g_nodes[i].cover_index].cover[0]) / 255.f) + _sqr(g_nodes[i].cover[1] - float(g_covers_palette[g_nodes[i].cover_index].cover[1]) / 255.f) + _sqr(g_nodes[i].cover[2] - float(g_covers_palette[g_nodes[i].cover_index].cover[2]) / 255.f) + _sqr(g_nodes[i].cover[3] - float(g_covers_palette[g_nodes[i].cover_index].cover[3]) / 255.f);
         //		Msg		(
         //			"[%.3f][%.3f][%.3f][%.3f] -> [%.3f][%.3f][%.3f][%.3f] : %7.3f",
         //			g_nodes[i].cover[0],

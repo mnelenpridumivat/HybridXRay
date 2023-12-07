@@ -6,7 +6,7 @@
 #include "../../../cover_point.h"
 #include "../monster_cover_manager.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION         template<typename _Object>
 
 #define CStateMonsterAttackCampAbstract CStateMonsterAttackCamp<_Object>
 
@@ -155,7 +155,7 @@ void CStateMonsterAttackCampAbstract::setup_substates()
     {
         SStateDataLookToPoint data;
 
-        Fvector dir;
+        Fvector               dir;
         object->CoverMan->less_cover_direction(dir);
 
         data.point.mad(object->Position(), dir, 10.f);

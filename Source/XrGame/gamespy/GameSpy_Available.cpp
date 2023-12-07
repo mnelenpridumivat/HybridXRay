@@ -51,11 +51,13 @@ bool CGameSpy_Available::CheckAvailableServices(shared_str& resultstr)
     {
         switch (result)
         {
-            case GSIACUnavailable: {
+            case GSIACUnavailable:
+            {
                 resultstr = "! Online Services for STALKER are no longer available.";
             }
             break;
-            case GSIACTemporarilyUnavailable: {
+            case GSIACTemporarilyUnavailable:
+            {
                 resultstr = "! Online Services for STALKER are temporarily down for maintenance.";
             }
             break;

@@ -31,14 +31,7 @@ using namespace StalkerDecisionSpace;
 // CStalkerActionReachEnemyLocation
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionReachEnemyLocation::CStalkerActionReachEnemyLocation(
-    CAI_Stalker*      object,
-    CPropertyStorage* combat_storage,
-    LPCSTR            action_name):
-    inherited(object, action_name),
-    m_combat_storage(combat_storage)
-{
-}
+CStalkerActionReachEnemyLocation::CStalkerActionReachEnemyLocation(CAI_Stalker* object, CPropertyStorage* combat_storage, LPCSTR action_name): inherited(object, action_name), m_combat_storage(combat_storage) {}
 
 void CStalkerActionReachEnemyLocation::initialize()
 {
@@ -116,13 +109,10 @@ void CStalkerActionReachEnemyLocation::execute()
         }
         else
         {
-            object().movement().set_nearest_accessible_position(
-                mem_object.m_object_params.m_position, mem_object.m_object_params.m_level_vertex_id);
+            object().movement().set_nearest_accessible_position(mem_object.m_object_params.m_position, mem_object.m_object_params.m_level_vertex_id);
         }
 
-        object().sight().setup(CSightAction(
-            SightManager::eSightTypePosition,
-            Fvector(mem_object.m_object_params.m_position).add(Fvector().set(0.f, .5f, 0.f)),
+        object().sight().setup(CSightAction(SightManager::eSightTypePosition, Fvector(mem_object.m_object_params.m_position).add(Fvector().set(0.f, .5f, 0.f)),
             //				mem_object.m_object_params.m_position,
             true));
 #endif
@@ -138,9 +128,7 @@ void CStalkerActionReachEnemyLocation::execute()
     }
     else
     {
-        object().sight().setup(CSightAction(
-            SightManager::eSightTypePosition,
-            Fvector(mem_object.m_object_params.m_position).add(Fvector().set(0.f, .5f, 0.f)),
+        object().sight().setup(CSightAction(SightManager::eSightTypePosition, Fvector(mem_object.m_object_params.m_position).add(Fvector().set(0.f, .5f, 0.f)),
             //				mem_object.m_object_params.m_position,
             true));
     }
@@ -150,14 +138,7 @@ void CStalkerActionReachEnemyLocation::execute()
 // CStalkerActionReachAmbushLocation
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionReachAmbushLocation::CStalkerActionReachAmbushLocation(
-    CAI_Stalker*      object,
-    CPropertyStorage* combat_storage,
-    LPCSTR            action_name):
-    inherited(object, action_name),
-    m_combat_storage(combat_storage)
-{
-}
+CStalkerActionReachAmbushLocation::CStalkerActionReachAmbushLocation(CAI_Stalker* object, CPropertyStorage* combat_storage, LPCSTR action_name): inherited(object, action_name), m_combat_storage(combat_storage) {}
 
 void CStalkerActionReachAmbushLocation::initialize()
 {
@@ -194,14 +175,11 @@ void CStalkerActionReachAmbushLocation::execute()
     }
 
     object().m_ce_ambush->setup(mem_object.m_object_params.m_position, mem_object.m_self_params.m_position, 10.f);
-    const CCoverPoint* point = ai().cover_manager().best_cover(
-        mem_object.m_object_params.m_position, 10.f, *object().m_ce_ambush, CStalkerMovementRestrictor(m_object, true));
+    const CCoverPoint* point = ai().cover_manager().best_cover(mem_object.m_object_params.m_position, 10.f, *object().m_ce_ambush, CStalkerMovementRestrictor(m_object, true));
     if (!point)
     {
         object().m_ce_ambush->setup(mem_object.m_object_params.m_position, mem_object.m_self_params.m_position, 10.f);
-        point = ai().cover_manager().best_cover(
-            mem_object.m_object_params.m_position, 30.f, *object().m_ce_ambush,
-            CStalkerMovementRestrictor(m_object, true));
+        point = ai().cover_manager().best_cover(mem_object.m_object_params.m_position, 30.f, *object().m_ce_ambush, CStalkerMovementRestrictor(m_object, true));
     }
 
     if (point)
@@ -227,14 +205,7 @@ void CStalkerActionReachAmbushLocation::execute()
 // CStalkerActionHoldAmbushLocation
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionHoldAmbushLocation::CStalkerActionHoldAmbushLocation(
-    CAI_Stalker*      object,
-    CPropertyStorage* combat_storage,
-    LPCSTR            action_name):
-    inherited(object, action_name),
-    m_combat_storage(combat_storage)
-{
-}
+CStalkerActionHoldAmbushLocation::CStalkerActionHoldAmbushLocation(CAI_Stalker* object, CPropertyStorage* combat_storage, LPCSTR action_name): inherited(object, action_name), m_combat_storage(combat_storage) {}
 
 void CStalkerActionHoldAmbushLocation::initialize()
 {

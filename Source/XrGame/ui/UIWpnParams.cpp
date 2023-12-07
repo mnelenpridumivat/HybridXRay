@@ -40,7 +40,7 @@ SLuaWpnParams::~SLuaWpnParams() {}
 
 SLuaWpnParams* g_lua_wpn_params = NULL;
 
-void destroy_lua_wpn_params()
+void           destroy_lua_wpn_params()
 {
     if (g_lua_wpn_params)
         xr_delete(g_lua_wpn_params);
@@ -124,12 +124,10 @@ void CUIWpnParams::SetInfo(CInventoryItem* slot_wpn, CInventoryItem& cur_wpn)
     str_upgrades[0] = 0;
     cur_wpn.get_upgrades_str(str_upgrades);
 
-    float cur_rpm    = iFloor(g_lua_wpn_params->m_functorRPM(cur_section, str_upgrades) * 53.0f) / 53.0f;
-    float cur_accur  = iFloor(g_lua_wpn_params->m_functorAccuracy(cur_section, str_upgrades) * 53.0f) / 53.0f;
-    float cur_hand   = iFloor(g_lua_wpn_params->m_functorHandling(cur_section, str_upgrades) * 53.0f) / 53.0f;
-    float cur_damage = (GameID() == eGameIDSingle) ?
-        iFloor(g_lua_wpn_params->m_functorDamage(cur_section, str_upgrades) * 53.0f) / 53.0f :
-        iFloor(g_lua_wpn_params->m_functorDamageMP(cur_section, str_upgrades) * 53.0f) / 53.0f;
+    float cur_rpm     = iFloor(g_lua_wpn_params->m_functorRPM(cur_section, str_upgrades) * 53.0f) / 53.0f;
+    float cur_accur   = iFloor(g_lua_wpn_params->m_functorAccuracy(cur_section, str_upgrades) * 53.0f) / 53.0f;
+    float cur_hand    = iFloor(g_lua_wpn_params->m_functorHandling(cur_section, str_upgrades) * 53.0f) / 53.0f;
+    float cur_damage  = (GameID() == eGameIDSingle) ? iFloor(g_lua_wpn_params->m_functorDamage(cur_section, str_upgrades) * 53.0f) / 53.0f : iFloor(g_lua_wpn_params->m_functorDamageMP(cur_section, str_upgrades) * 53.0f) / 53.0f;
 
     float slot_rpm    = cur_rpm;
     float slot_accur  = cur_accur;
@@ -145,9 +143,7 @@ void CUIWpnParams::SetInfo(CInventoryItem* slot_wpn, CInventoryItem& cur_wpn)
         slot_rpm    = iFloor(g_lua_wpn_params->m_functorRPM(slot_section, str_upgrades) * 53.0f) / 53.0f;
         slot_accur  = iFloor(g_lua_wpn_params->m_functorAccuracy(slot_section, str_upgrades) * 53.0f) / 53.0f;
         slot_hand   = iFloor(g_lua_wpn_params->m_functorHandling(slot_section, str_upgrades) * 53.0f) / 53.0f;
-        slot_damage = (GameID() == eGameIDSingle) ?
-            iFloor(g_lua_wpn_params->m_functorDamage(slot_section, str_upgrades) * 53.0f) / 53.0f :
-            iFloor(g_lua_wpn_params->m_functorDamageMP(slot_section, str_upgrades) * 53.0f) / 53.0f;
+        slot_damage = (GameID() == eGameIDSingle) ? iFloor(g_lua_wpn_params->m_functorDamage(slot_section, str_upgrades) * 53.0f) / 53.0f : iFloor(g_lua_wpn_params->m_functorDamageMP(slot_section, str_upgrades) * 53.0f) / 53.0f;
     }
 
     m_progressAccuracy.SetTwoPos(cur_accur, slot_accur);
@@ -159,7 +155,7 @@ void CUIWpnParams::SetInfo(CInventoryItem* slot_wpn, CInventoryItem& cur_wpn)
     {
         xr_vector<shared_str> ammo_types;
 
-        CWeapon* weapon = cur_wpn.cast_weapon();
+        CWeapon*              weapon = cur_wpn.cast_weapon();
         if (!weapon)
             return;
 
@@ -201,8 +197,7 @@ void CUIWpnParams::SetInfo(CInventoryItem* slot_wpn, CInventoryItem& cur_wpn)
         m_stAmmoType1.SetTextureRect(tex_rect);
         m_stAmmoType1.TextureOn();
         m_stAmmoType1.SetStretchTexture(true);
-        m_stAmmoType1.SetWndSize(
-            Fvector2().set((tex_rect.x2 - tex_rect.x1) * UI().get_current_kx(), tex_rect.y2 - tex_rect.y1));
+        m_stAmmoType1.SetWndSize(Fvector2().set((tex_rect.x2 - tex_rect.x1) * UI().get_current_kx(), tex_rect.y2 - tex_rect.y1));
 
         m_stAmmoType2.SetShader(InventoryUtilities::GetEquipmentIconsShader());
         if (ammo_types.size() == 1)
@@ -220,8 +215,7 @@ void CUIWpnParams::SetInfo(CInventoryItem* slot_wpn, CInventoryItem& cur_wpn)
         m_stAmmoType2.SetTextureRect(tex_rect);
         m_stAmmoType2.TextureOn();
         m_stAmmoType2.SetStretchTexture(true);
-        m_stAmmoType2.SetWndSize(
-            Fvector2().set((tex_rect.x2 - tex_rect.x1) * UI().get_current_kx(), tex_rect.y2 - tex_rect.y1));
+        m_stAmmoType2.SetWndSize(Fvector2().set((tex_rect.x2 - tex_rect.x1) * UI().get_current_kx(), tex_rect.y2 - tex_rect.y1));
     }
 }
 
@@ -265,9 +259,7 @@ void CUIConditionParams::SetInfo(CInventoryItem const* slot_item, CInventoryItem
     float cur_value  = cur_item.GetConditionToShow() * 100.0f + 1.0f - EPS;
     float slot_value = cur_value;
 
-    if (slot_item &&
-        (slot_item !=
-         &cur_item) /*&& (cur_item.object().cNameSect()._get() == slot_item->object().cNameSect()._get())*/)
+    if (slot_item && (slot_item != &cur_item) /*&& (cur_item.object().cNameSect()._get() == slot_item->object().cNameSect()._get())*/)
     {
         slot_value = slot_item->GetConditionToShow() * 100.0f + 1.0f - EPS;
     }

@@ -1,4 +1,4 @@
-#include "CompressorDXT5_RGBM.h"
+﻿#include "CompressorDXT5_RGBM.h"
 #include "CompressorDXT1.h"
 
 #include "OptimalCompressDXT.h"
@@ -19,35 +19,37 @@ using namespace nv;
 
 //static uint atomic_counter = 0;
 
-
-float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_weights[16], float min_m, BlockDXT5 * output) {
-
+float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_weights[16], float min_m, BlockDXT5* output)
+{
     // Convert to RGBM.
-    Vector4 input_colors_rgbm[16]; // @@ Write over input_colors?
-    float rgb_weights[16];
+    Vector4 input_colors_rgbm[16];   // @@ Write over input_colors?
+    float   rgb_weights[16];
 
-    float weight_sum = 0;
+    float   weight_sum = 0;
 
-    for (uint i = 0; i < 16; i++) {
-        const Vector4 & c = input_colors[i];
+    for (uint i = 0; i < 16; i++)
+    {
+        const Vector4& c     = input_colors[i];
 
-        float R = saturate(c.x);
-        float G = saturate(c.y);
-        float B = saturate(c.z);
+        float          R     = saturate(c.x);
+        float          G     = saturate(c.y);
+        float          B     = saturate(c.z);
 
-        float M = max(max(R, G), max(B, min_m));
-        float r = R / M;
-        float g = G / M;
-        float b = B / M;
-        float a = (M - min_m) / (1 - min_m);
+        float          M     = max(max(R, G), max(B, min_m));
+        float          r     = R / M;
+        float          g     = G / M;
+        float          b     = B / M;
+        float          a     = (M - min_m) / (1 - min_m);
 
         input_colors_rgbm[i] = Vector4(r, g, b, a);
-        rgb_weights[i] = input_weights[i] * M;
+        rgb_weights[i]       = input_weights[i] * M;
         weight_sum += input_weights[i];
     }
 
-    if (weight_sum == 0) {
-        for (uint i = 0; i < 16; i++) rgb_weights[i] = 1;
+    if (weight_sum == 0)
+    {
+        for (uint i = 0; i < 16; i++)
+            rgb_weights[i] = 1;
     }
 
     // Compress RGB.
@@ -59,33 +61,34 @@ float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_w
 
     // Compute M values to compensate for RGB's error.
     AlphaBlock4x4 M;
-    for (int i = 0; i < 16; i++) {
-        const Vector4 & c = input_colors[i];
+    for (int i = 0; i < 16; i++)
+    {
+        const Vector4& c  = input_colors[i];
 
-        float R = saturate(c.x);
-        float G = saturate(c.y);
-        float B = saturate(c.z);
+        float          R  = saturate(c.x);
+        float          G  = saturate(c.y);
+        float          B  = saturate(c.z);
 
-        float rm = RGB.color(i).r / 255.0f;
-        float gm = RGB.color(i).g / 255.0f;
-        float bm = RGB.color(i).b / 255.0f;
+        float          rm = RGB.color(i).r / 255.0f;
+        float          gm = RGB.color(i).g / 255.0f;
+        float          bm = RGB.color(i).b / 255.0f;
 
         // compute m such that m * (r/M, g/M, b/M) == RGB
-    
+
         // Three equations, one unknown:
         //  m * r/M == R
         //  m * g/M == G
         //  m * b/M == B
-        
+
         // Solve in the least squares sense!
 
         // m (rm gm bm) (rm gm bm)^T == (rm gm bm) (R G B)^T
 
         // m == dot(rgb, RGB) / dot(rgb, rgb)
 
-        float m = dot(Vector3(rm, gm, bm), Vector3(R, G, B)) / dot(Vector3(rm, gm, bm), Vector3(rm, gm, bm));
+        float          m  = dot(Vector3(rm, gm, bm), Vector3(R, G, B)) / dot(Vector3(rm, gm, bm), Vector3(rm, gm, bm));
 
-        m = (m - min_m) / (1 - min_m);
+        m                 = (m - min_m) / (1 - min_m);
 
 #if 0
         // IC: This does indeed happen. What does that mean? The best choice of m is above the available range. If this happened too often it would make sense to scale m in
@@ -97,7 +100,7 @@ float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_w
         }
 #endif
 
-        M.alpha[i] = U8(ftoi_round(saturate(m) * 255.0f));
+        M.alpha[i]   = U8(ftoi_round(saturate(m) * 255.0f));
         M.weights[i] = input_weights[i];
     }
 
@@ -106,9 +109,8 @@ float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_w
     //    QuickCompress::compressDXT5A(M, &output->alpha);
     /*}
     else {*/
-        OptimalCompress::compressDXT5A(M, &output->alpha);
+    OptimalCompress::compressDXT5A(M, &output->alpha);
     //}
-
 
 #if 0   // Multiple iterations do not seem to help.
     // Decompress M.
@@ -134,11 +136,8 @@ float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_w
     }
 #endif
 
-    return 0; // @@ 
+    return 0;   // @@
 }
-
-
-
 
 #if 0
 
@@ -233,7 +232,7 @@ float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_w
     // Decompress RGB/M block.
     nv::ColorBlock RGB;
     block->color.decodeBlock(&RGB);
-    
+
 #if 1
     AlphaBlock4x4 M;
     for (int i = 0; i < 16; i++) {
@@ -346,8 +345,6 @@ float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_w
     }
 #endif
 
-
-
 #if 0
     src.fromRGBM(M, min_m);
 
@@ -372,7 +369,7 @@ float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_w
             QuickCompress::outputBlock4(src, start, end, block->color);
         }
     }
-#endif // 0
+#endif   // 0
 
     // @@ Decompress color and compute M that best approximates src with these colors? Then compress M again?
 
@@ -425,4 +422,4 @@ float nv::compress_dxt5_rgbm(const Vector4 input_colors[16], const float input_w
         fit.Compress(&block->color);
     }*/
 
-#endif // 0
+#endif   // 0

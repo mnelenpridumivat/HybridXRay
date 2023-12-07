@@ -51,7 +51,7 @@ public:
 extern CBone* bone_to_delete;
 extern u32    bone_to_delete_frame;
 
-void CEditableObject::OnFrame()
+void          CEditableObject::OnFrame()
 {
     if (IsSkeleton())
     {
@@ -121,8 +121,8 @@ static void CalculateAnimBone(CBone* bone, CSMotion* motion, Fmatrix& parent)
     if (motion)
         flags = motion->GetMotionFlags(bone->SelfID);
 
-    Fmatrix& M = bone->_MTransform();
-    Fmatrix& L = bone->_LTransform();
+    Fmatrix&       M = bone->_MTransform();
+    Fmatrix&       L = bone->_LTransform();
 
     const Fvector& r = bone->_Rotate();
     if (!bone->callback_overwrite())
@@ -223,17 +223,17 @@ static void AlineYtoGlobalFrame(Fmatrix& in_out_m)
 {
     Fmatrix& m = in_out_m;
 
-    m.i.y = 0;
-    m.k.y = 0;
+    m.i.y      = 0;
+    m.k.y      = 0;
 
-    m.j.x = 0;
-    m.j.y = 1;
-    m.j.z = 0;
+    m.j.x      = 0;
+    m.j.y      = 1;
+    m.j.z      = 0;
 
-    float smi = m.i.x * m.i.x + m.i.z * m.i.z;
-    float smk = m.k.x * m.k.x + m.k.z * m.k.z;
-    bool  bi  = smi > EPS_S;
-    bool  bk  = smk > EPS_S;
+    float smi  = m.i.x * m.i.x + m.i.z * m.i.z;
+    float smk  = m.k.x * m.k.x + m.k.z * m.k.z;
+    bool  bi   = smi > EPS_S;
+    bool  bk   = smk > EPS_S;
     if (smk > smi && bk)
     {
         m.k.mul(1.f / _sqrt(smk));
@@ -264,10 +264,10 @@ void CEditableObject::CalculateRootObjectAnimation(const Fmatrix& anchor)
     float  bottom    = GetBonesBottom();
     CBone& root_bone = *m_Bones[GetRootBoneID()];
     VERIFY(root_bone.children.size() == 1);
-    CBone&        anchor_bone = *root_bone.children[0];
-    const Fmatrix gl_anchor   = Fmatrix().mul_43(anchor_bone._LTransform(), anchor);
+    CBone&        anchor_bone    = *root_bone.children[0];
+    const Fmatrix gl_anchor      = Fmatrix().mul_43(anchor_bone._LTransform(), anchor);
 
-    Fmatrix root_transform = gl_anchor;   // gl_anchor;
+    Fmatrix       root_transform = gl_anchor;   // gl_anchor;
     AlineYtoGlobalFrame(root_transform);
 
     root_transform.c   = gl_anchor.c;
@@ -597,7 +597,8 @@ void CEditableObject::GetBoneWorldTransform(u32 bone_idx, float t, CSMotion* mot
     do
     {
         lst.push_back(idx);
-    } while ((idx = m_Bones[idx]->Parent() ? m_Bones[idx]->Parent()->SelfID : -1) > -1);
+    }
+    while ((idx = m_Bones[idx]->Parent() ? m_Bones[idx]->Parent()->SelfID : -1) > -1);
     for (int i = lst.size() - 1; i >= 0; i--)
     {
         idx           = lst[i];
@@ -655,7 +656,7 @@ bool CEditableObject::CheckBoneCompliance(CSMotion* M)
 
 void CEditableObject::OptimizeSMotions()
 {
-/*
+    /*
 #if 1
     SPBItem* pb = UI->ProgressStart(m_SMotions.size(), "Motions optimizing...");
 #endif

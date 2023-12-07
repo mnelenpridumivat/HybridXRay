@@ -62,9 +62,9 @@ void CBaseMonster::net_Import(NET_Packet& P)
     R_ASSERT(Remote());
     net_update N;
 
-    u8 flags;
+    u8         flags;
 
-    float health;
+    float      health;
     P.r_float(health);
     SetfHealth(health);
 
@@ -75,9 +75,9 @@ void CBaseMonster::net_Import(NET_Packet& P)
     P.r_float /*r_angle8*/ (N.o_torso.yaw);
     P.r_float /*r_angle8*/ (N.o_torso.pitch);
     P.r_float /*r_angle8*/ (N.o_torso.roll);
-    id_Team  = P.r_u8();
-    id_Squad = P.r_u8();
-    id_Group = P.r_u8();
+    id_Team                               = P.r_u8();
+    id_Squad                              = P.r_u8();
+    id_Group                              = P.r_u8();
 
     GameGraph::_GRAPH_ID l_game_vertex_id = ai_location().game_vertex_id();
     P.r(&l_game_vertex_id, sizeof(l_game_vertex_id));

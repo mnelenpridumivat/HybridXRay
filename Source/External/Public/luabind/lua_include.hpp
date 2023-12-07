@@ -1,4 +1,4 @@
-// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
+﻿// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -23,11 +23,11 @@
 #ifndef LUA_INCLUDE_HPP_INCLUDED
 #define LUA_INCLUDE_HPP_INCLUDED
 
-extern "C" {
-	#include "lua/lua.h"
-	#include "lua/lauxlib.h"
-	#include "lua/lualib.h"
-} // extern "C"
+extern "C"
+{
+#include "lua/lua.h"
+#include "lua/lauxlib.h"
+#include "lua/lualib.h"
+}   // extern "C"
 
 #endif
-

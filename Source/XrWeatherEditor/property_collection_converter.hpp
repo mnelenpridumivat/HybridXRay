@@ -20,8 +20,7 @@ public:
 
 public:
     virtual bool CanConvertTo(ITypeDescriptorContext ^ context, Type ^ type) override;
-    virtual Object ^
-        ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ type) override;
+    virtual Object ^ ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ type) override;
 };   // ref class property_collection_converter
 
 #endif   // ifndef PROPERTY_COLLECTION_CONVERTER_HPP_INCLUDED

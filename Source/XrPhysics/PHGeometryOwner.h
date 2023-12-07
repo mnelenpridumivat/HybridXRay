@@ -13,10 +13,11 @@ class CPHGeometryOwner
 protected:
     GEOM_STORAGE m_geoms;   // e
     // bl
-    bool b_builded;
+    bool         b_builded;
 
 private:
     dSpaceID m_group;   // e					//bl
+
 protected:
     Fvector                   m_mass_center;             // e ??				//bl
     IPhysicsShellHolder*      m_phys_ref_object;         //->to shell ??		//bl
@@ -24,6 +25,7 @@ protected:
     u16                       ul_material;               // e ??				//bl
     ContactCallbackFun*       contact_callback;          //->to shell ??		//bt
     ObjectContactCallbackFun* object_contact_callback;   //->to shell ??		//st
+
 public:
     ///
     void      add_Sphere(const Fsphere& V);                                // aux
@@ -49,12 +51,12 @@ protected:
     void group_remove(CODEGeom& g);
 
 public:
-    void  set_ContactCallback(ContactCallbackFun* callback);                  // aux (may not be)
-    void  set_ObjectContactCallback(ObjectContactCallbackFun* callback);      // called anywhere ph state influent
-    void  add_ObjectContactCallback(ObjectContactCallbackFun* callback);      // called anywhere ph state influent
-    void  remove_ObjectContactCallback(ObjectContactCallbackFun* callback);   // called anywhere ph state influent
-    void  set_CallbackData(void* cd);
-    void* get_CallbackData();
+    void                      set_ContactCallback(ContactCallbackFun* callback);                  // aux (may not be)
+    void                      set_ObjectContactCallback(ObjectContactCallbackFun* callback);      // called anywhere ph state influent
+    void                      add_ObjectContactCallback(ObjectContactCallbackFun* callback);      // called anywhere ph state influent
+    void                      remove_ObjectContactCallback(ObjectContactCallbackFun* callback);   // called anywhere ph state influent
+    void                      set_CallbackData(void* cd);
+    void*                     get_CallbackData();
     ObjectContactCallbackFun* get_ObjectContactCallback();
     void                      set_PhysicsRefObject(IPhysicsShellHolder* ref_object);   // aux
     IPhysicsShellHolder*      PhysicsRefObject()
@@ -128,12 +130,7 @@ protected:
 private:
 };
 
-template <typename geometry_type> void t_get_extensions(
-    const xr_vector<geometry_type*>& geoms,
-    const Fvector&                   axis,
-    float                            center_prg,
-    float&                           lo_ext,
-    float&                           hi_ext)
+template<typename geometry_type> void t_get_extensions(const xr_vector<geometry_type*>& geoms, const Fvector& axis, float center_prg, float& lo_ext, float& hi_ext)
 {
     lo_ext                                      = dInfinity;
     hi_ext                                      = -dInfinity;

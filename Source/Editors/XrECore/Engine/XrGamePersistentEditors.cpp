@@ -64,17 +64,17 @@ void XrGamePersistentEditors::Start(LPCSTR op)
     VERIFY(ps_destroy.empty());
 }
 
-void XrGamePersistentEditors::Disconnect() {}
+void  XrGamePersistentEditors::Disconnect() {}
 
-void XrGamePersistentEditors::OnGameStart() {}
+void  XrGamePersistentEditors::OnGameStart() {}
 
-void XrGamePersistentEditors::OnGameEnd() {}
+void  XrGamePersistentEditors::OnGameEnd() {}
 
-void XrGamePersistentEditors::OnFrame() {}
+void  XrGamePersistentEditors::OnFrame() {}
 
-void XrGamePersistentEditors::OnAssetsChanged() {}
+void  XrGamePersistentEditors::OnAssetsChanged() {}
 
-void XrGamePersistentEditors::RegisterModel(IRenderVisual* V) {}
+void  XrGamePersistentEditors::RegisterModel(IRenderVisual* V) {}
 
 float XrGamePersistentEditors::MtlTransparent(u32 mtl_idx)
 {

@@ -22,12 +22,7 @@ public:
     bool Precondition(const CGameObject* pSpeaker, LPCSTR dialog_id, LPCSTR phrase_id) const;
     void Action(const CGameObject* pSpeaker, LPCSTR dialog_id, LPCSTR phrase_id) const;
 
-    bool Precondition(
-        const CGameObject* pSpeaker1,
-        const CGameObject* pSpeaker2,
-        LPCSTR             dialog_id,
-        LPCSTR             phrase_id,
-        LPCSTR             next_phrase_id) const;
+    bool Precondition(const CGameObject* pSpeaker1, const CGameObject* pSpeaker2, LPCSTR dialog_id, LPCSTR phrase_id, LPCSTR next_phrase_id) const;
     void Action(const CGameObject* pSpeaker1, const CGameObject* pSpeaker2, LPCSTR dialog_id, LPCSTR phrase_id) const;
 
     DEFINE_VECTOR(shared_str, PRECONDITION_VECTOR, PRECONDITION_VECTOR_IT);
@@ -52,23 +47,18 @@ public:
     {
         m_sScriptTextFunc = str;
     };
-    LPCSTR GetScriptText(
-        LPCSTR             str_to_translate,
-        const CGameObject* pSpeakerGO1,
-        const CGameObject* pSpeakerGO2,
-        LPCSTR             dialog_id,
-        LPCSTR             phrase_id);
+    LPCSTR GetScriptText(LPCSTR str_to_translate, const CGameObject* pSpeakerGO1, const CGameObject* pSpeakerGO2, LPCSTR dialog_id, LPCSTR phrase_id);
 
 protected:
     // загрузка содержания последовательности тагов в контейнер строк
-    template <class T> void LoadSequence(CUIXml* ui_xml, XML_NODE* phrase_node, LPCSTR tag, T& str_vector);
+    template<class T> void LoadSequence(CUIXml* ui_xml, XML_NODE* phrase_node, LPCSTR tag, T& str_vector);
 
     // манипуляции с информацией во время вызовов Precondition и Action
-    virtual bool CheckInfo(const CInventoryOwner* pOwner) const;
-    virtual void TransferInfo(const CInventoryOwner* pOwner) const;
+    virtual bool           CheckInfo(const CInventoryOwner* pOwner) const;
+    virtual void           TransferInfo(const CInventoryOwner* pOwner) const;
 
     // имя скриптовой функции, которая возвращает какой-то текст
-    shared_str m_sScriptTextFunc;
+    shared_str             m_sScriptTextFunc;
 
     // скриптовые действия, которые активируется после того как
     // говорится фраза
@@ -86,6 +76,6 @@ protected:
 
     PRECONDITION_VECTOR m_Preconditions;
     // проверка наличия/отсутствия информации
-    INFO_VECTOR m_HasInfo;
-    INFO_VECTOR m_DontHasInfo;
+    INFO_VECTOR         m_HasInfo;
+    INFO_VECTOR         m_DontHasInfo;
 };

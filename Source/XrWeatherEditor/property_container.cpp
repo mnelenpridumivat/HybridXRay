@@ -21,9 +21,7 @@ class ide_impl;
 extern ide_impl* g_ide;
 #pragma managed(pop)
 
-property_container::property_container(property_holder* holder, property_container_holder ^ container_holder):
-    m_holder(holder), m_container_holder(container_holder), m_properties(gcnew Hashtable()),
-    m_ordered_properties(gcnew ArrayList())
+property_container::property_container(property_holder* holder, property_container_holder ^ container_holder): m_holder(holder), m_container_holder(container_holder), m_properties(gcnew Hashtable()), m_ordered_properties(gcnew ArrayList())
 {
     GetValue += gcnew PropertySpecEventHandler(this, &property_container::get_value_handler);
     SetValue += gcnew PropertySpecEventHandler(this, &property_container::set_value_handler);

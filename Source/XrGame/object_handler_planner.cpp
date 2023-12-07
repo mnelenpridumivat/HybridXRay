@@ -21,8 +21,7 @@
 
 using namespace ObjectHandlerSpace;
 
-IC  ObjectHandlerSpace::EWorldProperties
-    CObjectHandlerPlanner::object_property(MonsterSpace::EObjectAction object_action) const
+IC ObjectHandlerSpace::EWorldProperties CObjectHandlerPlanner::object_property(MonsterSpace::EObjectAction object_action) const
 {
     switch (object_action)
     {
@@ -68,13 +67,7 @@ IC  ObjectHandlerSpace::EWorldProperties
 #endif
 }
 
-void CObjectHandlerPlanner::set_goal(
-    MonsterSpace::EObjectAction object_action,
-    CGameObject*                game_object,
-    u32                         min_queue_size,
-    u32                         max_queue_size,
-    u32                         min_queue_interval,
-    u32                         max_queue_interval)
+void CObjectHandlerPlanner::set_goal(MonsterSpace::EObjectAction object_action, CGameObject* game_object, u32 min_queue_size, u32 max_queue_size, u32 min_queue_interval, u32 max_queue_interval)
 {
     EWorldProperties goal         = object_property(object_action);
     u32              condition_id = goal;
@@ -92,9 +85,7 @@ void CObjectHandlerPlanner::set_goal(
 #ifdef DEBUG
     if (m_use_log)
     {
-        Msg("%6d : Active item %s", Device->dwTimeGlobal,
-            object().inventory().ActiveItem() ? *object().inventory().ActiveItem()->object().cName() :
-                                                "no active items");
+        Msg("%6d : Active item %s", Device->dwTimeGlobal, object().inventory().ActiveItem() ? *object().inventory().ActiveItem()->object().cName() : "no active items");
         Msg("%6d : Goal %s", Device->dwTimeGlobal, property2string(condition_id));
     }
 #endif
@@ -109,9 +100,7 @@ void CObjectHandlerPlanner::set_goal(
     if (!weapon)
         return;
 
-    if ((m_min_queue_size != min_queue_size) || (m_max_queue_size != max_queue_size) ||
-        (m_min_queue_interval != min_queue_interval) || (m_max_queue_interval != max_queue_interval) ||
-        (m_next_time_change <= Device->dwTimeGlobal))
+    if ((m_min_queue_size != min_queue_size) || (m_max_queue_size != max_queue_size) || (m_min_queue_interval != min_queue_interval) || (m_max_queue_interval != max_queue_interval) || (m_next_time_change <= Device->dwTimeGlobal))
     {
         m_min_queue_size     = min_queue_size;
         m_max_queue_size     = max_queue_size;
@@ -131,10 +120,8 @@ void CObjectHandlerPlanner::set_goal(
         m_next_time_change = Device->dwTimeGlobal + m_queue_interval;
 
         weapon->SetQueueSize(m_queue_size);
-        this->action(uid(weapon->ID(), eWorldOperatorQueueWait1))
-            .set_inertia_time(m_queue_interval ? m_queue_interval : 300);
-        this->action(uid(weapon->ID(), eWorldOperatorQueueWait2))
-            .set_inertia_time(m_queue_interval ? m_queue_interval : 300);
+        this->action(uid(weapon->ID(), eWorldOperatorQueueWait1)).set_inertia_time(m_queue_interval ? m_queue_interval : 300);
+        this->action(uid(weapon->ID(), eWorldOperatorQueueWait2)).set_inertia_time(m_queue_interval ? m_queue_interval : 300);
     }
 }
 
@@ -152,143 +139,178 @@ LPCSTR CObjectHandlerPlanner::action2string(const _action_id_type& id)
     xr_strcat(m_temp_string, ":");
     switch (action_state_id(id))
     {
-        case ObjectHandlerSpace::eWorldOperatorShow: {
+        case ObjectHandlerSpace::eWorldOperatorShow:
+        {
             xr_strcat(m_temp_string, "Show");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorDoShow: {
+        case ObjectHandlerSpace::eWorldOperatorDoShow:
+        {
             xr_strcat(m_temp_string, "DoShow");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorHide: {
+        case ObjectHandlerSpace::eWorldOperatorHide:
+        {
             xr_strcat(m_temp_string, "Hide");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorDrop: {
+        case ObjectHandlerSpace::eWorldOperatorDrop:
+        {
             xr_strcat(m_temp_string, "Drop");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorStrapping: {
+        case ObjectHandlerSpace::eWorldOperatorStrapping:
+        {
             xr_strcat(m_temp_string, "Strapping");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorStrapping2Idle: {
+        case ObjectHandlerSpace::eWorldOperatorStrapping2Idle:
+        {
             xr_strcat(m_temp_string, "Strapping to idle");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorUnstrapping: {
+        case ObjectHandlerSpace::eWorldOperatorUnstrapping:
+        {
             xr_strcat(m_temp_string, "Unstrapping");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorUnstrapping2Idle: {
+        case ObjectHandlerSpace::eWorldOperatorUnstrapping2Idle:
+        {
             xr_strcat(m_temp_string, "Unstrapping to idle");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorStrapped: {
+        case ObjectHandlerSpace::eWorldOperatorStrapped:
+        {
             xr_strcat(m_temp_string, "StrappedIdle");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorIdle: {
+        case ObjectHandlerSpace::eWorldOperatorIdle:
+        {
             xr_strcat(m_temp_string, "Idle");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorAim1: {
+        case ObjectHandlerSpace::eWorldOperatorAim1:
+        {
             xr_strcat(m_temp_string, "Aim1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorAim2: {
+        case ObjectHandlerSpace::eWorldOperatorAim2:
+        {
             xr_strcat(m_temp_string, "Aim2");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorReload1: {
+        case ObjectHandlerSpace::eWorldOperatorReload1:
+        {
             xr_strcat(m_temp_string, "Reload1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorReload2: {
+        case ObjectHandlerSpace::eWorldOperatorReload2:
+        {
             xr_strcat(m_temp_string, "Reload2");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorForceReload1: {
+        case ObjectHandlerSpace::eWorldOperatorForceReload1:
+        {
             xr_strcat(m_temp_string, "Force Reload1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorForceReload2: {
+        case ObjectHandlerSpace::eWorldOperatorForceReload2:
+        {
             xr_strcat(m_temp_string, "Force Reload2");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorFire1: {
+        case ObjectHandlerSpace::eWorldOperatorFire1:
+        {
             xr_strcat(m_temp_string, "Fire1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorFire2: {
+        case ObjectHandlerSpace::eWorldOperatorFire2:
+        {
             xr_strcat(m_temp_string, "Fire2");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorFireNoReload: {
+        case ObjectHandlerSpace::eWorldOperatorFireNoReload:
+        {
             xr_strcat(m_temp_string, "Fire (no reload)");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorAimingReady1: {
+        case ObjectHandlerSpace::eWorldOperatorAimingReady1:
+        {
             xr_strcat(m_temp_string, "AimingReady1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorAimingReady2: {
+        case ObjectHandlerSpace::eWorldOperatorAimingReady2:
+        {
             xr_strcat(m_temp_string, "AimingReady2");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorSwitch1: {
+        case ObjectHandlerSpace::eWorldOperatorSwitch1:
+        {
             xr_strcat(m_temp_string, "Switch1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorSwitch2: {
+        case ObjectHandlerSpace::eWorldOperatorSwitch2:
+        {
             xr_strcat(m_temp_string, "Switch2");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorQueueWait1: {
+        case ObjectHandlerSpace::eWorldOperatorQueueWait1:
+        {
             xr_strcat(m_temp_string, "QueueWait1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorQueueWait2: {
+        case ObjectHandlerSpace::eWorldOperatorQueueWait2:
+        {
             xr_strcat(m_temp_string, "QueueWait1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorThrowStart: {
+        case ObjectHandlerSpace::eWorldOperatorThrowStart:
+        {
             xr_strcat(m_temp_string, "ThrowStart");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorThrowIdle: {
+        case ObjectHandlerSpace::eWorldOperatorThrowIdle:
+        {
             xr_strcat(m_temp_string, "ThrowIdle");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorThrow: {
+        case ObjectHandlerSpace::eWorldOperatorThrow:
+        {
             xr_strcat(m_temp_string, "Throwing");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorThreaten: {
+        case ObjectHandlerSpace::eWorldOperatorThreaten:
+        {
             xr_strcat(m_temp_string, "Threaten");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorPrepare: {
+        case ObjectHandlerSpace::eWorldOperatorPrepare:
+        {
             xr_strcat(m_temp_string, "Preparing");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorUse: {
+        case ObjectHandlerSpace::eWorldOperatorUse:
+        {
             xr_strcat(m_temp_string, "Using");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorGetAmmo1: {
+        case ObjectHandlerSpace::eWorldOperatorGetAmmo1:
+        {
             xr_strcat(m_temp_string, "GetAmmo1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorGetAmmo2: {
+        case ObjectHandlerSpace::eWorldOperatorGetAmmo2:
+        {
             xr_strcat(m_temp_string, "GetAmmo2");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorAimForceFull1: {
+        case ObjectHandlerSpace::eWorldOperatorAimForceFull1:
+        {
             xr_strcat(m_temp_string, "AimForceFull1");
             break;
         }
-        case ObjectHandlerSpace::eWorldOperatorAimForceFull2: {
+        case ObjectHandlerSpace::eWorldOperatorAimForceFull2:
+        {
             xr_strcat(m_temp_string, "AimForceFull2");
             break;
         }
@@ -310,155 +332,193 @@ LPCSTR CObjectHandlerPlanner::property2string(const _condition_type& id)
     xr_strcat(m_temp_string, ":");
     switch (action_state_id(id))
     {
-        case ObjectHandlerSpace::eWorldPropertyHidden: {
+        case ObjectHandlerSpace::eWorldPropertyHidden:
+        {
             xr_strcat(m_temp_string, "Hidden");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyShown: {
+        case ObjectHandlerSpace::eWorldPropertyShown:
+        {
             xr_strcat(m_temp_string, "Shown");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyStrapped: {
+        case ObjectHandlerSpace::eWorldPropertyStrapped:
+        {
             xr_strcat(m_temp_string, "Strapped");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyStrapped2Idle: {
+        case ObjectHandlerSpace::eWorldPropertyStrapped2Idle:
+        {
             xr_strcat(m_temp_string, "Strapped to idle");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertySwitch1: {
+        case ObjectHandlerSpace::eWorldPropertySwitch1:
+        {
             xr_strcat(m_temp_string, "Switch1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertySwitch2: {
+        case ObjectHandlerSpace::eWorldPropertySwitch2:
+        {
             xr_strcat(m_temp_string, "Switch2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAimed1: {
+        case ObjectHandlerSpace::eWorldPropertyAimed1:
+        {
             xr_strcat(m_temp_string, "Aimed1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAimed2: {
+        case ObjectHandlerSpace::eWorldPropertyAimed2:
+        {
             xr_strcat(m_temp_string, "Aimed2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAimForceFull1: {
+        case ObjectHandlerSpace::eWorldPropertyAimForceFull1:
+        {
             xr_strcat(m_temp_string, "AimedForceFull1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAimForceFull2: {
+        case ObjectHandlerSpace::eWorldPropertyAimForceFull2:
+        {
             xr_strcat(m_temp_string, "AimedForceFull2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAiming1: {
+        case ObjectHandlerSpace::eWorldPropertyAiming1:
+        {
             xr_strcat(m_temp_string, "Aiming1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAiming2: {
+        case ObjectHandlerSpace::eWorldPropertyAiming2:
+        {
             xr_strcat(m_temp_string, "Aiming2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyEmpty1: {
+        case ObjectHandlerSpace::eWorldPropertyEmpty1:
+        {
             xr_strcat(m_temp_string, "Empty1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyEmpty2: {
+        case ObjectHandlerSpace::eWorldPropertyEmpty2:
+        {
             xr_strcat(m_temp_string, "Empty2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyFull1: {
+        case ObjectHandlerSpace::eWorldPropertyFull1:
+        {
             xr_strcat(m_temp_string, "Full1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyFull2: {
+        case ObjectHandlerSpace::eWorldPropertyFull2:
+        {
             xr_strcat(m_temp_string, "Full2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyReady1: {
+        case ObjectHandlerSpace::eWorldPropertyReady1:
+        {
             xr_strcat(m_temp_string, "Ready1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyReady2: {
+        case ObjectHandlerSpace::eWorldPropertyReady2:
+        {
             xr_strcat(m_temp_string, "Ready2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyFiring1: {
+        case ObjectHandlerSpace::eWorldPropertyFiring1:
+        {
             xr_strcat(m_temp_string, "Firing1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyFiringNoReload1: {
+        case ObjectHandlerSpace::eWorldPropertyFiringNoReload1:
+        {
             xr_strcat(m_temp_string, "FiringNoReload1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyFiring2: {
+        case ObjectHandlerSpace::eWorldPropertyFiring2:
+        {
             xr_strcat(m_temp_string, "Firing2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAimingReady1: {
+        case ObjectHandlerSpace::eWorldPropertyAimingReady1:
+        {
             xr_strcat(m_temp_string, "AimingReady1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAimingReady2: {
+        case ObjectHandlerSpace::eWorldPropertyAimingReady2:
+        {
             xr_strcat(m_temp_string, "AimingReady2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAmmo1: {
+        case ObjectHandlerSpace::eWorldPropertyAmmo1:
+        {
             xr_strcat(m_temp_string, "Ammo1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyAmmo2: {
+        case ObjectHandlerSpace::eWorldPropertyAmmo2:
+        {
             xr_strcat(m_temp_string, "Ammo2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyIdle: {
+        case ObjectHandlerSpace::eWorldPropertyIdle:
+        {
             xr_strcat(m_temp_string, "Idle");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyIdleStrap: {
+        case ObjectHandlerSpace::eWorldPropertyIdleStrap:
+        {
             xr_strcat(m_temp_string, "IdleStrap");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyDropped: {
+        case ObjectHandlerSpace::eWorldPropertyDropped:
+        {
             xr_strcat(m_temp_string, "Dropped");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyQueueWait1: {
+        case ObjectHandlerSpace::eWorldPropertyQueueWait1:
+        {
             xr_strcat(m_temp_string, "QueueWait1");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyQueueWait2: {
+        case ObjectHandlerSpace::eWorldPropertyQueueWait2:
+        {
             xr_strcat(m_temp_string, "QueueWait2");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyThrowStarted: {
+        case ObjectHandlerSpace::eWorldPropertyThrowStarted:
+        {
             xr_strcat(m_temp_string, "ThrowStarted");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyThrowIdle: {
+        case ObjectHandlerSpace::eWorldPropertyThrowIdle:
+        {
             xr_strcat(m_temp_string, "ThrowIdle");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyThrow: {
+        case ObjectHandlerSpace::eWorldPropertyThrow:
+        {
             xr_strcat(m_temp_string, "Throwing");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyThreaten: {
+        case ObjectHandlerSpace::eWorldPropertyThreaten:
+        {
             xr_strcat(m_temp_string, "Threaten");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyPrepared: {
+        case ObjectHandlerSpace::eWorldPropertyPrepared:
+        {
             xr_strcat(m_temp_string, "Prepared");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyUsed: {
+        case ObjectHandlerSpace::eWorldPropertyUsed:
+        {
             xr_strcat(m_temp_string, "Used");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyUseEnough: {
+        case ObjectHandlerSpace::eWorldPropertyUseEnough:
+        {
             xr_strcat(m_temp_string, "UseEnough");
             break;
         }
-        case ObjectHandlerSpace::eWorldPropertyItemID: {
+        case ObjectHandlerSpace::eWorldPropertyItemID:
+        {
             m_temp_string[xr_strlen(m_temp_string) - 1] = 0;
             break;
         }

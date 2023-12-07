@@ -32,16 +32,15 @@ void CControlRunAttack::activate()
 
     SControlDirectionData* ctrl_dir = (SControlDirectionData*)m_man->data(this, ControlCom::eControlDir);
     VERIFY(ctrl_dir);
-    ctrl_dir->heading.target_speed = 3.f;
-    ctrl_dir->heading.target_angle = m_man->direction().angle_to_target(m_object->EnemyMan.get_enemy()->Position());
+    ctrl_dir->heading.target_speed   = 3.f;
+    ctrl_dir->heading.target_angle   = m_man->direction().angle_to_target(m_object->EnemyMan.get_enemy()->Position());
 
     //////////////////////////////////////////////////////////////////////////
 
     SControlAnimationData* ctrl_anim = (SControlAnimationData*)m_man->data(this, ControlCom::eControlAnimation);
     VERIFY(ctrl_anim);
 
-    ctrl_anim->global.set_motion(
-        smart_cast<IKinematicsAnimated*>(m_object->Visual())->ID_Cycle_Safe("stand_attack_run_0"));
+    ctrl_anim->global.set_motion(smart_cast<IKinematicsAnimated*>(m_object->Visual())->ID_Cycle_Safe("stand_attack_run_0"));
     ctrl_anim->global.actual = false;
 }
 
@@ -94,47 +93,43 @@ void CControlRunAttack::on_event(ControlCom::EEventType type, ControlCom::IEvent
         case ControlCom::eventAnimationStart:   // handle blend params
         {
             // set animation speed
-            SControlAnimationData* ctrl_data_anim =
-                (SControlAnimationData*)m_man->data(this, ControlCom::eControlAnimation);
+            SControlAnimationData* ctrl_data_anim = (SControlAnimationData*)m_man->data(this, ControlCom::eControlAnimation);
             VERIFY(ctrl_data_anim);
 
             CBlend* blend = m_man->animation().current_blend();
             VERIFY(blend);
 
             // animation time
-            float anim_time = blend->timeTotal / blend->speed;
+            float           anim_time     = blend->timeTotal / blend->speed;
 
             // run velocity
             u32             velocity_mask = MonsterMovement::eVelocityParameterRunNormal;
             SVelocityParam& velocity      = m_object->move().get_velocity(velocity_mask);
 
             // distance
-            float path_dist = anim_time * velocity.velocity.linear;
+            float           path_dist     = anim_time * velocity.velocity.linear;
 
-            Fvector dir;
+            Fvector         dir;
             dir.sub(m_object->EnemyMan.get_enemy()->Position(), m_object->Position());
             dir.normalize_safe();
 
             Fvector target_position;
             target_position.mad(m_object->Position(), dir, path_dist);
 
-            if (!m_man->build_path_line(
-                    this, target_position, u32(-1), velocity_mask | MonsterMovement::eVelocityParameterStand))
+            if (!m_man->build_path_line(this, target_position, u32(-1), velocity_mask | MonsterMovement::eVelocityParameterStand))
             {
                 m_man->notify(ControlCom::eventRunAttackEnd, 0);
             }
             else
             {
                 // enable path
-                SControlPathBuilderData* ctrl_path =
-                    (SControlPathBuilderData*)m_man->data(this, ControlCom::eControlPath);
+                SControlPathBuilderData* ctrl_path = (SControlPathBuilderData*)m_man->data(this, ControlCom::eControlPath);
                 VERIFY(ctrl_path);
                 ctrl_path->enable = true;
 
                 m_man->lock(this, ControlCom::eControlPath);
 
-                SControlMovementData* ctrl_move =
-                    (SControlMovementData*)m_man->data(this, ControlCom::eControlMovement);
+                SControlMovementData* ctrl_move = (SControlMovementData*)m_man->data(this, ControlCom::eControlMovement);
                 VERIFY(ctrl_move);
                 ctrl_move->velocity_target = velocity.velocity.linear;
                 ctrl_move->acc             = flt_max;

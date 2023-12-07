@@ -3,11 +3,11 @@
 #include "../../../sound_player.h"
 #include "../../../../xrCore/_vector3d_ext.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION               template<typename _Object>
 
 #define CStatePoltergeistAttackHiddenAbstract CStatePoltergeistAttackHidden<_Object>
 
-#define DIST_TO_PATH_END 1.5f
+#define DIST_TO_PATH_END                      1.5f
 
 TEMPLATE_SPECIALIZATION
 CStatePoltergeistAttackHiddenAbstract::CStatePoltergeistAttackHidden(_Object* obj): inherited(obj)
@@ -27,18 +27,18 @@ void CStatePoltergeistAttackHiddenAbstract::initialize()
 TEMPLATE_SPECIALIZATION
 void CStatePoltergeistAttackHiddenAbstract::select_target_for_move()
 {
-    CEntityAlive const* const enemy     = object->EnemyMan.get_enemy();
-    Fvector const             enemy_pos = enemy->Position();
-    Fvector const             self_pos  = object->Position();
+    CEntityAlive const* const enemy       = object->EnemyMan.get_enemy();
+    Fvector const             enemy_pos   = enemy->Position();
+    Fvector const             self_pos    = object->Position();
 
-    Fvector const self2enemy = enemy_pos - self_pos;
+    Fvector const             self2enemy  = enemy_pos - self_pos;
 
-    float const fly_radius = object->get_fly_around_distance() * m_fly_radius_factor;
+    float const               fly_radius  = object->get_fly_around_distance() * m_fly_radius_factor;
 
-    Fvector const enemy_dir   = normalize(enemy->Direction());
-    Fvector const front_point = enemy_pos + (enemy_dir * fly_radius);
+    Fvector const             enemy_dir   = normalize(enemy->Direction());
+    Fvector const             front_point = enemy_pos + (enemy_dir * fly_radius);
 
-    Fvector const self2front = front_point - self_pos;
+    Fvector const             self2front  = front_point - self_pos;
 
     if (current_time() > m_fly_side_select_tick)
     {
@@ -52,14 +52,14 @@ void CStatePoltergeistAttackHiddenAbstract::select_target_for_move()
         m_fly_side_select_tick = current_time() + (u32)(1000 * object->get_fly_around_change_direction_time());
     }
 
-    Fvector const enemy2self = -fly_radius * normalize(self2enemy);
+    Fvector const enemy2self       = -fly_radius * normalize(self2enemy);
 
-    float const move_scan_points = 12;
-    float const move_scan_angle  = deg2rad(360.f) / move_scan_points;
+    float const   move_scan_points = 12;
+    float const   move_scan_angle  = deg2rad(360.f) / move_scan_points;
 
     for (u32 index = 0; index < move_scan_points; ++index)
     {
-        float const angle = move_scan_angle * (index + 1) * (m_fly_left ? -1.f : +1.f);
+        float const   angle      = move_scan_angle * (index + 1) * (m_fly_left ? -1.f : +1.f);
 
         Fvector const scan_point = enemy_pos + rotate_point(enemy2self, angle);
 

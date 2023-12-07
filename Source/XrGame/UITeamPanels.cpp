@@ -15,7 +15,7 @@ UITeamPanels::~UITeamPanels()
     CUIStatsIcon::FreeTexInfo();
 }
 
-#define TEAM_NODE_NAME "team"
+#define TEAM_NODE_NAME  "team"
 #define FRAME_NODE_NAME "frame"
 
 void UITeamPanels::Init(LPCSTR xmlName, LPCSTR panelsRootNode)
@@ -82,20 +82,20 @@ void UITeamPanels::UpdatePanels()
     TTeamsMap::iterator ie         = myPanels.end();
     u32                 game_phase = Game().Phase();
 
-    shared_str green_team_pending("greenteam_pending");
-    shared_str blue_team_pending("blueteam_pending");
-    shared_str spectators_team("spectatorsteam");
-    shared_str green_team("greenteam");
-    shared_str blue_team("blueteam");
+    shared_str          green_team_pending("greenteam_pending");
+    shared_str          blue_team_pending("blueteam_pending");
+    shared_str          spectators_team("spectatorsteam");
+    shared_str          green_team("greenteam");
+    shared_str          blue_team("blueteam");
 
     for (TTeamsMap::iterator i = myPanels.begin(); i != ie; ++i)
     {
         bool need_show = false;
         switch (game_phase)
         {
-            case GAME_PHASE_PENDING: {
-                if (i->first.equal(green_team_pending) || i->first.equal(blue_team_pending) ||
-                    i->first.equal(spectators_team))
+            case GAME_PHASE_PENDING:
+            {
+                if (i->first.equal(green_team_pending) || i->first.equal(blue_team_pending) || i->first.equal(spectators_team))
                 {
                     need_show = true;
                 }
@@ -104,7 +104,8 @@ void UITeamPanels::UpdatePanels()
             case GAME_PHASE_PLAYER_SCORES:
             case GAME_PHASE_TEAM1_SCORES:
             case GAME_PHASE_TEAM2_SCORES:
-            case GAME_PHASE_INPROGRESS: {
+            case GAME_PHASE_INPROGRESS:
+            {
                 if (i->first.equal(green_team) || i->first.equal(blue_team) || i->first.equal(spectators_team))
                 {
                     need_show = true;

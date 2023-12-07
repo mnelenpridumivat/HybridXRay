@@ -1,4 +1,4 @@
-// This code is in the public domain -- Ignacio Casta�o <castano@gmail.com>
+﻿// This code is in the public domain -- Ignacio Castaсo <castano@gmail.com>
 
 #include "Memory.h"
 #include "Debug.h"
@@ -8,16 +8,16 @@
 #define USE_EFENCE 0
 
 #if USE_EFENCE
-extern "C" void *EF_malloc(size_t size);
-extern "C" void *EF_realloc(void * oldBuffer, size_t newSize);
-extern "C" void EF_free(void * address);
+extern "C" void* EF_malloc(size_t size);
+extern "C" void* EF_realloc(void* oldBuffer, size_t newSize);
+extern "C" void  EF_free(void* address);
 #endif
 
 using namespace nv;
 
 #if NV_OVERRIDE_ALLOC
 
-void * malloc(size_t size)
+void* malloc(size_t size)
 {
 #if USE_EFENCE
     return EF_malloc(size);
@@ -26,7 +26,7 @@ void * malloc(size_t size)
 #endif
 }
 
-void * debug_malloc(size_t size, const char * file, int line)
+void* debug_malloc(size_t size, const char* file, int line)
 {
     NV_UNUSED(file);
     NV_UNUSED(line);
@@ -37,18 +37,18 @@ void * debug_malloc(size_t size, const char * file, int line)
 #endif
 }
 
-void free(void * ptr)
+void free(void* ptr)
 {
 #if USE_EFENCE
-    return EF_free(const_cast<void *>(ptr));
+    return EF_free(const_cast<void*>(ptr));
 #else
-    ::free(const_cast<void *>(ptr));
+    ::free(const_cast<void*>(ptr));
 #endif
 }
 
-void * realloc(void * ptr, size_t size)
+void* realloc(void* ptr, size_t size)
 {
-    nvDebugCheck(ptr != NULL || size != 0); // undefined realloc behavior.
+    nvDebugCheck(ptr != NULL || size != 0);   // undefined realloc behavior.
 #if USE_EFENCE
     return EF_realloc(ptr, size);
 #else
@@ -78,7 +78,7 @@ void operator delete [] (void * p) throw()
 }
 */
 
-#if 0 // Code from Apple:
+#if 0   // Code from Apple:
 void* operator new(std::size_t sz) throw (std::bad_alloc)
 {
         void *result = std::malloc (sz == 0 ? 1 : sz);
@@ -112,8 +112,6 @@ void operator delete(void* p, const std::nothrow_t&) throw()
         ::operator delete (p);
 }
 
-#endif // 0
+#endif   // 0
 
-#endif // NV_OVERRIDE_ALLOC
-
-
+#endif   // NV_OVERRIDE_ALLOC

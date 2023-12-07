@@ -54,7 +54,7 @@ void SRS::init(const Matrix T1, const Matrix T2, const float a[3], const float p
     reciprocal_upper_len = 1.0f / upper_len;
 
     get_translation(S, t);
-    lower_len = norm(t);
+    lower_len            = norm(t);
 
     project_to_workspace = 1;
 }
@@ -112,7 +112,7 @@ static int solve_R_angle(const float g[3], const float s[3], const float t[3], c
         {
             r_angle = temp[0];
             // printf("Two solutions: %lf %lf\n", temp[0], temp[1]);
-            n = 1;
+            n       = 1;
         }
         else if (temp[0] < 0)
         {
@@ -155,16 +155,7 @@ static int solve_R_angle(const float g[3], const float s[3], const float t[3], c
 // Returns radius of circle
 //
 
-float get_circle_equation(
-    const float ee[3],
-    const float axis[3],
-    const float pos_axis[3],
-    float       upper_len,
-    float       lower_len,
-    float       c[3],
-    float       u[3],
-    float       v[3],
-    float       n[3])
+float get_circle_equation(const float ee[3], const float axis[3], const float pos_axis[3], float upper_len, float lower_len, float c[3], float u[3], float v[3], float n[3])
 {
     float wn = norm((float*)ee);
     float radius;
@@ -435,7 +426,7 @@ inline void make_frame(const float p[3], float p_scale, const float q[3], Matrix
 
     R[3][0] = R[3][1] = R[3][2] = R[0][3] = R[1][3] = R[2][3] = 0;
 
-    R[3][3] = 1.0;
+    R[3][3]                                                   = 1.0;
 }
 
 static void solve_R1(float p[3], float q[3], float p2[3], float q2[3], float p_scale, Matrix R1)
@@ -537,9 +528,9 @@ static void rotation_matrix(const float n[3], Matrix c, Matrix s, Matrix o)
     cpmatrix(s, idmat);
     cpmatrix(o, idmat);
 
-    float u1 = n[0];
-    float u2 = n[1];
-    float u3 = n[2];
+    float u1   = n[0];
+    float u2   = n[1];
+    float u3   = n[2];
 
     float u1u1 = u1 * u1;
     float u1u2 = u1 * u2;
@@ -548,35 +539,35 @@ static void rotation_matrix(const float n[3], Matrix c, Matrix s, Matrix o)
     float u2u3 = u2 * u3;
     float u3u3 = u3 * u3;
 
-    c[0][0] = 1.0f - u1u1;
-    c[0][1] = -u1u2;
-    c[0][2] = -u1u3;
-    c[1][0] = -u1u2;
-    c[1][1] = 1.0f - u2u2;
-    c[1][2] = -u2u3;
-    c[2][0] = -u1u3;
-    c[2][1] = -u2u3;
-    c[2][2] = 1.0f - u3u3;
+    c[0][0]    = 1.0f - u1u1;
+    c[0][1]    = -u1u2;
+    c[0][2]    = -u1u3;
+    c[1][0]    = -u1u2;
+    c[1][1]    = 1.0f - u2u2;
+    c[1][2]    = -u2u3;
+    c[2][0]    = -u1u3;
+    c[2][1]    = -u2u3;
+    c[2][2]    = 1.0f - u3u3;
 
-    s[0][0] = 0.0f;
-    s[0][1] = u3;
-    s[0][2] = -u2;
-    s[1][0] = -u3;
-    s[1][1] = 0.0f;
-    s[1][2] = u1;
-    s[2][0] = u2;
-    s[2][1] = -u1;
-    s[2][2] = 0.0f;
+    s[0][0]    = 0.0f;
+    s[0][1]    = u3;
+    s[0][2]    = -u2;
+    s[1][0]    = -u3;
+    s[1][1]    = 0.0f;
+    s[1][2]    = u1;
+    s[2][0]    = u2;
+    s[2][1]    = -u1;
+    s[2][2]    = 0.0f;
 
-    o[0][0] = u1u1;
-    o[0][1] = u1u2;
-    o[0][2] = u1u3;
-    o[1][0] = u1u2;
-    o[1][1] = u2u2;
-    o[1][2] = u2u3;
-    o[2][0] = u1u3;
-    o[2][1] = u2u3;
-    o[2][2] = u3u3;
+    o[0][0]    = u1u1;
+    o[0][1]    = u1u2;
+    o[0][2]    = u1u3;
+    o[1][0]    = u1u2;
+    o[1][1]    = u2u2;
+    o[1][2]    = u2u3;
+    o[2][0]    = u1u3;
+    o[2][1]    = u2u3;
+    o[2][2]    = u3u3;
 }
 
 int SRS::R1Psi(Matrix C, Matrix s, Matrix o)
@@ -639,17 +630,7 @@ int SRS::R1R2Psi(Matrix C, Matrix s, Matrix o, Matrix c2, Matrix s2, Matrix o2)
 // Rewrite all this stuff
 //
 
-static void get_aim_circle_equation(
-    const float g[3],
-    const float a[3],
-    const float ta[3],
-    const float tb[3],
-    const float proj_axis[3],
-    float       theta4,
-    float       center[3],
-    float       u[3],
-    float       v[3],
-    float&      radius)
+static void get_aim_circle_equation(const float g[3], const float a[3], const float ta[3], const float tb[3], const float proj_axis[3], float theta4, float center[3], float u[3], float v[3], float& radius)
 {
     float  L1 = DOT(ta, ta);
     float  L2 = DOT(tb, tb);
@@ -667,8 +648,8 @@ static void get_aim_circle_equation(
     float L3 = _sqrt(L1 + L2 + DOT(ta, t1) + DOT(tb, t2));
 
     // Lengths of upper and lower arms
-    L1 = _sqrt(L1);
-    L2 = _sqrt(L2);
+    L1       = _sqrt(L1);
+    L2       = _sqrt(L2);
 
     // Compute angle between a and shoulder-to-hand vector
     // This is done assuming R1 = I since the angle does
@@ -686,13 +667,13 @@ static void get_aim_circle_equation(
     //
     // Compute the angles of the triangle s,h,g
     //
-    float L4   = _sqrt(DOT(g, g));
-    float beta = M_PI - alpha;
+    float L4    = _sqrt(DOT(g, g));
+    float beta  = M_PI - alpha;
 
     float delta = asin(_sin(beta) * L3 / L4);
     if (delta < 0)
         delta = -delta;
-    float gamma = M_PI - delta - beta;
+    float gamma   = M_PI - delta - beta;
 
     float c_gamma = _cos(gamma);
     float n[3];

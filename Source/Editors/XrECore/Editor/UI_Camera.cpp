@@ -19,7 +19,7 @@ CUI_Camera::CUI_Camera()
     m_FlySpeed    = 5.f;
     m_FlyAltitude = 1.8f;
 
-    m_bMoving = false;
+    m_bMoving     = false;
 }
 
 CUI_Camera::~CUI_Camera() {}
@@ -176,7 +176,7 @@ void CUI_Camera::SetSensitivity(float sm, float sr)
 
 static const Fvector down_dir = {0.f, -1.f, 0.f};
 
-void CUI_Camera::Update(float dt)
+void                 CUI_Camera::Update(float dt)
 {
     if (m_bMoving)
     {
@@ -370,8 +370,8 @@ void CUI_Camera::MouseRayFromPoint(Fvector& start, Fvector& direction, const Ive
     float size_y = m_Znear * tan(deg2rad(EDevice->fFOV) * 0.5f);
     float size_x = size_y / EDevice->fASPECT;
 
-    float r_pt = float(point2.x) * size_x / (float)halfwidth;
-    float u_pt = float(point2.y) * size_y / (float)halfheight;
+    float r_pt   = float(point2.x) * size_x / (float)halfwidth;
+    float u_pt   = float(point2.y) * size_y / (float)halfheight;
 
     direction.mul(m_CamMat.k, m_Znear);
     direction.mad(direction, m_CamMat.j, u_pt);

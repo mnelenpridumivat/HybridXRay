@@ -9,9 +9,9 @@
 #include <windows.h>
 #include <stdio.h>
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <intrin.h>
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #define ENGINE_API
 #define ECORE_API

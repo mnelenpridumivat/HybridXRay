@@ -55,7 +55,7 @@ public:
     virtual u32  tell()                            = 0;
 
     // generalized writing functions
-    IC void w_u32(u32 d)
+    IC void      w_u32(u32 d)
     {
         revbytes(&d, 4, 1);
         write(&d, sizeof(u32));

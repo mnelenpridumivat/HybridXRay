@@ -34,31 +34,31 @@ private:
     CUITextWnd*                 m_pFragLimitIndicator;
     game_cl_CaptureTheArtefact* m_game;
 
-    CUIMoneyIndicator* m_pMoneyIndicator;
-    CUIRankIndicator*  m_pRankIndicator;
-    CUITextWnd*        m_pReinforcementInidcator;
-    CUIMessageBoxEx*   m_pBuySpawnMsgBox;
-    UIVoteStatusWnd*   m_voteStatusWnd;
+    CUIMoneyIndicator*          m_pMoneyIndicator;
+    CUIRankIndicator*           m_pRankIndicator;
+    CUITextWnd*                 m_pReinforcementInidcator;
+    CUIMessageBoxEx*            m_pBuySpawnMsgBox;
+    UIVoteStatusWnd*            m_voteStatusWnd;
 
-    shared_str          m_teamSectionForBuyMenu;
-    IBuyWnd*            m_pCurBuyMenu;
-    shared_str          m_teamSectionForSkinMenu;
-    CUISkinSelectorWnd* m_pCurSkinMenu;
-    shared_str          m_costSection;
+    shared_str                  m_teamSectionForBuyMenu;
+    IBuyWnd*                    m_pCurBuyMenu;
+    shared_str                  m_teamSectionForSkinMenu;
+    CUISkinSelectorWnd*         m_pCurSkinMenu;
+    shared_str                  m_costSection;
 
     /// This window shows the player lists.
-    UITeamPanels* teamPanels;
-    bool          m_team_panels_shown;
+    UITeamPanels*               teamPanels;
+    bool                        m_team_panels_shown;
 
-    CUITextWnd* m_spectator_caption;
-    CUITextWnd* m_pressjump_caption;
-    CUITextWnd* m_pressbuy_caption;
-    CUITextWnd* m_round_result_caption;
-    CUITextWnd* m_force_respawn_time_caption;
-    CUITextWnd* m_spectrmode_caption;
-    CUITextWnd* m_warm_up_caption;
-    CUITextWnd* m_time_caption;
-    CUITextWnd* m_demo_play_caption;
+    CUITextWnd*                 m_spectator_caption;
+    CUITextWnd*                 m_pressjump_caption;
+    CUITextWnd*                 m_pressbuy_caption;
+    CUITextWnd*                 m_round_result_caption;
+    CUITextWnd*                 m_force_respawn_time_caption;
+    CUITextWnd*                 m_spectrmode_caption;
+    CUITextWnd*                 m_warm_up_caption;
+    CUITextWnd*                 m_time_caption;
+    CUITextWnd*                 m_demo_play_caption;
 
     struct PresetItem
     {
@@ -93,22 +93,22 @@ private:
 
     DEF_VECTOR(PRESET_ITEMS, PresetItem);
 
-    PRESET_ITEMS PlayerDefItems;
+    PRESET_ITEMS                      PlayerDefItems;
 
-    typedef UIGameMP inherited;
+    typedef UIGameMP                  inherited;
 
     typedef buffer_vector<shared_str> aditional_ammo_t;
     void                              TryToDefuseAllWeapons(aditional_ammo_t& dest_ammo);
     void                              AdditionalAmmoInserter(aditional_ammo_t::value_type const& sect_name);
 
-    void BuyMenuItemInserter(PIItem const& item);
-    void BuyMenuItemInserter(CInventorySlot const& slot);
-    void SetPlayerItemsToBuyMenu();
-    void SetPlayerParamsToBuyMenu();
-    void SetPlayerDefItemsToBuyMenu();
-    void LoadTeamDefaultPresetItems(const shared_str& caSection);
-    void LoadDefItemsForRank();
-    s16  GetBuyMenuItemIndex(u8 Addons, u8 ItemID);
+    void                              BuyMenuItemInserter(PIItem const& item);
+    void                              BuyMenuItemInserter(CInventorySlot const& slot);
+    void                              SetPlayerItemsToBuyMenu();
+    void                              SetPlayerParamsToBuyMenu();
+    void                              SetPlayerDefItemsToBuyMenu();
+    void                              LoadTeamDefaultPresetItems(const shared_str& caSection);
+    void                              LoadDefItemsForRank();
+    s16                               GetBuyMenuItemIndex(u8 Addons, u8 ItemID);
 
 public:
     typedef std::pair<u8, u8>          BuyMenuItemPair;
@@ -122,63 +122,63 @@ public:
     virtual void _BCL OnFrame();
     virtual void      Render();
 
-    virtual bool IR_UIOnKeyboardPress(int dik);
-    virtual bool IR_UIOnKeyboardRelease(int dik);
+    virtual bool      IR_UIOnKeyboardPress(int dik);
+    virtual bool      IR_UIOnKeyboardRelease(int dik);
 
-    bool IsTeamPanelsShown();
-    void ShowTeamPanels(bool bShow);
-    void UpdateTeamPanels();
+    bool              IsTeamPanelsShown();
+    void              ShowTeamPanels(bool bShow);
+    void              UpdateTeamPanels();
 
-    bool IsTeamSelectShown();
-    void ShowTeamSelectMenu();
+    bool              IsTeamSelectShown();
+    void              ShowTeamSelectMenu();
 
-    void UpdateBuyMenu(shared_str const& teamSection, shared_str const& costSection);
-    bool CanBuyItem(shared_str const& sect_name);
+    void              UpdateBuyMenu(shared_str const& teamSection, shared_str const& costSection);
+    bool              CanBuyItem(shared_str const& sect_name);
 
-    void            ShowBuyMenu();
-    void            HideBuyMenu();
-    BuyMenuItemPair GetBuyMenuItem(shared_str const& itemSectionName);
-    void            GetPurchaseItems(BuyMenuItemsCollection& dest, s32& moneyDif);
-    IBuyWnd*        GetBuyWnd() const
+    void              ShowBuyMenu();
+    void              HideBuyMenu();
+    BuyMenuItemPair   GetBuyMenuItem(shared_str const& itemSectionName);
+    void              GetPurchaseItems(BuyMenuItemsCollection& dest, s32& moneyDif);
+    IBuyWnd*          GetBuyWnd() const
     {
         return m_pCurBuyMenu;
     };
 
-    void ReInitPlayerDefItems();
+    void         ReInitPlayerDefItems();
 
-    bool IsBuySpawnShown();
-    void ShowBuySpawn(s32 spawn_cost);
-    void HideBuySpawn();
+    bool         IsBuySpawnShown();
+    void         ShowBuySpawn(s32 spawn_cost);
+    void         HideBuySpawn();
 
-    void UpdateSkinMenu(shared_str const& teamSection);
-    void ShowSkinMenu(s8 currentSkin);
-    s8   GetSelectedSkinIndex();
+    void         UpdateSkinMenu(shared_str const& teamSection);
+    void         ShowSkinMenu(s8 currentSkin);
+    s8           GetSelectedSkinIndex();
 
-    void AddPlayer(ClientID const& clientId);
-    void RemovePlayer(ClientID const& clientId);
-    void UpdatePlayer(ClientID const& clientId);
+    void         AddPlayer(ClientID const& clientId);
+    void         RemovePlayer(ClientID const& clientId);
+    void         UpdatePlayer(ClientID const& clientId);
 
-    void SetReinforcementTimes(u32 curTime, u32 maxTime);
+    void         SetReinforcementTimes(u32 curTime, u32 maxTime);
 
     virtual void ChangeTotalMoneyIndicator(LPCSTR newMoneyString);
     virtual void DisplayMoneyChange(LPCSTR deltaMoney);
     virtual void DisplayMoneyBonus(KillMessageStruct* bonus);
 
-    void SetRank(ETeam team, u8 rank);
-    void SetScore(s32 max_score, s32 greenTeamScore, s32 blueTeamScore);
+    void         SetRank(ETeam team, u8 rank);
+    void         SetScore(s32 max_score, s32 greenTeamScore, s32 blueTeamScore);
 
-    void SetRoundResultCaption(LPCSTR str);
-    void SetPressBuyMsgCaption(LPCSTR str);
-    void SetPressJumpMsgCaption(LPCSTR str);
-    void SetSpectatorMsgCaption(LPCSTR str);
-    void SetSpectrModeMsgCaption(LPCSTR str);
-    void SetWarmUpCaption(LPCSTR str);
-    void SetTimeMsgCaption(LPCSTR str);
-    void SetDemoPlayCaption(LPCSTR str);
-    void ResetCaptions();
+    void         SetRoundResultCaption(LPCSTR str);
+    void         SetPressBuyMsgCaption(LPCSTR str);
+    void         SetPressJumpMsgCaption(LPCSTR str);
+    void         SetSpectatorMsgCaption(LPCSTR str);
+    void         SetSpectrModeMsgCaption(LPCSTR str);
+    void         SetWarmUpCaption(LPCSTR str);
+    void         SetTimeMsgCaption(LPCSTR str);
+    void         SetDemoPlayCaption(LPCSTR str);
+    void         ResetCaptions();
 
-    void SetVoteMessage(LPCSTR str);
-    void SetVoteTimeResultMsg(LPCSTR str);
+    void         SetVoteMessage(LPCSTR str);
+    void         SetVoteTimeResultMsg(LPCSTR str);
 };
 
 #endif

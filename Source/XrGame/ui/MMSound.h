@@ -20,9 +20,9 @@ public:
     void all_Stop();
 
 protected:
-    IC bool check_file(LPCSTR fname);
+    IC bool              check_file(LPCSTR fname);
 
-    ref_sound m_music_stereo;
+    ref_sound            m_music_stereo;
 
     ref_sound            m_whell;
     ref_sound            m_whell_click;

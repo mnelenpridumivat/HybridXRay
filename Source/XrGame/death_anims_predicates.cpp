@@ -50,7 +50,7 @@ type_motion::edirection type_motion::dir(CEntityAlive& ea, const SHit& H, float&
     {
         float sign = front_factor < 0.f ? -1.f : 1.f;
 
-        angle = atan2(-sign * sidefactor, sign * front_factor);
+        angle      = atan2(-sign * sidefactor, sign * front_factor);
 
         return sign < 0.f ? front : back;
     }
@@ -58,7 +58,7 @@ type_motion::edirection type_motion::dir(CEntityAlive& ea, const SHit& H, float&
     {
         float sign = sidefactor > 0.f ? 1.f : -1.f;
 
-        angle = atan2(sign * front_factor, sign * sidefactor);
+        angle      = atan2(sign * front_factor, sign * sidefactor);
         return sign > 0.f ? left : right;
     }
 }
@@ -70,12 +70,7 @@ bool is_bone_head(IKinematics& K, u16 bone)
     return (bone != BI_NONE) && neck_bone == bone || find_in_parents(head_bone, bone, K);
 }
 
-void type_motion_diagnostic(
-    LPCSTR                  message,
-    type_motion::edirection dr,
-    const CEntityAlive&     ea,
-    const SHit&             H,
-    const MotionID&         m)
+void type_motion_diagnostic(LPCSTR message, type_motion::edirection dr, const CEntityAlive& ea, const SHit& H, const MotionID& m)
 {
 #ifdef DEBUG
 
@@ -95,8 +90,7 @@ void type_motion_diagnostic(
     if (m.valid())
         motion_name = KA->LL_MotionDefName_dbg(m).first;
 
-    Msg("death anims: %s, dir: %s, motion: %s,  obj: %s, model: %s, bone: %s ", message, motion_dirs[dr].name,
-        motion_name, ea.cName().c_str(), ea.cNameVisual().c_str(), bone_name);
+    Msg("death anims: %s, dir: %s, motion: %s,  obj: %s, model: %s, bone: %s ", message, motion_dirs[dr].name, motion_name, ea.cName().c_str(), ea.cNameVisual().c_str(), bone_name);
 
 #endif
 }
@@ -131,9 +125,9 @@ class type_motion0: public type_motion
 
         const Fvector stalker_velocity_dir = Fvector().mul(stalker_velocity, 1.f / stalker_speed);
 
-        const Fvector dir_to_actor = Fvector().sub(H.initiator()->Position(), ea.Position()).normalize_safe();
+        const Fvector dir_to_actor         = Fvector().sub(H.initiator()->Position(), ea.Position()).normalize_safe();
 
-        const float front_angle_cos = _cos(deg2rad(20.f));
+        const float   front_angle_cos      = _cos(deg2rad(20.f));
 
         if (stalker_velocity_dir.dotproduct(dir_to_actor) < front_angle_cos)
             return false;
@@ -145,8 +139,7 @@ class type_motion0: public type_motion
             return false;
 
         m = motion(front);
-        type_motion_diagnostic(
-            " type_motion0: 1. = Инерционное движение вперед от попадания в голову ", front, ea, H, m);
+        type_motion_diagnostic(" type_motion0: 1. = Инерционное движение вперед от попадания в голову ", front, ea, H, m);
         return true;
     }
 };
@@ -325,13 +318,11 @@ void death_anims::setup(IKinematicsAnimated* k, LPCSTR section, CInifile const* 
     VERIFY(ini);
     VERIFY(anims.empty());
     anims.resize(types_number);
-    anims[0] = xr_new<type_motion0>()->setup(
-        k, ini, section, "kill_enertion");   // 1.	Инерционное движение вперед от попадания в голову
+    anims[0] = xr_new<type_motion0>()->setup(k, ini, section, "kill_enertion");   // 1.	Инерционное движение вперед от попадания в голову
     anims[1] = xr_new<type_motion1>()->setup(k, ini, section, "kill_burst");      // 2.	Изрешетить пулями
     anims[2] = xr_new<type_motion2>()->setup(k, ini, section, "kill_shortgun");   // 3.	Шотган
 
-    anims[6] =
-        xr_new<type_motion3>()->setup(k, ini, section, "kill_headshot");   // 4.	Хедшот (по вероятности), кроме 5 (4)
+    anims[6] = xr_new<type_motion3>()->setup(k, ini, section, "kill_headshot");          // 4.	Хедшот (по вероятности), кроме 5 (4)
     anims[4] = xr_new<type_motion4>()->setup(k, ini, section, "kill_sniper_headshot");   // 5.	Снайперка в голову.
     anims[5] = xr_new<type_motion5>()->setup(k, ini, section, "kill_sniper_body");       // 6.	Снайперка в тело.
     anims[3] = xr_new<type_motion6>()->setup(k, ini, section, "kill_grenade");           // 7.	Гранта

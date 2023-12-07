@@ -19,7 +19,7 @@ CUIMpAdminMenu::CUIMpAdminMenu()
     m_pActiveDialog  = NULL;
     m_sActiveSection = "";
 
-    m_pBack = xr_new<CUIStatic>();
+    m_pBack          = xr_new<CUIStatic>();
     m_pBack->SetAutoDelete(true);
     AttachChild(m_pBack);
 
@@ -81,17 +81,20 @@ void CUIMpAdminMenu::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
 {
     switch (msg)
     {
-        case TAB_CHANGED: {
+        case TAB_CHANGED:
+        {
             if (pWnd == m_pTabControl)
                 SetActiveSubdialog(m_pTabControl->GetActiveId());
             break;
         }
-        case BUTTON_CLICKED: {
+        case BUTTON_CLICKED:
+        {
             if (pWnd == m_pClose)
                 HideDialog();
             break;
         }
-        default: {
+        default:
+        {
             R_ASSERT(m_pActiveDialog);
             m_pActiveDialog->SendMessage(pWnd, msg, pData);
         }
@@ -140,11 +143,13 @@ void CUIMpAdminMenu::ShowMessageBox(CUIMessageBox::E_MESSAGEBOX_STYLE style, LPC
 {
     switch (style)
     {
-        case CUIMessageBox::MESSAGEBOX_RA_LOGIN: {
+        case CUIMessageBox::MESSAGEBOX_RA_LOGIN:
+        {
             m_pMessageBoxLogin->ShowDialog(true);
         }
         break;
-        case CUIMessageBox::MESSAGEBOX_OK: {
+        case CUIMessageBox::MESSAGEBOX_OK:
+        {
             m_pMessageBoxOk->SetText(reason);
             m_pMessageBoxOk->ShowDialog(true);
         }
@@ -155,8 +160,6 @@ void CUIMpAdminMenu::ShowMessageBox(CUIMessageBox::E_MESSAGEBOX_STYLE style, LPC
 void CUIMpAdminMenu::RemoteAdminLogin(CUIWindow*, void*)
 {
     string512 tmp_string;
-    xr_sprintf(
-        tmp_string, "ra login %s %s", m_pMessageBoxLogin->m_pMessageBox->GetUserPassword(),
-        m_pMessageBoxLogin->m_pMessageBox->GetPassword());
+    xr_sprintf(tmp_string, "ra login %s %s", m_pMessageBoxLogin->m_pMessageBox->GetUserPassword(), m_pMessageBoxLogin->m_pMessageBox->GetPassword());
     Console->Execute(tmp_string);
 }

@@ -24,10 +24,7 @@ namespace inventory
             m_id._set(group_id);
             add_parent_upgrade(parent_upgrade);
 
-            VERIFY2(
-                pSettings->section_exist(m_id),
-                make_string(
-                    "Upgrade <%s> : group section [%s] does not exist!", parent_upgrade.id_str(), m_id.c_str()));
+            VERIFY2(pSettings->section_exist(m_id), make_string("Upgrade <%s> : group section [%s] does not exist!", parent_upgrade.id_str(), m_id.c_str()));
 
             LPCSTR upgrades_str = pSettings->r_string(m_id, "elements");
             VERIFY2(upgrades_str, make_string("in upgrade group <%s> elements are empty!", m_id.c_str()));
@@ -36,16 +33,14 @@ namespace inventory
             PSTR      temp        = (PSTR)_alloca(buffer_size);
             for (int n = _GetItemCount(upgrades_str), i = 0; i < n; ++i)
             {
-                UpgradeBase* upgrade_p =
-                    (UpgradeBase*)manager_r.add_upgrade(_GetItem(upgrades_str, i, temp, buffer_size), *this);
+                UpgradeBase* upgrade_p = (UpgradeBase*)manager_r.add_upgrade(_GetItem(upgrades_str, i, temp, buffer_size), *this);
                 m_included_upgrades.push_back(upgrade_p);
             }
         }
 
         void Group::add_parent_upgrade(UpgradeBase& parent_upgrade)
         {
-            if (std::find(m_parent_upgrades.begin(), m_parent_upgrades.end(), &parent_upgrade) ==
-                m_parent_upgrades.end())
+            if (std::find(m_parent_upgrades.begin(), m_parent_upgrades.end(), &parent_upgrade) == m_parent_upgrades.end())
             {
                 m_parent_upgrades.push_back(&parent_upgrade);
             }
@@ -97,11 +92,7 @@ namespace inventory
                 {
                     if (loading)
                     {
-                        FATAL(
-                            make_string(
-                                "Loading item: Upgrade <%s> of inventory item [%s] (id = %d) can`t be installed! Error = result_e_parents",
-                                test_upgrade.id_str(), item.m_section_id.c_str(), item.object_id())
-                                .c_str());
+                        FATAL(make_string("Loading item: Upgrade <%s> of inventory item [%s] (id = %d) can`t be installed! Error = result_e_parents", test_upgrade.id_str(), item.m_section_id.c_str(), item.object_id()).c_str());
                     }
                     return result_e_parents;
                 }
@@ -119,11 +110,7 @@ namespace inventory
                 {
                     if (loading)
                     {
-                        FATAL(
-                            make_string(
-                                "Loading item: Upgrade <%s> of inventory item [%s] (id = %d) can`t be installed! Error = result_e_group",
-                                test_upgrade.id_str(), item.m_section_id.c_str(), item.object_id())
-                                .c_str());
+                        FATAL(make_string("Loading item: Upgrade <%s> of inventory item [%s] (id = %d) can`t be installed! Error = result_e_group", test_upgrade.id_str(), item.m_section_id.c_str(), item.object_id()).c_str());
                     }
                     return result_e_group;
                 }

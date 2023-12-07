@@ -68,9 +68,7 @@ void CAI_Rat::init()
     m_bActionStarted       = false;
     m_bFiring              = false;
     m_previous_query_time  = 0;
-    m_tGoalDir.set(
-        10.0f * (Random.randF() - Random.randF()), 10.0f * (Random.randF() - Random.randF()),
-        10.0f * (Random.randF() - Random.randF()));
+    m_tGoalDir.set(10.0f * (Random.randF() - Random.randF()), 10.0f * (Random.randF() - Random.randF()), 10.0f * (Random.randF() - Random.randF()));
     m_tCurrentDir = m_tGoalDir;
     m_tHPB.set(0, 0, 0);
     m_fDHeading              = 0;
@@ -129,21 +127,11 @@ void CAI_Rat::reload(LPCSTR section)
     inherited::reload(section);
     CEatableItem::reload(section);
     LPCSTR head_bone_name = pSettings->r_string(section, "bone_head");
-    sound().add(
-        pSettings->r_string(section, "sound_death"), 100, SOUND_TYPE_MONSTER_DYING, 0, u32(eRatSoundMaskDie),
-        eRatSoundDie, head_bone_name);
-    sound().add(
-        pSettings->r_string(section, "sound_hit"), 100, SOUND_TYPE_MONSTER_INJURING, 1, u32(eRatSoundMaskInjuring),
-        eRatSoundInjuring, head_bone_name);
-    sound().add(
-        pSettings->r_string(section, "sound_attack"), 100, SOUND_TYPE_MONSTER_ATTACKING, 2, u32(eRatSoundMaskAttack),
-        eRatSoundAttack, head_bone_name);
-    sound().add(
-        pSettings->r_string(section, "sound_voice"), 100, SOUND_TYPE_MONSTER_TALKING, 4, u32(eRatSoundMaskVoice),
-        eRatSoundVoice, head_bone_name);
-    sound().add(
-        pSettings->r_string(section, "sound_eat"), 100, SOUND_TYPE_MONSTER_EATING, 3, u32(eRatSoundMaskEat),
-        eRatSoundEat, head_bone_name);
+    sound().add(pSettings->r_string(section, "sound_death"), 100, SOUND_TYPE_MONSTER_DYING, 0, u32(eRatSoundMaskDie), eRatSoundDie, head_bone_name);
+    sound().add(pSettings->r_string(section, "sound_hit"), 100, SOUND_TYPE_MONSTER_INJURING, 1, u32(eRatSoundMaskInjuring), eRatSoundInjuring, head_bone_name);
+    sound().add(pSettings->r_string(section, "sound_attack"), 100, SOUND_TYPE_MONSTER_ATTACKING, 2, u32(eRatSoundMaskAttack), eRatSoundAttack, head_bone_name);
+    sound().add(pSettings->r_string(section, "sound_voice"), 100, SOUND_TYPE_MONSTER_TALKING, 4, u32(eRatSoundMaskVoice), eRatSoundVoice, head_bone_name);
+    sound().add(pSettings->r_string(section, "sound_eat"), 100, SOUND_TYPE_MONSTER_EATING, 3, u32(eRatSoundMaskEat), eRatSoundEat, head_bone_name);
 }
 
 void CAI_Rat::Die(CObject* who)
@@ -187,37 +175,37 @@ void CAI_Rat::Load(LPCSTR section)
     m_dwStandingCountPercent        = pSettings->r_s32(section, "StandingCountPercent");
 
     // eye shift
-    m_tEyeShift.y = pSettings->r_float(section, "EyeYShift");
+    m_tEyeShift.y                   = pSettings->r_float(section, "EyeYShift");
 
     // former constants
-    m_dwLostMemoryTime        = pSettings->r_s32(section, "LostMemoryTime");
-    m_dwLostRecoilTime        = pSettings->r_s32(section, "LostRecoilTime");
-    m_fUnderFireDistance      = pSettings->r_float(section, "UnderFireDistance");
-    m_dwRetreatTime           = pSettings->r_s32(section, "RetreatTime");
-    m_fRetreatDistance        = pSettings->r_float(section, "RetreatDistance");
-    m_fAttackStraightDistance = pSettings->r_float(section, "AttackStraightDistance");
-    m_fStableDistance         = pSettings->r_float(section, "StableDistance");
-    m_fWallMinTurnValue       = pSettings->r_float(section, "WallMinTurnValue") / 180.f * PI;
-    m_fWallMaxTurnValue       = pSettings->r_float(section, "WallMaxTurnValue") / 180.f * PI;
+    m_dwLostMemoryTime              = pSettings->r_s32(section, "LostMemoryTime");
+    m_dwLostRecoilTime              = pSettings->r_s32(section, "LostRecoilTime");
+    m_fUnderFireDistance            = pSettings->r_float(section, "UnderFireDistance");
+    m_dwRetreatTime                 = pSettings->r_s32(section, "RetreatTime");
+    m_fRetreatDistance              = pSettings->r_float(section, "RetreatDistance");
+    m_fAttackStraightDistance       = pSettings->r_float(section, "AttackStraightDistance");
+    m_fStableDistance               = pSettings->r_float(section, "StableDistance");
+    m_fWallMinTurnValue             = pSettings->r_float(section, "WallMinTurnValue") / 180.f * PI;
+    m_fWallMaxTurnValue             = pSettings->r_float(section, "WallMaxTurnValue") / 180.f * PI;
 
-    m_fAngleSpeed          = pSettings->r_float(section, "AngleSpeed");
-    m_fSafeGoalChangeDelta = pSettings->r_float(section, "GoalChangeDelta");
-    m_tGoalVariation       = pSettings->r_fvector3(section, "GoalVariation");
+    m_fAngleSpeed                   = pSettings->r_float(section, "AngleSpeed");
+    m_fSafeGoalChangeDelta          = pSettings->r_float(section, "GoalChangeDelta");
+    m_tGoalVariation                = pSettings->r_fvector3(section, "GoalVariation");
 
-    m_fMoraleDeathDistance = pSettings->r_float(section, "MoraleDeathDistance");
-    m_dwActionRefreshRate  = pSettings->r_s32(section, "ActionRefreshRate");
+    m_fMoraleDeathDistance          = pSettings->r_float(section, "MoraleDeathDistance");
+    m_dwActionRefreshRate           = pSettings->r_s32(section, "ActionRefreshRate");
 
     SetMaxHealth(pSettings->r_float(section, "MaxHealthValue"));
-    m_fSoundThreshold = pSettings->r_float(section, "SoundThreshold");
+    m_fSoundThreshold     = pSettings->r_float(section, "SoundThreshold");
 
     m_bEatMemberCorpses   = pSettings->r_bool(section, "EatMemberCorpses");
     m_bCannibalism        = pSettings->r_bool(section, "Cannibalism");
     m_dwEatCorpseInterval = pSettings->r_s32(section, "EatCorpseInterval");
 
-    m_fNullASpeed   = pSettings->r_float(section, "AngularStandSpeed") / 180.f * PI;    // PI_MUL_2
-    m_fMinASpeed    = pSettings->r_float(section, "AngularMinSpeed") / 180.f * PI;      // PI_MUL_2
-    m_fMaxASpeed    = pSettings->r_float(section, "AngularMaxSpeed") / 180.f * PI;      //.2f
-    m_fAttackASpeed = pSettings->r_float(section, "AngularAttackSpeed") / 180.f * PI;   //.15f;
+    m_fNullASpeed         = pSettings->r_float(section, "AngularStandSpeed") / 180.f * PI;    // PI_MUL_2
+    m_fMinASpeed          = pSettings->r_float(section, "AngularMinSpeed") / 180.f * PI;      // PI_MUL_2
+    m_fMaxASpeed          = pSettings->r_float(section, "AngularMaxSpeed") / 180.f * PI;      //.2f
+    m_fAttackASpeed       = pSettings->r_float(section, "AngularAttackSpeed") / 180.f * PI;   //.15f;
 
     m_phMass              = pSettings->r_float(section, "corp_mass");
     m_dwActiveScheduleMin = shedule.t_min;
@@ -244,14 +232,14 @@ BOOL CAI_Rat::net_Spawn(CSE_Abstract* DC)
     movement().m_body.current.pitch = movement().m_body.target.pitch = 0;
     movement().m_body.speed                                          = PI_MUL_2;
 
-    eye_fov   = tpSE_Rat->fEyeFov;
-    eye_range = tpSE_Rat->fEyeRange;
+    eye_fov                                                          = tpSE_Rat->fEyeFov;
+    eye_range                                                        = tpSE_Rat->fEyeRange;
     SetfHealth(tpSE_Rat->get_health());
-    m_fMinSpeed         = tpSE_Rat->fMinSpeed;
-    m_fMaxSpeed         = tpSE_Rat->fMaxSpeed;
-    m_fAttackSpeed      = tpSE_Rat->fAttackSpeed;
-    m_fMaxPursuitRadius = tpSE_Rat->fMaxPursuitRadius;
-    m_fMaxHomeRadius    = tpSE_Rat->fMaxHomeRadius;
+    m_fMinSpeed                   = tpSE_Rat->fMinSpeed;
+    m_fMaxSpeed                   = tpSE_Rat->fMaxSpeed;
+    m_fAttackSpeed                = tpSE_Rat->fAttackSpeed;
+    m_fMaxPursuitRadius           = tpSE_Rat->fMaxPursuitRadius;
+    m_fMaxHomeRadius              = tpSE_Rat->fMaxHomeRadius;
     // morale
     m_fMoraleSuccessAttackQuant   = tpSE_Rat->fMoraleSuccessAttackQuant;
     m_fMoraleDeathQuant           = tpSE_Rat->fMoraleDeathQuant;
@@ -262,21 +250,19 @@ BOOL CAI_Rat::net_Spawn(CSE_Abstract* DC)
     m_fMoraleMaxValue             = tpSE_Rat->fMoraleMaxValue;
     m_fMoraleNormalValue          = tpSE_Rat->fMoraleNormalValue;
     // attack
-    m_fHitPower                 = tpSE_Rat->fHitPower;
-    m_dwHitInterval             = tpSE_Rat->u16HitInterval;
-    m_fAttackDistance           = tpSE_Rat->fAttackDistance;
-    m_fAttackAngle              = tpSE_Rat->fAttackAngle / 180.f * PI;
-    m_fAttackSuccessProbability = tpSE_Rat->fAttackSuccessProbability;
+    m_fHitPower                   = tpSE_Rat->fHitPower;
+    m_dwHitInterval               = tpSE_Rat->u16HitInterval;
+    m_fAttackDistance             = tpSE_Rat->fAttackDistance;
+    m_fAttackAngle                = tpSE_Rat->fAttackAngle / 180.f * PI;
+    m_fAttackSuccessProbability   = tpSE_Rat->fAttackSuccessProbability;
 
     //	m_tCurGP						= tpSE_Rat->m_tGraphID;
     //	m_tNextGP						= tpSE_Rat->m_tNextGraphID;
     m_current_graph_point = m_next_graph_point = ai_location().game_vertex_id();
 
-    int iPointCount = (int)movement().locations().vertex_types().size();
+    int iPointCount                            = (int)movement().locations().vertex_types().size();
     for (int j = 0; j < iPointCount; ++j)
-        if (ai().game_graph().mask(
-                movement().locations().vertex_types()[j].tMask,
-                ai().game_graph().vertex(ai_location().game_vertex_id())->vertex_type()))
+        if (ai().game_graph().mask(movement().locations().vertex_types()[j].tMask, ai().game_graph().vertex(ai_location().game_vertex_id())->vertex_type()))
         {
             m_time_to_change_graph_point = Device->dwTimeGlobal + ::Random32.random(60000) + 60000;
             break;
@@ -385,9 +371,9 @@ void CAI_Rat::net_Import(NET_Packet& P)
     R_ASSERT(Remote());
     net_update N;
 
-    u8 flags;
+    u8         flags;
 
-    float health;
+    float      health;
     P.r_float(health);
     SetfHealth(health);
 
@@ -434,9 +420,7 @@ void CAI_Rat::CreateSkeleton()
     // sphere.R=0.25;
     // element->add_Sphere(sphere);
     element->setDensity(m_phMass);
-    element->SetMaterial(smart_cast<IKinematics*>(Visual())
-                             ->LL_GetData(smart_cast<IKinematics*>(Visual())->LL_GetBoneRoot())
-                             .game_mtl_idx);
+    element->SetMaterial(smart_cast<IKinematics*>(Visual())->LL_GetData(smart_cast<IKinematics*>(Visual())->LL_GetBoneRoot()).game_mtl_idx);
     m_pPhysicsShell = P_create_Shell();
     m_pPhysicsShell->add_Element(element);
     m_pPhysicsShell->Activate(XFORM(), 0, XFORM());
@@ -506,8 +490,7 @@ void CAI_Rat::UpdateCL()
 
         CMonsterSquad* squad = monster_squad().get_squad(this);
 
-        if (squad &&
-            ((squad->GetLeader() != this && !squad->GetLeader()->g_Alive()) || squad->get_index(this) == u32(-1)))
+        if (squad && ((squad->GetLeader() != this && !squad->GetLeader()->g_Alive()) || squad->get_index(this) == u32(-1)))
             squad->SetLeader(this);
 
         if (squad && squad->SquadActive() && squad->GetLeader() == this && m_squad_count != squad->squad_alife_count())

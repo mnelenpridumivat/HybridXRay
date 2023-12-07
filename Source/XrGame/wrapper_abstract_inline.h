@@ -11,10 +11,9 @@
 // #include "script_game_object.h"
 class CScriptGameObject;
 
-#define TEMPLATE_SPECIALIZATION \
-    template <typename _object_type, template <typename _base_object_type> class ancestor, typename _base_object_type>
-#define CWrapper CWrapperAbstract<_object_type, ancestor, _base_object_type>
-#define CWrapper2 CWrapperAbstract2<_object_type, ancestor, _base_object_type>
+#define TEMPLATE_SPECIALIZATION template<typename _object_type, template<typename _base_object_type> class ancestor, typename _base_object_type>
+#define CWrapper                CWrapperAbstract<_object_type, ancestor, _base_object_type>
+#define CWrapper2               CWrapperAbstract2<_object_type, ancestor, _base_object_type>
 
 TEMPLATE_SPECIALIZATION
 IC CWrapper::CWrapperAbstract()
@@ -23,14 +22,13 @@ IC CWrapper::CWrapperAbstract()
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T1> IC CWrapper::CWrapperAbstract(T1 t1): inherited(t1)
+template<typename T1> IC CWrapper::CWrapperAbstract(T1 t1): inherited(t1)
 {
     m_object = 0;
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T1, typename T2, typename T3> IC CWrapper::CWrapperAbstract(T1 t1, T2 t2, T3 t3):
-    inherited(t1, t2, t3)
+template<typename T1, typename T2, typename T3> IC CWrapper::CWrapperAbstract(T1 t1, T2 t2, T3 t3): inherited(t1, t2, t3)
 {
     m_object = 0;
 }
@@ -73,7 +71,7 @@ IC CWrapper2::CWrapperAbstract2()
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T1> IC CWrapper2::CWrapperAbstract2(T1 t1): inherited(t1)
+template<typename T1> IC CWrapper2::CWrapperAbstract2(T1 t1): inherited(t1)
 {
     m_object = 0;
 }
@@ -86,28 +84,25 @@ IC _object_type& CWrapper2::object() const
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T1, typename T2, typename T3> IC CWrapper2::CWrapperAbstract2(T1 t1, T2 t2, T3 t3):
-    inherited(t1, t2, t3)
+template<typename T1, typename T2, typename T3> IC CWrapper2::CWrapperAbstract2(T1 t1, T2 t2, T3 t3): inherited(t1, t2, t3)
 {
     m_object = 0;
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T1, typename T2> IC CWrapper2::CWrapperAbstract2(T1 t1, T2 t2): inherited(t1, t2)
+template<typename T1, typename T2> IC CWrapper2::CWrapperAbstract2(T1 t1, T2 t2): inherited(t1, t2)
 {
     m_object = 0;
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T1, typename T2, typename T3, typename T4>
-IC CWrapper2::CWrapperAbstract2(T1 t1, T2 t2, T3 t3, T4 t4): inherited(t1, t2, t3, t4)
+template<typename T1, typename T2, typename T3, typename T4> IC CWrapper2::CWrapperAbstract2(T1 t1, T2 t2, T3 t3, T4 t4): inherited(t1, t2, t3, t4)
 {
     m_object = 0;
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T1, typename T2, typename T3, typename T4, typename T5>
-IC CWrapper2::CWrapperAbstract2(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5): inherited(t1, t2, t3, t4, t5)
+template<typename T1, typename T2, typename T3, typename T4, typename T5> IC CWrapper2::CWrapperAbstract2(T1 t1, T2 t2, T3 t3, T4 t4, T5 t5): inherited(t1, t2, t3, t4, t5)
 {
     m_object = 0;
 }

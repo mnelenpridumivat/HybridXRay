@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -26,61 +26,64 @@
 #include "common.h"
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
+    enum
+    {
+        dContactMu2       = 0x001,
+        dContactFDir1     = 0x002,
+        dContactBounce    = 0x004,
+        dContactSoftERP   = 0x008,
+        dContactSoftCFM   = 0x010,
+        dContactMotion1   = 0x020,
+        dContactMotion2   = 0x040,
+        dContactSlip1     = 0x080,
+        dContactSlip2     = 0x100,
 
-enum {
-  dContactMu2		= 0x001,
-  dContactFDir1		= 0x002,
-  dContactBounce	= 0x004,
-  dContactSoftERP	= 0x008,
-  dContactSoftCFM	= 0x010,
-  dContactMotion1	= 0x020,
-  dContactMotion2	= 0x040,
-  dContactSlip1		= 0x080,
-  dContactSlip2		= 0x100,
+        dContactApprox0   = 0x0000,
+        dContactApprox1_1 = 0x1000,
+        dContactApprox1_2 = 0x2000,
+        dContactApprox1   = 0x3000
+    };
 
-  dContactApprox0	= 0x0000,
-  dContactApprox1_1	= 0x1000,
-  dContactApprox1_2	= 0x2000,
-  dContactApprox1	= 0x3000
-};
+#pragma pack(push, 4)
+    typedef struct dSurfaceParameters
+    {
+        /* must always be defined */
+        int   mode;
+        dReal mu;
 
-#pragma pack(push,4)
-typedef struct dSurfaceParameters {
-  /* must always be defined */
-  int mode;
-  dReal mu;
-
-  /* only defined if the corresponding flag is set in mode */
-  dReal mu2;
-  dReal bounce;
-  dReal bounce_vel;
-  dReal soft_erp;
-  dReal soft_cfm;
-  dReal motion1,motion2;
-  dReal slip1,slip2;
-} dSurfaceParameters;
-
+        /* only defined if the corresponding flag is set in mode */
+        dReal mu2;
+        dReal bounce;
+        dReal bounce_vel;
+        dReal soft_erp;
+        dReal soft_cfm;
+        dReal motion1, motion2;
+        dReal slip1, slip2;
+    } dSurfaceParameters;
 
 /* contact info set by collision functions */
-#pragma pack(push,4)
-typedef struct dContactGeom {
-  dVector3 pos;
-  dVector3 normal;
-  dReal depth;
-  dGeomID g1,g2;
-} dContactGeom;
+#pragma pack(push, 4)
+    typedef struct dContactGeom
+    {
+        dVector3 pos;
+        dVector3 normal;
+        dReal    depth;
+        dGeomID  g1, g2;
+    } dContactGeom;
 #pragma pack(pop)
 
-/* contact info used by contact joint */
+    /* contact info used by contact joint */
 
-typedef struct dContact {
-  dSurfaceParameters surface;
-  dContactGeom geom;
-  dVector3 fdir1;
-} dContact;
+    typedef struct dContact
+    {
+        dSurfaceParameters surface;
+        dContactGeom       geom;
+        dVector3           fdir1;
+    } dContact;
 
 #pragma pack(pop)
 #ifdef __cplusplus

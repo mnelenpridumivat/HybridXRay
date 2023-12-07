@@ -49,6 +49,7 @@ public:
         MMSM_AUTO,
         MMSM_AUTODETECT
     };
+
 public:
     struct _options
     {
@@ -118,6 +119,7 @@ public:
         u32 o_queries, o_culled;
         u32 ic_total, ic_culled;
     } stats;
+
 public:
     // Sector detection and visibility
     CSector*                                                 pLastSector;
@@ -166,6 +168,7 @@ public:
     bool                                                     m_bMakeAsyncSS;
     bool                                                     m_bFirstFrameAfterReset;   // Determines weather the frame is the first after resetting Device->
     xr_vector<sun::cascade>                                  m_sun_cascades;
+
 private:
     // Loading / Unloading
     void LoadBuffers(CStreamReader* fs, BOOL _alternative);
@@ -180,6 +183,7 @@ private:
     void add_Static(dxRender_Visual* pVisual, u32 planes);
     void add_leafs_Dynamic(dxRender_Visual* pVisual);   // if detected node's full visibility
     void add_leafs_Static(dxRender_Visual* pVisual);    // if detected node's full visibility
+
 public:
     IRender_Sector* rimp_detectSector(Fvector& P, Fvector& D);
     void            render_main(Fmatrix& mCombined, bool _fportals);
@@ -196,6 +200,7 @@ public:
     void            render_sun_cascade(u32 cascade_ind);
     void            init_cacades();
     void            render_sun_cascades();
+
 public:
     ShaderElement*     rimp_select_sh_static(dxRender_Visual* pVisual, float cdist_sq);
     ShaderElement*     rimp_select_sh_dynamic(dxRender_Visual* pVisual, float cdist_sq);
@@ -254,6 +259,7 @@ public:
         RCache.hemi.set_pos_faces(o_hemi_cube[CROS_impl::CUBE_FACE_POS_X], o_hemi_cube[CROS_impl::CUBE_FACE_POS_Y], o_hemi_cube[CROS_impl::CUBE_FACE_POS_Z]);
         RCache.hemi.set_neg_faces(o_hemi_cube[CROS_impl::CUBE_FACE_NEG_X], o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Y], o_hemi_cube[CROS_impl::CUBE_FACE_NEG_Z]);
     }
+
 public:
     // feature level
     virtual GenerationLevel get_generation()
@@ -365,10 +371,13 @@ public:
     {
         m_ShaderOptions.clear();
     }
+
 private:
     xr_vector<D3D_SHADER_MACRO> m_ShaderOptions;
+
 protected:
     virtual void ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer);
+
 private:
     FS_FileSet m_file_set;
 };

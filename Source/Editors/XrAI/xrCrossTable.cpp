@@ -64,9 +64,7 @@ void vfRecurseUpdate(u32 dwStartNodeID, u32 percent, u32 iVertexCount)
         curr_fringe = next_fringe;
         next_fringe.clear();
         ++curr_dist;
-        Progress(
-            float(percent) / float(iVertexCount) +
-            float(total_count) / (float(iVertexCount) * float(g_tMap->header().vertex_count())));
+        Progress(float(percent) / float(iVertexCount) + float(total_count) / (float(iVertexCount) * float(g_tMap->header().vertex_count())));
     }
 }
 
@@ -186,8 +184,7 @@ CCrossTableBuilder::CCrossTableBuilder(LPCSTR caProjectName)
                 if ((tGraph.vertex(j)->level_vertex_id() == (u32)i) && (tCrossTableCell.tGraphIndex != j))
                 {
                     Msg("! Warning : graph points are too close, therefore cross table is automatically validated");
-                    Msg("%d : [%f][%f][%f] %d[%f] -> %d[%f]", i, VPUSH(tGraph.vertex(j)->level_point()),
-                        tCrossTableCell.tGraphIndex, tCrossTableCell.fDistance, j, tDistances[j][i]);
+                    Msg("%d : [%f][%f][%f] %d[%f] -> %d[%f]", i, VPUSH(tGraph.vertex(j)->level_point()), tCrossTableCell.tGraphIndex, tCrossTableCell.fDistance, j, tDistances[j][i]);
                     tCrossTableCell.fDistance   = float(tDistances[j][i]) * tMap.header().cell_size();
                     tCrossTableCell.tGraphIndex = (GameGraph::_GRAPH_ID)j;
                 }

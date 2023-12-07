@@ -29,13 +29,13 @@
 
 #define PDA_XML "pda.xml"
 
-u32 g_pda_info_state = 0;
+u32  g_pda_info_state = 0;
 
 void RearrangeTabButtons(CUITabControl* pTab);
 
 CUIPdaWnd::CUIPdaWnd()
 {
-    pUITaskWnd = NULL;
+    pUITaskWnd    = NULL;
     //-	pUIFactionWarWnd = NULL;
     pUIRankingWnd = NULL;
     pUILogsWnd    = NULL;
@@ -73,8 +73,8 @@ void CUIPdaWnd::Init()
         m_anim_static->SetAutoDelete(true);
         CUIXmlInit::InitAnimatedStatic(uiXml, "anim_static", 0, m_anim_static);
     */
-    m_btn_close = UIHelper::Create3tButton(uiXml, "close_button", this);
-    m_hint_wnd  = UIHelper::CreateHint(uiXml, "hint_wnd");
+    m_btn_close     = UIHelper::Create3tButton(uiXml, "close_button", this);
+    m_hint_wnd      = UIHelper::CreateHint(uiXml, "hint_wnd");
 
     if (IsGameTypeSingle())
     {
@@ -110,21 +110,24 @@ void CUIPdaWnd::SendMessage(CUIWindow* pWnd, s16 msg, void* pData)
 {
     switch (msg)
     {
-        case TAB_CHANGED: {
+        case TAB_CHANGED:
+        {
             if (pWnd == UITabControl)
             {
                 SetActiveSubdialog(UITabControl->GetActiveId());
             }
             break;
         }
-        case BUTTON_CLICKED: {
+        case BUTTON_CLICKED:
+        {
             if (pWnd == m_btn_close)
             {
                 HideDialog();
             }
             break;
         }
-        default: {
+        default:
+        {
             R_ASSERT(m_pActiveDialog);
             m_pActiveDialog->SendMessage(pWnd, msg, pData);
         }
@@ -158,8 +161,7 @@ void CUIPdaWnd::Update()
 {
     inherited::Update();
     m_pActiveDialog->Update();
-    m_clock->TextItemControl().SetText(
-        InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes).c_str());
+    m_clock->TextItemControl().SetText(InventoryUtilities::GetGameTimeAsString(InventoryUtilities::etpTimeToMinutes).c_str());
 
     Device->seqParallel.push_back(fastdelegate::FastDelegate0<>(pUILogsWnd, &CUILogsWnd::PerformWork));
 }
@@ -263,8 +265,7 @@ void CUIPdaWnd::DrawHint()
         pUIRankingWnd->DrawHint();
     }
     else if (m_pActiveDialog == pUILogsWnd)
-    {
-    }
+    {}
     m_hint_wnd->Draw();
 }
 
@@ -307,7 +308,7 @@ void RearrangeTabButtons(CUITabControl* pTab)
     TABS_VECTOR::iterator it      = btn_vec->begin();
     TABS_VECTOR::iterator it_e    = btn_vec->end();
 
-    Fvector2 pos;
+    Fvector2              pos;
     pos.set((*it)->GetWndPos());
     float size_x;
 

@@ -71,7 +71,7 @@ CScriptGameObject* tpfGetActor()
     static bool first_time = true;
     if (first_time)
         ai().script_engine().script_log(eLuaMessageTypeError, "Do not use level.actor function!");
-    first_time = false;
+    first_time        = false;
 
     CActor* l_tpActor = smart_cast<CActor*>(Level().CurrentEntity());
     if (l_tpActor)
@@ -85,7 +85,7 @@ CScriptGameObject* get_object_by_name(LPCSTR caObjectName)
     static bool first_time = true;
     if (first_time)
         ai().script_engine().script_log(eLuaMessageTypeError, "Do not use level.object function!");
-    first_time = false;
+    first_time                  = false;
 
     CGameObject* l_tpGameObject = smart_cast<CGameObject*>(Level().Objects.FindObjectByName(caObjectName));
     if (l_tpGameObject)
@@ -189,27 +189,21 @@ ESingleGameDifficulty get_game_difficulty()
 u32 get_time_days()
 {
     u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-    split_time(
-        (g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month,
-        day, hours, mins, secs, milisecs);
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
     return day;
 }
 
 u32 get_time_hours()
 {
     u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-    split_time(
-        (g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month,
-        day, hours, mins, secs, milisecs);
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
     return hours;
 }
 
 u32 get_time_minutes()
 {
     u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-    split_time(
-        (g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month,
-        day, hours, mins, secs, milisecs);
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
     return mins;
 }
 
@@ -419,20 +413,14 @@ void remove_call(const luabind::object& lua_object, LPCSTR condition, LPCSTR act
     Level().ph_commander_scripts().remove_call(&c, &a);
 }
 
-void add_call(
-    const luabind::object&        lua_object,
-    const luabind::functor<bool>& condition,
-    const luabind::functor<void>& action)
+void add_call(const luabind::object& lua_object, const luabind::functor<bool>& condition, const luabind::functor<void>& action)
 {
     CPHScriptObjectConditionN* c = xr_new<CPHScriptObjectConditionN>(lua_object, condition);
     CPHScriptObjectActionN*    a = xr_new<CPHScriptObjectActionN>(lua_object, action);
     Level().ph_commander_scripts().add_call(c, a);
 }
 
-void remove_call(
-    const luabind::object&        lua_object,
-    const luabind::functor<bool>& condition,
-    const luabind::functor<void>& action)
+void remove_call(const luabind::object& lua_object, const luabind::functor<bool>& condition, const luabind::functor<void>& action)
 {
     CPHScriptObjectConditionN c(lua_object, condition);
     CPHScriptObjectActionN    a(lua_object, action);
@@ -669,14 +657,11 @@ int g_get_general_goodwill_between(u16 from, u16 to)
 
     if (!from_obj || !to_obj)
     {
-        ai().script_engine().script_log(
-            ScriptStorage::eLuaMessageTypeError,
-            "RELATION_REGISTRY::get_general_goodwill_between  : cannot convert obj to CSE_ALifeTraderAbstract!");
+        ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "RELATION_REGISTRY::get_general_goodwill_between  : cannot convert obj to CSE_ALifeTraderAbstract!");
         return (0);
     }
-    CHARACTER_GOODWILL community_to_obj_goodwill = RELATION_REGISTRY().GetCommunityGoodwill(from_obj->Community(), to);
-    CHARACTER_GOODWILL community_to_community_goodwill =
-        RELATION_REGISTRY().GetCommunityRelation(from_obj->Community(), to_obj->Community());
+    CHARACTER_GOODWILL community_to_obj_goodwill       = RELATION_REGISTRY().GetCommunityGoodwill(from_obj->Community(), to);
+    CHARACTER_GOODWILL community_to_community_goodwill = RELATION_REGISTRY().GetCommunityRelation(from_obj->Community(), to_obj->Community());
 
     return presonal_goodwill + community_to_obj_goodwill + community_to_community_goodwill;
 }
@@ -694,7 +679,7 @@ u32 render_get_dx_level()
 CUISequencer* g_tutorial  = NULL;
 CUISequencer* g_tutorial2 = NULL;
 
-void start_tutorial(LPCSTR name)
+void          start_tutorial(LPCSTR name)
 {
     if (g_tutorial)
     {
@@ -727,9 +712,7 @@ bool has_active_tutotial()
 #pragma optimize("s", on)
 void CLevel::script_register(lua_State* L)
 {
-    class_<IEnvDescriptor>("CEnvDescriptor")
-        .def_readonly("fog_density", &IEnvDescriptor::fog_density)
-        .def_readonly("far_plane", &IEnvDescriptor::far_plane),
+    class_<IEnvDescriptor>("CEnvDescriptor").def_readonly("fog_density", &IEnvDescriptor::fog_density).def_readonly("far_plane", &IEnvDescriptor::far_plane),
 
         class_<IEnvironment>("CEnvironment").def("current", current_environment);
 
@@ -740,9 +723,7 @@ void CLevel::script_register(lua_State* L)
         def("debug_object", get_object_by_name), def("debug_actor", tpfGetActor), def("check_object", check_object),
 #endif
 
-        def("get_weather", get_weather), def("set_weather", set_weather), def("set_weather_fx", set_weather_fx),
-        def("start_weather_fx_from_time", start_weather_fx_from_time), def("is_wfx_playing", is_wfx_playing),
-        def("get_wfx_time", get_wfx_time), def("stop_weather_fx", stop_weather_fx),
+        def("get_weather", get_weather), def("set_weather", set_weather), def("set_weather_fx", set_weather_fx), def("start_weather_fx_from_time", start_weather_fx_from_time), def("is_wfx_playing", is_wfx_playing), def("get_wfx_time", get_wfx_time), def("stop_weather_fx", stop_weather_fx),
 
         def("environment", environment),
 
@@ -750,45 +731,25 @@ void CLevel::script_register(lua_State* L)
 
         def("set_game_difficulty", set_game_difficulty), def("get_game_difficulty", get_game_difficulty),
 
-        def("get_time_days", get_time_days), def("get_time_hours", get_time_hours),
-        def("get_time_minutes", get_time_minutes), def("change_game_time", change_game_time),
+        def("get_time_days", get_time_days), def("get_time_hours", get_time_hours), def("get_time_minutes", get_time_minutes), def("change_game_time", change_game_time),
 
-        def("high_cover_in_direction", high_cover_in_direction), def("low_cover_in_direction", low_cover_in_direction),
-        def("vertex_in_direction", vertex_in_direction), def("rain_factor", rain_factor),
-        def("patrol_path_exists", patrol_path_exists), def("vertex_position", vertex_position), def("name", get_name),
-        def("prefetch_sound", prefetch_sound),
+        def("high_cover_in_direction", high_cover_in_direction), def("low_cover_in_direction", low_cover_in_direction), def("vertex_in_direction", vertex_in_direction), def("rain_factor", rain_factor), def("patrol_path_exists", patrol_path_exists), def("vertex_position", vertex_position), def("name", get_name), def("prefetch_sound", prefetch_sound),
 
         def("client_spawn_manager", get_client_spawn_manager),
 
         def("map_add_object_spot_ser", map_add_object_spot_ser), def("map_add_object_spot", map_add_object_spot),
         //-		def("map_add_object_spot_complex",		map_add_object_spot_complex),
-        def("map_remove_object_spot", map_remove_object_spot), def("map_has_object_spot", map_has_object_spot),
-        def("map_change_spot_hint", map_change_spot_hint),
+        def("map_remove_object_spot", map_remove_object_spot), def("map_has_object_spot", map_has_object_spot), def("map_change_spot_hint", map_change_spot_hint),
 
-        def("add_dialog_to_render", add_dialog_to_render), def("remove_dialog_to_render", remove_dialog_to_render),
-        def("hide_indicators", hide_indicators), def("hide_indicators_safe", hide_indicators_safe),
+        def("add_dialog_to_render", add_dialog_to_render), def("remove_dialog_to_render", remove_dialog_to_render), def("hide_indicators", hide_indicators), def("hide_indicators_safe", hide_indicators_safe),
 
-        def("show_indicators", show_indicators), def("show_weapon", show_weapon),
-        def("add_call", ((void (*)(const luabind::functor<bool>&, const luabind::functor<void>&)) & add_call)),
-        def("add_call",
-            ((void (*)(const luabind::object&, const luabind::functor<bool>&, const luabind::functor<void>&)) &
-             add_call)),
-        def("add_call", ((void (*)(const luabind::object&, LPCSTR, LPCSTR)) & add_call)),
-        def("remove_call", ((void (*)(const luabind::functor<bool>&, const luabind::functor<void>&)) & remove_call)),
-        def("remove_call",
-            ((void (*)(const luabind::object&, const luabind::functor<bool>&, const luabind::functor<void>&)) &
-             remove_call)),
-        def("remove_call", ((void (*)(const luabind::object&, LPCSTR, LPCSTR)) & remove_call)),
-        def("remove_calls_for_object", remove_calls_for_object), def("present", is_level_present),
-        def("disable_input", disable_input), def("enable_input", enable_input), def("spawn_phantom", spawn_phantom),
+        def("show_indicators", show_indicators), def("show_weapon", show_weapon), def("add_call", ((void (*)(const luabind::functor<bool>&, const luabind::functor<void>&)) & add_call)), def("add_call", ((void (*)(const luabind::object&, const luabind::functor<bool>&, const luabind::functor<void>&)) & add_call)), def("add_call", ((void (*)(const luabind::object&, LPCSTR, LPCSTR)) & add_call)),
+        def("remove_call", ((void (*)(const luabind::functor<bool>&, const luabind::functor<void>&)) & remove_call)), def("remove_call", ((void (*)(const luabind::object&, const luabind::functor<bool>&, const luabind::functor<void>&)) & remove_call)), def("remove_call", ((void (*)(const luabind::object&, LPCSTR, LPCSTR)) & remove_call)), def("remove_calls_for_object", remove_calls_for_object), def("present", is_level_present), def("disable_input", disable_input),
+        def("enable_input", enable_input), def("spawn_phantom", spawn_phantom),
 
         def("get_bounding_volume", get_bounding_volume),
 
-        def("iterate_sounds", &iterate_sounds1), def("iterate_sounds", &iterate_sounds2),
-        def("physics_world", &physics_world_scripted), def("get_snd_volume", &get_snd_volume),
-        def("set_snd_volume", &set_snd_volume), def("add_cam_effector", &add_cam_effector),
-        def("add_cam_effector2", &add_cam_effector2), def("remove_cam_effector", &remove_cam_effector),
-        def("add_pp_effector", &add_pp_effector), def("set_pp_effector_factor", &set_pp_effector_factor),
+        def("iterate_sounds", &iterate_sounds1), def("iterate_sounds", &iterate_sounds2), def("physics_world", &physics_world_scripted), def("get_snd_volume", &get_snd_volume), def("set_snd_volume", &set_snd_volume), def("add_cam_effector", &add_cam_effector), def("add_cam_effector2", &add_cam_effector2), def("remove_cam_effector", &remove_cam_effector), def("add_pp_effector", &add_pp_effector), def("set_pp_effector_factor", &set_pp_effector_factor),
         def("set_pp_effector_factor", &set_pp_effector_factor2), def("remove_pp_effector", &remove_pp_effector),
 
         def("add_complex_effector", &add_complex_effector), def("remove_complex_effector", &remove_complex_effector),
@@ -797,62 +758,42 @@ void CLevel::script_register(lua_State* L)
 
         def("game_id", &GameID)],
 
-        module(L, "actor_stats")
-            [def("add_points", &add_actor_points), def("add_points_str", &add_actor_points_str),
-             def("get_points", &get_actor_points)];
+        module(L, "actor_stats")[def("add_points", &add_actor_points), def("add_points_str", &add_actor_points_str), def("get_points", &get_actor_points)];
 
-    module(L)
-        [def("command_line", &command_line), def("IsGameTypeSingle", &IsGameTypeSingle),
-         def("IsDynamicMusic", &IsDynamicMusic), def("render_get_dx_level", &render_get_dx_level),
-         def("IsImportantSave", &IsImportantSave)];
+    module(L)[def("command_line", &command_line), def("IsGameTypeSingle", &IsGameTypeSingle), def("IsDynamicMusic", &IsDynamicMusic), def("render_get_dx_level", &render_get_dx_level), def("IsImportantSave", &IsImportantSave)];
 
-    module(L, "relation_registry")
-        [def("community_goodwill", &g_community_goodwill), def("set_community_goodwill", &g_set_community_goodwill),
-         def("change_community_goodwill", &g_change_community_goodwill),
+    module(L, "relation_registry")[def("community_goodwill", &g_community_goodwill), def("set_community_goodwill", &g_set_community_goodwill), def("change_community_goodwill", &g_change_community_goodwill),
 
-         def("community_relation", &g_get_community_relation), def("set_community_relation", &g_set_community_relation),
-         def("get_general_goodwill_between", &g_get_general_goodwill_between)];
-    module(L, "game")
-        [class_<xrTime>("CTime")
-             .enum_("date_format")
-                 [value("DateToDay", int(InventoryUtilities::edpDateToDay)),
-                  value("DateToMonth", int(InventoryUtilities::edpDateToMonth)),
-                  value("DateToYear", int(InventoryUtilities::edpDateToYear))]
-             .enum_("time_format")
-                 [value("TimeToHours", int(InventoryUtilities::etpTimeToHours)),
-                  value("TimeToMinutes", int(InventoryUtilities::etpTimeToMinutes)),
-                  value("TimeToSeconds", int(InventoryUtilities::etpTimeToSeconds)),
-                  value("TimeToMilisecs", int(InventoryUtilities::etpTimeToMilisecs))]
-             .def(constructor<>())
-             .def(constructor<const xrTime&>())
-             .def(const_self < xrTime())
-             .def(const_self <= xrTime())
-             .def(const_self > xrTime())
-             .def(const_self >= xrTime())
-             .def(const_self == xrTime())
-             .def(self + xrTime())
-             .def(self - xrTime())
+        def("community_relation", &g_get_community_relation), def("set_community_relation", &g_set_community_relation), def("get_general_goodwill_between", &g_get_general_goodwill_between)];
+    module(L, "game")[class_<xrTime>("CTime")
+                          .enum_("date_format")[value("DateToDay", int(InventoryUtilities::edpDateToDay)), value("DateToMonth", int(InventoryUtilities::edpDateToMonth)), value("DateToYear", int(InventoryUtilities::edpDateToYear))]
+                          .enum_("time_format")[value("TimeToHours", int(InventoryUtilities::etpTimeToHours)), value("TimeToMinutes", int(InventoryUtilities::etpTimeToMinutes)), value("TimeToSeconds", int(InventoryUtilities::etpTimeToSeconds)), value("TimeToMilisecs", int(InventoryUtilities::etpTimeToMilisecs))]
+                          .def(constructor<>())
+                          .def(constructor<const xrTime&>())
+                          .def(const_self < xrTime())
+                          .def(const_self <= xrTime())
+                          .def(const_self > xrTime())
+                          .def(const_self >= xrTime())
+                          .def(const_self == xrTime())
+                          .def(self + xrTime())
+                          .def(self - xrTime())
 
-             .def("diffSec", &xrTime::diffSec_script)
-             .def("add", &xrTime::add_script)
-             .def("sub", &xrTime::sub_script)
+                          .def("diffSec", &xrTime::diffSec_script)
+                          .def("add", &xrTime::add_script)
+                          .def("sub", &xrTime::sub_script)
 
-             .def("setHMS", &xrTime::setHMS)
-             .def("setHMSms", &xrTime::setHMSms)
-             .def("set", &xrTime::set)
-             .def(
-                 "get", &xrTime::get,
-                 out_value(_2) + out_value(_3) + out_value(_4) + out_value(_5) + out_value(_6) + out_value(_7) +
-                     out_value(_8))
-             .def("dateToString", &xrTime::dateToString)
-             .def("timeToString", &xrTime::timeToString),
-         // declarations
-         def("time", get_time), def("get_game_time", get_time_struct),
-         //		def("get_surge_time",	Game::get_surge_time),
-         //		def("get_object_by_name",Game::get_object_by_name),
+                          .def("setHMS", &xrTime::setHMS)
+                          .def("setHMSms", &xrTime::setHMSms)
+                          .def("set", &xrTime::set)
+                          .def("get", &xrTime::get, out_value(_2) + out_value(_3) + out_value(_4) + out_value(_5) + out_value(_6) + out_value(_7) + out_value(_8))
+                          .def("dateToString", &xrTime::dateToString)
+                          .def("timeToString", &xrTime::timeToString),
+        // declarations
+        def("time", get_time), def("get_game_time", get_time_struct),
+        //		def("get_surge_time",	Game::get_surge_time),
+        //		def("get_object_by_name",Game::get_object_by_name),
 
-         def("start_tutorial", &start_tutorial), def("stop_tutorial", &stop_tutorial),
-         def("has_active_tutorial", &has_active_tutotial), def("translate_string", &translate_string)
+        def("start_tutorial", &start_tutorial), def("stop_tutorial", &stop_tutorial), def("has_active_tutorial", &has_active_tutotial), def("translate_string", &translate_string)
 
     ];
 }

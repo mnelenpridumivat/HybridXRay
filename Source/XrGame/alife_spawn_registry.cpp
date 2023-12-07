@@ -14,7 +14,7 @@
 #include "game_graph.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -167,9 +167,7 @@ void CALifeSpawnRegistry::load(IReader& file_stream, xrGUID* save_guid)
     chunk = file_stream.open_chunk(0);
     m_header.load(*chunk);
     chunk->close();
-    R_ASSERT2(
-        !save_guid || (*save_guid == header().guid()) || ignore_save_incompatibility(),
-        "Saved game doesn't correspond to the spawn : DELETE SAVED GAME!");
+    R_ASSERT2(!save_guid || (*save_guid == header().guid()) || ignore_save_incompatibility(), "Saved game doesn't correspond to the spawn : DELETE SAVED GAME!");
 
     chunk = file_stream.open_chunk(1);
     m_spawns.load(*chunk);
@@ -210,9 +208,7 @@ void CALifeSpawnRegistry::load(IReader& file_stream, xrGUID* save_guid)
     m_game_graph = xr_new<CGameGraph>(*m_chunk);
     ai().game_graph(m_game_graph);
 
-    R_ASSERT2(
-        (header().graph_guid() == ai().game_graph().header().guid()) || ignore_save_incompatibility(),
-        "Spawn doesn't correspond to the graph : REBUILD SPAWN!");
+    R_ASSERT2((header().graph_guid() == ai().game_graph().header().guid()) || ignore_save_incompatibility(), "Spawn doesn't correspond to the graph : REBUILD SPAWN!");
 
     build_story_spawns();
 
@@ -236,8 +232,7 @@ void CALifeSpawnRegistry::save_updates(IWriter& stream)
 void CALifeSpawnRegistry::load_updates(IReader& stream)
 {
     u32 vertex_id;
-    for (IReader* chunk = stream.open_chunk_iterator(vertex_id); chunk;
-         chunk          = stream.open_chunk_iterator(vertex_id, chunk))
+    for (IReader* chunk = stream.open_chunk_iterator(vertex_id); chunk; chunk = stream.open_chunk_iterator(vertex_id, chunk))
     {
         VERIFY(u32(ALife::_SPAWN_ID(-1)) > vertex_id);
         const SPAWN_GRAPH::CVertex* vertex = m_spawns.vertex(ALife::_SPAWN_ID(vertex_id));
@@ -274,8 +269,7 @@ void CALifeSpawnRegistry::build_root_spawns()
     process_spawns(m_temp1);
 
     m_spawn_roots.resize(m_temp0.size() + m_temp1.size());
-    xr_vector<ALife::_SPAWN_ID>::iterator I =
-        std::set_difference(m_temp0.begin(), m_temp0.end(), m_temp1.begin(), m_temp1.end(), m_spawn_roots.begin());
+    xr_vector<ALife::_SPAWN_ID>::iterator I = std::set_difference(m_temp0.begin(), m_temp0.end(), m_temp1.begin(), m_temp1.end(), m_spawn_roots.begin());
 
     m_spawn_roots.erase(I, m_spawn_roots.end());
 }

@@ -4,19 +4,19 @@
 #include <CommCtrl.h>
 //---------------------------------------------------------------------------
 
-HINSTANCE hInst;                           // Указатель на экземпляр приложения.
-HWND      hProgress;                       // Дескриптор прогресс бара.
-int       nCounter;                        // Счётчик.
-COLORREF  clrBg        = RGB(25, 25, 0);   // Цвет фона прогресс бара.
-COLORREF  clrBarRed    = RGB(255, 0, 0);   // Цвет индикатора хода выполнения прогресс бара.
+HINSTANCE               hInst;                        // Указатель на экземпляр приложения.
+HWND                    hProgress;                    // Дескриптор прогресс бара.
+int                     nCounter;                     // Счётчик.
+COLORREF                clrBg     = RGB(25, 25, 0);   // Цвет фона прогресс бара.
+COLORREF                clrBarRed = RGB(255, 0, 0);   // Цвет индикатора хода выполнения прогресс бара.
 // COLORREF  clrBarYellow = RGB(255, 255, 0); // Цвет индикатора хода выполнения прогресс бара.
 // COLORREF  clrBarGreen  = RGB(0, 255, 0);   // Цвет индикатора хода выполнения прогресс бара.
 
-HBITMAP hSplashBMP;
-HWND    logoWindow = nullptr;
+HBITMAP                 hSplashBMP;
+HWND                    logoWindow = nullptr;
 
-int m_MinPos = 0;
-int m_MaxPos = 100;
+int                     m_MinPos   = 0;
+int                     m_MaxPos   = 100;
 
 static INT_PTR CALLBACK LogoWndProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
 {
@@ -68,15 +68,14 @@ static INT_PTR CALLBACK LogoWndProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
             // Здесь мы должны использовать исполняемый модуль для загрузки нашего растрового ресурса.
             hSplashBMP = LoadBitmap(GetModuleHandle(NULL), MAKEINTRESOURCE(IDB_SPLASH));
 
-            hProgress = CreateWindowExA(
-                0,
-                PROGRESS_CLASS,   // Указатель на класс прогресс бара
-                (LPTSTR)NULL, WS_CHILD | WS_VISIBLE | PBS_SMOOTH /* | WS_BORDER*/,
-                65,    // X
-                313,   // Y
-                370,   // Ширина
-                13,    // Высота
-                hw, (HMENU)0, hInst, NULL);
+            hProgress  = CreateWindowExA(0,
+                 PROGRESS_CLASS,   // Указатель на класс прогресс бара
+                 (LPTSTR)NULL, WS_CHILD | WS_VISIBLE | PBS_SMOOTH /* | WS_BORDER*/,
+                 65,    // X
+                 313,   // Y
+                 370,   // Ширина
+                 13,    // Высота
+                 hw, (HMENU)0, hInst, NULL);
             // Устанавливаем Цвета прогресс бара.
             SendMessage(hProgress, PBM_SETBKCOLOR, 0, (LPARAM)clrBg);
             SendMessage(hProgress, PBM_SETBARCOLOR, 0, (LPARAM)clrBarRed);
@@ -110,12 +109,12 @@ namespace splash
         if (logoWindow)
             return;
 
-        logoWindow = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_STARTUP), nullptr, LogoWndProc);
+        logoWindow             = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_STARTUP), nullptr, LogoWndProc);
         const HWND logoPicture = GetDlgItem(logoWindow, IDC_STATIC);
         RECT       logoRect;
         GetWindowRect(logoPicture, &logoRect);
         const HWND prevWindow = topmost ? HWND_TOPMOST : HWND_NOTOPMOST;
-        SetWindowPos( logoWindow, HWND_TOPMOST, 0, 0, logoRect.right - logoRect.left, logoRect.bottom - logoRect.top, SWP_NOMOVE | SWP_SHOWWINDOW);
+        SetWindowPos(logoWindow, HWND_TOPMOST, 0, 0, logoRect.right - logoRect.left, logoRect.bottom - logoRect.top, SWP_NOMOVE | SWP_SHOWWINDOW);
         UpdateWindow(logoWindow);
     }
 

@@ -15,16 +15,16 @@ struct GAME_NEWS_DATA: public IPureSerializeObject<IReader, IWriter>
     } m_type;
     GAME_NEWS_DATA();
 
-    virtual void load(IReader&);
-    virtual void save(IWriter&);
+    virtual void    load(IReader&);
+    virtual void    save(IWriter&);
 
-    shared_str news_caption;
-    shared_str news_text;
-    int        show_time;
+    shared_str      news_caption;
+    shared_str      news_text;
+    int             show_time;
 
     ALife::_TIME_ID receive_time;
 
-    shared_str texture_name;
+    shared_str      texture_name;
 
 private:
 };

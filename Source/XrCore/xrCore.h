@@ -30,7 +30,7 @@
     {                           \
         return 0;               \
     }
-#define BENCH_SEC_SIGN , void* pBenchScrampleVoid = 0
+#define BENCH_SEC_SIGN            , void* pBenchScrampleVoid = 0
 #define BENCH_SEC_SCRAMBLEMEMBER1 float m_fSrambleMember1;
 #define BENCH_SEC_SCRAMBLEMEMBER2 float m_fSrambleMember2;
 #else   //	BENCHMARK_BUILD
@@ -43,7 +43,7 @@
 #define BENCH_SEC_SCRAMBLEMEMBER2
 #endif   //	BENCHMARK_BUILD
 
-#pragma warning(disable : 4996)
+#pragma warning(disable:4996)
 
 #if (defined(_DEBUG) || defined(MIXED) || defined(DEBUG)) && !defined(FORCE_NO_EXCEPTIONS)
 // "debug" or "mixed"
@@ -57,7 +57,7 @@
 #define _HAS_EXCEPTIONS 1   // STL
 #define XRAY_EXCEPTIONS 0   // XRAY
 #define LUABIND_NO_EXCEPTIONS
-#pragma warning(disable : 4530)
+#pragma warning(disable:4530)
 #endif
 
 #if !defined(_MT)
@@ -81,7 +81,7 @@
 #else
 #ifdef XRCORE_EXPORTS   // no exceptions, export allocator and common stuff
 #define _STLP_DESIGNATED_DLL 1
-#define _STLP_USE_DECLSPEC 1
+#define _STLP_USE_DECLSPEC   1
 #else
 #define _STLP_USE_DECLSPEC 1   // no exceptions, import allocator and common stuff
 #endif
@@ -121,10 +121,10 @@
 #if 0
 #define __forceinline inline
 #endif
-#define _inline inline
+#define _inline  inline
 #define __inline inline
-#define IC inline
-#define ICF __forceinline   // !!! this should be used only in critical places found by PROFILER
+#define IC       inline
+#define ICF      __forceinline   // !!! this should be used only in critical places found by PROFILER
 #if 0
 #define ICN
 #else
@@ -146,29 +146,29 @@
 
 #include <assert.h>
 #include <utime.h>
-#define _utimbuf utimbuf
+#define _utimbuf    utimbuf
 #define MODULE_NAME "xrCoreB.dll"
 
 // function redefinition
-#define fabsf(a) fabs(a)
-#define sinf(a) sin(a)
-#define asinf(a) asin(a)
-#define cosf(a) cos(a)
-#define acosf(a) acos(a)
-#define tanf(a) tan(a)
-#define atanf(a) atan(a)
-#define sqrtf(a) sqrt(a)
-#define expf(a) ::exp(a)
-#define floorf floor
-#define atan2f atan2
-#define logf log
+#define fabsf(a)    fabs(a)
+#define sinf(a)     sin(a)
+#define asinf(a)    asin(a)
+#define cosf(a)     cos(a)
+#define acosf(a)    acos(a)
+#define tanf(a)     tan(a)
+#define atanf(a)    atan(a)
+#define sqrtf(a)    sqrt(a)
+#define expf(a)     ::exp(a)
+#define floorf      floor
+#define atan2f      atan2
+#define logf        log
 // float redefine
-#define _PC_24 PC_24
-#define _PC_53 PC_53
-#define _PC_64 PC_64
-#define _RC_CHOP RC_CHOP
-#define _RC_NEAR RC_NEAR
-#define _MCW_EM MCW_EM
+#define _PC_24      PC_24
+#define _PC_53      PC_53
+#define _PC_64      PC_64
+#define _RC_CHOP    RC_CHOP
+#define _RC_NEAR    RC_NEAR
+#define _MCW_EM     MCW_EM
 #else
 #define ALIGN(a) __declspec(align(a))
 #include <sys\utime.h>
@@ -176,24 +176,24 @@
 #endif
 
 // Warnings
-#pragma warning(disable : 4251)   // object needs DLL interface
-#pragma warning(disable : 4201)   // nonstandard extension used : nameless struct/union
-#pragma warning(disable : 4100)   // unreferenced formal parameter
-#pragma warning(disable : 4127)   // conditional expression is constant
+#pragma warning(disable:4251)   // object needs DLL interface
+#pragma warning(disable:4201)   // nonstandard extension used : nameless struct/union
+#pragma warning(disable:4100)   // unreferenced formal parameter
+#pragma warning(disable:4127)   // conditional expression is constant
 // #pragma warning (disable : 4530 )		// C++ exception handler used, but unwind semantics are not enabled
-#pragma warning(disable : 4345)
-#pragma warning(disable : 4714)   // __forceinline not inlined
+#pragma warning(disable:4345)
+#pragma warning(disable:4714)   // __forceinline not inlined
 #ifndef DEBUG
-#pragma warning(disable : 4189)   //  local variable is initialized but not refenced
-#endif                            //	frequently in release code due to large amount of VERIFY
+#pragma warning(disable:4189)   //  local variable is initialized but not refenced
+#endif                          //	frequently in release code due to large amount of VERIFY
 
 #ifdef _M_AMD64
-#pragma warning(disable : 4512)
+#pragma warning(disable:4512)
 #endif
 
 // stl
 #pragma warning(push)
-#pragma warning(disable : 4702)
+#pragma warning(disable:4702)
 #include <algorithm>
 #include <functional>
 #include <limits>
@@ -210,7 +210,7 @@
 
 #include <string>
 #pragma warning(pop)
-#pragma warning(disable : 4100)   // unreferenced formal parameter
+#pragma warning(disable:4100)   // unreferenced formal parameter
 
 // Our headers
 #ifdef SHIPPING
@@ -318,7 +318,7 @@ DEFINE_VECTOR(xr_rtoken, RTokenVec, RTokenVecIt);
 #include "net_utils.h"
 #include "..\XrAPI\xrGameManager.h"
 // destructor
-template <class T> class destructor
+template<class T> class destructor
 {
     T* ptr;
 
@@ -350,13 +350,7 @@ public:
     bool        Editor;
 
 public:
-    void _initialize(
-        LPCSTR      ApplicationName,
-        LogCallback cb        = 0,
-        BOOL        init_fs   = TRUE,
-        LPCSTR      fs_fname  = 0,
-        bool        editor_fs = false,
-        EGamePath   Game      = EGamePath::NONE);
+    void _initialize(LPCSTR ApplicationName, LogCallback cb = 0, BOOL init_fs = TRUE, LPCSTR fs_fname = 0, bool editor_fs = false, EGamePath Game = EGamePath::NONE);
     void _destroy();
 };
 

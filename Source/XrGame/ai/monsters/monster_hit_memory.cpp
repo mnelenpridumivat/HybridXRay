@@ -30,10 +30,10 @@ bool CMonsterHitMemory::is_hit(CObject* pO)
 void CMonsterHitMemory::add_hit(CObject* who, EHitSide side)
 {
     SMonsterHit new_hit_info;
-    new_hit_info.object   = who;
-    new_hit_info.time     = Device->dwTimeGlobal;
-    new_hit_info.side     = side;
-    new_hit_info.position = monster->Position();
+    new_hit_info.object      = who;
+    new_hit_info.time        = Device->dwTimeGlobal;
+    new_hit_info.side        = side;
+    new_hit_info.position    = monster->Position();
 
     MONSTER_HIT_VECTOR_IT it = std::find(m_hits.begin(), m_hits.end(), who);
 
@@ -70,14 +70,12 @@ struct predicate_old_hit
 
 void CMonsterHitMemory::remove_non_actual()
 {
-    m_hits.erase(
-        std::remove_if(m_hits.begin(), m_hits.end(), predicate_old_hit(time_memory, Device->dwTimeGlobal)),
-        m_hits.end());
+    m_hits.erase(std::remove_if(m_hits.begin(), m_hits.end(), predicate_old_hit(time_memory, Device->dwTimeGlobal)), m_hits.end());
 }
 
 Fvector CMonsterHitMemory::get_last_hit_dir()
 {
-    Fvector dir = monster->Direction();
+    Fvector     dir = monster->Direction();
 
     // найти последний по времени хит
     SMonsterHit last_hit;

@@ -86,7 +86,7 @@ private:
     }
 
 public:
-    IC CTimer(): m_time_factor(1.f), m_real_ticks(0), m_ticks(0) {}
+    IC       CTimer(): m_time_factor(1.f), m_real_ticks(0), m_ticks(0) {}
 
     ICF void Start()
     {
@@ -207,7 +207,7 @@ public:
     XRCORE_API void FrameStart();
     XRCORE_API void FrameEnd();
 
-    IC void Begin()
+    IC void         Begin()
     {
         if (!g_bEnableStatGather)
             return;

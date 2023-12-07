@@ -16,6 +16,7 @@ public:
     void DrawSlicesToScreen();
     void DrawBoundaryQuads();
     void DrawBoundaryLines();
+
 private:
     void CreateVertexBuffers();
 
@@ -24,6 +25,7 @@ private:
     void InitLine(float x1, float y1, float x2, float y2, int z, VS_INPUT_FLUIDSIM_STRUCT** vertices, int& index);
     void InitBoundaryQuads(VS_INPUT_FLUIDSIM_STRUCT** vertices, int& index);
     void InitBoundaryLines(VS_INPUT_FLUIDSIM_STRUCT** vertices, int& index);
+
 private:
     Ivector3    m_vDim;
     int         m_iMaxDim;

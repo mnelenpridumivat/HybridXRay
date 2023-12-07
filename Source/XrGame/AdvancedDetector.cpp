@@ -30,12 +30,12 @@ void CAdvancedDetector::UpdateAf()
     if (m_artefacts.m_ItemInfos.size() == 0)
         return;
 
-    CAfList::ItemsMapIt it_b     = m_artefacts.m_ItemInfos.begin();
-    CAfList::ItemsMapIt it_e     = m_artefacts.m_ItemInfos.end();
-    CAfList::ItemsMapIt it       = it_b;
-    float               min_dist = flt_max;
+    CAfList::ItemsMapIt it_b         = m_artefacts.m_ItemInfos.begin();
+    CAfList::ItemsMapIt it_e         = m_artefacts.m_ItemInfos.end();
+    CAfList::ItemsMapIt it           = it_b;
+    float               min_dist     = flt_max;
 
-    Fvector detector_pos = Position();
+    Fvector             detector_pos = Position();
     for (; it_b != it_e; ++it_b)   // only nearest
     {
         CArtefact* pAf = it_b->first;
@@ -60,18 +60,18 @@ void CAdvancedDetector::UpdateAf()
     ITEM_TYPE* item_type  = af_info.curr_ref;
     CArtefact* pCurrentAf = it->first;
 
-    float dist    = min_dist;
-    float fRelPow = (dist / m_fAfDetectRadius);
+    float      dist       = min_dist;
+    float      fRelPow    = (dist / m_fAfDetectRadius);
     clamp(fRelPow, 0.f, 1.f);
 
     // direction
     Fvector dir_to_artefact;
     dir_to_artefact.sub(pCurrentAf->Position(), Device->vCameraPosition);
     dir_to_artefact.normalize();
-    float _ang_af  = dir_to_artefact.getH();
-    float _ang_cam = Device->vCameraDirection.getH();
+    float _ang_af      = dir_to_artefact.getH();
+    float _ang_cam     = Device->vCameraDirection.getH();
 
-    float _diff = angle_difference_signed(_ang_af, _ang_cam);
+    float _diff        = angle_difference_signed(_ang_af, _ang_cam);
 
     // sounds
     af_info.cur_period = item_type->freq.x + (item_type->freq.y - item_type->freq.x) * (fRelPow * fRelPow);
@@ -79,7 +79,7 @@ void CAdvancedDetector::UpdateAf()
     float min_snd_freq = 0.9f;
     float max_snd_freq = 1.4f;
 
-    float snd_freq = min_snd_freq + (max_snd_freq - min_snd_freq) * (1.0f - fRelPow);
+    float snd_freq     = min_snd_freq + (max_snd_freq - min_snd_freq) * (1.0f - fRelPow);
 
     if (af_info.snd_time > af_info.cur_period)
     {
@@ -145,7 +145,7 @@ void CUIArtefactDetectorAdv::update()
 
         m_cur_y_rot						+= _add;
     */
-    m_cur_y_rot = angle_inertion_var(m_cur_y_rot, dest_y_rot, PI_DIV_4, PI_MUL_4, PI_MUL_2, Device->fTimeDelta);
+    m_cur_y_rot      = angle_inertion_var(m_cur_y_rot, dest_y_rot, PI_DIV_4, PI_MUL_4, PI_MUL_2, Device->fTimeDelta);
 }
 void CAdvancedDetector::on_a_hud_attach()
 {
@@ -171,7 +171,7 @@ void CUIArtefactDetectorAdv::SetBoneCallbacks()
 {
     attachable_hud_item* itm = m_parent->HudItemData();
     R_ASSERT(itm);
-    m_bid = itm->m_model->LL_BoneID("screen_bone");
+    m_bid             = itm->m_model->LL_BoneID("screen_bone");
 
     CBoneInstance& bi = itm->m_model->LL_GetBoneInstance(m_bid);
     bi.set_callback(bctCustom, BoneCallback, this);
@@ -184,9 +184,9 @@ void CUIArtefactDetectorAdv::ResetBoneCallbacks()
 {
     attachable_hud_item* itm = m_parent->HudItemData();
     R_ASSERT(itm);
-    u16 bid = itm->m_model->LL_BoneID("screen_bone");
+    u16            bid = itm->m_model->LL_BoneID("screen_bone");
 
-    CBoneInstance& bi = itm->m_model->LL_GetBoneInstance(bid);
+    CBoneInstance& bi  = itm->m_model->LL_GetBoneInstance(bid);
     bi.reset_callback();
 }
 

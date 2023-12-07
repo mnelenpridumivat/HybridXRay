@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2011 Ignacio Castano <castano@gmail.com>
+﻿// Copyright (c) 2009-2011 Ignacio Castano <castano@gmail.com>
 // Copyright (c) 2007-2009 NVIDIA Corporation -- Ignacio Castano <icastano@nvidia.com>
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -9,10 +9,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -42,16 +42,16 @@
 #if defined HAVE_CUDA
 #include <cuda_runtime_api.h>
 
-#define MAX_BLOCKS 8192U // 32768, 65535 // @@ Limit number of blocks on slow devices to prevent hitting the watchdog timer.
+#define MAX_BLOCKS 8192U   // 32768, 65535 // @@ Limit number of blocks on slow devices to prevent hitting the watchdog timer.
 
-extern "C" void setupOMatchTables(const void * OMatch5Src, size_t OMatch5Size, const void * OMatch6Src, size_t OMatch6Size);
+extern "C" void setupOMatchTables(const void* OMatch5Src, size_t OMatch5Size, const void* OMatch6Src, size_t OMatch6Size);
 extern "C" void setupCompressKernel(const float weights[3]);
-extern "C" void bindTextureToArray(cudaArray * d_data);
+extern "C" void bindTextureToArray(cudaArray* d_data);
 
-extern "C" void compressKernelDXT1(uint firstBlock, uint blockNum, uint w, uint * d_result, uint * d_bitmaps);
-extern "C" void compressKernelDXT1_Level4(uint blockNum, uint * d_data, uint * d_result, uint * d_bitmaps);
-extern "C" void compressWeightedKernelDXT1(uint blockNum, uint * d_data, uint * d_result, uint * d_bitmaps);
-extern "C" void compressKernelDXT3(uint firstBlock, uint blockNum, uint w, uint * d_result, uint * d_bitmaps);
+extern "C" void compressKernelDXT1(uint firstBlock, uint blockNum, uint w, uint* d_result, uint* d_bitmaps);
+extern "C" void compressKernelDXT1_Level4(uint blockNum, uint* d_data, uint* d_result, uint* d_bitmaps);
+extern "C" void compressWeightedKernelDXT1(uint blockNum, uint* d_data, uint* d_result, uint* d_bitmaps);
+extern "C" void compressKernelDXT3(uint firstBlock, uint blockNum, uint w, uint* d_result, uint* d_bitmaps);
 //extern "C" void compressNormalKernelDXT1(uint blockNum, uint * d_data, uint * d_result, uint * d_bitmaps);
 //extern "C" void compressKernelCTX1(uint blockNum, uint * d_data, uint * d_result, uint * d_bitmaps);
 
@@ -63,33 +63,28 @@ extern "C" void compressKernelDXT3(uint firstBlock, uint blockNum, uint w, uint 
 using namespace nv;
 using namespace nvtt;
 
-
-CudaContext::CudaContext() : 
-	bitmapTable(NULL), 
-	bitmapTableCTX(NULL), 
-	data(NULL), 
-	result(NULL)
+CudaContext::CudaContext(): bitmapTable(NULL), bitmapTableCTX(NULL), data(NULL), result(NULL)
 {
 #if defined HAVE_CUDA
     // Allocate and upload bitmaps.
-    cudaMalloc((void**) &bitmapTable, 992 * sizeof(uint));
+    cudaMalloc((void**)&bitmapTable, 992 * sizeof(uint));
     if (bitmapTable != NULL)
     {
         cudaMemcpy(bitmapTable, s_bitmapTable, 992 * sizeof(uint), cudaMemcpyHostToDevice);
     }
 
-    cudaMalloc((void**) &bitmapTableCTX, 704 * sizeof(uint));
+    cudaMalloc((void**)&bitmapTableCTX, 704 * sizeof(uint));
     if (bitmapTableCTX != NULL)
     {
         cudaMemcpy(bitmapTableCTX, s_bitmapTableCTX, 704 * sizeof(uint), cudaMemcpyHostToDevice);
     }
 
     // Allocate scratch buffers.
-    cudaMalloc((void**) &data, MAX_BLOCKS * 64U);
-    cudaMalloc((void**) &result, MAX_BLOCKS * 8U);
+    cudaMalloc((void**)&data, MAX_BLOCKS * 64U);
+    cudaMalloc((void**)&result, MAX_BLOCKS * 8U);
 
     // Init single color lookup contant tables.
-	setupOMatchTables(OMatch5, sizeof(OMatch5), OMatch6, sizeof(OMatch6));
+    setupOMatchTables(OMatch5, sizeof(OMatch5), OMatch6, sizeof(OMatch6));
 #endif
 }
 
@@ -117,15 +112,11 @@ bool CudaContext::isValid() const
     return bitmapTable != NULL && bitmapTableCTX != NULL && data != NULL && result != NULL;
 }
 
-
 #if defined HAVE_CUDA
 
-CudaCompressor::CudaCompressor(CudaContext & ctx) : m_ctx(ctx)
-{
+CudaCompressor::CudaCompressor(CudaContext& ctx): m_ctx(ctx) {}
 
-}
-
-void CudaCompressor::compress(nvtt::AlphaMode alphaMode, uint w, uint h, uint d, const float * data, nvtt::TaskDispatcher * dispatcher, const nvtt::CompressionOptions::Private & compressionOptions, const nvtt::OutputOptions::Private & outputOptions)
+void CudaCompressor::compress(nvtt::AlphaMode alphaMode, uint w, uint h, uint d, const float* data, nvtt::TaskDispatcher* dispatcher, const nvtt::CompressionOptions::Private& compressionOptions, const nvtt::OutputOptions::Private& outputOptions)
 {
     nvDebugCheck(d == 1);
     nvDebugCheck(cuda::isHardwarePresent());
@@ -134,15 +125,16 @@ void CudaCompressor::compress(nvtt::AlphaMode alphaMode, uint w, uint h, uint d,
 
     // Allocate image as a cuda array.
     const uint count = w * h;
-    Color32 * tmp = malloc<Color32>(count);
-    for (uint i = 0; i < count; i++) {
-        tmp[i].r = uint8(clamp(data[i + count*0], 0.0f, 1.0f) * 255);
-        tmp[i].g = uint8(clamp(data[i + count*1], 0.0f, 1.0f) * 255);
-        tmp[i].b = uint8(clamp(data[i + count*2], 0.0f, 1.0f) * 255);
-        tmp[i].a = uint8(clamp(data[i + count*3], 0.0f, 1.0f) * 255);
+    Color32*   tmp   = malloc<Color32>(count);
+    for (uint i = 0; i < count; i++)
+    {
+        tmp[i].r = uint8(clamp(data[i + count * 0], 0.0f, 1.0f) * 255);
+        tmp[i].g = uint8(clamp(data[i + count * 1], 0.0f, 1.0f) * 255);
+        tmp[i].b = uint8(clamp(data[i + count * 2], 0.0f, 1.0f) * 255);
+        tmp[i].a = uint8(clamp(data[i + count * 3], 0.0f, 1.0f) * 255);
     }
 
-    cudaArray * d_image;
+    cudaArray*            d_image;
     cudaChannelFormatDesc channelDesc = cudaCreateChannelDesc(8, 8, 8, 8, cudaChannelFormatKindUnsigned);
     cudaMallocArray(&d_image, &channelDesc, w, h);
 
@@ -160,13 +152,13 @@ void CudaCompressor::compress(nvtt::AlphaMode alphaMode, uint w, uint h, uint d,
     */
 
     // Image size in blocks.
-    const uint bw = (w + 3) / 4;
-    const uint bh = (h + 3) / 4;
-    const uint bs = blockSize();
+    const uint bw       = (w + 3) / 4;
+    const uint bh       = (h + 3) / 4;
+    const uint bs       = blockSize();
     const uint blockNum = bw * bh;
     //const uint compressedSize = blockNum * bs;
 
-    void * h_result = ::malloc(min(blockNum, MAX_BLOCKS) * bs);
+    void*      h_result = ::malloc(min(blockNum, MAX_BLOCKS) * bs);
 
     setup(d_image, compressionOptions);
 
@@ -207,13 +199,13 @@ void CudaCompressor::compress(nvtt::AlphaMode alphaMode, uint w, uint h, uint d,
 
 #if defined HAVE_CUDA
 
-void CudaCompressorDXT1::setup(cudaArray * image, const nvtt::CompressionOptions::Private & compressionOptions)
+void        CudaCompressorDXT1::setup(cudaArray* image, const nvtt::CompressionOptions::Private& compressionOptions)
 {
     setupCompressKernel(compressionOptions.colorWeight.ptr());
     bindTextureToArray(image);
 }
 
-void CudaCompressorDXT1::compressBlocks(uint first, uint count, uint bw, uint bh, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private & compressionOptions, void * output)
+void CudaCompressorDXT1::compressBlocks(uint first, uint count, uint bw, uint bh, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private& compressionOptions, void* output)
 {
     // Launch kernel.
     compressKernelDXT1(first, count, bw, m_ctx.result, m_ctx.bitmapTable);
@@ -222,14 +214,13 @@ void CudaCompressorDXT1::compressBlocks(uint first, uint count, uint bw, uint bh
     cudaMemcpy(output, m_ctx.result, count * 8, cudaMemcpyDeviceToHost);
 }
 
-
-void CudaCompressorDXT3::setup(cudaArray * image, const nvtt::CompressionOptions::Private & compressionOptions)
+void CudaCompressorDXT3::setup(cudaArray* image, const nvtt::CompressionOptions::Private& compressionOptions)
 {
     setupCompressKernel(compressionOptions.colorWeight.ptr());
     bindTextureToArray(image);
 }
 
-void CudaCompressorDXT3::compressBlocks(uint first, uint count, uint bw, uint bh, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private & compressionOptions, void * output)
+void CudaCompressorDXT3::compressBlocks(uint first, uint count, uint bw, uint bh, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private& compressionOptions, void* output)
 {
     // Launch kernel.
     compressKernelDXT3(first, count, bw, m_ctx.result, m_ctx.bitmapTable);
@@ -238,14 +229,13 @@ void CudaCompressorDXT3::compressBlocks(uint first, uint count, uint bw, uint bh
     cudaMemcpy(output, m_ctx.result, count * 16, cudaMemcpyDeviceToHost);
 }
 
-
-void CudaCompressorDXT5::setup(cudaArray * image, const nvtt::CompressionOptions::Private & compressionOptions)
+void CudaCompressorDXT5::setup(cudaArray* image, const nvtt::CompressionOptions::Private& compressionOptions)
 {
     setupCompressKernel(compressionOptions.colorWeight.ptr());
     bindTextureToArray(image);
 }
 
-void CudaCompressorDXT5::compressBlocks(uint first, uint count, uint bw, uint bh, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private & compressionOptions, void * output)
+void CudaCompressorDXT5::compressBlocks(uint first, uint count, uint bw, uint bh, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private& compressionOptions, void* output)
 {
     /*// Launch kernel.
     compressKernelDXT5(first, count, bw, m_ctx.result, m_ctx.bitmapTable);
@@ -256,11 +246,11 @@ void CudaCompressorDXT5::compressBlocks(uint first, uint count, uint bw, uint bh
     // Launch kernel.
     if (alphaMode == AlphaMode_Transparency)
     {
-    //	compressWeightedKernelDXT1(first, count, bw, m_ctx.result, m_ctx.bitmapTable);
+        //	compressWeightedKernelDXT1(first, count, bw, m_ctx.result, m_ctx.bitmapTable);
     }
     else
     {
-    //	compressKernelDXT1_Level4(first, count, w, m_ctx.result, m_ctx.bitmapTable);
+        //	compressKernelDXT1_Level4(first, count, w, m_ctx.result, m_ctx.bitmapTable);
     }
 
     // Compress alpha in parallel with the GPU.
@@ -274,13 +264,9 @@ void CudaCompressorDXT5::compressBlocks(uint first, uint count, uint bw, uint bh
     cudaMemcpy(output, m_ctx.result, count * 8, cudaMemcpyDeviceToHost);
 
     // @@ Interleave color and alpha blocks.
-
 }
 
-#endif // defined HAVE_CUDA
-
-
-
+#endif   // defined HAVE_CUDA
 
 // @@ This code is very repetitive and needs to be cleaned up.
 
@@ -603,6 +589,6 @@ void CudaCompressor::compressDXT5n(const nvtt::CompressionOptions::Private & com
 #endif
 }
 
-#endif // 0
+#endif   // 0
 
-#endif // defined HAVE_CUDA
+#endif   // defined HAVE_CUDA

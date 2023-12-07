@@ -19,7 +19,7 @@
 
 GAME_NEWS_DATA::GAME_NEWS_DATA()
 {
-    m_type = eNews;
+    m_type    = eNews;
     //	tex_rect.set	(0.0f,0.0f,0.0f,0.0f);
     show_time = DEFAULT_NEWS_SHOW_TIME;
 }

@@ -22,37 +22,38 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #ifndef SQUISH_SINGLECOLOURFIT_H
 #define SQUISH_SINGLECOLOURFIT_H
 
 #include "squish.h"
 #include "colourfit.h"
 
-namespace nvsquish {
-
-class ColourSet;
-struct SingleColourLookup;
-
-class SingleColourFit : public ColourFit
+namespace nvsquish
 {
-public:
-	SingleColourFit( ColourSet const* colours, int flags );
-	
-private:
-	virtual void Compress3( void* block );
-	virtual void Compress4( void* block );
-	
-	void ComputeEndPoints( int count, SingleColourLookup const* const* lookups );
-	
-	u8 m_colour[3];
-	Vec3 m_start;
-	Vec3 m_end;
-	u8 m_index;
-	int m_error;
-	int m_besterror;
-};
 
-} // namespace squish
+    class ColourSet;
+    struct SingleColourLookup;
 
-#endif // ndef SQUISH_SINGLECOLOURFIT_H
+    class SingleColourFit: public ColourFit
+    {
+    public:
+        SingleColourFit(ColourSet const* colours, int flags);
+
+    private:
+        virtual void Compress3(void* block);
+        virtual void Compress4(void* block);
+
+        void         ComputeEndPoints(int count, SingleColourLookup const* const* lookups);
+
+        u8           m_colour[3];
+        Vec3         m_start;
+        Vec3         m_end;
+        u8           m_index;
+        int          m_error;
+        int          m_besterror;
+    };
+
+}   // namespace nvsquish
+
+#endif   // ndef SQUISH_SINGLECOLOURFIT_H

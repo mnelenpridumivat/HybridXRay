@@ -11,13 +11,7 @@
 
 using System::String;
 
-property_integer_enum_value::property_integer_enum_value(
-    integer_getter_type const& getter,
-    integer_setter_type const& setter,
-    pair*                      values,
-    u32 const&                 value_count):
-    inherited(getter, setter),
-    m_collection(gcnew collection_type())
+property_integer_enum_value::property_integer_enum_value(integer_getter_type const& getter, integer_setter_type const& setter, pair* values, u32 const& value_count): inherited(getter, setter), m_collection(gcnew collection_type())
 {
     for (u32 i = 0; i < value_count; ++i)
     {

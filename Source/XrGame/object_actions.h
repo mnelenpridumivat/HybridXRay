@@ -19,7 +19,7 @@ class CWeapon;
 // CObjectActionBase
 //////////////////////////////////////////////////////////////////////////
 
-template <typename _item_type> class CObjectActionBase: public CActionBase<CAI_Stalker>
+template<typename _item_type> class CObjectActionBase: public CActionBase<CAI_Stalker>
 {
 protected:
     typedef CActionBase<CAI_Stalker>                 inherited;
@@ -30,7 +30,7 @@ protected:
     _item_type* m_item;
 
 public:
-    IC CObjectActionBase(_item_type* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name = "");
+    IC              CObjectActionBase(_item_type* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name = "");
     virtual void    initialize();
     IC void         set_property(_condition_type condition_id, _value_type value);
     IC CAI_Stalker& object() const;
@@ -46,7 +46,7 @@ typedef CObjectActionBase<CGameObject> CSObjectActionBase;
 // CObjectActionMember
 //////////////////////////////////////////////////////////////////////////
 
-template <typename _item_type> class CObjectActionMember: public CObjectActionBase<_item_type>
+template<typename _item_type> class CObjectActionMember: public CObjectActionBase<_item_type>
 {
 protected:
     typedef CObjectActionBase<_item_type> inherited;
@@ -56,13 +56,7 @@ protected:
     _value_type     m_value;
 
 public:
-    IC CObjectActionMember(
-        _item_type*       item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        _condition_type   condition_id,
-        _value_type       value,
-        LPCSTR            action_name = "");
+    IC           CObjectActionMember(_item_type* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type condition_id, _value_type value, LPCSTR action_name = "");
     virtual void execute();
 };
 
@@ -79,12 +73,7 @@ protected:
     u32 m_command;
 
 public:
-    CObjectActionCommand(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        u32               command,
-        LPCSTR            action_name = "");
+    CObjectActionCommand(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, u32 command, LPCSTR action_name = "");
     virtual void initialize();
 };
 
@@ -134,12 +123,7 @@ protected:
     _condition_type m_type;
 
 public:
-    CObjectActionReload(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        _condition_type   type,
-        LPCSTR            action_name = "");
+    CObjectActionReload(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name = "");
     virtual void initialize();
     virtual void execute();
 };
@@ -157,12 +141,7 @@ protected:
     _condition_type m_type;
 
 public:
-    CObjectActionFire(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        _condition_type   type,
-        LPCSTR            action_name = "");
+    CObjectActionFire(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name = "");
     virtual void initialize();
     virtual void execute();
     virtual void finalize();
@@ -182,12 +161,7 @@ protected:
     bool            m_fired;
 
 public:
-    CObjectActionFireNoReload(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        _condition_type   type,
-        LPCSTR            action_name = "");
+    CObjectActionFireNoReload(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name = "");
     virtual void initialize();
     virtual void execute();
     virtual void finalize();
@@ -209,11 +183,7 @@ private:
     void on_animation_end();
 
 public:
-    CObjectActionStrapping(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        LPCSTR            action_name = "");
+    CObjectActionStrapping(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name = "");
     virtual ~CObjectActionStrapping();
     virtual void initialize();
     virtual void execute();
@@ -236,11 +206,7 @@ private:
     void on_animation_end();
 
 public:
-    CObjectActionStrappingToIdle(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        LPCSTR            action_name = "");
+    CObjectActionStrappingToIdle(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name = "");
     virtual ~CObjectActionStrappingToIdle();
     virtual void initialize();
     virtual void execute();
@@ -263,11 +229,7 @@ private:
     void on_animation_end();
 
 public:
-    CObjectActionUnstrapping(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        LPCSTR            action_name = "");
+    CObjectActionUnstrapping(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name = "");
     virtual ~CObjectActionUnstrapping();
     virtual void initialize();
     virtual void execute();
@@ -290,11 +252,7 @@ private:
     void on_animation_end();
 
 public:
-    CObjectActionUnstrappingToIdle(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        LPCSTR            action_name = "");
+    CObjectActionUnstrappingToIdle(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name = "");
     virtual ~CObjectActionUnstrappingToIdle();
     virtual void initialize();
     virtual void execute();
@@ -315,12 +273,7 @@ protected:
     CWeaponMagazined* m_magazined;
 
 public:
-    CObjectActionQueueWait(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        _condition_type   type,
-        LPCSTR            action_name = "");
+    CObjectActionQueueWait(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name = "");
     virtual void initialize();
     virtual void execute();
     virtual void finalize();
@@ -339,12 +292,7 @@ protected:
     _condition_type m_type;
 
 public:
-    CObjectActionSwitch(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        _condition_type   type,
-        LPCSTR            action_name = "");
+    CObjectActionSwitch(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name = "");
     virtual void initialize();
     virtual void execute();
     virtual void finalize();
@@ -377,13 +325,7 @@ private:
     CWeaponMagazined* m_weapon;
 
 public:
-    CObjectActionAim(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        _condition_type   condition_id,
-        _value_type       value,
-        LPCSTR            action_name = "");
+    CObjectActionAim(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type condition_id, _value_type value, LPCSTR action_name = "");
     virtual void initialize();
     virtual void execute();
 };
@@ -412,11 +354,7 @@ protected:
     typedef CObjectActionBase<CInventoryItem> inherited;
 
 public:
-    CObjectActionIdleMissile(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        LPCSTR            action_name = "");
+    CObjectActionIdleMissile(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name = "");
     virtual void initialize();
 };
 
@@ -430,11 +368,7 @@ protected:
     typedef CObjectActionBase<CInventoryItem> inherited;
 
 public:
-    CObjectActionThrowMissile(
-        CInventoryItem*   item,
-        CAI_Stalker*      owner,
-        CPropertyStorage* storage,
-        LPCSTR            action_name = "");
+    CObjectActionThrowMissile(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name = "");
     virtual void initialize();
     virtual void execute();
 };

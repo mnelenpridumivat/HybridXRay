@@ -23,7 +23,7 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #ifndef SQUISH_SINGLECHANNELFIT_H
 #define SQUISH_SINGLECHANNELFIT_H
 
@@ -31,23 +31,24 @@
 #include "maths.h"
 #include "colourfit.h"
 
-namespace nvsquish {
-
-class SingleChannelFit : public ColourFit
+namespace nvsquish
 {
-public:
-	SingleChannelFit( ColourSet const* colours, int flags );
-	
-private:
-	virtual void Compress3( void* block );
-	virtual void Compress4( void* block );
 
-private:
-	u8 m_greys[16];
-	int m_g_min;
-	int m_g_max;
-};
+    class SingleChannelFit: public ColourFit
+    {
+    public:
+        SingleChannelFit(ColourSet const* colours, int flags);
 
-} // namespace squish
+    private:
+        virtual void Compress3(void* block);
+        virtual void Compress4(void* block);
 
-#endif // ndef SQUISH_SINGLECHANNELFIT_H
+    private:
+        u8  m_greys[16];
+        int m_g_min;
+        int m_g_max;
+    };
+
+}   // namespace nvsquish
+
+#endif   // ndef SQUISH_SINGLECHANNELFIT_H

@@ -25,8 +25,8 @@ namespace Mgc
         ~Eigen();
 
         // set the matrix for eigensolving
-        Real& Matrix(int iRow, int iCol);
-        void  SetMatrix(Real** aafMat);
+        Real&  Matrix(int iRow, int iCol);
+        void   SetMatrix(Real** aafMat);
 
         // get the results of eigensolving (eigenvectors are columns of matrix)
         Real   GetEigenvalue(int i) const;
@@ -35,31 +35,31 @@ namespace Mgc
         Real** GetEigenvector();
 
         // solve eigensystem
-        void EigenStuff2();
-        void EigenStuff3();
-        void EigenStuff4();
-        void EigenStuffN();
-        void EigenStuff();
+        void   EigenStuff2();
+        void   EigenStuff3();
+        void   EigenStuff4();
+        void   EigenStuffN();
+        void   EigenStuff();
 
         // solve eigensystem, use decreasing sort on eigenvalues
-        void DecrSortEigenStuff2();
-        void DecrSortEigenStuff3();
-        void DecrSortEigenStuff4();
-        void DecrSortEigenStuffN();
-        void DecrSortEigenStuff();
+        void   DecrSortEigenStuff2();
+        void   DecrSortEigenStuff3();
+        void   DecrSortEigenStuff4();
+        void   DecrSortEigenStuffN();
+        void   DecrSortEigenStuff();
 
         // solve eigensystem, use increasing sort on eigenvalues
-        void IncrSortEigenStuff2();
-        void IncrSortEigenStuff3();
-        void IncrSortEigenStuff4();
-        void IncrSortEigenStuffN();
-        void IncrSortEigenStuff();
+        void   IncrSortEigenStuff2();
+        void   IncrSortEigenStuff3();
+        void   IncrSortEigenStuff4();
+        void   IncrSortEigenStuffN();
+        void   IncrSortEigenStuff();
 
     protected:
-        int    m_iSize;
-        Real** m_aafMat;
-        Real*  m_afDiag;
-        Real*  m_afSubd;
+        int         m_iSize;
+        Real**      m_aafMat;
+        Real*       m_afDiag;
+        Real*       m_afSubd;
 
         // Householder reduction to tridiagonal form
         static void Tridiagonal2(Real** aafMat, Real* afDiag, Real* afSubd);

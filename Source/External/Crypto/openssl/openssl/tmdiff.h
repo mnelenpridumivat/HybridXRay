@@ -1,4 +1,4 @@
-/* crypto/tmdiff.h */
+﻿/* crypto/tmdiff.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -73,21 +73,21 @@
 #ifndef HEADER_TMDIFF_H
 #define HEADER_TMDIFF_H
 
-#ifdef  __cplusplus
-extern "C" {
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-typedef struct ms_tm MS_TM;
+    typedef struct ms_tm MS_TM;
 
-MS_TM *ms_time_new(void );
-void ms_time_free(MS_TM *a);
-void ms_time_get(MS_TM *a);
-double ms_time_diff(MS_TM *start, MS_TM *end);
-int ms_time_cmp(const MS_TM *ap, const MS_TM *bp);
+    MS_TM*               ms_time_new(void);
+    void                 ms_time_free(MS_TM* a);
+    void                 ms_time_get(MS_TM* a);
+    double               ms_time_diff(MS_TM* start, MS_TM* end);
+    int                  ms_time_cmp(const MS_TM* ap, const MS_TM* bp);
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 #endif
-

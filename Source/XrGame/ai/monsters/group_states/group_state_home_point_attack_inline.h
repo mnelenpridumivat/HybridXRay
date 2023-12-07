@@ -6,7 +6,7 @@
 #include "../monster_cover_manager.h"
 #include "../monster_home.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                  template<typename _Object>
 
 #define CStateGroupAttackMoveToHomePointAbstract CStateGroupAttackMoveToHomePoint<_Object>
 
@@ -153,8 +153,7 @@ bool CStateGroupAttackMoveToHomePointAbstract::check_completion()
         return true;
     }
 
-    if (object->ai_location().level_vertex_id() == m_target_node &&
-        !object->control().path_builder().is_moving_on_path())
+    if (object->ai_location().level_vertex_id() == m_target_node && !object->control().path_builder().is_moving_on_path())
     {
         return true;
     }
@@ -189,15 +188,15 @@ void CStateGroupAttackMoveToHomePointAbstract::setup_substates()
 
     if (current_substate == eStateAttack_HomePoint_Hide)
     {
-        const CEntityAlive* enemy = object->EnemyMan.get_enemy();
+        const CEntityAlive* enemy      = object->EnemyMan.get_enemy();
 
-        Fvector enemy2home = object->Home->get_home_point();
+        Fvector             enemy2home = object->Home->get_home_point();
         enemy2home.sub(enemy->Position());
         enemy2home.normalize_safe();
 
         m_target_node = object->Home->get_place_in_max_home_to_direction(enemy2home);
 
-        m_skip_camp = false;
+        m_skip_camp   = false;
 
         if (m_target_node == u32(-1))
         {
@@ -230,7 +229,7 @@ void CStateGroupAttackMoveToHomePointAbstract::setup_substates()
     {
         SStateDataLookToPoint data;
 
-        Fvector dir;
+        Fvector               dir;
         object->CoverMan->less_cover_direction(dir);
 
         data.point.mad(object->Position(), dir, 10.f);

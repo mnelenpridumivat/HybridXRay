@@ -1,13 +1,13 @@
 ﻿#pragma once
 
-template <class Object> CStateBurerShield<Object>::CStateBurerShield(Object* obj): inherited(obj)
+template<class Object> CStateBurerShield<Object>::CStateBurerShield(Object* obj): inherited(obj)
 {
     m_last_shield_started          = 0;
     m_shield_start_anim_length_sec = 0;
     m_next_particle_allowed        = 0;
 }
 
-template <class Object> void CStateBurerShield<Object>::initialize()
+template<class Object> void CStateBurerShield<Object>::initialize()
 {
     inherited::initialize();
     object->set_script_capture(false);
@@ -19,7 +19,7 @@ template <class Object> void CStateBurerShield<Object>::initialize()
     object->anim().get_animation_info(eAnimShieldStart, 0, motion, m_shield_start_anim_length_sec);
 }
 
-template <class Object> void CStateBurerShield<Object>::execute()
+template<class Object> void CStateBurerShield<Object>::execute()
 {
     if (!m_started)   // && current_time() > m_last_shield_started + TTime(m_shield_start_anim_length_sec*1000) )
     {
@@ -29,8 +29,7 @@ template <class Object> void CStateBurerShield<Object>::execute()
 
     if (m_started && object->m_shield_keep_particle != 0 && current_time() > m_next_particle_allowed)
     {
-        object->CParticlesPlayer::StartParticles(
-            object->m_shield_keep_particle, Fvector().set(0, 1, 0), object->ID(), -1, true);
+        object->CParticlesPlayer::StartParticles(object->m_shield_keep_particle, Fvector().set(0, 1, 0), object->ID(), -1, true);
 
         m_next_particle_allowed = current_time() + object->m_shield_keep_particle_period;
     }
@@ -41,21 +40,21 @@ template <class Object> void CStateBurerShield<Object>::execute()
     object->anim().set_override_animation(m_started ? eAnimShieldContinue : eAnimShieldStart);
 }
 
-template <class Object> void CStateBurerShield<Object>::finalize()
+template<class Object> void CStateBurerShield<Object>::finalize()
 {
     inherited::finalize();
     object->DeactivateShield();
     object->set_script_capture(true);
 }
 
-template <class Object> void CStateBurerShield<Object>::critical_finalize()
+template<class Object> void CStateBurerShield<Object>::critical_finalize()
 {
     inherited::critical_finalize();
     object->DeactivateShield();
     object->set_script_capture(false);
 }
 
-template <class Object> bool CStateBurerShield<Object>::check_start_conditions()
+template<class Object> bool CStateBurerShield<Object>::check_start_conditions()
 {
     if (current_time() < m_last_shield_started + object->m_shield_time + object->m_shield_cooldown)
         return false;
@@ -66,7 +65,7 @@ template <class Object> bool CStateBurerShield<Object>::check_start_conditions()
     return true;
 }
 
-template <class Object> bool CStateBurerShield<Object>::check_completion()
+template<class Object> bool CStateBurerShield<Object>::check_completion()
 {
     if (current_time() > m_last_shield_started + object->m_shield_time)
         return true;

@@ -104,15 +104,15 @@ private:
     Fvector const* m_desired_direction;
 
 private:
-    shared_str        m_cover_id;
-    cover_type const* m_cover;
+    shared_str           m_cover_id;
+    cover_type const*    m_cover;
 
     shared_str           m_cover_loophole_id;
     loophole_type const* m_cover_loophole;
 
-    CGameObject const* m_cover_fire_object;
-    Fvector            m_cover_fire_position_impl;
-    Fvector const*     m_cover_fire_position;
+    CGameObject const*   m_cover_fire_object;
+    Fvector              m_cover_fire_position_impl;
+    Fvector const*       m_cover_fire_position;
 
 private:
     stalker_movement_manager_smart_cover* m_manager;

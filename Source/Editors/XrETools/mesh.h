@@ -46,11 +46,13 @@ class MeshTri
 {
     friend class MeshPt;
     friend class MeshEdge;
+
 private:
     DlinkDefine(MeshTri, List);
     DWORD dwListId;   // For use when doing consistency checks.
 
     void  InternalDelete(BOOL bBinUnusedEdges);
+
 public:
     MeshPt*   pPt1;   // Points.
     MeshPt*   pPt2;
@@ -65,12 +67,7 @@ public:
 
         MeshTri(void);
     // Set pEdgeListRoot to non-NULL to autocreate edges.
-    MeshTri(
-        MeshPt*   pNewPt1,
-        MeshPt*   pNewPt2,
-        MeshPt*   pNewPt3,
-        MeshTri*  pListRoot     = NULL,
-        MeshEdge* pEdgeListRoot = NULL);
+    MeshTri(MeshPt* pNewPt1, MeshPt* pNewPt2, MeshPt* pNewPt3, MeshTri* pListRoot = NULL, MeshEdge* pEdgeListRoot = NULL);
     ~MeshTri(void);
     // Set bBinUnusedEdges to TRUE to autodestroy edges.
     void     Delete(BOOL bBinUnusedEdges = FALSE);
@@ -82,15 +79,18 @@ public:
     // and that they're in the respective lists.
     // If the lists are NULL, the check is not made.
     bool     ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
+
 protected:
     // Add the edge to this tri.
     void AddEdge(MeshEdge* pEdge);
     // Remove the edge from this tri.
     void RemoveEdge(MeshEdge* pEdge);
+
 protected:
     // Remove the point from this tri.
     // NOTE! This is probably not a good thing to do.
     void RemovePt(MeshPt* pPt);
+
 public:
     IC bool Equal(MeshTri* F)
     {
@@ -115,14 +115,16 @@ class MeshEdge
 {
     friend class MeshPt;
     friend class MeshTri;
+
 private:
     DlinkDefine(MeshEdge, List);
     DWORD dwListId;   // For use when doing consistency checks.
+
 public:
     MeshPt*   pPt1;
     MeshPt*   pPt2;
-    MeshTri*  pTri12;      // Tri that numbers pt1, pt2 in that order.
-    MeshTri*  pTri21;      // Tri that numbers pt2, pt1 in that order.
+    MeshTri*  pTri12;   // Tri that numbers pt1, pt2 in that order.
+    MeshTri*  pTri21;   // Tri that numbers pt2, pt1 in that order.
 
     MeshEdge* pEdgeProx;   // The edge that this is close to, if any.
 
@@ -161,11 +163,13 @@ public:
     // and that they're in the respective lists.
     // If the lists are NULL, the check is not made.
     bool      ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
+
 protected:
     // Remove the tri from this edge.
     void RemoveTri(MeshTri* pTri);
     // Add the tri to this edge.
     void AddTri(MeshTri* pTri);
+
 protected:
     // Remove the pt from this edge.
     // NOTE! This is probably not a good thing to do.
@@ -176,17 +180,19 @@ class MeshPt
 {
     friend class MeshEdge;
     friend class MeshTri;
+
 private:
-    ArbitraryList<MeshEdge*> EdgeList;      // The list of edges that use this point (in no order).
-    ArbitraryList<MeshTri*>  TriList;       // The list of tris that use this point (in no order).
-    ArbitraryList<MeshPt*>   ProxPtList;    // The list of prox pts (in no order).
+    ArbitraryList<MeshEdge*> EdgeList;     // The list of edges that use this point (in no order).
+    ArbitraryList<MeshTri*>  TriList;      // The list of tris that use this point (in no order).
+    ArbitraryList<MeshPt*>   ProxPtList;   // The list of prox pts (in no order).
 
     int                      iCurTriNum;    // Used with First/NextTri.
     int                      iCurEdgeNum;   // Used with First/NextEdge.
     int                      iCurProxNum;   // Used with First/NextProx.
 
     DlinkDefine(MeshPt, List);
-    DWORD dwListId;      // For use when doing consistency checks.
+    DWORD dwListId;   // For use when doing consistency checks.
+
 public:
     MESHPT_APP_DEFINED   // App-defined data.
 
@@ -264,11 +270,13 @@ public:
     // and that they're in the respective lists.
     // If the lists are NULL, the check is not made.
     bool      ConsistencyCheck(MeshPt* pPtRoot = NULL, MeshEdge* pEdgeRoot = NULL, MeshTri* pTriRoot = NULL);
+
 protected:
     // Remove the edge from this point.
     void RemoveEdge(MeshEdge* pEdge);
     // Add the edge to this point.
     void AddEdge(MeshEdge* pEdge);
+
 protected:
     // Remove the tri from this point.
     void RemoveTri(MeshTri* pTri);
@@ -779,17 +787,14 @@ inline void MeshEdge::AddTri(MeshTri* pTri)
 {
     VERIFY(pTri != NULL);
     // Assumes the tri's pt pointers have already been set up.
-    if (((pPt1 == pTri->pPt1) && (pPt2 == pTri->pPt2)) || ((pPt1 == pTri->pPt2) && (pPt2 == pTri->pPt3)) ||
-        ((pPt1 == pTri->pPt3) && (pPt2 == pTri->pPt1)))
+    if (((pPt1 == pTri->pPt1) && (pPt2 == pTri->pPt2)) || ((pPt1 == pTri->pPt2) && (pPt2 == pTri->pPt3)) || ((pPt1 == pTri->pPt3) && (pPt2 == pTri->pPt1)))
     {
         VERIFY(pTri12 == NULL);
         pTri12 = pTri;
     }
     else
     {
-        VERIFY(
-            ((pPt1 == pTri->pPt2) && (pPt2 == pTri->pPt1)) || ((pPt1 == pTri->pPt3) && (pPt2 == pTri->pPt2)) ||
-            ((pPt1 == pTri->pPt1) && (pPt2 == pTri->pPt3)));
+        VERIFY(((pPt1 == pTri->pPt2) && (pPt2 == pTri->pPt1)) || ((pPt1 == pTri->pPt3) && (pPt2 == pTri->pPt2)) || ((pPt1 == pTri->pPt1) && (pPt2 == pTri->pPt3)));
         VERIFY(pTri21 == NULL);
         pTri21 = pTri;
     }
@@ -1449,8 +1454,7 @@ inline MeshTri* MeshPt::NextTri(MeshPt* pPt)
             }
 
             // Return only tris that use this,pPt
-            if (((pTri->pPt1 == this) && (pTri->pPt2 == pPt)) || ((pTri->pPt2 == this) && (pTri->pPt3 == pPt)) ||
-                ((pTri->pPt3 == this) && (pTri->pPt1 == pPt)))
+            if (((pTri->pPt1 == this) && (pTri->pPt2 == pPt)) || ((pTri->pPt2 == this) && (pTri->pPt3 == pPt)) || ((pTri->pPt3 == this) && (pTri->pPt1 == pPt)))
             {
                 return (pTri);
             }

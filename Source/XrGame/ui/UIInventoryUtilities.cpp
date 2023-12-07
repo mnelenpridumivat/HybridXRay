@@ -21,26 +21,25 @@
 #include "UIShader.h"
 
 #define BUY_MENU_TEXTURE "ui\\ui_mp_buy_menu"
-#define CHAR_ICONS "ui\\ui_icons_npc"
-#define MAP_ICONS "ui\\ui_icons_map"
-#define MP_CHAR_ICONS "ui\\ui_models_multiplayer"
+#define CHAR_ICONS       "ui\\ui_icons_npc"
+#define MAP_ICONS        "ui\\ui_icons_map"
+#define MP_CHAR_ICONS    "ui\\ui_models_multiplayer"
 
 const LPCSTR relationsLtxSection = "game_relations";
 const LPCSTR ratingField         = "rating_names";
 const LPCSTR reputationgField    = "reputation_names";
 const LPCSTR goodwillField       = "goodwill_names";
 
-const LPCSTR st_months[12] =   // StringTable for GetDateAsString()
-    {"month_january", "month_february", "month_march",     "month_april",   "month_may",      "month_june",
-     "month_july",    "month_august",   "month_september", "month_october", "month_november", "month_december"};
+const LPCSTR st_months[12]       =   // StringTable for GetDateAsString()
+    {"month_january", "month_february", "month_march", "month_april", "month_may", "month_june", "month_july", "month_august", "month_september", "month_october", "month_november", "month_december"};
 
-ui_shader*        g_BuyMenuShader            = NULL;
-ui_shader*        g_EquipmentIconsShader     = NULL;
-ui_shader*        g_MPCharIconsShader        = NULL;
-ui_shader*        g_OutfitUpgradeIconsShader = NULL;
-ui_shader*        g_WeaponUpgradeIconsShader = NULL;
-ui_shader*        g_tmpWMShader              = NULL;
-static CUIStatic* GetUIStatic();
+ui_shader*                                          g_BuyMenuShader            = NULL;
+ui_shader*                                          g_EquipmentIconsShader     = NULL;
+ui_shader*                                          g_MPCharIconsShader        = NULL;
+ui_shader*                                          g_OutfitUpgradeIconsShader = NULL;
+ui_shader*                                          g_WeaponUpgradeIconsShader = NULL;
+ui_shader*                                          g_tmpWMShader              = NULL;
+static CUIStatic*                                   GetUIStatic();
 
 typedef std::pair<CHARACTER_RANK_VALUE, shared_str> CharInfoStringID;
 DEF_MAP(CharInfoStrings, CHARACTER_RANK_VALUE, shared_str);
@@ -49,7 +48,7 @@ CharInfoStrings* charInfoReputationStrings = NULL;
 CharInfoStrings* charInfoRankStrings       = NULL;
 CharInfoStrings* charInfoGoodwillStrings   = NULL;
 
-void InventoryUtilities::CreateShaders()
+void             InventoryUtilities::CreateShaders()
 {
     g_tmpWMShader = xr_new<ui_shader>();
     (*g_tmpWMShader)->create("effects\\wallmark", "wm\\wm_grenade");
@@ -108,10 +107,10 @@ bool InventoryUtilities::FreeRoom_inBelt(TIItemContainer& item_list, PIItem _ite
 {
     bool* ruck_room = (bool*)alloca(width * height);
 
-    int  i, j, k, m;
-    int  place_row = 0, place_col = 0;
-    bool found_place;
-    bool can_place;
+    int   i, j, k, m;
+    int   place_row = 0, place_col = 0;
+    bool  found_place;
+    bool  can_place;
 
     for (i = 0; i < height; ++i)
         for (j = 0; j < width; ++j)
@@ -128,7 +127,7 @@ bool InventoryUtilities::FreeRoom_inBelt(TIItemContainer& item_list, PIItem _ite
         Ivector2 iWH   = pItem->GetInvGridRect().rb;
         // проверить можно ли разместить элемент,
         // проверяем последовательно каждую клеточку
-        found_place = false;
+        found_place    = false;
 
         for (i = 0; (i < height - iWH.y + 1) && !found_place; ++i)
         {
@@ -262,11 +261,7 @@ const shared_str InventoryUtilities::Get_GameTimeAndDate_AsString()
 
 //////////////////////////////////////////////////////////////////////////
 
-const shared_str InventoryUtilities::GetTimeAsString(
-    ALife::_TIME_ID time,
-    ETimePrecision  timePrec,
-    char            timeSeparator,
-    bool            full_mode)
+const shared_str InventoryUtilities::GetTimeAsString(ALife::_TIME_ID time, ETimePrecision timePrec, char timeSeparator, bool full_mode)
 {
     string32 bufTime;
 
@@ -304,15 +299,12 @@ const shared_str InventoryUtilities::GetTimeAsString(
             xr_sprintf(bufTime, "0%c%02i", timeSeparator, secs);
             break;
         case etpTimeToMilisecs:
-            xr_sprintf(
-                bufTime, "%02i%c%02i%c%02i%c%02i", hours, timeSeparator, mins, timeSeparator, secs, timeSeparator,
-                milisecs);
+            xr_sprintf(bufTime, "%02i%c%02i%c%02i%c%02i", hours, timeSeparator, mins, timeSeparator, secs, timeSeparator, milisecs);
             break;
-        case etpTimeToSecondsAndDay: {
+        case etpTimeToSecondsAndDay:
+        {
             int total_day = (int)(time / (1000 * 60 * 60 * 24));
-            xr_sprintf(
-                bufTime, sizeof(bufTime), "%dd %02i%c%02i%c%02i", total_day, hours, timeSeparator, mins, timeSeparator,
-                secs);
+            xr_sprintf(bufTime, sizeof(bufTime), "%dd %02i%c%02i%c%02i", total_day, hours, timeSeparator, mins, timeSeparator, secs);
             break;
         }
         default:
@@ -365,15 +357,13 @@ LPCSTR InventoryUtilities::GetTimePeriodAsString(LPSTR _buff, u32 buff_sz, ALife
     _buff[0] = 0;
 
     if (month1 != month2)
-        cnt = xr_sprintf(
-            _buff + cnt, buff_sz - cnt, "%d %s ", month2 - month1, *CStringTable().translate("ui_st_months"));
+        cnt = xr_sprintf(_buff + cnt, buff_sz - cnt, "%d %s ", month2 - month1, *CStringTable().translate("ui_st_months"));
 
     if (!cnt && day1 != day2)
         cnt = xr_sprintf(_buff + cnt, buff_sz - cnt, "%d %s", day2 - day1, *CStringTable().translate("ui_st_days"));
 
     if (!cnt && hours1 != hours2)
-        cnt =
-            xr_sprintf(_buff + cnt, buff_sz - cnt, "%d %s", hours2 - hours1, *CStringTable().translate("ui_st_hours"));
+        cnt = xr_sprintf(_buff + cnt, buff_sz - cnt, "%d %s", hours2 - hours1, *CStringTable().translate("ui_st_hours"));
 
     if (!cnt && mins1 != mins2)
         cnt = xr_sprintf(_buff + cnt, buff_sz - cnt, "%d %s", mins2 - mins1, *CStringTable().translate("ui_st_mins"));
@@ -391,10 +381,10 @@ void InventoryUtilities::UpdateWeightStr(CUITextWnd& wnd, CUITextWnd& wnd_max, C
     R_ASSERT(pInvOwner);
     string128 buf;
 
-    float total = pInvOwner->inventory().CalcTotalWeight();
-    float max   = pInvOwner->MaxCarryWeight();
+    float     total  = pInvOwner->inventory().CalcTotalWeight();
+    float     max    = pInvOwner->MaxCarryWeight();
 
-    LPCSTR kg_str = CStringTable().translate("st_kg").c_str();
+    LPCSTR    kg_str = CStringTable().translate("st_kg").c_str();
     xr_sprintf(buf, "%.1f %s", total, kg_str);
     wnd.SetText(buf);
 

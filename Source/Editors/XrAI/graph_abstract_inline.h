@@ -42,10 +42,7 @@ IC void CAbstractGraph::remove_vertex(const _vertex_id_type& vertex_id)
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CAbstractGraph::add_edge(
-    const _vertex_id_type&   vertex_id0,
-    const _vertex_id_type&   vertex_id1,
-    const _edge_weight_type& edge_weight)
+IC void CAbstractGraph::add_edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1, const _edge_weight_type& edge_weight)
 {
     CVertex* _vertex0 = vertex(vertex_id0);
     VERIFY(_vertex0);
@@ -55,11 +52,7 @@ IC void CAbstractGraph::add_edge(
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CAbstractGraph::add_edge(
-    const _vertex_id_type&   vertex_id0,
-    const _vertex_id_type&   vertex_id1,
-    const _edge_weight_type& edge_weight0,
-    const _edge_weight_type& edge_weight1)
+IC void CAbstractGraph::add_edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1, const _edge_weight_type& edge_weight0, const _edge_weight_type& edge_weight1)
 {
     add_edge(vertex_id0, vertex_id1, edge_weight0);
     add_edge(vertex_id1, vertex_id0, edge_weight1);
@@ -119,8 +112,7 @@ IC typename CAbstractGraph::CVertex* CAbstractGraph::vertex(const _vertex_id_typ
 }
 
 TEMPLATE_SPECIALIZATION
-IC const typename CAbstractGraph::CEdge*
-    CAbstractGraph::edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1) const
+IC const typename CAbstractGraph::CEdge* CAbstractGraph::edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1) const
 {
     const CVertex* _vertex = vertex(vertex_id0);
     if (!_vertex)
@@ -129,8 +121,7 @@ IC const typename CAbstractGraph::CEdge*
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CAbstractGraph::CEdge*
-    CAbstractGraph::edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1)
+IC typename CAbstractGraph::CEdge* CAbstractGraph::edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1)
 {
     CVertex* _vertex = vertex(vertex_id0);
     if (!_vertex)
@@ -169,10 +160,7 @@ IC bool CAbstractGraph::operator==(const CGraphAbstract& obj) const
 }
 
 TEMPLATE_SPECIALIZATION
-IC const _edge_weight_type CAbstractGraph::get_edge_weight(
-    const _vertex_id_type vertex_index0,
-    const _vertex_id_type vertex_index1,
-    const_iterator        i) const
+IC const _edge_weight_type CAbstractGraph::get_edge_weight(const _vertex_id_type vertex_index0, const _vertex_id_type vertex_index1, const_iterator i) const
 {
     VERIFY(edge(vertex_index0, vertex_index1));
     return ((*i).weight());
@@ -185,8 +173,7 @@ IC bool CAbstractGraph::is_accessible(const _vertex_id_type vertex_index) const
 }
 
 TEMPLATE_SPECIALIZATION
-IC const typename CAbstractGraph::CVertex*
-    CAbstractGraph::value(const _vertex_id_type vertex_index, const_iterator i) const
+IC const typename CAbstractGraph::CVertex* CAbstractGraph::value(const _vertex_id_type vertex_index, const_iterator i) const
 {
     return ((*i).vertex());
 }

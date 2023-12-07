@@ -29,49 +29,29 @@ BOOL CSoundRender_CoreA::EAXQuerySupport(BOOL bDeferred, const GUID* guid, u32 p
 BOOL CSoundRender_CoreA::EAXTestSupport(BOOL bDeferred)
 {
     EAXLISTENERPROPERTIES ep;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_ROOM, &ep.lRoom, sizeof(LONG)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_ROOM, &ep.lRoom, sizeof(LONG)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_ROOMHF, &ep.lRoomHF, sizeof(LONG)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_ROOMHF, &ep.lRoomHF, sizeof(LONG)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_ROOMROLLOFFFACTOR,
-            &ep.flRoomRolloffFactor, sizeof(float)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_ROOMROLLOFFFACTOR, &ep.flRoomRolloffFactor, sizeof(float)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_DECAYTIME, &ep.flDecayTime,
-            sizeof(float)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_DECAYTIME, &ep.flDecayTime, sizeof(float)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_DECAYHFRATIO, &ep.flDecayHFRatio,
-            sizeof(float)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_DECAYHFRATIO, &ep.flDecayHFRatio, sizeof(float)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_REFLECTIONS, &ep.lReflections,
-            sizeof(LONG)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_REFLECTIONS, &ep.lReflections, sizeof(LONG)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_REFLECTIONSDELAY,
-            &ep.flReflectionsDelay, sizeof(float)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_REFLECTIONSDELAY, &ep.flReflectionsDelay, sizeof(float)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_REVERB, &ep.lReverb, sizeof(LONG)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_REVERB, &ep.lReverb, sizeof(LONG)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_REVERBDELAY, &ep.flReverbDelay,
-            sizeof(float)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_REVERBDELAY, &ep.flReverbDelay, sizeof(float)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_ENVIRONMENTDIFFUSION,
-            &ep.flEnvironmentDiffusion, sizeof(float)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_ENVIRONMENTDIFFUSION, &ep.flEnvironmentDiffusion, sizeof(float)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_AIRABSORPTIONHF,
-            &ep.flAirAbsorptionHF, sizeof(float)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_AIRABSORPTIONHF, &ep.flAirAbsorptionHF, sizeof(float)))
         return FALSE;
-    if (!EAXQuerySupport(
-            bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_FLAGS, &ep.dwFlags, sizeof(DWORD)))
+    if (!EAXQuerySupport(bDeferred, &DSPROPSETID_EAX_ListenerProperties, DSPROPERTY_EAXLISTENER_FLAGS, &ep.dwFlags, sizeof(DWORD)))
         return FALSE;
     return TRUE;
 }
@@ -123,7 +103,7 @@ void CSoundRender_CoreA::_initialize(int stage)
     R_ASSERT(snd_device_id >= 0 && snd_device_id < pDeviceList->GetNumDevices());
     const ALDeviceDesc& deviceDesc = pDeviceList->GetDeviceDesc(snd_device_id);
     // OpenAL device
-    pDevice = alcOpenDevice(deviceDesc.name);
+    pDevice                        = alcOpenDevice(deviceDesc.name);
     if (pDevice == NULL)
     {
         CHECK_OR_EXIT(0, "SOUND: OpenAL: Failed to create device.");
@@ -136,7 +116,7 @@ void CSoundRender_CoreA::_initialize(int stage)
     deviceSpecifier = alcGetString(pDevice, ALC_DEVICE_SPECIFIER);
 
     // Create context
-    pContext = alcCreateContext(pDevice, NULL);
+    pContext        = alcCreateContext(pDevice, NULL);
     if (0 == pContext)
     {
         CHECK_OR_EXIT(0, "SOUND: OpenAL: Failed to create context.");
@@ -161,7 +141,7 @@ void CSoundRender_CoreA::_initialize(int stage)
     A_CHK(alListenerf(AL_GAIN, 1.f));
 
     // Check for EAX extension
-    bEAX = deviceDesc.props.eax && !deviceDesc.props.eax_unwanted;
+    bEAX   = deviceDesc.props.eax && !deviceDesc.props.eax_unwanted;
 
     eaxSet = (EAXSet)alGetProcAddress((const ALchar*)"EAXSet");
     if (eaxSet == NULL)

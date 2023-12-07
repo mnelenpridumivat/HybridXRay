@@ -4,19 +4,19 @@ class ESoundSource: public CCustomObject
 {
     typedef CCustomObject inherited;
     // static sound
-    ref_sound     m_Source;
-    shared_str    m_WAVName;
-    CSound_params m_Params;
-    Fvector2      m_PlayTime;
-    Fvector2      m_RandomPause;
-    Fvector2      m_ActiveTime;
-    u32           m_NextTime;
-    u32           m_StopTime;
+    ref_sound             m_Source;
+    shared_str            m_WAVName;
+    CSound_params         m_Params;
+    Fvector2              m_PlayTime;
+    Fvector2              m_RandomPause;
+    Fvector2              m_ActiveTime;
+    u32                   m_NextTime;
+    u32                   m_StopTime;
     // edit events
-    void OnChangeWAV(PropValue* prop);
-    void OnChangeSource(PropValue* prop);
-    void OnControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void ResetSource();
+    void                  OnChangeWAV(PropValue* prop);
+    void                  OnChangeSource(PropValue* prop);
+    void                  OnControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                  ResetSource();
     enum
     {
         flLooped     = (1 << 0),

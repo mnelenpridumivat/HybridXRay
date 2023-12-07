@@ -13,10 +13,7 @@
 using System::InvalidOperationException;
 using System::Object;
 
-property_collection_enumerator::property_collection_enumerator(collection_type* collection):
-    m_collection(collection), m_cursor(-1)
-{
-}
+property_collection_enumerator::property_collection_enumerator(collection_type* collection): m_collection(collection), m_cursor(-1) {}
 
 void property_collection_enumerator::Reset()
 {

@@ -9,10 +9,7 @@
 
 #pragma once
 
-IC CLevelSpawnConstructor::CLevelSpawnConstructor(
-    const IGameGraph::SLevel& level,
-    CGameSpawnConstructor*    game_spawn_constructor,
-    bool                      no_separator_check)
+IC CLevelSpawnConstructor::CLevelSpawnConstructor(const IGameGraph::SLevel& level, CGameSpawnConstructor* game_spawn_constructor, bool no_separator_check)
 {
     m_level                  = level;
     m_game_spawn_constructor = game_spawn_constructor;

@@ -33,7 +33,7 @@ void CUIComboBox::InitComboBox(Fvector2 pos, float width)
 {
     float lb_text_offset = 5.0f;
 
-    m_bInited = true;
+    m_bInited            = true;
     if (0 == m_iListHeight)
         m_iListHeight = 4;
 
@@ -83,11 +83,11 @@ CUIListBoxItem* CUIComboBox::AddItem_(LPCSTR str, int _data)
 void CUIComboBox::OnListItemSelect()
 {
     m_text.SetText(m_list_box.GetSelectedText());
-    CUIListBoxItem* itm = m_list_box.GetSelectedItem();
+    CUIListBoxItem* itm          = m_list_box.GetSelectedItem();
 
-    int bk_itoken_id = m_itoken_id;
+    int             bk_itoken_id = m_itoken_id;
 
-    m_itoken_id = (int)(__int64)itm->GetData();
+    m_itoken_id                  = (int)(__int64)itm->GetData();
     ShowList(false);
 
     if (bk_itoken_id != m_itoken_id)

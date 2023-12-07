@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 
-TUI_ControlObjectAdd::TUI_ControlObjectAdd(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent)
-{
-}
+TUI_ControlObjectAdd::TUI_ControlObjectAdd(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent) {}
 
 bool TUI_ControlObjectAdd::Start(TShiftState Shift)
 {
@@ -55,10 +53,7 @@ bool TUI_ControlObjectAdd::Start(TShiftState Shift)
             if (ot->IsAppendRandomRotationActive())
             {
                 Fvector p;
-                p.set(
-                    Random.randF(ot->m_AppendRandomMinRotation.x, ot->m_AppendRandomMaxRotation.x),
-                    Random.randF(ot->m_AppendRandomMinRotation.y, ot->m_AppendRandomMaxRotation.y),
-                    Random.randF(ot->m_AppendRandomMinRotation.z, ot->m_AppendRandomMaxRotation.z));
+                p.set(Random.randF(ot->m_AppendRandomMinRotation.x, ot->m_AppendRandomMaxRotation.x), Random.randF(ot->m_AppendRandomMinRotation.y, ot->m_AppendRandomMaxRotation.y), Random.randF(ot->m_AppendRandomMinRotation.z, ot->m_AppendRandomMaxRotation.z));
                 obj->SetRotation(p);
             }
             if (ot->IsAppendRandomScaleActive())
@@ -71,10 +66,7 @@ bool TUI_ControlObjectAdd::Start(TShiftState Shift)
                 }
                 else
                 {
-                    s.set(
-                        Random.randF(ot->m_AppendRandomMinScale.x, ot->m_AppendRandomMaxScale.x),
-                        Random.randF(ot->m_AppendRandomMinScale.y, ot->m_AppendRandomMaxScale.y),
-                        Random.randF(ot->m_AppendRandomMinScale.z, ot->m_AppendRandomMaxScale.z));
+                    s.set(Random.randF(ot->m_AppendRandomMinScale.x, ot->m_AppendRandomMaxScale.x), Random.randF(ot->m_AppendRandomMinScale.y, ot->m_AppendRandomMaxScale.y), Random.randF(ot->m_AppendRandomMinScale.z, ot->m_AppendRandomMaxScale.z));
                 }
                 obj->SetScale(s);
             }

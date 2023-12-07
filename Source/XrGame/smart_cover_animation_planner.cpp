@@ -29,13 +29,7 @@
 using smart_cover::animation_planner;
 using namespace StalkerDecisionSpace;
 
-animation_planner::animation_planner(CAI_Stalker* object, LPCSTR action_name):
-    inherited(), m_time_object_hit(0), m_last_transition_time(0), m_default_idle_interval(0),
-    m_default_lookout_interval(0), m_loophole_value(1000), m_head_speed(flt_max), m_idle_min_time(0.f),
-    m_idle_max_time(0.f), m_lookout_min_time(0.f), m_lookout_max_time(0.f), m_stay_idle(true), m_last_idle_time(0),
-    m_last_lookout_time(0)
-{
-}
+animation_planner::animation_planner(CAI_Stalker* object, LPCSTR action_name): inherited(), m_time_object_hit(0), m_last_transition_time(0), m_default_idle_interval(0), m_default_lookout_interval(0), m_loophole_value(1000), m_head_speed(flt_max), m_idle_min_time(0.f), m_idle_max_time(0.f), m_lookout_min_time(0.f), m_lookout_max_time(0.f), m_stay_idle(true), m_last_idle_time(0), m_last_lookout_time(0) {}
 
 animation_planner::~animation_planner() {}
 
@@ -68,7 +62,7 @@ void animation_planner::initialize()
 {
     typedef CAI_Stalker::HitCallback HitCallback;
 
-    HitCallback hit_callback;
+    HitCallback                      hit_callback;
     hit_callback.bind(this, &animation_planner::hit_callback);
     object().hit_callback(hit_callback);
 
@@ -102,43 +96,21 @@ void animation_planner::finalize()
 
 void animation_planner::add_evaluators()
 {
-    add_evaluator(
-        eWorldPropertySmartCoverEntered, xr_new<evaluators::cover_entered_evaluator>(m_object, "smart cover entered"));
-    add_evaluator(
-        eWorldPropertySmartCoverActual, xr_new<evaluators::cover_actual_evaluator>(m_object, "smart cover actual"));
-    add_evaluator(
-        eWorldPropertyReadyToKill,
-        xr_new<CStalkerPropertyEvaluatorReadyToKillSmartCover>(m_object, "ready to kill", 6));
+    add_evaluator(eWorldPropertySmartCoverEntered, xr_new<evaluators::cover_entered_evaluator>(m_object, "smart cover entered"));
+    add_evaluator(eWorldPropertySmartCoverActual, xr_new<evaluators::cover_actual_evaluator>(m_object, "smart cover actual"));
+    add_evaluator(eWorldPropertyReadyToKill, xr_new<CStalkerPropertyEvaluatorReadyToKillSmartCover>(m_object, "ready to kill", 6));
     add_evaluator(eWorldPropertyLookedOut, xr_new<CStalkerPropertyEvaluatorConst>(false, "looked out"));
-    add_evaluator(
-        eWorldPropertyLoopholeActual,
-        xr_new<evaluators::loophole_actual_evaluator>(m_object, "loophole actual", this, 0));
+    add_evaluator(eWorldPropertyLoopholeActual, xr_new<evaluators::loophole_actual_evaluator>(m_object, "loophole actual", this, 0));
     add_evaluator(eWorldPropertyExitSmartCover, xr_new<CStalkerPropertyEvaluatorConst>(false, "exit smart cover"));
     add_evaluator(eWorldPropertyLoopholeIdle, xr_new<CStalkerPropertyEvaluatorConst>(false, "loophole idle"));
     add_evaluator(eWorldPropertyLoopholeFire, xr_new<CStalkerPropertyEvaluatorConst>(false, "loophole fire"));
-    add_evaluator(
-        eWorldPropertyLoopholeFireNoLookout, xr_new<CStalkerPropertyEvaluatorConst>(false, "loophole fire no lookout"));
-    add_evaluator(
-        eWorldPropertyReadyToIdle,
-        xr_new<CStalkerPropertyEvaluatorMember>(
-            (CPropertyStorage*)0, eWorldPropertyReadyToIdle, true, true, "ready to idle"));
-    add_evaluator(
-        eWorldPropertyReadyToLookout,
-        xr_new<CStalkerPropertyEvaluatorMember>(
-            (CPropertyStorage*)0, eWorldPropertyReadyToLookout, true, true, "ready to lookout"));
-    add_evaluator(
-        eWorldPropertyReadyToFire,
-        xr_new<CStalkerPropertyEvaluatorMember>(
-            (CPropertyStorage*)0, eWorldPropertyReadyToFire, true, true, "ready to fire"));
-    add_evaluator(
-        eWorldPropertyReadyToFireNoLookout,
-        xr_new<CStalkerPropertyEvaluatorMember>(
-            (CPropertyStorage*)0, eWorldPropertyReadyToFireNoLookout, true, true, "ready to fire_no_lookout"));
-    add_evaluator(
-        eWorldPropertyLoopholeExitable, xr_new<evaluators::loophole_exitable_evaluator>(m_object, "loophole exitable"));
-    add_evaluator(
-        eWorldPropertyLoopholeCanExitWithAnimation,
-        xr_new<evaluators::can_exit_loophole_with_animation>(m_object, "can exit loophole with animation"));
+    add_evaluator(eWorldPropertyLoopholeFireNoLookout, xr_new<CStalkerPropertyEvaluatorConst>(false, "loophole fire no lookout"));
+    add_evaluator(eWorldPropertyReadyToIdle, xr_new<CStalkerPropertyEvaluatorMember>((CPropertyStorage*)0, eWorldPropertyReadyToIdle, true, true, "ready to idle"));
+    add_evaluator(eWorldPropertyReadyToLookout, xr_new<CStalkerPropertyEvaluatorMember>((CPropertyStorage*)0, eWorldPropertyReadyToLookout, true, true, "ready to lookout"));
+    add_evaluator(eWorldPropertyReadyToFire, xr_new<CStalkerPropertyEvaluatorMember>((CPropertyStorage*)0, eWorldPropertyReadyToFire, true, true, "ready to fire"));
+    add_evaluator(eWorldPropertyReadyToFireNoLookout, xr_new<CStalkerPropertyEvaluatorMember>((CPropertyStorage*)0, eWorldPropertyReadyToFireNoLookout, true, true, "ready to fire_no_lookout"));
+    add_evaluator(eWorldPropertyLoopholeExitable, xr_new<evaluators::loophole_exitable_evaluator>(m_object, "loophole exitable"));
+    add_evaluator(eWorldPropertyLoopholeCanExitWithAnimation, xr_new<evaluators::can_exit_loophole_with_animation>(m_object, "can exit loophole with animation"));
 }
 
 void animation_planner::add_actions()
@@ -228,8 +200,7 @@ void animation_planner::add_actions()
     add_effect(action, eWorldPropertyLoopholeFireNoLookout, true);
     add_operator(eWorldOperatorSmartCoverFireNoLookout, action);
 
-    action = xr_new<idle_2_lookout_transition>(
-        m_object, "idle_2_lookout", "idle", "lookout", eWorldPropertyReadyToIdle, eWorldPropertyReadyToLookout, this);
+    action = xr_new<idle_2_lookout_transition>(m_object, "idle_2_lookout", "idle", "lookout", eWorldPropertyReadyToIdle, eWorldPropertyReadyToLookout, this);
     add_condition(action, eWorldPropertySmartCoverActual, true);
     add_condition(action, eWorldPropertySmartCoverEntered, true);
     add_condition(action, eWorldPropertyLoopholeActual, true);
@@ -240,8 +211,7 @@ void animation_planner::add_actions()
     add_effect(action, eWorldPropertyReadyToIdle, false);
     add_operator(eWorldOperatorSmartCoverIdle2Lookout, action);
 
-    action = xr_new<lookout_2_idle_transition>(
-        m_object, "lookout_2_idle", "lookout", "idle", eWorldPropertyReadyToLookout, eWorldPropertyReadyToIdle, this);
+    action = xr_new<lookout_2_idle_transition>(m_object, "lookout_2_idle", "lookout", "idle", eWorldPropertyReadyToLookout, eWorldPropertyReadyToIdle, this);
     add_condition(action, eWorldPropertySmartCoverEntered, true);
     add_condition(action, eWorldPropertyReadyToLookout, true);
     add_condition(action, eWorldPropertyReadyToIdle, false);
@@ -249,8 +219,7 @@ void animation_planner::add_actions()
     add_effect(action, eWorldPropertyReadyToLookout, false);
     add_operator(eWorldOperatorSmartCoverLookout2Idle, action);
 
-    action = xr_new<idle_2_fire_transition>(
-        m_object, "idle_2_fire", "idle", "fire", eWorldPropertyReadyToIdle, eWorldPropertyReadyToFire, this, true);
+    action = xr_new<idle_2_fire_transition>(m_object, "idle_2_fire", "idle", "fire", eWorldPropertyReadyToIdle, eWorldPropertyReadyToFire, this, true);
     add_condition(action, eWorldPropertySmartCoverActual, true);
     add_condition(action, eWorldPropertySmartCoverEntered, true);
     add_condition(action, eWorldPropertyLoopholeActual, true);
@@ -261,8 +230,7 @@ void animation_planner::add_actions()
     add_effect(action, eWorldPropertyReadyToIdle, false);
     add_operator(eWorldOperatorSmartCoverIdle2Fire, action);
 
-    action = xr_new<fire_2_idle_transition>(
-        m_object, "fire_2_idle", "fire", "idle", eWorldPropertyReadyToFire, eWorldPropertyReadyToIdle, this);
+    action = xr_new<fire_2_idle_transition>(m_object, "fire_2_idle", "fire", "idle", eWorldPropertyReadyToFire, eWorldPropertyReadyToIdle, this);
     add_condition(action, eWorldPropertySmartCoverEntered, true);
     add_condition(action, eWorldPropertyReadyToFire, true);
     add_condition(action, eWorldPropertyReadyToIdle, false);
@@ -270,9 +238,7 @@ void animation_planner::add_actions()
     add_effect(action, eWorldPropertyReadyToFire, false);
     add_operator(eWorldOperatorSmartCoverFire2Idle, action);
 
-    action = xr_new<idle_2_fire_transition>(
-        m_object, "idle_2_fire_no_lookout", "idle", "fire_no_lookout", eWorldPropertyReadyToIdle,
-        eWorldPropertyReadyToFireNoLookout, this, true);
+    action = xr_new<idle_2_fire_transition>(m_object, "idle_2_fire_no_lookout", "idle", "fire_no_lookout", eWorldPropertyReadyToIdle, eWorldPropertyReadyToFireNoLookout, this, true);
     add_condition(action, eWorldPropertySmartCoverActual, true);
     add_condition(action, eWorldPropertySmartCoverEntered, true);
     add_condition(action, eWorldPropertyLoopholeActual, true);
@@ -283,9 +249,7 @@ void animation_planner::add_actions()
     add_effect(action, eWorldPropertyReadyToIdle, false);
     add_operator(eWorldOperatorSmartCoverIdle2FireNoLookout, action);
 
-    action = xr_new<fire_2_idle_transition>(
-        m_object, "fire_no_lookout_2_idle", "fire_no_lookout", "idle", eWorldPropertyReadyToFireNoLookout,
-        eWorldPropertyReadyToIdle, this);
+    action = xr_new<fire_2_idle_transition>(m_object, "fire_no_lookout_2_idle", "fire_no_lookout", "idle", eWorldPropertyReadyToFireNoLookout, eWorldPropertyReadyToIdle, this);
     add_condition(action, eWorldPropertySmartCoverEntered, true);
     add_condition(action, eWorldPropertyReadyToFireNoLookout, true);
     add_condition(action, eWorldPropertyReadyToIdle, false);
@@ -306,9 +270,7 @@ bool animation_planner::hit_callback(SHit const* hit)
     if (!object().g_Alive())
         return (false);
 
-    object().callback(GameObject::eHit)(
-        m_object->lua_game_object(), hit->damage(), hit->direction(),
-        smart_cast<const CGameObject*>(hit->who)->lua_game_object(), hit->boneID);
+    object().callback(GameObject::eHit)(m_object->lua_game_object(), hit->damage(), hit->direction(), smart_cast<const CGameObject*>(hit->who)->lua_game_object(), hit->boneID);
 
     return (false);
 }

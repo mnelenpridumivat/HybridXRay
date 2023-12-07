@@ -15,6 +15,7 @@ public:
     virtual void Render(float LOD);   // LOD - Level Of Detail  [0.0f - min, 1.0f - max], Ignored ?
     virtual void Copy(dxRender_Visual* pFrom);
     virtual void Release();
+
 private:
     //	For debug purpose only
     ref_geom        m_Geom;

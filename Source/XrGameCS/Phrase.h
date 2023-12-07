@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "PhraseScript.h"
 
@@ -8,40 +8,62 @@ class CGameObject;
 class CPhrase
 {
 private:
-	friend CPhraseDialog;
+    friend CPhraseDialog;
+
 public:
-					CPhrase			();
-	virtual			~CPhrase		();
+    CPhrase();
+    virtual ~CPhrase();
 
-	void				SetText			(LPCSTR text)		{m_text = text;}
-	LPCSTR				GetText			()	const;
+    void SetText(LPCSTR text)
+    {
+        m_text = text;
+    }
+    LPCSTR GetText() const;
 
-	LPCSTR				GetScriptText	()	const;
+    LPCSTR GetScriptText() const;
 
-	void				SetID		(const shared_str& id)			{m_ID = id;}
-	const shared_str&	GetID		()	const						{return m_ID;}
+    void   SetID(const shared_str& id)
+    {
+        m_ID = id;
+    }
+    const shared_str& GetID() const
+    {
+        return m_ID;
+    }
 
-	int				GoodwillLevel	()	const			{return m_iGoodwillLevel;}
+    int GoodwillLevel() const
+    {
+        return m_iGoodwillLevel;
+    }
 
-	bool			IsDummy			()	const;
-	CDialogScriptHelper* GetScriptHelper	()			{return &m_ScriptHelper;};
+    bool                 IsDummy() const;
+    CDialogScriptHelper* GetScriptHelper()
+    {
+        return &m_ScriptHelper;
+    };
 
-	int				GetGoodwillLevel	() const		{return m_iGoodwillLevel;}
-	void			SetGoodwillLevel	(int v)			{m_iGoodwillLevel = v;}
+    int GetGoodwillLevel() const
+    {
+        return m_iGoodwillLevel;
+    }
+    void SetGoodwillLevel(int v)
+    {
+        m_iGoodwillLevel = v;
+    }
+
 protected:
+    //	LPCSTR			GetScriptText	(const CGameObject* pSpeaker1, const CGameObject* pSpeaker2, LPCSTR dialog_id, int phrase_num) const;
 
-//	LPCSTR			GetScriptText	(const CGameObject* pSpeaker1, const CGameObject* pSpeaker2, LPCSTR dialog_id, int phrase_num) const;
+    //СѓРЅРёРєР°Р»СЊРЅС‹Р№ РёРЅРґРµРєСЃ РІ СЃРїРёСЃРєРµ С„СЂР°Р· РґРёР°Р»РѕРіР°
+    shared_str          m_ID;
+    //С‚РµРєСЃС‚РѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ С„СЂР°Р·С‹
+    xr_string           m_text;
+    xr_string           m_script_text_id;
+    xr_string           m_script_text_val;
+    //РјРёРЅРёРјР°Р»СЊРЅС‹Р№ СѓСЂРѕРІРµРЅСЊ Р±Р»Р°РіРѕСЃРєР»РѕРіРіРѕСЃС‚Рё, РЅРµРѕР±С…РѕРґРёРјС‹Р№ РґР»СЏ С‚РѕРіРѕ
+    //С‡С‚РѕР± С„СЂР°Р·Сѓ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СЃРєР°Р·Р°С‚СЊ
+    int                 m_iGoodwillLevel;
 
-	//уникальный индекс в списке фраз диалога
-	shared_str		m_ID;
-	//текстовое представление фразы
-	xr_string		m_text;
-	xr_string		m_script_text_id;	
-	xr_string		m_script_text_val;
-	//минимальный уровень благосклоггости, необходимый для того
-	//чтоб фразу можно было сказать
-	int				m_iGoodwillLevel;
-	
-	//для вызова скриптовых функций
-	CDialogScriptHelper	m_ScriptHelper;
+    //РґР»СЏ РІС‹Р·РѕРІР° СЃРєСЂРёРїС‚РѕРІС‹С… С„СѓРЅРєС†РёР№
+    CDialogScriptHelper m_ScriptHelper;
 };

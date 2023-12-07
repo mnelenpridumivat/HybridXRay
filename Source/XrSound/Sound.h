@@ -16,16 +16,16 @@
 #define XRSOUND_EDITOR_API XRSOUND_API
 class XRSOUND_EDITOR_API SoundEnvironment_LIB;
 
-#define SNDENV_FILENAME "sEnvironment.xr"
+#define SNDENV_FILENAME     "sEnvironment.xr"
 #define OGG_COMMENT_VERSION 0x0003
 
 // refs
 class CObject;
-class XRSOUND_API CSound_params;
-class XRSOUND_API CSound_source;
-class XRSOUND_API CSound_emitter;
-class XRSOUND_API CSound_stream_interface;
-class XRSOUND_API CSound_environment;
+class XRSOUND_API            CSound_params;
+class XRSOUND_API            CSound_source;
+class XRSOUND_API            CSound_emitter;
+class XRSOUND_API            CSound_stream_interface;
+class XRSOUND_API            CSound_environment;
 
 XRSOUND_API extern u32       psSoundModel;
 XRSOUND_API extern float     psSoundVEffects;
@@ -97,8 +97,8 @@ public:
     CSound_UserDataPtr g_userdata;
     shared_str         fn_attached[2];
 
-    u32   dwBytesTotal;
-    float fTimeTotal;
+    u32                dwBytesTotal;
+    float              fTimeTotal;
 
 public:
     ref_sound_data();
@@ -154,31 +154,24 @@ public:
         return _p->g_userdata;
     }
 
-    IC void create(LPCSTR name, esound_type sound_type, int game_type);
-    IC void attach_tail(LPCSTR name);
+    IC void                 create(LPCSTR name, esound_type sound_type, int game_type);
+    IC void                 attach_tail(LPCSTR name);
 
-    IC void clone(const ref_sound& from, esound_type sound_type, int game_type);
+    IC void                 clone(const ref_sound& from, esound_type sound_type, int game_type);
 
-    IC void destroy();
+    IC void                 destroy();
 
-    IC void play(CObject* O, u32 flags = 0, float delay = 0.f);
-    IC void play_at_pos(CObject* O, const Fvector& pos, u32 flags = 0, float delay = 0.f);
-    IC void play_no_feedback(
-        CObject*  O,
-        u32       flags = 0,
-        float     delay = 0.f,
-        Fvector*  pos   = 0,
-        float*    vol   = 0,
-        float*    freq  = 0,
-        Fvector2* range = 0);
+    IC void                 play(CObject* O, u32 flags = 0, float delay = 0.f);
+    IC void                 play_at_pos(CObject* O, const Fvector& pos, u32 flags = 0, float delay = 0.f);
+    IC void                 play_no_feedback(CObject* O, u32 flags = 0, float delay = 0.f, Fvector* pos = 0, float* vol = 0, float* freq = 0, Fvector2* range = 0);
 
-    IC void stop();
-    IC void stop_deffered();
-    IC void set_position(const Fvector& pos);
-    IC void set_frequency(float freq);
-    IC void set_range(float min, float max);
-    IC void set_volume(float vol);
-    IC void set_priority(float vol);
+    IC void                 stop();
+    IC void                 stop_deffered();
+    IC void                 set_position(const Fvector& pos);
+    IC void                 set_frequency(float freq);
+    IC void                 set_range(float min, float max);
+    IC void                 set_volume(float vol);
+    IC void                 set_priority(float vol);
 
     IC const CSound_params* get_params();
     IC void                 set_params(CSound_params* p);
@@ -269,8 +262,8 @@ public:
         CObject*      game_object;
         struct
         {
-            u32 _3D : 1;
-            u32 _rendered : 1;
+            u32 _3D      :1;
+            u32 _rendered:1;
         };
     };
     DEFINE_VECTOR(SItem, item_vec, item_vec_it);
@@ -288,7 +281,7 @@ public:
 };
 
 /// definition (Sound Callback)
-typedef void sound_event(ref_sound_data_ptr S, float range);
+typedef void      sound_event(ref_sound_data_ptr S, float range);
 
 /// definition (Sound Manager Interface)
 class XRSOUND_API CSound_manager_interface
@@ -304,58 +297,50 @@ protected:
 public:
     virtual ~CSound_manager_interface() {}
 
-    static void _create(int stage);
-    static void _destroy();
+    static void                   _create(int stage);
+    static void                   _destroy();
 
-    virtual void _restart() = 0;
-    virtual BOOL i_locked() = 0;
+    virtual void                  _restart()                                                                                                                                           = 0;
+    virtual BOOL                  i_locked()                                                                                                                                           = 0;
 
-    virtual void create(ref_sound& S, LPCSTR fName, esound_type sound_type, int game_type)         = 0;
-    virtual void attach_tail(ref_sound& S, LPCSTR fName)                                           = 0;
-    virtual void clone(ref_sound& S, const ref_sound& from, esound_type sound_type, int game_type) = 0;
-    virtual void destroy(ref_sound& S)                                                             = 0;
-    virtual void stop_emitters()                                                                   = 0;
-    virtual int  pause_emitters(bool val)                                                          = 0;
+    virtual void                  create(ref_sound& S, LPCSTR fName, esound_type sound_type, int game_type)                                                                            = 0;
+    virtual void                  attach_tail(ref_sound& S, LPCSTR fName)                                                                                                              = 0;
+    virtual void                  clone(ref_sound& S, const ref_sound& from, esound_type sound_type, int game_type)                                                                    = 0;
+    virtual void                  destroy(ref_sound& S)                                                                                                                                = 0;
+    virtual void                  stop_emitters()                                                                                                                                      = 0;
+    virtual int                   pause_emitters(bool val)                                                                                                                             = 0;
 
-    virtual void play(ref_sound& S, CObject* O, u32 flags = 0, float delay = 0.f)                            = 0;
-    virtual void play_at_pos(ref_sound& S, CObject* O, const Fvector& pos, u32 flags = 0, float delay = 0.f) = 0;
-    virtual void play_no_feedback(
-        ref_sound& S,
-        CObject*   O,
-        u32        flags = 0,
-        float      delay = 0.f,
-        Fvector*   pos   = 0,
-        float*     vol   = 0,
-        float*     freq  = 0,
-        Fvector2*  range = 0) = 0;
+    virtual void                  play(ref_sound& S, CObject* O, u32 flags = 0, float delay = 0.f)                                                                                     = 0;
+    virtual void                  play_at_pos(ref_sound& S, CObject* O, const Fvector& pos, u32 flags = 0, float delay = 0.f)                                                          = 0;
+    virtual void                  play_no_feedback(ref_sound& S, CObject* O, u32 flags = 0, float delay = 0.f, Fvector* pos = 0, float* vol = 0, float* freq = 0, Fvector2* range = 0) = 0;
 
-    virtual void set_master_volume(float f = 1.f) = 0;
-    virtual void set_geometry_env(IReader* I)     = 0;
-    virtual void set_geometry_som(IReader* I)     = 0;
-    virtual void set_geometry_occ(CDB::MODEL* M)  = 0;
-    virtual void set_handler(sound_event* E)      = 0;
+    virtual void                  set_master_volume(float f = 1.f)                                                                                                                     = 0;
+    virtual void                  set_geometry_env(IReader* I)                                                                                                                         = 0;
+    virtual void                  set_geometry_som(IReader* I)                                                                                                                         = 0;
+    virtual void                  set_geometry_occ(CDB::MODEL* M)                                                                                                                      = 0;
+    virtual void                  set_handler(sound_event* E)                                                                                                                          = 0;
 
-    virtual void update(const Fvector& P, const Fvector& D, const Fvector& N) = 0;
-    virtual void statistic(CSound_stats* s0, CSound_stats_ext* s1)            = 0;
+    virtual void                  update(const Fvector& P, const Fvector& D, const Fvector& N)                                                                                         = 0;
+    virtual void                  statistic(CSound_stats* s0, CSound_stats_ext* s1)                                                                                                    = 0;
 
-    virtual float get_occlusion_to(const Fvector& hear_pt, const Fvector& snd_pt, float dispersion = 0.2f) = 0;
+    virtual float                 get_occlusion_to(const Fvector& hear_pt, const Fvector& snd_pt, float dispersion = 0.2f)                                                             = 0;
 
-    virtual void           object_relcase(CObject* obj) = 0;
-    virtual const Fvector& listener_position()          = 0;
+    virtual void                  object_relcase(CObject* obj)                                                                                                                         = 0;
+    virtual const Fvector&        listener_position()                                                                                                                                  = 0;
 
-    virtual SoundEnvironment_LIB* get_env_library()                                                               = 0;
-    virtual void                  refresh_env_library()                                                           = 0;
-    virtual void                  set_user_env(CSound_environment* E)                                             = 0;
-    virtual void                  refresh_sources()                                                               = 0;
-    virtual void                  set_environment(u32 id, CSound_environment** dst_env)                           = 0;
-    virtual void                  set_environment_size(CSound_environment* src_env, CSound_environment** dst_env) = 0;
+    virtual SoundEnvironment_LIB* get_env_library()                                                                                                                                    = 0;
+    virtual void                  refresh_env_library()                                                                                                                                = 0;
+    virtual void                  set_user_env(CSound_environment* E)                                                                                                                  = 0;
+    virtual void                  refresh_sources()                                                                                                                                    = 0;
+    virtual void                  set_environment(u32 id, CSound_environment** dst_env)                                                                                                = 0;
+    virtual void                  set_environment_size(CSound_environment* src_env, CSound_environment** dst_env)                                                                      = 0;
 };
 
 class CSound_manager_interface;
 extern XRSOUND_API CSound_manager_interface* Sound;
 
 /// ********* Sound ********* (utils, accessors, helpers)
-IC ref_sound_data::ref_sound_data()
+IC                                           ref_sound_data::ref_sound_data()
 {
     handle   = 0;
     feedback = 0;
@@ -403,8 +388,7 @@ IC void ref_sound::play_at_pos(CObject* O, const Fvector& pos, u32 flags, float 
     VERIFY(!::Sound->i_locked());
     ::Sound->play_at_pos(*this, O, pos, flags, d);
 }
-IC void
-    ref_sound::play_no_feedback(CObject* O, u32 flags, float d, Fvector* pos, float* vol, float* freq, Fvector2* range)
+IC void ref_sound::play_no_feedback(CObject* O, u32 flags, float d, Fvector* pos, float* vol, float* freq, Fvector2* range)
 {
     VERIFY(!::Sound->i_locked());
     ::Sound->play_no_feedback(*this, O, flags, d, pos, vol, freq, range);

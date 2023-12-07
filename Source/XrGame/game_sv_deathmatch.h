@@ -29,24 +29,24 @@ protected:
             return MinEnemyDist < x.MinEnemyDist;
         };
     };
-    xr_vector<u32> m_vFreeRPoints[TEAM_COUNT];
-    u32            m_dwLastRPoints[TEAM_COUNT];
+    xr_vector<u32>            m_vFreeRPoints[TEAM_COUNT];
+    u32                       m_dwLastRPoints[TEAM_COUNT];
 
-    BOOL m_delayedRoundEnd;
-    u32  m_roundEndDelay;
+    BOOL                      m_delayedRoundEnd;
+    u32                       m_roundEndDelay;
 
-    BOOL m_delayedTeamEliminated;
-    u32  m_TeamEliminatedDelay;
+    BOOL                      m_delayedTeamEliminated;
+    u32                       m_TeamEliminatedDelay;
 
-    shared_str m_sBaseWeaponCostSection;
+    shared_str                m_sBaseWeaponCostSection;
 
     xr_vector<game_TeamState> teams;   // dm,tdm,ah
 
-    LPCSTR pWinnigPlayerName;
+    LPCSTR                    pWinnigPlayerName;
 
-    virtual void ReadOptions(shared_str& options);
-    virtual void ConsoleCommands_Create();
-    virtual void ConsoleCommands_Clear();
+    virtual void              ReadOptions(shared_str& options);
+    virtual void              ConsoleCommands_Create();
+    virtual void              ConsoleCommands_Clear();
     /////////////////////////////////////////////////////////////
     DEF_VECTOR(ANOMALIES, xr_string);
     DEF_VECTOR(ANOMALY_SETS, ANOMALIES);
@@ -62,15 +62,15 @@ protected:
 
     ANOMALY_SETS_ID m_AnomalyIDSetsList;
 
-    bool     m_bSpectatorMode;
-    u32      m_dwSM_SwitchDelta;
-    u32      m_dwSM_LastSwitchTime;
-    u32      m_dwSM_CurViewEntity;
-    CObject* m_pSM_CurViewEntity;
-    void     SM_SwitchOnNextActivePlayer();
-    void     SM_SwitchOnPlayer(CObject* pNewObject);
+    bool            m_bSpectatorMode;
+    u32             m_dwSM_SwitchDelta;
+    u32             m_dwSM_LastSwitchTime;
+    u32             m_dwSM_CurViewEntity;
+    CObject*        m_pSM_CurViewEntity;
+    void            SM_SwitchOnNextActivePlayer();
+    void            SM_SwitchOnPlayer(CObject* pNewObject);
 
-    BOOL Is_Anomaly_InLists(CSE_Abstract* E);
+    BOOL            Is_Anomaly_InLists(CSE_Abstract* E);
 
 protected:
     virtual bool checkForTimeLimit();
@@ -80,17 +80,12 @@ protected:
     virtual bool check_for_Anomalies();
     virtual void check_for_WarmUp();
 
-    void Send_Anomaly_States(ClientID id_who);
-    void Send_EventPack_for_AnomalySet(u32 AnomalySet, u8 Event);
+    void         Send_Anomaly_States(ClientID id_who);
+    void         Send_EventPack_for_AnomalySet(u32 AnomalySet, u8 Event);
 
     virtual void OnPlayerBuyFinished(ClientID id_who, NET_Packet& P);
 
-    virtual void CheckItem(
-        game_PlayerState* ps,
-        PIItem            pItem,
-        xr_vector<s16>*   pItemsDesired,
-        xr_vector<u16>*   pItemsToDelete,
-        bool              ExactMatch);
+    virtual void CheckItem(game_PlayerState* ps, PIItem pItem, xr_vector<s16>* pItemsDesired, xr_vector<u16>* pItemsToDelete, bool ExactMatch);
     virtual bool HasChampion();
 
     virtual void check_Player_for_Invincibility(game_PlayerState* ps);
@@ -98,42 +93,42 @@ protected:
     virtual void Check_ForClearRun(game_PlayerState* ps);
     virtual void FillDeathActorRejectItems(CSE_ActorMP* actor, xr_vector<CSE_Abstract*>& to_reject);
 
-    u32  m_dwWarmUp_CurTime;
-    bool m_bInWarmUp;
+    u32          m_dwWarmUp_CurTime;
+    bool         m_bInWarmUp;
 
-    void net_Relcase(CObject* O);
+    void         net_Relcase(CObject* O);
 
 public:
     game_sv_Deathmatch();
     virtual ~game_sv_Deathmatch();
-    virtual void Create(shared_str& options);
+    virtual void   Create(shared_str& options);
 
     virtual LPCSTR type_name() const
     {
         return "deathmatch";
     };
-    virtual void net_Export_State(NET_Packet& P, ClientID id_to);
+    virtual void     net_Export_State(NET_Packet& P, ClientID id_to);
 
-    virtual void OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, ClientID sender);
+    virtual void     OnEvent(NET_Packet& tNetPacket, u16 type, u32 time, ClientID sender);
 
-    virtual void OnTeamScore(u32 /**team/**/, bool);   // команда выиграла
-    virtual void OnTeamsInDraw(){};                    // ничья
+    virtual void     OnTeamScore(u32 /**team/**/, bool);   // команда выиграла
+    virtual void     OnTeamsInDraw(){};                    // ничья
 
     // Events
-    virtual void OnRoundStart();   // старт раунда
-    virtual void OnRoundEnd();     // round_end_reason							// конец раунда
-    virtual void OnDelayedRoundEnd(ERoundEnd_Result reason);
-    virtual void OnDelayedTeamEliminated();
+    virtual void     OnRoundStart();   // старт раунда
+    virtual void     OnRoundEnd();     // round_end_reason							// конец раунда
+    virtual void     OnDelayedRoundEnd(ERoundEnd_Result reason);
+    virtual void     OnDelayedTeamEliminated();
 
-    virtual void OnPlayerHitPlayer(u16 id_hitter, u16 id_hitted, NET_Packet& P);   // игрок получил Hit
-    virtual void OnPlayerHitPlayer_Case(game_PlayerState* ps_hitter, game_PlayerState* ps_hitted, SHit* pHitS);
+    virtual void     OnPlayerHitPlayer(u16 id_hitter, u16 id_hitted, NET_Packet& P);   // игрок получил Hit
+    virtual void     OnPlayerHitPlayer_Case(game_PlayerState* ps_hitter, game_PlayerState* ps_hitted, SHit* pHitS);
 
-    virtual BOOL OnTouch(u16 eid_who, u16 eid_what, BOOL bForced = FALSE);
-    virtual void OnDetach(u16 eid_who, u16 eid_what);
+    virtual BOOL     OnTouch(u16 eid_who, u16 eid_what, BOOL bForced = FALSE);
+    virtual void     OnDetach(u16 eid_who, u16 eid_what);
 
-    virtual BOOL OnPreCreate(CSE_Abstract* E);
-    virtual void OnCreate(u16 eid_who);
-    virtual void OnPostCreate(u16 id_who);
+    virtual BOOL     OnPreCreate(CSE_Abstract* E);
+    virtual void     OnCreate(u16 eid_who);
+    virtual void     OnPostCreate(u16 id_who);
 
     virtual void     OnPlayerConnect(ClientID id_who);
     virtual void     OnPlayerConnectFinished(ClientID id_who);
@@ -141,25 +136,14 @@ public:
     virtual void     OnPlayerReady(ClientID id_who);
     virtual KILL_RES GetKillResult(game_PlayerState* pKiller, game_PlayerState* pVictim);
     virtual bool     OnKillResult(KILL_RES KillResult, game_PlayerState* pKiller, game_PlayerState* pVictim);
-    virtual void     OnGiveBonus(
-            KILL_RES          KillResult,
-            game_PlayerState* pKiller,
-            game_PlayerState* pVictim,
-            KILL_TYPE         KillType,
-            SPECIAL_KILL_TYPE SpecialKillType,
-            CSE_Abstract*     pWeaponA);
-    virtual void Processing_Victim(game_PlayerState* pVictim, game_PlayerState* pKiller);
-    virtual void Victim_Exp(game_PlayerState* pVictim);
-    virtual bool CheckTeams()
+    virtual void     OnGiveBonus(KILL_RES KillResult, game_PlayerState* pKiller, game_PlayerState* pVictim, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType, CSE_Abstract* pWeaponA);
+    virtual void     Processing_Victim(game_PlayerState* pVictim, game_PlayerState* pKiller);
+    virtual void     Victim_Exp(game_PlayerState* pVictim);
+    virtual bool     CheckTeams()
     {
         return false;
     };
-    virtual void OnPlayerKillPlayer(
-        game_PlayerState* ps_killer,
-        game_PlayerState* ps_killed,
-        KILL_TYPE         KillType,
-        SPECIAL_KILL_TYPE SpecialKillType,
-        CSE_Abstract*     pWeaponA);
+    virtual void OnPlayerKillPlayer(game_PlayerState* ps_killer, game_PlayerState* ps_killed, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType, CSE_Abstract* pWeaponA);
 
     virtual void OnPlayer_Sell_Item(ClientID id_who, NET_Packet& P);
 
@@ -182,28 +166,27 @@ public:
     virtual void OnRender();
 #endif
 
-    virtual void SetSkin(CSE_Abstract* E, u16 Team, u16 ID);   //	{};
+    virtual void  SetSkin(CSE_Abstract* E, u16 Team, u16 ID);   //	{};
 
-    virtual void SpawnWeaponsForActor(CSE_Abstract* pE, game_PlayerState* ps);
+    virtual void  SpawnWeaponsForActor(CSE_Abstract* pE, game_PlayerState* ps);
 
-    virtual void LoadTeams();
-    virtual void LoadTeamData(const shared_str& caSection);
-    virtual void LoadSkinsForTeam(const shared_str& caSection, TEAM_SKINS_NAMES* pTeamSkins);
-    virtual void
-        LoadDefItemsForTeam(const shared_str& caSection, /*TEAM_WPN_LIST *pWpnList,*/ DEF_ITEMS_LIST* pDefItems);
+    virtual void  LoadTeams();
+    virtual void  LoadTeamData(const shared_str& caSection);
+    virtual void  LoadSkinsForTeam(const shared_str& caSection, TEAM_SKINS_NAMES* pTeamSkins);
+    virtual void  LoadDefItemsForTeam(const shared_str& caSection, /*TEAM_WPN_LIST *pWpnList,*/ DEF_ITEMS_LIST* pDefItems);
 
     virtual char* GetAnomalySetBaseName()
     {
         return "deathmatch_game_anomaly_sets";
     };
-    virtual void LoadAnomalySets();
+    virtual void      LoadAnomalySets();
 
-    void LoadItemRespawns();
+    void              LoadItemRespawns();
 
-    virtual void StartAnomalies(int AnomalySet = -1);
+    virtual void      StartAnomalies(int AnomalySet = -1);
 
-    virtual bool IsBuyableItem(LPCSTR ItemName);
-    void         RemoveItemFromActor(CSE_Abstract* pItem);
+    virtual bool      IsBuyableItem(LPCSTR ItemName);
+    void              RemoveItemFromActor(CSE_Abstract* pItem);
     //----- Money routines -----------------------------------------------------------------
     virtual void      Money_SetStart(ClientID id_who);
     virtual s32       GetMoneyAmount(const shared_str& caSection, char* caMoneyStr);
@@ -228,7 +211,7 @@ public:
     virtual BOOL IsAnomaliesEnabled();
     virtual u32  GetAnomaliesTime();
 
-    virtual u32 GetNumTeams()
+    virtual u32  GetNumTeams()
     {
         return teams.size();
     };

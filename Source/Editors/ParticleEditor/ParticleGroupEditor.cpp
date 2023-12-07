@@ -36,7 +36,7 @@ BOOL PS::CPGDef::Equal(const CPGDef* pg)
 
 bool PS::CPGDef::Validate(bool bMsg)
 {
-    bool failed = false;
+    bool                                failed  = false;
 
     xr_vector<SEffect*>::const_iterator pe_it   = m_Effects.begin();
     xr_vector<SEffect*>::const_iterator pe_it_e = m_Effects.end();
@@ -165,63 +165,52 @@ void PS::CPGDef::FillProp(LPCSTR pref, ::PropItemVec& items, ::ListItem* owner)
         xr_string nm;
         nm.sprintf("Effect #%d", i + 1);
 
-        B = PHelper().CreateButton(
-            items, PrepareKey(pref, nm.c_str()), "Preview,Select,Remove", ButtonValue::flFirstOnly);
+        B      = PHelper().CreateButton(items, PrepareKey(pref, nm.c_str()), "Preview,Select,Remove", ButtonValue::flFirstOnly);
         B->tag = it - m_Effects.begin();
         B->OnBtnClickEvent.bind(this, &PS::CPGDef::OnEffectEditClick);
         B->Owner()->prop_color = clr;
-        V = PHelper().CreateChoose(items, PrepareKey(pref, nm.c_str(), "Name"), &(*it)->m_EffectName, smPE);
+        V                      = PHelper().CreateChoose(items, PrepareKey(pref, nm.c_str(), "Name"), &(*it)->m_EffectName, smPE);
         V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
         V->Owner()->prop_color = clr;
-        V = PHelper().CreateFloat(items, PrepareKey(pref, nm.c_str(), "Start Time (s)"), &(*it)->m_Time0, 0.f, 1000.f);
+        V                      = PHelper().CreateFloat(items, PrepareKey(pref, nm.c_str(), "Start Time (s)"), &(*it)->m_Time0, 0.f, 1000.f);
         V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
         V->Owner()->prop_color = clr;
-        V = PHelper().CreateFloat(items, PrepareKey(pref, nm.c_str(), "End Time (s)"), &(*it)->m_Time1, 0.f, 1000.f);
+        V                      = PHelper().CreateFloat(items, PrepareKey(pref, nm.c_str(), "End Time (s)"), &(*it)->m_Time1, 0.f, 1000.f);
         V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
         V->Owner()->prop_color = clr;
-        V                      = PHelper().CreateFlag32(
-            items, PrepareKey(pref, nm.c_str(), "Deferred Stop"), &(*it)->m_Flags, SEffect::flDefferedStop);
+        V                      = PHelper().CreateFlag32(items, PrepareKey(pref, nm.c_str(), "Deferred Stop"), &(*it)->m_Flags, SEffect::flDefferedStop);
         V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
         V->Owner()->prop_color = clr;
-        V = PHelper().CreateFlag32(items, PrepareKey(pref, nm.c_str(), "Enabled"), &(*it)->m_Flags, SEffect::flEnabled);
+        V                      = PHelper().CreateFlag32(items, PrepareKey(pref, nm.c_str(), "Enabled"), &(*it)->m_Flags, SEffect::flEnabled);
         V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
         V->Owner()->prop_color = clr;
-        V                      = PHelper().CreateFlag32(
-            items, PrepareKey(pref, nm.c_str(), "Children\\On Birth"), &(*it)->m_Flags, SEffect::flOnBirthChild);
+        V                      = PHelper().CreateFlag32(items, PrepareKey(pref, nm.c_str(), "Children\\On Birth"), &(*it)->m_Flags, SEffect::flOnBirthChild);
         V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
         V->Owner()->prop_color = clr;
         if ((*it)->m_Flags.is(SEffect::flOnBirthChild))
         {
-            V = PHelper().CreateChoose(
-                items, PrepareKey(pref, nm.c_str(), "Children\\On Birth\\Effect Name"), &(*it)->m_OnBirthChildName,
-                smPE);
+            V = PHelper().CreateChoose(items, PrepareKey(pref, nm.c_str(), "Children\\On Birth\\Effect Name"), &(*it)->m_OnBirthChildName, smPE);
             V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
             V->Owner()->prop_color = clr;
         }
-        V = PHelper().CreateFlag32(
-            items, PrepareKey(pref, nm.c_str(), "Children\\On Play"), &(*it)->m_Flags, SEffect::flOnPlayChild);
+        V = PHelper().CreateFlag32(items, PrepareKey(pref, nm.c_str(), "Children\\On Play"), &(*it)->m_Flags, SEffect::flOnPlayChild);
         V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
         V->Owner()->prop_color = clr;
         if ((*it)->m_Flags.is(SEffect::flOnPlayChild))
         {
-            V = PHelper().CreateChoose(
-                items, PrepareKey(pref, nm.c_str(), "Children\\On Play\\Effect Name"), &(*it)->m_OnPlayChildName, smPE);
+            V = PHelper().CreateChoose(items, PrepareKey(pref, nm.c_str(), "Children\\On Play\\Effect Name"), &(*it)->m_OnPlayChildName, smPE);
             V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
             V->Owner()->prop_color = clr;
-            V                      = PHelper().CreateFlag32(
-                items, PrepareKey(pref, nm.c_str(), "Children\\On Play\\Play After Stop"), &(*it)->m_Flags,
-                SEffect::flOnPlayChildRewind);
+            V                      = PHelper().CreateFlag32(items, PrepareKey(pref, nm.c_str(), "Children\\On Play\\Play After Stop"), &(*it)->m_Flags, SEffect::flOnPlayChildRewind);
             V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
             V->Owner()->prop_color = clr;
         }
-        V = PHelper().CreateFlag32(
-            items, PrepareKey(pref, nm.c_str(), "Children\\On Dead"), &(*it)->m_Flags, SEffect::flOnDeadChild);
+        V = PHelper().CreateFlag32(items, PrepareKey(pref, nm.c_str(), "Children\\On Dead"), &(*it)->m_Flags, SEffect::flOnDeadChild);
         V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
         V->Owner()->prop_color = clr;
         if ((*it)->m_Flags.is(SEffect::flOnDeadChild))
         {
-            V = PHelper().CreateChoose(
-                items, PrepareKey(pref, nm.c_str(), "Children\\On Dead\\Effect Name"), &(*it)->m_OnDeadChildName, smPE);
+            V = PHelper().CreateChoose(items, PrepareKey(pref, nm.c_str(), "Children\\On Dead\\Effect Name"), &(*it)->m_OnDeadChildName, smPE);
             V->OnChangeEvent.bind(this, &PS::CPGDef::OnParamsChange);
             V->Owner()->prop_color = clr;
         }

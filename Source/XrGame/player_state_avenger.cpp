@@ -19,11 +19,7 @@ namespace award_system
         m_aveng_count = 0;
     }
 
-    void player_state_avenger::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void player_state_avenger::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         struct need_revenge: boost::noncopyable
         {
@@ -33,8 +29,7 @@ namespace award_system
             {
                 if ((killer == m_killer_name) && (kill.m_kill_time >= m_killer_spawn_time))
                 {
-                    if (std::find(m_my_team_players.begin(), m_my_team_players.end(), victim) !=
-                        m_my_team_players.end())
+                    if (std::find(m_my_team_players.begin(), m_my_team_players.end(), victim) != m_my_team_players.end())
                     {
                         return true;
                     }
@@ -56,7 +51,7 @@ namespace award_system
 
         shared_str   team_players_store[MAX_PLAYERS_COUNT];
         need_revenge tmp_predicate(team_players_store, sizeof(team_players_store) / sizeof(shared_str));
-        tmp_predicate.m_killer_name = tmp_victim->getName();
+        tmp_predicate.m_killer_name                         = tmp_victim->getName();
 
         player_spawn_times_t::const_iterator tmp_spawn_time = m_player_spawns.find(tmp_predicate.m_killer_name);
 

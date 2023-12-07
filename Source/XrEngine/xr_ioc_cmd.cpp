@@ -17,10 +17,10 @@
 
 xr_token* vid_quality_token = NULL;
 
-xr_token vid_bpp_token[] = {{"16", 16}, {"32", 32}, {0, 0}};
+xr_token  vid_bpp_token[]   = {{"16", 16}, {"32", 32}, {0, 0}};
 //-----------------------------------------------------------------------
 
-void IConsole_Command::add_to_LRU(shared_str const& arg)
+void      IConsole_Command::add_to_LRU(shared_str const& arg)
 {
     if (arg.size() == 0 || bEmptyArgsHandled)
     {
@@ -313,7 +313,7 @@ void CCC_LoadCFG::Execute(LPCSTR args)
     if (NULL == FS.exist(cfg_full_name))
         xr_strcpy(cfg_full_name, cfg_name);
 
-    IReader* F = FS.r_open(cfg_full_name);
+    IReader*   F = FS.r_open(cfg_full_name);
 
     string1024 str;
     if (F != NULL)
@@ -422,8 +422,7 @@ public:
         }
         else
         {
-            Engine.Event.Defer(
-                "KERNEL:start", u64(xr_strlen(op_server) ? xr_strdup(op_server) : 0), u64(xr_strdup(op_client)));
+            Engine.Event.Defer("KERNEL:start", u64(xr_strlen(op_server) ? xr_strdup(op_server) : 0), u64(xr_strdup(op_client)));
         }
     }
 };
@@ -609,7 +608,7 @@ public:
 ENGINE_API BOOL r2_sun_static  = TRUE;
 ENGINE_API BOOL r2_advanced_pp = FALSE;   //	advanced post process and effects
 
-u32 renderer_value = 3;
+u32             renderer_value = 3;
 // void fill_render_mode_list();
 // void free_render_mode_list();
 
@@ -641,7 +640,7 @@ public:
         psDeviceFlags.set(rsR3, (renderer_value == 4));
         psDeviceFlags.set(rsR4, (renderer_value == 5));
         psDeviceFlags.set(rsR5, (renderer_value >= 6));
-        r2_sun_static = (renderer_value < 2);
+        r2_sun_static  = (renderer_value < 2);
 
         r2_advanced_pp = (renderer_value >= 3);
     }
@@ -760,21 +759,21 @@ public:
 ENGINE_API float psHUD_FOV = 0.45f;
 
 // extern int			psSkeletonUpdate;
-extern int     rsDVB_Size;
-extern int     rsDIB_Size;
-extern int     psNET_ClientUpdate;
-extern int     psNET_ClientPending;
-extern int     psNET_ServerUpdate;
-extern int     psNET_ServerPending;
-extern int     psNET_DedicatedSleep;
-extern char    psNET_Name[32];
-extern Flags32 psEnvFlags;
+extern int       rsDVB_Size;
+extern int       rsDIB_Size;
+extern int       psNET_ClientUpdate;
+extern int       psNET_ClientPending;
+extern int       psNET_ServerUpdate;
+extern int       psNET_ServerPending;
+extern int       psNET_DedicatedSleep;
+extern char      psNET_Name[32];
+extern Flags32   psEnvFlags;
 // extern float		r__dtex_range;
 
-extern int g_ErrorLineCount;
+extern int       g_ErrorLineCount;
 
-ENGINE_API int ps_r__Supersample = 1;
-void           CCC_Register()
+ENGINE_API int   ps_r__Supersample = 1;
+void             CCC_Register()
 {
     // General
     CMD1(CCC_Help, "help");

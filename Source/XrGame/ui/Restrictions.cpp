@@ -8,9 +8,9 @@
 #include "../string_table.h"
 CRestrictions g_mp_restrictions;
 
-shared_str g_ranks[_RANK_COUNT];
+shared_str    g_ranks[_RANK_COUNT];
 
-u32 get_rank(const shared_str& section)
+u32           get_rank(const shared_str& section)
 {
     int res = -1;
     if (g_ranks[0].size() == 0)
@@ -50,7 +50,7 @@ void CRestrictions::InitGroups()
     m_bInited = true;
 
     // create groups
-    u32    c = pSettings->line_count("mp_item_groups");
+    u32    c  = pSettings->line_count("mp_item_groups");
     LPCSTR line, name;
 
     for (u32 i = 0; i < c; ++i)

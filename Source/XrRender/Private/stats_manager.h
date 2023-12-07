@@ -31,6 +31,7 @@ public:
     void decrement_stats_ib(ID3DIndexBuffer* buff);
 
     u32  memory_usage_summary[enum_stats_buffer_type_COUNT][4];
+
 private:
     void increment_stats(u32 size, enum_stats_buffer_type type, _D3DPOOL location, void* buff_ptr);
     void decrement_stats(u32 size, enum_stats_buffer_type type, _D3DPOOL location, void* buff_ptr);

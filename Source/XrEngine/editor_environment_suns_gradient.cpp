@@ -60,21 +60,11 @@ void gradient::fill(manager const& manager, property_holder* holder, property_ho
     boolean_getter.bind(this, &gradient::use_getter);
     boolean_setter.bind(this, &gradient::use_setter);
 
-    properties->add_property(
-        "use", "gradient", "this option is resposible for gradient usage", m_use, boolean_getter, boolean_setter,
-        property_holder::property_read_write, property_holder::notify_parent_on_change,
-        property_holder::no_password_char, property_holder::do_not_refresh_grid_on_change);
-    properties->add_property(
-        "opacity", "gradient", "this option is resposible for gradient opacity", m_opacity, m_opacity);
+    properties->add_property("use", "gradient", "this option is resposible for gradient usage", m_use, boolean_getter, boolean_setter, property_holder::property_read_write, property_holder::notify_parent_on_change, property_holder::no_password_char, property_holder::do_not_refresh_grid_on_change);
+    properties->add_property("opacity", "gradient", "this option is resposible for gradient opacity", m_opacity, m_opacity);
     properties->add_property("radius", "gradient", "this option is resposible for gradient radius", m_radius, m_radius);
-    properties->add_property(
-        "shader", "gradient", "this option is resposible for gradient shader", m_shader.c_str(), m_shader,
-        &*manager.m_environment.shader_ids().begin(), manager.m_environment.shader_ids().size(),
-        XrWeatherEditor::property_holder::value_editor_tree_view, XrWeatherEditor::property_holder::cannot_enter_text);
-    properties->add_property(
-        "texture", "gradient", "this option is resposible for gradient texture", m_texture.c_str(), m_texture, ".dds",
-        "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...",
-        XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
+    properties->add_property("shader", "gradient", "this option is resposible for gradient shader", m_shader.c_str(), m_shader, &*manager.m_environment.shader_ids().begin(), manager.m_environment.shader_ids().size(), XrWeatherEditor::property_holder::value_editor_tree_view, XrWeatherEditor::property_holder::cannot_enter_text);
+    properties->add_property("texture", "gradient", "this option is resposible for gradient texture", m_texture.c_str(), m_texture, ".dds", "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
 }
 
 #endif   // #ifdef INGAME_EDITOR

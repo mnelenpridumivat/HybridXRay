@@ -28,6 +28,7 @@ private:
     volatile u32      MT_frame_rendered;
 
     void              Render_DB(CFrustum& base);
+
 public:
     void     Load();
     void     Unload();

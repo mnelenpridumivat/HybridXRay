@@ -1,11 +1,11 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION       template<typename _Object>
 
 #define CStateMonsterPanicRunAbstract CStateMonsterPanicRun<_Object>
 
-#define MIN_UNSEEN_TIME 15000
-#define MIN_DIST_TO_ENEMY 15.f
+#define MIN_UNSEEN_TIME               15000
+#define MIN_DIST_TO_ENEMY             15.f
 
 TEMPLATE_SPECIALIZATION
 void CStateMonsterPanicRunAbstract::initialize()

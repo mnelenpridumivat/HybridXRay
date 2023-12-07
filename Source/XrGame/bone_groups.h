@@ -28,7 +28,7 @@ namespace award_system
     private:
         typedef associative_vector<u16, enum_group_id> bone_groups_map_t;
 
-        bone_groups_map_t m_bone_groups;
+        bone_groups_map_t                              m_bone_groups;
     };   // class bone_group
 
 }   // namespace award_system

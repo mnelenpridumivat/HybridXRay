@@ -59,6 +59,7 @@ public:
     {
         return m_pObject == 0;
     }
+
 private:
     void     CreateObject();
     void     DestroyObject();
@@ -66,6 +67,7 @@ private:
     {
         return m_pObject;
     }
+
 private:
     T* m_pObject;
 };

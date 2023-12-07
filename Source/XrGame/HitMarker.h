@@ -26,8 +26,8 @@ struct SHitMark
 
 struct SGrenadeMark
 {
-    CGrenade* p_grenade;
-    bool      removed_grenade;
+    CGrenade*      p_grenade;
+    bool           removed_grenade;
 
     CUIStaticItem* m_UIStaticItem;
     float          m_LastTime;
@@ -45,14 +45,14 @@ struct SGrenadeMark
 class CHitMarker
 {
 public:
-    FactoryPtr<IUIShader> hShader2;
-    FactoryPtr<IUIShader> hShader_Grenade;
+    FactoryPtr<IUIShader>           hShader2;
+    FactoryPtr<IUIShader>           hShader_Grenade;
 
     typedef xr_deque<SHitMark*>     HITMARKS;
     typedef xr_deque<SGrenadeMark*> GRENADEMARKS;
 
-    HITMARKS     m_HitMarks;
-    GRENADEMARKS m_GrenadeMarks;
+    HITMARKS                        m_HitMarks;
+    GRENADEMARKS                    m_GrenadeMarks;
 
 public:
     CHitMarker();

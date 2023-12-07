@@ -6,17 +6,17 @@ class CCameraLook: public CCameraBase
 {
     typedef CCameraBase inherited;
 
-    Fvector2 lim_zoom;
-    float    dist, prev_d;
+    Fvector2            lim_zoom;
+    float               dist, prev_d;
 
 public:
     CCameraLook(CObject* p, u32 flags = 0);
     virtual ~CCameraLook();
-    virtual void Load(LPCSTR section);
-    virtual void Move(int cmd, float val = 0, float factor = 1.0f);
+    virtual void  Load(LPCSTR section);
+    virtual void  Move(int cmd, float val = 0, float factor = 1.0f);
 
-    virtual void OnActivate(CCameraBase* old_cam);
-    virtual void Update(Fvector& point, Fvector& noise_dangle);
+    virtual void  OnActivate(CCameraBase* old_cam);
+    virtual void  Update(Fvector& point, Fvector& noise_dangle);
 
     virtual float GetWorldYaw()
     {

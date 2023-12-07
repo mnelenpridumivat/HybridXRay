@@ -1,5 +1,5 @@
-// Copyright NVIDIA Corporation 2007 -- Ignacio Castano <icastano@nvidia.com>
-// 
+﻿// Copyright NVIDIA Corporation 2007 -- Ignacio Castano <icastano@nvidia.com>
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -8,10 +8,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -25,22 +25,20 @@
 #include "ColorBlock.h"
 
 #include "nvcore/Stream.h"
-#include "nvcore/Utils.h" // swap
+#include "nvcore/Utils.h"   // swap
 #include "nvmath/Half.h"
 #include "nvmath/Vector.inl"
 
 #include "bc6h/zoh.h"
 #include "bc7/avpcl.h"
 
-
 using namespace nv;
-
 
 /*----------------------------------------------------------------------------
 BlockDXT1
 ----------------------------------------------------------------------------*/
 
-uint BlockDXT1::evaluatePalette(Color32 color_array[4], bool d3d9/*= false*/) const
+uint BlockDXT1::evaluatePalette(Color32 color_array[4], bool d3d9 /*= false*/) const
 {
     // Does bit expansion before interpolation.
     color_array[0].b = (col0.b << 3) | (col0.b >> 2);
@@ -66,9 +64,11 @@ uint BlockDXT1::evaluatePalette(Color32 color_array[4], bool d3d9/*= false*/) co
     //	c.u |= (c.u >> 6) & 0x000300;
     //	color_array[1].u = c.u;
 
-    if( col0.u > col1.u ) {
+    if (col0.u > col1.u)
+    {
         int bias = 0;
-        if (d3d9) bias = 1;
+        if (d3d9)
+            bias = 1;
 
         // Four-color block: derive the other two colors.
         color_array[2].r = (2 * color_array[0].r + color_array[1].r + bias) / 3;
@@ -83,7 +83,8 @@ uint BlockDXT1::evaluatePalette(Color32 color_array[4], bool d3d9/*= false*/) co
 
         return 4;
     }
-    else {
+    else
+    {
         // Three-color block: derive the other color.
         color_array[2].r = (color_array[0].r + color_array[1].r) / 2;
         color_array[2].g = (color_array[0].g + color_array[1].g) / 2;
@@ -91,15 +92,14 @@ uint BlockDXT1::evaluatePalette(Color32 color_array[4], bool d3d9/*= false*/) co
         color_array[2].a = 0xFF;
 
         // Set all components to 0 to match DXT specs.
-        color_array[3].r = 0x00; // color_array[2].r;
-        color_array[3].g = 0x00; // color_array[2].g;
-        color_array[3].b = 0x00; // color_array[2].b;
+        color_array[3].r = 0x00;   // color_array[2].r;
+        color_array[3].g = 0x00;   // color_array[2].g;
+        color_array[3].b = 0x00;   // color_array[2].b;
         color_array[3].a = 0x00;
 
         return 3;
     }
 }
-
 
 uint BlockDXT1::evaluatePaletteNV5x(Color32 color_array[4]) const
 {
@@ -114,9 +114,10 @@ uint BlockDXT1::evaluatePaletteNV5x(Color32 color_array[4]) const
     color_array[1].b = (3 * col1.b * 22) / 8;
     color_array[1].a = 0xFF;
 
-    int gdiff = color_array[1].g - color_array[0].g;
+    int gdiff        = color_array[1].g - color_array[0].g;
 
-    if( col0.u > col1.u ) {
+    if (col0.u > col1.u)
+    {
         // Four-color block: derive the other two colors.
         color_array[2].r = ((2 * col0.r + col1.r) * 22) / 8;
         color_array[2].g = (256 * color_array[0].g + gdiff / 4 + 128 + gdiff * 80) / 256;
@@ -130,7 +131,8 @@ uint BlockDXT1::evaluatePaletteNV5x(Color32 color_array[4]) const
 
         return 4;
     }
-    else {
+    else
+    {
         // Three-color block: derive the other color.
         color_array[2].r = ((col0.r + col1.r) * 33) / 8;
         color_array[2].g = (256 * color_array[0].g + gdiff / 4 + 128 + gdiff * 128) / 256;
@@ -186,8 +188,9 @@ void BlockDXT1::evaluatePalette4(Color32 color_array[4], bool d3d9) const
     color_array[1].b = (col1.b << 3) | (col1.b >> 2);
     color_array[1].a = 0xFF;
 
-    int bias = 0;
-    if (d3d9) bias = 1;
+    int bias         = 0;
+    if (d3d9)
+        bias = 1;
 
     // Four-color block: derive the other two colors.
     color_array[2].r = (2 * color_array[0].r + color_array[1].r + bias) / 3;
@@ -201,8 +204,7 @@ void BlockDXT1::evaluatePalette4(Color32 color_array[4], bool d3d9) const
     color_array[3].a = 0xFF;
 }
 
-
-void BlockDXT1::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
+void BlockDXT1::decodeBlock(ColorBlock* block, bool d3d9 /*= false*/) const
 {
     nvDebugCheck(block != NULL);
 
@@ -211,15 +213,17 @@ void BlockDXT1::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
     evaluatePalette(color_array, d3d9);
 
     // Write color block.
-    for( uint j = 0; j < 4; j++ ) {
-        for( uint i = 0; i < 4; i++ ) {
-            uint idx = (row[j] >> (2 * i)) & 3;
+    for (uint j = 0; j < 4; j++)
+    {
+        for (uint i = 0; i < 4; i++)
+        {
+            uint idx           = (row[j] >> (2 * i)) & 3;
             block->color(i, j) = color_array[idx];
         }
-    }	
+    }
 }
 
-void BlockDXT1::decodeBlockNV5x(ColorBlock * block) const
+void BlockDXT1::decodeBlockNV5x(ColorBlock* block) const
 {
     nvDebugCheck(block != NULL);
 
@@ -228,22 +232,24 @@ void BlockDXT1::decodeBlockNV5x(ColorBlock * block) const
     evaluatePaletteNV5x(color_array);
 
     // Write color block.
-    for( uint j = 0; j < 4; j++ ) {
-        for( uint i = 0; i < 4; i++ ) {
-            uint idx = (row[j] >> (2 * i)) & 3;
+    for (uint j = 0; j < 4; j++)
+    {
+        for (uint i = 0; i < 4; i++)
+        {
+            uint idx           = (row[j] >> (2 * i)) & 3;
             block->color(i, j) = color_array[idx];
         }
     }
 }
 
-void BlockDXT1::setIndices(int * idx)
+void BlockDXT1::setIndices(int* idx)
 {
     indices = 0;
-    for(uint i = 0; i < 16; i++) {
+    for (uint i = 0; i < 16; i++)
+    {
         indices |= (idx[i] & 3) << (2 * i);
     }
 }
-
 
 /// Flip DXT1 block vertically.
 inline void BlockDXT1::flip4()
@@ -258,12 +264,11 @@ inline void BlockDXT1::flip2()
     swap(row[0], row[1]);
 }
 
-
 /*----------------------------------------------------------------------------
 BlockDXT3
 ----------------------------------------------------------------------------*/
 
-void BlockDXT3::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
+void BlockDXT3::decodeBlock(ColorBlock* block, bool d3d9 /*= false*/) const
 {
     nvDebugCheck(block != NULL);
 
@@ -274,7 +279,7 @@ void BlockDXT3::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
     alpha.decodeBlock(block, d3d9);
 }
 
-void BlockDXT3::decodeBlockNV5x(ColorBlock * block) const
+void BlockDXT3::decodeBlockNV5x(ColorBlock* block) const
 {
     nvDebugCheck(block != NULL);
 
@@ -282,7 +287,7 @@ void BlockDXT3::decodeBlockNV5x(ColorBlock * block) const
     alpha.decodeBlock(block);
 }
 
-void AlphaBlockDXT3::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
+void AlphaBlockDXT3::decodeBlock(ColorBlock* block, bool d3d9 /*= false*/) const
 {
     nvDebugCheck(block != NULL);
 
@@ -331,17 +336,18 @@ void BlockDXT3::flip2()
     color.flip2();
 }
 
-
 /*----------------------------------------------------------------------------
 BlockDXT5
 ----------------------------------------------------------------------------*/
 
 void AlphaBlockDXT5::evaluatePalette(uint8 alpha[8], bool d3d9) const
 {
-    if (alpha0 > alpha1) {
+    if (alpha0 > alpha1)
+    {
         evaluatePalette8(alpha, d3d9);
     }
-    else {
+    else
+    {
         evaluatePalette6(alpha, d3d9);
     }
 }
@@ -349,35 +355,37 @@ void AlphaBlockDXT5::evaluatePalette(uint8 alpha[8], bool d3d9) const
 void AlphaBlockDXT5::evaluatePalette8(uint8 alpha[8], bool d3d9) const
 {
     int bias = 0;
-    if (d3d9) bias = 3;
+    if (d3d9)
+        bias = 3;
 
     // 8-alpha block:  derive the other six alphas.
     // Bit code 000 = alpha0, 001 = alpha1, others are interpolated.
     alpha[0] = alpha0;
     alpha[1] = alpha1;
-    alpha[2] = (6 * alpha[0] + 1 * alpha[1] + bias) / 7;    // bit code 010
-    alpha[3] = (5 * alpha[0] + 2 * alpha[1] + bias) / 7;    // bit code 011
-    alpha[4] = (4 * alpha[0] + 3 * alpha[1] + bias) / 7;    // bit code 100
-    alpha[5] = (3 * alpha[0] + 4 * alpha[1] + bias) / 7;    // bit code 101
-    alpha[6] = (2 * alpha[0] + 5 * alpha[1] + bias) / 7;    // bit code 110
-    alpha[7] = (1 * alpha[0] + 6 * alpha[1] + bias) / 7;    // bit code 111
+    alpha[2] = (6 * alpha[0] + 1 * alpha[1] + bias) / 7;   // bit code 010
+    alpha[3] = (5 * alpha[0] + 2 * alpha[1] + bias) / 7;   // bit code 011
+    alpha[4] = (4 * alpha[0] + 3 * alpha[1] + bias) / 7;   // bit code 100
+    alpha[5] = (3 * alpha[0] + 4 * alpha[1] + bias) / 7;   // bit code 101
+    alpha[6] = (2 * alpha[0] + 5 * alpha[1] + bias) / 7;   // bit code 110
+    alpha[7] = (1 * alpha[0] + 6 * alpha[1] + bias) / 7;   // bit code 111
 }
 
 void AlphaBlockDXT5::evaluatePalette6(uint8 alpha[8], bool d3d9) const
 {
     int bias = 0;
-    if (d3d9) bias = 2;
+    if (d3d9)
+        bias = 2;
 
     // 6-alpha block.
     // Bit code 000 = alpha0, 001 = alpha1, others are interpolated.
     alpha[0] = alpha0;
     alpha[1] = alpha1;
-    alpha[2] = (4 * alpha[0] + 1 * alpha[1] + bias) / 5;    // Bit code 010
-    alpha[3] = (3 * alpha[0] + 2 * alpha[1] + bias) / 5;    // Bit code 011
-    alpha[4] = (2 * alpha[0] + 3 * alpha[1] + bias) / 5;    // Bit code 100
-    alpha[5] = (1 * alpha[0] + 4 * alpha[1] + bias) / 5;    // Bit code 101
-    alpha[6] = 0x00;                                        // Bit code 110
-    alpha[7] = 0xFF;                                        // Bit code 111
+    alpha[2] = (4 * alpha[0] + 1 * alpha[1] + bias) / 5;   // Bit code 010
+    alpha[3] = (3 * alpha[0] + 2 * alpha[1] + bias) / 5;   // Bit code 011
+    alpha[4] = (2 * alpha[0] + 3 * alpha[1] + bias) / 5;   // Bit code 100
+    alpha[5] = (1 * alpha[0] + 4 * alpha[1] + bias) / 5;   // Bit code 101
+    alpha[6] = 0x00;                                       // Bit code 110
+    alpha[7] = 0xFF;                                       // Bit code 111
 }
 
 void AlphaBlockDXT5::indices(uint8 index_array[16]) const
@@ -413,12 +421,12 @@ void AlphaBlockDXT5::setIndex(uint index, uint value)
     nvDebugCheck(index < 16);
     nvDebugCheck(value < 8);
 
-    int offset = (3 * index + 16);
-    uint64 mask = uint64(0x7) << offset;
-    this->u = (this->u & ~mask) | (uint64(value) << offset);
+    int    offset = (3 * index + 16);
+    uint64 mask   = uint64(0x7) << offset;
+    this->u       = (this->u & ~mask) | (uint64(value) << offset);
 }
 
-void AlphaBlockDXT5::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
+void AlphaBlockDXT5::decodeBlock(ColorBlock* block, bool d3d9 /*= false*/) const
 {
     nvDebugCheck(block != NULL);
 
@@ -428,12 +436,13 @@ void AlphaBlockDXT5::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
     uint8 index_array[16];
     indices(index_array);
 
-    for(uint i = 0; i < 16; i++) {
+    for (uint i = 0; i < 16; i++)
+    {
         block->color(i).a = alpha_array[index_array[i]];
     }
 }
 
-void AlphaBlockDXT5::decodeBlock(AlphaBlock4x4 * block, bool d3d9/*= false*/) const
+void AlphaBlockDXT5::decodeBlock(AlphaBlock4x4* block, bool d3d9 /*= false*/) const
 {
     nvDebugCheck(block != NULL);
 
@@ -443,18 +452,18 @@ void AlphaBlockDXT5::decodeBlock(AlphaBlock4x4 * block, bool d3d9/*= false*/) co
     uint8 index_array[16];
     indices(index_array);
 
-    for(uint i = 0; i < 16; i++) {
+    for (uint i = 0; i < 16; i++)
+    {
         block->alpha[i] = alpha_array[index_array[i]];
     }
 }
 
-
 void AlphaBlockDXT5::flip4()
 {
-    uint64 * b = (uint64 *)this;
+    uint64* b   = (uint64*)this;
 
     // @@ The masks might have to be byte swapped.
-    uint64 tmp = (*b & POSH_U64(0x000000000000FFFF));
+    uint64  tmp = (*b & POSH_U64(0x000000000000FFFF));
     tmp |= (*b & POSH_U64(0x000000000FFF0000)) << 36;
     tmp |= (*b & POSH_U64(0x000000FFF0000000)) << 12;
     tmp |= (*b & POSH_U64(0x000FFF0000000000)) >> 12;
@@ -465,17 +474,17 @@ void AlphaBlockDXT5::flip4()
 
 void AlphaBlockDXT5::flip2()
 {
-    uint * b = (uint *)this;
+    uint* b   = (uint*)this;
 
     // @@ The masks might have to be byte swapped.
-    uint tmp = (*b & 0xFF000000);
-    tmp |=  (*b & 0x00000FFF) << 12;
+    uint  tmp = (*b & 0xFF000000);
+    tmp |= (*b & 0x00000FFF) << 12;
     tmp |= (*b & 0x00FFF000) >> 12;
 
     *b = tmp;
 }
 
-void BlockDXT5::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
+void BlockDXT5::decodeBlock(ColorBlock* block, bool d3d9 /*= false*/) const
 {
     nvDebugCheck(block != NULL);
 
@@ -486,7 +495,7 @@ void BlockDXT5::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
     alpha.decodeBlock(block, d3d9);
 }
 
-void BlockDXT5::decodeBlockNV5x(ColorBlock * block) const
+void BlockDXT5::decodeBlockNV5x(ColorBlock* block) const
 {
     nvDebugCheck(block != NULL);
 
@@ -511,9 +520,8 @@ void BlockDXT5::flip2()
     color.flip2();
 }
 
-
 /// Decode ATI1 block.
-void BlockATI1::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
+void BlockATI1::decodeBlock(ColorBlock* block, bool d3d9 /*= false*/) const
 {
     uint8 alpha_array[8];
     alpha.evaluatePalette(alpha_array, d3d9);
@@ -521,10 +529,11 @@ void BlockATI1::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
     uint8 index_array[16];
     alpha.indices(index_array);
 
-    for(uint i = 0; i < 16; i++) {
-        Color32 & c = block->color(i);
+    for (uint i = 0; i < 16; i++)
+    {
+        Color32& c = block->color(i);
         c.b = c.g = c.r = alpha_array[index_array[i]];
-        c.a = 255;
+        c.a             = 255;
     }
 }
 
@@ -540,9 +549,8 @@ void BlockATI1::flip2()
     alpha.flip2();
 }
 
-
 /// Decode ATI2 block.
-void BlockATI2::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
+void BlockATI2::decodeBlock(ColorBlock* block, bool d3d9 /*= false*/) const
 {
     uint8 alpha_array[8];
     uint8 index_array[16];
@@ -550,19 +558,21 @@ void BlockATI2::decodeBlock(ColorBlock * block, bool d3d9/*= false*/) const
     x.evaluatePalette(alpha_array, d3d9);
     x.indices(index_array);
 
-    for(uint i = 0; i < 16; i++) {
-        Color32 & c = block->color(i);
-        c.r = alpha_array[index_array[i]];
+    for (uint i = 0; i < 16; i++)
+    {
+        Color32& c = block->color(i);
+        c.r        = alpha_array[index_array[i]];
     }
 
     y.evaluatePalette(alpha_array, d3d9);
     y.indices(index_array);
 
-    for(uint i = 0; i < 16; i++) {
-        Color32 & c = block->color(i);
-        c.g = alpha_array[index_array[i]];
-        c.b = 0;
-        c.a = 255;
+    for (uint i = 0; i < 16; i++)
+    {
+        Color32& c = block->color(i);
+        c.g        = alpha_array[index_array[i]];
+        c.b        = 0;
+        c.a        = 255;
     }
 }
 
@@ -579,7 +589,6 @@ void BlockATI2::flip2()
     x.flip2();
     y.flip2();
 }
-
 
 void BlockCTX1::evaluatePalette(Color32 color_array[4]) const
 {
@@ -605,7 +614,7 @@ void BlockCTX1::evaluatePalette(Color32 color_array[4]) const
     color_array[3].a = 0xFF;
 }
 
-void BlockCTX1::decodeBlock(ColorBlock * block) const
+void BlockCTX1::decodeBlock(ColorBlock* block) const
 {
     nvDebugCheck(block != NULL);
 
@@ -614,64 +623,64 @@ void BlockCTX1::decodeBlock(ColorBlock * block) const
     evaluatePalette(color_array);
 
     // Write color block.
-    for( uint j = 0; j < 4; j++ ) {
-        for( uint i = 0; i < 4; i++ ) {
-            uint idx = (row[j] >> (2 * i)) & 3;
+    for (uint j = 0; j < 4; j++)
+    {
+        for (uint i = 0; i < 4; i++)
+        {
+            uint idx           = (row[j] >> (2 * i)) & 3;
             block->color(i, j) = color_array[idx];
         }
-    }	
+    }
 }
 
-void BlockCTX1::setIndices(int * idx)
+void BlockCTX1::setIndices(int* idx)
 {
     indices = 0;
-    for(uint i = 0; i < 16; i++) {
+    for (uint i = 0; i < 16; i++)
+    {
         indices |= (idx[i] & 3) << (2 * i);
     }
 }
 
-
 /// Decode BC6 block.
 void BlockBC6::decodeBlock(Vector3 colors[16]) const
 {
-	ZOH::Tile tile(4, 4);
-	ZOH::decompress((const char *)data, tile);
+    ZOH::Tile tile(4, 4);
+    ZOH::decompress((const char*)data, tile);
 
-	// Convert ZOH's tile struct to Vector3, and convert half to float.
-	for (uint y = 0; y < 4; ++y)
-	{
-		for (uint x = 0; x < 4; ++x)
-		{
-			uint16 rHalf = ZOH::Tile::float2half(tile.data[y][x].x);
-			uint16 gHalf = ZOH::Tile::float2half(tile.data[y][x].y);
-			uint16 bHalf = ZOH::Tile::float2half(tile.data[y][x].z);
-			colors[y * 4 + x].x = to_float(rHalf);
-			colors[y * 4 + x].y = to_float(gHalf);
-			colors[y * 4 + x].z = to_float(bHalf);
-		}
-	}
+    // Convert ZOH's tile struct to Vector3, and convert half to float.
+    for (uint y = 0; y < 4; ++y)
+    {
+        for (uint x = 0; x < 4; ++x)
+        {
+            uint16 rHalf        = ZOH::Tile::float2half(tile.data[y][x].x);
+            uint16 gHalf        = ZOH::Tile::float2half(tile.data[y][x].y);
+            uint16 bHalf        = ZOH::Tile::float2half(tile.data[y][x].z);
+            colors[y * 4 + x].x = to_float(rHalf);
+            colors[y * 4 + x].y = to_float(gHalf);
+            colors[y * 4 + x].z = to_float(bHalf);
+        }
+    }
 }
-
 
 /// Decode BC7 block.
-void BlockBC7::decodeBlock(ColorBlock * block) const
+void BlockBC7::decodeBlock(ColorBlock* block) const
 {
-	AVPCL::Tile tile(4, 4);
-	AVPCL::decompress((const char *)data, tile);
+    AVPCL::Tile tile(4, 4);
+    AVPCL::decompress((const char*)data, tile);
 
-	// Convert AVPCL's tile struct back to NVTT's.
-	for (uint y = 0; y < 4; ++y)
-	{
-		for (uint x = 0; x < 4; ++x)
-		{
-			Vector4 rgba = tile.data[y][x];
-			// Note: decoded rgba values are in [0, 255] range and should be an integer,
-			// because BC7 never uses more than 8 bits per channel.  So no need to round.
-			block->color(x, y).setRGBA(uint8(rgba.x), uint8(rgba.y), uint8(rgba.z), uint8(rgba.w));
-		}
-	}
+    // Convert AVPCL's tile struct back to NVTT's.
+    for (uint y = 0; y < 4; ++y)
+    {
+        for (uint x = 0; x < 4; ++x)
+        {
+            Vector4 rgba = tile.data[y][x];
+            // Note: decoded rgba values are in [0, 255] range and should be an integer,
+            // because BC7 never uses more than 8 bits per channel.  So no need to round.
+            block->color(x, y).setRGBA(uint8(rgba.x), uint8(rgba.y), uint8(rgba.z), uint8(rgba.w));
+        }
+    }
 }
-
 
 /// Flip CTX1 block vertically.
 inline void BlockCTX1::flip4()
@@ -686,61 +695,58 @@ inline void BlockCTX1::flip2()
     swap(row[0], row[1]);
 }
 
-
-
-
-Stream & nv::operator<<(Stream & stream, BlockDXT1 & block)
+Stream& nv::operator<<(Stream& stream, BlockDXT1& block)
 {
     stream << block.col0.u << block.col1.u;
     stream.serialize(&block.indices, sizeof(block.indices));
     return stream;
 }
 
-Stream & nv::operator<<(Stream & stream, AlphaBlockDXT3 & block)
+Stream& nv::operator<<(Stream& stream, AlphaBlockDXT3& block)
 {
     stream.serialize(&block, sizeof(block));
     return stream;
 }
 
-Stream & nv::operator<<(Stream & stream, BlockDXT3 & block)
+Stream& nv::operator<<(Stream& stream, BlockDXT3& block)
 {
     return stream << block.alpha << block.color;
 }
 
-Stream & nv::operator<<(Stream & stream, AlphaBlockDXT5 & block)
+Stream& nv::operator<<(Stream& stream, AlphaBlockDXT5& block)
 {
     stream.serialize(&block, sizeof(block));
     return stream;
 }
 
-Stream & nv::operator<<(Stream & stream, BlockDXT5 & block)
+Stream& nv::operator<<(Stream& stream, BlockDXT5& block)
 {
     return stream << block.alpha << block.color;
 }
 
-Stream & nv::operator<<(Stream & stream, BlockATI1 & block)
+Stream& nv::operator<<(Stream& stream, BlockATI1& block)
 {
     return stream << block.alpha;
 }
 
-Stream & nv::operator<<(Stream & stream, BlockATI2 & block)
+Stream& nv::operator<<(Stream& stream, BlockATI2& block)
 {
     return stream << block.x << block.y;
 }
 
-Stream & nv::operator<<(Stream & stream, BlockCTX1 & block)
+Stream& nv::operator<<(Stream& stream, BlockCTX1& block)
 {
     stream.serialize(&block, sizeof(block));
     return stream;
 }
 
-Stream & nv::operator<<(Stream & stream, BlockBC6 & block)
+Stream& nv::operator<<(Stream& stream, BlockBC6& block)
 {
     stream.serialize(&block, sizeof(block));
     return stream;
 }
 
-Stream & nv::operator<<(Stream & stream, BlockBC7 & block)
+Stream& nv::operator<<(Stream& stream, BlockBC7& block)
 {
     stream.serialize(&block, sizeof(block));
     return stream;

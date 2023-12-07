@@ -95,11 +95,7 @@ namespace award_system
         return false;
     }
 
-    bool best_scores_helper::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    bool best_scores_helper::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* local_player = m_player_state_accum->get_local_player();
         if (!local_player)
@@ -124,19 +120,23 @@ namespace award_system
 
         switch (kill_type.second)
         {
-            case SKT_HEADSHOT: {
+            case SKT_HEADSHOT:
+            {
                 ++m_headshots_kills_in_row;
             }
             break;
-            case SKT_BACKSTAB: {
+            case SKT_BACKSTAB:
+            {
                 ++m_backstab_kills_in_row;
             }
             break;
-            case SKT_KNIFEKILL: {
+            case SKT_KNIFEKILL:
+            {
                 ++m_knife_kills_in_row;
             }
             break;
-            case SKT_EYESHOT: {
+            case SKT_EYESHOT:
+            {
                 ++m_eyeshots_kills_in_row;
             }
             break;

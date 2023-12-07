@@ -7,7 +7,7 @@
 // #define TRIVIAL_ENCRYPTOR_DECODER
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -54,17 +54,20 @@ public:
 
 #ifdef TRIVIAL_ENCRYPTOR_ENCODER
 #ifdef TRIVIAL_ENCRYPTOR_DECODER
+
 private:
     static bool m_initialized;
 #endif   // TRIVIAL_ENCRYPTOR_DECODER
 #endif   // TRIVIAL_ENCRYPTOR_ENCODER
 
 #ifdef TRIVIAL_ENCRYPTOR_ENCODER
+
 private:
     static type m_alphabet[alphabet_size];
 #endif   // TRIVIAL_ENCRYPTOR_ENCODER
 
 #ifdef TRIVIAL_ENCRYPTOR_DECODER
+
 private:
     static type m_alphabet_back[alphabet_size];
 #endif   // TRIVIAL_ENCRYPTOR_DECODER
@@ -98,6 +101,7 @@ private:
     }
 
 #ifdef TRIVIAL_ENCRYPTOR_ENCODER
+
 public:
     IC static void encode(pcvoid source, const u32& source_size, pvoid destination)
     {
@@ -121,6 +125,7 @@ public:
 #endif   // TRIVIAL_ENCRYPTOR_ENCODER
 
 #ifdef TRIVIAL_ENCRYPTOR_DECODER
+
 public:
     IC static void decode(pcvoid source, const u32& source_size, pvoid destination)
     {

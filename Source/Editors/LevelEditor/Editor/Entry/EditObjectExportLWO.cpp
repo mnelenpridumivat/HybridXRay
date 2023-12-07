@@ -13,7 +13,7 @@ bool CEditableObject::ExportLWO(LPCSTR fname)
 {
     CLWMemoryStream* F = xr_new<CLWMemoryStream>();
 
-    LPCSTRVec images;
+    LPCSTRVec        images;
 
     F->begin_save();
     // tags
@@ -44,9 +44,7 @@ bool CEditableObject::ExportLWO(LPCSTR fname)
         int       im_idx = FindLPCSTR(images, S->_Texture());
         R_ASSERT(im_idx >= 0);
         LPCSTR vm_name = S->_VMap();
-        F->Wsurface(
-            S->_Name(), S->m_Flags.is(CSurface::sf2Sided), (u16)im_idx, (vm_name && vm_name[0]) ? vm_name : "Texture",
-            S->_ShaderName(), S->_ShaderXRLCName());
+        F->Wsurface(S->_Name(), S->m_Flags.is(CSurface::sf2Sided), (u16)im_idx, (vm_name && vm_name[0]) ? vm_name : "Texture", S->_ShaderName(), S->_ShaderXRLCName());
     }
     // meshes/layers
     for (EditMeshIt mesh_it = FirstMesh(); mesh_it != LastMesh(); mesh_it++)
@@ -67,9 +65,7 @@ bool CEditableObject::ExportLWO(LPCSTR fname)
         F->open_chunk(ID_POLS);
         F->w_u32(ID_FACE);
         for (u32 f_id = 0; f_id < MESH->GetFCount(); f_id++)
-            F->w_face3(
-                MESH->GetFaces()[f_id].pv[0].pindex, MESH->GetFaces()[f_id].pv[1].pindex,
-                MESH->GetFaces()[f_id].pv[2].pindex);
+            F->w_face3(MESH->GetFaces()[f_id].pv[0].pindex, MESH->GetFaces()[f_id].pv[1].pindex, MESH->GetFaces()[f_id].pv[2].pindex);
         F->close_chunk();
         // surf<->face
         F->open_chunk(ID_PTAG);

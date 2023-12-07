@@ -12,7 +12,7 @@ void UILeftBarForm::Draw()
 
     if (ImGui::BeginTabBar("##tabs", ImGuiTabBarFlags_TabListPopupButton | ImGuiTabBarFlags_FittingPolicyScroll))
     {
-        for (auto& tool : STools->m_Tools)
+        for (auto& tool: STools->m_Tools)
         {
             const char* name = tool.second->ToolsName();
             if (ImGui::BeginTabItem(name))

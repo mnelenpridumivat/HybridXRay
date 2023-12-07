@@ -6,9 +6,9 @@ class CEntity;
 extern Fvector get_valid_position(const CEntity* entity, const Fvector& actual_position);
 
 // возвращает true, если объект entity находится на ноде
-extern bool object_position_valid(const CEntity* entity);
+extern bool    object_position_valid(const CEntity* entity);
 
-IC Fvector random_position(const Fvector& center, float R)
+IC Fvector     random_position(const Fvector& center, float R)
 {
     Fvector v;
     v = center;
@@ -82,12 +82,12 @@ IC u32 time()
 //////////////////////////////////////////////////////////////////////////
 extern Fvector get_bone_position(CObject* object, LPCSTR bone_name);
 
-Fvector get_head_position(CObject* object);
+Fvector        get_head_position(CObject* object);
 
 //////////////////////////////////////////////////////////////////////////
 // LTX routines
 //////////////////////////////////////////////////////////////////////////
-IC void read_delay(LPCSTR section, LPCSTR name, u32& delay_min, u32& delay_max)
+IC void        read_delay(LPCSTR section, LPCSTR name, u32& delay_min, u32& delay_max)
 {
     LPCSTR    delay = pSettings->r_string(section, name);
     string128 tempst;

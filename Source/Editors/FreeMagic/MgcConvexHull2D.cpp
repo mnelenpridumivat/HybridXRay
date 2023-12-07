@@ -44,7 +44,7 @@ bool ConvexHull2D::SubContainsPoint(const Vector2& rkP, int i0, int i1) const
 {
     Vector2 kDir, kNormal, kDiff;
 
-    int iDiff = i1 - i0;
+    int     iDiff = i1 - i0;
     if (iDiff == 1 || (iDiff < 0 && iDiff + m_iHQuantity == 1))
     {
         const Vector2& rkV0 = m_akVertex[m_aiHIndex[i0]];
@@ -259,7 +259,7 @@ void ConvexHull2D::GetHull(int i0, int i1, const SVArray& rkSVArray, SVArray& rk
     if (iQuantity > 1)
     {
         // middle index of input range
-        int iMid = (i0 + i1) / 2;
+        int     iMid = (i0 + i1) / 2;
 
         // find hull of subsets (iMid-i0+1 >= i1-iMid)
         SVArray kLHull, kRHull;
@@ -396,7 +396,8 @@ void ConvexHull2D::MergeLinear(const SortedVertex& rkP, SVArray& rkHull)
             m_iHullType = HULL_PLANAR;
             rkHull.push_back(rkP);
             break;
-        case ORDER_NEGATIVE: {
+        case ORDER_NEGATIVE:
+        {
             // merged hull is triangle <Q1,Q0,P>
             m_iHullType        = HULL_PLANAR;
             SortedVertex kSave = rkHull[0];
@@ -485,7 +486,7 @@ void ConvexHull2D::ByIncremental()
     SVArray::iterator pkEnd = unique(kSVArray.begin(), kSVArray.end());
     kSVArray.erase(pkEnd, kSVArray.end());
 
-    int ccc = kSVArray.size();
+    int ccc     = kSVArray.size();
 
     // Compute convex hull incrementally.  The first and second vertices in
     // the hull are managed separately until at least one triangle is formed.

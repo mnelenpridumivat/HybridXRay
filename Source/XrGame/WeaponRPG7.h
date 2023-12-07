@@ -29,11 +29,12 @@ public:
     virtual void UnloadMagazine(bool spawn_ammo = true);
 
     virtual void net_Import(NET_Packet& P);   // import from server
+
 protected:
     virtual bool AllowBore();
     virtual void PlayAnimReload();
 
-    shared_str m_sRocketSection;
+    shared_str   m_sRocketSection;
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };

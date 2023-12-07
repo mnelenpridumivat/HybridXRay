@@ -4,7 +4,7 @@
 #include "state_look_point.h"
 #include "state_custom_action.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION            template<typename _Object>
 
 #define CStateMonsterFindEnemyLookAbstract CStateMonsterFindEnemyLook<_Object>
 
@@ -28,8 +28,8 @@ void CStateMonsterFindEnemyLookAbstract::initialize()
     current_stage   = 0;
     target_point    = Fvector().set(0.f, 0.f, 0.f);
 
-    current_dir    = object->Direction();
-    start_position = object->Position();
+    current_dir     = object->Direction();
+    start_position  = object->Position();
 }
 
 TEMPLATE_SPECIALIZATION
@@ -44,8 +44,7 @@ void CStateMonsterFindEnemyLookAbstract::reselect_state()
         current_dir.setHP(h, p);
         current_dir.normalize();
         target_point.mad(start_position, current_dir, Random.randF(4.f, 5.f));
-        select_state(
-            (Random.randI(2)) ? eStateFindEnemy_LookAround_MoveToPoint : eStateFindEnemy_LookAround_TurnToPoint);
+        select_state((Random.randI(2)) ? eStateFindEnemy_LookAround_MoveToPoint : eStateFindEnemy_LookAround_TurnToPoint);
     }
     else
         select_state(eStateFindEnemy_LookAround_LookAround);

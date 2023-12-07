@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: stalker_base_action.cpp
 //	Created 	: 25.03.2004
 //  Modified 	: 27.09.2004
@@ -16,25 +16,22 @@
 
 using namespace StalkerSpace;
 
-CStalkerActionBase::CStalkerActionBase		(CAI_Stalker *object, LPCSTR action_name) :
-	inherited				(object,action_name)
+CStalkerActionBase::CStalkerActionBase(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
+
+void CStalkerActionBase::initialize()
 {
+    inherited::initialize();
+    object().animation().clear_script_animations();
+    object().brain().affect_cover(false);
 }
 
-void CStalkerActionBase::initialize			()
+void CStalkerActionBase::execute()
 {
-	inherited::initialize							();
-	object().animation().clear_script_animations	();
-	object().brain().affect_cover					(false);
+    inherited::execute();
 }
 
-void CStalkerActionBase::execute			()
+void CStalkerActionBase::finalize()
 {
-	inherited::execute								();
-}
-
-void CStalkerActionBase::finalize			()
-{
-	inherited::finalize								();
-	object().animation().clear_script_animations	();
+    inherited::finalize();
+    object().animation().clear_script_animations();
 }

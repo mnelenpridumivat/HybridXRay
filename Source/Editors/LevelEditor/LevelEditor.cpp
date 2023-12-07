@@ -12,9 +12,9 @@
 #include "resources\splash.h"
 
 XREPROPS_API extern bool bIsActorEditor;
-ECORE_API extern bool bIsLevelEditor;
+ECORE_API extern bool    bIsLevelEditor;
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
+int WINAPI               wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine, int nCmdShow)
 {
     bIsActorEditor = false;
     bIsLevelEditor = true;
@@ -74,7 +74,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     splash::update_progress(25);
 
     splash::update_progress(1);
-    while (MainForm->Frame()) {}
+    while (MainForm->Frame())
+    {}
 
     xr_delete(MainForm);
     xr_delete(pApp);

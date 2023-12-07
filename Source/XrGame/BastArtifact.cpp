@@ -11,13 +11,13 @@
 
 CBastArtefact::CBastArtefact(void)
 {
-    m_fImpulseThreshold = 10.f;
+    m_fImpulseThreshold      = 10.f;
 
-    m_fRadius        = 10.f;
-    m_fStrikeImpulse = 15.f;
+    m_fRadius                = 10.f;
+    m_fStrikeImpulse         = 15.f;
 
-    m_bStrike        = false;
-    m_AttakingEntity = NULL;
+    m_bStrike                = false;
+    m_AttakingEntity         = NULL;
 
     m_fEnergy                = 0.f;
     m_fEnergyMax             = m_fStrikeImpulse * 100.f;
@@ -27,12 +27,7 @@ CBastArtefact::CBastArtefact(void)
 CBastArtefact::~CBastArtefact(void) {}
 
 // вызывается при столкновении мочалки с чем-то
-void CBastArtefact::ObjectContactCallback(
-    bool& /**do_colide/**/,
-    bool      bo1,
-    dContact& c,
-    SGameMtl* /*material_1*/,
-    SGameMtl* /*material_2*/)
+void CBastArtefact::ObjectContactCallback(bool& /**do_colide/**/, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/)
 {
     dxGeomUserData* l_pUD1 = NULL;
     dxGeomUserData* l_pUD2 = NULL;
@@ -112,14 +107,14 @@ void CBastArtefact::Load(LPCSTR section)
 {
     inherited::Load(section);
 
-    m_fImpulseThreshold = pSettings->r_float(section, "impulse_threshold");
-    m_fRadius           = pSettings->r_float(section, "radius");
-    m_fStrikeImpulse    = pSettings->r_float(section, "strike_impulse");
+    m_fImpulseThreshold      = pSettings->r_float(section, "impulse_threshold");
+    m_fRadius                = pSettings->r_float(section, "radius");
+    m_fStrikeImpulse         = pSettings->r_float(section, "strike_impulse");
 
     m_fEnergyMax             = pSettings->r_float(section, "energy_max");
     m_fEnergyDecreasePerTime = pSettings->r_float(section, "energy_decrease_speed");
 
-    m_sParticleName = pSettings->r_string(section, "particle");
+    m_sParticleName          = pSettings->r_string(section, "particle");
 }
 
 void CBastArtefact::shedule_Update(u32 dt)
@@ -154,7 +149,8 @@ void CBastArtefact::UpdateCLChild()
                     {
                         int rnd      = ::Random.randI(m_AliveList.size());
                         pEntityToHit = m_AliveList[rnd];
-                    } while (pEntityToHit == m_pHitedEntity);
+                    }
+                    while (pEntityToHit == m_pHitedEntity);
                 }
                 else
                 {

@@ -2,7 +2,7 @@
 #define _FIXEDMAP_H
 #pragma once
 
-template <class K, class T, class allocator = xr_allocator> class FixedMAP
+template<class K, class T, class allocator = xr_allocator> class FixedMAP
 {
     enum
     {
@@ -157,7 +157,7 @@ public:
         {
             TNode* node = nodes;
 
-        once_more:
+once_more:
             if (k < node->key)
             {
                 if (node->left)
@@ -200,7 +200,7 @@ public:
         {
             TNode* node = nodes;
 
-        once_more:
+once_more:
             if (k <= node->key)
             {
                 if (node->left)

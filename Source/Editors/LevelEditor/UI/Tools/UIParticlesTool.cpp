@@ -65,7 +65,7 @@ void UIParticlesTool::Draw()
             }
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SameLine(0,8);
+            ImGui::SameLine(0, 8);
             if (ImGui::Button("stop", ImVec2(0, ImGui::GetFrameHeight())))
             {
                 ObjectIt _F = Scene->FirstObj(OBJCLASS_PS);

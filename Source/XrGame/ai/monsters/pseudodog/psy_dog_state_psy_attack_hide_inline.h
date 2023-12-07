@@ -4,7 +4,7 @@
 #include "../monster_cover_manager.h"
 #include "../../../cover_point.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION  template<typename _Object>
 #define CStatePsyDogHideAbstract CStatePsyDogHide<_Object>
 
 TEMPLATE_SPECIALIZATION
@@ -40,9 +40,7 @@ bool CStatePsyDogHideAbstract::check_start_conditions()
 TEMPLATE_SPECIALIZATION
 bool CStatePsyDogHideAbstract::check_completion()
 {
-    return (
-        (object->ai_location().level_vertex_id() == target.node) &&
-        !object->control().path_builder().is_moving_on_path());
+    return ((object->ai_location().level_vertex_id() == target.node) && !object->control().path_builder().is_moving_on_path());
 }
 
 TEMPLATE_SPECIALIZATION

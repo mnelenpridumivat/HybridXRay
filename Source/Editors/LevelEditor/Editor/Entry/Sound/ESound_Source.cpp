@@ -377,13 +377,13 @@ void ESoundSource::OnFrame()
             m_Source.set_params(&m_Params);
             m_Command = stNothing;
             m_Flags.set(flPlaying, TRUE);
-        break;
+            break;
         case stStop:
             m_Source.stop();
             m_Command = stNothing;
             m_Flags.set(flPlaying, FALSE);
             m_Flags.set(flSimulating, FALSE);
-        break;
+            break;
         case stSimulate:
         {
             /*
@@ -433,7 +433,7 @@ void ESoundSource::OnFrame()
         }
         break;
         case stNothing:
-        break;
+            break;
         default:
             THROW;
     }

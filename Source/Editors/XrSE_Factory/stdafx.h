@@ -34,8 +34,7 @@ namespace boost
 
 #include "smart_cast.h"
 
-#define READ_IF_EXISTS(ltx, method, section, name, default_value) \
-    (ltx->line_exist(section, name)) ? ltx->method(section, name) : default_value
+#define READ_IF_EXISTS(ltx, method, section, name, default_value) (ltx->line_exist(section, name)) ? ltx->method(section, name) : default_value
 
 #if XRAY_EXCEPTIONS
 IC xr_string string2xr_string(LPCSTR s)

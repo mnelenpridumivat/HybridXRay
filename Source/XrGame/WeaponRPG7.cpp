@@ -18,7 +18,7 @@ void CWeaponRPG7::Load(LPCSTR section)
 
     m_zoom_params.m_fScopeZoomFactor = pSettings->r_float(section, "max_zoom_factor");
 
-    m_sRocketSection = pSettings->r_string(section, "rocket_class");
+    m_sRocketSection                 = pSettings->r_string(section, "rocket_class");
 }
 
 bool CWeaponRPG7::AllowBore()
@@ -167,13 +167,15 @@ void CWeaponRPG7::OnEvent(NET_Packet& P, u16 type)
     u16 id;
     switch (type)
     {
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             P.r_u16(id);
             CRocketLauncher::AttachRocket(id, this);
         }
         break;
         case GE_OWNERSHIP_REJECT:
-        case GE_LAUNCH_ROCKET: {
+        case GE_LAUNCH_ROCKET:
+        {
             bool bLaunch = (type == GE_LAUNCH_ROCKET);
             P.r_u16(id);
             CRocketLauncher::DetachRocket(id, bLaunch);

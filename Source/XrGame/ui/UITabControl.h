@@ -17,25 +17,25 @@ public:
     virtual ~CUITabControl();
 
     // options item
-    virtual void SetCurrentOptValue();        // opt->current
-    virtual void SaveBackUpOptValue();        // current->backup
-    virtual void SaveOptValue();              // current->opt
-    virtual void UndoOptValue();              // backup->current
-    virtual bool IsChangedOptValue() const;   // backup!=current
+    virtual void      SetCurrentOptValue();        // opt->current
+    virtual void      SaveBackUpOptValue();        // current->backup
+    virtual void      SaveOptValue();              // current->opt
+    virtual void      UndoOptValue();              // backup->current
+    virtual bool      IsChangedOptValue() const;   // backup!=current
 
-    virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
-    virtual void OnTabChange(const shared_str& sCur, const shared_str& sPrev);
-    virtual void OnStaticFocusReceive(CUIWindow* pWnd);
-    virtual void OnStaticFocusLost(CUIWindow* pWnd);
+    virtual bool      OnKeyboardAction(int dik, EUIMessages keyboard_action);
+    virtual void      OnTabChange(const shared_str& sCur, const shared_str& sPrev);
+    virtual void      OnStaticFocusReceive(CUIWindow* pWnd);
+    virtual void      OnStaticFocusLost(CUIWindow* pWnd);
 
     // Добавление кнопки-закладки в список закладок контрола
-    bool AddItem(LPCSTR pItemName, LPCSTR pTexName, Fvector2 pos, Fvector2 size);
-    bool AddItem(CUITabButton* pButton);
+    bool              AddItem(LPCSTR pItemName, LPCSTR pTexName, Fvector2 pos, Fvector2 size);
+    bool              AddItem(CUITabButton* pButton);
 
-    void RemoveAll();
+    void              RemoveAll();
 
-    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
-    virtual void Enable(bool status);
+    virtual void      SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
+    virtual void      Enable(bool status);
 
     const shared_str& GetActiveId() const
     {
@@ -82,19 +82,19 @@ protected:
     // Список кнопок - переключателей закладок
     TABS_VECTOR m_TabsArr;
 
-    shared_str m_sPushedId;
-    shared_str m_sPrevPushedId;
+    shared_str  m_sPushedId;
+    shared_str  m_sPrevPushedId;
 
     // Цвет неактивных элементов
-    u32 m_cGlobalTextColor;
-    u32 m_cGlobalButtonColor;
+    u32         m_cGlobalTextColor;
+    u32         m_cGlobalButtonColor;
 
     // Цвет надписи на активном элементе
-    u32 m_cActiveTextColor;
-    u32 m_cActiveButtonColor;
+    u32         m_cActiveTextColor;
+    u32         m_cActiveButtonColor;
 
-    bool       m_bAcceleratorsEnable;
-    shared_str m_opt_backup_value;
+    bool        m_bAcceleratorsEnable;
+    shared_str  m_opt_backup_value;
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };

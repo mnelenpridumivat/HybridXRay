@@ -54,10 +54,7 @@ bool stalker_movement_manager_smart_cover::enemy_in_fov() const
     return (true);
 }
 
-bool stalker_movement_manager_smart_cover::in_fov(
-    shared_str const& cover_id,
-    shared_str const& loophole_id,
-    Fvector const&    object_position) const
+bool stalker_movement_manager_smart_cover::in_fov(shared_str const& cover_id, shared_str const& loophole_id, Fvector const& object_position) const
 {
     cover_type const&    cover    = *(ai().cover_manager().smart_cover(cover_id));
     loophole_type const& loophole = this->loophole(cover, loophole_id);
@@ -92,21 +89,14 @@ bool stalker_movement_manager_smart_cover::in_current_loophole_range(Fvector con
     return (cover->is_position_in_range(*loophole, position));
 }
 
-bool stalker_movement_manager_smart_cover::in_range(
-    shared_str const& cover_id,
-    shared_str const& loophole_id,
-    Fvector const&    object_position) const
+bool stalker_movement_manager_smart_cover::in_range(shared_str const& cover_id, shared_str const& loophole_id, Fvector const& object_position) const
 {
     cover_type const&    cover    = *(ai().cover_manager().smart_cover(cover_id));
     loophole_type const& loophole = this->loophole(cover, loophole_id);
     return (cover.is_position_in_range(loophole, object_position));
 }
 
-bool stalker_movement_manager_smart_cover::in_min_acceptable_range(
-    shared_str const& cover_id,
-    shared_str const& loophole_id,
-    Fvector const&    position,
-    float const&      min_range) const
+bool stalker_movement_manager_smart_cover::in_min_acceptable_range(shared_str const& cover_id, shared_str const& loophole_id, Fvector const& position, float const& min_range) const
 {
     cover_type const&    cover    = *(ai().cover_manager().smart_cover(cover_id));
     loophole_type const& loophole = this->loophole(cover, loophole_id);

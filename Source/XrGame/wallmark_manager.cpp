@@ -18,13 +18,7 @@ void CWalmarkManager::Clear()
     m_wallmarks->clear();
 }
 
-void CWalmarkManager::AddWallmark(
-    const Fvector&  dir,
-    const Fvector&  start_pos,
-    float           range,
-    float           wallmark_size,
-    IWallMarkArray& wallmarks_vector,
-    int             t)
+void CWalmarkManager::AddWallmark(const Fvector& dir, const Fvector& start_pos, float range, float wallmark_size, IWallMarkArray& wallmarks_vector, int t)
 {
     CDB::TRI* pTri      = Level().ObjectSpace.GetStaticTris() + t;   // result.element;
     SGameMtl* pMaterial = GameMaterialLibrary->GetMaterialByIdx(pTri->material);
@@ -35,7 +29,7 @@ void CWalmarkManager::AddWallmark(
         Fvector* pVerts = Level().ObjectSpace.GetStaticVerts();
 
         // вычислить точку попадания
-        Fvector end_point;
+        Fvector  end_point;
         end_point.set(0, 0, 0);
         end_point.mad(start_pos, dir, range);
 
@@ -94,15 +88,9 @@ void CWalmarkManager::PlaceWallmarks(const Fvector& start_pos)
     StartWorkflow();
 }
 
-float Distance(
-    const Fvector& rkPoint,
-    const Fvector  rkTri[3],
-    float&         pfSParam,
-    float&         pfTParam,
-    Fvector&       closest,
-    Fvector&       dir);
+float Distance(const Fvector& rkPoint, const Fvector rkTri[3], float& pfSParam, float& pfTParam, Fvector& closest, Fvector& dir);
 
-void CWalmarkManager::StartWorkflow()
+void  CWalmarkManager::StartWorkflow()
 {
     LPCSTR sect                = "explosion_marks";
     float  m_trace_dist        = pSettings->r_float(sect, "dist");
@@ -112,19 +100,19 @@ void CWalmarkManager::StartWorkflow()
     XRC.box_options(0);
     XRC.box_query(Level().ObjectSpace.GetStaticModel(), m_pos, Fvector().set(m_trace_dist, m_trace_dist, m_trace_dist));
 
-    CDB::TRI*    T_array = Level().ObjectSpace.GetStaticTris();
-    Fvector*     V_array = Level().ObjectSpace.GetStaticVerts();
-    CDB::RESULT* R_begin = XRC.r_begin();
-    CDB::RESULT* R_end   = XRC.r_end();
+    CDB::TRI*    T_array        = Level().ObjectSpace.GetStaticTris();
+    Fvector*     V_array        = Level().ObjectSpace.GetStaticVerts();
+    CDB::RESULT* R_begin        = XRC.r_begin();
+    CDB::RESULT* R_end          = XRC.r_end();
     //.	Triangle		ntri;
     //.	float			ndist					= phInfinity;
     //.	Fvector			npoint;
-    u32 wm_count = 0;
+    u32          wm_count       = 0;
 
-    u32 _ray_test = 0;
+    u32          _ray_test      = 0;
     //	u32 _tri_behind		= 0;
-    u32 _tri_not_plane = 0;
-    u32 _not_dist      = 0;
+    u32          _tri_not_plane = 0;
+    u32          _not_dist      = 0;
     /*
         DBG_OpenCashedDraw		();
         DBG_DrawAABB			(m_pos,Fvector().set(m_trace_dist,m_trace_dist,m_trace_dist),color_xrgb(255,0,0));
@@ -140,24 +128,24 @@ void CWalmarkManager::StartWorkflow()
             break;
 
         //.		Triangle					tri;
-        Fvector end_point;
+        Fvector   end_point;
         //.		ETriDist					c;
-        Fvector pdir;
-        float   pfSParam;
-        float   pfTParam;
+        Fvector   pdir;
+        float     pfSParam;
+        float     pfTParam;
 
         //.		CalculateTriangle			(T_array+Res->id,cast_fp(m_pos),tri);
 
         //.		float dist					= DistToTri(&tri,cast_fp(m_pos),cast_fp(pdir),cast_fp(end_point),c,V_array);
-        Fvector _tri[3];
+        Fvector   _tri[3];
 
         CDB::TRI* _t = T_array + Res->id;
 
-        _tri[0] = V_array[_t->verts[0]];
-        _tri[1] = V_array[_t->verts[1]];
-        _tri[2] = V_array[_t->verts[2]];
+        _tri[0]      = V_array[_t->verts[0]];
+        _tri[1]      = V_array[_t->verts[1]];
+        _tri[2]      = V_array[_t->verts[2]];
 
-        float dist = Distance(m_pos, _tri, pfSParam, pfTParam, end_point, pdir);
+        float dist   = Distance(m_pos, _tri, pfSParam, pfTParam, end_point, pdir);
 
         /*
                 if (c==tdBehind){
@@ -165,7 +153,7 @@ void CWalmarkManager::StartWorkflow()
                     continue;
                 }
         */
-        float test = dist - EPS_L;
+        float test   = dist - EPS_L;
 
         if (test > 0.f)
         {
@@ -211,13 +199,7 @@ void CWalmarkManager::Load(LPCSTR section)
     m_wallmarks->AppendMark(wallmarks_name);
 }
 
-float Distance(
-    const Fvector& rkPoint,
-    const Fvector  rkTri[3],
-    float&         pfSParam,
-    float&         pfTParam,
-    Fvector&       closest,
-    Fvector&       dir)
+float Distance(const Fvector& rkPoint, const Fvector rkTri[3], float& pfSParam, float& pfTParam, Fvector& closest, Fvector& dir)
 {
     //.    Fvector kDiff = rkTri.Origin() - rkPoint;
     Fvector kDiff;
@@ -238,18 +220,18 @@ float Distance(
     float fA11 = Edge1.square_magnitude();
 
     //.    float fB0 = kDiff.Dot(rkTri.Edge0());
-    float fB0 = kDiff.dotproduct(Edge0);
+    float fB0  = kDiff.dotproduct(Edge0);
 
     //.	float fB1 = kDiff.Dot(rkTri.Edge1());
-    float fB1 = kDiff.dotproduct(Edge1);
+    float fB1  = kDiff.dotproduct(Edge1);
 
     //.    float fC = kDiff.SquaredLength();
-    float fC = kDiff.square_magnitude();
+    float fC   = kDiff.square_magnitude();
 
     float fDet = _abs(fA00 * fA11 - fA01 * fA01);
 
-    float fS = fA01 * fB1 - fA11 * fB0;
-    float fT = fA01 * fB0 - fA00 * fB1;
+    float fS   = fA01 * fB1 - fA11 * fB0;
+    float fT   = fA01 * fB0 - fA00 * fB1;
     float fSqrDist;
 
     if (fS + fT <= fDet)
@@ -360,10 +342,9 @@ float Distance(
                 }
                 else
                 {
-                    fS = fNumer / fDenom;
-                    fT = 1.0f - fS;
-                    fSqrDist =
-                        fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
+                    fS       = fNumer / fDenom;
+                    fT       = 1.0f - fS;
+                    fSqrDist = fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
                 }
             }
             else
@@ -402,10 +383,9 @@ float Distance(
                 }
                 else
                 {
-                    fT = fNumer / fDenom;
-                    fS = 1.0f - fT;
-                    fSqrDist =
-                        fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
+                    fT       = fNumer / fDenom;
+                    fS       = 1.0f - fT;
+                    fSqrDist = fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
                 }
             }
             else
@@ -448,10 +428,9 @@ float Distance(
                 }
                 else
                 {
-                    fS = fNumer / fDenom;
-                    fT = 1.0f - fS;
-                    fSqrDist =
-                        fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
+                    fS       = fNumer / fDenom;
+                    fT       = 1.0f - fS;
+                    fSqrDist = fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
                 }
             }
         }

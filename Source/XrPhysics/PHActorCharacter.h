@@ -20,18 +20,18 @@ struct SPHCharacterRestrictor
     CPHCharacter*    m_character;
     ERestrictionType m_type;
 
-    dGeomID m_restrictor;
-    dGeomID m_restrictor_transform;
-    float   m_restrictor_radius;
-    void    SetObjectContactCallback(ObjectContactCallbackFun* callback);
-    void    SetMaterial(u16 material);
-    void    Create(CPHCharacter* ch, dVector3 sizes);
-    void    Destroy(void);
-    void    SetPhysicsRefObject(IPhysicsShellHolder* ref_object);
-    void    SetRadius(float r);
+    dGeomID          m_restrictor;
+    dGeomID          m_restrictor_transform;
+    float            m_restrictor_radius;
+    void             SetObjectContactCallback(ObjectContactCallbackFun* callback);
+    void             SetMaterial(u16 material);
+    void             Create(CPHCharacter* ch, dVector3 sizes);
+    void             Destroy(void);
+    void             SetPhysicsRefObject(IPhysicsShellHolder* ref_object);
+    void             SetRadius(float r);
 };
 
-template <ERestrictionType Ttype> struct TPHCharacterRestrictor: public SPHCharacterRestrictor
+template<ERestrictionType Ttype> struct TPHCharacterRestrictor: public SPHCharacterRestrictor
 {
     TPHCharacterRestrictor(): SPHCharacterRestrictor(Ttype) {}
     void Create(CPHCharacter* ch, dVector3 sizes)
@@ -95,9 +95,9 @@ class CPHActorCharacter: public CPHSimpleCharacter
 {
     typedef CPHSimpleCharacter inherited;
 
-    RESRICTORS_V m_restrictors;
-    float        m_speed_goal;
-    bool         b_single_game;
+    RESRICTORS_V               m_restrictors;
+    float                      m_speed_goal;
+    bool                       b_single_game;
 
 public:
     typedef TPHCharacterRestrictor<rtStalker>       stalker_restrictor;

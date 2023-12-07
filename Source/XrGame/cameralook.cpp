@@ -41,7 +41,7 @@ void CCameraLook::UpdateDistance(Fvector& point)
     Fvector            vDir;
     collide::rq_result R;
 
-    float covariance = VIEWPORT_NEAR * 6.f;
+    float              covariance = VIEWPORT_NEAR * 6.f;
     vDir.invert(vDirection);
     g_pGameLevel->ObjectSpace.RayPick(point, vDir, dist + covariance, collide::rqtBoth, R, parent);
 
@@ -99,7 +99,7 @@ void CCameraLook::OnActivate(CCameraBase* old_cam)
 #include "visual_memory_manager.h"
 #include "actor_memory.h"
 
-int cam_dik = DIK_LSHIFT;
+int     cam_dik = DIK_LSHIFT;
 
 Fvector CCameraLook2::m_cam_offset;
 void    CCameraLook2::OnActivate(CCameraBase* old_cam)
@@ -123,9 +123,9 @@ void CCameraLook2::Update(Fvector& point, Fvector&)
                 if (!Actor()->memory().visual().visible_now(smart_cast<const CGameObject*>(_object_)))
                     continue;
 
-                CObject* object_ = const_cast<CObject*>(_object_);
+                CObject*      object_ = const_cast<CObject*>(_object_);
 
-                CEntityAlive* EA = smart_cast<CEntityAlive*>(object_);
+                CEntityAlive* EA      = smart_cast<CEntityAlive*>(object_);
                 if (!EA || !EA->g_Alive())
                     continue;
 
@@ -182,10 +182,9 @@ void CCameraLook2::UpdateAutoAim()
     Fvector xyz;
     _m.getXYZi(xyz);
 
-    yaw = angle_inertion_var(yaw, xyz.y, m_autoaim_inertion_yaw.x, m_autoaim_inertion_yaw.y, PI, Device->fTimeDelta);
+    yaw   = angle_inertion_var(yaw, xyz.y, m_autoaim_inertion_yaw.x, m_autoaim_inertion_yaw.y, PI, Device->fTimeDelta);
 
-    pitch = angle_inertion_var(
-        pitch, xyz.x, m_autoaim_inertion_pitch.x, m_autoaim_inertion_pitch.y, PI, Device->fTimeDelta);
+    pitch = angle_inertion_var(pitch, xyz.x, m_autoaim_inertion_pitch.x, m_autoaim_inertion_pitch.y, PI, Device->fTimeDelta);
 }
 
 void CCameraLook2::Load(LPCSTR section)

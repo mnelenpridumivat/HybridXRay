@@ -1,9 +1,7 @@
 ﻿#include "stdafx.h"
 #include "xrImage_Filter.h"
 
-float imk_blur_gauss[7][7] = {{0, 0, 0, 5, 0, 0, 0},         {0, 5, 18, 32, 18, 5, 0},    {0, 18, 64, 100, 64, 18, 0},
-                              {5, 32, 100, 100, 100, 32, 5}, {0, 18, 64, 100, 64, 18, 0}, {0, 5, 18, 32, 18, 5, 0},
-                              {0, 0, 0, 5, 0, 0, 0}};
+float imk_blur_gauss[7][7] = {{0, 0, 0, 5, 0, 0, 0}, {0, 5, 18, 32, 18, 5, 0}, {0, 18, 64, 100, 64, 18, 0}, {5, 32, 100, 100, 100, 32, 5}, {0, 18, 64, 100, 64, 18, 0}, {0, 5, 18, 32, 18, 5, 0}, {0, 0, 0, 5, 0, 0, 0}};
 
 /* Un-optimized code to perform general image filtering
 outputs to dst using a filter kernel in ker which must be a 2D float

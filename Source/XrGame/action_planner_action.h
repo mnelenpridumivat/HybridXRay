@@ -14,8 +14,7 @@
 
 class CScriptGameObject;
 
-template <typename _object_type>
-class CActionPlannerAction: public CActionPlanner<_object_type>, public CActionBase<_object_type>
+template<typename _object_type> class CActionPlannerAction: public CActionPlanner<_object_type>, public CActionBase<_object_type>
 {
 protected:
     typedef CActionPlanner<_object_type>                inherited_planner;
@@ -28,6 +27,7 @@ public:
     typedef typename inherited_action::COperatorCondition COperatorCondition;
 
 #ifdef LOG_ACTION
+
 public:
     virtual void set_use_log(bool value);
     virtual void show(LPCSTR offset = "");

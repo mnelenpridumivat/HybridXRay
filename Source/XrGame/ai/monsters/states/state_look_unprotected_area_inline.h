@@ -2,7 +2,7 @@
 
 #include "../../../sound_player.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                    template<typename _Object>
 
 #define CStateMonsterLookToUnprotectedAreaAbstract CStateMonsterLookToUnprotectedArea<_Object>
 
@@ -21,8 +21,7 @@ void CStateMonsterLookToUnprotectedAreaAbstract::initialize()
     position = object->Position();
     position.y += 0.3f;
 
-    float angle = ai().level_graph().vertex_high_cover_angle(
-        object->ai_location().level_vertex_id(), PI_DIV_6, std::less<float>());
+    float   angle = ai().level_graph().vertex_high_cover_angle(object->ai_location().level_vertex_id(), PI_DIV_6, std::less<float>());
 
     Fvector dir;
     dir.set(1.f, 0.f, 0.f);

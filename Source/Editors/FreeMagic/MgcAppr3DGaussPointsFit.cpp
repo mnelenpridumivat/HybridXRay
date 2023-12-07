@@ -73,13 +73,7 @@ void Mgc::GaussPointsFit(int iQuantity, const Vector3* akPoint, Vector3& rkCente
     afExtent[2] = kES.GetEigenvalue(2);
 }
 //----------------------------------------------------------------------------
-bool Mgc::GaussPointsFit(
-    int            iQuantity,
-    const Vector3* akPoint,
-    const bool*    abValid,
-    Vector3&       rkCenter,
-    Vector3        akAxis[3],
-    Real           afExtent[3])
+bool Mgc::GaussPointsFit(int iQuantity, const Vector3* akPoint, const bool* abValid, Vector3& rkCenter, Vector3 akAxis[3], Real afExtent[3])
 {
     // compute mean of points
     rkCenter = Vector3::ZERO;

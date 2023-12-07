@@ -1,7 +1,7 @@
 ﻿#ifndef OBSOLETE_QUEUE_INCLUDED
 #define OBSOLETE_QUEUE_INCLUDED
 
-template <typename Contaiter, unsigned int MaxCount> class obsolete_queue
+template<typename Contaiter, unsigned int MaxCount> class obsolete_queue
 {
 public:
     typedef Contaiter                           container_type;

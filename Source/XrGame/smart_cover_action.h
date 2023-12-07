@@ -37,8 +37,8 @@ namespace smart_cover
     private:
         AnimationList m_animations;
 
-        bool    m_movement;
-        Fvector m_target_position;
+        bool          m_movement;
+        Fvector       m_target_position;
 
     public:
         action(luabind::object const& description);

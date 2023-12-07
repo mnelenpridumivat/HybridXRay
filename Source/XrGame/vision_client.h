@@ -50,15 +50,8 @@ public:
     virtual float feel_vision_mtl_transp(CObject* object, u32 element);
 
 public:
-    virtual BOOL feel_vision_isRelevant(CObject* object) = 0;
-    virtual void camera(
-        Fvector& position,
-        Fvector& direction,
-        Fvector& normal,
-        float&   field_of_view,
-        float&   aspect_ratio,
-        float&   near_plane,
-        float&   far_plane) = 0;
+    virtual BOOL feel_vision_isRelevant(CObject* object)                                                                                                        = 0;
+    virtual void camera(Fvector& position, Fvector& direction, Fvector& normal, float& field_of_view, float& aspect_ratio, float& near_plane, float& far_plane) = 0;
 
 public:
     virtual void reinit();

@@ -71,7 +71,7 @@ IC bool sort_defl_complex(CDeflector* D1, CDeflector* D2)
     switch (sort_defl_analyze(D1, D2))
     {
         case 1:
-            return true;    // 1st is better
+            return true;   // 1st is better
         case 2:
             return false;   // 2nd is better
         case 0:
@@ -129,9 +129,8 @@ void CBuild::xrPhase_MergeLM()
             materials()[it].internal_max_area = 0;
         for (u32 it = 0; it < Layer.size(); it++)
         {
-            CDeflector* D = Layer[it];
-            materials()[D->GetBaseMaterial()].internal_max_area =
-                _max(D->layer.Area(), materials()[D->GetBaseMaterial()].internal_max_area);
+            CDeflector* D                                       = Layer[it];
+            materials()[D->GetBaseMaterial()].internal_max_area = _max(D->layer.Area(), materials()[D->GetBaseMaterial()].internal_max_area);
         }
         std::stable_sort(Layer.begin(), Layer.end(), sort_defl_complex);
 

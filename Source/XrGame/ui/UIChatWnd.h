@@ -35,15 +35,15 @@ protected:
     CUIEditBox* UIEditBox;
     CUITextWnd* UIPrefix;
 
-    bool sendNextMessageToAll;
-    bool pendingGameMode;
+    bool        sendNextMessageToAll;
+    bool        pendingGameMode;
 
-    Frect pending_prefix_rect;
-    Frect pending_edit_rect;
+    Frect       pending_prefix_rect;
+    Frect       pending_edit_rect;
 
-    Frect inprogress_prefix_rect;
-    Frect inprogress_edit_rect;
+    Frect       inprogress_prefix_rect;
+    Frect       inprogress_edit_rect;
 
-    void OnChatCommit(CUIWindow* w, void* d);
-    void OnChatCancel(CUIWindow* w, void* d);
+    void        OnChatCommit(CUIWindow* w, void* d);
+    void        OnChatCancel(CUIWindow* w, void* d);
 };

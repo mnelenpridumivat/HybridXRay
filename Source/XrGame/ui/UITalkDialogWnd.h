@@ -25,7 +25,7 @@ public:
     CUITalkDialogWnd();
     virtual ~CUITalkDialogWnd();
 
-    void InitTalkDialogWnd();
+    void         InitTalkDialogWnd();
 
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = NULL);
 
@@ -45,44 +45,44 @@ public:
         return m_uOurReplicsColor;
     }
 
-    bool mechanic_mode;   // for inventory upgrades
+    bool             mechanic_mode;   // for inventory upgrades
 
     // номер выбранного вопроса
-    shared_str m_ClickedQuestionID;
+    shared_str       m_ClickedQuestionID;
 
     // список вопросов, которые мы можем задавать персонажу
 
     //	Fvector2			m_btn_pos[3];
-    CUI3tButton UIToTradeButton;
+    CUI3tButton      UIToTradeButton;
     //	CUI3tButton			UIToExitButton;
 
     CUICharacterInfo UICharacterInfoLeft;
     CUICharacterInfo UICharacterInfoRight;
 
-    void AddQuestion(LPCSTR str, LPCSTR value, int number, bool b_finalizer);
-    void AddAnswer(LPCSTR SpeakerName, const char* str, bool bActor);
-    void AddIconedAnswer(LPCSTR caption, LPCSTR text, LPCSTR texture_name, LPCSTR templ_name);
-    void ClearAll();
-    void ClearQuestions();
+    void             AddQuestion(LPCSTR str, LPCSTR value, int number, bool b_finalizer);
+    void             AddAnswer(LPCSTR SpeakerName, const char* str, bool bActor);
+    void             AddIconedAnswer(LPCSTR caption, LPCSTR text, LPCSTR texture_name, LPCSTR templ_name);
+    void             ClearAll();
+    void             ClearQuestions();
 
-    void SetOsoznanieMode(bool b);
-    void SetTradeMode();
-    void UpdateButtonsLayout(bool b_disable_break, bool trade_enabled);
+    void             SetOsoznanieMode(bool b);
+    void             SetTradeMode();
+    void             UpdateButtonsLayout(bool b_disable_break, bool trade_enabled);
 
 private:
     CUIScrollView* UIQuestionsList;
     CUIScrollView* UIAnswersList;
 
     // Шрифт и цвет текста с именем персонажа
-    CGameFont* m_pNameTextFont;
-    u32        m_iNameTextColor;
+    CGameFont*     m_pNameTextFont;
+    u32            m_iNameTextColor;
     // Цвет тeкста и шрифт наших реплик
-    u32 m_uOurReplicsColor;
+    u32            m_uOurReplicsColor;
 
-    void OnTradeClicked(CUIWindow* w, void*);
-    void OnUpgradeClicked(CUIWindow* w, void*);
-    void OnQuestionClicked(CUIWindow* w, void*);
-    void OnExitClicked(CUIWindow* w, void*);
+    void           OnTradeClicked(CUIWindow* w, void*);
+    void           OnUpgradeClicked(CUIWindow* w, void*);
+    void           OnQuestionClicked(CUIWindow* w, void*);
+    void           OnExitClicked(CUIWindow* w, void*);
 };
 
 class CUIQuestionItem: public CUIWindow, public CUIWndCallback
@@ -95,7 +95,7 @@ public:
     CUI3tButton* m_text;
     shared_str   m_s_value;
     CUIQuestionItem(CUIXml* xml_doc, LPCSTR path);
-    void Init(LPCSTR val, LPCSTR text);
+    void         Init(LPCSTR val, LPCSTR text);
 
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = NULL);
     void         OnTextClicked(CUIWindow* w, void*);
@@ -105,10 +105,10 @@ class CUIAnswerItem: public CUIWindow
 {
     typedef CUIWindow inherited;
 
-    float       m_min_height;
-    float       m_bottom_footer;
-    CUITextWnd* m_text;
-    CUITextWnd* m_name;
+    float             m_min_height;
+    float             m_bottom_footer;
+    CUITextWnd*       m_text;
+    CUITextWnd*       m_name;
 
 public:
     CUIAnswerItem(CUIXml* xml_doc, LPCSTR path);

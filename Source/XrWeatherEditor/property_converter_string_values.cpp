@@ -15,7 +15,7 @@ using System::ComponentModel::ITypeDescriptorContext;
 using System::ComponentModel::TypeConverter;
 typedef TypeConverter::StandardValuesCollection StandardValuesCollection;
 
-bool property_converter_string_values::GetStandardValuesSupported(ITypeDescriptorContext ^ context)
+bool                                            property_converter_string_values::GetStandardValuesSupported(ITypeDescriptorContext ^ context)
 {
     return (true);
 }

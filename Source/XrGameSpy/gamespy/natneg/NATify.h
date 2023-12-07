@@ -5,8 +5,8 @@
 #pragma once
 #endif   // _MSC_VER > 1000
 
-#define NATIFY_COOKIE 777
-#define NATIFY_TIMEOUT 10000
+#define NATIFY_COOKIE       777
+#define NATIFY_TIMEOUT      10000
 #define NATIFY_STATUS_STEPS (NATIFY_TIMEOUT / 1000) + 7
 
 typedef enum

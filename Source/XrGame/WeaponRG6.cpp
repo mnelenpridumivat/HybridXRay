@@ -97,8 +97,7 @@ void CWeaponRG6::FireStart()
                                 DBG_OpenCashedDraw();
                                 DBG_DrawLine(p1,Fvector().add(p1,d),color_xrgb(255,0,0));
                 #endif*/
-                u8 canfire0 = TransferenceAndThrowVelToThrowDir(
-                    Transference, CRocketLauncher::m_fLaunchSpeed, EffectiveGravity(), res);
+                u8      canfire0 = TransferenceAndThrowVelToThrowDir(Transference, CRocketLauncher::m_fLaunchSpeed, EffectiveGravity(), res);
                 /*#ifdef DEBUG
                                 if(canfire0>0)DBG_DrawLine(p1,Fvector().add(p1,res[0]),color_xrgb(0,255,0));
                                 if(canfire0>1)DBG_DrawLine(p1,Fvector().add(p1,res[1]),color_xrgb(0,0,255));
@@ -153,13 +152,15 @@ void CWeaponRG6::OnEvent(NET_Packet& P, u16 type)
     u16 id;
     switch (type)
     {
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             P.r_u16(id);
             inheritedRL::AttachRocket(id, this);
         }
         break;
         case GE_OWNERSHIP_REJECT:
-        case GE_LAUNCH_ROCKET: {
+        case GE_LAUNCH_ROCKET:
+        {
             bool bLaunch = (type == GE_LAUNCH_ROCKET);
             P.r_u16(id);
             inheritedRL::DetachRocket(id, bLaunch);

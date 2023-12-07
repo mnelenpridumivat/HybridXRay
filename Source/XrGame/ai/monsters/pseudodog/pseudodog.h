@@ -27,12 +27,12 @@ public:
 
     virtual DLL_Pure* _construct();
 
-    virtual void Load(LPCSTR section);
+    virtual void      Load(LPCSTR section);
 
-    virtual void reinit();
-    virtual void reload(LPCSTR section);
+    virtual void      reinit();
+    virtual void      reload(LPCSTR section);
 
-    virtual bool ability_can_drag()
+    virtual bool      ability_can_drag()
     {
         return true;
     }
@@ -41,10 +41,10 @@ public:
         return true;
     }
 
-    virtual void CheckSpecParams(u32 spec_params);
+    virtual void               CheckSpecParams(u32 spec_params);
     // virtual void	play_effect_sound	();
 
-    virtual void HitEntityInJump(const CEntity* pEntity);
+    virtual void               HitEntityInJump(const CEntity* pEntity);
 
     virtual IStateManagerBase* create_state_manager();
     virtual char*              get_monster_class_name()

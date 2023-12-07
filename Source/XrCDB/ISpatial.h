@@ -30,15 +30,15 @@ const float c_spatial_min = 8.f;
 //////////////////////////////////////////////////////////////////////////
 enum
 {
-    STYPE_RENDERABLE      = (1 << 0),
-    STYPE_LIGHTSOURCE     = (1 << 1),
-    STYPE_COLLIDEABLE     = (1 << 2),
-    STYPE_VISIBLEFORAI    = (1 << 3),
-    STYPE_REACTTOSOUND    = (1 << 4),
-    STYPE_PHYSIC          = (1 << 5),
-    STYPE_OBSTACLE        = (1 << 6),
-    STYPE_SHAPE           = (1 << 7),
-    STYPE_LIGHTSOURCEHEMI = (1 << 8),
+    STYPE_RENDERABLE        = (1 << 0),
+    STYPE_LIGHTSOURCE       = (1 << 1),
+    STYPE_COLLIDEABLE       = (1 << 2),
+    STYPE_VISIBLEFORAI      = (1 << 3),
+    STYPE_REACTTOSOUND      = (1 << 4),
+    STYPE_PHYSIC            = (1 << 5),
+    STYPE_OBSTACLE          = (1 << 6),
+    STYPE_SHAPE             = (1 << 7),
+    STYPE_LIGHTSOURCEHEMI   = (1 << 8),
 
     STYPEFLAG_INVALIDSECTOR = (1 << 16)
 };
@@ -142,16 +142,14 @@ public:
     ISpatial_NODE*       parent;        // parent node for "empty-members" optimization
     ISpatial_NODE*       children[8];   // children nodes
     xr_vector<ISpatial*> items;         // own items
+
 public:
     void _init(ISpatial_NODE* _parent);
     void _remove(ISpatial* _S);
     void _insert(ISpatial* _S);
     BOOL _empty()
     {
-        return items.empty() &&
-            (0 ==
-             (ptrt(children[0]) | ptrt(children[1]) | ptrt(children[2]) | ptrt(children[3]) | ptrt(children[4]) |
-              ptrt(children[5]) | ptrt(children[6]) | ptrt(children[7])));
+        return items.empty() && (0 == (ptrt(children[0]) | ptrt(children[1]) | ptrt(children[2]) | ptrt(children[3]) | ptrt(children[4]) | ptrt(children[5]) | ptrt(children[6]) | ptrt(children[7])));
     }
 };
 ////////////
@@ -166,12 +164,12 @@ public:
 class XRCDB_API ISpatial_DB
 {
 private:
-    xrCriticalSection cs;
+    xrCriticalSection          cs;
 
     poolSS<ISpatial_NODE, 128> allocator;
 
-    xr_vector<ISpatial_NODE*> allocator_pool;
-    ISpatial*                 rt_insert_object;
+    xr_vector<ISpatial_NODE*>  allocator_pool;
+    ISpatial*                  rt_insert_object;
 
 public:
     ISpatial_NODE*        m_root;
@@ -203,8 +201,8 @@ private:
     ISpatial_NODE* _node_create();
     void           _node_destroy(ISpatial_NODE*& P);
 
-    void _insert(ISpatial_NODE* N, Fvector& n_center, float n_radius);
-    void _remove(ISpatial_NODE* N, ISpatial_NODE* N_sub);
+    void           _insert(ISpatial_NODE* N, Fvector& n_center, float n_radius);
+    void           _remove(ISpatial_NODE* N, ISpatial_NODE* N_sub);
 
 public:
     ISpatial_DB();
@@ -228,8 +226,7 @@ public:
     };
 
     // query
-    void
-        q_ray(xr_vector<ISpatial*>& R, u32 _o, u32 _mask_and, const Fvector& _start, const Fvector& _dir, float _range);
+    void q_ray(xr_vector<ISpatial*>& R, u32 _o, u32 _mask_and, const Fvector& _start, const Fvector& _dir, float _range);
     void q_box(xr_vector<ISpatial*>& R, u32 _o, u32 _mask_or, const Fvector& _center, const Fvector& _size);
     void q_sphere(xr_vector<ISpatial*>& R, u32 _o, u32 _mask_or, const Fvector& _center, const float _radius);
     void q_frustum(xr_vector<ISpatial*>& R, u32 _o, u32 _mask_or, const CFrustum& _frustum);

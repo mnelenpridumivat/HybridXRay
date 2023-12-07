@@ -48,65 +48,35 @@ void CPseudoGigant::Load(LPCSTR section)
     // anim().accel_chain_add		(eAnimWalkFwd,		eAnimRunTurnRight);
     // anim().accel_chain_add		(eAnimWalkDamaged,	eAnimRunDamaged);
 
-    step_effector.time          = pSettings->r_float(section, "step_effector_time");
-    step_effector.amplitude     = pSettings->r_float(section, "step_effector_amplitude");
-    step_effector.period_number = pSettings->r_float(section, "step_effector_period_number");
+    step_effector.time                = pSettings->r_float(section, "step_effector_time");
+    step_effector.amplitude           = pSettings->r_float(section, "step_effector_amplitude");
+    step_effector.period_number       = pSettings->r_float(section, "step_effector_period_number");
 
-    SVelocityParam& velocity_none = move().get_velocity(MonsterMovement::eVelocityParameterIdle);
-    SVelocityParam& velocity_turn = move().get_velocity(MonsterMovement::eVelocityParameterStand);
-    SVelocityParam& velocity_walk = move().get_velocity(MonsterMovement::eVelocityParameterWalkNormal);
+    SVelocityParam& velocity_none     = move().get_velocity(MonsterMovement::eVelocityParameterIdle);
+    SVelocityParam& velocity_turn     = move().get_velocity(MonsterMovement::eVelocityParameterStand);
+    SVelocityParam& velocity_walk     = move().get_velocity(MonsterMovement::eVelocityParameterWalkNormal);
     //	SVelocityParam &velocity_run		= move().get_velocity(MonsterMovement::eVelocityParameterRunNormal);
     SVelocityParam& velocity_walk_dmg = move().get_velocity(MonsterMovement::eVelocityParameterWalkDamaged);
     //	SVelocityParam &velocity_run_dmg	= move().get_velocity(MonsterMovement::eVelocityParameterRunDamaged);
-    SVelocityParam& velocity_steal = move().get_velocity(MonsterMovement::eVelocityParameterSteal);
+    SVelocityParam& velocity_steal    = move().get_velocity(MonsterMovement::eVelocityParameterSteal);
 
-    anim().AddAnim(
-        eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimLieIdle, "stand_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimSitIdle, "sit_idle_", -1, &velocity_none, PS_SIT, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimSleep, "stand_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimWalkDamaged, "stand_walk_fwd_dmg_", -1, &velocity_walk_dmg, PS_STAND, "fx_stand_f", "fx_stand_b",
-        "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimRun, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimRunDamaged, "stand_walk_fwd_dmg_", -1, &velocity_walk_dmg, PS_STAND, "fx_stand_f", "fx_stand_b",
-        "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimEat, "stand_eat_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimAttack, "stand_attack_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimLookAround, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimSteal, "stand_steal_", -1, &velocity_steal, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimDie, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
-    anim().AddAnim(
-        eAnimStandLieDown, "stand_lie_down_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
-    anim().AddAnim(
-        eAnimLieToSleep, "lie_to_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l",
-        "fx_stand_r");
+    anim().AddAnim(eAnimStandIdle, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandTurnLeft, "stand_turn_ls_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandTurnRight, "stand_turn_rs_", -1, &velocity_turn, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimLieIdle, "stand_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimSitIdle, "sit_idle_", -1, &velocity_none, PS_SIT, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimSleep, "stand_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimWalkFwd, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimWalkDamaged, "stand_walk_fwd_dmg_", -1, &velocity_walk_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRun, "stand_walk_fwd_", -1, &velocity_walk, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimRunDamaged, "stand_walk_fwd_dmg_", -1, &velocity_walk_dmg, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimEat, "stand_eat_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimAttack, "stand_attack_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimLookAround, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimSteal, "stand_steal_", -1, &velocity_steal, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimDie, "stand_idle_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimStandLieDown, "stand_lie_down_", -1, &velocity_none, PS_STAND, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
+    anim().AddAnim(eAnimLieToSleep, "lie_to_sleep_", -1, &velocity_none, PS_LIE, "fx_stand_f", "fx_stand_b", "fx_stand_l", "fx_stand_r");
 
     // anim().AddAnim(eAnimStandIdle,		"stand_idle_",			-1, &velocity_none,		PS_STAND,	"fx_stand_f", "fx_stand_b",
     // "fx_stand_l", "fx_stand_r"); anim().AddAnim(eAnimStandTurnLeft,	"stand_turn_ls_",		-1, &velocity_turn,
@@ -172,19 +142,13 @@ void CPseudoGigant::Load(LPCSTR section)
     m_threaten_effector.ppi.noise.fps       = pSettings->r_float(ppi_section, "noise_fps");
     VERIFY(!fis_zero(m_threaten_effector.ppi.noise.fps));
 
-    sscanf(
-        pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &m_threaten_effector.ppi.color_base.r,
-        &m_threaten_effector.ppi.color_base.g, &m_threaten_effector.ppi.color_base.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &m_threaten_effector.ppi.color_gray.r,
-        &m_threaten_effector.ppi.color_gray.g, &m_threaten_effector.ppi.color_gray.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &m_threaten_effector.ppi.color_add.r,
-        &m_threaten_effector.ppi.color_add.g, &m_threaten_effector.ppi.color_add.b);
+    sscanf(pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &m_threaten_effector.ppi.color_base.r, &m_threaten_effector.ppi.color_base.g, &m_threaten_effector.ppi.color_base.b);
+    sscanf(pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &m_threaten_effector.ppi.color_gray.r, &m_threaten_effector.ppi.color_gray.g, &m_threaten_effector.ppi.color_gray.b);
+    sscanf(pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &m_threaten_effector.ppi.color_add.r, &m_threaten_effector.ppi.color_add.g, &m_threaten_effector.ppi.color_add.b);
 
-    m_threaten_effector.time         = pSettings->r_float(ppi_section, "time");
-    m_threaten_effector.time_attack  = pSettings->r_float(ppi_section, "time_attack");
-    m_threaten_effector.time_release = pSettings->r_float(ppi_section, "time_release");
+    m_threaten_effector.time             = pSettings->r_float(ppi_section, "time");
+    m_threaten_effector.time_attack      = pSettings->r_float(ppi_section, "time_attack");
+    m_threaten_effector.time_release     = pSettings->r_float(ppi_section, "time_release");
 
     m_threaten_effector.ce_time          = pSettings->r_float(ppi_section, "ce_time");
     m_threaten_effector.ce_amplitude     = pSettings->r_float(ppi_section, "ce_amplitude");
@@ -193,11 +157,8 @@ void CPseudoGigant::Load(LPCSTR section)
 
     // --------------------------------------------------------------------------------
 
-    ::Sound->create(
-        m_sound_threaten_hit, pSettings->r_string(section, "sound_threaten_hit"), st_Effect, SOUND_TYPE_WORLD);
-    ::Sound->create(
-        m_sound_start_threaten, pSettings->r_string(section, "sound_threaten_start"), st_Effect,
-        SOUND_TYPE_MONSTER_ATTACKING);
+    ::Sound->create(m_sound_threaten_hit, pSettings->r_string(section, "sound_threaten_hit"), st_Effect, SOUND_TYPE_WORLD);
+    ::Sound->create(m_sound_start_threaten, pSettings->r_string(section, "sound_threaten_start"), st_Effect, SOUND_TYPE_MONSTER_ATTACKING);
 
     m_kick_damage    = pSettings->r_float(section, "HugeKick_Damage");
     m_kick_particles = pSettings->r_string(section, "HugeKick_Particles");
@@ -240,9 +201,7 @@ void CPseudoGigant::event_on_step()
         float dist_to_actor = pActor->Position().distance_to(Position());
         float max_dist      = MAX_STEP_RADIUS;
         if (dist_to_actor < max_dist)
-            Actor()->Cameras().AddCamEffector(xr_new<CPseudogigantStepEffector>(
-                step_effector.time, step_effector.amplitude, step_effector.period_number,
-                (max_dist - dist_to_actor) / (1.2f * max_dist)));
+            Actor()->Cameras().AddCamEffector(xr_new<CPseudogigantStepEffector>(step_effector.time, step_effector.amplitude, step_effector.period_number, (max_dist - dist_to_actor) / (1.2f * max_dist)));
     }
     //////////////////////////////////
 }
@@ -323,12 +282,8 @@ void CPseudoGigant::on_threaten_execute()
     clamp(hit_value, 0.f, 1.f);
 
     // запустить эффектор
-    Actor()->Cameras().AddCamEffector(xr_new<CMonsterEffectorHit>(
-        m_threaten_effector.ce_time, m_threaten_effector.ce_amplitude * hit_value, m_threaten_effector.ce_period_number,
-        m_threaten_effector.ce_power * hit_value));
-    Actor()->Cameras().AddPPEffector(xr_new<CMonsterEffector>(
-        m_threaten_effector.ppi, m_threaten_effector.time, m_threaten_effector.time_attack,
-        m_threaten_effector.time_release, hit_value));
+    Actor()->Cameras().AddCamEffector(xr_new<CMonsterEffectorHit>(m_threaten_effector.ce_time, m_threaten_effector.ce_amplitude * hit_value, m_threaten_effector.ce_period_number, m_threaten_effector.ce_power * hit_value));
+    Actor()->Cameras().AddPPEffector(xr_new<CMonsterEffector>(m_threaten_effector.ppi, m_threaten_effector.time, m_threaten_effector.time_attack, m_threaten_effector.time_release, hit_value));
 
     // развернуть камеру
     if (pA->cam_Active())
@@ -343,17 +298,16 @@ void CPseudoGigant::on_threaten_execute()
     NET_Packet l_P;
     SHit       HS;
 
-    HS.GenHeader(GE_HIT, pA->ID());                        //	u_EventGen	(l_P,GE_HIT, pA->ID());
-    HS.whoID           = (ID());                           //	l_P.w_u16	(ID());
-    HS.weaponID        = (ID());                           //	l_P.w_u16	(ID());
-    HS.dir             = (Fvector().set(0.f, 1.f, 0.f));   //	l_P.w_dir	(Fvector().set(0.f,1.f,0.f));
-    HS.power           = (hit_value);                      //	l_P.w_float	(m_kick_damage);
-    HS.boneID          = (smart_cast<IKinematics*>(pA->Visual())
-                     ->LL_GetBoneRoot());   //	l_P.w_s16	(smart_cast<IKinematics*>(pA->Visual())->LL_GetBoneRoot());
-    HS.p_in_bone_space = (Fvector().set(0.f, 0.f, 0.f));   //	l_P.w_vec3	(Fvector().set(0.f,0.f,0.f));
+    HS.GenHeader(GE_HIT, pA->ID());                                                       //	u_EventGen	(l_P,GE_HIT, pA->ID());
+    HS.whoID           = (ID());                                                          //	l_P.w_u16	(ID());
+    HS.weaponID        = (ID());                                                          //	l_P.w_u16	(ID());
+    HS.dir             = (Fvector().set(0.f, 1.f, 0.f));                                  //	l_P.w_dir	(Fvector().set(0.f,1.f,0.f));
+    HS.power           = (hit_value);                                                     //	l_P.w_float	(m_kick_damage);
+    HS.boneID          = (smart_cast<IKinematics*>(pA->Visual())->LL_GetBoneRoot());      //	l_P.w_s16	(smart_cast<IKinematics*>(pA->Visual())->LL_GetBoneRoot());
+    HS.p_in_bone_space = (Fvector().set(0.f, 0.f, 0.f));                                  //	l_P.w_vec3	(Fvector().set(0.f,0.f,0.f));
     HS.impulse         = (80 * pA->character_physics_support()->movement()->GetMass());   //	l_P.w_float	(20 *
-                                                                                  //pA->movement_control()->GetMass());
-    HS.hit_type = (ALife::eHitTypeStrike);   //	l_P.w_u16	( u16(ALife::eHitTypeWound) );
+                                                                                          //pA->movement_control()->GetMass());
+    HS.hit_type        = (ALife::eHitTypeStrike);                                         //	l_P.w_u16	( u16(ALife::eHitTypeWound) );
     HS.Write_Packet(l_P);
     u_EventSend(l_P);
 }
@@ -373,8 +327,7 @@ void CPseudoGigant::TranslateActionToPathParams()
     }
 
     u32 vel_mask = (m_bDamaged ? MonsterMovement::eVelocityParamsWalkDamaged : MonsterMovement::eVelocityParamsWalk);
-    u32 des_mask =
-        (m_bDamaged ? MonsterMovement::eVelocityParameterWalkDamaged : MonsterMovement::eVelocityParameterWalkNormal);
+    u32 des_mask = (m_bDamaged ? MonsterMovement::eVelocityParameterWalkDamaged : MonsterMovement::eVelocityParameterWalkNormal);
 
     if (m_force_real_speed)
         vel_mask = des_mask;

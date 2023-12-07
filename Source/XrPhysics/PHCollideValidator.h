@@ -32,25 +32,25 @@ public:
         return obj.collide_bits();
     }
     ////////////////////////////////////////////////////////////////////////////////
-    static void InitObject(CPHObject& obj);
-    static void RegisterObjToGroup(CGID group, CPHObject& obj);
-    static void RegisterObjToLastGroup(CPHObject& obj);
-    static void RestoreGroupObject(const CPHObject& obj);
-    static bool IsGroupObject(const CPHObject& obj);
-    static bool IsAnimatedObject(const CPHObject& obj);
-    static void SetStaticNotCollide(CPHObject& obj);
-    static void SetNonDynamicObject(CPHObject& obj);
-    static void SetDynamicNotCollide(CPHObject& obj);
-    static void SetCharacterClass(CPHObject& obj);
-    static void SetCharacterClassNotCollide(CPHObject& obj);
-    static void SetRagDollClass(CPHObject& obj);
-    static void SetRagDollClassNotCollide(CPHObject& obj);
-    static void SetAnimatedClass(CPHObject& obj);
-    static void SetAnimatedClassNotCollide(CPHObject& obj);
+    static void    InitObject(CPHObject& obj);
+    static void    RegisterObjToGroup(CGID group, CPHObject& obj);
+    static void    RegisterObjToLastGroup(CPHObject& obj);
+    static void    RestoreGroupObject(const CPHObject& obj);
+    static bool    IsGroupObject(const CPHObject& obj);
+    static bool    IsAnimatedObject(const CPHObject& obj);
+    static void    SetStaticNotCollide(CPHObject& obj);
+    static void    SetNonDynamicObject(CPHObject& obj);
+    static void    SetDynamicNotCollide(CPHObject& obj);
+    static void    SetCharacterClass(CPHObject& obj);
+    static void    SetCharacterClassNotCollide(CPHObject& obj);
+    static void    SetRagDollClass(CPHObject& obj);
+    static void    SetRagDollClassNotCollide(CPHObject& obj);
+    static void    SetAnimatedClass(CPHObject& obj);
+    static void    SetAnimatedClassNotCollide(CPHObject& obj);
 
-    static void SetClassSmall(CPHObject& obj);
-    static void SetClassSmallNotCollide(CPHObject& obj);
-    static void Init();
+    static void    SetClassSmall(CPHObject& obj);
+    static void    SetClassSmallNotCollide(CPHObject& obj);
+    static void    Init();
 
     static IC bool DoCollide(const CPHObject& obj1, const CPHObject& obj2)
     {
@@ -61,9 +61,7 @@ public:
         // #ifdef DEBUG
         //	return false;
         // #endif // DEBUG
-        return (CollideType(obj1.collide_class_bits().flags, obj2.collide_class_bits().flags) != cbNCGroupObject ||
-                DoCollideGroup(obj1, obj2)) &&
-            DoCollideNonMatched(obj1, obj2);
+        return (CollideType(obj1.collide_class_bits().flags, obj2.collide_class_bits().flags) != cbNCGroupObject || DoCollideGroup(obj1, obj2)) && DoCollideNonMatched(obj1, obj2);
     }
 
     static IC bool DoCollideStatic(const CPHObject& obj)
@@ -72,14 +70,11 @@ public:
     }
 
 protected:
+
 private:
     static IC bool DoCollideNonMatched(const CPHObject& obj1, const CPHObject& obj2)
     {
-        return !(
-            ((obj1.collide_class_bits().flags & ClassNCFlags.flags) &
-             ((obj2.collide_class_bits().flags & ClassFlags.flags) << 1)) ||
-            ((obj2.collide_class_bits().flags & ClassNCFlags.flags) &
-             ((obj1.collide_class_bits().flags & ClassFlags.flags) << 1)));
+        return !(((obj1.collide_class_bits().flags & ClassNCFlags.flags) & ((obj2.collide_class_bits().flags & ClassFlags.flags) << 1)) || ((obj2.collide_class_bits().flags & ClassNCFlags.flags) & ((obj1.collide_class_bits().flags & ClassFlags.flags) << 1)));
     }
 
     static IC bool DoCollideGroup(const CPHObject& obj1, const CPHObject& obj2)

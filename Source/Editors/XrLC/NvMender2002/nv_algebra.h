@@ -19,12 +19,9 @@ Comments:
 struct DECLSPEC_NV_MATH vec2
 {
     vec2() {}
-    vec2(nv_scalar x, nv_scalar y):
-        x(x), y(y) {}
-    vec2(const nv_scalar* xy):
-        x(xy[0]), y(xy[1]) {}
-    vec2(const vec2& u):
-        x(u.x), y(u.y) {}
+    vec2(nv_scalar x, nv_scalar y): x(x), y(y) {}
+    vec2(const nv_scalar* xy): x(xy[0]), y(xy[1]) {}
+    vec2(const vec2& u): x(u.x), y(u.y) {}
     vec2(const vec3t<nv_scalar>&);
 
     bool operator==(const vec2& u) const
@@ -76,7 +73,7 @@ struct DECLSPEC_NV_MATH vec2
         };
         struct
         {
-            nv_scalar s, t;       // standard names for components
+            nv_scalar s, t;   // standard names for components
         };
         nv_scalar vec_array[2];   // array access
     };
@@ -184,7 +181,7 @@ template<class _T> struct vec3t
         };
         struct
         {
-            _T s, t, r;    // standard names for components
+            _T s, t, r;   // standard names for components
         };
         _T vec_array[3];   // array access
     };
@@ -302,7 +299,7 @@ struct DECLSPEC_NV_MATH vec4
         {
             nv_scalar s, t, r, q;   // standard names for components
         };
-        nv_scalar vec_array[4];     // array access
+        nv_scalar vec_array[4];   // array access
     };
 };
 
@@ -353,27 +350,7 @@ struct DECLSPEC_NV_MATH mat3
     mat3();
     mat3(const nv_scalar* array);
     mat3(const mat3& M);
-    mat3(
-        const nv_scalar& f0,
-        const nv_scalar& f1,
-        const nv_scalar& f2,
-        const nv_scalar& f3,
-        const nv_scalar& f4,
-        const nv_scalar& f5,
-        const nv_scalar& f6,
-        const nv_scalar& f7,
-        const nv_scalar& f8):
-        a00(f0),
-        a10(f1),
-        a20(f2),
-        a01(f3),
-        a11(f4),
-        a21(f5),
-        a02(f6),
-        a12(f7),
-        a22(f8)
-    {
-    }
+    mat3(const nv_scalar& f0, const nv_scalar& f1, const nv_scalar& f2, const nv_scalar& f3, const nv_scalar& f4, const nv_scalar& f5, const nv_scalar& f6, const nv_scalar& f7, const nv_scalar& f8): a00(f0), a10(f1), a20(f2), a01(f3), a11(f4), a21(f5), a02(f6), a12(f7), a22(f8) {}
 
     const vec3 col(const int i) const
     {
@@ -420,7 +397,7 @@ struct DECLSPEC_NV_MATH mat3
             nv_scalar a01, a11, a21;   // standard names for components
             nv_scalar a02, a12, a22;   // standard names for components
         };
-        nv_scalar mat_array[9];        // array access
+        nv_scalar mat_array[9];   // array access
     };
 };
 
@@ -433,41 +410,8 @@ struct DECLSPEC_NV_MATH mat4
     mat4(const nv_scalar* array);
     mat4(const mat4& M);
 
-    mat4(
-        const nv_scalar& f0,
-        const nv_scalar& f1,
-        const nv_scalar& f2,
-        const nv_scalar& f3,
-        const nv_scalar& f4,
-        const nv_scalar& f5,
-        const nv_scalar& f6,
-        const nv_scalar& f7,
-        const nv_scalar& f8,
-        const nv_scalar& f9,
-        const nv_scalar& f10,
-        const nv_scalar& f11,
-        const nv_scalar& f12,
-        const nv_scalar& f13,
-        const nv_scalar& f14,
-        const nv_scalar& f15):
-        a00(f0),
-        a10(f1),
-        a20(f2),
-        a30(f3),
-        a01(f4),
-        a11(f5),
-        a21(f6),
-        a31(f7),
-        a02(f8),
-        a12(f9),
-        a22(f10),
-        a32(f11),
-        a03(f12),
-        a13(f13),
-        a23(f14),
-        a33(f15)
-    {
-    }
+    mat4(const nv_scalar& f0, const nv_scalar& f1, const nv_scalar& f2, const nv_scalar& f3, const nv_scalar& f4, const nv_scalar& f5, const nv_scalar& f6, const nv_scalar& f7, const nv_scalar& f8, const nv_scalar& f9, const nv_scalar& f10, const nv_scalar& f11, const nv_scalar& f12, const nv_scalar& f13, const nv_scalar& f14, const nv_scalar& f15): a00(f0), a10(f1), a20(f2), a30(f3), a01(f4), a11(f5), a21(f6), a31(f7), a02(f8), a12(f9), a22(f10), a32(f11), a03(f12), a13(f13), a23(f14), a33(f15)
+    {}
 
     const vec4 col(const int i) const
     {
@@ -597,15 +541,11 @@ extern mat3&     quat_2_mat(mat3& M, const quat& q);
 extern quat&     mat_2_quat(quat& q, const mat3& M);
 
 // constant algebraic values
-const nv_scalar  array16_id[]         = {nv_one, nv_zero, nv_zero, nv_zero, nv_zero, nv_one, nv_zero, nv_zero,
-             nv_zero, nv_zero, nv_one, nv_zero, nv_zero, nv_zero, nv_zero, nv_one};
+const nv_scalar  array16_id[]         = {nv_one, nv_zero, nv_zero, nv_zero, nv_zero, nv_one, nv_zero, nv_zero, nv_zero, nv_zero, nv_one, nv_zero, nv_zero, nv_zero, nv_zero, nv_one};
 
-const nv_scalar  array16_null[]       = {nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero,
-           nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero};
+const nv_scalar  array16_null[]       = {nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero};
 
-const nv_scalar  array16_scale_bias[] = {nv_zero_5, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero_5,
-     nv_zero, nv_zero, nv_zero, nv_zero, nv_zero_5, nv_zero,
-     nv_zero_5, nv_zero_5, nv_zero_5, nv_one};
+const nv_scalar  array16_scale_bias[] = {nv_zero_5, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero_5, nv_zero, nv_zero, nv_zero, nv_zero, nv_zero_5, nv_zero, nv_zero_5, nv_zero_5, nv_zero_5, nv_one};
 
 const nv_scalar  array9_id[]          = {nv_one, nv_zero, nv_zero, nv_zero, nv_one, nv_zero, nv_zero, nv_zero, nv_one};
 
@@ -754,40 +694,25 @@ extern mat3&      invert(mat3& B, const mat3& A);
 extern mat4&      invert_rot_trans(mat4& B, const mat4& A);
 
 extern mat4&      look_at(mat4& M, const vec3& eye, const vec3& center, const vec3& up);
-extern mat4&      frustum(
-         mat4&           M,
-         const nv_scalar l,
-         const nv_scalar r,
-         const nv_scalar b,
-         const nv_scalar t,
-         const nv_scalar n,
-         const nv_scalar f);
+extern mat4&      frustum(mat4& M, const nv_scalar l, const nv_scalar r, const nv_scalar b, const nv_scalar t, const nv_scalar n, const nv_scalar f);
 
-extern mat4& perspective(mat4& M, const nv_scalar fovy, const nv_scalar aspect, const nv_scalar n, const nv_scalar f);
+extern mat4&      perspective(mat4& M, const nv_scalar fovy, const nv_scalar aspect, const nv_scalar n, const nv_scalar f);
 
 // quaternion
-extern quat& normalize(quat& p);
-extern quat& conj(quat& p);
-extern quat& conj(quat& p, const quat& q);
-extern quat& add_quats(quat& p, const quat& q1, const quat& q2);
-extern quat& axis_to_quat(quat& q, const vec3& a, const nv_scalar phi);
-extern mat3& quat_2_mat(mat3& M, const quat& q);
-extern quat& mat_2_quat(quat& q, const mat3& M);
-extern quat& mat_2_quat(quat& q, const mat4& M);
+extern quat&      normalize(quat& p);
+extern quat&      conj(quat& p);
+extern quat&      conj(quat& p, const quat& q);
+extern quat&      add_quats(quat& p, const quat& q1, const quat& q2);
+extern quat&      axis_to_quat(quat& q, const vec3& a, const nv_scalar phi);
+extern mat3&      quat_2_mat(mat3& M, const quat& q);
+extern quat&      mat_2_quat(quat& q, const mat3& M);
+extern quat&      mat_2_quat(quat& q, const mat4& M);
 
 // surface properties
-extern mat3& tangent_basis(
-    mat3&       basis,
-    const vec3& v0,
-    const vec3& v1,
-    const vec3& v2,
-    const vec2& t0,
-    const vec2& t1,
-    const vec2& t2,
-    const vec3& n);
+extern mat3&      tangent_basis(mat3& basis, const vec3& v0, const vec3& v1, const vec3& v2, const vec2& t0, const vec2& t1, const vec2& t2, const vec3& n);
 
 // linear interpolation
-inline nv_scalar lerp(nv_scalar t, nv_scalar a, nv_scalar b)
+inline nv_scalar  lerp(nv_scalar t, nv_scalar a, nv_scalar b)
 {
     return a * (nv_one - t) + t * b;
 }

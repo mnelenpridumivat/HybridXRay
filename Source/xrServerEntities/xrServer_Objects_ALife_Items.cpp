@@ -281,12 +281,8 @@ void CSE_ALifeInventoryItem::FillProps(LPCSTR pref, PropItemVec& values)
     PHelper().CreateFloat(values, PrepareKey(pref, *base()->s_name, "Item condition"), &m_fCondition, 0.f, 1.f);
     CSE_ALifeObject* alife_object = smart_cast<CSE_ALifeObject*>(base());
     R_ASSERT(alife_object);
-    PHelper().CreateFlag32(
-        values, PrepareKey(pref, *base()->s_name, "ALife\\Useful for AI"), &alife_object->m_flags,
-        CSE_ALifeObject::flUsefulForAI);
-    PHelper().CreateFlag32(
-        values, PrepareKey(pref, *base()->s_name, "ALife\\Visible for AI"), &alife_object->m_flags,
-        CSE_ALifeObject::flVisibleForAI);
+    PHelper().CreateFlag32(values, PrepareKey(pref, *base()->s_name, "ALife\\Useful for AI"), &alife_object->m_flags, CSE_ALifeObject::flUsefulForAI);
+    PHelper().CreateFlag32(values, PrepareKey(pref, *base()->s_name, "ALife\\Visible for AI"), &alife_object->m_flags, CSE_ALifeObject::flVisibleForAI);
 }
 #endif   // #ifndef XRGAME_EXPORTS
 
@@ -318,8 +314,7 @@ void CSE_ALifeInventoryItem::add_upgrade(const shared_str& upgrade_id)
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeItem
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeItem::CSE_ALifeItem(LPCSTR caSection):
-    CSE_ALifeDynamicObjectVisual(caSection), CSE_ALifeInventoryItem(caSection)
+CSE_ALifeItem::CSE_ALifeItem(LPCSTR caSection): CSE_ALifeDynamicObjectVisual(caSection), CSE_ALifeInventoryItem(caSection)
 {
     m_physics_disabled = false;
 }
@@ -646,12 +641,10 @@ void CSE_ALifeItemWeapon::FillProps(LPCSTR pref, PropItemVec& items)
         PHelper().CreateFlag8(items, PrepareKey(pref, *s_name, "Addons\\Scope"), &m_addon_flags, eWeaponAddonScope);
 
     if (m_silencer_status == ALife::eAddonAttachable)
-        PHelper().CreateFlag8(
-            items, PrepareKey(pref, *s_name, "Addons\\Silencer"), &m_addon_flags, eWeaponAddonSilencer);
+        PHelper().CreateFlag8(items, PrepareKey(pref, *s_name, "Addons\\Silencer"), &m_addon_flags, eWeaponAddonSilencer);
 
     if (m_grenade_launcher_status == ALife::eAddonAttachable)
-        PHelper().CreateFlag8(
-            items, PrepareKey(pref, *s_name, "Addons\\Podstvolnik"), &m_addon_flags, eWeaponAddonGrenadeLauncher);
+        PHelper().CreateFlag8(items, PrepareKey(pref, *s_name, "Addons\\Podstvolnik"), &m_addon_flags, eWeaponAddonGrenadeLauncher);
 }
 #endif   // #ifndef XRGAME_EXPORTS
 
@@ -704,9 +697,7 @@ void CSE_ALifeItemWeaponShotGun::FillProps(LPCSTR pref, PropItemVec& items)
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeItemWeaponAutoShotGun
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeItemWeaponAutoShotGun::CSE_ALifeItemWeaponAutoShotGun(LPCSTR caSection): CSE_ALifeItemWeaponShotGun(caSection)
-{
-}
+CSE_ALifeItemWeaponAutoShotGun::CSE_ALifeItemWeaponAutoShotGun(LPCSTR caSection): CSE_ALifeItemWeaponShotGun(caSection) {}
 
 CSE_ALifeItemWeaponAutoShotGun::~CSE_ALifeItemWeaponAutoShotGun() {}
 
@@ -773,8 +764,7 @@ void CSE_ALifeItemWeaponMagazined::FillProps(LPCSTR pref, PropItemVec& items)
 ////////////////////////////////////////////////////////////////////////////
 // CSE_ALifeItemWeaponMagazinedWGL
 ////////////////////////////////////////////////////////////////////////////
-CSE_ALifeItemWeaponMagazinedWGL::CSE_ALifeItemWeaponMagazinedWGL(LPCSTR caSection):
-    CSE_ALifeItemWeaponMagazined(caSection)
+CSE_ALifeItemWeaponMagazinedWGL::CSE_ALifeItemWeaponMagazinedWGL(LPCSTR caSection): CSE_ALifeItemWeaponMagazined(caSection)
 {
     m_bGrenadeMode = 0;
 }

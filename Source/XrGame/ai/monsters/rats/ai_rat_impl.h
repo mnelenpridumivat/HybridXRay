@@ -68,9 +68,7 @@ IC void CAI_Rat::vfRemoveStandingMember()
 
 IC bool CAI_Rat::bfCheckIfSoundFrightful()
 {
-    return (
-        ((m_tLastSound.eSoundType & SOUND_TYPE_WEAPON_BULLET_HIT) == SOUND_TYPE_WEAPON_BULLET_HIT) ||
-        ((m_tLastSound.eSoundType & SOUND_TYPE_WEAPON_SHOOTING) == SOUND_TYPE_WEAPON_SHOOTING));
+    return (((m_tLastSound.eSoundType & SOUND_TYPE_WEAPON_BULLET_HIT) == SOUND_TYPE_WEAPON_BULLET_HIT) || ((m_tLastSound.eSoundType & SOUND_TYPE_WEAPON_SHOOTING) == SOUND_TYPE_WEAPON_SHOOTING));
 };
 
 IC void CAI_Rat::update_morale_broadcast(float const& fValue, float const& /**fRadius/**/)

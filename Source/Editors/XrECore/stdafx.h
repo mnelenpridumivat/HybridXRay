@@ -27,10 +27,9 @@
 #define O_SEQUENTIAL 0
 #endif
 
-
-#define R_R1 1
-#define R_R2 2
-#define RENDER R_R1
+#define R_R1    1
+#define R_R2    2
+#define RENDER  R_R1
 #define REDITOR 1
 
 #ifdef XRECORE_EXPORTS
@@ -40,9 +39,9 @@
 #endif
 
 #define PropertyGP(a, b) __declspec(property(get = a, put = b))
-#define THROW FATAL("THROW");
-#define THROW2(a) R_ASSERT(a);
-#define clMsg Msg
+#define THROW            FATAL("THROW");
+#define THROW2(a)        R_ASSERT(a);
+#define clMsg            Msg
 
 class PropValue;
 class PropItem;
@@ -105,27 +104,27 @@ DEFINE_VECTOR(shared_str, RStrVec, RStrVecIt);
         INI_NAME(buf);              \
         storage->IniFileName = buf; \
     }
-#define NONE_CAPTION "<none>"
+#define NONE_CAPTION        "<none>"
 #define MULTIPLESEL_CAPTION "<multiple selection>"
 
 // path definition
-#define _server_root_ "$server_root$"
-#define _server_data_root_ "$server_data_root$"
-#define _local_root_ "$local_root$"
-#define _import_ "$import$"
-#define _sounds_ "$sounds$"
-#define _textures_ "$textures$"
-#define _objects_ "$objects$"
-#define _maps_ "$maps$"
-#define _groups_ "$groups$"
-#define _temp_ "$temp$"
-#define _omotion_ "$omotion$"
-#define _omotions_ "$omotions$"
-#define _smotion_ "$smotion$"
-#define _detail_objects_ "$detail_objects$"
+#define _server_root_       "$server_root$"
+#define _server_data_root_  "$server_data_root$"
+#define _local_root_        "$local_root$"
+#define _import_            "$import$"
+#define _sounds_            "$sounds$"
+#define _textures_          "$textures$"
+#define _objects_           "$objects$"
+#define _maps_              "$maps$"
+#define _groups_            "$groups$"
+#define _temp_              "$temp$"
+#define _omotion_           "$omotion$"
+#define _omotions_          "$omotions$"
+#define _smotion_           "$smotion$"
+#define _detail_objects_    "$detail_objects$"
 
-#define TEX_POINT_ATT "internal\\internal_light_attpoint"
-#define TEX_SPOT_ATT "internal\\internal_light_attclip"
+#define TEX_POINT_ATT       "internal\\internal_light_attpoint"
+#define TEX_SPOT_ATT        "internal\\internal_light_attclip"
 
 #include "..\..\XrRender\Private\ETextureParams.h"
 #include "..\..\XrRender\Private\ResourceManager.h"
@@ -135,7 +134,7 @@ inline xr_string ChangeFileExt(const char* name, const char* e)
 {
     xr_string path = name;
 
-    LPCSTR ext = strext(name);
+    LPCSTR    ext  = strext(name);
     if (ext)
     {
         if (int len = strlen(ext))

@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                        template<typename _Object>
 
 #define CStateMonsterSmartTerrainTaskGraphWalkAbstract CStateMonsterSmartTerrainTaskGraphWalk<_Object>
 
@@ -9,8 +9,7 @@ void CStateMonsterSmartTerrainTaskGraphWalkAbstract::initialize()
 {
     inherited::initialize();
 
-    CSE_ALifeMonsterAbstract* monster =
-        smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
+    CSE_ALifeMonsterAbstract* monster = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
     VERIFY(monster);
     VERIFY(monster->m_smart_terrain_id != 0xffff);
 
@@ -22,8 +21,7 @@ void CStateMonsterSmartTerrainTaskGraphWalkAbstract::initialize()
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterSmartTerrainTaskGraphWalkAbstract::check_start_conditions()
 {
-    CSE_ALifeMonsterAbstract* monster =
-        smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
+    CSE_ALifeMonsterAbstract* monster = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(object->ID()));
     VERIFY(monster);
 
     if (monster->m_smart_terrain_id == 0xffff)

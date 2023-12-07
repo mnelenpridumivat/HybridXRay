@@ -124,8 +124,8 @@ BOOL GetPointColor(SPickQuery::SResult* R, u32& alpha, u32& color)
 
     // calc UV
     Fvector2 uv;
-    uv.x = cuv[0]->x * B.x + cuv[1]->x * B.y + cuv[2]->x * B.z;
-    uv.y = cuv[0]->y * B.x + cuv[1]->y * B.y + cuv[2]->y * B.z;
+    uv.x  = cuv[0]->x * B.x + cuv[1]->x * B.y + cuv[2]->x * B.z;
+    uv.y  = cuv[0]->y * B.x + cuv[1]->y * B.y + cuv[2]->y * B.z;
 
     int U = iFloor(uv.x * float(surf->m_ImageData->w) + .5f);
     int V = iFloor(uv.y * float(surf->m_ImageData->h) + .5f);
@@ -181,19 +181,19 @@ ICF static void simple_hemi_callback(float x, float y, float z, float E, LPVOID 
 
 const u32 lod_ss_quality = 8;
 
-void CreateLODSamples(const Fbox& bbox, U32Vec& tgt_data, u32 tgt_w, u32 tgt_h)
+void      CreateLODSamples(const Fbox& bbox, U32Vec& tgt_data, u32 tgt_w, u32 tgt_h)
 {
     U32Vec  s_pixels, d_pixels;
-    Fmatrix save_projection = EDevice->mProject;
-    Fmatrix save_view       = EDevice->mView;
+    Fmatrix save_projection   = EDevice->mProject;
+    Fmatrix save_view         = EDevice->mView;
 
     // save render params
-    Flags32 old_flag        = psDeviceFlags;
-    u32     old_dwFillMode  = EDevice->dwFillMode;
-    u32     old_dwShadeMode = EDevice->dwShadeMode;
+    Flags32 old_flag          = psDeviceFlags;
+    u32     old_dwFillMode    = EDevice->dwFillMode;
+    u32     old_dwShadeMode   = EDevice->dwShadeMode;
     // set render params
 
-    u32 cc                    = EPrefs->scene_clear_color;
+    u32     cc                = EPrefs->scene_clear_color;
     EPrefs->scene_clear_color = 0x0000000;
     psDeviceFlags.zero();
     psDeviceFlags.set(rsFilterLinear, TRUE);
@@ -205,15 +205,15 @@ void CreateLODSamples(const Fbox& bbox, U32Vec& tgt_data, u32 tgt_w, u32 tgt_h)
 
     Fvector S;
     bbox.getradius(S);
-    float R = 2.f * _max(S.x, S.z);
+    float R     = 2.f * _max(S.x, S.z);
 
-    u32 pitch = tgt_w * LOD_SAMPLE_COUNT;
+    u32   pitch = tgt_w * LOD_SAMPLE_COUNT;
     tgt_data.resize(pitch * tgt_h);
     for (int frame = 0; frame < LOD_SAMPLE_COUNT; frame++)
     {
         float angle = frame * (PI_MUL_2 / LOD_SAMPLE_COUNT);
 
-        Fbox bb = bbox;
+        Fbox  bb    = bbox;
         // build camera matrix
         bb.getcenter(vP);
         vN.set(0.f, 1.f, 0.f);
@@ -228,8 +228,7 @@ void CreateLODSamples(const Fbox& bbox, U32Vec& tgt_data, u32 tgt_w, u32 tgt_h)
         EDevice->mFullTransform.mul(mP, mV);
         EDevice->MakeScreenshot(s_pixels, tgt_w * lod_ss_quality, tgt_h * lod_ss_quality);
         d_pixels.resize(tgt_w * tgt_h);
-        imf_Process(
-            d_pixels.data(), tgt_w, tgt_h, s_pixels.data(), tgt_w * lod_ss_quality, tgt_h * lod_ss_quality, imf_box);
+        imf_Process(d_pixels.data(), tgt_w, tgt_h, s_pixels.data(), tgt_w * lod_ss_quality, tgt_h * lod_ss_quality, imf_box);
         // copy LOD to final
         for (u32 y = 0; y < tgt_h; y++)
             CopyMemory(tgt_data.data() + y * pitch + frame * tgt_w, d_pixels.data() + y * tgt_w, tgt_w * sizeof(u32));
@@ -255,14 +254,7 @@ void CreateLODSamples(const Fbox& bbox, U32Vec& tgt_data, u32 tgt_w, u32 tgt_h)
     RCache.set_xform_project(save_projection);
 }
 
-void CImageManager::CreateLODTexture(
-    CEditableObject* OBJECT,
-    U32Vec&          lod_pixels,
-    U32Vec&          nm_pixels,
-    u32              tgt_w,
-    u32              tgt_h,
-    int              _samples,
-    int              quality)
+void CImageManager::CreateLODTexture(CEditableObject* OBJECT, U32Vec& lod_pixels, U32Vec& nm_pixels, u32 tgt_w, u32 tgt_h, int _samples, int quality)
 {
     // build hemi light
     BLVec simple_hemi;
@@ -288,15 +280,15 @@ void CImageManager::CreateLODTexture(
 
     CreateLODSamples(bb, lod_pixels, LOD_IMAGE_SIZE, LOD_IMAGE_SIZE);
 
-    float tN = 0.f, tH = 0.f, tT = 0.f, tR = 0.f;
+    float                tN = 0.f, tH = 0.f, tT = 0.f, tR = 0.f;
 
-    float LOD_CALC_SAMPLES     = quality;
-    s32   LOD_CALC_SAMPLES_LIM = LOD_CALC_SAMPLES / 2;
+    float                LOD_CALC_SAMPLES     = quality;
+    s32                  LOD_CALC_SAMPLES_LIM = LOD_CALC_SAMPLES / 2;
 
     xr_vector<CSurface*> loadedSurfaces;
 
     // preload textures
-    for (CSurface* surf : OBJECT->Surfaces())
+    for (CSurface* surf: OBJECT->Surfaces())
     {
         Shader_xrLC* c_sh = EDevice->ShaderXRLC.Get(surf->_ShaderXRLCName());
         if (!c_sh->flags.bRendering)
@@ -324,13 +316,12 @@ void CImageManager::CreateLODTexture(
 
             for (s32 iW = 0; iW < LOD_IMAGE_SIZE; iW++)
             {
-                float X = (iW - (LOD_IMAGE_SIZE) / 2) * dW;
+                float       X     = (iW - (LOD_IMAGE_SIZE) / 2) * dW;
 
-                u32 pixel =
-                    (LOD_IMAGE_SIZE - iH - 1) * LOD_SAMPLE_COUNT * LOD_IMAGE_SIZE + LOD_IMAGE_SIZE * sample_idx + iW;
-                u32& tgt_c = lod_pixels[pixel];
-                u32& tgt_n = nm_pixels[pixel];
-                u32& tgt_h = hemi_tmp[pixel];
+                u32         pixel = (LOD_IMAGE_SIZE - iH - 1) * LOD_SAMPLE_COUNT * LOD_IMAGE_SIZE + LOD_IMAGE_SIZE * sample_idx + iW;
+                u32&        tgt_c = lod_pixels[pixel];
+                u32&        tgt_n = nm_pixels[pixel];
+                u32&        tgt_h = hemi_tmp[pixel];
 
                 FvectorVec  n_vec;
                 Fvector4Vec sample_pt_vec;
@@ -458,21 +449,14 @@ void CImageManager::CreateLODTexture(
     for (int px_idx = 0; px_idx < int(nm_pixels.size()); px_idx++)
         nm_pixels[px_idx] = subst_alpha(nm_pixels[px_idx], color_get_R(hemi_tmp[px_idx]));
 
-    for (CSurface* surf : loadedSurfaces)
+    for (CSurface* surf: loadedSurfaces)
         surf->RemoveImageData();
 
     UI->ProgressEnd(PB);
 }
 
 //------------------------------------------------------------------------------
-void CImageManager::CreateLODTexture(
-    CEditableObject* OBJECT,
-    LPCSTR           tex_name,
-    u32              tgt_w,
-    u32              tgt_h,
-    int              samples,
-    int              age,
-    int              quality)
+void CImageManager::CreateLODTexture(CEditableObject* OBJECT, LPCSTR tex_name, u32 tgt_w, u32 tgt_h, int samples, int age, int quality)
 {
     U32Vec lod_pixels, nm_pixels;
 

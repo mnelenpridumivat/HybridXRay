@@ -78,8 +78,7 @@ BOOL CDestroyablePhysicsObject::net_Spawn(CSE_Abstract* DC)
 void CDestroyablePhysicsObject::Hit(SHit* pHDS)
 {
     SHit HDS = *pHDS;
-    callback(GameObject::eHit)(
-        lua_game_object(), HDS.power, HDS.dir, smart_cast<const CGameObject*>(HDS.who)->lua_game_object(), HDS.bone());
+    callback(GameObject::eHit)(lua_game_object(), HDS.power, HDS.dir, smart_cast<const CGameObject*>(HDS.who)->lua_game_object(), HDS.bone());
     HDS.power       = CHitImmunity::AffectHit(HDS.power, HDS.hit_type);
     float hit_scale = 1.f, wound_scale = 1.f;
     CDamageManager::HitScale(HDS.bone(), hit_scale, wound_scale);
@@ -122,7 +121,8 @@ void CDestroyablePhysicsObject::Destroy()
             do
             {
                 hdir.random_dir();
-            } while (fsimilar(_abs(m.j.dotproduct(hdir)), 1.f, EPS_L));
+            }
+            while (fsimilar(_abs(m.j.dotproduct(hdir)), 1.f, EPS_L));
         }
         m.i.crossproduct(m.j, hdir);
         m.i.normalize();

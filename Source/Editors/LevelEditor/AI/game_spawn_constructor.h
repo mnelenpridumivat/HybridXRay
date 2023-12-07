@@ -27,10 +27,7 @@ struct CLevelInfo
     Fvector    m_offset;
     shared_str m_section;
 
-    CLevelInfo(u8 id, shared_str name, const Fvector& offset, shared_str section):
-        m_id(id), m_name(name), m_offset(offset), m_section(section)
-    {
-    }
+    CLevelInfo(u8 id, shared_str name, const Fvector& offset, shared_str section): m_id(id), m_name(name), m_offset(offset), m_section(section) {}
 
     IC bool operator<(const CLevelInfo& info) const
     {
@@ -77,9 +74,9 @@ private:
     xr_vector<ALife::_SPAWN_ID> m_temp1;
 
 private:
-    IGameGraph*         m_game_graph;
-    SPAWN_GRAPH*        m_spawn_graph;
-    CPatrolPathStorage* m_patrol_path_storage;
+    IGameGraph*             m_game_graph;
+    SPAWN_GRAPH*            m_spawn_graph;
+    CPatrolPathStorage*     m_patrol_path_storage;
     // CInifile						*m_game_info;
     ISE_ALifeCreatureActor* m_actor;
 
@@ -106,13 +103,13 @@ public:
     bool build(LPCSTR name, LPCSTR output, LPCSTR start, bool no_separator_check);
     bool build(LPCSTR name, CMemoryWriter& output, LPCSTR start, bool no_separator_check = true);
     virtual ~CGameSpawnConstructor();
-    void           add_story_object(ALife::_STORY_ID id, ISE_ALifeDynamicObject* object, LPCSTR level_name);
-    void           add_object(ISE_Abstract* object);
-    void           remove_object(ISE_Abstract* object);
-    IC void        add_level_changer(ISE_ALifeLevelChanger* level_changer);
-    IC void        add_level_points(const LEVEL_POINT_STORAGE& level_points);
-    IC u32         level_id(LPCSTR level_name);
-    IC IGameGraph& game_graph() const;
+    void                      add_story_object(ALife::_STORY_ID id, ISE_ALifeDynamicObject* object, LPCSTR level_name);
+    void                      add_object(ISE_Abstract* object);
+    void                      remove_object(ISE_Abstract* object);
+    IC void                   add_level_changer(ISE_ALifeLevelChanger* level_changer);
+    IC void                   add_level_points(const LEVEL_POINT_STORAGE& level_points);
+    IC u32                    level_id(LPCSTR level_name);
+    IC IGameGraph&            game_graph() const;
     //	IC		CInifile				&game_info				();
     IC void                   add_edge(ALife::_SPAWN_ID id0, ALife::_SPAWN_ID id1, float weight);
     IC u32                    level_point_count() const;

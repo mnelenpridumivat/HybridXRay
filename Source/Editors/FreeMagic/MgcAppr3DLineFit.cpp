@@ -60,12 +60,7 @@ void Mgc::OrthogonalLineFit(int iQuantity, const Vector3* akPoint, Vector3& rkOf
     rkDirection.z = kES.GetEigenvector(2, 2);
 }
 //----------------------------------------------------------------------------
-bool Mgc::OrthogonalLineFit(
-    int            iQuantity,
-    const Vector3* akPoint,
-    const bool*    abValid,
-    Vector3&       rkOffset,
-    Vector3&       rkDirection)
+bool Mgc::OrthogonalLineFit(int iQuantity, const Vector3* akPoint, const bool* abValid, Vector3& rkOffset, Vector3& rkDirection)
 {
     // compute average of points
     rkOffset = Vector3::ZERO;

@@ -9,7 +9,7 @@
 #include "../XrWeatherEditor/Public/interfaces.hpp"
 #endif   // #ifdef INGAME_EDITOR
 
-#define VIEWPORT_NEAR 0.2f
+#define VIEWPORT_NEAR                     0.2f
 
 #define DEVICE_RESET_PRECACHE_FRAME_COUNT 10
 
@@ -81,10 +81,9 @@ public:
     xrCriticalSection mt_csLeave;
     volatile BOOL     mt_bMustExit;
 
-    ICF void remove_from_seq_parallel(const fastdelegate::FastDelegate0<>& delegate)
+    ICF void          remove_from_seq_parallel(const fastdelegate::FastDelegate0<>& delegate)
     {
-        xr_vector<fastdelegate::FastDelegate0<>>::iterator I =
-            std::find(seqParallel.begin(), seqParallel.end(), delegate);
+        xr_vector<fastdelegate::FastDelegate0<>>::iterator I = std::find(seqParallel.begin(), seqParallel.end(), delegate);
         if (I != seqParallel.end())
             seqParallel.erase(I);
     }
@@ -122,13 +121,13 @@ public:
 
 public:
     // Engine flow-control
-    s32 dwFrame;
+    s32     dwFrame;
 
-    float fTimeDelta;
-    float fTimeGlobal;
-    s32   dwTimeDelta;
-    u32   dwTimeGlobal;
-    u32   dwTimeContinual;
+    float   fTimeDelta;
+    float   fTimeGlobal;
+    s32     dwTimeDelta;
+    u32     dwTimeGlobal;
+    u32     dwTimeContinual;
 
     Fvector vCameraPosition;
     Fvector vCameraDirection;
@@ -146,8 +145,8 @@ public:
     Fmatrix mProject_saved;
     Fmatrix mFullTransform_saved;
 
-    float fFOV;
-    float fASPECT;
+    float   fFOV;
+    float   fASPECT;
 
 protected:
     u32           Timer_MM_Delta;
@@ -165,8 +164,9 @@ public:
     CRegistrator<pureScreenResolutionChanged> seqResolutionChanged;
     CRegistrator<pureDrawUI>                  seqDrawUI;
 
-    HWND m_hWnd;
+    HWND                                      m_hWnd;
     //	CStats*									Statistic;
+
 public:
     virtual CStatsPhysics* _BCL StatPhysics()                      = 0;
     virtual void _BCL           AddSeqFrame(pureFrame* f, bool mt) = 0;

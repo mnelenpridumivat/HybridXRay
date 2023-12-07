@@ -3,7 +3,7 @@
 
 extern Fvector c_spatial_offset[8];
 
-template <bool b_first> class walker
+template<bool b_first> class walker
 {
 public:
     u32          mask;

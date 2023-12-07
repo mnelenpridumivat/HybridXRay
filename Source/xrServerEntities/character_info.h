@@ -53,6 +53,7 @@ private:
     friend id_to_index;
     friend CInventoryOwner;
     friend CSE_ALifeTraderAbstract;
+
 public:
     CCharacterInfo();
     ~CCharacterInfo();
@@ -69,6 +70,7 @@ public:
     void Init(CSE_ALifeTraderAbstract* trader);
     void InitSpecificCharacter(shared_str new_id);
 #endif
+
 protected:
     const SCharacterProfile* data() const
     {
@@ -99,6 +101,7 @@ protected:
     // загруженная информация о конкретном персонаже
     CSpecificCharacter m_SpecificCharacter;
 #endif
+
 public:
 #ifdef XRGAME_EXPORTS
     shared_str                 Profile() const;
@@ -127,16 +130,19 @@ public:
     }
 
     // доступут только у InventoryOwner
+
 protected:
     void SetRank(CHARACTER_RANK_VALUE rank);
     void SetReputation(CHARACTER_REPUTATION_VALUE reputation);
     void SetCommunity(CHARACTER_COMMUNITY_INDEX community);
+
 public:
     const shared_str&       IconName() const;
 
     shared_str              StartDialog() const;
     const DIALOG_ID_VECTOR& ActorDialogs() const;
 #endif
+
 protected:
 #ifdef XRGAME_EXPORTS
     CHARACTER_RANK       m_CurrentRank;

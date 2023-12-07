@@ -20,23 +20,19 @@ using XrWeatherEditor::environment::thunderbolts::collection;
 using XrWeatherEditor::environment::thunderbolts::manager;
 using XrWeatherEditor::environment::thunderbolts::thunderbolt_id;
 
-template <> void property_collection<collection::container_type, collection>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<collection::container_type, collection>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<collection::container_type, collection>::create()
+template<> XrWeatherEditor::property_holder* property_collection<collection::container_type, collection>::create()
 {
     thunderbolt_id* object = xr_new<thunderbolt_id>(m_holder.m_manager, "");
     object->fill(this);
     return (object->object());
 }
 
-collection::collection(manager const& manager, shared_str const& id):
-    m_manager(manager), m_collection(0), m_property_holder(0)
+collection::collection(manager const& manager, shared_str const& id): m_manager(manager), m_collection(0), m_property_holder(0)
 {
     section      = id;
     m_collection = xr_new<collection_type>(&m_ids, this);
@@ -107,11 +103,8 @@ void collection::fill(XrWeatherEditor::property_holder_collection* collection)
     string_setter_type                                           string_setter;
     string_setter.bind(this, &collection::id_setter);
 
-    m_property_holder->add_property(
-        "id", "properties", "this option is resposible for collection id", section.c_str(), string_getter,
-        string_setter);
-    m_property_holder->add_property(
-        "thunderbolts", "properties", "this option is resposible for thunderbolts", m_collection);
+    m_property_holder->add_property("id", "properties", "this option is resposible for collection id", section.c_str(), string_getter, string_setter);
+    m_property_holder->add_property("thunderbolts", "properties", "this option is resposible for thunderbolts", m_collection);
 }
 
 property_holder* collection::object()

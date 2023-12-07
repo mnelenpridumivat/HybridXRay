@@ -32,7 +32,7 @@ public:
     UITaskListWnd();
     virtual ~UITaskListWnd();
 
-    void init_from_xml(CUIXml& xml, LPCSTR path);
+    void         init_from_xml(CUIXml& xml, LPCSTR path);
 
     virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
     virtual void OnMouseScroll(float iDirection);
@@ -42,13 +42,14 @@ public:
     virtual void Update();
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
 
-    void UpdateList();
+    void         UpdateList();
 
 protected:
     void OnBtnClose(CUIWindow* w, void* d);
     bool SortingLessFunction(CUIWindow* left, CUIWindow* right);
 
     //			void	UpdateCounter		();
+
 public:
     UIHint* hint_wnd;
 
@@ -56,12 +57,12 @@ private:   // m_
     CUIFrameWindow* m_background;
     CUIScrollView*  m_list;
 
-    CUIStatic* m_caption;
+    CUIStatic*      m_caption;
     //	CUIStatic*			m_counter;
-    CUI3tButton* m_bt_close;
+    CUI3tButton*    m_bt_close;
 
     //	u32					m_activ_task_count;
-    float m_orig_h;
+    float           m_orig_h;
 
 };   // class UITaskListWnd
 
@@ -76,8 +77,8 @@ public:
     UITaskListWndItem();
     virtual ~UITaskListWndItem();
 
-    bool   init_task(CGameTask* task, UITaskListWnd* parent);
-    IC u32 get_priority_task() const;
+    bool         init_task(CGameTask* task, UITaskListWnd* parent);
+    IC u32       get_priority_task() const;
 
     virtual void OnFocusReceive();
     virtual void OnFocusLost();

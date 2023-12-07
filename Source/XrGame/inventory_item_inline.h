@@ -18,12 +18,7 @@ IC CInventoryItem::Upgrades_type const& CInventoryItem::upgardes() const
     return m_upgrades;
 }
 
-template <typename T> IC bool CInventoryItem::process_if_exists(
-    LPCSTR section,
-    LPCSTR name,
-    T (CInifile::*method)(LPCSTR, LPCSTR) const,
-    T&   value,
-    bool test)
+template<typename T> IC bool CInventoryItem::process_if_exists(LPCSTR section, LPCSTR name, T (CInifile::*method)(LPCSTR, LPCSTR) const, T& value, bool test)
 {
     if (!pSettings->line_exist(section, name))
     {
@@ -42,12 +37,7 @@ template <typename T> IC bool CInventoryItem::process_if_exists(
     return true;
 }
 
-template <typename T> IC bool CInventoryItem::process_if_exists_set(
-    LPCSTR section,
-    LPCSTR name,
-    T (CInifile::*method)(LPCSTR, LPCSTR) const,
-    T&   value,
-    bool test)
+template<typename T> IC bool CInventoryItem::process_if_exists_set(LPCSTR section, LPCSTR name, T (CInifile::*method)(LPCSTR, LPCSTR) const, T& value, bool test)
 {
     if (!pSettings->line_exist(section, name))
     {

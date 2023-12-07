@@ -12,5 +12,6 @@ public:
     virtual void OnEvent(NET_Packet& P, u16 type);
 
 protected:
+
 private:
 };

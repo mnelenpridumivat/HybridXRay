@@ -20,10 +20,7 @@ public:
     typedef property_color_base                                 inherited;
 
 public:
-    property_color(
-        color_getter_type const& getter,
-        color_setter_type const& setter,
-        array<System::Attribute ^> ^ attributes);
+    property_color(color_getter_type const& getter, color_setter_type const& setter, array<System::Attribute ^> ^ attributes);
     virtual ~property_color();
     !property_color();
     virtual XrWeatherEditor::color get_value_raw() override;

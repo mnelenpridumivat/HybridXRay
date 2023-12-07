@@ -26,7 +26,8 @@ void CInventoryBox::OnEvent(NET_Packet& P, u16 type)
     switch (type)
     {
         case GE_TRADE_BUY:
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             u16 id;
             P.r_u16(id);
             CObject* itm = Level().Objects.net_Find(id);
@@ -50,7 +51,8 @@ void CInventoryBox::OnEvent(NET_Packet& P, u16 type)
         break;
 
         case GE_TRADE_SELL:
-        case GE_OWNERSHIP_REJECT: {
+        case GE_OWNERSHIP_REJECT:
+        {
             u16 id;
             P.r_u16(id);
             CObject* itm = Level().Objects.net_Find(id);

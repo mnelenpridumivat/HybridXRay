@@ -5,12 +5,12 @@
 #include "stdafx.h"
 #pragma hdrstop
 #ifdef ELocatorAPIH
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <io.h>
 #include <direct.h>
 #include <fcntl.h>
 #include <sys\stat.h>
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "FS_internal.h"
 
@@ -123,7 +123,7 @@ void ELocatorAPI::_initialize(u32 flags, LPCSTR target_folder, LPCSTR fs_fname)
             std::pair<PathPairIt, bool> I;
             FS_Path*                    P = xr_new<FS_Path>(rootDir, lp_add, lp_def, lp_capt, fl);
             // FS_Path* P = xr_new<FS_Path>((p_it!=pathes.end())?p_it->second->m_Path:root,lp_add,lp_def,lp_capt,fl);
-            I = pathes.insert(mk_pair(xr_strdup(id), P));
+            I                             = pathes.insert(mk_pair(xr_strdup(id), P));
 
             R_ASSERT(I.second);
         }
@@ -255,7 +255,8 @@ void Recurse(LPCSTR path, bool root_only, TOnFind on_find_cb, void* data)
     do
     {
         ProcessOne(path, sFile, root_only, on_find_cb, data);
-    } while (_findnext(hFile, &sFile) == 0);
+    }
+    while (_findnext(hFile, &sFile) == 0);
     _findclose(hFile);
 }
 
@@ -269,9 +270,9 @@ struct file_list_cb_data
 
 void __stdcall file_list_cb(_finddata_t& entry, void* data)
 {
-    file_list_cb_data* D = (file_list_cb_data*)data;
+    file_list_cb_data* D          = (file_list_cb_data*)data;
 
-    LPCSTR end_symbol = entry.name + xr_strlen(entry.name) - 1;
+    LPCSTR             end_symbol = entry.name + xr_strlen(entry.name) - 1;
     if ((*end_symbol) != '\\')
     {
         // file
@@ -336,7 +337,7 @@ int ELocatorAPI::file_list(FS_FileSet& dest, LPCSTR path, u32 flags, LPCSTR mask
 
 IReader* ELocatorAPI::r_open(LPCSTR path, LPCSTR _fname)
 {
-    IReader* R = 0;
+    IReader*    R = 0;
 
     // correct path
     string_path fname;
@@ -366,8 +367,7 @@ IReader* ELocatorAPI::r_open(LPCSTR path, LPCSTR _fname)
         string_path cpy_name;
         string_path e_cpy_name;
         FS_Path*    P;
-        if (source_name == strstr(source_name, (P = get_path("$server_root$"))->m_Path) ||
-            source_name == strstr(source_name, (P = get_path("$server_data_root$"))->m_Path))
+        if (source_name == strstr(source_name, (P = get_path("$server_root$"))->m_Path) || source_name == strstr(source_name, (P = get_path("$server_data_root$"))->m_Path))
         {
             update_path(cpy_name, "$build_copy$", source_name + xr_strlen(P->m_Path));
             IWriter* W = w_open(cpy_name);

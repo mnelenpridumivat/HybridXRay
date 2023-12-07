@@ -20,6 +20,7 @@ private:
     float               m_fTimeDelta;
 
 protected:
+
 public:
     enum EActorCameras
     {
@@ -33,19 +34,19 @@ public:
 
 private:
     // Cameras
-    CCameraBase*  cameras[eacMaxCam];
-    EActorCameras cam_active;
+    CCameraBase*       cameras[eacMaxCam];
+    EActorCameras      cam_active;
 
-    int look_idx;
+    int                look_idx;
 
     //------------------------------
-    void cam_Set(EActorCameras style);
-    void cam_Update(CActor* A = 0);
+    void               cam_Set(EActorCameras style);
+    void               cam_Update(CActor* A = 0);
 
-    CActor* m_pActorToLookAt;
-    bool    SelectNextPlayerToLook(bool const search_next);
+    CActor*            m_pActorToLookAt;
+    bool               SelectNextPlayerToLook(bool const search_next);
 
-    void FirstEye_ToPlayer(CObject* pObject);
+    void               FirstEye_ToPlayer(CObject* pObject);
 
     static const float cam_inert_value;
     float              prev_cam_inert_value;
@@ -84,11 +85,11 @@ public:
         return this;
     }
 
-    virtual void net_Relcase(CObject* O);
-    void         GetSpectatorString(string1024& pStr);
+    virtual void         net_Relcase(CObject* O);
+    void                 GetSpectatorString(string1024& pStr);
 
-    virtual void On_SetEntity();
-    virtual void On_LostEntity();
+    virtual void         On_SetEntity();
+    virtual void         On_LostEntity();
 
     inline EActorCameras GetActiveCam() const
     {

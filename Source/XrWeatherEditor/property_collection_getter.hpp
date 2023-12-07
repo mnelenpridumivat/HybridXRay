@@ -11,12 +11,7 @@
 
 #include "property_collection_base.hpp"
 
-[System::ComponentModel::EditorAttribute(
-    property_collection_editor::typeid,
-    System::Drawing::Design::UITypeEditor::typeid)]
-    [System::ComponentModel::TypeConverter(
-        property_collection_converter::typeid)] public ref class property_collection_getter:
-    public property_collection_base
+[System::ComponentModel::EditorAttribute(property_collection_editor::typeid, System::Drawing::Design::UITypeEditor::typeid)][System::ComponentModel::TypeConverter(property_collection_converter::typeid)] public ref class property_collection_getter: public property_collection_base
 {
 public:
     typedef property_holder::collection_getter_type collection_getter_type;

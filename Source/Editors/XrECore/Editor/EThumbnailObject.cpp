@@ -6,7 +6,7 @@
 #pragma package(smart_init)
 
 //------------------------------------------------------------------------------
-#define THM_OBJECT_VERSION 0x0012
+#define THM_OBJECT_VERSION    0x0012
 //------------------------------------------------------------------------------
 #define THM_CHUNK_OBJECTPARAM 0x0816
 //------------------------------------------------------------------------------
@@ -68,7 +68,7 @@ bool EObjectThumbnail::Load(LPCSTR src_name, LPCSTR path)
     face_count   = F->r_u32();
     vertex_count = F->r_u32();
 
-    m_Age = FS.get_file_age(fn);
+    m_Age        = FS.get_file_age(fn);
 
     FS.r_close(F);
 

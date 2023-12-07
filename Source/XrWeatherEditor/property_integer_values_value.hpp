@@ -26,11 +26,7 @@ private:
     typedef System::Collections::IList     IList;
 
 public:
-    property_integer_values_value(
-        integer_getter_type const& getter,
-        integer_setter_type const& setter,
-        LPCSTR const*              values,
-        u32 const&                 value_count);
+    property_integer_values_value(integer_getter_type const& getter, integer_setter_type const& setter, LPCSTR const* values, u32 const& value_count);
     virtual Object ^ get_value() override;
     virtual void set_value(Object ^ object) override;
     virtual IList ^ collection();

@@ -1,7 +1,7 @@
 ﻿#ifndef _PLANE2
 #define _PLANE2
 
-template <class T> class _plane2
+template<class T> class _plane2
 {
 public:
     typedef T           TYPE;
@@ -74,10 +74,9 @@ public:
             return ((dist > 0.f) || fis_zero(dist));
         }
     }
-    IC BOOL intersect(
-        const _vector2<T>& u,
-        const _vector2<T>& v,   // segment
-        _vector2<T>&       isect)     // intersection point
+    IC BOOL intersect(const _vector2<T>& u,
+        const _vector2<T>&               v,   // segment
+        _vector2<T>&                     isect)                   // intersection point
     {
         T           denom, dist;
         _vector2<T> t;
@@ -94,10 +93,9 @@ public:
         return true;
     }
 
-    IC BOOL intersect_2(
-        const _vector2<T>& u,
-        const _vector2<T>& v,   // segment
-        _vector2<T>&       isect)     // intersection point
+    IC BOOL intersect_2(const _vector2<T>& u,
+        const _vector2<T>&                 v,   // segment
+        _vector2<T>&                       isect)                     // intersection point
     {
         T           dist1, dist2;
         _vector2<T> t;
@@ -118,7 +116,7 @@ public:
 typedef _plane2<float>  Fplane2;
 typedef _plane2<double> Dplane2;
 
-template <class T> BOOL _valid(const _plane2<T>& s)
+template<class T> BOOL  _valid(const _plane2<T>& s)
 {
     return _valid(s.n) && _valid(s.d);
 }

@@ -119,10 +119,10 @@ Fvector CLevelGraph::convert_position(const Fvector& position)
 
 void CLevelGraph::draw_edge(const int& vertex_id0, const int& vertex_id1)
 {
-    const u8* vt0 = ai().game_graph().vertex(vertex_id0)->vertex_type();
-    const u8* vt1 = ai().game_graph().vertex(vertex_id1)->vertex_type();
+    const u8* vt0    = ai().game_graph().vertex(vertex_id0)->vertex_type();
+    const u8* vt1    = ai().game_graph().vertex(vertex_id1)->vertex_type();
 
-    float radius = 0.005f;
+    float     radius = 0.005f;
     if (psAI_Flags.test(aiDrawGameGraphRealPos))
         radius = 1.f;
     u32 vertex_color0 = color_xrgb(0, 255, 255);
@@ -131,9 +131,9 @@ void CLevelGraph::draw_edge(const int& vertex_id0, const int& vertex_id1)
     u32 vertex_color1 = color_xrgb(0, 255, 255);
     if (vt1[3] == 0)
         vertex_color1 = color_xrgb(255, 0, 255);
-    const u32 edge_color = color_xrgb(0, 255, 0);
+    const u32         edge_color = color_xrgb(0, 255, 0);
 
-    const IGameGraph& graph = ai().game_graph();
+    const IGameGraph& graph      = ai().game_graph();
     Fvector           position0;
     Fvector           position1;
     if (psAI_Flags.test(aiDrawGameGraphRealPos))
@@ -180,7 +180,7 @@ void CLevelGraph::draw_stalkers(const int& vertex_id)
     const IGameGraph& graph = ai().game_graph();
     CGameFont&        font  = *UI().Font().pFontDI;
 
-    Fvector position;
+    Fvector           position;
     if (psAI_Flags.test(aiDrawGameGraphRealPos))
         position = graph.vertex(vertex_id)->level_point();
     else
@@ -240,7 +240,7 @@ void CLevelGraph::draw_stalkers(const int& vertex_id)
     typedef CALifeMonsterDetailPathManager::PATH PATH;
     const OBJECT_REGISTRY&                       objects = ai().alife().graph().objects()[vertex_id].objects();
 
-    CDebugRenderer& render = Level().debug_renderer();
+    CDebugRenderer&                              render  = Level().debug_renderer();
     if (show_text)
     {
         bool           first_time = true;
@@ -253,9 +253,8 @@ void CLevelGraph::draw_stalkers(const int& vertex_id)
             if (!stalker)
                 continue;
 
-            const PATH&  path = stalker->brain().movement().detail().path();
-            const float& walked_distance =
-                (path.size() < 2) ? 0.f : stalker->brain().movement().detail().walked_distance();
+            const PATH&  path            = stalker->brain().movement().detail().path();
+            const float& walked_distance = (path.size() < 2) ? 0.f : stalker->brain().movement().detail().walked_distance();
             //			font.OutNext		("%s",stalker->name_replace());
 
             if ((path.size() >= 2) && !fis_zero(walked_distance))
@@ -309,8 +308,7 @@ void CLevelGraph::draw_stalkers(const int& vertex_id)
         {
             position0 = convert_position(graph.vertex(game_vertex_id0)->game_point());
             position1 = convert_position(graph.vertex(game_vertex_id1)->game_point());
-            distance =
-                graph.vertex(game_vertex_id0)->game_point().distance_to(graph.vertex(game_vertex_id1)->game_point());
+            distance  = graph.vertex(game_vertex_id0)->game_point().distance_to(graph.vertex(game_vertex_id1)->game_point());
         }
 
         Fvector direction = Fvector().sub(position1, position0);
@@ -416,7 +414,7 @@ void CLevelGraph::draw_objects(const int& vertex_id)
     typedef CALifeMonsterDetailPathManager::PATH PATH;
     const OBJECT_REGISTRY&                       objects = ai().alife().graph().objects()[vertex_id].objects();
 
-    CDebugRenderer& render = Level().debug_renderer();
+    CDebugRenderer&                              render  = Level().debug_renderer();
     if (show_text)
     {
         bool           first_time = true;
@@ -429,9 +427,8 @@ void CLevelGraph::draw_objects(const int& vertex_id)
             if (!monster)
                 continue;
 
-            const PATH&  path = monster->brain().movement().detail().path();
-            const float& walked_distance =
-                (path.size() < 2) ? 0.f : monster->brain().movement().detail().walked_distance();
+            const PATH&  path            = monster->brain().movement().detail().path();
+            const float& walked_distance = (path.size() < 2) ? 0.f : monster->brain().movement().detail().walked_distance();
             //			font.OutNext		("%s",monster->name_replace());
 
             if ((path.size() >= 2) && !fis_zero(walked_distance))
@@ -485,8 +482,7 @@ void CLevelGraph::draw_objects(const int& vertex_id)
         {
             position0 = convert_position(graph.vertex(game_vertex_id0)->game_point());
             position1 = convert_position(graph.vertex(game_vertex_id1)->game_point());
-            distance =
-                graph.vertex(game_vertex_id0)->game_point().distance_to(graph.vertex(game_vertex_id1)->game_point());
+            distance  = graph.vertex(game_vertex_id0)->game_point().distance_to(graph.vertex(game_vertex_id1)->game_point());
         }
 
         Fvector direction = Fvector().sub(position1, position0);
@@ -534,7 +530,7 @@ void CLevelGraph::draw_game_graph()
     Fvector        bounds = Fvector().set(3.f, 0.f, 3.f);
 
     // draw back plane
-    Fvector vertices[4];
+    Fvector        vertices[4];
     xform.transform_tiny(vertices[0], Fvector().set(center.x - bounds.x, center.y + bounds.y, center.z + bounds.z));
     xform.transform_tiny(vertices[1], Fvector().set(center.x + bounds.x, center.y + bounds.y, center.z + bounds.z));
     xform.transform_tiny(vertices[2], Fvector().set(center.x - bounds.x, center.y - bounds.y, center.z - bounds.z));

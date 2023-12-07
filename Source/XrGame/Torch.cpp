@@ -19,14 +19,14 @@
 #include "CustomOutfit.h"
 #include "ActorHelmet.h"
 
-static const float   TORCH_INERTION_CLAMP     = PI_DIV_6;
-static const float   TORCH_INERTION_SPEED_MAX = 7.5f;
-static const float   TORCH_INERTION_SPEED_MIN = 0.5f;
-static Fvector       TORCH_OFFSET             = {-0.2f, +0.1f, -0.3f};
-static const Fvector OMNI_OFFSET              = {-0.2f, +0.1f, -0.1f};
-static const float   OPTIMIZATION_DISTANCE    = 100.f;
+static const float    TORCH_INERTION_CLAMP       = PI_DIV_6;
+static const float    TORCH_INERTION_SPEED_MAX   = 7.5f;
+static const float    TORCH_INERTION_SPEED_MIN   = 0.5f;
+static Fvector        TORCH_OFFSET               = {-0.2f, +0.1f, -0.3f};
+static const Fvector  OMNI_OFFSET                = {-0.2f, +0.1f, -0.1f};
+static const float    OPTIMIZATION_DISTANCE      = 100.f;
 
-static bool stalker_use_dynamic_lights = false;
+static bool           stalker_use_dynamic_lights = false;
 
 ENGINE_API extern int g_current_renderer;
 
@@ -80,7 +80,7 @@ inline bool CTorch::can_use_dynamic_lights()
 void CTorch::Load(LPCSTR section)
 {
     inherited::Load(section);
-    light_trace_bone = pSettings->r_string(section, "light_trace_bone");
+    light_trace_bone      = pSettings->r_string(section, "light_trace_bone");
 
     m_bNightVisionEnabled = !!pSettings->r_bool(section, "night_vision");
 }
@@ -99,7 +99,7 @@ void CTorch::SwitchNightVision(bool vision_on, bool use_sounds)
 
     m_bNightVisionOn = vision_on;
 
-    CActor* pA = smart_cast<CActor*>(H_Parent());
+    CActor* pA       = smart_cast<CActor*>(H_Parent());
     if (!pA)
     {
         return;
@@ -296,8 +296,7 @@ void CTorch::UpdateCL()
         if (actor)
             smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones_Invalidate();
 
-        if (H_Parent()->XFORM().c.distance_to_sqr(Device->vCameraPosition) < _sqr(OPTIMIZATION_DISTANCE) ||
-            GameID() != eGameIDSingle)
+        if (H_Parent()->XFORM().c.distance_to_sqr(Device->vCameraPosition) < _sqr(OPTIMIZATION_DISTANCE) || GameID() != eGameIDSingle)
         {
             // near camera
             smart_cast<IKinematics*>(H_Parent()->Visual())->CalculateBones();
@@ -313,12 +312,8 @@ void CTorch::UpdateCL()
 
         if (actor)
         {
-            m_prev_hp.x = angle_inertion_var(
-                m_prev_hp.x, -actor->cam_FirstEye()->yaw, TORCH_INERTION_SPEED_MIN, TORCH_INERTION_SPEED_MAX,
-                TORCH_INERTION_CLAMP, Device->fTimeDelta);
-            m_prev_hp.y = angle_inertion_var(
-                m_prev_hp.y, -actor->cam_FirstEye()->pitch, TORCH_INERTION_SPEED_MIN, TORCH_INERTION_SPEED_MAX,
-                TORCH_INERTION_CLAMP, Device->fTimeDelta);
+            m_prev_hp.x = angle_inertion_var(m_prev_hp.x, -actor->cam_FirstEye()->yaw, TORCH_INERTION_SPEED_MIN, TORCH_INERTION_SPEED_MAX, TORCH_INERTION_CLAMP, Device->fTimeDelta);
+            m_prev_hp.y = angle_inertion_var(m_prev_hp.y, -actor->cam_FirstEye()->pitch, TORCH_INERTION_SPEED_MIN, TORCH_INERTION_SPEED_MAX, TORCH_INERTION_CLAMP, Device->fTimeDelta);
 
             Fvector dir, right, up;
             dir.setHP(m_prev_hp.x + m_delta_h, m_prev_hp.y);
@@ -394,9 +389,9 @@ void CTorch::UpdateCL()
     if (!lanim)
         return;
 
-    int frame;
+    int    frame;
     // возвращает в формате BGR
-    u32 clr = lanim->CalculateBGR(Device->fTimeGlobal, frame);
+    u32    clr = lanim->CalculateBGR(Device->fTimeGlobal, frame);
 
     Fcolor fclr;
     fclr.set((float)color_get_B(clr), (float)color_get_G(clr), (float)color_get_R(clr), 1.f);
@@ -495,8 +490,7 @@ CNightVisionEffector::CNightVisionEffector(const shared_str& section): m_pActor(
     m_sounds.LoadSound(section.c_str(), "snd_night_vision_on", "NightVisionOnSnd", false, SOUND_TYPE_ITEM_USING);
     m_sounds.LoadSound(section.c_str(), "snd_night_vision_off", "NightVisionOffSnd", false, SOUND_TYPE_ITEM_USING);
     m_sounds.LoadSound(section.c_str(), "snd_night_vision_idle", "NightVisionIdleSnd", false, SOUND_TYPE_ITEM_USING);
-    m_sounds.LoadSound(
-        section.c_str(), "snd_night_vision_broken", "NightVisionBrokenSnd", false, SOUND_TYPE_ITEM_USING);
+    m_sounds.LoadSound(section.c_str(), "snd_night_vision_broken", "NightVisionBrokenSnd", false, SOUND_TYPE_ITEM_USING);
 }
 
 void CNightVisionEffector::Start(const shared_str& sect, CActor* pA, bool play_sound)
@@ -548,19 +542,23 @@ void CNightVisionEffector::PlaySounds(EPlaySounds which)
     bool bPlaySoundFirstPerson = !!m_pActor->HUDview();
     switch (which)
     {
-        case eStartSound: {
+        case eStartSound:
+        {
             m_sounds.PlaySound("NightVisionOnSnd", m_pActor->Position(), NULL, bPlaySoundFirstPerson);
         }
         break;
-        case eStopSound: {
+        case eStopSound:
+        {
             m_sounds.PlaySound("NightVisionOffSnd", m_pActor->Position(), NULL, bPlaySoundFirstPerson);
         }
         break;
-        case eIdleSound: {
+        case eIdleSound:
+        {
             m_sounds.PlaySound("NightVisionIdleSnd", m_pActor->Position(), NULL, bPlaySoundFirstPerson, true);
         }
         break;
-        case eBrokeSound: {
+        case eBrokeSound:
+        {
             m_sounds.PlaySound("NightVisionBrokenSnd", m_pActor->Position(), NULL, bPlaySoundFirstPerson);
         }
         break;

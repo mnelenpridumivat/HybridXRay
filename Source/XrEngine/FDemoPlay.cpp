@@ -17,8 +17,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CDemoPlay::CDemoPlay(const char* name, float ms, u32 cycles, float life_time):
-    CEffectorCam(cefDemo, life_time /*,FALSE*/)
+CDemoPlay::CDemoPlay(const char* name, float ms, u32 cycles, float life_time): CEffectorCam(cefDemo, life_time /*,FALSE*/)
 {
     Msg("*** Playing demo: %s", name);
     Console->Execute("hud_weapon 0");
@@ -28,8 +27,8 @@ CDemoPlay::CDemoPlay(const char* name, float ms, u32 cycles, float life_time):
     fSpeed       = ms;
     dwCyclesLeft = cycles ? cycles : 1;
 
-    m_pMotion = 0;
-    m_MParam  = 0;
+    m_pMotion    = 0;
+    m_MParam     = 0;
     string_path nm, fn;
     xr_strcpy(nm, sizeof(nm), name);
     LPSTR extp = strext(nm);
@@ -96,7 +95,7 @@ void CDemoPlay::stat_Start()
 
 extern string512 g_sBenchmarkName;
 
-void CDemoPlay::stat_Stop()
+void             CDemoPlay::stat_Stop()
 {
     if (!stat_started)
         return;
@@ -109,13 +108,13 @@ void CDemoPlay::stat_Stop()
     float rfps_min, rfps_max, rfps_middlepoint, rfps_average;
 
     // total
-    u32 dwFramesTotal = Device->dwFrame - stat_StartFrame;
-    rfps_average      = float(dwFramesTotal) / stat_total;
+    u32   dwFramesTotal  = Device->dwFrame - stat_StartFrame;
+    rfps_average         = float(dwFramesTotal) / stat_total;
 
     // min/max/average
-    rfps_min         = flt_max;
-    rfps_max         = flt_min;
-    rfps_middlepoint = 0;
+    rfps_min             = flt_max;
+    rfps_max             = flt_min;
+    rfps_middlepoint     = 0;
 
     //	Filtered FPS
     const u32 iAvgFPS    = _max((u32)rfps_average, 10);
@@ -200,7 +199,7 @@ void CDemoPlay::stat_Stop()
     a -= m_count
 XRCORE_API void spline1(float t, Fvector* p, Fvector* ret);
 
-BOOL CDemoPlay::ProcessCam(SCamEffectorInfo& info)
+BOOL            CDemoPlay::ProcessCam(SCamEffectorInfo& info)
 {
     // skeep a few frames before counting
     if (Device->dwPrecacheFrame)

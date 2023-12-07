@@ -49,39 +49,29 @@ void CRenderDevice::Initialize()
     // Unless a substitute hWnd has been specified, create a window to render into
     if (m_hWnd == NULL)
     {
-        int _icon_ = IDI_ICON_HYBRIDXRAY;
-        pcstr title = "CoCRTeam[HybridXRay]";
+        int   _icon_ = IDI_ICON_HYBRIDXRAY;
+        pcstr title  = "CoCRTeam[HybridXRay]";
         if (xrGameManager::GetGame() == EGame::COP)
         {
             _icon_ = IDI_ICON_COP;
-            title = "S.T.A.L.K.E.R.: Call of Pripyat";
+            title  = "S.T.A.L.K.E.R.: Call of Pripyat";
         }
         else if (xrGameManager::GetGame() == EGame::CS)
         {
             _icon_ = IDI_ICON_CS;
-            title = "S.T.A.L.K.E.R.: Clear Sky";
+            title  = "S.T.A.L.K.E.R.: Clear Sky";
         }
         else if (xrGameManager::GetGame() == EGame::SHOC)
         {
             _icon_ = IDI_ICON_SHOC;
-            title = "S.T.A.L.K.E.R.: Shadow of Chernobyl";
+            title  = "S.T.A.L.K.E.R.: Shadow of Chernobyl";
         }
-        
-        const char* wndclass = "_XRAY_1.5";
+
+        const char* wndclass  = "_XRAY_1.5";
 
         // Register the windows class
-        HINSTANCE hInstance = (HINSTANCE)GetModuleHandle(0);
-        WNDCLASS  wndClass  = {
-            0,
-            WndProc,
-            0,
-            0,
-            hInstance,
-            LoadIcon(hInstance, MAKEINTRESOURCE(_icon_)),
-            LoadCursor(NULL, IDC_ARROW),
-            (HBRUSH)GetStockObject(BLACK_BRUSH),
-            NULL,
-            wndclass};
+        HINSTANCE   hInstance = (HINSTANCE)GetModuleHandle(0);
+        WNDCLASS    wndClass  = {0, WndProc, 0, 0, hInstance, LoadIcon(hInstance, MAKEINTRESOURCE(_icon_)), LoadCursor(NULL, IDC_ARROW), (HBRUSH)GetStockObject(BLACK_BRUSH), NULL, wndclass};
         RegisterClass(&wndClass);
 
         // Set the window's initial style

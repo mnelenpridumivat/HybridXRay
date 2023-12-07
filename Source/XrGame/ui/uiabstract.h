@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#pragma warning(disable : 4511)
-#pragma warning(disable : 4512)
+#pragma warning(disable:4511)
+#pragma warning(disable:4512)
 
 #include "../ui_base.h"
 #include <boost/noncopyable.hpp>
@@ -117,7 +117,8 @@ public:
             case waNone:
                 res.set(m_wndPos.x, m_wndPos.y, m_wndPos.x + m_wndSize.x, m_wndPos.y + m_wndSize.y);
                 break;
-            case waCenter: {
+            case waCenter:
+            {
                 float half_w = m_wndSize.x / 2.0f;
                 float half_h = m_wndSize.y / 2.0f;
                 res.set(m_wndPos.x - half_w, m_wndPos.y - half_h, m_wndPos.x + half_w, m_wndPos.y + half_h);

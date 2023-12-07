@@ -11,26 +11,25 @@ namespace xray
             class XRCORE_API string_tupples
             {
             public:
-                template <typename T0> inline string_tupples(T0 p0): m_count(1)
+                template<typename T0> inline string_tupples(T0 p0): m_count(1)
                 {
                     helper<0>::add_string(*this, p0);
                 }
 
-                template <typename T0, typename T1> inline string_tupples(T0 p0, T1 p1): m_count(2)
+                template<typename T0, typename T1> inline string_tupples(T0 p0, T1 p1): m_count(2)
                 {
                     helper<0>::add_string(*this, p0);
                     helper<1>::add_string(*this, p1);
                 }
 
-                template <typename T0, typename T1, typename T2> inline string_tupples(T0 p0, T1 p1, T2 p2): m_count(3)
+                template<typename T0, typename T1, typename T2> inline string_tupples(T0 p0, T1 p1, T2 p2): m_count(3)
                 {
                     helper<0>::add_string(*this, p0);
                     helper<1>::add_string(*this, p1);
                     helper<2>::add_string(*this, p2);
                 }
 
-                template <typename T0, typename T1, typename T2, typename T3>
-                inline string_tupples(T0 p0, T1 p1, T2 p2, T3 p3): m_count(4)
+                template<typename T0, typename T1, typename T2, typename T3> inline string_tupples(T0 p0, T1 p1, T2 p2, T3 p3): m_count(4)
                 {
                     helper<0>::add_string(*this, p0);
                     helper<1>::add_string(*this, p1);
@@ -38,8 +37,7 @@ namespace xray
                     helper<3>::add_string(*this, p3);
                 }
 
-                template <typename T0, typename T1, typename T2, typename T3, typename T4>
-                inline string_tupples(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4): m_count(5)
+                template<typename T0, typename T1, typename T2, typename T3, typename T4> inline string_tupples(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4): m_count(5)
                 {
                     helper<0>::add_string(*this, p0);
                     helper<1>::add_string(*this, p1);
@@ -48,8 +46,7 @@ namespace xray
                     helper<4>::add_string(*this, p4);
                 }
 
-                template <typename T0, typename T1, typename T2, typename T3, typename T4, typename T5>
-                inline string_tupples(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5): m_count(6)
+                template<typename T0, typename T1, typename T2, typename T3, typename T4, typename T5> inline string_tupples(T0 p0, T1 p1, T2 p2, T3 p3, T4 p4, T5 p5): m_count(6)
                 {
                     helper<0>::add_string(*this, p0);
                     helper<1>::add_string(*this, p1);
@@ -59,7 +56,7 @@ namespace xray
                     helper<5>::add_string(*this, p5);
                 }
 
-                void error_process() const;
+                void       error_process() const;
 
                 inline u32 size() const
                 {
@@ -103,7 +100,7 @@ namespace xray
                 };
 
             private:
-                template <u32 index> struct helper
+                template<u32 index> struct helper
                 {
                     static inline u32 length(LPCSTR string)
                     {
@@ -135,7 +132,7 @@ namespace xray
                         return (string.c_str());
                     }
 
-                    template <typename T> static inline void add_string(string_tupples& self, T p)
+                    template<typename T> static inline void add_string(string_tupples& self, T p)
                     {
                         STATIC_CHECK(index < max_item_count, Error_invalid_string_index_specified);
 

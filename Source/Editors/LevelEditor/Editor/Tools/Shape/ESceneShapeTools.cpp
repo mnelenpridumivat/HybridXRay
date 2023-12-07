@@ -22,10 +22,10 @@ CCustomObject* ESceneShapeTool::CreateObject(LPVOID data, LPCSTR name)
 
 void ESceneShapeTool::OnEditLevelBounds(bool recalc)
 {
-    ObjectList::iterator it   = m_Objects.begin();
-    ObjectList::iterator it_e = m_Objects.end();
+    ObjectList::iterator it          = m_Objects.begin();
+    ObjectList::iterator it_e        = m_Objects.end();
 
-    CEditShape* level_shape = NULL;
+    CEditShape*          level_shape = NULL;
 
     for (; it != it_e; ++it)
     {

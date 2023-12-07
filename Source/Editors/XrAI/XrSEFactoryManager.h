@@ -8,6 +8,7 @@ public:
     ~XrSEFactoryManager();
     ISE_Abstract* create_entity(LPCSTR section);
     void          destroy_entity(ISE_Abstract*& abstract);
+
 private:
     HMODULE m_Module;
 

@@ -23,16 +23,7 @@
 // CObjectActionCommand
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionCommand::CObjectActionCommand(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    u32               command,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name),
-    m_command(command)
-{
-}
+CObjectActionCommand::CObjectActionCommand(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, u32 command, LPCSTR action_name): inherited(item, owner, storage, action_name), m_command(command) {}
 
 void CObjectActionCommand::initialize()
 {
@@ -44,12 +35,7 @@ void CObjectActionCommand::initialize()
 // CObjectActionShow
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionShow::CObjectActionShow(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
+CObjectActionShow::CObjectActionShow(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name)
 {
     m_weapon = smart_cast<CWeapon*>(item);
 }
@@ -102,14 +88,7 @@ void CObjectActionShow::execute()
 // CObjectActionHide
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionHide::CObjectActionHide(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
-{
-}
+CObjectActionHide::CObjectActionHide(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name) {}
 
 void CObjectActionHide::execute()
 {
@@ -180,16 +159,7 @@ static bool try_advance_ammo(CWeapon const& weapon)
 // CObjectActionReload
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionReload::CObjectActionReload(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    _condition_type   type,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name),
-    m_type(type)
-{
-}
+CObjectActionReload::CObjectActionReload(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name): inherited(item, owner, storage, action_name), m_type(type) {}
 
 void CObjectActionReload::initialize()
 {
@@ -238,16 +208,7 @@ void CObjectActionReload::execute()
 // CObjectActionFire
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionFire::CObjectActionFire(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    _condition_type   type,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name),
-    m_type(type)
-{
-}
+CObjectActionFire::CObjectActionFire(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name): inherited(item, owner, storage, action_name), m_type(type) {}
 
 void CObjectActionFire::initialize()
 {
@@ -291,16 +252,7 @@ void CObjectActionFire::finalize()
 // CObjectActionFireNoReload
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionFireNoReload::CObjectActionFireNoReload(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    _condition_type   type,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name),
-    m_type(type), m_fired(false)
-{
-}
+CObjectActionFireNoReload::CObjectActionFireNoReload(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name): inherited(item, owner, storage, action_name), m_type(type), m_fired(false) {}
 
 void CObjectActionFireNoReload::initialize()
 {
@@ -363,12 +315,7 @@ void CObjectActionFireNoReload::finalize()
 // CObjectActionStrapping
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionStrapping::CObjectActionStrapping(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
+CObjectActionStrapping::CObjectActionStrapping(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name)
 {
     m_callback_removed = true;
 }
@@ -377,13 +324,11 @@ CObjectActionStrapping::~CObjectActionStrapping()
 {
     if (m_callback_removed)
     {
-        VERIFY(!object().animation().torso().callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end)));
+        VERIFY(!object().animation().torso().callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end)));
         return;
     }
 
-    object().animation().torso().remove_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end));
+    object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end));
 }
 
 void CObjectActionStrapping::on_animation_end()
@@ -392,8 +337,7 @@ void CObjectActionStrapping::on_animation_end()
 
     m_storage->set_property(ObjectHandlerSpace::eWorldPropertyStrapped, true);
 
-    object().animation().torso().remove_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end));
+    object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end));
 
     m_callback_removed = true;
 }
@@ -413,8 +357,7 @@ void CObjectActionStrapping::initialize()
 
     m_storage->set_property(ObjectHandlerSpace::eWorldPropertyStrapped2Idle, true);
 
-    object().animation().torso().add_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end));
+    object().animation().torso().add_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end));
 }
 
 void CObjectActionStrapping::execute()
@@ -434,15 +377,13 @@ void CObjectActionStrapping::finalize()
 
     if (!m_callback_removed)
     {
-        object().animation().torso().remove_callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end));
+        object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end));
 
         m_callback_removed = true;
     }
     else
     {
-        VERIFY(!object().animation().torso().callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end)));
+        VERIFY(!object().animation().torso().callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrapping::on_animation_end)));
     }
 }
 
@@ -450,12 +391,7 @@ void CObjectActionStrapping::finalize()
 // CObjectActionStrappingToIdle
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionStrappingToIdle::CObjectActionStrappingToIdle(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
+CObjectActionStrappingToIdle::CObjectActionStrappingToIdle(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name)
 {
     m_callback_removed = true;
 }
@@ -464,13 +400,11 @@ CObjectActionStrappingToIdle::~CObjectActionStrappingToIdle()
 {
     if (m_callback_removed)
     {
-        VERIFY(!object().animation().torso().callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end)));
+        VERIFY(!object().animation().torso().callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end)));
         return;
     }
 
-    object().animation().torso().remove_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end));
+    object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end));
 }
 
 void CObjectActionStrappingToIdle::on_animation_end()
@@ -479,8 +413,7 @@ void CObjectActionStrappingToIdle::on_animation_end()
 
     m_storage->set_property(ObjectHandlerSpace::eWorldPropertyStrapped2Idle, false);
 
-    object().animation().torso().remove_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end));
+    object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end));
 
     m_callback_removed = true;
 }
@@ -498,8 +431,7 @@ void CObjectActionStrappingToIdle::initialize()
 
     m_callback_removed = false;
 
-    object().animation().torso().add_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end));
+    object().animation().torso().add_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end));
 }
 
 void CObjectActionStrappingToIdle::execute()
@@ -519,15 +451,13 @@ void CObjectActionStrappingToIdle::finalize()
 
     if (!m_callback_removed)
     {
-        object().animation().torso().remove_callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end));
+        object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end));
 
         m_callback_removed = true;
     }
     else
     {
-        VERIFY(!object().animation().torso().callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end)));
+        VERIFY(!object().animation().torso().callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionStrappingToIdle::on_animation_end)));
     }
 }
 
@@ -535,12 +465,7 @@ void CObjectActionStrappingToIdle::finalize()
 // CObjectActionUnstrapping
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionUnstrapping::CObjectActionUnstrapping(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
+CObjectActionUnstrapping::CObjectActionUnstrapping(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name)
 {
     m_callback_removed = true;
 }
@@ -549,13 +474,11 @@ CObjectActionUnstrapping::~CObjectActionUnstrapping()
 {
     if (m_callback_removed)
     {
-        VERIFY(!object().animation().torso().callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end)));
+        VERIFY(!object().animation().torso().callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end)));
         return;
     }
 
-    object().animation().torso().remove_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end));
+    object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end));
 }
 
 void CObjectActionUnstrapping::on_animation_end()
@@ -564,8 +487,7 @@ void CObjectActionUnstrapping::on_animation_end()
 
     m_storage->set_property(ObjectHandlerSpace::eWorldPropertyStrapped, false);
 
-    object().animation().torso().remove_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end));
+    object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end));
 
     m_callback_removed = true;
 }
@@ -585,8 +507,7 @@ void CObjectActionUnstrapping::initialize()
 
     m_storage->set_property(ObjectHandlerSpace::eWorldPropertyStrapped2Idle, true);
 
-    object().animation().torso().add_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end));
+    object().animation().torso().add_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end));
 }
 
 void CObjectActionUnstrapping::execute()
@@ -606,15 +527,13 @@ void CObjectActionUnstrapping::finalize()
 
     if (!m_callback_removed)
     {
-        object().animation().torso().remove_callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end));
+        object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end));
 
         m_callback_removed = true;
     }
     else
     {
-        VERIFY(!object().animation().torso().callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end)));
+        VERIFY(!object().animation().torso().callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrapping::on_animation_end)));
     }
 }
 
@@ -622,12 +541,7 @@ void CObjectActionUnstrapping::finalize()
 // CObjectActionUnstrappingToIdle
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionUnstrappingToIdle::CObjectActionUnstrappingToIdle(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
+CObjectActionUnstrappingToIdle::CObjectActionUnstrappingToIdle(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name)
 {
     m_callback_removed = true;
 }
@@ -636,13 +550,11 @@ CObjectActionUnstrappingToIdle::~CObjectActionUnstrappingToIdle()
 {
     if (m_callback_removed)
     {
-        VERIFY(!object().animation().torso().callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end)));
+        VERIFY(!object().animation().torso().callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end)));
         return;
     }
 
-    object().animation().torso().remove_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end));
+    object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end));
 }
 
 void CObjectActionUnstrappingToIdle::on_animation_end()
@@ -651,8 +563,7 @@ void CObjectActionUnstrappingToIdle::on_animation_end()
 
     m_storage->set_property(ObjectHandlerSpace::eWorldPropertyStrapped2Idle, false);
 
-    object().animation().torso().remove_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end));
+    object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end));
 
     m_callback_removed = true;
 }
@@ -670,8 +581,7 @@ void CObjectActionUnstrappingToIdle::initialize()
 
     m_callback_removed = false;
 
-    object().animation().torso().add_callback(
-        CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end));
+    object().animation().torso().add_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end));
 }
 
 void CObjectActionUnstrappingToIdle::execute()
@@ -691,15 +601,13 @@ void CObjectActionUnstrappingToIdle::finalize()
 
     if (!m_callback_removed)
     {
-        object().animation().torso().remove_callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end));
+        object().animation().torso().remove_callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end));
 
         m_callback_removed = true;
     }
     else
     {
-        VERIFY(!object().animation().torso().callback(
-            CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end)));
+        VERIFY(!object().animation().torso().callback(CStalkerAnimationPair::CALLBACK_ID(this, &CObjectActionUnstrappingToIdle::on_animation_end)));
     }
 }
 
@@ -707,14 +615,7 @@ void CObjectActionUnstrappingToIdle::finalize()
 // CObjectActionQueueWait
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionQueueWait::CObjectActionQueueWait(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    _condition_type   type,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name),
-    m_type(type)
+CObjectActionQueueWait::CObjectActionQueueWait(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name): inherited(item, owner, storage, action_name), m_type(type)
 {
     m_magazined = smart_cast<CWeaponMagazined*>(item);
 }
@@ -756,16 +657,7 @@ void CObjectActionQueueWait::finalize()
 // CObjectActionSwitch
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionSwitch::CObjectActionSwitch(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    _condition_type   type,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name),
-    m_type(type)
-{
-}
+CObjectActionSwitch::CObjectActionSwitch(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type type, LPCSTR action_name): inherited(item, owner, storage, action_name), m_type(type) {}
 
 void CObjectActionSwitch::initialize()
 {
@@ -794,14 +686,7 @@ void CObjectActionSwitch::finalize()
 // CObjectActionDrop
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionDrop::CObjectActionDrop(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
-{
-}
+CObjectActionDrop::CObjectActionDrop(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name) {}
 
 void CObjectActionDrop::initialize()
 {
@@ -819,14 +704,7 @@ void CObjectActionDrop::initialize()
 // CObjectActionAim
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionAim::CObjectActionAim(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    _condition_type   condition_id,
-    _value_type       value,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, condition_id, value, action_name)
+CObjectActionAim::CObjectActionAim(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, _condition_type condition_id, _value_type value, LPCSTR action_name): inherited(item, owner, storage, condition_id, value, action_name)
 {
     m_weapon = smart_cast<CWeaponMagazined*>(m_item);
     //	VERIFY						(m_weapon);
@@ -857,14 +735,7 @@ void CObjectActionAim::execute()
 // CObjectActionIdle
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionIdle::CObjectActionIdle(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
-{
-}
+CObjectActionIdle::CObjectActionIdle(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name) {}
 
 void CObjectActionIdle::initialize()
 {
@@ -883,14 +754,7 @@ void CObjectActionIdle::initialize()
 // CObjectActionIdleMissile
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionIdleMissile::CObjectActionIdleMissile(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
-{
-}
+CObjectActionIdleMissile::CObjectActionIdleMissile(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name) {}
 
 void CObjectActionIdleMissile::initialize()
 {
@@ -900,26 +764,16 @@ void CObjectActionIdleMissile::initialize()
     VERIFY(object().inventory().ActiveItem());
     VERIFY(object().inventory().ActiveItem()->object().ID() == m_item->object().ID());
 
-    m_storage->set_property(
-        object().planner().uid(m_item->object().ID(), ObjectHandlerSpace::eWorldPropertyThrowStarted), false);
-    m_storage->set_property(
-        object().planner().uid(m_item->object().ID(), ObjectHandlerSpace::eWorldPropertyThrowIdle), false);
-    m_storage->set_property(
-        object().planner().uid(m_item->object().ID(), ObjectHandlerSpace::eWorldPropertyFiring1), false);
+    m_storage->set_property(object().planner().uid(m_item->object().ID(), ObjectHandlerSpace::eWorldPropertyThrowStarted), false);
+    m_storage->set_property(object().planner().uid(m_item->object().ID(), ObjectHandlerSpace::eWorldPropertyThrowIdle), false);
+    m_storage->set_property(object().planner().uid(m_item->object().ID(), ObjectHandlerSpace::eWorldPropertyFiring1), false);
 }
 
 //////////////////////////////////////////////////////////////////////////
 // CObjectActionThrowMissile
 //////////////////////////////////////////////////////////////////////////
 
-CObjectActionThrowMissile::CObjectActionThrowMissile(
-    CInventoryItem*   item,
-    CAI_Stalker*      owner,
-    CPropertyStorage* storage,
-    LPCSTR            action_name):
-    inherited(item, owner, storage, action_name)
-{
-}
+CObjectActionThrowMissile::CObjectActionThrowMissile(CInventoryItem* item, CAI_Stalker* owner, CPropertyStorage* storage, LPCSTR action_name): inherited(item, owner, storage, action_name) {}
 
 void CObjectActionThrowMissile::initialize()
 {

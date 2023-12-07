@@ -99,6 +99,7 @@ public:
         } S;
     } X;
 #endif   //	(RENDER==R_R2) || (RENDER==R_R3) || (RENDER==R_R4)
+
 public:
     virtual void set_type(LT type)
     {

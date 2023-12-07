@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2007 nVidia, Inc.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. 
 
@@ -21,81 +21,136 @@ See the License for the specific language governing permissions and limitations 
 #include "nvmath/Vector.inl"
 #include "nvmath/Fitting.h"
 
-#include <string.h> // strlen
-#include <float.h> // FLT_MAX
+#include <string.h>   // strlen
+#include <float.h>    // FLT_MAX
 
 using namespace nv;
 using namespace ZOH;
 
-#define NINDICES	16
-#define	INDEXBITS	4
-#define	HIGH_INDEXBIT	(1<<(INDEXBITS-1))
-#define	DENOM		(NINDICES-1)
+#define NINDICES      16
+#define INDEXBITS     4
+#define HIGH_INDEXBIT (1 << (INDEXBITS - 1))
+#define DENOM         (NINDICES - 1)
 
-#define	NSHAPES	1
+#define NSHAPES       1
 
-static const int shapes[NSHAPES] =
-{
-    0x0000
-};	// only 1 shape
+static const int shapes[NSHAPES] = {0x0000};   // only 1 shape
 
-#define	REGION(x,y,shapeindex)	((shapes[shapeindex]&(1<<(15-(x)-4*(y))))!=0)
+#define REGION(x, y, shapeindex) ((shapes[shapeindex] & (1 << (15 - (x)-4 * (y)))) != 0)
 
-#define	POS_TO_X(pos)	((pos)&3)
-#define	POS_TO_Y(pos)	(((pos)>>2)&3)
+#define POS_TO_X(pos)            ((pos) & 3)
+#define POS_TO_Y(pos)            (((pos) >> 2) & 3)
 
-#define	NDELTA	2
+#define NDELTA                   2
 
 struct Chanpat
 {
-    int prec[NDELTA];		// precision pattern for one channel
+    int prec[NDELTA];   // precision pattern for one channel
 };
 
 struct Pattern
 {
-    Chanpat chan[NCHANNELS];// allow different bit patterns per channel -- but we still want constant precision per channel
-    int transformed;		// if 0, deltas are unsigned and no transform; otherwise, signed and transformed
-    int mode;				// associated mode value
-    int modebits;			// number of mode bits
-    const char *encoding;	// verilog description of encoding for this mode
+    Chanpat     chan[NCHANNELS];   // allow different bit patterns per channel -- but we still want constant precision per channel
+    int         transformed;       // if 0, deltas are unsigned and no transform; otherwise, signed and transformed
+    int         mode;              // associated mode value
+    int         modebits;          // number of mode bits
+    const char* encoding;          // verilog description of encoding for this mode
 };
 
-#define MAXMODEBITS	5
-#define	MAXMODES (1<<MAXMODEBITS)
+#define MAXMODEBITS 5
+#define MAXMODES    (1 << MAXMODEBITS)
 
-#define	NPATTERNS 4
+#define NPATTERNS   4
 
-static const Pattern patterns[NPATTERNS] =
-{
-    16,4,  16,4,  16,4,   1, 0x0f, 5, "bw[10],bw[11],bw[12],bw[13],bw[14],bw[15],bx[3:0],gw[10],gw[11],gw[12],gw[13],gw[14],gw[15],gx[3:0],rw[10],rw[11],rw[12],rw[13],rw[14],rw[15],rx[3:0],bw[9:0],gw[9:0],rw[9:0],m[4:0]",
-    12,8,  12,8,  12,8,   1, 0x0b, 5, "bw[10],bw[11],bx[7:0],gw[10],gw[11],gx[7:0],rw[10],rw[11],rx[7:0],bw[9:0],gw[9:0],rw[9:0],m[4:0]",
-    11,9,  11,9,  11,9,   1, 0x07, 5, "bw[10],bx[8:0],gw[10],gx[8:0],rw[10],rx[8:0],bw[9:0],gw[9:0],rw[9:0],m[4:0]",
-    10,10, 10,10, 10,10,  0, 0x03, 5, "bx[9:0],gx[9:0],rx[9:0],bw[9:0],gw[9:0],rw[9:0],m[4:0]",
+static const Pattern patterns[NPATTERNS] = {
+    16,
+    4,
+    16,
+    4,
+    16,
+    4,
+    1,
+    0x0f,
+    5,
+    "bw[10],bw[11],bw[12],bw[13],bw[14],bw[15],bx[3:0],gw[10],gw[11],gw[12],gw[13],gw[14],gw[15],gx[3:0],rw[10],rw[11],rw[12],rw[13],rw[14],rw[15],rx[3:0],bw[9:0],gw[9:0],rw[9:0],m[4:0]",
+    12,
+    8,
+    12,
+    8,
+    12,
+    8,
+    1,
+    0x0b,
+    5,
+    "bw[10],bw[11],bx[7:0],gw[10],gw[11],gx[7:0],rw[10],rw[11],rx[7:0],bw[9:0],gw[9:0],rw[9:0],m[4:0]",
+    11,
+    9,
+    11,
+    9,
+    11,
+    9,
+    1,
+    0x07,
+    5,
+    "bw[10],bx[8:0],gw[10],gx[8:0],rw[10],rx[8:0],bw[9:0],gw[9:0],rw[9:0],m[4:0]",
+    10,
+    10,
+    10,
+    10,
+    10,
+    10,
+    0,
+    0x03,
+    5,
+    "bx[9:0],gx[9:0],rx[9:0],bw[9:0],gw[9:0],rw[9:0],m[4:0]",
 };
 
 // mapping of mode to the corresponding index in pattern
 static const int mode_to_pat[MAXMODES] = {
-    -1,-1,-1,
-    3,	// 0x03
-    -1,-1,-1,
-    2,	// 0x07
-    -1,-1,-1,
-    1,	// 0x0b
-    -1,-1,-1,
-    0,	// 0x0f
-    -1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,
+    -1,
+    -1,
+    -1,
+    3,   // 0x03
+    -1,
+    -1,
+    -1,
+    2,   // 0x07
+    -1,
+    -1,
+    -1,
+    1,   // 0x0b
+    -1,
+    -1,
+    -1,
+    0,   // 0x0f
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
+    -1,
 };
 
-#define	R_0(ep)	(ep)[0].A[i]
-#define	R_1(ep)	(ep)[0].B[i]
-#define	MASK(n)	((1<<(n))-1)
+#define R_0(ep) (ep)[0].A[i]
+#define R_1(ep) (ep)[0].B[i]
+#define MASK(n) ((1 << (n)) - 1)
 
 // compress endpoints
-static void compress_endpts(const IntEndpts in[NREGIONS_ONE], ComprEndpts out[NREGIONS_ONE], const Pattern &p)
+static void compress_endpts(const IntEndpts in[NREGIONS_ONE], ComprEndpts out[NREGIONS_ONE], const Pattern& p)
 {
     if (p.transformed)
     {
-        for (int i=0; i<NCHANNELS; ++i)
+        for (int i = 0; i < NCHANNELS; ++i)
         {
             R_0(out) = R_0(in) & MASK(p.chan[i].prec[0]);
             R_1(out) = (R_1(in) - R_0(in)) & MASK(p.chan[i].prec[1]);
@@ -103,7 +158,7 @@ static void compress_endpts(const IntEndpts in[NREGIONS_ONE], ComprEndpts out[NR
     }
     else
     {
-        for (int i=0; i<NCHANNELS; ++i)
+        for (int i = 0; i < NCHANNELS; ++i)
         {
             R_0(out) = R_0(in) & MASK(p.chan[i].prec[0]);
             R_1(out) = R_1(in) & MASK(p.chan[i].prec[1]);
@@ -112,27 +167,27 @@ static void compress_endpts(const IntEndpts in[NREGIONS_ONE], ComprEndpts out[NR
 }
 
 // decompress endpoints
-static void decompress_endpts(const ComprEndpts in[NREGIONS_ONE], IntEndpts out[NREGIONS_ONE], const Pattern &p)
+static void decompress_endpts(const ComprEndpts in[NREGIONS_ONE], IntEndpts out[NREGIONS_ONE], const Pattern& p)
 {
     bool issigned = Utils::FORMAT == SIGNED_F16;
 
     if (p.transformed)
     {
-        for (int i=0; i<NCHANNELS; ++i)
+        for (int i = 0; i < NCHANNELS; ++i)
         {
-            R_0(out) = issigned ? SIGN_EXTEND(R_0(in),p.chan[i].prec[0]) : R_0(in);
+            R_0(out) = issigned ? SIGN_EXTEND(R_0(in), p.chan[i].prec[0]) : R_0(in);
             int t;
-            t = SIGN_EXTEND(R_1(in), p.chan[i].prec[1]);
-            t = (t + R_0(in)) & MASK(p.chan[i].prec[0]);
-            R_1(out) = issigned ? SIGN_EXTEND(t,p.chan[i].prec[0]) : t;
+            t        = SIGN_EXTEND(R_1(in), p.chan[i].prec[1]);
+            t        = (t + R_0(in)) & MASK(p.chan[i].prec[0]);
+            R_1(out) = issigned ? SIGN_EXTEND(t, p.chan[i].prec[0]) : t;
         }
     }
     else
     {
-        for (int i=0; i<NCHANNELS; ++i)
+        for (int i = 0; i < NCHANNELS; ++i)
         {
-            R_0(out) = issigned ? SIGN_EXTEND(R_0(in),p.chan[i].prec[0]) : R_0(in);
-            R_1(out) = issigned ? SIGN_EXTEND(R_1(in),p.chan[i].prec[1]) : R_1(in);
+            R_0(out) = issigned ? SIGN_EXTEND(R_0(in), p.chan[i].prec[0]) : R_0(in);
+            R_1(out) = issigned ? SIGN_EXTEND(R_1(in), p.chan[i].prec[1]) : R_1(in);
         }
     }
 }
@@ -156,47 +211,54 @@ static void swap_indices(IntEndpts endpts[NREGIONS_ONE], int indices[Tile::TILE_
 {
     int index_positions[NREGIONS_ONE];
 
-    index_positions[0] = 0;			// since WLOG we have the high bit of the shapes at 0
+    index_positions[0] = 0;   // since WLOG we have the high bit of the shapes at 0
 
     for (int region = 0; region < NREGIONS_ONE; ++region)
     {
         int x = index_positions[region] & 3;
         int y = (index_positions[region] >> 2) & 3;
-        nvDebugCheck(REGION(x,y,shapeindex) == region);		// double check the table
+        nvDebugCheck(REGION(x, y, shapeindex) == region);   // double check the table
         if (indices[y][x] & HIGH_INDEXBIT)
         {
             // high bit is set, swap the endpts and indices for this region
             int t;
-            for (int i=0; i<NCHANNELS; ++i) { t = endpts[region].A[i]; endpts[region].A[i] = endpts[region].B[i]; endpts[region].B[i] = t; }
+            for (int i = 0; i < NCHANNELS; ++i)
+            {
+                t                   = endpts[region].A[i];
+                endpts[region].A[i] = endpts[region].B[i];
+                endpts[region].B[i] = t;
+            }
 
             for (int y = 0; y < Tile::TILE_H; y++)
                 for (int x = 0; x < Tile::TILE_W; x++)
-                    if (REGION(x,y,shapeindex) == region)
+                    if (REGION(x, y, shapeindex) == region)
                         indices[y][x] = NINDICES - 1 - indices[y][x];
         }
     }
 }
 
 // endpoints fit only if the compression was lossless
-static bool endpts_fit(const IntEndpts orig[NREGIONS_ONE], const ComprEndpts compressed[NREGIONS_ONE], const Pattern &p)
+static bool endpts_fit(const IntEndpts orig[NREGIONS_ONE], const ComprEndpts compressed[NREGIONS_ONE], const Pattern& p)
 {
     IntEndpts uncompressed[NREGIONS_ONE];
 
     decompress_endpts(compressed, uncompressed, p);
 
-    for (int j=0; j<NREGIONS_ONE; ++j)
-	for (int i=0; i<NCHANNELS; ++i)
-	{
-        if (orig[j].A[i] != uncompressed[j].A[i]) return false;
-        if (orig[j].B[i] != uncompressed[j].B[i]) return false;
-    }
+    for (int j = 0; j < NREGIONS_ONE; ++j)
+        for (int i = 0; i < NCHANNELS; ++i)
+        {
+            if (orig[j].A[i] != uncompressed[j].A[i])
+                return false;
+            if (orig[j].B[i] != uncompressed[j].B[i])
+                return false;
+        }
     return true;
 }
 
-static void write_header(const ComprEndpts endpts[NREGIONS_ONE], const Pattern &p, Bits &out)
+static void write_header(const ComprEndpts endpts[NREGIONS_ONE], const Pattern& p, Bits& out)
 {
     // interpret the verilog backwards and process it
-    int m = p.mode;
+    int m  = p.mode;
     int rw = endpts[0].A[0], rx = endpts[0].B[0];
     int gw = endpts[0].A[1], gx = endpts[0].B[1];
     int bw = endpts[0].A[2], bx = endpts[0].B[2];
@@ -204,33 +266,48 @@ static void write_header(const ComprEndpts endpts[NREGIONS_ONE], const Pattern &
     while (ptr)
     {
         Field field;
-        int endbit, len;
+        int   endbit, len;
 
-		// !!!UNDONE: get rid of string parsing!!!
+        // !!!UNDONE: get rid of string parsing!!!
         Utils::parse(p.encoding, ptr, field, endbit, len);
-        switch(field)
+        switch (field)
         {
-        case FIELD_M:	out.write( m >> endbit, len); break;
-        case FIELD_RW:	out.write(rw >> endbit, len); break;
-        case FIELD_RX:	out.write(rx >> endbit, len); break;
-        case FIELD_GW:	out.write(gw >> endbit, len); break;
-        case FIELD_GX:	out.write(gx >> endbit, len); break;
-        case FIELD_BW:	out.write(bw >> endbit, len); break;
-        case FIELD_BX:	out.write(bx >> endbit, len); break;
+            case FIELD_M:
+                out.write(m >> endbit, len);
+                break;
+            case FIELD_RW:
+                out.write(rw >> endbit, len);
+                break;
+            case FIELD_RX:
+                out.write(rx >> endbit, len);
+                break;
+            case FIELD_GW:
+                out.write(gw >> endbit, len);
+                break;
+            case FIELD_GX:
+                out.write(gx >> endbit, len);
+                break;
+            case FIELD_BW:
+                out.write(bw >> endbit, len);
+                break;
+            case FIELD_BX:
+                out.write(bx >> endbit, len);
+                break;
 
-        case FIELD_D:
-        case FIELD_RY:
-        case FIELD_RZ:
-        case FIELD_GY:
-        case FIELD_GZ:
-        case FIELD_BY:
-        case FIELD_BZ:
-        default: nvUnreachable();
+            case FIELD_D:
+            case FIELD_RY:
+            case FIELD_RZ:
+            case FIELD_GY:
+            case FIELD_GZ:
+            case FIELD_BY:
+            case FIELD_BZ:
+            default:
+                nvUnreachable();
         }
     }
 }
 
-static void read_header(Bits &in, ComprEndpts endpts[NREGIONS_ONE], Pattern &p)
+static void read_header(Bits& in, ComprEndpts endpts[NREGIONS_ONE], Pattern& p)
 {
     // reading isn't quite symmetric with writing -- we don't know the encoding until we decode the mode
     int mode = in.read(2);
@@ -239,8 +316,8 @@ static void read_header(Bits &in, ComprEndpts endpts[NREGIONS_ONE], Pattern &p)
 
     int pat_index = mode_to_pat[mode];
 
-    nvDebugCheck (pat_index >= 0 && pat_index < NPATTERNS);
-    nvDebugCheck (in.getptr() == patterns[pat_index].modebits);
+    nvDebugCheck(pat_index >= 0 && pat_index < NPATTERNS);
+    nvDebugCheck(in.getptr() == patterns[pat_index].modebits);
 
     p = patterns[pat_index];
 
@@ -249,7 +326,7 @@ static void read_header(Bits &in, ComprEndpts endpts[NREGIONS_ONE], Pattern &p)
     int gw, gx;
     int bw, bx;
 
-    d = 0;
+    d  = 0;
     rw = rx = 0;
     gw = gx = 0;
     bw = bx = 0;
@@ -259,41 +336,58 @@ static void read_header(Bits &in, ComprEndpts endpts[NREGIONS_ONE], Pattern &p)
     while (ptr)
     {
         Field field;
-        int endbit, len;
+        int   endbit, len;
 
-		// !!!UNDONE: get rid of string parsing!!!
+        // !!!UNDONE: get rid of string parsing!!!
         Utils::parse(p.encoding, ptr, field, endbit, len);
 
-        switch(field)
+        switch (field)
         {
-        case FIELD_M:	break;	// already processed so ignore
-        case FIELD_RW:	rw |= in.read(len) << endbit; break;
-        case FIELD_RX:	rx |= in.read(len) << endbit; break;
-        case FIELD_GW:	gw |= in.read(len) << endbit; break;
-        case FIELD_GX:	gx |= in.read(len) << endbit; break;
-        case FIELD_BW:	bw |= in.read(len) << endbit; break;
-        case FIELD_BX:	bx |= in.read(len) << endbit; break;
+            case FIELD_M:
+                break;   // already processed so ignore
+            case FIELD_RW:
+                rw |= in.read(len) << endbit;
+                break;
+            case FIELD_RX:
+                rx |= in.read(len) << endbit;
+                break;
+            case FIELD_GW:
+                gw |= in.read(len) << endbit;
+                break;
+            case FIELD_GX:
+                gx |= in.read(len) << endbit;
+                break;
+            case FIELD_BW:
+                bw |= in.read(len) << endbit;
+                break;
+            case FIELD_BX:
+                bx |= in.read(len) << endbit;
+                break;
 
-        case FIELD_D:
-        case FIELD_RY:
-        case FIELD_RZ:
-        case FIELD_GY:
-        case FIELD_GZ:
-        case FIELD_BY:
-        case FIELD_BZ:
-        default: nvUnreachable();
+            case FIELD_D:
+            case FIELD_RY:
+            case FIELD_RZ:
+            case FIELD_GY:
+            case FIELD_GZ:
+            case FIELD_BY:
+            case FIELD_BZ:
+            default:
+                nvUnreachable();
         }
     }
 
-    nvDebugCheck (in.getptr() == 128 - 63);
+    nvDebugCheck(in.getptr() == 128 - 63);
 
-    endpts[0].A[0] = rw; endpts[0].B[0] = rx;
-    endpts[0].A[1] = gw; endpts[0].B[1] = gx;
-    endpts[0].A[2] = bw; endpts[0].B[2] = bx;
+    endpts[0].A[0] = rw;
+    endpts[0].B[0] = rx;
+    endpts[0].A[1] = gw;
+    endpts[0].B[1] = gx;
+    endpts[0].A[2] = bw;
+    endpts[0].B[2] = bx;
 }
 
 // compress index 0
-static void write_indices(const int indices[Tile::TILE_H][Tile::TILE_W], int shapeindex, Bits &out)
+static void write_indices(const int indices[Tile::TILE_H][Tile::TILE_W], int shapeindex, Bits& out)
 {
     for (int pos = 0; pos < Tile::TILE_TOTAL; ++pos)
     {
@@ -304,7 +398,7 @@ static void write_indices(const int indices[Tile::TILE_H][Tile::TILE_W], int sha
     }
 }
 
-static void emit_block(const ComprEndpts endpts[NREGIONS_ONE], int shapeindex, const Pattern &p, const int indices[Tile::TILE_H][Tile::TILE_W], char *block)
+static void emit_block(const ComprEndpts endpts[NREGIONS_ONE], int shapeindex, const Pattern& p, const int indices[Tile::TILE_H][Tile::TILE_W], char* block)
 {
     Bits out(block, ZOH::BITSIZE);
 
@@ -315,10 +409,10 @@ static void emit_block(const ComprEndpts endpts[NREGIONS_ONE], int shapeindex, c
     nvDebugCheck(out.getptr() == ZOH::BITSIZE);
 }
 
-static void generate_palette_quantized(const IntEndpts &endpts, int prec, Vector3 palette[NINDICES])
+static void generate_palette_quantized(const IntEndpts& endpts, int prec, Vector3 palette[NINDICES])
 {
     // scale endpoints
-    int a, b;			// really need a IntVector3...
+    int a, b;   // really need a IntVector3...
 
     a = Utils::unquantize(endpts.A[0], prec);
     b = Utils::unquantize(endpts.B[0], prec);
@@ -343,27 +437,27 @@ static void generate_palette_quantized(const IntEndpts &endpts, int prec, Vector
 }
 
 // position 0 was compressed
-static void read_indices(Bits &in, int shapeindex, int indices[Tile::TILE_H][Tile::TILE_W])
+static void read_indices(Bits& in, int shapeindex, int indices[Tile::TILE_H][Tile::TILE_W])
 {
     for (int pos = 0; pos < Tile::TILE_TOTAL; ++pos)
     {
-        int x = POS_TO_X(pos);
-        int y = POS_TO_Y(pos);
+        int x         = POS_TO_X(pos);
+        int y         = POS_TO_Y(pos);
 
-        indices[y][x]= in.read(INDEXBITS - ((pos == 0) ? 1 : 0));
+        indices[y][x] = in.read(INDEXBITS - ((pos == 0) ? 1 : 0));
     }
 }
 
-void ZOH::decompressone(const char *block, Tile &t)
+void ZOH::decompressone(const char* block, Tile& t)
 {
-    Bits in(block, ZOH::BITSIZE);
+    Bits        in(block, ZOH::BITSIZE);
 
-    Pattern p;
-    IntEndpts endpts[NREGIONS_ONE];
+    Pattern     p;
+    IntEndpts   endpts[NREGIONS_ONE];
     ComprEndpts compr_endpts[NREGIONS_ONE];
 
     read_header(in, compr_endpts, p);
-    int shapeindex = 0;		// only one shape
+    int shapeindex = 0;   // only one shape
 
     decompress_endpts(compr_endpts, endpts, p);
 
@@ -380,15 +474,15 @@ void ZOH::decompressone(const char *block, Tile &t)
 
     // lookup
     for (int y = 0; y < Tile::TILE_H; y++)
-	for (int x = 0; x < Tile::TILE_W; x++)
-            t.data[y][x] = palette[REGION(x,y,shapeindex)][indices[y][x]];
+        for (int x = 0; x < Tile::TILE_W; x++)
+            t.data[y][x] = palette[REGION(x, y, shapeindex)][indices[y][x]];
 }
 
 // given a collection of colors and quantized endpoints, generate a palette, choose best entries, and return a single toterr
-static float map_colors(const Vector3 colors[], const float importance[], int np, const IntEndpts &endpts, int prec)
+static float map_colors(const Vector3 colors[], const float importance[], int np, const IntEndpts& endpts, int prec)
 {
     Vector3 palette[NINDICES];
-    float toterr = 0;
+    float   toterr = 0;
     Vector3 err;
 
     generate_palette_quantized(endpts, prec, palette);
@@ -403,7 +497,7 @@ static float map_colors(const Vector3 colors[], const float importance[], int np
         {
             err = Utils::norm(colors[i], palette[j]) * importance[i];
 
-            if (err > besterr)	// error increased, so we're done searching
+            if (err > besterr)   // error increased, so we're done searching
                 break;
             if (err < besterr)
                 besterr = err;
@@ -414,8 +508,7 @@ static float map_colors(const Vector3 colors[], const float importance[], int np
 }
 
 // assign indices given a tile, shape, and quantized endpoints, return toterr for each region
-static void assign_indices(const Tile &tile, int shapeindex, IntEndpts endpts[NREGIONS_ONE], int prec, 
-                           int indices[Tile::TILE_H][Tile::TILE_W], float toterr[NREGIONS_ONE])
+static void assign_indices(const Tile& tile, int shapeindex, IntEndpts endpts[NREGIONS_ONE], int prec, int indices[Tile::TILE_H][Tile::TILE_W], float toterr[NREGIONS_ONE])
 {
     // build list of possibles
     Vector3 palette[NREGIONS_ONE][NINDICES];
@@ -429,46 +522,49 @@ static void assign_indices(const Tile &tile, int shapeindex, IntEndpts endpts[NR
     Vector3 err;
 
     for (int y = 0; y < tile.size_y; y++)
-	for (int x = 0; x < tile.size_x; x++)
-	{
-        int region = REGION(x,y,shapeindex);
-        float err, besterr;
-
-        besterr = Utils::norm(tile.data[y][x], palette[region][0]);
-        indices[y][x] = 0;
-
-        for (int i = 1; i < NINDICES && besterr > 0; ++i)
+        for (int x = 0; x < tile.size_x; x++)
         {
-            err = Utils::norm(tile.data[y][x], palette[region][i]);
+            int   region = REGION(x, y, shapeindex);
+            float err, besterr;
 
-            if (err > besterr)	// error increased, so we're done searching
-                break;
-            if (err < besterr)
+            besterr       = Utils::norm(tile.data[y][x], palette[region][0]);
+            indices[y][x] = 0;
+
+            for (int i = 1; i < NINDICES && besterr > 0; ++i)
             {
-                besterr = err;
-                indices[y][x] = i;
+                err = Utils::norm(tile.data[y][x], palette[region][i]);
+
+                if (err > besterr)   // error increased, so we're done searching
+                    break;
+                if (err < besterr)
+                {
+                    besterr       = err;
+                    indices[y][x] = i;
+                }
             }
+            toterr[region] += besterr;
         }
-        toterr[region] += besterr;
-    }
 }
 
-static float perturb_one(const Vector3 colors[], const float importance[], int np, int ch, int prec, const IntEndpts &old_endpts, IntEndpts &new_endpts,
-                          float old_err, int do_b)
+static float perturb_one(const Vector3 colors[], const float importance[], int np, int ch, int prec, const IntEndpts& old_endpts, IntEndpts& new_endpts, float old_err, int do_b)
 {
     // we have the old endpoints: old_endpts
     // we have the perturbed endpoints: new_endpts
     // we have the temporary endpoints: temp_endpts
 
     IntEndpts temp_endpts;
-    float min_err = old_err;		// start with the best current error
-    int beststep;
+    float     min_err = old_err;   // start with the best current error
+    int       beststep;
 
     // copy real endpoints so we can perturb them
-    for (int i=0; i<NCHANNELS; ++i) { temp_endpts.A[i] = new_endpts.A[i] = old_endpts.A[i]; temp_endpts.B[i] = new_endpts.B[i] = old_endpts.B[i]; }
+    for (int i = 0; i < NCHANNELS; ++i)
+    {
+        temp_endpts.A[i] = new_endpts.A[i] = old_endpts.A[i];
+        temp_endpts.B[i] = new_endpts.B[i] = old_endpts.B[i];
+    }
 
     // do a logarithmic search for the best error for this endpoint (which)
-    for (int step = 1 << (prec-1); step; step >>= 1)
+    for (int step = 1 << (prec - 1); step; step >>= 1)
     {
         bool improved = false;
         for (int sign = -1; sign <= 1; sign += 2)
@@ -491,7 +587,7 @@ static float perturb_one(const Vector3 colors[], const float importance[], int n
             if (err < min_err)
             {
                 improved = true;
-                min_err = err;
+                min_err  = err;
                 beststep = sign * step;
             }
         }
@@ -507,7 +603,7 @@ static float perturb_one(const Vector3 colors[], const float importance[], int n
     return min_err;
 }
 
-static void optimize_one(const Vector3 colors[], const float importance[], int np, float orig_err, const IntEndpts &orig_endpts, int prec, IntEndpts &opt_endpts)
+static void optimize_one(const Vector3 colors[], const float importance[], int np, float orig_err, const IntEndpts& orig_endpts, int prec, IntEndpts& opt_endpts)
 {
     float opt_err = orig_err;
     for (int ch = 0; ch < NCHANNELS; ++ch)
@@ -535,15 +631,15 @@ static void optimize_one(const Vector3 colors[], const float importance[], int n
 	*/
     IntEndpts new_a, new_b;
     IntEndpts new_endpt;
-    int do_b;
+    int       do_b;
 
     // now optimize each channel separately
     for (int ch = 0; ch < NCHANNELS; ++ch)
     {
         // figure out which endpoint when perturbed gives the most improvement and start there
         // if we just alternate, we can easily end up in a local minima
-        float err0 = perturb_one(colors, importance, np, ch, prec, opt_endpts, new_a, opt_err, 0);	// perturb endpt A
-        float err1 = perturb_one(colors, importance, np, ch, prec, opt_endpts, new_b, opt_err, 1);	// perturb endpt B
+        float err0 = perturb_one(colors, importance, np, ch, prec, opt_endpts, new_a, opt_err, 0);   // perturb endpt A
+        float err1 = perturb_one(colors, importance, np, ch, prec, opt_endpts, new_b, opt_err, 1);   // perturb endpt B
 
         if (err0 < err1)
         {
@@ -551,16 +647,16 @@ static void optimize_one(const Vector3 colors[], const float importance[], int n
                 continue;
 
             opt_endpts.A[ch] = new_a.A[ch];
-            opt_err = err0;
-            do_b = 1;		// do B next
+            opt_err          = err0;
+            do_b             = 1;   // do B next
         }
         else
         {
             if (err1 >= opt_err)
                 continue;
             opt_endpts.B[ch] = new_b.B[ch];
-            opt_err = err1;
-            do_b = 0;		// do A next
+            opt_err          = err1;
+            do_b             = 0;   // do A next
         }
 
         // now alternate endpoints and keep trying until there is no improvement
@@ -574,27 +670,29 @@ static void optimize_one(const Vector3 colors[], const float importance[], int n
             else
                 opt_endpts.B[ch] = new_endpt.B[ch];
             opt_err = err;
-            do_b = 1 - do_b;	// now move the other endpoint
+            do_b    = 1 - do_b;   // now move the other endpoint
         }
     }
 }
 
-static void optimize_endpts(const Tile &tile, int shapeindex, const float orig_err[NREGIONS_ONE], 
-                            const IntEndpts orig_endpts[NREGIONS_ONE], int prec, IntEndpts opt_endpts[NREGIONS_ONE])
+static void optimize_endpts(const Tile& tile, int shapeindex, const float orig_err[NREGIONS_ONE], const IntEndpts orig_endpts[NREGIONS_ONE], int prec, IntEndpts opt_endpts[NREGIONS_ONE])
 {
     Vector3 pixels[Tile::TILE_TOTAL];
-    float importance[Tile::TILE_TOTAL];
-    float err = 0;
+    float   importance[Tile::TILE_TOTAL];
+    float   err = 0;
 
-    for (int region=0; region<NREGIONS_ONE; ++region)
+    for (int region = 0; region < NREGIONS_ONE; ++region)
     {
         // collect the pixels in the region
         int np = 0;
 
-        for (int y = 0; y < tile.size_y; y++) {
-            for (int x = 0; x < tile.size_x; x++) {
-                if (REGION(x, y, shapeindex) == region) {
-                    pixels[np] = tile.data[y][x];
+        for (int y = 0; y < tile.size_y; y++)
+        {
+            for (int x = 0; x < tile.size_x; x++)
+            {
+                if (REGION(x, y, shapeindex) == region)
+                {
+                    pixels[np]     = tile.data[y][x];
                     importance[np] = tile.importance_map[y][x];
                     ++np;
                 }
@@ -622,17 +720,18 @@ static void optimize_endpts(const Tile &tile, int shapeindex, const float orig_e
                 emit compressed block with original data // to try to preserve maximum endpoint precision
 */
 
-float ZOH::refineone(const Tile &tile, int shapeindex_best, const FltEndpts endpts[NREGIONS_ONE], char *block)
+float ZOH::refineone(const Tile& tile, int shapeindex_best, const FltEndpts endpts[NREGIONS_ONE], char* block)
 {
-    float orig_err[NREGIONS_ONE], opt_err[NREGIONS_ONE], orig_toterr, opt_toterr;
-    IntEndpts orig_endpts[NREGIONS_ONE], opt_endpts[NREGIONS_ONE];
+    float       orig_err[NREGIONS_ONE], opt_err[NREGIONS_ONE], orig_toterr, opt_toterr;
+    IntEndpts   orig_endpts[NREGIONS_ONE], opt_endpts[NREGIONS_ONE];
     ComprEndpts compr_orig[NREGIONS_ONE], compr_opt[NREGIONS_ONE];
-    int orig_indices[Tile::TILE_H][Tile::TILE_W], opt_indices[Tile::TILE_H][Tile::TILE_W];
+    int         orig_indices[Tile::TILE_H][Tile::TILE_W], opt_indices[Tile::TILE_H][Tile::TILE_W];
 
     for (int sp = 0; sp < NPATTERNS; ++sp)
     {
         // precisions for all channels need to be the same
-        for (int i=1; i<NCHANNELS; ++i) nvDebugCheck (patterns[sp].chan[0].prec[0] == patterns[sp].chan[i].prec[0]);
+        for (int i = 1; i < NCHANNELS; ++i)
+            nvDebugCheck(patterns[sp].chan[0].prec[0] == patterns[sp].chan[i].prec[0]);
 
         quantize_endpts(endpts, patterns[sp].chan[0].prec[0], orig_endpts);
         assign_indices(tile, shapeindex_best, orig_endpts, patterns[sp].chan[0].prec[0], orig_indices, orig_err);
@@ -645,7 +744,11 @@ float ZOH::refineone(const Tile &tile, int shapeindex_best, const FltEndpts endp
             swap_indices(opt_endpts, opt_indices, shapeindex_best);
             compress_endpts(opt_endpts, compr_opt, patterns[sp]);
             orig_toterr = opt_toterr = 0;
-            for (int i=0; i < NREGIONS_ONE; ++i) { orig_toterr += orig_err[i]; opt_toterr += opt_err[i]; }
+            for (int i = 0; i < NREGIONS_ONE; ++i)
+            {
+                orig_toterr += orig_err[i];
+                opt_toterr += opt_err[i];
+            }
 
             if (endpts_fit(opt_endpts, compr_opt, patterns[sp]) && opt_toterr < orig_toterr)
             {
@@ -662,61 +765,63 @@ float ZOH::refineone(const Tile &tile, int shapeindex_best, const FltEndpts endp
         }
     }
 
-	nvAssert (false); // "No candidate found, should never happen (refineone.)";
-	return FLT_MAX;
+    nvAssert(false);   // "No candidate found, should never happen (refineone.)";
+    return FLT_MAX;
 }
 
 static void generate_palette_unquantized(const FltEndpts endpts[NREGIONS_ONE], Vector3 palette[NREGIONS_ONE][NINDICES])
 {
     for (int region = 0; region < NREGIONS_ONE; ++region)
-	for (int i = 0; i < NINDICES; ++i)
+        for (int i = 0; i < NINDICES; ++i)
             palette[region][i] = Utils::lerp(endpts[region].A, endpts[region].B, i, DENOM);
 }
 
 // generate a palette from unquantized endpoints, then pick best palette color for all pixels in each region, return toterr for all regions combined
-static float map_colors(const Tile &tile, int shapeindex, const FltEndpts endpts[NREGIONS_ONE])
+static float map_colors(const Tile& tile, int shapeindex, const FltEndpts endpts[NREGIONS_ONE])
 {
     // build list of possibles
     Vector3 palette[NREGIONS_ONE][NINDICES];
 
     generate_palette_unquantized(endpts, palette);
 
-    float toterr = 0;
+    float   toterr = 0;
     Vector3 err;
 
     for (int y = 0; y < tile.size_y; y++)
-	for (int x = 0; x < tile.size_x; x++)
-	{
-        int region = REGION(x,y,shapeindex);
-        float err, besterr;
-
-        besterr = Utils::norm(tile.data[y][x], palette[region][0]) * tile.importance_map[y][x];
-
-        for (int i = 1; i < NINDICES && besterr > 0; ++i)
+        for (int x = 0; x < tile.size_x; x++)
         {
-            err = Utils::norm(tile.data[y][x], palette[region][i]) * tile.importance_map[y][x];
+            int   region = REGION(x, y, shapeindex);
+            float err, besterr;
 
-            if (err > besterr)	// error increased, so we're done searching
-                break;
-            if (err < besterr)
-                besterr = err;
+            besterr = Utils::norm(tile.data[y][x], palette[region][0]) * tile.importance_map[y][x];
+
+            for (int i = 1; i < NINDICES && besterr > 0; ++i)
+            {
+                err = Utils::norm(tile.data[y][x], palette[region][i]) * tile.importance_map[y][x];
+
+                if (err > besterr)   // error increased, so we're done searching
+                    break;
+                if (err < besterr)
+                    besterr = err;
+            }
+            toterr += besterr;
         }
-        toterr += besterr;
-    }
     return toterr;
 }
 
-float ZOH::roughone(const Tile &tile, int shapeindex, FltEndpts endpts[NREGIONS_ONE])
+float ZOH::roughone(const Tile& tile, int shapeindex, FltEndpts endpts[NREGIONS_ONE])
 {
-    for (int region=0; region<NREGIONS_ONE; ++region)
+    for (int region = 0; region < NREGIONS_ONE; ++region)
     {
-        int np = 0;
+        int     np = 0;
         Vector3 colors[Tile::TILE_TOTAL];
-        Vector3 mean(0,0,0);
+        Vector3 mean(0, 0, 0);
 
-        for (int y = 0; y < tile.size_y; y++) {
-            for (int x = 0; x < tile.size_x; x++) {
-                if (REGION(x,y,shapeindex) == region)
+        for (int y = 0; y < tile.size_y; y++)
+        {
+            for (int x = 0; x < tile.size_x; x++)
+            {
+                if (REGION(x, y, shapeindex) == region)
                 {
                     colors[np] = tile.data[y][x];
                     mean += tile.data[y][x];
@@ -728,7 +833,7 @@ float ZOH::roughone(const Tile &tile, int shapeindex, FltEndpts endpts[NREGIONS_
         // handle simple cases
         if (np == 0)
         {
-            Vector3 zero(0,0,0);
+            Vector3 zero(0, 0, 0);
             endpts[region].A = zero;
             endpts[region].B = zero;
             continue;
@@ -751,17 +856,19 @@ float ZOH::roughone(const Tile &tile, int shapeindex, FltEndpts endpts[NREGIONS_
         Vector3 direction = Fit::computePrincipalComponent_EigenSolver(np, colors);
 
         // project each pixel value along the principal direction
-        float minp = FLT_MAX, maxp = -FLT_MAX;
+        float   minp = FLT_MAX, maxp = -FLT_MAX;
         for (int i = 0; i < np; i++)
         {
-            float dp = dot(colors[i]-mean, direction);
-            if (dp < minp) minp = dp;
-            if (dp > maxp) maxp = dp;
+            float dp = dot(colors[i] - mean, direction);
+            if (dp < minp)
+                minp = dp;
+            if (dp > maxp)
+                maxp = dp;
         }
 
         // choose as endpoints 2 points along the principal direction that span the projections of all of the pixel values
-        endpts[region].A = mean + minp*direction;
-        endpts[region].B = mean + maxp*direction;
+        endpts[region].A = mean + minp * direction;
+        endpts[region].B = mean + maxp * direction;
 
         // clamp endpoints
         // the argument for clamping is that the actual endpoints need to be clamped and thus we need to choose the best
@@ -773,27 +880,26 @@ float ZOH::roughone(const Tile &tile, int shapeindex, FltEndpts endpts[NREGIONS_
     return map_colors(tile, shapeindex, endpts);
 }
 
-float ZOH::compressone(const Tile &t, char *block)
+float ZOH::compressone(const Tile& t, char* block)
 {
-    int shapeindex_best = 0;
+    int       shapeindex_best = 0;
     FltEndpts endptsbest[NREGIONS_ONE], tempendpts[NREGIONS_ONE];
-    float msebest = FLT_MAX;
+    float     msebest = FLT_MAX;
 
     /*
 		collect the mse values that are within 5% of the best values
 		optimize each one and choose the best
 	*/
     // hack for now -- just use the best value WORK
-    for (int i=0; i<NSHAPES && msebest>0.0; ++i)
+    for (int i = 0; i < NSHAPES && msebest > 0.0; ++i)
     {
         float mse = roughone(t, i, tempendpts);
         if (mse < msebest)
         {
-            msebest = mse;
+            msebest         = mse;
             shapeindex_best = i;
             memcpy(endptsbest, tempendpts, sizeof(endptsbest));
         }
-
     }
     return refineone(t, shapeindex_best, endptsbest, block);
 }

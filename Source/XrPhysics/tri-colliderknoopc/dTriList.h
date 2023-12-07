@@ -15,28 +15,28 @@ struct dcVector3
 
 /* Per triangle callback */
 
-typedef int dTriCallback(dGeomID TriList, dGeomID RefObject, int TriangleIndex);
+typedef int        dTriCallback(dGeomID TriList, dGeomID RefObject, int TriangleIndex);
 
-void dGeomTriListSetCallback(dGeomID g, dTriCallback* Callback);
+void               dGeomTriListSetCallback(dGeomID g, dTriCallback* Callback);
 
-dTriCallback* dGeomTriListGetCallback(dGeomID g);
+dTriCallback*      dGeomTriListGetCallback(dGeomID g);
 
 /* Per object callback */
 
-typedef void dTriArrayCallback(dGeomID TriList, dGeomID RefObject, const int* TriIndices, int TriCount);
+typedef void       dTriArrayCallback(dGeomID TriList, dGeomID RefObject, const int* TriIndices, int TriCount);
 
-void dGeomTriListSetArrayCallback(dGeomID g, dTriArrayCallback* ArrayCallback);
+void               dGeomTriListSetArrayCallback(dGeomID g, dTriArrayCallback* ArrayCallback);
 
 dTriArrayCallback* dGeomTriListGetArrayCallback(dGeomID g);
 
 /* Construction */
 
-dxGeom* dCreateTriList(dSpaceID space, dTriCallback* Callback, dTriArrayCallback* ArrayCallback);
+dxGeom*            dCreateTriList(dSpaceID space, dTriCallback* Callback, dTriArrayCallback* ArrayCallback);
 
 /* Setting data */
 
-void dGeomTriListBuild(dGeomID g, const dcVector3* Vertices, int VertexCount, const int* Indices, int IndexCount);
+void               dGeomTriListBuild(dGeomID g, const dcVector3* Vertices, int VertexCount, const int* Indices, int IndexCount);
 
 /* Getting data */
 
-void dGeomTriListGetTriangle(dGeomID g, int Index, dVector3* v0, dVector3* v1, dVector3* v2);
+void               dGeomTriListGetTriangle(dGeomID g, int Index, dVector3* v0, dVector3* v1, dVector3* v2);

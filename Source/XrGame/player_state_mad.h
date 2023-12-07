@@ -21,19 +21,16 @@ namespace award_system
         {
             return 0.0f;
         };
-        virtual void reset_game();
-        virtual void OnPlayerKilled(
-            u16                                     killer_id,
-            u16                                     target_id,
-            u16                                     weapon_id,
-            std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
+        virtual void     reset_game();
+        virtual void     OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
 
         static u32 const mad_time_period = 20000;   // 20 seconds
+
     protected:
         typedef xr_vector<u32> kill_times_t;
 
-        kill_times_t m_kill_times;
-        void         clear_old_kills();
+        kill_times_t           m_kill_times;
+        void                   clear_old_kills();
     };   // class player_state_mad
 
     ADD_ACCUMULATIVE_STATE(acpv_mad, player_state_mad);

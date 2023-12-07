@@ -26,9 +26,9 @@ void CBaseGraviZone ::Load(LPCSTR section)
     m_fThrowInAtten         = pSettings->r_float(section, "throw_in_atten");
     m_fBlowoutRadiusPercent = pSettings->r_float(section, "blowout_radius_percent");   // 0.3f;
 
-    m_fTeleHeight  = pSettings->r_float(section, "tele_height");   // 1.5f;
-    m_dwTimeToTele = pSettings->r_u32(section, "time_to_tele");    // 7000;
-    m_dwTelePause  = pSettings->r_u32(section, "tele_pause");      // 1000
+    m_fTeleHeight           = pSettings->r_float(section, "tele_height");   // 1.5f;
+    m_dwTimeToTele          = pSettings->r_u32(section, "time_to_tele");    // 7000;
+    m_dwTelePause           = pSettings->r_u32(section, "tele_pause");      // 1000
 
     if (pSettings->line_exist(section, "tele_particles_big"))
         m_sTeleParticlesBig = pSettings->r_string(section, "tele_particles_big");
@@ -181,8 +181,8 @@ void CBaseGraviZone::AffectPull(CPhysicsShellHolder* GO, const Fvector& throw_in
 
 void CBaseGraviZone::AffectPullAlife(CEntityAlive* EA, const Fvector& throw_in_dir, float dist)
 {
-    float rel_power   = RelativePower(dist, Radius());
-    float throw_power = m_fThrowInImpulseAlive * rel_power * rel_power * rel_power * rel_power * rel_power;
+    float   rel_power   = RelativePower(dist, Radius());
+    float   throw_power = m_fThrowInImpulseAlive * rel_power * rel_power * rel_power * rel_power * rel_power;
 
     Fvector vel;
     vel.set(throw_in_dir);
@@ -199,8 +199,8 @@ void CBaseGraviZone::AffectThrow(SZoneObjectInfo* O, CPhysicsShellHolder* GO, co
 {
     Fvector position_in_bone_space;
 
-    float power   = Power(dist, Radius());   // Power(GO->Position().distance_to(zone_center));
-    float impulse = m_fHitImpulseScale * power * GO->GetMass();
+    float   power   = Power(dist, Radius());   // Power(GO->Position().distance_to(zone_center));
+    float   impulse = m_fHitImpulseScale * power * GO->GetMass();
 
     if (power > 0.01f)
     {

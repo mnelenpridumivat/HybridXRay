@@ -23,15 +23,12 @@ using XrWeatherEditor::environment::detail::logical_string_predicate;
 using XrWeatherEditor::environment::weathers::manager;
 using XrWeatherEditor::environment::weathers::weather;
 
-template <> void property_collection<manager::weather_container_type, manager>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<manager::weather_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<manager::weather_container_type, manager>::create()
+template<> XrWeatherEditor::property_holder* property_collection<manager::weather_container_type, manager>::create()
 {
     weather* object = xr_new<weather>(&m_holder.m_manager, generate_unique_id("weather_unique_id_").c_str());
     object->fill(this);
@@ -125,8 +122,7 @@ LPCSTR const* manager::frames_getter(LPCSTR weather_id) const
 {
     delete_data(m_times_ids);
 
-    weather_container_type::const_iterator found =
-        std::find_if(m_weathers.begin(), m_weathers.end(), predicate(weather_id));
+    weather_container_type::const_iterator found = std::find_if(m_weathers.begin(), m_weathers.end(), predicate(weather_id));
 
     if (found == m_weathers.end())
         return (0);
@@ -146,14 +142,12 @@ LPCSTR const* manager::frames_getter(LPCSTR weather_id) const
 
 u32 manager::frames_size_getter(LPCSTR weather_id) const
 {
-    weather_container_type::const_iterator found =
-        std::find_if(m_weathers.begin(), m_weathers.end(), predicate(weather_id));
+    weather_container_type::const_iterator found = std::find_if(m_weathers.begin(), m_weathers.end(), predicate(weather_id));
 
     if (found == m_weathers.end())
         return (0);
 
-#pragma todo( \
-    "Dima to Dima: dangerous scheme: it depends on the call sequence (frames_getter should be called berfore frames_size_getter to get correct results)")
+#pragma todo("Dima to Dima: dangerous scheme: it depends on the call sequence (frames_getter should be called berfore frames_size_getter to get correct results)")
     return (m_times_ids.size());
 }
 
@@ -242,8 +236,7 @@ bool manager::paste_current_time_frame(char const* buffer, u32 const& buffer_siz
         if (m_manager.CurrentWeatherName._get() != (*i)->id()._get())
             continue;
 
-        return ((*i)->paste_time_frame(
-            dynamic_cast<CEnvDescriptor*>(m_manager.Current[0])->m_identifier, buffer, buffer_size));
+        return ((*i)->paste_time_frame(dynamic_cast<CEnvDescriptor*>(m_manager.Current[0])->m_identifier, buffer, buffer_size));
     }
 
     return (false);
@@ -261,8 +254,7 @@ bool manager::paste_target_time_frame(char const* buffer, u32 const& buffer_size
         if (m_manager.CurrentWeatherName._get() != (*i)->id()._get())
             continue;
 
-        return ((*i)->paste_time_frame(
-            dynamic_cast<CEnvDescriptor*>(m_manager.Current[1])->m_identifier, buffer, buffer_size));
+        return ((*i)->paste_time_frame(dynamic_cast<CEnvDescriptor*>(m_manager.Current[1])->m_identifier, buffer, buffer_size));
     }
 
     return (false);

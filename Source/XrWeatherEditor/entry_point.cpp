@@ -19,8 +19,7 @@ namespace XRay
         ref class window_ide_final: public ::XrWeatherEditor::window_ide
         {
         public:
-            window_ide_final(::XrWeatherEditor::ide*& ide, ::XrWeatherEditor::engine* engine):
-                ::XrWeatherEditor::window_ide(engine)
+            window_ide_final(::XrWeatherEditor::ide*& ide, ::XrWeatherEditor::engine* engine): ::XrWeatherEditor::window_ide(engine)
             {
                 m_ide = ide;
                 Application::Idle += gcnew System::EventHandler(this, &window_ide_final::on_idle);
@@ -37,8 +36,7 @@ namespace XRay
             virtual void WndProc(Message % m) override
             {
                 LRESULT result;
-                if (m_engine &&
-                    m_engine->on_message((HWND)m.HWnd.ToInt32(), m.Msg, m.WParam.ToInt32(), m.LParam.ToInt32(), result))
+                if (m_engine && m_engine->on_message((HWND)m.HWnd.ToInt32(), m.Msg, m.WParam.ToInt32(), m.LParam.ToInt32(), result))
                     return;
 
                 ::XrWeatherEditor::window_ide::WndProc(m);
@@ -55,7 +53,8 @@ namespace XRay
                 {
                     m_engine->on_idle();
                     impl->on_idle();
-                } while (m_engine && !PeekMessage(&message, HWND(0), 0, 0, 0));
+                }
+                while (m_engine && !PeekMessage(&message, HWND(0), 0, 0, 0));
 
                 impl->on_idle_end();
             }

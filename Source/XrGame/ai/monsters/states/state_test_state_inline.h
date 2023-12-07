@@ -4,7 +4,7 @@
 #include "state_move_to_point.h"
 #include "state_custom_action.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION        template<typename _Object>
 
 #define CStateMonsterTestStateAbstract CStateMonsterTestState<_Object>
 
@@ -29,8 +29,8 @@ void CStateMonsterTestStateAbstract::setup_substates()
     {
         SStateDataMoveToPointEx data;
 
-        Fvector dest_pos = Level().CurrentEntity()->Position();
-        dest_pos         = random_position(dest_pos, 20.f);
+        Fvector                 dest_pos = Level().CurrentEntity()->Position();
+        dest_pos                         = random_position(dest_pos, 20.f);
 
         if (!object->control().path_builder().restrictions().accessible(dest_pos))
         {

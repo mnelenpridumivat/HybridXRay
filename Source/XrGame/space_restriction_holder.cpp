@@ -16,7 +16,7 @@
 #include "restriction_space.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -44,8 +44,8 @@ shared_str CSpaceRestrictionHolder::normalize_string(shared_str space_restrictor
     LPSTR* strings        = (LPSTR*)_alloca(MAX_RESTRICTION_PER_TYPE_COUNT * sizeof(LPSTR));
     LPSTR* string_current = strings;
 
-    LPSTR  temp_string = (LPSTR)_alloca((n + 1) * sizeof(char));
-    LPCSTR I           = *space_restrictors;
+    LPSTR  temp_string    = (LPSTR)_alloca((n + 1) * sizeof(char));
+    LPCSTR I              = *space_restrictors;
     LPSTR  i = temp_string, j = i;
     for (; *I; ++I, ++i)
     {
@@ -98,7 +98,7 @@ SpaceRestrictionHolder::CBaseRestrictionPtr CSpaceRestrictionHolder::restriction
     if (!xr_strlen(space_restrictors))
         return (0);
 
-    space_restrictors = normalize_string(space_restrictors);
+    space_restrictors              = normalize_string(space_restrictors);
 
     RESTRICTIONS::const_iterator I = m_restrictions.find(space_restrictors);
     if (I != m_restrictions.end())
@@ -112,9 +112,7 @@ SpaceRestrictionHolder::CBaseRestrictionPtr CSpaceRestrictionHolder::restriction
     return (bridge);
 }
 
-void CSpaceRestrictionHolder::register_restrictor(
-    CSpaceRestrictor*                         space_restrictor,
-    const RestrictionSpace::ERestrictorTypes& restrictor_type)
+void CSpaceRestrictionHolder::register_restrictor(CSpaceRestrictor* space_restrictor, const RestrictionSpace::ERestrictorTypes& restrictor_type)
 {
     string4096 m_temp_string;
     shared_str space_restrictors = space_restrictor->cName();
@@ -140,9 +138,8 @@ void CSpaceRestrictionHolder::register_restrictor(
             on_default_restrictions_changed();
     }
 
-    CSpaceRestrictionShape* shape = xr_new<CSpaceRestrictionShape>(
-        space_restrictor, restrictor_type != RestrictionSpace::eDefaultRestrictorTypeNone);
-    RESTRICTIONS::iterator I = m_restrictions.find(space_restrictors);
+    CSpaceRestrictionShape* shape = xr_new<CSpaceRestrictionShape>(space_restrictor, restrictor_type != RestrictionSpace::eDefaultRestrictorTypeNone);
+    RESTRICTIONS::iterator  I     = m_restrictions.find(space_restrictors);
     if (I == m_restrictions.end())
     {
         CSpaceRestrictionBridge* bridge = xr_new<CSpaceRestrictionBridge>(shape);
@@ -210,8 +207,7 @@ IC void CSpaceRestrictionHolder::collect_garbage()
     RESTRICTIONS::iterator E = m_restrictions.end();
     for (; I != E;)
     {
-        if (!(*I).second->shape() && !(*I).second->m_ref_count &&
-            (Device->dwTimeGlobal >= (*I).second->m_last_time_dec + time_to_delete))
+        if (!(*I).second->shape() && !(*I).second->m_ref_count && (Device->dwTimeGlobal >= (*I).second->m_last_time_dec + time_to_delete))
         {
             J = I;
             ++I;

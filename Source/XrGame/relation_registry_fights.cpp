@@ -20,11 +20,7 @@ RELATION_REGISTRY::FIGHT_DATA::FIGHT_DATA()
 
 //////////////////////////////////////////////////////////////////////////
 extern bool IsGameTypeSingle();
-void        RELATION_REGISTRY::FightRegister(
-    u16                  attacker,
-    u16                  defender,
-    ALife::ERelationType defender_to_attacker,
-    float                hit_amount)
+void        RELATION_REGISTRY::FightRegister(u16 attacker, u16 defender, ALife::ERelationType defender_to_attacker, float hit_amount)
 {
     UpdateFightRegister();
 
@@ -75,7 +71,7 @@ bool fight_time_pred(RELATION_REGISTRY::FIGHT_DATA& fight_data)
     //(c) время которое про драку помнит реестр (иначе считать неактуальным)
     static u32 fight_remember_time = u32(1000.f * pSettings->r_float(ACTIONS_POINTS_SECT, "fight_remember_time"));
 
-    u32 time_delta = Device->dwTimeGlobal - fight_data.time;
+    u32        time_delta          = Device->dwTimeGlobal - fight_data.time;
     if (time_delta > fight_remember_time)
         return true;
 

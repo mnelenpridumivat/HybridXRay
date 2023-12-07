@@ -20,7 +20,7 @@ CUIChangeMap::CUIChangeMap()
 {
     m_prev_upd_time = 0;
 
-    bkgrnd = xr_new<CUIStatic>();
+    bkgrnd          = xr_new<CUIStatic>();
     bkgrnd->SetAutoDelete(true);
     AttachChild(bkgrnd);
 
@@ -120,7 +120,7 @@ void CUIChangeMap::OnItemSelect()
     map_name += name.c_str();
     xr_string full_name = map_name + ".dds";
 
-    Frect orig_rect = map_pic->GetTextureRect();
+    Frect     orig_rect = map_pic->GetTextureRect();
     if (FS.exist("$game_textures$", full_name.c_str()))
         map_pic->InitTexture(map_name.c_str());
     else
@@ -139,7 +139,7 @@ void CUIChangeMap::OnBtnOk()
         const shared_str& name = M.m_map_names[idx].map_name;
         const shared_str& ver  = M.m_map_names[idx].map_ver;
 
-        string512 command;
+        string512         command;
         xr_sprintf(command, "cl_votestart changemap %s %s", name.c_str(), ver.c_str());
         Console->Execute(command);
         HideDialog();

@@ -326,7 +326,7 @@ void UIEditLibrary::GenerateLOD(RStringVec& props, bool bHighQuality)
     u32      lodsCnt = 0;
     SPBItem* pb      = UI->ProgressStart(props.size(), "Making LOD");
 
-    for (const shared_str& str : props)
+    for (const shared_str& str: props)
     {
         RStringVec reference;
         reference.push_back(str);
@@ -349,9 +349,7 @@ void UIEditLibrary::GenerateLOD(RStringVec& props, bool bHighQuality)
             _ChangeSymbol(tmp, '\\', '_');
             tex_name = xr_string("lod_") + tmp;
             tex_name = ImageLib.UpdateFileName(tex_name);
-            ImageLib.CreateLODTexture(
-                O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(),
-                bHighQuality ? 4 /*7*/ : 1);
+            ImageLib.CreateLODTexture(O, tex_name.c_str(), LOD_IMAGE_SIZE, LOD_IMAGE_SIZE, LOD_SAMPLE_COUNT, O->Version(), bHighQuality ? 4 /*7*/ : 1);
             O->OnDeviceDestroy();
             O->m_objectFlags.set(CEditableObject::eoUsingLOD, bLod);
             ELog.Msg(mtInformation, "+ LOD for object '%s' successfully created.", O->GetName());
@@ -516,35 +514,29 @@ void UIEditLibrary::DrawRightBar()
         }
 
         if (ImGui::Button("Rename Object"_RU >> u8"Переименовать объект", ImVec2(-1, 0)))
-        {
-        }
+        {}
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::Button("Remove Object"_RU >> u8"Удалить объект", ImVec2(-1, 0)))
-        {
-        }
+        {}
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         if (ImGui::Button("Import Object"_RU >> u8"Импортировать объект", ImVec2(-1, 0)))
-        {
-        }
+        {}
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::Button("Export LWO"_RU >> u8"Экспорт LWO", ImVec2(-1, 0)))
-        {
-        }
+        {}
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         if (ImGui::Button("Export OBJ"_RU >> u8"Экспорт OBJ", ImVec2(-1, 0)))
-        {
-        }
+        {}
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
         if (ImGui::Button("Save"_RU >> u8"Сохранить", ImVec2(-1, 0)))
-        {
-        }
+        {}
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
 
@@ -572,7 +564,7 @@ void UIEditLibrary::DrawRightBar()
             {
                 RStringVec selItems;
 
-                for (const xr_string& xrStr : lst)
+                for (const xr_string& xrStr: lst)
                     selItems.push_back(xrStr.c_str());
 
                 GenerateLOD(selItems, m_HighQualityLod);
@@ -704,12 +696,12 @@ void UIEditLibrary::OnRender()
     if (!Form->m_Preview)
         return;
 
-    for (auto& it : Form->m_pEditObjects)
+    for (auto& it: Form->m_pEditObjects)
     {
-        CSceneObject* SO = it;
-        CSceneObject* S  = SO;
+        CSceneObject*    SO = it;
+        CSceneObject*    S  = SO;
 
-        CEditableObject* O = SO->GetReference();
+        CEditableObject* O  = SO->GetReference();
         if (O)
         {
             S->m_RT_Flags.set(S->flRT_Visible, true);

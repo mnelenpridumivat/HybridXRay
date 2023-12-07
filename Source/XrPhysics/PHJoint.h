@@ -9,10 +9,10 @@ class CPHJointDestroyInfo;
 class CPHJoint: public CPhysicsJoint, public cphysics_scripted
 {
     ///////////////////////////////////////////////////////
-    u16         m_bone_id;
-    CPHElement* pFirst_element;
-    CPHElement* pSecond_element;
-    CODEGeom*   pFirstGeom;
+    u16                  m_bone_id;
+    CPHElement*          pFirst_element;
+    CPHElement*          pSecond_element;
+    CODEGeom*            pFirstGeom;
     /////////////////////////////////////////////////////////
     CPHShell*            pShell;
     dJointID             m_joint;
@@ -59,40 +59,27 @@ class CPHJoint: public CPhysicsJoint, public cphysics_scripted
     Fvector            anchor;
     eVs                vs_anchor;
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    void CreateBall();
-    void CreateHinge();
-    void CreateHinge2();
-    void CreateFullControl();
-    void CreateSlider();
-    void LimitAxisNum(int& axis_num);
-    void SetForceActive(const int axis_num);
-    void SetVelocityActive(const int axis_num);
-    void SetLimitsActive(int axis_num);
-    void CalcAxis(
-        int            ax_num,
-        Fvector&       axis,
-        float&         lo,
-        float&         hi,
-        const Fmatrix& first_matrix,
-        const Fmatrix& second_matrix);
-    void CalcAxis(
-        int            ax_num,
-        Fvector&       axis,
-        float&         lo,
-        float&         hi,
-        const Fmatrix& first_matrix,
-        const Fmatrix& second_matrix,
-        const Fmatrix& rotate);
-    virtual u16  GetAxesNumber();
-    virtual void SetAxisSDfactors(float spring_factor, float damping_factor, int axis_num);
-    virtual void SetJointSDfactors(float spring_factor, float damping_factor);
-    virtual void SetJointSDfactorsActive();
-    virtual void SetLimitsSDfactorsActive();
-    virtual void SetAxisSDfactorsActive(int axis_num);
-    virtual void SetJointFudgefactorActive(float factor);
+    void               CreateBall();
+    void               CreateHinge();
+    void               CreateHinge2();
+    void               CreateFullControl();
+    void               CreateSlider();
+    void               LimitAxisNum(int& axis_num);
+    void               SetForceActive(const int axis_num);
+    void               SetVelocityActive(const int axis_num);
+    void               SetLimitsActive(int axis_num);
+    void               CalcAxis(int ax_num, Fvector& axis, float& lo, float& hi, const Fmatrix& first_matrix, const Fmatrix& second_matrix);
+    void               CalcAxis(int ax_num, Fvector& axis, float& lo, float& hi, const Fmatrix& first_matrix, const Fmatrix& second_matrix, const Fmatrix& rotate);
+    virtual u16        GetAxesNumber();
+    virtual void       SetAxisSDfactors(float spring_factor, float damping_factor, int axis_num);
+    virtual void       SetJointSDfactors(float spring_factor, float damping_factor);
+    virtual void       SetJointSDfactorsActive();
+    virtual void       SetLimitsSDfactorsActive();
+    virtual void       SetAxisSDfactorsActive(int axis_num);
+    virtual void       SetJointFudgefactorActive(float factor);
 
-    virtual void SetAxis(const SPHAxis& axis, const int axis_num);
-    virtual void SetAnchor(const Fvector& position)
+    virtual void       SetAxis(const SPHAxis& axis, const int axis_num);
+    virtual void       SetAnchor(const Fvector& position)
     {
         SetAnchor(position.x, position.y, position.z);
     }

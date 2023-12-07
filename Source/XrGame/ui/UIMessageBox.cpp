@@ -7,12 +7,12 @@
 
 CUIMessageBox::CUIMessageBox()
 {
-    m_UIButtonYesOk   = NULL;
-    m_UIButtonNo      = NULL;
-    m_UIButtonCancel  = NULL;
-    m_UIButtonCopy    = NULL;
-    m_UIStaticPicture = NULL;
-    m_UIStaticText    = NULL;
+    m_UIButtonYesOk    = NULL;
+    m_UIButtonNo       = NULL;
+    m_UIButtonCancel   = NULL;
+    m_UIButtonCopy     = NULL;
+    m_UIStaticPicture  = NULL;
+    m_UIStaticText     = NULL;
 
     m_UIEditPass       = NULL;
     m_UIEditUserPass   = NULL;
@@ -29,7 +29,7 @@ CUIMessageBox::~CUIMessageBox()
 }
 
 #define BUTTON_UP_OFFSET 75
-#define BUTTON_WIDTH 140
+#define BUTTON_WIDTH     140
 
 void CUIMessageBox::Clear()
 {
@@ -60,7 +60,7 @@ void CUIMessageBox::InitMessageBox(LPCSTR box_template)
     uiXml.Load(CONFIG_PATH, UI_PATH, "message_box.xml");
     CUIXmlInit xml_init;
 
-    string512 str;
+    string512  str;
 
     strconcat(sizeof(str), str, box_template, ":picture");
     if (uiXml.NavigateToNode(str, 0))
@@ -128,14 +128,16 @@ void CUIMessageBox::InitMessageBox(LPCSTR box_template)
 
     switch (m_eMessageBoxStyle)
     {
-        case MESSAGEBOX_OK: {
+        case MESSAGEBOX_OK:
+        {
             strconcat(sizeof(str), str, box_template, ":button_ok");
             m_UIButtonYesOk = xr_new<CUI3tButton>();
             AttachChild(m_UIButtonYesOk);
             xml_init.Init3tButton(uiXml, str, 0, m_UIButtonYesOk);
         }
         break;
-        case MESSAGEBOX_INFO: {
+        case MESSAGEBOX_INFO:
+        {
         }
         break;
 
@@ -172,7 +174,8 @@ void CUIMessageBox::InitMessageBox(LPCSTR box_template)
             // m_message_box_yes_no->func_on_ok = CUIWndCallback::void_function( this, &CUIActorMenu::OnMesBoxYes );
 
             break;
-        case MESSAGEBOX_PASSWORD: {
+        case MESSAGEBOX_PASSWORD:
+        {
             strconcat(sizeof(str), str, box_template, ":cap_user_password");
             m_UIStaticUserPass = xr_new<CUITextWnd>();
             AttachChild(m_UIStaticUserPass);
@@ -232,7 +235,8 @@ void CUIMessageBox::InitMessageBox(LPCSTR box_template)
 
         case MESSAGEBOX_QUIT_WINDOWS:
         case MESSAGEBOX_QUIT_GAME:
-        case MESSAGEBOX_YES_NO: {
+        case MESSAGEBOX_YES_NO:
+        {
             strconcat(sizeof(str), str, box_template, ":button_yes");
             m_UIButtonYesOk = xr_new<CUI3tButton>();
             AttachChild(m_UIButtonYesOk);
@@ -245,7 +249,8 @@ void CUIMessageBox::InitMessageBox(LPCSTR box_template)
         }
         break;
 
-        case MESSAGEBOX_YES_NO_CANCEL: {
+        case MESSAGEBOX_YES_NO_CANCEL:
+        {
             strconcat(sizeof(str), str, box_template, ":button_yes");
             m_UIButtonYesOk = xr_new<CUI3tButton>();
             AttachChild(m_UIButtonYesOk);
@@ -263,7 +268,8 @@ void CUIMessageBox::InitMessageBox(LPCSTR box_template)
         }
         break;
 
-        case MESSAGEBOX_YES_NO_COPY: {
+        case MESSAGEBOX_YES_NO_COPY:
+        {
             strconcat(sizeof(str), str, box_template, ":button_yes");
             m_UIButtonYesOk = xr_new<CUI3tButton>();
             AttachChild(m_UIButtonYesOk);

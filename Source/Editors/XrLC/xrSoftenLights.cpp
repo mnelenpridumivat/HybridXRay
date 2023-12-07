@@ -37,12 +37,10 @@ void CBuild::SoftenLights()
         RL.attenuation0 = L->attenuation0;
         RL.attenuation1 = L->attenuation1;
         RL.attenuation2 = L->attenuation2;
-        RL.falloff =
-            1.0f / (RL.range * (RL.attenuation0 + RL.attenuation1 * RL.range + RL.attenuation2 * RL.range2)) RL.energy =
-                L->diffuse.magnitude_rgb();
+        RL.falloff = 1.0f / (RL.range * (RL.attenuation0 + RL.attenuation1 * RL.range + RL.attenuation2 * RL.range2)) RL.energy = L->diffuse.magnitude_rgb();
 
         // select destination container
-        xr_vector<R_Light>* dest = 0;
+        xr_vector<R_Light>* dest                                                                                                = 0;
         if (L->flags.bProcedural)
         {
             // one of the procedural lights
@@ -138,8 +136,7 @@ void CBuild::SoftenLights()
                 h_data.dest = dest;
                 h_data.T    = RL;
                 h_data.T.diffuse.set(g_params.area_color);
-                xrHemisphereBuild(
-                    g_params.area_quality, FALSE, 0.5f, g_params.area_energy_summary, hemi_callback, &h_data);
+                xrHemisphereBuild(g_params.area_quality, FALSE, 0.5f, g_params.area_energy_summary, hemi_callback, &h_data);
             }
         }
         else

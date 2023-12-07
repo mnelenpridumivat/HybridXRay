@@ -24,14 +24,14 @@ XRayEditor::~XRayEditor() {}
 
 void XRayEditor::Level_Scan() {}
 
-int XRayEditor::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
+int  XRayEditor::Level_ID(LPCSTR name, LPCSTR ver, bool bSet)
 {
     return 0;
 }
 
-void XRayEditor::Level_Set(u32 ID) {}
+void      XRayEditor::Level_Set(u32 ID) {}
 
-void XRayEditor::LoadAllArchives() {}
+void      XRayEditor::LoadAllArchives() {}
 
 CInifile* XRayEditor::GetArchiveHeader(LPCSTR name, LPCSTR ver)
 {

@@ -19,7 +19,7 @@
 static const float down_leader_extension_tolerance = 0.2f;
 static const float up_leader_extension_tolerance   = 0.0f;
 
-IC void OrientToNorm(const Fvector& normal, Fmatrix& form, Fobb& box)
+IC void            OrientToNorm(const Fvector& normal, Fmatrix& form, Fobb& box)
 {
     Fvector* ax_pointer = (Fvector*)&form;
     float*   s_pointer  = (float*)&(box.m_halfsize);
@@ -74,20 +74,15 @@ BOOL CClimableObject::net_Spawn(CSE_Abstract* DC)
     Fvector     shift;
     shift.set(0.f, 0.f, 0.f);
     SORT(
-        b._11, m_axis.set(XFORM().i); m_axis.mul(m_box.m_halfsize.x), m_side.set(XFORM().i);
-        m_side.mul(m_box.m_halfsize.x), m_norm.set(XFORM().i); if (m_box.m_halfsize.x < f_min_width) {
+        b._11, m_axis.set(XFORM().i); m_axis.mul(m_box.m_halfsize.x), m_side.set(XFORM().i); m_side.mul(m_box.m_halfsize.x), m_norm.set(XFORM().i); if (m_box.m_halfsize.x < f_min_width) {
             m_box.m_halfsize.x = f_min_width;
             shift.set(1.f, 0.f, 0.f);
         };
-        m_norm.mul(m_box.m_halfsize.x), b._22, m_axis.set(XFORM().j);
-        m_axis.mul(m_box.m_halfsize.y), m_side.set(XFORM().j); m_side.mul(m_box.m_halfsize.y), m_norm.set(XFORM().j);
-        if (m_box.m_halfsize.y < f_min_width) {
+        m_norm.mul(m_box.m_halfsize.x), b._22, m_axis.set(XFORM().j); m_axis.mul(m_box.m_halfsize.y), m_side.set(XFORM().j); m_side.mul(m_box.m_halfsize.y), m_norm.set(XFORM().j); if (m_box.m_halfsize.y < f_min_width) {
             m_box.m_halfsize.y = f_min_width;
             shift.set(0.f, 1.f, 0.f);
         };
-        m_norm.mul(m_box.m_halfsize.y), b._33, m_axis.set(XFORM().k);
-        m_axis.mul(m_box.m_halfsize.z), m_side.set(XFORM().k); m_side.mul(m_box.m_halfsize.z), m_norm.set(XFORM().k);
-        if (m_box.m_halfsize.z < f_min_width) {
+        m_norm.mul(m_box.m_halfsize.y), b._33, m_axis.set(XFORM().k); m_axis.mul(m_box.m_halfsize.z), m_side.set(XFORM().k); m_side.mul(m_box.m_halfsize.z), m_norm.set(XFORM().k); if (m_box.m_halfsize.z < f_min_width) {
             m_box.m_halfsize.z = f_min_width;
             shift.set(0.f, 0.f, 1.f);
         };
@@ -262,9 +257,7 @@ bool CClimableObject::InTouch(CPHCharacter* actor) const
     Fvector     dir;
     const float normal_tolerance = 0.05f;
     float       foot_radius      = actor->FootRadius();
-    return (DDToPlain(actor, dir) < foot_radius + m_norm.magnitude() + normal_tolerance &&
-            DDSideToAxis(actor, dir) < m_side.magnitude()) &&
-        InRange(actor);
+    return (DDToPlain(actor, dir) < foot_radius + m_norm.magnitude() + normal_tolerance && DDSideToAxis(actor, dir) < m_side.magnitude()) && InRange(actor);
 }
 
 float CClimableObject::AxDistToUpperP(CPHCharacter* actor) const
@@ -293,8 +286,7 @@ float CClimableObject::AxDistToLowerP(CPHCharacter* actor) const
 bool CClimableObject::InRange(CPHCharacter* actor) const
 {
     VERIFY(actor);
-    return AxDistToLowerP(actor) > -down_leader_extension_tolerance &&
-        AxDistToUpperP(actor) + actor->FootRadius() > -up_leader_extension_tolerance;
+    return AxDistToLowerP(actor) > -down_leader_extension_tolerance && AxDistToUpperP(actor) + actor->FootRadius() > -up_leader_extension_tolerance;
 }
 
 bool CClimableObject::BeforeLadder(CPHCharacter* actor, float tolerance /*=0.f*/) const
@@ -313,12 +305,7 @@ BOOL CClimableObject::UsedAI_Locations()
     return FALSE;
 }
 
-void CClimableObject::ObjectContactCallback(
-    bool&     do_colide,
-    bool      bo1,
-    dContact& c,
-    SGameMtl* /*material_1*/,
-    SGameMtl* /*material_2*/)
+void CClimableObject::ObjectContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/)
 {
     dxGeomUserData*  usr_data_1   = PHRetrieveGeomUserData(c.geom.g1);
     dxGeomUserData*  usr_data_2   = PHRetrieveGeomUserData(c.geom.g2);

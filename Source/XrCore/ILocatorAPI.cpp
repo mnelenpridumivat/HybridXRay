@@ -17,7 +17,7 @@ int ILocatorAPI::file_list(FS_FileSet& dest, LPCSTR path, u32 flags, LPCSTR mask
     return 0;
 }
 
-void ILocatorAPI::r_close(CStreamReader*& fs) {}
+void           ILocatorAPI::r_close(CStreamReader*& fs) {}
 
 CStreamReader* ILocatorAPI::rs_open(LPCSTR initial, LPCSTR N)
 {
@@ -65,7 +65,8 @@ static void Find(xr_vector<xr_string>& list, const char* path, const char* ext, 
             {
                 list.push_back(file.cFileName);
             }
-        } while (FindNextFile(search_handle, &file));
+        }
+        while (FindNextFile(search_handle, &file));
     }
     FindClose(search_handle);
 }
@@ -76,7 +77,7 @@ static void FindDirectory(xr_vector<xr_string>& list, const char* path, const ch
     Find(temp, path, ext, true, false);
     if (!only_root)
     {
-        for (xr_string& i : temp)
+        for (xr_string& i: temp)
         {
             FindDirectory(list, i.c_str(), ext);
         }
@@ -89,7 +90,7 @@ static void FindFiles(xr_vector<xr_string>& list, const char* path, const char* 
     xr_vector<xr_string> temp;
     FindDirectory(temp, path, "*", only_root);
     Find(list, path, ext, true);
-    for (xr_string& i : temp)
+    for (xr_string& i: temp)
     {
         Find(list, i.c_str(), ext, true);
     }
@@ -108,7 +109,7 @@ xr_vector<LPSTR>* ILocatorAPI::file_list_open(LPCSTR initial, LPCSTR folder, u32
             path[xr_strlen(path) - 1] = 0;
         }
         FindFiles(Files, path, "*", !(flags & FS_RootOnly));
-        for (xr_string& str : Files)
+        for (xr_string& str: Files)
         {
             string_path fname;
             const char* full_path = str.c_str();
@@ -131,7 +132,7 @@ xr_vector<LPSTR>* ILocatorAPI::file_list_open(LPCSTR initial, LPCSTR folder, u32
             path[xr_strlen(path) - 1] = 0;
         }
         FindDirectory(Files, path, "*", !(flags & FS_RootOnly));
-        for (xr_string& str : Files)
+        for (xr_string& str: Files)
         {
             string_path fname;
             const char* full_path = str.c_str();
@@ -156,7 +157,7 @@ xr_vector<LPSTR>* ILocatorAPI::file_list_open(LPCSTR path, u32 flags)
 
 void ILocatorAPI::file_list_close(xr_vector<LPSTR>*& lst)
 {
-    for (LPSTR i : (*lst))
+    for (LPSTR i: (*lst))
     {
         xr_free(i);
     }
@@ -165,7 +166,7 @@ void ILocatorAPI::file_list_close(xr_vector<LPSTR>*& lst)
 
 void ILocatorAPI::auth_generate(xr_vector<shared_str>& ignore, xr_vector<shared_str>& important) {}
 
-u64 ILocatorAPI::auth_get()
+u64  ILocatorAPI::auth_get()
 {
     return u64();
 }

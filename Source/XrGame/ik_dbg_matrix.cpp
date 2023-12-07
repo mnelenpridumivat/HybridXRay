@@ -4,7 +4,7 @@
 
 #include "ik/iklimb.h"
 
-u32 sdbg_state_sequence_number = 130;
+u32         sdbg_state_sequence_number = 130;
 
 IC Fmatrix& cvm(Matrix& IM)
 {

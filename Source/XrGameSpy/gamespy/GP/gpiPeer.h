@@ -23,20 +23,20 @@ Please see the GameSpy Presence SDK documentation for more information
 // Peer states.
 ///////////////
 #define GPI_PEER_NOT_CONNECTED 100
-#define GPI_PEER_GETTING_SIG 101
-#define GPI_PEER_GOT_SIG 102
-#define GPI_PEER_CONNECTING 103
-#define GPI_PEER_WAITING 104
-#define GPI_PEER_CONNECTED 105
-#define GPI_PEER_DISCONNECTED 106
+#define GPI_PEER_GETTING_SIG   101
+#define GPI_PEER_GOT_SIG       102
+#define GPI_PEER_CONNECTING    103
+#define GPI_PEER_WAITING       104
+#define GPI_PEER_CONNECTED     105
+#define GPI_PEER_DISCONNECTED  106
 
 // Timeout for a peer connection, in milliseconds.
 /////////////////////////////////////////////
-#define GPI_PEER_TIMEOUT (10 * 1000)
+#define GPI_PEER_TIMEOUT       (10 * 1000)
 
 // Timeout for a peer operation, in milliseconds
 ////////////////////////////////////////////
-#define GPI_PEER_OP_TIMEOUT 60000
+#define GPI_PEER_OP_TIMEOUT    60000
 
 typedef enum
 {
@@ -79,8 +79,8 @@ typedef struct _GPIPeerOpQueue
 /////////////////////
 typedef struct GPIPeer_s
 {
-    int     state;
-    GPIBool initiated;
+    int               state;
+    GPIBool           initiated;
     // SOCKET sock;
     unsigned int      ip;
     unsigned short    port;
@@ -112,39 +112,24 @@ gsi_bool gpiIsPeerConnected(GPIPeer* peer);
 
 GPIPeer* gpiAddPeer(GPConnection* connection, int profileid, GPIBool initiate);
 
-void gpiDestroyPeer(GPConnection* connection, GPIPeer* peer);
+void     gpiDestroyPeer(GPConnection* connection, GPIPeer* peer);
 
-void gpiRemovePeer(GPConnection* connection, GPIPeer* peer);
+void     gpiRemovePeer(GPConnection* connection, GPIPeer* peer);
 
 GPResult gpiPeerAddMessage(GPConnection* connection, GPIPeer* peer, int type, const char* message);
 
-GPResult gpiPeerStartTransferMessage(
-    GPConnection*                 connection,
-    GPIPeer*                      peer,
-    int                           type,
-    const struct GPITransferID_s* transferID);
+GPResult gpiPeerStartTransferMessage(GPConnection* connection, GPIPeer* peer, int type, const struct GPITransferID_s* transferID);
 
 GPResult gpiPeerFinishTransferMessage(GPConnection* connection, GPIPeer* peer, const char* message, int len);
 
 GPResult gpiPeerSendMessages(GPConnection* connection, GPIPeer* peer);
 
-void gpiPeerLeftCallback(unsigned int ip, unsigned short port, GSUdpCloseReason reason, void* userData);
-void gpiPeerMessageCallback(
-    unsigned int   ip,
-    unsigned short port,
-    unsigned char* message,
-    unsigned int   messageLength,
-    gsi_bool       reliable,
-    void*          userData);
-void gpiPeerAcceptedCallback(
-    unsigned int   ip,
-    unsigned short port,
-    GSUdpErrorCode error,
-    gsi_bool       rejected,
-    void*          userData);
-void gpiPeerPingReplyCallback(unsigned int ip, unsigned short port, unsigned int latency, void* userData);
+void     gpiPeerLeftCallback(unsigned int ip, unsigned short port, GSUdpCloseReason reason, void* userData);
+void     gpiPeerMessageCallback(unsigned int ip, unsigned short port, unsigned char* message, unsigned int messageLength, gsi_bool reliable, void* userData);
+void     gpiPeerAcceptedCallback(unsigned int ip, unsigned short port, GSUdpErrorCode error, gsi_bool rejected, void* userData);
+void     gpiPeerPingReplyCallback(unsigned int ip, unsigned short port, unsigned int latency, void* userData);
 
-void gpiPeerAddOp(GPIPeer* peer, GPIPeerOp* operation);
-void gpiPeerRemoveOp(GPIPeer* peer, GPIPeerOp* operation);
-void gpiCheckTimedOutPeerOperations(GPConnection* connection, GPIPeer* peer);
+void     gpiPeerAddOp(GPIPeer* peer, GPIPeerOp* operation);
+void     gpiPeerRemoveOp(GPIPeer* peer, GPIPeerOp* operation);
+void     gpiCheckTimedOutPeerOperations(GPConnection* connection, GPIPeer* peer);
 #endif

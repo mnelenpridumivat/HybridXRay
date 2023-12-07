@@ -26,6 +26,7 @@ private:
 #ifdef DEBUG
     friend class CLevelGraph;
 #endif
+
 private:
     typedef SpaceRestrictionHolder::CBaseRestrictionPtr CBaseRestrictionPtr;
 
@@ -35,7 +36,7 @@ private:
         CBaseRestrictionPtr m_restriction;
         bool                m_enabled;
 
-        IC CFreeInRestriction(CBaseRestrictionPtr restriction, bool enabled)
+        IC                  CFreeInRestriction(CBaseRestrictionPtr restriction, bool enabled)
         {
             m_restriction = restriction;
             m_enabled     = enabled;
@@ -59,10 +60,8 @@ protected:
 #endif
 
 private:
-    IC bool intersects(CBaseRestrictionPtr bridge);
-    IC bool intersects(
-        SpaceRestrictionHolder::CBaseRestrictionPtr bridge0,
-        SpaceRestrictionHolder::CBaseRestrictionPtr bridge1);
+    IC bool             intersects(CBaseRestrictionPtr bridge);
+    IC bool             intersects(SpaceRestrictionHolder::CBaseRestrictionPtr bridge0, SpaceRestrictionHolder::CBaseRestrictionPtr bridge1);
     CBaseRestrictionPtr merge(CBaseRestrictionPtr bridge, const RESTRICTIONS& temp_restrictions) const;
     void                merge_in_out_restrictions();
     void                merge_free_in_retrictions();
@@ -75,22 +74,19 @@ protected:
     bool    affect(CBaseRestrictionPtr bridge, u32 start_vertex_id, u32 dest_vertex_id) const;
 
 public:
-    CSpaceRestriction(
-        CSpaceRestrictionManager* space_restriction_manager,
-        shared_str                out_restrictions,
-        shared_str                in_restrictions);
-    void                                        initialize();
-    void                                        remove_border();
-    template <typename T1, typename T2> IC void add_border(T1 p1, T2 p2);
-    u32                                         accessible_nearest(const Fvector& position, Fvector& result);
-    bool                                        accessible(const Fsphere& sphere);
-    bool                                        accessible(u32 level_vertex_id, float radius);
-    IC shared_str                               out_restrictions() const;
-    IC shared_str                               in_restrictions() const;
-    IC bool                                     applied() const;
-    IC bool                                     inside(const Fsphere& sphere);
-    IC bool                                     inside(u32 level_vertex_id, bool partially_inside);
-    virtual shared_str                          name() const;
+    CSpaceRestriction(CSpaceRestrictionManager* space_restriction_manager, shared_str out_restrictions, shared_str in_restrictions);
+    void                                       initialize();
+    void                                       remove_border();
+    template<typename T1, typename T2> IC void add_border(T1 p1, T2 p2);
+    u32                                        accessible_nearest(const Fvector& position, Fvector& result);
+    bool                                       accessible(const Fsphere& sphere);
+    bool                                       accessible(u32 level_vertex_id, float radius);
+    IC shared_str                              out_restrictions() const;
+    IC shared_str                              in_restrictions() const;
+    IC bool                                    applied() const;
+    IC bool                                    inside(const Fsphere& sphere);
+    IC bool                                    inside(u32 level_vertex_id, bool partially_inside);
+    virtual shared_str                         name() const;
 };
 
 #include "space_restriction_inline.h"

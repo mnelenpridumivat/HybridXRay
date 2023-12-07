@@ -41,8 +41,8 @@ struct net_updatePhData
 
     //	SPHNetState		PredictedState;
 
-    u32 m_dwIStartTime;
-    u32 m_dwIEndTime;
+    u32                        m_dwIStartTime;
+    u32                        m_dwIEndTime;
     // u32				m_dwILastUpdateTime;
 };
 
@@ -82,8 +82,8 @@ public:
     virtual ~CPhysicObject(void);
     // virtual void						make_Interpolation	(); // interpolation from last visible to corrected
     // position/rotation
-    virtual void Interpolate();
-    float        interpolate_states(net_update_PItem const& first, net_update_PItem const& last, SPHNetState& current);
+    virtual void                   Interpolate();
+    float                          interpolate_states(net_update_PItem const& first, net_update_PItem const& last, SPHNetState& current);
 
     virtual BOOL                   net_Spawn(CSE_Abstract* DC);
     virtual void                   CreatePhysicsShell(CSE_Abstract* e);
@@ -98,12 +98,13 @@ public:
     virtual void                   set_collision_hit_callback(ICollisionHitCallback* cc);
     virtual bool                   is_ai_obstacle() const;
 
-    virtual void net_Export(NET_Packet& P);
-    virtual void net_Import(NET_Packet& P);
+    virtual void                   net_Export(NET_Packet& P);
+    virtual void                   net_Import(NET_Packet& P);
 
-    virtual void PH_B_CrPr();   // actions & operations before physic correction-prediction steps
-    virtual void PH_I_CrPr();   // actions & operations after correction before prediction steps
-    virtual void PH_A_CrPr();   // actions & operations after phisic correction-prediction steps
+    virtual void                   PH_B_CrPr();   // actions & operations before physic correction-prediction steps
+    virtual void                   PH_I_CrPr();   // actions & operations after correction before prediction steps
+    virtual void                   PH_A_CrPr();   // actions & operations after phisic correction-prediction steps
+
 protected:
     virtual void                 SpawnInitPhysics(CSE_Abstract* D);
     virtual void                 RunStartupAnim(CSE_Abstract* D);
@@ -115,8 +116,8 @@ protected:
     {
         return this;
     }
-    virtual void InitServerObject(CSE_Abstract* po);
-    virtual void PHObjectPositionUpdate();
+    virtual void      InitServerObject(CSE_Abstract* po);
+    virtual void      PHObjectPositionUpdate();
 
     void              net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mask_num_items& num_items);
     void              net_Import_PH_Params(NET_Packet& P, net_update_PItem& N, mask_num_items& num_items);

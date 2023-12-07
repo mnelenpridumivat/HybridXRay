@@ -208,8 +208,7 @@ void CPHActorCharacter::SetAcceleration(Fvector accel)
 }
 bool CPHActorCharacter::CanJump()
 {
-    return !b_lose_control && LastMaterialIDX() != slide_material_index &&
-        (m_ground_contact_normal[1] > 0.5f || m_elevator_state.ClimbingState());
+    return !b_lose_control && LastMaterialIDX() != slide_material_index && (m_ground_contact_normal[1] > 0.5f || m_elevator_state.ClimbingState());
 }
 void CPHActorCharacter::Jump(const Fvector& accel)
 {
@@ -230,9 +229,7 @@ void CPHActorCharacter::Jump(const Fvector& accel)
         }
         else
         {
-            m_jump_accel.set(
-                vel[0] * JUMP_INCREASE_VELOCITY_RATE + m_acceleration.x / amag * 0.2f, jump_up_velocity,
-                vel[2] * JUMP_INCREASE_VELOCITY_RATE + m_acceleration.z / amag * 0.2f);
+            m_jump_accel.set(vel[0] * JUMP_INCREASE_VELOCITY_RATE + m_acceleration.x / amag * 0.2f, jump_up_velocity, vel[2] * JUMP_INCREASE_VELOCITY_RATE + m_acceleration.z / amag * 0.2f);
         }
         Enable();
     }
@@ -275,8 +272,7 @@ static void BigVelSeparate(dContact* c, bool& do_collide)
     dxGeomUserData* dat1 = retrieveGeomUserData(c->geom.g1);
     dxGeomUserData* dat2 = retrieveGeomUserData(c->geom.g2);
 
-    if (!dat1 || !dat2 || !dat1->ph_object || !dat2->ph_object ||
-        dat1->ph_object->CastType() != CPHObject::tpCharacter || dat2->ph_object->CastType() != CPHObject::tpCharacter)
+    if (!dat1 || !dat2 || !dat1->ph_object || !dat2->ph_object || dat1->ph_object->CastType() != CPHObject::tpCharacter || dat2->ph_object->CastType() != CPHObject::tpCharacter)
         return;
 
     // float spr	= Spring( c->surface.soft_cfm,c->surface.soft_erp);
@@ -296,7 +292,7 @@ static void BigVelSeparate(dContact* c, bool& do_collide)
     ch2->GetVelocity(v2);
     if (v1.square_magnitude() < 4.f && v2.square_magnitude() < 4.f)
         return;
-    c->surface.mu = 1.00f;
+    c->surface.mu           = 1.00f;
 
     dJointID contact_joint1 = dJointCreateContactSpecial(0, ContactGroup, c);
     dJointID contact_joint2 = dJointCreateContactSpecial(0, ContactGroup, c);
@@ -322,8 +318,7 @@ void CPHActorCharacter::InitContact(dContact* c, bool& do_collide, u16 material_
     bool           b_restrictor = (r != end(m_restrictors));
     SGameMtl*      material_1   = GMLibrary().GetMaterialByIdx(material_idx_1);
     SGameMtl*      material_2   = GMLibrary().GetMaterialByIdx(material_idx_2);
-    if ((material_1 && material_1->Flags.test(SGameMtl::flActorObstacle)) ||
-        (material_2 && material_2->Flags.test(SGameMtl::flActorObstacle)))
+    if ((material_1 && material_1->Flags.test(SGameMtl::flActorObstacle)) || (material_2 && material_2->Flags.test(SGameMtl::flActorObstacle)))
         do_collide = true;
     if (b_single_game)
     {
@@ -331,13 +326,11 @@ void CPHActorCharacter::InitContact(dContact* c, bool& do_collide, u16 material_
         {
             b_side_contact = true;
             // MulSprDmp(c->surface.soft_cfm,c->surface.soft_erp,def_spring_rate,def_dumping_rate);
-            c->surface.mu = 0.00f;
+            c->surface.mu  = 0.00f;
         }
         else
             inherited::InitContact(c, do_collide, material_idx_1, material_idx_2);
-        if (b_restrictor && do_collide &&
-            !(b1 ? static_cast<CPHCharacter*>(retrieveGeomUserData(c->geom.g2)->ph_object)->ActorMovable() :
-                   static_cast<CPHCharacter*>(retrieveGeomUserData(c->geom.g1)->ph_object)->ActorMovable()))
+        if (b_restrictor && do_collide && !(b1 ? static_cast<CPHCharacter*>(retrieveGeomUserData(c->geom.g2)->ph_object)->ActorMovable() : static_cast<CPHCharacter*>(retrieveGeomUserData(c->geom.g1)->ph_object)->ActorMovable()))
         {
             dJointID contact_joint = dJointCreateContactSpecial(0, ContactGroup, c);
             Enable();
@@ -361,8 +354,7 @@ void CPHActorCharacter::InitContact(dContact* c, bool& do_collide, u16 material_
             IPhysicsShellHolder* A2 = (D2->ph_ref_object);
             if (A1 && A2 && A1->IsActor() && A2->IsActor())
             {
-                do_collide =
-                    do_collide && !b_restrictor && (A1->ObjectPPhysicsShell() == 0) == (A2->ObjectPPhysicsShell() == 0);
+                do_collide    = do_collide && !b_restrictor && (A1->ObjectPPhysicsShell() == 0) == (A2->ObjectPPhysicsShell() == 0);
                 c->surface.mu = 1.f;
             }
         }
@@ -377,8 +369,7 @@ void CPHActorCharacter::ChooseRestrictionType(ERestrictionType my_type, float my
 {
     if (my_type != rtStalker || (ch->RestrictionType() != rtStalker && ch->RestrictionType() != rtStalkerSmall))
         return;
-    float checkR = m_restrictors[rtStalkerSmall]
-                       ->m_restrictor_radius;   // 1.5f;//+m_restrictors[rtStalker]->m_restrictor_radius)/2.f;
+    float checkR = m_restrictors[rtStalkerSmall]->m_restrictor_radius;   // 1.5f;//+m_restrictors[rtStalker]->m_restrictor_radius)/2.f;
 
     switch (ch->RestrictionType())
     {

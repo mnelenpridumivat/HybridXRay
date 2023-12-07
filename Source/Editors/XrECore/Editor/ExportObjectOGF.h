@@ -63,21 +63,21 @@ class CObjectOGFCollectorPacked
 {
 public:
     // Fobb m_OBB;
-    Fbox m_Box;
+    Fbox                    m_Box;
 
-    OGFVertVec m_Verts;
-    OGFFaceVec m_Faces;
+    OGFVertVec              m_Verts;
+    OGFFaceVec              m_Faces;
 
     // Progressive
     ArbitraryList<VIPM_SWR> m_SWR;   // The records of the collapses.
 
-    Fvector m_VMmin, m_VMscale;
-    U32Vec  m_VM[clpOGFMX + 1][clpOGFMY + 1][clpOGFMZ + 1];
-    Fvector m_VMeps;
+    Fvector                 m_VMmin, m_VMscale;
+    U32Vec                  m_VM[clpOGFMX + 1][clpOGFMY + 1][clpOGFMZ + 1];
+    Fvector                 m_VMeps;
 
-    u16  VPack(SOGFVert& V);
-    void ComputeBounding();
-    void OptimizeTextureCoordinates();
+    u16                     VPack(SOGFVert& V);
+    void                    ComputeBounding();
+    void                    OptimizeTextureCoordinates();
 
 public:
     CObjectOGFCollectorPacked(const Fbox& bb, int apx_vertices, int apx_faces);
@@ -145,24 +145,24 @@ class ECORE_API CExportObjectOGF
 {
     struct SSplit
     {
-        Fbox apx_box;
+        Fbox                       apx_box;
 
         COGFCPVec                  m_Parts;
         CObjectOGFCollectorPacked* m_CurrentPart;
 
-        Fbox       m_Box;
-        CSurface*  m_Surf;
-        u16        m_id;
-        u16        m_sort_id;
-        shared_str m_Shader;
-        shared_str m_Texture;
+        Fbox                       m_Box;
+        CSurface*                  m_Surf;
+        u16                        m_id;
+        u16                        m_sort_id;
+        shared_str                 m_Shader;
+        shared_str                 m_Texture;
 
         // Progressive
-        void AppendPart(int apx_vertices, int apx_faces);
-        void SavePart(IWriter& F, CObjectOGFCollectorPacked* part);
-        void Save(IWriter& F, int& chunk_id);
+        void                       AppendPart(int apx_vertices, int apx_faces);
+        void                       SavePart(IWriter& F, CObjectOGFCollectorPacked* part);
+        void                       Save(IWriter& F, int& chunk_id);
 
-        void CalculateTB()
+        void                       CalculateTB()
         {
             for (COGFCPIt it = m_Parts.begin(); it != m_Parts.end(); it++)
                 (*it)->CalculateTB();
@@ -223,8 +223,8 @@ class ECORE_API CExportObjectOGF
     Fbox             m_Box;
     //----------------------------------------------------
     //	void 	ComputeOBB			(Fobb &B, FvectorVec& V);
-    SSplit* FindSplit(CSurface* surf, u16 surf_id);
-    void    ComputeBounding()
+    SSplit*          FindSplit(CSurface* surf, u16 surf_id);
+    void             ComputeBounding()
     {
         m_Box.invalidate();
         for (SplitIt it = m_Splits.begin(); it != m_Splits.end(); it++)

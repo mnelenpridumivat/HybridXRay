@@ -21,10 +21,7 @@ using XrWeatherEditor::environment::levels::manager;
 static LPCSTR s_default_weather_id = "[default]";
 static LPCSTR s_level_section_id   = "levels";
 
-manager::manager(::XrWeatherEditor::environment::weathers::manager* weathers):
-    m_weathers(*weathers), m_property_holder(0)
-{
-}
+manager::manager(::XrWeatherEditor::environment::weathers::manager* weathers): m_weathers(*weathers), m_property_holder(0) {}
 
 manager::~manager()
 {
@@ -47,10 +44,10 @@ void manager::fill_levels(CInifile& config, LPCSTR prefix, LPCSTR category)
     string_path section_id;
     xr_strcpy(section_id, "level_maps_");
     xr_strcat(section_id, prefix);
-    CInifile::Items const& section = config.r_section(section_id).Data;
+    CInifile::Items const&          section = config.r_section(section_id).Data;
 
-    CInifile::Items::const_iterator i = section.begin();
-    CInifile::Items::const_iterator e = section.end();
+    CInifile::Items::const_iterator i       = section.begin();
+    CInifile::Items::const_iterator e       = section.end();
     for (; i != e; ++i)
     {
         if (!(*i).first.size())
@@ -74,7 +71,7 @@ void manager::load()
 
     m_config_single = CInifile::Create(FS.update_path(file_name, "$game_config$", "game_maps_single.ltx"), false);
 
-    m_config_mp = CInifile::Create(FS.update_path(file_name, "$game_config$", "game_maps_mp.ltx"), false);
+    m_config_mp     = CInifile::Create(FS.update_path(file_name, "$game_config$", "game_maps_mp.ltx"), false);
 
     VERIFY(m_levels.empty());
     fill_levels(*m_config_single, "single", "single");
@@ -111,10 +108,7 @@ void manager::fill()
         string_path description;
         xr_strcpy(description, "weather for level ");
         xr_strcat(description, (*i).first.c_str());
-        m_property_holder->add_property(
-            (*i).first.c_str(), (*i).second.first, description, (*i).second.second.c_str(), (*i).second.second,
-            collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box,
-            XrWeatherEditor::property_holder::cannot_enter_text);
+        m_property_holder->add_property((*i).first.c_str(), (*i).second.first, description, (*i).second.second.c_str(), (*i).second.second, collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
     }
 
     ::ide().environment_levels(m_property_holder);

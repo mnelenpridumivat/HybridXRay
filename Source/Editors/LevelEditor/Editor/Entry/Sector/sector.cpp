@@ -240,7 +240,7 @@ void CSector::OnSceneUpdate()
 
 EVisible CSector::Intersect(const Fvector& center, float radius)
 {
-    float dist = m_SectorCenter.distance_to(center);
+    float   dist = m_SectorCenter.distance_to(center);
 
     Fvector R;
     m_SectorBox.getradius(R);
@@ -356,7 +356,7 @@ void CSector::CaptureAllUnusedMeshes()
     CSceneObject* obj = NULL;
     ObjectList&   lst = Scene->ListObj(OBJCLASS_SCENEOBJECT);
     // ignore dynamic objects
-    SPBItem* pb = UI->ProgressStart(lst.size(), "Capturing unused face...");
+    SPBItem*      pb  = UI->ProgressStart(lst.size(), "Capturing unused face...");
     for (ObjectIt _F = lst.begin(); _F != lst.end(); _F++)
     {
         pb->Inc();
@@ -477,7 +477,7 @@ void CSector::LoadSectorDefLTX(CInifile& ini, LPCSTR sect_name, u32 item_idx)
     }
 
     sprintf(buff, "item_mesh_name_%.4d", item_idx);
-    m_name = ini.r_string(sect_name, buff);
+    m_name     = ini.r_string(sect_name, buff);
 
     sitem.mesh = sitem.object->GetReference()->FindMeshByName(m_name);
     if (sitem.mesh == 0)
@@ -503,7 +503,7 @@ bool CSector::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     sector_color.set(ini.r_color(sect_name, "sector_color"));
 
-    m_bDefault = ini.r_bool(sect_name, "default");
+    m_bDefault  = ini.r_bool(sect_name, "default");
 
     u32 obj_cnt = ini.r_u32(sect_name, "items_count");
     for (u32 i = 0; i < obj_cnt; ++i)
@@ -548,7 +548,7 @@ void CSector::SaveLTX(CInifile& ini, LPCSTR sect_name)
 
 bool CSector::LoadStream(IReader& F)
 {
-    u16 version = 0;
+    u16  version = 0;
 
     char buf[1024];
     R_ASSERT(F.r_chunk(SECTOR_CHUNK_VERSION, &version));
@@ -563,7 +563,7 @@ bool CSector::LoadStream(IReader& F)
     R_ASSERT(F.r_chunk(SECTOR_CHUNK_COLOR, &sector_color));
 
     R_ASSERT(F.find_chunk(SECTOR_CHUNK_PRIVATE));
-    m_bDefault = F.r_u8();
+    m_bDefault   = F.r_u8();
 
     // Objects
     IReader* OBJ = F.open_chunk(SECTOR_CHUNK_ITEMS);
@@ -633,7 +633,7 @@ void CSector::SaveStream(IWriter& F)
 
 xr_token level_sub_map[] = {{"default", u8(-1)}, {"#0", 0}, {"#1", 1}, {"#2", 2}, {"#3", 3}, {NULL, 4}};
 
-void CSector::FillProp(LPCSTR pref, PropItemVec& items)
+void     CSector::FillProp(LPCSTR pref, PropItemVec& items)
 {
     inherited::FillProp(pref, items);
     PHelper().CreateFColor(items, PrepareKey(pref, "Color"), &sector_color);
@@ -654,12 +654,12 @@ bool CSector::GetSummaryInfo(SSceneSummary* inf)
 
 const int SectorMinFaceCount = 4;
 
-bool CSector::Validate(bool bMsg)
+bool      CSector::Validate(bool bMsg)
 {
-    bool bRes = true;
+    bool bRes      = true;
 
     // verify face count
-    int faceCount = 0;
+    int  faceCount = 0;
     GetCounts(0, 0, &faceCount);
 
     if (faceCount <= SectorMinFaceCount)

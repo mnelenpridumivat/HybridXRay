@@ -23,7 +23,7 @@ bool CHelicopter::isObjectVisible(CObject* O)
     dir_to_object.sub(to_point, from_point).normalize_safe();
     float ray_length = from_point.distance_to(to_point);
 
-    BOOL res = Level().ObjectSpace.RayTest(from_point, dir_to_object, ray_length, collide::rqtStatic, NULL, NULL);
+    BOOL  res        = Level().ObjectSpace.RayTest(from_point, dir_to_object, ray_length, collide::rqtStatic, NULL, NULL);
 
     return !res;
 }
@@ -239,8 +239,7 @@ void CHelicopter::Hit(SHit* pHDS)
             Log("----Helicopter::Hit(). health=", GetfHealth());
 #endif
     };
-    if (pHDS->who &&
-        (smart_cast<CActor*>(pHDS->who) || smart_cast<CAI_Stalker*>(pHDS->who) || smart_cast<CCustomZone*>(pHDS->who)))
+    if (pHDS->who && (smart_cast<CActor*>(pHDS->who) || smart_cast<CAI_Stalker*>(pHDS->who) || smart_cast<CCustomZone*>(pHDS->who)))
     {
         callback(GameObject::eHelicopterOnHit)(pHDS->damage(), pHDS->impulse, pHDS->hit_type, pHDS->who->ID());
     }
@@ -262,10 +261,9 @@ void CHelicopter::PHHit(SHit& H)
 #include "../xrphysics/extendedgeom.h"
 void CollisionCallbackDead(bool& do_colide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2)
 {
-    do_colide = true;
+    do_colide           = true;
 
-    CHelicopter* l_this = bo1 ? smart_cast<CHelicopter*>(PHRetrieveGeomUserData(c.geom.g1)->ph_ref_object) :
-                                smart_cast<CHelicopter*>(PHRetrieveGeomUserData(c.geom.g2)->ph_ref_object);
+    CHelicopter* l_this = bo1 ? smart_cast<CHelicopter*>(PHRetrieveGeomUserData(c.geom.g1)->ph_ref_object) : smart_cast<CHelicopter*>(PHRetrieveGeomUserData(c.geom.g2)->ph_ref_object);
 
     if (l_this && !l_this->m_exploded)
         l_this->m_ready_explode = true;
@@ -288,7 +286,7 @@ void CHelicopter::DieHelicopter()
         string256 I;
         LPCSTR    bone;
 
-        u16 bone_id;
+        u16       bone_id;
         for (u32 i = 0, n = _GetItemCount(*m_death_bones_to_hide); i < n; ++i)
         {
             bone    = _GetItem(*m_death_bones_to_hide, i, I);
@@ -342,7 +340,8 @@ void SHeliEnemy::Update()
         case eEnemyNone:
         case eEnemyPoint:
             break;
-        case eEnemyEntity: {
+        case eEnemyEntity:
+        {
             CObject* O = Level().Objects.net_Find(destEnemyID);
             if (O)
                 O->Center(destEnemyPos);
@@ -369,7 +368,7 @@ void SHeliEnemy::load(IReader& input_packet)
 {
     type = (EHeliHuntState)input_packet.r_s16();
     input_packet.r_fvector3(destEnemyPos);
-    destEnemyID = input_packet.r_u16();
+    destEnemyID           = input_packet.r_u16();
 
     fire_trail_length_des = input_packet.r_float();
     bUseFireTrail         = !!input_packet.r_u8();

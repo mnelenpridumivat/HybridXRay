@@ -7,8 +7,8 @@
 #include "character_reputation.h"
 
 #define GAME_RELATIONS_SECT "game_relations"
-#define REPUTATION_LINE "reputation"
-#define REPUTATION_TABLE "reputation_relations"
+#define REPUTATION_LINE     "reputation"
+#define REPUTATION_TABLE    "reputation_relations"
 
 //////////////////////////////////////////////////////////////////////////
 REPUTATION_DATA::REPUTATION_DATA(int idx, shared_str idn, LPCSTR threshold_str)
@@ -22,7 +22,7 @@ CHARACTER_REPUTATION::GOODWILL_TABLE CHARACTER_REPUTATION::m_relation_table;
 
 //////////////////////////////////////////////////////////////////////////
 
-int CHARACTER_REPUTATION::ValueToIndex(CHARACTER_REPUTATION_VALUE val)
+int                                  CHARACTER_REPUTATION::ValueToIndex(CHARACTER_REPUTATION_VALUE val)
 {
     T_VECTOR::iterator it   = m_pItemDataVector->begin();
     T_VECTOR::iterator it_e = m_pItemDataVector->end();

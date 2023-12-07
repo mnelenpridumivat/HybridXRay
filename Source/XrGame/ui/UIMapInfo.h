@@ -15,6 +15,7 @@ public:
     LPCSTR GetLargeDesc();
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
+
 protected:
     CUIScrollView* m_view;
     shared_str     m_large_desc;

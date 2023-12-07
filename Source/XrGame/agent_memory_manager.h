@@ -50,13 +50,13 @@ public:
     IC HITS&     hits() const;
 
 public:
-    template <typename T> IC void reset_memory_masks(T& objects);
-    void                          reset_memory_masks();
+    template<typename T> IC void reset_memory_masks(T& objects);
+    void                         reset_memory_masks();
 
-    template <typename T> IC void update_memory_masks(const squad_mask_type& mask, T& objects);
-    IC void                       update_memory_mask(const squad_mask_type& mask, squad_mask_type& current);
-    void                          update_memory_masks(const squad_mask_type& mask);
-    void                          object_information(const CObject* object, u32& level_time, Fvector& position);
+    template<typename T> IC void update_memory_masks(const squad_mask_type& mask, T& objects);
+    IC void                      update_memory_mask(const squad_mask_type& mask, squad_mask_type& current);
+    void                         update_memory_masks(const squad_mask_type& mask);
+    void                         object_information(const CObject* object, u32& level_time, Fvector& position);
 };
 
 #include "agent_memory_manager_inline.h"

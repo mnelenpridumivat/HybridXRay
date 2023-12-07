@@ -9,11 +9,11 @@ class CControllerPsyHit: public CControl_ComCustom<>
 {
     typedef CControl_ComCustom<> inherited;
 
-    MotionID m_stage[4];
-    u8       m_current_index;
+    MotionID                     m_stage[4];
+    u8                           m_current_index;
 
-    CPsyHitEffectorCam* m_effector_cam;
-    CPsyHitEffectorPP*  m_effector_pp;
+    CPsyHitEffectorCam*          m_effector_cam;
+    CPsyHitEffectorPP*           m_effector_pp;
 
     enum ESoundState
     {
@@ -27,9 +27,9 @@ class CControllerPsyHit: public CControl_ComCustom<>
     float m_min_tube_dist;
 
     // internal flag if weapon was hidden
-    bool m_blocked;
+    bool  m_blocked;
 
-    u32 m_time_last_tube;
+    u32   m_time_last_tube;
 
 public:
     virtual void load(LPCSTR section);
@@ -41,8 +41,8 @@ public:
 
     virtual void on_event(ControlCom::EEventType, ControlCom::IEventData*);
 
-    void on_death();
-    bool tube_ready() const;
+    void         on_death();
+    bool         tube_ready() const;
 
 private:
     void stop();

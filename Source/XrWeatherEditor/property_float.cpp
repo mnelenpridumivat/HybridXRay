@@ -9,14 +9,7 @@
 #include "pch.hpp"
 #include "property_float.hpp"
 
-property_float::property_float(
-    float_getter_type const& getter,
-    float_setter_type const& setter,
-    float const % increment_factor):
-    m_getter(new float_getter_type(getter)),
-    m_setter(new float_setter_type(setter)), m_increment_factor(increment_factor)
-{
-}
+property_float::property_float(float_getter_type const& getter, float_setter_type const& setter, float const % increment_factor): m_getter(new float_getter_type(getter)), m_setter(new float_setter_type(setter)), m_increment_factor(increment_factor) {}
 
 property_float::~property_float()
 {

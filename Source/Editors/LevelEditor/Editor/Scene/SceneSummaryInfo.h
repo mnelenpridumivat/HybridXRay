@@ -15,6 +15,7 @@ public:
         sttLOD,
         sttLast
     };   // не забывать токен менять
+
 private:
     struct STextureInfo
     {
@@ -160,14 +161,13 @@ public:
             std::pair<TISetIt, bool> res = textures.insert(STextureInfo(name, type));
             it                           = res.first;
         }
-        STextureInfo* info = (STextureInfo*)(&(*it));
+        STextureInfo*               info = (STextureInfo*)(&(*it));
 
         STextureInfo::objinf_map_it o_it = info->objects.find(obj_name);
         if (o_it == info->objects.end())
         {
-            std::pair<STextureInfo::objinf_map_it, bool> res =
-                info->objects.insert(std::make_pair(obj_name, STextureInfo::SObjInfo(area)));
-            o_it = res.first;
+            std::pair<STextureInfo::objinf_map_it, bool> res = info->objects.insert(std::make_pair(obj_name, STextureInfo::SObjInfo(area)));
+            o_it                                             = res.first;
         }
         o_it->second.ref_count++;
         info->effective_area += area;

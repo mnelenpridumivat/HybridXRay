@@ -76,11 +76,7 @@ protected:
     const bool* m_dont_wait;
 
 public:
-    CStalkerPropertyEvaluatorEnemies(
-        CAI_Stalker* object         = 0,
-        LPCSTR       evaluator_name = "",
-        u32          time_to_wait   = 0,
-        const bool*  dont_wait      = 0);
+    CStalkerPropertyEvaluatorEnemies(CAI_Stalker* object = 0, LPCSTR evaluator_name = "", u32 time_to_wait = 0, const bool* dont_wait = 0);
     virtual _value_type evaluate();
 };
 
@@ -195,10 +191,7 @@ protected:
     typedef CStalkerPropertyEvaluatorReadyToKill inherited;
 
 public:
-    CStalkerPropertyEvaluatorReadyToKillSmartCover(
-        CAI_Stalker* object         = 0,
-        LPCSTR       evaluator_name = "",
-        u32          min_ammo_count = 0);
+    CStalkerPropertyEvaluatorReadyToKillSmartCover(CAI_Stalker* object = 0, LPCSTR evaluator_name = "", u32 min_ammo_count = 0);
     virtual _value_type evaluate();
 };
 

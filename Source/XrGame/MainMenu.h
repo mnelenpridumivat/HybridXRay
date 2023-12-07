@@ -38,7 +38,7 @@ struct Patch_Dawnload_Progress
     shared_str Status;
     shared_str FileName;
 
-    bool GetInProgress()
+    bool       GetInProgress()
     {
         return IsInProgress;
     };
@@ -56,13 +56,7 @@ struct Patch_Dawnload_Progress
     };
 };
 
-class CMainMenu:
-    public IMainMenu,
-    public IInputReceiver,
-    public pureRender,
-    public CDialogHolder,
-    public CUIWndCallback,
-    public CDeviceResetNotifier
+class CMainMenu: public IMainMenu, public IInputReceiver, public pureRender, public CDialogHolder, public CUIWndCallback, public CDeviceResetNotifier
 
 {
     CUIDialogWnd* m_startDialog;
@@ -78,12 +72,12 @@ class CMainMenu:
         flGameSaveScreenshot = (1 << 6),
         flNeedVidRestart     = (1 << 7),
     };
-    Flags16     m_Flags;
-    string_path m_screenshot_name;
-    u32         m_screenshotFrame;
-    void        ReadTextureInfo();
+    Flags16                           m_Flags;
+    string_path                       m_screenshot_name;
+    u32                               m_screenshotFrame;
+    void                              ReadTextureInfo();
 
-    xr_vector<CUIWindow*> m_pp_draw_wnds;
+    xr_vector<CUIWindow*>             m_pp_draw_wnds;
 
     CGameSpy_Full*                    m_pGameSpyFull;
     gamespy_gp::account_manager*      m_account_mngr;
@@ -92,7 +86,7 @@ class CMainMenu:
     gamespy_profile::stats_submitter* m_stats_submitter;
     atlas_submit_queue*               m_atlas_submit_queue;
 
-    demo_info_loader* m_demo_info_loader;
+    demo_info_loader*                 m_demo_info_loader;
 
 public:
     enum EErrorDlg
@@ -124,7 +118,7 @@ public:
     {
         return &m_sPDProgress;
     }
-    void CancelDownload();
+    void           CancelDownload();
 
     CGameSpy_Full* GetGS()
     {
@@ -152,14 +146,14 @@ public:
     };
 
 protected:
-    EErrorDlg m_NeedErrDialog;
-    u32       m_start_time;
+    EErrorDlg                   m_NeedErrDialog;
+    u32                         m_start_time;
 
-    shared_str m_sPatchURL;
-    shared_str m_sPatchFileName;
-    shared_str m_downloaded_mp_map_url;
-    shared_str m_player_name;
-    shared_str m_cdkey;
+    shared_str                  m_sPatchURL;
+    shared_str                  m_sPatchFileName;
+    shared_str                  m_downloaded_mp_map_url;
+    shared_str                  m_player_name;
+    shared_str                  m_cdkey;
 
     xr_vector<CUIMessageBoxEx*> m_pMB_ErrDlgs;
     bool                        ReloadUI();
@@ -180,69 +174,69 @@ public:
         return true;
     }
 
-    virtual void IR_OnMousePress(int btn);
-    virtual void IR_OnMouseRelease(int btn);
-    virtual void IR_OnMouseHold(int btn);
-    virtual void IR_OnMouseMove(int x, int y);
-    virtual void IR_OnMouseStop(int x, int y);
+    virtual void      IR_OnMousePress(int btn);
+    virtual void      IR_OnMouseRelease(int btn);
+    virtual void      IR_OnMouseHold(int btn);
+    virtual void      IR_OnMouseMove(int x, int y);
+    virtual void      IR_OnMouseStop(int x, int y);
 
-    virtual void IR_OnKeyboardPress(int dik);
-    virtual void IR_OnKeyboardRelease(int dik);
-    virtual void IR_OnKeyboardHold(int dik);
+    virtual void      IR_OnKeyboardPress(int dik);
+    virtual void      IR_OnKeyboardRelease(int dik);
+    virtual void      IR_OnKeyboardHold(int dik);
 
-    virtual void IR_OnMouseWheel(int direction);
+    virtual void      IR_OnMouseWheel(int direction);
 
-    bool OnRenderPPUI_query();
-    void OnRenderPPUI_main();
-    void OnRenderPPUI_PP();
+    bool              OnRenderPPUI_query();
+    void              OnRenderPPUI_main();
+    void              OnRenderPPUI_PP();
 
     virtual void      OnRender();
     virtual void _BCL OnFrame(void);
 
-    virtual bool UseIndicators()
+    virtual bool      UseIndicators()
     {
         return false;
     }
 
-    void OnDeviceCreate();
+    void      OnDeviceCreate();
 
-    void Screenshot(IRender_interface::ScreenshotMode mode = IRender_interface::SM_NORMAL, LPCSTR name = 0);
-    void RegisterPPDraw(CUIWindow* w);
-    void UnregisterPPDraw(CUIWindow* w);
+    void      Screenshot(IRender_interface::ScreenshotMode mode = IRender_interface::SM_NORMAL, LPCSTR name = 0);
+    void      RegisterPPDraw(CUIWindow* w);
+    void      UnregisterPPDraw(CUIWindow* w);
 
     void      SetErrorDialog(EErrorDlg ErrDlg);
     EErrorDlg GetErrorDialogType() const
     {
         return m_NeedErrDialog;
     };
-    void CheckForErrorDlg();
-    void SwitchToMultiplayerMenu();
-    void OnNewPatchFound(LPCSTR VersionName, LPCSTR URL);
-    void OnNoNewPatchFound();
-    void OnDownloadPatch(CUIWindow*, void*);
-    void OnConnectToMasterServerOkClicked(CUIWindow*, void*);
+    void             CheckForErrorDlg();
+    void             SwitchToMultiplayerMenu();
+    void             OnNewPatchFound(LPCSTR VersionName, LPCSTR URL);
+    void             OnNoNewPatchFound();
+    void             OnDownloadPatch(CUIWindow*, void*);
+    void             OnConnectToMasterServerOkClicked(CUIWindow*, void*);
 
-    void Show_DownloadMPMap(LPCSTR text, LPCSTR url);
-    void OnDownloadMPMap_CopyURL(CUIWindow*, void*);
-    void OnDownloadMPMap(CUIWindow*, void*);
+    void             Show_DownloadMPMap(LPCSTR text, LPCSTR url);
+    void             OnDownloadMPMap_CopyURL(CUIWindow*, void*);
+    void             OnDownloadMPMap(CUIWindow*, void*);
 
-    void         OnSessionTerminate(LPCSTR reason);
-    void         OnLoadError(LPCSTR module);
-    void         OnDownloadPatchError();
-    void         OnDownloadPatchSuccess();
-    void         OnDownloadPatchProgress(u64 bytesReceived, u64 totalSize);
-    void         OnRunDownloadedPatch(CUIWindow*, void*);
-    void         Show_CTMS_Dialog();
-    void         Hide_CTMS_Dialog();
-    void         SetNeedVidRestart();
-    virtual void OnDeviceReset();
-    LPCSTR       GetGSVer();
+    void             OnSessionTerminate(LPCSTR reason);
+    void             OnLoadError(LPCSTR module);
+    void             OnDownloadPatchError();
+    void             OnDownloadPatchSuccess();
+    void             OnDownloadPatchProgress(u64 bytesReceived, u64 totalSize);
+    void             OnRunDownloadedPatch(CUIWindow*, void*);
+    void             Show_CTMS_Dialog();
+    void             Hide_CTMS_Dialog();
+    void             SetNeedVidRestart();
+    virtual void     OnDeviceReset();
+    LPCSTR           GetGSVer();
 
-    bool IsCDKeyIsValid();
-    bool ValidateCDKey();
+    bool             IsCDKeyIsValid();
+    bool             ValidateCDKey();
 
-    LPCSTR GetPlayerName();
-    LPCSTR GetCDKeyFromRegistry();
+    LPCSTR           GetPlayerName();
+    LPCSTR           GetCDKeyFromRegistry();
 
     demo_info const* GetDemoInfo(LPCSTR file_name);
 };

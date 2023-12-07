@@ -48,9 +48,8 @@ void CGameFont::Initialize(LPCSTR cShader, LPCSTR cTextureName)
 {
     string_path cTexture;
 
-    LPCSTR _lang = pSettings->r_string("string_table", "font_prefix");
-    bool   is_di = strstr(cTextureName, "ui_font_hud_01") || strstr(cTextureName, "ui_font_hud_02") ||
-        strstr(cTextureName, "ui_font_console_02");
+    LPCSTR      _lang = pSettings->r_string("string_table", "font_prefix");
+    bool        is_di = strstr(cTextureName, "ui_font_hud_01") || strstr(cTextureName, "ui_font_hud_02") || strstr(cTextureName, "ui_font_console_02");
     if (_lang && !is_di)
         strconcat(sizeof(cTexture), cTexture, cTextureName, _lang);
     else
@@ -72,17 +71,17 @@ void CGameFont::Initialize(LPCSTR cShader, LPCSTR cTextureName)
     R_ASSERT2(FS.exist(fn, "$game_textures$", buf, ".ini"), fn);
     CInifile* ini = CInifile::Create(fn);
 
-    nNumChars = 0x100;
-    TCMap     = (Fvector*)xr_realloc((void*)TCMap, nNumChars * sizeof(Fvector));
+    nNumChars     = 0x100;
+    TCMap         = (Fvector*)xr_realloc((void*)TCMap, nNumChars * sizeof(Fvector));
 
     if (ini->section_exist("mb_symbol_coords"))
     {
         nNumChars = 0x10000;
         TCMap     = (Fvector*)xr_realloc((void*)TCMap, nNumChars * sizeof(Fvector));
         uFlags |= fsMultibyte;
-        fHeight = ini->r_float("mb_symbol_coords", "height");
+        fHeight             = ini->r_float("mb_symbol_coords", "height");
 
-        fXStep = ceil(fHeight / 2.0f);
+        fXStep              = ceil(fHeight / 2.0f);
 
         // Searching for the first valid character
 
@@ -211,8 +210,8 @@ u16 CGameFont::GetCutLengthPos(float fTargetWidth, const char* pszText)
     wide_char wsStr[MAX_MB_CHARS], wsPos[MAX_MB_CHARS];
     float     fCurWidth = 0.0f, fDelta = 0.0f;
 
-    u16 len = mbhMulti2Wide(wsStr, wsPos, MAX_MB_CHARS, pszText);
-    u16 i   = 1;
+    u16       len = mbhMulti2Wide(wsStr, wsPos, MAX_MB_CHARS, pszText);
+    u16       i   = 1;
     for (; i <= len; i++)
     {
         fDelta = GetCharTC(wsStr[i]).z - 2;
@@ -237,7 +236,7 @@ u16 CGameFont::SplitByWidth(u16* puBuffer, u16 uBufferSize, float fTargetWidth, 
     float     fCurWidth = 0.0f, fDelta = 0.0f;
     u16       nLines = 0;
 
-    u16 len = mbhMulti2Wide(wsStr, wsPos, MAX_MB_CHARS, pszText);
+    u16       len    = mbhMulti2Wide(wsStr, wsPos, MAX_MB_CHARS, pszText);
 
     for (u16 i = 1; i <= len; i++)
     {
@@ -265,16 +264,7 @@ u16 CGameFont::SplitByWidth(u16* puBuffer, u16 uBufferSize, float fTargetWidth, 
     return nLines;
 }
 
-void CGameFont::MasterOut(
-    BOOL    bCheckDevice,
-    BOOL    bUseCoords,
-    BOOL    bScaleCoords,
-    BOOL    bUseSkip,
-    float   _x,
-    float   _y,
-    float   _skip,
-    LPCSTR  fmt,
-    va_list p)
+void CGameFont::MasterOut(BOOL bCheckDevice, BOOL bUseCoords, BOOL bScaleCoords, BOOL bUseSkip, float _x, float _y, float _skip, LPCSTR fmt, va_list p)
 {
     if (bCheckDevice && (!Device->b_is_Active))
         return;

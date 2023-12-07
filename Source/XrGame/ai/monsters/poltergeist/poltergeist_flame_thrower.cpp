@@ -24,26 +24,26 @@ void CPolterFlame::load(LPCSTR section)
     m_particles_fire    = pSettings->r_string(section, "flame_particles_fire");
     m_particles_stop    = pSettings->r_string(section, "flame_particles_stop");
 
-    m_time_fire_delay = pSettings->r_u32(section, "flame_fire_time_delay");
-    m_time_fire_play  = pSettings->r_u32(section, "flame_fire_time_play");
+    m_time_fire_delay   = pSettings->r_u32(section, "flame_fire_time_delay");
+    m_time_fire_play    = pSettings->r_u32(section, "flame_fire_time_play");
 
-    m_length    = pSettings->r_float(section, "flame_length");
-    m_hit_value = pSettings->r_float(section, "flame_hit_value");
-    m_hit_delay = pSettings->r_u32(section, "flame_hit_delay");
+    m_length            = pSettings->r_float(section, "flame_length");
+    m_hit_value         = pSettings->r_float(section, "flame_hit_value");
+    m_hit_delay         = pSettings->r_u32(section, "flame_hit_delay");
 
-    m_count = pSettings->r_u32(section, "flames_count");
-    m_delay = pSettings->r_u32(section, "flames_delay");
+    m_count             = pSettings->r_u32(section, "flames_count");
+    m_delay             = pSettings->r_u32(section, "flames_delay");
 
-    m_min_flame_dist   = pSettings->r_float(section, "flame_min_dist");
-    m_max_flame_dist   = pSettings->r_float(section, "flame_max_dist");
-    m_min_flame_height = pSettings->r_float(section, "flame_min_height");
-    m_max_flame_height = pSettings->r_float(section, "flame_max_height");
+    m_min_flame_dist    = pSettings->r_float(section, "flame_min_dist");
+    m_max_flame_dist    = pSettings->r_float(section, "flame_max_dist");
+    m_min_flame_height  = pSettings->r_float(section, "flame_min_height");
+    m_max_flame_height  = pSettings->r_float(section, "flame_max_height");
 
-    m_pmt_aura_radius = pSettings->r_float(section, "flame_aura_radius");
+    m_pmt_aura_radius   = pSettings->r_float(section, "flame_aura_radius");
 
     //-----------------------------------------------------------------------------------------
     // Scanner
-    m_scan_radius = pSettings->r_float(section, "flame_scan_radius");
+    m_scan_radius       = pSettings->r_float(section, "flame_scan_radius");
     read_delay(section, "flame_scan_delay_min_max", m_scan_delay_min, m_scan_delay_max);
 
     // load scan effector
@@ -57,15 +57,9 @@ void CPolterFlame::load(LPCSTR section)
     m_scan_effector_info.noise.fps       = pSettings->r_float(ppi_section, "noise_fps");
     VERIFY(!fis_zero(m_scan_effector_info.noise.fps));
 
-    sscanf(
-        pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &m_scan_effector_info.color_base.r,
-        &m_scan_effector_info.color_base.g, &m_scan_effector_info.color_base.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &m_scan_effector_info.color_gray.r,
-        &m_scan_effector_info.color_gray.g, &m_scan_effector_info.color_gray.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &m_scan_effector_info.color_add.r,
-        &m_scan_effector_info.color_add.g, &m_scan_effector_info.color_add.b);
+    sscanf(pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &m_scan_effector_info.color_base.r, &m_scan_effector_info.color_base.g, &m_scan_effector_info.color_base.b);
+    sscanf(pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &m_scan_effector_info.color_gray.r, &m_scan_effector_info.color_gray.g, &m_scan_effector_info.color_gray.b);
+    sscanf(pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &m_scan_effector_info.color_add.r, &m_scan_effector_info.color_add.g, &m_scan_effector_info.color_add.b);
 
     m_scan_effector_time         = pSettings->r_float(ppi_section, "time");
     m_scan_effector_time_attack  = pSettings->r_float(ppi_section, "time_attack");
@@ -74,8 +68,8 @@ void CPolterFlame::load(LPCSTR section)
     m_scan_sound.create(pSettings->r_string(section, "flame_scan_sound"), st_Effect, SOUND_TYPE_WORLD);
     //-----------------------------------------------------------------------------------------
 
-    m_state_scanning = false;
-    m_scan_next_time = 0;
+    m_state_scanning     = false;
+    m_scan_next_time     = 0;
 
     m_time_flame_started = 0;
 }
@@ -96,7 +90,7 @@ void CPolterFlame::create_flame(const CObject* target_object)
     element->particles_object = 0;
     element->time_last_hit    = 0;
 
-    Fvector target_point = get_head_position(const_cast<CObject*>(target_object));
+    Fvector target_point      = get_head_position(const_cast<CObject*>(target_object));
     element->target_dir.sub(target_point, element->position);
     element->target_dir.normalize();
 
@@ -168,8 +162,7 @@ void CPolterFlame::update_schedule()
                     {
                         // test hit
                         collide::rq_result rq;
-                        if (Level().ObjectSpace.RayPick(
-                                elem->position, elem->target_dir, m_length, collide::rqtBoth, rq, NULL))
+                        if (Level().ObjectSpace.RayPick(elem->position, elem->target_dir, m_length, collide::rqtBoth, rq, NULL))
                         {
                             if ((rq.O == elem->target_object) && (rq.range < m_length))
                             {
@@ -178,19 +171,17 @@ void CPolterFlame::update_schedule()
 
                                 NET_Packet P;
                                 SHit       HS;
-                                HS.GenHeader(
-                                    GE_HIT, elem->target_object->ID());    //					u_EventGen
-                                                                           //(P,GE_HIT, element->target_object->ID());
-                                HS.whoID           = (m_object->ID());     //					P.w_u16			(ID());
-                                HS.weaponID        = (m_object->ID());     //					P.w_u16			(ID());
-                                HS.dir             = (elem->target_dir);   //					P.w_dir (element->target_dir);
-                                HS.power           = (hit_value);          //					P.w_float		(m_flame_hit_value);
-                                HS.boneID          = (BI_NONE);            //					P.w_s16			(BI_NONE);
-                                HS.p_in_bone_space = (Fvector().set(
-                                    0.f, 0.f, 0.f));          //					P.w_vec3 (Fvector().set(0.f,0.f,0.f));
-                                HS.impulse         = (0.f);   //					P.w_float		(0.f);
-                                HS.hit_type        = (ALife::eHitTypeBurn);   //					P.w_u16
-                                                                              //(u16(ALife::eHitTypeBurn));
+                                HS.GenHeader(GE_HIT, elem->target_object->ID());       //					u_EventGen
+                                                                                       //(P,GE_HIT, element->target_object->ID());
+                                HS.whoID           = (m_object->ID());                 //					P.w_u16			(ID());
+                                HS.weaponID        = (m_object->ID());                 //					P.w_u16			(ID());
+                                HS.dir             = (elem->target_dir);               //					P.w_dir (element->target_dir);
+                                HS.power           = (hit_value);                      //					P.w_float		(m_flame_hit_value);
+                                HS.boneID          = (BI_NONE);                        //					P.w_s16			(BI_NONE);
+                                HS.p_in_bone_space = (Fvector().set(0.f, 0.f, 0.f));   //					P.w_vec3 (Fvector().set(0.f,0.f,0.f));
+                                HS.impulse         = (0.f);                            //					P.w_float		(0.f);
+                                HS.hit_type        = (ALife::eHitTypeBurn);            //					P.w_u16
+                                                                                       //(u16(ALife::eHitTypeBurn));
 
                                 HS.Write_Packet(P);
                                 m_object->u_EventSend(P);
@@ -212,9 +203,9 @@ void CPolterFlame::update_schedule()
     // удалить все элементы, выполнение которых закончено
     m_flames.erase(std::remove_if(m_flames.begin(), m_flames.end(), remove_predicate()), m_flames.end());
 
-    bool const detected = m_object->get_current_detection_level() >= m_object->get_detection_success_level();
+    bool const          detected = m_object->get_current_detection_level() >= m_object->get_detection_success_level();
 
-    CEntityAlive const* enemy = Actor();
+    CEntityAlive const* enemy    = Actor();
     // check if we can create another flame
     if (m_object->g_Alive() && enemy && m_flames.size() < m_count && !m_object->get_actor_ignore() && detected)
     {
@@ -286,8 +277,7 @@ bool CPolterFlame::get_valid_flame_position(const CObject* target_object, Fvecto
         vertex_position = ai().level_graph().vertex_position(Obj->ai_location().level_vertex_id());
         new_pos.mad(vertex_position, dir, Random.randF(m_min_flame_dist, m_max_flame_dist));
 
-        u32 node = ai().level_graph().check_position_in_direction(
-            Obj->ai_location().level_vertex_id(), vertex_position, new_pos);
+        u32 node = ai().level_graph().check_position_in_direction(Obj->ai_location().level_vertex_id(), vertex_position, new_pos);
         if (node != u32(-1))
         {
             res_pos = ai().level_graph().vertex_position(node);
@@ -296,8 +286,7 @@ bool CPolterFlame::get_valid_flame_position(const CObject* target_object, Fvecto
         }
     }
 
-    float angle =
-        ai().level_graph().vertex_high_cover_angle(Obj->ai_location().level_vertex_id(), PI_DIV_6, std::less<float>());
+    float angle = ai().level_graph().vertex_high_cover_angle(Obj->ai_location().level_vertex_id(), PI_DIV_6, std::less<float>());
 
     dir.set(1.f, 0.f, 0.f);
     dir.setHP(angle + PI, 0.f);
@@ -306,8 +295,7 @@ bool CPolterFlame::get_valid_flame_position(const CObject* target_object, Fvecto
     vertex_position = ai().level_graph().vertex_position(Obj->ai_location().level_vertex_id());
     new_pos.mad(vertex_position, dir, Random.randF(m_min_flame_dist, m_max_flame_dist));
 
-    u32 node =
-        ai().level_graph().check_position_in_direction(Obj->ai_location().level_vertex_id(), vertex_position, new_pos);
+    u32 node = ai().level_graph().check_position_in_direction(Obj->ai_location().level_vertex_id(), vertex_position, new_pos);
     if (node != u32(-1))
     {
         res_pos = ai().level_graph().vertex_position(node);

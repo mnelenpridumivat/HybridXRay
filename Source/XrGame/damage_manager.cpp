@@ -28,7 +28,7 @@ void CDamageManager::reload(LPCSTR section, CInifile const* ini)
     m_default_hit_factor   = 1.f;
     m_default_wound_factor = 1.f;
 
-    bool section_exist = ini && ini->section_exist(section);
+    bool section_exist     = ini && ini->section_exist(section);
 
     // прочитать дефолтные параметры
     if (section_exist)
@@ -99,8 +99,7 @@ void CDamageManager::load_section(LPCSTR section, CInifile const* ini)
             if (0 == bone && (fis_zero(bone_instance.get_param(0)) || fis_zero(bone_instance.get_param(2))))
             {
                 string256 error_str;
-                xr_sprintf(
-                    error_str, "hit_scale and wound_scale for root bone cannot be zero. see section [%s]", section);
+                xr_sprintf(error_str, "hit_scale and wound_scale for root bone cannot be zero. see section [%s]", section);
                 R_ASSERT2(0, error_str);
             }
         }
@@ -133,7 +132,7 @@ void CDamageManager::HitScale(const int element, float& hit_scale, float& wound_
         scale = V->LL_GetBoneInstance(u16(element)).get_param(0);
     }
 
-    hit_scale = scale;
+    hit_scale   = scale;
 
     // get wound scale
     scale       = V->LL_GetBoneInstance(u16(element)).get_param(2);

@@ -15,16 +15,8 @@ using namespace luabind;
 void CScriptSoundAction::script_register(lua_State* L)
 {
     module(L)[class_<CScriptSoundAction>("sound")
-                  .enum_("type")
-                      [value("idle", int(MonsterSound::eMonsterSoundIdle)),
-                       value("eat", int(MonsterSound::eMonsterSoundEat)),
-                       value("attack", int(MonsterSound::eMonsterSoundAggressive)),
-                       value("attack_hit", int(MonsterSound::eMonsterSoundAttackHit)),
-                       value("take_damage", int(MonsterSound::eMonsterSoundTakeDamage)),
-                       value("die", int(MonsterSound::eMonsterSoundDie)),
-                       value("threaten", int(MonsterSound::eMonsterSoundThreaten)),
-                       value("steal", int(MonsterSound::eMonsterSoundSteal)),
-                       value("panic", int(MonsterSound::eMonsterSoundPanic))]
+                  .enum_("type")[value("idle", int(MonsterSound::eMonsterSoundIdle)), value("eat", int(MonsterSound::eMonsterSoundEat)), value("attack", int(MonsterSound::eMonsterSoundAggressive)), value("attack_hit", int(MonsterSound::eMonsterSoundAttackHit)), value("take_damage", int(MonsterSound::eMonsterSoundTakeDamage)), value("die", int(MonsterSound::eMonsterSoundDie)), value("threaten", int(MonsterSound::eMonsterSoundThreaten)), value("steal", int(MonsterSound::eMonsterSoundSteal)),
+                      value("panic", int(MonsterSound::eMonsterSoundPanic))]
 
                   .def(constructor<>())
                   .def(constructor<LPCSTR, LPCSTR>())

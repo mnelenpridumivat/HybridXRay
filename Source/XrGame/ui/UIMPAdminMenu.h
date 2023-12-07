@@ -25,12 +25,12 @@ private:
     CUIMpChangeMapAdm* m_pChangeMapAdm;
     CUIXml*            xml_doc;
 
-    CUIWindow*   m_pActiveDialog;
-    shared_str   m_sActiveSection;
-    CUI3tButton* m_pClose;
+    CUIWindow*         m_pActiveDialog;
+    shared_str         m_sActiveSection;
+    CUI3tButton*       m_pClose;
 
-    CUIMessageBoxEx* m_pMessageBoxLogin;
-    CUIMessageBoxEx* m_pMessageBoxOk;
+    CUIMessageBoxEx*   m_pMessageBoxLogin;
+    CUIMessageBoxEx*   m_pMessageBoxOk;
 
 public:
     CUIMpAdminMenu();

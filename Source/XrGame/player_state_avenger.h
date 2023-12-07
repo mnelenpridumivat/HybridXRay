@@ -26,15 +26,11 @@ namespace award_system
         };
         virtual void reset_game();
 
-        virtual void OnPlayerKilled(
-            u16                                     killer_id,
-            u16                                     target_id,
-            u16                                     weapon_id,
-            std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
+        virtual void OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
         virtual void OnPlayerSpawned(game_PlayerState const* ps);
 
     protected:
-        void feel_my_team_players(game_PlayerState const* of_player, buffer_vector<shared_str>& dest);
+        void                                        feel_my_team_players(game_PlayerState const* of_player, buffer_vector<shared_str>& dest);
         typedef associative_vector<shared_str, u32> player_spawn_times_t;
         player_spawn_times_t                        m_player_spawns;
         u32                                         m_aveng_count;

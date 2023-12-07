@@ -1,4 +1,4 @@
-// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
+﻿// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -25,30 +25,30 @@
 
 #include <string>
 
-namespace luabind { namespace detail
+namespace luabind
 {
+    namespace detail
+    {
 
-	template<class It>
-	string_class get_overload_signatures(lua_State* L, It start, It end, string_class name)
-	{
-		string_class s;
-		for (; start != end; ++start)
-		{
-			s += name;
-			start->get_signature(L, s);
-			s += "\n";
-		}
-		return s;
-	}
-
+        template<class It> string_class get_overload_signatures(lua_State* L, It start, It end, string_class name)
+        {
+            string_class s;
+            for (; start != end; ++start)
+            {
+                s += name;
+                start->get_signature(L, s);
+                s += "\n";
+            }
+            return s;
+        }
 
 #ifndef LUABIND_NO_ERROR_CHECKING
 
-	string_class get_overload_signatures_candidates(lua_State* L, vector_class<const overload_rep_base*>::iterator start, vector_class<const overload_rep_base*>::iterator end, string_class name);
+        string_class get_overload_signatures_candidates(lua_State* L, vector_class<const overload_rep_base*>::iterator start, vector_class<const overload_rep_base*>::iterator end, string_class name);
 
 #endif
 
-}}
+    }   // namespace detail
+}   // namespace luabind
 
-#endif // LUABIND_GET_OVERLOAD_SIGNATURE_HPP_INCLUDED
-
+#endif   // LUABIND_GET_OVERLOAD_SIGNATURE_HPP_INCLUDED

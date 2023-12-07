@@ -46,7 +46,7 @@ struct CProfileStats
     u32        m_count;
     u32        m_call_count;
 
-    IC CProfileStats();
+    IC         CProfileStats();
 };
 
 class CProfiler
@@ -86,7 +86,7 @@ public:
 extern CProfiler* g_profiler;
 extern Flags32    psAI_Flags;
 
-IC CProfiler& profiler();
+IC CProfiler&     profiler();
 
 #define START_PROFILE(a) \
     {                    \
@@ -97,5 +97,5 @@ IC CProfiler& profiler();
 
 #else   // DEBUG
 #define START_PROFILE(a) {
-#define STOP_PROFILE }
+#define STOP_PROFILE     }
 #endif   // DEBUG

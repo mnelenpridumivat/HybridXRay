@@ -7,14 +7,14 @@
 #include "script_callback_ex.h"
 #include "mixed_delegate_unique_tags.h"
 
-template <typename Signature, int UniqueTag = mdut_no_unique_tag> class mixed_delegate;
+template<typename Signature, int UniqueTag = mdut_no_unique_tag> class mixed_delegate;
 
-template <typename R, class Param1, class Param2, int UniqueTag> class mixed_delegate<R(Param1, Param2), UniqueTag>
+template<typename R, class Param1, class Param2, int UniqueTag> class mixed_delegate<R(Param1, Param2), UniqueTag>
 {
 public:
-    typedef R      return_type;
-    typedef Param1 param1_type;
-    typedef Param2 param2_type;
+    typedef R                                             return_type;
+    typedef Param1                                        param1_type;
+    typedef Param2                                        param2_type;
 
     typedef fastdelegate::FastDelegate<R(Param1, Param2)> fastdelegate_type;
     typedef CScriptCallbackEx<R>                          lua_delegate_type;
@@ -24,8 +24,7 @@ public:
     mixed_delegate(){};
     ~mixed_delegate() {}
 
-    template <class ThisRef, class ClassType>
-    mixed_delegate(ThisRef* ptr_this, R (ClassType::*func_ptr)(Param1, Param2)): m_cpp_delegate(ptr_this, func_ptr){};
+    template<class ThisRef, class ClassType> mixed_delegate(ThisRef* ptr_this, R (ClassType::*func_ptr)(Param1, Param2)): m_cpp_delegate(ptr_this, func_ptr){};
 
     mixed_delegate(lua_object_type ptr_this, lua_function_type func_ptr)
     {
@@ -33,11 +32,12 @@ public:
     }
 
     mixed_delegate(mixed_delegate const& copy):
-        m_cpp_delegate(copy.m_cpp_delegate), m_lua_delegate(copy.m_lua_delegate)
+        m_cpp_delegate(copy.m_cpp_delegate),
+        m_lua_delegate(copy.m_lua_delegate)
 
-                                                 {};
+            {};
 
-    template <class ThisRef, class ClassType> void bind(ThisRef* ptr_this, R (ClassType::*func_ptr)(Param1, Param2))
+    template<class ThisRef, class ClassType> void bind(ThisRef* ptr_this, R (ClassType::*func_ptr)(Param1, Param2))
     {
         m_cpp_delegate.bind(ptr_this, func_ptr);
     }
@@ -92,14 +92,10 @@ private:
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };   // class mixed_delegate
 
-#define DEFINE_MIXED_DELEGATE_SCRIPT(type, name_str)                                      \
-    void type::script_register(lua_State* L)                                              \
-    {                                                                                     \
-        module(L)[class_<type>(name_str)                                                  \
-                      .def(constructor<>())                                               \
-                      .def(constructor<type::lua_object_type, type::lua_function_type>()) \
-                      .def("bind", &type::bind)                                           \
-                      .def("clear", &type::clear)];                                       \
+#define DEFINE_MIXED_DELEGATE_SCRIPT(type, name_str)                                                                                                                                   \
+    void type::script_register(lua_State* L)                                                                                                                                           \
+    {                                                                                                                                                                                  \
+        module(L)[class_<type>(name_str).def(constructor<>()).def(constructor<type::lua_object_type, type::lua_function_type>()).def("bind", &type::bind).def("clear", &type::clear)]; \
     };
 
 #endif   // #ifndef MIXED_DELEGATE_INCLUDED

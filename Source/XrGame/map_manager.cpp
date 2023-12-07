@@ -125,9 +125,9 @@ CMapLocation* CMapManager::AddRelationLocation(CInventoryOwner* pInvOwner)
     ALife::ERelationType relation = ALife::eRelationTypeFriend;
     CInventoryOwner*     pActor   = smart_cast<CInventoryOwner*>(Level().CurrentViewEntity());
     relation                      = RELATION_REGISTRY().GetRelationType(pInvOwner, pActor);
-    shared_str sname              = RELATION_REGISTRY().GetSpotName(relation);
+    shared_str    sname           = RELATION_REGISTRY().GetSpotName(relation);
 
-    CEntityAlive* pEntAlive = smart_cast<CEntityAlive*>(pInvOwner);
+    CEntityAlive* pEntAlive       = smart_cast<CEntityAlive*>(pInvOwner);
     if (!pEntAlive->g_Alive())
         sname = "deadbody_location";
 

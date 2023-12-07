@@ -15,15 +15,15 @@ class CSmartCastStats
 {
 private:
     static CSmartCastStats* m_instance;
+
 private:
     struct CStats
     {
-        LPCSTR m_from;
-        LPCSTR m_to;
-        u32    m_count;
+        LPCSTR  m_from;
+        LPCSTR  m_to;
+        u32     m_count;
 
-        IC     CStats(LPCSTR from, LPCSTR to, u32 count):
-            m_from(from), m_to(to), m_count(count) {}
+        IC      CStats(LPCSTR from, LPCSTR to, u32 count): m_from(from), m_to(to), m_count(count) {}
 
         IC bool operator<(const CStats& stats) const
         {
@@ -38,14 +38,18 @@ private:
             return (_1.m_count < _2.m_count);
         }
     };
+
 private:
     typedef xr_set<CStats> STATS;
+
 private:
     STATS             m_stats;
     xr_vector<CStats> m_temp;
+
 public:
     IC static CSmartCastStats* instance();
     IC static void             _release();
+
 public:
     IC void add(LPCSTR from, LPCSTR to);
     IC void clear();
@@ -119,8 +123,7 @@ IC void CSmartCastStats::show()
 
     I = m_temp.begin();
     for (; I != E; ++I)
-        Msg("%8d %6.2f% : smart_cast<%s>(%s)", (*I).m_count, float((*I).m_count) * 100.f / float(total), (*I).m_to,
-            (*I).m_from);
+        Msg("%8d %6.2f% : smart_cast<%s>(%s)", (*I).m_count, float((*I).m_count) * 100.f / float(total), (*I).m_to, (*I).m_from);
 }
 
 void add_smart_cast_stats(LPCSTR from, LPCSTR to)

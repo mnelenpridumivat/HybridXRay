@@ -18,13 +18,12 @@ int find_same_vertex(const xr_vector<u32>& m, const Fvector2 Ftc, const xr_vecto
     return -1;
 }
 
-u32 add_vertex(
-    const Vertex&     V,
-    const Fvector2&   Ftc,
-    xr_vector<float>& v_position,
-    xr_vector<float>& v_normal,
-    xr_vector<float>& v_tc   //,
-                             // xr_vector<int>		&v_indices
+u32 add_vertex(const Vertex& V,
+    const Fvector2&          Ftc,
+    xr_vector<float>&        v_position,
+    xr_vector<float>&        v_normal,
+    xr_vector<float>&        v_tc   //,
+                                    // xr_vector<int>		&v_indices
 )
 {
     u32 m_id = v_position.size() / 3;
@@ -45,11 +44,7 @@ u32 add_vertex(
     return m_id;
 }
 
-void fill_mender_input(
-    xr_vector<float>& v_position,
-    xr_vector<float>& v_normal,
-    xr_vector<float>& v_tc,
-    xr_vector<int>&   v_indices)
+void fill_mender_input(xr_vector<float>& v_position, xr_vector<float>& v_normal, xr_vector<float>& v_tc, xr_vector<int>& v_indices)
 {
     // ************************************* Build vectors + expand TC if nessesary
     Status("Building inputs...");
@@ -82,11 +77,7 @@ void fill_mender_input(
     remap.clear();
 }
 
-void retrive_data_from_mender_otput(
-    const xr_vector<float>& o_tc,
-    const xr_vector<float>& o_tangent,
-    const xr_vector<float>& o_binormal,
-    const xr_vector<int>&   o_indices)
+void retrive_data_from_mender_otput(const xr_vector<float>& o_tc, const xr_vector<float>& o_tangent, const xr_vector<float>& o_binormal, const xr_vector<int>& o_indices)
 
 {
     // ************************************* Retreive data
@@ -179,16 +170,14 @@ void CBuild::xrPhase_TangentBasis()
 
     u32 v_was    = g_vertices.size();
     u32 v_become = v_position.size() / 3;
-    clMsg(
-        "duplication: was[%d] / become[%d] - %2.1f%%", v_was, v_become, 100.f * float(v_become - v_was) / float(v_was));
+    clMsg("duplication: was[%d] / become[%d] - %2.1f%%", v_was, v_become, 100.f * float(v_become - v_was) / float(v_was));
 
     // ************************************* Perform mungle
     Status("Calculating basis...");
     NVMeshMender mender;
-    if (!mender.Munge(
-            input,    // input attributes
-            output,   // outputs attributes
-            0,        // deg2rad(61.f),								// tangent space smooth angle
+    if (!mender.Munge(input,   // input attributes
+            output,            // outputs attributes
+            0,                 // deg2rad(61.f),								// tangent space smooth angle
             // deg2rad(61.f)
             0,                                          // no texture matrix applied to my texture coordinates
             NVMeshMender::FixTangents,                  // fix degenerate bases & texture mirroring

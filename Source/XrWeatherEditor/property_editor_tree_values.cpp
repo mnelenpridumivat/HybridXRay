@@ -28,18 +28,13 @@ UITypeEditorEditStyle property_editor_tree_values::GetEditStyle(ITypeDescriptorC
     return (inherited::GetEditStyle(context));
 }
 
-Object ^
-    property_editor_tree_values::EditValue(
-        ITypeDescriptorContext ^ context,
-        IServiceProvider ^ provider,
-        Object ^ value)
+Object ^ property_editor_tree_values::EditValue(ITypeDescriptorContext ^ context, IServiceProvider ^ provider, Object ^ value)
 {
     if (!context || !provider)
         return (inherited::EditValue(context, provider, value));
 
     typedef System::Windows::Forms::Design::IWindowsFormsEditorService IWindowsFormsEditorService;
-    IWindowsFormsEditorService ^ service =
-        dynamic_cast<IWindowsFormsEditorService ^>(provider->GetService(IWindowsFormsEditorService::typeid));
+    IWindowsFormsEditorService ^ service = dynamic_cast<IWindowsFormsEditorService ^>(provider->GetService(IWindowsFormsEditorService::typeid));
 
     if (!service)
         return (inherited::EditValue(context, provider, value));
@@ -51,7 +46,8 @@ Object ^
     m_dialog->values(real_value->values(), safe_cast<String ^>(raw_value->get_value()));
     switch (m_dialog->ShowDialog())
     {
-        case System::Windows::Forms::DialogResult::OK: {
+        case System::Windows::Forms::DialogResult::OK:
+        {
             raw_value->set_value(m_dialog->Result);
             break;
         }

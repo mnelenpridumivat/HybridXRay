@@ -8,7 +8,7 @@ void CControlMovement::reinit()
 {
     inherited::reinit();
 
-    m_velocity_current = 0.f;
+    m_velocity_current     = 0.f;
 
     m_data.velocity_target = 0.f;
     m_data.acc             = flt_max;

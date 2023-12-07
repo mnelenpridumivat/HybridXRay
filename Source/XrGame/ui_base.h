@@ -30,40 +30,40 @@ struct CFontManager: public pureDeviceReset
     void                           Render();
 
     // hud font
-    CGameFont* pFontMedium;
-    CGameFont* pFontDI;
+    CGameFont*                     pFontMedium;
+    CGameFont*                     pFontDI;
 
-    CGameFont* pFontArial14;
-    CGameFont* pFontGraffiti19Russian;
-    CGameFont* pFontGraffiti22Russian;
-    CGameFont* pFontLetterica16Russian;
-    CGameFont* pFontLetterica18Russian;
-    CGameFont* pFontGraffiti32Russian;
-    CGameFont* pFontGraffiti50Russian;
-    CGameFont* pFontLetterica25;
-    CGameFont* pFontStat;
+    CGameFont*                     pFontArial14;
+    CGameFont*                     pFontGraffiti19Russian;
+    CGameFont*                     pFontGraffiti22Russian;
+    CGameFont*                     pFontLetterica16Russian;
+    CGameFont*                     pFontLetterica18Russian;
+    CGameFont*                     pFontGraffiti32Russian;
+    CGameFont*                     pFontGraffiti50Russian;
+    CGameFont*                     pFontLetterica25;
+    CGameFont*                     pFontStat;
 
-    void   InitializeFonts();
-    void   InitializeFont(CGameFont*& F, LPCSTR section, u32 flags = 0);
-    LPCSTR GetFontTexName(LPCSTR section);
+    void                           InitializeFonts();
+    void                           InitializeFont(CGameFont*& F, LPCSTR section, u32 flags = 0);
+    LPCSTR                         GetFontTexName(LPCSTR section);
 
-    virtual void OnDeviceReset();
+    virtual void                   OnDeviceReset();
 };
 
 class ui_core: public CDeviceResetNotifier
 {
-    C2DFrustum m_2DFrustum;
-    C2DFrustum m_2DFrustumPP;
-    C2DFrustum m_FrustumLIT;
+    C2DFrustum    m_2DFrustum;
+    C2DFrustum    m_2DFrustumPP;
+    C2DFrustum    m_FrustumLIT;
 
-    bool m_bPostprocess;
+    bool          m_bPostprocess;
 
     CFontManager* m_pFontManager;
     CUICursor*    m_pUICursor;
 
-    Fvector2  m_pp_scale_;
-    Fvector2  m_scale_;
-    Fvector2* m_current_scale;
+    Fvector2      m_pp_scale_;
+    Fvector2      m_scale_;
+    Fvector2*     m_current_scale;
 
 public:
     xr_stack<Frect> m_Scissors;
@@ -87,11 +87,11 @@ public:
     {
         return top * m_current_scale->y;
     };
-    void ClientToScreenScaled(Fvector2& dest, float left, float top) const;
-    void ClientToScreenScaled(Fvector2& src_and_dest) const;
-    void ClientToScreenScaledWidth(float& src_and_dest) const;
-    void ClientToScreenScaledHeight(float& src_and_dest) const;
-    void AlignPixel(float& src_and_dest) const;
+    void              ClientToScreenScaled(Fvector2& dest, float left, float top) const;
+    void              ClientToScreenScaled(Fvector2& src_and_dest) const;
+    void              ClientToScreenScaledWidth(float& src_and_dest) const;
+    void              ClientToScreenScaledHeight(float& src_and_dest) const;
+    void              AlignPixel(float& src_and_dest) const;
 
     const C2DFrustum& ScreenFrustum() const
     {
@@ -101,17 +101,17 @@ public:
     {
         return m_FrustumLIT;
     }
-    void PushScissor(const Frect& r, bool overlapped = false);
-    void PopScissor();
+    void                  PushScissor(const Frect& r, bool overlapped = false);
+    void                  PopScissor();
 
-    void pp_start();
-    void pp_stop();
-    void RenderFont();
+    void                  pp_start();
+    void                  pp_stop();
+    void                  RenderFont();
 
-    virtual void OnDeviceReset();
-    static bool  is_widescreen();
-    static float get_current_kx();
-    shared_str   get_xml_name(LPCSTR fn);
+    virtual void          OnDeviceReset();
+    static bool           is_widescreen();
+    static float          get_current_kx();
+    shared_str            get_xml_name(LPCSTR fn);
 
     IUIRender::ePointType m_currentPointType;
 };

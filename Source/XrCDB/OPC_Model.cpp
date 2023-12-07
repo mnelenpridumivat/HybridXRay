@@ -206,8 +206,7 @@ bool OPCODE_Model::Build(const OPCODECREATE& create)
             NbDegenerate++;
     }
     if (NbDegenerate)
-        Log("OPCODE WARNING: found %d degenerate faces in model! Collision might report wrong results!\n",
-            NbDegenerate);
+        Log("OPCODE WARNING: found %d degenerate faces in model! Collision might report wrong results!\n", NbDegenerate);
     // We continue nonetheless....
 
     // 2) Build a generic AABB Tree.

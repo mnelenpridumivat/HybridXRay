@@ -81,7 +81,7 @@ void SBinocVisibleObj::Update()
     if (!m_object->Visual())
         return;
 
-    Fbox b = m_object->Visual()->getVisData().box;
+    Fbox    b = m_object->Visual()->getVisData().box;
 
     Fmatrix xform;
     xform.mul(Device->mFullTransform, m_object->XFORM());
@@ -99,7 +99,7 @@ void SBinocVisibleObj::Update()
     }
     static Frect screen_rect = {-1.0f, -1.0f, 1.0f, 1.0f};
 
-    Frect new_rect;
+    Frect        new_rect;
     new_rect.lt = mn;
     new_rect.rb = mx;
 
@@ -135,7 +135,7 @@ void SBinocVisibleObj::Update()
         {
             // target locked
             m_flags.set(flTargetLocked, TRUE);
-            u32 clr = subst_alpha(m_lt.GetTextureColor(), 255);
+            u32     clr    = subst_alpha(m_lt.GetTextureColor(), 255);
 
             //-----------------------------------------------------
             CActor* pActor = NULL;
@@ -233,7 +233,7 @@ void CBinocularsVision::Update()
     //-----------------------------------------------------
     const CVisualMemoryManager::VISIBLES& vVisibles = pActor->memory().visual().objects();
 
-    VIS_OBJECTS_IT it = m_active_objects.begin();
+    VIS_OBJECTS_IT                        it        = m_active_objects.begin();
     for (; it != m_active_objects.end(); ++it)
         (*it)->m_flags.set(flVisObjNotValid, TRUE);
 
@@ -244,9 +244,9 @@ void CBinocularsVision::Update()
         if (!pActor->memory().visual().visible_now(smart_cast<const CGameObject*>(_object_)))
             continue;
 
-        CObject* object_ = const_cast<CObject*>(_object_);
+        CObject*      object_ = const_cast<CObject*>(_object_);
 
-        CEntityAlive* EA = smart_cast<CEntityAlive*>(object_);
+        CEntityAlive* EA      = smart_cast<CEntityAlive*>(object_);
         if (!EA || !EA->g_Alive())
             continue;
 
@@ -281,9 +281,9 @@ void CBinocularsVision::Update()
     it = m_active_objects.begin();
     for (; it != m_active_objects.end(); ++it)
     {
-        SBinocVisibleObj* visObj = (*it);
+        SBinocVisibleObj* visObj  = (*it);
 
-        BOOL bLocked = visObj->m_flags.test(flTargetLocked);
+        BOOL              bLocked = visObj->m_flags.test(flTargetLocked);
 
         (*it)->Update();
 
@@ -309,8 +309,7 @@ void CBinocularsVision::Load(const shared_str& section)
 
 void CBinocularsVision::remove_links(CObject* object)
 {
-    VIS_OBJECTS::iterator I =
-        std::find_if(m_active_objects.begin(), m_active_objects.end(), FindVisObjByObject(object));
+    VIS_OBJECTS::iterator I = std::find_if(m_active_objects.begin(), m_active_objects.end(), FindVisObjByObject(object));
     if (I == m_active_objects.end())
         return;
 

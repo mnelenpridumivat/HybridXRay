@@ -58,32 +58,20 @@ property_vec3f_base::property_vec3f_base(XrWeatherEditor::vec3f const % vec3f)
     typedef XrWeatherEditor::property_holder::float_getter_type float_getter_type;
     typedef XrWeatherEditor::property_holder::float_setter_type float_setter_type;
 
-    float_getter_type getter;
-    float_setter_type setter;
+    float_getter_type                                           getter;
+    float_setter_type                                           setter;
 
     getter.bind(m_components, &vec3f_components::x_getter);
     setter.bind(m_components, &vec3f_components::x_setter);
-    m_container->add_property(
-        gcnew PropertySpec(
-            "x", float ::typeid, "components", "X component", vec3f.x, (String ^) nullptr,
-            property_converter_float::typeid),
-        gcnew property_float(getter, setter, .01f));
+    m_container->add_property(gcnew PropertySpec("x", float ::typeid, "components", "X component", vec3f.x, (String ^) nullptr, property_converter_float::typeid), gcnew property_float(getter, setter, .01f));
 
     getter.bind(m_components, &vec3f_components::y_getter);
     setter.bind(m_components, &vec3f_components::y_setter);
-    m_container->add_property(
-        gcnew PropertySpec(
-            "y", float ::typeid, "components", "Y component", vec3f.y, (String ^) nullptr,
-            property_converter_float::typeid),
-        gcnew property_float(getter, setter, .01f));
+    m_container->add_property(gcnew PropertySpec("y", float ::typeid, "components", "Y component", vec3f.y, (String ^) nullptr, property_converter_float::typeid), gcnew property_float(getter, setter, .01f));
 
     getter.bind(m_components, &vec3f_components::z_getter);
     setter.bind(m_components, &vec3f_components::z_setter);
-    m_container->add_property(
-        gcnew PropertySpec(
-            "z", float ::typeid, "components", "Z component", vec3f.z, (String ^) nullptr,
-            property_converter_float::typeid),
-        gcnew property_float(getter, setter, .01f));
+    m_container->add_property(gcnew PropertySpec("z", float ::typeid, "components", "Z component", vec3f.z, (String ^) nullptr, property_converter_float::typeid), gcnew property_float(getter, setter, .01f));
 }
 
 property_vec3f_base::~property_vec3f_base()

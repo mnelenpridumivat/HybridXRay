@@ -91,27 +91,27 @@ protected:
     typedef st_vec::iterator              st_vec_it;
     st_vec                                m_custom_statics;
 
-    CUIActorMenu* m_ActorMenu;
-    CUIPdaWnd*    m_PdaMenu;
+    CUIActorMenu*                         m_ActorMenu;
+    CUIPdaWnd*                            m_PdaMenu;
 
-    bool m_bShowGameIndicators;
+    bool                                  m_bShowGameIndicators;
 
 public:
     CUIMainIngameWnd*  UIMainIngameWnd;
     CUIMessagesWindow* m_pMessagesWnd;
 
-    virtual void SetClGame(game_cl_GameState* g);
-    virtual void OnInventoryAction(PIItem item, u16 action_type);
+    virtual void       SetClGame(game_cl_GameState* g);
+    virtual void       OnInventoryAction(PIItem item, u16 action_type);
 
     CUIGameCustom();
     virtual ~CUIGameCustom();
 
-    virtual void Init(int stage){};
+    virtual void      Init(int stage){};
 
     virtual void      Render();
     virtual void _BCL OnFrame();
 
-    IC CUIActorMenu& ActorMenu() const
+    IC CUIActorMenu&  ActorMenu() const
     {
         return *m_ActorMenu;
     }
@@ -143,26 +143,26 @@ public:
         return !!psHUD_Flags.test(HUD_CROSSHAIR_RT);
     }
 
-    virtual void HideShownDialogs(){};
+    virtual void       HideShownDialogs(){};
 
     SDrawStaticStruct* AddCustomStatic(LPCSTR id, bool bSingleInstance);
     SDrawStaticStruct* GetCustomStatic(LPCSTR id);
     void               RemoveCustomStatic(LPCSTR id);
 
-    void CommonMessageOut(LPCSTR text);
+    void               CommonMessageOut(LPCSTR text);
 
-    virtual void ChangeTotalMoneyIndicator(LPCSTR newMoneyString){};
-    virtual void DisplayMoneyChange(LPCSTR deltaMoney){};
-    virtual void DisplayMoneyBonus(KillMessageStruct* bonus){};
+    virtual void       ChangeTotalMoneyIndicator(LPCSTR newMoneyString){};
+    virtual void       DisplayMoneyChange(LPCSTR deltaMoney){};
+    virtual void       DisplayMoneyBonus(KillMessageStruct* bonus){};
 
-    virtual void UnLoad();
-    void         Load();
+    virtual void       UnLoad();
+    void               Load();
 
-    void OnConnected();
+    void               OnConnected();
 
-    void UpdatePda();
-    void update_fake_indicators(u8 type, float power);
-    void enable_fake_indicators(bool enable);
+    void               UpdatePda();
+    void               update_fake_indicators(u8 type, float power);
+    void               enable_fake_indicators(bool enable);
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };   // class CUIGameCustom

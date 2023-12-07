@@ -34,10 +34,9 @@ template<typename T> struct CWrapperBase: public T, public luabind::wrap_base
     typedef T               inherited;
     typedef CWrapperBase<T> self_type;
 
-    IC                      CWrapperBase(LPCSTR section):
-        T(section) {}
+    IC                      CWrapperBase(LPCSTR section): T(section) {}
 
-    virtual void STATE_Read(NET_Packet& p1)
+    virtual void            STATE_Read(NET_Packet& p1)
     {
         call<void>("STATE_Read", &p1);
     }
@@ -79,15 +78,8 @@ template<typename T> struct CWrapperBase: public T, public luabind::wrap_base
 #pragma optimize("s", on)
 void CPureServerObject::script_register(lua_State* L)
 {
-    module(L)
-        [class_<IPureLoadableObject<IReader>>("ipure_alife_load_object"),
-            class_<IPureSavableObject<IWriter>>("ipure_alife_save_object"),
-            class_<
-                IPureSerializeObject<IReader, IWriter>, bases<IPureLoadableObject<IReader>, IPureSavableObject<IWriter>>>(
-                "ipure_alife_load_save_object"),
-            class_<IPureServerObject, IPureSerializeObject<IReader, IWriter>>("ipure_server_object"),
-            class_<CPureServerObject, IPureServerObject>("cpure_server_object")
-            //			.def(		constructor<>())
+    module(L)[class_<IPureLoadableObject<IReader>>("ipure_alife_load_object"), class_<IPureSavableObject<IWriter>>("ipure_alife_save_object"), class_<IPureSerializeObject<IReader, IWriter>, bases<IPureLoadableObject<IReader>, IPureSavableObject<IWriter>>>("ipure_alife_load_save_object"), class_<IPureServerObject, IPureSerializeObject<IReader, IWriter>>("ipure_server_object"), class_<CPureServerObject, IPureServerObject>("cpure_server_object")
+        //			.def(		constructor<>())
     ];
 }
 

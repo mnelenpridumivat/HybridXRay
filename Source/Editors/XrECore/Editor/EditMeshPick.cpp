@@ -36,7 +36,7 @@ static float   m_fSoftAngle;
 //----------------------------------------------------
 // номер face должен соответствовать списку
 //----------------------------------------------------
-void CEditableMesh::GenerateCFModel()
+void           CEditableMesh::GenerateCFModel()
 {
     UnloadCForm();
     // Collect faces
@@ -48,11 +48,9 @@ void CEditableMesh::GenerateCFModel()
         for (IntIt it = face_lst.begin(); it != face_lst.end(); it++)
         {
             st_Face& F = m_Faces[*it];
-            ETOOLS::collector_add_face_d(
-                CL, m_Vertices[F.pv[0].pindex], m_Vertices[F.pv[1].pindex], m_Vertices[F.pv[2].pindex], *it);
+            ETOOLS::collector_add_face_d(CL, m_Vertices[F.pv[0].pindex], m_Vertices[F.pv[1].pindex], m_Vertices[F.pv[2].pindex], *it);
             if (sp_it->first->m_Flags.is(CSurface::sf2Sided))
-                ETOOLS::collector_add_face_d(
-                    CL, m_Vertices[F.pv[2].pindex], m_Vertices[F.pv[1].pindex], m_Vertices[F.pv[0].pindex], *it);
+                ETOOLS::collector_add_face_d(CL, m_Vertices[F.pv[2].pindex], m_Vertices[F.pv[1].pindex], m_Vertices[F.pv[0].pindex], *it);
         }
     }
     m_CFModel = ETOOLS::create_model_cl(CL);
@@ -99,12 +97,7 @@ void CEditableMesh::BoxQuery(const Fmatrix& parent, const Fmatrix& inv_parent, S
 
 static const float _sqrt_flt_max = _sqrt(flt_max * 0.5f);
 
-bool CEditableMesh::RayPick(
-    float&         distance,
-    const Fvector& start,
-    const Fvector& direction,
-    const Fmatrix& inv_parent,
-    SRayPickInfo*  pinf)
+bool               CEditableMesh::RayPick(float& distance, const Fvector& start, const Fvector& direction, const Fmatrix& inv_parent, SRayPickInfo* pinf)
 {
     if (!m_Flags.is(flVisible))
         return false;
@@ -153,8 +146,7 @@ bool CEditableMesh::CHullPickMesh(PlaneVec& pl, const Fmatrix& parent)
             }
     }
     for (u32 f_id = 0; f_id < m_FaceCount; f_id++)
-        if (inside[m_Faces[f_id].pv[0].pindex] && inside[m_Faces[f_id].pv[1].pindex] &&
-            inside[m_Faces[f_id].pv[2].pindex])
+        if (inside[m_Faces[f_id].pv[0].pindex] && inside[m_Faces[f_id].pv[1].pindex] && inside[m_Faces[f_id].pv[2].pindex])
             return true;
     return false;
 }
@@ -201,9 +193,7 @@ void CEditableMesh::GetTiesFaces(int start_id, U32Vec& fl, float fSoftAngle, boo
     else
     {
         for (int k = 0; k < 3; k++)
-            fl.insert(
-                fl.end(), (*m_Adjs)[m_Faces[start_id].pv[k].pindex].begin(),
-                (*m_Adjs)[m_Faces[start_id].pv[k].pindex].end());
+            fl.insert(fl.end(), (*m_Adjs)[m_Faces[start_id].pv[k].pindex].begin(), (*m_Adjs)[m_Faces[start_id].pv[k].pindex].end());
         std::sort(fl.begin(), fl.end());
         fl.erase(std::unique(fl.begin(), fl.end()), fl.end());
     }

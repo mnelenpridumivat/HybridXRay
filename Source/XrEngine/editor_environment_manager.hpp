@@ -20,8 +20,7 @@ namespace XrWeatherEditor
     namespace environment
     {
         namespace detail
-        {
-        }   // namespace detail
+        {}   // namespace detail
 
         namespace suns
         {
@@ -68,21 +67,19 @@ namespace XrWeatherEditor
         public:
             manager();
             virtual ~manager();
-            virtual void              load_weathers();
-            virtual void              load();
-            virtual void              unload();
-            virtual void              create_mixer();
-            virtual CEnvAmbient*      AppendEnvAmb(const shared_str& sect);
-            virtual SThunderboltDesc* thunderbolt_description(CInifile& config, shared_str const& section);
-            virtual SThunderboltCollection*
-                thunderbolt_collection(CInifile* pIni, CInifile* thunderbolts, LPCSTR section);
-            virtual SThunderboltCollection*
-                thunderbolt_collection(xr_vector<SThunderboltCollection*>& collection, shared_str const& id);
-            virtual CLensFlareDescriptor* add_flare(xr_vector<CLensFlareDescriptor*>& collection, shared_str const& id);
-            void                          save();
-            shader_ids_type const&        shader_ids() const;
-            particle_ids_type const&      particle_ids() const;
-            light_animator_ids_type const& light_animator_ids() const;
+            virtual void                    load_weathers();
+            virtual void                    load();
+            virtual void                    unload();
+            virtual void                    create_mixer();
+            virtual CEnvAmbient*            AppendEnvAmb(const shared_str& sect);
+            virtual SThunderboltDesc*       thunderbolt_description(CInifile& config, shared_str const& section);
+            virtual SThunderboltCollection* thunderbolt_collection(CInifile* pIni, CInifile* thunderbolts, LPCSTR section);
+            virtual SThunderboltCollection* thunderbolt_collection(xr_vector<SThunderboltCollection*>& collection, shared_str const& id);
+            virtual CLensFlareDescriptor*   add_flare(xr_vector<CLensFlareDescriptor*>& collection, shared_str const& id);
+            void                            save();
+            shader_ids_type const&          shader_ids() const;
+            particle_ids_type const&        particle_ids() const;
+            light_animator_ids_type const&  light_animator_ids() const;
 
         public:
             typedef XrWeatherEditor::property_holder                      property_holder_type;

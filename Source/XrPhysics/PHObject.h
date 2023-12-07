@@ -124,9 +124,9 @@ public:
     virtual void InitContact(dContact* c, bool& do_collide, u16 /*material_idx_1*/, u16 /*material_idx_2*/) = 0;
     virtual void CutVelocity(float l_limit, float a_limit){};
 
-    void    Freeze();
-    void    UnFreeze();
-    IC bool IsFreezed()
+    void         Freeze();
+    void         UnFreeze();
+    IC bool      IsFreezed()
     {
         return !!(m_flags.test(st_freezed));
     }

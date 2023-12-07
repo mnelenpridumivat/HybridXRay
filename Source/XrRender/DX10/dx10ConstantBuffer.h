@@ -30,8 +30,10 @@ public:
     void  seta(R_constant* C, R_constant_load& L, u32 e, const Fvector4& A);
 
     void* AccessDirect(R_constant_load& L, u32 DataSize);
+
 private:
     Fvector4* Access(u16 offset);
+
 private:
     shared_str                      m_strBufferName;
     D3D_CBUFFER_TYPE                m_eBufferType;

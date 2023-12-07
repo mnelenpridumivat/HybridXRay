@@ -82,9 +82,7 @@ void CSpecificCharacter::load_shared(LPCSTR)
     else
         data()->m_bDefaultForCommunity = false;
 
-    R_ASSERT3(
-        !(data()->m_bNoRandom && data()->m_bDefaultForCommunity),
-        "cannot set 'no_random' and 'team_default' flags simultaneously, profile id", *shared_str(item_data.id));
+    R_ASSERT3(!(data()->m_bNoRandom && data()->m_bDefaultForCommunity), "cannot set 'no_random' and 'team_default' flags simultaneously, profile id", *shared_str(item_data.id));
 
 #ifdef XRGAME_EXPORTS
 
@@ -173,8 +171,7 @@ void CSpecificCharacter::load_shared(LPCSTR)
     data()->m_Rank = pXML->ReadInt("rank", 0, NO_RANK);
     R_ASSERT3(data()->m_Rank != NO_RANK, "'rank' field not fulfiled for specific character", *m_OwnId);
     data()->m_Reputation = pXML->ReadInt("reputation", 0, NO_REPUTATION);
-    R_ASSERT3(
-        data()->m_Reputation != NO_REPUTATION, "'reputation' field not fulfiled for specific character", *m_OwnId);
+    R_ASSERT3(data()->m_Reputation != NO_REPUTATION, "'reputation' field not fulfiled for specific character", *m_OwnId);
 
     if (pXML->NavigateToNode(pXML->GetLocalRoot(), "money", 0))
     {

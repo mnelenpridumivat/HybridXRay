@@ -31,42 +31,42 @@
 #include "reward_event_generator.h"
 
 // #define TEAM0_MENU		"artefacthunt_team0"
-#define GREENTEAM_MENU "capturetheartefact_team1"
-#define BLUETEAM_MENU "capturetheartefact_team2"
-#define BASECOST_SECTION "capturetheartefact_base_cost"
-#define MESSAGE_MENUS "capturetheartefact_messages_menu"
+#define GREENTEAM_MENU       "capturetheartefact_team1"
+#define BLUETEAM_MENU        "capturetheartefact_team2"
+#define BASECOST_SECTION     "capturetheartefact_base_cost"
+#define MESSAGE_MENUS        "capturetheartefact_messages_menu"
 
-#define ARTEFACT_NEUTRAL "mp_af_neutral_location"
+#define ARTEFACT_NEUTRAL     "mp_af_neutral_location"
 #define FREE_ARTEFACT_FRIEND "mp_free_af_friend_location"
-#define FRIEND_LOCATION "mp_friend_location"
-#define ARTEFACT_FRIEND "mp_af_friend_location"
-#define ARTEFACT_ENEMY "mp_af_enemy_location"
+#define FRIEND_LOCATION      "mp_friend_location"
+#define ARTEFACT_FRIEND      "mp_af_friend_location"
+#define ARTEFACT_ENEMY       "mp_af_enemy_location"
 
 #define CLIENT_CTA_LOG
 
 game_cl_CaptureTheArtefact::game_cl_CaptureTheArtefact()
 {
-    m_game_ui  = NULL;
-    spawn_cost = -10000;
+    m_game_ui              = NULL;
+    spawn_cost             = -10000;
 
-    m_bTeamSelected    = FALSE;
-    m_bSkinSelected    = FALSE;
-    m_bReadMapDesc     = FALSE;
-    m_winnerTeamShowed = FALSE;
+    m_bTeamSelected        = FALSE;
+    m_bSkinSelected        = FALSE;
+    m_bReadMapDesc         = FALSE;
+    m_winnerTeamShowed     = FALSE;
 
     m_curReinforcementTime = 0;
     m_maxReinforcementTime = 0;
 
-    m_currentWarmupTime = 0;
-    m_inWarmup          = false;
-    m_s32TimeLimit      = 0;
+    m_currentWarmupTime    = 0;
+    m_inWarmup             = false;
+    m_s32TimeLimit         = 0;
 
-    maxScore       = 0;
-    greenTeamScore = 0;
-    blueTeamScore  = 0;
+    maxScore               = 0;
+    greenTeamScore         = 0;
+    blueTeamScore          = 0;
 
-    greenArtefactOwner = 0;
-    blueArtefactOwner  = 0;
+    greenArtefactOwner     = 0;
+    blueArtefactOwner      = 0;
 
     m_player_on_base       = false;
     m_allow_buy            = false;
@@ -78,11 +78,11 @@ game_cl_CaptureTheArtefact::game_cl_CaptureTheArtefact()
     m_dwVoteEndTime        = 0;
 
     // sendedSpawnMe = false;
-    haveGotUpdate = false;
+    haveGotUpdate          = false;
 
-    buy_amount  = 0;
-    total_money = 0;
-    last_money  = -1;
+    buy_amount             = 0;
+    total_money            = 0;
+    last_money             = -1;
 
     LoadSndMessages();
 }
@@ -123,7 +123,8 @@ void game_cl_CaptureTheArtefact::shedule_Update(u32 dt)
 
     switch (Phase())
     {
-        case GAME_PHASE_INPROGRESS: {
+        case GAME_PHASE_INPROGRESS:
+        {
             if (m_game_ui)
             {
                 if (local_player && !local_player->IsSkip())
@@ -136,8 +137,7 @@ void game_cl_CaptureTheArtefact::shedule_Update(u32 dt)
 
                     UpdateMoneyIndicator();
 
-                    if ((local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD)) &&
-                        (static_cast<ETeam>(local_player->team) != etSpectatorsTeam))
+                    if ((local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD)) && (static_cast<ETeam>(local_player->team) != etSpectatorsTeam))
                     {
                         /*if (!sendedSpawnMe)
                             SpawnMe();*/
@@ -184,7 +184,8 @@ void game_cl_CaptureTheArtefact::shedule_Update(u32 dt)
             }*/
         }
         break;
-        case GAME_PHASE_PENDING: {
+        case GAME_PHASE_PENDING:
+        {
             if ((m_game_ui) && (!m_game_ui->IsTeamPanelsShown()))
             {
                 m_game_ui->ShowTeamPanels(true);
@@ -192,7 +193,8 @@ void game_cl_CaptureTheArtefact::shedule_Update(u32 dt)
             m_winnerTeamShowed = FALSE;
         }
         break;
-        case GAME_PHASE_PLAYER_SCORES: {
+        case GAME_PHASE_PLAYER_SCORES:
+        {
             VERIFY(m_game_ui);
             if (!m_winnerTeamShowed)
             {
@@ -215,7 +217,8 @@ void game_cl_CaptureTheArtefact::shedule_Update(u32 dt)
             }
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     };
@@ -231,8 +234,7 @@ void game_cl_CaptureTheArtefact::UpdateMoneyIndicator()
     // R_ASSERT(lookat_player);
     if (lookat_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
     {
-        total_money = (lookat_player == local_player) ? local_player->money_for_round + buy_amount :
-                                                        lookat_player->money_for_round;
+        total_money = (lookat_player == local_player) ? local_player->money_for_round + buy_amount : lookat_player->money_for_round;
     }
     else
     {
@@ -252,25 +254,22 @@ void game_cl_CaptureTheArtefact::TranslateGameMessage(u32 msg, NET_Packet& P)
     string1024   Text;
     // string512 tmp;
     //	LPSTR	Color_Teams[3]		= {"%c[255,255,255,255]", "%c[255,64,255,64]", "%c[255,64,64,255]"};
-    char Color_Main[]     = "%c[255,192,192,192]";
-    char Color_Artefact[] = "%c[255,255,255,0]";
+    char         Color_Main[]     = "%c[255,192,192,192]";
+    char         Color_Artefact[] = "%c[255,255,255,0]";
     //	LPSTR	TeamsNames[3]		= {"Zero Team", "Team Green", "Team Blue"};
 
     switch (msg)
     {
             //-------------------UI MESSAGES
-        case GAME_EVENT_ARTEFACT_TAKEN: {
+        case GAME_EVENT_ARTEFACT_TAKEN:
+        {
             ClientID clientId;   // who took the artefact
             u8       artefactOwnerTeam;
             P.r_u8(artefactOwnerTeam);
             P.r_clientID(clientId);
 
             PLAYERS_MAP_CIT playerIt = players.find(clientId);
-            VERIFY2(
-                playerIt != players.end(),
-                make_string(
-                    "player (ClientID = 0x%08x) that took the artefact not found on client site", clientId.value())
-                    .c_str());
+            VERIFY2(playerIt != players.end(), make_string("player (ClientID = 0x%08x) that took the artefact not found on client site", clientId.value()).c_str());
 
             game_PlayerState const* ps = playerIt->second;
             VERIFY2(ps, make_string("player state (ClientID = 0x%08x) not initialized", clientId.value()).c_str());
@@ -278,17 +277,13 @@ void game_cl_CaptureTheArtefact::TranslateGameMessage(u32 msg, NET_Packet& P)
             if (ps->team == artefactOwnerTeam)
             {
                 // player has returned team artefact
-                xr_sprintf(
-                    Text, "%s%s %s%s", CTeamInfo::GetTeam_color_tag(ModifyTeam(artefactOwnerTeam) + 1), ps->getName(),
-                    Color_Main, st.translate("mp_returned_artefact").c_str());
+                xr_sprintf(Text, "%s%s %s%s", CTeamInfo::GetTeam_color_tag(ModifyTeam(artefactOwnerTeam) + 1), ps->getName(), Color_Main, st.translate("mp_returned_artefact").c_str());
                 PlayReturnedTheArtefact(ps);
             }
             else if (ps != local_player)
             {
                 // player has captured the artefact
-                xr_sprintf(
-                    Text, "%s%s %s%s", CTeamInfo::GetTeam_color_tag(ModifyTeam(ps->team) + 1), ps->getName(),
-                    Color_Main, st.translate("mp_captured_artefact").c_str());
+                xr_sprintf(Text, "%s%s %s%s", CTeamInfo::GetTeam_color_tag(ModifyTeam(ps->team) + 1), ps->getName(), Color_Main, st.translate("mp_captured_artefact").c_str());
 
                 PlayCapturedTheArtefact(ps);
                 if (m_reward_generator)
@@ -355,9 +350,7 @@ void game_cl_CaptureTheArtefact::TranslateGameMessage(u32 msg, NET_Packet& P)
             }
             if (ps)
             {
-                xr_sprintf(
-                    Text, "%s%s %s%s", CTeamInfo::GetTeam_color_tag(ModifyTeam(ps->team) + 1), ps->getName(),
-                    Color_Main,
+                xr_sprintf(Text, "%s%s %s%s", CTeamInfo::GetTeam_color_tag(ModifyTeam(ps->team) + 1), ps->getName(), Color_Main,
                     st.translate("mp_has_dropped_artefact").c_str());   // need translate
 
                 if (m_reward_generator)
@@ -372,7 +365,8 @@ void game_cl_CaptureTheArtefact::TranslateGameMessage(u32 msg, NET_Packet& P)
             // PlaySndMessage(ID_AF_LOST);
         }
         break;
-        case GAME_EVENT_ARTEFACT_ONBASE: {
+        case GAME_EVENT_ARTEFACT_ONBASE:
+        {
             u8 delivererTeam;
             P.r_u8(delivererTeam);
             u16 deliverer_id;   // who deliver the artefact
@@ -637,11 +631,11 @@ void game_cl_CaptureTheArtefact::net_import_state(NET_Packet& P)
     m_bCanActivateArtefact = !!P.r_u8();
     m_baseRadius           = P.r_float();
 
-    m_inWarmup = !!P.r_u8();
+    m_inWarmup             = !!P.r_u8();
     // warning: r_s16 !
-    m_s32TimeLimit = static_cast<s32>(P.r_s16() * 60000);
+    m_s32TimeLimit         = static_cast<s32>(P.r_s16() * 60000);
 
-    haveGotUpdate = true;
+    haveGotUpdate          = true;
 
     UpdateMapLocations();
 }
@@ -676,9 +670,7 @@ CUIGameCustom* game_cl_CaptureTheArtefact::createGameUI()
 
 const shared_str& game_cl_CaptureTheArtefact::GetLocalPlayerTeamSection() const
 {
-    VERIFY2(
-        TeamList.size() > local_player->team,
-        make_string("local_player has not valid team number: %d", local_player->team).c_str());
+    VERIFY2(TeamList.size() > local_player->team, make_string("local_player has not valid team number: %d", local_player->team).c_str());
     cl_TeamStruct const* pTeamSect = &(TeamList[local_player->team]);
     return pTeamSect->caSection;
 }
@@ -751,8 +743,7 @@ void game_cl_CaptureTheArtefact::UpdateMapLocations()
     for (PLAYERS_MAP_IT tempPlayerIt = players.begin(); tempPlayerIt != ie; ++tempPlayerIt)
     {
         game_PlayerState* ps = tempPlayerIt->second;
-        if ((ps->team == local_player->team) && (ps != local_player) &&
-            (!ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD)))
+        if ((ps->team == local_player->team) && (ps != local_player) && (!ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD)))
         {
             Level().MapManager().AddMapLocation(FRIEND_LOCATION, ps->GameID);
         }
@@ -968,12 +959,14 @@ bool game_cl_CaptureTheArtefact::OnKeyboardPress(int key)
     {
         switch (key)
         {
-            case kSCORES: {
+            case kSCORES:
+            {
                 m_game_ui->ShowTeamPanels(true);
                 return true;
             }
             break;
-            case kSKIN: {
+            case kSKIN:
+            {
                 if (CanCallSkinMenu())
                 {
                     VERIFY(local_player);
@@ -981,14 +974,16 @@ bool game_cl_CaptureTheArtefact::OnKeyboardPress(int key)
                 }
             }
             break;
-            case kTEAM: {
+            case kTEAM:
+            {
                 if (CanCallTeamSelectMenu())
                 {
                     m_game_ui->ShowTeamSelectMenu();
                 }
             }
             break;
-            case kINVENTORY: {
+            case kINVENTORY:
+            {
                 if (m_game_ui->ActorMenu().IsShown())
                 {
                     m_game_ui->HideActorMenu();
@@ -1003,7 +998,8 @@ bool game_cl_CaptureTheArtefact::OnKeyboardPress(int key)
                 return true;
             }
             break;
-            case kBUY: {
+            case kBUY:
+            {
                 if (CanCallBuyMenu())
                 {
                     m_game_ui->ShowBuyMenu();
@@ -1101,8 +1097,7 @@ bool game_cl_CaptureTheArtefact::NeedToSendReady_Spectator(int key, game_PlayerS
         {
             return res;
         }
-        if (((local_player->money_for_round + spawn_cost + buy_amount) >= 0) &&
-            (static_cast<ETeam>(local_player->team) != etSpectatorsTeam))
+        if (((local_player->money_for_round + spawn_cost + buy_amount) >= 0) && (static_cast<ETeam>(local_player->team) != etSpectatorsTeam))
         {
             m_game_ui->ShowBuySpawn(spawn_cost);
         }
@@ -1213,9 +1208,9 @@ void game_cl_CaptureTheArtefact::PlayRankChangedSnd()
     if (local_player->rank >= 4)   // need to add new sound
         return;
 
-    ETeam my_team = static_cast<ETeam>(local_player->team);
+    ETeam my_team    = static_cast<ETeam>(local_player->team);
 
-    int rank_index = local_player->rank - 1;
+    int   rank_index = local_player->rank - 1;
     if (rank_index < 0)
         return;
 
@@ -1233,9 +1228,7 @@ void game_cl_CaptureTheArtefact::PlayRankChangedSnd()
 void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
 {
     inherited::OnVoteStart(P);
-    static char const* ttable[6][2] = {
-        {"restart", "mp_restart"}, {"restart_fast", "mp_restart_fast"}, {"kick", "mp_kick"},
-        {"ban", "mp_ban"},         {"changemap", "mp_change_map"},      {"changeweather", "mp_change_weather"}};
+    static char const* ttable[6][2] = {{"restart", "mp_restart"}, {"restart_fast", "mp_restart_fast"}, {"kick", "mp_kick"}, {"ban", "mp_ban"}, {"changemap", "mp_change_map"}, {"changeweather", "mp_change_weather"}};
 
     if (!m_game_ui)
         return;
@@ -1249,7 +1242,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
     char*        tcmd_name    = cmd_name;
     static char* scans_format = "%s %s %s %s %s";
 
-    char* args[MAX_VOTE_PARAMS];
+    char*        args[MAX_VOTE_PARAMS];
     for (u32 i = 0; i < MAX_VOTE_PARAMS; ++i)
     {
         args[i] = static_cast<char*>(_alloca(psize + 1));
@@ -1258,7 +1251,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
     P.r_stringZ(command);
     P.r_stringZ(player);
 
-    m_dwVoteEndTime = Level().timeServer() + P.r_u32();
+    m_dwVoteEndTime    = Level().timeServer() + P.r_u32();
 
     command[psize - 1] = 0;
     player[psize - 1]  = 0;
@@ -1278,9 +1271,7 @@ void game_cl_CaptureTheArtefact::OnVoteStart(NET_Packet& P)
     Msg("---Vote command: %s", cmd_name);
 #endif
 
-    int args_count = sscanf_s(
-        command + cmd_len, scans_format, args[0], psize + 1, args[1], psize + 1, args[2], psize + 1, args[3], psize + 1,
-        args[4], psize + 1);
+    int args_count = sscanf_s(command + cmd_len, scans_format, args[0], psize + 1, args[1], psize + 1, args[2], psize + 1, args[3], psize + 1, args[4], psize + 1);
     if (args_count < 0)
         args_count = 0;
 
@@ -1363,13 +1354,13 @@ void game_cl_CaptureTheArtefact::UpdateVotingTime(u32 current_time)
 {
     if (IsVotingEnabled() && IsVotingActive() && (m_dwVoteEndTime >= current_time))
     {
-        CStringTable st;
-        u32          TimeLeft = m_dwVoteEndTime - current_time;
-        string1024   VoteTimeResStr;
-        u32          SecsLeft   = (TimeLeft % 60000) / 1000;
-        u32          MinitsLeft = (TimeLeft - SecsLeft) / 60000;
+        CStringTable   st;
+        u32            TimeLeft = m_dwVoteEndTime - current_time;
+        string1024     VoteTimeResStr;
+        u32            SecsLeft   = (TimeLeft % 60000) / 1000;
+        u32            MinitsLeft = (TimeLeft - SecsLeft) / 60000;
 
-        u32            NumAgreed = 0;
+        u32            NumAgreed  = 0;
         PLAYERS_MAP_IT I;
         I = players.begin();
         for (; I != players.end(); ++I)
@@ -1379,9 +1370,7 @@ void game_cl_CaptureTheArtefact::UpdateVotingTime(u32 current_time)
                 NumAgreed++;
         }
 
-        xr_sprintf(
-            VoteTimeResStr, st.translate("mp_timeleft").c_str(), MinitsLeft, SecsLeft,
-            float(NumAgreed) / players.size());
+        xr_sprintf(VoteTimeResStr, st.translate("mp_timeleft").c_str(), MinitsLeft, SecsLeft, float(NumAgreed) / players.size());
         if (m_game_ui)
             m_game_ui->SetVoteTimeResultMsg(VoteTimeResStr);
     };
@@ -1581,8 +1570,7 @@ void game_cl_CaptureTheArtefact::OnRender()
             VERIFY(pActor);
             Fvector IPos = pTS->IndicatorPos;
 
-            if (ps->testFlag(GAME_PLAYER_FLAG_INVINCIBLE) && !ps->IsSkip() && (ps->team != etSpectatorsTeam) &&
-                (ps != local_player))
+            if (ps->testFlag(GAME_PLAYER_FLAG_INVINCIBLE) && !ps->IsSkip() && (ps->team != etSpectatorsTeam) && (ps != local_player))
             {
                 // pActor->RenderIndicator(IPos, pTS->Indicator_r1, pTS->Indicator_r2, pTS->InvincibleShader);
             }
@@ -1638,11 +1626,13 @@ char* game_cl_CaptureTheArtefact::getTeamSection(int Team)
 {
     switch (Team)
     {
-        case 0: {
+        case 0:
+        {
             return "capturetheartefact_team1";
         }
         break;
-        case 1: {
+        case 1:
+        {
             return "capturetheartefact_team2";
         }
         break;

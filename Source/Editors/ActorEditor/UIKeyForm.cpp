@@ -6,17 +6,15 @@ UIKeyForm::~UIKeyForm() {}
 
 void UIKeyForm::Draw()
 {
-    m_currentEditMotion = ATools->GetCurrentMotion();
+    m_currentEditMotion  = ATools->GetCurrentMotion();
 
     bool bMarksPresent12 = (m_currentEditMotion && m_currentEditMotion->marks.size() >= 2);
     bool bMarksPresent34 = (m_currentEditMotion && m_currentEditMotion->marks.size() == 4);
 
-    bool Mark1 = bMarksPresent12 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar12 ||
-        ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar34;
-    bool Mark2 = bMarksPresent12 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar12 ||
-        ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar34;
-    bool Mark3 = bMarksPresent34 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar34;
-    bool Mark4 = bMarksPresent34 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar34;
+    bool Mark1           = bMarksPresent12 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar12 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar34;
+    bool Mark2           = bMarksPresent12 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar12 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar34;
+    bool Mark3           = bMarksPresent34 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar34;
+    bool Mark4           = bMarksPresent34 || ((CAEPreferences*)EPrefs)->bAlwaysShowKeyBar34;
 
     ImGui::Begin("KeyForm");
     {
@@ -49,24 +47,16 @@ void UIKeyForm::Draw()
             }
             if (Mark1)
                 DrawMark(0);
-            ImGui::PlotHistogram(
-                "##left1", Mark1 ? m_TempForPlotHistogram.data() : &Zero, Mark1 ? m_TempForPlotHistogram.size() : 1, 0,
-                NULL, 0.0f, 1.0f, size);
+            ImGui::PlotHistogram("##left1", Mark1 ? m_TempForPlotHistogram.data() : &Zero, Mark1 ? m_TempForPlotHistogram.size() : 1, 0, NULL, 0.0f, 1.0f, size);
             if (Mark2)
                 DrawMark(1);
-            ImGui::PlotHistogram(
-                "##right1", Mark2 ? m_TempForPlotHistogram.data() : &Zero, Mark2 ? m_TempForPlotHistogram.size() : 1, 0,
-                NULL, 0.0f, 1.0f, size);
+            ImGui::PlotHistogram("##right1", Mark2 ? m_TempForPlotHistogram.data() : &Zero, Mark2 ? m_TempForPlotHistogram.size() : 1, 0, NULL, 0.0f, 1.0f, size);
             if (Mark3)
                 DrawMark(2);
-            ImGui::PlotHistogram(
-                "##left2", Mark3 ? m_TempForPlotHistogram.data() : &Zero, Mark3 ? m_TempForPlotHistogram.size() : 1, 0,
-                NULL, 0.0f, 1.0f, size);
+            ImGui::PlotHistogram("##left2", Mark3 ? m_TempForPlotHistogram.data() : &Zero, Mark3 ? m_TempForPlotHistogram.size() : 1, 0, NULL, 0.0f, 1.0f, size);
             if (Mark4)
                 DrawMark(3);
-            ImGui::PlotHistogram(
-                "##right2", Mark4 ? m_TempForPlotHistogram.data() : &Zero, Mark4 ? m_TempForPlotHistogram.size() : 1, 0,
-                NULL, 0.0f, 1.0f, size);
+            ImGui::PlotHistogram("##right2", Mark4 ? m_TempForPlotHistogram.data() : &Zero, Mark4 ? m_TempForPlotHistogram.size() : 1, 0, NULL, 0.0f, 1.0f, size);
 
             ImGui::EndChild();
         }
@@ -177,10 +167,10 @@ void UIKeyForm::SetMark(int id, int action)
     motion_marks& M = m_currentEditMotion->marks[id];
     float         a, b, c;
     ATools->GetStatTime(a, b, c);
-    float cur_time = c - a;
+    float                  cur_time = c - a;
 
-    motion_marks::ITERATOR it   = M.intervals.begin();
-    motion_marks::ITERATOR it_e = M.intervals.end();
+    motion_marks::ITERATOR it       = M.intervals.begin();
+    motion_marks::ITERATOR it_e     = M.intervals.end();
 
     if (action == 3)
     {   // del current
@@ -237,14 +227,14 @@ void UIKeyForm::DrawMark(int id)
         return;
     motion_marks& M = m_currentEditMotion->marks[id];
 
-    float a, b, c;
+    float         a, b, c;
     ATools->GetStatTime(a, b, c);
-    float motion_length = b - a;
+    float                    motion_length = b - a;
 
-    float k_len = m_TempForPlotHistogram.size() / motion_length;
+    float                    k_len         = m_TempForPlotHistogram.size() / motion_length;
 
-    motion_marks::C_ITERATOR it   = M.intervals.begin();
-    motion_marks::C_ITERATOR it_e = M.intervals.end();
+    motion_marks::C_ITERATOR it            = M.intervals.begin();
+    motion_marks::C_ITERATOR it_e          = M.intervals.end();
 
     for (; it != it_e; ++it)
     {

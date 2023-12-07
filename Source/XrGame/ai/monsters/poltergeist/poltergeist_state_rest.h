@@ -2,7 +2,7 @@
 
 #include "../states/monster_state_rest.h"
 
-template <typename _Object> class CPoltergeistStateRest: public CStateMonsterRest<_Object>
+template<typename _Object> class CPoltergeistStateRest: public CStateMonsterRest<_Object>
 {
 protected:
     typedef CStateMonsterRest<_Object> inherited;
@@ -12,7 +12,7 @@ public:
     virtual void execute();
 };
 
-template <typename _Object> void CPoltergeistStateRest<_Object>::execute()
+template<typename _Object> void CPoltergeistStateRest<_Object>::execute()
 {
     // check alife control
     bool captured_by_smart_terrain = false;

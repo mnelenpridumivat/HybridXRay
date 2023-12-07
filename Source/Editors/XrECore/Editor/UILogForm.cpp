@@ -4,9 +4,9 @@
 #include "..\XrCore\os_clipboard.h"
 #include "..\XrEngine\XR_IOConsole.h"
 #define MSG_ERROR 0x00C4C4FF
-#define MSG_INFO 0x00E6FFE7
-#define MSG_CONF 0x00FFE6E7
-#define MSG_DEF 0x00E8E8E8
+#define MSG_INFO  0x00E6FFE7
+#define MSG_CONF  0x00FFE6E7
+#define MSG_DEF   0x00E8E8E8
 bool                  UILogForm::bAutoScroll = true;
 string_path           UILogForm::m_Filter    = "";
 string_path           UILogForm::m_Exec      = "";

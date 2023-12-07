@@ -32,7 +32,7 @@ private:
 
 extern moving_bones_snd_player* create_moving_bones_snd_player(CGameObject& O);
 
-IC bool is_active(moving_bones_snd_player* player)
+IC bool                         is_active(moving_bones_snd_player* player)
 {
     return player && player->is_active();
 }

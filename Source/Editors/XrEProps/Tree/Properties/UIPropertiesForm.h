@@ -3,6 +3,7 @@
 class XREPROPS_API UIPropertiesForm: public XrUI
 {
     friend class UIPropertiesItem;
+
 public:
     UIPropertiesForm();
     ~UIPropertiesForm() override;
@@ -44,6 +45,7 @@ public:
     {
         return m_Flags.is(plReadOnly);
     }
+
 private:
     PropItemVec      m_Items;
     PropItem*        m_EditChooseValue;

@@ -58,7 +58,7 @@ void CActor::camUpdateLadder(float dt)
         return;
     if (cameras[eacFirstEye]->bClampYaw)
         return;
-    float yaw = (-XFORM().k.getH());
+    float  yaw     = (-XFORM().k.getH());
 
     float& cam_yaw = cameras[eacFirstEye]->yaw;
     float  delta   = angle_difference_signed(yaw, cam_yaw);
@@ -150,14 +150,14 @@ IC bool test_point(const Fvector& pt, const Fmatrix33& mat, const Fvector& ext, 
 }
 
 #ifdef DEBUG
-template <typename T> void dbg_draw_viewport(const T& cam_info, float _viewport_near)
+template<typename T> void dbg_draw_viewport(const T& cam_info, float _viewport_near)
 {
     VERIFY(_viewport_near > 0.f);
     const Fvector near_plane_center = Fvector().mad(cam_info.Position(), cam_info.Direction(), _viewport_near);
     float         h_w, h_h;
     viewport_size(_viewport_near, cam_info, h_w, h_h);
-    const Fvector right = Fvector().mul(cam_info.Right(), h_w);
-    const Fvector up    = Fvector().mul(cam_info.Up(), h_h);
+    const Fvector right        = Fvector().mul(cam_info.Right(), h_w);
+    const Fvector up           = Fvector().mul(cam_info.Up(), h_h);
 
     const Fvector top_left     = Fvector().sub(near_plane_center, right).add(up);
     const Fvector top_right    = Fvector().add(near_plane_center, right).add(up);
@@ -195,15 +195,7 @@ IC void get_q_box(Fbox& xf, float c, float alpha, float radius)
     xf.grow(c);
 }
 
-IC void get_cam_oob(
-    Fvector&         bc,
-    Fvector&         bd,
-    Fmatrix33&       mat,
-    const Fmatrix&   xform,
-    const SRotation& r_torso,
-    float            alpha,
-    float            radius,
-    float            c)
+IC void get_cam_oob(Fvector& bc, Fvector& bd, Fmatrix33& mat, const Fmatrix& xform, const SRotation& r_torso, float alpha, float radius, float c)
 {
     get_box_mat(mat, alpha, r_torso);
     Fbox xf;
@@ -212,14 +204,7 @@ IC void get_cam_oob(
     // query
     xf.get_CD(bc, bd);
 }
-IC void get_cam_oob(
-    Fvector&         bd,
-    Fmatrix&         mat,
-    const Fmatrix&   xform,
-    const SRotation& r_torso,
-    float            alpha,
-    float            radius,
-    float            c)
+IC void get_cam_oob(Fvector& bd, Fmatrix& mat, const Fmatrix& xform, const SRotation& r_torso, float alpha, float radius, float c)
 {
     Fmatrix33 mat3;
     Fvector   bc;
@@ -238,8 +223,8 @@ void CActor::cam_Lookout(const Fmatrix& xform, float camera_height)
         float c = viewport_near(w, h);
         w /= 2.f;
         h /= 2.f;
-        float alpha  = r_torso_tgt_roll / 2.f;
-        float radius = camera_height * 0.5f;
+        float     alpha       = r_torso_tgt_roll / 2.f;
+        float     radius      = camera_height * 0.5f;
         // init valid angle
         float     valid_angle = alpha;
         Fvector   bc, bd;
@@ -308,8 +293,7 @@ void CActor::cam_Update(float dt, float fFOV)
     on_weapon_shot_update();
     float y_shift = 0;
 
-    if (GamePersistent().GameType() != eGameIDSingle && ik_cam_shift && character_physics_support() &&
-        character_physics_support()->ik_controller())
+    if (GamePersistent().GameType() != eGameIDSingle && ik_cam_shift && character_physics_support() && character_physics_support()->ik_controller())
     {
         y_shift            = character_physics_support()->ik_controller()->Shift();
         float cam_smooth_k = 1.f;
@@ -347,8 +331,7 @@ void CActor::cam_Update(float dt, float fFOV)
     float flCurrentPlayerY = xform.c.y;
 
     // Smooth out stair step ups
-    if ((character_physics_support()->movement()->Environment() == CPHMovementControl::peOnGround) &&
-        (flCurrentPlayerY - fPrevCamPos > 0))
+    if ((character_physics_support()->movement()->Environment() == CPHMovementControl::peOnGround) && (flCurrentPlayerY - fPrevCamPos > 0))
     {
         fPrevCamPos += dt * 1.5f;
         if (fPrevCamPos > flCurrentPlayerY)
@@ -447,7 +430,7 @@ void           dbg_draw_frustum(float FOV, float _FAR, float A, Fvector& P, Fvec
 extern Flags32 dbg_net_Draw_Flags;
 extern BOOL    g_bDrawBulletHit;
 
-void CActor::OnRender()
+void           CActor::OnRender()
 {
 #ifdef DEBUG
     if (inventory().ActiveItem())

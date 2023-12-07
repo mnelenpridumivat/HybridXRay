@@ -15,15 +15,11 @@ public:
         m_last_prediction_time     = 0;
     }
 
-    Fvector calculate_predicted_enemy_pos(
-        float const   prediction_factor,
-        Fvector const enemy_pos,
-        Fvector const self_pos,
-        float const   self_velocity)
+    Fvector calculate_predicted_enemy_pos(float const prediction_factor, Fvector const enemy_pos, Fvector const self_pos, float const self_velocity)
     {
-        float const epsilon         = 0.0001f;
-        float const self2enemy_mag  = magnitude(enemy_pos - self_pos);
-        float const self2enemy_time = self_velocity > epsilon ? self2enemy_mag / self_velocity : 0;
+        float const epsilon               = 0.0001f;
+        float const self2enemy_mag        = magnitude(enemy_pos - self_pos);
+        float const self2enemy_time       = self_velocity > epsilon ? self2enemy_mag / self_velocity : 0;
 
         float const predictiton_delta_sec = (current_time() - m_last_prediction_time) / 1000.f;
         if (predictiton_delta_sec > 0.4f)

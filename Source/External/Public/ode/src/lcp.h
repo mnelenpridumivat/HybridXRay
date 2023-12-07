@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -46,13 +46,9 @@ to be implemented. the first `nub' variables are assumed to have findex < 0.
 
 */
 
-
 #ifndef _ODE_LCP_H_
 #define _ODE_LCP_H_
 
-
-void dSolveLCP (int n, dReal *A, dReal *x, dReal *b, dReal *w,
-		int nub, dReal *lo, dReal *hi, int *findex);
-
+void dSolveLCP(int n, dReal* A, dReal* x, dReal* b, dReal* w, int nub, dReal* lo, dReal* hi, int* findex);
 
 #endif

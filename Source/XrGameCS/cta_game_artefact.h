@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////////
 //	Module		:	cta_game_artefact.h
 //	Created		:	19.12.2007
 //	Modified	:	19.12.2007
@@ -13,31 +13,32 @@
 #include "game_base.h"
 
 class game_cl_CaptureTheArtefact;
-class	CtaGameArtefact :
-		public	CArtefact
+class CtaGameArtefact: public CArtefact
 {
 public:
-						CtaGameArtefact				();
-	virtual				~CtaGameArtefact			();
+    CtaGameArtefact();
+    virtual ~CtaGameArtefact();
 
-	virtual		bool	Action						(s32 cmd, u32 flags);
-	virtual		void	OnStateSwitch				(u32 S);
-	virtual		void	OnAnimationEnd				(u32 state);
-	virtual		void	UpdateCLChild				();
-	virtual		bool	CanTake						() const;
-	//virtual		void	net_Export					(NET_Packet& P);
-	virtual void				PH_A_CrPr			();
-	//virtual void				Interpolate			();
+    virtual bool Action(s32 cmd, u32 flags);
+    virtual void OnStateSwitch(u32 S);
+    virtual void OnAnimationEnd(u32 state);
+    virtual void UpdateCLChild();
+    virtual bool CanTake() const;
+    //virtual		void	net_Export					(NET_Packet& P);
+    virtual void PH_A_CrPr();
+    //virtual void				Interpolate			();
+
 protected:
-	virtual		void	CreateArtefactActivation	();
-	virtual		void	InitializeArtefactRPoint	();
-	//virtual		BOOL	net_Relevant				();
-private:
-				bool	IsMyTeamArtefact			();
-	typedef CArtefact inherited;
-	game_cl_CaptureTheArtefact*			m_game;
-	Fvector3 const *					m_artefact_rpoint;
-	ETeam								m_my_team;
-}; //class CtaGameArtefact
+    virtual void CreateArtefactActivation();
+    virtual void InitializeArtefactRPoint();
+    //virtual		BOOL	net_Relevant				();
 
-#endif //CTA_GAME_ARTEFACT
+private:
+    bool                        IsMyTeamArtefact();
+    typedef CArtefact           inherited;
+    game_cl_CaptureTheArtefact* m_game;
+    Fvector3 const*             m_artefact_rpoint;
+    ETeam                       m_my_team;
+};   //class CtaGameArtefact
+
+#endif   //CTA_GAME_ARTEFACT

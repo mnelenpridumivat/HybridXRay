@@ -8,14 +8,7 @@
 
 #pragma once
 
-IC CStalkerAnimationScript::CStalkerAnimationScript(
-    const MotionID& animation,
-    bool            hand_usage,
-    bool            use_movement_controller,
-    Fmatrix const*  transform,
-    bool            local_animation):
-    m_animation(animation),
-    m_hand_usage(hand_usage), m_use_movement_controller(use_movement_controller), m_local_animation(local_animation)
+IC CStalkerAnimationScript::CStalkerAnimationScript(const MotionID& animation, bool hand_usage, bool use_movement_controller, Fmatrix const* transform, bool local_animation): m_animation(animation), m_hand_usage(hand_usage), m_use_movement_controller(use_movement_controller), m_local_animation(local_animation)
 {
     if (transform)
     {

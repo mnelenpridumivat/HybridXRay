@@ -60,8 +60,7 @@ bool cdkey_ban_list::is_player_banned(char const* hexstr_digest, shared_str& buy
         //		Msg("* comparing with cheater [%s]", (*i)->client_hexstr_digest.c_str());
         if (!xr_strcmp((*i)->client_hexstr_digest, hexstr_digest))
         {
-            Msg("* found banned client [%s] by admin [%s]", hexstr_digest,
-                (*i)->admin_name.size() ? (*i)->admin_name.c_str() : "Server");
+            Msg("* found banned client [%s] by admin [%s]", hexstr_digest, (*i)->admin_name.size() ? (*i)->admin_name.c_str() : "Server");
             buy_who = (*i)->admin_name;
             return true;
         }
@@ -160,9 +159,7 @@ void cdkey_ban_list::unban_player_by_index(size_t const index)
 char const* print_time(time_t const& src_time, string64& dest_time)
 {
     tm* tmp_tm = _localtime64(&src_time);
-    xr_sprintf(
-        dest_time, sizeof(dest_time), "%02d.%02d.%d_%02d:%02d:%02d", tmp_tm->tm_mday, tmp_tm->tm_mon + 1,
-        tmp_tm->tm_year + 1900, tmp_tm->tm_hour, tmp_tm->tm_min, tmp_tm->tm_sec);
+    xr_sprintf(dest_time, sizeof(dest_time), "%02d.%02d.%d_%02d:%02d:%02d", tmp_tm->tm_mday, tmp_tm->tm_mon + 1, tmp_tm->tm_year + 1900, tmp_tm->tm_hour, tmp_tm->tm_min, tmp_tm->tm_sec);
     return dest_time;
 }
 
@@ -177,10 +174,7 @@ void cdkey_ban_list::print_ban_list(char const* filter_string)
     for (ban_list_t::iterator i = m_ban_list.begin(), ie = m_ban_list.end(); i != ie; ++i)
     {
         string64 temp_time;
-        xr_sprintf(
-            tmp_string, "- (player index : %d), (ip : %s), (name : %s), (end time : %s), (hex digest : %s);", index,
-            (*i)->client_ip_addr.to_string().c_str(), (*i)->client_name.c_str(),
-            print_time((*i)->ban_end_time, temp_time), (*i)->client_hexstr_digest.c_str());
+        xr_sprintf(tmp_string, "- (player index : %d), (ip : %s), (name : %s), (end time : %s), (hex digest : %s);", index, (*i)->client_ip_addr.to_string().c_str(), (*i)->client_name.c_str(), print_time((*i)->ban_end_time, temp_time), (*i)->client_hexstr_digest.c_str());
         if (filter_string)
         {
             if (strstr(tmp_string, filter_string))
@@ -204,9 +198,7 @@ cdkey_ban_list::banned_client::banned_client()
 time_t get_time_from_string(LPCSTR str_time)
 {
     tm  tmp_time;
-    int res_t = sscanf(
-        str_time, "%02d.%02d.%d_%02d:%02d:%02d", &tmp_time.tm_mday, &tmp_time.tm_mon, &tmp_time.tm_year,
-        &tmp_time.tm_hour, &tmp_time.tm_min, &tmp_time.tm_sec);
+    int res_t = sscanf(str_time, "%02d.%02d.%d_%02d:%02d:%02d", &tmp_time.tm_mday, &tmp_time.tm_mon, &tmp_time.tm_year, &tmp_time.tm_hour, &tmp_time.tm_min, &tmp_time.tm_sec);
     if (res_t != 6)
         return 0;
 
@@ -215,14 +207,14 @@ time_t get_time_from_string(LPCSTR str_time)
     return mktime(&tmp_time);
 };
 
-#define CLIENT_HEX_DIGEST_KEY "client_hexstr_digest"
+#define CLIENT_HEX_DIGEST_KEY     "client_hexstr_digest"
 #define CLIENT_BAN_START_TIME_KEY "ban_start_time"
-#define CLIENT_BAN_END_TIME_KEY "ban_end_time"
-#define CLIENT_NAME_KEY "client_name"
-#define CLIENT_IP_KEY "client_ip"
-#define ADMIN_NAME_KEY "admin_name"
-#define ADMIN_IP_KEY "admin_ip_addr"
-#define ADMIN_HEX_DIGEST_KEY "admin_hexstr_digest"
+#define CLIENT_BAN_END_TIME_KEY   "ban_end_time"
+#define CLIENT_NAME_KEY           "client_name"
+#define CLIENT_IP_KEY             "client_ip"
+#define ADMIN_NAME_KEY            "admin_name"
+#define ADMIN_IP_KEY              "admin_ip_addr"
+#define ADMIN_HEX_DIGEST_KEY      "admin_hexstr_digest"
 
 bool cdkey_ban_list::banned_client::load(CInifile* ini, shared_str const& name_sect)
 {
@@ -233,7 +225,7 @@ bool cdkey_ban_list::banned_client::load(CInifile* ini, shared_str const& name_s
     client_hexstr_digest = ini->r_string(name_sect, CLIENT_HEX_DIGEST_KEY);
     LPCSTR tmp_string    = ini->r_string(name_sect, CLIENT_BAN_END_TIME_KEY);
 
-    ban_end_time = get_time_from_string(tmp_string);
+    ban_end_time         = get_time_from_string(tmp_string);
     if (ban_end_time == 0)
     {
         Msg("! ERROR bad ban_end_time in section [%s]", name_sect.c_str());

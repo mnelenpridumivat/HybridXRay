@@ -17,6 +17,7 @@ protected:
     virtual void DisableObject();
 
 private:
+
 public:
     CPHSplitedShell()
     {

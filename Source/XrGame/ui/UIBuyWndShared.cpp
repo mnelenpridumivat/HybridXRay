@@ -4,17 +4,16 @@
 
 extern LPCSTR _list_names[];
 
-void CItemMgr::Load(const shared_str& sect_cost)
+void          CItemMgr::Load(const shared_str& sect_cost)
 {
     CInifile::Sect& sect = pSettings->r_section(sect_cost);
 
-    u32 idx = 0;
+    u32             idx  = 0;
     for (CInifile::SectCIt it = sect.Data.begin(); it != sect.Data.end(); ++it, ++idx)
     {
         _i& val      = m_items[it->first];
         val.slot_idx = 0xff;
-        int c        = sscanf(
-            it->second.c_str(), "%d,%d,%d,%d,%d", &val.cost[0], &val.cost[1], &val.cost[2], &val.cost[3], &val.cost[4]);
+        int c        = sscanf(it->second.c_str(), "%d,%d,%d,%d,%d", &val.cost[0], &val.cost[1], &val.cost[2], &val.cost[3], &val.cost[4]);
         VERIFY(c > 0);
 
         while (c < _RANK_COUNT)
@@ -28,8 +27,8 @@ void CItemMgr::Load(const shared_str& sect_cost)
     {
         const shared_str& buff = pSettings->r_string("buy_menu_items_place", _list_names[i]);
 
-        u32        cnt = _GetItemCount(buff.c_str());
-        string1024 _one;
+        u32               cnt  = _GetItemCount(buff.c_str());
+        string1024        _one;
 
         for (u32 c = 0; c < cnt; ++c)
         {
@@ -37,8 +36,7 @@ void CItemMgr::Load(const shared_str& sect_cost)
             shared_str  _one_str = _one;
             COST_MAP_IT it       = m_items.find(_one_str);
             R_ASSERT(it != m_items.end());
-            R_ASSERT3(
-                it->second.slot_idx == 0xff, "item has duplicate record in [buy_menu_items_place] section ", _one);
+            R_ASSERT3(it->second.slot_idx == 0xff, "item has duplicate record in [buy_menu_items_place] section ", _one);
             it->second.slot_idx = i;
         }
     }
@@ -83,10 +81,8 @@ void CItemMgr::Dump() const
     for (; it != it_e; ++it)
     {
         const _i& val = it->second;
-        R_ASSERT3(
-            it->second.slot_idx != 0xff, "item has no record in [buy_menu_items_place] section ", it->first.c_str());
-        Msg("[%s] slot=[%d] cost= %d,%d,%d,%d,%d", it->first.c_str(), val.slot_idx, val.cost[0], val.cost[1],
-            val.cost[2], val.cost[3], val.cost[4]);
+        R_ASSERT3(it->second.slot_idx != 0xff, "item has no record in [buy_menu_items_place] section ", it->first.c_str());
+        Msg("[%s] slot=[%d] cost= %d,%d,%d,%d,%d", it->first.c_str(), val.slot_idx, val.cost[0], val.cost[1], val.cost[2], val.cost[3], val.cost[4]);
     }
 #endif   // #ifndef MASTER_GOLD
 }

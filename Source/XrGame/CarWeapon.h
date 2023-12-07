@@ -9,21 +9,21 @@ class CCarWeapon: public CShootingObject
 protected:
     typedef CShootingObject inheritedShooting;
 
-    void                   SetBoneCallbacks();
-    void                   ResetBoneCallbacks();
-    virtual void           FireStart();
-    virtual void           FireEnd();
-    virtual void           UpdateFire();
-    virtual void           OnShot();
-    void                   UpdateBarrelDir();
-    virtual const Fvector& get_CurrentFirePoint();
-    virtual const Fmatrix& get_ParticlesXFORM();
+    void                    SetBoneCallbacks();
+    void                    ResetBoneCallbacks();
+    virtual void            FireStart();
+    virtual void            FireEnd();
+    virtual void            UpdateFire();
+    virtual void            OnShot();
+    void                    UpdateBarrelDir();
+    virtual const Fvector&  get_CurrentFirePoint();
+    virtual const Fmatrix&  get_ParticlesXFORM();
 
-    CPhysicsShellHolder* m_object;
-    bool                 m_bActive;
-    bool                 m_bAutoFire;
-    float                m_weapon_h;
-    virtual bool         IsHudModeNow()
+    CPhysicsShellHolder*    m_object;
+    bool                    m_bActive;
+    bool                    m_bAutoFire;
+    float                   m_weapon_h;
+    virtual bool            IsHudModeNow()
     {
         return false;
     };
@@ -61,13 +61,13 @@ public:
     const Fvector& ViewCameraDir();
     const Fvector& ViewCameraNorm();
 
-    void Render_internal();
+    void           Render_internal();
 
 private:
-    u16     m_rotate_x_bone, m_rotate_y_bone, m_fire_bone, m_camera_bone;
-    float   m_tgt_x_rot, m_tgt_y_rot, m_cur_x_rot, m_cur_y_rot, m_bind_x_rot, m_bind_y_rot;
-    Fvector m_bind_x, m_bind_y;
-    Fvector m_fire_dir, m_fire_pos, m_fire_norm;
+    u16            m_rotate_x_bone, m_rotate_y_bone, m_fire_bone, m_camera_bone;
+    float          m_tgt_x_rot, m_tgt_y_rot, m_cur_x_rot, m_cur_y_rot, m_bind_x_rot, m_bind_y_rot;
+    Fvector        m_bind_x, m_bind_y;
+    Fvector        m_fire_dir, m_fire_pos, m_fire_norm;
 
     Fmatrix        m_i_bind_x_xform, m_i_bind_y_xform, m_fire_bone_xform;
     Fvector2       m_lim_x_rot, m_lim_y_rot;   // in bone space

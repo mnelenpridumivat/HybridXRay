@@ -26,23 +26,22 @@ extern "C"
         memset(dest, 0, sizeof(type) * num);                    \
     } /*zero*/
 
-#define SAKEI_FUNC_NAME_STRINGS(func) \
-    func, "SOAPAction: \"http://gamespy.net/sake/" func "\"", func "Response", func "Result"
+#define SAKEI_FUNC_NAME_STRINGS(func) func, "SOAPAction: \"http://gamespy.net/sake/" func "\"", func "Response", func "Result"
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     typedef struct
     {
-        size_t      mSakeOutputSize;
-        const char* mFuncName;
-        const char* mSoapAction;
-        const char* mResponseTag;
-        const char* mResultTag;
+        size_t                 mSakeOutputSize;
+        const char*            mFuncName;
+        const char*            mSoapAction;
+        const char*            mResponseTag;
+        const char*            mResultTag;
 
         SAKEStartRequestResult (*mValidateInputFunc)(SAKERequest request);
         SAKEStartRequestResult (*mFillSoapRequestFunc)(SAKERequest request);
-        SAKERequestResult (*mProcessSoapResponseFunc)(SAKERequest request);
-        void (*mFreeDataFunc)(SAKERequest request);
+        SAKERequestResult      (*mProcessSoapResponseFunc)(SAKERequest request);
+        void                   (*mFreeDataFunc)(SAKERequest request);
     } SAKEIRequestInfo;
 
     ///////////////////////////////////////////////////////////////////////////////

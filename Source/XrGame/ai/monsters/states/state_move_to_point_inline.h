@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION          template<typename _Object>
 
 #define CStateMonsterMoveToPointAbstract CStateMonsterMoveToPoint<_Object>
 
@@ -42,10 +42,7 @@ bool CStateMonsterMoveToPointAbstract::check_completion()
             return true;
     }
 
-    bool real_path_end =
-        ((fis_zero(data.completion_dist)) ?
-             (data.point.distance_to_xz(object->Position()) < ai().level_graph().header().cell_size()) :
-             true);
+    bool real_path_end = ((fis_zero(data.completion_dist)) ? (data.point.distance_to_xz(object->Position()) < ai().level_graph().header().cell_size()) : true);
     if (object->control().path_builder().is_path_end(data.completion_dist) && real_path_end)
         return true;
 
@@ -118,8 +115,7 @@ bool CStateMonsterMoveToPointExAbstract::check_completion()
             return false;
     }
 
-    bool const real_path_end =
-        fis_zero(data.completion_dist) ? dist_to_target < ai().level_graph().header().cell_size() : true;
+    bool const real_path_end = fis_zero(data.completion_dist) ? dist_to_target < ai().level_graph().header().cell_size() : true;
 
     if (object->control().path_builder().is_path_end(data.completion_dist) && real_path_end)
         return true;

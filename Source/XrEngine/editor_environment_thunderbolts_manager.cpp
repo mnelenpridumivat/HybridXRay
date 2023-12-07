@@ -25,40 +25,31 @@ using XrWeatherEditor::environment::thunderbolts::manager;
 using XrWeatherEditor::environment::thunderbolts::thunderbolt;
 using XrWeatherEditor::environment::thunderbolts::thunderbolt_id;
 
-template <> void property_collection<manager::thunderbolt_container_type, manager>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<manager::thunderbolt_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template <>
-XrWeatherEditor::property_holder* property_collection<manager::thunderbolt_container_type, manager>::create()
+template<> XrWeatherEditor::property_holder* property_collection<manager::thunderbolt_container_type, manager>::create()
 {
     thunderbolt* object = xr_new<thunderbolt>(&m_holder, generate_unique_id("thunderbolt_unique_id_").c_str());
     object->fill(m_holder.environment(), this);
     return (object->object());
 }
 
-template <> void property_collection<manager::collection_container_type, manager>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<manager::collection_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<manager::collection_container_type, manager>::create()
+template<> XrWeatherEditor::property_holder* property_collection<manager::collection_container_type, manager>::create()
 {
     collection* object = xr_new<collection>(m_holder, generate_unique_id("thunderbolt_collection_unique_id_").c_str());
     object->fill(this);
     return (object->object());
 }
 
-manager::manager(::XrWeatherEditor::environment::manager* environment):
-    m_thunderbolt_collection(0), m_thunderbolts_changed(true), m_collections_collection(0), m_collections_changed(true),
-    m_property_holder(0), m_environment(*environment)
+manager::manager(::XrWeatherEditor::environment::manager* environment): m_thunderbolt_collection(0), m_thunderbolts_changed(true), m_collections_collection(0), m_collections_changed(true), m_property_holder(0), m_environment(*environment)
 {
     m_thunderbolt_collection = xr_new<thunderbolt_collection_type>(&m_thunderbolts, this, &m_thunderbolts_changed);
     m_collections_collection = xr_new<collection_collection_type>(&m_collections, this, &m_collections_changed);
@@ -85,9 +76,8 @@ void manager::load_thunderbolts()
 {
     VERIFY(m_thunderbolts.empty());
 
-    string_path file_name;
-    CInifile*   config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\thunderbolts.ltx"), TRUE, TRUE, FALSE);
+    string_path            file_name;
+    CInifile*              config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\thunderbolts.ltx"), TRUE, TRUE, FALSE);
 
     typedef CInifile::Root sections_type;
     sections_type&         sections = config->sections();
@@ -107,12 +97,11 @@ void manager::load_thunderbolts()
 
 void manager::save_thunderbolts()
 {
-    string_path file_name;
-    CInifile*   config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\thunderbolts.ltx"), FALSE, FALSE, TRUE);
+    string_path                                file_name;
+    CInifile*                                  config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\thunderbolts.ltx"), FALSE, FALSE, TRUE);
 
-    thunderbolt_container_type::const_iterator i = m_thunderbolts.begin();
-    thunderbolt_container_type::const_iterator e = m_thunderbolts.end();
+    thunderbolt_container_type::const_iterator i      = m_thunderbolts.begin();
+    thunderbolt_container_type::const_iterator e      = m_thunderbolts.end();
     for (; i != e; ++i)
         (*i)->save(*config);
 
@@ -123,9 +112,8 @@ void manager::load_collections()
 {
     VERIFY(m_collections.empty());
 
-    string_path file_name;
-    CInifile*   config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\thunderbolt_collections.ltx"), TRUE, TRUE, FALSE);
+    string_path            file_name;
+    CInifile*              config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\thunderbolt_collections.ltx"), TRUE, TRUE, FALSE);
 
     typedef CInifile::Root sections_type;
     sections_type&         sections = config->sections();
@@ -145,12 +133,11 @@ void manager::load_collections()
 
 void manager::save_collections()
 {
-    string_path file_name;
-    CInifile*   config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\thunderbolt_collections.ltx"), FALSE, FALSE, TRUE);
+    string_path                               file_name;
+    CInifile*                                 config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\thunderbolt_collections.ltx"), FALSE, FALSE, TRUE);
 
-    collection_container_type::const_iterator i = m_collections.begin();
-    collection_container_type::const_iterator e = m_collections.end();
+    collection_container_type::const_iterator i      = m_collections.begin();
+    collection_container_type::const_iterator e      = m_collections.end();
     for (; i != e; ++i)
         (*i)->save(*config);
 
@@ -168,9 +155,8 @@ void manager::save()
     save_thunderbolts();
     save_collections();
 
-    string_path file_name;
-    CInifile*   config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\environment.ltx"), FALSE, FALSE, TRUE);
+    string_path   file_name;
+    CInifile*     config      = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\environment.ltx"), FALSE, FALSE, TRUE);
 
     CEnvironment& environment = *g_pGamePersistent->EnvironmentAsCOP();
 
@@ -228,42 +214,22 @@ void manager::fill(XrWeatherEditor::property_holder* holder)
 
     float_getter.bind(this, &manager::altitude_getter);
     float_setter.bind(this, &manager::altitude_setter);
-    holder->add_property(
-        "altitude", "thunderbolts", "this option is resposible for thunderbolts altitude (in degrees)",
-        rad2deg(m_environment.p_var_alt), float_getter, float_setter, -360.0f, 360.f);
+    holder->add_property("altitude", "thunderbolts", "this option is resposible for thunderbolts altitude (in degrees)", rad2deg(m_environment.p_var_alt), float_getter, float_setter, -360.0f, 360.f);
 
     float_getter.bind(this, &manager::longitude_getter);
     float_setter.bind(this, &manager::longitude_setter);
-    holder->add_property(
-        "delta longitude", "thunderbolts", "this option is resposible for thunderbolts delta longitude (in degrees)",
-        m_environment.p_var_long, float_getter, float_setter, -360.0f, 360.f);
-    holder->add_property(
-        "minimum distance factor", "thunderbolts",
-        "this option is resposible for thunderbolts minimum distance factor (distance from far plane)",
-        m_environment.p_min_dist, m_environment.p_min_dist, .0f, .95f);
+    holder->add_property("delta longitude", "thunderbolts", "this option is resposible for thunderbolts delta longitude (in degrees)", m_environment.p_var_long, float_getter, float_setter, -360.0f, 360.f);
+    holder->add_property("minimum distance factor", "thunderbolts", "this option is resposible for thunderbolts minimum distance factor (distance from far plane)", m_environment.p_min_dist, m_environment.p_min_dist, .0f, .95f);
 
     float_getter.bind(this, &manager::tilt_getter);
     float_setter.bind(this, &manager::tilt_setter);
-    holder->add_property(
-        "tilt", "thunderbolts", "this option is resposible for thunderbolts tilt (in degrees)", m_environment.p_tilt,
-        float_getter, float_setter, 15.f, 30.f);
-    holder->add_property(
-        "second probability", "thunderbolts", "this option is resposible for thunderbolts second probability (0..1)",
-        m_environment.p_second_prop, m_environment.p_second_prop, 0.f, 1.f);
-    holder->add_property(
-        "sky color", "thunderbolts", "this option is resposible for thunderbolts sky color (factor)",
-        m_environment.p_sky_color, m_environment.p_sky_color, 0.f, 1.f);
-    holder->add_property(
-        "sun color", "thunderbolts", "this option is resposible for thunderbolts sun color (factor)",
-        m_environment.p_sun_color, m_environment.p_sun_color, 0.f, 1.f);
-    holder->add_property(
-        "fog color", "thunderbolts", "this option is resposible for thunderbolts fog color (factor)",
-        m_environment.p_fog_color, m_environment.p_fog_color, 0.f, 1.f);
-    holder->add_property(
-        "thunderbolt collections", "thunderbolts", "this option is resposible for thunderbolt collections",
-        m_collections_collection);
-    holder->add_property(
-        "thunderbolts", "thunderbolts", "this option is resposible for thunderbolts", m_thunderbolt_collection);
+    holder->add_property("tilt", "thunderbolts", "this option is resposible for thunderbolts tilt (in degrees)", m_environment.p_tilt, float_getter, float_setter, 15.f, 30.f);
+    holder->add_property("second probability", "thunderbolts", "this option is resposible for thunderbolts second probability (0..1)", m_environment.p_second_prop, m_environment.p_second_prop, 0.f, 1.f);
+    holder->add_property("sky color", "thunderbolts", "this option is resposible for thunderbolts sky color (factor)", m_environment.p_sky_color, m_environment.p_sky_color, 0.f, 1.f);
+    holder->add_property("sun color", "thunderbolts", "this option is resposible for thunderbolts sun color (factor)", m_environment.p_sun_color, m_environment.p_sun_color, 0.f, 1.f);
+    holder->add_property("fog color", "thunderbolts", "this option is resposible for thunderbolts fog color (factor)", m_environment.p_fog_color, m_environment.p_fog_color, 0.f, 1.f);
+    holder->add_property("thunderbolt collections", "thunderbolts", "this option is resposible for thunderbolt collections", m_collections_collection);
+    holder->add_property("thunderbolts", "thunderbolts", "this option is resposible for thunderbolts", m_thunderbolt_collection);
 }
 
 manager::thunderbolts_ids_type const& manager::thunderbolts_ids() const
@@ -294,7 +260,7 @@ manager::thunderbolts_ids_type const& manager::collections_ids() const
     delete_data(m_collections_ids);
 
     m_collections_ids.resize(m_collections.size() + 1);
-    m_collections_ids[0] = xr_strdup("");
+    m_collections_ids[0]                        = xr_strdup("");
 
     collection_container_type::const_iterator i = m_collections.begin();
     collection_container_type::const_iterator e = m_collections.end();

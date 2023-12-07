@@ -126,8 +126,7 @@ float CPatternFunction::ffEvaluate()
 float CPatternFunction::ffGetValue()
 {
     for (u32 i = 0; i < m_dwVariableCount; ++i)
-        m_dwaVariableValues[i] =
-            ef_storage().m_fpaBaseFunctions[m_dwaVariableTypes[i]]->dwfGetDiscreteValue(m_dwaAtomicFeatureRange[i]);
+        m_dwaVariableValues[i] = ef_storage().m_fpaBaseFunctions[m_dwaVariableTypes[i]]->dwfGetDiscreteValue(m_dwaAtomicFeatureRange[i]);
 
 #ifdef DEBUG
     if (psAI_Flags.test(aiFuncs))
@@ -135,7 +134,7 @@ float CPatternFunction::ffGetValue()
         float     value = ffEvaluate();
         string256 caString;
 
-        int j = xr_sprintf(caString, sizeof(caString), "%32s (", m_caName);
+        int       j = xr_sprintf(caString, sizeof(caString), "%32s (", m_caName);
 
         for (u32 i = 0; i < m_dwVariableCount; ++i)
             j += xr_sprintf(caString + j, sizeof(caString) - j, " %3d", m_dwaVariableValues[i] + 1);

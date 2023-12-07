@@ -48,14 +48,9 @@ void type_motion::set_motion( IKinematicsAnimated* k, CInifile* ini, LPCSTR type
             anims[ u16( id_dir ) ] = xr_new<rnd_motion>()->setup( k, ini->r_string( type, dir ) );
 }
 */
-xr_token motion_dirs[] = {
-    {"front", type_motion::front},
-    {"back", type_motion::back},
-    {"left", type_motion::left},
-    {"right", type_motion::right},
-    {0, 0}};
+xr_token motion_dirs[] = {{"front", type_motion::front}, {"back", type_motion::back}, {"left", type_motion::left}, {"right", type_motion::right}, {0, 0}};
 
-void type_motion::set_motion(IKinematicsAnimated* k, u16 id_motion, LPCSTR dir_anim)
+void     type_motion::set_motion(IKinematicsAnimated* k, u16 id_motion, LPCSTR dir_anim)
 {
     // VERIFY2( _GetItemCount( dir_anim, '-' ) == 2,"wrong params" );
 

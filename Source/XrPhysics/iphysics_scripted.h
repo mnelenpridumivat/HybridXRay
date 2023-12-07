@@ -50,7 +50,7 @@ namespace non_copy
     };
 };   // namespace non_copy
 
-template <class T> class cphysics_game_scripted: public iphysics_game_scripted, private non_copy::noncopyable
+template<class T> class cphysics_game_scripted: public iphysics_game_scripted, private non_copy::noncopyable
 {
     T& impl;
 
@@ -76,7 +76,7 @@ public:
     typedef T type_impl;
 };
 
-template <class wrap> wrap* get_script_wrapper(typename wrap::type_impl& E)
+template<class wrap> wrap* get_script_wrapper(typename wrap::type_impl& E)
 {
     wrap* e = smart_cast<wrap*>(E.get_scripted().get());
     if (e)

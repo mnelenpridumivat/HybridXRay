@@ -1,7 +1,6 @@
 ﻿#include "stdafx.h"
 
-UIPropertiesItem::UIPropertiesItem(shared_str _Name, UIPropertiesForm* _PropertiesFrom, SLocalizedString _HintText):
-    UITreeItem(_Name, _HintText), PropertiesFrom(_PropertiesFrom)
+UIPropertiesItem::UIPropertiesItem(shared_str _Name, UIPropertiesForm* _PropertiesFrom, SLocalizedString _HintText): UITreeItem(_Name, _HintText), PropertiesFrom(_PropertiesFrom)
 {
     PItem = nullptr;
 }
@@ -39,10 +38,7 @@ void UIPropertiesItem::Draw()
     }
     else
     {
-        ImGui::TreeNodeEx(
-            Name.c_str(),
-            ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen |
-                ImGuiTreeNodeFlags_SpanFullWidth);
+        ImGui::TreeNodeEx(Name.c_str(), ImGuiTreeNodeFlags_Leaf | ImGuiTreeNodeFlags_Bullet | ImGuiTreeNodeFlags_NoTreePushOnOpen | ImGuiTreeNodeFlags_SpanFullWidth);
         ImGui::TableNextColumn();
         DrawItem();
     }

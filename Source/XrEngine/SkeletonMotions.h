@@ -66,6 +66,7 @@ class ENGINE_API CMotion
         u32 _flags:8;
         u32 _count:24;
     };
+
 public:
     ref_smem<CKeyQR>     _keysR;
     ref_smem<CKeyQR_FFT> _keysR_FFT;
@@ -74,6 +75,7 @@ public:
     ref_smem<CKeyQT_FFT> _keysT_FFT;
     Fvector              _initT;
     Fvector              _sizeT;
+
 public:
     void set_flags(u8 val)
     {
@@ -128,15 +130,17 @@ class ENGINE_API motion_marks
 public:
     typedef std::pair<float, float> interval;
 #ifndef MASTER_GOLD
+
 public:
 #else
+
 private:
 #endif
     typedef xr_vector<interval>     STORAGE;
     typedef STORAGE::iterator       ITERATOR;
     typedef STORAGE::const_iterator C_ITERATOR;
 
-    STORAGE intervals;
+    STORAGE                         intervals;
 
 public:
     shared_str name;
@@ -167,7 +171,7 @@ public:
     u16                     flags;
     xr_vector<motion_marks> marks;
 
-    IC float Dequantize(u16 V) const
+    IC float                Dequantize(u16 V) const
     {
         return float(V) / 655.35f;
     }
@@ -232,6 +236,7 @@ public:
 class ENGINE_API CPartition
 {
     CPartDef P[MAX_PARTS];
+
 public:
     IC CPartDef& operator[](u16 id)
     {
@@ -273,7 +278,7 @@ struct ENGINE_API motions_value
     BOOL          load(LPCSTR N, IReader* data, vecBones* bones);
     MotionVec*    bone_motions(shared_str bone_name);
 
-    u32 mem_usage()
+    u32           mem_usage()
     {
         u32 sz = sizeof(*this) + m_motion_map.size() * 6 + m_partition.mem_usage();
         for (MotionDefVecIt it = m_mdefs.begin(); it != m_mdefs.end(); it++)
@@ -289,6 +294,7 @@ class ENGINE_API motions_container
 {
     DEFINE_MAP(shared_str, motions_value*, SharedMotionsMap, SharedMotionsMapIt);
     SharedMotionsMap container;
+
 public:
     motions_container();
     ~motions_container();
@@ -300,10 +306,11 @@ public:
 
 extern ENGINE_API motions_container* g_pMotionsContainer;
 
-class ENGINE_API shared_motions
+class ENGINE_API                     shared_motions
 {
 private:
     motions_value* p_;
+
 protected:
     // ref-counting
     void destroy()
@@ -314,9 +321,11 @@ protected:
         if (0 == p_->m_dwReference)
             p_ = 0;
     }
+
 public:
     bool create(shared_str key, IReader* data, vecBones* bones);   // {motions_value* v = g_pMotionsContainer->dock(key,data,bones); if (0!=v) v->m_dwReference++; destroy(); p_ = v;}
     bool create(shared_motions const& rhs);                        // {motions_value* v = rhs.p_; if (0!=v) v->m_dwReference++; destroy(); p_ = v;}
+
 public:
     // construction
     shared_motions()

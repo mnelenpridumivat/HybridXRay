@@ -34,24 +34,24 @@ CMapLocation::CMapLocation(LPCSTR type, u16 object_id)
 {
     m_flags.zero();
 
-    m_level_spot           = NULL;
-    m_level_spot_pointer   = NULL;
-    m_minimap_spot         = NULL;
-    m_minimap_spot_pointer = NULL;
-    m_complex_spot         = NULL;
-    m_complex_spot_pointer = NULL;
+    m_level_spot               = NULL;
+    m_level_spot_pointer       = NULL;
+    m_minimap_spot             = NULL;
+    m_minimap_spot_pointer     = NULL;
+    m_complex_spot             = NULL;
+    m_complex_spot_pointer     = NULL;
 
-    m_level_map_spot_border = NULL;
-    m_mini_map_spot_border  = NULL;
-    m_complex_spot_border   = NULL;
+    m_level_map_spot_border    = NULL;
+    m_mini_map_spot_border     = NULL;
+    m_complex_spot_border      = NULL;
 
     m_level_map_spot_border_na = NULL;
     m_mini_map_spot_border_na  = NULL;
     m_complex_spot_border_na   = NULL;
 
-    m_objectID        = object_id;
-    m_actual_time     = 0;
-    m_owner_se_object = (ai().get_alife()) ? ai().alife().objects().object(m_objectID, true) : NULL;
+    m_objectID                 = object_id;
+    m_actual_time              = 0;
+    m_owner_se_object          = (ai().get_alife()) ? ai().alife().objects().object(m_objectID, true) : NULL;
     m_flags.set(eHintEnabled, TRUE);
     LoadSpot(type, false);
 
@@ -147,7 +147,7 @@ void    CMapLocation::LoadSpot(LPCSTR type, bool bReload)
         m_spot_border_names[0] = g_uiSpotXml->ReadAttrib(path, 0, "spot_a", "level_map_spot_border");
         m_spot_border_names[1] = g_uiSpotXml->ReadAttrib(path, 0, "spot_na", "");
 
-        str = g_uiSpotXml->ReadAttrib(path, 0, "pointer", "");
+        str                    = g_uiSpotXml->ReadAttrib(path, 0, "pointer", "");
         if (xr_strlen(str))
         {
             if (!bReload)
@@ -182,7 +182,7 @@ void    CMapLocation::LoadSpot(LPCSTR type, bool bReload)
         m_spot_border_names[2] = g_uiSpotXml->ReadAttrib(path, 0, "spot_a", "mini_map_spot_border");
         m_spot_border_names[3] = g_uiSpotXml->ReadAttrib(path, 0, "spot_na", "");
 
-        str = g_uiSpotXml->ReadAttrib(path, 0, "pointer", "");
+        str                    = g_uiSpotXml->ReadAttrib(path, 0, "pointer", "");
         if (xr_strlen(str))
         {
             if (!bReload)
@@ -217,7 +217,7 @@ void    CMapLocation::LoadSpot(LPCSTR type, bool bReload)
         m_spot_border_names[4] = g_uiSpotXml->ReadAttrib(path, 0, "spot_a", "complex_map_spot_border");
         m_spot_border_names[5] = g_uiSpotXml->ReadAttrib(path, 0, "spot_na", "");
 
-        str = g_uiSpotXml->ReadAttrib(path, 0, "pointer", "");
+        str                    = g_uiSpotXml->ReadAttrib(path, 0, "pointer", "");
         if (xr_strlen(str))
         {
             if (!bReload)
@@ -302,11 +302,8 @@ void CMapLocation::CalcLevelName()
     {
         if (m_cached.m_graphID != m_owner_se_object->m_tGraphID)
         {
-            m_cached.m_LevelName = ai().game_graph()
-                                       .header()
-                                       .level(ai().game_graph().vertex(m_owner_se_object->m_tGraphID)->level_id())
-                                       .name();
-            m_cached.m_graphID = m_owner_se_object->m_tGraphID;
+            m_cached.m_LevelName = ai().game_graph().header().level(ai().game_graph().vertex(m_owner_se_object->m_tGraphID)->level_id()).name();
+            m_cached.m_graphID   = m_owner_se_object->m_tGraphID;
         }
     }
     else
@@ -349,7 +346,7 @@ bool CMapLocation::Update()   // returns actual
 extern xr_vector<CLevelChanger*> g_lchangers;
 xr_vector<u32>                   map_point_path;
 
-void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
+void                             CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
 {
     if (map->MapName() == GetLevelName())
     {
@@ -390,8 +387,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
         // update spot position
         Fvector2 position = GetPosition();
 
-        m_position_on_map =
-            map->ConvertRealToLocal(position, (map->Heading()) ? false : true);   // for visibility calculating
+        m_position_on_map = map->ConvertRealToLocal(position, (map->Heading()) ? false : true);   // for visibility calculating
 
         sp->SetWndPos(m_position_on_map);
 
@@ -441,17 +437,16 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
 
         VERIFY(Actor());
         GraphEngineSpace::CGameVertexParams params(Actor()->locations().vertex_types(), flt_max);
-        bool                                res = ai().graph_engine().search(
-            ai().game_graph(), Actor()->ai_location().game_vertex_id(), dest_graph_id, &map_point_path, params);
+        bool                                res = ai().graph_engine().search(ai().game_graph(), Actor()->ai_location().game_vertex_id(), dest_graph_id, &map_point_path, params);
 
         if (res)
         {
-            xr_vector<u32>::reverse_iterator it   = map_point_path.rbegin();
-            xr_vector<u32>::reverse_iterator it_e = map_point_path.rend();
+            xr_vector<u32>::reverse_iterator    it    = map_point_path.rbegin();
+            xr_vector<u32>::reverse_iterator    it_e  = map_point_path.rend();
 
-            xr_vector<CLevelChanger*>::iterator lit = g_lchangers.begin();
+            xr_vector<CLevelChanger*>::iterator lit   = g_lchangers.begin();
             // xr_vector<CLevelChanger*>::iterator lit_e = g_lchangers.end();
-            bool bDone = false;
+            bool                                bDone = false;
             // for(; (it!=it_e)&&(!bDone) ;++it){
             //	for(lit=g_lchangers.begin();lit!=lit_e; ++lit){
 
@@ -463,7 +458,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
 
             //	}
             //}
-            static bool bbb = false;
+            static bool                         bbb   = false;
             if (!bDone && bbb)
             {
                 Msg("! Error. Path from actor to selected map spot does not contain level changer :(");
@@ -473,8 +468,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
                 for (; it != it_e; ++it)
                 {
                     //					Msg("%d-%s",(*it),ai().game_graph().vertex(*it));
-                    Msg("[%d] level[%s]", (*it),
-                        *ai().game_graph().header().level(ai().game_graph().vertex(*it)->level_id()).name());
+                    Msg("[%d] level[%s]", (*it), *ai().game_graph().header().level(ai().game_graph().vertex(*it)->level_id()).name());
                 }
                 Msg("- Available LevelChangers:");
                 xr_vector<CLevelChanger*>::iterator lit, lit_e;
@@ -484,9 +478,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
                     GameGraph::_GRAPH_ID gid = (*lit)->ai_location().game_vertex_id();
                     Msg("[%d]", gid);
                     Fvector p = ai().game_graph().vertex(gid)->level_point();
-                    Msg("lch_name=%s pos=%f %f %f",
-                        *ai().game_graph().header().level(ai().game_graph().vertex(gid)->level_id()).name(), p.x, p.y,
-                        p.z);
+                    Msg("lch_name=%s pos=%f %f %f", *ai().game_graph().header().level(ai().game_graph().vertex(gid)->level_id()).name(), p.x, p.y, p.z);
                 }
             };
             if (bDone)
@@ -502,8 +494,7 @@ void CMapLocation::UpdateSpot(CUICustomMap* map, CMapSpot* sp)
                 xr_vector<u32>::reverse_iterator it_e = map_point_path.rend();
                 for (; (it != it_e) && (!bDone); ++it)
                 {
-                    if (*ai().game_graph().header().level(ai().game_graph().vertex(*it)->level_id()).name() ==
-                        Level().name())
+                    if (*ai().game_graph().header().level(ai().game_graph().vertex(*it)->level_id()).name() == Level().name())
                         break;
                 }
                 if (it != it_e)
@@ -717,8 +708,7 @@ CMapSpot* CMapLocation::GetSpotBorder(CMapSpot* sp)
     return NULL;
 }
 
-CRelationMapLocation::CRelationMapLocation(const shared_str& type, u16 object_id, u16 pInvOwnerActorID):
-    CMapLocation(*type, object_id)
+CRelationMapLocation::CRelationMapLocation(const shared_str& type, u16 object_id, u16 pInvOwnerActorID): CMapLocation(*type, object_id)
 {
     m_curr_spot_name     = type;
     m_pInvOwnerActorID   = pInvOwnerActorID;
@@ -731,12 +721,12 @@ CRelationMapLocation::~CRelationMapLocation() {}
 
 xr_vector<CMapLocation*> find_locations_res;
 
-bool CRelationMapLocation::Update()
+bool                     CRelationMapLocation::Update()
 {
     if (false == inherited::Update())
         return false;
 
-    bool bAlive = true;
+    bool bAlive     = true;
 
     m_last_relation = ALife::eRelationTypeFriend;
 
@@ -745,7 +735,7 @@ bool CRelationMapLocation::Update()
         CSE_ALifeTraderAbstract* pEnt = NULL;
         CSE_ALifeTraderAbstract* pAct = NULL;
         pEnt                          = smart_cast<CSE_ALifeTraderAbstract*>(m_owner_se_object);
-        pAct = smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(m_pInvOwnerActorID, true));
+        pAct                          = smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(m_pInvOwnerActorID, true));
         if (!pEnt || !pAct)
             return false;
 
@@ -759,8 +749,8 @@ bool CRelationMapLocation::Update()
         CInventoryOwner* pEnt = NULL;
         CInventoryOwner* pAct = NULL;
 
-        pEnt = smart_cast<CInventoryOwner*>(Level().Objects.net_Find(m_objectID));
-        pAct = smart_cast<CInventoryOwner*>(Level().Objects.net_Find(m_pInvOwnerActorID));
+        pEnt                  = smart_cast<CInventoryOwner*>(Level().Objects.net_Find(m_objectID));
+        pAct                  = smart_cast<CInventoryOwner*>(Level().Objects.net_Find(m_pInvOwnerActorID));
         if (!pEnt || !pAct)
             return false;
 
@@ -818,8 +808,7 @@ bool CRelationMapLocation::Update()
         {
             const CGameObject* pObj = smart_cast<const CGameObject*>(_object_);
             CActor*            pAct = smart_cast<CActor*>(Level().Objects.net_Find(m_pInvOwnerActorID));
-            if (/*pAct->Position().distance_to_sqr(pObj->Position()) < 100.0F && */ abs(
-                    pObj->Position().y - pAct->Position().y) < 3.0f)
+            if (/*pAct->Position().distance_to_sqr(pObj->Position()) < 100.0F && */ abs(pObj->Position().y - pAct->Position().y) < 3.0f)
                 vis_res = true;
             else
                 vis_res = false;

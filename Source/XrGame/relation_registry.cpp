@@ -137,9 +137,9 @@ CHARACTER_GOODWILL RELATION_REGISTRY::GetGoodwill(u16 from, u16 to) const
 
 void RELATION_REGISTRY::SetGoodwill(u16 from, u16 to, CHARACTER_GOODWILL goodwill)
 {
-    RELATION_DATA& relation_data = relation_registry().registry().objects(from);
+    RELATION_DATA&  relation_data = relation_registry().registry().objects(from);
 
-    static Ivector2 gw_limits = pSettings->r_ivector2(ACTIONS_POINTS_SECT, "personal_goodwill_limits");
+    static Ivector2 gw_limits     = pSettings->r_ivector2(ACTIONS_POINTS_SECT, "personal_goodwill_limits");
     clamp(goodwill, gw_limits.x, gw_limits.y);
 
     relation_data.personal[to].SetGoodwill(goodwill);
@@ -147,21 +147,18 @@ void RELATION_REGISTRY::SetGoodwill(u16 from, u16 to, CHARACTER_GOODWILL goodwil
 
 void RELATION_REGISTRY::ForceSetGoodwill(u16 from, u16 to, CHARACTER_GOODWILL goodwill)
 {
-    RELATION_DATA& relation_data = relation_registry().registry().objects(from);
+    RELATION_DATA&           relation_data = relation_registry().registry().objects(from);
 
-    CSE_ALifeTraderAbstract* from_obj = smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(from));
-    CSE_ALifeTraderAbstract* to_obj   = smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(to));
+    CSE_ALifeTraderAbstract* from_obj      = smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(from));
+    CSE_ALifeTraderAbstract* to_obj        = smart_cast<CSE_ALifeTraderAbstract*>(ai().alife().objects().object(to));
 
     if (!from_obj || !to_obj)
     {
-        ai().script_engine().script_log(
-            ScriptStorage::eLuaMessageTypeError,
-            "RELATION_REGISTRY::ForceSetGoodwill  : cannot convert obj to CSE_ALifeTraderAbstract!");
+        ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "RELATION_REGISTRY::ForceSetGoodwill  : cannot convert obj to CSE_ALifeTraderAbstract!");
         return;
     }
-    CHARACTER_GOODWILL community_to_obj_goodwill = GetCommunityGoodwill(from_obj->Community(), to);
-    CHARACTER_GOODWILL community_to_community_goodwill =
-        GetCommunityRelation(from_obj->Community(), to_obj->Community());
+    CHARACTER_GOODWILL community_to_obj_goodwill       = GetCommunityGoodwill(from_obj->Community(), to);
+    CHARACTER_GOODWILL community_to_community_goodwill = GetCommunityRelation(from_obj->Community(), to_obj->Community());
 
     relation_data.personal[to].SetGoodwill(goodwill - community_to_obj_goodwill - community_to_community_goodwill);
 }
@@ -174,7 +171,7 @@ void RELATION_REGISTRY::ChangeGoodwill(u16 from, u16 to, CHARACTER_GOODWILL delt
 
 //////////////////////////////////////////////////////////////////////////
 CHARACTER_GOODWILL
-    RELATION_REGISTRY::GetCommunityGoodwill(CHARACTER_COMMUNITY_INDEX from_community, u16 to_character) const
+RELATION_REGISTRY::GetCommunityGoodwill(CHARACTER_COMMUNITY_INDEX from_community, u16 to_character) const
 {
     const RELATION_DATA* relation_data = relation_registry().registry().objects_ptr(to_character);
 
@@ -191,10 +188,7 @@ CHARACTER_GOODWILL
     return NEUTRAL_GOODWILL;
 }
 
-void RELATION_REGISTRY::SetCommunityGoodwill(
-    CHARACTER_COMMUNITY_INDEX from_community,
-    u16                       to_character,
-    CHARACTER_GOODWILL        goodwill)
+void RELATION_REGISTRY::SetCommunityGoodwill(CHARACTER_COMMUNITY_INDEX from_community, u16 to_character, CHARACTER_GOODWILL goodwill)
 {
     static Ivector2 gw_limits = pSettings->r_ivector2(ACTIONS_POINTS_SECT, "community_goodwill_limits");
     clamp(goodwill, gw_limits.x, gw_limits.y);
@@ -203,10 +197,7 @@ void RELATION_REGISTRY::SetCommunityGoodwill(
     relation_data.communities[from_community].SetGoodwill(goodwill);
 }
 
-void RELATION_REGISTRY::ChangeCommunityGoodwill(
-    CHARACTER_COMMUNITY_INDEX from_community,
-    u16                       to_character,
-    CHARACTER_GOODWILL        delta_goodwill)
+void RELATION_REGISTRY::ChangeCommunityGoodwill(CHARACTER_COMMUNITY_INDEX from_community, u16 to_character, CHARACTER_GOODWILL delta_goodwill)
 {
     CHARACTER_GOODWILL gw = GetCommunityGoodwill(from_community, to_character) + delta_goodwill;
     SetCommunityGoodwill(from_community, to_character, gw);
@@ -214,7 +205,7 @@ void RELATION_REGISTRY::ChangeCommunityGoodwill(
 //////////////////////////////////////////////////////////////////////////
 
 CHARACTER_GOODWILL
-    RELATION_REGISTRY::GetCommunityRelation(CHARACTER_COMMUNITY_INDEX index1, CHARACTER_COMMUNITY_INDEX index2) const
+RELATION_REGISTRY::GetCommunityRelation(CHARACTER_COMMUNITY_INDEX index1, CHARACTER_COMMUNITY_INDEX index2) const
 {
     return CHARACTER_COMMUNITY::relation(index1, index2);
 }
@@ -228,7 +219,7 @@ CHARACTER_GOODWILL RELATION_REGISTRY::GetRankRelation(CHARACTER_RANK_VALUE rank1
 }
 
 CHARACTER_GOODWILL
-    RELATION_REGISTRY::GetReputationRelation(CHARACTER_REPUTATION_VALUE rep1, CHARACTER_REPUTATION_VALUE rep2) const
+RELATION_REGISTRY::GetReputationRelation(CHARACTER_REPUTATION_VALUE rep1, CHARACTER_REPUTATION_VALUE rep2) const
 {
     CHARACTER_REPUTATION rep_from, rep_to;
     rep_from.set(rep1);
@@ -238,10 +229,7 @@ CHARACTER_GOODWILL
 
 //////////////////////////////////////////////////////////////////////////
 
-void RELATION_REGISTRY::SetCommunityRelation(
-    CHARACTER_COMMUNITY_INDEX index1,
-    CHARACTER_COMMUNITY_INDEX index2,
-    CHARACTER_GOODWILL        goodwill)
+void RELATION_REGISTRY::SetCommunityRelation(CHARACTER_COMMUNITY_INDEX index1, CHARACTER_COMMUNITY_INDEX index2, CHARACTER_GOODWILL goodwill)
 {
     CHARACTER_COMMUNITY::set_relation(index1, index2, goodwill);
 }

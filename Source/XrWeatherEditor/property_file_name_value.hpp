@@ -23,14 +23,7 @@ public:
     typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
 
 public:
-    property_file_name_value(
-        string_getter_type const& getter,
-        string_setter_type const& setter,
-        System::String ^ DefaultExt_,
-        System::String ^ Filter_,
-        System::String ^ InitialDirectory_,
-        System::String ^ Title_,
-        bool remove_extension);
+    property_file_name_value(string_getter_type const& getter, string_setter_type const& setter, System::String ^ DefaultExt_, System::String ^ Filter_, System::String ^ InitialDirectory_, System::String ^ Title_, bool remove_extension);
 
     virtual System::String ^ default_extension();
     virtual System::String ^ filter();

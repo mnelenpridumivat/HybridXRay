@@ -2,15 +2,15 @@
 #include "../state.h"
 #include "../../../grenade.h"
 
-template <typename Object> class CStateBurerAttackTele: public CState<Object>
+template<typename Object> class CStateBurerAttackTele: public CState<Object>
 {
-    typedef CState<Object> inherited;
+    typedef CState<Object>          inherited;
 
     xr_vector<CPhysicsShellHolder*> tele_objects;
     CPhysicsShellHolder*            selected_object;
     xr_vector<CObject*>             m_nearest;
 
-    u32 time_started;
+    u32                             time_started;
 
     enum
     {

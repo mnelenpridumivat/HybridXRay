@@ -22,8 +22,8 @@ bool CSceneObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
         if (!SetReference(ref_name.c_str()))
         {
             ELog.Msg(mtError, "! CSceneObject: '%s' not found in library", ref_name.c_str());
-            bRes   = false;
-            int mr = mrNone;
+            bRes         = false;
+            int       mr = mrNone;
 
             xr_string _new_name;
             bool      b_found = Scene->GetSubstObjectName(ref_name.c_str(), _new_name);
@@ -31,7 +31,7 @@ bool CSceneObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
             {
                 xr_string _message;
                 _message = "Object [" + ref_name + "] not found. Relace it with [" + _new_name + "] or select other from library?";
-                mr = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _message.c_str());
+                mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _message.c_str());
                 if (mrYes == mr)
                 {
                     bRes = SetReference(_new_name.c_str());
@@ -175,8 +175,8 @@ bool CSceneObject::LoadStream(IReader& F)
         if (!SetReference(buf))
         {
             ELog.Msg(mtError, "! CSceneObject: '%s' not found in library", buf);
-            bRes   = false;
-            int mr = mrNone;
+            bRes         = false;
+            int       mr = mrNone;
 
             xr_string _new_name;
             bool      b_found = Scene->GetSubstObjectName(buf, _new_name);
@@ -184,7 +184,7 @@ bool CSceneObject::LoadStream(IReader& F)
             {
                 xr_string _message;
                 _message = "Object [" + xr_string(buf) + "] not found. Relace it with [" + _new_name + "] or select other from library?";
-                mr = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _message.c_str());
+                mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _message.c_str());
                 if (mrYes == mr)
                 {
                     bRes = SetReference(_new_name.c_str());
@@ -266,7 +266,7 @@ void CSceneObject::SaveStream(IWriter& F)
     if (xrGameManager::GetGame() == EGame::SHOC)
     {
         F.w_s32(m_pReference->Version());
-        F.w_s32(0); // reserved
+        F.w_s32(0);   // reserved
     }
 
     F.w_stringZ(m_ReferenceName);

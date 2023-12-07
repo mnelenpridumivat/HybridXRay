@@ -36,16 +36,16 @@ class CUIArtefactDetectorSimple: public CUIArtefactDetectorBase
 {
     typedef CUIArtefactDetectorBase inherited;
 
-    CSimpleDetector* m_parent;
-    u16              m_flash_bone;
-    u16              m_on_off_bone;
-    u32              m_turn_off_flash_time;
+    CSimpleDetector*                m_parent;
+    u16                             m_flash_bone;
+    u16                             m_on_off_bone;
+    u32                             m_turn_off_flash_time;
 
-    ref_light m_flash_light;
-    ref_light m_on_off_light;
-    CLAItem*  m_pOnOfLAnim;
-    CLAItem*  m_pFlashLAnim;
-    void      setup_internals();
+    ref_light                       m_flash_light;
+    ref_light                       m_on_off_light;
+    CLAItem*                        m_pOnOfLAnim;
+    CLAItem*                        m_pFlashLAnim;
+    void                            setup_internals();
 
 public:
     virtual ~CUIArtefactDetectorSimple();
@@ -59,9 +59,9 @@ class CUIArtefactDetectorElite: public CUIArtefactDetectorBase, public CUIWindow
 {
     typedef CUIArtefactDetectorBase inherited;
 
-    CUIWindow* m_wrk_area;
+    CUIWindow*                      m_wrk_area;
 
-    xr_map<shared_str, CUIStatic*> m_palette;
+    xr_map<shared_str, CUIStatic*>  m_palette;
 
     struct SDrawOneItem
     {
@@ -73,26 +73,26 @@ class CUIArtefactDetectorElite: public CUIArtefactDetectorBase, public CUIWindow
     CEliteDetector*         m_parent;
     Fmatrix                 m_map_attach_offset;
 
-    void GetUILocatorMatrix(Fmatrix& _m);
+    void                    GetUILocatorMatrix(Fmatrix& _m);
 
 public:
     virtual void update();
     virtual void Draw();
 
-    void construct(CEliteDetector* p);
-    void Clear();
-    void RegisterItemToDraw(const Fvector& p, const shared_str& palette_idx);
+    void         construct(CEliteDetector* p);
+    void         Clear();
+    void         RegisterItemToDraw(const Fvector& p, const shared_str& palette_idx);
 };
 
 class CUIArtefactDetectorAdv: public CUIArtefactDetectorBase
 {
     typedef CUIArtefactDetectorBase inherited;
 
-    CAdvancedDetector* m_parent;
-    Fvector            m_target_dir;
-    float              m_cur_y_rot;
-    float              m_curr_ang_speed;
-    u16                m_bid;
+    CAdvancedDetector*              m_parent;
+    Fvector                         m_target_dir;
+    float                           m_cur_y_rot;
+    float                           m_curr_ang_speed;
+    u16                             m_bid;
 
 public:
     virtual ~CUIArtefactDetectorAdv();

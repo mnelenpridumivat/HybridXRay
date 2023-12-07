@@ -27,7 +27,7 @@ using System::Windows::Forms::MouseEventHandler;
 using Flobbster::Windows::Forms::PropertyBag;
 typedef PropertyBag::PropertySpecDescriptor PropertySpecDescriptor;
 
-template <typename T> inline static T registry_value(RegistryKey ^ key, String ^ value_id, T const % default_value)
+template<typename T> inline static T        registry_value(RegistryKey ^ key, String ^ value_id, T const % default_value)
 {
     System::Object ^ object = key->GetValue(value_id);
     if (!object)

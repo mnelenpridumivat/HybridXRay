@@ -1,11 +1,11 @@
 ﻿#include "stdafx.h"
 
-#define PORTAL_VERSION 0x0010
-#define PORTAL_CHUNK_VERSION 0xFA10
-#define PORTAL_CHUNK_COLOR 0xFA20
+#define PORTAL_VERSION            0x0010
+#define PORTAL_CHUNK_VERSION      0xFA10
+#define PORTAL_CHUNK_COLOR        0xFA20
 #define PORTAL_CHUNK_SECTOR_FRONT 0xFA30
-#define PORTAL_CHUNK_SECTOR_BACK 0xFA40
-#define PORTAL_CHUNK_VERTICES 0xFA50
+#define PORTAL_CHUNK_SECTOR_BACK  0xFA40
+#define PORTAL_CHUNK_VERTICES     0xFA50
 
 CPortal::CPortal(LPVOID data, LPCSTR name): CCustomObject(data, name)
 {
@@ -41,8 +41,7 @@ void CPortal::Render(int priority, bool strictB2F)
 {
     if ((1 == priority) && (false == strictB2F))
     {
-        FvectorVec& src =
-            m_SimplifyVertices;   //(fraBottomBar->miDrawPortalSimpleModel->Checked)?m_SimplifyVertices:m_Vertices;
+        FvectorVec& src = m_SimplifyVertices;   //(fraBottomBar->miDrawPortalSimpleModel->Checked)?m_SimplifyVertices:m_Vertices;
         if (src.size() < 2)
             return;
 
@@ -226,7 +225,7 @@ double tri_area(Fvector2 P0, Fvector2 P1, Fvector2 P2)
     double e2 = P1.distance_to(P2);
     double e3 = P2.distance_to(P0);
 
-    double p = (e1 + e2 + e3) / 2.0;
+    double p  = (e1 + e2 + e3) / 2.0;
     return sqrt(p * (p - e1) * (p - e2) * (p - e3));
 }
 
@@ -239,15 +238,15 @@ bool Isect2DLvs2DL(Fvector2& P1, Fvector2& P2, Fvector2& P3, Fvector2& P4, Fvect
     /* Compute a1, b1, c1, where line joining points 1 and 2
      * is "a1 x  +  b1 y  +  c1  =  0".	*/
 
-    a1 = P2.y - P1.y;
-    b1 = P1.x - P2.x;
-    c1 = P2.x * P1.y - P1.x * P2.y;
+    a1    = P2.y - P1.y;
+    b1    = P1.x - P2.x;
+    c1    = P2.x * P1.y - P1.x * P2.y;
 
     /* Compute a2, b2, c2 */
 
-    a2 = P4.y - P3.y;
-    b2 = P3.x - P4.x;
-    c2 = P4.x * P3.y - P3.x * P4.y;
+    a2    = P4.y - P3.y;
+    b2    = P3.x - P4.x;
+    c2    = P4.x * P3.y - P3.x * P4.y;
 
     /* Lines intersect: compute intersection point.
      */
@@ -316,9 +315,8 @@ void CPortal::Simplify()
     Fvector rkOffset;
     Fvector rkNormal;
     // compute plane
-    Fplane P;
-    Mgc::OrthogonalPlaneFit(
-        m_Vertices.size(), (Mgc::Vector3*)m_Vertices.data(), (Mgc::Vector3&)rkOffset, (Mgc::Vector3&)rkNormal);
+    Fplane  P;
+    Mgc::OrthogonalPlaneFit(m_Vertices.size(), (Mgc::Vector3*)m_Vertices.data(), (Mgc::Vector3&)rkOffset, (Mgc::Vector3&)rkNormal);
     P.build(rkOffset, rkNormal);
     // project points
     Fmatrix mView;
@@ -466,8 +464,8 @@ bool CPortal::LoadLTX(CInifile& ini, LPCSTR sect_name)
     str           = ini.r_string(sect_name, "sector_front");
     m_SectorFront = (CSector*)Scene->FindObjectByName(str, OBJCLASS_SECTOR);
 
-    str          = ini.r_string(sect_name, "sector_back");
-    m_SectorBack = (CSector*)Scene->FindObjectByName(str, OBJCLASS_SECTOR);
+    str           = ini.r_string(sect_name, "sector_back");
+    m_SectorBack  = (CSector*)Scene->FindObjectByName(str, OBJCLASS_SECTOR);
 
     if (!m_SectorBack || !m_SectorFront)
     {
@@ -513,7 +511,7 @@ void CPortal::SaveLTX(CInifile& ini, LPCSTR sect_name)
 
 bool CPortal::LoadStream(IReader& F)
 {
-    u16 version = 0;
+    u16      version = 0;
 
     string64 buf;
     R_ASSERT(F.r_chunk(PORTAL_CHUNK_VERSION, &version));

@@ -3,7 +3,7 @@
 #include "Level.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 
-#define WUS_IDENT (('S' << 24) + ('U' << 16) + ('W' << 8) + ' ')
+#define WUS_IDENT   (('S' << 24) + ('U' << 16) + ('W' << 8) + ' ')
 #define WUS_VERSION 2
 // 1 - initial save
 // 2 - added Bone Names
@@ -90,9 +90,7 @@ void WeaponUsageStatistic::SaveData()
             break;
     };
     GetLocalTime(&Time);
-    xr_sprintf(
-        mFileName, "(%s)_(%s)_%02d.%02d.%02d_%02d.%02d.%02d.wus", *(Level().name()), GameType, Time.wMonth, Time.wDay,
-        Time.wYear, Time.wHour, Time.wMinute, Time.wSecond);
+    xr_sprintf(mFileName, "(%s)_(%s)_%02d.%02d.%02d_%02d.%02d.%02d.wus", *(Level().name()), GameType, Time.wMonth, Time.wDay, Time.wYear, Time.wHour, Time.wMinute, Time.wSecond);
 
     //---------------------------------------------------------
     FS.update_path(mFileName, "$logs$", mFileName);
@@ -290,9 +288,7 @@ void Weapon_Statistic::add_hit(HitData const& hit)
     for (HITS_VEC::reverse_iterator i = m_Hits.rbegin(), ie = m_Hits.rend(); i != ie; ++i)
     {
         HitData& tmp_hit = *i;
-        if ((tmp_hit.BoneID == hit.BoneID) && (tmp_hit.TargetID == hit.TargetID) &&
-            (tmp_hit.Pos0.distance_to(hit.Pos0) < ARCHIVE_HIT_RADIUS) &&
-            (tmp_hit.Pos1.distance_to(hit.Pos1) < ARCHIVE_HIT_RADIUS) && (tmp_hit.count < 254))
+        if ((tmp_hit.BoneID == hit.BoneID) && (tmp_hit.TargetID == hit.TargetID) && (tmp_hit.Pos0.distance_to(hit.Pos0) < ARCHIVE_HIT_RADIUS) && (tmp_hit.Pos1.distance_to(hit.Pos1) < ARCHIVE_HIT_RADIUS) && (tmp_hit.count < 254))
         {
             ++tmp_hit.count;
             return;

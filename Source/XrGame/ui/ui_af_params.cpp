@@ -72,7 +72,11 @@ LPCSTR af_immunity_caption[] =   // ALife::EInfluenceType
 
 LPCSTR af_restore_caption[] =   // ALife::EConditionRestoreType
     {
-        "ui_inv_health", "ui_inv_satiety", "ui_inv_power", "ui_inv_bleeding", "ui_inv_radiation",
+        "ui_inv_health",
+        "ui_inv_satiety",
+        "ui_inv_power",
+        "ui_inv_bleeding",
+        "ui_inv_radiation",
 };
 
 /*
@@ -88,7 +92,7 @@ LPCSTR af_actor_param_names[]=
 
 void CUIArtefactParams::InitFromXml(CUIXml& xml)
 {
-    LPCSTR base = "af_params";
+    LPCSTR    base        = "af_params";
 
     XML_NODE* stored_root = xml.GetLocalRoot();
     XML_NODE* base_node   = xml.NavigateToNode(base, 0);
@@ -238,10 +242,10 @@ void UIArtefactParamItem::Init(CUIXml& xml, LPCSTR section)
     CUIXmlInit::InitWindow(xml, section, 0, this);
     xml.SetLocalRoot(xml.NavigateToNode(section));
 
-    m_caption      = UIHelper::CreateStatic(xml, "caption", this);
-    m_value        = UIHelper::CreateTextWnd(xml, "value", this);
-    m_magnitude    = xml.ReadAttribFlt("value", 0, "magnitude", 1.0f);
-    m_sign_inverse = (xml.ReadAttribInt("value", 0, "sign_inverse", 0) == 1);
+    m_caption       = UIHelper::CreateStatic(xml, "caption", this);
+    m_value         = UIHelper::CreateTextWnd(xml, "value", this);
+    m_magnitude     = xml.ReadAttribFlt("value", 0, "magnitude", 1.0f);
+    m_sign_inverse  = (xml.ReadAttribInt("value", 0, "sign_inverse", 0) == 1);
 
     LPCSTR unit_str = xml.ReadAttrib("value", 0, "unit_str", "");
     m_unit_str._set(CStringTable().translate(unit_str));

@@ -14,7 +14,7 @@
 
 poolSS<SAINode, 1024> g_ainode_pool;
 
-void* SAINode::operator new(std::size_t size)
+void*                 SAINode::operator new(std::size_t size)
 {
     return g_ainode_pool.create();
 }
@@ -104,9 +104,9 @@ void SAINode::SaveLTX(CInifile& ini, LPCSTR sect_name, ESceneAIMapTool* tools)
     tools->PackPosition(np, Pos, tools->m_AIBBox, tools->m_Params);
     string256 buff;
 
-    s16 x;
-    u16 y;
-    s16 z;
+    s16       x;
+    u16       y;
+    s16       z;
 
     sprintf(buff, "%i,%u,%i", np.x, np.y, np.z);
     ini.w_string(sect_name, "np", buff);
@@ -175,7 +175,7 @@ void ESceneAIMapTool::Clear(bool bOnlyNodes)
 {
     inherited::Clear();
     hash_Clear();
-    for (SAINode* node : m_Nodes)
+    for (SAINode* node: m_Nodes)
         xr_delete(node);
     m_Nodes.clear_and_free();
     if (!bOnlyNodes)
@@ -237,10 +237,7 @@ void ESceneAIMapTool::DenumerateNodes()
     u32 cnt = m_Nodes.size();
     for (AINodeIt it = m_Nodes.begin(); it != m_Nodes.end(); it++)
     {
-        if (!((((u32)(*it)->n1 < cnt) || ((u32)(*it)->n1 == InvalidNode)) &&
-              (((u32)(*it)->n2 < cnt) || ((u32)(*it)->n2 == InvalidNode)) &&
-              (((u32)(*it)->n3 < cnt) || ((u32)(*it)->n3 == InvalidNode)) &&
-              (((u32)(*it)->n4 < cnt) || ((u32)(*it)->n4 == InvalidNode))))
+        if (!((((u32)(*it)->n1 < cnt) || ((u32)(*it)->n1 == InvalidNode)) && (((u32)(*it)->n2 < cnt) || ((u32)(*it)->n2 == InvalidNode)) && (((u32)(*it)->n3 < cnt) || ((u32)(*it)->n3 == InvalidNode)) && (((u32)(*it)->n4 < cnt) || ((u32)(*it)->n4 == InvalidNode))))
         {
             ELog.Msg(mtError, "! Node: has wrong link [%3.2f, %3.2f, %3.2f], {%d,%d,%d,%d}", VPUSH((*it)->Pos), (*it)->n1, (*it)->n2, (*it)->n3, (*it)->n4);
             (*it)->n1 = 0;

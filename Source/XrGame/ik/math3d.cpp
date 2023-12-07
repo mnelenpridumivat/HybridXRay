@@ -37,7 +37,7 @@
 
 Matrix idmat = {{1.0, 0.0, 0.0, 0.0}, {0.0, 1.0, 0.0, 0.0}, {0.0, 0.0, 1.0, 0.0}, {0.0, 0.0, 0.0, 1.0}};
 
-void matmult(Matrix A, Matrix B, Matrix C)
+void   matmult(Matrix A, Matrix B, Matrix C)
 /*
  * Multiply 4x4 matrices:
  *
@@ -124,7 +124,8 @@ void hmatmult(Matrix A, Matrix B, Matrix C)
             {
                 cp += 4;
                 *a += *bp++ * (*cp);
-            } while (cp < cpmax);
+            }
+            while (cp < cpmax);
             a++;
             c++;
         }
@@ -143,7 +144,8 @@ void hmatmult(Matrix A, Matrix B, Matrix C)
         {
             cp -= 4;
             *a += *bp-- * (*cp);
-        } while (cp > c);
+        }
+        while (cp > c);
         a++;
         c++;
     }
@@ -176,7 +178,7 @@ void inverthomomatrix(Matrix N, Matrix M)
         C++;
     }
 
-    m3 = &M[3][0];
+    m3   = &M[3][0];
 
     m    = &M[0][0];
     *n++ = -DOT(m3, m);
@@ -398,25 +400,25 @@ void rotation_axis_to_matrix(float axis[3], float angle, Matrix R)
     float  s3sin_a   = s3 * sin_a;
     float* r         = (float*)R;
 
-    *r++ = s1s1 + cos_a * (1 - s1s1);
-    *r++ = s1s2 - cos_as1s2 + s3sin_a;
-    *r++ = s1s3 - cos_as1s3 - s2sin_a;
-    *r++ = 0;
+    *r++             = s1s1 + cos_a * (1 - s1s1);
+    *r++             = s1s2 - cos_as1s2 + s3sin_a;
+    *r++             = s1s3 - cos_as1s3 - s2sin_a;
+    *r++             = 0;
 
-    *r++ = s1s2 - cos_as1s2 - s3sin_a;
-    *r++ = s2s2 + cos_a * (1 - s2s2);
-    *r++ = s2s3 - cos_as2s3 + s1sin_a;
-    *r++ = 0;
+    *r++             = s1s2 - cos_as1s2 - s3sin_a;
+    *r++             = s2s2 + cos_a * (1 - s2s2);
+    *r++             = s2s3 - cos_as2s3 + s1sin_a;
+    *r++             = 0;
 
-    *r++ = s1s3 - cos_as1s3 + s2sin_a;
-    *r++ = s2s3 - cos_as2s3 - s1sin_a;
-    *r++ = s3s3 + cos_a * (1 - s3s3);
-    *r++ = 0;
+    *r++             = s1s3 - cos_as1s3 + s2sin_a;
+    *r++             = s2s3 - cos_as2s3 - s1sin_a;
+    *r++             = s3s3 + cos_a * (1 - s3s3);
+    *r++             = 0;
 
-    *r++ = 0;
-    *r++ = 0;
-    *r++ = 0;
-    *r   = 1;
+    *r++             = 0;
+    *r++             = 0;
+    *r++             = 0;
+    *r               = 1;
 }
 
 //
@@ -525,7 +527,7 @@ void find_normal_vector(float v[3], float n[3])
     min      = _abs(v[0]);
     num_zero = (min < 1e-8f);
 
-    temp = _abs(v[1]);
+    temp     = _abs(v[1]);
     if (temp < 1e-8f)
         num_zero++;
     if (temp < min)
@@ -585,8 +587,8 @@ void find_normal_vector(float v[3], float n[3])
 //
 void rmatmult(Matrix A, Matrix B, Matrix C)
 {
-    Matrix Temp1;
-    Matrix Temp2;
+    Matrix          Temp1;
+    Matrix          Temp2;
 
     register float* a = (float*)A;
     register float* b;
@@ -629,9 +631,9 @@ void rmatmult(Matrix A, Matrix B, Matrix C)
     *a++ = v1 * c13 + v2 * c23 + v3 * c33;
     *a++ = 0;
 
-    v1 = *b++;
-    v2 = *b++;
-    v3 = *b++;
+    v1   = *b++;
+    v2   = *b++;
+    v3   = *b++;
     b++;
     *a++ = v1 * c11 + v2 * c21 + v3 * c31;
     *a++ = v1 * c12 + v2 * c22 + v3 * c32;
@@ -768,7 +770,7 @@ void rotation_matrix_to_axis(const Matrix R, float axis[], float& angle)
 {
     const float eps = 1e-7f;
 
-    angle = acos((R[0][0] + R[1][1] + R[2][2] - 1) / 2.0f);
+    angle           = acos((R[0][0] + R[1][1] + R[2][2] - 1) / 2.0f);
 
     // Close to identity. Arbitrarily set solution to z axis rotation of 0
     if (_abs(angle) < eps || _abs(angle - M_PI) < eps)
@@ -816,11 +818,11 @@ void linterpmatrix(Matrix R, Matrix A, Matrix B, float t)
 
 #define ATAN2(a, b) ((a == 0.0) && (b == 0.0) ? 0.0 : atan2(a, b))
 
-#define EPSILON 0.001f
-#define W q[0]
-#define X q[1]
-#define Y q[2]
-#define Z q[3]
+#define EPSILON     0.001f
+#define W           q[0]
+#define X           q[1]
+#define Y           q[2]
+#define Z           q[3]
 
 void qtomatrix(Matrix m, Quaternion q)
 /*
@@ -835,22 +837,22 @@ void qtomatrix(Matrix m, Quaternion q)
     float y2 = Y * Y;
     float z2 = Z * Z;
 
-    m[0][0] = 1 - 2 * (y2 + z2);
-    m[0][1] = 2 * (X * Y + W * Z);
-    m[0][2] = 2 * (X * Z - W * Y);
-    m[0][3] = 0.0;
+    m[0][0]  = 1 - 2 * (y2 + z2);
+    m[0][1]  = 2 * (X * Y + W * Z);
+    m[0][2]  = 2 * (X * Z - W * Y);
+    m[0][3]  = 0.0;
 
-    m[1][0] = 2 * (X * Y - W * Z);
-    m[1][1] = 1 - 2 * (x2 + z2);
-    m[1][2] = 2 * (Y * Z + W * X);
-    m[1][3] = 0.0;
+    m[1][0]  = 2 * (X * Y - W * Z);
+    m[1][1]  = 1 - 2 * (x2 + z2);
+    m[1][2]  = 2 * (Y * Z + W * X);
+    m[1][3]  = 0.0;
 
-    m[2][0] = 2 * (X * Z + W * Y);
-    m[2][1] = 2 * (Y * Z - W * X);
-    m[2][2] = 1 - 2 * (x2 + y2);
-    m[2][3] = 0.0;
+    m[2][0]  = 2 * (X * Z + W * Y);
+    m[2][1]  = 2 * (Y * Z - W * X);
+    m[2][2]  = 1 - 2 * (x2 + y2);
+    m[2][3]  = 0.0;
 
-    m[3][3] = 1.0;
+    m[3][3]  = 1.0;
 }
 
 void matrixtoq(Quaternion q, Matrix m)

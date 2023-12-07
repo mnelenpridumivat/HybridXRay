@@ -8,13 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                                  \
-    template<                                                                                                    \
-        typename _Graph, typename _DataStorage, typename _Parameters, typename _dist_type, typename _index_type, \
-        typename _iteration_type>
+#define TEMPLATE_SPECIALIZATION template<typename _Graph, typename _DataStorage, typename _Parameters, typename _dist_type, typename _index_type, typename _iteration_type>
 
-#define CGenericPathManager \
-    CPathManagerGeneric<_Graph, _DataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
+#define CGenericPathManager     CPathManagerGeneric<_Graph, _DataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
 
 TEMPLATE_SPECIALIZATION
 IC CGenericPathManager::CPathManagerGeneric()
@@ -31,13 +27,7 @@ TEMPLATE_SPECIALIZATION
 IC void CGenericPathManager::init() {}
 
 TEMPLATE_SPECIALIZATION
-IC void CGenericPathManager::setup(
-    const _Graph*           _graph,
-    _DataStorage*           _data_storage,
-    xr_vector<_index_type>* _path,
-    const _index_type&      _start_node_index,
-    const _index_type&      _goal_node_index,
-    const _Parameters&      params)
+IC void CGenericPathManager::setup(const _Graph* _graph, _DataStorage* _data_storage, xr_vector<_index_type>* _path, const _index_type& _start_node_index, const _index_type& _goal_node_index, const _Parameters& params)
 {
     graph                  = _graph;
     data_storage           = _data_storage;
@@ -50,10 +40,7 @@ IC void CGenericPathManager::setup(
 }
 
 TEMPLATE_SPECIALIZATION
-IC _dist_type CGenericPathManager::evaluate(
-    const _index_type&    node_index1,
-    const _index_type&    node_index2,
-    const const_iterator& i) const
+IC _dist_type CGenericPathManager::evaluate(const _index_type& node_index1, const _index_type& node_index2, const const_iterator& i) const
 {
     VERIFY(graph);
     return (graph->get_edge_weight(node_index1, node_index2, i));
@@ -105,9 +92,7 @@ TEMPLATE_SPECIALIZATION
 IC bool CGenericPathManager::is_limit_reached(const _iteration_type iteration_count) const
 {
     VERIFY(data_storage);
-    return (
-        (data_storage->get_best().f() >= max_range) || (iteration_count >= max_iteration_count) ||
-        (data_storage->get_visited_node_count() >= max_visited_node_count));
+    return ((data_storage->get_best().f() >= max_range) || (iteration_count >= max_iteration_count) || (data_storage->get_visited_node_count() >= max_visited_node_count));
 }
 
 TEMPLATE_SPECIALIZATION

@@ -19,10 +19,10 @@ private:
 
     static SEnertionState m_etable[::clbNoState][::clbNoState];
 
-    IClimableObject* m_ladder;
-    CPHCharacter*    m_character;
-    Fvector          m_start_position;   // for depart state
-    u32              m_start_time;
+    IClimableObject*      m_ladder;
+    CPHCharacter*         m_character;
+    Fvector               m_start_position;   // for depart state
+    u32                   m_start_time;
 
 public:
     CElevatorState();

@@ -34,10 +34,7 @@ void CStalkerDeathPlanner::setup(CAI_Stalker* object, CPropertyStorage* storage)
 void CStalkerDeathPlanner::add_evaluators()
 {
     add_evaluator(eWorldPropertyPuzzleSolved, xr_new<CStalkerPropertyEvaluatorConst>(false, "resurrecting"));
-    add_evaluator(
-        eWorldPropertyDead,
-        xr_new<CStalkerPropertyEvaluatorMember>(
-            (CPropertyStorage*)0, eWorldPropertyDead, true, true, "completely dead"));
+    add_evaluator(eWorldPropertyDead, xr_new<CStalkerPropertyEvaluatorMember>((CPropertyStorage*)0, eWorldPropertyDead, true, true, "completely dead"));
 }
 
 void CStalkerDeathPlanner::add_actions()

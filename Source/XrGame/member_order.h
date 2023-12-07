@@ -27,7 +27,7 @@ public:
         u32          m_time;
         bool         m_processing;
 
-        IC CMemberDeathReaction()
+        IC           CMemberDeathReaction()
         {
             clear();
         }
@@ -47,7 +47,7 @@ public:
         u32                m_time;
         bool               m_processing;
 
-        IC CGrenadeReaction()
+        IC                 CGrenadeReaction()
         {
             clear();
         }

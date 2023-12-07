@@ -60,32 +60,32 @@ private:
     */
 
     // Data and logic
-    xr_vector<Item> items;
-    States          state;
+    xr_vector<Item>         items;
+    States                  state;
 
     // Particles
-    xr_vector<Particle> particle_pool;
-    Particle*           particle_active;
-    Particle*           particle_idle;
+    xr_vector<Particle>     particle_pool;
+    Particle*               particle_active;
+    Particle*               particle_idle;
 
     // Sounds
-    ref_sound snd_Ambient;
+    ref_sound               snd_Ambient;
 
     // Utilities
-    void p_create();
-    void p_destroy();
+    void                    p_create();
+    void                    p_destroy();
 
-    void      p_remove(Particle* P, Particle*& LST);
-    void      p_insert(Particle* P, Particle*& LST);
-    int       p_size(Particle* LST);
-    Particle* p_allocate();
-    void      p_free(Particle* P);
+    void                    p_remove(Particle* P, Particle*& LST);
+    void                    p_insert(Particle* P, Particle*& LST);
+    int                     p_size(Particle* LST);
+    Particle*               p_allocate();
+    void                    p_free(Particle* P);
 
     // Some methods
-    void Born(Item& dest, float radius);
-    void Hit(Fvector& pos);
-    BOOL RayPick(const Fvector& s, const Fvector& d, float& range, collide::rq_target tgt);
-    void RenewItem(Item& dest, float height, BOOL bHit);
+    void                    Born(Item& dest, float radius);
+    void                    Hit(Fvector& pos);
+    BOOL                    RayPick(const Fvector& s, const Fvector& d, float& range, collide::rq_target tgt);
+    void                    RenewItem(Item& dest, float height, BOOL bHit);
 
 public:
     CEffect_Rain();

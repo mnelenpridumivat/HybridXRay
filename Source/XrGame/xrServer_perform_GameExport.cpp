@@ -11,10 +11,10 @@ void xrServer::Perform_game_export()
         void operator()(IClient* client)
         {
             R_ASSERT(server_ptr);
-            NET_Packet P;
-            u32        mode = net_flags(TRUE, TRUE);
+            NET_Packet    P;
+            u32           mode = net_flags(TRUE, TRUE);
 
-            xrClientData* CL = (xrClientData*)client;
+            xrClientData* CL   = (xrClientData*)client;
             if (!CL->net_Accepted)
                 return;
             P.w_begin(M_SV_CONFIG_GAME);

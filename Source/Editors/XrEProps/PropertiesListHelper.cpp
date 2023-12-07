@@ -187,8 +187,8 @@ GameTypeValue* CPropHelper::CreateGameType(PropItemVec& items, shared_str key, G
 //---------------------------------------------------------------------------
 ChooseValue* CPropHelper::CreateChoose(PropItemVec& items, shared_str key, shared_str* val, u32 mode, LPCSTR path, void* fill_param, u32 sub_item_count, u32 choose_flags)
 {
-    ChooseValue* cv = (ChooseValue*)AppendValue(items, key, xr_new<ChooseValue>(val, mode, path, fill_param, sub_item_count, choose_flags), PROP_CHOOSE);
-    SChooseEvents* E = UIChooseForm::GetEvents(mode);
+    ChooseValue*   cv = (ChooseValue*)AppendValue(items, key, xr_new<ChooseValue>(val, mode, path, fill_param, sub_item_count, choose_flags), PROP_CHOOSE);
+    SChooseEvents* E  = UIChooseForm::GetEvents(mode);
     /*if (E&&!E->on_thm.empty()){
         cv->Owner()->m_Flags.set(PropItem::flDrawThumbnail,TRUE);
      //	cv->OnDrawThumbnailEvent = E->on_thm;

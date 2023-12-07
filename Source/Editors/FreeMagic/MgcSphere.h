@@ -26,8 +26,8 @@ namespace Mgc
         Vector3&       Center();
         const Vector3& Center() const;
 
-        Real&       Radius();
-        const Real& Radius() const;
+        Real&          Radius();
+        const Real&    Radius() const;
 
     protected:
         Vector3 m_kCenter;

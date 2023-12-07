@@ -16,21 +16,21 @@ private:
     xr_vector<CObject*> m_nearest;
 
 public:
-    static bool can_scan;
+    static bool          can_scan;
 
-    u32 last_hit_frame;
-    u32 time_last_scan;
+    u32                  last_hit_frame;
+    u32                  time_last_scan;
 
     typedef CTelekinesis TTelekinesis;
 
     struct GraviObject
     {
-        bool    active;
-        Fvector cur_pos;
-        Fvector target_pos;
-        Fvector from_pos;
+        bool                active;
+        Fvector             cur_pos;
+        Fvector             target_pos;
+        Fvector             from_pos;
 
-        u32 time_last_update;
+        u32                 time_last_update;
 
         const CEntityAlive* enemy;
 
@@ -57,9 +57,9 @@ public:
 
     } m_gravi_object;
 
-    LPCSTR particle_gravi_wave;
-    LPCSTR particle_gravi_prepare;
-    LPCSTR particle_tele_object;
+    LPCSTR    particle_gravi_wave;
+    LPCSTR    particle_gravi_prepare;
+    LPCSTR    particle_tele_object;
 
     //////////////////////////////////////////////////////////////////////////
     // Sounds
@@ -71,7 +71,7 @@ public:
 
     enum EBurerSounds
     {
-        eAdditionalSounds = MonsterSound::eMonsterSoundCustom,
+        eAdditionalSounds        = MonsterSound::eMonsterSoundCustom,
 
         eMonsterSoundGraviAttack = eAdditionalSounds | 0,
         eMonsterSoundTeleAttack  = eAdditionalSounds | 1,
@@ -93,32 +93,32 @@ public:
 
     } m_gravi;
 
-    u32   m_tele_max_handled_objects;
-    u32   m_tele_time_to_hold;
-    u32   m_tele_max_time;
-    float m_tele_object_min_mass;
-    float m_tele_object_max_mass;
-    float m_tele_find_radius;
-    float m_tele_min_distance;
-    float m_tele_max_distance;
-    float m_tele_raise_speed;
-    float m_tele_fly_velocity;
-    float m_tele_object_height;
+    u32              m_tele_max_handled_objects;
+    u32              m_tele_time_to_hold;
+    u32              m_tele_max_time;
+    float            m_tele_object_min_mass;
+    float            m_tele_object_max_mass;
+    float            m_tele_find_radius;
+    float            m_tele_min_distance;
+    float            m_tele_max_distance;
+    float            m_tele_raise_speed;
+    float            m_tele_fly_velocity;
+    float            m_tele_object_height;
 
-    float m_weight_to_stamina_hit;
-    float m_weapon_drop_stamina_k;
-    float m_runaway_distance;
-    float m_normal_distance;
-    TTime m_max_runaway_time;
+    float            m_weight_to_stamina_hit;
+    float            m_weapon_drop_stamina_k;
+    float            m_runaway_distance;
+    float            m_normal_distance;
+    TTime            m_max_runaway_time;
 
-    float m_weapon_drop_velocity;
+    float            m_weapon_drop_velocity;
 
-    TTime  m_shield_cooldown;
-    TTime  m_shield_time;
-    bool   m_shield_active;
-    LPCSTR m_shield_keep_particle;
-    TTime  m_shield_keep_particle_period;
-    LPCSTR particle_fire_shield;
+    TTime            m_shield_cooldown;
+    TTime            m_shield_time;
+    bool             m_shield_active;
+    LPCSTR           m_shield_keep_particle;
+    TTime            m_shield_keep_particle_period;
+    LPCSTR           particle_fire_shield;
 
     CBurerFastGravi* m_fast_gravi;
 
@@ -141,18 +141,18 @@ public:
     void         ProcessTurn();
     virtual void CheckSpecParams(u32 spec_params);
 
-    void UpdateGraviObject();
+    void         UpdateGraviObject();
 
-    void StartGraviPrepare();
-    void StopGraviPrepare();
+    void         StartGraviPrepare();
+    void         StopGraviPrepare();
 
-    void StartTeleObjectParticle(CGameObject* pO);
-    void StopTeleObjectParticle(CGameObject* pO);
+    void         StartTeleObjectParticle(CGameObject* pO);
+    void         StopTeleObjectParticle(CGameObject* pO);
 
-    void ActivateShield();
-    void DeactivateShield();
+    void         ActivateShield();
+    void         DeactivateShield();
 
-    bool need_shotmark() const
+    bool         need_shotmark() const
     {
         return !m_shield_active;
     }

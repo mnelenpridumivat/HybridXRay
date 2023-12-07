@@ -173,15 +173,11 @@ void CSE_SmartCover::FillProps(LPCSTR pref, PropItemVec& items)
 {
 #ifdef XRSEFACTORY_EXPORTS
     PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "hold position time"), &m_hold_position_time, 0.f, 60.f);
-    RListValue* value = PHelper().CreateRList(
-        items, PrepareKey(pref, *s_name, "description"), &m_description, &*fp_data.smart_covers.begin(),
-        fp_data.smart_covers.size());
+    RListValue* value = PHelper().CreateRList(items, PrepareKey(pref, *s_name, "description"), &m_description, &*fp_data.smart_covers.begin(), fp_data.smart_covers.size());
     value->OnChangeEvent.bind(this, &CSE_SmartCover::OnChangeDescription);
 
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "enter min enemy distance"), &m_enter_min_enemy_distance, 0.f, 100.f);
-    PHelper().CreateFloat(
-        items, PrepareKey(pref, *s_name, "exit min enemy distance"), &m_exit_min_enemy_distance, 0.f, 100.f);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "enter min enemy distance"), &m_enter_min_enemy_distance, 0.f, 100.f);
+    PHelper().CreateFloat(items, PrepareKey(pref, *s_name, "exit min enemy distance"), &m_exit_min_enemy_distance, 0.f, 100.f);
 
     if (is_combat_cover(m_description))
     {
@@ -227,11 +223,7 @@ Fvector parse_fvector(luabind::object const& table, LPCSTR identifier)
     return (luabind::object_cast<Fvector>(result));
 }
 
-float parse_float(
-    luabind::object const& table,
-    LPCSTR                 identifier,
-    float const&           min_threshold = flt_min,
-    float const&           max_threshold = flt_max)
+float parse_float(luabind::object const& table, LPCSTR identifier, float const& min_threshold = flt_min, float const& max_threshold = flt_max)
 {
     VERIFY2(table.type() == LUA_TTABLE, "invalid loophole description passed");
     luabind::object lua_result = table[identifier];
@@ -280,7 +272,7 @@ void CSE_SmartCover::set_enterable(shared_str const& id)
         shared_str m_id;
 
     public:
-        IC id_predicate(shared_str const& id): m_id(id) {}
+        IC      id_predicate(shared_str const& id): m_id(id) {}
 
         IC bool operator()(SSCDrawHelper const& h) const
         {
@@ -555,13 +547,7 @@ void CSE_SmartCover::load_draw_data()
     fill_visuals();
 }
 
-void CSE_SmartCover::on_render(
-    CDUInterface*        du,
-    ISE_AbstractLEOwner* owner,
-    bool                 bSelected,
-    const Fmatrix&       parent,
-    int                  priority,
-    bool                 strictB2F)
+void CSE_SmartCover::on_render(CDUInterface* du, ISE_AbstractLEOwner* owner, bool bSelected, const Fmatrix& parent, int priority, bool strictB2F)
 {
     inherited1::on_render(du, owner, bSelected, parent, priority, strictB2F);
     if (!((1 == priority) && (false == strictB2F)))

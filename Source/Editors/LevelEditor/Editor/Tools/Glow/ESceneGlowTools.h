@@ -35,7 +35,7 @@ public:
         return 20;
     }
 
-    void FillProp(LPCSTR pref, PropItemVec& items);
+    void         FillProp(LPCSTR pref, PropItemVec& items);
 
     virtual void Clear(bool bSpecific = false)
     {
@@ -47,12 +47,12 @@ public:
     {
         return true;
     }
-    virtual bool LoadStream(IReader&);
-    virtual bool LoadLTX(CInifile&);
-    virtual void SaveStream(IWriter&);
-    virtual void SaveLTX(CInifile&, int id);
-    virtual bool LoadSelection(IReader&);
-    virtual void SaveSelection(IWriter&);
+    virtual bool           LoadStream(IReader&);
+    virtual bool           LoadLTX(CInifile&);
+    virtual void           SaveStream(IWriter&);
+    virtual void           SaveLTX(CInifile&, int id);
+    virtual bool           LoadSelection(IReader&);
+    virtual void           SaveSelection(IWriter&);
 
     virtual CCustomObject* CreateObject(LPVOID data, LPCSTR name);
 };

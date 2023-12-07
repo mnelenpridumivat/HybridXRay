@@ -47,8 +47,7 @@ void CThreadManager::wait(u32 sleep_time)
             xr_strcat(perf, P);
         }
         if (threads[0]->thMonitor)
-        {
-        }
+        {}
         if (sumComplete == threads.size())
             break;
     }

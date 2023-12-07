@@ -48,24 +48,24 @@ public:
     WMVec  pool;
 
 private:
-    ref_geom hGeom;
+    ref_geom       hGeom;
 
-    Fvector  sml_normal;
-    CFrustum sml_clipper;
-    sPoly    sml_poly_dest;
-    sPoly    sml_poly_src;
+    Fvector        sml_normal;
+    CFrustum       sml_clipper;
+    sPoly          sml_poly_dest;
+    sPoly          sml_poly_src;
 
     CDB::Collector sml_collector;
     xr_vector<u32> sml_adjacency;
 
-    wm_slot* FindSlot(shared_str sh_name, shared_str tx_name);
-    wm_slot* AppendSlot(shared_str sh_name, shared_str tx_name);
+    wm_slot*       FindSlot(shared_str sh_name, shared_str tx_name);
+    wm_slot*       AppendSlot(shared_str sh_name, shared_str tx_name);
 
-    void RecurseTri(u32 t, Fmatrix& mView, wallmark& W);
-    void BuildMatrix(Fmatrix& mView, float inv_w, float inv_h, float angle, const Fvector& from);
-    BOOL AddWallmark_internal(const Fvector& S, const Fvector& D, shared_str s, shared_str t, float w, float h, float r);
+    void           RecurseTri(u32 t, Fmatrix& mView, wallmark& W);
+    void           BuildMatrix(Fmatrix& mView, float inv_w, float inv_h, float angle, const Fvector& from);
+    BOOL           AddWallmark_internal(const Fvector& S, const Fvector& D, shared_str s, shared_str t, float w, float h, float r);
 
-    void RefiningSlots();
+    void           RefiningSlots();
 
 private:
     wallmark* wm_allocate();
@@ -82,7 +82,7 @@ public:
         flDrawWallmark = (1 << 0),
         flAxisAlign    = (1 << 1)
     };
-    Flags32 m_Flags;
+    Flags32    m_Flags;
 
     float      m_MarkWidth;
     float      m_MarkHeight;
@@ -90,7 +90,7 @@ public:
     shared_str m_ShName;
     shared_str m_TxName;
 
-    int ObjectCount();
+    int        ObjectCount();
 
 public:
     ESceneWallmarkTool();
@@ -124,7 +124,7 @@ public:
     virtual void Clear(bool bOnlyNodes = false);
 
     // definition
-    IC LPCSTR ClassName()
+    IC LPCSTR    ClassName()
     {
         return "wallmark";
     }

@@ -8,15 +8,7 @@
 
 #pragma once
 
-IC CTradeParameters::CTradeParameters(const shared_str& section):
-    m_buy(CTradeFactors(
-        pSettings->r_float(section, "buy_price_factor_hostile"),
-        pSettings->r_float(section, "buy_price_factor_friendly"))),
-    m_sell(CTradeFactors(
-        pSettings->r_float(section, "sell_price_factor_hostile"),
-        pSettings->r_float(section, "sell_price_factor_friendly")))
-{
-}
+IC      CTradeParameters::CTradeParameters(const shared_str& section): m_buy(CTradeFactors(pSettings->r_float(section, "buy_price_factor_hostile"), pSettings->r_float(section, "buy_price_factor_friendly"))), m_sell(CTradeFactors(pSettings->r_float(section, "sell_price_factor_hostile"), pSettings->r_float(section, "sell_price_factor_friendly"))) {}
 
 IC void CTradeParameters::clear()
 {
@@ -73,7 +65,7 @@ IC CTradeBoolParameters& CTradeParameters::action(action_show)
     return (m_show);
 }
 
-template <typename _action_type> IC bool CTradeParameters::enabled(_action_type type, const shared_str& section) const
+template<typename _action_type> IC bool CTradeParameters::enabled(_action_type type, const shared_str& section) const
 {
     if (action(type).disabled(section))
         return (false);
@@ -84,8 +76,7 @@ template <typename _action_type> IC bool CTradeParameters::enabled(_action_type 
     return (true);
 }
 
-template <typename _action_type>
-IC const CTradeFactors& CTradeParameters::factors(_action_type type, const shared_str& section) const
+template<typename _action_type> IC const CTradeFactors& CTradeParameters::factors(_action_type type, const shared_str& section) const
 {
     VERIFY(enabled(type, section));
 
@@ -98,8 +89,7 @@ IC const CTradeFactors& CTradeParameters::factors(_action_type type, const share
     return (action(type).default_factors());
 }
 
-template <typename _action_type>
-IC void CTradeParameters::process(_action_type type, CInifile& ini_file, const shared_str& section)
+template<typename _action_type> IC void CTradeParameters::process(_action_type type, CInifile& ini_file, const shared_str& section)
 {
     R_ASSERT2(ini_file.section_exist(section), make_string("cannot find section %s", *section));
 
@@ -119,15 +109,11 @@ IC void CTradeParameters::process(_action_type type, CInifile& ini_file, const s
 
         string256 temp0, temp1;
         THROW3(_GetItemCount(*(*I).second) == 2, "Invalid parameters in section", *section);
-        _action.enable(
-            (*I).first,
-            CTradeFactors(
-                (float)atof(_GetItem(*(*I).second, 0, temp0)), (float)atof(_GetItem(*(*I).second, 1, temp1))));
+        _action.enable((*I).first, CTradeFactors((float)atof(_GetItem(*(*I).second, 0, temp0)), (float)atof(_GetItem(*(*I).second, 1, temp1))));
     }
 }
 
-template <typename _action_type>
-IC void CTradeParameters::default_factors(_action_type type, const CTradeFactors& trade_factors)
+template<typename _action_type> IC void CTradeParameters::default_factors(_action_type type, const CTradeFactors& trade_factors)
 {
     action(type).default_factors(trade_factors);
 }

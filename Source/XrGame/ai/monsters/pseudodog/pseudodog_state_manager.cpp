@@ -22,8 +22,7 @@ CStateManagerPseudodog::CStateManagerPseudodog(CAI_PseudoDog* monster): inherite
     add_state(eStateRest, xr_new<CStateMonsterRest<CAI_PseudoDog>>(monster));
     add_state(eStatePanic, xr_new<CStateMonsterPanic<CAI_PseudoDog>>(monster));
 
-    CStateMonsterAttackMoveToHomePoint<CAI_PseudoDog>* move2home =
-        xr_new<CStateMonsterAttackMoveToHomePoint<CAI_PseudoDog>>(monster);
+    CStateMonsterAttackMoveToHomePoint<CAI_PseudoDog>* move2home = xr_new<CStateMonsterAttackMoveToHomePoint<CAI_PseudoDog>>(monster);
 
     add_state(eStateAttack, xr_new<CStateMonsterAttack<CAI_PseudoDog>>(monster, move2home));
 
@@ -33,14 +32,14 @@ CStateManagerPseudodog::CStateManagerPseudodog(CAI_PseudoDog* monster): inherite
     add_state(eStateHitted, xr_new<CStateMonsterHitted<CAI_PseudoDog>>(monster));
 }
 
-#define MIN_ANGRY_TIME 10000
+#define MIN_ANGRY_TIME    10000
 #define MAX_GROWLING_TIME 20000
 
 void CStateManagerPseudodog::execute()
 {
-    u32 state_id = u32(-1);
+    u32                 state_id = u32(-1);
 
-    const CEntityAlive* enemy = object->EnemyMan.get_enemy();
+    const CEntityAlive* enemy    = object->EnemyMan.get_enemy();
 
     if (enemy)
     {

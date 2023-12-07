@@ -24,11 +24,7 @@ IC smart_cover::storage* CCoverManager::smart_covers_storage() const
     return m_smart_covers_storage;
 }
 
-template <typename _evaluator_type, typename _restrictor_type> IC bool CCoverManager::inertia(
-    Fvector const&          position,
-    float                   radius,
-    _evaluator_type&        evaluator,
-    const _restrictor_type& restrictor) const
+template<typename _evaluator_type, typename _restrictor_type> IC bool CCoverManager::inertia(Fvector const& position, float radius, _evaluator_type& evaluator, const _restrictor_type& restrictor) const
 {
     // check if evaluator has no inertion or it's time to reevaluate
     if (!evaluator.inertia(position, radius))
@@ -60,11 +56,7 @@ template <typename _evaluator_type, typename _restrictor_type> IC bool CCoverMan
     return (true);
 }
 
-template <typename _evaluator_type, typename _restrictor_type> IC const CCoverPoint* CCoverManager::best_cover(
-    const Fvector&          position,
-    float                   radius,
-    _evaluator_type&        evaluator,
-    const _restrictor_type& restrictor) const
+template<typename _evaluator_type, typename _restrictor_type> IC const CCoverPoint* CCoverManager::best_cover(const Fvector& position, float radius, _evaluator_type& evaluator, const _restrictor_type& restrictor) const
 {
     START_PROFILE("Covers/best_cover")
 
@@ -87,10 +79,10 @@ template <typename _evaluator_type, typename _restrictor_type> IC const CCoverPo
 
     covers().nearest(position, radius, m_nearest);
 
-    float radius_sqr = _sqr(radius);
+    float                                   radius_sqr = _sqr(radius);
 
-    xr_vector<CCoverPoint*>::const_iterator I = m_nearest.begin();
-    xr_vector<CCoverPoint*>::const_iterator E = m_nearest.end();
+    xr_vector<CCoverPoint*>::const_iterator I          = m_nearest.begin();
+    xr_vector<CCoverPoint*>::const_iterator E          = m_nearest.end();
     for (; I != E; ++I)
     {
         if (radius_sqr < position.distance_to_sqr((*I)->position()))
@@ -117,8 +109,7 @@ template <typename _evaluator_type, typename _restrictor_type> IC const CCoverPo
     STOP_PROFILE
 }
 
-template <typename _evaluator_type>
-IC const CCoverPoint* CCoverManager::best_cover(const Fvector& position, float radius, _evaluator_type& evaluator) const
+template<typename _evaluator_type> IC const CCoverPoint* CCoverManager::best_cover(const Fvector& position, float radius, _evaluator_type& evaluator) const
 {
     return (best_cover<_evaluator_type, CCoverManager>(position, radius, evaluator, *this));
 }

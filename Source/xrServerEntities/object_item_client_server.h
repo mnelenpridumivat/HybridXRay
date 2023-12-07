@@ -21,6 +21,7 @@ protected:
     typedef CObjectItemAbstract inherited;
     typedef _client_type        CLIENT_TYPE;
     typedef _server_type        SERVER_TYPE;
+
 public:
     IC CObjectItemClientServer(const CLASS_ID& clsid, LPCSTR script_clsid);
 #ifndef NO_XR_GAME
@@ -30,14 +31,10 @@ public:
 };
 
 #ifndef NO_XR_GAME
-template<
-    typename _client_type_single,
-    typename _client_type_mp,
-    typename _server_type_single,
-    typename _server_type_mp>
-class CObjectItemClientServerSingleMp: public CObjectItemAbstract
+template<typename _client_type_single, typename _client_type_mp, typename _server_type_single, typename _server_type_mp> class CObjectItemClientServerSingleMp: public CObjectItemAbstract
 {
     typedef CObjectItemAbstract inherited;
+
 public:
     IC                                        CObjectItemClientServerSingleMp(const CLASS_ID& clsid, LPCSTR script_clsid);
     virtual ObjectFactory::CLIENT_BASE_CLASS* client_object() const;

@@ -17,8 +17,7 @@
 #include "opt_inline.lua.h"
 #endif   // #ifndef DEBUG
 
-LPCSTR file_header_old =
-    "\
+LPCSTR file_header_old = "\
 local function script_name() \
 return \"%s\" \
 end \
@@ -28,8 +27,7 @@ setmetatable(this, {__index = _G}) \
 setfenv(1, this) \
 		";
 
-LPCSTR file_header_new =
-    "\
+LPCSTR file_header_new = "\
 local function script_name() \
 return \"%s\" \
 end \
@@ -39,7 +37,7 @@ this._G = _G \
 setfenv(1, this) \
 		";
 
-LPCSTR file_header = 0;
+LPCSTR file_header     = 0;
 
 #ifndef ENGINE_BUILD
 #include "script_engine.h"
@@ -83,7 +81,7 @@ static void* lua_alloc(void* ud, void* ptr, size_t osize, size_t nsize)
         return Memory.mem_realloc(ptr, nsize);
 #endif   // DEBUG_MEMORY_MANAGER
 }
-#else    // USE_DL_ALLOCATOR
+#else   // USE_DL_ALLOCATOR
 
 #include "../xrCore/memory_allocator_options.h"
 
@@ -95,7 +93,7 @@ static doug_lea_allocator s_allocator(s_fake_array, s_arena_size, "lua");
 static doug_lea_allocator s_allocator(0, 0, "lua");
 #endif   // #ifdef USE_ARENA_ALLOCATOR
 
-static void*              lua_alloc(void* ud, void* ptr, size_t osize, size_t nsize)
+static void* lua_alloc(void* ud, void* ptr, size_t osize, size_t nsize)
 {
 #ifndef USE_MEMORY_MONITOR
     (void)ud;
@@ -138,10 +136,7 @@ u32 game_lua_memory_usage()
 }
 #endif   // USE_DL_ALLOCATOR
 
-static LPVOID __cdecl luabind_allocator(
-    luabind::memory_allocation_function_parameter const,
-    void const* const pointer,
-    size_t const      size)
+static LPVOID __cdecl luabind_allocator(luabind::memory_allocation_function_parameter const, void const* const pointer, size_t const size)
 {
     if (!size)
     {
@@ -221,7 +216,7 @@ static int dojitcmd(lua_State* L, const char* cmd)
     lua_pushlstring(L, cmd, val ? val - cmd : xr_strlen(cmd));
     lua_getglobal(L, "jit"); /* get jit.* table */
     lua_pushvalue(L, -2);
-    lua_gettable(L, -2);     /* lookup library function */
+    lua_gettable(L, -2); /* lookup library function */
     if (!lua_isfunction(L, -1))
     {
         lua_pop(L, 2); /* drop non-function and jit.* table, keep module name */
@@ -232,7 +227,7 @@ static int dojitcmd(lua_State* L, const char* cmd)
     {
         lua_remove(L, -2); /* drop jit.* table */
     }
-    lua_remove(L, -2);     /* drop module name */
+    lua_remove(L, -2); /* drop module name */
     if (val)
         lua_pushstring(L, val + 1);
     return report(L, lua_pcall(L, val ? 1 : 0, 0, 0));
@@ -360,7 +355,7 @@ int CScriptStorage::vscript_log(ScriptStorage::ELuaMessageType tLuaMessageType, 
 
 #ifndef PRINT_CALL_STACK
     return (0);
-#else    // #ifdef PRINT_CALL_STACK
+#else   // #ifdef PRINT_CALL_STACK
 #ifndef NO_XRGAME_SCRIPT_ENGINE
     if (!psAI_Flags.test(aiLua) && (tLuaMessageType != ScriptStorage::eLuaMessageTypeError))
         return (0);
@@ -459,15 +454,11 @@ void CScriptStorage::print_stack()
     {
         lua_getinfo(L, "nSlu", &l_tDebugInfo);
         if (!l_tDebugInfo.name)
-            script_log(
-                ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", i, l_tDebugInfo.what,
-                l_tDebugInfo.short_src, l_tDebugInfo.currentline, "");
+            script_log(ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", i, l_tDebugInfo.what, l_tDebugInfo.short_src, l_tDebugInfo.currentline, "");
         else if (!xr_strcmp(l_tDebugInfo.what, "C"))
             script_log(ScriptStorage::eLuaMessageTypeError, "%2d : [C  ] %s", i, l_tDebugInfo.name);
         else
-            script_log(
-                ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", i, l_tDebugInfo.what,
-                l_tDebugInfo.short_src, l_tDebugInfo.currentline, l_tDebugInfo.name);
+            script_log(ScriptStorage::eLuaMessageTypeError, "%2d : [%s] %s(%d) : %s", i, l_tDebugInfo.what, l_tDebugInfo.short_src, l_tDebugInfo.currentline, l_tDebugInfo.name);
     }
 }
 #endif   // #ifdef PRINT_CALL_STACK
@@ -528,12 +519,7 @@ bool CScriptStorage::parse_namespace(LPCSTR caNamespaceName, LPSTR b, u32 const 
     return (true);
 }
 
-bool CScriptStorage::load_buffer(
-    lua_State* L,
-    LPCSTR     caBuffer,
-    size_t     tSize,
-    LPCSTR     caScriptName,
-    LPCSTR     caNameSpaceName)
+bool CScriptStorage::load_buffer(lua_State* L, LPCSTR caBuffer, size_t tSize, LPCSTR caScriptName, LPCSTR caNameSpaceName)
 {
     int l_iErrorCode;
     if (caNameSpaceName && xr_strcmp("_G", caNameSpaceName))
@@ -572,7 +558,7 @@ bool CScriptStorage::load_buffer(
 #ifdef DEBUG
             script = (LPSTR)Memory.mem_alloc(total_size, "lua script file (after exception)");
 #else    // #ifdef DEBUG
-            script                            = (LPSTR)Memory.mem_alloc(total_size);
+            script = (LPSTR)Memory.mem_alloc(total_size);
 #endif   // #ifdef DEBUG
             dynamic_allocation = true;
         };
@@ -619,9 +605,7 @@ bool CScriptStorage::do_file(LPCSTR caScriptName, LPCSTR caNameSpaceName)
     }
     strconcat(sizeof(l_caLuaFileName), l_caLuaFileName, "@", caScriptName);
 
-    if (!load_buffer(
-            lua(), static_cast<LPCSTR>(l_tpFileReader->pointer()), (size_t)l_tpFileReader->length(), l_caLuaFileName,
-            caNameSpaceName))
+    if (!load_buffer(lua(), static_cast<LPCSTR>(l_tpFileReader->pointer()), (size_t)l_tpFileReader->length(), l_caLuaFileName, caNameSpaceName))
     {
         //		VERIFY		(lua_gettop(lua()) >= 4);
         //		lua_pop		(lua(),4);
@@ -798,10 +782,7 @@ struct raii_guard: private boost::noncopyable
 {
     int           m_error_code;
     LPCSTR const& m_error_description;
-    raii_guard(int error_code, LPCSTR const& m_description):
-        m_error_code(error_code), m_error_description(m_description)
-    {
-    }
+    raii_guard(int error_code, LPCSTR const& m_description): m_error_code(error_code), m_error_description(m_description) {}
     ~raii_guard()
     {
 #ifdef DEBUG

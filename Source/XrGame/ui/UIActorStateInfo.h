@@ -51,9 +51,9 @@ private:
 public:
     ui_actor_state_wnd();
     virtual ~ui_actor_state_wnd();
-    void init_from_xml(CUIXml& xml, LPCSTR path);
-    void UpdateActorInfo(CInventoryOwner* owner);
-    void UpdateHitZone();
+    void         init_from_xml(CUIXml& xml, LPCSTR path);
+    void         UpdateActorInfo(CInventoryOwner* owner);
+    void         UpdateHitZone();
 
     virtual void Draw();
     virtual void Show(bool status);

@@ -6,7 +6,7 @@
 #include "../../../cover_point.h"
 #include "../monster_cover_manager.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION       template<typename _Object>
 
 #define CStateMonsterRestIdleAbstract CStateMonsterRestIdle<_Object>
 
@@ -23,7 +23,7 @@ void CStateMonsterRestIdleAbstract::initialize()
 {
     inherited::initialize();
 
-    m_target_node = u32(-1);
+    m_target_node            = u32(-1);
 
     // try to get cover
     const CCoverPoint* point = object->CoverMan->find_cover(object->Position(), 5.f, 10.f);
@@ -34,7 +34,7 @@ void CStateMonsterRestIdleAbstract::initialize()
             return;
     }
 
-    m_target_node = point->level_vertex_id();
+    m_target_node        = point->level_vertex_id();
 
     CMonsterSquad* squad = monster_squad().get_squad(object);
     squad->lock_cover(m_target_node);
@@ -104,7 +104,7 @@ void CStateMonsterRestIdleAbstract::setup_substates()
     {
         SStateDataLookToPoint data;
 
-        Fvector dir;
+        Fvector               dir;
         object->CoverMan->less_cover_direction(dir);
 
         data.point.mad(object->Position(), dir, 10.f);

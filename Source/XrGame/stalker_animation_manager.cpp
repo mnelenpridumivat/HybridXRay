@@ -22,22 +22,18 @@
 //    * globals
 //    * script
 
-CStalkerAnimationManager::CStalkerAnimationManager(CAI_Stalker* object):
-    m_object(object), m_global(object), m_head(object), m_torso(object), m_legs(object), m_script(object),
-    m_start_new_script_animation(false)
-{
-}
+CStalkerAnimationManager::CStalkerAnimationManager(CAI_Stalker* object): m_object(object), m_global(object), m_head(object), m_torso(object), m_legs(object), m_script(object), m_start_new_script_animation(false) {}
 
 void CStalkerAnimationManager::reinit()
 {
-    m_direction_start   = 0;
-    m_current_direction = eMovementDirectionForward;
-    m_target_direction  = eMovementDirectionForward;
+    m_direction_start       = 0;
+    m_current_direction     = eMovementDirectionForward;
+    m_target_direction      = eMovementDirectionForward;
 
     m_change_direction_time = 0;
     m_looking_back          = 0;
 
-    m_no_move_actual = false;
+    m_no_move_actual        = false;
 
     m_script_animations.clear();
 
@@ -56,16 +52,16 @@ void CStalkerAnimationManager::reinit()
 
     m_call_script_callback = false;
 
-    m_previous_speed      = 0.f;
-    m_target_speed        = 0.f;
-    m_last_non_zero_speed = m_target_speed;
+    m_previous_speed       = 0.f;
+    m_target_speed         = 0.f;
+    m_last_non_zero_speed  = m_target_speed;
 
-    m_special_danger_move = false;
+    m_special_danger_move  = false;
 }
 
 void CStalkerAnimationManager::reload()
 {
-    m_visual = object().Visual();
+    m_visual              = object().Visual();
 
     m_crouch_state_config = object().SpecificCharacter().crouch_type();
     VERIFY((m_crouch_state_config == 0) || (m_crouch_state_config == 1) || (m_crouch_state_config == -1));
@@ -104,19 +100,13 @@ void CStalkerAnimationManager::reload()
 void CStalkerAnimationManager::play_fx(float power_factor, int fx_index)
 {
     VERIFY(fx_index >= 0);
-    VERIFY(
-        fx_index < (int)m_data_storage->m_part_animations.A[object().movement().body_state()].m_global.A[0].A.size());
+    VERIFY(fx_index < (int)m_data_storage->m_part_animations.A[object().movement().body_state()].m_global.A[0].A.size());
 #ifdef DEBUG
     if (psAI_Flags.is(aiAnimation))
     {
-        LPCSTR name =
-            m_skeleton_animated
-                ->LL_MotionDefName_dbg(
-                    m_data_storage->m_part_animations.A[object().movement().body_state()].m_global.A[0].A[fx_index])
-                .first;
+        LPCSTR name = m_skeleton_animated->LL_MotionDefName_dbg(m_data_storage->m_part_animations.A[object().movement().body_state()].m_global.A[0].A[fx_index]).first;
         Msg("%6d [%s][%s][%s][%f]", Device->dwTimeGlobal, *object().cName(), "FX", name, power_factor);
     }
 #endif
-    m_skeleton_animated->PlayFX(
-        m_data_storage->m_part_animations.A[object().movement().body_state()].m_global.A[0].A[fx_index], power_factor);
+    m_skeleton_animated->PlayFX(m_data_storage->m_part_animations.A[object().movement().body_state()].m_global.A[0].A[fx_index], power_factor);
 }

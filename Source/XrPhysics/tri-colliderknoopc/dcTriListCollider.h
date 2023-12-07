@@ -16,8 +16,8 @@ enum
 class dcTriListCollider;
 class dcTriListCollider
 {
-    dxGeom*    Geometry;   // The geom object
-    dxTriList* GeomData;   // Buffered pointer to classdata
+    dxGeom*                  Geometry;   // The geom object
+    dxTriList*               GeomData;   // Buffered pointer to classdata
 
     xr_vector<Triangle>      pos_tries;
     xr_vector<Triangle>      neg_tries;
@@ -32,159 +32,60 @@ public:
     int CollideCylinder(dxGeom* Cylinder, int Flags, dContactGeom* Contacts, int Stride);
 
 private:
-    IC void                   VxToGlClTriState(u32 v, CDB::TRI* T_array);
-    IC void                   SideToGlClTriState(u32 v0, u32 v1, CDB::TRI* T_array);
-    template <class T> IC int dSortTriPrimitiveCollide(
-        T              primitive,
-        dxGeom*        o1,
-        dxGeom*        o2,
-        int            flags,
-        dContactGeom*  contact,
-        int            skip,
-        const Fvector& AABB);
-    IC dReal PointSphereTest(const dReal* center, const dReal radius, const dReal* pt, dReal* norm);
-    IC dReal
-        FragmentonSphereTest(const dReal* center, const dReal radius, const dReal* pt1, const dReal* pt2, dReal* norm);
-    IC bool FragmentonSphereTest(
-        const dReal* center,
-        const dReal  radius,
-        const dReal* pt1,
-        const dReal* pt2,
-        dReal*       norm,
-        dReal&       depth);
-    IC bool PointSphereTest(const dReal* center, const dReal radius, const dReal* pt, dReal* norm, dReal& depth);
-    int     dSortedTriSphere(
-            const dReal* /**v1/**/,
-            const dReal* /**v2/**/,
-            const dReal*  triAx,
-            CDB::TRI*     T,
-            dReal         dist,
-            dxGeom*       Sphere,
-            dxGeom*       Geometry,
-            int           Flags,
-            dContactGeom* Contacts,
-            int           skip);
-    IC float dSphereProj(dxGeom* sphere, const dReal* /**normal/**/)
+    IC void                  VxToGlClTriState(u32 v, CDB::TRI* T_array);
+    IC void                  SideToGlClTriState(u32 v0, u32 v1, CDB::TRI* T_array);
+    template<class T> IC int dSortTriPrimitiveCollide(T primitive, dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int skip, const Fvector& AABB);
+    IC dReal                 PointSphereTest(const dReal* center, const dReal radius, const dReal* pt, dReal* norm);
+    IC dReal                 FragmentonSphereTest(const dReal* center, const dReal radius, const dReal* pt1, const dReal* pt2, dReal* norm);
+    IC bool                  FragmentonSphereTest(const dReal* center, const dReal radius, const dReal* pt1, const dReal* pt2, dReal* norm, dReal& depth);
+    IC bool                  PointSphereTest(const dReal* center, const dReal radius, const dReal* pt, dReal* norm, dReal& depth);
+    int                      dSortedTriSphere(const dReal* /**v1/**/, const dReal* /**v2/**/, const dReal* triAx, CDB::TRI* T, dReal dist, dxGeom* Sphere, dxGeom* Geometry, int Flags, dContactGeom* Contacts, int skip);
+    IC float                 dSphereProj(dxGeom* sphere, const dReal* /**normal/**/)
     {
         VERIFY(dGeomGetClass(sphere) == dSphereClass);
         return dGeomSphereGetRadius(sphere);
     }
-    int dTriSphere(
-        const dReal*  v0,
-        const dReal*  v1,
-        const dReal*  v2,
-        Triangle*     T,
-        dxGeom*       Sphere,
-        dxGeom*       Geometry,
-        int           Flags,
-        dContactGeom* Contacts,
-        int /**skip/**/);
+    int      dTriSphere(const dReal* v0, const dReal* v1, const dReal* v2, Triangle* T, dxGeom* Sphere, dxGeom* Geometry, int Flags, dContactGeom* Contacts, int /**skip/**/);
     IC float dBoxProj(dxGeom* box, const dReal* normal);
     IC void  CrossProjLine(const dReal* pt1, const dReal* vc1, const dReal* pt2, const dReal* vc2, dReal* proj);
     IC void  CrossProjLine1(const dReal* pt1, const dReal* vc1, const dReal* pt2, const dReal* vc2, dReal* proj);
-    IC bool  CrossProjLine14(
-         const dReal* pt1,
-         const dReal* vc1,
-         const dReal* pt2,
-         const dReal* vc2,
-         dReal        hside,
-         dReal*       proj);
+    IC bool  CrossProjLine14(const dReal* pt1, const dReal* vc1, const dReal* pt2, const dReal* vc2, dReal hside, dReal* proj);
     IC bool  IsPtInBx(const dReal* Pt, const dReal* BxP, const dReal* BxEx, const dReal* BxR);
-    IC dReal FragmentonBoxTest(
-        const dReal* Pt1,
-        const dReal* Pt2,
-        const dReal* BxP,
-        const dReal* BxEx,
-        const dReal* R,
-        dReal*       norm,
-        dReal*       pos);
-    int dSortedTriBox(
-        const dReal* triSideAx0,
-        const dReal* triSideAx1,
-        const dReal* triAx,
-        // const dReal* v0,
-        // const dReal* v1,
-        // const dReal* v2,
-        CDB::TRI*     T,
-        dReal         dist,
-        dxGeom*       o1,
-        dxGeom*       o2,
-        int           flags,
-        dContactGeom* contact,
-        int           skip);
-    int dTriBox(
-        const dReal*  v0,
-        const dReal*  v1,
-        const dReal*  v2,
-        Triangle*     T,
-        dxGeom*       o1,
-        dxGeom*       o2,
-        int           flags,
-        dContactGeom* contact,
-        int           skip);
-    IC bool circleLineIntersection(
-        const dReal* cn,
-        const dReal* cp,
-        dReal        r,
-        const dReal* lv,
-        const dReal* lp,
-        dReal        sign,
-        dVector3     point);
-    IC float dCylProj(dxGeom* cylinder, const dReal* normal);
-    int      dSortedTriCyl(
-             const dReal* triSideAx0,
-             const dReal* triSideAx1,
-             const dReal* triAx,
+    IC dReal FragmentonBoxTest(const dReal* Pt1, const dReal* Pt2, const dReal* BxP, const dReal* BxEx, const dReal* R, dReal* norm, dReal* pos);
+    int      dSortedTriBox(const dReal* triSideAx0,
+             const dReal*               triSideAx1,
+             const dReal*               triAx,
              // const dReal* v0,
              // const dReal* v1,
              // const dReal* v2,
-             CDB::TRI*     T,
-             dReal         dist,
-             dxGeom*       o1,
-             dxGeom*       o2,
-             int           flags,
-             dContactGeom* contact,
-             int           skip);
-    int dTriCyl(
-        const dReal*  v0,
-        const dReal*  v1,
-        const dReal*  v2,
-        Triangle*     T,
-        dxGeom*       o1,
-        dxGeom*       o2,
-        int           flags,
-        dContactGeom* contact,
-        int           skip);
-    IC bool cylinderCrossesLine(
-        const dReal* p,
-        const dReal* R,
-        dReal        hlz,
-        const dReal* v0,
-        const dReal* v1,
-        const dReal* l,
-        dVector3     pos);
+             CDB::TRI*                  T,
+             dReal                      dist,
+             dxGeom*                    o1,
+             dxGeom*                    o2,
+             int                        flags,
+             dContactGeom*              contact,
+             int                        skip);
+    int      dTriBox(const dReal* v0, const dReal* v1, const dReal* v2, Triangle* T, dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int skip);
+    IC bool  circleLineIntersection(const dReal* cn, const dReal* cp, dReal r, const dReal* lv, const dReal* lp, dReal sign, dVector3 point);
+    IC float dCylProj(dxGeom* cylinder, const dReal* normal);
+    int      dSortedTriCyl(const dReal* triSideAx0,
+             const dReal*               triSideAx1,
+             const dReal*               triAx,
+             // const dReal* v0,
+             // const dReal* v1,
+             // const dReal* v2,
+             CDB::TRI*                  T,
+             dReal                      dist,
+             dxGeom*                    o1,
+             dxGeom*                    o2,
+             int                        flags,
+             dContactGeom*              contact,
+             int                        skip);
+    int      dTriCyl(const dReal* v0, const dReal* v1, const dReal* v2, Triangle* T, dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int skip);
+    IC bool  cylinderCrossesLine(const dReal* p, const dReal* R, dReal hlz, const dReal* v0, const dReal* v1, const dReal* l, dVector3 pos);
     IC float Proj(dxGeom* o, const dReal* normal);
-    IC int   Collide(
-          const dReal*  v0,
-          const dReal*  v1,
-          const dReal*  v2,
-          Triangle*     T,
-          dxGeom*       o1,
-          dxGeom*       o2,
-          int           flags,
-          dContactGeom* contact,
-          int           skip);
-    IC int CollidePlain(
-        const dReal*  triSideAx0,
-        const dReal*  triSideAx1,
-        const dReal*  triAx,
-        CDB::TRI*     T,
-        dReal         dist,
-        dxGeom*       o1,
-        dxGeom*       o2,
-        int           flags,
-        dContactGeom* contact,
-        int           skip);
+    IC int   Collide(const dReal* v0, const dReal* v1, const dReal* v2, Triangle* T, dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int skip);
+    IC int   CollidePlain(const dReal* triSideAx0, const dReal* triSideAx1, const dReal* triAx, CDB::TRI* T, dReal dist, dxGeom* o1, dxGeom* o2, int flags, dContactGeom* contact, int skip);
     TRI_PRIMITIVE_COLIDE_CLASS_DECLARE(Cyl)
     TRI_PRIMITIVE_COLIDE_CLASS_DECLARE(Sphere)
     TRI_PRIMITIVE_COLIDE_CLASS_DECLARE(Box)

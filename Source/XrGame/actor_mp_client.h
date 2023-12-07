@@ -13,8 +13,8 @@ private:
 private:
     actor_mp_state_holder m_state_holder;
     // bool					m_i_am_dead;
-    float              prev_cam_inert_value;
-    static const float cam_inert_value;
+    float                 prev_cam_inert_value;
+    static const float    cam_inert_value;
 
 private:
     void fill_state(actor_mp_state& state);

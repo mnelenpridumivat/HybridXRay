@@ -54,8 +54,7 @@ void dump_collision_hit(CPHMovementControl* movement_control)
     VERIFY(iobj);
     VERIFY(smart_cast<CPhysicsShellHolder*>(iobj));
     CPhysicsShellHolder* obj = static_cast<CPhysicsShellHolder*>(iobj);
-    Msg("ai unit: %s hited by collision; power: %f, spawn frame %d, current frame %d ", obj->cName().c_str(),
-        movement_control->gcontact_HealthLost, obj->spawn_time(), Device->dwFrame);
+    Msg("ai unit: %s hited by collision; power: %f, spawn frame %d, current frame %d ", obj->cName().c_str(), movement_control->gcontact_HealthLost, obj->spawn_time(), Device->dwFrame);
     // CPhysicsShellHolder* object
     // =static_cast<CPhysicsShellHolder*>(Level().Objects.net_Find(m_collision_damage_info.m_obj_id)); const
     // ICollisionDamageInfo * di=movement_control->CollisionDamageInfo(); VERIFY( di ); di->
@@ -74,9 +73,7 @@ void CMovementManager::apply_collision_hit(CPHMovementControl* movement_control)
         Fvector dir;
         di->HitDir(dir);
 
-        SHit HDS = SHit(
-            movement_control->gcontact_HealthLost, dir, di->DamageInitiator(), movement_control->ContactBone(),
-            di->HitPos(), 0.f, di->HitType(), 0.0f, false);
+        SHit HDS = SHit(movement_control->gcontact_HealthLost, dir, di->DamageInitiator(), movement_control->ContactBone(), di->HitPos(), 0.f, di->HitType(), 0.0f, false);
         object().Hit(&HDS);
     }
 }
@@ -107,24 +104,17 @@ bool CMovementManager::move_along_path() const
     return (true);
 }
 
-Fvector CMovementManager::path_position(
-    const float&   velocity,
-    const Fvector& position,
-    const float&   time_delta,
-    u32&           current_travel_point,
-    float&         dist,
-    float&         dist_to_target,
-    Fvector&       dir_to_target)
+Fvector CMovementManager::path_position(const float& velocity, const Fvector& position, const float& time_delta, u32& current_travel_point, float& dist, float& dist_to_target, Fvector& dir_to_target)
 {
     VERIFY(current_travel_point < (detail().path().size() - 1));
 
-    Fvector dest_position = position;
+    Fvector dest_position   = position;
 
     // Вычислить пройденную дистанцию, определить целевую позицию на маршруте,
     //			 изменить detail().m_current_travel_point
 
-    float desirable_speed = velocity;      // желаемая скорость объекта
-    dist = desirable_speed * time_delta;   // пройденное расстояние в соостветствие с желаемой скоростью
+    float   desirable_speed = velocity;                       // желаемая скорость объекта
+    dist                    = desirable_speed * time_delta;   // пройденное расстояние в соостветствие с желаемой скоростью
 
     // определить целевую точку
     Fvector target;
@@ -132,10 +122,9 @@ Fvector CMovementManager::path_position(
     // обновить detail().m_current_travel_point в соответствие с текущей позицией
     while (current_travel_point < detail().path().size() - 2)
     {
-        float pos_dist_to_cur_point  = dest_position.distance_to(detail().path()[current_travel_point].position);
-        float pos_dist_to_next_point = dest_position.distance_to(detail().path()[current_travel_point + 1].position);
-        float cur_point_dist_to_next_point = detail().path()[current_travel_point].position.distance_to(
-            detail().path()[current_travel_point + 1].position);
+        float pos_dist_to_cur_point        = dest_position.distance_to(detail().path()[current_travel_point].position);
+        float pos_dist_to_next_point       = dest_position.distance_to(detail().path()[current_travel_point + 1].position);
+        float cur_point_dist_to_next_point = detail().path()[current_travel_point].position.distance_to(detail().path()[current_travel_point + 1].position);
 
         if ((pos_dist_to_cur_point > cur_point_dist_to_next_point) && (pos_dist_to_cur_point > pos_dist_to_next_point))
         {
@@ -195,9 +184,7 @@ Fvector CMovementManager::path_position(const float& time_to_check)
     float   dist_to_target;
     float   dist;
     u32     current_travel_point = detail().m_current_travel_point;
-    return (path_position(
-        old_desirable_speed(), object().Position(), time_to_check, current_travel_point, dist, dist_to_target,
-        dir_to_target));
+    return (path_position(old_desirable_speed(), object().Position(), time_to_check, current_travel_point, dist, dist_to_target, dir_to_target));
 }
 
 void CMovementManager::move_along_path(CPHMovementControl* movement_control, Fvector& dest_position, float time_delta)
@@ -207,7 +194,7 @@ void CMovementManager::move_along_path(CPHMovementControl* movement_control, Fve
     VERIFY(movement_control);
 
     Fvector motion;
-    dest_position = object().Position();
+    dest_position   = object().Position();
 
     float precision = 0.5f;
 
@@ -242,17 +229,15 @@ void CMovementManager::move_along_path(CPHMovementControl* movement_control, Fve
     if (time_delta < EPS)
         return;
 
-    float desirable_speed = old_desirable_speed();   // желаемая скорость объекта
-    float desirable_dist  = desirable_speed * time_delta;
-    float dist;
+    float   desirable_speed = old_desirable_speed();   // желаемая скорость объекта
+    float   desirable_dist  = desirable_speed * time_delta;
+    float   dist;
 
     // position_computation
     Fvector dir_to_target;
     float   dist_to_target;
     u32     current_travel_point = detail().m_current_travel_point;
-    dest_position                = path_position(
-        old_desirable_speed(), object().Position(), time_delta, current_travel_point, dist, dist_to_target,
-        dir_to_target);
+    dest_position                = path_position(old_desirable_speed(), object().Position(), time_delta, current_travel_point, dist, dist_to_target, dir_to_target);
 
     // Lain: added steering behaviour
     // 	Fvector target;
@@ -289,9 +274,7 @@ void CMovementManager::move_along_path(CPHMovementControl* movement_control, Fve
 
     // получить физ. объекты в радиусе
     m_nearest_objects.clear_not_free();
-    Level().ObjectSpace.GetNearest(
-        m_nearest_objects, dest_position,
-        DISTANCE_PHISICS_ENABLE_CHARACTERS + (movement_control->IsCharacterEnabled() ? 0.5f : 0.f), &object());
+    Level().ObjectSpace.GetNearest(m_nearest_objects, dest_position, DISTANCE_PHISICS_ENABLE_CHARACTERS + (movement_control->IsCharacterEnabled() ? 0.5f : 0.f), &object());
 
     // установить позицию
     VERIFY(dist >= 0.f);
@@ -312,13 +295,10 @@ void CMovementManager::move_along_path(CPHMovementControl* movement_control, Fve
     if (!movement_control->PhysicsOnlyMode())
         movement_control->SetCharacterVelocity(velocity);
 
-    if (DBG_PH_MOVE_CONDITIONS(
-            ph_dbg_draw_mask.test(phDbgNeverUseAiPhMove) ||
-            !ph_dbg_draw_mask.test(phDbgAlwaysUseAiPhMove) &&) !(m_nearest_objects.empty()))
+    if (DBG_PH_MOVE_CONDITIONS(ph_dbg_draw_mask.test(phDbgNeverUseAiPhMove) || !ph_dbg_draw_mask.test(phDbgAlwaysUseAiPhMove)&&) !(m_nearest_objects.empty()))
     {   //  физ. объект
 
-        if (DBG_PH_MOVE_CONDITIONS(!ph_dbg_draw_mask.test(phDbgNeverUseAiPhMove) &&) !movement_control->TryPosition(
-                dest_position))
+        if (DBG_PH_MOVE_CONDITIONS(!ph_dbg_draw_mask.test(phDbgNeverUseAiPhMove)&&) !movement_control->TryPosition(dest_position))
         {
             movement_control->GetPosition(dest_position);
             movement_control->Calculate(detail().path(), desirable_speed, detail().m_current_travel_point, precision);
@@ -359,7 +339,7 @@ void CMovementManager::move_along_path(CPHMovementControl* movement_control, Fve
     float real_motion = motion.magnitude() + desirable_dist - dist;
     float real_speed  = real_motion / time_delta;
 
-    m_speed = 0.5f * desirable_speed + 0.5f * real_speed;
+    m_speed           = 0.5f * desirable_speed + 0.5f * real_speed;
 
     // Физика устанавливает позицию в соответствии с нулевой скоростью
     if (detail().completed(dest_position, true))

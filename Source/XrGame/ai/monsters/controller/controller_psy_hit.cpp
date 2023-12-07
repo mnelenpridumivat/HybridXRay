@@ -32,7 +32,7 @@ void CControllerPsyHit::reinit()
     VERIFY(m_stage[2]);
     m_stage[3] = skel->ID_Cycle_Safe("psy_attack_3");
     VERIFY(m_stage[3]);
-    m_current_index = 0;
+    m_current_index  = 0;
 
     m_time_last_tube = 0;
     m_sound_state    = eNone;
@@ -86,7 +86,7 @@ void CControllerPsyHit::activate()
     ctrl_dir->heading.target_angle = m_man->direction().angle_to_target(Actor()->Position());
 
     //////////////////////////////////////////////////////////////////////////
-    m_current_index = 0;
+    m_current_index                = 0;
     play_anim();
 
     m_blocked = false;
@@ -173,7 +173,7 @@ namespace detail
 
 extern CActor* g_actor;
 
-bool CControllerPsyHit::see_enemy()
+bool           CControllerPsyHit::see_enemy()
 {
     return m_object->EnemyMan.see_enemy_now(Actor());
     // 	using namespace detail;
@@ -254,9 +254,7 @@ void CControllerPsyHit::death_glide_start()
     float const base_fov = g_fov;
     float const dest_fov = g_fov - (g_fov - 10.f) * actor_psy_immunity;
 
-    Actor()->Cameras().AddCamEffector(xr_new<CControllerPsyHitCamEffector>(
-        eCEControllerPsyHit, src_pos, target_pos, m_man->animation().motion_time(m_stage[1], m_object->Visual()),
-        base_fov, dest_fov));
+    Actor()->Cameras().AddCamEffector(xr_new<CControllerPsyHitCamEffector>(eCEControllerPsyHit, src_pos, target_pos, m_man->animation().motion_time(m_stage[1], m_object->Visual()), base_fov, dest_fov));
 
     smart_cast<CController*>(m_object)->draw_fire_particles();
 
@@ -275,7 +273,7 @@ void CControllerPsyHit::death_glide_start()
     P.w_u8(u8(true));
     Actor()->u_EventSend(P);
 
-    m_blocked = true;
+    m_blocked                       = true;
 
     //////////////////////////////////////////////////////////////////////////
     // set direction

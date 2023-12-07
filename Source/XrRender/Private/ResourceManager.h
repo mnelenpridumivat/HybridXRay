@@ -30,6 +30,7 @@ private:
         const char*       T;
         R_constant_setup* cs;
     };
+
 public:
     DEFINE_MAP_PRED(const char*, IBlender*, map_Blender, map_BlenderIt, str_pred);
     DEFINE_MAP_PRED(const char*, CTexture*, map_Texture, map_TextureIt, str_pred);
@@ -49,6 +50,7 @@ public:
 
     DEFINE_MAP_PRED(const char*, SPS*, map_PS, map_PSIt, str_pred);
     DEFINE_MAP_PRED(const char*, texture_detail, map_TD, map_TDIt, str_pred);
+
 private:
     // data
     map_Blender  m_blenders;
@@ -86,15 +88,18 @@ private:
 
     xr_vector<ref_texture>    m_necessary;
     // misc
+
 public:
     CTextureDescrMngr                                   m_textures_description;
     //.	CInifile*											m_textures_description;
     xr_vector<std::pair<shared_str, R_constant_setup*>> v_constant_setup;
     lua_State*                                          LSVM;
     BOOL                                                bDeferredLoad;
+
 private:
     void LS_Load();
     void LS_Unload();
+
 public:
     // Miscelaneous
     void         _ParseList(sh_list& dest, LPCSTR names);
@@ -232,6 +237,7 @@ public:
     void StoreNecessaryTextures();
     void DestroyNecessaryTextures();
     void Dump(bool bBrief);
+
 private:
 #ifdef USE_DX11
     map_DS                    m_ds;

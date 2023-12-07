@@ -15,8 +15,7 @@
 
 #include "../../xrcdb/xrcdb.h"
 
-extern "C" bool __declspec(dllimport)
-    DXTCompress(LPCSTR out_name, u8* raw_data, u8* normal_map, u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth);
+extern "C" bool __declspec(dllimport) DXTCompress(LPCSTR out_name, u8* raw_data, u8* normal_map, u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth);
 
 DEF_MAP(Implicit, u32, ImplicitDeflector);
 
@@ -116,9 +115,7 @@ void ImplicitExecute::Execute(net_task_callback* net_callback)
                             wP.from_bary(V1->P, V2->P, V3->P, B);
                             wN.from_bary(V1->N, V2->N, V3->N, B);
                             wN.normalize();
-                            LightPoint(
-                                &DB, inlc_global_data()->RCAST_Model(), C, wP, wN, inlc_global_data()->L_static(),
-                                (inlc_global_data()->b_nosun() ? LP_dont_sun : 0), F);
+                            LightPoint(&DB, inlc_global_data()->RCAST_Model(), C, wP, wN, inlc_global_data()->L_static(), (inlc_global_data()->b_nosun() ? LP_dont_sun : 0), F);
                             Fcount++;
                         }
                     }

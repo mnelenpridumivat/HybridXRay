@@ -158,9 +158,7 @@ int oe_encode(oe_enc_opt* opt)
         opt->quality_set = 1;
     }
 
-    opt->start_encode(
-        opt->infilename, opt->filename, opt->bitrate, opt->quality, opt->quality_set, opt->managed, opt->min_bitrate,
-        opt->max_bitrate);
+    opt->start_encode(opt->infilename, opt->filename, opt->bitrate, opt->quality, opt->quality_set, opt->managed, opt->min_bitrate, opt->max_bitrate);
 
     /* Have vorbisenc choose a mode for us */
     vorbis_info_init(&vi);
@@ -223,9 +221,7 @@ int oe_encode(oe_enc_opt* opt)
     }
     else
     {
-        if (vorbis_encode_setup_managed(
-                &vi, opt->channels, opt->rate, opt->max_bitrate > 0 ? opt->max_bitrate * 1000 : -1, opt->bitrate * 1000,
-                opt->min_bitrate > 0 ? opt->min_bitrate * 1000 : -1))
+        if (vorbis_encode_setup_managed(&vi, opt->channels, opt->rate, opt->max_bitrate > 0 ? opt->max_bitrate * 1000 : -1, opt->bitrate * 1000, opt->min_bitrate > 0 ? opt->min_bitrate * 1000 : -1))
         {
             fprintf(stderr, _("Mode initialisation failed: invalid parameters for bitrate\n"));
             vorbis_info_clear(&vi);
@@ -393,9 +389,7 @@ void update_statistics_full(char* fn, long total, long done, double time)
     seconds     = (int)(remain_time - (double)((int)remain_time / 60) * 60);
 
     fprintf(stderr, "\r");
-    fprintf(
-        stderr, _("\t[%5.1f%%] [%2dm%.2ds remaining] %c "), done * 100.0 / total, minutes, seconds,
-        spinner[spinpoint++ % 4]);
+    fprintf(stderr, _("\t[%5.1f%%] [%2dm%.2ds remaining] %c "), done * 100.0 / total, minutes, seconds, spinner[spinpoint++ % 4]);
 }
 
 void update_statistics_notime(char* fn, long total, long done, double time)
@@ -404,9 +398,7 @@ void update_statistics_notime(char* fn, long total, long done, double time)
     static int   spinpoint = 0;
 
     fprintf(stderr, "\r");
-    fprintf(
-        stderr, _("\tEncoding [%2dm%.2ds so far] %c "), ((int)time) / 60, (int)(time - (double)((int)time / 60) * 60),
-        spinner[spinpoint++ % 4]);
+    fprintf(stderr, _("\tEncoding [%2dm%.2ds so far] %c "), ((int)time) / 60, (int)(time - (double)((int)time / 60) * 60), spinner[spinpoint++ % 4]);
 }
 
 int oe_write_page(ogg_page* page, FILE* fp)
@@ -428,13 +420,10 @@ void final_statistics(char* fn, double time, int rate, long samples, long bytes)
 
     speed_ratio = (double)samples / (double)rate / time;
 
-    fprintf(
-        stderr, _("\n\tFile length:  %dm %04.1fs\n"), (int)(samples / rate / 60),
-        samples / rate - samples / rate / 60 * 60);
+    fprintf(stderr, _("\n\tFile length:  %dm %04.1fs\n"), (int)(samples / rate / 60), samples / rate - samples / rate / 60 * 60);
     fprintf(stderr, _("\tElapsed time: %dm %04.1fs\n"), (int)(time / 60), time - iFloor((float)time / 60) * 60);
     fprintf(stderr, _("\tRate:         %.4f\n"), speed_ratio);
-    fprintf(
-        stderr, _("\tAverage bitrate: %.1f kb/s\n\n"), 8. / 1000. * ((double)bytes / ((double)samples / (double)rate)));
+    fprintf(stderr, _("\tAverage bitrate: %.1f kb/s\n\n"), 8. / 1000. * ((double)bytes / ((double)samples / (double)rate)));
 }
 
 void final_statistics_null(char* fn, double time, int rate, long samples, long bytes)
@@ -470,22 +459,16 @@ void start_encode_full(char* fn, char* outfn, int bitrate, float quality, int qs
     {
         if (managed > 0)
         {
-            fprintf(
-                stderr,
+            fprintf(stderr,
                 _("Encoding %s%s%s to \n         "
                   "%s%s%s \nat average bitrate %d kbps "),
-                fn ? "\"" : "", fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "",
-                outfn ? outfn : _("standard output"), outfn ? "\"" : "", bitrate);
+                fn ? "\"" : "", fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "", outfn ? outfn : _("standard output"), outfn ? "\"" : "", bitrate);
             print_brconstraints(min, max);
             fprintf(stderr, ", \nusing full bitrate management engine\n");
         }
         else
         {
-            fprintf(
-                stderr,
-                _("Encoding %s%s%s to \n         %s%s%s \nat approximate bitrate %d kbps (VBR encoding enabled)\n"),
-                fn ? "\"" : "", fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "",
-                outfn ? outfn : _("standard output"), outfn ? "\"" : "", bitrate);
+            fprintf(stderr, _("Encoding %s%s%s to \n         %s%s%s \nat approximate bitrate %d kbps (VBR encoding enabled)\n"), fn ? "\"" : "", fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "", outfn ? outfn : _("standard output"), outfn ? "\"" : "", bitrate);
         }
     }
     else
@@ -494,27 +477,18 @@ void start_encode_full(char* fn, char* outfn, int bitrate, float quality, int qs
         {
             if (managed > 0)
             {
-                fprintf(
-                    stderr, _("Encoding %s%s%s to \n         %s%s%s \nat quality level %2.2f using constrained VBR "),
-                    fn ? "\"" : "", fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "",
-                    outfn ? outfn : _("standard output"), outfn ? "\"" : "", quality * 10);
+                fprintf(stderr, _("Encoding %s%s%s to \n         %s%s%s \nat quality level %2.2f using constrained VBR "), fn ? "\"" : "", fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "", outfn ? outfn : _("standard output"), outfn ? "\"" : "", quality * 10);
                 print_brconstraints(min, max);
                 fprintf(stderr, "\n");
             }
             else
             {
-                fprintf(
-                    stderr, _("Encoding %s%s%s to \n         %s%s%s \nat quality %2.2f\n"), fn ? "\"" : "",
-                    fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "",
-                    outfn ? outfn : _("standard output"), outfn ? "\"" : "", quality * 10);
+                fprintf(stderr, _("Encoding %s%s%s to \n         %s%s%s \nat quality %2.2f\n"), fn ? "\"" : "", fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "", outfn ? outfn : _("standard output"), outfn ? "\"" : "", quality * 10);
             }
         }
         else
         {
-            fprintf(
-                stderr, _("Encoding %s%s%s to \n         %s%s%s \nusing bitrate management "), fn ? "\"" : "",
-                fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "", outfn ? outfn : _("standard output"),
-                outfn ? "\"" : "");
+            fprintf(stderr, _("Encoding %s%s%s to \n         %s%s%s \nusing bitrate management "), fn ? "\"" : "", fn ? fn : _("standard input"), fn ? "\"" : "", outfn ? "\"" : "", outfn ? outfn : _("standard output"), outfn ? "\"" : "");
             print_brconstraints(min, max);
             fprintf(stderr, "\n");
         }

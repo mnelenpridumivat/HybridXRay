@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: client_spawn_manager_inline.h
 //	Created 	: 08.10.2004
 //  Modified 	: 08.10.2004
@@ -8,13 +8,11 @@
 
 #pragma once
 
-IC	CClientSpawnManager::CClientSpawnManager	()
-{
-}
+IC CClientSpawnManager::CClientSpawnManager() {}
 
 #ifdef DEBUG
-IC	const CClientSpawnManager::REQUEST_REGISTRY &CClientSpawnManager::registry	() const
+IC const CClientSpawnManager::REQUEST_REGISTRY& CClientSpawnManager::registry() const
 {
-	return		(m_registry);
+    return (m_registry);
 }
-#endif // DEBUG
+#endif   // DEBUG

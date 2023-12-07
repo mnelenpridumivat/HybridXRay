@@ -19,6 +19,7 @@ private:
 #ifdef DEBUG
     DWORD iterator_thread_id;
 #endif
+
 public:
     PlayersMonitor()
     {
@@ -41,7 +42,7 @@ public:
         return false;
     }
 #endif
-    template <typename ActionFunctor> void ForEachClientDo(ActionFunctor& functor)
+    template<typename ActionFunctor> void ForEachClientDo(ActionFunctor& functor)
     {
         // Msg("-S- Entering to csPlayers [%d]", GetCurrentThreadId());
         csPlayers.Enter();
@@ -79,8 +80,7 @@ public:
         // Msg("-S- Leaving from csPlayers [%d]", GetCurrentThreadId());
         csPlayers.Leave();
     }
-    template <typename SearchPredicate, typename ActionFunctor>
-    u32 ForFoundClientsDo(SearchPredicate const& predicate, ActionFunctor& functor)
+    template<typename SearchPredicate, typename ActionFunctor> u32 ForFoundClientsDo(SearchPredicate const& predicate, ActionFunctor& functor)
     {
         u32 ret_count = 0;
         // Msg("-S- Entering to csPlayers [%d]", GetCurrentThreadId());
@@ -106,7 +106,7 @@ public:
         return ret_count;
     }
 
-    template <typename SearchPredicate> IClient* FindAndEraseClient(SearchPredicate const& predicate)
+    template<typename SearchPredicate> IClient* FindAndEraseClient(SearchPredicate const& predicate)
     {
         // Msg("-S- Entering to csPlayers [%d]", GetCurrentThreadId());
         csPlayers.Enter();
@@ -129,7 +129,7 @@ public:
         csPlayers.Leave();
         return ret_client;
     }
-    template <typename SearchPredicate> IClient* GetFoundClient(SearchPredicate const& predicate)
+    template<typename SearchPredicate> IClient* GetFoundClient(SearchPredicate const& predicate)
     {
         // Msg("-S- Entering to csPlayers [%d]", GetCurrentThreadId());
         csPlayers.Enter();

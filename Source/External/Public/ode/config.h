@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -20,10 +20,7 @@
  *                                                                       *
  *************************************************************************/
 
-
 /* per-machine configuration */
-
-
 
 #ifndef _ODE_CONFIG_H_
 
@@ -31,35 +28,39 @@
 
 #ifdef __cplusplus
 
-extern "C" {
-
+extern "C"
+{
 #endif
-
-
 
 #include <stdio.h>
 
 #include <stdarg.h>
 
-#include <malloc.h>		// for alloca under windows
+#include <malloc.h>   // for alloca under windows
 
 #include <string.h>
 
 #include <math.h>
 
-
-
 #if defined(WINDOWS) && (defined(MSVC) || defined(MINGW))
 
-static union { unsigned char __c[4]; float __f; } __ode_huge_valf =
+    static union
+    {
+        unsigned char __c[4];
+        float         __f;
+    } __ode_huge_valf =
 
-  {{0,0,0x80,0x7f}};
+        {{0, 0, 0x80, 0x7f}};
 
 #define _INFINITY4 (__ode_huge_valf.__f)
 
-static union { unsigned char __c[8]; double __d; } __ode_huge_val =
+    static union
+    {
+        unsigned char __c[8];
+        double        __d;
+    } __ode_huge_val =
 
-  {{0,0,0,0,0,0,0xf0,0x7f }};
+        {{0, 0, 0, 0, 0, 0, 0xf0, 0x7f}};
 
 #define _INFINITY8 (__ode_huge_val.__d)
 
@@ -71,8 +72,6 @@ static union { unsigned char __c[8]; double __d; } __ode_huge_val =
 
 #endif
 
-
-
 #if defined(dSINGLE)
 
 #define dInfinity _INFINITY4
@@ -83,47 +82,35 @@ static union { unsigned char __c[8]; double __d; } __ode_huge_val =
 
 #endif
 
+#define SHAREDLIBIMPORT __declspec(dllimport)
 
+#define SHAREDLIBEXPORT __declspec(dllexport)
 
-#define SHAREDLIBIMPORT __declspec (dllimport)
+    /* some types. assume `int' >= 32 bits */
 
-#define SHAREDLIBEXPORT __declspec (dllexport)
+    typedef unsigned int   uint;
 
+    typedef int            int32;
 
+    typedef unsigned int   uint32;
 
-/* some types. assume `int' >= 32 bits */
+    typedef short          int16;
 
-typedef unsigned int    uint;
+    typedef unsigned short uint16;
 
-typedef int             int32;
+    //typedef char            int8;
 
-typedef unsigned int    uint32;
+    typedef unsigned char  uint8;
 
-typedef short           int16;
-
-typedef unsigned short  uint16;
-
-//typedef char            int8;
-
-typedef unsigned char   uint8;
-
-
-
-
-
-/* an integer type that we can safely cast a pointer to and from without
+    /* an integer type that we can safely cast a pointer to and from without
 
  * loss of bits.
 
  */
 
-typedef uintptr_t intP;
+    typedef uintptr_t      intP;
 
-
-
-
-
-/* if we're compiling on a pentium, we may need to know the clock rate so
+    /* if we're compiling on a pentium, we may need to know the clock rate so
 
  * that the timing function can report accurate times. this number only needs
 
@@ -135,8 +122,6 @@ typedef uintptr_t intP;
 
  */
 
-
-
 #ifdef PENTIUM
 
 #ifndef PENTIUM_HZ
@@ -147,11 +132,7 @@ typedef uintptr_t intP;
 
 #endif
 
-
-
-
-
-/* the efficient alignment. most platforms align data structures to some
+    /* the efficient alignment. most platforms align data structures to some
 
  * number of bytes, but this is not always the most efficient alignment.
 
@@ -167,35 +148,19 @@ typedef uintptr_t intP;
 
  */
 
-
-
 #define EFFICIENT_ALIGNMENT 16
 
-
-
-
-
-/* for unix, define this if your system supports anonymous memory maps
+    /* for unix, define this if your system supports anonymous memory maps
 
  * (linux does).
 
  */
 
-
-
 #define MMAP_ANONYMOUS
 
-
-
-
-
 #ifdef __cplusplus
-
 }
 
 #endif
 
-
-
 #endif
-

@@ -13,12 +13,7 @@ using System::Object;
 using System::String;
 using System::Collections::IList;
 
-property_integer_values_value_reference::property_integer_values_value_reference(
-    int&          value,
-    LPCSTR const* values,
-    u32 const&    value_count):
-    inherited(value),
-    m_collection(gcnew collection_type())
+property_integer_values_value_reference::property_integer_values_value_reference(int& value, LPCSTR const* values, u32 const& value_count): inherited(value), m_collection(gcnew collection_type())
 {
     for (u32 i = 0; i < value_count; ++i)
         m_collection->Add(to_string(values[i]));

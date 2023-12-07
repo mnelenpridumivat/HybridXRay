@@ -44,6 +44,6 @@ public:
     virtual void      Render();
     virtual void _BCL OnFrame();
 
-    virtual bool IR_UIOnKeyboardPress(int dik);
-    virtual bool IR_UIOnKeyboardRelease(int dik);
+    virtual bool      IR_UIOnKeyboardPress(int dik);
+    virtual bool      IR_UIOnKeyboardRelease(int dik);
 };

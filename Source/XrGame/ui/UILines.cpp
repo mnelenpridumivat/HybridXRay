@@ -206,9 +206,9 @@ void CUILines::ParseText(bool force)
                     m_lines.push_back(tmp_line);
                     tmp_line.Clear();
 // Compiler bug :)
-#pragma warning(disable : 4244)
+#pragma warning(disable:4244)
                     uFrom += uPartLen;
-#pragma warning(default : 4244)
+#pragma warning(default:4244)
                 }
                 strncpy_s(szTempLine, pszText + uFrom, MAX_MB_CHARS);
                 tmp_line.AddSubLine(szTempLine, tcolor);
@@ -228,12 +228,12 @@ void CUILines::ParseText(bool force)
         float      __eps      = get_str_width(m_pFont, 'o');   // hack -(
         for (u32 sbl_idx = 0; sbl_idx < sbl_cnt; ++sbl_idx)
         {
-            bool        b_last_subl = (sbl_idx == sbl_cnt - 1);
-            CUISubLine& sbl         = line->m_subLines[sbl_idx];
-            u32         sub_len     = (u32)sbl.m_text.length();
-            u32         curr_w_pos  = 0;
+            bool        b_last_subl    = (sbl_idx == sbl_cnt - 1);
+            CUISubLine& sbl            = line->m_subLines[sbl_idx];
+            u32         sub_len        = (u32)sbl.m_text.length();
+            u32         curr_w_pos     = 0;
 
-            u32 last_space_idx = 0;
+            u32         last_space_idx = 0;
             for (u32 idx = 0; idx < sub_len; ++idx)
             {
                 bool b_last_ch = (idx == sub_len - 1);
@@ -389,10 +389,10 @@ void CUILines::Draw(float x, float y)
             m_pFont->SetAligment((CGameFont::EAligment)m_eTextAlign);
             if (uFlags.test(flEllipsis))
             {
-                u32 buff_len = sizeof(char) * xr_strlen(m_text.c_str()) + 1;
+                u32    buff_len = sizeof(char) * xr_strlen(m_text.c_str()) + 1;
 
-                char*  p   = static_cast<char*>(_alloca(buff_len));
-                LPCSTR str = GetElipsisText(m_pFont, m_wndSize.x, m_text.c_str(), p, buff_len);
+                char*  p        = static_cast<char*>(_alloca(buff_len));
+                LPCSTR str      = GetElipsisText(m_pFont, m_wndSize.x, m_text.c_str(), p, buff_len);
 
                 m_pFont->Out(text_pos.x, text_pos.y, "%s", str);
             }
@@ -432,15 +432,18 @@ float CUILines::GetIndentByAlign() const
 {
     switch (m_eTextAlign)
     {
-        case CGameFont::alCenter: {
+        case CGameFont::alCenter:
+        {
             return (m_wndSize.x) / 2;
         }
         break;
-        case CGameFont::alLeft: {
+        case CGameFont::alLeft:
+        {
             return 0;
         }
         break;
-        case CGameFont::alRight: {
+        case CGameFont::alRight:
+        {
             return (m_wndSize.x);
         }
         break;
@@ -485,8 +488,7 @@ u32 CUILines::GetColorFromText(const xr_string& str) const
         return m_dwTextColor;
 
     // Try predefined in XML colors
-    for (CUIXmlInit::ColorDefs::const_iterator it = CUIXmlInit::GetColorDefs()->begin();
-         it != CUIXmlInit::GetColorDefs()->end(); ++it)
+    for (CUIXmlInit::ColorDefs::const_iterator it = CUIXmlInit::GetColorDefs()->begin(); it != CUIXmlInit::GetColorDefs()->end(); ++it)
     {
         int cmp = str.compare(begin + 3, end - begin - 3, *it->first);
         if (cmp == 0)
@@ -530,7 +532,8 @@ CUILine* CUILines::ParseTextToColoredLine(const xr_string& str)
     {
         CutFirstColoredTextEntry(entry, color, tmp);
         line->AddSubLine(entry, subst_alpha(color, color_get_A(GetTextColor())));
-    } while (tmp.size() > 0);
+    }
+    while (tmp.size() > 0);
 
     return line;
 }

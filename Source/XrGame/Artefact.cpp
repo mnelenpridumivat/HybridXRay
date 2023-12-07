@@ -65,9 +65,7 @@ void CArtefact::Load(LPCSTR section)
     m_bLightsEnabled = !!pSettings->r_bool(section, "lights_enabled");
     if (m_bLightsEnabled)
     {
-        sscanf(
-            pSettings->r_string(section, "trail_light_color"), "%f,%f,%f", &m_TrailLightColor.r, &m_TrailLightColor.g,
-            &m_TrailLightColor.b);
+        sscanf(pSettings->r_string(section, "trail_light_color"), "%f,%f,%f", &m_TrailLightColor.r, &m_TrailLightColor.g, &m_TrailLightColor.b);
         m_fTrailLightRange = pSettings->r_float(section, "trail_light_range");
     }
 
@@ -382,8 +380,8 @@ void CArtefact::UpdateXForm()
         Fmatrix& mR = V->LL_GetTransform(u16(boneR));
 
         // Calculate
-        Fmatrix mRes;
-        Fvector R, D, N;
+        Fmatrix  mRes;
+        Fvector  R, D, N;
         D.sub(mL.c, mR.c);
         D.normalize_safe();
         R.crossproduct(mR.j, D);
@@ -401,7 +399,8 @@ bool CArtefact::Action(u16 cmd, u32 flags)
 {
     switch (cmd)
     {
-        case kWPN_FIRE: {
+        case kWPN_FIRE:
+        {
             if (flags & CMD_START && m_bCanSpawnZone)
             {
                 SwitchState(eActivating);
@@ -425,19 +424,23 @@ void CArtefact::OnStateSwitch(u32 S)
     inherited::OnStateSwitch(S);
     switch (S)
     {
-        case eShowing: {
+        case eShowing:
+        {
             PlayHUDMotion("anm_show", FALSE, this, S);
         }
         break;
-        case eHiding: {
+        case eHiding:
+        {
             PlayHUDMotion("anm_hide", FALSE, this, S);
         }
         break;
-        case eActivating: {
+        case eActivating:
+        {
             PlayHUDMotion("anm_activate", FALSE, this, S);
         }
         break;
-        case eIdle: {
+        case eIdle:
+        {
             PlayAnimIdle();
         }
         break;
@@ -453,15 +456,18 @@ void CArtefact::OnAnimationEnd(u32 state)
 {
     switch (state)
     {
-        case eHiding: {
+        case eHiding:
+        {
             SwitchState(eHidden);
         }
         break;
-        case eShowing: {
+        case eShowing:
+        {
             SwitchState(eIdle);
         }
         break;
-        case eActivating: {
+        case eActivating:
+        {
             if (Local())
             {
                 SwitchState(eHiding);
@@ -516,10 +522,7 @@ void CArtefact::CreateArtefactActivation()
     m_activationObj = xr_new<SArtefactActivation>(this, H_Parent()->ID());
 }
 
-SArtefactDetectorsSupport::SArtefactDetectorsSupport(CArtefact* A):
-    m_parent(A), m_currPatrolPath(NULL), m_currPatrolVertex(NULL), m_switchVisTime(0)
-{
-}
+SArtefactDetectorsSupport::SArtefactDetectorsSupport(CArtefact* A): m_parent(A), m_currPatrolPath(NULL), m_currPatrolVertex(NULL), m_switchVisTime(0) {}
 
 SArtefactDetectorsSupport::~SArtefactDetectorsSupport()
 {
@@ -539,10 +542,9 @@ void SArtefactDetectorsSupport::SetVisible(bool b)
 
     if (b)
     {
-        LPCSTR curr =
-            pSettings->r_string(m_parent->cNameSect().c_str(), (b) ? "det_show_particles" : "det_hide_particles");
+        LPCSTR       curr = pSettings->r_string(m_parent->cNameSect().c_str(), (b) ? "det_show_particles" : "det_hide_particles");
 
-        IKinematics* K = smart_cast<IKinematics*>(m_parent->Visual());
+        IKinematics* K    = smart_cast<IKinematics*>(m_parent->Visual());
         R_ASSERT2(K, m_parent->cNameSect().c_str());
         LPCSTR bone    = pSettings->r_string(m_parent->cNameSect().c_str(), "particles_bone");
         u16    bone_id = K->LL_BoneID(bone);
@@ -561,9 +563,9 @@ void SArtefactDetectorsSupport::SetVisible(bool b)
 
 void SArtefactDetectorsSupport::Blink()
 {
-    LPCSTR curr = pSettings->r_string(m_parent->cNameSect().c_str(), "det_show_particles");
+    LPCSTR       curr = pSettings->r_string(m_parent->cNameSect().c_str(), "det_show_particles");
 
-    IKinematics* K = smart_cast<IKinematics*>(m_parent->Visual());
+    IKinematics* K    = smart_cast<IKinematics*>(m_parent->Visual());
     R_ASSERT2(K, m_parent->cNameSect().c_str());
     LPCSTR bone    = pSettings->r_string(m_parent->cNameSect().c_str(), "particles_bone");
     u16    bone_id = K->LL_BoneID(bone);

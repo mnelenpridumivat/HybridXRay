@@ -60,7 +60,7 @@ Box3 Mgc::ContOrientedBox(int iQuantity, const Vector3* akPoint)
 
     for (int i = 1; i < iQuantity; i++)
     {
-        kDiff = akPoint[i] - kBox.Center();
+        kDiff    = akPoint[i] - kBox.Center();
 
         Real fY0 = kDiff.Dot(kBox.Axis(0));
         if (fY0 < fY0Min)
@@ -81,8 +81,7 @@ Box3 Mgc::ContOrientedBox(int iQuantity, const Vector3* akPoint)
             fY2Max = fY2;
     }
 
-    kBox.Center() += (0.5f * (fY0Min + fY0Max)) * kBox.Axis(0) + (0.5f * (fY1Min + fY1Max)) * kBox.Axis(1) +
-        (0.5f * (fY2Min + fY2Max)) * kBox.Axis(2);
+    kBox.Center() += (0.5f * (fY0Min + fY0Max)) * kBox.Axis(0) + (0.5f * (fY1Min + fY1Max)) * kBox.Axis(1) + (0.5f * (fY2Min + fY2Max)) * kBox.Axis(2);
 
     kBox.Extent(0) = 0.5f * (fY0Max - fY0Min);
     kBox.Extent(1) = 0.5f * (fY1Max - fY1Min);
@@ -128,7 +127,7 @@ bool Mgc::ContOrientedBox(int iQuantity, const Vector3* akPoint, const bool* abV
     {
         if (abValid[i])
         {
-            kDiff = akPoint[i] - rkBox.Center();
+            kDiff    = akPoint[i] - rkBox.Center();
 
             Real fY0 = kDiff.Dot(rkBox.Axis(0));
             if (fY0 < fY0Min)
@@ -150,8 +149,7 @@ bool Mgc::ContOrientedBox(int iQuantity, const Vector3* akPoint, const bool* abV
         }
     }
 
-    rkBox.Center() += (0.5f * (fY0Min + fY0Max)) * rkBox.Axis(0) + (0.5f * (fY1Min + fY1Max)) * rkBox.Axis(1) +
-        (0.5f * (fY2Min + fY2Max)) * rkBox.Axis(2);
+    rkBox.Center() += (0.5f * (fY0Min + fY0Max)) * rkBox.Axis(0) + (0.5f * (fY1Min + fY1Max)) * rkBox.Axis(1) + (0.5f * (fY2Min + fY2Max)) * rkBox.Axis(2);
 
     rkBox.Extent(0) = 0.5f * (fY0Max - fY0Min);
     rkBox.Extent(1) = 0.5f * (fY1Max - fY1Min);

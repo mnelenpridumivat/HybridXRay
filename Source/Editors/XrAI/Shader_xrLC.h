@@ -23,6 +23,7 @@ public:
         u32 bLIGHT_CastShadow:1;
         u32 bLIGHT_Sharp     :1;
     };
+
 public:
     char Name[128];
     union
@@ -54,6 +55,7 @@ DEFINE_VECTOR(Shader_xrLC, Shader_xrLCVec, Shader_xrLCIt);
 class Shader_xrLC_LIB
 {
     Shader_xrLCVec library;
+
 public:
     void Load(LPCSTR name)
     {

@@ -141,14 +141,7 @@ namespace smart_cover
         shared_str m_animation;
 
     public:
-        transition(
-            CAI_Stalker*                           object,
-            LPCSTR                                 action_name,
-            LPCSTR                                 action_from,
-            LPCSTR                                 action_to,
-            StalkerDecisionSpace::EWorldProperties state_from,
-            StalkerDecisionSpace::EWorldProperties state_to,
-            animation_planner*                     planner);
+        transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner);
         virtual void initialize();
         virtual void finalize();
         virtual void select_animation(shared_str& result);
@@ -161,15 +154,7 @@ namespace smart_cover
         typedef transition inherited;
 
     public:
-        idle_2_fire_transition(
-            CAI_Stalker*                           object,
-            LPCSTR                                 action_name,
-            LPCSTR                                 action_from,
-            LPCSTR                                 action_to,
-            StalkerDecisionSpace::EWorldProperties state_from,
-            StalkerDecisionSpace::EWorldProperties state_to,
-            animation_planner*                     planner,
-            bool const&                            use_weapon);
+        idle_2_fire_transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner, bool const& use_weapon);
         virtual void initialize();
         virtual void finalize();
     };   // class idle_2_fire_transition
@@ -180,14 +165,7 @@ namespace smart_cover
         typedef transition inherited;
 
     public:
-        fire_2_idle_transition(
-            CAI_Stalker*                           object,
-            LPCSTR                                 action_name,
-            LPCSTR                                 action_from,
-            LPCSTR                                 action_to,
-            StalkerDecisionSpace::EWorldProperties state_from,
-            StalkerDecisionSpace::EWorldProperties state_to,
-            animation_planner*                     planner);
+        fire_2_idle_transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner);
         virtual void initialize();
         virtual void finalize();
     };   // class idle_2_fire_transition
@@ -198,14 +176,7 @@ namespace smart_cover
         typedef transition inherited;
 
     public:
-        idle_2_lookout_transition(
-            CAI_Stalker*                           object,
-            LPCSTR                                 action_name,
-            LPCSTR                                 action_from,
-            LPCSTR                                 action_to,
-            StalkerDecisionSpace::EWorldProperties state_from,
-            StalkerDecisionSpace::EWorldProperties state_to,
-            animation_planner*                     planner);
+        idle_2_lookout_transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner);
         virtual void initialize();
         virtual void finalize();
     };   // class idle_2_fire_transition
@@ -216,14 +187,7 @@ namespace smart_cover
         typedef transition inherited;
 
     public:
-        lookout_2_idle_transition(
-            CAI_Stalker*                           object,
-            LPCSTR                                 action_name,
-            LPCSTR                                 action_from,
-            LPCSTR                                 action_to,
-            StalkerDecisionSpace::EWorldProperties state_from,
-            StalkerDecisionSpace::EWorldProperties state_to,
-            animation_planner*                     planner);
+        lookout_2_idle_transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner);
         virtual void initialize();
         virtual void finalize();
     };   // class lookout_2_idle_transition

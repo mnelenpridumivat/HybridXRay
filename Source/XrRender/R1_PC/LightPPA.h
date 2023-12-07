@@ -21,6 +21,7 @@ class CLightR_Manager
     xrXRC             xrc;
     xr_vector<light*> selected_point;
     xr_vector<light*> selected_spot;
+
 public:
     CLightR_Manager();
     virtual ~CLightR_Manager();

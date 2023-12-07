@@ -89,30 +89,19 @@ void CUIDemoPlayControl::Init()
     Register(m_restart_btn);
     AddCallback(m_restart_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRestart));
     Register(m_decrease_speed_btn);
-    AddCallback(
-        m_decrease_speed_btn, BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnDecresaseSpeed));
+    AddCallback(m_decrease_speed_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnDecresaseSpeed));
     Register(m_play_pause_btn);
-    AddCallback(
-        m_play_pause_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnPlayPause));
+    AddCallback(m_play_pause_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnPlayPause));
     Register(m_increase_speed_btn);
-    AddCallback(
-        m_increase_speed_btn, BUTTON_CLICKED,
-        CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnIncreaseSpeed));
+    AddCallback(m_increase_speed_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnIncreaseSpeed));
     Register(m_rewind_until_btn);
-    AddCallback(
-        m_rewind_until_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRewindUntil));
+    AddCallback(m_rewind_until_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRewindUntil));
     Register(m_repeat_rewind_btn);
 
-    AddCallback(
-        m_rewind_type, PROPERTY_CLICKED,
-        CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRewindTypeSelected));
-    AddCallback(
-        m_all_players, PROPERTY_CLICKED,
-        CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRewindPlayerSelected));
+    AddCallback(m_rewind_type, PROPERTY_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRewindTypeSelected));
+    AddCallback(m_all_players, PROPERTY_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRewindPlayerSelected));
 
-    AddCallback(
-        m_repeat_rewind_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRepeatRewind));
+    AddCallback(m_repeat_rewind_btn, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUIDemoPlayControl::OnRepeatRewind));
 
     InitRewindTypeList();
     InitAllPlayers();
@@ -235,7 +224,7 @@ void CUIDemoPlayControl::OnRewindTypeSelected(CUIWindow* w, void* d)
 
     CUIListBoxItem* tmp_item = m_rewind_type->GetClickedItem();
     VERIFY(tmp_item);
-    u32 tmp_item_tag = tmp_item->GetTAG();
+    u32 tmp_item_tag   = tmp_item->GetTAG();
 
     m_last_rewind_type = static_cast<ERewindTypeTags>(tmp_item_tag);
 
@@ -279,31 +268,34 @@ void CUIDemoPlayControl::OnRepeatRewind(CUIWindow* w, void* d)
 
     switch (m_last_rewind_type)
     {
-        case eRewindUntilStart: {
+        case eRewindUntilStart:
+        {
             rewind_result = m_demo_play_control->rewind_until(demoplay_control::on_round_start, shared_str(), tmpcb);
         };
         break;
-        case eRewindUntilKill: {
+        case eRewindUntilKill:
+        {
             rewind_result = m_demo_play_control->rewind_until(demoplay_control::on_kill, m_last_rewind_target, tmpcb);
         };
         break;
-        case eRewindUntilDie: {
+        case eRewindUntilDie:
+        {
             rewind_result = m_demo_play_control->rewind_until(demoplay_control::on_die, m_last_rewind_target, tmpcb);
         };
         break;
-        case eRewindUntilArtTake: {
-            rewind_result =
-                m_demo_play_control->rewind_until(demoplay_control::on_artefactcapturing, m_last_rewind_target, tmpcb);
+        case eRewindUntilArtTake:
+        {
+            rewind_result = m_demo_play_control->rewind_until(demoplay_control::on_artefactcapturing, m_last_rewind_target, tmpcb);
         };
         break;
-        case eRewindUntilArtDrop: {
-            rewind_result =
-                m_demo_play_control->rewind_until(demoplay_control::on_artefactloosing, m_last_rewind_target, tmpcb);
+        case eRewindUntilArtDrop:
+        {
+            rewind_result = m_demo_play_control->rewind_until(demoplay_control::on_artefactloosing, m_last_rewind_target, tmpcb);
         };
         break;
-        case eRewindUntilArtDeliver: {
-            rewind_result =
-                m_demo_play_control->rewind_until(demoplay_control::on_artefactdelivering, m_last_rewind_target, tmpcb);
+        case eRewindUntilArtDeliver:
+        {
+            rewind_result = m_demo_play_control->rewind_until(demoplay_control::on_artefactdelivering, m_last_rewind_target, tmpcb);
         };
         break;
         default:
@@ -316,18 +308,16 @@ void CUIDemoPlayControl::OnRepeatRewind(CUIWindow* w, void* d)
 
 void CUIDemoPlayControl::Update()
 {
-    LPCSTR   demo_play_string = NULL;
-    string32 demo_pos;
-    string32 demo_speed;
+    LPCSTR       demo_play_string = NULL;
+    string32     demo_pos;
+    string32     demo_speed;
     // st.translate("demo play active : ").c_str() (need to translate ?)
     CStringTable st;
 
     xr_sprintf(demo_pos, ": %2d %%, ", int(Level().GetDemoPlayPos() * 100));
     xr_sprintf(demo_speed, ": %1.1fx", Level().GetDemoPlaySpeed());
 
-    STRCONCAT(
-        demo_play_string, Device->Paused() ? st.translate("mpdemoplay_paused") : st.translate("mpdemoplay_active"),
-        demo_pos, st.translate("mpdemoplay_speed"), demo_speed);
+    STRCONCAT(demo_play_string, Device->Paused() ? st.translate("mpdemoplay_paused") : st.translate("mpdemoplay_active"), demo_pos, st.translate("mpdemoplay_speed"), demo_speed);
     // m_game_ui->SetDemoPlayCaption(demo_play_string);
     m_progress_bar->SetProgressPos(Level().GetDemoPlayPos());
     m_static_demo_status->SetText(demo_play_string);

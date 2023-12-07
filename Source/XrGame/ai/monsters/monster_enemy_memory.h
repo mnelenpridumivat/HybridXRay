@@ -9,14 +9,14 @@ class CMonsterEnemyMemory
     CBaseMonster* monster;
     TTime         time_memory;
 
-    ENEMIES_MAP m_objects;
+    ENEMIES_MAP   m_objects;
 
 public:
     CMonsterEnemyMemory();
     ~CMonsterEnemyMemory();
 
-    void init_external(CBaseMonster* M, TTime mem_time);
-    void update();
+    void                init_external(CBaseMonster* M, TTime mem_time);
+    void                update();
 
     // -----------------------------------------------------
     const CEntityAlive* get_enemy();
@@ -41,7 +41,7 @@ public:
     void add_enemy(const CEntityAlive* enemy, const Fvector& pos, u32 vertex, u32 time);
 
 private:
-    void remove_non_actual();
+    void           remove_non_actual();
 
     ENEMIES_MAP_IT find_best_enemy();
 };

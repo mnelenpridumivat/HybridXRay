@@ -100,8 +100,7 @@ bool CPsyDog::spawn_phantom()
         return false;
 
     // set id to created server object
-    CSE_Abstract* phantom =
-        Level().spawn_item("psy_dog_phantom", ai().level_graph().vertex_position(node), node, 0xffff, true);
+    CSE_Abstract*         phantom     = Level().spawn_item("psy_dog_phantom", ai().level_graph().vertex_position(node), node, 0xffff, true);
     CSE_ALifeMonsterBase* pSE_Monster = smart_cast<CSE_ALifeMonsterBase*>(phantom);
     VERIFY(pSE_Monster);
 
@@ -140,8 +139,7 @@ void CPsyDog::Think()
     {
         for (int i = 0; i < m_max_phantoms_count; ++i)
         {
-            if (m_phantoms_die_time[i] != s_phantom_alive_flag &&
-                time() > m_phantoms_die_time[i] + m_time_phantom_respawn)
+            if (m_phantoms_die_time[i] != s_phantom_alive_flag && time() > m_phantoms_die_time[i] + m_time_phantom_respawn)
             {
                 if (spawn_phantom())
                     m_phantoms_die_time[i] = s_phantom_alive_flag;
@@ -209,14 +207,14 @@ BOOL CPsyDogPhantom::net_Spawn(CSE_Abstract* dc)
     m_particles_appear    = pSettings->r_string(*cNameSect(), "particles_appear");
     m_particles_disappear = pSettings->r_string(*cNameSect(), "particles_disappear");
 
-    m_time_spawned = time();
+    m_time_spawned        = time();
 
     return (TRUE);
 }
 
 const u32 pmt_time_wait_parent = 10000;
 
-void CPsyDogPhantom::Think()
+void      CPsyDogPhantom::Think()
 {
     if (is_wait_to_destroy_object())
         return;
@@ -275,11 +273,8 @@ void CPsyDogPhantom::Think()
     if (EnemyMan.get_enemy() != Actor())
         return;
 
-    Actor()->Cameras().AddCamEffector(xr_new<CMonsterEffectorHit>(
-        m_appear_effector.ce_time, m_appear_effector.ce_amplitude, m_appear_effector.ce_period_number,
-        m_appear_effector.ce_power));
-    Actor()->Cameras().AddPPEffector(xr_new<CMonsterEffector>(
-        m_appear_effector.ppi, m_appear_effector.time, m_appear_effector.time_attack, m_appear_effector.time_release));
+    Actor()->Cameras().AddCamEffector(xr_new<CMonsterEffectorHit>(m_appear_effector.ce_time, m_appear_effector.ce_amplitude, m_appear_effector.ce_period_number, m_appear_effector.ce_power));
+    Actor()->Cameras().AddPPEffector(xr_new<CMonsterEffector>(m_appear_effector.ppi, m_appear_effector.time, m_appear_effector.time_attack, m_appear_effector.time_release));
 }
 
 // void CPsyDogPhantom::Hit(float P,Fvector &dir,CObject*who,s16 element,Fvector p_in_object_space,float impulse,
@@ -329,9 +324,7 @@ void CPsyDogPhantom::try_to_register_to_parent()
         m_parent = dog;
         m_parent->register_phantom(this);
 
-        movement().restrictions().add_restrictions(
-            m_parent->movement().restrictions().out_restrictions(),
-            m_parent->movement().restrictions().in_restrictions());
+        movement().restrictions().add_restrictions(m_parent->movement().restrictions().out_restrictions(), m_parent->movement().restrictions().in_restrictions());
 
         m_state = eWaitToAppear;
     }

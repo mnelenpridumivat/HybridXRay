@@ -28,13 +28,15 @@ void CHelicopter::OnEvent(NET_Packet& P, u16 type)
     u16 id;
     switch (type)
     {
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             P.r_u16(id);
             CRocketLauncher::AttachRocket(id, this);
         }
         break;
         case GE_OWNERSHIP_REJECT:
-        case GE_LAUNCH_ROCKET: {
+        case GE_LAUNCH_ROCKET:
+        {
             bool bLaunch = (type == GE_LAUNCH_ROCKET);
             P.r_u16(id);
             CRocketLauncher::DetachRocket(id, bLaunch);
@@ -100,8 +102,8 @@ void CHelicopter::MGunUpdateFire()
 void CHelicopter::OnShot()
 {
     Fvector fire_pos, fire_dir;
-    fire_pos = get_CurrentFirePoint();
-    fire_dir = m_fire_dir;
+    fire_pos               = get_CurrentFirePoint();
+    fire_dir               = m_fire_dir;
 
     float fire_trail_speed = 15.0f;
     clamp(fire_trail_speed, GetCurrVelocity(), 300.0f);
@@ -109,7 +111,7 @@ void CHelicopter::OnShot()
     {
         Fvector enemy_pos = m_enemy.destEnemyPos;
 
-        float dt = Device->fTimeGlobal - m_enemy.fStartFireTime;
+        float   dt        = Device->fTimeGlobal - m_enemy.fStartFireTime;
         VERIFY(dt >= 0);
         float dist = m_enemy.fire_trail_length_curr - dt * fire_trail_speed;
         if (dist < 0)
@@ -167,7 +169,7 @@ void CHelicopter::MGunFireStart()
         Fvector ep             = m_enemy.destEnemyPos;
 
         // calc min firetrail length
-        float h = fp.y - ep.y;
+        float   h              = fp.y - ep.y;
         if (h > 0.0f)
         {
             float dl = h * tan(m_lim_x_rot.y);
@@ -226,8 +228,7 @@ void CHelicopter::UpdateWeapons()
             if (between(d, m_min_mgun_dist, m_max_mgun_dist))
                 MGunFireStart();
 
-            if (between(d, m_min_rocket_dist, m_max_rocket_dist) &&
-                (Device->dwTimeGlobal - m_last_rocket_attack > m_time_between_rocket_attack))
+            if (between(d, m_min_rocket_dist, m_max_rocket_dist) && (Device->dwTimeGlobal - m_last_rocket_attack > m_time_between_rocket_attack))
             {
                 if (m_syncronize_rocket)
                 {
@@ -306,8 +307,7 @@ void CHelicopter::UpdateMGunDir()
             m_allow_fire = FALSE;
     }
 
-    if ((angle_difference(m_cur_rot.x, m_tgt_rot.x) > deg2rad(m_barrel_dir_tolerance)) ||
-        (angle_difference(m_cur_rot.y, m_tgt_rot.y) > deg2rad(m_barrel_dir_tolerance)))
+    if ((angle_difference(m_cur_rot.x, m_tgt_rot.x) > deg2rad(m_barrel_dir_tolerance)) || (angle_difference(m_cur_rot.y, m_tgt_rot.y) > deg2rad(m_barrel_dir_tolerance)))
         m_allow_fire = FALSE;
 }
 

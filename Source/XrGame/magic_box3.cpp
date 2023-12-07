@@ -5,19 +5,19 @@ bool MagicBox3::intersects(const MagicBox3& rkBox1) const
 {
     const MagicBox3& rkBox0 = *this;
     // convenience variables
-    const Fvector* akA  = rkBox0.Axes();
-    const Fvector* akB  = rkBox1.Axes();
-    const float*   afEA = rkBox0.Extents();
-    const float*   afEB = rkBox1.Extents();
+    const Fvector*   akA    = rkBox0.Axes();
+    const Fvector*   akB    = rkBox1.Axes();
+    const float*     afEA   = rkBox0.Extents();
+    const float*     afEB   = rkBox1.Extents();
 
     // compute difference of box centers, D = C1-C0
-    Fvector kD = Fvector().sub(rkBox1.Center(), rkBox0.Center());
+    Fvector          kD     = Fvector().sub(rkBox1.Center(), rkBox0.Center());
 
-    float aafC[3][3];      // matrix C = A^T B, c_{ij} = dotproduct(A_i,B_j)
-    float aafAbsC[3][3];   // |c_{ij}|
-    float afAD[3];         // dotproduct(A_i,D)
-    float fR0, fR1, fR;    // interval radii and distance between centers
-    float fR01;            // = R0 + R1
+    float            aafC[3][3];      // matrix C = A^T B, c_{ij} = dotproduct(A_i,B_j)
+    float            aafAbsC[3][3];   // |c_{ij}|
+    float            afAD[3];         // dotproduct(A_i,D)
+    float            fR0, fR1, fR;    // interval radii and distance between centers
+    float            fR01;            // = R0 + R1
 
     // axis C0+t*A0
     aafC[0][0]    = akA[0].dotproduct(akB[0]);
@@ -159,16 +159,14 @@ bool MagicBox3::intersects(const MagicBox3& rkBox1) const
 
 void MagicBox3::ComputeVertices(Fvector* akVertex) const
 {
-    Fvector akEAxis[3] = {
-        Fvector().mul(m_akAxis[0], m_afExtent[0]), Fvector().mul(m_akAxis[1], m_afExtent[1]),
-        Fvector().mul(m_akAxis[2], m_afExtent[2])};
+    Fvector akEAxis[3] = {Fvector().mul(m_akAxis[0], m_afExtent[0]), Fvector().mul(m_akAxis[1], m_afExtent[1]), Fvector().mul(m_akAxis[2], m_afExtent[2])};
 
-    akVertex[0] = Fvector().sub(m_kCenter, akEAxis[0]).sub(akEAxis[1]).sub(akEAxis[2]);
-    akVertex[1] = Fvector().add(m_kCenter, akEAxis[0]).sub(akEAxis[1]).sub(akEAxis[2]);
-    akVertex[2] = Fvector().add(m_kCenter, akEAxis[0]).add(akEAxis[1]).sub(akEAxis[2]);
-    akVertex[3] = Fvector().sub(m_kCenter, akEAxis[0]).add(akEAxis[1]).sub(akEAxis[2]);
-    akVertex[4] = Fvector().sub(m_kCenter, akEAxis[0]).sub(akEAxis[1]).add(akEAxis[2]);
-    akVertex[5] = Fvector().add(m_kCenter, akEAxis[0]).sub(akEAxis[1]).add(akEAxis[2]);
-    akVertex[6] = Fvector().add(m_kCenter, akEAxis[0]).add(akEAxis[1]).add(akEAxis[2]);
-    akVertex[7] = Fvector().sub(m_kCenter, akEAxis[0]).add(akEAxis[1]).add(akEAxis[2]);
+    akVertex[0]        = Fvector().sub(m_kCenter, akEAxis[0]).sub(akEAxis[1]).sub(akEAxis[2]);
+    akVertex[1]        = Fvector().add(m_kCenter, akEAxis[0]).sub(akEAxis[1]).sub(akEAxis[2]);
+    akVertex[2]        = Fvector().add(m_kCenter, akEAxis[0]).add(akEAxis[1]).sub(akEAxis[2]);
+    akVertex[3]        = Fvector().sub(m_kCenter, akEAxis[0]).add(akEAxis[1]).sub(akEAxis[2]);
+    akVertex[4]        = Fvector().sub(m_kCenter, akEAxis[0]).sub(akEAxis[1]).add(akEAxis[2]);
+    akVertex[5]        = Fvector().add(m_kCenter, akEAxis[0]).sub(akEAxis[1]).add(akEAxis[2]);
+    akVertex[6]        = Fvector().add(m_kCenter, akEAxis[0]).add(akEAxis[1]).add(akEAxis[2]);
+    akVertex[7]        = Fvector().sub(m_kCenter, akEAxis[0]).add(akEAxis[1]).add(akEAxis[2]);
 }

@@ -1,4 +1,4 @@
-/* crypto/ebcdic.h */
+﻿/* crypto/ebcdic.h */
 
 #ifndef HEADER_EBCDIC_H
 #define HEADER_EBCDIC_H
@@ -13,7 +13,7 @@
 
 extern const unsigned char os_toascii[256];
 extern const unsigned char os_toebcdic[256];
-void *ebcdic2ascii(void *dest, const void *srce, size_t count);
-void *ascii2ebcdic(void *dest, const void *srce, size_t count);
+void*                      ebcdic2ascii(void* dest, const void* srce, size_t count);
+void*                      ascii2ebcdic(void* dest, const void* srce, size_t count);
 
 #endif

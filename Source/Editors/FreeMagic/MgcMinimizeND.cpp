@@ -14,21 +14,14 @@
 using namespace Mgc;
 
 //----------------------------------------------------------------------------
-MinimizeND::MinimizeND(
-    int      iDimensions,
-    Function oF,
-    int      iMaxLevel,
-    int      iMaxBracket,
-    int      iMaxIterations,
-    void*    pvUserData):
-    m_kMinimizer(LineFunction, iMaxLevel, iMaxBracket)
+MinimizeND::MinimizeND(int iDimensions, Function oF, int iMaxLevel, int iMaxBracket, int iMaxIterations, void* pvUserData): m_kMinimizer(LineFunction, iMaxLevel, iMaxBracket)
 {
     assert(iDimensions >= 1 && oF);
 
-    m_iDimensions    = iDimensions;
-    m_oF             = oF;
-    m_iMaxIterations = iMaxIterations;
-    m_pvUserData     = pvUserData;
+    m_iDimensions        = iDimensions;
+    m_oF                 = oF;
+    m_iMaxIterations     = iMaxIterations;
+    m_pvUserData         = pvUserData;
 
     m_afTCurr            = new Real[m_iDimensions];
     m_afTSave            = new Real[m_iDimensions];
@@ -36,7 +29,7 @@ MinimizeND::MinimizeND(
     m_aafDirection       = new Real*[m_iDimensions + 1];
     for (int i = 0; i <= m_iDimensions; i++)
         m_aafDirection[i] = &m_afDirectionStorage[i * m_iDimensions];
-    m_afDConj = m_aafDirection[m_iDimensions];
+    m_afDConj   = m_aafDirection[m_iDimensions];
 
     m_afLineArg = new Real[m_iDimensions];
 }
@@ -56,8 +49,8 @@ void MinimizeND::GetMinimum(const Real* afT0, const Real* afT1, const Real* afTI
     m_kMinimizer.UserData() = this;
 
     // initial guess
-    int iQuantity = m_iDimensions * sizeof(Real);
-    m_fFCurr      = m_oF(afTInitial, m_pvUserData);
+    int iQuantity           = m_iDimensions * sizeof(Real);
+    m_fFCurr                = m_oF(afTInitial, m_pvUserData);
     memcpy(m_afTSave, afTInitial, iQuantity);
     memcpy(m_afTCurr, afTInitial, iQuantity);
 

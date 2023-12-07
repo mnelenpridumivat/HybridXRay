@@ -1,7 +1,7 @@
 ﻿#ifndef __FRECT
 #define __FRECT
 
-template <class T> struct _rect
+template<class T> struct _rect
 {
 public:
     typedef T           TYPE;
@@ -224,11 +224,11 @@ public:
     }
 };
 
-typedef _rect<float>  Frect;
-typedef _rect<double> Drect;
-typedef _rect<int>    Irect;
+typedef _rect<float>   Frect;
+typedef _rect<double>  Drect;
+typedef _rect<int>     Irect;
 
-template <class T> BOOL _valid(const _rect<T>& m)
+template<class T> BOOL _valid(const _rect<T>& m)
 {
     return lt._valid() && rb._valid();
 }

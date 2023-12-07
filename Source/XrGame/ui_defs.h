@@ -5,7 +5,7 @@
 #include "UIShader.h"
 typedef FactoryPtr<IUIShader> ui_shader;
 
-#define UI_BASE_WIDTH 1024.0f
+#define UI_BASE_WIDTH  1024.0f
 #define UI_BASE_HEIGHT 768.0f
 
 enum EUIItemAlign
@@ -42,7 +42,7 @@ struct S2DVert
 };
 
 #define UI_FRUSTUM_MAXPLANES 12
-#define UI_FRUSTUM_SAFE (UI_FRUSTUM_MAXPLANES * 4)
+#define UI_FRUSTUM_SAFE      (UI_FRUSTUM_MAXPLANES * 4)
 typedef svector<S2DVert, UI_FRUSTUM_SAFE> sPoly2D;
 
 class C2DFrustum

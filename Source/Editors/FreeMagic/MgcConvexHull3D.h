@@ -62,13 +62,13 @@ namespace Mgc
             HULL_SPATIAL
         };
 
-        int        GetType() const;
-        int        GetQuantity() const;
-        const int* GetIndices() const;
+        int          GetType() const;
+        int          GetQuantity() const;
+        const int*   GetIndices() const;
 
         // Remove collinear points in edges of planar hull.  Has no effect on
         // hulls with positive volume.
-        void RemoveCollinear();
+        void         RemoveCollinear();
 
         // TO DO.  Implement 'void RemoveCoplanar ()'.  The result is a convex
         // polyhedron whose faces are non-coplanar convex polygons, not
@@ -130,39 +130,39 @@ namespace Mgc
             ORDER_COPLANAR_OUTSIDE
         };
 
-        int CollinearTest(const Vector3& rkP, const Vector3& rkQ0, const Vector3& rkQ1) const;
+        int            CollinearTest(const Vector3& rkP, const Vector3& rkQ0, const Vector3& rkQ1) const;
 
-        int CoplanarTest(const Vector3& rkP, const Vector3& rkQ0, const Vector3& rkQ1, const Vector3& rkQ2) const;
+        int            CoplanarTest(const Vector3& rkP, const Vector3& rkQ0, const Vector3& rkQ1, const Vector3& rkQ2) const;
 
         // test uses the plane defined by m_kPlaneOrigin and m_kPlaneNormal
-        int CoplanarTest(const Vector3& rkP) const;
+        int            CoplanarTest(const Vector3& rkP) const;
 
         // construct convex hull incrementally
-        void MergeLinear(const SortedVertex& rkP);
-        void MergePlanar(const SortedVertex& rkP);
-        void MergeSpatial(const SortedVertex& rkP);
+        void           MergeLinear(const SortedVertex& rkP);
+        void           MergePlanar(const SortedVertex& rkP);
+        void           MergeSpatial(const SortedVertex& rkP);
 
         // vertex information
         int            m_iVQuantity;
         const Vector3* m_akVertex;
 
         // hull information
-        int  m_iHQuantity;
-        int* m_aiHIndex;
-        int  m_iHullType;
+        int            m_iHQuantity;
+        int*           m_aiHIndex;
+        int            m_iHullType;
 
         // linear or planar hull
-        SVArray m_kHullP;
-        Vector3 m_kPlaneOrigin, m_kPlaneNormal;
+        SVArray        m_kHullP;
+        Vector3        m_kPlaneOrigin, m_kPlaneNormal;
 
         // spatial hull
-        TriangleMesh m_kHullS;
-        int          m_iLastIndex;
+        TriangleMesh   m_kHullS;
+        int            m_iLastIndex;
 
         // tweaking parameters
-        static Real ms_fVertexEqualityEpsilon;
-        static Real ms_fCollinearEpsilon;
-        static Real ms_fCoplanarEpsilon;
+        static Real    ms_fVertexEqualityEpsilon;
+        static Real    ms_fCollinearEpsilon;
+        static Real    ms_fCoplanarEpsilon;
     };
 
 #include "MgcConvexHull3D.inl"

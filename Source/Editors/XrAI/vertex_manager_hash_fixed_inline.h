@@ -8,18 +8,12 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                        \
-    template<typename _path_id_type, typename _index_type, u32 hash_size, u32 fix_size> template<      \
-        template<typename _T> class _vertex, template<typename _T1, typename _T2> class _index_vertex, \
-        typename _data_storage>
+#define TEMPLATE_SPECIALIZATION template<typename _path_id_type, typename _index_type, u32 hash_size, u32 fix_size> template<template<typename _T> class _vertex, template<typename _T1, typename _T2> class _index_vertex, typename _data_storage>
 
-#define CHashFixedVertexManager                                                             \
-    CVertexManagerHashFixed<_path_id_type, _index_type, hash_size, fix_size>::CDataStorage< \
-        _vertex, _index_vertex, _data_storage>
+#define CHashFixedVertexManager CVertexManagerHashFixed<_path_id_type, _index_type, hash_size, fix_size>::CDataStorage<_vertex, _index_vertex, _data_storage>
 
 TEMPLATE_SPECIALIZATION
-IC CHashFixedVertexManager::CDataStorage(const u32 vertex_count):
-    inherited(vertex_count), m_current_path_id(_path_id_type(0))
+IC CHashFixedVertexManager::CDataStorage(const u32 vertex_count): inherited(vertex_count), m_current_path_id(_path_id_type(0))
 {
     u32 memory_usage = 0;
     u32 byte_count;
@@ -122,8 +116,7 @@ IC typename CHashFixedVertexManager::CGraphVertex& CHashFixedVertexManager::get_
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CHashFixedVertexManager::CGraphVertex&
-    CHashFixedVertexManager::create_vertex(CGraphVertex& vertex, const _index_type& vertex_id)
+IC typename CHashFixedVertexManager::CGraphVertex& CHashFixedVertexManager::create_vertex(CGraphVertex& vertex, const _index_type& vertex_id)
 {
     // allocating new index node
     VERIFY(m_vertex_count < fix_size);

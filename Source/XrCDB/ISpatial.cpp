@@ -12,8 +12,7 @@
 ISpatial_DB* g_SpatialSpace       = NULL;
 ISpatial_DB* g_SpatialSpacePhysic = NULL;
 
-Fvector c_spatial_offset[8] = {{-1, -1, -1}, {1, -1, -1}, {-1, 1, -1}, {1, 1, -1},
-                               {-1, -1, 1},  {1, -1, 1},  {-1, 1, 1},  {1, 1, 1}};
+Fvector      c_spatial_offset[8]  = {{-1, -1, -1}, {1, -1, -1}, {-1, 1, -1}, {1, 1, -1}, {-1, -1, 1}, {1, -1, 1}, {-1, 1, 1}, {1, 1, 1}};
 
 //////////////////////////////////////////////////////////////////////////
 ISpatial::ISpatial(ISpatial_DB* space)
@@ -129,8 +128,7 @@ void ISpatial::spatial_updatesector_internal()
 void ISpatial_NODE::_init(ISpatial_NODE* _parent)
 {
     parent      = _parent;
-    children[0] = children[1] = children[2] = children[3] = children[4] = children[5] = children[6] = children[7] =
-        NULL;
+    children[0] = children[1] = children[2] = children[3] = children[4] = children[5] = children[6] = children[7] = NULL;
     items.clear();
 }
 
@@ -283,13 +281,9 @@ void ISpatial_DB::insert(ISpatial* S)
         {
             CPS_Instance* P = dynamic_cast<CPS_Instance*>(S);
             if (P)
-                Debug.fatal(
-                    DEBUG_INFO, "Invalid PS spatial position{%3.2f,%3.2f,%3.2f} or radius{%3.2f}",
-                    VPUSH(S->spatial.sphere.P), S->spatial.sphere.R);
+                Debug.fatal(DEBUG_INFO, "Invalid PS spatial position{%3.2f,%3.2f,%3.2f} or radius{%3.2f}", VPUSH(S->spatial.sphere.P), S->spatial.sphere.R);
             else
-                Debug.fatal(
-                    DEBUG_INFO, "Invalid OTHER spatial position{%3.2f,%3.2f,%3.2f} or radius{%3.2f}",
-                    VPUSH(S->spatial.sphere.P), S->spatial.sphere.R);
+                Debug.fatal(DEBUG_INFO, "Invalid OTHER spatial position{%3.2f,%3.2f,%3.2f} or radius{%3.2f}", VPUSH(S->spatial.sphere.P), S->spatial.sphere.R);
         }
     }
 #endif

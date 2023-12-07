@@ -45,7 +45,7 @@ private:
     void update_enemies(const bool& registered_in_combat);
 
 protected:
-    template <typename T> void update(const xr_vector<T>& objects, bool add_enemies);
+    template<typename T> void update(const xr_vector<T>& objects, bool add_enemies);
 
 public:
     CMemoryManager(CEntityAlive* entity_alive, CSound_UserDataVisitor* visitor);
@@ -65,9 +65,8 @@ public:
     void        make_object_visible_somewhen(const CEntityAlive* enemy);
 
 public:
-    template <typename T, typename _predicate>
-    IC void                                fill_enemies(const xr_vector<T>& objects, const _predicate& predicate) const;
-    template <typename _predicate> IC void fill_enemies(const _predicate& predicate) const;
+    template<typename T, typename _predicate> IC void fill_enemies(const xr_vector<T>& objects, const _predicate& predicate) const;
+    template<typename _predicate> IC void             fill_enemies(const _predicate& predicate) const;
 
 public:
     IC CVisualMemoryManager& visual() const;

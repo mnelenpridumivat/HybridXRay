@@ -8,7 +8,7 @@
 
 #pragma once
 
-IC CTradeFactorParameters::CTradeFactorParameters() {}
+IC      CTradeFactorParameters::CTradeFactorParameters() {}
 
 IC void CTradeFactorParameters::clear()
 {

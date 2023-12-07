@@ -27,18 +27,18 @@ public:
     xr_vector<game_TeamState> teams;   // dm,tdm,ah
     u32                       m_u32ForceRespawn;
 
-    u32      m_cl_dwWarmUp_Time;
-    string64 WinnerName;
+    u32                       m_cl_dwWarmUp_Time;
+    string64                  WinnerName;
 
-    virtual CUIGameCustom* createGameUI();
-    virtual void           SetGameUI(CUIGameCustom*);
-    virtual void           net_import_state(NET_Packet& P);
-    virtual void           net_import_update(NET_Packet& P);
-    virtual void           Init();
+    virtual CUIGameCustom*    createGameUI();
+    virtual void              SetGameUI(CUIGameCustom*);
+    virtual void              net_import_state(NET_Packet& P);
+    virtual void              net_import_update(NET_Packet& P);
+    virtual void              Init();
 
-    virtual void LoadSndMessages();
+    virtual void              LoadSndMessages();
 
-    virtual bool Is_Rewarding_Allowed() const
+    virtual bool              Is_Rewarding_Allowed() const
     {
         return m_cl_dwWarmUp_Time == 0;
     };
@@ -77,76 +77,76 @@ protected:
 
     DEF_VECTOR(PRESET_ITEMS, PresetItem);
 
-    PRESET_ITEMS  PresetItemsTeam0;
-    PRESET_ITEMS  AdditionalPresetItems;
-    PRESET_ITEMS* pCurPresetItems;
-    PRESET_ITEMS  PlayerDefItems;
-    IBuyWnd*      pCurBuyMenu;
+    PRESET_ITEMS             PresetItemsTeam0;
+    PRESET_ITEMS             AdditionalPresetItems;
+    PRESET_ITEMS*            pCurPresetItems;
+    PRESET_ITEMS             PlayerDefItems;
+    IBuyWnd*                 pCurBuyMenu;
 
-    CUISkinSelectorWnd* pCurSkinMenu;
-    BOOL                m_bFirstRun;
-    BOOL                m_bMenuCalledFromReady;
-    BOOL                m_bSkinSelected;
+    CUISkinSelectorWnd*      pCurSkinMenu;
+    BOOL                     m_bFirstRun;
+    BOOL                     m_bMenuCalledFromReady;
+    BOOL                     m_bSkinSelected;
 
-    BOOL m_bBuyEnabled;
-    s32  m_iCurrentPlayersMoney;
+    BOOL                     m_bBuyEnabled;
+    s32                      m_iCurrentPlayersMoney;
 
-    u32 m_dwVoteEndTime;
+    u32                      m_dwVoteEndTime;
 
     virtual const shared_str GetBaseCostSect()
     {
         return "deathmatch_base_cost";
     }
-    void CheckItem(PIItem pItem, PRESET_ITEMS* pPresetItems, BOOL OnlyPreset);
+    void                     CheckItem(PIItem pItem, PRESET_ITEMS* pPresetItems, BOOL OnlyPreset);
 
-    void                ClearBuyMenu();
-    IBuyWnd*            InitBuyMenu(const shared_str& BasePriceSection, s16 Team);
-    CUISkinSelectorWnd* InitSkinMenu(s16 Team = -1);
-    void                SetBuyMenuItems(PRESET_ITEMS* pItems, BOOL OnlyPreset = FALSE);
-    virtual bool        CanBeReady();
-    virtual BOOL        CanCallBuyMenu();
-    virtual BOOL        CanCallSkinMenu();
-    virtual BOOL        CanCallInventoryMenu();
+    void                     ClearBuyMenu();
+    IBuyWnd*                 InitBuyMenu(const shared_str& BasePriceSection, s16 Team);
+    CUISkinSelectorWnd*      InitSkinMenu(s16 Team = -1);
+    void                     SetBuyMenuItems(PRESET_ITEMS* pItems, BOOL OnlyPreset = FALSE);
+    virtual bool             CanBeReady();
+    virtual BOOL             CanCallBuyMenu();
+    virtual BOOL             CanCallSkinMenu();
+    virtual BOOL             CanCallInventoryMenu();
 
-    void Check_Invincible_Players();
+    void                     Check_Invincible_Players();
 
-    virtual void shedule_Update(u32 dt);
-    virtual bool OnKeyboardPress(int key);
-    virtual bool OnKeyboardRelease(int key);
+    virtual void             shedule_Update(u32 dt);
+    virtual bool             OnKeyboardPress(int key);
+    virtual bool             OnKeyboardRelease(int key);
 
     virtual const shared_str GetTeamMenu(s16 team);
-    virtual void LoadTeamDefaultPresetItems(const shared_str& caSection, IBuyWnd* pBuyMenu, PRESET_ITEMS* pPresetItems);
-    virtual void LoadPlayerDefItems(char* TeamName, IBuyWnd* pBuyMenu);
-    virtual void LoadDefItemsForRank(IBuyWnd* pBuyMenu);
-    virtual void ChangeItemsCosts(IBuyWnd* pBuyMenu);
+    virtual void             LoadTeamDefaultPresetItems(const shared_str& caSection, IBuyWnd* pBuyMenu, PRESET_ITEMS* pPresetItems);
+    virtual void             LoadPlayerDefItems(char* TeamName, IBuyWnd* pBuyMenu);
+    virtual void             LoadDefItemsForRank(IBuyWnd* pBuyMenu);
+    virtual void             ChangeItemsCosts(IBuyWnd* pBuyMenu);
     ///	virtual		s16					GetBuyMenuItemIndex			(u8 SlotID, u8 ItemID);
-    s16 GetBuyMenuItemIndex(u8 Addons, u8 ItemID);
+    s16                      GetBuyMenuItemIndex(u8 Addons, u8 ItemID);
 
-    virtual void ConvertTime2String(string64* str, u32 Time);
-    virtual int  GetPlayersPlace(game_PlayerState* ps);
+    virtual void             ConvertTime2String(string64* str, u32 Time);
+    virtual int              GetPlayersPlace(game_PlayerState* ps);
 
-    virtual void PlayParticleEffect(LPCSTR EffName, Fvector& pos);
+    virtual void             PlayParticleEffect(LPCSTR EffName, Fvector& pos);
 
-    virtual void ShowBuyMenu();
-    virtual void HideBuyMenu();
+    virtual void             ShowBuyMenu();
+    virtual void             HideBuyMenu();
 
 public:
-    virtual s16 ModifyTeam(s16 Team);
+    virtual s16           ModifyTeam(s16 Team);
 
-    virtual char* getTeamSection(int Team);
-    virtual void  SetCurrentBuyMenu();
-    virtual void  SetCurrentSkinMenu();   //	{pCurSkinMenu = pSkinMenuTeam0; };
+    virtual char*         getTeamSection(int Team);
+    virtual void          SetCurrentBuyMenu();
+    virtual void          SetCurrentSkinMenu();   //	{pCurSkinMenu = pSkinMenuTeam0; };
 
-    virtual void OnSpectatorSelect();
+    virtual void          OnSpectatorSelect();
 
-    virtual void OnMapInfoAccept();
-    virtual void OnSkinMenuBack();
-    virtual void OnBuyMenu_Ok();
-    virtual void OnBuyMenu_DefaultItems();
-    virtual void OnSkinMenu_Ok();
-    virtual void OnSkinMenu_Cancel();
+    virtual void          OnMapInfoAccept();
+    virtual void          OnSkinMenuBack();
+    virtual void          OnBuyMenu_Ok();
+    virtual void          OnBuyMenu_DefaultItems();
+    virtual void          OnSkinMenu_Ok();
+    virtual void          OnSkinMenu_Cancel();
 
-    virtual void OnGameMenuRespond_ChangeSkin(NET_Packet& P);
+    virtual void          OnGameMenuRespond_ChangeSkin(NET_Packet& P);
 
     virtual CUIDialogWnd* GetBuyWnd()
     {
@@ -178,13 +178,13 @@ public:
 
     virtual void OnSwitchPhase_InProgress();
 
-    virtual u8 GetTeamCount()
+    virtual u8   GetTeamCount()
     {
         return 1;
     };
 
-    virtual void OnPlayerFlagsChanged(game_PlayerState* ps);
-    virtual void SendPickUpEvent(u16 ID_who, u16 ID_what);
+    virtual void   OnPlayerFlagsChanged(game_PlayerState* ps);
+    virtual void   SendPickUpEvent(u16 ID_who, u16 ID_what);
 
     virtual void   OnGameRoundStarted();
     virtual void   UpdateMapLocations();

@@ -29,9 +29,9 @@ namespace award_system
 
     void player_team_win_score::save_round_scores()
     {
-        m_green_team_score = 0;
-        m_blue_team_score  = 0;
-        m_player_team      = etSpectatorsTeam;
+        m_green_team_score                 = 0;
+        m_blue_team_score                  = 0;
+        m_player_team                      = etSpectatorsTeam;
 
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
         if (!tmp_local_player)
@@ -39,7 +39,8 @@ namespace award_system
 
         switch (Game().Type())
         {
-            case eGameIDCaptureTheArtefact: {
+            case eGameIDCaptureTheArtefact:
+            {
                 game_cl_CaptureTheArtefact* tmp_game = smart_cast<game_cl_CaptureTheArtefact*>(Level().game);
                 m_green_team_score                   = tmp_game->GetGreenTeamScore();
                 m_blue_team_score                    = tmp_game->GetBlueTeamScore();
@@ -47,7 +48,8 @@ namespace award_system
             }
             break;
             case eGameIDArtefactHunt:
-            case eGameIDTeamDeathmatch: {
+            case eGameIDTeamDeathmatch:
+            {
                 game_cl_TeamDeathmatch* tmp_game = smart_cast<game_cl_TeamDeathmatch*>(Level().game);
                 m_green_team_score               = tmp_game->GetGreenTeamScore();
                 m_blue_team_score                = tmp_game->GetBlueTeamScore();
@@ -57,7 +59,8 @@ namespace award_system
                 }
             }
             break;
-            case eGameIDDeathmatch: {
+            case eGameIDDeathmatch:
+            {
                 game_cl_Deathmatch* tmp_game = smart_cast<game_cl_Deathmatch*>(Level().game);
                 if (!xr_strcmp(tmp_local_player->getName(), tmp_game->WinnerName))
                 {

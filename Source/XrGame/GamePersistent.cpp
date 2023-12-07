@@ -51,11 +51,11 @@
 
 CGamePersistent::CGamePersistent(void)
 {
-    m_bPickableDOF              = false;
-    m_game_params.m_e_game_type = eGameIDNoGame;
-    ambient_effect_next_time    = 0;
-    ambient_effect_stop_time    = 0;
-    ambient_particles           = 0;
+    m_bPickableDOF               = false;
+    m_game_params.m_e_game_type  = eGameIDNoGame;
+    ambient_effect_next_time     = 0;
+    ambient_effect_stop_time     = 0;
+    ambient_particles            = 0;
 
     ambient_effect_wind_start    = 0.f;
     ambient_effect_wind_in_time  = 0.f;
@@ -119,11 +119,10 @@ void CGamePersistent::RegisterModel(IRenderVisual* V)
     switch (V->getType())
     {
         case MT_SKELETON_ANIM:
-        case MT_SKELETON_RIGID: {
+        case MT_SKELETON_RIGID:
+        {
             u16 def_idx = GameMaterialLibrary->GetMaterialIdx("default_object");
-            R_ASSERT2(
-                GameMaterialLibrary->GetMaterialByIdx(def_idx)->Flags.is(SGameMtl::flDynamic),
-                "'default_object' - must be dynamic");
+            R_ASSERT2(GameMaterialLibrary->GetMaterialByIdx(def_idx)->Flags.is(SGameMtl::flDynamic), "'default_object' - must be dynamic");
             IKinematics* K = smart_cast<IKinematics*>(V);
             VERIFY(K);
             int cnt = K->LL_BoneCount();
@@ -133,9 +132,7 @@ void CGamePersistent::RegisterModel(IRenderVisual* V)
                 if (*(bd.game_mtl_name))
                 {
                     bd.game_mtl_idx = GameMaterialLibrary->GetMaterialIdx(*bd.game_mtl_name);
-                    R_ASSERT2(
-                        GameMaterialLibrary->GetMaterialByIdx(bd.game_mtl_idx)->Flags.is(SGameMtl::flDynamic),
-                        "Required dynamic game material");
+                    R_ASSERT2(GameMaterialLibrary->GetMaterialByIdx(bd.game_mtl_idx)->Flags.is(SGameMtl::flDynamic), "Required dynamic game material");
                 }
                 else
                 {
@@ -150,7 +147,7 @@ void CGamePersistent::RegisterModel(IRenderVisual* V)
 extern void clean_game_globals();
 extern void init_game_globals();
 
-void CGamePersistent::OnAppStart()
+void        CGamePersistent::OnAppStart()
 {
     // load game materials
     GameMaterialLibrary->Load();
@@ -279,7 +276,7 @@ void CGamePersistent::WeathersUpdate()
         if (actor)
             bIndoor = actor->renderable_ROS()->get_luminocity_hemi() < 0.05f;
 
-        int data_set = (Random.randF() < (1.f - EnvironmentAsCOP()->CurrentEnv->weight)) ? 0 : 1;
+        int                   data_set    = (Random.randF() < (1.f - EnvironmentAsCOP()->CurrentEnv->weight)) ? 0 : 1;
 
         IEnvDescriptor* const current_env = EnvironmentAsCOP()->Current[0];
         VERIFY(current_env);
@@ -306,11 +303,11 @@ void CGamePersistent::WeathersUpdate()
                 {
                     ref_sound& snd = ch.get_rnd_sound();
 
-                    Fvector pos;
-                    float   angle = ::Random.randF(PI_MUL_2);
-                    pos.x         = _cos(angle);
-                    pos.y         = 0;
-                    pos.z         = _sin(angle);
+                    Fvector    pos;
+                    float      angle = ::Random.randF(PI_MUL_2);
+                    pos.x            = _cos(angle);
+                    pos.y            = 0;
+                    pos.z            = _sin(angle);
                     pos.normalize().mul(ch.get_rnd_sound_dist()).add(Device->vCameraPosition);
                     pos.y += 10.f;
                     snd.play_at_pos(0, pos);
@@ -357,11 +354,10 @@ void CGamePersistent::WeathersUpdate()
                     ambient_effect_wind_start            = Device->fTimeGlobal;
                     ambient_effect_wind_in_time          = Device->fTimeGlobal + eff->wind_blast_in_time;
                     ambient_effect_wind_end              = Device->fTimeGlobal + eff->life_time / 1000.f;
-                    ambient_effect_wind_out_time =
-                        Device->fTimeGlobal + eff->life_time / 1000.f + eff->wind_blast_out_time;
-                    ambient_effect_wind_on = true;
+                    ambient_effect_wind_out_time         = Device->fTimeGlobal + eff->life_time / 1000.f + eff->wind_blast_out_time;
+                    ambient_effect_wind_on               = true;
 
-                    ambient_particles = CParticlesObject::Create(eff->particles.c_str(), FALSE, false);
+                    ambient_particles                    = CParticlesObject::Create(eff->particles.c_str(), FALSE, false);
                     Fvector pos;
                     pos.add(Device->vCameraPosition, eff->offset);
                     ambient_particles->play_at_pos(pos);
@@ -373,22 +369,17 @@ void CGamePersistent::WeathersUpdate()
 
                     if (EnvironmentAsCOP()->wind_blast_strength_start_value == 0.f)
                     {
-                        EnvironmentAsCOP()->wind_blast_start_time.set(
-                            0.f, eff->wind_blast_direction.x, eff->wind_blast_direction.y, eff->wind_blast_direction.z);
+                        EnvironmentAsCOP()->wind_blast_start_time.set(0.f, eff->wind_blast_direction.x, eff->wind_blast_direction.y, eff->wind_blast_direction.z);
                     }
                     else
                     {
-                        EnvironmentAsCOP()->wind_blast_start_time.set(
-                            0.f, EnvironmentAsCOP()->wind_blast_direction.x, EnvironmentAsCOP()->wind_blast_direction.y,
-                            EnvironmentAsCOP()->wind_blast_direction.z);
+                        EnvironmentAsCOP()->wind_blast_start_time.set(0.f, EnvironmentAsCOP()->wind_blast_direction.x, EnvironmentAsCOP()->wind_blast_direction.y, EnvironmentAsCOP()->wind_blast_direction.z);
                     }
-                    EnvironmentAsCOP()->wind_blast_stop_time.set(
-                        0.f, eff->wind_blast_direction.x, eff->wind_blast_direction.y, eff->wind_blast_direction.z);
+                    EnvironmentAsCOP()->wind_blast_stop_time.set(0.f, eff->wind_blast_direction.x, eff->wind_blast_direction.y, eff->wind_blast_direction.z);
                 }
             }
         }
-        if (Device->fTimeGlobal >= ambient_effect_wind_start && Device->fTimeGlobal <= ambient_effect_wind_in_time &&
-            ambient_effect_wind_on)
+        if (Device->fTimeGlobal >= ambient_effect_wind_start && Device->fTimeGlobal <= ambient_effect_wind_in_time && ambient_effect_wind_on)
         {
             float delta = ambient_effect_wind_in_time - ambient_effect_wind_start;
             float t;
@@ -401,16 +392,10 @@ void CGamePersistent::WeathersUpdate()
             {
                 t = 0.f;
             }
-            EnvironmentAsCOP()->wind_blast_current.slerp(
-                EnvironmentAsCOP()->wind_blast_start_time, EnvironmentAsCOP()->wind_blast_stop_time, t);
+            EnvironmentAsCOP()->wind_blast_current.slerp(EnvironmentAsCOP()->wind_blast_start_time, EnvironmentAsCOP()->wind_blast_stop_time, t);
 
-            EnvironmentAsCOP()->wind_blast_direction.set(
-                EnvironmentAsCOP()->wind_blast_current.x, EnvironmentAsCOP()->wind_blast_current.y,
-                EnvironmentAsCOP()->wind_blast_current.z);
-            EnvironmentAsCOP()->wind_strength_factor = EnvironmentAsCOP()->wind_blast_strength_start_value +
-                t *
-                    (EnvironmentAsCOP()->wind_blast_strength_stop_value -
-                     EnvironmentAsCOP()->wind_blast_strength_start_value);
+            EnvironmentAsCOP()->wind_blast_direction.set(EnvironmentAsCOP()->wind_blast_current.x, EnvironmentAsCOP()->wind_blast_current.y, EnvironmentAsCOP()->wind_blast_current.z);
+            EnvironmentAsCOP()->wind_strength_factor = EnvironmentAsCOP()->wind_blast_strength_start_value + t * (EnvironmentAsCOP()->wind_blast_strength_stop_value - EnvironmentAsCOP()->wind_blast_strength_start_value);
         }
 
         // stop if time exceed or indoor
@@ -427,7 +412,7 @@ void CGamePersistent::WeathersUpdate()
             EnvironmentAsCOP()->wind_blast_strength_start_value = EnvironmentAsCOP()->wind_strength_factor;
             EnvironmentAsCOP()->wind_blast_strength_stop_value  = 0.f;
 
-            ambient_effect_wind_on = false;
+            ambient_effect_wind_on                              = false;
         }
 
         if (Device->fTimeGlobal >= ambient_effect_wind_end && Device->fTimeGlobal <= ambient_effect_wind_out_time)
@@ -443,10 +428,7 @@ void CGamePersistent::WeathersUpdate()
             {
                 t = 0.f;
             }
-            EnvironmentAsCOP()->wind_strength_factor = EnvironmentAsCOP()->wind_blast_strength_start_value +
-                t *
-                    (EnvironmentAsCOP()->wind_blast_strength_stop_value -
-                     EnvironmentAsCOP()->wind_blast_strength_start_value);
+            EnvironmentAsCOP()->wind_strength_factor = EnvironmentAsCOP()->wind_blast_strength_start_value + t * (EnvironmentAsCOP()->wind_blast_strength_stop_value - EnvironmentAsCOP()->wind_blast_strength_start_value);
         }
         if (Device->fTimeGlobal > ambient_effect_wind_out_time && ambient_effect_wind_out_time != 0.f)
         {
@@ -509,8 +491,7 @@ void       CGamePersistent::game_loaded()
 {
     if (Device->dwPrecacheFrame <= 2)
     {
-        if (g_pGameLevel && g_pGameLevel->bReady && (allow_intro() && g_keypress_on_start) &&
-            load_screen_renderer.b_need_user_input && m_game_params.m_e_game_type == eGameIDSingle)
+        if (g_pGameLevel && g_pGameLevel->bReady && (allow_intro() && g_keypress_on_start) && load_screen_renderer.b_need_user_input && m_game_params.m_e_game_type == eGameIDSingle)
         {
             VERIFY(NULL == m_intro);
             m_intro = xr_new<CUISequencer>();
@@ -567,7 +548,7 @@ void CGamePersistent::update_game_intro()
 extern CUISequencer* g_tutorial;
 extern CUISequencer* g_tutorial2;
 
-void CGamePersistent::OnFrame()
+void                 CGamePersistent::OnFrame()
 {
     if (Device->dwPrecacheFrame == 5 && m_intro_event.empty())
     {
@@ -653,7 +634,7 @@ void CGamePersistent::OnFrame()
                         Actor()->dbg_update_cl      = 0;
                         Actor()->dbg_update_shedule = 0;
 
-                        CSE_Abstract* e = Level().Server->ID_to_entity(Actor()->ID());
+                        CSE_Abstract* e             = Level().Server->ID_to_entity(Actor()->ID());
                         VERIFY(e);
                         CSE_ALifeCreatureActor* s_actor = smart_cast<CSE_ALifeCreatureActor*>(e);
                         VERIFY(s_actor);
@@ -792,7 +773,7 @@ float CGamePersistent::MtlTransparent(u32 mtl_idx)
 static BOOL bRestorePause = FALSE;
 static BOOL bEntryFlag    = TRUE;
 
-void CGamePersistent::OnAppActivate()
+void        CGamePersistent::OnAppActivate()
 {
     bool bIsMP = (g_pGameLevel && Level().game && GameID() != eGameIDSingle);
     bIsMP &= !Device->Paused();
@@ -814,7 +795,7 @@ void CGamePersistent::OnAppDeactivate()
     if (!bEntryFlag)
         return;
 
-    bool bIsMP = (g_pGameLevel && Level().game && GameID() != eGameIDSingle);
+    bool bIsMP    = (g_pGameLevel && Level().game && GameID() != eGameIDSingle);
 
     bRestorePause = FALSE;
 
@@ -878,8 +859,7 @@ void CGamePersistent::LoadTitle(bool change_tip, shared_str map_name)
         else
             xr_sprintf(buff, "ls_mp_tip_%d", tip_num);
 
-        pApp->LoadTitleInt(
-            CStringTable().translate("ls_header").c_str(), tmp.c_str(), CStringTable().translate(buff).c_str());
+        pApp->LoadTitleInt(CStringTable().translate("ls_header").c_str(), tmp.c_str(), CStringTable().translate(buff).c_str());
     }
 }
 

@@ -16,6 +16,7 @@ class CServerEntityWrapper: public IPureSerializeObject<IReader, IWriter>
 {
 private:
     CSE_Abstract* m_object;
+
 public:
     IC CServerEntityWrapper(CSE_Abstract* object = 0);
     virtual ~CServerEntityWrapper();

@@ -29,7 +29,8 @@ float _nrand(float sigma)
     do
     {
         y = -logf(Random.randF());
-    } while (Random.randF() > expf(-_sqr(y - 1.0f) * 0.5f));
+    }
+    while (Random.randF() > expf(-_sqr(y - 1.0f) * 0.5f));
     if (rand() & 0x1)
         return y * sigma * ONE_OVER_SIGMA_EXP;
     else

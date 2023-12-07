@@ -19,8 +19,5 @@ bool CCoverPoint__is_smart_cover(CCoverPoint const* cover)
 #pragma optimize("s", on)
 void CCoverPoint::script_register(lua_State* L)
 {
-    module(L)[class_<CCoverPoint>("cover_point")
-                  .def("position", &CCoverPoint::position)
-                  .def("level_vertex_id", &CCoverPoint::level_vertex_id)
-                  .def("is_smart_cover", &CCoverPoint__is_smart_cover)];
+    module(L)[class_<CCoverPoint>("cover_point").def("position", &CCoverPoint::position).def("level_vertex_id", &CCoverPoint::level_vertex_id).def("is_smart_cover", &CCoverPoint__is_smart_cover)];
 }

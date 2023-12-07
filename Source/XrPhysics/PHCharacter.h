@@ -45,21 +45,22 @@ protected:
     dBodyID              m_body;
     IPhysicsShellHolder* m_phys_ref_object;
 
-    dReal m_mass;
-    bool  was_enabled_before_freeze;
+    dReal                m_mass;
+    bool                 was_enabled_before_freeze;
 
     /////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////
-    u16* p_lastMaterialIDX;
-    u16  lastMaterialIDX;
-    u16  injuriousMaterialIDX;
+    u16*                 p_lastMaterialIDX;
+    u16                  lastMaterialIDX;
+    u16                  injuriousMaterialIDX;
     ///////////////////////////////////////////////////////////////////////////
-    dVector3 m_safe_velocity;
-    dVector3 m_safe_position;
-    dReal    m_mean_y;
+    dVector3             m_safe_velocity;
+    dVector3             m_safe_position;
+    dReal                m_mean_y;
 
 public:
+
 private:
 #ifdef DEBUG
     virtual IPhysicsShellHolder* ref_object()
@@ -73,8 +74,8 @@ protected:
     ERestrictionType m_restriction_type;
     bool             b_actor_movable;
 
-    bool  b_in_touch_resrtrictor;
-    float m_current_object_radius;
+    bool             b_in_touch_resrtrictor;
+    float            m_current_object_radius;
 
 public:
     virtual ECastType CastType()
@@ -272,6 +273,7 @@ public:
     virtual void step(float dt)      = 0;   //{ step( dt ); }
     virtual void collision_disable() = 0;   //{ collision_disable(); }
     virtual void collision_enable()  = 0;   //{ collision_enable(); }
+
 protected:
     virtual const Fmatrix& XFORM() const;
     virtual void           get_LinearVel(Fvector& velocity) const;
@@ -286,7 +288,7 @@ protected:
     }
     virtual const Fvector& mass_Center() const;
 
-    virtual void get_xform(Fmatrix& form) const
+    virtual void           get_xform(Fmatrix& form) const
     {
         form.set(XFORM());
     }
@@ -304,7 +306,6 @@ public:
     virtual ~CPHCharacter(void);
 };
 
-XRPHYSICS_API void
-    virtual_move_collide_callback(bool& do_collide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2);
+XRPHYSICS_API void          virtual_move_collide_callback(bool& do_collide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2);
 XRPHYSICS_API CPHCharacter* create_ai_character();
 XRPHYSICS_API CPHCharacter* create_actor_character(bool single_game);

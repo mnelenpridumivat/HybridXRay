@@ -139,7 +139,7 @@ void CUIStaticItem::RenderInternal(float angle)
     LTt.set(TextureRect.x1 / ts.x + hp.x, TextureRect.y1 / ts.y + hp.y);
     RBt.set(TextureRect.x2 / ts.x + hp.x, TextureRect.y2 / ts.y + hp.y);
 
-    float kx = UI().get_current_kx();
+    float   kx = UI().get_current_kx();
 
     // clip poly
     sPoly2D S;

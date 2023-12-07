@@ -37,12 +37,12 @@ public:
 
     //	u32										dwFrame;
     //	u32										dwPrecacheFrame;
-    u32 dwPrecacheTotal;
+    u32     dwPrecacheTotal;
 
     //	u32										dwWidth, dwHeight;
     //	BOOL									b_is_Ready;
     //	BOOL									b_is_Active;
-    void OnWM_Activate(WPARAM wParam, LPARAM lParam);
+    void    OnWM_Activate(WPARAM wParam, LPARAM lParam);
 
 public:
     // ref_shader								m_WireShader;
@@ -81,7 +81,10 @@ public:
         dwPrecacheTotal(0)
 #ifdef INGAME_EDITOR
         ,
-        m_editor_module(0), m_editor_initialize(0), m_editor_finalize(0), m_editor(0),
+        m_editor_module(0),
+        m_editor_initialize(0),
+        m_editor_finalize(0),
+        m_editor(0),
         m_engine(0)
 #endif   // #ifdef INGAME_EDITOR
 #ifdef PROFILE_CRITICAL_SECTIONS
@@ -105,23 +108,24 @@ public:
     virtual void End() override;
     void         FrameMove();
 
-    void overdrawBegin();
-    void overdrawEnd();
+    void         overdrawBegin();
+    void         overdrawEnd();
 
     // Mode control
-    void DumpFlags();
+    void         DumpFlags();
 
     // Creation & Destroying
-    void ConnectToRender();
-    void Create(void);
-    void Run(void);
-    void Destroy(void);
-    void Reset(bool precache = true);
+    void         ConnectToRender();
+    void         Create(void);
+    void         Run(void);
+    void         Destroy(void);
+    void         Reset(bool precache = true);
 
-    void Initialize(void);
-    void ShutDown(void);
+    void         Initialize(void);
+    void         ShutDown(void);
 
 public:
+
 public:
     void xr_stdcall on_idle();
     bool xr_stdcall on_message(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, LRESULT& result);
@@ -135,6 +139,7 @@ private:
         return Statistic;
     }
 #ifdef INGAME_EDITOR
+
 public:
     virtual XrWeatherEditor::ide* WeatherEditor() const
     {
@@ -158,7 +163,7 @@ private:
 #endif   // #ifdef INGAME_EDITOR
 };
 
-extern ENGINE_API bool g_bBenchmark;
+extern ENGINE_API bool                    g_bBenchmark;
 
 typedef fastdelegate::FastDelegate0<bool> LOADING_EVENT;
 extern ENGINE_API xr_list<LOADING_EVENT> g_loading_events;
@@ -170,8 +175,8 @@ public:
     void         stop();
     virtual void OnRender();
 
-    bool b_registered;
-    bool b_need_user_input;
+    bool         b_registered;
+    bool         b_need_user_input;
 };
 extern ENGINE_API CLoadScreenRenderer load_screen_renderer;
 #ifdef ENGINE_BUILD

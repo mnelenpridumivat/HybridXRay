@@ -79,7 +79,7 @@ void CUIMapDesc::Init()
     map_name += Level().name().c_str();
     xr_string full_name = map_name + ".dds";
 
-    Frect orig_rect = m_pImage->GetTextureRect();
+    Frect     orig_rect = m_pImage->GetTextureRect();
     if (FS.exist("$game_textures$", full_name.c_str()))
         m_pImage->InitTexture(map_name.c_str());
     else
@@ -155,8 +155,7 @@ bool CUIMapDesc::OnKeyboardAction(int dik, EUIMessages keyboard_action)
             break;
     }
     if (int x = sizeof x)
-    {
-    }
+    {}
 
     return false;
 }

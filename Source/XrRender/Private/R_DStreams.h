@@ -15,13 +15,16 @@ private:
     u32               mSize;        // size in bytes
     u32               mPosition;    // position in bytes
     u32               mDiscardID;   // ID of discard - usually for caching
+
 public:
     ID3DVertexBuffer* old_pVB;
 #ifdef DEBUG
     u32 dbg_lock;
 #endif
+
 private:
     void _clear();
+
 public:
     void                 Create();
     void                 Destroy();
@@ -62,8 +65,10 @@ private:
     u32              mSize;   // real size (usually mCount, aligned on 512b boundary)
     u32              mPosition;
     u32              mDiscardID;
+
 public:
     ID3DIndexBuffer* old_pIB;
+
 private:
     void _clear()
     {
@@ -72,6 +77,7 @@ private:
         mPosition  = 0;
         mDiscardID = 0;
     }
+
 public:
     void                Create();
     void                Destroy();

@@ -51,24 +51,24 @@ side,const Fvector &p,Fvector &point)
     float diffs=diffc<0.f ? diffc+h	:	diffc-h;
 }
 */
-IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector& S, const Fvector& D, float& R, BOOL bCull)
+IC bool                   RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector& S, const Fvector& D, float& R, BOOL bCull)
 {
     const float&   r   = c_cylinder.m_radius;
     float          h   = c_cylinder.m_height / 2.f;
     const Fvector& p   = S;
     const Fvector& dir = D;
 
-    const Fvector& c  = c_cylinder.m_center;
-    const Fvector& ax = c_cylinder.m_direction;
+    const Fvector& c   = c_cylinder.m_center;
+    const Fvector& ax  = c_cylinder.m_direction;
     // c.set(-IM.c.dotproduct(IM.i),-IM.c.dotproduct(IM.j),-IM.c.dotproduct(IM.k));
     // Fvector ax;ax.set(IM.i.z,IM.j.z,IM.k.z);//??
 
     //////////////////////////////////////////////////////////////
-    Fvector v;
+    Fvector        v;
     v.sub(c, p);
-    float cs = dir.dotproduct(ax);
-    float Lc = v.dotproduct(ax);
-    float Lr = v.dotproduct(dir);
+    float       cs     = dir.dotproduct(ax);
+    float       Lc     = v.dotproduct(ax);
+    float       Lr     = v.dotproduct(dir);
     ////////////////////////////////////////////////
     float       sq_cos = cs * cs;
     float       sq_sin = 1 - sq_cos;
@@ -172,9 +172,9 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector& S, const Fvect
     }
     //////////////////////////////////////////////////
     float tr1, tr2;
-    float r_sq_sin = 1.f / sq_sin;
-    float tr       = (Lr - cs * Lc) * r_sq_sin;
-    float tc       = (cs * Lr - Lc) * r_sq_sin;
+    float r_sq_sin        = 1.f / sq_sin;
+    float tr              = (Lr - cs * Lc) * r_sq_sin;
+    float tc              = (cs * Lr - Lc) * r_sq_sin;
 
     // more frequent separation - axes dist> radius
     // v^2+tc^2+tr^2-2*(cos*tc*tr-Lc*tc+Lr*tr)
@@ -185,7 +185,7 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector& S, const Fvect
         return false;
     // float max_c_diff=//;
 
-    float sq_horde = (sq_r - sq_nearest_dist);
+    float sq_horde  = (sq_r - sq_nearest_dist);
 
     // float horde=_sqrt(sq_horde)					;
     float sq_c_diff = sq_horde * sq_cos * r_sq_sin;
@@ -304,9 +304,9 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector& S, const Fvect
                         float tc_h           = tc - h;
                         float sq_sphere_dist = sq_sin * tc_h * tc_h;
                         // if(sq_sphere_dist>sq_horde)return false	;
-                        float tr_c = tr - tc_h * cs;
-                        float diff = _sqrt(sq_horde - sq_sphere_dist);
-                        tr2        = tr_c + diff;
+                        float tr_c           = tr - tc_h * cs;
+                        float diff           = _sqrt(sq_horde - sq_sphere_dist);
+                        tr2                  = tr_c + diff;
                         if (tr2 < 0.f)
                             return false;   //
                         if (tr2 < R)
@@ -329,9 +329,9 @@ IC bool RAYvsCYLINDER(const Fcylinder& c_cylinder, const Fvector& S, const Fvect
                 float tc_h           = tc + h;   //(tc-(-h))
                 float sq_sphere_dist = sq_sin * tc_h * tc_h;
                 // if(sq_sphere_dist>sq_horde)return false;
-                float diff = _sqrt(sq_horde - sq_sphere_dist);
-                float tr_c = tr - tc_h * cs;
-                tr1        = tr_c - diff;
+                float diff           = _sqrt(sq_horde - sq_sphere_dist);
+                float tr_c           = tr - tc_h * cs;
+                tr1                  = tr_c - diff;
                 if (tr1 > R)
                     return false;   //
                 if (tr1 < 0.f)

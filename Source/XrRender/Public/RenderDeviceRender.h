@@ -11,6 +11,7 @@ public:
         dsLost,
         dsNeedReset
     };
+
 public:
     virtual ~IRenderDeviceRender()
     {

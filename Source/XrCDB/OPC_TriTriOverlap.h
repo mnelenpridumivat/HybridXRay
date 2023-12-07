@@ -55,10 +55,10 @@
     {                                                                                 \
         /* is T1 completly inside T2? */                                              \
         /* check if V0 is inside tri(U0,U1,U2) */                                     \
-        float a  = ((const float*)U1)[i1] - ((const float*)U0)[i1];                   \
-        float b  = -(((const float*)U1)[i0] - ((const float*)U0)[i0]);                \
-        float c  = -a * ((const float*)U0)[i0] - b * ((const float*)U0)[i1];          \
-        float d0 = a * ((const float*)V0)[i0] + b * ((const float*)V0)[i1] + c;       \
+        float a        = ((const float*)U1)[i1] - ((const float*)U0)[i1];             \
+        float b        = -(((const float*)U1)[i0] - ((const float*)U0)[i0]);          \
+        float c        = -a * ((const float*)U0)[i0] - b * ((const float*)U0)[i1];    \
+        float d0       = a * ((const float*)V0)[i0] + b * ((const float*)V0)[i1] + c; \
                                                                                       \
         a              = ((const float*)U2)[i1] - ((const float*)U1)[i1];             \
         b              = -(((const float*)U2)[i0] - ((const float*)U1)[i0]);          \
@@ -77,14 +77,7 @@
     }
 
 //! TO BE DOCUMENTED
-BOOL CoplanarTriTri(
-    const Point& n,
-    const Point& v0,
-    const Point& v1,
-    const Point& v2,
-    const Point& u0,
-    const Point& u1,
-    const Point& u2)
+BOOL CoplanarTriTri(const Point& n, const Point& v0, const Point& v1, const Point& v2, const Point& u0, const Point& u1, const Point& u2)
 {
     float A[3];
     short i0, i1;
@@ -208,28 +201,22 @@ BOOL CoplanarTriTri(
  *	\return		true if triangles overlap
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-inline_ BOOL AABBTreeCollider::TriTriOverlap(
-    const Point& V0,
-    const Point& V1,
-    const Point& V2,
-    const Point& U0,
-    const Point& U1,
-    const Point& U2)
+inline_ BOOL AABBTreeCollider::TriTriOverlap(const Point& V0, const Point& V1, const Point& V2, const Point& U0, const Point& U1, const Point& U2)
 {
     // Stats
     mNbPrimPrimTests++;
 
     // Compute plane equation of triangle(V0,V1,V2)
-    Point       E1 = V1 - V0;
-    Point       E2 = V2 - V0;
-    const Point N1 = E1 ^ E2;
-    const float d1 = -N1 | V0;
+    Point       E1  = V1 - V0;
+    Point       E2  = V2 - V0;
+    const Point N1  = E1 ^ E2;
+    const float d1  = -N1 | V0;
     // Plane equation 1: N1.X+d1=0
 
     // Put U0,U1,U2 into plane equation 1 to compute signed distances to the plane
-    float du0 = (N1 | U0) + d1;
-    float du1 = (N1 | U1) + d1;
-    float du2 = (N1 | U2) + d1;
+    float       du0 = (N1 | U0) + d1;
+    float       du1 = (N1 | U1) + d1;
+    float       du2 = (N1 | U2) + d1;
 
     // Coplanarity robustness check
 #ifdef OPC_TRITRI_EPSILON_TEST
@@ -247,16 +234,16 @@ inline_ BOOL AABBTreeCollider::TriTriOverlap(
         return FALSE;                     // no intersection occurs
 
     // Compute plane of triangle (U0,U1,U2)
-    E1             = U1 - U0;
-    E2             = U2 - U0;
-    const Point N2 = E1 ^ E2;
-    const float d2 = -N2 | U0;
+    E1              = U1 - U0;
+    E2              = U2 - U0;
+    const Point N2  = E1 ^ E2;
+    const float d2  = -N2 | U0;
     // plane equation 2: N2.X+d2=0
 
     // put V0,V1,V2 into plane equation 2
-    float dv0 = (N2 | V0) + d2;
-    float dv1 = (N2 | V1) + d2;
-    float dv2 = (N2 | V2) + d2;
+    float       dv0 = (N2 | V0) + d2;
+    float       dv1 = (N2 | V1) + d2;
+    float       dv2 = (N2 | V2) + d2;
 
 #ifdef OPC_TRITRI_EPSILON_TEST
     if (_abs(dv0) < LOCAL_EPSILON)
@@ -274,13 +261,13 @@ inline_ BOOL AABBTreeCollider::TriTriOverlap(
         return FALSE;                     // no intersection occurs
 
     // Compute direction of intersection line
-    const Point D = N1 ^ N2;
+    const Point D     = N1 ^ N2;
 
     // Compute and index to the largest component of D
-    float max   = _abs(((const float*)D)[0]);
-    short index = 0;
-    float bb    = _abs(((const float*)D)[1]);
-    float cc    = _abs(((const float*)D)[2]);
+    float       max   = _abs(((const float*)D)[0]);
+    short       index = 0;
+    float       bb    = _abs(((const float*)D)[1]);
+    float       cc    = _abs(((const float*)D)[2]);
     if (bb > max)
         max = bb, index = 1;
     if (cc > max)
@@ -296,7 +283,7 @@ inline_ BOOL AABBTreeCollider::TriTriOverlap(
     const float up2 = ((const float*)U2)[index];
 
     // Compute interval for triangle 1
-    float a, b, c, x0, x1;
+    float       a, b, c, x0, x1;
     NEWCOMPUTE_INTERVALS(vp0, vp1, vp2, dv0, dv1, dv2, dv0dv1, dv0dv2, a, b, c, x0, x1);
 
     // Compute interval for triangle 2
@@ -307,15 +294,15 @@ inline_ BOOL AABBTreeCollider::TriTriOverlap(
     const float yy   = y0 * y1;
     const float xxyy = xx * yy;
 
-    float isect1[2], isect2[2];
+    float       isect1[2], isect2[2];
 
-    float tmp = a * xxyy;
-    isect1[0] = tmp + b * x1 * yy;
-    isect1[1] = tmp + c * x0 * yy;
+    float       tmp = a * xxyy;
+    isect1[0]       = tmp + b * x1 * yy;
+    isect1[1]       = tmp + c * x0 * yy;
 
-    tmp       = d * xxyy;
-    isect2[0] = tmp + e * xx * y1;
-    isect2[1] = tmp + f * xx * y0;
+    tmp             = d * xxyy;
+    isect2[0]       = tmp + e * xx * y1;
+    isect2[1]       = tmp + f * xx * y0;
 
     SORT(isect1[0], isect1[1]);
     SORT(isect2[0], isect2[1]);

@@ -13,7 +13,8 @@ CFromBuilder::~CFromBuilder() {}
 bool CFromBuilder::build()
 {
     clear();
-    auto GetBox = [](Fbox& box, const Fvector* verts, u32 cnt) {
+    auto GetBox = [](Fbox& box, const Fvector* verts, u32 cnt)
+    {
         box.invalidate();
         for (u32 i = 0; i < cnt; ++i)
             box.modify(verts[i]);
@@ -34,9 +35,9 @@ bool CFromBuilder::build()
     build_data.l_faces = m_Faces.data();
     build_data.l_verts = m_Vertex.data();
 
-    bool bResult = false;
-    t_it         = Scene->FirstTool();
-    t_end        = Scene->LastTool();
+    bool bResult       = false;
+    t_it               = Scene->FirstTool();
+    t_end              = Scene->LastTool();
     for (; t_it != t_end; ++t_it)
     {
         ESceneToolBase* mt = t_it->second;

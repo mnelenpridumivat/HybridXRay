@@ -1,31 +1,41 @@
-#pragma once
+﻿#pragma once
 
 #include "ui_base.h"
 //.#include "../xrRender/Public/FactoryPtr.h"
 //. class IUIShader;
 class CUIStatic;
 
-class CUICursor:public pureRender
+class CUICursor: public pureRender
 {
-	bool			bVisible;
-	Fvector2		vPos;
-	Fvector2		vPrevPos;
+    bool       bVisible;
+    Fvector2   vPos;
+    Fvector2   vPrevPos;
 
-	CUIStatic*		m_static;
-	void			InitInternal	();
+    CUIStatic* m_static;
+    void       InitInternal();
+
 public:
-					CUICursor		();
-	virtual			~CUICursor		();
-	virtual void	OnRender		();
-	
-	Fvector2		GetCursorPositionDelta();
+    CUICursor();
+    virtual ~CUICursor();
+    virtual void OnRender();
 
-	Fvector2		GetCursorPosition		();
-	void			SetUICursorPosition		(Fvector2 pos);
-	void			UpdateCursorPosition	();
-	void			OnScreenRatioChanged	();
+    Fvector2     GetCursorPositionDelta();
 
-	bool			IsVisible		() {return bVisible;}
-	void			Show			() {bVisible = true;}
-	void			Hide			() {bVisible = false;}
+    Fvector2     GetCursorPosition();
+    void         SetUICursorPosition(Fvector2 pos);
+    void         UpdateCursorPosition();
+    void         OnScreenRatioChanged();
+
+    bool         IsVisible()
+    {
+        return bVisible;
+    }
+    void Show()
+    {
+        bVisible = true;
+    }
+    void Hide()
+    {
+        bVisible = false;
+    }
 };

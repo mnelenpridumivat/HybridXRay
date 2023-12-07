@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "../../../../xrEngine/effector.h"
 #include "../../../pp_effector_custom.h"
 
@@ -8,7 +8,7 @@
 
 //class CPsyHitEffectorPP : public CPPEffectorController {
 //	typedef CPPEffectorController inherited;
-//	
+//
 //	float			m_attack_perc;
 //	float			m_release_perc;
 //
@@ -21,13 +21,12 @@
 //	virtual CPPEffectorControlled *create_effector	();
 //};
 
-
 ////////////////////////////////////////////////////////////////////////////////////
 // CPsyHitEffectorCam
 ////////////////////////////////////////////////////////////////////////////////////
 
 //class CPsyHitEffectorCam : public CEffector {
-//	typedef CEffector inherited;	
+//	typedef CEffector inherited;
 //
 //	float	m_time_total;
 //	Fvector	dangle_target;

@@ -14,9 +14,9 @@ class CEffectorController;
 #include "CameraManager.h"
 #endif /*_PP_EDITOR_*/
 
-#define POSTPROCESS_PARAMS_COUNT 11
+#define POSTPROCESS_PARAMS_COUNT   11
 //.#define POSTPROCESS_FILE_VERSION    0x0001
-#define POSTPROCESS_FILE_VERSION 0x0002
+#define POSTPROCESS_FILE_VERSION   0x0002
 
 #define POSTPROCESS_FILE_EXTENSION ".ppe"
 
@@ -41,6 +41,7 @@ typedef enum _pp_params
 class CPostProcessParam
 {
 protected:
+
 public:
     virtual void   update(float dt)       = 0;
     virtual void   load(IReader& pReader) = 0;
@@ -162,7 +163,7 @@ protected:
     float              m_start_time;
     float              f_length;
 
-    void Update(float tm);
+    void               Update(float tm);
 
 public:
     CPostprocessAnimator(int id, bool cyclic);

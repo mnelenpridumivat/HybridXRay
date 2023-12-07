@@ -22,12 +22,10 @@ void CObjectHandlerPlanner::add_evaluators(CMissile* missile)
     u16 id = missile->ID();
     // dynamic state properties
     add_evaluator(uid(id, eWorldPropertyHidden), xr_new<CObjectPropertyEvaluatorMissileHidden>(missile, m_object));
-    add_evaluator(
-        uid(id, eWorldPropertyThrowStarted), xr_new<CObjectPropertyEvaluatorMissileStarted>(missile, m_object));
+    add_evaluator(uid(id, eWorldPropertyThrowStarted), xr_new<CObjectPropertyEvaluatorMissileStarted>(missile, m_object));
     //	add_evaluator		(uid(id,eWorldPropertyThrowIdle)
     //,xr_new<CObjectPropertyEvaluatorMissile>(missile,m_object,MS_THROW));
-    add_evaluator(
-        uid(id, eWorldPropertyThrow), xr_new<CObjectPropertyEvaluatorMissile>(missile, m_object, CMissile::eThrowEnd));
+    add_evaluator(uid(id, eWorldPropertyThrow), xr_new<CObjectPropertyEvaluatorMissile>(missile, m_object, CMissile::eThrowEnd));
 
     // const properties
     add_evaluator(uid(id, eWorldPropertyDropped), xr_new<CObjectPropertyEvaluatorConst>(false));

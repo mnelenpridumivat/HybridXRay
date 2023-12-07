@@ -26,8 +26,8 @@ public:
     //! Destructor
     inline_ ~Sphere() {}
 
-    bool Compute(udword nbverts, Point* verts);
-    bool FastCompute(udword nbverts, Point* verts);
+    bool                 Compute(udword nbverts, Point* verts);
+    bool                 FastCompute(udword nbverts, Point* verts);
 
     // Access methods
     inline_ const Point& GetCenter() const
@@ -146,6 +146,7 @@ public:
     Point mCenter;   //!< Sphere center
     float mRadius;   //!< Sphere radius
 #ifdef OLD
+
 private:
     Sphere PlanarCircumscribe3(const Point& p0, const Point& p1, const Point& p2);
     Sphere Circumscribe4(const Point& p0, const Point& p1, const Point& p2, const Point& p3);

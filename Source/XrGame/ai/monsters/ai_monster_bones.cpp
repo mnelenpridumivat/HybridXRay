@@ -8,8 +8,8 @@
 //****************************************************************************************************
 void bonesBone::Set(CBoneInstance* b, u8 a, float ty, float cy, float r_s)
 {
-    bone = b;
-    axis = a;
+    bone              = b;
+    axis              = a;
 
     params.target_yaw = ty;
     params.cur_yaw    = cy;
@@ -29,8 +29,7 @@ void bonesBone::Turn(u32 dt)
     float PI_DIV_2m = 8 * PI_DIV_6 / 3;
     float PIm       = PI_DIV_2m * 2;
 
-    float cur_speed =
-        params.r_speed * _cos(PI_DIV_2m - PIm * _abs(params.target_yaw - params.cur_yaw) / params.dist_yaw);
+    float cur_speed = params.r_speed * _cos(PI_DIV_2m - PIm * _abs(params.target_yaw - params.cur_yaw) / params.dist_yaw);
 
     float dy;
     dy = cur_speed * dt / 1000;   // учитываем милисек и радианную меры
@@ -112,7 +111,7 @@ void bonesManipulation::Update(CBoneInstance* bone, u32 cur_time)
     bool bones_were_turned = false;
 
     // вычисление dt
-    u32 dt;
+    u32  dt;
     if (cur_time == time_last_update)
     {
         dt = time_last_delta;
@@ -153,7 +152,7 @@ void bonesManipulation::Update(CBoneInstance* bone, u32 cur_time)
 
         if ((0 != time_started) && (time_started + freeze_time < cur_time))
         {   // время вышло?
-            time_started = 0;
+            time_started    = 0;
 
             // делаем возврат
             in_return_state = true;

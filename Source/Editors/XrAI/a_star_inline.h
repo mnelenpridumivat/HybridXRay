@@ -8,31 +8,14 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                              \
-    template<                                                                                                \
-        typename _dist_type, typename _priority_queue, typename _vertex_manager, typename _vertex_allocator, \
-        bool euclidian_heuristics, typename _data_storage_base, template<typename _T> class _vertex,         \
-        template<typename _1, typename _2> class _builder_allocator_constructor,                             \
-        template<typename _1, typename _2, typename _3, template<typename _1, typename _2> class _4>         \
-        class _manager_builder_allocator_constructor,                                                        \
-        template<                                                                                            \
-            typename _algorithm, typename _manager, typename _builder, typename _allocator,                  \
-            template<typename _T> class _vertex,                                                             \
-            template<typename _1, typename _2> class _builder_allocator_constructor,                         \
-            template<typename _1, typename _2, typename _3, template<typename _1, typename _2> class _4>     \
-            class _manager_builder_allocator_constructor>                                                    \
-        class _data_storage_constructor,                                                                     \
-        typename _iteration_type>
+#define TEMPLATE_SPECIALIZATION                                                                                                                                                                                                                                                                                                                                                                                                    \
+    template<typename _dist_type, typename _priority_queue, typename _vertex_manager, typename _vertex_allocator, bool euclidian_heuristics, typename _data_storage_base, template<typename _T> class _vertex, template<typename _1, typename _2> class _builder_allocator_constructor, template<typename _1, typename _2, typename _3, template<typename _1, typename _2> class _4> class _manager_builder_allocator_constructor, \
+        template<typename _algorithm, typename _manager, typename _builder, typename _allocator, template<typename _T> class _vertex, template<typename _1, typename _2> class _builder_allocator_constructor, template<typename _1, typename _2, typename _3, template<typename _1, typename _2> class _4> class _manager_builder_allocator_constructor> class _data_storage_constructor, typename _iteration_type>
 
-#define CSAStar                                                                                                     \
-    CAStar<                                                                                                         \
-        _dist_type, _priority_queue, _vertex_manager, _vertex_allocator, euclidian_heuristics, _data_storage_base,  \
-        _vertex, _builder_allocator_constructor, _manager_builder_allocator_constructor, _data_storage_constructor, \
-        _iteration_type>
+#define CSAStar CAStar<_dist_type, _priority_queue, _vertex_manager, _vertex_allocator, euclidian_heuristics, _data_storage_base, _vertex, _builder_allocator_constructor, _manager_builder_allocator_constructor, _data_storage_constructor, _iteration_type>
 
 TEMPLATE_SPECIALIZATION
-IC CSAStar::CAStar(const u32 max_vertex_count):
-    inherited(max_vertex_count) {}
+IC CSAStar::CAStar(const u32 max_vertex_count): inherited(max_vertex_count) {}
 
 TEMPLATE_SPECIALIZATION
 CSAStar::~CAStar() {}

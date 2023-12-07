@@ -59,7 +59,7 @@ protected:
     shared_str*                  m_server_command_line;
     bool                         m_can_register_objects;
     // temp
-    ALife::SCHEDULE_P_VECTOR m_tpaCombatGroups[2];
+    ALife::SCHEDULE_P_VECTOR     m_tpaCombatGroups[2];
 
 protected:
     IC CALifeSimulatorHeader&      header();
@@ -97,36 +97,26 @@ public:
     IC xrServer&                         server() const;
     IC const CALifeTimeManager&          time_manager() const;
     IC shared_str*                       server_command_line() const;
-    template <typename T> IC T&          registry(T* t) const;
+    template<typename T> IC T&           registry(T* t) const;
 
 protected:
     void         unload();
     virtual void reload(LPCSTR section);
     IC void      setup_command_line(shared_str* command_line);
-    void         assign_death_position(
-                CSE_ALifeCreatureAbstract* tpALifeCreatureAbstract,
-                GameGraph::_GRAPH_ID       tGraphID,
-                CSE_ALifeSchedulable*      tpALifeSchedulable = 0);
+    void         assign_death_position(CSE_ALifeCreatureAbstract* tpALifeCreatureAbstract, GameGraph::_GRAPH_ID tGraphID, CSE_ALifeSchedulable* tpALifeSchedulable = 0);
     virtual void setup_simulator(CSE_ALifeObject* object) = 0;
 
 public:
-    void register_object(CSE_ALifeDynamicObject* object, bool add_object = false);
-    void unregister_object(CSE_ALifeDynamicObject* object, bool alife_query = true);
-    void release(CSE_Abstract* object, bool alife_query = true);
-    void
-        create(CSE_ALifeDynamicObject*& object, CSE_ALifeDynamicObject* spawn_object, const ALife::_SPAWN_ID& spawn_id);
+    void          register_object(CSE_ALifeDynamicObject* object, bool add_object = false);
+    void          unregister_object(CSE_ALifeDynamicObject* object, bool alife_query = true);
+    void          release(CSE_Abstract* object, bool alife_query = true);
+    void          create(CSE_ALifeDynamicObject*& object, CSE_ALifeDynamicObject* spawn_object, const ALife::_SPAWN_ID& spawn_id);
     void          create(CSE_ALifeObject* object);
     CSE_Abstract* create(CSE_ALifeGroupAbstract* object, CSE_ALifeDynamicObject* j);
-    CSE_Abstract* spawn_item(
-        LPCSTR               section,
-        const Fvector&       position,
-        u32                  level_vertex_id,
-        GameGraph::_GRAPH_ID game_vertex_id,
-        u16                  parent_id,
-        bool                 registration = true);
-    void       append_item_vector(ALife::OBJECT_VECTOR& tObjectVector, ALife::ITEM_P_VECTOR& tItemList);
-    shared_str level_name() const;
-    void       on_death(CSE_Abstract* killed, CSE_Abstract* killer);
+    CSE_Abstract* spawn_item(LPCSTR section, const Fvector& position, u32 level_vertex_id, GameGraph::_GRAPH_ID game_vertex_id, u16 parent_id, bool registration = true);
+    void          append_item_vector(ALife::OBJECT_VECTOR& tObjectVector, ALife::ITEM_P_VECTOR& tItemList);
+    shared_str    level_name() const;
+    void          on_death(CSE_Abstract* killed, CSE_Abstract* killer);
 
 public:
     ALife::ITEM_P_VECTOR m_temp_item_vector;

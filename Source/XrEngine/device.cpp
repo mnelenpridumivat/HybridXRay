@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "../xrCDB/frustum.h"
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 // mmsystem.h
 #define MMNOSOUND
 #define MMNOMIDI
@@ -11,7 +11,7 @@
 #include <mmsystem.h>
 // d3dx9.h
 #include <directx\d3dx9.h>
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 #include "x_ray.h"
 #include "render.h"
@@ -32,14 +32,14 @@
 #pragma comment(lib, "d3dx9.lib")
 
 ENGINE_API CLoadScreenRenderer load_screen_renderer;
-CRenderDevice*                 EngineDevice = nullptr;
+CRenderDevice*                 EngineDevice   = nullptr;
 
-ENGINE_API BOOL g_bRendering = FALSE;
+ENGINE_API BOOL                g_bRendering   = FALSE;
 
-BOOL      g_bLoaded      = FALSE;
-ref_light precache_light = 0;
+BOOL                           g_bLoaded      = FALSE;
+ref_light                      precache_light = 0;
 
-bool CRenderDevice::Begin()
+bool                           CRenderDevice::Begin()
 {
 #ifndef DEDICATED_SERVER
 
@@ -105,7 +105,7 @@ void CRenderDevice::Clear()
 
 extern void CheckPrivilegySlowdown();
 
-void CRenderDevice::End(void)
+void        CRenderDevice::End(void)
 {
 #ifndef DEDICATED_SERVER
 
@@ -121,7 +121,7 @@ void CRenderDevice::End(void)
         {
 #ifdef INGAME_EDITOR
             load_finished = true;
-#endif   // #ifdef INGAME_EDITOR
+#endif   // #ifdef INGAME_EDITOR \
          // Gamma.Update		();
             m_pRender->updateGamma();
 
@@ -230,11 +230,11 @@ void CRenderDevice::PreCache(u32 amount, bool b_draw_loadscreen, bool b_wait_use
     }
 }
 
-int g_svDedicateServerUpdateReate = 100;
+int        g_svDedicateServerUpdateReate = 100;
 
 ENGINE_API xr_list<LOADING_EVENT> g_loading_events;
 
-void CRenderDevice::on_idle()
+void                              CRenderDevice::on_idle()
 {
     if (!b_is_Ready)
     {
@@ -332,8 +332,8 @@ void CRenderDevice::on_idle()
     }
 
 #ifdef DEDICATED_SERVER
-    u32 FrameEndTime = TimerGlobal.GetElapsed_ms();
-    u32 FrameTime    = (FrameEndTime - FrameStartTime);
+    u32 FrameEndTime  = TimerGlobal.GetElapsed_ms();
+    u32 FrameTime     = (FrameEndTime - FrameStartTime);
     /*
     string1024 FPS_str = "";
     string64 tmp;
@@ -444,8 +444,8 @@ void CRenderDevice::Run()
     //	DeleteCriticalSection	(&mt_csLeave);
 }
 
-u32 app_inactive_time       = 0;
-u32 app_inactive_time_start = 0;
+u32  app_inactive_time       = 0;
+u32  app_inactive_time_start = 0;
 
 void ProcessLoading(RP_FUNC* f);
 void CRenderDevice::FrameMove()
@@ -471,9 +471,8 @@ void CRenderDevice::FrameMove()
     {
         // Timer
         float fPreviousFrameTime = Timer.GetElapsed_sec();
-        Timer.Start();   // previous frame
-        fTimeDelta =
-            0.1f * fTimeDelta + 0.9f * fPreviousFrameTime;   // smooth random system activity - worst case ~7% error
+        Timer.Start();                                                // previous frame
+        fTimeDelta = 0.1f * fTimeDelta + 0.9f * fPreviousFrameTime;   // smooth random system activity - worst case ~7% error
         // fTimeDelta = 0.7f * fTimeDelta + 0.3f*fPreviousFrameTime;			// smooth random system activity
         if (fTimeDelta > .1f)
             fTimeDelta = .1f;   // limit to 15fps minimum
@@ -532,9 +531,10 @@ void CRenderDevice::Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason)
                 WeatherEditor() ? FALSE :
 #endif   // #ifdef INGAME_EDITOR
 #ifdef DEBUG
-                !xr_strcmp(reason, "li_pause_key_no_clip") ? FALSE :
+                !xr_strcmp(reason, "li_pause_key_no_clip") ? FALSE
+                                                           :
 #endif   // DEBUG
-                                                             TRUE;
+                                                           TRUE;
 
         if (bTimer && (!g_pGamePersistent || g_pGamePersistent->CanBePaused()))
         {

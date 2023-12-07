@@ -21,9 +21,7 @@ IC const CObjectFactory& object_factory()
     return (*g_object_factory);
 }
 
-IC bool CObjectFactory::CObjectItemPredicate::operator()(
-    const CObjectItemAbstract* item1,
-    const CObjectItemAbstract* item2) const
+IC bool CObjectFactory::CObjectItemPredicate::operator()(const CObjectItemAbstract* item1, const CObjectItemAbstract* item2) const
 {
     return (item1->clsid() < item2->clsid());
 }
@@ -33,17 +31,14 @@ IC bool CObjectFactory::CObjectItemPredicate::operator()(const CObjectItemAbstra
     return (item->clsid() < clsid);
 }
 
-IC CObjectFactory::CObjectItemPredicateCLSID::CObjectItemPredicateCLSID(const CLASS_ID& clsid): m_clsid(clsid) {}
+IC      CObjectFactory::CObjectItemPredicateCLSID::CObjectItemPredicateCLSID(const CLASS_ID& clsid): m_clsid(clsid) {}
 
 IC bool CObjectFactory::CObjectItemPredicateCLSID::operator()(const CObjectItemAbstract* item) const
 {
     return (m_clsid == item->clsid());
 }
 
-IC CObjectFactory::CObjectItemPredicateScript::CObjectItemPredicateScript(const shared_str& script_clsid_name):
-    m_script_clsid_name(script_clsid_name)
-{
-}
+IC      CObjectFactory::CObjectItemPredicateScript::CObjectItemPredicateScript(const shared_str& script_clsid_name): m_script_clsid_name(script_clsid_name) {}
 
 IC bool CObjectFactory::CObjectItemPredicateScript::operator()(const CObjectItemAbstract* item) const
 {

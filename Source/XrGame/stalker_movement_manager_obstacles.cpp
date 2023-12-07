@@ -26,8 +26,7 @@
 
 static const u32 fail_check_time = 1000;
 
-stalker_movement_manager_obstacles::stalker_movement_manager_obstacles(CAI_Stalker* object):
-    inherited(object), m_last_dest_vertex_id(u32(-1)), m_last_fail_time(0), m_failed_to_build_path(false)
+stalker_movement_manager_obstacles::stalker_movement_manager_obstacles(CAI_Stalker* object): inherited(object), m_last_dest_vertex_id(u32(-1)), m_last_fail_time(0), m_failed_to_build_path(false)
 {
     m_doors_actor = xr_new<doors::actor>(*object);
     m_static_obstacles.construct(this, m_failed_to_build_path);
@@ -48,8 +47,7 @@ void stalker_movement_manager_obstacles::Load(LPCSTR section)
 
 CRestrictedObject* stalker_movement_manager_obstacles::create_restricted_object()
 {
-    m_restricted_object = xr_new<CRestrictedObjectObstacle>(
-        &object(), m_static_obstacles.active_query(), m_dynamic_obstacles.active_query());
+    m_restricted_object = xr_new<CRestrictedObjectObstacle>(&object(), m_static_obstacles.active_query(), m_dynamic_obstacles.active_query());
 
     return (m_restricted_object);
 }
@@ -111,9 +109,7 @@ bool stalker_movement_manager_obstacles::can_build_restricted_path(const obstacl
 
     typedef SBaseParameters<float, u32, u32> evaluator_type;
 
-    m_failed_to_build_path = !ai().graph_engine().search(
-        ai().level_graph(), object().ai_location().level_vertex_id(), level_path().dest_vertex_id(), &m_temp_path,
-        evaluator_type(type_max(_dist_type), _iteration_type(-1), 4096));
+    m_failed_to_build_path = !ai().graph_engine().search(ai().level_graph(), object().ai_location().level_vertex_id(), level_path().dest_vertex_id(), &m_temp_path, evaluator_type(type_max(_dist_type), _iteration_type(-1), 4096));
 
     remove_border(query);
 
@@ -122,10 +118,7 @@ bool stalker_movement_manager_obstacles::can_build_restricted_path(const obstacl
     return (!m_failed_to_build_path);
 }
 
-void stalker_movement_manager_obstacles::move_along_path_impl(
-    CPHMovementControl* movement_control,
-    Fvector&            dest_position,
-    float               time_delta)
+void stalker_movement_manager_obstacles::move_along_path_impl(CPHMovementControl* movement_control, Fvector& dest_position, float time_delta)
 {
 #ifndef MASTER_GOLD
     if (psAI_Flags.test(aiObstaclesAvoidingStatic))
@@ -156,10 +149,7 @@ void stalker_movement_manager_obstacles::move_along_path_impl(
     inherited::move_along_path(movement_control, dest_position, time_delta);
 }
 
-void stalker_movement_manager_obstacles::move_along_path(
-    CPHMovementControl* movement_control,
-    Fvector&            dest_position,
-    float               time_delta)
+void stalker_movement_manager_obstacles::move_along_path(CPHMovementControl* movement_control, Fvector& dest_position, float time_delta)
 {
     VERIFY(m_doors_actor);
 
@@ -213,26 +203,18 @@ void stalker_movement_manager_obstacles::remove_links(CObject* object)
     m_dynamic_obstacles.remove_links(object);
 }
 
-static float get_distance(
-    Fvector const& a_first,
-    Fvector const& a_second,
-    Fvector const& b_first,
-    Fvector const& b_second,
-    float const    safe_distance)
+static float get_distance(Fvector const& a_first, Fvector const& a_second, Fvector const& b_first, Fvector const& b_second, float const safe_distance)
 {
     Fvector2 intersection;
-    switch (ai().level_graph().intersect(
-        a_first.x, a_first.z, a_second.x, a_second.z, b_first.x, b_first.z, b_second.x, b_second.z, &intersection.x,
-        &intersection.y))
+    switch (ai().level_graph().intersect(a_first.x, a_first.z, a_second.x, a_second.z, b_first.x, b_first.z, b_second.x, b_second.z, &intersection.x, &intersection.y))
     {
         case LevelGraph::eLineIntersectionEqual:
             return 0.f;
 
-        case LevelGraph::eLineIntersectionCollinear: {
-            Fvector2 const as_af =
-                Fvector2().sub(Fvector2().set(a_second.x, a_second.z), Fvector2().set(a_first.x, a_first.z));
-            Fvector2 const bf_af =
-                Fvector2().sub(Fvector2().set(b_first.x, b_first.z), Fvector2().set(a_first.x, a_first.z));
+        case LevelGraph::eLineIntersectionCollinear:
+        {
+            Fvector2 const as_af           = Fvector2().sub(Fvector2().set(a_second.x, a_second.z), Fvector2().set(a_first.x, a_first.z));
+            Fvector2 const bf_af           = Fvector2().sub(Fvector2().set(b_first.x, b_first.z), Fvector2().set(a_first.x, a_first.z));
             float const    as_af_magnitude = as_af.magnitude();
             float const    bf_af_magnitude = bf_af.magnitude();
             Fvector2 const as_af_dir       = Fvector2(as_af).div(as_af_magnitude);
@@ -256,10 +238,7 @@ static float get_distance(
 #endif   // #ifdef DEBUG
 }
 
-float stalker_movement_manager_obstacles::is_going_through(
-    Fmatrix const& matrix,
-    Fvector const& vector,
-    float const    max_distance) const
+float stalker_movement_manager_obstacles::is_going_through(Fmatrix const& matrix, Fvector const& vector, float const max_distance) const
 {
     if (!actual())
         return -1.f;

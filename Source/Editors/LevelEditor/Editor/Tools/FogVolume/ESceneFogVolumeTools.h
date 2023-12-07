@@ -13,7 +13,7 @@ class ESceneFogVolumeTool: public ESceneCustomOTool
     typedef ESceneCustomOTool inherited;
 
 protected:
-    u32 m_group_counter;
+    u32          m_group_counter;
     // controls
     virtual void CreateControls();
     virtual void RemoveControls();
@@ -43,19 +43,19 @@ public:
     {
         return inherited::IsNeedSave();
     }
-    virtual bool LoadStream(IReader&);
-    virtual bool LoadLTX(CInifile&);
-    virtual void SaveStream(IWriter&);
-    virtual void SaveLTX(CInifile&, int id);
-    virtual bool LoadSelection(IReader&);
-    virtual void SaveSelection(IWriter&);
+    virtual bool           LoadStream(IReader&);
+    virtual bool           LoadLTX(CInifile&);
+    virtual void           SaveStream(IWriter&);
+    virtual void           SaveLTX(CInifile&, int id);
+    virtual bool           LoadSelection(IReader&);
+    virtual void           SaveSelection(IWriter&);
 
     virtual CCustomObject* CreateObject(LPVOID data, LPCSTR name);
 
-    void GroupSelected();
-    void UnGroupCurrent();
-    void RegisterGroup(u32 group);
-    void Selected(EFogVolume* fv);
+    void                   GroupSelected();
+    void                   UnGroupCurrent();
+    void                   RegisterGroup(u32 group);
+    void                   Selected(EFogVolume* fv);
 };
 
 class EFogVolume: public CEditShape

@@ -11,10 +11,10 @@ enum EStateAnimTriple
     eStateNone
 };
 
-#define TA_SKIP_PREPARE true
+#define TA_SKIP_PREPARE      true
 #define TA_DONT_SKIP_PREPARE false
-#define TA_EXECUTE_ONCE true
-#define TA_EXECUTE_LOOPED false
+#define TA_EXECUTE_ONCE      true
+#define TA_EXECUTE_LOOPED    false
 
 struct STripleAnimEventData: public ControlCom::IEventData
 {
@@ -43,7 +43,7 @@ public:
     virtual bool check_start_conditions();
     virtual void activate();
 
-    void pointbreak();
+    void         pointbreak();
 
 private:
     void select_next_state();

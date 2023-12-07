@@ -30,11 +30,11 @@ specific use inside the Persistent Storage SDK.
 **************************/
 #if 0
 	/* Error codes */
-#define GE_NOERROR 0
-#define GE_NOSOCKET 1  /* Unable to create a socket */
-#define GE_NODNS 2     /* Unable to resolve a DNS name */
+#define GE_NOERROR   0
+#define GE_NOSOCKET  1 /* Unable to create a socket */
+#define GE_NODNS     2 /* Unable to resolve a DNS name */
 #define GE_NOCONNECT 3 /* Unable to connect to stats server, or connection lost */
-#define GE_BUSY 4      /* Not used */
+#define GE_BUSY      4 /* Not used */
 #define GE_DATAERROR 5 /* Bad data from the stats server */
 
 	/* You need to fill these in with your game-specific info */
@@ -127,19 +127,19 @@ specific use inside the Persistent Storage SDK.
     **************************/
 
 #ifndef GSI_UNICODE
-#define GenerateAuth GenerateAuthA
-#define PreAuthenticatePlayerCD PreAuthenticatePlayerCDA
-#define GetProfileIDFromCD GetProfileIDFromCDA
-#define GetPersistDataValues GetPersistDataValuesA
+#define GenerateAuth                 GenerateAuthA
+#define PreAuthenticatePlayerCD      PreAuthenticatePlayerCDA
+#define GetProfileIDFromCD           GetProfileIDFromCDA
+#define GetPersistDataValues         GetPersistDataValuesA
 #define GetPersistDataValuesModified GetPersistDataValuesModifiedA
-#define SetPersistDataValues SetPersistDataValuesA
+#define SetPersistDataValues         SetPersistDataValuesA
 #else
-#define GenerateAuth GenerateAuthW
-#define PreAuthenticatePlayerCD PreAuthenticatePlayerCDW
-#define GetProfileIDFromCD GetProfileIDFromCDW
-#define GetPersistDataValues GetPersistDataValuesW
+#define GenerateAuth                 GenerateAuthW
+#define PreAuthenticatePlayerCD      PreAuthenticatePlayerCDW
+#define GetProfileIDFromCD           GetProfileIDFromCDW
+#define GetPersistDataValues         GetPersistDataValuesW
 #define GetPersistDataValuesModified GetPersistDataValuesModifiedW
-#define SetPersistDataValues SetPersistDataValuesW
+#define SetPersistDataValues         SetPersistDataValuesW
 #endif
 
     /********
@@ -203,16 +203,7 @@ specific use inside the Persistent Storage SDK.
         (if success was 1)
     instance: Opaque value passed into the GetPersistData function (for your use)
     *****************/
-    typedef void (*PersDataCallbackFn)(
-        int           localid,
-        int           profileid,
-        persisttype_t type,
-        int           index,
-        int           success,
-        time_t        modified,
-        char*         data,
-        int           len,
-        void*         instance);
+    typedef void (*PersDataCallbackFn)(int localid, int profileid, persisttype_t type, int index, int success, time_t modified, char* data, int len, void* instance);
 
     /****************
     PersDataSaveCallbackFn
@@ -228,14 +219,7 @@ specific use inside the Persistent Storage SDK.
     modified: The time recorded on the backend for last modification
     instance: Opaque value passed into the SetPersistData function (for your use)
     *****************/
-    typedef void (*PersDataSaveCallbackFn)(
-        int           localid,
-        int           profileid,
-        persisttype_t type,
-        int           index,
-        int           success,
-        time_t        modified,
-        void*         instance);
+    typedef void (*PersDataSaveCallbackFn)(int localid, int profileid, persisttype_t type, int index, int success, time_t modified, void* instance);
 
     /****************
     ProfileCallbackFn
@@ -287,25 +271,9 @@ specific use inside the Persistent Storage SDK.
     authentication is complete instance: Pointer that will be passed to the callback function (for your use) Typically
     used for passing an object or structure pointer into the callback.
     *****************/
-    void PreAuthenticatePlayerPartner(
-        int                localid,
-        const char*        authtoken,
-        const char*        challengeresponse,
-        PersAuthCallbackFn callback,
-        void*              instance);
-    void PreAuthenticatePlayerPM(
-        int                localid,
-        int                profileid,
-        const char*        challengeresponse,
-        PersAuthCallbackFn callback,
-        void*              instance);
-    void PreAuthenticatePlayerCD(
-        int                localid,
-        const gsi_char*    nick,
-        const char*        keyhash,
-        const char*        challengeresponse,
-        PersAuthCallbackFn callback,
-        void*              instance);
+    void         PreAuthenticatePlayerPartner(int localid, const char* authtoken, const char* challengeresponse, PersAuthCallbackFn callback, void* instance);
+    void         PreAuthenticatePlayerPM(int localid, int profileid, const char* challengeresponse, PersAuthCallbackFn callback, void* instance);
+    void         PreAuthenticatePlayerCD(int localid, const gsi_char* nick, const char* keyhash, const char* challengeresponse, PersAuthCallbackFn callback, void* instance);
 
     /****************
     GetProfileIDFromCD
@@ -325,12 +293,7 @@ specific use inside the Persistent Storage SDK.
     ProfileCallbackFn: Callback to be called when the lookup is completed
     instance: Pointer that will be passed to the callback function (for your use)
     *****************/
-    void GetProfileIDFromCD(
-        int               localid,
-        const gsi_char*   nick,
-        const char*       keyhash,
-        ProfileCallbackFn callback,
-        void*             instance);
+    void         GetProfileIDFromCD(int localid, const gsi_char* nick, const char* keyhash, ProfileCallbackFn callback, void* instance);
 
     /****************
     GetPersistData[Modified]
@@ -357,21 +320,8 @@ specific use inside the Persistent Storage SDK.
     ProfileCallbackFn: Callback to be called when the lookup is completed
     instance: Pointer that will be passed to the callback function (for your use)
     *****************/
-    void GetPersistData(
-        int                localid,
-        int                profileid,
-        persisttype_t      type,
-        int                index,
-        PersDataCallbackFn callback,
-        void*              instance);
-    void GetPersistDataModified(
-        int                localid,
-        int                profileid,
-        persisttype_t      type,
-        int                index,
-        time_t             modifiedsince,
-        PersDataCallbackFn callback,
-        void*              instance);
+    void         GetPersistData(int localid, int profileid, persisttype_t type, int index, PersDataCallbackFn callback, void* instance);
+    void         GetPersistDataModified(int localid, int profileid, persisttype_t type, int index, time_t modifiedsince, PersDataCallbackFn callback, void* instance);
 
     /****************
     GetPersistDataValues[Modified]
@@ -398,23 +348,8 @@ specific use inside the Persistent Storage SDK.
     PersDataCallbackFn: Callback that will be called with the data when it is returned
     instance: Pointer that will be passed to the callback function (for your use)
     *****************/
-    void GetPersistDataValues(
-        int                localid,
-        int                profileid,
-        persisttype_t      type,
-        int                index,
-        gsi_char*          keys,
-        PersDataCallbackFn callback,
-        void*              instance);
-    void GetPersistDataValuesModified(
-        int                localid,
-        int                profileid,
-        persisttype_t      type,
-        int                index,
-        time_t             modifiedsince,
-        gsi_char*          keys,
-        PersDataCallbackFn callback,
-        void*              instance);
+    void         GetPersistDataValues(int localid, int profileid, persisttype_t type, int index, gsi_char* keys, PersDataCallbackFn callback, void* instance);
+    void         GetPersistDataValuesModified(int localid, int profileid, persisttype_t type, int index, time_t modifiedsince, gsi_char* keys, PersDataCallbackFn callback, void* instance);
 
     /****************
     SetPersistData
@@ -437,15 +372,7 @@ specific use inside the Persistent Storage SDK.
     PersDataSaveCallbackFn: Callback that will be called with the data save is complete
     instance: Pointer that will be passed to the callback function (for your use)
     *****************/
-    void SetPersistData(
-        int                    localid,
-        int                    profileid,
-        persisttype_t          type,
-        int                    index,
-        const char*            data,
-        int                    len,
-        PersDataSaveCallbackFn callback,
-        void*                  instance);
+    void         SetPersistData(int localid, int profileid, persisttype_t type, int index, const char* data, int len, PersDataSaveCallbackFn callback, void* instance);
 
     /****************
     SetPersistDataValues
@@ -467,14 +394,7 @@ specific use inside the Persistent Storage SDK.
     PersDataSaveCallbackFn: Callback that will be called with the data save is complete
     instance: Pointer that will be passed to the callback function (for your use)
     *****************/
-    void SetPersistDataValues(
-        int                    localid,
-        int                    profileid,
-        persisttype_t          type,
-        int                    index,
-        const gsi_char*        keyvalues,
-        PersDataSaveCallbackFn callback,
-        void*                  instance);
+    void         SetPersistDataValues(int localid, int profileid, persisttype_t type, int index, const gsi_char* keyvalues, PersDataSaveCallbackFn callback, void* instance);
 
     /****************
     PersistThink
@@ -488,7 +408,7 @@ specific use inside the Persistent Storage SDK.
     RETURNS
     0 if the connection to the stats server is lost, 1 otherwise
     *****************/
-    int PersistThink();
+    int          PersistThink();
 
 #ifdef __cplusplus
 }

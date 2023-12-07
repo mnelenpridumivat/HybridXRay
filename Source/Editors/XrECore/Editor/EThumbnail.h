@@ -49,7 +49,7 @@ public:
     virtual void Save(int age = 0, LPCSTR path = 0)         = 0;
     virtual bool Valid()                                    = 0;
     //	virtual void	FillProp		(PropItemVec& values)=0;
-    virtual void FillInfo(PropItemVec& values) = 0;
+    virtual void FillInfo(PropItemVec& values)              = 0;
 };
 //------------------------------------------------------------------------------
 
@@ -70,7 +70,7 @@ public:
     virtual void Update(ImTextureID& Texture);
     //	virtual void 	Draw			(TMxPanel* panel){Irect r; r.set(1,1,1+panel->Width,1+panel->Height);
     //Draw(panel->Canvas->Handle,r);}
-    u32* Pixels()
+    u32*         Pixels()
     {
         return &*m_Pixels.begin();
     }
@@ -127,9 +127,9 @@ public:
     virtual void Update(ImTextureID& Texture);
     //	virtual void 	Draw			(TMxPanel* panel){inherited::Draw(panel);}
 
-    virtual int MemoryUsage();
-    LPCSTR      FormatString();
-    BOOL        similar(ETextureThumbnail* thm1, xr_vector<xr_string>& sel_params);
+    virtual int  MemoryUsage();
+    LPCSTR       FormatString();
+    BOOL         similar(ETextureThumbnail* thm1, xr_vector<xr_string>& sel_params);
 };
 //------------------------------------------------------------------------------
 
@@ -182,7 +182,7 @@ public:
     virtual ~EGroupThumbnail();
 
     // Object routines
-    void CreateFromData(u32* p, u32 w, u32 h, const SStringVec& lst);
+    void         CreateFromData(u32* p, u32 w, u32 h, const SStringVec& lst);
 
     // thumbnail public routines
     virtual bool Load(LPCSTR src_name = 0, LPCSTR path = 0);

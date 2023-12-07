@@ -24,34 +24,19 @@ static void computeFinalTx(dGeomID geom_transform, dReal* final_pos, dReal* fina
     dMULTIPLY0_333(final_R, R, dGeomGetRotation(obj));
 }
 
-void GetBoxExtensions(
-    dGeomID      box,
-    const dReal* axis,
-    const dReal* pos,
-    const dReal* rot,
-    float        center_prg,
-    dReal*       lo_ext,
-    dReal*       hi_ext)
+void GetBoxExtensions(dGeomID box, const dReal* axis, const dReal* pos, const dReal* rot, float center_prg, dReal* lo_ext, dReal* hi_ext)
 {
     R_ASSERT2(dGeomGetClass(box) == dBoxClass, "is not a box");
     dVector3 length;
     dGeomBoxGetLengths(box, length);
     dReal dif     = dDOT(pos, axis) - center_prg;
-    dReal ful_ext = dFabs(dDOT14(axis, rot + 0)) * length[0] + dFabs(dDOT14(axis, rot + 1)) * length[1] +
-        dFabs(dDOT14(axis, rot + 2)) * length[2];
+    dReal ful_ext = dFabs(dDOT14(axis, rot + 0)) * length[0] + dFabs(dDOT14(axis, rot + 1)) * length[1] + dFabs(dDOT14(axis, rot + 2)) * length[2];
     ful_ext /= 2.f;
     *lo_ext = -ful_ext + dif;
     *hi_ext = ful_ext + dif;
 }
 
-void GetCylinderExtensions(
-    dGeomID      cyl,
-    const dReal* axis,
-    const dReal* pos,
-    const dReal* rot,
-    float        center_prg,
-    dReal*       lo_ext,
-    dReal*       hi_ext)
+void GetCylinderExtensions(dGeomID cyl, const dReal* axis, const dReal* pos, const dReal* rot, float center_prg, dReal* lo_ext, dReal* hi_ext)
 {
     R_ASSERT2(dGeomGetClass(cyl) == dCylinderClassUser, "is not a cylinder");
     dReal radius, length;
@@ -67,13 +52,7 @@ void GetCylinderExtensions(
     *hi_ext       = ful_ext + dif;
 }
 
-void GetSphereExtensions(
-    dGeomID      sphere,
-    const dReal* axis,
-    const dReal* pos,
-    float        center_prg,
-    dReal*       lo_ext,
-    dReal*       hi_ext)
+void GetSphereExtensions(dGeomID sphere, const dReal* axis, const dReal* pos, float center_prg, dReal* lo_ext, dReal* hi_ext)
 {
     R_ASSERT2(dGeomGetClass(sphere) == dSphereClass, "is not a sphere");
     dReal radius = dGeomSphereGetRadius(sphere);
@@ -82,12 +61,7 @@ void GetSphereExtensions(
     *hi_ext      = radius + dif;
 }
 
-void TransformedGeometryExtensionLocalParams(
-    dGeomID      geom_transform,
-    const dReal* axis,
-    float        center_prg,
-    dReal*       local_axis,
-    dReal&       local_center_prg)
+void TransformedGeometryExtensionLocalParams(dGeomID geom_transform, const dReal* axis, float center_prg, dReal* local_axis, dReal& local_center_prg)
 {
     R_ASSERT2(dGeomGetClass(geom_transform) == dGeomTransformClass, "is not a geom transform");
     const dReal* rot = dGeomGetRotation(geom_transform);
@@ -594,8 +568,7 @@ void CBoxGeom::set_build_position(const Fvector& ref_point)
 {
     inherited::set_build_position(ref_point);
 
-    dVector3 local_position = {
-        m_box.m_translate.x - ref_point.x, m_box.m_translate.y - ref_point.y, m_box.m_translate.z - ref_point.z};
+    dVector3 local_position = {m_box.m_translate.x - ref_point.x, m_box.m_translate.y - ref_point.y, m_box.m_translate.z - ref_point.z};
     dGeomSetPosition(geom(), local_position[0], local_position[1], local_position[2]);
     dMatrix3 R;
     PHDynamicData::FMX33toDMX(m_box.m_rotate, R);
@@ -730,8 +703,7 @@ dGeomID CCylinderGeom::create()
 void CCylinderGeom::set_build_position(const Fvector& ref_point)
 {
     inherited::set_build_position(ref_point);
-    dVector3 local_position = {
-        m_cylinder.m_center.x - ref_point.x, m_cylinder.m_center.y - ref_point.y, m_cylinder.m_center.z - ref_point.z};
+    dVector3 local_position = {m_cylinder.m_center.x - ref_point.x, m_cylinder.m_center.y - ref_point.y, m_cylinder.m_center.z - ref_point.z};
 
     dGeomSetPosition(geom(), local_position[0], local_position[1], local_position[2]);
     dMatrix3  R;

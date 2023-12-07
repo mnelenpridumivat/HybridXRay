@@ -33,8 +33,7 @@ void CSE_ALifeTraderAbstract::script_register(lua_State* L)
 
 void CSE_ALifeTrader::script_register(lua_State* L)
 {
-    module(L)[luabind_class_dynamic_alife2(
-        CSE_ALifeTrader, "cse_alife_trader", CSE_ALifeDynamicObjectVisual, CSE_ALifeTraderAbstract)];
+    module(L)[luabind_class_dynamic_alife2(CSE_ALifeTrader, "cse_alife_trader", CSE_ALifeDynamicObjectVisual, CSE_ALifeTraderAbstract)];
 }
 
 void CSE_ALifeCustomZone::script_register(lua_State* L)
@@ -53,6 +52,5 @@ void CSE_ALifeAnomalousZone::script_register(lua_State* L)
 
 void CSE_ALifeMonsterRat::script_register(lua_State* L)
 {
-    module(L)[luabind_class_monster2(
-        CSE_ALifeMonsterRat, "cse_alife_monster_rat", CSE_ALifeMonsterAbstract, CSE_ALifeInventoryItem)];
+    module(L)[luabind_class_monster2(CSE_ALifeMonsterRat, "cse_alife_monster_rat", CSE_ALifeMonsterAbstract, CSE_ALifeInventoryItem)];
 }

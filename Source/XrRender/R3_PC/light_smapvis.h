@@ -17,6 +17,7 @@ public:
     dxRender_Visual*            testQ_V;
     u32                         testQ_id;
     u32                         testQ_frame;
+
 public:
     smapvis();
     ~smapvis();

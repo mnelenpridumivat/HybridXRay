@@ -15,13 +15,7 @@ ref class property_container;
 ref class property_collection_editor;
 ref class property_collection_converter;
 
-[System::ComponentModel::EditorAttribute(
-    property_collection_editor::typeid,
-    System::Drawing::Design::UITypeEditor::typeid)]
-    [System::ComponentModel::TypeConverter(
-        property_collection_converter::typeid)] public ref class property_collection_base abstract:
-    public property_value,
-    public System::Collections::IList
+[System::ComponentModel::EditorAttribute(property_collection_editor::typeid, System::Drawing::Design::UITypeEditor::typeid)][System::ComponentModel::TypeConverter(property_collection_converter::typeid)] public ref class property_collection_base abstract: public property_value, public System::Collections::IList
 {
 public:
     typedef XrWeatherEditor::property_holder_collection collection_type;
@@ -69,15 +63,14 @@ public:
     {
         virtual bool get();
     }
-    property Object ^
-        default [int] {
-            virtual Object ^ get(int index);
-            virtual void set(int index, Object ^ value);
-        }
+    property Object ^ default[ int ]
+    {
+        virtual Object ^ get(int index);
+        virtual void set(int index, Object ^ value);
+    }
 
-        public:
-        property_container ^
-        create();
+public:
+    property_container ^ create();
 
 protected:
     virtual collection_type* collection() = 0;

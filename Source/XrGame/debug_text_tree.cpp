@@ -37,7 +37,7 @@ namespace debug
 
             static params s_params;
 
-            void operator()(const char* s, int num_siblings)
+            void          operator()(const char* s, int num_siblings)
             {
                 if (s_params.offs)
                 {
@@ -83,16 +83,15 @@ namespace debug
 
     }   // namespace detail
 
-    void draw_text_tree(
-        text_tree& tree,
-        int        indent,   // in spaces
-        int        ori_x,
-        int        ori_y,
-        int        offs,          // skip offs lines
-        int        column_size,   // in pixels
-        int        max_rows,
-        u32        color1,
-        u32        color2)
+    void draw_text_tree(text_tree& tree,
+        int                        indent,   // in spaces
+        int                        ori_x,
+        int                        ori_y,
+        int                        offs,          // skip offs lines
+        int                        column_size,   // in pixels
+        int                        max_rows,
+        u32                        color1,
+        u32                        color2)
     {
         detail::texttree_draw_helper::s_params.color1      = color1;
         detail::texttree_draw_helper::s_params.color2      = color2;

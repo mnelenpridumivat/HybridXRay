@@ -41,6 +41,7 @@ class CSoundRender_Cache
     u32         _total;      // bytes total (heap)
     u32         _line;       // line size (bytes)
     u32         _count;      // number of lines
+
 public:
     u32 _stat_hit;
     u32 _stat_miss;
@@ -49,9 +50,10 @@ private:
     void move2top(cache_line* line);   // move one line to TOP-priority
     void disconnect();                 // disconnect from CATs
     void format();                     // format structure (like filesystem)
+
 public:
-    BOOL request(cache_cat& cat, u32 id);   // TRUE=need to fill, FALSE=cached info avail
-    void purge();                           // discard all contents of cache
+    BOOL  request(cache_cat& cat, u32 id);   // TRUE=need to fill, FALSE=cached info avail
+    void  purge();                           // discard all contents of cache
 
     void* get_dataptr(cache_cat& cat, u32 id)
     {

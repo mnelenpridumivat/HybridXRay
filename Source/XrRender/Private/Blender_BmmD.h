@@ -15,6 +15,7 @@ public:
     string64 oG_Name;     //. задел на будущее
     string64 oB_Name;     //. задел на будущее
     string64 oA_Name;     //. задел на будущее
+
 public:
     virtual LPCSTR getComment()
     {

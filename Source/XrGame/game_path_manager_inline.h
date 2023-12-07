@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _VertexEvaluator, typename _vertex_id_type, typename _index_type>
+#define TEMPLATE_SPECIALIZATION template<typename _VertexEvaluator, typename _vertex_id_type, typename _index_type>
 
-#define CGameManagerTemplate CBasePathManager<IGameGraph, _VertexEvaluator, _vertex_id_type, _index_type>
+#define CGameManagerTemplate    CBasePathManager<IGameGraph, _VertexEvaluator, _vertex_id_type, _index_type>
 
 TEMPLATE_SPECIALIZATION
 IC CGameManagerTemplate::CBasePathManager(CRestrictedObject* object): inherited(object) {}
@@ -28,9 +28,7 @@ IC bool CGameManagerTemplate::actual() const
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CGameManagerTemplate::before_search(const _vertex_id_type start_vertex_id, const _vertex_id_type dest_vertex_id)
-{
-}
+IC void CGameManagerTemplate::before_search(const _vertex_id_type start_vertex_id, const _vertex_id_type dest_vertex_id) {}
 
 TEMPLATE_SPECIALIZATION
 IC void CGameManagerTemplate::after_search() {}

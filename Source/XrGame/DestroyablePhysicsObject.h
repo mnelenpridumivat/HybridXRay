@@ -1,11 +1,6 @@
 ﻿#pragma once
 
-class CDestroyablePhysicsObject:
-    public CPhysicObject,
-    public CPHDestroyable,
-    public CPHCollisionDamageReceiver,
-    public CHitImmunity,
-    public CDamageManager
+class CDestroyablePhysicsObject: public CPhysicObject, public CPHDestroyable, public CPHCollisionDamageReceiver, public CHitImmunity, public CDamageManager
 {
     typedef CPhysicObject inherited;
     float                 m_fHealth;

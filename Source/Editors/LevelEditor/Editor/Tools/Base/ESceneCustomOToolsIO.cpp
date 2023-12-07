@@ -7,7 +7,7 @@ static const u32 CHUNK_OBJECT_COUNT = 0x0002;
 static const u32 CHUNK_OBJECTS      = 0x0003;
 static const u32 CHUNK_FLAGS        = 0x0004;
 
-bool ESceneCustomOTool::OnLoadSelectionAppendObject(CCustomObject* obj)
+bool             ESceneCustomOTool::OnLoadSelectionAppendObject(CCustomObject* obj)
 {
     string256 buf;
     Scene->GenObjectName(obj->FClassID, buf, obj->GetName());
@@ -29,8 +29,7 @@ bool ESceneCustomOTool::LoadSelection(IReader& F)
     F.r_chunk(CHUNK_OBJECT_COUNT, &count);
 
     SPBItem* pb = UI->ProgressStart(count, xr_string().sprintf("Loading %s(stream)...", ClassDesc()).c_str());
-    Scene->ReadObjectsStream(
-        F, CHUNK_OBJECTS, EScene::TAppendObject(this, &ESceneCustomOTool::OnLoadSelectionAppendObject), pb);
+    Scene->ReadObjectsStream(F, CHUNK_OBJECTS, EScene::TAppendObject(this, &ESceneCustomOTool::OnLoadSelectionAppendObject), pb);
     UI->ProgressEnd(pb);
 
     return true;
@@ -58,11 +57,11 @@ bool ESceneCustomOTool::LoadLTX(CInifile& ini)
 {
     inherited::LoadLTX(ini);
 
-    u32 count = ini.r_u32("main", "objects_count");
+    u32       count = ini.r_u32("main", "objects_count");
 
-    SPBItem* pb = UI->ProgressStart(count, xr_string().sprintf("Loading %s(ltx)...", ClassDesc()).c_str());
+    SPBItem*  pb    = UI->ProgressStart(count, xr_string().sprintf("Loading %s(ltx)...", ClassDesc()).c_str());
 
-    u32       i = 0;
+    u32       i     = 0;
     string128 buff;
 
     for (i = 0; i < count; ++i)
@@ -158,9 +157,8 @@ bool ESceneCustomOTool::ExportStatic(SceneBuilder* B, bool b_selected_only)
 }
 
 BOOL GetStaticCformData(ObjectList& lst, mesh_build_data& data, bool b_selected_only);
-bool ESceneCustomOTool::GetStaticCformData(
-    mesh_build_data& data,
-    bool b_selected_only)   // b_vertex* verts, int& vert_cnt, int& vert_it,b_face* faces, int& face_cnt, int& face_it,
+bool ESceneCustomOTool::GetStaticCformData(mesh_build_data& data,
+    bool                                                    b_selected_only)   // b_vertex* verts, int& vert_cnt, int& vert_it,b_face* faces, int& face_cnt, int& face_it,
 {
     return ::GetStaticCformData(m_Objects, data, b_selected_only);
 }

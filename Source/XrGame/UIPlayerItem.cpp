@@ -18,8 +18,8 @@ UIPlayerItem::UIPlayerItem(ETeam team, ClientID const& clientId, UITeamState* ts
     m_teamPanels = tpanels;
     VERIFY(m_teamState);
     VERIFY(m_teamPanels);
-    myClientId = clientId;
-    m_prevTeam = team;
+    myClientId         = clientId;
+    m_prevTeam         = team;
 
     m_player_node_root = NULL;
 }
@@ -114,10 +114,7 @@ void UIPlayerItem::UpdateIconParams(game_PlayerState const* ps)
     }
 }
 
-void UIPlayerItem::GetTextParamValue(
-    game_PlayerState const* ps,
-    shared_str const&       param_name,
-    buffer_vector<char>&    dest)
+void UIPlayerItem::GetTextParamValue(game_PlayerState const* ps, shared_str const& param_name, buffer_vector<char>& dest)
 {
     VERIFY(ps);
     if (param_name.equal("mp_name"))
@@ -152,10 +149,7 @@ void UIPlayerItem::GetTextParamValue(
     }
 }
 
-void UIPlayerItem::GetIconParamValue(
-    game_PlayerState const* ps,
-    shared_str const&       param_name,
-    buffer_vector<char>&    dest)
+void UIPlayerItem::GetIconParamValue(game_PlayerState const* ps, shared_str const& param_name, buffer_vector<char>& dest)
 {
     VERIFY(ps);
     game_cl_mp* cl_game = static_cast<game_cl_mp*>(&Game());
@@ -182,8 +176,7 @@ void UIPlayerItem::GetIconParamValue(
         {
             game_cl_CaptureTheArtefact* cta_cl_game = static_cast<game_cl_CaptureTheArtefact*>(cl_game);
             R_ASSERT(cta_cl_game);
-            if (ps->GameID == cta_cl_game->GetGreenArtefactOwnerID() ||
-                ps->GameID == cta_cl_game->GetBlueArtefactOwnerID())
+            if (ps->GameID == cta_cl_game->GetGreenArtefactOwnerID() || ps->GameID == cta_cl_game->GetBlueArtefactOwnerID())
             {
                 xr_strcpy(dest.begin(), dest.size(), "artefact");
             }

@@ -22,7 +22,7 @@ class UITeamHeader;
 class UITeamState: public CUIWindow
 {
 private:
-    typedef CUIWindow inherited;
+    typedef CUIWindow                                inherited;
 
     typedef std::pair<CUIScrollView*, UITeamHeader*> TScrollPanel;
     typedef xr_vector<TScrollPanel>                  TScrollPanels;
@@ -40,25 +40,25 @@ private:
 
     typedef associative_vector<ClientID, TPlayerItem> MapClientIdToUIPlayer;
 
-    ETeam                 myTeam;
-    MapClientIdToUIPlayer myPlayers;
+    ETeam                                             myTeam;
+    MapClientIdToUIPlayer                             myPlayers;
 
-    XML_NODE* teamXmlNode;
-    CUIXml*   mainUiXml;
+    XML_NODE*                                         teamXmlNode;
+    CUIXml*                                           mainUiXml;
 
-    TScrollPanels m_scroll_panels;
+    TScrollPanels                                     m_scroll_panels;
 
-    xr_vector<ClientID> toDeletePlayers;
+    xr_vector<ClientID>                               toDeletePlayers;
 
-    s32 m_artefact_count;
+    s32                                               m_artefact_count;
 
-    UITeamPanels* m_teamPanels;
+    UITeamPanels*                                     m_teamPanels;
 
     UITeamState();
-    bool SortingLessFunction(CUIWindow* left, CUIWindow* right);
-    int  InitScrollPanels();
+    bool                            SortingLessFunction(CUIWindow* left, CUIWindow* right);
+    int                             InitScrollPanels();
 
-    int m_last_panel;
+    int                             m_last_panel;
 
     inline TScrollPanels::size_type GetNeedScrollPanelIndex();
     void                            ReStoreAllPlayers();
@@ -67,16 +67,16 @@ private:
 public:
     UITeamState(ETeam teamId, UITeamPanels* teamPanels);
     virtual ~UITeamState();
-    void Init(CUIXml& uiXml, LPCSTR teamNodeName, int index);
+    void         Init(CUIXml& uiXml, LPCSTR teamNodeName, int index);
 
-    void AddPlayer(ClientID const& clientId);
-    void RemovePlayer(ClientID const& clientId);
-    bool UpdatePlayer(ClientID const& clientId);
+    void         AddPlayer(ClientID const& clientId);
+    void         RemovePlayer(ClientID const& clientId);
+    bool         UpdatePlayer(ClientID const& clientId);
 
-    void SetArtefactsCount(s32 greenTeamArtC, s32 blueTeamArtC);
+    void         SetArtefactsCount(s32 greenTeamArtC, s32 blueTeamArtC);
 
-    s32 GetFieldValue(shared_str const& field_name) const;
-    s32 GetSummaryFrags() const;
+    s32          GetFieldValue(shared_str const& field_name) const;
+    s32          GetSummaryFrags() const;
 
     virtual void Update();
     virtual void Draw();

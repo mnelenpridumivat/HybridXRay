@@ -16,6 +16,6 @@ void CUIPropertiesBox::script_register(lua_State* L)
                   //		.def("GetClickedIndex",		&CUIPropertiesBox::GetClickedIndex)
                   .def("AutoUpdateSize", &CUIPropertiesBox::AutoUpdateSize)
                   .def("AddItem", &CUIPropertiesBox::AddItem_script)
-              //		.def("",					&CUIPropertiesBox::)
+        //		.def("",					&CUIPropertiesBox::)
     ];
 }

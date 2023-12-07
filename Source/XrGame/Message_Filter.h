@@ -23,10 +23,7 @@ public:
 private:
     struct msg_type_subtype_t
     {
-        msg_type_subtype_t(u16 const type = 0, u32 const subtype = 0, u32 const recv_time = 0):
-            msg_type(type), msg_subtype(subtype), msg_receive_time(recv_time)
-        {
-        }
+        msg_type_subtype_t(u16 const type = 0, u32 const subtype = 0, u32 const recv_time = 0): msg_type(type), msg_subtype(subtype), msg_receive_time(recv_time) {}
 
         u16         msg_type;
         u16         dest_obj_id;
@@ -42,13 +39,13 @@ private:
         }
         void import(NET_Packet& packet);
     };
-    void dbg_print_msg(NET_Packet& packet, msg_type_subtype_t const& msg_type);
+    void                                                                    dbg_print_msg(NET_Packet& packet, msg_type_subtype_t const& msg_type);
     typedef associative_vector<msg_type_subtype_t, msg_type_subtype_func_t> filters_map_t;
 
-    filters_map_t m_filters;
-    IWriter*      m_msg_log_file;
-    string256     m_last_string;
-    u32           m_strrepeat_count;
+    filters_map_t                                                           m_filters;
+    IWriter*                                                                m_msg_log_file;
+    string256                                                               m_last_string;
+    u32                                                                     m_strrepeat_count;
 };   // class message_filter
 
 #endif   // #ifndef DEMO_MESSAGE_FILER

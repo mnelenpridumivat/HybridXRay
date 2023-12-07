@@ -12,7 +12,7 @@ public:
     struct item: public IPureDestroyableObject
     {
         item(): m_parent(NULL), m_button(NULL) {}
-        virtual void destroy();
+        virtual void          destroy();
 
         shared_str            m_name;
         shared_str            m_btn_xml_name;   // debug

@@ -15,10 +15,7 @@ IC CScriptObjectAction::CScriptObjectAction()
     m_bCompleted = true;
 }
 
-IC CScriptObjectAction::CScriptObjectAction(
-    CScriptGameObject*          tpLuaGameObject,
-    MonsterSpace::EObjectAction tObjectActionType,
-    u32                         dwQueueSize)
+IC CScriptObjectAction::CScriptObjectAction(CScriptGameObject* tpLuaGameObject, MonsterSpace::EObjectAction tObjectActionType, u32 dwQueueSize)
 {
     SetObject(tpLuaGameObject);
     SetObjectAction(tObjectActionType);

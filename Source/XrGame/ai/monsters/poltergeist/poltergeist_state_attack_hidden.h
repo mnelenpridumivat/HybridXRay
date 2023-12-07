@@ -2,7 +2,7 @@
 
 #include "../state.h"
 
-template <typename _Object> class CStatePoltergeistAttackHidden: public CState<_Object>
+template<typename _Object> class CStatePoltergeistAttackHidden: public CState<_Object>
 {
 protected:
     typedef CState<_Object>  inherited;
@@ -22,7 +22,7 @@ public:
     bool check_home_point();
 
 private:
-    void select_target_for_move();
+    void    select_target_for_move();
 
     u32     m_fly_side_select_tick;
     float   m_fly_radius_factor;

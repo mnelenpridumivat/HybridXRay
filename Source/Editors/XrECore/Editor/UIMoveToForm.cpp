@@ -2,13 +2,12 @@
 #include "UIMoveToForm.h"
 #include "ui_main.h"
 
-
 UIMoveToForm::UIMoveToForm()
 {
-  const Fvector& CameraCurrentPosition = EDevice->m_Camera.GetPosition();
+    const Fvector& CameraCurrentPosition = EDevice->m_Camera.GetPosition();
 
-  m_BackupCameraPosition  = CameraCurrentPosition;
-  m_DesiredCameraPosition = CameraCurrentPosition;
+    m_BackupCameraPosition               = CameraCurrentPosition;
+    m_DesiredCameraPosition              = CameraCurrentPosition;
 }
 
 void UIMoveToForm::Draw()
@@ -52,7 +51,7 @@ void UIMoveToForm::CLBOk()
 void UIMoveToForm::CLBCancel()
 {
     m_DesiredCameraPosition = m_BackupCameraPosition;
-    bOpen = false;
+    bOpen                   = false;
 }
 
 void UIMoveToForm::CLBReset()

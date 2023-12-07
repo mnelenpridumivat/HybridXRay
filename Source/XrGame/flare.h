@@ -38,7 +38,7 @@ public:
 
     virtual void UpdateXForm();
 
-    void ActivateFlare();
-    void DropFlare();
-    bool IsFlareActive();
+    void         ActivateFlare();
+    void         DropFlare();
+    bool         IsFlareActive();
 };

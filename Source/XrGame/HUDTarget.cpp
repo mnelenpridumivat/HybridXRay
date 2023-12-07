@@ -26,9 +26,9 @@ u32 C_ON_ENEMY   = color_rgba(0xff, 0, 0, 0x80);
 u32 C_ON_NEUTRAL = color_rgba(0xff, 0xff, 0x80, 0x80);
 u32 C_ON_FRIEND  = color_rgba(0, 0xff, 0, 0x80);
 
-#define C_DEFAULT color_rgba(0xff, 0xff, 0xff, 0x80)
-#define C_SIZE 0.025f
-#define NEAR_LIM 0.5f
+#define C_DEFAULT       color_rgba(0xff, 0xff, 0xff, 0x80)
+#define C_SIZE          0.025f
+#define NEAR_LIM        0.5f
 
 #define SHOW_INFO_SPEED 0.5f
 #define HIDE_INFO_SPEED 10.f
@@ -89,7 +89,7 @@ ICF static BOOL pick_trace_callback(collide::rq_result& result, LPVOID params)
     else
     {
         // получить треугольник и узнать его материал
-        CDB::TRI* T = Level().ObjectSpace.GetStaticTris() + result.element;
+        CDB::TRI* T   = Level().ObjectSpace.GetStaticTris() + result.element;
 
         SGameMtl* mtl = GameMaterialLibrary->GetMaterialByIdx(T->material);
         pp->power *= mtl->fVisTransparencyFactor;
@@ -151,16 +151,16 @@ void                   CHUDTarget::Render()
     Fvector dir = Device->vCameraDirection;
 
     // Render cursor
-    u32 C = C_DEFAULT;
+    u32     C   = C_DEFAULT;
 
     Fvector p2;
     p2.mad(p1, dir, PP.RQ.range);
     Fvector4 pt;
     Device->mFullTransform.transform(pt, p2);
-    pt.y          = -pt.y;
-    float di_size = C_SIZE / powf(pt.w, .2f);
+    pt.y               = -pt.y;
+    float      di_size = C_SIZE / powf(pt.w, .2f);
 
-    CGameFont* F = UI().Font().pFontGraffiti19Russian;
+    CGameFont* F       = UI().Font().pFontGraffiti19Russian;
     F->SetAligment(CGameFont::alCenter);
     F->OutSetI(0.f, 0.05f);
 
@@ -294,14 +294,14 @@ void                   CHUDTarget::Render()
         float size_x = scr_size.x * di_size;
         float size_y = scr_size.y * di_size;
 
-        size_y = size_x;
+        size_y       = size_x;
 
-        float w_2 = scr_size.x / 2.0f;
-        float h_2 = scr_size.y / 2.0f;
+        float w_2    = scr_size.x / 2.0f;
+        float h_2    = scr_size.y / 2.0f;
 
         // Convert to screen coords
-        float cx = (pt.x + 1) * w_2;
-        float cy = (pt.y + 1) * h_2;
+        float cx     = (pt.x + 1) * w_2;
+        float cy     = (pt.y + 1) * h_2;
 
         //	TODO: return code back to indexed rendering since we use quads
         //	Tri 1

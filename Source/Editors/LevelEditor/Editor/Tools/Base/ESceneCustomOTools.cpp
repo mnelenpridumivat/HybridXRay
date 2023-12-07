@@ -4,7 +4,7 @@ ESceneCustomOTool::ESceneCustomOTool(ObjClassID cls): ESceneToolBase(cls) {}
 
 ESceneCustomOTool::~ESceneCustomOTool() {}
 
-void ESceneCustomOTool::UpdateSnapList() {}
+void        ESceneCustomOTool::UpdateSnapList() {}
 
 ObjectList* ESceneCustomOTool::GetSnapList()
 {
@@ -203,12 +203,7 @@ void ESceneCustomOTool::ShowObjects(bool flag, bool bAllowSelectionFlag, bool bS
     UI->RedrawScene();
 }
 
-BOOL ESceneCustomOTool::RayPick(
-    CCustomObject*& object,
-    float&          distance,
-    const Fvector&  start,
-    const Fvector&  direction,
-    SRayPickInfo*   pinf)
+BOOL ESceneCustomOTool::RayPick(CCustomObject*& object, float& distance, const Fvector& start, const Fvector& direction, SRayPickInfo* pinf)
 {
     object = 0;
     for (ObjectIt _F = m_Objects.begin(); _F != m_Objects.end(); _F++)
@@ -233,12 +228,7 @@ BOOL ESceneCustomOTool::SpherePick(ObjectList& lst, const Fvector& center, float
     return !lst.empty();
 }
 
-int ESceneCustomOTool::RaySelect(
-    int            flag,
-    float&         distance,
-    const Fvector& start,
-    const Fvector& direction,
-    BOOL           bDistanceOnly)
+int ESceneCustomOTool::RaySelect(int flag, float& distance, const Fvector& start, const Fvector& direction, BOOL bDistanceOnly)
 {
     CCustomObject* nearest_object = 0;
     if (RayPick(nearest_object, distance, start, direction, 0) && !bDistanceOnly)
@@ -290,8 +280,7 @@ CCustomObject* ESceneCustomOTool::FindObjectByName(LPCSTR name, CCustomObject* p
             _name = CO->GetName();
         }
 
-        R_ASSERT3(_name, "Invalid object name, position:",
-            (std::to_string(CO->GetPosition().x) + ", " + std::to_string(CO->GetPosition().y) + ", " + std::to_string(CO->GetPosition().z)).c_str());
+        R_ASSERT3(_name, "Invalid object name, position:", (std::to_string(CO->GetPosition().x) + ", " + std::to_string(CO->GetPosition().y) + ", " + std::to_string(CO->GetPosition().z)).c_str());
         if ((pass != *_I) && (0 == strcmp(_name, name)))
             return (*_I);
     }
@@ -300,11 +289,11 @@ CCustomObject* ESceneCustomOTool::FindObjectByName(LPCSTR name, CCustomObject* p
 
 void setEditable(PropItemVec& items, u32 start_idx, bool bEditableTool, bool bObjectInGroup, bool bObjectInGroupUnique)
 {
-    PropItemIt it   = items.begin() + start_idx;
-    PropItemIt it_e = items.end();
-    u32        idx  = 0;
+    PropItemIt it              = items.begin() + start_idx;
+    PropItemIt it_e            = items.end();
+    u32        idx             = 0;
 
-    bool bEditableObject = bEditableTool && (!bObjectInGroup || (bObjectInGroup && bObjectInGroupUnique));
+    bool       bEditableObject = bEditableTool && (!bObjectInGroup || (bObjectInGroup && bObjectInGroupUnique));
 
     for (; it != it_e; ++it, ++idx)
     {
@@ -325,9 +314,7 @@ void ESceneCustomOTool::FillPropObjects(LPCSTR pref, PropItemVec& items)
             u32 cnt = items.size();
             (*it)->FillProp(pref, items);
 
-            setEditable(
-                items, cnt, IsEditable(), (*it)->m_CO_Flags.test(CCustomObject::flObjectInGroup),
-                (*it)->m_CO_Flags.test(CCustomObject::flObjectInGroupUnique));
+            setEditable(items, cnt, IsEditable(), (*it)->m_CO_Flags.test(CCustomObject::flObjectInGroup), (*it)->m_CO_Flags.test(CCustomObject::flObjectInGroupUnique));
         }
     }
 }

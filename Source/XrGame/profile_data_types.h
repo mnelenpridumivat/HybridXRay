@@ -61,14 +61,14 @@ namespace gamespy_profile
 
     typedef associative_vector<enum_awards_t, award_data> all_awards_t;
 
-    char const* get_award_name(enum_awards_t award);
-    extern u16  get_award_id_key(enum_awards_t award);
-    extern u16  get_award_reward_date_key(enum_awards_t award);
+    char const*                                           get_award_name(enum_awards_t award);
+    extern u16                                            get_award_id_key(enum_awards_t award);
+    extern u16                                            get_award_reward_date_key(enum_awards_t award);
 
-    extern u16 get_award_id_stat(enum_awards_t award);
-    extern u16 get_award_reward_date_stat(enum_awards_t award);
+    extern u16                                            get_award_id_stat(enum_awards_t award);
+    extern u16                                            get_award_reward_date_stat(enum_awards_t award);
 
-    extern enum_awards_t get_award_by_stat_name(char const* stat_name);
+    extern enum_awards_t                                  get_award_by_stat_name(char const* stat_name);
 
     enum enum_best_score_type
     {
@@ -82,24 +82,24 @@ namespace gamespy_profile
         bst_score_types_count
     };   // enum enum_best_score_type
 
-    char const*          get_best_score_name(enum_best_score_type bst);
-    u16                  get_best_score_id_key(enum_best_score_type bst);
-    u16                  get_best_score_id_stat(enum_best_score_type bst);
-    enum_best_score_type get_best_score_type_by_sname(char const* stat_name);
+    char const*                                                             get_best_score_name(enum_best_score_type bst);
+    u16                                                                     get_best_score_id_key(enum_best_score_type bst);
+    u16                                                                     get_best_score_id_stat(enum_best_score_type bst);
+    enum_best_score_type                                                    get_best_score_type_by_sname(char const* stat_name);
 
-    typedef associative_vector<enum_best_score_type, s32> all_best_scores_t;
+    typedef associative_vector<enum_best_score_type, s32>                   all_best_scores_t;
 
     typedef mixed_delegate<void(bool, char const*), store_operation_cb_tag> store_operation_cb;
 
-    extern char* profile_table_name;
+    extern char*                                                            profile_table_name;
 
-    extern char* profile_store_file_name;
-    extern char* award_count_line;
-    extern char* award_rdate_line;
-    extern char* best_score_value_line;
-    extern char* profile_data_section;
-    extern char* profile_id_line;
-    extern char* profile_last_submit_time;
+    extern char*                                                            profile_store_file_name;
+    extern char*                                                            award_count_line;
+    extern char*                                                            award_rdate_line;
+    extern char*                                                            best_score_value_line;
+    extern char*                                                            profile_data_section;
+    extern char*                                                            profile_id_line;
+    extern char*                                                            profile_last_submit_time;
 
 }   // namespace gamespy_profile
 

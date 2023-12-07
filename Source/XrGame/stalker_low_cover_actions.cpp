@@ -29,10 +29,7 @@ using namespace StalkerDecisionSpace;
 // CStalkerActionGetReadyToKillLowCover
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionGetReadyToKillLowCover::CStalkerActionGetReadyToKillLowCover(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionGetReadyToKillLowCover::CStalkerActionGetReadyToKillLowCover(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionGetReadyToKillLowCover::initialize()
 {
@@ -61,10 +58,7 @@ void CStalkerActionGetReadyToKillLowCover::finalize()
 // CStalkerActionKillEnemyLowCover
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionKillEnemyLowCover::CStalkerActionKillEnemyLowCover(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionKillEnemyLowCover::CStalkerActionKillEnemyLowCover(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionKillEnemyLowCover::initialize()
 {
@@ -109,10 +103,7 @@ void CStalkerActionKillEnemyLowCover::finalize()
 // CStalkerActionHoldPositionLowCover
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionHoldPositionLowCover::CStalkerActionHoldPositionLowCover(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionHoldPositionLowCover::CStalkerActionHoldPositionLowCover(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionHoldPositionLowCover::initialize()
 {
@@ -140,8 +131,7 @@ void CStalkerActionHoldPositionLowCover::execute()
 
     if (completed())
     {
-        if (object().agent_manager().member().can_detour() || !object().agent_manager().member().cover_detouring() ||
-            !fire_make_sense())
+        if (object().agent_manager().member().can_detour() || !object().agent_manager().member().cover_detouring() || !fire_make_sense())
         {
             CStalkerCombatPlanner& planner = smart_cast<CStalkerCombatPlanner&>(object().brain().current_action());
             planner.CScriptActionPlanner::m_storage.set_property(eWorldPropertyLookedOut, true);

@@ -9,6 +9,7 @@ class SimulatorStates;
 class dx10State
 {
     //	Public interface
+
 public:
     dx10State();   //	These have to be private bu xr_new/xr_delete don't support this
     ~dx10State();
@@ -30,10 +31,13 @@ public:
     }
 
     //	User restricted interface
+
 private:
     typedef dx10SamplerStateCache::HArray tSamplerHArray;
+
 private:
     static void InitSamplers(tSamplerHArray& SamplerArray, SimulatorStates& state_code, int iBaseSamplerIndex);
+
 private:
     //	All states are supposed to live along all application lifetime
     ID3DRasterizerState*   m_pRasterizerState;     //	Weak link
@@ -53,6 +57,7 @@ private:
     UINT m_uiAlphaRef;
 
     //	Private data
+
 private:
 };
 

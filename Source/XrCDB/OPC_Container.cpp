@@ -51,8 +51,7 @@ Container::Container(): mMaxNbEntries(0), mCurNbEntries(0), mEntries(null), mGro
  *	Constructor. Also allocates a given number of entries.
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-Container::Container(udword size, float growth_factor):
-    mMaxNbEntries(0), mCurNbEntries(0), mEntries(null), mGrowthFactor(growth_factor)
+Container::Container(udword size, float growth_factor): mMaxNbEntries(0), mCurNbEntries(0), mEntries(null), mGrowthFactor(growth_factor)
 {
 #ifdef CONTAINER_STATS
     mNbContainers++;
@@ -136,7 +135,7 @@ bool Container::SetSize(udword nb)
     mMaxNbEntries = nb;
 
     // Get some bytes for _new_ entries
-    mEntries = CALLOC(udword, mMaxNbEntries);
+    mEntries      = CALLOC(udword, mMaxNbEntries);
     CHECKALLOC(mEntries);
 
 #ifdef CONTAINER_STATS

@@ -17,7 +17,7 @@
 int                    g_cl_save_demo = 0;
 extern XRCORE_API bool g_allow_heap_min;
 
-shared_str CLevel::OpenDemoFile(LPCSTR demo_file_name)
+shared_str             CLevel::OpenDemoFile(LPCSTR demo_file_name)
 {
     PrepareToPlayDemo(demo_file_name);
     return m_demo_server_options;
@@ -78,8 +78,8 @@ BOOL CLevel::net_Start(LPCSTR op_server, LPCSTR op_client)
     if (!IsDemoPlay())
     {
         LPCSTR pdemosave = strstr(op_client, "/mpdemosave=");
-        bool is_single = m_caServerOptions.size() != 0 ? (strstr(m_caServerOptions.c_str(), "single") != NULL) : false;
-        int  save_demo = g_cl_save_demo;
+        bool   is_single = m_caServerOptions.size() != 0 ? (strstr(m_caServerOptions.c_str(), "single") != NULL) : false;
+        int    save_demo = g_cl_save_demo;
         if (pdemosave != NULL)
         {
             sscanf(pdemosave, "/mpdemosave=%d", &save_demo);
@@ -126,7 +126,7 @@ bool       CLevel::net_start1()
         {
             shared_str l_ver = game_sv_GameState::parse_level_version(m_caServerOptions);
 
-            map_data.m_name = game_sv_GameState::parse_level_name(m_caServerOptions);
+            map_data.m_name  = game_sv_GameState::parse_level_name(m_caServerOptions);
 
             if (!g_dedicated_server)
                 g_pGamePersistent->LoadTitle(true, map_data.m_name);

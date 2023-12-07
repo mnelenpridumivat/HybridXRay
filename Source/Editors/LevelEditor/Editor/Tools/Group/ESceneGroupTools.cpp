@@ -62,15 +62,13 @@ void ESceneGroupTool::GroupObjects(bool bUndo)
     CGroupObject* group = xr_new<CGroupObject>((LPVOID)0, namebuffer);
 
     // validate objects
-    ObjectList lst;
+    ObjectList    lst;
     if (Scene->GetQueryObjects(lst, OBJCLASS_DUMMY, 1, 1, 0))
         group->GroupObjects(lst);
 
     if (group->ObjectInGroupCount())
     {
-        ELog.DlgMsg(
-            mtInformation, "Group '%s' successfully created.\nContain %d object(s)", group->GetName(),
-            group->ObjectInGroupCount());
+        ELog.DlgMsg(mtInformation, "Group '%s' successfully created.\nContain %d object(s)", group->GetName(), group->ObjectInGroupCount());
         Scene->AppendObject(group, bUndo);
     }
     else

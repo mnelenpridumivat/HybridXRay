@@ -104,8 +104,7 @@ void CStalkerPlanner::update(u32 time_delta)
                 Msg("%d,%d", (*I).m_operator_id, (*I).m_operator->weight(target_state(), target_state()));
                 {
                     Msg("%d", (*I).m_operator->conditions().conditions().size());
-                    xr_vector<COperatorCondition>::const_iterator i =
-                        (*I).m_operator->conditions().conditions().begin();
+                    xr_vector<COperatorCondition>::const_iterator i = (*I).m_operator->conditions().conditions().begin();
                     xr_vector<COperatorCondition>::const_iterator e = (*I).m_operator->conditions().conditions().end();
                     for (; i != e; ++i)
                         Msg("%d,%d", (*i).condition(), (*i).value() ? 1 : 0);
@@ -128,10 +127,7 @@ void CStalkerPlanner::add_evaluators()
     add_evaluator(eWorldPropertyAlreadyDead, xr_new<CStalkerPropertyEvaluatorConst>(false, "is_already_dead"));
     add_evaluator(eWorldPropertyPuzzleSolved, xr_new<CStalkerPropertyEvaluatorConst>(false, "is_zone_puzzle_solved"));
     add_evaluator(eWorldPropertyAlive, xr_new<CStalkerPropertyEvaluatorAlive>(m_object, "is_alive"));
-    add_evaluator(
-        eWorldPropertyEnemy,
-        xr_new<CStalkerPropertyEvaluatorEnemies>(
-            m_object, "is_there_enemies", CStalkerCombatPlanner::POST_COMBAT_WAIT_INTERVAL));
+    add_evaluator(eWorldPropertyEnemy, xr_new<CStalkerPropertyEvaluatorEnemies>(m_object, "is_there_enemies", CStalkerCombatPlanner::POST_COMBAT_WAIT_INTERVAL));
     add_evaluator(eWorldPropertyDanger, xr_new<CStalkerPropertyEvaluatorDangers>(m_object, "is_there_danger"));
     add_evaluator(eWorldPropertyAnomaly, xr_new<CStalkerPropertyEvaluatorAnomaly>(m_object, "is_there_anomalies"));
     add_evaluator(eWorldPropertyItems, xr_new<CStalkerPropertyEvaluatorItems>(m_object, "is_there_items_to_pick_up"));

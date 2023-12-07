@@ -1,11 +1,11 @@
 ﻿#pragma once
 #include "../state.h"
 
-template <typename _Object> class CStateMonsterSmartTerrainTaskGraphWalk: public CStateMove<_Object>
+template<typename _Object> class CStateMonsterSmartTerrainTaskGraphWalk: public CStateMove<_Object>
 {
     typedef CStateMove<_Object> inherited;
 
-    CALifeSmartTerrainTask* m_task;
+    CALifeSmartTerrainTask*     m_task;
 
 public:
     CStateMonsterSmartTerrainTaskGraphWalk(_Object* obj): inherited(obj) {}

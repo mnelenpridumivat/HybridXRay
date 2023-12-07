@@ -16,6 +16,7 @@ public:
 class TUI_ControlWallmarkMove: public TUI_CustomControl
 {
     u32 wm_cnt;
+
 public:
     TUI_ControlWallmarkMove(int st, int act, ESceneToolBase* parent);
     virtual bool Start(TShiftState _Shift);

@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -32,9 +32,8 @@
  * These new rotation function names are more consistent with the
  * rest of the API.
  */
-#define dQtoR(q,R) dRfromQ((R),(q))
-#define dRtoQ(R,q) dQfromR((q),(R))
-#define dWtoDQ(w,q,dq) dDQfromW((dq),(w),(q))
-
+#define dQtoR(q, R)      dRfromQ((R), (q))
+#define dRtoQ(R, q)      dQfromR((q), (R))
+#define dWtoDQ(w, q, dq) dDQfromW((dq), (w), (q))
 
 #endif

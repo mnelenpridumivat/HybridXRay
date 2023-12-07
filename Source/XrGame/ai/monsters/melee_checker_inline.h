@@ -2,8 +2,8 @@
 
 IC void CMeleeChecker::load(LPCSTR section)
 {
-    m_as_min_dist = pSettings->r_float(section, "as_min_dist");
-    m_as_step     = pSettings->r_float(section, "as_step");
+    m_as_min_dist         = pSettings->r_float(section, "as_min_dist");
+    m_as_step             = pSettings->r_float(section, "as_step");
 
     m_min_attack_distance = pSettings->r_float(section, "MinAttackDist");
     m_max_attack_distance = pSettings->r_float(section, "MaxAttackDist");

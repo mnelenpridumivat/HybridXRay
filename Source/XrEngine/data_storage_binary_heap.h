@@ -10,8 +10,7 @@
 
 struct CDataStorageBinaryHeap
 {
-    template <typename _data_storage, template <typename _T> class _vertex = CEmptyClassTemplate> class CDataStorage:
-        public _data_storage::template CDataStorage<_vertex>
+    template<typename _data_storage, template<typename _T> class _vertex = CEmptyClassTemplate> class CDataStorage: public _data_storage::template CDataStorage<_vertex>
     {
     public:
         typedef typename _data_storage::template CDataStorage<_vertex> inherited;

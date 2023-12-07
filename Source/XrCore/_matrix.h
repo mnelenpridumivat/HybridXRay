@@ -25,7 +25,7 @@
 // NOTE_3: I,J,K,C equals to R,N,D,T
 // NOTE_4: The rotation sequence is ZXY
 
-template <class T> struct _matrix
+template<class T> struct _matrix
 {
 public:
     typedef T           TYPE;
@@ -188,65 +188,61 @@ public:
     IC SelfRef invert(const Self& a)
     {   // important: this is 4x3 invert, not the 4x4 one
         // faster than self-invert
-        T fDetInv =
-            (a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) +
-             a._13 * (a._21 * a._32 - a._22 * a._31));
+        T fDetInv = (a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) + a._13 * (a._21 * a._32 - a._22 * a._31));
 
         VERIFY(_abs(fDetInv) > flt_zero);
         fDetInv = 1.0f / fDetInv;
 
-        _11 = fDetInv * (a._22 * a._33 - a._23 * a._32);
-        _12 = -fDetInv * (a._12 * a._33 - a._13 * a._32);
-        _13 = fDetInv * (a._12 * a._23 - a._13 * a._22);
-        _14 = 0.0f;
+        _11     = fDetInv * (a._22 * a._33 - a._23 * a._32);
+        _12     = -fDetInv * (a._12 * a._33 - a._13 * a._32);
+        _13     = fDetInv * (a._12 * a._23 - a._13 * a._22);
+        _14     = 0.0f;
 
-        _21 = -fDetInv * (a._21 * a._33 - a._23 * a._31);
-        _22 = fDetInv * (a._11 * a._33 - a._13 * a._31);
-        _23 = -fDetInv * (a._11 * a._23 - a._13 * a._21);
-        _24 = 0.0f;
+        _21     = -fDetInv * (a._21 * a._33 - a._23 * a._31);
+        _22     = fDetInv * (a._11 * a._33 - a._13 * a._31);
+        _23     = -fDetInv * (a._11 * a._23 - a._13 * a._21);
+        _24     = 0.0f;
 
-        _31 = fDetInv * (a._21 * a._32 - a._22 * a._31);
-        _32 = -fDetInv * (a._11 * a._32 - a._12 * a._31);
-        _33 = fDetInv * (a._11 * a._22 - a._12 * a._21);
-        _34 = 0.0f;
+        _31     = fDetInv * (a._21 * a._32 - a._22 * a._31);
+        _32     = -fDetInv * (a._11 * a._32 - a._12 * a._31);
+        _33     = fDetInv * (a._11 * a._22 - a._12 * a._21);
+        _34     = 0.0f;
 
-        _41 = -(a._41 * _11 + a._42 * _21 + a._43 * _31);
-        _42 = -(a._41 * _12 + a._42 * _22 + a._43 * _32);
-        _43 = -(a._41 * _13 + a._42 * _23 + a._43 * _33);
-        _44 = 1.0f;
+        _41     = -(a._41 * _11 + a._42 * _21 + a._43 * _31);
+        _42     = -(a._41 * _12 + a._42 * _22 + a._43 * _32);
+        _43     = -(a._41 * _13 + a._42 * _23 + a._43 * _33);
+        _44     = 1.0f;
         return *this;
     }
 
     IC bool invert_b(const Self& a)
     {   // important: this is 4x3 invert, not the 4x4 one
         // faster than self-invert
-        T fDetInv =
-            (a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) +
-             a._13 * (a._21 * a._32 - a._22 * a._31));
+        T fDetInv = (a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) + a._13 * (a._21 * a._32 - a._22 * a._31));
 
         if (_abs(fDetInv) <= flt_zero)
             return false;
         fDetInv = 1.0f / fDetInv;
 
-        _11 = fDetInv * (a._22 * a._33 - a._23 * a._32);
-        _12 = -fDetInv * (a._12 * a._33 - a._13 * a._32);
-        _13 = fDetInv * (a._12 * a._23 - a._13 * a._22);
-        _14 = 0.0f;
+        _11     = fDetInv * (a._22 * a._33 - a._23 * a._32);
+        _12     = -fDetInv * (a._12 * a._33 - a._13 * a._32);
+        _13     = fDetInv * (a._12 * a._23 - a._13 * a._22);
+        _14     = 0.0f;
 
-        _21 = -fDetInv * (a._21 * a._33 - a._23 * a._31);
-        _22 = fDetInv * (a._11 * a._33 - a._13 * a._31);
-        _23 = -fDetInv * (a._11 * a._23 - a._13 * a._21);
-        _24 = 0.0f;
+        _21     = -fDetInv * (a._21 * a._33 - a._23 * a._31);
+        _22     = fDetInv * (a._11 * a._33 - a._13 * a._31);
+        _23     = -fDetInv * (a._11 * a._23 - a._13 * a._21);
+        _24     = 0.0f;
 
-        _31 = fDetInv * (a._21 * a._32 - a._22 * a._31);
-        _32 = -fDetInv * (a._11 * a._32 - a._12 * a._31);
-        _33 = fDetInv * (a._11 * a._22 - a._12 * a._21);
-        _34 = 0.0f;
+        _31     = fDetInv * (a._21 * a._32 - a._22 * a._31);
+        _32     = -fDetInv * (a._11 * a._32 - a._12 * a._31);
+        _33     = fDetInv * (a._11 * a._22 - a._12 * a._21);
+        _34     = 0.0f;
 
-        _41 = -(a._41 * _11 + a._42 * _21 + a._43 * _31);
-        _42 = -(a._41 * _12 + a._42 * _22 + a._43 * _32);
-        _43 = -(a._41 * _13 + a._42 * _23 + a._43 * _33);
-        _44 = 1.0f;
+        _41     = -(a._41 * _11 + a._42 * _21 + a._43 * _31);
+        _42     = -(a._41 * _12 + a._42 * _22 + a._43 * _32);
+        _43     = -(a._41 * _13 + a._42 * _23 + a._43 * _33);
+        _44     = 1.0f;
         return true;
     }
 
@@ -605,22 +601,22 @@ public:
         T h   = T(1) * cot;
         T Q   = fFarPlane / (fFarPlane - fNearPlane);
 
-        _11 = w;
-        _12 = 0;
-        _13 = 0;
-        _14 = 0;
-        _21 = 0;
-        _22 = h;
-        _23 = 0;
-        _24 = 0;
-        _31 = 0;
-        _32 = 0;
-        _33 = Q;
-        _34 = 1.0f;
-        _41 = 0;
-        _42 = 0;
-        _43 = -Q * fNearPlane;
-        _44 = 0;
+        _11   = w;
+        _12   = 0;
+        _13   = 0;
+        _14   = 0;
+        _21   = 0;
+        _22   = h;
+        _23   = 0;
+        _24   = 0;
+        _31   = 0;
+        _32   = 0;
+        _33   = Q;
+        _34   = 1.0f;
+        _41   = 0;
+        _42   = 0;
+        _43   = -Q * fNearPlane;
+        _44   = 0;
         return *this;
     }
     IC SelfRef build_projection_ortho(T w, T h, T zn, T zf)
@@ -652,7 +648,7 @@ public:
 
         // Get the dot product, and calculate the projection of the z basis
         // vector3 onto the up vector3. The projection is the y basis vector3.
-        T fDotProduct = vWorldUp.dotproduct(vView);
+        T       fDotProduct = vWorldUp.dotproduct(vView);
 
         Tvector vUp;
         vUp.mul(vView, -fDotProduct).add(vWorldUp).normalize();
@@ -688,7 +684,7 @@ public:
     {
         // Get the dot product, and calculate the projection of the z basis
         // vector3 onto the up vector3. The projection is the y basis vector3.
-        T fDotProduct = vWorldUp.dotproduct(vView);
+        T       fDotProduct = vWorldUp.dotproduct(vView);
 
         Tvector vUp;
         vUp.mul(vView, -fDotProduct).add(vWorldUp).normalize();
@@ -884,10 +880,9 @@ public:
 typedef _matrix<float>  Fmatrix;
 typedef _matrix<double> Dmatrix;
 
-template <class T> BOOL _valid(const _matrix<T>& m)
+template<class T> BOOL  _valid(const _matrix<T>& m)
 {
-    return _valid(m.i) && _valid(m._14_) && _valid(m.j) && _valid(m._24_) && _valid(m.k) && _valid(m._34_) &&
-        _valid(m.c) && _valid(m._44_);
+    return _valid(m.i) && _valid(m._14_) && _valid(m.j) && _valid(m._24_) && _valid(m.k) && _valid(m._34_) && _valid(m.c) && _valid(m._44_);
 }
 
 extern XRCORE_API Fmatrix Fidentity;

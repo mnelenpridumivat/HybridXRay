@@ -50,10 +50,7 @@ using namespace StalkerDecisionSpace;
 // CStalkerActionSolveZonePuzzle
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionSolveZonePuzzle::CStalkerActionSolveZonePuzzle(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionSolveZonePuzzle::CStalkerActionSolveZonePuzzle(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionSolveZonePuzzle::initialize()
 {
@@ -61,8 +58,7 @@ void CStalkerActionSolveZonePuzzle::initialize()
 
 #ifndef GRENADE_TEST
     m_stop_weapon_handling_time = Device->dwTimeGlobal;
-    if (object().inventory().ActiveItem() && object().best_weapon() &&
-        (object().inventory().ActiveItem()->object().ID() == object().best_weapon()->object().ID()))
+    if (object().inventory().ActiveItem() && object().best_weapon() && (object().inventory().ActiveItem()->object().ID() == object().best_weapon()->object().ID()))
         m_stop_weapon_handling_time += ::Random32.random(30000) + 30000;
 
     //	object().movement().set_desired_position	(0);
@@ -92,8 +88,7 @@ void CStalkerActionSolveZonePuzzle::initialize()
     object().movement().set_desired_direction(0);
     object().movement().set_path_type(MovementManager::ePathTypePatrolPath);
     object().movement().set_detail_path_type(DetailPathManager::eDetailPathTypeSmooth);
-    object().movement().patrol().set_path(
-        "test_sight", PatrolPathManager::ePatrolStartTypeNearest, PatrolPathManager::ePatrolRouteTypeContinue);
+    object().movement().patrol().set_path("test_sight", PatrolPathManager::ePatrolStartTypeNearest, PatrolPathManager::ePatrolRouteTypeContinue);
     //		object().movement().set_nearest_accessible_position();
     object().sight().setup(CSightAction(SightManager::eSightTypePathDirection));
     //		object().CObjectHandler::set_goal
@@ -189,8 +184,7 @@ void CStalkerActionSolveZonePuzzle::execute()
 // CStalkerActionSmartTerrain
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionSmartTerrain::CStalkerActionSmartTerrain(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
+CStalkerActionSmartTerrain::CStalkerActionSmartTerrain(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name)
 {
     set_inertia_time(30000);
 }
@@ -239,8 +233,7 @@ void CStalkerActionSmartTerrain::execute()
 
     object().sound().play(eStalkerSoundHumming, 60000, 10000);
 
-    CSE_ALifeHumanAbstract* stalker =
-        smart_cast<CSE_ALifeHumanAbstract*>(ai().alife().objects().object(m_object->ID()));
+    CSE_ALifeHumanAbstract* stalker = smart_cast<CSE_ALifeHumanAbstract*>(ai().alife().objects().object(m_object->ID()));
     VERIFY(stalker);
     VERIFY(stalker->m_smart_terrain_id != 0xffff);
 

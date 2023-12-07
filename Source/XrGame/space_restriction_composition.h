@@ -30,6 +30,7 @@ protected:
     Fsphere                  m_sphere;
 
 #ifdef DEBUG
+
 private:
     void check_restrictor_type();
 #endif   // DEBUG

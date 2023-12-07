@@ -1,4 +1,4 @@
-// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
+﻿// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -20,7 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE
 // OR OTHER DEALINGS IN THE SOFTWARE.
 
-
 #ifndef LUABIND_CONSTRUCT_REP_HPP_INCLUDED
 #define LUABIND_CONSTRUCT_REP_HPP_INCLUDED
 
@@ -37,50 +36,63 @@
 #include "../luabind/detail/overload_rep_base.hpp"
 #include "../luabind/weak_ref.hpp"
 
-namespace luabind { namespace detail
+namespace luabind
 {
+    namespace detail
+    {
 
+        struct construct_rep
+        {
+            struct overload_t: public overload_rep_base
+            {
+                overload_t(): wrapped_construct_fun(0) {}
 
-	struct construct_rep
-	{
-		struct overload_t: public overload_rep_base
-		{
-			overload_t(): wrapped_construct_fun(0) 
-			{
-			}
+                typedef void* (*construct_ptr)(lua_State*, weak_ref const&);
+                typedef void* (*wrapped_construct_ptr)(lua_State*, weak_ref const&);
+                typedef void  (*get_signature_ptr)(lua_State*, string_class&);
 
-			typedef void*(*construct_ptr)(lua_State*, weak_ref const&);
-			typedef void*(*wrapped_construct_ptr)(lua_State*, weak_ref const&);
-			typedef void(*get_signature_ptr)(lua_State*, string_class&);
+                inline void   set_constructor(construct_ptr f)
+                {
+                    construct_fun = f;
+                }
+                inline void set_wrapped_constructor(wrapped_construct_ptr f)
+                {
+                    wrapped_construct_fun = f;
+                }
 
-			inline void set_constructor(construct_ptr f) { construct_fun = f; }
-			inline void set_wrapped_constructor(wrapped_construct_ptr f) { wrapped_construct_fun = f; }
+                inline void* construct(lua_State* L, weak_ref const& backref)
+                {
+                    return construct_fun(L, backref);
+                }
 
-			inline void* construct(lua_State* L, weak_ref const& backref) 
-			{ 
-				return construct_fun(L, backref); 
-			}
+                inline void* construct_wrapped(lua_State* L, weak_ref const& ref)
+                {
+                    return wrapped_construct_fun(L, ref);
+                }
+                inline bool has_wrapped_construct()
+                {
+                    return wrapped_construct_fun != 0;
+                }
 
-			inline void* construct_wrapped(lua_State* L, weak_ref const& ref) { return wrapped_construct_fun(L, ref); } 
-			inline bool has_wrapped_construct() { return wrapped_construct_fun != 0; }
+                inline void set_arity(int arity)
+                {
+                    m_arity = arity;
+                }
 
-			inline void set_arity(int arity) { m_arity = arity; }
+            private:
+                construct_ptr         construct_fun;
+                wrapped_construct_ptr wrapped_construct_fun;
+            };
 
-		private:
+            void swap(construct_rep& x)
+            {
+                std::swap(x.overloads, overloads);
+            }
 
-			construct_ptr construct_fun;
-			wrapped_construct_ptr wrapped_construct_fun;
+            vector_class<overload_t> overloads;
+        };
 
-		};
+    }   // namespace detail
+}   // namespace luabind
 
-		void swap(construct_rep& x)
-		{
-			std::swap(x.overloads, overloads);
-		}
-
-		vector_class<overload_t> overloads;
-	};
-
-}}
-
-#endif // LUABIND_CONSTRUCT_REP_HPP_INCLUDED
+#endif   // LUABIND_CONSTRUCT_REP_HPP_INCLUDED

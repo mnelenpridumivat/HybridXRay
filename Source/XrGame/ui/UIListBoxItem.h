@@ -18,13 +18,13 @@ public:
     void         SetTAG(u32 value);
     u32          GetTAG();
 
-    void  SetData(void* data);
-    void* GetData();
+    void         SetData(void* data);
+    void*        GetData();
 
-    CUITextWnd* AddTextField(LPCSTR txt, float width);
-    CUIStatic*  AddIconField(float width);
+    CUITextWnd*  AddTextField(LPCSTR txt, float width);
+    CUIStatic*   AddIconField(float width);
 
-    CUITextWnd* GetTextItem()
+    CUITextWnd*  GetTextItem()
     {
         return m_text;
     }

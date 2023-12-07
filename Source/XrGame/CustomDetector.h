@@ -15,17 +15,17 @@ struct ITEM_TYPE
     Fvector2       freq;   // min,max
     HUD_SOUND_ITEM detect_snds;
 
-    shared_str zone_map_location;
-    shared_str nightvision_particle;
+    shared_str     zone_map_location;
+    shared_str     nightvision_particle;
 };
 
 // описание зоны, обнаруженной детектором
 struct ITEM_INFO
 {
-    ITEM_TYPE* curr_ref;
-    float      snd_time;
+    ITEM_TYPE*        curr_ref;
+    float             snd_time;
     // текущая частота работы датчика
-    float cur_period;
+    float             cur_period;
     // particle for night-vision mode
     CParticlesObject* pParticle;
 
@@ -33,7 +33,7 @@ struct ITEM_INFO
     ~ITEM_INFO();
 };
 
-template <typename K> class CDetectList: public Feel::Touch
+template<typename K> class CDetectList: public Feel::Touch
 {
 protected:
     typedef xr_map<shared_str, ITEM_TYPE> TypesMap;
@@ -98,8 +98,8 @@ public:
             }
             else
                 break;
-
-        } while (true);
+        }
+        while (true);
     }
 };
 
@@ -137,7 +137,7 @@ public:
     virtual void shedule_Update(u32 dt);
     virtual void UpdateCL();
 
-    bool IsWorking();
+    bool         IsWorking();
 
     virtual void OnMoveToSlot(const SInvItemPlace& prev);
     virtual void OnMoveToRuck(const SInvItemPlace& prev);
@@ -154,7 +154,7 @@ public:
     float        m_fAfDetectRadius;
     virtual bool CheckCompatibility(CHudItem* itm);
 
-    virtual u32 ef_detector_type() const
+    virtual u32  ef_detector_type() const
     {
         return 1;
     };
@@ -168,10 +168,10 @@ protected:
     virtual void UpdateAf(){};
     virtual void CreateUI(){};
 
-    bool  m_bWorking;
-    float m_fAfVisRadius;
+    bool         m_bWorking;
+    float        m_fAfVisRadius;
 
-    CAfList m_artefacts;
+    CAfList      m_artefacts;
 };
 
 class CZoneList: public CDetectList<CCustomZone>

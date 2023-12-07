@@ -23,20 +23,18 @@ struct MONSTER_COMMUNITY_DATA
 
 class MONSTER_COMMUNITY;
 
-class MONSTER_COMMUNITY:
-    public CIni_IdToIndex<1, MONSTER_COMMUNITY_DATA, MONSTER_COMMUNITY_ID, MONSTER_COMMUNITY_INDEX, MONSTER_COMMUNITY>
+class MONSTER_COMMUNITY: public CIni_IdToIndex<1, MONSTER_COMMUNITY_DATA, MONSTER_COMMUNITY_ID, MONSTER_COMMUNITY_INDEX, MONSTER_COMMUNITY>
 {
 private:
-    typedef CIni_IdToIndex<1, MONSTER_COMMUNITY_DATA, MONSTER_COMMUNITY_ID, MONSTER_COMMUNITY_INDEX, MONSTER_COMMUNITY>
-        inherited;
+    typedef CIni_IdToIndex<1, MONSTER_COMMUNITY_DATA, MONSTER_COMMUNITY_ID, MONSTER_COMMUNITY_INDEX, MONSTER_COMMUNITY> inherited;
     friend inherited;
 
 public:
     MONSTER_COMMUNITY();
     ~MONSTER_COMMUNITY();
 
-    void set(MONSTER_COMMUNITY_ID);
-    void set(MONSTER_COMMUNITY_INDEX);
+    void                    set(MONSTER_COMMUNITY_ID);
+    void                    set(MONSTER_COMMUNITY_INDEX);
 
     MONSTER_COMMUNITY_ID    id() const;
     MONSTER_COMMUNITY_INDEX index() const;
@@ -45,12 +43,12 @@ public:
 private:
     MONSTER_COMMUNITY_INDEX m_current_index;
 
-    static void InitIdToIndex();
+    static void             InitIdToIndex();
 
 public:
     // отношение между группами монстров
-    static int relation(MONSTER_COMMUNITY_INDEX from, MONSTER_COMMUNITY_INDEX to);
-    int        relation(MONSTER_COMMUNITY_INDEX to);
+    static int  relation(MONSTER_COMMUNITY_INDEX from, MONSTER_COMMUNITY_INDEX to);
+    int         relation(MONSTER_COMMUNITY_INDEX to);
 
     static void DeleteIdToIndexData();
 

@@ -60,15 +60,7 @@ void CSoundPlayer::unload()
     VERIFY(m_playing_sounds.empty());
 }
 
-u32 CSoundPlayer::add(
-    LPCSTR             prefix,
-    u32                max_count,
-    ESoundTypes        type,
-    u32                priority,
-    u32                mask,
-    u32                internal_type,
-    LPCSTR             bone_name,
-    CSound_UserDataPtr data)
+u32 CSoundPlayer::add(LPCSTR prefix, u32 max_count, ESoundTypes type, u32 priority, u32 mask, u32 internal_type, LPCSTR bone_name, CSound_UserDataPtr data)
 {
     SOUND_COLLECTIONS::iterator I = m_sounds.find(internal_type);
     if (m_sounds.end() != I)
@@ -105,9 +97,7 @@ bool CSoundPlayer::check_sound_legacy(u32 internal_type) const
     if (m_sounds.end() == J)
     {
 #ifdef DEBUG
-        ai().script_engine().script_log(
-            eLuaMessageTypeMessage, "Can't find sound with internal type %d (sound_script = %d)", internal_type,
-            StalkerSpace::eStalkerSoundScript);
+        ai().script_engine().script_log(eLuaMessageTypeMessage, "Can't find sound with internal type %d (sound_script = %d)", internal_type, StalkerSpace::eStalkerSoundScript);
 #endif
         return (false);
     }
@@ -136,9 +126,7 @@ void CSoundPlayer::update(float time_delta)
 
 void CSoundPlayer::remove_inappropriate_sounds(u32 sound_mask)
 {
-    m_playing_sounds.erase(
-        std::remove_if(m_playing_sounds.begin(), m_playing_sounds.end(), CInappropriateSoundPredicate(sound_mask)),
-        m_playing_sounds.end());
+    m_playing_sounds.erase(std::remove_if(m_playing_sounds.begin(), m_playing_sounds.end(), CInappropriateSoundPredicate(sound_mask)), m_playing_sounds.end());
 }
 
 void CSoundPlayer::update_playing_sounds()
@@ -168,13 +156,7 @@ bool CSoundPlayer::need_bone_data() const
     return (false);
 }
 
-void CSoundPlayer::play(
-    u32 internal_type,
-    u32 max_start_time,
-    u32 min_start_time,
-    u32 max_stop_time,
-    u32 min_stop_time,
-    u32 id)
+void CSoundPlayer::play(u32 internal_type, u32 max_start_time, u32 min_start_time, u32 max_stop_time, u32 min_stop_time, u32 id)
 {
     if (!check_sound_legacy(internal_type))
         return;
@@ -185,8 +167,7 @@ void CSoundPlayer::play(
     if ((*I).second.second->m_sounds.empty())
     {
 #ifdef DEBUG
-        Msg("- There are no sounds in sound collection \"%s\" with internal type %d (sound_script = %d)",
-            *sound.m_sound_prefix, internal_type, StalkerSpace::eStalkerSoundScript);
+        Msg("- There are no sounds in sound collection \"%s\" with internal type %d (sound_script = %d)", *sound.m_sound_prefix, internal_type, StalkerSpace::eStalkerSoundScript);
 #endif
         return;
     }
@@ -225,18 +206,15 @@ void CSoundPlayer::play(
     u32 random_time = 0;
 
     if (max_start_time)
-        random_time = (max_start_time > min_start_time) ? random(max_start_time - min_start_time) + min_start_time :
-                                                          max_start_time;
+        random_time = (max_start_time > min_start_time) ? random(max_start_time - min_start_time) + min_start_time : max_start_time;
 
     sound_single.m_start_time = Device->dwTimeGlobal + random_time;
 
-    random_time = 0;
+    random_time               = 0;
     if (max_stop_time)
-        random_time =
-            (max_stop_time > min_stop_time) ? random(max_stop_time - min_stop_time) + min_stop_time : max_stop_time;
+        random_time = (max_stop_time > min_stop_time) ? random(max_stop_time - min_stop_time) + min_stop_time : max_stop_time;
 
-    sound_single.m_stop_time =
-        sound_single.m_start_time + iFloor(sound_single.m_sound->get_length_sec() * 1000.0f) + random_time;
+    sound_single.m_stop_time = sound_single.m_start_time + iFloor(sound_single.m_sound->get_length_sec() * 1000.0f) + random_time;
     m_playing_sounds.push_back(sound_single);
 
     if (Device->dwTimeGlobal >= m_playing_sounds.back().m_start_time)
@@ -246,9 +224,7 @@ void CSoundPlayer::play(
 IC Fvector CSoundPlayer::compute_sound_point(const CSoundSingle& sound)
 {
     Fmatrix l_tMatrix;
-    l_tMatrix.mul_43(
-        m_object->XFORM(),
-        smart_cast<IKinematics*>(m_object->Visual())->LL_GetBoneInstance(sound.m_bone_id).mTransform);
+    l_tMatrix.mul_43(m_object->XFORM(), smart_cast<IKinematics*>(m_object->Visual())->LL_GetBoneInstance(sound.m_bone_id).mTransform);
     return (l_tMatrix.c);
 }
 
@@ -323,7 +299,8 @@ const ref_sound& CSoundPlayer::CSoundCollection::random(const u32& id)
     do
     {
         result = CRandom32::random(m_sounds.size());
-    } while (result == m_last_sound_id);
+    }
+    while (result == m_last_sound_id);
 
     m_last_sound_id = result;
     return (*m_sounds[result]);

@@ -65,9 +65,9 @@ Point& Point::Refract(const Point& eye, const Point& n, float refractindex, Poin
     //	Point rv = refracted vector3
     //	Eye vector3 - doesn't need to be normalized
     Point Env;
-    Env.x = eye.x - x;
-    Env.y = eye.y - y;
-    Env.z = eye.z - z;
+    Env.x       = eye.x - x;
+    Env.y       = eye.y - y;
+    Env.z       = eye.z - z;
 
     float NDotE = n | Env;
     float NDotN = n | n;
@@ -155,12 +155,9 @@ Point& Point::Mult(const Matrix3x3& mat, const Point& a)
 
 Point& Point::Mult2(const Matrix3x3& mat1, const Point& a1, const Matrix3x3& mat2, const Point& a2)
 {
-    x = a1.x * mat1.m[0][0] + a1.y * mat1.m[0][1] + a1.z * mat1.m[0][2] + a2.x * mat2.m[0][0] + a2.y * mat2.m[0][1] +
-        a2.z * mat2.m[0][2];
-    y = a1.x * mat1.m[1][0] + a1.y * mat1.m[1][1] + a1.z * mat1.m[1][2] + a2.x * mat2.m[1][0] + a2.y * mat2.m[1][1] +
-        a2.z * mat2.m[1][2];
-    z = a1.x * mat1.m[2][0] + a1.y * mat1.m[2][1] + a1.z * mat1.m[2][2] + a2.x * mat2.m[2][0] + a2.y * mat2.m[2][1] +
-        a2.z * mat2.m[2][2];
+    x = a1.x * mat1.m[0][0] + a1.y * mat1.m[0][1] + a1.z * mat1.m[0][2] + a2.x * mat2.m[0][0] + a2.y * mat2.m[0][1] + a2.z * mat2.m[0][2];
+    y = a1.x * mat1.m[1][0] + a1.y * mat1.m[1][1] + a1.z * mat1.m[1][2] + a2.x * mat2.m[1][0] + a2.y * mat2.m[1][1] + a2.z * mat2.m[1][2];
+    z = a1.x * mat1.m[2][0] + a1.y * mat1.m[2][1] + a1.z * mat1.m[2][2] + a2.x * mat2.m[2][0] + a2.y * mat2.m[2][1] + a2.z * mat2.m[2][2];
     return *this;
 }
 

@@ -39,7 +39,7 @@ public:
         return m_pOthersInvOwner;
     };
 
-    void InitTalkWnd();
+    void         InitTalkWnd();
 
     virtual bool StopAnyMove()
     {
@@ -52,11 +52,11 @@ public:
 
     virtual void Show(bool status);
 
-    void Stop();   // deffered
-    void StopTalk();
+    void         Stop();   // deffered
+    void         StopTalk();
 
-    void UpdateQuestions();
-    void NeedUpdateQuestions();
+    void         UpdateQuestions();
+    void         NeedUpdateQuestions();
     // инициализации начального диалога собеседника
     void         InitOthersStartDialog();
     virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
@@ -72,25 +72,26 @@ protected:
     void SayPhrase(const shared_str& phrase_id);
 
     // Функции добавления строк в листы вопросов и ответов
+
 public:
     void AddQuestion(const shared_str& text, const shared_str& id, int number, bool b_finalizer);
     void AddAnswer(const shared_str& text, LPCSTR SpeakerName);
     bool b_disable_break;
 
 protected:
-    CUITalkDialogWnd* UITalkDialogWnd;
+    CUITalkDialogWnd*     UITalkDialogWnd;
 
-    CActor*          m_pActor;
-    CInventoryOwner* m_pOurInvOwner;
-    CInventoryOwner* m_pOthersInvOwner;
+    CActor*               m_pActor;
+    CInventoryOwner*      m_pOurInvOwner;
+    CInventoryOwner*      m_pOthersInvOwner;
 
     CPhraseDialogManager* m_pOurDialogManager;
     CPhraseDialogManager* m_pOthersDialogManager;
 
-    bool m_bNeedToUpdateQuestions;
+    bool                  m_bNeedToUpdateQuestions;
 
     // текущий диалог, если NULL, то переходим в режим выбора темы
-    DIALOG_SHARED_PTR m_pCurrentDialog;
-    bool              TopicMode();
-    void              ToTopicMode();
+    DIALOG_SHARED_PTR     m_pCurrentDialog;
+    bool                  TopicMode();
+    void                  ToTopicMode();
 };

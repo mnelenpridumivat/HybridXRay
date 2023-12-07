@@ -19,6 +19,7 @@ namespace PS
     {
         //		friend void ParticleRenderStream( LPVOID lpvParams );
         friend class CPEDef;
+
     protected:
         float   m_fElapsedLimit;
 
@@ -28,12 +29,15 @@ namespace PS
         s32     m_MemDT;
 
         Fvector m_InitialPosition;
+
     public:
         CPEDef* m_Def;
         Fmatrix m_XFORM;
+
     protected:
         DestroyCallback   m_DestroyCallback;
         CollisionCallback m_CollisionCallback;
+
     public:
         enum
         {
@@ -43,11 +47,13 @@ namespace PS
             flRT_HUDmode      = (1 << 3),
         };
         Flags8 m_RT_Flags;
+
     protected:
         BOOL SaveActionList(IWriter& F);
         BOOL LoadActionList(IReader& F);
 
         void RefreshShader();
+
     public:
         CParticleEffect();
         virtual ~CParticleEffect();

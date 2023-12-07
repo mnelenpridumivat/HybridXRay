@@ -1,4 +1,4 @@
-/*
+﻿/*
 Copyright 2007 nVidia, Inc.
 Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. 
 
@@ -15,37 +15,36 @@ See the License for the specific language governing permissions and limitations 
 #include "tile.h"
 #include "zoh.h"
 
-#include <string.h> // memcpy
+#include <string.h>   // memcpy
 
 using namespace ZOH;
 
-
-bool ZOH::isone(const char *block)
+bool ZOH::isone(const char* block)
 {
-	char code = block[0] & 0x1F;
+    char code = block[0] & 0x1F;
 
-	return (code == 0x03 || code == 0x07 || code == 0x0b || code == 0x0f);
+    return (code == 0x03 || code == 0x07 || code == 0x0b || code == 0x0f);
 }
 
-void ZOH::compress(const Tile &t, char *block)
+void ZOH::compress(const Tile& t, char* block)
 {
-	char oneblock[ZOH::BLOCKSIZE], twoblock[ZOH::BLOCKSIZE];
+    char  oneblock[ZOH::BLOCKSIZE], twoblock[ZOH::BLOCKSIZE];
 
-	float mseone = ZOH::compressone(t, oneblock);
-	float msetwo = ZOH::compresstwo(t, twoblock);
+    float mseone = ZOH::compressone(t, oneblock);
+    float msetwo = ZOH::compresstwo(t, twoblock);
 
-	if (mseone <= msetwo)
-		memcpy(block, oneblock, ZOH::BLOCKSIZE);
-	else
-		memcpy(block, twoblock, ZOH::BLOCKSIZE);
+    if (mseone <= msetwo)
+        memcpy(block, oneblock, ZOH::BLOCKSIZE);
+    else
+        memcpy(block, twoblock, ZOH::BLOCKSIZE);
 }
 
-void ZOH::decompress(const char *block, Tile &t)
+void ZOH::decompress(const char* block, Tile& t)
 {
-	if (ZOH::isone(block))
-		ZOH::decompressone(block, t);
-	else
-		ZOH::decompresstwo(block, t);
+    if (ZOH::isone(block))
+        ZOH::decompressone(block, t);
+    else
+        ZOH::decompresstwo(block, t);
 }
 
 /*

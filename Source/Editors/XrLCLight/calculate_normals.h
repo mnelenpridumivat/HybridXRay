@@ -17,8 +17,10 @@ template<typename typeVertex> class calculate_normals
 
     typedef vecFace                        vecAdj;
     typedef typename vecAdj::iterator      vecAdjIt;
+
 private:
     typedef itterate_adjacents<itterate_adjacents_params_static<type_vertex>> itterate_adjacents_type;
+
 public:
     static void calc_normals(vecVertex& vertices, vecFace& faces)
     {

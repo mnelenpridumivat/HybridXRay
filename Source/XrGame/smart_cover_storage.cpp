@@ -23,7 +23,7 @@ struct id_predicate
     shared_str m_id;
 
 public:
-    IC id_predicate(shared_str const& id): m_id(id) {}
+    IC      id_predicate(shared_str const& id): m_id(id) {}
 
     IC bool operator()(::description* const& ptr) const
     {
@@ -74,6 +74,5 @@ void storage::collect_garbage()
         }
     };
 
-    m_descriptions.erase(
-        std::remove_if(m_descriptions.begin(), m_descriptions.end(), &garbage::predicate), m_descriptions.end());
+    m_descriptions.erase(std::remove_if(m_descriptions.begin(), m_descriptions.end(), &garbage::predicate), m_descriptions.end());
 }

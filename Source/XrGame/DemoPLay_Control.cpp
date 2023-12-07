@@ -83,31 +83,38 @@ void demoplay_control::activate_filer(EAction const action, shared_str const& pa
 
     switch (action)
     {
-        case on_round_start: {
+        case on_round_start:
+        {
             tmp_msg_filter->filter(M_GAMEMESSAGE, GAME_EVENT_ROUND_STARTED, m_onround_start);
         }
         break;
-        case on_kill: {
+        case on_kill:
+        {
             tmp_msg_filter->filter(M_GAMEMESSAGE, GAME_EVENT_PLAYER_KILLED, m_on_kill);
         }
         break;
-        case on_die: {
+        case on_die:
+        {
             tmp_msg_filter->filter(M_GAMEMESSAGE, GAME_EVENT_PLAYER_KILLED, m_on_die);
         }
         break;
-        case on_artefactdelivering: {
+        case on_artefactdelivering:
+        {
             tmp_msg_filter->filter(M_GAMEMESSAGE, GAME_EVENT_ARTEFACT_ONBASE, m_on_artefactdelivering);
         }
         break;
-        case on_artefactcapturing: {
+        case on_artefactcapturing:
+        {
             tmp_msg_filter->filter(M_GAMEMESSAGE, GAME_EVENT_ARTEFACT_TAKEN, m_on_artefactcapturing);
         }
         break;
-        case on_artefactloosing: {
+        case on_artefactloosing:
+        {
             tmp_msg_filter->filter(M_GAMEMESSAGE, GAME_EVENT_ARTEFACT_DROPPED, m_on_artefactloosing);
         }
         break;
-        default: {
+        default:
+        {
             FATAL("unknown action to filter");
         }
     };   // switch (action)
@@ -119,31 +126,38 @@ void demoplay_control::deactivate_filter()
 
     switch (m_current_action)
     {
-        case on_round_start: {
+        case on_round_start:
+        {
             tmp_msg_filter->remove_filter(M_GAMEMESSAGE, GAME_EVENT_ROUND_STARTED);
         }
         break;
-        case on_kill: {
+        case on_kill:
+        {
             tmp_msg_filter->remove_filter(M_GAMEMESSAGE, GAME_EVENT_PLAYER_KILLED);
         }
         break;
-        case on_die: {
+        case on_die:
+        {
             tmp_msg_filter->remove_filter(M_GAMEMESSAGE, GAME_EVENT_PLAYER_KILLED);
         }
         break;
-        case on_artefactdelivering: {
+        case on_artefactdelivering:
+        {
             tmp_msg_filter->remove_filter(M_GAMEMESSAGE, GAME_EVENT_ARTEFACT_ONBASE);
         }
         break;
-        case on_artefactcapturing: {
+        case on_artefactcapturing:
+        {
             tmp_msg_filter->remove_filter(M_GAMEMESSAGE, GAME_EVENT_ARTEFACT_TAKEN);
         }
         break;
-        case on_artefactloosing: {
+        case on_artefactloosing:
+        {
             tmp_msg_filter->remove_filter(M_GAMEMESSAGE, GAME_EVENT_ARTEFACT_DROPPED);
         }
         break;
-        default: {
+        default:
+        {
             FATAL("unknown action to remove filter");
         }
     };   // switch (action)

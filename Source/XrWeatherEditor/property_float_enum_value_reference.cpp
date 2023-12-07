@@ -11,12 +11,7 @@
 
 using System::String;
 
-property_float_enum_value_reference::property_float_enum_value_reference(
-    float&     value,
-    pair*      values,
-    u32 const& value_count):
-    inherited(value, .05f),
-    m_collection(gcnew collection_type())
+property_float_enum_value_reference::property_float_enum_value_reference(float& value, pair* values, u32 const& value_count): inherited(value, .05f), m_collection(gcnew collection_type())
 {
     for (u32 i = 0; i < value_count; ++i)
     {

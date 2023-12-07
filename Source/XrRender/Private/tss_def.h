@@ -33,8 +33,10 @@ private:
             v3   = c;
         }
     };
+
 private:
     xr_vector<State> States;
+
 public:
     void                  set_RS(u32 a, u32 b);
     void                  set_TSS(u32 a, u32 b, u32 c);

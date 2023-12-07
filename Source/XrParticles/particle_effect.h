@@ -57,7 +57,7 @@ namespace PAPI
 
             CopyMemory(new_particles, particles, p_count * sizeof(Particle));
             xr_free(particles);
-            particles = new_particles;
+            particles           = new_particles;
 
             max_particles       = max_count;
             particles_allocated = max_count;
@@ -73,16 +73,7 @@ namespace PAPI
             m = particles[--p_count];   // не менять правило удаления !!! (dependence ParticleGroup)
         }
 
-        IC BOOL
-            Add(const pVector& pos,
-                const pVector& posB,
-                const pVector& size,
-                const pVector& rot,
-                const pVector& vel,
-                u32            color,
-                const float    age   = 0.0f,
-                u16            frame = 0,
-                u16            flags = 0)
+        IC BOOL Add(const pVector& pos, const pVector& posB, const pVector& size, const pVector& rot, const pVector& vel, u32 color, const float age = 0.0f, u16 frame = 0, u16 flags = 0)
         {
             if (p_count >= max_particles)
                 return FALSE;

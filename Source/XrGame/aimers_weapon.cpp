@@ -17,18 +17,7 @@
 
 using aimers::weapon;
 
-weapon::weapon(
-    CGameObject*   object,
-    LPCSTR         animation_id,
-    bool           animation_start,
-    Fvector const& target,
-    LPCSTR         bone0,
-    LPCSTR         bone1,
-    LPCSTR         weapon_bone0,
-    LPCSTR         weapon_bone1,
-    CWeapon const& weapon):
-    inherited(object, animation_id, animation_start, target),
-    m_weapon(weapon)
+weapon::weapon(CGameObject* object, LPCSTR animation_id, bool animation_start, Fvector const& target, LPCSTR bone0, LPCSTR bone1, LPCSTR weapon_bone0, LPCSTR weapon_bone1, CWeapon const& weapon): inherited(object, animation_id, animation_start, target), m_weapon(weapon)
 {
     LPCSTR bones[4] = {bone0, bone1, weapon_bone0, weapon_bone1};
     for (u32 i = 0; i < 4; ++i)
@@ -75,7 +64,7 @@ void weapon::compute_bone(u32 const bone_id)
     Fmatrix const& mL = m_local_bones[weapon_bone_id1];
     Fmatrix const& mR = m_local_bones[weapon_bone_id0];
 
-    Fvector pos, ypr;
+    Fvector        pos, ypr;
     pos = pSettings->r_fvector3(m_weapon.cNameSect(), "position");
     ypr = pSettings->r_fvector3(m_weapon.cNameSect(), "orientation");
     ypr.mul(PI / 180.f);

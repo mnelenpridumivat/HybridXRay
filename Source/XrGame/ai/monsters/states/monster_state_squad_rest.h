@@ -2,13 +2,13 @@
 
 #include "../state.h"
 
-template <typename _Object> class CStateMonsterSquadRest: public CState<_Object>
+template<typename _Object> class CStateMonsterSquadRest: public CState<_Object>
 {
 protected:
     typedef CState<_Object>  inherited;
     typedef CState<_Object>* state_ptr;
 
-    u32 time_next_state_reselect;
+    u32                      time_next_state_reselect;
 
 public:
     CStateMonsterSquadRest(_Object* obj);

@@ -3,7 +3,7 @@
 #include "chimera_state_hunting_move_to_cover.h"
 #include "chimera_state_hunting_come_out.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION      template<typename _Object>
 
 #define CStateChimeraHuntingAbstract CStateChimeraHunting<_Object>
 

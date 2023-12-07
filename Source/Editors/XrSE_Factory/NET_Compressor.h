@@ -57,6 +57,7 @@ class NET_Compressor
 public:
     typedef u32 code_value; /* Type of an rangecode value			*/
     typedef u32 freq;
+
 private:
     xrCriticalSection CS;
 
@@ -80,6 +81,7 @@ private:
 
     NET_Compressor_FREQ freqCompress;     // used in compression
     NET_Compressor_FREQ freqDecompress;   // used in decompression
+
 private:
     /* Start the encoder                                         */
     /* c is written as first byte in the datastream (header,...) */
@@ -137,6 +139,7 @@ private:
 
     /* Finish decoding                                           */
     void done_decoding();
+
 public:
     NET_Compressor();
     ~NET_Compressor();

@@ -21,11 +21,7 @@ using XrWeatherEditor::environment::suns::flare;
 using XrWeatherEditor::environment::suns::manager;
 using XrWeatherEditor::environment::suns::sun;
 
-sun::sun(manager const& manager, shared_str const& id):
-    m_manager(manager), m_id(id), m_use(false), m_ignore_color(false), m_radius(0.f), m_shader(""), m_texture(""),
-    m_property_holder(0)
-{
-}
+sun::sun(manager const& manager, shared_str const& id): m_manager(manager), m_id(id), m_use(false), m_ignore_color(false), m_radius(0.f), m_shader(""), m_texture(""), m_property_holder(0) {}
 
 sun::~sun()
 {
@@ -82,20 +78,12 @@ void sun::fill(XrWeatherEditor::property_holder_collection* collection)
     string_setter_type                                           string_setter;
     string_setter.bind(this, &sun::id_setter);
 
-    properties->add_property(
-        "id", "common", "this option is resposible for sun identifier", m_id.c_str(), string_getter, string_setter);
+    properties->add_property("id", "common", "this option is resposible for sun identifier", m_id.c_str(), string_getter, string_setter);
     properties->add_property("use", "sun", "this option is resposible for sun usage", m_use, m_use);
-    properties->add_property(
-        "ignore color", "sun", "this option is resposible for sun ignore color", m_ignore_color, m_ignore_color);
+    properties->add_property("ignore color", "sun", "this option is resposible for sun ignore color", m_ignore_color, m_ignore_color);
     properties->add_property("radius", "sun", "this option is resposible for sun radius", m_radius, m_radius);
-    properties->add_property(
-        "shader", "sun", "this option is resposible for sun shader", m_shader.c_str(), m_shader,
-        &*m_manager.m_environment.shader_ids().begin(), m_manager.m_environment.shader_ids().size(),
-        XrWeatherEditor::property_holder::value_editor_tree_view, XrWeatherEditor::property_holder::cannot_enter_text);
-    properties->add_property(
-        "texture", "sun", "this option is resposible for sun texture", m_texture.c_str(), m_texture, ".dds",
-        "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...",
-        XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
+    properties->add_property("shader", "sun", "this option is resposible for sun shader", m_shader.c_str(), m_shader, &*m_manager.m_environment.shader_ids().begin(), m_manager.m_environment.shader_ids().size(), XrWeatherEditor::property_holder::value_editor_tree_view, XrWeatherEditor::property_holder::cannot_enter_text);
+    properties->add_property("texture", "sun", "this option is resposible for sun texture", m_texture.c_str(), m_texture, ".dds", "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
 }
 
 property_holder* sun::object()

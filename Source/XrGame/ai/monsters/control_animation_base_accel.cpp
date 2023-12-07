@@ -16,8 +16,8 @@ void CControlAnimationBase::accel_load(LPCSTR section)
 
 void CControlAnimationBase::accel_activate(EAccelType type)
 {
-    m_accel.active = true;
-    m_accel.type   = type;
+    m_accel.active         = true;
+    m_accel.type           = type;
 
     m_accel.enable_braking = true;
 }
@@ -49,11 +49,7 @@ void CControlAnimationBase::accel_chain_add(EMotionAnim anim1, EMotionAnim anim2
     m_accel.chain.push_back(v_temp);
 }
 
-bool CControlAnimationBase::accel_chain_get(
-    float        cur_speed,
-    EMotionAnim  target_anim,
-    EMotionAnim& new_anim,
-    float&       a_speed)
+bool CControlAnimationBase::accel_chain_get(float cur_speed, EMotionAnim target_anim, EMotionAnim& new_anim, float& a_speed)
 {
     VERIFY2(_abs(cur_speed) < 1000, "CControlAnimationBase cur_speed too big");
 
@@ -68,7 +64,7 @@ bool CControlAnimationBase::accel_chain_get(
         SEQ_VECTOR_IT   best_anim  = IT_E;
         SVelocityParam* best_param = 0;
 
-        bool found = false;
+        bool            found      = false;
 
         // Пройти по текущему вектору
         for (IT = IT_B; IT != IT_E; IT++)
@@ -80,8 +76,7 @@ bool CControlAnimationBase::accel_chain_get(
             float           from  = param->velocity.linear * param->min_factor;
             float           to    = param->velocity.linear * param->max_factor;
 
-            if (((from <= cur_speed + EPS_L) && (cur_speed <= to + EPS_L)) ||
-                ((cur_speed < from) && (IT == I->begin())) || ((cur_speed + EPS_L >= to) && (IT + 1 == I->end())))
+            if (((from <= cur_speed + EPS_L) && (cur_speed <= to + EPS_L)) || ((cur_speed < from) && (IT == I->begin())) || ((cur_speed + EPS_L >= to) && (IT + 1 == I->end())))
             {
                 best_anim  = IT;
                 best_param = &item_it->velocity;
@@ -124,14 +119,12 @@ bool CControlAnimationBase::accel_chain_test()
         // Пройти по текущему вектору
         for (SEQ_VECTOR_IT IT = I->begin() + 1; IT != I->end(); IT++)
         {
-            anim_to = m_anim_storage[*IT];
+            anim_to    = m_anim_storage[*IT];
 
             float from = anim_from->velocity.velocity.linear * anim_from->velocity.max_factor;
             float to   = anim_to->velocity.velocity.linear * anim_to->velocity.min_factor;
 
-            xr_sprintf(
-                error_msg, "Incompatible speed ranges. Monster[%s] From animation  [%s] To animation [%s]",
-                *m_object->cName(), *anim_from->target_name, *anim_to->target_name);
+            xr_sprintf(error_msg, "Incompatible speed ranges. Monster[%s] From animation  [%s] To animation [%s]", *m_object->cName(), *anim_from->target_name, *anim_to->target_name);
             VERIFY2(to < from, error_msg);
 
             anim_from = anim_to;
@@ -149,8 +142,7 @@ bool CControlAnimationBase::accel_check_braking(float before_interval, float nom
         return (braking_mode = false);
 
     float acceleration = accel_get(eAV_Braking);
-    float braking_dist =
-        (nominal_speed * ((braking_mode) ? nominal_speed : m_man->movement().velocity_current())) / (2 * acceleration);
+    float braking_dist = (nominal_speed * ((braking_mode) ? nominal_speed : m_man->movement().velocity_current())) / (2 * acceleration);
 
     braking_dist += before_interval;
     if (m_man->path_builder().is_path_end(braking_dist))
@@ -158,11 +150,9 @@ bool CControlAnimationBase::accel_check_braking(float before_interval, float nom
 
     // проверить точки пути, где необходимо остановиться
     float dist = 0.f;   // дистанция до найденной точки
-    for (u32 i = m_man->path_builder().detail().curr_travel_point_index() + 1;
-         i < m_man->path_builder().detail().path().size(); i++)
+    for (u32 i = m_man->path_builder().detail().curr_travel_point_index() + 1; i < m_man->path_builder().detail().path().size(); i++)
     {
-        dist += m_man->path_builder().detail().path()[i].position.distance_to(
-            m_man->path_builder().detail().path()[i - 1].position);
+        dist += m_man->path_builder().detail().path()[i].position.distance_to(m_man->path_builder().detail().path()[i - 1].position);
 
         if (m_man->path_builder().detail().path()[i].velocity == MonsterMovement::eVelocityParameterStand)
         {

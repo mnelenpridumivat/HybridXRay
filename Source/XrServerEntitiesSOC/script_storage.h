@@ -33,6 +33,7 @@ public:
     bool m_stack_is_ready;
 
 #ifdef DEBUG
+
 protected:
     CMemoryWriter m_output;
 #endif   // DEBUG
@@ -44,9 +45,9 @@ protected:
     void       reinit();
 
 public:
-// #ifdef DEBUG
+    // #ifdef DEBUG
     void print_stack();
-// #endif
+    // #endif
 
 public:
     CScriptStorage();

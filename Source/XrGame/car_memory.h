@@ -33,15 +33,8 @@ public:
     virtual void reload(LPCSTR section);
 
     virtual BOOL feel_vision_isRelevant(CObject* object);
-    virtual void camera(
-        Fvector& position,
-        Fvector& direction,
-        Fvector& normal,
-        float&   field_of_view,
-        float&   aspect_ratio,
-        float&   near_plane,
-        float&   far_plane);
-    void set_camera(const Fvector& position, const Fvector& direction, const Fvector& normal);
+    virtual void camera(Fvector& position, Fvector& direction, Fvector& normal, float& field_of_view, float& aspect_ratio, float& near_plane, float& far_plane);
+    void         set_camera(const Fvector& position, const Fvector& direction, const Fvector& normal);
 };
 
 #endif   // CAR_MEMORY_H

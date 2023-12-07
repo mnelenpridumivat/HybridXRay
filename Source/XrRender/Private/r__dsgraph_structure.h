@@ -32,6 +32,7 @@ public:
     u32                                    marker;
     bool                                   pmask[2];
     bool                                   pmask_wmark;
+
 public:
     // Dynamic scene graph
     // R_dsgraph::mapNormal_T										mapNormal	[2]		;	// 2==(priority/2)
@@ -81,6 +82,7 @@ public:
     u32                                                                                                 counter_S;
     u32                                                                                                 counter_D;
     BOOL                                                                                                b_loaded;
+
 public:
     virtual void set_Transform(Fmatrix* M)
     {
@@ -119,6 +121,7 @@ public:
     {
         counter_S = counter_D = 0;
     }
+
 public:
     R_dsgraph_structure()
     {
@@ -202,6 +205,7 @@ public:
     void r_dsgraph_render_subspace(IRender_Sector* _sector, CFrustum* _frustum, Fmatrix& mCombined, Fvector& _cop, BOOL _dynamic, BOOL _precise_portals = FALSE);
     void r_dsgraph_render_subspace(IRender_Sector* _sector, Fmatrix& mCombined, Fvector& _cop, BOOL _dynamic, BOOL _precise_portals = FALSE);
     void r_dsgraph_render_R1_box(IRender_Sector* _sector, Fbox& _bb, int _element);
+
 public:
     virtual u32 memory_usage()
     {

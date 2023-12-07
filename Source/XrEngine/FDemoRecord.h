@@ -21,32 +21,32 @@ private:
     Fmatrix  m_Camera;
     u32      m_Stage;
 
-    Fvector m_vT;
-    Fvector m_vR;
-    Fvector m_vVelocity;
-    Fvector m_vAngularVelocity;
+    Fvector  m_vT;
+    Fvector  m_vR;
+    Fvector  m_vVelocity;
+    Fvector  m_vAngularVelocity;
 
-    BOOL m_bMakeCubeMap;
-    BOOL m_bMakeScreenshot;
-    int  m_iLMScreenshotFragment;
-    BOOL m_bMakeLevelMap;
+    BOOL     m_bMakeCubeMap;
+    BOOL     m_bMakeScreenshot;
+    int      m_iLMScreenshotFragment;
+    BOOL     m_bMakeLevelMap;
 
-    float m_fSpeed0;
-    float m_fSpeed1;
-    float m_fSpeed2;
-    float m_fSpeed3;
-    float m_fAngSpeed0;
-    float m_fAngSpeed1;
-    float m_fAngSpeed2;
-    float m_fAngSpeed3;
+    float    m_fSpeed0;
+    float    m_fSpeed1;
+    float    m_fSpeed2;
+    float    m_fSpeed3;
+    float    m_fAngSpeed0;
+    float    m_fAngSpeed1;
+    float    m_fAngSpeed2;
+    float    m_fAngSpeed3;
 
-    void MakeCubeMapFace(Fvector& D, Fvector& N);
-    void MakeLevelMapProcess();
-    void MakeScreenshotFace();
-    void RecordKey();
-    void MakeCubemap();
-    void MakeScreenshot();
-    void MakeLevelMapScreenshot(BOOL bHQ);
+    void     MakeCubeMapFace(Fvector& D, Fvector& N);
+    void     MakeLevelMapProcess();
+    void     MakeScreenshotFace();
+    void     RecordKey();
+    void     MakeCubemap();
+    void     MakeScreenshot();
+    void     MakeLevelMapScreenshot(BOOL bHQ);
 
 public:
     CDemoRecord(const char* name, float life_time = 60 * 60 * 1000);

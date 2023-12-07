@@ -54,7 +54,7 @@ CCar::CCar()
     camera[ectFree]->Load("car_free_cam");
     OnCameraChange(ectFirst);
 
-    m_repairing = false;
+    m_repairing          = false;
 
     ///////////////////////////////
     //////////////////////////////
@@ -72,11 +72,11 @@ CCar::CCar()
     ///////////////////////////////
     //////////////////////////////
     /////////////////////////////
-    m_exhaust_particles = "vehiclefx\\exhaust_1";
-    m_car_sound         = xr_new<SCarSound>(this);
+    m_exhaust_particles  = "vehiclefx\\exhaust_1";
+    m_car_sound          = xr_new<SCarSound>(this);
 
     // у машины слотов в инвентаре нет
-    inventory = xr_new<CInventory>();
+    inventory            = xr_new<CInventory>();
     inventory->SetSlotsUseful(false);
     m_doors_torque_factor    = 2.f;
     m_power_increment_factor = 0.5f;
@@ -88,10 +88,10 @@ CCar::CCar()
     m_break_time             = 1.;
     m_breaks_to_back_rate    = 1.f;
 
-    b_exploded             = false;
-    m_car_weapon           = NULL;
-    m_power_neutral_factor = 0.25f;
-    m_steer_angle          = 0.f;
+    b_exploded               = false;
+    m_car_weapon             = NULL;
+    m_power_neutral_factor   = 0.25f;
+    m_steer_angle            = 0.f;
 #ifdef DEBUG
     InitDebug();
 #endif
@@ -430,8 +430,7 @@ void CCar::UpdateCL()
     {
         m_car_weapon->UpdateCL();
         if (m_memory)
-            m_memory->set_camera(
-                m_car_weapon->ViewCameraPos(), m_car_weapon->ViewCameraDir(), m_car_weapon->ViewCameraNorm());
+            m_memory->set_camera(m_car_weapon->ViewCameraPos(), m_car_weapon->ViewCameraDir(), m_car_weapon->ViewCameraNorm());
     }
     ASCUpdate();
     if (Owner())
@@ -592,7 +591,8 @@ void CCar::ApplyDamage(u16 level)
         case 1:
             m_damage_particles.Play1(this);
             break;
-        case 2: {
+        case 2:
+        {
             if (!CDelayedActionFuse::isActive())
             {
                 CDelayedActionFuse::CheckCondition(GetfHealth());
@@ -757,16 +757,11 @@ void CCar::ParseDefinitions()
     m_torque_rpm = ini->r_float("car_definition", "max_torque_rpm");
     m_torque_rpm *= (1.f / 60.f * 2.f * M_PI);   //
 
-    m_power_increment_factor =
-        READ_IF_EXISTS(ini, r_float, "car_definition", "power_increment_factor", m_power_increment_factor);
-    m_rpm_increment_factor =
-        READ_IF_EXISTS(ini, r_float, "car_definition", "rpm_increment_factor", m_rpm_increment_factor);
-    m_power_decrement_factor =
-        READ_IF_EXISTS(ini, r_float, "car_definition", "power_decrement_factor", m_power_increment_factor);
-    m_rpm_decrement_factor =
-        READ_IF_EXISTS(ini, r_float, "car_definition", "rpm_decrement_factor", m_rpm_increment_factor);
-    m_power_neutral_factor =
-        READ_IF_EXISTS(ini, r_float, "car_definition", "power_neutral_factor", m_power_neutral_factor);
+    m_power_increment_factor = READ_IF_EXISTS(ini, r_float, "car_definition", "power_increment_factor", m_power_increment_factor);
+    m_rpm_increment_factor   = READ_IF_EXISTS(ini, r_float, "car_definition", "rpm_increment_factor", m_rpm_increment_factor);
+    m_power_decrement_factor = READ_IF_EXISTS(ini, r_float, "car_definition", "power_decrement_factor", m_power_increment_factor);
+    m_rpm_decrement_factor   = READ_IF_EXISTS(ini, r_float, "car_definition", "rpm_decrement_factor", m_rpm_increment_factor);
+    m_power_neutral_factor   = READ_IF_EXISTS(ini, r_float, "car_definition", "power_neutral_factor", m_power_neutral_factor);
     R_ASSERT2(m_power_neutral_factor > 0.1f && m_power_neutral_factor < 1.f, "power_neutral_factor must be 0 - 1 !!");
     if (ini->line_exist("car_definition", "exhaust_particles"))
     {
@@ -868,9 +863,7 @@ void CCar::Init()
 
     if (ini->section_exist("air_resistance"))
     {
-        PPhysicsShell()->SetAirResistance(
-            default_k_l * ini->r_float("air_resistance", "linear_factor"),
-            default_k_w * ini->r_float("air_resistance", "angular_factor"));
+        PPhysicsShell()->SetAirResistance(default_k_l * ini->r_float("air_resistance", "linear_factor"), default_k_w * ini->r_float("air_resistance", "angular_factor"));
     }
     if (ini->line_exist("car_definition", "steer"))
     {
@@ -878,7 +871,7 @@ void CCar::Init()
         VERIFY2(fsimilar(DET(pKinematics->LL_GetTransform(m_bone_steer)), 1.f, EPS_L), "BBADD MTX");
         pKinematics->LL_GetBoneInstance(m_bone_steer).set_callback(bctPhysics, cb_Steer, this);
     }
-    m_steer_angle = 0.f;
+    m_steer_angle            = 0.f;
     // ref_wheel.Init();
     m_ref_radius             = ini->r_float("car_definition", "reference_radius");   // ref_wheel.radius;
     b_exploded               = false;
@@ -1683,7 +1676,8 @@ void CCar::OnEvent(NET_Packet& P, u16 type)
     u16 id;
     switch (type)
     {
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             P.r_u16(id);
             CObject* O = Level().Objects.net_Find(id);
             if (GetInventory()->CanTakeItem(smart_cast<CInventoryItem*>(O)))
@@ -1702,11 +1696,12 @@ void CCar::OnEvent(NET_Packet& P, u16 type)
             }
         }
         break;
-        case GE_OWNERSHIP_REJECT: {
+        case GE_OWNERSHIP_REJECT:
+        {
             P.r_u16(id);
-            CObject* O = Level().Objects.net_Find(id);
+            CObject* O                   = Level().Objects.net_Find(id);
 
-            bool just_before_destroy = !P.r_eof() && P.r_u8();
+            bool     just_before_destroy = !P.r_eof() && P.r_u8();
             O->SetTmpPreDestroy(just_before_destroy);
             GetInventory()->DropItem(smart_cast<CGameObject*>(O), just_before_destroy, just_before_destroy);
             // if(GetInventory()->DropItem(smart_cast<CGameObject*>(O), just_before_destroy))
@@ -1854,7 +1849,7 @@ void CCar::CarExplode()
 //	}
 // }
 
-template <class T> IC void CCar::fill_wheel_vector(LPCSTR S, xr_vector<T>& type_wheels)
+template<class T> IC void CCar::fill_wheel_vector(LPCSTR S, xr_vector<T>& type_wheels)
 {
     IKinematics* pKinematics = smart_cast<IKinematics*>(Visual());
     string64     S1;
@@ -1866,9 +1861,9 @@ template <class T> IC void CCar::fill_wheel_vector(LPCSTR S, xr_vector<T>& type_
         u16 bone_id = pKinematics->LL_BoneID(S1);
 
         type_wheels.push_back(T());
-        T& twheel = type_wheels.back();
+        T&             twheel = type_wheels.back();
 
-        BONE_P_PAIR_IT J = bone_map.find(bone_id);
+        BONE_P_PAIR_IT J      = bone_map.find(bone_id);
         if (J == bone_map.end())
         {
             bone_map.insert(mk_pair(bone_id, physicsBone()));
@@ -1902,7 +1897,7 @@ IC void CCar::fill_exhaust_vector(LPCSTR S, xr_vector<SExhaust>& exhausts)
         SExhaust& exhaust = exhausts.back();
         exhaust.bone_id   = bone_id;
 
-        BONE_P_PAIR_IT J = bone_map.find(bone_id);
+        BONE_P_PAIR_IT J  = bone_map.find(bone_id);
         if (J == bone_map.end())
         {
             bone_map.insert(mk_pair(bone_id, physicsBone()));

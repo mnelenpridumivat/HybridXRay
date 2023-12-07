@@ -26,6 +26,7 @@ class CMailSlotMsg
         m_pos += sz;
         m_len = m_pos;
     };
+
 public:
     CMailSlotMsg()
     {
@@ -112,8 +113,7 @@ public:
 
 inline HANDLE CreateMailSlotByName(LPSTR slotName)
 {
-    HANDLE hSlot = CreateMailslot(
-        slotName,
+    HANDLE hSlot = CreateMailslot(slotName,
         0,                              // no maximum message size
         MAILSLOT_WAIT_FOREVER,          // no time-out for operations
         (LPSECURITY_ATTRIBUTES)NULL);   // no security attributes
@@ -124,12 +124,11 @@ inline BOOL CheckExisting(LPSTR slotName)
 {
     HANDLE hFile;
     BOOL   res;
-    hFile = CreateFile(
-        slotName, GENERIC_WRITE,
+    hFile = CreateFile(slotName, GENERIC_WRITE,
         FILE_SHARE_READ,   // required to write to a mailslot
         (LPSECURITY_ATTRIBUTES)NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
 
-    res = (hFile != INVALID_HANDLE_VALUE);
+    res   = (hFile != INVALID_HANDLE_VALUE);
 
     if (res)
         CloseHandle(hFile);
@@ -142,8 +141,7 @@ inline BOOL SendMailslotMessage(LPSTR slotName, CMailSlotMsg& msg)
     HANDLE hFile;
     DWORD  cbWritten;
 
-    hFile = CreateFile(
-        slotName, GENERIC_WRITE,
+    hFile = CreateFile(slotName, GENERIC_WRITE,
         FILE_SHARE_READ,   // required to write to a mailslot
         (LPSECURITY_ATTRIBUTES)NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, (HANDLE)NULL);
 
@@ -176,12 +174,11 @@ inline BOOL CheckMailslotMessage(HANDLE hSlot, CMailSlotMsg& msg)
     ov.OffsetHigh = 0;
     ov.hEvent     = hEvent;
 
-    fResult       = GetMailslotInfo(
-        hSlot,            // mailslot handle
-        (LPDWORD)NULL,    // no maximum message size
-        &cbMessage,       // size of next message
-        &cMessage,        // number of messages
-        (LPDWORD)NULL);   // no read time-out
+    fResult       = GetMailslotInfo(hSlot,   // mailslot handle
+              (LPDWORD)NULL,                 // no maximum message size
+              &cbMessage,                    // size of next message
+              &cMessage,                     // number of messages
+              (LPDWORD)NULL);                // no read time-out
 
     R_ASSERT(fResult);
 

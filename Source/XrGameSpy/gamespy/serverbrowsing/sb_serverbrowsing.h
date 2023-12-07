@@ -64,11 +64,11 @@ extern "C"
     // Callbacks that can occur during server browsing operations
     typedef enum
     {
-        sbc_serveradded,     // a server was added to the list, may just have an IP & port at this point
-        sbc_serverupdated,   // server information has been updated - either basic or full information is now available
-                             // about this server
-        sbc_serverupdatefailed,   // an attempt to retrieve information about this server, either directly or from the
-                                  // master, failed
+        sbc_serveradded,              // a server was added to the list, may just have an IP & port at this point
+        sbc_serverupdated,            // server information has been updated - either basic or full information is now available
+                                      // about this server
+        sbc_serverupdatefailed,       // an attempt to retrieve information about this server, either directly or from the
+                                      // master, failed
         sbc_serverdeleted,            // a server was removed from the list
         sbc_updatecomplete,           // the server query engine is now idle
         sbc_queryerror,               // the master returned an error string for the provided query
@@ -86,68 +86,63 @@ extern "C"
     typedef void (*ServerBrowserCallback)(ServerBrowser sb, SBCallbackReason reason, SBServer server, void* instance);
 
     // Prototype for the callback function used when connecting to a server
-    typedef void (*SBConnectToServerCallback)(
-        ServerBrowser          sb,
-        SBConnectToServerState state,
-        SOCKET                 gamesocket,
-        struct sockaddr_in*    remoteaddr,
-        void*                  instance);
+    typedef void (*SBConnectToServerCallback)(ServerBrowser sb, SBConnectToServerState state, SOCKET gamesocket, struct sockaddr_in* remoteaddr, void* instance);
 
 // Maximum length for the SQL filter string
 #define MAX_FILTER_LEN 256
 
 // Version defines for query protocol
-#define QVERSION_GOA 0
-#define QVERSION_QR2 1
+#define QVERSION_GOA   0
+#define QVERSION_QR2   1
 
     /*******************
     ServerBrowser Object Functions
     ********************/
 
 #ifndef GSI_UNICODE
-#define ServerBrowserNew ServerBrowserNewA
-#define ServerBrowserUpdate ServerBrowserUpdateA
-#define ServerBrowserLimitUpdate ServerBrowserLimitUpdateA
-#define ServerBrowserAuxUpdateIP ServerBrowserAuxUpdateIPA
-#define ServerBrowserRemoveIP ServerBrowserRemoveIPA
+#define ServerBrowserNew                            ServerBrowserNewA
+#define ServerBrowserUpdate                         ServerBrowserUpdateA
+#define ServerBrowserLimitUpdate                    ServerBrowserLimitUpdateA
+#define ServerBrowserAuxUpdateIP                    ServerBrowserAuxUpdateIPA
+#define ServerBrowserRemoveIP                       ServerBrowserRemoveIPA
 #define ServerBrowserSendNatNegotiateCookieToServer ServerBrowserSendNatNegotiateCookieToServerA
-#define ServerBrowserSendMessageToServer ServerBrowserSendMessageToServerA
-#define ServerBrowserSort ServerBrowserSortA
-#define SBServerGetStringValue SBServerGetStringValueA
-#define SBServerGetIntValue SBServerGetIntValueA
-#define SBServerGetFloatValue SBServerGetFloatValueA
-#define SBServerGetBoolValue SBServerGetBoolValueA
-#define SBServerGetPlayerStringValue SBServerGetPlayerStringValueA
-#define SBServerGetPlayerIntValue SBServerGetPlayerIntValueA
-#define SBServerGetPlayerFloatValue SBServerGetPlayerFloatValueA
-#define SBServerGetTeamStringValue SBServerGetTeamStringValueA
-#define SBServerGetTeamIntValue SBServerGetTeamIntValueA
-#define SBServerGetTeamFloatValue SBServerGetTeamFloatValueA
-#define ServerBrowserListQueryError ServerBrowserListQueryErrorA
-#define ServerBrowserErrorDesc ServerBrowserErrorDescA
-#define ServerBrowserGetServerByIP ServerBrowserGetServerByIPA
+#define ServerBrowserSendMessageToServer            ServerBrowserSendMessageToServerA
+#define ServerBrowserSort                           ServerBrowserSortA
+#define SBServerGetStringValue                      SBServerGetStringValueA
+#define SBServerGetIntValue                         SBServerGetIntValueA
+#define SBServerGetFloatValue                       SBServerGetFloatValueA
+#define SBServerGetBoolValue                        SBServerGetBoolValueA
+#define SBServerGetPlayerStringValue                SBServerGetPlayerStringValueA
+#define SBServerGetPlayerIntValue                   SBServerGetPlayerIntValueA
+#define SBServerGetPlayerFloatValue                 SBServerGetPlayerFloatValueA
+#define SBServerGetTeamStringValue                  SBServerGetTeamStringValueA
+#define SBServerGetTeamIntValue                     SBServerGetTeamIntValueA
+#define SBServerGetTeamFloatValue                   SBServerGetTeamFloatValueA
+#define ServerBrowserListQueryError                 ServerBrowserListQueryErrorA
+#define ServerBrowserErrorDesc                      ServerBrowserErrorDescA
+#define ServerBrowserGetServerByIP                  ServerBrowserGetServerByIPA
 #else
-#define ServerBrowserNew ServerBrowserNewW
-#define ServerBrowserUpdate ServerBrowserUpdateW
-#define ServerBrowserLimitUpdate ServerBrowserLimitUpdateW
-#define ServerBrowserAuxUpdateIP ServerBrowserAuxUpdateIPW
-#define ServerBrowserRemoveIP ServerBrowserRemoveIPW
+#define ServerBrowserNew                            ServerBrowserNewW
+#define ServerBrowserUpdate                         ServerBrowserUpdateW
+#define ServerBrowserLimitUpdate                    ServerBrowserLimitUpdateW
+#define ServerBrowserAuxUpdateIP                    ServerBrowserAuxUpdateIPW
+#define ServerBrowserRemoveIP                       ServerBrowserRemoveIPW
 #define ServerBrowserSendNatNegotiateCookieToServer ServerBrowserSendNatNegotiateCookieToServerW
-#define ServerBrowserSendMessageToServer ServerBrowserSendMessageToServerW
-#define ServerBrowserSort ServerBrowserSortW
-#define SBServerGetStringValue SBServerGetStringValueW
-#define SBServerGetIntValue SBServerGetIntValueW
-#define SBServerGetFloatValue SBServerGetFloatValueW
-#define SBServerGetBoolValue SBServerGetBoolValueW
-#define SBServerGetPlayerStringValue SBServerGetPlayerStringValueW
-#define SBServerGetPlayerIntValue SBServerGetPlayerIntValueW
-#define SBServerGetPlayerFloatValue SBServerGetPlayerFloatValueW
-#define SBServerGetTeamStringValue SBServerGetTeamStringValueW
-#define SBServerGetTeamIntValue SBServerGetTeamIntValueW
-#define SBServerGetTeamFloatValue SBServerGetTeamFloatValueW
-#define ServerBrowserListQueryError ServerBrowserListQueryErrorW
-#define ServerBrowserErrorDesc ServerBrowserErrorDescW
-#define ServerBrowserGetServerByIP ServerBrowserGetServerByIPW
+#define ServerBrowserSendMessageToServer            ServerBrowserSendMessageToServerW
+#define ServerBrowserSort                           ServerBrowserSortW
+#define SBServerGetStringValue                      SBServerGetStringValueW
+#define SBServerGetIntValue                         SBServerGetIntValueW
+#define SBServerGetFloatValue                       SBServerGetFloatValueW
+#define SBServerGetBoolValue                        SBServerGetBoolValueW
+#define SBServerGetPlayerStringValue                SBServerGetPlayerStringValueW
+#define SBServerGetPlayerIntValue                   SBServerGetPlayerIntValueW
+#define SBServerGetPlayerFloatValue                 SBServerGetPlayerFloatValueW
+#define SBServerGetTeamStringValue                  SBServerGetTeamStringValueW
+#define SBServerGetTeamIntValue                     SBServerGetTeamIntValueW
+#define SBServerGetTeamFloatValue                   SBServerGetTeamFloatValueW
+#define ServerBrowserListQueryError                 ServerBrowserListQueryErrorW
+#define ServerBrowserErrorDesc                      ServerBrowserErrorDescW
+#define ServerBrowserGetServerByIP                  ServerBrowserGetServerByIPW
 #endif
     /*
     ServerBrowserNew
@@ -163,22 +158,13 @@ extern "C"
     queryVersion - Query protocol to use. Use QVERSION_GOA for DeveloperSpec/Query&Reporting1 games, and QVERSION_QR2
     for games that use Query & Reporting 2 callback - The function that will be called with list updates instance -
     User-defined instance data (e.g. structure or object pointer)  */
-    ServerBrowser ServerBrowserNew(
-        const gsi_char*       queryForGamename,
-        const gsi_char*       queryFromGamename,
-        const gsi_char*       queryFromKey,
-        int                   queryFromVersion,
-        int                   maxConcUpdates,
-        int                   queryVersion,
-        SBBool                lanBrowse,
-        ServerBrowserCallback callback,
-        void*                 instance);
+    ServerBrowser   ServerBrowserNew(const gsi_char* queryForGamename, const gsi_char* queryFromGamename, const gsi_char* queryFromKey, int queryFromVersion, int maxConcUpdates, int queryVersion, SBBool lanBrowse, ServerBrowserCallback callback, void* instance);
 
     /*
     ServerBrowserFree
     -----------------
     Free a ServerBrowser and all internal sturctures and servers */
-    void ServerBrowserFree(ServerBrowser sb);
+    void            ServerBrowserFree(ServerBrowser sb);
 
     /* ServerBrowserUpdate
     -------------------
@@ -201,27 +187,14 @@ extern "C"
     Identical to ServerBrowserUpdate, except that the number of servers returned can be limited
     maxServers - Maximum number of servers to be returned
     */
-    SBError ServerBrowserUpdate(
-        ServerBrowser        sb,
-        SBBool               async,
-        SBBool               disconnectOnComplete,
-        const unsigned char* basicFields,
-        int                  numBasicFields,
-        const gsi_char*      serverFilter);
-    SBError ServerBrowserLimitUpdate(
-        ServerBrowser        sb,
-        SBBool               async,
-        SBBool               disconnectOnComplete,
-        const unsigned char* basicFields,
-        int                  numBasicFields,
-        const gsi_char*      serverFilter,
-        int                  maxServers);
+    SBError         ServerBrowserUpdate(ServerBrowser sb, SBBool async, SBBool disconnectOnComplete, const unsigned char* basicFields, int numBasicFields, const gsi_char* serverFilter);
+    SBError         ServerBrowserLimitUpdate(ServerBrowser sb, SBBool async, SBBool disconnectOnComplete, const unsigned char* basicFields, int numBasicFields, const gsi_char* serverFilter, int maxServers);
 
     /* ServerBrowserThink
     -------------------
     Processes incoming data from the master server and game servers that are being queried. Should be called
     as often as possible while a server list update is in progress (~10ms is ideal). */
-    SBError ServerBrowserThink(ServerBrowser sb);
+    SBError         ServerBrowserThink(ServerBrowser sb);
 
     /* ServerBrowserLANUpdate
     -------------------
@@ -235,11 +208,7 @@ extern "C"
     occur If SBFalse, the function will not return until the initial list of servers has been completely updated
     startSearchPort - The initial port to begin searching for servers on
     endSearchPort - The final port to search. All ports between start and end will be queried. */
-    SBError ServerBrowserLANUpdate(
-        ServerBrowser  sb,
-        SBBool         async,
-        unsigned short startSearchPort,
-        unsigned short endSearchPort);
+    SBError         ServerBrowserLANUpdate(ServerBrowser sb, SBBool async, unsigned short startSearchPort, unsigned short endSearchPort);
 
     /* ServerBrowserAuxUpdateIP
     -------------------
@@ -256,13 +225,7 @@ extern "C"
     return until the server has been successfully or unsuccessfully updated fullUpdate - If SBTrue, all server
     keys/rules/player/team information will be retrieved If SBFalse, only the keys specified in the basicFields array of
     the ServerBrowserUpdate function will be retrieved */
-    SBError ServerBrowserAuxUpdateIP(
-        ServerBrowser   sb,
-        const gsi_char* ip,
-        unsigned short  port,
-        SBBool          viaMaster,
-        SBBool          async,
-        SBBool          fullUpdate);
+    SBError         ServerBrowserAuxUpdateIP(ServerBrowser sb, const gsi_char* ip, unsigned short port, SBBool viaMaster, SBBool async, SBBool fullUpdate);
 
     /* ServerBrowserAuxUpdateServer
     -------------------
@@ -279,40 +242,40 @@ extern "C"
     fullUpdate - If SBTrue, all server keys/rules/player/team information will be retrieved
                  If SBFalse, only the keys specified in the basicFields array of the ServerBrowserUpdate function will
     be retrieved */
-    SBError ServerBrowserAuxUpdateServer(ServerBrowser sb, SBServer server, SBBool async, SBBool fullUpdate);
+    SBError         ServerBrowserAuxUpdateServer(ServerBrowser sb, SBServer server, SBBool async, SBBool fullUpdate);
 
     /* ServerBrowserDisconnects
     -------------------
     Disconnects an idle connection to the master server when it is no longer needed. Note that if you disconnect
     and then request an operation that requires a connection to the master, such as an AuxServerUpdate via the master,
     the connection will be automatically re-established. */
-    void ServerBrowserDisconnect(ServerBrowser sb);
+    void            ServerBrowserDisconnect(ServerBrowser sb);
 
     /* ServerBrowserState
     -------------------
     Returns the current state of the Server Browser object */
-    SBState ServerBrowserState(ServerBrowser sb);
+    SBState         ServerBrowserState(ServerBrowser sb);
 
     /* ServerBrowserRemoveIP
     -------------------
     Removes a server from the list given an IP and query port */
-    void ServerBrowserRemoveIP(ServerBrowser sb, const gsi_char* ip, unsigned short port);
+    void            ServerBrowserRemoveIP(ServerBrowser sb, const gsi_char* ip, unsigned short port);
 
     /* ServerBrowserRemoveServer
     -------------------
     Removes a server from the list and releases all resources associated with it */
-    void ServerBrowserRemoveServer(ServerBrowser sb, SBServer server);
+    void            ServerBrowserRemoveServer(ServerBrowser sb, SBServer server);
 
     /* ServerBrowserHalt
     -------------------
     Stops a server list update in progress, clears any servers queued to be queried, and disconneects
     from the master server. */
-    void ServerBrowserHalt(ServerBrowser sb);
+    void            ServerBrowserHalt(ServerBrowser sb);
 
     /* ServerBrowserClear
     -------------------
     Removes all the servers from the list and frees all resources associated with them. */
-    void ServerBrowserClear(ServerBrowser sb);
+    void            ServerBrowserClear(ServerBrowser sb);
 
     /* ServerBrowserErrorDesc
     -------------------
@@ -329,60 +292,51 @@ extern "C"
     /* ServerBrowserGetServer
     ----------------------
     Returns the server at the specified index, or NULL if the index is out of bounds */
-    SBServer ServerBrowserGetServer(ServerBrowser sb, int index);
+    SBServer        ServerBrowserGetServer(ServerBrowser sb, int index);
 
     /* ServerBrowserGetServerByIP
     ----------------------
     Returns the SBServer with the specified IP, or NULL if the server is not in the list */
-    SBServer ServerBrowserGetServerByIP(ServerBrowser sb, const gsi_char* ip, unsigned short port);
+    SBServer        ServerBrowserGetServerByIP(ServerBrowser sb, const gsi_char* ip, unsigned short port);
 
     /* ServerBrowserCount
     ------------------
     Returns the number of servers on the specified list. Indexing is 0 based, so
     the actual server indexes are 0 <= valid index < Count */
-    int ServerBrowserCount(ServerBrowser sb);
+    int             ServerBrowserCount(ServerBrowser sb);
 
     /* ServerBrowserPendingQueryCount
     ------------------
     Returns the number of servers currently being queried or queued to be queried. When this number is 0, the query
     engine is idle */
-    int ServerBrowserPendingQueryCount(ServerBrowser sb);
+    int             ServerBrowserPendingQueryCount(ServerBrowser sb);
 
     /* ServerBrowserGetMyPublicIP
     ------------------
     Returns the public IP address for this computer, as seen by an outside machine (the master server). Use to determine
     if a server you want to connect to is on the same private network or not. Only valid after a call to
     ServerListUpdate has connected to the master server */
-    char* ServerBrowserGetMyPublicIP(ServerBrowser sb);
+    char*           ServerBrowserGetMyPublicIP(ServerBrowser sb);
 
     /* ServerBrowserGetMyPublicIPAddr
     ------------------
     Same as ServerBrowserGetMyPublicIP except that the address is returned in standard network-byte-order form */
-    unsigned int ServerBrowserGetMyPublicIPAddr(ServerBrowser sb);
+    unsigned int    ServerBrowserGetMyPublicIPAddr(ServerBrowser sb);
 
     /* ServerBrowserSendNatNegotiateCookieToServer
     ------------------
     Sends a cookie value to the server for use with NAT Negotiation */
-    SBError ServerBrowserSendNatNegotiateCookieToServer(
-        ServerBrowser   sb,
-        const gsi_char* ip,
-        unsigned short  port,
-        int             cookie);
+    SBError         ServerBrowserSendNatNegotiateCookieToServer(ServerBrowser sb, const gsi_char* ip, unsigned short port, int cookie);
 
     /* ServerBrowserSendMessageToServer
     ------------------
     Sends a game-specific message to a server  */
-    SBError ServerBrowserSendMessageToServer(
-        ServerBrowser   sb,
-        const gsi_char* ip,
-        unsigned short  port,
-        const char*     data,
-        int             len);
+    SBError         ServerBrowserSendMessageToServer(ServerBrowser sb, const gsi_char* ip, unsigned short port, const char* data, int len);
 
     /* ServerBrowserConnectToServer
     ------------------
     Attempts to connect to the server, using natneg if necessary */
-    SBError ServerBrowserConnectToServer(ServerBrowser sb, SBServer server, SBConnectToServerCallback callback);
+    SBError         ServerBrowserConnectToServer(ServerBrowser sb, SBServer server, SBConnectToServerCallback callback);
 
     /* Comparision types for the ServerBrowserSort function
     int - assume the values are int and do an integer compare
@@ -402,19 +356,19 @@ extern "C"
     Sort the server list in either ascending or descending order using the
     specified comparemode.
     sortkey can be a normal server key, or "ping" or "hostaddr" */
-    void ServerBrowserSort(ServerBrowser sb, SBBool ascending, const gsi_char* sortkey, SBCompareMode comparemode);
+    void            ServerBrowserSort(ServerBrowser sb, SBBool ascending, const gsi_char* sortkey, SBCompareMode comparemode);
 
     /* ServerBrowserLANSetLocalAddr
     -------------------
     Sets the network adapter to use for LAN broadcasts (optional) */
-    void ServerBrowserLANSetLocalAddr(ServerBrowser sb, const char* theAddr);
+    void            ServerBrowserLANSetLocalAddr(ServerBrowser sb, const char* theAddr);
 
     /*******************
     SBServer Object Functions
     ********************/
 
     // Callback function used for enumerating the keys/values for a server
-    typedef void (*SBServerKeyEnumFn)(gsi_char* key, gsi_char* value, void* instance);
+    typedef void    (*SBServerKeyEnumFn)(gsi_char* key, gsi_char* value, void* instance);
 
     /* SBServerGetConnectionInfo
     ----------------
@@ -428,60 +382,60 @@ extern "C"
     return sb_true if further processing is required... i.e. NAT.   sb_false if not.
     fills an IP string
     */
-    SBBool SBServerGetConnectionInfo(ServerBrowser gSB, SBServer server, gsi_u16 PortToConnectTo, char* ipstring_out);
+    SBBool          SBServerGetConnectionInfo(ServerBrowser gSB, SBServer server, gsi_u16 PortToConnectTo, char* ipstring_out);
 
     /* SBServerHasPrivateAddress
     ----------------
     Indicates whether the master server has provided a private address for this server */
-    SBBool SBServerHasPrivateAddress(SBServer server);
+    SBBool          SBServerHasPrivateAddress(SBServer server);
 
     /* SBServerDirectConnect
     ----------------
     Indicates whether the server supports direct UDP connections (if false, NAT Negotiation is required) */
-    SBBool SBServerDirectConnect(SBServer server);
+    SBBool          SBServerDirectConnect(SBServer server);
 
     /* SBServerGetPing
     ----------------
     Returns the ping for the specified server. Ping is measured as the latency from the time a
     query is sent to the server until the data is returned for that query */
-    int SBServerGetPing(SBServer server);
+    int             SBServerGetPing(SBServer server);
 
     /* SBServerGetPublicAddress/SBServerGetPrivateAddress
     -------------------
     Returns the string, dotted IP address for the specified server
     The "private" version is only valid when the server has a private address available */
-    char* SBServerGetPublicAddress(SBServer server);
-    char* SBServerGetPrivateAddress(SBServer server);
+    char*           SBServerGetPublicAddress(SBServer server);
+    char*           SBServerGetPrivateAddress(SBServer server);
 
     /* SBServerGetPublicInetAddress/SBServerGetPrivateInetAddress
     -------------------
     Returns the network-ordered IP address for the specified server */
-    unsigned int SBServerGetPublicInetAddress(SBServer server);
-    unsigned int SBServerGetPrivateInetAddress(SBServer server);
+    unsigned int    SBServerGetPublicInetAddress(SBServer server);
+    unsigned int    SBServerGetPrivateInetAddress(SBServer server);
 
     /* SBServerGetPublicQueryPort/SBServerGetPrivateQueryPort
     ----------------
     Returns the "query" port for the specified server. If the game uses a seperate
     "game" port, it can be retrieved via: SBServerGetIntValue(server,"hostport",0) */
-    unsigned short SBServerGetPublicQueryPort(SBServer server);
-    unsigned short SBServerGetPrivateQueryPort(SBServer server);
+    unsigned short  SBServerGetPublicQueryPort(SBServer server);
+    unsigned short  SBServerGetPrivateQueryPort(SBServer server);
 
     /* SBServerHasBasicKeys
     ----------------
     Returns SBTrue if a server has at least basic keys available for it. "Basic" keys
     are those indicated in the ServerBrowserUpdate function. */
-    SBBool SBServerHasBasicKeys(SBServer server);
+    SBBool          SBServerHasBasicKeys(SBServer server);
 
     /* SBServerHasFullKeys
     ----------------
     Returns SBTrue if a server has full keys available for it. This includes all server
     rules and player/team keys. */
-    SBBool SBServerHasFullKeys(SBServer server);
+    SBBool          SBServerHasFullKeys(SBServer server);
 
     /* SBServerHasValidPing
     ----------------
     Returns SBTrue if a server has a valid ping value for it (otherwise the ping will be 0) */
-    SBBool SBServerHasValidPing(SBServer server);
+    SBBool          SBServerHasValidPing(SBServer server);
 
     /* SBServerGet[]Value
     ------------------
@@ -499,21 +453,19 @@ extern "C"
     Player keys take the form keyname_N where N is the player index, and team keys take the form
     keyname_tN where N is the team index. You should only specify the keyname for the key in the below functions.
     */
-    const gsi_char*
-           SBServerGetPlayerStringValue(SBServer server, int playernum, const gsi_char* key, const gsi_char* sdefault);
-    int    SBServerGetPlayerIntValue(SBServer server, int playernum, const gsi_char* key, int idefault);
-    double SBServerGetPlayerFloatValue(SBServer server, int playernum, const gsi_char* key, double fdefault);
+    const gsi_char* SBServerGetPlayerStringValue(SBServer server, int playernum, const gsi_char* key, const gsi_char* sdefault);
+    int             SBServerGetPlayerIntValue(SBServer server, int playernum, const gsi_char* key, int idefault);
+    double          SBServerGetPlayerFloatValue(SBServer server, int playernum, const gsi_char* key, double fdefault);
 
-    const gsi_char*
-           SBServerGetTeamStringValue(SBServer server, int teamnum, const gsi_char* key, const gsi_char* sdefault);
-    int    SBServerGetTeamIntValue(SBServer server, int teamnum, const gsi_char* key, int idefault);
-    double SBServerGetTeamFloatValue(SBServer server, int teamnum, const gsi_char* key, double fdefault);
+    const gsi_char* SBServerGetTeamStringValue(SBServer server, int teamnum, const gsi_char* key, const gsi_char* sdefault);
+    int             SBServerGetTeamIntValue(SBServer server, int teamnum, const gsi_char* key, int idefault);
+    double          SBServerGetTeamFloatValue(SBServer server, int teamnum, const gsi_char* key, double fdefault);
 
     /* SBServerEnumKeys
     -----------------
     Enumerates the keys/values for a given server by calling KeyEnumFn with each
     key/value. The user-defined instance data will be passed to the KeyFn callback */
-    void SBServerEnumKeys(SBServer server, SBServerKeyEnumFn KeyFn, void* instance);
+    void            SBServerEnumKeys(SBServer server, SBServerKeyEnumFn KeyFn, void* instance);
 
 #ifdef __cplusplus
 }

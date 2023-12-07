@@ -19,6 +19,7 @@ namespace lc_net
         {
             data_init();
         }
+
     protected:
         void   create_data_file(LPCSTR path);
         bool   create_data(LPCSTR path);

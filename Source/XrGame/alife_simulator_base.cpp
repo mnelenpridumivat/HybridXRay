@@ -24,7 +24,7 @@
 #include "level.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -95,18 +95,12 @@ void CALifeSimulatorBase::reload(LPCSTR section)
     m_initialized        = true;
 }
 
-CSE_Abstract* CALifeSimulatorBase::spawn_item(
-    LPCSTR               section,
-    const Fvector&       position,
-    u32                  level_vertex_id,
-    GameGraph::_GRAPH_ID game_vertex_id,
-    u16                  parent_id,
-    bool                 registration)
+CSE_Abstract* CALifeSimulatorBase::spawn_item(LPCSTR section, const Fvector& position, u32 level_vertex_id, GameGraph::_GRAPH_ID game_vertex_id, u16 parent_id, bool registration)
 {
     CSE_Abstract* abstract = F_entity_Create(section);
     R_ASSERT3(abstract, "Cannot find item with section", section);
 
-    abstract->s_name = section;
+    abstract->s_name     = section;
     //.	abstract->s_gameid			= u8(GAME_SINGLE);
     abstract->s_RP       = 0xff;
     abstract->ID         = server().PerformIDgen(0xffff);
@@ -215,7 +209,7 @@ void CALifeSimulatorBase::create(CSE_ALifeDynamicObject*& i, CSE_ALifeDynamicObj
         i->ID = server().PerformIDgen(0xffff);
 
     register_object(i, true);
-    i->m_bALifeControl = true;
+    i->m_bALifeControl                = true;
 
     CSE_ALifeMonsterAbstract* monster = smart_cast<CSE_ALifeMonsterAbstract*>(i);
     if (monster)
@@ -278,8 +272,7 @@ void CALifeSimulatorBase::release(CSE_Abstract* abstract, bool alife_query)
 #ifdef DEBUG
     if (psAI_Flags.test(aiALife))
     {
-        Msg("[LSS] Releasing object [%s][%s][%d][%x]", abstract->name_replace(), *abstract->s_name, abstract->ID,
-            smart_cast<void*>(abstract));
+        Msg("[LSS] Releasing object [%s][%s][%d][%x]", abstract->name_replace(), *abstract->s_name, abstract->ID, smart_cast<void*>(abstract));
     }
 #endif
     CSE_ALifeDynamicObject* object = objects().object(abstract->ID);
@@ -324,10 +317,7 @@ void CALifeSimulatorBase::append_item_vector(OBJECT_VECTOR& tObjectVector, ITEM_
     }
 }
 
-void CALifeSimulatorBase::assign_death_position(
-    CSE_ALifeCreatureAbstract* tpALifeCreatureAbstract,
-    GameGraph::_GRAPH_ID       tGraphID,
-    CSE_ALifeSchedulable*      tpALifeSchedulable)
+void CALifeSimulatorBase::assign_death_position(CSE_ALifeCreatureAbstract* tpALifeCreatureAbstract, GameGraph::_GRAPH_ID tGraphID, CSE_ALifeSchedulable* tpALifeSchedulable)
 {
     tpALifeCreatureAbstract->set_health(0.f);
 
@@ -337,11 +327,9 @@ void CALifeSimulatorBase::assign_death_position(
         if (l_tpALifeAnomalousZone)
         {
             spawns().assign_artefact_position(l_tpALifeAnomalousZone, tpALifeCreatureAbstract);
-            CSE_ALifeMonsterAbstract* l_tpALifeMonsterAbstract =
-                smart_cast<CSE_ALifeMonsterAbstract*>(tpALifeCreatureAbstract);
+            CSE_ALifeMonsterAbstract* l_tpALifeMonsterAbstract = smart_cast<CSE_ALifeMonsterAbstract*>(tpALifeCreatureAbstract);
             if (l_tpALifeMonsterAbstract)
-                l_tpALifeMonsterAbstract->m_tPrevGraphID = l_tpALifeMonsterAbstract->m_tNextGraphID =
-                    l_tpALifeMonsterAbstract->m_tGraphID;
+                l_tpALifeMonsterAbstract->m_tPrevGraphID = l_tpALifeMonsterAbstract->m_tNextGraphID = l_tpALifeMonsterAbstract->m_tGraphID;
             return;
         }
     }
@@ -354,22 +342,16 @@ void CALifeSimulatorBase::assign_death_position(
 #ifdef DEBUG
     if (psAI_Flags.test(aiALife))
     {
-        Msg("[LSS] Generated death position %s[%f][%f][%f] -> [%f][%f][%f] : [%d]",
-            tpALifeCreatureAbstract->name_replace(), VPUSH(tpALifeCreatureAbstract->o_Position),
-            VPUSH((*i).level_point()), (*i).level_vertex_id());
+        Msg("[LSS] Generated death position %s[%f][%f][%f] -> [%f][%f][%f] : [%d]", tpALifeCreatureAbstract->name_replace(), VPUSH(tpALifeCreatureAbstract->o_Position), VPUSH((*i).level_point()), (*i).level_vertex_id());
     }
 #endif
     tpALifeCreatureAbstract->o_Position = (*i).level_point();
     tpALifeCreatureAbstract->m_tNodeID  = (*i).level_vertex_id();
-    R_ASSERT2(
-        (ai().game_graph().vertex(tGraphID)->level_id() != graph().level().level_id()) ||
-            ai().level_graph().valid_vertex_id(tpALifeCreatureAbstract->m_tNodeID),
-        "Invalid vertex");
+    R_ASSERT2((ai().game_graph().vertex(tGraphID)->level_id() != graph().level().level_id()) || ai().level_graph().valid_vertex_id(tpALifeCreatureAbstract->m_tNodeID), "Invalid vertex");
     tpALifeCreatureAbstract->m_fDistance               = (*i).distance();
     CSE_ALifeMonsterAbstract* l_tpALifeMonsterAbstract = smart_cast<CSE_ALifeMonsterAbstract*>(tpALifeCreatureAbstract);
     if (l_tpALifeMonsterAbstract)
-        l_tpALifeMonsterAbstract->m_tPrevGraphID = l_tpALifeMonsterAbstract->m_tNextGraphID =
-            l_tpALifeMonsterAbstract->m_tGraphID;
+        l_tpALifeMonsterAbstract->m_tPrevGraphID = l_tpALifeMonsterAbstract->m_tNextGraphID = l_tpALifeMonsterAbstract->m_tGraphID;
 }
 
 shared_str CALifeSimulatorBase::level_name() const

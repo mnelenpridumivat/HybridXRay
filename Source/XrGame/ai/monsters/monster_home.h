@@ -14,17 +14,16 @@ class CMonsterHome
     u32                min_move_dist;
     u32                max_move_dist;
 
-    bool m_aggressive;
+    bool               m_aggressive;
 
 public:
     CMonsterHome(CBaseMonster* obj): m_object(obj) {}
 
-    void load(LPCSTR line);
-    void
-        setup(LPCSTR path_name, float min_radius, float max_radius, bool aggressive = false, float middle_radius = 0.f);
-    void setup(u32 lv_ID, float min_radius, float max_radius, bool aggressive = false, float middle_radius = 0.f);
-    void remove_home();
-    void set_move_dists(u32 min_dist, u32 max_dist);
+    void    load(LPCSTR line);
+    void    setup(LPCSTR path_name, float min_radius, float max_radius, bool aggressive = false, float middle_radius = 0.f);
+    void    setup(u32 lv_ID, float min_radius, float max_radius, bool aggressive = false, float middle_radius = 0.f);
+    void    remove_home();
+    void    set_move_dists(u32 min_dist, u32 max_dist);
 
     u32     get_place_in_min_home();
     u32     get_place_in_mid_home();

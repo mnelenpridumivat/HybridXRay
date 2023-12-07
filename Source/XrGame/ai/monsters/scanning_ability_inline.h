@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "ai_monster_effector.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION  template<typename _Object>
 
 #define CScanningAbilityAbstract CScanningAbility<_Object>
 
@@ -37,15 +37,9 @@ void CScanningAbilityAbstract::load(LPCSTR section)
     m_effector_info.noise.fps       = pSettings->r_float(ppi_section, "noise_fps");
     VERIFY(!fis_zero(m_effector_info.noise.fps));
 
-    sscanf(
-        pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &m_effector_info.color_base.r,
-        &m_effector_info.color_base.g, &m_effector_info.color_base.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &m_effector_info.color_gray.r,
-        &m_effector_info.color_gray.g, &m_effector_info.color_gray.b);
-    sscanf(
-        pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &m_effector_info.color_add.r,
-        &m_effector_info.color_add.g, &m_effector_info.color_add.b);
+    sscanf(pSettings->r_string(ppi_section, "color_base"), "%f,%f,%f", &m_effector_info.color_base.r, &m_effector_info.color_base.g, &m_effector_info.color_base.b);
+    sscanf(pSettings->r_string(ppi_section, "color_gray"), "%f,%f,%f", &m_effector_info.color_gray.r, &m_effector_info.color_gray.g, &m_effector_info.color_gray.b);
+    sscanf(pSettings->r_string(ppi_section, "color_add"), "%f,%f,%f", &m_effector_info.color_add.r, &m_effector_info.color_add.g, &m_effector_info.color_add.b);
 
     m_effector_time         = pSettings->r_float(ppi_section, "time");
     m_effector_time_attack  = pSettings->r_float(ppi_section, "time_attack");
@@ -55,12 +49,12 @@ void CScanningAbilityAbstract::load(LPCSTR section)
 TEMPLATE_SPECIALIZATION
 void CScanningAbilityAbstract::reinit()
 {
-    state      = eStateDisabled;
-    scan_value = 0.f;
+    state           = eStateDisabled;
+    scan_value      = 0.f;
 
     time_last_trace = 0;
 
-    m_this_scan = false;
+    m_this_scan     = false;
 }
 
 TEMPLATE_SPECIALIZATION
@@ -116,8 +110,7 @@ void CScanningAbilityAbstract::schedule_update()
 
                     // постпроцесс
                     // TODO: make this postprocess with static check (only one for all scanners)
-                    Actor()->Cameras().AddPPEffector(xr_new<CMonsterEffector>(
-                        m_effector_info, m_effector_time, m_effector_time_attack, m_effector_time_release));
+                    Actor()->Cameras().AddPPEffector(xr_new<CMonsterEffector>(m_effector_info, m_effector_time, m_effector_time_attack, m_effector_time_release));
 
                     object->can_scan = false;
                     m_this_scan      = true;

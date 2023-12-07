@@ -1,4 +1,4 @@
-/********************************************************************
+﻿/********************************************************************
  *                                                                  *
  * THIS FILE IS PART OF THE OggTheora SOFTWARE CODEC SOURCE CODE.   *
  * USE, DISTRIBUTION AND REPRODUCTION OF THIS LIBRARY SOURCE IS     *
@@ -16,9 +16,9 @@
  ********************************************************************/
 
 #if !defined(_huffman_H)
-# define _hufffman_H (1)
-# include "theora/codec.h"
-# include "ocintrin.h"
+#define _hufffman_H (1)
+#include "theora/codec.h"
+#include "ocintrin.h"
 
 /*The range of valid quantized DCT coefficient values.
   VP3 used 511 in the encoder, but the bitstream is capable of 580.*/
@@ -61,7 +61,7 @@
 #define OC_NDCT_VAL_MAX          (23)
 #define OC_NDCT_VAL_CAT1_MAX     (13)
 #define OC_NDCT_VAL_CAT2_MAX     (17)
-#define OC_NDCT_VAL_CAT2_SIZE    (OC_NDCT_VAL_CAT2_MAX-OC_DCT_VAL_CAT2)
+#define OC_NDCT_VAL_CAT2_SIZE    (OC_NDCT_VAL_CAT2_MAX - OC_DCT_VAL_CAT2)
 #define OC_NDCT_RUN_MAX          (32)
 #define OC_NDCT_RUN_CAT1A_MAX    (28)
 

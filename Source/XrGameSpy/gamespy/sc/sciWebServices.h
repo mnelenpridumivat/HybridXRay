@@ -54,66 +54,19 @@ extern "C"
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
-    SCResult sciWsCreateSession(
-        SCWebServices*            theWebServices,
-        gsi_u32                   theGameId,
-        const GSLoginCertificate* theCertificate,
-        const GSLoginPrivateData* thePrivateData,
-        SCCreateSessionCallback   theCallback,
-        gsi_time                  theTimeoutMs,
-        void*                     theUserData);
+    SCResult sciWsCreateSession(SCWebServices* theWebServices, gsi_u32 theGameId, const GSLoginCertificate* theCertificate, const GSLoginPrivateData* thePrivateData, SCCreateSessionCallback theCallback, gsi_time theTimeoutMs, void* theUserData);
 
-    SCResult sciWsCreateMatchlessSession(
-        SCWebServices*            theWebServices,
-        gsi_u32                   theGameId,
-        const GSLoginCertificate* theCertificate,
-        const GSLoginPrivateData* thePrivateData,
-        SCCreateSessionCallback   theCallback,
-        gsi_time                  theTimeoutMs,
-        void*                     theUserData);
+    SCResult sciWsCreateMatchlessSession(SCWebServices* theWebServices, gsi_u32 theGameId, const GSLoginCertificate* theCertificate, const GSLoginPrivateData* thePrivateData, SCCreateSessionCallback theCallback, gsi_time theTimeoutMs, void* theUserData);
 
-    void sciWsCreateSessionCallback(
-        GHTTPResult       theHttpResult,
-        GSXmlStreamWriter theRequestData,
-        GSXmlStreamReader theResponseData,
-        void*             theUserData);
+    void     sciWsCreateSessionCallback(GHTTPResult theHttpResult, GSXmlStreamWriter theRequestData, GSXmlStreamReader theResponseData, void* theUserData);
 
-    SCResult sciWsSetReportIntention(
-        SCWebServices*               theWebServices,
-        gsi_u32                      theGameId,
-        const char*                  theSessionId,
-        const char*                  theConnectionId,
-        gsi_bool                     isAuthoritative,
-        const GSLoginCertificate*    theCertificate,
-        const GSLoginPrivateData*    thePrivateData,
-        SCSetReportIntentionCallback theCallback,
-        gsi_time                     theTimeoutMs,
-        void*                        theUserData);
+    SCResult sciWsSetReportIntention(SCWebServices* theWebServices, gsi_u32 theGameId, const char* theSessionId, const char* theConnectionId, gsi_bool isAuthoritative, const GSLoginCertificate* theCertificate, const GSLoginPrivateData* thePrivateData, SCSetReportIntentionCallback theCallback, gsi_time theTimeoutMs, void* theUserData);
 
-    void sciWsSetReportIntentionCallback(
-        GHTTPResult       theHttpResult,
-        GSXmlStreamWriter theRequestData,
-        GSXmlStreamReader theResponseData,
-        void*             theUserData);
+    void     sciWsSetReportIntentionCallback(GHTTPResult theHttpResult, GSXmlStreamWriter theRequestData, GSXmlStreamReader theResponseData, void* theUserData);
 
-    SCResult sciWsSubmitReport(
-        SCWebServices*            theWebServices,
-        gsi_u32                   theGameId,
-        const char*               theSessionId,
-        const char*               theConnectionId,
-        const SCIReport*          theReport,
-        gsi_bool                  isAuthoritative,
-        const GSLoginCertificate* theCertificate,
-        const GSLoginPrivateData* thePrivateData,
-        SCSubmitReportCallback    theCallback,
-        gsi_time                  theTimeoutMs,
-        void*                     theUserData);
+    SCResult sciWsSubmitReport(SCWebServices* theWebServices, gsi_u32 theGameId, const char* theSessionId, const char* theConnectionId, const SCIReport* theReport, gsi_bool isAuthoritative, const GSLoginCertificate* theCertificate, const GSLoginPrivateData* thePrivateData, SCSubmitReportCallback theCallback, gsi_time theTimeoutMs, void* theUserData);
 
-    void sciWsSubmitReportCallback(
-        GHTTPResult       theHttpResult,
-        GSXmlStreamWriter theRequestData,
-        GSXmlStreamReader theResponseData,
-        void*             theUserData);
+    void     sciWsSubmitReportCallback(GHTTPResult theHttpResult, GSXmlStreamWriter theRequestData, GSXmlStreamReader theResponseData, void* theUserData);
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

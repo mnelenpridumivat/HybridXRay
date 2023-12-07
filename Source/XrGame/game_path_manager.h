@@ -11,9 +11,7 @@
 #include "abstract_path_manager.h"
 #include "game_graph.h"
 
-template <typename _VertexEvaluator, typename _vertex_id_type, typename _index_type>
-class CBasePathManager<IGameGraph, _VertexEvaluator, _vertex_id_type, _index_type>:
-    public CAbstractPathManager<IGameGraph, _VertexEvaluator, _vertex_id_type, _index_type>
+template<typename _VertexEvaluator, typename _vertex_id_type, typename _index_type> class CBasePathManager<IGameGraph, _VertexEvaluator, _vertex_id_type, _index_type>: public CAbstractPathManager<IGameGraph, _VertexEvaluator, _vertex_id_type, _index_type>
 {
     typedef CAbstractPathManager<IGameGraph, _VertexEvaluator, _vertex_id_type, _index_type> inherited;
 

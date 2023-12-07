@@ -42,8 +42,8 @@ void CSoundRender_Emitter::fill_data(u8* _dest, u32 offset, u32 size)
     //	Msg			("Final: %d - %d",size,size-left);
     /*/
     //*
-    u32 line_size = SoundRender->cache.get_linesize();
-    u32 line      = offset / line_size;
+    u32 line_size   = SoundRender->cache.get_linesize();
+    u32 line        = offset / line_size;
 
     // prepare for first line (it can be unaligned)
     u32 line_offs   = offset - line * line_size;
@@ -83,7 +83,8 @@ void CSoundRender_Emitter::fill_block(void* ptr, u32 size)
         // We are reaching the end of data, what to do?
         switch (m_current_state)
         {
-            case stPlaying: {   // Fill as much data as we can, zeroing remainder
+            case stPlaying:
+            {   // Fill as much data as we can, zeroing remainder
                 if (get_cursor(true) >= dwBytesTotal)
                 {
                     // ??? We requested the block after remainder - just zero
@@ -101,7 +102,8 @@ void CSoundRender_Emitter::fill_block(void* ptr, u32 size)
                 move_cursor(size);
             }
             break;
-            case stPlayingLooped: {
+            case stPlayingLooped:
+            {
                 u32 hw_position = 0;
                 do
                 {
@@ -111,7 +113,8 @@ void CSoundRender_Emitter::fill_block(void* ptr, u32 size)
                     hw_position += sz_write;
                     move_cursor(sz_write);
                     set_cursor(get_cursor(true) % dwBytesTotal);
-                } while (0 != (size - hw_position));
+                }
+                while (0 != (size - hw_position));
             }
             break;
             default:

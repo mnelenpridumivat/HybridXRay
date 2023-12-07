@@ -18,7 +18,7 @@ public:
     cphysics_element_scripted* PFirst_element();
     cphysics_element_scripted* PSecond_element();
 
-    u16 GetAxesNumber()
+    u16                        GetAxesNumber()
     {
         return physics_impl().GetAxesNumber();
     }

@@ -608,10 +608,9 @@ namespace CDB
                     }
                     else
                     {
-                        fS = fNumer / fDenom;
-                        fT = 1.0f - fS;
-                        fSqrDist =
-                            fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
+                        fS       = fNumer / fDenom;
+                        fT       = 1.0f - fS;
+                        fSqrDist = fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
                     }
                 }
                 else
@@ -650,10 +649,9 @@ namespace CDB
                     }
                     else
                     {
-                        fT = fNumer / fDenom;
-                        fS = 1.0f - fT;
-                        fSqrDist =
-                            fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
+                        fT       = fNumer / fDenom;
+                        fS       = 1.0f - fT;
+                        fSqrDist = fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
                     }
                 }
                 else
@@ -696,10 +694,9 @@ namespace CDB
                     }
                     else
                     {
-                        fS = fNumer / fDenom;
-                        fT = 1.0f - fS;
-                        fSqrDist =
-                            fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
+                        fS       = fNumer / fDenom;
+                        fT       = 1.0f - fS;
+                        fSqrDist = fS * (fA00 * fS + fA01 * fT + 2.0f * fB0) + fT * (fA01 * fS + fA11 * fT + 2.0f * fB1) + fC;
                     }
                 }
             }
@@ -715,12 +712,7 @@ namespace CDB
         stInside    = 2,
     };
 
-    IC EST_Result TestSphereTri(
-        const Fvector& sphereOrigin,
-        float          sphereRadius,
-        const Fvector& orig,
-        const Fvector& e0,
-        const Fvector& e1)
+    IC EST_Result TestSphereTri(const Fvector& sphereOrigin, float sphereRadius, const Fvector& orig, const Fvector& e0, const Fvector& e1)
     {
         float   fRSqr = sphereRadius * sphereRadius;
         Fvector kV0mC;
@@ -859,7 +851,7 @@ namespace CDB
     //----------------------------------------------------------------------------
     IC bool TestRayOBB(const Fvector3& origin, const Fvector3& direction, const Fobb& rkBox)
     {
-        float fWdU[3], fAWdU[3], fDdU[3], fADdU[3], fAWxDdU[3], fRhs;
+        float    fWdU[3], fAWdU[3], fDdU[3], fADdU[3], fAWxDdU[3], fRhs;
 
         Fvector3 kDiff;
         kDiff.sub(origin, rkBox.m_translate);

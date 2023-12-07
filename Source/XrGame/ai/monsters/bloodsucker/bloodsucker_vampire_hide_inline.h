@@ -2,7 +2,7 @@
 #include "../states/state_hide_from_point.h"
 #include "bloodsucker_predator.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION              template<typename _Object>
 
 #define CStateBloodsuckerVampireHideAbstract CStateBloodsuckerVampireHide<_Object>
 

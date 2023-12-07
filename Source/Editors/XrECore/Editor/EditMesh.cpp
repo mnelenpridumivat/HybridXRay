@@ -139,10 +139,7 @@ void CEditableMesh::GenerateFNormals()
 
     // face normals
     for (u32 k = 0; k < m_FaceCount; k++)
-        m_FaceNormals[k].mknormal(
-            m_Vertices[m_Faces[k].pv[0].pindex],
-            m_Vertices[m_Faces[k].pv[1].pindex],
-            m_Vertices[m_Faces[k].pv[2].pindex]);
+        m_FaceNormals[k].mknormal(m_Vertices[m_Faces[k].pv[0].pindex], m_Vertices[m_Faces[k].pv[1].pindex], m_Vertices[m_Faces[k].pv[2].pindex]);
 }
 // BOOL CEditableMesh::m_bDraftMeshMode = FALSE;
 
@@ -161,7 +158,7 @@ void CEditableMesh::GenerateVNormals(bool force, bool silent, bool only_one_msg)
     {
         if (!silent && (!only_one_msg || !m_Parent->m_SmoothMsgSended))
         {
-			m_Parent->m_SmoothMsgSended = true;
+            m_Parent->m_SmoothMsgSended = true;
             if (g_extendedLog)
                 Msg("+ ..Generate CoP Smooth groups.");
         }
@@ -169,10 +166,10 @@ void CEditableMesh::GenerateVNormals(bool force, bool silent, bool only_one_msg)
         {
             for (int k = 0; k < 3; k++)
             {
-                Fvector& N     = m_VertexNormals[f_i * 3 + k];
-                IntVec&  a_lst = (*m_Adjs)[m_Faces[f_i].pv[k].pindex];
+                Fvector& N           = m_VertexNormals[f_i * 3 + k];
+                IntVec&  a_lst       = (*m_Adjs)[m_Faces[f_i].pv[k].pindex];
 
-                IntIt face_adj_it = std::find(a_lst.begin(), a_lst.end(), f_i);
+                IntIt    face_adj_it = std::find(a_lst.begin(), a_lst.end(), f_i);
                 VERIFY(face_adj_it != a_lst.end());
                 //
                 N.set(m_FaceNormals[a_lst.front()]);
@@ -189,8 +186,7 @@ void CEditableMesh::GenerateVNormals(bool force, bool silent, bool only_one_msg)
                 {
                     if (!silent)
                     {
-                        Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
-                            m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                        Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
                     }
                     N.set(m_FaceNormals[a_lst.front()]);
                 }
@@ -201,7 +197,7 @@ void CEditableMesh::GenerateVNormals(bool force, bool silent, bool only_one_msg)
     {
         if (!silent && (!only_one_msg || !m_Parent->m_SmoothMsgSended))
         {
-			m_Parent->m_SmoothMsgSended = true;
+            m_Parent->m_SmoothMsgSended = true;
             if (g_extendedLog)
                 Msg("+ ..Generate SoC Smooth groups.");
         }
@@ -231,8 +227,7 @@ void CEditableMesh::GenerateVNormals(bool force, bool silent, bool only_one_msg)
                         {
                             if (!silent)
                             {
-                                Msg("! Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
-                                    m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                                Msg("! Invalid smooth group found (MAX type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
                             }
                             N.set(m_FaceNormals[a_lst.front()]);
                         }
@@ -273,8 +268,7 @@ void CEditableMesh::GenerateVNormals(bool force, bool silent, bool only_one_msg)
                         {
                             if (!silent)
                             {
-                                Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]",
-                                    m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
+                                Msg("! Invalid smooth group found (Maya type). Object: '%s'. Vertex: [%3.2f, %3.2f, %3.2f]", m_Parent->GetName(), VPUSH(m_Vertices[m_Faces[f_i].pv[k].pindex]));
                             }
                             N.set(m_FaceNormals[a_lst.front()]);
                         }
@@ -322,21 +316,20 @@ void CEditableMesh::GenerateSVertices(u32 influence)
 
         for (int k = 0; k < 3; ++k)
         {
-            st_SVert&      SV = m_SVertices[f_id * 3 + k];
-            const Fvector& N  = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
-            const st_FaceVert& fv = F.pv[k];
-            const Fvector&     P  = m_Vertices[fv.pindex];
+            st_SVert&           SV       = m_SVertices[f_id * 3 + k];
+            const Fvector&      N        = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
+            const st_FaceVert&  fv       = F.pv[k];
+            const Fvector&      P        = m_Vertices[fv.pindex];
 
             const st_VMapPtLst& vmpt_lst = m_VMRefs[fv.vmref];
 
-            st_VertexWB wb;
+            st_VertexWB         wb;
             for (u8 vmpt_id = 0; vmpt_id != vmpt_lst.count; ++vmpt_id)
             {
                 const st_VMap& VM = *m_VMaps[vmpt_lst.pts[vmpt_id].vmap_index];
                 if (VM.type == vmtWeight)
                 {
-                    wb.push_back(
-                        st_WB(m_Parent->GetBoneIndexByWMap(VM.name.c_str()), VM.getW(vmpt_lst.pts[vmpt_id].index)));
+                    wb.push_back(st_WB(m_Parent->GetBoneIndexByWMap(VM.name.c_str()), VM.getW(vmpt_lst.pts[vmpt_id].index)));
 
                     if (wb.back().bone == BI_NONE)
                     {
@@ -395,14 +388,14 @@ void CEditableMesh::GenerateSVerticesFast(u32 influence)
 
         for (int k = 0; k < 3; ++k)
         {
-            st_SVert&          SV = m_SVertices[f_id * 3 + k];
-            const Fvector&     N  = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
-            const st_FaceVert& fv = F.pv[k];
-            const Fvector&     P  = m_Vertices[fv.pindex];
+            st_SVert&           SV       = m_SVertices[f_id * 3 + k];
+            const Fvector&      N        = m_Normals && m_Parent->m_objectFlags.is(CEditableObject::eoNormals) ? m_Normals[f_id * 3 + k] : m_VertexNormals[f_id * 3 + k];
+            const st_FaceVert&  fv       = F.pv[k];
+            const Fvector&      P        = m_Vertices[fv.pindex];
 
             const st_VMapPtLst& vmpt_lst = m_VMRefs[fv.vmref];
 
-            st_VertexWB wb;
+            st_VertexWB         wb;
             for (u8 vmpt_id = 0; vmpt_id != vmpt_lst.count; ++vmpt_id)
             {
                 const st_VMap& VM = *m_VMaps[vmpt_lst.pts[vmpt_id].vmap_index];

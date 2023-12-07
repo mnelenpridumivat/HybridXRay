@@ -100,9 +100,9 @@ class CNodeRenumberer
     xr_vector<NodeCompressed>& m_nodes;
     xr_vector<u32>&            m_sorted;
     xr_vector<u32>&            m_renumbering;
+
 public:
-    CNodeRenumberer(xr_vector<NodeCompressed>& nodes, xr_vector<u32>& sorted, xr_vector<u32>& renumbering):
-        m_nodes(nodes), m_sorted(sorted), m_renumbering(renumbering)
+    CNodeRenumberer(xr_vector<NodeCompressed>& nodes, xr_vector<u32>& sorted, xr_vector<u32>& renumbering): m_nodes(nodes), m_sorted(sorted), m_renumbering(renumbering)
     {
         u32 N = (u32)m_nodes.size();
         m_sorted.resize(N);
@@ -133,8 +133,7 @@ public:
 
 void xrSaveNodes(LPCSTR N, LPCSTR out_name)
 {
-    Msg("NS: %d, CNS: %d, ratio: %f%%", sizeof(vertex), sizeof(CLevelGraph::CVertex),
-        100 * float(sizeof(CLevelGraph::CVertex)) / float(sizeof(vertex)));
+    Msg("NS: %d, CNS: %d, ratio: %f%%", sizeof(vertex), sizeof(CLevelGraph::CVertex), 100 * float(sizeof(CLevelGraph::CVertex)) / float(sizeof(vertex)));
 
     Msg("Renumbering nodes...");
 

@@ -41,6 +41,7 @@ public:
 
     virtual void   CacheSetXformWorld(const Fmatrix& M);
     virtual void   CacheSetCullMode(CullMode);
+
 private:
     ref_geom       hGeom_TL;
     ref_geom       hGeom_LIT;

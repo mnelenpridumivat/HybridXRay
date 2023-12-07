@@ -7,12 +7,12 @@
 #include "../../../entity.h"
 #include "../../../ai_object_location.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION               template<typename _Object>
 
 #define CStateGroupHearDangerousSoundAbstract CStateGroupHearDangerousSound<_Object>
 
-#define LEADER_RADIUS 20.f
-#define FIND_POINT_ATTEMPTS 5
+#define LEADER_RADIUS                         20.f
+#define FIND_POINT_ATTEMPTS                   5
 
 TEMPLATE_SPECIALIZATION
 CStateGroupHearDangerousSoundAbstract::CStateGroupHearDangerousSound(_Object* obj): inherited(obj)
@@ -76,9 +76,7 @@ void CStateGroupHearDangerousSoundAbstract::setup_substates()
         SStateDataMoveToPoint data;
         CMonsterSquad*        squad = monster_squad().get_squad(object);
 
-        if (object->control().path_builder().get_node_in_radius(
-                squad->GetLeader()->ai_location().level_vertex_id(), 8.f, LEADER_RADIUS, FIND_POINT_ATTEMPTS,
-                data.vertex))
+        if (object->control().path_builder().get_node_in_radius(squad->GetLeader()->ai_location().level_vertex_id(), 8.f, LEADER_RADIUS, FIND_POINT_ATTEMPTS, data.vertex))
         {
             data.point = ai().level_graph().vertex_position(data.vertex);
         }
@@ -113,7 +111,7 @@ void CStateGroupHearDangerousSoundAbstract::setup_substates()
     {
         SStateDataMoveToPointEx data;
 
-        data.vertex = 0;
+        data.vertex        = 0;
 
         Fvector home2sound = object->Home->get_home_point();
         home2sound.sub(object->SoundMemory.GetSound().position);

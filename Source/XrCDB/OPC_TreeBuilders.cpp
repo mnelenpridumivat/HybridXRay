@@ -143,10 +143,7 @@ float AABBTreeOfTrianglesBuilder::GetSplittingValue(udword index, udword axis) c
         return Center[axis];*/
 
     // Compute correct component from center of triangle
-    return (((const float*)mVerts[mTriList[index].mVRef[0]])[axis] +
-            ((const float*)mVerts[mTriList[index].mVRef[1]])[axis] +
-            ((const float*)mVerts[mTriList[index].mVRef[2]])[axis]) *
-        INV3;
+    return (((const float*)mVerts[mTriList[index].mVRef[0]])[axis] + ((const float*)mVerts[mTriList[index].mVRef[1]])[axis] + ((const float*)mVerts[mTriList[index].mVRef[2]])[axis]) * INV3;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,11 +156,7 @@ float AABBTreeOfTrianglesBuilder::GetSplittingValue(udword index, udword axis) c
  *	\return		splitting value
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-float AABBTreeOfTrianglesBuilder::GetSplittingValue(
-    const udword* primitives,
-    udword        nb_prims,
-    const AABB&   global_box,
-    udword        axis) const
+float AABBTreeOfTrianglesBuilder::GetSplittingValue(const udword* primitives, udword nb_prims, const AABB& global_box, udword axis) const
 {
     if (mRules & SPLIT_GEOMCENTER)
     {

@@ -32,7 +32,7 @@ const float CSpectator::cam_inert_value = 0.7f;
 CSpectator::CSpectator(): CGameObject()
 {
     m_timer.Start();
-    m_fTimeDelta = EPS_S;
+    m_fTimeDelta         = EPS_S;
     // Cameras
     cameras[eacFirstEye] = xr_new<CCameraFirstEye>(this);
     cameras[eacFirstEye]->Load("actor_firsteye_cam");
@@ -178,14 +178,15 @@ void CSpectator::shedule_Update(u32 DT)
 #define START_ACCEL 16.0f
 static float Accel_mul = START_ACCEL;
 
-void CSpectator::IR_OnKeyboardPress(int cmd)
+void         CSpectator::IR_OnKeyboardPress(int cmd)
 {
     if (Remote())
         return;
 
     switch (cmd)
     {
-        case kACCEL: {
+        case kACCEL:
+        {
             Accel_mul = START_ACCEL * 2;
         }
         break;
@@ -202,7 +203,8 @@ void CSpectator::IR_OnKeyboardPress(int cmd)
                 cam_Set(eacFreeLook);
             break;
         // case kCAM_4:	cam_Set			(eacFreeFly);	m_pActorToLookAt = NULL;	break;
-        case kWPN_FIRE: {
+        case kWPN_FIRE:
+        {
             if ((cam_active != eacFreeFly) || (!m_pActorToLookAt))
             {
                 ++look_idx;
@@ -212,7 +214,8 @@ void CSpectator::IR_OnKeyboardPress(int cmd)
             }
         }
         break;
-        case kWPN_ZOOM: {
+        case kWPN_ZOOM:
+        {
             game_cl_mp* pMPGame = smart_cast<game_cl_mp*>(&Game());
             if (!pMPGame)
                 break;
@@ -264,7 +267,8 @@ void CSpectator::IR_OnKeyboardRelease(int cmd)
 {
     switch (cmd)
     {
-        case kACCEL: {
+        case kACCEL:
+        {
             Accel_mul = START_ACCEL;
         }
         break;
@@ -302,21 +306,22 @@ void CSpectator::IR_OnKeyboardHold(int cmd)
             case kBACK:
                 vmove.mad(C->vDirection, -m_fTimeDelta * Accel_mul);
                 break;
-            case kR_STRAFE: {
+            case kR_STRAFE:
+            {
                 Fvector right;
                 right.crossproduct(C->vNormal, C->vDirection);
                 vmove.mad(right, m_fTimeDelta * Accel_mul);
             }
             break;
-            case kL_STRAFE: {
+            case kL_STRAFE:
+            {
                 Fvector right;
                 right.crossproduct(C->vNormal, C->vDirection);
                 vmove.mad(right, -m_fTimeDelta * Accel_mul);
             }
             break;
         }
-        if (cam_active != eacFreeFly ||
-            (pMPGame->Is_Spectator_Camera_Allowed(eacFreeFly) || (PS && PS->testFlag(GAME_PLAYER_FLAG_SPECTATOR))))
+        if (cam_active != eacFreeFly || (pMPGame->Is_Spectator_Camera_Allowed(eacFreeFly) || (PS && PS->testFlag(GAME_PLAYER_FLAG_SPECTATOR))))
             XFORM().c.add(vmove);
     }
 }
@@ -418,18 +423,21 @@ void CSpectator::cam_Update(CActor* A)
         CCameraBase*   cam   = cameras[cam_active];
         switch (cam_active)
         {
-            case eacFirstEye: {
+            case eacFirstEye:
+            {
                 Fvector P, D, N;
                 pACam->Get(P, D, N);
                 cam->Set(P, D, N);
             }
             break;
-            case eacLookAt: {
+            case eacLookAt:
+            {
                 float y, p, r;
                 M.getHPB(y, p, r);
                 cam->Set(pACam->yaw, pACam->pitch, -r);
             }
-            case eacFreeLook: {
+            case eacFreeLook:
+            {
                 cam->SetParent(A);
                 Fmatrix tmp;
                 tmp.identity();
@@ -554,9 +562,9 @@ bool CSpectator::SelectNextPlayerToLook(bool const search_next)
     game_PlayerState* PS = Game().local_player;
     if (!PS)
         return false;
-    m_pActorToLookAt = NULL;
+    m_pActorToLookAt                          = NULL;
 
-    game_cl_mp* pMPGame = smart_cast<game_cl_mp*>(&Game());
+    game_cl_mp*                       pMPGame = smart_cast<game_cl_mp*>(&Game());
 
     game_cl_GameState::PLAYERS_MAP_IT it = Game().players.begin(), ite = Game().players.end();
     u16                               PPCount = 0;
@@ -645,13 +653,15 @@ void CSpectator::GetSpectatorString(string1024& pStr)
     CStringTable st;
     switch (cam_active)
     {
-        case eacFreeFly: {
+        case eacFreeFly:
+        {
             SpectatorMsg = *st.translate("mp_spectator");
             SpectatorMsg += " ";
             SpectatorMsg += *st.translate("mp_free_fly");
         }
         break;
-        case eacFirstEye: {
+        case eacFirstEye:
+        {
             SpectatorMsg = *st.translate("mp_spectator");
             SpectatorMsg += " ";
             SpectatorMsg += *st.translate("mp_first_eye");
@@ -660,7 +670,8 @@ void CSpectator::GetSpectatorString(string1024& pStr)
             SpectatorMsg += m_pActorToLookAt ? m_pActorToLookAt->Name() : "";
         }
         break;
-        case eacFreeLook: {
+        case eacFreeLook:
+        {
             SpectatorMsg = *st.translate("mp_spectator");
             SpectatorMsg += " ";
             SpectatorMsg += *st.translate("mp_free_look");
@@ -669,7 +680,8 @@ void CSpectator::GetSpectatorString(string1024& pStr)
             SpectatorMsg += m_pActorToLookAt ? m_pActorToLookAt->Name() : "";
         }
         break;
-        case eacLookAt: {
+        case eacLookAt:
+        {
             SpectatorMsg = *st.translate("mp_spectator");
             SpectatorMsg += " ";
             SpectatorMsg += *st.translate("mp_look_at");

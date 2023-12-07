@@ -16,13 +16,7 @@ devsupport@gamespy.com
 void gti2MessageCheck(const GT2Byte** message, int* len);
 
 #ifdef RECV_LOG
-void gti2LogMessage(
-    unsigned int   fromIP,
-    unsigned short fromPort,
-    unsigned int   toIP,
-    unsigned short toPort,
-    const GT2Byte* message,
-    int            len);
+void gti2LogMessage(unsigned int fromIP, unsigned short fromPort, unsigned int toIP, unsigned short toPort, const GT2Byte* message, int len);
 #endif
 
 #endif

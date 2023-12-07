@@ -194,7 +194,7 @@ bool TUI_CustomControl::SelectStart(TShiftState Shift)
     if (!((Shift & ssCtrl) || (Shift & ssAlt)))
         Scene->SelectObjects(false, cls);
 
-    int cnt = Scene->RaySelect((Shift & ssCtrl) ? -1 : (Shift & ssAlt) ? 0 : 1, parent_tool->FClassID);
+    int cnt       = Scene->RaySelect((Shift & ssCtrl) ? -1 : (Shift & ssAlt) ? 0 : 1, parent_tool->FClassID);
     bBoxSelection = ((0 != cnt) && ((Shift & ssCtrl) || (Shift & ssAlt))) || (0 == cnt);
     if (bBoxSelection)
     {

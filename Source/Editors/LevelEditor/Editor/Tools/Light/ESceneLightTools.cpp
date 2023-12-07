@@ -30,7 +30,7 @@ void ESceneLightTool::SelectLightsForObject(CCustomObject* obj)
         CLight* l = frame_light[i];
         //        if (obj->IsDynamic()&&!l->m_Flags.is(CLight::flAffectDynamic)) continue;
         //        if (!obj->IsDynamic()&&!l->m_Flags.is(CLight::flAffectStatic)) continue;
-        Fbox bb;
+        Fbox    bb;
         obj->GetBox(bb);
         Fvector C;
         float   R;

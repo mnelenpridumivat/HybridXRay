@@ -79,7 +79,7 @@ namespace text_editor
             c                 = m_char;
             char      c_shift = m_char_shift;
             string128 buff;
-            buff[0] = 0;
+            buff[0]                         = 0;
 
             /*
             //setlocale( LC_ALL, "" ); // User-default

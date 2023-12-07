@@ -12,7 +12,7 @@ CSoundManager* SndLib = 0;
 
 extern "C" int ogg_enc(const char* in_fn, const char* out_fn, float quality, void* comment, int size);
 //------------------------------------------------------------------------------
-xr_string CSoundManager::UpdateFileName(xr_string& fn)
+xr_string      CSoundManager::UpdateFileName(xr_string& fn)
 {
     return EFS.AppendFolderToName(fn, -1, FALSE);
 }
@@ -182,11 +182,7 @@ void CSoundManager::SafeCopyLocalToServer(FS_FileSet& files)
 //------------------------------------------------------------------------------
 // создает тхм
 //------------------------------------------------------------------------------
-void CSoundManager::CreateSoundThumbnail(
-    ESoundThumbnail* THM,
-    const xr_string& src_name,
-    LPCSTR           initial,
-    bool             bSetDefParam)
+void CSoundManager::CreateSoundThumbnail(ESoundThumbnail* THM, const xr_string& src_name, LPCSTR initial, bool bSetDefParam)
 {
     R_ASSERT(src_name.size());
     string_path base_name;
@@ -229,13 +225,7 @@ void CSoundManager::MakeGameSound(ESoundThumbnail* THM, LPCSTR src_name, LPCSTR 
 // source_list - содержит список текстур с расширениями
 // sync_list - реально сохраненные файлы (после использования освободить)
 //------------------------------------------------------------------------------
-void CSoundManager::SynchronizeSounds(
-    bool        sync_thm,
-    bool        sync_game,
-    bool        bForceGame,
-    FS_FileSet* source_list,
-    AStringVec* sync_list,
-    FS_FileSet* modif_map)
+void CSoundManager::SynchronizeSounds(bool sync_thm, bool sync_game, bool bForceGame, FS_FileSet* source_list, AStringVec* sync_list, FS_FileSet* modif_map)
 {
     FS_FileSet M_BASE;
     FS_FileSet M_THUM;
@@ -255,11 +245,11 @@ void CSoundManager::SynchronizeSounds(
     if (sync_game)
         FS.file_list(M_GAME, _game_sounds_, FS_ListFiles | FS_ClampExt, "*.ogg");
 
-    bool bProgress = (M_BASE.size() > 1);
+    bool     bProgress = (M_BASE.size() > 1);
 
-    int m_age = time(NULL);
+    int      m_age     = time(NULL);
 
-    SPBItem* pb = 0;
+    SPBItem* pb        = 0;
     if (bProgress)
         pb = UI->ProgressStart(M_BASE.size(), "Synchronize sounds...");
 
@@ -275,12 +265,12 @@ void CSoundManager::SynchronizeSounds(
         if (!FS.exist(fn))
             continue;
 
-        FS_FileSetIt th   = M_THUM.find(base_name);
-        bool         bThm = ((th == M_THUM.end()) || ((th != M_THUM.end()) && (th->time_write != it->time_write)));
-        FS_FileSetIt gm   = M_GAME.find(base_name);
-        bool bGame = bThm || ((gm == M_GAME.end()) || ((gm != M_GAME.end()) && (gm->time_write != it->time_write)));
+        FS_FileSetIt     th    = M_THUM.find(base_name);
+        bool             bThm  = ((th == M_THUM.end()) || ((th != M_THUM.end()) && (th->time_write != it->time_write)));
+        FS_FileSetIt     gm    = M_GAME.find(base_name);
+        bool             bGame = bThm || ((gm == M_GAME.end()) || ((gm != M_GAME.end()) && (gm->time_write != it->time_write)));
 
-        ESoundThumbnail* THM = 0;
+        ESoundThumbnail* THM   = 0;
 
         // backup base sound
         // check thumbnail
@@ -380,8 +370,8 @@ void CSoundManager::CleanupSounds()
 
     SPBItem* pb = UI->ProgressStart(M_GAME_DEL.size() + M_THM_DEL.size(), "Cleanup sounds...");
     // mark game del sounds
-    it   = M_GAME_DEL.begin();
-    it_e = M_GAME_DEL.end();
+    it          = M_GAME_DEL.begin();
+    it_e        = M_GAME_DEL.end();
 
     for (; it != it_e; ++it)
     {

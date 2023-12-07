@@ -8,7 +8,7 @@
 
 #pragma once
 
-extern u32 dwfGetIDByLevelName(CInifile* ini, LPCSTR level_name);
+extern u32     dwfGetIDByLevelName(CInifile* ini, LPCSTR level_name);
 
 IC IGameGraph& CGameSpawnConstructor::game_graph() const
 {

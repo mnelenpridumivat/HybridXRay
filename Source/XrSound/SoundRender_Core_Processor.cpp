@@ -232,10 +232,10 @@ float CSoundRender_Core::get_occlusion_to(const Fvector& hear_pt, const Fvector&
 
 float CSoundRender_Core::get_occlusion(Fvector& P, float R, Fvector* occ)
 {
-    float occ_value = 1.f;
+    float   occ_value = 1.f;
 
     // Calculate RAY params
-    Fvector base = listener_position();
+    Fvector base      = listener_position();
     Fvector pos, dir;
     float   range;
     pos.random_dir();
@@ -247,7 +247,7 @@ float CSoundRender_Core::get_occlusion(Fvector& P, float R, Fvector* occ)
 
     if (0 != geom_MODEL)
     {
-        bool bNeedFullTest = true;
+        bool  bNeedFullTest = true;
         // 1. Check cached polygon
         float _u, _v, _range;
         if (CDB::TestRayTri(base, dir, occ, _u, _v, _range, true))

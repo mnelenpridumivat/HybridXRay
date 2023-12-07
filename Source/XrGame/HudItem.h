@@ -77,7 +77,7 @@ protected:
     virtual ~CHudItem();
     virtual DLL_Pure* _construct();
 
-    Flags16 m_huditem_flags;
+    Flags16           m_huditem_flags;
     enum
     {
         fl_pending         = (1 << 0),
@@ -118,7 +118,7 @@ public:
     {
         return false;
     }
-    void OnMovementChanged(ACTOR_DEFS::EMoveCommand cmd);
+    void       OnMovementChanged(ACTOR_DEFS::EMoveCommand cmd);
 
     virtual u8 GetCurrentHudOffsetIdx()
     {
@@ -139,7 +139,7 @@ public:
     virtual void SendHiddenItem();   // same as OnHiddenItem but for client... (sends message to a server)...
     virtual void OnMoveToRuck(const SInvItemPlace& prev);
 
-    bool IsHidden() const
+    bool         IsHidden() const
     {
         return GetState() == eHidden;
     }   // Does weapon is in hidden state
@@ -176,11 +176,11 @@ public:
 
     virtual void UpdateXForm() = 0;
 
-    u32  PlayHUDMotion(const shared_str& M, BOOL bMixIn, CHudItem* W, u32 state);
-    u32  PlayHUDMotion_noCB(const shared_str& M, BOOL bMixIn);
-    void StopCurrentAnimWithoutCallback();
+    u32          PlayHUDMotion(const shared_str& M, BOOL bMixIn, CHudItem* W, u32 state);
+    u32          PlayHUDMotion_noCB(const shared_str& M, BOOL bMixIn);
+    void         StopCurrentAnimWithoutCallback();
 
-    IC void RenderHud(BOOL B)
+    IC void      RenderHud(BOOL B)
     {
         m_huditem_flags.set(fl_renderhud, B);
     }
@@ -223,10 +223,10 @@ protected:
     shared_str hud_sect;
 
     // кадры момента пересчета XFORM и FirePos
-    u32 dwFP_Frame;
-    u32 dwXF_Frame;
+    u32        dwFP_Frame;
+    u32        dwXF_Frame;
 
-    IC void EnableHudInertion(BOOL B)
+    IC void    EnableHudInertion(BOOL B)
     {
         m_huditem_flags.set(fl_inertion_enable, B);
     }
@@ -235,7 +235,7 @@ protected:
         m_huditem_flags.set(fl_inertion_allow, B);
     }
 
-    u32 m_animation_slot;
+    u32                  m_animation_slot;
 
     HUD_SOUND_COLLECTION m_sounds;
 
@@ -263,8 +263,8 @@ public:
         return m_animation_slot;
     }
 
-    virtual void on_renderable_Render() = 0;
-    virtual void debug_draw_firedeps(){};
+    virtual void      on_renderable_Render() = 0;
+    virtual void      debug_draw_firedeps(){};
 
     virtual CHudItem* cast_hud_item()
     {

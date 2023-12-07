@@ -12,15 +12,15 @@ struct SLogPacket
 class INetLog
 {
 private:
-    FILE*      m_pLogFile;
-    string1024 m_cFileName;
-    u32        m_dwStartTime;
+    FILE*                 m_pLogFile;
+    string1024            m_cFileName;
+    u32                   m_dwStartTime;
 
-    xrCriticalSection m_cs;
+    xrCriticalSection     m_cs;
 
     xr_vector<SLogPacket> m_aLogPackets;
 
-    void FlushLog();
+    void                  FlushLog();
 
 public:
     INetLog(LPCSTR sFileName, u32 dwStartTime);

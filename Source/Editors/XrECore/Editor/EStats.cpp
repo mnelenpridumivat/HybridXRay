@@ -131,13 +131,13 @@ void CEStats::Show(CGameFont* font)
     dwSND_Played = dwSND_Allocated = 0;
     dwTotalLight = dwLightInScene = 0;
 
-    DPS.polys = 0;
-    DPS.verts = 0;
-    DPS.calls = 0;
-    DPS.vs    = 0;
+    DPS.polys                     = 0;
+    DPS.verts                     = 0;
+    DPS.calls                     = 0;
+    DPS.vs                        = 0;
     //	DPS.vb		= 0;
     //	DPS.ib		= 0;
 
-    dwLevelSelFaceCount   = 0;
-    dwLevelSelVertexCount = 0;
+    dwLevelSelFaceCount           = 0;
+    dwLevelSelVertexCount         = 0;
 }

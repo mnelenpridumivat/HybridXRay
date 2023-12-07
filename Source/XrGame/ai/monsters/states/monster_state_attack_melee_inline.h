@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION          template<typename _Object>
 
 #define CStateMonsterAttackMeleeAbstract CStateMonsterAttackMelee<_Object>
 

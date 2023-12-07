@@ -15,7 +15,7 @@
 
 #include "../../../actor.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION     template<typename _Object>
 
 #define CStateMonsterAttackAbstract CStateMonsterAttack<_Object>
 
@@ -49,8 +49,7 @@ CStateMonsterAttackAbstract::CStateMonsterAttack(_Object* obj, state_ptr state_m
 }
 
 TEMPLATE_SPECIALIZATION
-CStateMonsterAttackAbstract::CStateMonsterAttack(_Object* obj, state_ptr state_run, state_ptr state_melee):
-    inherited(obj)
+CStateMonsterAttackAbstract::CStateMonsterAttack(_Object* obj, state_ptr state_run, state_ptr state_melee): inherited(obj)
 {
     add_state(eStateAttack_Run, state_run);
     add_state(eStateAttack_Melee, state_melee);
@@ -120,7 +119,7 @@ void CStateMonsterAttackAbstract::execute()
 
     get_state_current()->execute();
 
-    prev_substate = current_substate;
+    prev_substate        = current_substate;
 
     // Notify squad
     CMonsterSquad* squad = monster_squad().get_squad(object);
@@ -189,9 +188,7 @@ bool CStateMonsterAttackAbstract::check_run_away_state()
         else
             m_time_next_run_away = Device->dwTimeGlobal + 10000;
     }
-    else if (
-        (object->EnemyMan.get_enemy() != Actor()) && object->Morale.is_despondent() &&
-        (m_time_next_run_away < Device->dwTimeGlobal))
+    else if ((object->EnemyMan.get_enemy() != Actor()) && object->Morale.is_despondent() && (m_time_next_run_away < Device->dwTimeGlobal))
     {
         return true;
     }

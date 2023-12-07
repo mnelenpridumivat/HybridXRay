@@ -23,10 +23,9 @@
 // #endif
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
-static const float PARTICLE_EFFECT_DIST = 70.f;
-static const float SOUND_EFFECT_DIST    = 70.f;
-const float        mass_limit =
-    10000.f;   // some conventional value used as evaluative param (there is no code restriction on mass)
+static const float PARTICLE_EFFECT_DIST        = 70.f;
+static const float SOUND_EFFECT_DIST           = 70.f;
+const float        mass_limit                  = 10000.f;   // some conventional value used as evaluative param (there is no code restriction on mass)
 //////////////////////////////////////////////////////////////////////////////////
 static const float SQUARE_PARTICLE_EFFECT_DIST = PARTICLE_EFFECT_DIST * PARTICLE_EFFECT_DIST;
 static const float SQUARE_SOUND_EFFECT_DIST    = SOUND_EFFECT_DIST * SOUND_EFFECT_DIST;
@@ -53,8 +52,8 @@ public:
     {
         CParticlesObject* ps = CParticlesObject::Create(ps_name, TRUE);
 
-        Fmatrix pos;
-        Fvector zero_vel = {0.f, 0.f, 0.f};
+        Fmatrix           pos;
+        Fvector           zero_vel = {0.f, 0.f, 0.f};
         pos.k.set(*((Fvector*)c.normal));
         Fvector::generate_orthonormal_basis(pos.k, pos.j, pos.i);
         pos.c.set(*((Fvector*)c.pos));
@@ -74,8 +73,7 @@ class CPHLiquidParticlesPlayCall: public CPHParticlesPlayCall, public CPHReqComp
     bool b_called;
 
 public:
-    CPHLiquidParticlesPlayCall(const dContactGeom& contact, bool invert_n, LPCSTR psn):
-        CPHParticlesPlayCall(contact, invert_n, psn), b_called(false)
+    CPHLiquidParticlesPlayCall(const dContactGeom& contact, bool invert_n, LPCSTR psn): CPHParticlesPlayCall(contact, invert_n, psn), b_called(false)
     {
         static const u32 time_to_call_remove = 3000;
         remove_time                          = Device->dwTimeGlobal + time_to_call_remove;
@@ -141,8 +139,7 @@ private:
         VERIFY(v);
 
         Fvector disp = Fvector().sub(m_position, v->position());
-        return disp.x * disp.x + disp.z * disp.z <
-            (minimal_plane_distance_between_liquid_particles * minimal_plane_distance_between_liquid_particles);
+        return disp.x * disp.x + disp.z * disp.z < (minimal_plane_distance_between_liquid_particles * minimal_plane_distance_between_liquid_particles);
     }
 };
 
@@ -207,7 +204,7 @@ static void play_object(dxGeomUserData* data, SGameMtlPair* mtl_pair, const dCon
     if (sp)
         sp->Play(mtl_pair, *(Fvector*)c->pos);
 }
-template <class Pars> IC bool play_liquid_particle_criteria(dxGeomUserData& data, float vel_cret)
+template<class Pars> IC bool play_liquid_particle_criteria(dxGeomUserData& data, float vel_cret)
 {
     if (vel_cret > Pars::vel_cret_particles)
         return true;
@@ -223,35 +220,26 @@ template <class Pars> IC bool play_liquid_particle_criteria(dxGeomUserData& data
     //	return false;
 }
 
-template <class Pars> void play_particles(
-    float               vel_cret,
-    dxGeomUserData*     data,
-    const dContactGeom* c,
-    bool                b_invert_normal,
-    const SGameMtl*     static_mtl,
-    LPCSTR              ps_name)
+template<class Pars> void play_particles(float vel_cret, dxGeomUserData* data, const dContactGeom* c, bool b_invert_normal, const SGameMtl* static_mtl, LPCSTR ps_name)
 {
     VERIFY(c);
     VERIFY(static_mtl);
-    bool liquid = !!static_mtl->Flags.test(SGameMtl::flLiquid);
+    bool liquid          = !!static_mtl->Flags.test(SGameMtl::flLiquid);
 
     bool play_liquid     = liquid && play_liquid_particle_criteria<Pars>(*data, vel_cret);
     bool play_not_liquid = !liquid && vel_cret > Pars::vel_cret_particles;
 
     if (play_not_liquid)
-        Level().ph_commander().add_call(
-            xr_new<CPHOnesCondition>(), xr_new<CPHParticlesPlayCall>(*c, b_invert_normal, ps_name));
+        Level().ph_commander().add_call(xr_new<CPHOnesCondition>(), xr_new<CPHParticlesPlayCall>(*c, b_invert_normal, ps_name));
     else if (play_liquid)
     {
         CPHFindLiquidParticlesComparer find(cast_fv(c->pos));
         if (!Level().ph_commander().has_call(&find, &find))
-            Level().ph_commander().add_call(
-                xr_new<CPHLiquidParticlesCondition>(),
-                xr_new<CPHLiquidParticlesPlayCall>(*c, b_invert_normal, ps_name));
+            Level().ph_commander().add_call(xr_new<CPHLiquidParticlesCondition>(), xr_new<CPHLiquidParticlesPlayCall>(*c, b_invert_normal, ps_name));
     }
 }
 
-template <class Pars> void TContactShotMark(CDB::TRI* T, dContactGeom* c)
+template<class Pars> void TContactShotMark(CDB::TRI* T, dContactGeom* c)
 {
     // dBodyID b=dGeomGetBody(c->g1);
     // dxGeomUserData* data =0;
@@ -295,8 +283,7 @@ template <class Pars> void TContactShotMark(CDB::TRI* T, dContactGeom* c)
                 // ref_shader pWallmarkShader = mtl_pair->CollideMarks[::Random.randI(0,mtl_pair->CollideMarks.size())];
                 wm_shader WallmarkShader = mtl_pair->m_pCollideMarks->GenerateWallmark();
                 // ref_shader pWallmarkShader = mtl_pair->CollideMarks[::Random.randI(0,mtl_pair->CollideMarks.size())];
-                Level().ph_commander().add_call(
-                    xr_new<CPHOnesCondition>(), xr_new<CPHWallMarksCall>(*((Fvector*)c->pos), T, WallmarkShader));
+                Level().ph_commander().add_call(xr_new<CPHOnesCondition>(), xr_new<CPHWallMarksCall>(*((Fvector*)c->pos), T, WallmarkShader));
             }
             ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
             if (square_cam_dist < SQUARE_SOUND_EFFECT_DIST)
@@ -309,9 +296,7 @@ template <class Pars> void TContactShotMark(CDB::TRI* T, dContactGeom* c)
                     {
                         if (!mtl_pair->CollideSounds.empty())
                         {
-                            float volume = collide_volume_min +
-                                vel_cret * (collide_volume_max - collide_volume_min) /
-                                    (_sqrt(mass_limit) * default_l_limit - Pars::vel_cret_sound);
+                            float volume = collide_volume_min + vel_cret * (collide_volume_max - collide_volume_min) / (_sqrt(mass_limit) * default_l_limit - Pars::vel_cret_sound);
                             GET_RANDOM(mtl_pair->CollideSounds).play_no_feedback(0, 0, 0, ((Fvector*)c->pos), &volume);
                         }
                     }

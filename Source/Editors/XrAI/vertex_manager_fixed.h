@@ -30,11 +30,7 @@ template<typename _path_id_type, typename _index_type, u8 mask> struct CVertexMa
         };
     };
 
-    template<
-        template<typename _T> class _vertex                      = CEmptyClassTemplate,
-        template<typename _T1, typename _T2> class _index_vertex = CEmptyClassTemplate2,
-        typename _data_storage                                   = CBuilderAllocatorConstructor>
-    class CDataStorage: public _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex>
+    template<template<typename _T> class _vertex = CEmptyClassTemplate, template<typename _T1, typename _T2> class _index_vertex = CEmptyClassTemplate2, typename _data_storage = CBuilderAllocatorConstructor> class CDataStorage: public _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex>
     {
     public:
         typedef typename _data_storage::template CDataStorage<VertexManager<_vertex>::_vertex> inherited;
@@ -42,8 +38,7 @@ template<typename _path_id_type, typename _index_type, u8 mask> struct CVertexMa
         typedef typename CGraphVertex::_index_type                                             _index_type;
 
 #pragma pack(push, 1)
-        template<typename _path_id_type> struct SGraphIndexVertex:
-            public _index_vertex<CGraphVertex, SGraphIndexVertex<_path_id_type>>
+        template<typename _path_id_type> struct SGraphIndexVertex: public _index_vertex<CGraphVertex, SGraphIndexVertex<_path_id_type>>
         {
             _path_id_type m_path_id;
             CGraphVertex* m_vertex;
@@ -52,10 +47,12 @@ template<typename _path_id_type, typename _index_type, u8 mask> struct CVertexMa
 
         typedef _path_id_type                    _path_id_type;
         typedef SGraphIndexVertex<_path_id_type> CGraphIndexVertex;
+
     protected:
         _path_id_type      m_current_path_id;
         u32                m_max_node_count;
         CGraphIndexVertex* m_indexes;
+
     public:
         IC CDataStorage(const u32 vertex_count);
         virtual ~CDataStorage();

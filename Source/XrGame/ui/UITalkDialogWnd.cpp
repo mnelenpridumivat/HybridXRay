@@ -92,10 +92,8 @@ void CUITalkDialogWnd::InitTalkDialogWnd()
     SetWindowName("----CUITalkDialogWnd");
 
     Register(&UIToTradeButton);
-    AddCallbackStr(
-        "question_item", LIST_ITEM_CLICKED, CUIWndCallback::void_function(this, &CUITalkDialogWnd::OnQuestionClicked));
-    AddCallback(
-        &UIToTradeButton, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITalkDialogWnd::OnTradeClicked));
+    AddCallbackStr("question_item", LIST_ITEM_CLICKED, CUIWndCallback::void_function(this, &CUITalkDialogWnd::OnQuestionClicked));
+    AddCallback(&UIToTradeButton, BUTTON_CLICKED, CUIWndCallback::void_function(this, &CUITalkDialogWnd::OnTradeClicked));
     //	AddCallback					(&UIToExitButton,BUTTON_CLICKED,CUIWndCallback::void_function(this,
     //&CUITalkDialogWnd::OnExitClicked));
 }
@@ -206,10 +204,10 @@ void CUITalkDialogWnd::AddAnswer(LPCSTR SpeakerName, LPCSTR str, bool bActor)
     xr_string res;
     res = "%c[250,255,232,208]";
     res += str;
-    news_data.news_text = res.c_str();
+    news_data.news_text    = res.c_str();
 
-    news_data.m_type     = GAME_NEWS_DATA::eTalk;
-    CUICharacterInfo& ci = bActor ? UICharacterInfoLeft : UICharacterInfoRight;
+    news_data.m_type       = GAME_NEWS_DATA::eTalk;
+    CUICharacterInfo& ci   = bActor ? UICharacterInfoLeft : UICharacterInfoRight;
 
     news_data.texture_name = ci.IconName();
     news_data.receive_time = Level().GetGameTime();

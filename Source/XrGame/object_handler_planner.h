@@ -55,6 +55,7 @@ private:
     void                init_storage();
     IC EWorldProperties object_property(EObjectAction object_action) const;
 #ifdef LOG_ACTION
+
 public:
     virtual LPCSTR action2string(const _action_id_type& action_id);
     virtual LPCSTR property2string(const _condition_type& property_id);
@@ -76,13 +77,7 @@ public:
     virtual void update();
     void         add_item(CInventoryItem* inventory_item);
     void         remove_item(CInventoryItem* inventory_item);
-    void         set_goal(
-                EObjectAction object_action,
-                CGameObject*  game_object,
-                u32           min_queue_size,
-                u32           max_queue_size,
-                u32           min_queue_interval,
-                u32           max_queue_interval);
+    void         set_goal(EObjectAction object_action, CGameObject* game_object, u32 min_queue_size, u32 max_queue_size, u32 min_queue_interval, u32 max_queue_interval);
 };
 
 #include "object_handler_planner_inline.h"

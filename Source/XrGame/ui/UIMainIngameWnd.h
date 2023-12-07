@@ -26,20 +26,20 @@ public:
     virtual void Update();
 
 protected:
-    CUIStatic*     UIStaticDiskIO;
-    CUITextWnd*    UIStaticQuickHelp;
-    CUIMotionIcon* UIMotionIcon;
-    CUIZoneMap*    UIZoneMap;
+    CUIStatic*       UIStaticDiskIO;
+    CUITextWnd*      UIStaticQuickHelp;
+    CUIMotionIcon*   UIMotionIcon;
+    CUIZoneMap*      UIZoneMap;
 
     CUIHudStatesWnd* m_ui_hud_states;
 
-    CUIStatic* m_ind_bleeding;
-    CUIStatic* m_ind_radiation;
-    CUIStatic* m_ind_starvation;
-    CUIStatic* m_ind_weapon_broken;
-    CUIStatic* m_ind_helmet_broken;
-    CUIStatic* m_ind_outfit_broken;
-    CUIStatic* m_ind_overweight;
+    CUIStatic*       m_ind_bleeding;
+    CUIStatic*       m_ind_radiation;
+    CUIStatic*       m_ind_starvation;
+    CUIStatic*       m_ind_weapon_broken;
+    CUIStatic*       m_ind_helmet_broken;
+    CUIStatic*       m_ind_outfit_broken;
+    CUIStatic*       m_ind_overweight;
 
 public:
     CUIStatic* m_ind_boost_psy;
@@ -52,17 +52,17 @@ public:
     CUIStatic* m_ind_boost_rad;
 
 public:
-    void ShowZoneMap(bool status);
-    void DrawZoneMap();
-    void UpdateZoneMap();
+    void             ShowZoneMap(bool status);
+    void             DrawZoneMap();
+    void             UpdateZoneMap();
 
-    void DrawMainIndicatorsForInventory();
+    void             DrawMainIndicatorsForInventory();
 
     CUIHudStatesWnd* get_hud_states()
     {
         return m_ui_hud_states;
     }   // temp
-    void OnSectorChanged(int sector);
+    void                  OnSectorChanged(int sector);
 
     xr_vector<CUIStatic*> m_quick_slots_icons;
     CUITextWnd*           m_QuickSlotText1;
@@ -77,14 +77,14 @@ protected:
     // - ранения
     // - голода
     // - усталости
-    CUIStatic* UIWeaponJammedIcon;
+    CUIStatic*     UIWeaponJammedIcon;
     //	CUIStatic			UIRadiaitionIcon;
     //	CUIStatic			UIWoundIcon;
     //	CUIStatic			UIStarvationIcon;
     //	CUIStatic			UIPsyHealthIcon;
-    CUIStatic* UIInvincibleIcon;
+    CUIStatic*     UIInvincibleIcon;
     //	CUIStatic			UISleepIcon;
-    CUIStatic* UIArtefactIcon;
+    CUIStatic*     UIArtefactIcon;
 
     CUIScrollView* m_UIIcons;
     CUIWindow*     m_pMPChatWnd;
@@ -105,11 +105,11 @@ public:
         ewiArtefact,
     };
 
-    void SetMPChatLog(CUIWindow* pChat, CUIWindow* pLog);
+    void                                            SetMPChatLog(CUIWindow* pChat, CUIWindow* pLog);
 
     // Задаем цвет соответствующей иконке
-    void SetWarningIconColor(EWarningIcons icon, const u32 cl);
-    void TurnOffWarningIcon(EWarningIcons icon);
+    void                                            SetWarningIconColor(EWarningIcons icon, const u32 cl);
+    void                                            TurnOffWarningIcon(EWarningIcons icon);
 
     // Пороги изменения цвета индикаторов, загружаемые из system.ltx
     typedef xr_map<EWarningIcons, xr_vector<float>> Thresholds;
@@ -123,14 +123,14 @@ public:
         efiMail
     };
 
-    void SetFlashIconState_(EFlashingIcons type, bool enable);
+    void           SetFlashIconState_(EFlashingIcons type, bool enable);
 
     void           AnimateContacts(bool b_snd);
     HUD_SOUND_ITEM m_contactSnd;
 
-    void ReceiveNews(GAME_NEWS_DATA* news);
-    void UpdateMainIndicators();
-    void UpdateBoosterIndicators(const xr_map<EBoostParams, SBooster> influences);
+    void           ReceiveNews(GAME_NEWS_DATA* news);
+    void           UpdateMainIndicators();
+    void           UpdateBoosterIndicators(const xr_map<EBoostParams, SBooster> influences);
 
 protected:
     void UpdateQuickSlots();
@@ -150,7 +150,7 @@ protected:
     //	CInventoryItem*		m_pItem;
 
     // Отображение подсказок при наведении прицела на объект
-    void RenderQuickInfos();
+    void          RenderQuickInfos();
 
 public:
     CUIMotionIcon* MotionIcon()
@@ -164,12 +164,12 @@ protected:
     CInventoryItem* m_pPickUpItem;
     CUIStatic*      UIPickUpItemIcon;
 
-    float m_iPickUpItemIconX;
-    float m_iPickUpItemIconY;
-    float m_iPickUpItemIconWidth;
-    float m_iPickUpItemIconHeight;
+    float           m_iPickUpItemIconX;
+    float           m_iPickUpItemIconY;
+    float           m_iPickUpItemIconWidth;
+    float           m_iPickUpItemIconHeight;
 
-    void UpdatePickUpItem();
+    void            UpdatePickUpItem();
 
 public:
     void SetPickUpItem(CInventoryItem* PickUpItem);

@@ -21,19 +21,19 @@ extern "C"
 
 // HTTP Line-terminator.
 ////////////////////////
-#define CRLF "\xD\xA"
+#define CRLF                             "\xD\xA"
 
 // HTTP URL Encoding
 ////////////////////////
-#define GHI_LEGAL_URLENCODED_CHARS "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@-.*"
-#define GHI_DIGITS "0123456789ABCDEF"
+#define GHI_LEGAL_URLENCODED_CHARS       "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_@-.*"
+#define GHI_DIGITS                       "0123456789ABCDEF"
 
 // Default HTTP port.
 /////////////////////
-#define GHI_DEFAULT_PORT 80
-#define GHI_DEFAULT_SECURE_PORT 443
+#define GHI_DEFAULT_PORT                 80
+#define GHI_DEFAULT_SECURE_PORT          443
 #define GHI_DEFAULT_THROTTLE_BUFFER_SIZE 125
-#define GHI_DEFAULT_THROTTLE_TIME_DELAY 250
+#define GHI_DEFAULT_THROTTLE_TIME_DELAY  250
 
     // Proxy server.
     ////////////////
@@ -42,23 +42,23 @@ extern "C"
 
     // Throttle settings.
     /////////////////////
-    extern int      ghiThrottleBufferSize;
-    extern gsi_time ghiThrottleTimeDelay;
+    extern int            ghiThrottleBufferSize;
+    extern gsi_time       ghiThrottleTimeDelay;
 
     // Our thread lock.
     ///////////////////
-    void ghiCreateLock(void);
-    void ghiFreeLock(void);
-    void ghiLock(void);
-    void ghiUnlock(void);
+    void                  ghiCreateLock(void);
+    void                  ghiFreeLock(void);
+    void                  ghiLock(void);
+    void                  ghiUnlock(void);
 
 // Do logging.
 //////////////
 #ifdef HTTP_LOG
     void ghiLogToFile(const char* buffer, int len, const char* fileName);
-#define ghiLogRequest(b, c) ghiLogToFile(b, c, "request.log");
+#define ghiLogRequest(b, c)  ghiLogToFile(b, c, "request.log");
 #define ghiLogResponse(b, c) ghiLogToFile(b, c, "response.log");
-#define ghiLogPost(b, c) ghiLogToFile(b, c, "post.log");
+#define ghiLogPost(b, c)     ghiLogToFile(b, c, "post.log");
 #else
 #define ghiLogRequest(b, c)
 #define ghiLogResponse(b, c)
@@ -83,7 +83,7 @@ extern "C"
     // Returns number of bytes sent (0 or more).
     // If error, returns  (-1).
     ////////////////////////////////////////////
-    int ghiDoSend(GHIConnection* connection, const char* buffer, int len);
+    int           ghiDoSend(GHIConnection* connection, const char* buffer, int len);
 
     // Results for ghtTrySendThenBuffer.
     ////////////////////////////////////
@@ -101,19 +101,19 @@ extern "C"
 
     // Set the proxy server
     ////////////////////////
-    GHTTPBool ghiSetProxy(const char* server);
+    GHTTPBool        ghiSetProxy(const char* server);
 
     // Set the proxy server for a specific request
     ////////////////////////
-    GHTTPBool ghiSetRequestProxy(GHTTPRequest request, const char* server);
+    GHTTPBool        ghiSetRequestProxy(GHTTPRequest request, const char* server);
 
     // Set the throttle settings.
     /////////////////////////////
-    void ghiThrottleSettings(int bufferSize, gsi_time timeDelay);
+    void             ghiThrottleSettings(int bufferSize, gsi_time timeDelay);
 
     // Decrypt data from the decode buffer into the receive buffer.
     ///////////////////////////////////////////////////////////////
-    GHTTPBool ghiDecryptReceivedData(struct GHIConnection* connection);
+    GHTTPBool        ghiDecryptReceivedData(struct GHIConnection* connection);
 
 #ifdef __cplusplus
 }

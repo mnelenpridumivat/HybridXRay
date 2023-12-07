@@ -45,11 +45,11 @@ void CLevelChanger::net_Destroy()
 
 BOOL CLevelChanger::net_Spawn(CSE_Abstract* DC)
 {
-    m_entrance_time     = 0;
-    m_b_enabled         = true;
-    m_invite_str        = DEF_INVITATION;
-    CCF_Shape* l_pShape = xr_new<CCF_Shape>(this);
-    collidable.model    = l_pShape;
+    m_entrance_time                              = 0;
+    m_b_enabled                                  = true;
+    m_invite_str                                 = DEF_INVITATION;
+    CCF_Shape* l_pShape                          = xr_new<CCF_Shape>(this);
+    collidable.model                             = l_pShape;
 
     CSE_Abstract*          l_tpAbstract          = (CSE_Abstract*)(DC);
     CSE_ALifeLevelChanger* l_tpALifeLevelChanger = smart_cast<CSE_ALifeLevelChanger*>(l_tpAbstract);
@@ -60,7 +60,7 @@ BOOL CLevelChanger::net_Spawn(CSE_Abstract* DC)
     m_position        = l_tpALifeLevelChanger->m_tNextPosition;
     m_angles          = l_tpALifeLevelChanger->m_tAngles;
 
-    m_bSilentMode = !!l_tpALifeLevelChanger->m_bSilentMode;
+    m_bSilentMode     = !!l_tpALifeLevelChanger->m_bSilentMode;
     if (ai().get_level_graph())
     {
         //. this information should be computed in xrAI
@@ -75,11 +75,13 @@ BOOL CLevelChanger::net_Spawn(CSE_Abstract* DC)
         CSE_Shape::shape_def& S = l_tpALifeLevelChanger->shapes[i];
         switch (S.type)
         {
-            case 0: {
+            case 0:
+            {
                 l_pShape->add_sphere(S.data.sphere);
                 break;
             }
-            case 1: {
+            case 1:
+            {
                 l_pShape->add_box(S.data.box);
                 break;
             }
@@ -133,8 +135,7 @@ void CLevelChanger::feel_touch_new(CObject* tpObject)
     bool       b       = get_reject_pos(p, r);
     CUIGameSP* pGameSP = smart_cast<CUIGameSP*>(CurrentGameUI());
     if (pGameSP)
-        pGameSP->ChangeLevel(
-            m_game_vertex_id, m_level_vertex_id, m_position, m_angles, p, r, b, m_invite_str, m_b_enabled);
+        pGameSP->ChangeLevel(m_game_vertex_id, m_level_vertex_id, m_position, m_angles, p, r, b, m_invite_str, m_b_enabled);
 
     m_entrance_time = Device->fTimeGlobal;
 }
@@ -195,8 +196,7 @@ void CLevelChanger::update_actor_invitation()
             bool       b = get_reject_pos(p, r);
 
             if (pGameSP)
-                pGameSP->ChangeLevel(
-                    m_game_vertex_id, m_level_vertex_id, m_position, m_angles, p, r, b, m_invite_str, m_b_enabled);
+                pGameSP->ChangeLevel(m_game_vertex_id, m_level_vertex_id, m_position, m_angles, p, r, b, m_invite_str, m_b_enabled);
 
             m_entrance_time = Device->fTimeGlobal;
         }

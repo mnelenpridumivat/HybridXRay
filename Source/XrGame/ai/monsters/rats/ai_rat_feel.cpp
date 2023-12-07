@@ -22,12 +22,7 @@ BOOL CAI_Rat::feel_vision_isRelevant(CObject* O)
     return TRUE;
 }
 
-void CAI_Rat::feel_sound_new(
-    CObject*           who,
-    int                eType,
-    CSound_UserDataPtr user_data,
-    const Fvector&     Position,
-    float              power)
+void CAI_Rat::feel_sound_new(CObject* who, int eType, CSound_UserDataPtr user_data, const Fvector& Position, float power)
 {
     if (!g_Alive())
         return;
@@ -46,8 +41,7 @@ void CAI_Rat::feel_sound_new(
             m_tLastSound.tpEntity       = smart_cast<CEntityAlive*>(who);
             if ((eType & SOUND_TYPE_MONSTER_DYING) == SOUND_TYPE_MONSTER_DYING)
                 m_fMorale += m_fMoraleDeathQuant;
-            else if (
-                ((eType & SOUND_TYPE_WEAPON_SHOOTING) == SOUND_TYPE_WEAPON_SHOOTING) && !memory().enemy().selected())
+            else if (((eType & SOUND_TYPE_WEAPON_SHOOTING) == SOUND_TYPE_WEAPON_SHOOTING) && !memory().enemy().selected())
                 m_fMorale += m_fMoraleFearQuant;   /// fDistance;
             else if ((eType & SOUND_TYPE_MONSTER_ATTACKING) == SOUND_TYPE_MONSTER_ATTACKING)
                 m_fMorale += m_fMoraleSuccessAttackQuant;   /// fDistance;

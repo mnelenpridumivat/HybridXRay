@@ -185,6 +185,7 @@ public:
 
     static int GetUniqueVertexInB(NvFaceInfo* faceA, NvFaceInfo* faceB);
     static int GetSharedVertex(NvFaceInfo* faceA, NvFaceInfo* faceB);
+
 protected:
     WordVec            indices;
     int                cacheSize;

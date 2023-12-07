@@ -53,37 +53,37 @@ struct Bonus_Money_Struct
 struct game_PlayerState
 {
     // string64	name;
-    u8 team;
+    u8    team;
 
     // for statistics
-    s16 m_iRivalKills;
-    s16 m_iSelfKills;
-    s16 m_iTeamKills;
-    s16 m_iKillsInRowCurr;
-    s16 m_iKillsInRowMax;
-    s16 m_iDeaths;
+    s16   m_iRivalKills;
+    s16   m_iSelfKills;
+    s16   m_iTeamKills;
+    s16   m_iKillsInRowCurr;
+    s16   m_iKillsInRowMax;
+    s16   m_iDeaths;
     // money that player have at the current moment
-    s32 money_for_round;
+    s32   money_for_round;
 
     float experience_Real;
     float experience_New;
 
     // count delivered artefacts (in CTA and AH)
-    u8  rank;
-    u8  af_count;
-    u16 flags__;
+    u8    rank;
+    u8    af_count;
+    u16   flags__;
 
-    u16 ping;
+    u16   ping;
 
-    u16 GameID;
+    u16   GameID;
 
-    u16 lasthitter;
-    u16 lasthitweapon;
-    s8  skin;
-    u32 RespawnTime;
-    u32 DeathTime;
-    s16 money_delta;
-    u8  m_bCurrentVoteAgreed;
+    u16   lasthitter;
+    u16   lasthitweapon;
+    s8    skin;
+    u32   RespawnTime;
+    u32   DeathTime;
+    s16   money_delta;
+    u8    m_bCurrentVoteAgreed;
     DEF_DEQUE(OLD_GAME_ID, u16);
     OLD_GAME_ID mOldIDs;
     s32         money_added;
@@ -93,8 +93,8 @@ struct game_PlayerState
     u32            m_online_time;
     player_account m_account;
 
-    shared_str m_player_ip;
-    shared_str m_player_digest;
+    shared_str     m_player_ip;
+    shared_str     m_player_digest;
 
     // if account_info == NULL then constructor call load_account method.
     // so it MUST be use ONLY for local_player !
@@ -138,8 +138,8 @@ struct game_PlayerState
     SPAWN_POINTS_LIST pSpawnPointsList;
     s16               m_s16LastSRoint;
 
-    s32  LastBuyAcount;
-    bool m_bClearRun;
+    s32               LastBuyAcount;
+    bool              m_bClearRun;
 };
 
 struct game_TeamState
@@ -208,6 +208,7 @@ public:
     };
 
     // moved from game_sv_base (time routines)
+
 private:
     // scripts
     u64   m_qwStartProcessorTime;
@@ -218,6 +219,7 @@ private:
     u64   m_qwEStartGameTime;
     float m_fETimeFactor;
     //-------------------------------------------------------
+
 public:
     virtual ALife::_TIME_ID GetStartGameTime();
     virtual ALife::_TIME_ID GetGameTime();

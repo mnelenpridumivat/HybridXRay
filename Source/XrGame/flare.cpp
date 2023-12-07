@@ -47,27 +47,32 @@ void CFlare::OnStateSwitch(u32 S)
 
     switch (S)
     {
-        case eFlareShowing: {
+        case eFlareShowing:
+        {
             g_player_hud->attach_item(this);
             PlayHUDMotion("anm_show", TRUE, this, GetState());
             SetPending(TRUE);
         }
         break;
-        case eFlareHiding: {
+        case eFlareHiding:
+        {
             PlayHUDMotion("anm_hide", TRUE, this, GetState());
             SetPending(TRUE);
         }
         break;
-        case eFlareIdle: {
+        case eFlareIdle:
+        {
             light_lanim = LALib.FindItem("flare_lanim_idle");
             SetPending(FALSE);
         }
         break;
-        case eFlareHidden: {
+        case eFlareHidden:
+        {
             SetPending(FALSE);
         }
         break;
-        case eFlareDropping: {
+        case eFlareDropping:
+        {
             PlayHUDMotion("anm_drop", TRUE, this, GetState());
             SetPending(TRUE);
         }
@@ -79,12 +84,14 @@ void CFlare::OnAnimationEnd(u32 state)
 {
     switch (state)
     {
-        case eFlareShowing: {
+        case eFlareShowing:
+        {
             SwitchState(eFlareIdle);
             PlayAnimIdle();
         }
         break;
-        case eFlareDropping: {
+        case eFlareDropping:
+        {
             SetDropManual(TRUE);
             SwitchState(eFlareHidden);
             processing_activate();
@@ -142,7 +149,7 @@ void CFlare::UpdateCL()
         int    frame;
         Fcolor fclr;
 
-        float fBrightness = 1.0f - powf(_c / m_work_time_sec, 4.0f);
+        float  fBrightness = 1.0f - powf(_c / m_work_time_sec, 4.0f);
 
         SetCondition(1.0f - _c / m_work_time_sec);
 

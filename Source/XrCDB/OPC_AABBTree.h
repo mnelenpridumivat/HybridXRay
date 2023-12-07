@@ -24,6 +24,7 @@ class AABBTreeBuilder;
 
 //! TO BE DOCUMENTED
 #define IMPLEMENT_TREE(baseclass, volume)                                                            \
+                                                                                                     \
 public:                                                                                              \
     /* Constructor / Destructor */                                                                   \
     baseclass();                                                                                     \
@@ -64,6 +65,7 @@ protected:                                                                      
 class OPCODE_API AABBTreeNode
 {
     IMPLEMENT_TREE(AABBTreeNode, AABB)
+
 public:
     // Data access
     inline_ const udword* GetPrimitives() const
@@ -81,9 +83,9 @@ protected:
     udword* mNodePrimitives;   //!< Node-related primitives (shortcut to a position in mIndices below)
     udword  mNbPrimitives;     //!< Number of primitives for this node
                                // Internal methods
-    udword Split(udword axis, AABBTreeBuilder* builder);
-    bool   Subdivide(AABBTreeBuilder* builder);
-    void   _BuildHierarchy(AABBTreeBuilder* builder);
+    udword  Split(udword axis, AABBTreeBuilder* builder);
+    bool    Subdivide(AABBTreeBuilder* builder);
+    void    _BuildHierarchy(AABBTreeBuilder* builder);
 };
 
 class OPCODE_API AABBTree: public AABBTreeNode
@@ -93,7 +95,7 @@ public:
     AABBTree();
     ~AABBTree();
     // Build
-    bool Build(AABBTreeBuilder* builder);
+    bool                  Build(AABBTreeBuilder* builder);
     // Data access
     inline_ const udword* GetIndices() const
     {
@@ -105,15 +107,15 @@ public:
     }   //!< Catch the number of nodes
 
     // Infos
-    bool IsComplete() const;
+    bool   IsComplete() const;
     // Stats
     udword ComputeDepth() const;
     udword GetUsedBytes() const;
 
 private:
-    udword* mIndices;       //!< Indices in the app list. Indices are reorganized during build.
-                            // Stats
-    udword mTotalNbNodes;   //!< Number of nodes in the tree.
+    udword* mIndices;        //!< Indices in the app list. Indices are reorganized during build.
+                             // Stats
+    udword  mTotalNbNodes;   //!< Number of nodes in the tree.
 };
 
 #endif   // __OPC_AABBTREE_H__

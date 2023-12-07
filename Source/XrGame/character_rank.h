@@ -33,7 +33,7 @@ public:
     CHARACTER_RANK(): m_current_value(NO_RANK){};
     ~CHARACTER_RANK(){};
 
-    void set(CHARACTER_RANK_VALUE);
+    void       set(CHARACTER_RANK_VALUE);
 
     shared_str id() const;
     int        index() const
@@ -51,21 +51,21 @@ private:
     CHARACTER_RANK_VALUE m_current_value;
     int                  m_current_index;
 
-    static void InitIdToIndex();
+    static void          InitIdToIndex();
 
 public:
     // отношение между рангами
-    static CHARACTER_GOODWILL relation(int from, int to);
-    CHARACTER_GOODWILL        relation(int to);
+    static CHARACTER_GOODWILL   relation(int from, int to);
+    CHARACTER_GOODWILL          relation(int to);
 
     static CHARACTER_RANK_VALUE rank_kill_points(int);
 
-    static void DeleteIdToIndexData();
+    static void                 DeleteIdToIndexData();
 
 private:
     typedef CIni_Table<CHARACTER_GOODWILL, CHARACTER_RANK> GOODWILL_TABLE;
     friend GOODWILL_TABLE;
-    static GOODWILL_TABLE m_relation_table;
+    static GOODWILL_TABLE                                    m_relation_table;
 
     // очки рейтинга которые прибавляются за убийство персонажа с определенным рангом
     typedef CIni_Table<CHARACTER_RANK_VALUE, CHARACTER_RANK> RANK_KILL_TABLE;

@@ -27,8 +27,8 @@ public:
     void               AddChatMessage(LPCSTR msg, LPCSTR author);
     virtual void       Update();
 
-    void SetTextAtrib(CGameFont* pFont, u32 color);
-    u32  GetTextColor()
+    void               SetTextAtrib(CGameFont* pFont, u32 color);
+    u32                GetTextColor()
     {
         return txt_color;
     }

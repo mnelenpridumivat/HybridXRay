@@ -6,8 +6,7 @@
 #ifdef DEBUG
 #include "phdebug.h"
 #endif
-activating_character_delay::activating_character_delay(CCharacterPhysicsSupport* char_support_):
-    char_support(*char_support_), activate_time(Device->dwTimeGlobal + delay)
+activating_character_delay::activating_character_delay(CCharacterPhysicsSupport* char_support_): char_support(*char_support_), activate_time(Device->dwTimeGlobal + delay)
 {
     VERIFY(char_support_);
     VERIFY(char_support.movement());

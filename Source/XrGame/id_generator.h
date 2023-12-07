@@ -8,18 +8,7 @@
 
 #pragma once
 
-template <
-    typename TIME_ID,
-    typename TYPE_ID,
-    typename VALUE_ID,
-    typename BLOCK_ID,
-    typename CHUNK_ID,
-    VALUE_ID tMinValue,
-    VALUE_ID tMaxValue,
-    CHUNK_ID tBlockSize,
-    VALUE_ID tInvalidValueID = tMaxValue,
-    TIME_ID  tStartTime      = 0>
-class CID_Generator
+template<typename TIME_ID, typename TYPE_ID, typename VALUE_ID, typename BLOCK_ID, typename CHUNK_ID, VALUE_ID tMinValue, VALUE_ID tMaxValue, CHUNK_ID tBlockSize, VALUE_ID tInvalidValueID = tMaxValue, TIME_ID tStartTime = 0> class CID_Generator
 {
 private:
     struct SID_Block
@@ -28,9 +17,9 @@ private:
         TIME_ID  m_tTimeID;
         TYPE_ID  m_tpIDs[tBlockSize];
 
-        IC SID_Block(): m_tCount(0) {}
+        IC       SID_Block(): m_tCount(0) {}
 
-        IC bool operator<(const SID_Block& b) const
+        IC bool  operator<(const SID_Block& b) const
         {
             return (m_tCount && ((m_tTimeID < b.m_tTimeID) || !b.m_tCount));
         }
@@ -68,9 +57,7 @@ private:
         if (tInvalidValueID == tValueID)
             return (VALUE_ID(l_tID_Block.m_tpIDs[--l_tID_Block.m_tCount]) + l_tBlockID * tBlockSize + tMinValue);
 
-        TYPE_ID* l_tpBlockID = std::find(
-            l_tID_Block.m_tpIDs, l_tID_Block.m_tpIDs + l_tID_Block.m_tCount,
-            TYPE_ID((tValueID - tMinValue) % tBlockSize));
+        TYPE_ID* l_tpBlockID = std::find(l_tID_Block.m_tpIDs, l_tID_Block.m_tpIDs + l_tID_Block.m_tCount, TYPE_ID((tValueID - tMinValue) % tBlockSize));
         R_ASSERT2(l_tID_Block.m_tpIDs + l_tID_Block.m_tCount != l_tpBlockID, "Requesting ID has already been used!");
         *l_tpBlockID = *(l_tID_Block.m_tpIDs + --l_tID_Block.m_tCount);
         return (tValueID);
@@ -116,9 +103,7 @@ public:
         }
 
 #ifdef DEBUG
-        TYPE_ID* l_tpBlockID = std::find(
-            l_tID_Block.m_tpIDs, l_tID_Block.m_tpIDs + l_tID_Block.m_tCount,
-            TYPE_ID((tValueID - tMinValue) % tBlockSize));
+        TYPE_ID* l_tpBlockID = std::find(l_tID_Block.m_tpIDs, l_tID_Block.m_tpIDs + l_tID_Block.m_tCount, TYPE_ID((tValueID - tMinValue) % tBlockSize));
         VERIFY(l_tpBlockID == l_tID_Block.m_tpIDs + l_tID_Block.m_tCount);
 #endif
         l_tID_Block.m_tpIDs[l_tID_Block.m_tCount++] = TYPE_ID((tValueID - tMinValue) % tBlockSize);

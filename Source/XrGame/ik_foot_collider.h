@@ -5,14 +5,9 @@ class CGameObject;
 class ik_pick_query
 {
 public:
-    ik_pick_query():
-        _point(ik_foot_geom::none), _pos(Fvector().set(-FLT_MAX, -FLT_MAX, -FLT_MAX)),
-        _dir(Fvector().set(-FLT_MAX, -FLT_MAX, -FLT_MAX)), _range(-FLT_MAX)
-    {
-    }
+    ik_pick_query(): _point(ik_foot_geom::none), _pos(Fvector().set(-FLT_MAX, -FLT_MAX, -FLT_MAX)), _dir(Fvector().set(-FLT_MAX, -FLT_MAX, -FLT_MAX)), _range(-FLT_MAX) {}
 
-    ik_pick_query(ik_foot_geom::e_collide_point point, const Fvector& pos, const Fvector& dir, float range):
-        _point(point), _pos(pos), _dir(dir), _range(range)
+    ik_pick_query(ik_foot_geom::e_collide_point point, const Fvector& pos, const Fvector& dir, float range): _point(point), _pos(pos), _dir(dir), _range(range)
     {
         VERIFY(is_valid());
     }
@@ -36,8 +31,7 @@ public:
     {
         VERIFY(q.is_valid());
         // VERIFY( is_valid() );
-        return is_valid() && q.point() == point() && fsimilar(q.range(), range()) && q.pos().similar(pos()) &&
-            q.dir().similar(dir());
+        return is_valid() && q.point() == point() && fsimilar(q.range(), range()) && q.pos().similar(pos()) && q.dir().similar(dir());
     }
 
     IC const Fvector& pos() const
@@ -66,9 +60,9 @@ private:
 
 class ik_foot_collider
 {
-    ik_pick_query previous_toe_query;
-    ik_pick_query previous_heel_query;
-    ik_pick_query previous_side_query;
+    ik_pick_query  previous_toe_query;
+    ik_pick_query  previous_heel_query;
+    ik_pick_query  previous_side_query;
 
     SIKCollideData previous_data;
 

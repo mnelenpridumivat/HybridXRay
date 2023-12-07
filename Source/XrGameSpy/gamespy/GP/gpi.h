@@ -25,11 +25,11 @@ Please see the GameSpy Presence SDK documentation for more information
 #include "gp.h"
 
 // Extended message support
-#define GPI_NEW_AUTH_NOTIFICATION (1 << 0)
-#define GPI_NEW_REVOKE_NOTIFICATION (1 << 1)
+#define GPI_NEW_AUTH_NOTIFICATION       (1 << 0)
+#define GPI_NEW_REVOKE_NOTIFICATION     (1 << 1)
 
 // New Status Info support
-#define GPI_NEW_STATUS_NOTIFICATION (1 << 2)
+#define GPI_NEW_STATUS_NOTIFICATION     (1 << 2)
 
 // Buddy List + Block List retrieval on login
 #define GPI_NEW_LIST_RETRIEVAL_ON_LOGIN (1 << 3)
@@ -37,9 +37,7 @@ Please see the GameSpy Presence SDK documentation for more information
 // Extended SDK features
 #ifndef GPI_SDKREV
 #ifdef GP_NEW_STATUS_INFO
-#define GPI_SDKREV                                                                           \
-    (GPI_NEW_AUTH_NOTIFICATION | GPI_NEW_REVOKE_NOTIFICATION | GPI_NEW_STATUS_NOTIFICATION | \
-     GPI_NEW_LIST_RETRIEVAL_ON_LOGIN)
+#define GPI_SDKREV (GPI_NEW_AUTH_NOTIFICATION | GPI_NEW_REVOKE_NOTIFICATION | GPI_NEW_STATUS_NOTIFICATION | GPI_NEW_LIST_RETRIEVAL_ON_LOGIN)
 #else
 #define GPI_SDKREV (GPI_NEW_AUTH_NOTIFICATION | GPI_NEW_REVOKE_NOTIFICATION | GPI_NEW_LIST_RETRIEVAL_ON_LOGIN)
 #endif
@@ -81,52 +79,52 @@ typedef enum _GPIBool
 ///////////////////
 typedef struct
 {
-    char        errorString[GP_ERROR_STRING_LEN];
-    GPIBool     infoCaching;
-    GPIBool     infoCachingBuddyAndBlockOnly;
-    GPIBool     simulation;
-    GPIBool     firewall;
-    char        nick[GP_NICK_LEN];
-    char        uniquenick[GP_UNIQUENICK_LEN];
-    char        email[GP_EMAIL_LEN];
-    char        password[GP_PASSWORD_LEN];
-    int         sessKey;
-    int         userid;
-    int         profileid;
-    int         partnerID;
-    GPICallback callbacks[GPI_NUM_CALLBACKS];
-    SOCKET      cmSocket;
-    int         connectState;
-    GPIBuffer   socketBuffer;
-    char*       inputBuffer;
-    int         inputBufferSize;
-    GPIBuffer   outputBuffer;
+    char             errorString[GP_ERROR_STRING_LEN];
+    GPIBool          infoCaching;
+    GPIBool          infoCachingBuddyAndBlockOnly;
+    GPIBool          simulation;
+    GPIBool          firewall;
+    char             nick[GP_NICK_LEN];
+    char             uniquenick[GP_UNIQUENICK_LEN];
+    char             email[GP_EMAIL_LEN];
+    char             password[GP_PASSWORD_LEN];
+    int              sessKey;
+    int              userid;
+    int              profileid;
+    int              partnerID;
+    GPICallback      callbacks[GPI_NUM_CALLBACKS];
+    SOCKET           cmSocket;
+    int              connectState;
+    GPIBuffer        socketBuffer;
+    char*            inputBuffer;
+    int              inputBufferSize;
+    GPIBuffer        outputBuffer;
     // Replaced by UDP Layer
     // SOCKET peerSocket;
-    char           mHeader[GS_UDP_MSG_HEADER_LEN];
-    unsigned short peerPort;
-    int            nextOperationID;
-    int            numSearches;
+    char             mHeader[GS_UDP_MSG_HEADER_LEN];
+    unsigned short   peerPort;
+    int              nextOperationID;
+    int              numSearches;
 
     // new style status info
-    GPEnum         lastStatusState;
-    unsigned int   hostIp;
-    unsigned int   hostPrivateIp;
-    unsigned short queryPort;
-    unsigned short hostPort;
-    unsigned int   sessionFlags;
+    GPEnum           lastStatusState;
+    unsigned int     hostIp;
+    unsigned int     hostPrivateIp;
+    unsigned short   queryPort;
+    unsigned short   hostPort;
+    unsigned int     sessionFlags;
 
-    char richStatus[GP_RICH_STATUS_LEN];
-    char gameType[GP_STATUS_BASIC_STR_LEN];
-    char gameVariant[GP_STATUS_BASIC_STR_LEN];
-    char gameMapName[GP_STATUS_BASIC_STR_LEN];
+    char             richStatus[GP_RICH_STATUS_LEN];
+    char             gameType[GP_STATUS_BASIC_STR_LEN];
+    char             gameVariant[GP_STATUS_BASIC_STR_LEN];
+    char             gameMapName[GP_STATUS_BASIC_STR_LEN];
 
     // New Status Info extended info Keys
-    DArray extendedInfoKeys;
+    DArray           extendedInfoKeys;
 
     // Deprecated
-    char lastStatusString[GP_STATUS_STRING_LEN];
-    char lastLocationString[GP_LOCATION_STRING_LEN];
+    char             lastStatusString[GP_STATUS_STRING_LEN];
+    char             lastLocationString[GP_LOCATION_STRING_LEN];
 
     GPErrorCode      errorCode;
     GPIBool          fatalError;
@@ -183,7 +181,7 @@ typedef struct
 ///////////
 GPResult gpiInitialize(GPConnection* connection, int productID, int namespaceID, int partnerID);
 
-void gpiDestroy(GPConnection* connection);
+void     gpiDestroy(GPConnection* connection);
 
 GPResult gpiReset(GPConnection* connection);
 

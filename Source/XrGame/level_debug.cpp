@@ -57,32 +57,24 @@ void CLevelDebug::draw_debug_text()
         debug::text_tree* actor_view = m_p_texttree->find_node("ActorView");
         if (debug_actor_view && actor_view)
         {
-            debug::draw_text_tree(
-                *actor_view, 2, x_start, y_start, m_texttree_offs, column_size, 80, color_xrgb(0, 255, 0),
-                color_xrgb(255, 255, 0));
+            debug::draw_text_tree(*actor_view, 2, x_start, y_start, m_texttree_offs, column_size, 80, color_xrgb(0, 255, 0), color_xrgb(255, 255, 0));
         }
         return;
     }
 
     if (m_p_texttree->find_node("General"))
     {
-        debug::draw_text_tree(
-            *m_p_texttree->find_node("General"), 2, x_start, y_start, m_texttree_offs, column_size, 80,
-            color_xrgb(0, 255, 0), color_xrgb(255, 255, 0));
+        debug::draw_text_tree(*m_p_texttree->find_node("General"), 2, x_start, y_start, m_texttree_offs, column_size, 80, color_xrgb(0, 255, 0), color_xrgb(255, 255, 0));
     }
 
     if (m_p_texttree->find_node("Brain"))
     {
-        debug::draw_text_tree(
-            *m_p_texttree->find_node("Brain"), 2, x_start * 2 + column_size, y_start, m_texttree_offs, column_size, 80,
-            color_xrgb(0, 255, 0), color_xrgb(255, 255, 0));
+        debug::draw_text_tree(*m_p_texttree->find_node("Brain"), 2, x_start * 2 + column_size, y_start, m_texttree_offs, column_size, 80, color_xrgb(0, 255, 0), color_xrgb(255, 255, 0));
     }
 
     if (m_p_texttree->find_node("Controllers"))
     {
-        debug::draw_text_tree(
-            *m_p_texttree->find_node("Controllers"), 2, x_start * 3 + column_size * 2, y_start, m_texttree_offs,
-            column_size, 80, color_xrgb(0, 255, 0), color_xrgb(255, 255, 0));
+        debug::draw_text_tree(*m_p_texttree->find_node("Controllers"), 2, x_start * 3 + column_size * 2, y_start, m_texttree_offs, column_size, 80, color_xrgb(0, 255, 0), color_xrgb(255, 255, 0));
     }
 }
 
@@ -113,7 +105,7 @@ CLevelDebug::CObjectInfo& CLevelDebug::object_info(CObject* obj, LPCSTR class_na
     {
         CLASS_INFO_MAP temp_map;
 
-        CObjectInfo* new_info = xr_new<CObjectInfo>();
+        CObjectInfo*   new_info = xr_new<CObjectInfo>();
         temp_map.insert(mk_pair(class_name, new_info));
         m_objects_info.insert(mk_pair(obj, temp_map));
 
@@ -123,7 +115,7 @@ CLevelDebug::CObjectInfo& CLevelDebug::object_info(CObject* obj, LPCSTR class_na
 
 CLevelDebug::CTextInfo& CLevelDebug::text(void* class_ptr, LPCSTR class_name)
 {
-    SKey key(class_ptr, class_name);
+    SKey             key(class_ptr, class_name);
 
     TEXT_INFO_MAP_IT it = m_text_info.find(key);
     if (it != m_text_info.end())
@@ -140,7 +132,7 @@ CLevelDebug::CTextInfo& CLevelDebug::text(void* class_ptr, LPCSTR class_name)
 
 CLevelDebug::CLevelInfo& CLevelDebug::level_info(void* class_ptr, LPCSTR class_name)
 {
-    SKey key(class_ptr, class_name);
+    SKey              key(class_ptr, class_name);
 
     LEVEL_INFO_MAP_IT it = m_level_info.find(key);
     if (it != m_level_info.end())
@@ -200,7 +192,7 @@ void CLevelDebug::draw_object_info()
 
         Fvector4 v_res;
 
-        float delta_height = 0.f;
+        float    delta_height = 0.f;
 
         // handle all of the classes
         for (CLASS_INFO_MAP_IT class_it = it->second.begin(); class_it != it->second.end(); ++class_it)

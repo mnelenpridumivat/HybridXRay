@@ -86,6 +86,7 @@ class CALifeCommunicationManager: public virtual CALifeSimulatorBase
     *tpALifeHumanAbstract,		ALife::ITEM_P_VECTOR			&tpItemVector); void		vfPrintItems
     (CSE_ALifeHumanAbstract		*tpALifeHumanAbstract); #endif
     /**/
+
 public:
     CALifeCommunicationManager(xrServer* server, LPCSTR section);
     /**

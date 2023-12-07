@@ -8,9 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _action_type, typename _object_type, typename _action_id_type>
+#define TEMPLATE_SPECIALIZATION template<typename _action_type, typename _object_type, typename _action_id_type>
 
-#define CSSetupManager CSetupManager<_action_type, _object_type, _action_id_type>
+#define CSSetupManager          CSetupManager<_action_type, _object_type, _action_id_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSSetupManager::CSetupManager(_object_type* object)
@@ -123,8 +123,7 @@ IC void CSSetupManager::select_action()
                 continue;
             if (m_total_weight > m_random)
             {
-                if (std::find_if(actions().begin(), actions().end(), setup_pred(m_current_action_id)) !=
-                    actions().end())
+                if (std::find_if(actions().begin(), actions().end(), setup_pred(m_current_action_id)) != actions().end())
                     current_action().finalize();
                 m_current_action_id = (*I).first;
                 (*I).second->initialize();

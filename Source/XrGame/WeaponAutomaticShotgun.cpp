@@ -38,8 +38,7 @@ bool CWeaponAutomaticShotgun::Action(u16 cmd, u32 flags)
     if (inherited::Action(cmd, flags))
         return true;
 
-    if (m_bTriStateReload && GetState() == eReload && cmd == kWPN_FIRE && flags & CMD_START &&
-        m_sub_state == eSubstateReloadInProcess)   // остановить перезагрузку
+    if (m_bTriStateReload && GetState() == eReload && cmd == kWPN_FIRE && flags & CMD_START && m_sub_state == eSubstateReloadInProcess)   // остановить перезагрузку
     {
         AddCartridge(1);
         m_sub_state = eSubstateReloadEnd;
@@ -55,13 +54,15 @@ void CWeaponAutomaticShotgun::OnAnimationEnd(u32 state)
 
     switch (m_sub_state)
     {
-        case eSubstateReloadBegin: {
+        case eSubstateReloadBegin:
+        {
             m_sub_state = eSubstateReloadInProcess;
             SwitchState(eReload);
         }
         break;
 
-        case eSubstateReloadInProcess: {
+        case eSubstateReloadInProcess:
+        {
             if (0 != AddCartridge(1))
             {
                 m_sub_state = eSubstateReloadEnd;
@@ -70,7 +71,8 @@ void CWeaponAutomaticShotgun::OnAnimationEnd(u32 state)
         }
         break;
 
-        case eSubstateReloadEnd: {
+        case eSubstateReloadEnd:
+        {
             m_sub_state = eSubstateReloadBegin;
             SwitchState(eIdle);
         }

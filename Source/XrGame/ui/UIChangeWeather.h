@@ -13,7 +13,7 @@ class CUIChangeWeather: public CUIDialogWnd
 {
 public:
     CUIChangeWeather();
-    void InitChangeWeather(CUIXml& xml_doc);
+    void         InitChangeWeather(CUIXml& xml_doc);
 
     virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = 0);

@@ -8,13 +8,13 @@
 #include "../../xrEngine/xr_object.h"
 #include "../../xrEngine/CustomHUD.h"
 //---------------------------------------------------------------------------
-float ssaDISCARD  = 4.f;
-float ssaDONTSORT = 32.f;
+float           ssaDISCARD  = 4.f;
+float           ssaDONTSORT = 32.f;
 
 ECORE_API float r_ssaDISCARD;
 ECORE_API float g_fSCREEN;
 
-CRender RImplementation;
+CRender         RImplementation;
 
 //---------------------
 //---------------------------------------------------------------------------
@@ -80,8 +80,7 @@ void CRender::Calculate()
     lstRenderables.clear_not_free();
     ViewBase.CreateFromMatrix(EDevice->mFullTransform, FRUSTUM_P_LRTB | FRUSTUM_P_FAR);
     {
-        g_SpatialSpace->q_frustum(
-            lstRenderables, ISpatial_DB::O_ORDERED, STYPE_RENDERABLE + STYPE_LIGHTSOURCE, ViewBase);
+        g_SpatialSpace->q_frustum(lstRenderables, ISpatial_DB::O_ORDERED, STYPE_RENDERABLE + STYPE_LIGHTSOURCE, ViewBase);
 
         // Exact sorting order (front-to-back)
 
@@ -105,7 +104,7 @@ void CRender::Calculate()
                     if (R)		R->update(O);
                 }
             }*/
-        for (ISpatial* pSpatial : lstRenderables)
+        for (ISpatial* pSpatial: lstRenderables)
         {
             IRenderable* renderable = pSpatial->dcast_Renderable();
             if (!renderable)
@@ -121,7 +120,7 @@ void CRender::Calculate()
 }
 
 #include "igame_persistent.h"
-void CRender::Render() {}
+void                 CRender::Render() {}
 
 IRender_DetailModel* CRender::model_CreateDM(IReader* F)
 {
@@ -198,12 +197,7 @@ IRenderVisual* CRender::model_Duplicate(IRenderVisual* V)
 {
     return Models->Instance_Duplicate(dynamic_cast<dxRender_Visual*>(V));
 }
-void CRender::model_Render(
-    IRenderVisual* m_pVisual,
-    const Fmatrix& mTransform,
-    int            priority,
-    bool           strictB2F,
-    float          m_fLOD)
+void CRender::model_Render(IRenderVisual* m_pVisual, const Fmatrix& mTransform, int priority, bool strictB2F, float m_fLOD)
 {
     Models->Render(dynamic_cast<dxRender_Visual*>(m_pVisual), mTransform, priority, strictB2F, m_fLOD);
 }
@@ -213,39 +207,16 @@ void CRender::model_RenderSingle(IRenderVisual* m_pVisual, const Fmatrix& mTrans
 }
 
 // #pragma comment(lib,"d3dx_r1")
-HRESULT CRender::CompileShader(
-    LPCSTR pSrcData,
-    UINT   SrcDataLen,
-    void*  _pDefines,
-    void*  _pInclude,
-    LPCSTR pFunctionName,
-    LPCSTR pTarget,
-    DWORD  Flags,
-    void*  _ppShader,
-    void*  _ppErrorMsgs,
-    void*  _ppConstantTable)
+HRESULT CRender::CompileShader(LPCSTR pSrcData, UINT SrcDataLen, void* _pDefines, void* _pInclude, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, void* _ppShader, void* _ppErrorMsgs, void* _ppConstantTable)
 {
     CONST D3DXMACRO*     pDefines        = (CONST D3DXMACRO*)_pDefines;
     LPD3DXINCLUDE        pInclude        = (LPD3DXINCLUDE)_pInclude;
     LPD3DXBUFFER*        ppShader        = (LPD3DXBUFFER*)_ppShader;
     LPD3DXBUFFER*        ppErrorMsgs     = (LPD3DXBUFFER*)_ppErrorMsgs;
     LPD3DXCONSTANTTABLE* ppConstantTable = (LPD3DXCONSTANTTABLE*)_ppConstantTable;
-    return D3DXCompileShader(
-        pSrcData, SrcDataLen, pDefines, pInclude, pFunctionName, pTarget, Flags, ppShader, ppErrorMsgs,
-        ppConstantTable);
+    return D3DXCompileShader(pSrcData, SrcDataLen, pDefines, pInclude, pFunctionName, pTarget, Flags, ppShader, ppErrorMsgs, ppConstantTable);
 }
-HRESULT CRender::shader_compile(
-    LPCSTR name,
-    LPCSTR pSrcData,
-    UINT   SrcDataLen,
-    void*  _pDefines,
-    void*  _pInclude,
-    LPCSTR pFunctionName,
-    LPCSTR pTarget,
-    DWORD  Flags,
-    void*  _ppShader,
-    void*  _ppErrorMsgs,
-    void*  _ppConstantTable)
+HRESULT CRender::shader_compile(LPCSTR name, LPCSTR pSrcData, UINT SrcDataLen, void* _pDefines, void* _pInclude, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, void* _ppShader, void* _ppErrorMsgs, void* _ppConstantTable)
 {
     D3DXMACRO        defines[128];
     int              def_it   = 0;
@@ -309,12 +280,9 @@ HRESULT CRender::shader_compile(
 //.	return D3DXCompileShader
 //(pSrcData,SrcDataLen,defines,pInclude,pFunctionName,pTarget,Flags,ppShader,ppErrorMsgs,ppConstantTable);
 #ifdef D3DXSHADER_USE_LEGACY_D3DX9_31_DLL   //	December 2006 and later
-    HRESULT _result = D3DXCompileShader(
-        pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget, Flags | D3DXSHADER_USE_LEGACY_D3DX9_31_DLL,
-        ppShader, ppErrorMsgs, ppConstantTable);
+    HRESULT _result = D3DXCompileShader(pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget, Flags | D3DXSHADER_USE_LEGACY_D3DX9_31_DLL, ppShader, ppErrorMsgs, ppConstantTable);
 #else
-    HRESULT _result = D3DXCompileShader(
-        pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget, Flags, ppShader, ppErrorMsgs, ppConstantTable);
+    HRESULT _result = D3DXCompileShader(pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget, Flags, ppShader, ppErrorMsgs, ppConstantTable);
 #endif
     return _result;
 }
@@ -345,11 +313,11 @@ DWORD CRender::get_dx_level()
     return 90;
 }
 
-void CRender::create() {}
-void CRender::destroy() {}
+void            CRender::create() {}
+void            CRender::destroy() {}
 
-void CRender::level_Load(IReader*) {}
-void CRender::level_Unload() {}
+void            CRender::level_Load(IReader*) {}
+void            CRender::level_Unload() {}
 
 // IDirect3DBaseTexture9*	texture_load			(LPCSTR	fname, u32& msize)					= 0;
 
@@ -403,6 +371,7 @@ void CRender::ros_destroy(IRender_ObjectSpecific*& a)
 class RLight: public IRender_Light
 {
 public:
+
 public:
     virtual void set_type(LT type) {}
     virtual void set_active(bool) {}
@@ -440,6 +409,7 @@ void CRender::light_destroy(IRender_Light* p_) {}
 class RGlow: public IRender_Glow
 {
 public:
+
 public:
     RGlow() {}
     virtual ~RGlow() {}

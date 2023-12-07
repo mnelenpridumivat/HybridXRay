@@ -18,7 +18,7 @@ public:
     CUICustomEdit();
     virtual ~CUICustomEdit();
 
-    void Init(u32 max_char_count, bool number_only_mode = false, bool read_mode = false, bool fn_mode = false);
+    void         Init(u32 max_char_count, bool number_only_mode = false, bool read_mode = false, bool fn_mode = false);
 
     virtual void InitCustomEdit(Fvector2 pos, Fvector2 size);
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = NULL);
@@ -32,8 +32,8 @@ public:
     virtual void Draw();
     virtual void Show(bool status);
 
-    void CaptureFocus(bool bCapture);
-    void SetNextFocusCapturer(CUICustomEdit* next_capturer)
+    void         CaptureFocus(bool bCapture);
+    void         SetNextFocusCapturer(CUICustomEdit* next_capturer)
     {
         m_next_focus_capturer = next_capturer;
     };
@@ -42,9 +42,9 @@ public:
     virtual void   SetText(LPCSTR str);
     virtual LPCSTR GetText() const;
 
-    virtual void Enable(bool status);
+    virtual void   Enable(bool status);
 
-    void SetPasswordMode(bool mode = true);
+    void           SetPasswordMode(bool mode = true);
 
 protected:
     void Register_callbacks();
@@ -65,13 +65,13 @@ protected:
     text_editor::line_edit_control&       ec();
     text_editor::line_edit_control const& ec() const;
 
-    u32   m_last_key_state_time;
-    char  m_out_str[EDIT_BUF_SIZE];
-    float m_dx_cur;
+    u32                                   m_last_key_state_time;
+    char                                  m_out_str[EDIT_BUF_SIZE];
+    float                                 m_dx_cur;
 
-    bool m_bInputFocus;
-    bool m_force_update;
-    bool m_read_mode;
+    bool                                  m_bInputFocus;
+    bool                                  m_force_update;
+    bool                                  m_read_mode;
 
-    CUICustomEdit* m_next_focus_capturer;
+    CUICustomEdit*                        m_next_focus_capturer;
 };

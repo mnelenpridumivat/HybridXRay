@@ -20,7 +20,7 @@ public:
     {
         m_orientationVertical = bVert;
     };
-    void CreateHint();
+    void       CreateHint();
 
     shared_str m_temp_id;
 

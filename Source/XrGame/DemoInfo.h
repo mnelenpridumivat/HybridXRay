@@ -31,9 +31,9 @@ public:
     demo_player_info();
     ~demo_player_info();
 
-    void read_from_file(CStreamReader* file_to_read);
-    void write_to_file(IWriter* file_to_write) const;
-    void load_from_player(game_PlayerState* player_state);
+    void   read_from_file(CStreamReader* file_to_read);
+    void   write_to_file(IWriter* file_to_write) const;
+    void   load_from_player(game_PlayerState* player_state);
 
     LPCSTR get_name() const
     {
@@ -91,12 +91,12 @@ public:
 
     typedef bool (*sorting_less_comparator)(demo_player_info const*, demo_player_info const*);
 
-    void read_from_file(CStreamReader* file_to_read);
-    void write_to_file(IWriter* file_to_write) const;
-    void sort_players(sorting_less_comparator sorting_comparator);
-    void load_from_game();
+    void         read_from_file(CStreamReader* file_to_read);
+    void         write_to_file(IWriter* file_to_write) const;
+    void         sort_players(sorting_less_comparator sorting_comparator);
+    void         load_from_game();
 
-    LPCSTR get_map_name() const
+    LPCSTR       get_map_name() const
     {
         return m_map_name.c_str();
     };
@@ -123,7 +123,7 @@ public:
 
     demo_player_info const* get_player(u32 player_index) const;
 
-    static u32 const max_demo_info_size;
+    static u32 const        max_demo_info_size;
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };   // class DemoInfo
 

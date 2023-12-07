@@ -44,7 +44,7 @@ void CControlJump::load(LPCSTR section)
     m_max_angle           = pSettings->r_float(section, "jump_max_angle");
     m_max_height          = pSettings->r_float(section, "jump_max_height");
 
-    m_auto_aim_factor = 0.f;
+    m_auto_aim_factor     = 0.f;
 
     if (pSettings->line_exist(section, "jump_auto_aim_factor"))
         m_auto_aim_factor = pSettings->r_float(section, "jump_auto_aim_factor");
@@ -123,13 +123,13 @@ void CControlJump::start_jump(const Fvector& point)
     m_velocity_bounced        = false;
     m_object_hitted           = false;
 
-    m_target_position = point;
-    m_blend_speed     = -1.f;
+    m_target_position         = point;
+    m_blend_speed             = -1.f;
 
-    m_jump_start_pos      = m_object->Position();
-    m_time_started        = 0;
-    m_jump_time           = 0;
-    m_last_saved_pos_time = 0;
+    m_jump_start_pos          = m_object->Position();
+    m_time_started            = 0;
+    m_jump_time               = 0;
+    m_last_saved_pos_time     = 0;
 
     // ignore collision hit when object is landing
     m_object->set_ignore_collision_hit(true);
@@ -151,20 +151,19 @@ void CControlJump::start_jump(const Fvector& point)
         if (is_flag(SControlJumpData::ePrepareInMove))
         {
             // get animation time
-            float time = m_man->animation().motion_time(m_data.state_prepare_in_move.motion, m_object->Visual());
+            float           time = m_man->animation().motion_time(m_data.state_prepare_in_move.motion, m_object->Visual());
             // set acceleration and velocity
             SVelocityParam& vel  = m_object->move().get_velocity(m_data.state_prepare_in_move.velocity_mask);
             float           dist = time * vel.velocity.linear;
 
             // check nodes in direction
-            Fvector target_point;
+            Fvector         target_point;
             target_point.mad(m_object->Position(), m_object->Direction(), dist);
             if (m_man->path_builder().accessible(target_point))
             {
                 // нода в прямой видимости?
                 m_man->path_builder().restrictions().add_border(m_object->Position(), target_point);
-                u32 node = ai().level_graph().check_position_in_direction(
-                    m_object->ai_location().level_vertex_id(), m_object->Position(), target_point);
+                u32 node = ai().level_graph().check_position_in_direction(m_object->ai_location().level_vertex_id(), m_object->Position(), target_point);
                 m_man->path_builder().restrictions().remove_border();
 
                 if (ai().level_graph().valid_vertex_id(node) && m_man->path_builder().accessible(node))
@@ -174,14 +173,11 @@ void CControlJump::start_jump(const Fvector& point)
             // node is checked, so try to build path
             if (prepared)
             {
-                if (m_man->build_path_line(
-                        this, target_point, u32(-1),
-                        m_data.state_prepare_in_move.velocity_mask | MonsterMovement::eVelocityParameterStand))
+                if (m_man->build_path_line(this, target_point, u32(-1), m_data.state_prepare_in_move.velocity_mask | MonsterMovement::eVelocityParameterStand))
                 {
                     //---------------------------------------------------------------------------------------------------
                     // set path params
-                    SControlPathBuilderData* ctrl_path =
-                        (SControlPathBuilderData*)m_man->data(this, ControlCom::eControlPath);
+                    SControlPathBuilderData* ctrl_path = (SControlPathBuilderData*)m_man->data(this, ControlCom::eControlPath);
                     VERIFY(ctrl_path);
                     ctrl_path->enable = true;
 
@@ -276,8 +272,7 @@ void CControlJump::select_next_anim_state()
     }
 
     if (in_auto_aim())
-        m_object->character_physics_support()->movement()->PHCharacter()->SetAirControlFactor(
-            100.f * m_auto_aim_factor);
+        m_object->character_physics_support()->movement()->PHCharacter()->SetAirControlFactor(100.f * m_auto_aim_factor);
 }
 
 float CControlJump::relative_time()
@@ -374,7 +369,7 @@ bool CControlJump::is_on_the_ground()
 
     collide::rq_result l_rq;
 
-    bool on_the_ground = false;
+    bool               on_the_ground = false;
     if (Level().ObjectSpace.RayPick(trace_from, direction, m_trace_ground_range, collide::rqtStatic, l_rq, m_object))
     {
         if (l_rq.range < m_trace_ground_range)
@@ -389,8 +384,7 @@ bool CControlJump::is_on_the_ground()
 
 void CControlJump::grounding()
 {
-    if ((m_data.state_ground.velocity_mask == u32(-1)) || is_flag(SControlJumpData::eGroundSkip) ||
-        !m_data.state_ground.motion.valid())
+    if ((m_data.state_ground.velocity_mask == u32(-1)) || is_flag(SControlJumpData::eGroundSkip) || !m_data.state_ground.motion.valid())
     {
         stop();
         return;
@@ -399,9 +393,7 @@ void CControlJump::grounding()
     Fvector target_position;
     target_position.mad(m_object->Position(), m_object->Direction(), m_build_line_distance);
 
-    if (!m_man->build_path_line(
-            this, target_position, u32(-1),
-            m_data.state_ground.velocity_mask | MonsterMovement::eVelocityParameterStand))
+    if (!m_man->build_path_line(this, target_position, u32(-1), m_data.state_ground.velocity_mask | MonsterMovement::eVelocityParameterStand))
     {
         stop();
     }
@@ -434,7 +426,7 @@ Fvector CControlJump::get_target(CObject* obj)
     u16            bone_id = smart_cast<IKinematics*>(obj->Visual())->LL_GetBoneRoot();
     CBoneInstance& bone    = smart_cast<IKinematics*>(obj->Visual())->LL_GetBoneInstance(bone_id);
 
-    Fmatrix global_transform;
+    Fmatrix        global_transform;
     global_transform.mul(obj->XFORM(), bone.mTransform);
 
     if (m_object->m_monster_type == CBaseMonster::eMonsterTypeOutdoor)
@@ -445,11 +437,11 @@ Fvector CControlJump::get_target(CObject* obj)
 
 void CControlJump::calculate_jump_time(Fvector const& target, bool const check_force_factor)
 {
-    float ph_time = m_object->character_physics_support()->movement()->JumpMinVelTime(target);
+    float ph_time    = m_object->character_physics_support()->movement()->JumpMinVelTime(target);
     // выполнить прыжок в соответствии с делителем времени
     float cur_factor = (check_force_factor && m_data.force_factor > 0) ? m_data.force_factor : m_jump_factor;
 
-    m_jump_time = ph_time / cur_factor;
+    m_jump_time      = ph_time / cur_factor;
 }
 
 void CControlJump::on_event(ControlCom::EEventType type, ControlCom::IEventData* data)
@@ -490,8 +482,8 @@ void CControlJump::on_event(ControlCom::EEventType type, ControlCom::IEventData*
             calculate_jump_time(m_target_position, true);
 
             m_object->character_physics_support()->movement()->Jump(m_target_position, m_jump_time);
-            m_time_started      = time();
-            m_time_next_allowed = m_time_started + m_delay_after_jump;
+            m_time_started                       = time();
+            m_time_next_allowed                  = m_time_started + m_delay_after_jump;
             //---------------------------------------------------------------------------------
 
             // set angular speed in exclusive force mode
@@ -509,9 +501,7 @@ void CControlJump::on_event(ControlCom::EEventType type, ControlCom::IEventData*
             ctrl_data_dir->linear_dependency    = false;
             //---------------------------------------------------------------------------------
 
-            ctrl_data->set_speed(
-                m_man->animation().current_blend()->timeTotal / m_man->animation().current_blend()->speed /
-                m_jump_time);
+            ctrl_data->set_speed(m_man->animation().current_blend()->timeTotal / m_man->animation().current_blend()->speed / m_jump_time);
         }
         else
             ctrl_data->set_speed(-1.f);
@@ -531,8 +521,7 @@ void CControlJump::hit_test()
 
     collide::rq_result l_rq;
 
-    if (Level().ObjectSpace.RayPick(
-            trace_from, m_object->Direction(), m_hit_trace_range, collide::rqtObject, l_rq, m_object))
+    if (Level().ObjectSpace.RayPick(trace_from, m_object->Direction(), m_hit_trace_range, collide::rqtObject, l_rq, m_object))
     {
         if ((l_rq.O == m_data.target_object) && (l_rq.range < m_hit_trace_range))
         {
@@ -602,7 +591,7 @@ bool CControlJump::jump_intersect_geometry(Fvector const& target, CObject* const
     pass_collide_tris = &collide_tris;
 #endif   // #ifdef DEBUG
 
-    Fvector const sizes = {0.8f, 1.4f, 0.8f};
+    Fvector const sizes           = {0.8f, 1.4f, 0.8f};
 
     Fvector const start_to_target = target - m_object->Position();
     if (magnitude(start_to_target) < 1.f)
@@ -611,9 +600,7 @@ bool CControlJump::jump_intersect_geometry(Fvector const& target, CObject* const
     Fvector const traj_start  = m_object->Position() + Fvector().set(0, 1.2f, 0);
     Fvector const traj_target = target + Fvector().set(0, 1.2f, 0) - (normalize(start_to_target) * 1);
 
-    if (trajectory_intersects_geometry(
-            m_jump_time, traj_start, traj_target, velocity, collide_position, m_object, ignored_object, temp_rq_results,
-            pass_jump_picks, pass_collide_tris, sizes))
+    if (trajectory_intersects_geometry(m_jump_time, traj_start, traj_target, velocity, collide_position, m_object, ignored_object, temp_rq_results, pass_jump_picks, pass_collide_tris, sizes))
     {
 #ifdef DEBUG
         m_object->m_jump_picks        = jump_picks;
@@ -645,11 +632,11 @@ bool CControlJump::can_jump(Fvector const& target, bool const aggressive_jump)
     if (!m_object->movement().restrictions().accessible(target))
         return false;
 
-    Fvector source_position = m_object->Position();
-    Fvector target_position = target;
+    Fvector     source_position   = m_object->Position();
+    Fvector     target_position   = target;
 
     // проверка на dist
-    float dist = source_position.distance_to(target_position);
+    float       dist              = source_position.distance_to(target_position);
 
     // in aggressive mode we can jump from distance >= 1
     const float test_min_distance = aggressive_jump ? _min(1.f, m_min_distance) : m_min_distance;
@@ -684,24 +671,23 @@ bool CControlJump::can_jump(Fvector const& target, bool const aggressive_jump)
             VERIFY(m_data.state_prepare_in_move.velocity_mask != u32(-1));
 
             // try to trace distance according to prepare animation
-            bool good_trace_res = false;
+            bool            good_trace_res = false;
 
             // get animation time
-            float time = m_man->animation().motion_time(m_data.state_prepare_in_move.motion, m_object->Visual());
+            float           time           = m_man->animation().motion_time(m_data.state_prepare_in_move.motion, m_object->Visual());
             // set acceleration and velocity
-            SVelocityParam& vel  = m_object->move().get_velocity(m_data.state_prepare_in_move.velocity_mask);
-            float           dist = time * vel.velocity.linear;
+            SVelocityParam& vel            = m_object->move().get_velocity(m_data.state_prepare_in_move.velocity_mask);
+            float           dist           = time * vel.velocity.linear;
 
             // check nodes in direction
-            Fvector target_point;
+            Fvector         target_point;
             target_point.mad(m_object->Position(), m_object->Direction(), dist);
 
             if (m_man->path_builder().accessible(target_point))
             {
                 // нода в прямой видимости?
                 m_man->path_builder().restrictions().add_border(m_object->Position(), target_point);
-                u32 node = ai().level_graph().check_position_in_direction(
-                    m_object->ai_location().level_vertex_id(), m_object->Position(), target_point);
+                u32 node = ai().level_graph().check_position_in_direction(m_object->ai_location().level_vertex_id(), m_object->Position(), target_point);
                 m_man->path_builder().restrictions().remove_border();
 
                 if (ai().level_graph().valid_vertex_id(node) && m_man->path_builder().accessible(node))

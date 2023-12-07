@@ -44,8 +44,8 @@ namespace xray_nvi
         u8*              m_pArray;
         NVI_PIXEL_FORMAT m_Format;
         // Ints so that underflow does not wrap!
-        int m_nSizeX;
-        int m_nSizeY;
+        int              m_nSizeX;
+        int              m_nSizeY;
 
     public:
         NVI_Image();
@@ -55,11 +55,23 @@ namespace xray_nvi
         virtual HRESULT  Free();
         UINT             GetBytesPerPixel();
         UINT             GetImageNumBytes();
-        NVI_PIXEL_FORMAT GetFormat() { return m_Format; }
-        UINT GetWidth() { return m_nSizeX; }
-        UINT GetHeight() { return m_nSizeY; }
-        UINT GetNumPixels();
-        BYTE* GetImageDataPointer() { return m_pArray; }
+        NVI_PIXEL_FORMAT GetFormat()
+        {
+            return m_Format;
+        }
+        UINT GetWidth()
+        {
+            return m_nSizeX;
+        }
+        UINT GetHeight()
+        {
+            return m_nSizeY;
+        }
+        UINT  GetNumPixels();
+        BYTE* GetImageDataPointer()
+        {
+            return m_pArray;
+        }
         bool IsDataValid();
         void FlipTopToBottom();
         void AverageRGBToAlpha();   // write each pixels' avg r,g,b to alpha
@@ -120,7 +132,7 @@ namespace xray_nvi
     class NVI_ImageBordered: public NVI_Image
     {
     private:
-        int m_nBorderXLow;   // ** Negative or zero **
+        int         m_nBorderXLow;   // ** Negative or zero **
         // This is the offset from source images' 0,0
         //   that marks the left border.
         //	 Border width on the left = -m_nBorderXLow;
@@ -131,7 +143,7 @@ namespace xray_nvi
         NVI_Image** m_hSrcImage;   // Image from which this was created
         bool        m_bWrap;       // Wrap or clamp the border pixels
 
-        void CopyDataFromSource();
+        void        CopyDataFromSource();
 
     public:
         NVI_ImageBordered();
@@ -140,7 +152,7 @@ namespace xray_nvi
         HRESULT Free();
         // i,j relative to src image, so i,j = 0 fetches from
         //   (i-m_nBorderXLow, j-m_nBorderYLow ) in the m_pArray
-        void GetPixel(DWORD* pDest, int i, int j);
+        void    GetPixel(DWORD* pDest, int i, int j);
     };
 
     // Inline functions

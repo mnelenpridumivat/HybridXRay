@@ -9,14 +9,14 @@
 #ifdef DEBUG
 void MK_Frustum(CFrustum& F, float FOV, float _FAR, float A, Fvector& P, Fvector& D, Fvector& U)
 {
-    float YFov = deg2rad(FOV);
-    float XFov = deg2rad(FOV / A);
+    float   YFov = deg2rad(FOV);
+    float   XFov = deg2rad(FOV / A);
 
     // calc window extents in camera coords
-    float wR = tanf(XFov * 0.5f);
-    float wL = -wR;
-    float wT = tanf(YFov * 0.5f);
-    float wB = -wT;
+    float   wR   = tanf(XFov * 0.5f);
+    float   wL   = -wR;
+    float   wT   = tanf(YFov * 0.5f);
+    float   wB   = -wT;
 
     // calc x-axis (viewhoriz) and store cop
     // here we are assuring that vectors are perpendicular & normalized
@@ -66,14 +66,14 @@ void dbg_draw_frustum(float FOV, float _FAR, float A, Fvector& P, Fvector& D, Fv
 {
     // if (!bDebug)		return;
 
-    float YFov = deg2rad(FOV * A);
-    float XFov = deg2rad(FOV);
+    float   YFov = deg2rad(FOV * A);
+    float   XFov = deg2rad(FOV);
 
     // calc window extents in camera coords
-    float wR = tanf(XFov * 0.5f);
-    float wL = -wR;
-    float wT = tanf(YFov * 0.5f);
-    float wB = -wT;
+    float   wR   = tanf(XFov * 0.5f);
+    float   wL   = -wR;
+    float   wT   = tanf(YFov * 0.5f);
+    float   wB   = -wT;
 
     // calc x-axis (viewhoriz) and store cop
     // here we are assuring that vectors are perpendicular & normalized

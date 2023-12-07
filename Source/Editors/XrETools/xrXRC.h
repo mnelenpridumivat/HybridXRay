@@ -11,6 +11,7 @@
 class ENGINE_API xrXRC
 {
     CDB::COLLIDER CL;
+
 public:
     IC CDB::COLLIDER* collider()
     {
@@ -30,12 +31,7 @@ public:
         Device.Statistic->clRAY.End();
 #endif
     }
-    IC void ray_query(
-        const Fmatrix&    inv_parent,
-        const CDB::MODEL* m_def,
-        const Fvector&    r_start,
-        const Fvector&    r_dir,
-        float             r_range)
+    IC void ray_query(const Fmatrix& inv_parent, const CDB::MODEL* m_def, const Fvector& r_start, const Fvector& r_dir, float r_range)
     {
         // transform
         Fvector S, D;

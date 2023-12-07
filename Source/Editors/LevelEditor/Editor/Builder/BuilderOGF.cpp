@@ -106,18 +106,14 @@ bool SceneBuilder::BuildSOMModel()
                     int       gm_id = surf->_GameMtl();
                     if (gm_id == GAMEMTL_NONE_ID)
                     {
-                        ELog.DlgMsg(
-                            mtError, "Object '%s', surface '%s' contain invalid game material.",
-                            (*m_it)->Parent()->m_LibName.c_str(), surf->_Name());
+                        ELog.DlgMsg(mtError, "Object '%s', surface '%s' contain invalid game material.", (*m_it)->Parent()->m_LibName.c_str(), surf->_Name());
                         bResult = FALSE;
                         break;
                     }
                     SGameMtl* mtl = GameMaterialLibrary->GetMaterialByID(gm_id);
                     if (0 == mtl)
                     {
-                        ELog.DlgMsg(
-                            mtError, "Object '%s', surface '%s' contain undefined game material.",
-                            (*m_it)->Parent()->m_LibName.c_str(), surf->_Name());
+                        ELog.DlgMsg(mtError, "Object '%s', surface '%s' contain undefined game material.", (*m_it)->Parent()->m_LibName.c_str(), surf->_Name());
                         bResult = FALSE;
                         break;
                     }

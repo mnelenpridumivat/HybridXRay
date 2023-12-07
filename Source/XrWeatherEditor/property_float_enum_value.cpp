@@ -11,13 +11,7 @@
 
 using System::String;
 
-property_float_enum_value::property_float_enum_value(
-    float_getter_type const& getter,
-    float_setter_type const& setter,
-    pair*                    values,
-    u32 const&               value_count):
-    inherited(getter, setter, .05f),
-    m_collection(gcnew collection_type())
+property_float_enum_value::property_float_enum_value(float_getter_type const& getter, float_setter_type const& setter, pair* values, u32 const& value_count): inherited(getter, setter, .05f), m_collection(gcnew collection_type())
 {
     for (u32 i = 0; i < value_count; ++i)
     {

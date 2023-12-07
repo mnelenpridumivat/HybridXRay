@@ -55,8 +55,7 @@ void CStalkerActionNoALife::initialize()
     object().sight().setup(CSightAction(SightManager::eSightTypeCover, false, true));
 
     m_stop_weapon_handling_time = Device->dwTimeGlobal;
-    if (object().inventory().ActiveItem() && object().best_weapon() &&
-        (object().inventory().ActiveItem()->object().ID() == object().best_weapon()->object().ID()))
+    if (object().inventory().ActiveItem() && object().best_weapon() && (object().inventory().ActiveItem()->object().ID() == object().best_weapon()->object().ID()))
         m_stop_weapon_handling_time += ::Random32.random(30000) + 30000;
 
 #else
@@ -68,8 +67,7 @@ void CStalkerActionNoALife::initialize()
     object().movement().set_detail_path_type(DetailPathManager::eDetailPathTypeSmooth);
     object().movement().set_nearest_accessible_position();
     object().sight().setup(CSightAction(SightManager::eSightTypeCurrentDirection));
-    object().CObjectHandler::set_goal(
-        eObjectActionFire1, object().inventory().ItemFromSlot(INV_SLOT_2), 0, 1, 2500, 3000);
+    object().CObjectHandler::set_goal(eObjectActionFire1, object().inventory().ItemFromSlot(INV_SLOT_2), 0, 1, 2500, 3000);
 //	object().movement().patrol().set_path		("way_0000",PatrolPathManager::ePatrolStartTypeNearest);
 #endif
 }
@@ -107,10 +105,7 @@ void CStalkerActionNoALife::execute()
 // CStalkerActionGatherItems
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionGatherItems::CStalkerActionGatherItems(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionGatherItems::CStalkerActionGatherItems(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionGatherItems::initialize()
 {
@@ -128,12 +123,11 @@ void CStalkerActionGatherItems::initialize()
     else
         object().CObjectHandler::set_goal(eObjectActionIdle, object().inventory().ActiveItem());
 
-    CObject const* const selected = object().memory().item().selected();
+    CObject const* const                              selected = object().memory().item().selected();
 
     typedef CAI_Stalker::ignored_touched_objects_type ignored_touched_objects_type;
     ignored_touched_objects_type&                     ignored_touched_objects = m_object->ignored_touched_objects();
-    ignored_touched_objects_type::iterator            i =
-        std::find(ignored_touched_objects.begin(), ignored_touched_objects.end(), selected);
+    ignored_touched_objects_type::iterator            i                       = std::find(ignored_touched_objects.begin(), ignored_touched_objects.end(), selected);
     if (i == ignored_touched_objects.end())
         return;
 

@@ -3,7 +3,7 @@
 #include "level.h"
 #include "xrserver.h"
 
-#define SERVER_LOGO_FN "server_logo.jpg"
+#define SERVER_LOGO_FN  "server_logo.jpg"
 #define SERVER_RULES_FN "server_rules.txt"
 
 server_info_uploader& xrServer::GetServerInfoUploader()
@@ -18,10 +18,9 @@ server_info_uploader& xrServer::GetServerInfoUploader()
         };
     };   // struct free_info_searcher
 
-    info_uploaders_t::iterator tmp_iter =
-        std::find_if(m_info_uploaders.begin(), m_info_uploaders.end(), free_info_searcher());
+    info_uploaders_t::iterator tmp_iter = std::find_if(m_info_uploaders.begin(), m_info_uploaders.end(), free_info_searcher());
 
-    server_info_uploader* result = NULL;
+    server_info_uploader*      result   = NULL;
     if (tmp_iter != m_info_uploaders.end())
     {
         result = *tmp_iter;
@@ -83,9 +82,7 @@ void xrServer::LoadServerInfo()
     }
 }
 
-server_info_uploader::server_info_uploader(file_transfer::server_site* file_transfers):
-    m_state(eUploadNotActive), m_logo_data(NULL), m_logo_size(0), m_rules_data(NULL), m_rules_size(0),
-    m_file_transfers(file_transfers)
+server_info_uploader::server_info_uploader(file_transfer::server_site* file_transfers): m_state(eUploadNotActive), m_logo_data(NULL), m_logo_size(0), m_rules_data(NULL), m_rules_size(0), m_file_transfers(file_transfers)
 {
     R_ASSERT(Level().Server && Level().Server->GetServerClient());
     m_from_client = Level().Server->GetServerClient()->ID;
@@ -106,11 +103,7 @@ void server_info_uploader::terminate_upload()
     execute_complete_cb();
 }
 
-void server_info_uploader::start_upload_info(
-    IReader const*                   svlogo,
-    IReader const*                   svrules,
-    ClientID const&                  toclient,
-    svinfo_upload_complete_cb const& complete_cb)
+void server_info_uploader::start_upload_info(IReader const* svlogo, IReader const* svrules, ClientID const& toclient, svinfo_upload_complete_cb const& complete_cb)
 {
     using namespace file_transfer;
     sending_state_callback_t sndcb;
@@ -140,22 +133,26 @@ void server_info_uploader::upload_server_info_callback(file_transfer::sending_st
 {
     switch (status)
     {
-        case file_transfer::sending_data: {
+        case file_transfer::sending_data:
+        {
 #ifdef DEBUG
             Msg("* uploaded %d from %d bytes of server logo to client [%d]", uploaded, total, m_to_client.value());
 #endif
             return;
         }
         break;
-        case file_transfer::sending_aborted_by_user: {
+        case file_transfer::sending_aborted_by_user:
+        {
             FATAL("* upload server logo terminated by user ");
         }
         break;
-        case file_transfer::sending_rejected_by_peer: {
+        case file_transfer::sending_rejected_by_peer:
+        {
             Msg("* upload server logo terminated by peer [%d]", m_to_client.value());
         }
         break;
-        case file_transfer::sending_complete: {
+        case file_transfer::sending_complete:
+        {
             Msg("* upload server info to client [%d] complete !", m_to_client.value());
         }
         break;

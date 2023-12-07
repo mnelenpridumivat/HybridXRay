@@ -21,7 +21,7 @@
 
 class CSE_Abstract;
 
-const u32 NET_Latency = 50;   // time in (ms)
+const u32                               NET_Latency = 50;   // time in (ms)
 
 // t-defs
 typedef xr_hash_map<u16, CSE_Abstract*> xrS_entities;
@@ -29,12 +29,12 @@ typedef xr_hash_map<u16, CSE_Abstract*> xrS_entities;
 class xrClientData: public IClient
 {
 public:
-    CSE_Abstract* owner;
-    BOOL          net_Ready;
-    BOOL          net_Accepted;
+    CSE_Abstract*     owner;
+    BOOL              net_Ready;
+    BOOL              net_Accepted;
 
-    BOOL net_PassUpdates;
-    u32  net_LastMoveUpdateTime;
+    BOOL              net_PassUpdates;
+    u32               net_LastMoveUpdateTime;
 
     game_PlayerState* ps;
     struct
@@ -86,36 +86,36 @@ class server_info_uploader;
 class xrServer: public IPureServer
 {
 private:
-    xrS_entities             entities;
-    xr_multiset<svs_respawn> q_respawn;
-    xr_vector<u16>           conn_spawned_ids;
-    cheaters_t               m_cheaters;
+    xrS_entities                                                            entities;
+    xr_multiset<svs_respawn>                                                q_respawn;
+    xr_vector<u16>                                                          conn_spawned_ids;
+    cheaters_t                                                              m_cheaters;
 
-    file_transfer::server_site* m_file_transfers;
-    clientdata_proxy*           m_screenshot_proxies[MAX_PLAYERS_COUNT * 2];
-    void                        initialize_screenshot_proxies();
-    void                        deinitialize_screenshot_proxies();
+    file_transfer::server_site*                                             m_file_transfers;
+    clientdata_proxy*                                                       m_screenshot_proxies[MAX_PLAYERS_COUNT * 2];
+    void                                                                    initialize_screenshot_proxies();
+    void                                                                    deinitialize_screenshot_proxies();
 
     typedef server_updates_compressor::send_ready_updates_t::const_iterator update_iterator_t;
     update_iterator_t                                                       m_update_begin;
     update_iterator_t                                                       m_update_end;
     server_updates_compressor                                               m_updator;
 
-    void MakeUpdatePackets();
-    void SendUpdatePacketsToAll();
-    u32  m_last_updates_size;
-    u32  m_last_update_time;
+    void                                                                    MakeUpdatePackets();
+    void                                                                    SendUpdatePacketsToAll();
+    u32                                                                     m_last_updates_size;
+    u32                                                                     m_last_update_time;
 
-    void                  SendServerInfoToClient(ClientID const& new_client);
-    server_info_uploader& GetServerInfoUploader();
+    void                                                                    SendServerInfoToClient(ClientID const& new_client);
+    server_info_uploader&                                                   GetServerInfoUploader();
 
-    void LoadServerInfo();
+    void                                                                    LoadServerInfo();
 
-    typedef xr_vector<server_info_uploader*> info_uploaders_t;
+    typedef xr_vector<server_info_uploader*>                                info_uploaders_t;
 
-    info_uploaders_t m_info_uploaders;
-    IReader*         m_server_logo;
-    IReader*         m_server_rules;
+    info_uploaders_t                                                        m_info_uploaders;
+    IReader*                                                                m_server_logo;
+    IReader*                                                                m_server_rules;
 
     struct DelayedPacket
     {
@@ -131,22 +131,21 @@ private:
     xr_deque<DelayedPacket> m_aDelayedPackets;
     void                    ProceedDelayedPackets();
     void                    AddDelayedPacket(NET_Packet& Packet, ClientID Sender);
-    u32 OnDelayedMessage(NET_Packet& P, ClientID sender);   // Non-Zero means broadcasting with "flags" as returned
+    u32                     OnDelayedMessage(NET_Packet& P, ClientID sender);   // Non-Zero means broadcasting with "flags" as returned
 
-    void SendUpdatesToAll();
-    void SendGameUpdateTo(IClient* client);
+    void                    SendUpdatesToAll();
+    void                    SendGameUpdateTo(IClient* client);
 
 private:
-    typedef CID_Generator<
-        u32,       // time identifier type
-        u8,        // compressed id type
-        u16,       // id type
-        u8,        // block id type
-        u16,       // chunk id type
-        0,         // min value
-        u16(-2),   // max value
-        256,       // block size
-        u16(-1)    // invalid id
+    typedef CID_Generator<u32,   // time identifier type
+        u8,                      // compressed id type
+        u16,                     // id type
+        u8,                      // block id type
+        u16,                     // chunk id type
+        0,                       // min value
+        u16(-2),                 // max value
+        256,                     // block size
+        u16(-1)                  // invalid id
         >
         id_generator_type;
 
@@ -161,12 +160,12 @@ protected:
 public:
     game_sv_GameState* game;
 
-    void Export_game_type(IClient* CL);
-    void Perform_game_export();
-    BOOL PerformRP(CSE_Abstract* E);
-    void PerformMigration(CSE_Abstract* E, xrClientData* from, xrClientData* to);
+    void               Export_game_type(IClient* CL);
+    void               Perform_game_export();
+    BOOL               PerformRP(CSE_Abstract* E);
+    void               PerformMigration(CSE_Abstract* E, xrClientData* from, xrClientData* to);
 
-    IC void clear_ids()
+    IC void            clear_ids()
     {
         m_tID_Generator = id_generator_type();
     }
@@ -179,35 +178,19 @@ public:
         return (m_tID_Generator.vfFreeID(ID, time));
     }
 
-    void Perform_connect_spawn(CSE_Abstract* E, xrClientData* to, NET_Packet& P);
-    void Perform_transfer(NET_Packet& PR, NET_Packet& PT, CSE_Abstract* what, CSE_Abstract* from, CSE_Abstract* to);
-    void Perform_reject(CSE_Abstract* what, CSE_Abstract* from, int delta);
-    void Perform_destroy(CSE_Abstract* tpSE_Abstract, u32 mode);
+    void          Perform_connect_spawn(CSE_Abstract* E, xrClientData* to, NET_Packet& P);
+    void          Perform_transfer(NET_Packet& PR, NET_Packet& PT, CSE_Abstract* what, CSE_Abstract* from, CSE_Abstract* to);
+    void          Perform_reject(CSE_Abstract* what, CSE_Abstract* from, int delta);
+    void          Perform_destroy(CSE_Abstract* tpSE_Abstract, u32 mode);
 
-    CSE_Abstract* Process_spawn(
-        NET_Packet&   P,
-        ClientID      sender,
-        BOOL          bSpawnWithClientsMainEntityAsParent = FALSE,
-        CSE_Abstract* tpExistedEntity                     = 0);
-    void Process_update(NET_Packet& P, ClientID sender);
-    void Process_save(NET_Packet& P, ClientID sender);
-    void Process_event(NET_Packet& P, ClientID sender);
-    void Process_event_ownership(NET_Packet& P, ClientID sender, u32 time, u16 ID, BOOL bForced = FALSE);
-    bool Process_event_reject(
-        NET_Packet&    P,
-        const ClientID sender,
-        const u32      time,
-        const u16      id_parent,
-        const u16      id_entity,
-        bool           send_message = true);
-    void Process_event_destroy(NET_Packet& P, ClientID sender, u32 time, u16 ID, NET_Packet* pEPack);
-    void Process_event_activate(
-        NET_Packet&    P,
-        const ClientID sender,
-        const u32      time,
-        const u16      id_parent,
-        const u16      id_entity,
-        bool           send_message = true);
+    CSE_Abstract* Process_spawn(NET_Packet& P, ClientID sender, BOOL bSpawnWithClientsMainEntityAsParent = FALSE, CSE_Abstract* tpExistedEntity = 0);
+    void          Process_update(NET_Packet& P, ClientID sender);
+    void          Process_save(NET_Packet& P, ClientID sender);
+    void          Process_event(NET_Packet& P, ClientID sender);
+    void          Process_event_ownership(NET_Packet& P, ClientID sender, u32 time, u16 ID, BOOL bForced = FALSE);
+    bool          Process_event_reject(NET_Packet& P, const ClientID sender, const u32 time, const u16 id_parent, const u16 id_entity, bool send_message = true);
+    void          Process_event_destroy(NET_Packet& P, ClientID sender, u32 time, u16 ID, NET_Packet* pEPack);
+    void          Process_event_activate(NET_Packet& P, const ClientID sender, const u32 time, const u16 id_parent, const u16 id_entity, bool send_message = true);
 
     xrClientData* SelectBestClientToMigrateTo(CSE_Abstract* E, BOOL bForceAnother = FALSE);
     void          SendConnectResult(IClient* CL, u8 res, u8 res1, char* ResultStr);
@@ -221,7 +204,7 @@ protected:
     bool             CheckAdminRights(const shared_str& user, const shared_str& pass, string512& reason);
     virtual IClient* new_client(SClientConnectData* cl_data);
 
-    virtual bool Check_ServerAccess(IClient* CL, string512& reason)
+    virtual bool     Check_ServerAccess(IClient* CL, string512& reason)
     {
         return true;
     }
@@ -238,9 +221,9 @@ protected:
     virtual bool NeedToCheckClient_BuildVersion(IClient* CL);
     virtual void Check_BuildVersion_Success(IClient* CL);
 
-    void SendConnectionData(IClient* CL);
-    void OnChatMessage(NET_Packet* P, xrClientData* CL);
-    void OnProcessClientMapData(NET_Packet& P, ClientID const& clientID);
+    void         SendConnectionData(IClient* CL);
+    void         OnChatMessage(NET_Packet* P, xrClientData* CL);
+    void         OnProcessClientMapData(NET_Packet& P, ClientID const& clientID);
 
 private:
     void PerformSecretKeysSync(xrClientData* xrCL);
@@ -275,9 +258,9 @@ public:
     virtual void     client_Destroy(IClient* C);     // destroy client info
 
     // utilities
-    CSE_Abstract* entity_Create(LPCSTR name);
-    void          entity_Destroy(CSE_Abstract*& P);
-    u32           GetEntitiesNum()
+    CSE_Abstract*    entity_Create(LPCSTR name);
+    void             entity_Destroy(CSE_Abstract*& P);
+    u32              GetEntitiesNum()
     {
         return entities.size();
     };
@@ -291,7 +274,7 @@ public:
     {
         return (xrClientData*)(IPureServer::ID_to_client(ID, ScanAll));
     }
-    CSE_Abstract* ID_to_entity(u16 ID);
+    CSE_Abstract*    ID_to_entity(u16 ID);
 
     // main
     virtual EConnect Connect(shared_str& session_name, GameDescriptionData& game_descr);
@@ -305,8 +288,8 @@ public:
     shared_str       level_version(const shared_str& server_options) const;
     static LPCSTR    get_map_download_url(LPCSTR level_name, LPCSTR level_version);
 
-    void create_direct_client();
-    BOOL IsDedicated() const
+    void             create_direct_client();
+    BOOL             IsDedicated() const
     {
         return m_bDedicated;
     };
@@ -320,9 +303,9 @@ public:
     {
         return false;
     }
-    void AddCheater(shared_str const& reason, ClientID const& cheaterID);
-    void MakeScreenshot(ClientID const& admin_id, ClientID const& cheater_id);
-    void MakeConfigDump(ClientID const& admin_id, ClientID const& cheater_id);
+    void         AddCheater(shared_str const& reason, ClientID const& cheaterID);
+    void         MakeScreenshot(ClientID const& admin_id, ClientID const& cheater_id);
+    void         MakeConfigDump(ClientID const& admin_id, ClientID const& cheater_id);
 
     virtual void GetServerInfo(CServerInfo* si);
     void         SendPlayersInfo(ClientID const& to_client);

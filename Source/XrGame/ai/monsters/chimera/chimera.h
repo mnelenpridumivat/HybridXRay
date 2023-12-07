@@ -21,12 +21,12 @@ private:
     {
         return "chimera";
     }
-    virtual EAction CustomVelocityIndex2Action(u32 velocity_index);
+    virtual EAction      CustomVelocityIndex2Action(u32 velocity_index);
 
     typedef CBaseMonster inherited;
 
-    SVelocityParam m_velocity_rotate;
-    SVelocityParam m_velocity_jump_start;
+    SVelocityParam       m_velocity_rotate;
+    SVelocityParam       m_velocity_jump_start;
 
     struct attack_params
     {

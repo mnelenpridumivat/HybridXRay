@@ -21,15 +21,15 @@ game_cl_GameState::game_cl_GameState()
     local_player           = createPlayerState(NULL);   // initializing account info
     m_WeaponUsageStatistic = NULL;
 
-    m_game_type_name = 0;
+    m_game_type_name       = 0;
 
-    shedule.t_min    = 5;
-    shedule.t_max    = 20;
-    m_game_ui_custom = NULL;
+    shedule.t_min          = 5;
+    shedule.t_max          = 20;
+    m_game_ui_custom       = NULL;
     shedule_register();
 
-    m_u16VotingEnabled   = 0;
-    m_bServerControlHits = true;
+    m_u16VotingEnabled     = 0;
+    m_bServerControlHits   = true;
 
     m_WeaponUsageStatistic = xr_new<WeaponUsageStatistic>();
 }
@@ -72,20 +72,12 @@ struct not_exsiting_clients_deleter
     existing_clients_vector_t*      exist_clients;
     game_PlayerState**              local_player;
     ClientID*                       client_id;
-    not_exsiting_clients_deleter(
-        existing_clients_vector_t* exist,
-        game_PlayerState**         local_player,
-        ClientID*                  client_id):
-        exist_clients(exist),
-        local_player(local_player), client_id(client_id)
-    {
-    }
+    not_exsiting_clients_deleter(existing_clients_vector_t* exist, game_PlayerState** local_player, ClientID* client_id): exist_clients(exist), local_player(local_player), client_id(client_id) {}
     // default copy constructor is right
     bool operator()(game_cl_GameState::PLAYERS_MAP::value_type& value)
     {
         VERIFY(exist_clients);
-        existing_clients_vector_t::iterator tmp_iter = std::find(
-            exist_clients->begin(), exist_clients->end(),
+        existing_clients_vector_t::iterator tmp_iter = std::find(exist_clients->begin(), exist_clients->end(),
             value.first   // key
         );
 
@@ -137,7 +129,7 @@ void game_cl_GameState::net_import_state(NET_Packet& P)
         PLAYERS_MAP_IT    I = players.find(ID);
         if (I != players.end())
         {
-            IP = I->second;
+            IP           = I->second;
             //***********************************************
             u16 OldFlags = IP->flags__;
             u8  OldVote  = IP->m_bCurrentVoteAgreed;
@@ -188,11 +180,11 @@ void game_cl_GameState::net_import_update(NET_Packet& P)
         make_string("Player ClientID = %d not found in players map", ID.value()).c_str());*/
     if (players.end() != I)
     {
-        game_PlayerState* IP = I->second;
+        game_PlayerState* IP       = I->second;
         //		CopyMemory	(&IP,&PS,sizeof(PS));
         //***********************************************
-        u16 OldFlags = IP->flags__;
-        u8  OldVote  = IP->m_bCurrentVoteAgreed;
+        u16               OldFlags = IP->flags__;
+        u8                OldVote  = IP->m_bCurrentVoteAgreed;
         //-----------------------------------------------
         IP->net_Import(P);
         //-----------------------------------------------
@@ -220,13 +212,14 @@ void game_cl_GameState::TranslateGameMessage(u32 msg, NET_Packet& P)
 {
     CStringTable st;
 
-    string512 Text;
-    char      Color_Main[]   = "%c[255,192,192,192]";
-    LPSTR     Color_Teams[3] = {"%c[255,255,240,190]", "%c[255,64,255,64]", "%c[255,64,64,255]"};
+    string512    Text;
+    char         Color_Main[]   = "%c[255,192,192,192]";
+    LPSTR        Color_Teams[3] = {"%c[255,255,240,190]", "%c[255,64,255,64]", "%c[255,64,64,255]"};
 
     switch (msg)
     {
-        case GAME_EVENT_PLAYER_CONNECTED: {
+        case GAME_EVENT_PLAYER_CONNECTED:
+        {
             ClientID newClientId;
             P.r_clientID(newClientId);
             game_PlayerState* PS = NULL;
@@ -252,7 +245,8 @@ void game_cl_GameState::TranslateGameMessage(u32 msg, NET_Packet& P)
             Msg("%s connected", PS->getName());
         }
         break;
-        case GAME_EVENT_PLAYER_DISCONNECTED: {
+        case GAME_EVENT_PLAYER_DISCONNECTED:
+        {
             string64 PlayerName;
             P.r_stringZ(PlayerName);
 
@@ -263,7 +257,8 @@ void game_cl_GameState::TranslateGameMessage(u32 msg, NET_Packet& P)
             Msg("%s disconnected", PlayerName);
         }
         break;
-        case GAME_EVENT_PLAYER_ENTERED_GAME: {
+        case GAME_EVENT_PLAYER_ENTERED_GAME:
+        {
             string64 PlayerName;
             P.r_stringZ(PlayerName);
 
@@ -272,7 +267,8 @@ void game_cl_GameState::TranslateGameMessage(u32 msg, NET_Packet& P)
                 CurrentGameUI()->CommonMessageOut(Text);
         }
         break;
-        default: {
+        default:
+        {
             R_ASSERT2(0, "Unknown Game Message");
         }
         break;
@@ -339,12 +335,14 @@ void game_cl_GameState::shedule_Update(u32 dt)
     //---------------------------------------
     switch (Phase())
     {
-        case GAME_PHASE_INPROGRESS: {
+        case GAME_PHASE_INPROGRESS:
+        {
             if (!IsGameTypeSingle())
                 m_WeaponUsageStatistic->Update();
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     };
@@ -396,21 +394,25 @@ void game_cl_GameState::OnSwitchPhase(u32 old_phase, u32 new_phase)
 {
     switch (old_phase)
     {
-        case GAME_PHASE_INPROGRESS: {
+        case GAME_PHASE_INPROGRESS:
+        {
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     };
 
     switch (new_phase)
     {
-        case GAME_PHASE_INPROGRESS: {
+        case GAME_PHASE_INPROGRESS:
+        {
             m_WeaponUsageStatistic->Clear();
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     }

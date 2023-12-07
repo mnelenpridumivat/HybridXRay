@@ -31,7 +31,8 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
     switch (type)
     {
         case GE_TRADE_BUY:
-        case GE_OWNERSHIP_TAKE: {
+        case GE_OWNERSHIP_TAKE:
+        {
             P.r_u16(id);
             CObject* Obj = Level().Objects.net_Find(id);
 
@@ -47,8 +48,7 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
             CGameObject* _GO = smart_cast<CGameObject*>(Obj);
             if (!IsGameTypeSingle() && !g_Alive())
             {
-                Msg("! WARNING: dead player [%d][%s] can't take items [%d][%s]", ID(), Name(), _GO->ID(),
-                    _GO->cNameSect().c_str());
+                Msg("! WARNING: dead player [%d][%s] can't take items [%d][%s]", ID(), Name(), _GO->ID(), _GO->cNameSect().c_str());
                 break;
             }
 
@@ -77,14 +77,14 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
                 }
                 else
                 {
-                    Msg("! ERROR: Actor [%d][%s]  tries to drop on take [%d][%s]", ID(), Name(), _GO->ID(),
-                        _GO->cNameSect().c_str());
+                    Msg("! ERROR: Actor [%d][%s]  tries to drop on take [%d][%s]", ID(), Name(), _GO->ID(), _GO->cNameSect().c_str());
                 }
             }
         }
         break;
         case GE_TRADE_SELL:
-        case GE_OWNERSHIP_REJECT: {
+        case GE_OWNERSHIP_REJECT:
+        {
             P.r_u16(id);
             CObject* Obj = Level().Objects.net_Find(id);
 
@@ -111,23 +111,16 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
             VERIFY(GO->H_Parent());
             if (!GO->H_Parent())
             {
-                Msg("! ERROR: Actor [%d][%s] tries to reject item [%d][%s] that has no parent", ID(), Name(), GO->ID(),
-                    GO->cNameSect().c_str());
+                Msg("! ERROR: Actor [%d][%s] tries to reject item [%d][%s] that has no parent", ID(), Name(), GO->ID(), GO->cNameSect().c_str());
                 break;
             }
 
-            VERIFY2(
-                GO->H_Parent()->ID() == ID(),
-                make_string(
-                    "actor [%d][%s] tries to drop not own object [%d][%s]", ID(), Name(), GO->ID(),
-                    GO->cNameSect().c_str())
-                    .c_str());
+            VERIFY2(GO->H_Parent()->ID() == ID(), make_string("actor [%d][%s] tries to drop not own object [%d][%s]", ID(), Name(), GO->ID(), GO->cNameSect().c_str()).c_str());
 
             if (GO->H_Parent()->ID() != ID())
             {
                 CActor* real_parent = smart_cast<CActor*>(GO->H_Parent());
-                Msg("! ERROR: Actor [%d][%s] tries to drop not own item [%d][%s], his parent is [%d][%s]", ID(), Name(),
-                    GO->ID(), GO->cNameSect().c_str(), real_parent->ID(), real_parent->Name());
+                Msg("! ERROR: Actor [%d][%s] tries to drop not own item [%d][%s], his parent is [%d][%s]", ID(), Name(), GO->ID(), GO->cNameSect().c_str(), real_parent->ID(), real_parent->Name());
                 break;
             }
 
@@ -157,7 +150,8 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
                 SelectBestWeapon(Obj);
         }
         break;
-        case GE_INV_ACTION: {
+        case GE_INV_ACTION:
+        {
             u16 cmd;
             P.r_u16(cmd);
             u32 flags;
@@ -186,7 +180,8 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
         case GEG_PLAYER_ITEM2BELT:
         case GEG_PLAYER_ITEM2RUCK:
         case GEG_PLAYER_ITEM_EAT:
-        case GEG_PLAYER_ACTIVATEARTEFACT: {
+        case GEG_PLAYER_ACTIVATEARTEFACT:
+        {
             P.r_u16(id);
             CObject* Obj = Level().Objects.net_Find(id);
 
@@ -202,9 +197,7 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 
             //			R_ASSERT2( !Obj->getDestroy(), make_string("GEG_PLAYER_ITEM_EAT(use): Object is destroying.
             //object_id = [%d]", id).c_str() );
-            VERIFY2(
-                !Obj->getDestroy(),
-                make_string("GEG_PLAYER_ITEM_EAT(use): Object is destroying. object_id = [%d]", id).c_str());
+            VERIFY2(!Obj->getDestroy(), make_string("GEG_PLAYER_ITEM_EAT(use): Object is destroying. object_id = [%d]", id).c_str());
             if (Obj->getDestroy())
             {
                 //				Msg                                ( "! GEG_PLAYER_ITEM_EAT(use): Object is destroying.
@@ -214,8 +207,7 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 
             if (!IsGameTypeSingle() && !g_Alive())
             {
-                Msg("! WARNING: dead player [%d][%s] can't use items [%d][%s]", ID(), Name(), Obj->ID(),
-                    Obj->cNameSect().c_str());
+                Msg("! WARNING: dead player [%d][%s] can't use items [%d][%s]", ID(), Name(), Obj->ID(), Obj->cNameSect().c_str());
                 break;
             }
 
@@ -224,9 +216,7 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
                 CArtefact* pArtefact = smart_cast<CArtefact*>(Obj);
                 //			R_ASSERT2( pArtefact, make_string("GEG_PLAYER_ACTIVATEARTEFACT: Artefact not found. artefact_id
                 //= [%d]", id).c_str() );
-                VERIFY2(
-                    pArtefact,
-                    make_string("GEG_PLAYER_ACTIVATEARTEFACT: Artefact not found. artefact_id = [%d]", id).c_str());
+                VERIFY2(pArtefact, make_string("GEG_PLAYER_ACTIVATEARTEFACT: Artefact not found. artefact_id = [%d]", id).c_str());
                 if (!pArtefact)
                 {
                     Msg("! GEG_PLAYER_ACTIVATEARTEFACT: Artefact not found. artefact_id = [%d]", id);
@@ -242,7 +232,8 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
 
             switch (type)
             {
-                case GEG_PLAYER_ITEM2SLOT: {
+                case GEG_PLAYER_ITEM2SLOT:
+                {
                     u16 slot_id = P.r_u16();
                     inventory().Slot(slot_id, iitem);
                 }
@@ -259,7 +250,8 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
             }                // switch
         }
         break;   // 1
-        case GEG_PLAYER_ACTIVATE_SLOT: {
+        case GEG_PLAYER_ACTIVATE_SLOT:
+        {
             u16 slot_id;
             P.r_u16(slot_id);
 
@@ -267,7 +259,8 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
         }
         break;
 
-        case GEG_PLAYER_DISABLE_SPRINT: {
+        case GEG_PLAYER_DISABLE_SPRINT:
+        {
             s8 cmd                 = P.r_s8();
             m_block_sprint_counter = m_block_sprint_counter + cmd;
             Msg("m_block_sprint_counter=%d", m_block_sprint_counter);
@@ -278,13 +271,15 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
         }
         break;
 
-        case GEG_PLAYER_WEAPON_HIDE_STATE: {
+        case GEG_PLAYER_WEAPON_HIDE_STATE:
+        {
             u16  State = P.r_u16();
             BOOL Set   = !!P.r_u8();
             inventory().SetSlotsBlocked(State, !!Set);
         }
         break;
-        case GE_MOVE_ACTOR: {
+        case GE_MOVE_ACTOR:
+        {
             Fvector NewPos, NewRot;
             P.r_vec3(NewPos);
             P.r_vec3(NewRot);
@@ -292,17 +287,20 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
             MoveActor(NewPos, NewRot);
         }
         break;
-        case GE_ACTOR_MAX_POWER: {
+        case GE_ACTOR_MAX_POWER:
+        {
             conditions().MaxPower();
             conditions().ClearWounds();
             ClearBloodWounds();
         }
         break;
-        case GE_ACTOR_MAX_HEALTH: {
+        case GE_ACTOR_MAX_HEALTH:
+        {
             SetfHealth(GetMaxHealth());
         }
         break;
-        case GEG_PLAYER_ATTACH_HOLDER: {
+        case GEG_PLAYER_ATTACH_HOLDER:
+        {
             u16      id = P.r_u16();
             CObject* O  = Level().Objects.net_Find(id);
             if (!O)
@@ -316,7 +314,8 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
                 use_Holder(holder);
         }
         break;
-        case GEG_PLAYER_DETACH_HOLDER: {
+        case GEG_PLAYER_DETACH_HOLDER:
+        {
             if (!m_holder)
                 break;
             u16          id = P.r_u16();
@@ -325,11 +324,13 @@ void CActor::OnEvent(NET_Packet& P, u16 type)
             use_Holder(NULL);
         }
         break;
-        case GEG_PLAYER_PLAY_HEADSHOT_PARTICLE: {
+        case GEG_PLAYER_PLAY_HEADSHOT_PARTICLE:
+        {
             OnPlayHeadShotParticle(P);
         }
         break;
-        case GE_ACTOR_JUMPING: {
+        case GE_ACTOR_JUMPING:
+        {
             /*
             Fvector dir;
             P.r_dir(dir);
@@ -356,7 +357,7 @@ void CActor::MoveActor(Fvector NewPos, Fvector NewDir)
     unaffected_r_torso.pitch = r_torso.pitch;
     unaffected_r_torso.roll  = 0;   // r_torso.roll;
 
-    r_torso_tgt_roll = 0;
+    r_torso_tgt_roll         = 0;
     cam_Active()->Set(-unaffected_r_torso.yaw, unaffected_r_torso.pitch, unaffected_r_torso.roll);
     ForceTransform(M);
 

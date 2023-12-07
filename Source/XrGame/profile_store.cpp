@@ -12,16 +12,11 @@
 namespace gamespy_profile
 {
 
-    profile_store::profile_store(CGameSpy_Full* fullgs_obj):
-        m_dsigned_reader(
-            stats_submitter::p_number,
-            stats_submitter::q_number,
-            stats_submitter::g_number,
-            stats_submitter::public_key)
+    profile_store::profile_store(CGameSpy_Full* fullgs_obj): m_dsigned_reader(stats_submitter::p_number, stats_submitter::q_number, stats_submitter::g_number, stats_submitter::public_key)
     {
         VERIFY(fullgs_obj && fullgs_obj->GetGameSpySAKE());
-        m_fullgs_obj = fullgs_obj;
-        m_sake_obj   = fullgs_obj->GetGameSpySAKE();
+        m_fullgs_obj        = fullgs_obj;
+        m_sake_obj          = fullgs_obj->GetGameSpySAKE();
 
         m_awards_store      = xr_new<awards_store>(fullgs_obj);
         m_best_scores_store = xr_new<best_scores_store>(fullgs_obj);
@@ -140,8 +135,8 @@ namespace gamespy_profile
         }
         if (m_valid_ltx)
         {
-            s32 tmp_profile_id = m_dsigned_reader.get_ltx().r_s32(profile_data_section, profile_id_line);
-            gamespy_gp::login_manager* tmp_lmngr = MainMenu()->GetLoginMngr();
+            s32                        tmp_profile_id = m_dsigned_reader.get_ltx().r_s32(profile_data_section, profile_id_line);
+            gamespy_gp::login_manager* tmp_lmngr      = MainMenu()->GetLoginMngr();
             R_ASSERT(tmp_lmngr);
             gamespy_gp::profile const* tmp_curr_prof = tmp_lmngr->get_current_profile();
             R_ASSERT(tmp_curr_prof);
@@ -159,9 +154,7 @@ namespace gamespy_profile
         load_profile_fields();
     }
 
-    void profile_store::merge_fields(
-        best_scores_store::best_fields_names_t const& best_results,
-        awards_store::award_fields_names_t const&     awards_fields)
+    void profile_store::merge_fields(best_scores_store::best_fields_names_t const& best_results, awards_store::award_fields_names_t const& awards_fields)
     {
         unsigned int i = 0;
         for (unsigned int bf = 0; bf < best_scores_store::fields_count; ++bf)
@@ -191,13 +184,7 @@ namespace gamespy_profile
         }
     }
 
-    void __cdecl profile_store::get_my_fields_cb(
-        SAKE              sake,
-        SAKERequest       request,
-        SAKERequestResult result,
-        void*             inputData,
-        void*             outputData,
-        void*             userData)
+    void __cdecl profile_store::get_my_fields_cb(SAKE sake, SAKERequest request, SAKERequestResult result, void* inputData, void* outputData, void* userData)
     {
         profile_store* my_inst = static_cast<profile_store*>(userData);
         if (result != SAKERequestResult_SUCCESS)
@@ -277,8 +264,7 @@ namespace gamespy_profile
             __time32_t current_time;
             _time32(&current_time);
 
-            __time32_t last_submit_time = static_cast<__time32_t>(
-                m_dsigned_reader.get_ltx().r_u32(profile_data_section, profile_last_submit_time));
+            __time32_t last_submit_time = static_cast<__time32_t>(m_dsigned_reader.get_ltx().r_u32(profile_data_section, profile_last_submit_time));
             if ((current_time - last_submit_time) >= actuality_update_time)
             {
                 atlas_submit_queue* tmp_submit_queue = MainMenu()->GetSubmitQueue();

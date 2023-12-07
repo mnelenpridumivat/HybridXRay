@@ -18,7 +18,7 @@ using Microsoft::Win32::RegistryValueKind;
 #define COMPANY_NAME "GSC Game World"
 #define PRODUCT_NAME "S.T.A.L.K.E.R.: CLear Sky"
 
-template <typename T> inline static T registry_value(RegistryKey ^ key, String ^ value_id, const T& default_value)
+template<typename T> inline static T registry_value(RegistryKey ^ key, String ^ value_id, const T& default_value)
 {
     array<String ^> ^ names = key->GetValueNames();
     if (names->IndexOf(names, value_id) >= 0)
@@ -73,11 +73,13 @@ void window_ide::save_on_exit()
 
     switch (WindowState)
     {
-        case FormWindowState::Maximized: {
+        case FormWindowState::Maximized:
+        {
             ide->SetValue("window_state", 1);
             break;
         }
-        default: {
+        default:
+        {
             ide->SetValue("window_state", 2);
             break;
         }
@@ -110,10 +112,10 @@ WeifenLuo::WinFormsUI::IDockContent ^ window_ide::reload_content(System::String 
 
 void window_ide::load_on_create()
 {
-    Width  = 800;
-    Height = 600;
+    Width                 = 800;
+    Height                = 600;
 
-    m_window_rectangle = gcnew Drawing::Rectangle(Location, Size);
+    m_window_rectangle    = gcnew Drawing::Rectangle(Location, Size);
 
     RegistryKey ^ product = base_registry_key();
     VERIFY(product);
@@ -140,11 +142,13 @@ void window_ide::load_on_create()
 
             switch ((int)registry_value(ide, "window_state", 2))
             {
-                case 1: {
+                case 1:
+                {
                     WindowState = FormWindowState::Maximized;
                     break;
                 }
-                case 2: {
+                case 2:
+                {
                     WindowState = FormWindowState::Normal;
                     break;
                 }
@@ -171,8 +175,7 @@ void window_ide::load_on_create()
             MemoryStream ^ stream = gcnew MemoryStream();
             stream->Write(safe_cast<array<unsigned char, 1> ^>(object), 0, object->Length);
             stream->Seek(0, System::IO::SeekOrigin::Begin);
-            Editor->LoadFromXml(
-                stream, gcnew WeifenLuo::WinFormsUI::DeserializeDockContent(this, &window_ide::reload_content));
+            Editor->LoadFromXml(stream, gcnew WeifenLuo::WinFormsUI::DeserializeDockContent(this, &window_ide::reload_content));
             delete (stream);
             return;
         }

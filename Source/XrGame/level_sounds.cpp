@@ -28,8 +28,7 @@ void SStaticSound::Load(IReader& F)
 
 void SStaticSound::Update(u32 game_time, u32 global_time)
 {
-    if ((0 == m_ActiveTime.x) && (0 == m_ActiveTime.y) ||
-        ((int(game_time) >= m_ActiveTime.x) && (int(game_time) < m_ActiveTime.y)))
+    if ((0 == m_ActiveTime.x) && (0 == m_ActiveTime.y) || ((int(game_time) >= m_ActiveTime.x) && (int(game_time) < m_ActiveTime.y)))
     {
         if (0 == m_Source._feedback())
         {
@@ -51,8 +50,7 @@ void SStaticSound::Update(u32 game_time, u32 global_time)
                     if (bFullPlay)
                     {
                         m_StopTime = 0xFFFFFFFF;
-                        m_NextTime = global_time + iFloor(m_Source.get_length_sec() * 1000.0f) +
-                            Random.randI(m_PauseTime.x, m_PauseTime.y);
+                        m_NextTime = global_time + iFloor(m_Source.get_length_sec() * 1000.0f) + Random.randI(m_PauseTime.x, m_PauseTime.y);
                     }
                     else
                     {
@@ -167,7 +165,7 @@ void CLevelSoundManager::Load()
     }
 
     // music
-    m_CurrentTrack = -1;
+    m_CurrentTrack    = -1;
 
     CInifile& gameLtx = *pGameIni;
 

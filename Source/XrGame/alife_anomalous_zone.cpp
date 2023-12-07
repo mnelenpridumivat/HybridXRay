@@ -15,7 +15,7 @@
 #include "alife_graph_registry.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -28,10 +28,7 @@ CSE_ALifeItemWeapon* CSE_ALifeAnomalousZone::tpfGetBestWeapon(ALife::EHitType& t
     return (m_tpCurrentBestWeapon);
 }
 
-ALife::EMeetActionType CSE_ALifeAnomalousZone::tfGetActionType(
-    CSE_ALifeSchedulable* tpALifeSchedulable,
-    int                   iGroupIndex,
-    bool                  bMutualDetection)
+ALife::EMeetActionType CSE_ALifeAnomalousZone::tfGetActionType(CSE_ALifeSchedulable* tpALifeSchedulable, int iGroupIndex, bool bMutualDetection)
 {
     return (ALife::eMeetActionTypeAttack);
 }

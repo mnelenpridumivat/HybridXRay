@@ -15,7 +15,7 @@
 #ifdef USE_DEBUGGER
 #ifndef USE_LUA_STUDIO
 #include "script_debugger.h"
-#else    // #ifndef USE_LUA_STUDIO
+#else   // #ifndef USE_LUA_STUDIO
 #include "lua_studio.h"
 typedef cs::lua_studio::create_world_function_type  create_world_function_type;
 typedef cs::lua_studio::destroy_world_function_type destroy_world_function_type;
@@ -64,12 +64,10 @@ static void initialize_lua_studio(lua_State* state, cs::lua_studio::world*& worl
 
     R_ASSERT2(s_script_debugger_handle, "can't load script debugger library");
 
-    s_create_world =
-        (create_world_function_type)GetProcAddress(s_script_debugger_handle, "_cs_lua_studio_backend_create_world@12");
+    s_create_world = (create_world_function_type)GetProcAddress(s_script_debugger_handle, "_cs_lua_studio_backend_create_world@12");
     R_ASSERT2(s_create_world, "can't find function \"cs_lua_studio_backend_create_world\"");
 
-    s_destroy_world =
-        (destroy_world_function_type)GetProcAddress(s_script_debugger_handle, "_cs_lua_studio_backend_destroy_world@4");
+    s_destroy_world = (destroy_world_function_type)GetProcAddress(s_script_debugger_handle, "_cs_lua_studio_backend_destroy_world@4");
     R_ASSERT2(s_destroy_world, "can't find function \"cs_lua_studio_backend_destroy_world\" in the library");
 
     engine = xr_new<lua_studio_engine>();

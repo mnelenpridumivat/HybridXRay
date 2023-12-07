@@ -5,11 +5,11 @@
 #include "bloodsucker_vampire_approach.h"
 #include "bloodsucker_vampire_hide.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION          template<typename _Object>
 
 #define CStateBloodsuckerVampireAbstract CStateBloodsuckerVampire<_Object>
 
-#define RUN_AWAY_DISTANCE 50.f
+#define RUN_AWAY_DISTANCE                50.f
 
 TEMPLATE_SPECIALIZATION
 CStateBloodsuckerVampireAbstract::CStateBloodsuckerVampire(_Object* obj): inherited(obj)

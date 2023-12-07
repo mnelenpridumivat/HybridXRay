@@ -36,19 +36,18 @@ void execute_console_command_deferred(CConsole* c, LPCSTR string_to_execute)
 #pragma optimize("s", on)
 void console_registrator::script_register(lua_State* L)
 {
-    module(L)
-        [def("get_console", &console),
+    module(L)[def("get_console", &console),
 
-         class_<CConsole>("CConsole")
-             .def("execute", &CConsole::Execute)
-             .def("execute_script", &CConsole::ExecuteScript)
-             .def("show", &CConsole::Show)
-             .def("hide", &CConsole::Hide)
+        class_<CConsole>("CConsole")
+            .def("execute", &CConsole::Execute)
+            .def("execute_script", &CConsole::ExecuteScript)
+            .def("show", &CConsole::Show)
+            .def("hide", &CConsole::Hide)
 
-             .def("get_string", &CConsole::GetString)
-             .def("get_integer", &get_console_integer)
-             .def("get_bool", &get_console_bool)
-             .def("get_float", &get_console_float)
-             .def("get_token", &CConsole::GetToken)
-             .def("execute_deferred", &execute_console_command_deferred)];
+            .def("get_string", &CConsole::GetString)
+            .def("get_integer", &get_console_integer)
+            .def("get_bool", &get_console_bool)
+            .def("get_float", &get_console_float)
+            .def("get_token", &CConsole::GetToken)
+            .def("execute_deferred", &execute_console_command_deferred)];
 }

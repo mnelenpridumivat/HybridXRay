@@ -68,8 +68,8 @@ Fvector loophole_action_base::nearest_loophole_direction(Fvector const& position
     Fvector fov_direction_left  = Fvector().setHP(h - half_fov, p);
     Fvector fov_direction_right = Fvector().setHP(h + half_fov, p);
 
-    Fvector fov_position = cover.fov_position(loophole);
-    Fvector direction    = Fvector().sub(position, fov_position);
+    Fvector fov_position        = cover.fov_position(loophole);
+    Fvector direction           = Fvector().sub(position, fov_position);
     direction.normalize();
 
     if (fov_direction_left.dotproduct(direction) > fov_direction_right.dotproduct(direction))
@@ -85,16 +85,13 @@ void loophole_action_base::process_fire_position(bool const& change_sight)
     Fvector const& position = *object().movement().current_params().cover_fire_position();
     if (!object().movement().in_current_loophole_fov(position))
     {
-        object().sight().setup(CSightAction(
-            SightManager::eSightTypeDirection,
-            nearest_loophole_direction(*object().movement().current_params().cover_fire_position()), true));
+        object().sight().setup(CSightAction(SightManager::eSightTypeDirection, nearest_loophole_direction(*object().movement().current_params().cover_fire_position()), true));
 
 #pragma todo("insert here loophole selection")
         return;
     }
 
-    object().sight().setup(CSightAction(
-        SightManager::eSightTypePosition, *object().movement().current_params().cover_fire_position(), true));
+    object().sight().setup(CSightAction(SightManager::eSightTypePosition, *object().movement().current_params().cover_fire_position(), true));
     object().sight().update();
 
     if (!change_sight)
@@ -120,8 +117,7 @@ void loophole_action_base::process_fire_object(bool const& change_sight)
         return;
     }
 
-    object().sight().setup(
-        CSightAction(SightManager::eSightTypeDirection, nearest_loophole_direction(fire_object->Position()), true));
+    object().sight().setup(CSightAction(SightManager::eSightTypeDirection, nearest_loophole_direction(fire_object->Position()), true));
 
     object().sight().update();
 
@@ -181,8 +177,7 @@ bool loophole_action_base::process_enemy(bool const& change_sight)
         if (object().memory().visual().visible_now(enemy))
             object().sight().setup(CSightAction(enemy, true, true));
         else
-            object().sight().setup(
-                CSightAction(SightManager::eSightTypePosition, object().memory().memory_position(enemy), true));
+            object().sight().setup(CSightAction(SightManager::eSightTypePosition, object().memory().memory_position(enemy), true));
 
         object().sight().update();
         if (!change_sight)
@@ -192,8 +187,7 @@ bool loophole_action_base::process_enemy(bool const& change_sight)
         return (true);
     }
 
-    object().sight().setup(
-        CSightAction(SightManager::eSightTypeDirection, nearest_loophole_direction(enemy->Position()), true));
+    object().sight().setup(CSightAction(SightManager::eSightTypeDirection, nearest_loophole_direction(enemy->Position()), true));
     object().sight().update();
 
     if (!change_sight)
@@ -230,10 +224,7 @@ bool loophole_action_base::setup_sight(bool const& change_sight)
 // loophole_action
 //////////////////////////////////////////////////////////////////////////
 
-loophole_action::loophole_action(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name), m_action_id(action_name)
-{
-}
+loophole_action::loophole_action(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name), m_action_id(action_name) {}
 
 void loophole_action::initialize()
 {
@@ -241,9 +232,8 @@ void loophole_action::initialize()
 
     LPCSTR                                    animation_id = "idle";
     typedef smart_cover::loophole::Animations ActionAnimations;
-    ActionAnimations const&                   animations =
-        object().movement().current_params().cover_loophole()->action_animations(m_action_id, animation_id);
-    m_animation = animations[m_random.randI(animations.size())];
+    ActionAnimations const&                   animations = object().movement().current_params().cover_loophole()->action_animations(m_action_id, animation_id);
+    m_animation                                          = animations[m_random.randI(animations.size())];
 }
 
 void loophole_action::execute()
@@ -267,10 +257,7 @@ void loophole_action::on_animation_end() {}
 // loophole_action_no_sight
 //////////////////////////////////////////////////////////////////////////
 
-loophole_action_no_sight::loophole_action_no_sight(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+loophole_action_no_sight::loophole_action_no_sight(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void loophole_action_no_sight::initialize()
 {
@@ -300,28 +287,15 @@ void loophole_reload::select_animation(shared_str& result)
 // transition
 //////////////////////////////////////////////////////////////////////////
 
-transition::transition(
-    CAI_Stalker*                           object,
-    LPCSTR                                 action_name,
-    LPCSTR                                 action_from,
-    LPCSTR                                 action_to,
-    StalkerDecisionSpace::EWorldProperties state_from,
-    StalkerDecisionSpace::EWorldProperties state_to,
-    animation_planner*                     planner):
-    inherited(object, action_name),
-    m_action_from(action_from), m_action_to(action_to), m_state_from(state_from), m_state_to(state_to),
-    m_planner(planner)
-{
-}
+transition::transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner): inherited(object, action_name), m_action_from(action_from), m_action_to(action_to), m_state_from(state_from), m_state_to(state_to), m_planner(planner) {}
 
 void transition::initialize()
 {
     inherited::initialize();
 
     typedef smart_cover::loophole::TransitionData TransitionData;
-    TransitionData const&                         animations =
-        object().movement().current_params().cover_loophole()->transition_animations(m_action_from, m_action_to);
-    m_animation = animations[m_random.randI(animations.size())];
+    TransitionData const&                         animations = object().movement().current_params().cover_loophole()->transition_animations(m_action_from, m_action_to);
+    m_animation                                              = animations[m_random.randI(animations.size())];
 }
 
 void transition::finalize()
@@ -389,16 +363,14 @@ void loophole_fire::execute()
     inherited::execute();
 
     LPCSTR animation_id = "idle";
-    if (object().sight().current_action().target_reached() && m_firing &&
-        (!object().movement().check_can_kill_enemy() || object().fire_make_sense()))
+    if (object().sight().current_action().target_reached() && m_firing && (!object().movement().check_can_kill_enemy() || object().fire_make_sense()))
         animation_id = "shoot";
     else
         m_firing = false;
 
     typedef smart_cover::loophole::Animations Animations;
-    Animations const&                         animations =
-        object().movement().current_params().cover_loophole()->action_animations(m_action_id, animation_id);
-    m_animation = animations[m_random.randI(animations.size())];
+    Animations const&                         animations = object().movement().current_params().cover_loophole()->action_animations(m_action_id, animation_id);
+    m_animation                                          = animations[m_random.randI(animations.size())];
 
     setup_sight(false);
 }
@@ -446,18 +418,7 @@ void loophole_fire::on_no_mark()
 // idle_2_fire_transition
 //////////////////////////////////////////////////////////////////////////
 
-idle_2_fire_transition::idle_2_fire_transition(
-    CAI_Stalker*                           object,
-    LPCSTR                                 action_name,
-    LPCSTR                                 action_from,
-    LPCSTR                                 action_to,
-    StalkerDecisionSpace::EWorldProperties state_from,
-    StalkerDecisionSpace::EWorldProperties state_to,
-    animation_planner*                     planner,
-    bool const&                            use_weapon):
-    inherited(object, action_name, action_from, action_to, state_from, state_to, planner)
-{
-}
+idle_2_fire_transition::idle_2_fire_transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner, bool const& use_weapon): inherited(object, action_name, action_from, action_to, state_from, state_to, planner) {}
 
 void idle_2_fire_transition::initialize()
 {
@@ -483,17 +444,7 @@ void idle_2_fire_transition::finalize()
 // fire_2_idle_transition
 //////////////////////////////////////////////////////////////////////////
 
-fire_2_idle_transition::fire_2_idle_transition(
-    CAI_Stalker*                           object,
-    LPCSTR                                 action_name,
-    LPCSTR                                 action_from,
-    LPCSTR                                 action_to,
-    StalkerDecisionSpace::EWorldProperties state_from,
-    StalkerDecisionSpace::EWorldProperties state_to,
-    animation_planner*                     planner):
-    inherited(object, action_name, action_from, action_to, state_from, state_to, planner)
-{
-}
+fire_2_idle_transition::fire_2_idle_transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner): inherited(object, action_name, action_from, action_to, state_from, state_to, planner) {}
 
 void fire_2_idle_transition::initialize()
 {
@@ -520,17 +471,7 @@ void fire_2_idle_transition::finalize()
 // idle_2_lookout_transition
 //////////////////////////////////////////////////////////////////////////
 
-idle_2_lookout_transition::idle_2_lookout_transition(
-    CAI_Stalker*                           object,
-    LPCSTR                                 action_name,
-    LPCSTR                                 action_from,
-    LPCSTR                                 action_to,
-    StalkerDecisionSpace::EWorldProperties state_from,
-    StalkerDecisionSpace::EWorldProperties state_to,
-    animation_planner*                     planner):
-    inherited(object, action_name, action_from, action_to, state_from, state_to, planner)
-{
-}
+idle_2_lookout_transition::idle_2_lookout_transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner): inherited(object, action_name, action_from, action_to, state_from, state_to, planner) {}
 
 void idle_2_lookout_transition::initialize()
 {
@@ -556,17 +497,7 @@ void idle_2_lookout_transition::finalize()
 // lookout_2_idle_transition
 //////////////////////////////////////////////////////////////////////////
 
-lookout_2_idle_transition::lookout_2_idle_transition(
-    CAI_Stalker*                           object,
-    LPCSTR                                 action_name,
-    LPCSTR                                 action_from,
-    LPCSTR                                 action_to,
-    StalkerDecisionSpace::EWorldProperties state_from,
-    StalkerDecisionSpace::EWorldProperties state_to,
-    animation_planner*                     planner):
-    inherited(object, action_name, action_from, action_to, state_from, state_to, planner)
-{
-}
+lookout_2_idle_transition::lookout_2_idle_transition(CAI_Stalker* object, LPCSTR action_name, LPCSTR action_from, LPCSTR action_to, StalkerDecisionSpace::EWorldProperties state_from, StalkerDecisionSpace::EWorldProperties state_to, animation_planner* planner): inherited(object, action_name, action_from, action_to, state_from, state_to, planner) {}
 
 void lookout_2_idle_transition::initialize()
 {

@@ -49,8 +49,7 @@ bool blend_in(const CBlend& b, const motion_marks& marks)
 
 IC bool b_is_blending(const CBlend* current_blend, const CBlend* b)
 {
-    return current_blend && current_blend->blend_state() != CBlend::eFREE_SLOT && current_blend != b &&
-        b->blendAmount < b->blendPower - EPS_L;
+    return current_blend && current_blend->blend_state() != CBlend::eFREE_SLOT && current_blend != b && b->blendAmount < b->blendPower - EPS_L;
 }
 
 void ik_anim_state::update(IKinematicsAnimated* K, const CBlend* b, u16 i)
@@ -84,8 +83,8 @@ void ik_anim_state::update(IKinematicsAnimated* K, const CBlend* b, u16 i)
 
         // is_step = step_all || any_idle && is_cur_step || is_new_step;
 
-        do_glue = step_all || any_idle && is_new_step;
-        is_step = (!any_idle && any_step) || any_idle && do_glue;
+        do_glue                 = step_all || any_idle && is_new_step;
+        is_step                 = (!any_idle && any_step) || any_idle && do_glue;
         // do_glue =true;
     }
     else

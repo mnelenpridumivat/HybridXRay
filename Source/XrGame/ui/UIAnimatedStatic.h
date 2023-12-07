@@ -10,29 +10,29 @@ class CUIAnimatedStatic: public CUIStatic
 {
     typedef CUIStatic inherited;
     // Количекство кадров анимации
-    u32 m_uFrameCount;
+    u32               m_uFrameCount;
     // Текущий фрейм
-    u32 m_uCurFrame;
+    u32               m_uCurFrame;
     // Размеры текстуры с анимацией в кадрах
-    u32 m_uAnimRows, m_uAnimCols;
+    u32               m_uAnimRows, m_uAnimCols;
     // Размеры кадра на тектуре
-    float m_uFrameWidth, m_uFrameHeight;
+    float             m_uFrameWidth, m_uFrameHeight;
     // Время показа всей анимации в ms.
-    u32 m_uAnimationDuration;
+    u32               m_uAnimationDuration;
     // Время прошедшее с начала анимации
-    u32 m_uTimeElapsed;
+    u32               m_uTimeElapsed;
     // флаг-признак необходимости пересчета статичных параметров анимации
-    bool m_bParamsChanged;
+    bool              m_bParamsChanged;
     // Признак проигрывания анимации
-    bool m_bPlaying;
+    bool              m_bPlaying;
 
-    Fvector2 m_pos;
+    Fvector2          m_pos;
 
-    u32 m_prevTime;
+    u32               m_prevTime;
 
     // Инициализация первого кадра
     // Params:	frameNum	- номер кадра: [0..m_uFrameCount)
-    void SetFrame(const u32 frameNum);
+    void              SetFrame(const u32 frameNum);
 
 public:
     CUIAnimatedStatic();
@@ -78,9 +78,9 @@ public:
         m_uCurFrame    = 0xffffffff;
         m_uTimeElapsed = delta;
     }
-    void SetAnimPos(float pos);
+    void         SetAnimPos(float pos);
     // Флаг-признак циклического проигрывания
-    bool m_bCyclic;
+    bool         m_bCyclic;
 
     virtual void Update();
 };
@@ -90,8 +90,8 @@ class CUISleepStatic: public CUIStatic
 private:
     typedef CUIStatic inherited;
 
-    int           m_cur_time;
-    CUIStaticItem m_UIStaticItem2;
+    int               m_cur_time;
+    CUIStaticItem     m_UIStaticItem2;
 
 public:
     CUISleepStatic();

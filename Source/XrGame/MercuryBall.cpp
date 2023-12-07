@@ -13,8 +13,8 @@ CMercuryBall::CMercuryBall(void)
     m_timeLastUpdate = 0;
     m_timeToUpdate   = 1000;
 
-    m_fImpulseMin = 45.f;
-    m_fImpulseMax = 90.f;
+    m_fImpulseMin    = 45.f;
+    m_fImpulseMax    = 90.f;
 }
 
 CMercuryBall::~CMercuryBall(void) {}
@@ -40,9 +40,7 @@ void CMercuryBall::UpdateCLChild()
             {
                 Fvector dir;
                 dir.set(::Random.randF(-0.5f, 0.5f), 0.0f, ::Random.randF(-0.5f, 0.5f));
-                m_pPhysicsShell->applyImpulse(
-                    dir,
-                    ::Random.randF(m_fImpulseMin, m_fImpulseMax) * Device->fTimeDelta * m_pPhysicsShell->getMass());
+                m_pPhysicsShell->applyImpulse(dir, ::Random.randF(m_fImpulseMin, m_fImpulseMax) * Device->fTimeDelta * m_pPhysicsShell->getMass());
             }
         }
     }

@@ -1,4 +1,4 @@
-// Copyright (c) 2004 Daniel Wallin and Arvid Norberg
+﻿// Copyright (c) 2004 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -28,30 +28,36 @@
 #include "lua_include.hpp"
 #include <memory>
 
-namespace luabind { 
-    
-    struct scope; 
+namespace luabind
+{
 
-} // namespace luabind
+    struct scope;
 
-namespace luabind { namespace detail {
+}   // namespace luabind
 
-    struct LUABIND_API registration
+namespace luabind
+{
+    namespace detail
     {
-        registration();
-        virtual ~registration();
 
-    protected:
-        virtual void register_(lua_State*) const = 0;
+        struct LUABIND_API registration
+        {
+            registration();
+            virtual ~registration();
 
-    private:
-        friend struct scope;
-        registration* m_next;
-    };
+        protected:
+            virtual void register_(lua_State*) const = 0;
 
-}} // namespace luabind::detail
+        private:
+            friend struct scope;
+            registration* m_next;
+        };
 
-namespace luabind {
+    }   // namespace detail
+}   // namespace luabind
+
+namespace luabind
+{
 
     struct LUABIND_API scope
     {
@@ -62,13 +68,13 @@ namespace luabind {
 
         scope& operator,(scope s);
 
-        void register_(lua_State* L) const;
+        void   register_(lua_State* L) const;
 
     private:
         detail::registration* m_chain;
     };
 
-    class LUABIND_API namespace_ : public scope
+    class LUABIND_API namespace_: public scope
     {
     public:
         explicit namespace_(char const* name);
@@ -86,7 +92,7 @@ namespace luabind {
         void operator[](scope s);
 
     private:
-        lua_State* m_state;
+        lua_State*  m_state;
         char const* m_name;
     };
 
@@ -95,7 +101,6 @@ namespace luabind {
         return module_(L, name);
     }
 
-} // namespace luabind
+}   // namespace luabind
 
-#endif // NEW_SCOPE_040211_HPP
-
+#endif   // NEW_SCOPE_040211_HPP

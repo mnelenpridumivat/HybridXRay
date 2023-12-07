@@ -33,24 +33,24 @@ public:
     virtual BOOL feel_touch_contact(CObject* O);
 
 protected:
-    virtual void net_Relcase(CObject* O);
-    virtual void UpdateCLChild();
+    virtual void     net_Relcase(CObject* O);
+    virtual void     UpdateCLChild();
 
     // гравитационный удар по всем объектам в зоне досягаемости
-    void GraviStrike();
+    void             GraviStrike();
 
     GAME_OBJECT_LIST m_GameObjectList;
 
     // которого артефакт активизируется
-    float m_fImpulseThreshold;
+    float            m_fImpulseThreshold;
     // радиус действия артефакта
-    float m_fRadius;
+    float            m_fRadius;
     // импульс передаваемый окружающим предметам
-    float m_fStrikeImpulse;
+    float            m_fStrikeImpulse;
 
     // флаг, того что артефакт получил хит
     // и теперь может совершить бросок
-    bool m_bStrike;
+    bool             m_bStrike;
 
-    shared_str m_sParticleName;
+    shared_str       m_sParticleName;
 };

@@ -118,9 +118,9 @@ void CUISequenceSimpleItem::Load(CUIXml* xml, int idx)
 
         xr_sprintf(sname, "auto_static_%d", i);
 
-        SSubItem* _si = &m_subitems[i];
-        _si->m_start  = xml->ReadAttribFlt("auto_static", i, "start_time", 0);
-        _si->m_length = xml->ReadAttribFlt("auto_static", i, "length_sec", 0);
+        SSubItem* _si  = &m_subitems[i];
+        _si->m_start   = xml->ReadAttribFlt("auto_static", i, "start_time", 0);
+        _si->m_length  = xml->ReadAttribFlt("auto_static", i, "length_sec", 0);
 
         _si->m_visible = false;
         _si->m_wnd     = smart_cast<CUIStatic*>(find_child_window(m_UIWindow, sname));
@@ -185,11 +185,11 @@ float CUISequenceSimpleItem::current_factor()
 void CUISequenceSimpleItem::Update()
 {
     inherited::Update();
-    float _start = (m_time_start < 0.0f) ? (float(Device->dwTimeContinual) / 1000.0f) : m_time_start;
+    float        _start = (m_time_start < 0.0f) ? (float(Device->dwTimeContinual) / 1000.0f) : m_time_start;
 
-    float        gt = float(Device->dwTimeContinual) / 1000.0f;
-    SubItemVecIt _I = m_subitems.begin();
-    SubItemVecIt _E = m_subitems.end();
+    float        gt     = float(Device->dwTimeContinual) / 1000.0f;
+    SubItemVecIt _I     = m_subitems.begin();
+    SubItemVecIt _E     = m_subitems.end();
     for (; _I != _E; ++_I)
     {
         SSubItem& s        = *_I;
@@ -207,9 +207,7 @@ void CUISequenceSimpleItem::Update()
 
         if (ui_game_sp)
         {
-            if (ui_game_sp->PdaMenu().IsShown() || ui_game_sp->ActorMenu().IsShown() ||
-                ui_game_sp->TalkMenu->IsShown() || ui_game_sp->UIChangeLevelWnd->IsShown() ||
-                (MainMenu()->IsActive() && !m_owner->m_flags.test(CUISequencer::etsOverMainMenu)))
+            if (ui_game_sp->PdaMenu().IsShown() || ui_game_sp->ActorMenu().IsShown() || ui_game_sp->TalkMenu->IsShown() || ui_game_sp->UIChangeLevelWnd->IsShown() || (MainMenu()->IsActive() && !m_owner->m_flags.test(CUISequencer::etsOverMainMenu)))
                 m_UIWindow->Show(false);
             else
                 m_UIWindow->Show(true);
@@ -331,7 +329,7 @@ void CUISequenceSimpleItem::OnKeyboardPress(int dik)
         if (b)
         {
             luabind::functor<void> functor_to_call;
-            bool functor_exists = ai().script_engine().functor(itm.m_functor.c_str(), functor_to_call);
+            bool                   functor_exists = ai().script_engine().functor(itm.m_functor.c_str(), functor_to_call);
             THROW3(functor_exists, "Cannot find script function described in tutorial item ", itm.m_functor.c_str());
             functor_to_call();
 

@@ -22,7 +22,7 @@ CObjectAnimator::~CObjectAnimator()
 
 void CObjectAnimator::Clear()
 {
-    for (COMotion* motion : m_Motions)
+    for (COMotion* motion: m_Motions)
         xr_delete(motion);
 
     m_Motions.clear();
@@ -84,9 +84,11 @@ void CObjectAnimator::LoadMotions(LPCSTR fname)
         }
         FS.r_close(F);
     }
-    std::sort(m_Motions.begin(), m_Motions.end(), [](COMotion* a, COMotion* b) {
-        return a->name < b->name;
-    });
+    std::sort(m_Motions.begin(), m_Motions.end(),
+        [](COMotion* a, COMotion* b)
+        {
+            return a->name < b->name;
+        });
 }
 
 void CObjectAnimator::Load(const char* name)
@@ -112,9 +114,11 @@ COMotion* CObjectAnimator::Play(bool loop, LPCSTR name)
 {
     if (name && name[0])
     {
-        auto it = std::lower_bound(m_Motions.begin(), m_Motions.end(), name, [](COMotion* a, shared_str b) {
-            return a->name < b;
-        });
+        auto it = std::lower_bound(m_Motions.begin(), m_Motions.end(), name,
+            [](COMotion* a, shared_str b)
+            {
+                return a->name < b;
+            });
 
         if (it != m_Motions.end() && !xr_strcmp((*it)->Name(), name))
         {
@@ -159,7 +163,7 @@ float CObjectAnimator::GetLength()
 
 static FvectorVec path_points;
 
-void CObjectAnimator::DrawPath()
+void              CObjectAnimator::DrawPath()
 {
     // motion path
     /*if (m_Current) {

@@ -82,7 +82,7 @@ void CEditableMesh::SaveMesh(IWriter& F)
     {
         F.w_stringZ(plp_it->first->_Name()); /* surface name*/
         IntVec& pol_lst = plp_it->second;
-        F.w_u32(pol_lst.size());             /* surface-polygon indices*/
+        F.w_u32(pol_lst.size()); /* surface-polygon indices*/
         F.w(&*pol_lst.begin(), sizeof(int) * pol_lst.size());
     }
     F.close_chunk();

@@ -45,7 +45,7 @@ class ai_obstacle;
 
 class IKinematics;
 
-template <typename _return_type> class CScriptCallbackEx;
+template<typename _return_type> class CScriptCallbackEx;
 
 class CGameObject: public CObject, public CUsableScriptObject, public CScriptBinder
 {
@@ -162,11 +162,11 @@ public:
     };
 
 public:
-    CInifile* m_ini_file;
+    CInifile*    m_ini_file;
 
     // Utilities
-    static void u_EventGen(NET_Packet& P, u32 type, u32 dest);
-    static void u_EventSend(NET_Packet& P, u32 dwFlags = DPNSEND_GUARANTEED);
+    static void  u_EventGen(NET_Packet& P, u32 type, u32 dest);
+    static void  u_EventSend(NET_Packet& P, u32 dwFlags = DPNSEND_GUARANTEED);
 
     // Methods
     virtual void Load(LPCSTR section);
@@ -191,7 +191,7 @@ public:
     {
         return getReady();
     }   // update only if active and fully initialized by/for network
-        //	virtual float			renderable_Ambient	();
+    //	virtual float			renderable_Ambient	();
 
     virtual void shedule_Update(u32 dt);
     virtual bool shedule_Needed();
@@ -209,23 +209,23 @@ public:
     virtual LPCSTR Name() const;
 
     // virtual void			OnH_A_Independent	();
-    virtual void OnH_B_Chield();
-    virtual void OnH_B_Independent(bool just_before_destroy);
+    virtual void   OnH_B_Chield();
+    virtual void   OnH_B_Independent(bool just_before_destroy);
 
-    virtual bool IsVisibleForZones()
+    virtual bool   IsVisibleForZones()
     {
         return true;
     }
     ///////////////////////////////////////////////////////////////////////
-    virtual bool NeedToDestroyObject() const;
-    virtual void DestroyObject();
+    virtual bool                         NeedToDestroyObject() const;
+    virtual void                         DestroyObject();
     ///////////////////////////////////////////////////////////////////////
 
     // Position stack
-    virtual SavedPosition ps_Element(u32 ID) const;
+    virtual SavedPosition                ps_Element(u32 ID) const;
 
-    void setup_parent_ai_locations(bool assign_position = true);
-    void validate_ai_locations(bool decrement_reference = true);
+    void                                 setup_parent_ai_locations(bool assign_position = true);
+    void                                 validate_ai_locations(bool decrement_reference = true);
 
     // animation_movement_controller
     virtual void                         create_anim_mov_ctrl(CBlend* b, Fmatrix* start_pose, bool local_animation);
@@ -256,7 +256,7 @@ public:
     virtual void reinit();
     virtual void reload(LPCSTR section);
     ///////////////////// network /////////////////////////////////////////
-    bool object_removed() const
+    bool         object_removed() const
     {
         return m_bObjectRemoved;
     };
@@ -311,12 +311,12 @@ public:
     typedef svector<visual_callback*, 6> CALLBACK_VECTOR;
     typedef CALLBACK_VECTOR::iterator    CALLBACK_VECTOR_IT;
 
-    CALLBACK_VECTOR m_visual_callback;
+    CALLBACK_VECTOR                      m_visual_callback;
 
 public:
-    void add_visual_callback(visual_callback* callback);
-    void remove_visual_callback(visual_callback* callback);
-    void SetKinematicsCallback(bool set);
+    void                add_visual_callback(visual_callback* callback);
+    void                remove_visual_callback(visual_callback* callback);
+    void                SetKinematicsCallback(bool set);
 
     IC CALLBACK_VECTOR& visual_callbacks()
     {
@@ -399,9 +399,10 @@ public:
     CScriptCallbackExVoid& callback(GameObject::ECallbackType type) const;
     virtual LPCSTR         visual_name(CSE_Abstract* server_entity);
 
-    virtual void On_B_NotCurrentEntity(){};
+    virtual void           On_B_NotCurrentEntity(){};
 
     // for moving objects
+
 private:
     u32  new_level_vertex_id() const;
     void update_ai_locations(bool decrement_reference);

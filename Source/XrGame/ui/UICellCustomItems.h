@@ -72,7 +72,7 @@ public:
     virtual void Draw();
     virtual void SetTextureColor(u32 color);
 
-    CWeapon* object()
+    CWeapon*     object()
     {
         return (CWeapon*)m_pData;
     }

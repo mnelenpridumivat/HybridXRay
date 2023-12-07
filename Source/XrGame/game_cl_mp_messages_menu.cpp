@@ -56,15 +56,12 @@ void game_cl_mp::AddMessageMenu(LPCSTR menu_section, LPCSTR snd_path, LPCSTR tea
             {
                 xr_sprintf(FileName_Voice, "%s%s%d\\voice_%s%d", snd_path, team_prefix, t, SoundName, s);
                 xr_sprintf(FileName_Radio, "%s%s%d\\radio_%s%d", snd_path, team_prefix, t, SoundName, s);
-                if (FS.exist(fn, "$game_sounds$", FileName_Voice, ".ogg") &&
-                    FS.exist(fn, "$game_sounds$", FileName_Radio, ".ogg"))
+                if (FS.exist(fn, "$game_sounds$", FileName_Voice, ".ogg") && FS.exist(fn, "$game_sounds$", FileName_Radio, ".ogg"))
                 {
                     pNewTeamSound->push_back(cl_Message_Sound());
                     cl_Message_Sound* pMsgSound = &(pNewTeamSound->back());
-                    pMsgSound->mSound_Voice.create(
-                        FileName_Voice, st_Effect, sg_SourceType);   // Msg("-- %s Loaded", FileName_Voice);
-                    pMsgSound->mSound_Radio.create(
-                        FileName_Radio, st_Effect, sg_SourceType);   // Msg("-- %s Loaded", FileName_Radio);
+                    pMsgSound->mSound_Voice.create(FileName_Voice, st_Effect, sg_SourceType);   // Msg("-- %s Loaded", FileName_Voice);
+                    pMsgSound->mSound_Radio.create(FileName_Radio, st_Effect, sg_SourceType);   // Msg("-- %s Loaded", FileName_Radio);
                 }
                 else
                 {
@@ -138,10 +135,10 @@ void game_cl_mp::OnMessageSelected(CUISpeechMenu* pMenu, u8 PhraseID)
     if (PhraseID >= pMMenu->m_aMessages.size())
         return;
     cl_Menu_Message* pMMessage = &(pMMenu->m_aMessages[PhraseID]);
-    u8 VariantID = (pMMessage->aVariants.size() <= 1) ? 0 : u8(::Random.randI(pMMessage->aVariants.size()) & 0xff);
+    u8               VariantID = (pMMessage->aVariants.size() <= 1) ? 0 : u8(::Random.randI(pMMessage->aVariants.size()) & 0xff);
     //	Msg ("Variant %d from %d", VariantID, pMMessage->aVariants.size());
     //-------------------------------------------------------------------
-    NET_Packet P;
+    NET_Packet       P;
     u_EventGen(P, GE_GAME_EVENT, local_player->GameID);
     P.w_u16(GAME_EVENT_SPEECH_MESSAGE);
     P.w_u8(MenuID);
@@ -176,8 +173,7 @@ void game_cl_mp::OnSpeechMessage(NET_Packet& P)
     {
         CStringTable st;
         if (CurrentGameUI())
-            CurrentGameUI()->m_pMessagesWnd->AddChatMessage(
-                st.translate(pMMessage->pMessage.c_str()).c_str(), ps->getName());
+            CurrentGameUI()->m_pMessagesWnd->AddChatMessage(st.translate(pMMessage->pMessage.c_str()).c_str(), ps->getName());
 
         if (!Level().MapManager().HasMapLocation(FRIEND_RADION_LOCATION, ps->GameID))
         {

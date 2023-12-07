@@ -77,8 +77,8 @@ void xrServer::SendConfigFinished(ClientID const& clientId)
 void xrServer::SendConnectionData(IClient* _CL)
 {
     conn_spawned_ids.clear();
-    xrClientData* CL = (xrClientData*)_CL;
-    NET_Packet    P;
+    xrClientData*          CL = (xrClientData*)_CL;
+    NET_Packet             P;
     // Replicate current entities on to this client
     xrS_entities::iterator I = entities.begin(), E = entities.end();
     for (; I != E; ++I)

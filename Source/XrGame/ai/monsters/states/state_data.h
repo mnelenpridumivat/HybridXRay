@@ -26,15 +26,15 @@ struct SStateDataAction
 //////////////////////////////////////////////////////////////////////////
 struct SStateDataMoveToPoint
 {
-    Fvector point;
-    u32     vertex;
-    Fvector target_direction;
+    Fvector          point;
+    u32              vertex;
+    Fvector          target_direction;
 
-    bool accelerated;
-    bool braking;
-    u8   accel_type;
+    bool             accelerated;
+    bool             braking;
+    u8               accel_type;
 
-    float completion_dist;
+    float            completion_dist;
 
     SStateDataAction action;
 
@@ -66,17 +66,17 @@ struct SStateDataMoveToPointEx: public SStateDataMoveToPoint
 //////////////////////////////////////////////////////////////////////////
 struct SStateHideFromPoint
 {
-    Fvector point;
+    Fvector          point;
 
-    bool accelerated;
-    bool braking;
-    u8   accel_type;
+    bool             accelerated;
+    bool             braking;
+    u8               accel_type;
 
-    float distance;
+    float            distance;
 
-    float cover_min_dist;
-    float cover_max_dist;
-    float cover_search_radius;
+    float            cover_min_dist;
+    float            cover_max_dist;
+    float            cover_search_radius;
 
     SStateDataAction action;
 
@@ -84,9 +84,9 @@ struct SStateHideFromPoint
     {
         point.set(0.f, 0.f, 0.f);
 
-        accelerated = false;
+        accelerated         = false;
 
-        distance = 1.f;
+        distance            = 1.f;
 
         cover_min_dist      = 10.f;
         cover_max_dist      = 30.f;
@@ -115,14 +115,14 @@ struct SStateDataLookToPoint
 //////////////////////////////////////////////////////////////////////////
 struct SStateDataMoveAroundPoint
 {
-    Fvector point;
-    u32     vertex;
+    Fvector          point;
+    u32              vertex;
 
-    float radius;
+    float            radius;
 
-    bool accelerated;
-    bool braking;
-    u8   accel_type;
+    bool             accelerated;
+    bool             braking;
+    u8               accel_type;
 
     SStateDataAction action;
 

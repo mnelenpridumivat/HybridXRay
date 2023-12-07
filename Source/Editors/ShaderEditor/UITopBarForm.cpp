@@ -35,9 +35,7 @@ void UITopBarForm::Draw()
     ImGui::Begin("TOOLBAR", NULL, window_flags);
     {
         m_tUndo->Load();
-        if (ImGui::ImageButton(
-                m_tUndo->surface_get(), ImVec2(20, 20), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 0.5 : 0, 0),
-                ImVec2(m_timeUndo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
+        if (ImGui::ImageButton(m_tUndo->surface_get(), ImVec2(20, 20), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 0.5 : 0, 0), ImVec2(m_timeUndo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
         {
             m_timeUndo = EDevice->TimerAsync() + 130;
             ClickUndo();
@@ -50,9 +48,7 @@ void UITopBarForm::Draw()
         ImGui::SameLine();
 
         m_tRedo->Load();
-        if (ImGui::ImageButton(
-                m_tRedo->surface_get(), ImVec2(20, 20), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 0.5 : 0, 0),
-                ImVec2(m_timeRedo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
+        if (ImGui::ImageButton(m_tRedo->surface_get(), ImVec2(20, 20), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 0.5 : 0, 0), ImVec2(m_timeRedo > EDevice->TimerAsync() ? 1 : 0.5, 1), 0))
         {
             m_timeRedo = EDevice->TimerAsync() + 130;
             ClickRedo();
@@ -72,9 +68,7 @@ void UITopBarForm::Draw()
         if (ImGui::IsItemHovered())
         {
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip(
-                "Save all '.xr'"_RU >>
-                u8"Сохранить все '.xr'");
+            ImGui::SetTooltip("Save all '.xr'"_RU >> u8"Сохранить все '.xr'");
         }
         ImGui::SameLine();
 
@@ -86,8 +80,7 @@ void UITopBarForm::Draw()
         if (ImGui::IsItemHovered())
         {
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-            ImGui::SetTooltip(
-                "Reload everything '.xr'"_RU >> u8"Перезагрузить все '.xr'");
+            ImGui::SetTooltip("Reload everything '.xr'"_RU >> u8"Перезагрузить все '.xr'");
         }
         ImGui::SameLine();
 

@@ -20,7 +20,7 @@
 
 EGameIDs ParseStringToGameType(LPCSTR str);
 
-bool predicate_sort_stat(const SDrawStaticStruct* s1, const SDrawStaticStruct* s2)
+bool     predicate_sort_stat(const SDrawStaticStruct* s1, const SDrawStaticStruct* s2)
 {
     return (s1->IsActual() > s2->IsActual());
 }
@@ -35,8 +35,7 @@ struct predicate_find_stat
     }
 };
 
-CUIGameCustom::CUIGameCustom():
-    m_msgs_xml(NULL), m_ActorMenu(NULL), m_PdaMenu(NULL), m_window(NULL), UIMainIngameWnd(NULL), m_pMessagesWnd(NULL)
+CUIGameCustom::CUIGameCustom(): m_msgs_xml(NULL), m_ActorMenu(NULL), m_PdaMenu(NULL), m_window(NULL), UIMainIngameWnd(NULL), m_pMessagesWnd(NULL)
 {
     ShowGameIndicators(true);
     ShowCrosshair(true);
@@ -92,8 +91,7 @@ void CUIGameCustom::Render()
     if (pEntity)
     {
         CActor* pActor = smart_cast<CActor*>(pEntity);
-        if (pActor && pActor->HUDview() && pActor->g_Alive() &&
-            psHUD_Flags.is(HUD_WEAPON | HUD_WEAPON_RT | HUD_WEAPON_RT2))
+        if (pActor && pActor->HUDview() && pActor->g_Alive() && psHUD_Flags.is(HUD_WEAPON | HUD_WEAPON_RT | HUD_WEAPON_RT2))
         {
             u16 ISlot = pActor->inventory().FirstSlot();
             u16 ESlot = pActor->inventory().LastSlot();
@@ -128,8 +126,8 @@ SDrawStaticStruct* CUIGameCustom::AddCustomStatic(LPCSTR id, bool bSingleInstanc
     m_custom_statics.push_back(xr_new<SDrawStaticStruct>());
     SDrawStaticStruct* sss = m_custom_statics.back();
 
-    sss->m_static = xr_new<CUIStatic>();
-    sss->m_name   = id;
+    sss->m_static          = xr_new<CUIStatic>();
+    sss->m_name            = id;
     xml_init.InitStatic(*m_msgs_xml, id, 0, sss->m_static);
     float ttl = m_msgs_xml->ReadAttribFlt(id, 0, "ttl", -1);
     if (ttl > 0.0f)
@@ -168,7 +166,7 @@ void CUIGameCustom::OnInventoryAction(PIItem item, u16 action_type)
 extern CUISequencer* g_tutorial;
 extern CUISequencer* g_tutorial2;
 
-bool CUIGameCustom::ShowActorMenu()
+bool                 CUIGameCustom::ShowActorMenu()
 {
     if (m_ActorMenu->IsShown())
     {
@@ -339,9 +337,9 @@ void SDrawStaticStruct::Update()
 CMapListHelper gMapListHelper;
 xr_token       game_types[];
 
-void CMapListHelper::LoadMapInfo(LPCSTR map_cfg_fn, const xr_string& map_name, LPCSTR map_ver)
+void           CMapListHelper::LoadMapInfo(LPCSTR map_cfg_fn, const xr_string& map_name, LPCSTR map_ver)
 {
-    CInifile ini(map_cfg_fn);
+    CInifile   ini(map_cfg_fn);
 
     shared_str _map_name = map_name.substr(0, map_name.find('\\')).c_str();
     shared_str _map_ver  = map_ver;
@@ -395,7 +393,7 @@ void CMapListHelper::Load()
 {
     string_path fn;
     FS.update_path(fn, "$game_config$", "mp\\map_list.ltx");
-    CInifile map_list_cfg(fn);
+    CInifile          map_list_cfg(fn);
 
     // read weathers set
     CInifile::Sect    w    = map_list_cfg.r_section("weather");

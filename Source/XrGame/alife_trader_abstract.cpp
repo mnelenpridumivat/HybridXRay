@@ -25,10 +25,9 @@ void CSE_ALifeTraderAbstract::spawn_supplies()
 {
     CSE_ALifeDynamicObject* dynamic_object = smart_cast<CSE_ALifeDynamicObject*>(this);
     VERIFY(dynamic_object);
-    CSE_Abstract* abstract = dynamic_object->alife().spawn_item(
-        "device_pda", base()->o_Position, dynamic_object->m_tNodeID, dynamic_object->m_tGraphID, base()->ID);
-    CSE_ALifeItemPDA* pda = smart_cast<CSE_ALifeItemPDA*>(abstract);
-    pda->m_original_owner = base()->ID;
+    CSE_Abstract*     abstract = dynamic_object->alife().spawn_item("device_pda", base()->o_Position, dynamic_object->m_tNodeID, dynamic_object->m_tGraphID, base()->ID);
+    CSE_ALifeItemPDA* pda      = smart_cast<CSE_ALifeItemPDA*>(abstract);
+    pda->m_original_owner      = base()->ID;
 
 #ifdef XRGAME_EXPORTS
     character_profile();
@@ -47,10 +46,8 @@ void CSE_ALifeTraderAbstract::spawn_supplies()
         if (xr_strlen(dynamic_object->m_ini_string))
         {
 #pragma warning(push)
-#pragma warning(disable : 4238)
-            CInifile ini(
-                &IReader((void*)(*dynamic_object->m_ini_string), xr_strlen(dynamic_object->m_ini_string)),
-                FS.get_path("$game_config$")->m_Path);
+#pragma warning(disable:4238)
+            CInifile ini(&IReader((void*)(*dynamic_object->m_ini_string), xr_strlen(dynamic_object->m_ini_string)), FS.get_path("$game_config$")->m_Path);
 #pragma warning(pop)
 
             if (ini.section_exist("dont_spawn_character_supplies"))
@@ -120,17 +117,11 @@ void CSE_ALifeDynamicObject::attach(CSE_ALifeInventoryItem* tpALifeInventoryItem
     if (!bAddChildren)
         return;
 
-    R_ASSERT2(
-        std::find(children.begin(), children.end(), tpALifeInventoryItem->base()->ID) == children.end(),
-        "Item is already inside the inventory");
+    R_ASSERT2(std::find(children.begin(), children.end(), tpALifeInventoryItem->base()->ID) == children.end(), "Item is already inside the inventory");
     children.push_back(tpALifeInventoryItem->base()->ID);
 }
 
-void CSE_ALifeDynamicObject::detach(
-    CSE_ALifeInventoryItem* tpALifeInventoryItem,
-    ALife::OBJECT_IT*       I,
-    bool                    bALifeRequest,
-    bool                    bRemoveChildren)
+void CSE_ALifeDynamicObject::detach(CSE_ALifeInventoryItem* tpALifeInventoryItem, ALife::OBJECT_IT* I, bool bALifeRequest, bool bRemoveChildren)
 {
     CSE_ALifeDynamicObject* l_tpALifeDynamicObject1 = smart_cast<CSE_ALifeDynamicObject*>(tpALifeInventoryItem);
     R_ASSERT2(l_tpALifeDynamicObject1, "Invalid children objects");
@@ -162,8 +153,7 @@ void add_online_impl(CSE_ALifeDynamicObject* object, const bool& update_registri
 {
     NET_Packet tNetPacket;
     ClientID   clientID;
-    clientID.set(
-        object->alife().server().GetServerClient() ? object->alife().server().GetServerClient()->ID.value() : 0);
+    clientID.set(object->alife().server().GetServerClient() ? object->alife().server().GetServerClient()->ID.value() : 0);
 
     ALife::OBJECT_IT I = object->children.begin();
     ALife::OBJECT_IT E = object->children.end();
@@ -184,9 +174,7 @@ void add_online_impl(CSE_ALifeDynamicObject* object, const bool& update_registri
         //		if (psAI_Flags.test(aiALife))
         //			Msg					("[LSS] Spawning item
         //[%s][%s][%d]",l_tpALifeInventoryItem->base()->name_replace(),*l_tpALifeInventoryItem->base()->s_name,l_tpALifeDynamicObject->ID);
-        Msg("[LSS][%d] Going online [%d][%s][%d] with parent [%d][%s] on '%s'", Device->dwFrame, Device->dwTimeGlobal,
-            l_tpALifeInventoryItem->base()->name_replace(), l_tpALifeInventoryItem->base()->ID, object->ID,
-            object->name_replace(), "*SERVER*");
+        Msg("[LSS][%d] Going online [%d][%s][%d] with parent [%d][%s] on '%s'", Device->dwFrame, Device->dwTimeGlobal, l_tpALifeInventoryItem->base()->name_replace(), l_tpALifeInventoryItem->base()->ID, object->ID, object->name_replace(), "*SERVER*");
 #endif
 
         //		R_ASSERT3								(ai().level_graph().valid_vertex_id(l_tpALifeDynamicObject->m_tNodeID),"Invalid
@@ -213,17 +201,13 @@ void CSE_ALifeTraderAbstract::add_online(const bool& update_registries)
     add_online_impl(object, update_registries);
 }
 
-void add_offline_impl(
-    CSE_ALifeDynamicObject*             object,
-    const xr_vector<ALife::_OBJECT_ID>& saved_children,
-    const bool&                         update_registries)
+void add_offline_impl(CSE_ALifeDynamicObject* object, const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries)
 {
     for (u32 i = 0, n = saved_children.size(); i < n; ++i)
     {
-        CSE_ALifeDynamicObject* child =
-            smart_cast<CSE_ALifeDynamicObject*>(ai().alife().objects().object(saved_children[i], true));
+        CSE_ALifeDynamicObject* child = smart_cast<CSE_ALifeDynamicObject*>(ai().alife().objects().object(saved_children[i], true));
         R_ASSERT(child);
-        child->m_bOnline = false;
+        child->m_bOnline                       = false;
 
         CSE_ALifeInventoryItem* inventory_item = smart_cast<CSE_ALifeInventoryItem*>(child);
         VERIFY2(inventory_item, "Non inventory item object has parent?!");
@@ -231,9 +215,7 @@ void add_offline_impl(
         //		if (psAI_Flags.test(aiALife))
         //			Msg					("[LSS] Destroying item
         //[%s][%s][%d]",inventory_item->base()->name_replace(),*inventory_item->base()->s_name,inventory_item->base()->ID);
-        Msg("[LSS][%d] Going offline [%d][%s][%d] with parent [%d][%s] on '%s'", Device->dwFrame, Device->dwTimeGlobal,
-            inventory_item->base()->name_replace(), inventory_item->base()->ID, object->ID, object->name_replace(),
-            "*SERVER*");
+        Msg("[LSS][%d] Going offline [%d][%s][%d] with parent [%d][%s] on '%s'", Device->dwFrame, Device->dwTimeGlobal, inventory_item->base()->name_replace(), inventory_item->base()->ID, object->ID, object->name_replace(), "*SERVER*");
 #endif
 
         ALife::_OBJECT_ID item_id  = inventory_item->base()->ID;
@@ -259,9 +241,7 @@ void add_offline_impl(
     object->alife().graph().add(object, object->m_tGraphID, false);
 }
 
-void CSE_ALifeTraderAbstract::add_offline(
-    const xr_vector<ALife::_OBJECT_ID>& saved_children,
-    const bool&                         update_registries)
+void CSE_ALifeTraderAbstract::add_offline(const xr_vector<ALife::_OBJECT_ID>& saved_children, const bool& update_registries)
 {
     CSE_ALifeDynamicObject* object = smart_cast<CSE_ALifeDynamicObject*>(this);
     VERIFY(object);

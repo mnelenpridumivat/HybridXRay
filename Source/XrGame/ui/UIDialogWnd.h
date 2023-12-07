@@ -11,15 +11,16 @@ private:
     CDialogHolder*    m_pParentHolder;
 
 protected:
+
 public:
     bool m_bWorkInPause;
     CUIDialogWnd();
     virtual ~CUIDialogWnd();
 
-    virtual void Show(bool status);
+    virtual void   Show(bool status);
 
-    virtual bool OnKeyboardAction(int dik, EUIMessages keyboard_action);
-    virtual bool OnKeyboardHold(int dik);
+    virtual bool   OnKeyboardAction(int dik, EUIMessages keyboard_action);
+    virtual bool   OnKeyboardHold(int dik);
 
     CDialogHolder* GetHolder()
     {
@@ -49,8 +50,8 @@ public:
     {
         return true;
     }
-    void ShowDialog(bool bDoHideIndicators);
-    void HideDialog();
+    void         ShowDialog(bool bDoHideIndicators);
+    void         HideDialog();
 
     virtual bool IR_process();
 };

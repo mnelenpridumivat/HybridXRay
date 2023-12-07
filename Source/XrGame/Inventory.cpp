@@ -48,7 +48,7 @@ CInventory::CInventory()
 {
     m_fMaxWeight = pSettings->r_float("inventory", "max_weight");
 
-    u32 sz = pSettings->r_s32("inventory", "slots_count");
+    u32 sz       = pSettings->r_s32("inventory", "slots_count");
     m_slots.resize(sz + 1);   // first is [1]
 
     m_iActiveSlot     = NO_ACTIVE_SLOT;
@@ -65,8 +65,8 @@ CInventory::CInventory()
         m_slots[i].m_bAct = !!pSettings->r_bool("inventory", temp);
     };
 
-    m_bSlotsUseful = true;
-    m_bBeltUseful  = false;
+    m_bSlotsUseful    = true;
+    m_bBeltUseful     = false;
 
     m_fTotalWeight    = -1.f;
     m_dwModifyFrame   = 0;
@@ -215,7 +215,8 @@ bool CInventory::DropItem(CGameObject* pObj, bool just_before_destroy, bool dont
 
     switch (pIItem->CurrPlace())
     {
-        case eItemPlaceBelt: {
+        case eItemPlaceBelt:
+        {
             VERIFY(InBelt(pIItem));
             TIItemContainer::iterator temp_iter = std::find(m_belt.begin(), m_belt.end(), pIItem);
             if (temp_iter != m_belt.end())
@@ -229,7 +230,8 @@ bool CInventory::DropItem(CGameObject* pObj, bool just_before_destroy, bool dont
             pIItem->object().processing_deactivate();
         }
         break;
-        case eItemPlaceRuck: {
+        case eItemPlaceRuck:
+        {
             VERIFY(InRuck(pIItem));
             TIItemContainer::iterator temp_iter = std::find(m_ruck.begin(), m_ruck.end(), pIItem);
             if (temp_iter != m_ruck.end())
@@ -242,7 +244,8 @@ bool CInventory::DropItem(CGameObject* pObj, bool just_before_destroy, bool dont
             }
         }
         break;
-        case eItemPlaceSlot: {
+        case eItemPlaceSlot:
+        {
             VERIFY(InSlot(pIItem));
             if (m_iActiveSlot == pIItem->CurrSlot())
             {
@@ -310,8 +313,7 @@ bool CInventory::Slot(u16 slot_id, PIItem pIItem, bool bNotActivate, bool strict
         u16 real_parent = pIItem->object().H_Parent() ? pIItem->object().H_Parent()->ID() : u16(-1);
         if (GetOwner()->object_id() != real_parent)
         {
-            Msg("! WARNING: CL: actor [%d] tries to place to slot not own item [%d], that has parent [%d]",
-                GetOwner()->object_id(), pIItem->object_id(), real_parent);
+            Msg("! WARNING: CL: actor [%d] tries to place to slot not own item [%d], that has parent [%d]", GetOwner()->object_id(), pIItem->object_id(), real_parent);
             return false;
         }
     }
@@ -335,7 +337,7 @@ bool CInventory::Slot(u16 slot_id, PIItem pIItem, bool bNotActivate, bool strict
         return false;
     }
 
-    m_slots[slot_id].m_pIItem = pIItem;
+    m_slots[slot_id].m_pIItem         = pIItem;
 
     // удалить из рюкзака или пояса
     TIItemContainer::iterator it_ruck = std::find(m_ruck.begin(), m_ruck.end(), pIItem);
@@ -355,12 +357,7 @@ bool CInventory::Slot(u16 slot_id, PIItem pIItem, bool bNotActivate, bool strict
         else
         {
             u16 real_parent = pIItem->object().H_Parent() ? pIItem->object().H_Parent()->ID() : u16(-1);
-            R_ASSERT2(
-                GetOwner()->object_id() == real_parent,
-                make_string(
-                    "! ERROR: CL: actor [%d] doesn't contain [%d], real parent is [%d]", GetOwner()->object_id(),
-                    pIItem->object_id(), real_parent)
-                    .c_str());
+            R_ASSERT2(GetOwner()->object_id() == real_parent, make_string("! ERROR: CL: actor [%d] doesn't contain [%d], real parent is [%d]", GetOwner()->object_id(), pIItem->object_id(), real_parent).c_str());
         }
 #ifdef MP_LOGGING
         Msg("--- Actor [%d] places to slot item [%d]", GetOwner()->object_id(), pIItem->object_id());
@@ -383,8 +380,7 @@ bool CInventory::Slot(u16 slot_id, PIItem pIItem, bool bNotActivate, bool strict
         m_slots[pIItem->CurrSlot()].m_pIItem = NULL;
     }
 
-    if (((m_iActiveSlot == slot_id) || (m_iActiveSlot == NO_ACTIVE_SLOT) && m_iNextActiveSlot == NO_ACTIVE_SLOT) &&
-        (!bNotActivate))
+    if (((m_iActiveSlot == slot_id) || (m_iActiveSlot == NO_ACTIVE_SLOT) && m_iNextActiveSlot == NO_ACTIVE_SLOT) && (!bNotActivate))
     {
 #ifdef DEBUG
         Msg("---To Slot: activating slot [%d], Frame[%d]", slot_id, Device->dwFrame);
@@ -452,8 +448,7 @@ bool CInventory::Ruck(PIItem pIItem, bool strict_placement)
         u16 real_parent = pIItem->object().H_Parent() ? pIItem->object().H_Parent()->ID() : u16(-1);
         if (GetOwner()->object_id() != real_parent)
         {
-            Msg("! WARNING: CL: actor [%d] tries to place to ruck not own item [%d], that has parent [%d]",
-                GetOwner()->object_id(), pIItem->object_id(), real_parent);
+            Msg("! WARNING: CL: actor [%d] tries to place to ruck not own item [%d], that has parent [%d]", GetOwner()->object_id(), pIItem->object_id(), real_parent);
             return false;
         }
     }
@@ -478,12 +473,7 @@ bool CInventory::Ruck(PIItem pIItem, bool strict_placement)
         {
             u16 item_parent_id     = pIItem->object().H_Parent() ? pIItem->object().H_Parent()->ID() : u16(-1);
             u16 inventory_owner_id = GetOwner()->object_id();
-            R_ASSERT2(
-                item_parent_id == inventory_owner_id,
-                make_string(
-                    "! ERROR: CL: Actor[%d] tries to place to ruck not own item [%d], real item owner is [%d]",
-                    inventory_owner_id, pIItem->object_id(), item_parent_id)
-                    .c_str());
+            R_ASSERT2(item_parent_id == inventory_owner_id, make_string("! ERROR: CL: Actor[%d] tries to place to ruck not own item [%d], real item owner is [%d]", inventory_owner_id, pIItem->object_id(), item_parent_id).c_str());
 #ifdef MP_LOGGING
             Msg("--- Actor [%d] place to ruck item [%d]", inventory_owner_id, pIItem->object_id());
 #endif
@@ -648,11 +638,13 @@ bool CInventory::Action(u16 cmd, u32 flags)
     {
         switch (cmd)
         {
-            case kWPN_FIRE: {
+            case kWPN_FIRE:
+            {
                 pActor->SetShotRndSeed();
             }
             break;
-            case kWPN_ZOOM: {
+            case kWPN_ZOOM:
+            {
                 pActor->SetZoomRndSeed();
             }
             break;
@@ -666,7 +658,8 @@ bool CInventory::Action(u16 cmd, u32 flags)
             case kUSE:
                 break;
 
-            case kDROP: {
+            case kDROP:
+            {
                 if ((flags & CMD_STOP) && !IsGameTypeSingle())
                 {
                     PIItem tmp_item = ActiveItem();
@@ -688,7 +681,8 @@ bool CInventory::Action(u16 cmd, u32 flags)
             case kWPN_FIREMODE_PREV:
             case kWPN_ZOOM:
             case kTORCH:
-            case kNIGHT_VISION: {
+            case kNIGHT_VISION:
+            {
                 SendActionEvent(cmd, flags);
             }
             break;
@@ -705,7 +699,8 @@ bool CInventory::Action(u16 cmd, u32 flags)
         case kWPN_3:
         case kWPN_4:
         case kWPN_5:
-        case kWPN_6: {
+        case kWPN_6:
+        {
             b_send_event = true;
             if (cmd == kWPN_6 && !IsGameTypeSingle())
                 return false;
@@ -717,7 +712,8 @@ bool CInventory::Action(u16 cmd, u32 flags)
             }
         }
         break;
-        case kARTEFACT: {
+        case kARTEFACT:
+        {
             b_send_event = true;
             if (flags & CMD_START)
             {
@@ -785,8 +781,7 @@ void CInventory::Update()
             CObject* pActor_owner = smart_cast<CObject*>(m_pOwner);
             if (Level().CurrentViewEntity() == pActor_owner)
             {
-                if ((m_iNextActiveSlot != NO_ACTIVE_SLOT) && ItemFromSlot(m_iNextActiveSlot) &&
-                    !g_player_hud->allow_activation(ItemFromSlot(m_iNextActiveSlot)->cast_hud_item()))
+                if ((m_iNextActiveSlot != NO_ACTIVE_SLOT) && ItemFromSlot(m_iNextActiveSlot) && !g_player_hud->allow_activation(ItemFromSlot(m_iNextActiveSlot)->cast_hud_item()))
                     return;
             }
             if (ActiveItem())
@@ -1075,8 +1070,7 @@ bool CInventory::Eat(PIItem pIItem)
         return false;
 
 #ifdef MP_LOGGING
-    Msg("--- Actor [%d] use or eat [%d][%s]", entity_alive->ID(), pItemToEat->object().ID(),
-        pItemToEat->object().cNameSect().c_str());
+    Msg("--- Actor [%d] use or eat [%d][%s]", entity_alive->ID(), pItemToEat->object().ID(), pItemToEat->object().cNameSect().c_str());
 #endif   // MP_LOGGING
 
     if (IsGameTypeSingle() && Actor()->m_inventory == this)
@@ -1215,7 +1209,7 @@ CInventoryItem* CInventory::GetItemFromInventory(LPCSTR caItemName)
 {
     TIItemContainer& l_list = m_all;
 
-    u32 crc = crc32(caItemName, xr_strlen(caItemName));
+    u32              crc    = crc32(caItemName, xr_strlen(caItemName));
 
     for (TIItemContainer::iterator l_it = l_list.begin(); l_list.end() != l_it; ++l_it)
         if ((*l_it)->object().cNameSect()._get()->dwCRC == crc)

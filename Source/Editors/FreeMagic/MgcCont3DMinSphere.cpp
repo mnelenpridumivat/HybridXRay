@@ -23,8 +23,8 @@ static const Real gs_fOnePlusEpsilon = 1.0f + gs_fEpsilon;
 class Support
 {
 public:
-    int m_iQuantity;
-    int m_aiIndex[4];
+    int  m_iQuantity;
+    int  m_aiIndex[4];
 
     bool Contains(int iIndex, Vector3** apkPoint)
     {
@@ -99,7 +99,7 @@ static Sphere ExactSphere3(const Vector3& rkP0, const Vector3& rkP1, const Vecto
     Real    fBdB = kB.Dot(kB);
     Real    fDet = fAdA * fBdB - fAdB * fAdB;
 
-    Sphere kMinimal;
+    Sphere  kMinimal;
 
     if (::Math::FAbs(fDet) > gs_fEpsilon)
     {
@@ -154,7 +154,7 @@ static Sphere ExactSphere4(const Vector3& rkP0, const Vector3& rkP1, const Vecto
     Vector3 kE20 = rkP1 - rkP3;
     Vector3 kE30 = rkP2 - rkP3;
 
-    Real aafA[3][3];
+    Real    aafA[3][3];
     aafA[0][0] = kE10.Dot(kE10);
     aafA[0][1] = kE10.Dot(kE20);
     aafA[0][2] = kE10.Dot(kE30);
@@ -180,7 +180,7 @@ static Sphere ExactSphere4(const Vector3& rkP0, const Vector3& rkP1, const Vecto
     aafAInv[2][0] = aafA[1][0] * aafA[2][1] - aafA[1][1] * aafA[2][0];
     aafAInv[2][1] = aafA[0][1] * aafA[2][0] - aafA[0][0] * aafA[2][1];
     aafAInv[2][2] = aafA[0][0] * aafA[1][1] - aafA[0][1] * aafA[1][0];
-    Real fDet     = aafA[0][0] * aafAInv[0][0] + aafA[0][1] * aafAInv[1][0] + aafA[0][2] * aafAInv[2][0];
+    Real   fDet   = aafA[0][0] * aafAInv[0][0] + aafA[0][1] * aafAInv[1][0] + aafA[0][2] * aafAInv[2][0];
 
     Sphere kMinimal;
 
@@ -201,7 +201,7 @@ static Sphere ExactSphere4(const Vector3& rkP0, const Vector3& rkP1, const Vecto
             for (iCol = 0; iCol < 3; iCol++)
                 afU[iRow] += aafAInv[iRow][iCol] * afB[iCol];
         }
-        afU[3] = 1.0f - afU[0] - afU[1] - afU[2];
+        afU[3]            = 1.0f - afU[0] - afU[1] - afU[2];
 
         kMinimal.Center() = afU[0] * rkP0 + afU[1] * rkP1 + afU[2] * rkP2 + afU[3] * rkP3;
         Vector3 kTmp      = afU[0] * kE10 + afU[1] * kE20 + afU[2] * kE30;
@@ -218,12 +218,12 @@ static Sphere ExactSphere4(const Vector3& rkP0, const Vector3& rkP1, const Vecto
 //----------------------------------------------------------------------------
 static Sphere UpdateSupport1(int i, Vector3** apkPerm, Support& rkSupp)
 {
-    const Vector3& rkP0 = *apkPerm[rkSupp.m_aiIndex[0]];
-    const Vector3& rkP1 = *apkPerm[i];
+    const Vector3& rkP0     = *apkPerm[rkSupp.m_aiIndex[0]];
+    const Vector3& rkP1     = *apkPerm[i];
 
-    Sphere kMinimal     = ExactSphere2(rkP0, rkP1);
-    rkSupp.m_iQuantity  = 2;
-    rkSupp.m_aiIndex[1] = i;
+    Sphere         kMinimal = ExactSphere2(rkP0, rkP1);
+    rkSupp.m_iQuantity      = 2;
+    rkSupp.m_aiIndex[1]     = i;
 
     return kMinimal;
 }
@@ -234,11 +234,11 @@ static Sphere UpdateSupport2(int i, Vector3** apkPerm, Support& rkSupp)
     const Vector3& rkP1 = *apkPerm[rkSupp.m_aiIndex[1]];
     const Vector3& rkP2 = *apkPerm[i];
 
-    Sphere akS[3];
-    Real   fMinRSqr = ::Math::MAX_REAL;
-    int    iIndex   = -1;
+    Sphere         akS[3];
+    Real           fMinRSqr = ::Math::MAX_REAL;
+    int            iIndex   = -1;
 
-    akS[0] = ExactSphere2(rkP0, rkP2);
+    akS[0]                  = ExactSphere2(rkP0, rkP2);
     if (PointInsideSphere(rkP1, akS[0]))
     {
         fMinRSqr = akS[0].Radius();
@@ -280,11 +280,11 @@ static Sphere UpdateSupport3(int i, Vector3** apkPerm, Support& rkSupp)
     const Vector3& rkP2 = *apkPerm[rkSupp.m_aiIndex[2]];
     const Vector3& rkP3 = *apkPerm[i];
 
-    Sphere akS[6];
-    Real   fMinRSqr = ::Math::MAX_REAL;
-    int    iIndex   = -1;
+    Sphere         akS[6];
+    Real           fMinRSqr = ::Math::MAX_REAL;
+    int            iIndex   = -1;
 
-    akS[0] = ExactSphere2(rkP0, rkP3);
+    akS[0]                  = ExactSphere2(rkP0, rkP3);
     if (PointInsideSphere(rkP1, akS[0]) && PointInsideSphere(rkP2, akS[0]))
     {
         fMinRSqr = akS[0].Radius();
@@ -377,11 +377,11 @@ static Sphere UpdateSupport4(int i, Vector3** apkPerm, Support& rkSupp)
     const Vector3& rkP3 = *apkPerm[rkSupp.m_aiIndex[3]];
     const Vector3& rkP4 = *apkPerm[i];
 
-    Sphere akS[14];
-    Real   fMinRSqr = ::Math::MAX_REAL;
-    int    iIndex   = -1;
+    Sphere         akS[14];
+    Real           fMinRSqr = ::Math::MAX_REAL;
+    int            iIndex   = -1;
 
-    akS[0] = ExactSphere2(rkP0, rkP4);
+    akS[0]                  = ExactSphere2(rkP0, rkP4);
     if (PointInsideSphere(rkP1, akS[0]) && PointInsideSphere(rkP2, akS[0]) && PointInsideSphere(rkP3, akS[0]))
     {
         fMinRSqr = akS[0].Radius();
@@ -389,24 +389,21 @@ static Sphere UpdateSupport4(int i, Vector3** apkPerm, Support& rkSupp)
     }
 
     akS[1] = ExactSphere2(rkP1, rkP4);
-    if (akS[1].Radius() < fMinRSqr && PointInsideSphere(rkP0, akS[1]) && PointInsideSphere(rkP2, akS[1]) &&
-        PointInsideSphere(rkP3, akS[1]))
+    if (akS[1].Radius() < fMinRSqr && PointInsideSphere(rkP0, akS[1]) && PointInsideSphere(rkP2, akS[1]) && PointInsideSphere(rkP3, akS[1]))
     {
         fMinRSqr = akS[1].Radius();
         iIndex   = 1;
     }
 
     akS[2] = ExactSphere2(rkP2, rkP4);
-    if (akS[2].Radius() < fMinRSqr && PointInsideSphere(rkP0, akS[2]) && PointInsideSphere(rkP1, akS[2]) &&
-        PointInsideSphere(rkP3, akS[2]))
+    if (akS[2].Radius() < fMinRSqr && PointInsideSphere(rkP0, akS[2]) && PointInsideSphere(rkP1, akS[2]) && PointInsideSphere(rkP3, akS[2]))
     {
         fMinRSqr = akS[2].Radius();
         iIndex   = 2;
     }
 
     akS[3] = ExactSphere2(rkP3, rkP4);
-    if (akS[3].Radius() < fMinRSqr && PointInsideSphere(rkP0, akS[3]) && PointInsideSphere(rkP1, akS[3]) &&
-        PointInsideSphere(rkP2, akS[3]))
+    if (akS[3].Radius() < fMinRSqr && PointInsideSphere(rkP0, akS[3]) && PointInsideSphere(rkP1, akS[3]) && PointInsideSphere(rkP2, akS[3]))
     {
         fMinRSqr = akS[3].Radius();
         iIndex   = 3;
@@ -550,10 +547,10 @@ static Sphere UpdateSupport4(int i, Vector3** apkPerm, Support& rkSupp)
     return kMinimal;
 }
 //----------------------------------------------------------------------------
-typedef Sphere (*UpdateFunction)(int, Vector3**, Support&);
+typedef Sphere        (*UpdateFunction)(int, Vector3**, Support&);
 static UpdateFunction gs_aoUpdate[5] = {NULL, UpdateSupport1, UpdateSupport2, UpdateSupport3, UpdateSupport4};
 //----------------------------------------------------------------------------
-Sphere Mgc::MinSphere(int iQuantity, const Vector3* akPoint)
+Sphere                Mgc::MinSphere(int iQuantity, const Vector3* akPoint)
 {
     // initialize random number generator
     size_t CountRestart = 0;

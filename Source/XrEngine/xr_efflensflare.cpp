@@ -20,7 +20,7 @@
 #include "igame_level.h"
 #endif
 
-#define FAR_DIST g_pGamePersistent->Environment().CurrentEnv->far_plane
+#define FAR_DIST        g_pGamePersistent->Environment().CurrentEnv->far_plane
 
 // #define MAX_Flares	24
 //////////////////////////////////////////////////////////////////////////////
@@ -149,16 +149,16 @@ CLensFlare::CLensFlare()
     // Device
     dwFrame = 0xfffffffe;
 
-    fBlend = 0.f;
+    fBlend  = 0.f;
 
     LightColor.set(0xFFFFFFFF);
     fGradientValue = 0.f;
 
     // hGeom						= 0;
-    m_Current = 0;
+    m_Current      = 0;
 
-    m_State      = lfsNone;
-    m_StateBlend = 0.f;
+    m_State        = lfsNone;
+    m_StateBlend   = 0.f;
 
 #ifndef _EDITOR
     for (int i = 0; i < MAX_RAYS; ++i)
@@ -181,17 +181,14 @@ CLensFlare::~CLensFlare()
 #ifndef _EDITOR
 struct STranspParam
 {
-    Fvector P;
-    Fvector D;
-    float   f;
+    Fvector             P;
+    Fvector             D;
+    float               f;
     // CLensFlare*			parent;
     collide::ray_cache* pray_cache;
     float               vis;
     float               vis_threshold;
-    STranspParam(collide::ray_cache* p, const Fvector& _P, const Fvector& _D, float _f, float _vis_threshold):
-        P(_P), D(_D), f(_f), pray_cache(p), vis(1.f), vis_threshold(_vis_threshold)
-    {
-    }
+    STranspParam(collide::ray_cache* p, const Fvector& _P, const Fvector& _D, float _f, float _vis_threshold): P(_P), D(_D), f(_f), pray_cache(p), vis(1.f), vis_threshold(_vis_threshold) {}
 };
 IC BOOL material_callback(collide::rq_result& result, LPVOID params)
 {
@@ -199,7 +196,7 @@ IC BOOL material_callback(collide::rq_result& result, LPVOID params)
     float         vis = 1.f;
     if (result.O)
     {
-        vis = 0.f;
+        vis            = 0.f;
         // CKinematics*K=PKinematics(result.O->renderable.visual);
         IKinematics* K = PKinematics(result.O->renderable.visual);
         if (K && (result.element > 0))
@@ -252,7 +249,11 @@ static LPCSTR state_to_string (const CLensFlare::LFState &state)
 #endif
 
 static Fvector2 RayDeltas[CLensFlare::MAX_RAYS] = {
-    {0, 0}, {1, 0}, {-1, 0}, {0, -1}, {0, 1},
+    {0, 0},
+    {1, 0},
+    {-1, 0},
+    {0, -1},
+    {0, 1},
 };
 void CLensFlare::OnFrame(shared_str id)
 {

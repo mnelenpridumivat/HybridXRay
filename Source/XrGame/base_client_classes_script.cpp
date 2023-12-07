@@ -20,9 +20,7 @@ using namespace luabind;
 #pragma optimize("s", on)
 void DLL_PureScript::script_register(lua_State* L)
 {
-    module(L)[class_<DLL_Pure, CDLL_PureWrapper>("DLL_Pure")
-                  .def(constructor<>())
-                  .def("_construct", &DLL_Pure::_construct, &CDLL_PureWrapper::_construct_static)];
+    module(L)[class_<DLL_Pure, CDLL_PureWrapper>("DLL_Pure").def(constructor<>()).def("_construct", &DLL_Pure::_construct, &CDLL_PureWrapper::_construct_static)];
 }
 
 /*
@@ -47,21 +45,20 @@ void ISpatialScript::script_register	(lua_State *L)
 void ISheduledScript::script_register(lua_State* L)
 {
     module(L)[class_<ISheduled, CISheduledWrapper>("ISheduled")
-              //			.def(constructor<>())
-              //			.def("shedule_Scale",		&ISheduled::shedule_Scale,
-              //&CISheduledWrapper::shedule_Scale_static) 			.def("shedule_Update",		&ISheduled::shedule_Update,
-              //&CISheduledWrapper::shedule_Update_static)
+        //			.def(constructor<>())
+        //			.def("shedule_Scale",		&ISheduled::shedule_Scale,
+        //&CISheduledWrapper::shedule_Scale_static) 			.def("shedule_Update",		&ISheduled::shedule_Update,
+        //&CISheduledWrapper::shedule_Update_static)
     ];
 }
 
 void IRenderableScript::script_register(lua_State* L)
 {
-    module(L)
-        [class_<IRenderable, CIRenderableWrapper>("IRenderable")
-         //			.def(constructor<>())
-         //			.def("renderable_Render",&IRenderable::renderable_Render,&CIRenderableWrapper::renderable_Render_static)
-         //			.def("renderable_ShadowGenerate",&IRenderable::renderable_ShadowGenerate,&CIRenderableWrapper::renderable_ShadowGenerate_static)
-         //			.def("renderable_ShadowReceive",&IRenderable::renderable_ShadowReceive,&CIRenderableWrapper::renderable_ShadowReceive_static)
+    module(L)[class_<IRenderable, CIRenderableWrapper>("IRenderable")
+        //			.def(constructor<>())
+        //			.def("renderable_Render",&IRenderable::renderable_Render,&CIRenderableWrapper::renderable_Render_static)
+        //			.def("renderable_ShadowGenerate",&IRenderable::renderable_ShadowGenerate,&CIRenderableWrapper::renderable_ShadowGenerate_static)
+        //			.def("renderable_ShadowReceive",&IRenderable::renderable_ShadowReceive,&CIRenderableWrapper::renderable_ShadowReceive_static)
     ];
 }
 
@@ -166,7 +163,7 @@ void IKinematicsAnimatedScript::script_register(lua_State* L)
 void CBlendScript::script_register(lua_State* L)
 {
     module(L)[class_<CBlend>("CBlend")
-              //			.def(constructor<>())
+        //			.def(constructor<>())
     ];
 }
 

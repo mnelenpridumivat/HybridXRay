@@ -32,14 +32,17 @@ TEMPLATE_SPECIALIZATION
 class CXML_IdToIndex
 {
 public:
+
 private:
     static T_VECTOR* m_pItemDataVector;
+
 protected:
     // имена xml файлов (разделенных запятой) из которых
     // производить загрузку элементов
     static LPCSTR file_str;
     // имена тегов
     static LPCSTR tag_name;
+
 public:
     CXML_IdToIndex();
     virtual ~CXML_IdToIndex();

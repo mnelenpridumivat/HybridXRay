@@ -96,11 +96,9 @@ void CScriptEntity::reinit()
 
 void CScriptEntity::SetScriptControl(const bool bScriptControl, shared_str caSciptName)
 {
-    if (!(((m_bScriptControl && !bScriptControl) || (!m_bScriptControl && bScriptControl)) &&
-          (bScriptControl || (xr_strlen(*m_caScriptName) && !xr_strcmp(caSciptName, m_caScriptName)))))
+    if (!(((m_bScriptControl && !bScriptControl) || (!m_bScriptControl && bScriptControl)) && (bScriptControl || (xr_strlen(*m_caScriptName) && !xr_strcmp(caSciptName, m_caScriptName)))))
     {
-        ai().script_engine().script_log(
-            eLuaMessageTypeError, "Invalid sequence of taking an entity under script control");
+        ai().script_engine().script_log(eLuaMessageTypeError, "Invalid sequence of taking an entity under script control");
         return;
     }
 
@@ -192,8 +190,7 @@ CScriptEntityAction* CScriptEntity::GetCurrentAction()
 void ActionCallback(IKinematics* tpKinematics)
 {
     // sounds
-    CScriptEntity* l_tpScriptMonster =
-        smart_cast<CScriptEntity*>((CGameObject*)(tpKinematics->GetUpdateCallbackParam()));
+    CScriptEntity* l_tpScriptMonster = smart_cast<CScriptEntity*>((CGameObject*)(tpKinematics->GetUpdateCallbackParam()));
     VERIFY(l_tpScriptMonster);
     if (!l_tpScriptMonster->GetCurrentAction())
         return;
@@ -207,11 +204,7 @@ void CScriptEntity::vfUpdateParticles()
     if (xr_strlen(l_tParticleAction.m_caBoneName))
     {
         CParticlesObject* l_tpParticlesObject = l_tParticleAction.m_tpParticleSystem;
-        l_tpParticlesObject->UpdateParent(
-            GetUpdatedMatrix(
-                l_tParticleAction.m_caBoneName, l_tParticleAction.m_tParticlePosition,
-                l_tParticleAction.m_tParticleAngles),
-            l_tParticleAction.m_tParticleVelocity);
+        l_tpParticlesObject->UpdateParent(GetUpdatedMatrix(l_tParticleAction.m_caBoneName, l_tParticleAction.m_tParticlePosition, l_tParticleAction.m_tParticleAngles), l_tParticleAction.m_tParticleVelocity);
     }
 }
 
@@ -219,8 +212,7 @@ void CScriptEntity::vfUpdateSounds()
 {
     CScriptSoundAction& l_tSoundAction = GetCurrentAction()->m_tSoundAction;
     if (xr_strlen(l_tSoundAction.m_caBoneName) && m_current_sound && m_current_sound->_feedback())
-        m_current_sound->_feedback()->set_position(
-            GetUpdatedMatrix(l_tSoundAction.m_caBoneName, l_tSoundAction.m_tSoundPosition, Fvector().set(0, 0, 0)).c);
+        m_current_sound->_feedback()->set_position(GetUpdatedMatrix(l_tSoundAction.m_caBoneName, l_tSoundAction.m_tSoundPosition, Fvector().set(0, 0, 0)).c);
 }
 
 void CScriptEntity::vfFinishAction(CScriptEntityAction* tpEntityAction)
@@ -283,8 +275,7 @@ void CScriptEntity::ProcessScripts()
     {
 #ifdef DEBUG
         if (empty_queue)
-            ai().script_engine().script_log(
-                ScriptStorage::eLuaMessageTypeInfo, "Object %s has an empty script queue!", *object().cName());
+            ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeInfo, "Object %s has an empty script queue!", *object().cName());
 #endif
         return;
     }
@@ -318,8 +309,7 @@ void CScriptEntity::ProcessScripts()
         l_bCompleted = l_tpEntityAction->m_tMovementAction.m_bCompleted;
         bfAssignMovement(l_tpEntityAction);
         if (l_tpEntityAction->m_tMovementAction.m_bCompleted && !l_bCompleted)
-            object().callback(GameObject::eActionTypeMovement)(
-                object().lua_game_object(), u32(eActionTypeMovement), -1);
+            object().callback(GameObject::eActionTypeMovement)(object().lua_game_object(), u32(eActionTypeMovement), -1);
 
         // Установить выбранную анимацию
         if (!l_tpEntityAction->m_tAnimationAction.m_bCompleted)
@@ -356,14 +346,13 @@ bool CScriptEntity::bfAssignAnimation(CScriptEntityAction* tpEntityAction)
     if (!xr_strlen(GetCurrentAction()->m_tAnimationAction.m_caAnimationToPlay))
         return (true);
 
-    IKinematicsAnimated& tVisualObject = *(smart_cast<IKinematicsAnimated*>(object().Visual()));
-    m_tpNextAnimation = tVisualObject.ID_Cycle_Safe(*GetCurrentAction()->m_tAnimationAction.m_caAnimationToPlay);
+    IKinematicsAnimated& tVisualObject  = *(smart_cast<IKinematicsAnimated*>(object().Visual()));
+    m_tpNextAnimation                   = tVisualObject.ID_Cycle_Safe(*GetCurrentAction()->m_tAnimationAction.m_caAnimationToPlay);
     m_use_animation_movement_controller = GetCurrentAction()->m_tAnimationAction.m_use_animation_movement_controller;
     return (true);
 }
 
-const Fmatrix
-    CScriptEntity::GetUpdatedMatrix(shared_str caBoneName, const Fvector& tPositionOffset, const Fvector& tAngleOffset)
+const Fmatrix CScriptEntity::GetUpdatedMatrix(shared_str caBoneName, const Fvector& tPositionOffset, const Fvector& tAngleOffset)
 {
     Fmatrix l_tMatrix;
 
@@ -372,9 +361,7 @@ const Fmatrix
 
     if (xr_strlen(caBoneName))
     {
-        CBoneInstance& l_tBoneInstance =
-            smart_cast<IKinematics*>(object().Visual())
-                ->LL_GetBoneInstance(smart_cast<IKinematics*>(object().Visual())->LL_BoneID(caBoneName));
+        CBoneInstance& l_tBoneInstance = smart_cast<IKinematics*>(object().Visual())->LL_GetBoneInstance(smart_cast<IKinematics*>(object().Visual())->LL_BoneID(caBoneName));
         l_tMatrix.mulA_43(l_tBoneInstance.mTransform);
         l_tMatrix.mulA_43(object().XFORM());
     }
@@ -397,8 +384,7 @@ bool CScriptEntity::bfAssignSound(CScriptEntityAction* tpEntityAction)
 //				Msg									("%6d Starting sound
 //%s",Device->dwTimeGlobal,*l_tSoundAction.m_caSoundToPlay);
 #endif
-                const Fmatrix& l_tMatrix = GetUpdatedMatrix(
-                    l_tSoundAction.m_caBoneName, l_tSoundAction.m_tSoundPosition, l_tSoundAction.m_tSoundAngles);
+                const Fmatrix& l_tMatrix = GetUpdatedMatrix(l_tSoundAction.m_caBoneName, l_tSoundAction.m_tSoundPosition, l_tSoundAction.m_tSoundAngles);
                 m_current_sound->play_at_pos(m_object, l_tMatrix.c, l_tSoundAction.m_bLooped ? sm_Looped : 0);
                 l_tSoundAction.m_bStartedToPlay = true;
             }
@@ -430,10 +416,8 @@ bool CScriptEntity::bfAssignParticles(CScriptEntityAction* tpEntityAction)
         if (true /** !l_tParticleAction.m_tpParticleSystem/**/)
             if (!l_tParticleAction.m_bStartedToPlay)
             {
-                const Fmatrix& l_tMatrix = GetUpdatedMatrix(
-                    *l_tParticleAction.m_caBoneName, l_tParticleAction.m_tParticlePosition,
-                    l_tParticleAction.m_tParticleAngles);
-                Fvector zero_vel = {0.f, 0.f, 0.f};
+                const Fmatrix& l_tMatrix = GetUpdatedMatrix(*l_tParticleAction.m_caBoneName, l_tParticleAction.m_tParticlePosition, l_tParticleAction.m_tParticleAngles);
+                Fvector        zero_vel  = {0.f, 0.f, 0.f};
                 l_tParticleAction.m_tpParticleSystem->UpdateParent(l_tMatrix, zero_vel);
                 l_tParticleAction.m_tpParticleSystem->play_at_pos(l_tMatrix.c);
                 l_tParticleAction.m_bStartedToPlay = true;
@@ -476,7 +460,8 @@ bool CScriptEntity::bfAssignMovement(CScriptEntityAction* tpEntityAction)
 
     switch (l_tMovementAction.m_tGoalType)
     {
-        case CScriptMovementAction::eGoalTypeObject: {
+        case CScriptMovementAction::eGoalTypeObject:
+        {
             CGameObject* l_tpGameObject = smart_cast<CGameObject*>(l_tMovementAction.m_tpObjectToGo);
 #ifdef DEBUG
             THROW2(l_tpGameObject, "eGoalTypeObject specified, but no object passed!");
@@ -490,7 +475,8 @@ bool CScriptEntity::bfAssignMovement(CScriptEntityAction* tpEntityAction)
             m_monster->movement().set_level_dest_vertex(l_tpGameObject->ai_location().level_vertex_id());
             break;
         }
-        case CScriptMovementAction::eGoalTypePatrolPath: {
+        case CScriptMovementAction::eGoalTypePatrolPath:
+        {
             m_monster->movement().set_path_type(MovementManager::ePathTypePatrolPath);
             m_monster->movement().patrol().set_path(l_tMovementAction.m_path, l_tMovementAction.m_path_name);
             m_monster->movement().patrol().set_start_type(l_tMovementAction.m_tPatrolPathStart);
@@ -503,45 +489,39 @@ bool CScriptEntity::bfAssignMovement(CScriptEntityAction* tpEntityAction)
             break;
         }
         case CScriptMovementAction::eGoalTypeFollowLeader:
-        case CScriptMovementAction::eGoalTypePathPosition: {
+        case CScriptMovementAction::eGoalTypePathPosition:
+        {
             m_monster->movement().set_path_type(MovementManager::ePathTypeLevelPath);
             m_monster->movement().detail().set_dest_position(l_tMovementAction.m_tDestinationPosition);
 
             u32 vertex_id;
-            vertex_id = ai().level_graph().vertex(
-                object().ai_location().level_vertex_id(), l_tMovementAction.m_tDestinationPosition);
+            vertex_id = ai().level_graph().vertex(object().ai_location().level_vertex_id(), l_tMovementAction.m_tDestinationPosition);
             if (!ai().level_graph().valid_vertex_id(vertex_id))
-                vertex_id = ai().level_graph().check_position_in_direction(
-                    object().ai_location().level_vertex_id(), object().Position(),
-                    l_tMovementAction.m_tDestinationPosition);
+                vertex_id = ai().level_graph().check_position_in_direction(object().ai_location().level_vertex_id(), object().Position(), l_tMovementAction.m_tDestinationPosition);
 
 #ifdef DEBUG
             if (!ai().level_graph().valid_vertex_id(vertex_id))
             {
                 string256 S;
-                xr_sprintf(
-                    S, "Cannot find corresponding level vertex for the specified position [%f][%f][%f] for monster %s",
-                    VPUSH(l_tMovementAction.m_tDestinationPosition), *m_monster->cName());
+                xr_sprintf(S, "Cannot find corresponding level vertex for the specified position [%f][%f][%f] for monster %s", VPUSH(l_tMovementAction.m_tDestinationPosition), *m_monster->cName());
                 THROW2(ai().level_graph().valid_vertex_id(vertex_id), S);
             }
 #endif
             m_monster->movement().level_path().set_dest_vertex(vertex_id);
             break;
         }
-        case CScriptMovementAction::eGoalTypePathNodePosition: {
+        case CScriptMovementAction::eGoalTypePathNodePosition:
+        {
             VERIFY(ai().level_graph().valid_vertex_id(l_tMovementAction.m_tNodeID));
             m_monster->movement().set_path_type(MovementManager::ePathTypeLevelPath);
             m_monster->movement().detail().set_dest_position(l_tMovementAction.m_tDestinationPosition);
             m_monster->movement().level_path().set_dest_vertex(l_tMovementAction.m_tNodeID);
             break;
         }
-        case CScriptMovementAction::eGoalTypeNoPathPosition: {
+        case CScriptMovementAction::eGoalTypeNoPathPosition:
+        {
             m_monster->movement().set_path_type(MovementManager::ePathTypeLevelPath);
-            if (m_monster->movement().detail().path().empty() ||
-                (m_monster->movement()
-                     .detail()
-                     .path()[m_monster->movement().detail().path().size() - 1]
-                     .position.distance_to(l_tMovementAction.m_tDestinationPosition) > .1f))
+            if (m_monster->movement().detail().path().empty() || (m_monster->movement().detail().path()[m_monster->movement().detail().path().size() - 1].position.distance_to(l_tMovementAction.m_tDestinationPosition) > .1f))
             {
                 m_monster->movement().detail().m_path.resize(2);
                 m_monster->movement().detail().m_path[0].position     = object().Position();
@@ -554,7 +534,8 @@ bool CScriptEntity::bfAssignMovement(CScriptEntityAction* tpEntityAction)
 
             break;
         }
-        default: {
+        default:
+        {
             m_monster->movement().set_desirable_speed(0.f);
             return (l_tMovementAction.m_bCompleted = true);
         }
@@ -576,9 +557,7 @@ LPCSTR CScriptEntity::GetPatrolPathName()
 #ifdef DEBUG
     if (!GetScriptControl())
     {
-        ai().script_engine().script_log(
-            eLuaMessageTypeError, "Object %s is not under script control while you are trying to get patrol path name!",
-            *m_object->cName());
+        ai().script_engine().script_log(eLuaMessageTypeError, "Object %s is not under script control while you are trying to get patrol path name!", *m_object->cName());
         return "";
     }
 #endif
@@ -609,8 +588,7 @@ void ScriptCallBack(CBlend* B)
     if (l_tpScriptMonster->GetCurrentAction() && !B->bone_or_part)
     {
         if (!l_tpScriptMonster->GetCurrentAction()->m_tAnimationAction.m_bCompleted)
-            l_tpScriptMonster->object().callback(GameObject::eActionTypeAnimation)(
-                l_tpScriptMonster->object().lua_game_object(), u32(eActionTypeAnimation));
+            l_tpScriptMonster->object().callback(GameObject::eActionTypeAnimation)(l_tpScriptMonster->object().lua_game_object(), u32(eActionTypeAnimation));
 
         l_tpScriptMonster->m_tpScriptAnimation.invalidate();
         l_tpScriptMonster->GetCurrentAction()->m_tAnimationAction.m_bCompleted = true;
@@ -624,8 +602,7 @@ bool CScriptEntity::bfScriptAnimation()
     if (GetScriptControl() && !GetCurrentAction() && GetActionCount())
         ProcessScripts();
 
-    if (GetScriptControl() && GetCurrentAction() && !GetCurrentAction()->m_tAnimationAction.m_bCompleted &&
-        xr_strlen(GetCurrentAction()->m_tAnimationAction.m_caAnimationToPlay))
+    if (GetScriptControl() && GetCurrentAction() && !GetCurrentAction()->m_tAnimationAction.m_bCompleted && xr_strlen(GetCurrentAction()->m_tAnimationAction.m_caAnimationToPlay))
     {
         if (m_tpScriptAnimation == m_tpNextAnimation)
             return (true);
@@ -714,8 +691,7 @@ void CScriptEntity::process_sound_callbacks()
     xr_vector<CSavedSound>::const_iterator E = m_saved_sounds.end();
     for (; I != E; ++I)
     {
-        object().callback(GameObject::eSound)(
-            object().lua_game_object(), (*I).m_game_object_id, (*I).m_sound_type, (*I).m_position, (*I).m_sound_power);
+        object().callback(GameObject::eSound)(object().lua_game_object(), (*I).m_game_object_id, (*I).m_sound_type, (*I).m_position, (*I).m_sound_power);
     }
 
     m_saved_sounds.clear();

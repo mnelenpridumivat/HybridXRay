@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../state.h"
 
-template <typename _Object> class CStateControllerTube: public CState<_Object>
+template<typename _Object> class CStateControllerTube: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 

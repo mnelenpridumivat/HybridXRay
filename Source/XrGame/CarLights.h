@@ -65,6 +65,7 @@ protected:
         Ivector2		m_gabarites								;
         Ivector2		m_door_gabarites						;
     */
+
 private:
 };
 

@@ -8,7 +8,7 @@
 #include "directx\dxerr.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #include <direct.h>
 #pragma warning(pop)
@@ -53,9 +53,9 @@ static BOOL bException = FALSE;
 
 XRCORE_API xrDebug Debug;
 
-static bool error_after_dialog = false;
+static bool        error_after_dialog = false;
 
-void LogStackTrace(LPCSTR header)
+void               LogStackTrace(LPCSTR header)
 {
     if (!shared_str_initialized)
         return;
@@ -63,16 +63,7 @@ void LogStackTrace(LPCSTR header)
     Msg("%s", header);
 }
 
-void xrDebug::gather_info(
-    const char* expression,
-    const char* description,
-    const char* argument0,
-    const char* argument1,
-    const char* file,
-    int         line,
-    const char* function,
-    LPSTR       assertion_info,
-    u32 const   assertion_info_size)
+void xrDebug::gather_info(const char* expression, const char* description, const char* argument0, const char* argument1, const char* file, int line, const char* function, LPSTR assertion_info, u32 const assertion_info_size)
 {
     LPSTR  buffer_base          = assertion_info;
     LPSTR  buffer               = assertion_info;
@@ -83,55 +74,38 @@ void xrDebug::gather_info(
     for (int i = 0; i < 2; ++i)
     {
         if (!i)
-            buffer += xr_sprintf(
-                buffer, assertion_size - u32(buffer - buffer_base), "%sFATAL ERROR%s%s", endline, endline, endline);
-        buffer += xr_sprintf(
-            buffer, assertion_size - u32(buffer - buffer_base), "%sExpression    : %s%s", prefix, expression, endline);
-        buffer += xr_sprintf(
-            buffer, assertion_size - u32(buffer - buffer_base), "%sFunction      : %s%s", prefix, function, endline);
-        buffer += xr_sprintf(
-            buffer, assertion_size - u32(buffer - buffer_base), "%sFile          : %s%s", prefix, file, endline);
-        buffer += xr_sprintf(
-            buffer, assertion_size - u32(buffer - buffer_base), "%sLine          : %d%s", prefix, line, endline);
+            buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sFATAL ERROR%s%s", endline, endline, endline);
+        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sExpression    : %s%s", prefix, expression, endline);
+        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sFunction      : %s%s", prefix, function, endline);
+        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sFile          : %s%s", prefix, file, endline);
+        buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sLine          : %d%s", prefix, line, endline);
 
         if (extended_description)
         {
-            buffer +=
-                xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s%s", endline, description, endline);
+            buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s%s", endline, description, endline);
             if (argument0)
             {
                 if (argument1)
                 {
-                    buffer +=
-                        xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument0, endline);
-                    buffer +=
-                        xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument1, endline);
+                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument0, endline);
+                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument1, endline);
                 }
                 else
-                    buffer +=
-                        xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument0, endline);
+                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%s%s", argument0, endline);
             }
         }
         else
         {
-            buffer += xr_sprintf(
-                buffer, assertion_size - u32(buffer - buffer_base), "%sDescription   : %s%s", prefix, description,
-                endline);
+            buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sDescription   : %s%s", prefix, description, endline);
             if (argument0)
             {
                 if (argument1)
                 {
-                    buffer += xr_sprintf(
-                        buffer, assertion_size - u32(buffer - buffer_base), "%sArgument 0    : %s%s", prefix, argument0,
-                        endline);
-                    buffer += xr_sprintf(
-                        buffer, assertion_size - u32(buffer - buffer_base), "%sArgument 1    : %s%s", prefix, argument1,
-                        endline);
+                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sArgument 0    : %s%s", prefix, argument0, endline);
+                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sArgument 1    : %s%s", prefix, argument1, endline);
                 }
                 else
-                    buffer += xr_sprintf(
-                        buffer, assertion_size - u32(buffer - buffer_base), "%sArguments     : %s%s", prefix, argument0,
-                        endline);
+                    buffer += xr_sprintf(buffer, assertion_size - u32(buffer - buffer_base), "%sArguments     : %s%s", prefix, argument0, endline);
             }
         }
 
@@ -177,15 +151,7 @@ void xrDebug::do_exit(const std::string& message)
     TerminateProcess(GetCurrentProcess(), 1);
 }
 
-void xrDebug::backend(
-    const char* expression,
-    const char* description,
-    const char* argument0,
-    const char* argument1,
-    const char* file,
-    int         line,
-    const char* function,
-    bool&       ignore_always)
+void xrDebug::backend(const char* expression, const char* description, const char* argument0, const char* argument1, const char* file, int line, const char* function, bool& ignore_always)
 {
     /*if (IsDebuggerPresent())
     {
@@ -204,21 +170,14 @@ void xrDebug::backend(
 
     string4096 assertion_info;
 
-    gather_info(
-        expression, description, argument0, argument1, file, line, function, assertion_info, sizeof(assertion_info));
+    gather_info(expression, description, argument0, argument1, file, line, function, assertion_info, sizeof(assertion_info));
 
 #ifdef USE_OWN_ERROR_MESSAGE_WINDOW
     LPCSTR endline = "\r\n";
     LPSTR  buffer  = assertion_info + xr_strlen(assertion_info);
-    buffer += xr_sprintf(
-        buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "%sPress CANCEL to abort execution%s",
-        endline, endline);
-    buffer += xr_sprintf(
-        buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "Press TRY AGAIN to continue execution%s",
-        endline);
-    buffer += xr_sprintf(
-        buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]),
-        "Press CONTINUE to continue execution and ignore all the errors of this type%s%s", endline, endline);
+    buffer += xr_sprintf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "%sPress CANCEL to abort execution%s", endline, endline);
+    buffer += xr_sprintf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "Press TRY AGAIN to continue execution%s", endline);
+    buffer += xr_sprintf(buffer, sizeof(assertion_info) - u32(buffer - &assertion_info[0]), "Press CONTINUE to continue execution and ignore all the errors of this type%s%s", endline, endline);
 #endif   // USE_OWN_ERROR_MESSAGE_WINDOW
 
     if (handler)
@@ -237,7 +196,8 @@ void xrDebug::backend(
 
     switch (result)
     {
-        case IDCANCEL: {
+        case IDCANCEL:
+        {
 #ifdef USE_BUG_TRAP
             BT_SetUserMessage(assertion_info);
 #endif   // USE_BUG_TRAP
@@ -251,11 +211,13 @@ void xrDebug::backend(
             }
             break;
         }
-        case IDTRYAGAIN: {
+        case IDTRYAGAIN:
+        {
             error_after_dialog = false;
             break;
         }
-        case IDCONTINUE: {
+        case IDCONTINUE:
+        {
             error_after_dialog = false;
             ignore_always      = true;
             break;
@@ -296,14 +258,7 @@ void xrDebug::error(long hr, const char* expr, const char* file, int line, const
     backend(error2string(hr), expr, 0, 0, file, line, function, ignore_always);
 }
 
-void xrDebug::error(
-    long        hr,
-    const char* expr,
-    const char* e2,
-    const char* file,
-    int         line,
-    const char* function,
-    bool&       ignore_always)
+void xrDebug::error(long hr, const char* expr, const char* e2, const char* file, int line, const char* function, bool& ignore_always)
 {
     backend(error2string(hr), expr, e2, 0, file, line, function, ignore_always);
 }
@@ -313,49 +268,22 @@ void xrDebug::fail(const char* e1, const char* file, int line, const char* funct
     backend("assertion failed", e1, 0, 0, file, line, function, ignore_always);
 }
 
-void xrDebug::fail(
-    const char*        e1,
-    const std::string& e2,
-    const char*        file,
-    int                line,
-    const char*        function,
-    bool&              ignore_always)
+void xrDebug::fail(const char* e1, const std::string& e2, const char* file, int line, const char* function, bool& ignore_always)
 {
     backend(e1, e2.c_str(), 0, 0, file, line, function, ignore_always);
 }
 
-void xrDebug::fail(
-    const char* e1,
-    const char* e2,
-    const char* file,
-    int         line,
-    const char* function,
-    bool&       ignore_always)
+void xrDebug::fail(const char* e1, const char* e2, const char* file, int line, const char* function, bool& ignore_always)
 {
     backend(e1, e2, 0, 0, file, line, function, ignore_always);
 }
 
-void xrDebug::fail(
-    const char* e1,
-    const char* e2,
-    const char* e3,
-    const char* file,
-    int         line,
-    const char* function,
-    bool&       ignore_always)
+void xrDebug::fail(const char* e1, const char* e2, const char* e3, const char* file, int line, const char* function, bool& ignore_always)
 {
     backend(e1, e2, e3, 0, file, line, function, ignore_always);
 }
 
-void xrDebug::fail(
-    const char* e1,
-    const char* e2,
-    const char* e3,
-    const char* e4,
-    const char* file,
-    int         line,
-    const char* function,
-    bool&       ignore_always)
+void xrDebug::fail(const char* e1, const char* e2, const char* e3, const char* e4, const char* file, int line, const char* function, bool& ignore_always)
 {
     backend(e1, e2, e3, e4, file, line, function, ignore_always);
 }
@@ -364,7 +292,7 @@ void __cdecl xrDebug::fatal(const char* file, int line, const char* function, co
 {
     string1024 buffer;
 
-    va_list p;
+    va_list    p;
     va_start(p, F);
     vsprintf(buffer, F, p);
     va_end(p);
@@ -374,10 +302,10 @@ void __cdecl xrDebug::fatal(const char* file, int line, const char* function, co
     backend("fatal error", "<no expression>", buffer, 0, file, line, function, ignore_always);
 }
 
-typedef void (*full_memory_stats_callback_type)();
+typedef void                               (*full_memory_stats_callback_type)();
 XRCORE_API full_memory_stats_callback_type g_full_memory_stats_callback = 0;
 
-void out_of_memory_handler()
+void                                       out_of_memory_handler()
 {
     if (g_full_memory_stats_callback)
         g_full_memory_stats_callback();
@@ -399,11 +327,11 @@ void out_of_memory_handler()
     Debug.fatal(DEBUG_INFO, "Out of memory. Memory request:unkown K");
 }
 
-extern LPCSTR log_name();
+extern LPCSTR          log_name();
 
 XRCORE_API string_path g_bug_report_file;
 
-void CALLBACK PreErrorHandler(INT_PTR)
+void CALLBACK          PreErrorHandler(INT_PTR)
 {
 #ifdef USE_BUG_TRAP
     if (!xr_FS || !FS.m_Flags.test(CLocatorAPI::flReady))
@@ -453,9 +381,7 @@ void SetupExceptionHandler(const bool& dedicated)
     BT_SetActivityType(BTA_SAVEREPORT);
 #endif   // USE_OWN_ERROR_MESSAGE_WINDOW
 
-    BT_SetDialogMessage(
-        BTDM_INTRO2,
-        "\
+    BT_SetDialogMessage(BTDM_INTRO2, "\
 This is X-Ray Engine v1.6 crash reporting client. \
 To help the development process, \
 please Submit Bug or save report and email it manually (button More...).\
@@ -477,35 +403,35 @@ please Submit Bug or save report and email it manually (button More...).\
 //			MiniDumpScanMemory |
 //			MiniDumpWithUnloadedModules |
 #ifndef _EDITOR
-         MiniDumpWithIndirectlyReferencedMemory |
-#endif   // _EDITOR
-         //			MiniDumpFilterModulePaths |
-         //			MiniDumpWithProcessThreadData |
-         //			MiniDumpWithPrivateReadWriteMemory |
-         //			MiniDumpWithoutOptionalData |
-         //			MiniDumpWithFullMemoryInfo |
-         //			MiniDumpWithThreadInfo |
-         //			MiniDumpWithCodeSegs |
-         0);
+            MiniDumpWithIndirectlyReferencedMemory |
+#endif   // _EDITOR                           \
+    //			MiniDumpFilterModulePaths |          \
+    //			MiniDumpWithProcessThreadData |      \
+    //			MiniDumpWithPrivateReadWriteMemory | \
+    //			MiniDumpWithoutOptionalData |        \
+    //			MiniDumpWithFullMemoryInfo |         \
+    //			MiniDumpWithThreadInfo |             \
+    //			MiniDumpWithCodeSegs |
+            0);
 #else   // #ifndef MASTER_GOLD
-        dedicated ? MiniDumpNoDump :
-                    (MiniDumpWithDataSegs |
+        dedicated ? MiniDumpNoDump
+                  : (MiniDumpWithDataSegs |
 //			MiniDumpWithFullMemory |
 //			MiniDumpWithHandleData |
 //			MiniDumpFilterMemory |
 //			MiniDumpScanMemory |
 //			MiniDumpWithUnloadedModules |
 #ifndef _EDITOR
-                     MiniDumpWithIndirectlyReferencedMemory |
-#endif   // _EDITOR
-                     //			MiniDumpFilterModulePaths |
-                     //			MiniDumpWithProcessThreadData |
-                     //			MiniDumpWithPrivateReadWriteMemory |
-                     //			MiniDumpWithoutOptionalData |
-                     //			MiniDumpWithFullMemoryInfo |
-                     //			MiniDumpWithThreadInfo |
-                     //			MiniDumpWithCodeSegs |
-                     0);
+                        MiniDumpWithIndirectlyReferencedMemory |
+#endif   // _EDITOR                                \
+         //			MiniDumpFilterModulePaths |          \
+         //			MiniDumpWithProcessThreadData |      \
+         //			MiniDumpWithPrivateReadWriteMemory | \
+         //			MiniDumpWithoutOptionalData |        \
+         //			MiniDumpWithFullMemoryInfo |         \
+         //			MiniDumpWithThreadInfo |             \
+         //			MiniDumpWithCodeSegs |
+                        0);
 #endif   // #ifndef MASTER_GOLD
 
     BT_SetDumpType(minidump_flags);
@@ -523,14 +449,7 @@ extern "C" BOOL __stdcall SetCrashHandlerFilter(PFNCHFILTFN pFn);
 static UnhandledExceptionFilterType* previous_filter = 0;
 
 #ifdef USE_OWN_MINI_DUMP
-typedef BOOL(WINAPI* MINIDUMPWRITEDUMP)(
-    HANDLE                                  hProcess,
-    DWORD                                   dwPid,
-    HANDLE                                  hFile,
-    MINIDUMP_TYPE                           DumpType,
-    CONST PMINIDUMP_EXCEPTION_INFORMATION   ExceptionParam,
-    CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
-    CONST PMINIDUMP_CALLBACK_INFORMATION    CallbackParam);
+typedef BOOL(WINAPI* MINIDUMPWRITEDUMP)(HANDLE hProcess, DWORD dwPid, HANDLE hFile, MINIDUMP_TYPE DumpType, CONST PMINIDUMP_EXCEPTION_INFORMATION ExceptionParam, CONST PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam, CONST PMINIDUMP_CALLBACK_INFORMATION CallbackParam);
 
 void save_mini_dump(_EXCEPTION_POINTERS* pExceptionInfo)
 {
@@ -589,14 +508,12 @@ void save_mini_dump(_EXCEPTION_POINTERS* pExceptionInfo)
             }
 
             // create the file
-            HANDLE hFile = ::CreateFile(
-                szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+            HANDLE hFile = ::CreateFile(szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
             if (INVALID_HANDLE_VALUE == hFile)
             {
                 // try to place into current directory
                 MoveMemory(szDumpPath, szDumpPath + 5, strlen(szDumpPath));
-                hFile = ::CreateFile(
-                    szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+                hFile = ::CreateFile(szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
             }
             if (hFile != INVALID_HANDLE_VALUE)
             {
@@ -609,7 +526,7 @@ void save_mini_dump(_EXCEPTION_POINTERS* pExceptionInfo)
                 // write the dump
                 MINIDUMP_TYPE dump_flags = MINIDUMP_TYPE(MiniDumpNormal | MiniDumpFilterMemory | MiniDumpScanMemory);
 
-                BOOL bOK = pDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, dump_flags, &ExInfo, NULL, NULL);
+                BOOL          bOK        = pDump(GetCurrentProcess(), GetCurrentProcessId(), hFile, dump_flags, &ExInfo, NULL, NULL);
                 if (bOK)
                 {
                     xr_sprintf(szScratch, "Saved dump file to '%s'", szDumpPath);
@@ -652,9 +569,7 @@ void format_message(LPSTR buffer, const u32& buffer_size)
         return;
     }
 
-    FormatMessage(
-        FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL, error_code,
-        MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&message, 0, NULL);
+    FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL, error_code, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPSTR)&message, 0, NULL);
 
     xr_sprintf(buffer, buffer_size, "[error][%8d]    : %s", error_code, message);
     LocalFree(message);
@@ -711,9 +626,7 @@ LONG WINAPI UnhandledFilter(_EXCEPTION_POINTERS* pExceptionInfo)
         if (Debug.get_on_dialog())
             Debug.get_on_dialog()(true);
 
-        MessageBox(
-            NULL, "Fatal error occured\n\nPress OK to abort program execution", "Fatal error",
-            MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
+        MessageBox(NULL, "Fatal error occured\n\nPress OK to abort program execution", "Fatal error", MB_OK | MB_ICONERROR | MB_SYSTEMMODAL);
         exit(-1);
     }
 #endif   // USE_OWN_ERROR_MESSAGE_WINDOW
@@ -806,14 +719,9 @@ static void handler_base(LPCSTR reason_string)
     Debug.backend("error handler is invoked!", reason_string, 0, 0, DEBUG_INFO, ignore_always);
 }
 
-static void invalid_parameter_handler(
-    const wchar_t* expression,
-    const wchar_t* function,
-    const wchar_t* file,
-    unsigned int   line,
-    uintptr_t      reserved)
+static void invalid_parameter_handler(const wchar_t* expression, const wchar_t* function, const wchar_t* file, unsigned int line, uintptr_t reserved)
 {
-    bool ignore_always = false;
+    bool       ignore_always = false;
 
     string4096 expression_;
     string4096 function_;
@@ -821,9 +729,7 @@ static void invalid_parameter_handler(
     size_t     converted_chars = 0;
     //		errno_t							err =
     if (expression)
-        wcstombs_s(
-            &converted_chars, expression_, sizeof(expression_), expression,
-            (wcslen(expression) + 1) * 2 * sizeof(char));
+        wcstombs_s(&converted_chars, expression_, sizeof(expression_), expression, (wcslen(expression) + 1) * 2 * sizeof(char));
     else
         xr_strcpy(expression_, "");
 
@@ -884,7 +790,7 @@ void debug_on_thread_spawn()
 {
 #ifdef USE_BUG_TRAP
     BT_SetTerminate();
-#else    // USE_BUG_TRAP
+#else    // USE_BUG_TRAP \
          // std::set_terminate				(_terminate);
 #endif   // USE_BUG_TRAP
 
@@ -914,15 +820,14 @@ void xrDebug::_initialize(const bool& dedicated)
 {
     static bool is_dedicated = dedicated;
 
-    *g_bug_report_file = 0;
+    *g_bug_report_file       = 0;
 
     debug_on_thread_spawn();
 
 #ifdef USE_BUG_TRAP
     SetupExceptionHandler(is_dedicated);
 #endif   // USE_BUG_TRAP
-    previous_filter =
-        ::SetUnhandledExceptionFilter(UnhandledFilter);   // exception handler to all "unhandled" exceptions
+    previous_filter = ::SetUnhandledExceptionFilter(UnhandledFilter);   // exception handler to all "unhandled" exceptions
 
 #if 0
 		struct foo {static void	recurs	(const u32 &count)

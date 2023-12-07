@@ -51,8 +51,7 @@ XRGAMESPY_API void xrGS_qr2_register_publicaddress_callback(qr2_t qrec, qr2_publ
 {
     qr2_register_publicaddress_callback(qrec, pacallback);
 };
-XRGAMESPY_API void
-    xrGS_qr2_register_denyresponsetoip_callback(qr2_t qrec, qr2_denyqr2responsetoipcallback_t dertoipcallback)
+XRGAMESPY_API void xrGS_qr2_register_denyresponsetoip_callback(qr2_t qrec, qr2_denyqr2responsetoipcallback_t dertoipcallback)
 {
     qr2_register_denyresponsetoip_callback(qrec, dertoipcallback);
 };
@@ -60,18 +59,7 @@ XRGAMESPY_API void
 // XRGAMESPY_API qr2_error_t xrGS_qr2_init(/*[out]*/qr2_t *qrec, const gsi_char *ip, int baseport, const gsi_char
 // *gamename, const gsi_char *secret_key,
 XRGAMESPY_API qr2_error_t xrGS_qr2_initA(
-    /*[out]*/ qr2_t*            qrec,
-    const gsi_char*             ip,
-    int                         baseport,
-    int                         ispublic,
-    int                         natnegotiate,
-    qr2_serverkeycallback_t     server_key_callback,
-    qr2_playerteamkeycallback_t player_key_callback,
-    qr2_playerteamkeycallback_t team_key_callback,
-    qr2_keylistcallback_t       key_list_callback,
-    qr2_countcallback_t         playerteam_count_callback,
-    qr2_adderrorcallback_t      adderror_callback,
-    void*                       userdata)
+    /*[out]*/ qr2_t* qrec, const gsi_char* ip, int baseport, int ispublic, int natnegotiate, qr2_serverkeycallback_t server_key_callback, qr2_playerteamkeycallback_t player_key_callback, qr2_playerteamkeycallback_t team_key_callback, qr2_keylistcallback_t key_list_callback, qr2_countcallback_t playerteam_count_callback, qr2_adderrorcallback_t adderror_callback, void* userdata)
 {
     int BasePort = baseport;
     if (BasePort == -1)
@@ -87,10 +75,7 @@ XRGAMESPY_API qr2_error_t xrGS_qr2_initA(
     char SecretKey[16];
     FillSecretKey(SecretKey);
 
-    qr2_error_t res = qr2_initA(
-        qrec, ip, BasePort, GAMESPY_GAMENAME, SecretKey, ispublic, natnegotiate, server_key_callback,
-        player_key_callback, team_key_callback, key_list_callback, playerteam_count_callback, adderror_callback,
-        userdata);
+    qr2_error_t res = qr2_initA(qrec, ip, BasePort, GAMESPY_GAMENAME, SecretKey, ispublic, natnegotiate, server_key_callback, player_key_callback, team_key_callback, key_list_callback, playerteam_count_callback, adderror_callback, userdata);
 
     return res;
 }

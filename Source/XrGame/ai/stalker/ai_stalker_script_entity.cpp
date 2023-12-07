@@ -89,16 +89,14 @@ bool CAI_Stalker::bfAssignWatch(CScriptEntityAction* tpEntityAction)
 
     switch (l_tWatchAction.m_tGoalType)
     {
-        case CScriptWatchAction::eGoalTypeObject: {
+        case CScriptWatchAction::eGoalTypeObject:
+        {
             if (!xr_strlen(l_tWatchAction.m_bone_to_watch))
                 l_tWatchAction.m_tpObjectToWatch->Center(l_tWatchAction.m_tWatchVector);
             else
             {
-                CBoneInstance& l_tBoneInstance =
-                    smart_cast<IKinematics*>(l_tWatchAction.m_tpObjectToWatch->Visual())
-                        ->LL_GetBoneInstance(smart_cast<IKinematics*>(l_tWatchAction.m_tpObjectToWatch->Visual())
-                                                 ->LL_BoneID(l_tWatchAction.m_bone_to_watch));
-                Fmatrix l_tMatrix;
+                CBoneInstance& l_tBoneInstance = smart_cast<IKinematics*>(l_tWatchAction.m_tpObjectToWatch->Visual())->LL_GetBoneInstance(smart_cast<IKinematics*>(l_tWatchAction.m_tpObjectToWatch->Visual())->LL_BoneID(l_tWatchAction.m_bone_to_watch));
+                Fmatrix        l_tMatrix;
 
                 l_tMatrix = l_tBoneInstance.mTransform;
                 l_tMatrix.mulA_43(l_tWatchAction.m_tpObjectToWatch->XFORM());
@@ -108,14 +106,17 @@ bool CAI_Stalker::bfAssignWatch(CScriptEntityAction* tpEntityAction)
             sight().setup(l_tWatchAction.m_tWatchType, &l_tWatchAction.m_tWatchVector);
             break;
         }
-        case CScriptWatchAction::eGoalTypeDirection: {
+        case CScriptWatchAction::eGoalTypeDirection:
+        {
             sight().setup(l_tWatchAction.m_tWatchType, &l_tWatchAction.m_tWatchVector);
             break;
         }
-        case CScriptWatchAction::eGoalTypeWatchType: {
+        case CScriptWatchAction::eGoalTypeWatchType:
+        {
             break;
         }
-        case CScriptWatchAction::eGoalTypeCurrent: {
+        case CScriptWatchAction::eGoalTypeCurrent:
+        {
             l_tWatchAction.m_tWatchType = SightManager::eSightTypeCurrentDirection;
             l_tWatchAction.m_bCompleted = true;
             return (false);
@@ -124,9 +125,7 @@ bool CAI_Stalker::bfAssignWatch(CScriptEntityAction* tpEntityAction)
             NODEFAULT;
     }
 
-    if ((CScriptWatchAction::eGoalTypeWatchType != l_tWatchAction.m_tGoalType) &&
-        (angle_difference(movement().m_head.target.yaw, movement().m_head.current.yaw) < EPS_L) &&
-        (angle_difference(movement().m_head.target.pitch, movement().m_head.current.pitch) < EPS_L))
+    if ((CScriptWatchAction::eGoalTypeWatchType != l_tWatchAction.m_tGoalType) && (angle_difference(movement().m_head.target.yaw, movement().m_head.current.yaw) < EPS_L) && (angle_difference(movement().m_head.target.pitch, movement().m_head.current.pitch) < EPS_L))
         l_tWatchAction.m_bCompleted = true;
     else
         l_tWatchAction.m_bCompleted = false;
@@ -164,7 +163,8 @@ bool CAI_Stalker::bfAssignObject(CScriptEntityAction* tpEntityAction)
 
     switch (l_tObjectAction.m_tGoalType)
     {
-        case eObjectActionIdle: {
+        case eObjectActionIdle:
+        {
             if (!l_tpWeapon)
                 return ((l_tObjectAction.m_bCompleted = true) == false);
             CObjectHandler::set_goal(eObjectActionIdle, l_tpInventoryItem);
@@ -172,7 +172,8 @@ bool CAI_Stalker::bfAssignObject(CScriptEntityAction* tpEntityAction)
             return ((l_tObjectAction.m_bCompleted = (CObjectHandler::goal_reached())) == false);
             break;
         }
-        case eObjectActionFire1: {
+        case eObjectActionFire1:
+        {
             CObjectHandler::set_goal(eObjectActionFire1, l_tpInventoryItem);
             //			if (!l_tpWeapon)
             //				return	((l_tObjectAction.m_bCompleted = true) == false);
@@ -200,7 +201,8 @@ bool CAI_Stalker::bfAssignObject(CScriptEntityAction* tpEntityAction)
             }
             break;
         }
-        case eObjectActionFire2: {
+        case eObjectActionFire2:
+        {
             CObjectHandler::set_goal(eObjectActionFire2, l_tpInventoryItem);
             //			if (!l_tpWeapon)
             //				return	((l_tObjectAction.m_bCompleted = true) == false);
@@ -229,7 +231,8 @@ bool CAI_Stalker::bfAssignObject(CScriptEntityAction* tpEntityAction)
             break;
         }
         case eObjectActionReload2:
-        case eObjectActionReload1: {
+        case eObjectActionReload1:
+        {
             if (!l_tpWeapon)
                 return ((l_tObjectAction.m_bCompleted = true) == false);
             CObjectHandler::set_goal(eObjectActionReload1, l_tpInventoryItem);
@@ -244,8 +247,7 @@ bool CAI_Stalker::bfAssignObject(CScriptEntityAction* tpEntityAction)
                     l_tObjectAction.m_bCompleted = true;
             }
             else
-                ai().script_engine().script_log(
-                    ScriptStorage::eLuaMessageTypeError, "cannot reload active item because it is not selected!");
+                ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "cannot reload active item because it is not selected!");
 
             //			if (inventory().ActiveItem()) {
             //				inventory().Action(kWPN_FIRE,	CMD_STOP);
@@ -259,7 +261,8 @@ bool CAI_Stalker::bfAssignObject(CScriptEntityAction* tpEntityAction)
             //because it is not selected!");
             break;
         }
-        case eObjectActionActivate: {
+        case eObjectActionActivate:
+        {
             CTorch* torch = smart_cast<CTorch*>(l_tObjectAction.m_tpObject);
             if (torch)
             {
@@ -276,7 +279,8 @@ bool CAI_Stalker::bfAssignObject(CScriptEntityAction* tpEntityAction)
 
             break;
         }
-        case eObjectActionDeactivate: {
+        case eObjectActionDeactivate:
+        {
             CTorch* torch = smart_cast<CTorch*>(l_tObjectAction.m_tpObject);
             if (torch)
             {
@@ -288,23 +292,25 @@ bool CAI_Stalker::bfAssignObject(CScriptEntityAction* tpEntityAction)
             return ((l_tObjectAction.m_bCompleted = (CObjectHandler::goal_reached())) == false);
             break;
         }
-        case eObjectActionUse: {
+        case eObjectActionUse:
+        {
             CObjectHandler::set_goal(eObjectActionUse);
             return ((l_tObjectAction.m_bCompleted = (CObjectHandler::goal_reached())) == false);
             break;
         }
-        case eObjectActionTake: {
+        case eObjectActionTake:
+        {
             if (inventory().GetItemFromInventory(*l_tObjectAction.m_tpObject->cName()))
             {
-                ai().script_engine().script_log(
-                    ScriptStorage::eLuaMessageTypeError, "item is already in the inventory!");
+                ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "item is already in the inventory!");
                 return ((l_tObjectAction.m_bCompleted = true) == false);
             }
             feel_touch_new(l_tObjectAction.m_tpObject);
             l_tObjectAction.m_bCompleted = true;
             break;
         }
-        case eObjectActionDrop: {
+        case eObjectActionDrop:
+        {
             if (!inventory().GetItemFromInventory(*l_tObjectAction.m_tpObject->cName()))
             {
                 ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "item is not in the inventory!");

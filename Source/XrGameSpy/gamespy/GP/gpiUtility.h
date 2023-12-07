@@ -63,30 +63,29 @@ Please see the GameSpy Presence SDK documentation for more information
 
 // FUNCTIONS
 ///////////
-void strzcpy(
-    char*       dest,
-    const char* src,
-    size_t      len   // length of buffer, including space for '\0'
-);
+void     strzcpy(char* dest,
+        const char*    src,
+        size_t         len   // length of buffer, including space for '\0'
+    );
 
-void gpiDebug(GPConnection* connection, const char* fmt, ...);
+void     gpiDebug(GPConnection* connection, const char* fmt, ...);
 
-GPIBool gpiValueForKeyWithIndex(const char* command, const char* key, int* index, char* value, int len);
+GPIBool  gpiValueForKeyWithIndex(const char* command, const char* key, int* index, char* value, int len);
 
-GPIBool gpiValueForKey(const char* command, const char* key, char* value, int len);
+GPIBool  gpiValueForKey(const char* command, const char* key, char* value, int len);
 
-char* gpiValueForKeyAlloc(const char* command, const char* key);
+char*    gpiValueForKeyAlloc(const char* command, const char* key);
 
 GPResult gpiCheckSocketConnect(GPConnection* connection, SOCKET sock, int* state);
 
 GPResult gpiReadKeyAndValue(GPConnection* connection, const char* buffer, int* index, char key[512], char value[512]);
 
-GPIBool gpiCheckForError(GPConnection* connection, const char* input, GPIBool callErrorCallback);
+GPIBool  gpiCheckForError(GPConnection* connection, const char* input, GPIBool callErrorCallback);
 
-void gpiSetError(GPConnection* connection, GPErrorCode errorCode, const char* errorString);
+void     gpiSetError(GPConnection* connection, GPErrorCode errorCode, const char* errorString);
 
-void gpiSetErrorString(GPConnection* connection, const char* errorString);
+void     gpiSetErrorString(GPConnection* connection, const char* errorString);
 
-void gpiEncodeString(const char* unencodedString, char* encodedString);
+void     gpiEncodeString(const char* unencodedString, char* encodedString);
 
 #endif

@@ -135,6 +135,7 @@ class pred_fb
 public:
     occTri* m_pTris;
     Fvector camera;
+
 public:
     pred_fb(occTri* _t): m_pTris(_t) {}
     pred_fb(occTri* _t, Fvector& _c): m_pTris(_t), camera(_c) {}

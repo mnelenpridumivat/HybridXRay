@@ -197,7 +197,7 @@ float CHM_Static::Query(float x, float z)
     clamp(gx, 0, dhm_matrix - 1);
     int gz = dz - dhm_line;
     clamp(gz, 0, dhm_matrix - 1);
-    Slot* S = data[gz][gx];
+    Slot* S    = data[gz][gx];
 
     // precision
     float ostX = x - v_x * dhm_size;

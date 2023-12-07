@@ -21,7 +21,7 @@ CIKLimbsController::CIKLimbsController(): m_object(0), m_legs_blend(0) {}
 void CIKLimbsController::Create(CGameObject* O)
 {
     VERIFY(O);
-    m_legs_blend = 0;
+    m_legs_blend   = 0;
 
     IKinematics* K = smart_cast<IKinematics*>(O->Visual());
     m_object       = O;
@@ -53,8 +53,7 @@ void CIKLimbsController::LimbSetup()
 
 void CIKLimbsController::LimbCalculate(SCalculateData& cd)
 {
-    cd.do_collide = m_legs_blend &&
-        !cd.m_limb->KinematicsAnimated()->LL_GetMotionDef(m_legs_blend->motionID)->marks.empty();   // m_legs_blend->;
+    cd.do_collide = m_legs_blend && !cd.m_limb->KinematicsAnimated()->LL_GetMotionDef(m_legs_blend->motionID)->marks.empty();   // m_legs_blend->;
     cd.m_limb->ApplyState(cd);
 }
 
@@ -100,9 +99,9 @@ float              CIKLimbsController::StaticObjectShift(const SCalculateData cd
 {
     const float current_shift = _object_shift.shift();
 
-    u16       cnt      = 0;
-    float     shift_up = 0;
-    const u16 sz       = (u16)_bone_chains.size();
+    u16         cnt           = 0;
+    float       shift_up      = 0;
+    const u16   sz            = (u16)_bone_chains.size();
     for (u16 j = 0; sz > j; ++j)
         if (cd[j].state.foot_step)
         {
@@ -131,18 +130,18 @@ static float doun_shift_to_correct = 0.3f;
 static float doun_shift_correct    = 0.1f;
 bool         CIKLimbsController::PredictObjectShift(const SCalculateData cd[max_size])
 {
-    float predict_time_shift_down = FLT_MAX;
-    float predict_time_shift_up   = FLT_MAX;
-    float predict_shift_down      = 0.f;
+    float     predict_time_shift_down = FLT_MAX;
+    float     predict_time_shift_up   = FLT_MAX;
+    float     predict_shift_down      = 0.f;
     // float predict_shift_up = 0.f;
-    bool      shift_down    = false;
-    bool      shift_up      = false;
-    const u16 sz            = (u16)_bone_chains.size();
-    float     current_shift = _object_shift.shift();
+    bool      shift_down              = false;
+    bool      shift_up                = false;
+    const u16 sz                      = (u16)_bone_chains.size();
+    float     current_shift           = _object_shift.shift();
     for (u16 j = 0; sz > j; ++j)
         if (!cd[j].state.foot_step)
         {
-            float time = cd[j].m_limb->time_to_footstep();
+            float time   = cd[j].m_limb->time_to_footstep();
 
             float lshift = cd[j].m_limb->footstep_shift();
             if (lshift < 0.f)
@@ -158,7 +157,7 @@ bool         CIKLimbsController::PredictObjectShift(const SCalculateData cd[max_
             {
                 predict_time_shift_up = time;
 
-                shift_up = true;
+                shift_up              = true;
             }
         }
     float predict_shift      = 0;
@@ -240,7 +239,7 @@ void CIKLimbsController::Calculate()
         _object_shift.dbg_draw(obj, _pose_extrapolation, Fvector().set(0, 2.5f, 0));
 #endif
 
-    SCalculateData cd[max_size];
+    SCalculateData               cd[max_size];
 
     xr_vector<CIKLimb>::iterator i, b = _bone_chains.begin(), e = _bone_chains.end();
     for (i = b; e != i; ++i)
@@ -249,12 +248,12 @@ void CIKLimbsController::Calculate()
         LimbCalculate(cd[i - b]);
     }
 
-    IKinematics*   K       = m_object->Visual()->dcast_PKinematics();
-    u16            root    = K->LL_GetBoneRoot();
-    CBoneInstance& root_bi = K->LL_GetBoneInstance(root);
+    IKinematics*   K               = m_object->Visual()->dcast_PKinematics();
+    u16            root            = K->LL_GetBoneRoot();
+    CBoneInstance& root_bi         = K->LL_GetBoneInstance(root);
 
-    BOOL         sv_root_cb_ovwr = root_bi.callback_overwrite();
-    BoneCallback sv_root_cb      = root_bi.callback();
+    BOOL           sv_root_cb_ovwr = root_bi.callback_overwrite();
+    BoneCallback   sv_root_cb      = root_bi.callback();
 
     root_bi.set_callback(root_bi.callback_type(), 0, root_bi.callback_param(), TRUE);
 
@@ -330,8 +329,8 @@ void CIKLimbsController::PlayLegs(CBlend* b)
 #ifdef DEBUG
     IKinematicsAnimated* skeleton_animated = m_object->Visual()->dcast_PKinematicsAnimated();
     VERIFY(skeleton_animated);
-    anim_name     = skeleton_animated->LL_MotionDefName_dbg(b->motionID).first;
-    anim_set_name = skeleton_animated->LL_MotionDefName_dbg(b->motionID).second;
+    anim_name      = skeleton_animated->LL_MotionDefName_dbg(b->motionID).first;
+    anim_set_name  = skeleton_animated->LL_MotionDefName_dbg(b->motionID).second;
 
     CMotionDef& MD = *skeleton_animated->LL_GetMotionDef(b->motionID);
     if (MD.marks.empty() && (MD.flags & esmUseFootSteps))

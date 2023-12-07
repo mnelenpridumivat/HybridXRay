@@ -21,7 +21,7 @@ protected:
     bool    ExportBreakableObjects(SExportStreams* F);
     bool    ExportClimableObjects(SExportStreams* F);
 
-    void OnChangeAppendRandomFlags(PropValue* prop);
+    void    OnChangeAppendRandomFlags(PropValue* prop);
 
 public:
     Fvector    m_AppendRandomMinScale;
@@ -44,7 +44,7 @@ public:
     virtual void OnFrame();
 
     // definition
-    IC LPCSTR ClassName()
+    IC LPCSTR    ClassName()
     {
         return "scene_object";
     }
@@ -57,7 +57,7 @@ public:
         return 1;
     }
 
-    bool GetBox(Fbox& bb);
+    bool         GetBox(Fbox& bb);
 
     virtual void Clear(bool bSpecific = false);
     // IO
@@ -75,9 +75,9 @@ public:
     virtual void SaveSelection(IWriter&);
 
     // append random
-    void FillAppendRandomPropertiesBegin(bool bUpdateOnly = false);
-    bool FillAppendRandomPropertiesEnd();
-    void ActivateAppendRandom(BOOL val)
+    void         FillAppendRandomPropertiesBegin(bool bUpdateOnly = false);
+    bool         FillAppendRandomPropertiesEnd();
+    void         ActivateAppendRandom(BOOL val)
     {
         m_Flags.set(flAppendRandom, val);
     }
@@ -99,10 +99,10 @@ public:
     }
 
     // tools
-    virtual bool ExportGame(SExportStreams* F);
-    virtual void GetStaticDesc(int& v_cnt, int& f_cnt, bool b_selected_only, bool b_cform);
+    virtual bool           ExportGame(SExportStreams* F);
+    virtual void           GetStaticDesc(int& v_cnt, int& f_cnt, bool b_selected_only, bool b_cform);
 
     virtual CCustomObject* CreateObject(LPVOID data, LPCSTR name);
 
-    virtual void HighlightTexture(LPCSTR tex_name, bool allow_ratio, u32 t_width, u32 t_height, BOOL mark);
+    virtual void           HighlightTexture(LPCSTR tex_name, bool allow_ratio, u32 t_width, u32 t_height, BOOL mark);
 };

@@ -13,8 +13,8 @@
 #include "UICustomSpin.h"
 
 #define SPIN_HEIGHT 20.0f
-#define BTN_SIZE_X 11.0f
-#define BTN_SIZE_Y 8.0f
+#define BTN_SIZE_X  11.0f
+#define BTN_SIZE_Y  8.0f
 
 CUICustomSpin::CUICustomSpin()
 {
@@ -35,9 +35,9 @@ CUICustomSpin::CUICustomSpin()
     m_pLines->SetFont(UI().Font().pFontLetterica16Russian);
     m_pLines->SetTextColor(color_argb(255, 235, 219, 185));
 
-    m_time_begin = 0;
-    m_p_delay    = 500;
-    m_u_delay    = 0;
+    m_time_begin   = 0;
+    m_p_delay      = 500;
+    m_u_delay      = 0;
 
     m_textColor[0] = color_argb(255, 235, 219, 185);
     m_textColor[1] = color_argb(255, 100, 100, 100);
@@ -60,8 +60,7 @@ void CUICustomSpin::InitSpin(Fvector2 pos, Fvector2 size)
     m_pBtnUp->InitButton(Fvector2().set(size.x - BTN_SIZE_X - 2.0f, 1.0f), Fvector2().set(BTN_SIZE_X, BTN_SIZE_Y));
     m_pBtnUp->InitTexture("ui_inGame2_spin_box_button_top");
 
-    m_pBtnDown->InitButton(
-        Fvector2().set(size.x - BTN_SIZE_X - 2.0f, BTN_SIZE_Y + 2.0f), Fvector2().set(BTN_SIZE_X, BTN_SIZE_Y));
+    m_pBtnDown->InitButton(Fvector2().set(size.x - BTN_SIZE_X - 2.0f, BTN_SIZE_Y + 2.0f), Fvector2().set(BTN_SIZE_X, BTN_SIZE_Y));
     m_pBtnDown->InitTexture("ui_inGame2_spin_box_button_bottom");
 
     m_pLines->m_wndPos.set(Fvector2().set(0, 0));

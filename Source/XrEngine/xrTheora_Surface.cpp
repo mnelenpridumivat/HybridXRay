@@ -4,10 +4,10 @@
 
 CTheoraSurface::CTheoraSurface()
 {
-    ready = FALSE;
+    ready    = FALSE;
     // streams
-    m_rgb   = 0;
-    m_alpha = 0;
+    m_rgb    = 0;
+    m_alpha  = 0;
     // timing
     tm_play  = 0;
     tm_total = 0;
@@ -189,13 +189,13 @@ u32 CTheoraSurface::Height(bool bRealSize)
 void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
 {
     VERIFY(m_rgb);
-    yuv_buffer* yuv_rgb   = m_rgb->CurrentFrame();
-    yuv_buffer* yuv_alpha = m_alpha ? m_alpha->CurrentFrame() : 0;
+    yuv_buffer*        yuv_rgb   = m_rgb->CurrentFrame();
+    yuv_buffer*        yuv_alpha = m_alpha ? m_alpha->CurrentFrame() : 0;
 
-    u32 width  = Width(true);
-    u32 height = Height(true);
+    u32                width     = Width(true);
+    u32                height    = Height(true);
 
-    static const float K = 0.256788f + 0.504129f + 0.097906f;
+    static const float K         = 0.256788f + 0.504129f + 0.097906f;
 
     // we use ffmpeg2theora for encoding, so only OC_PF_420 valid
     //	u32 pixelformat			= m_rgb->t_info.pixelformat;
@@ -205,7 +205,7 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
     {
         yuv_buffer& yuv = *yuv_rgb;
 
-        u32 pos = 0;
+        u32         pos = 0;
 
         if (!bShaderYUV2RGB)
         {
@@ -223,15 +223,15 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
                     u8  u      = U[uv_idx];
                     u8  v      = V[uv_idx];
 
-                    int C = y - 16;
-                    int D = u - 128;
-                    int E = v - 128;
+                    int C      = y - 16;
+                    int D      = u - 128;
+                    int E      = v - 128;
 
-                    int R = clampr((298 * C + 409 * E + 128) >> 8, 0, 255);
-                    int G = clampr((298 * C - 100 * D - 208 * E + 128) >> 8, 0, 255);
-                    int B = clampr((298 * C + 516 * D + 128) >> 8, 0, 255);
+                    int R      = clampr((298 * C + 409 * E + 128) >> 8, 0, 255);
+                    int G      = clampr((298 * C - 100 * D - 208 * E + 128) >> 8, 0, 255);
+                    int B      = clampr((298 * C + 516 * D + 128) >> 8, 0, 255);
 
-                    data[pos] = color_rgba(R, G, B, 255);
+                    data[pos]  = color_rgba(R, G, B, 255);
 
                     pos++;
                 }
@@ -253,21 +253,21 @@ void CTheoraSurface::DecompressFrame(u32* data, u32 _width, int& _pos)
 
                 for (u32 y_w = 0, uv_w = 0; y_w < width; y_w += 2, ++uv_w)
                 {
-                    u32 y00 = Y0[y_w] << 16;
-                    u32 y01 = Y0[y_w + 1] << 16;
+                    u32 y00         = Y0[y_w] << 16;
+                    u32 y01         = Y0[y_w + 1] << 16;
 
-                    u32 y10 = Y1[y_w] << 16;
-                    u32 y11 = Y1[y_w + 1] << 16;
+                    u32 y10         = Y1[y_w] << 16;
+                    u32 y11         = Y1[y_w + 1] << 16;
 
-                    u8 u = U[uv_w];
-                    u8 v = V[uv_w];
+                    u8  u           = U[uv_w];
+                    u8  v           = V[uv_w];
 
-                    u32 idx = pos + y_w;
+                    u32 idx         = pos + y_w;
 
                     u32 common_part = 255 << 24 | u << 8 | v;
 
-                    data[idx]     = (common_part | y00);
-                    data[idx + 1] = (common_part | y01);
+                    data[idx]       = (common_part | y00);
+                    data[idx + 1]   = (common_part | y01);
 
                     idx += buff_step;
 
@@ -349,18 +349,12 @@ void CTheoraSurface::write_sdl_video()
     // and crop input properly, respecting the encoded frame rect
     crop_offset = t_info.offset_x + t_yuv_buffer.y_stride * t_info.offset_y;
     for (i = 0; i < sdl_yuv_overlay->h; i++)
-        mem_copy(
-            sdl_yuv_overlay->pixels[0] + sdl_yuv_overlay->pitches[0] * i,
-            t_yuv_buffer.y + crop_offset + t_yuv_buffer.y_stride * i, sdl_yuv_overlay->w);
+        mem_copy(sdl_yuv_overlay->pixels[0] + sdl_yuv_overlay->pitches[0] * i, t_yuv_buffer.y + crop_offset + t_yuv_buffer.y_stride * i, sdl_yuv_overlay->w);
     crop_offset = (t_info.offset_x / 2) + (t_yuv_buffer.uv_stride) * (t_info.offset_y / 2);
     for (i = 0; i < sdl_yuv_overlay->h / 2; i++)
     {
-        mem_copy(
-            sdl_yuv_overlay->pixels[1] + sdl_yuv_overlay->pitches[1] * i,
-            t_yuv_buffer.v + crop_offset + t_yuv_buffer.uv_stride * i, sdl_yuv_overlay->w / 2);
-        mem_copy(
-            sdl_yuv_overlay->pixels[2] + sdl_yuv_overlay->pitches[2] * i,
-            t_yuv_buffer.u + crop_offset + t_yuv_buffer.uv_stride * i, sdl_yuv_overlay->w / 2);
+        mem_copy(sdl_yuv_overlay->pixels[1] + sdl_yuv_overlay->pitches[1] * i, t_yuv_buffer.v + crop_offset + t_yuv_buffer.uv_stride * i, sdl_yuv_overlay->w / 2);
+        mem_copy(sdl_yuv_overlay->pixels[2] + sdl_yuv_overlay->pitches[2] * i, t_yuv_buffer.u + crop_offset + t_yuv_buffer.uv_stride * i, sdl_yuv_overlay->w / 2);
     }
     // Unlock SDL_yuv_overlay
     if (SDL_MUSTLOCK(sdl_screen))

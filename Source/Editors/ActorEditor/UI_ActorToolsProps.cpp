@@ -18,7 +18,7 @@ void CActorTools::OnObjectItemsFocused(xr_vector<ListItem*>& items)
         // .StopMotion();   // убрал из-за того что не миксятся анимации в режиме енжине
         m_pEditObject->SelectBones(false);
     }
-    for (ListItem* prop : items)
+    for (ListItem* prop: items)
     {
         if (prop)
         {
@@ -30,7 +30,7 @@ void CActorTools::OnObjectItemsFocused(xr_vector<ListItem*>& items)
                     m_Props->ClearProperties();
                     FillObjectProperties(props, OBJECT_PREFIX, prop);
                 }
-                    break;
+                break;
                 case emMotion:
                 {
                     m_Props->ClearProperties();
@@ -54,7 +54,7 @@ void CActorTools::OnObjectItemsFocused(xr_vector<ListItem*>& items)
                     m_Props->ClearProperties();
                     FillSurfaceProperties(props, SURFACES_PREFIX, prop);
                 }
-                    break;
+                break;
                 case emMesh:
                     break;
             }
@@ -76,7 +76,8 @@ void CActorTools::OnExportImportRefsClick(ButtonValue* V, bool& bModif, bool& bS
 {
     switch (V->btn_num)
     {
-        case 0: {   // export
+        case 0:
+        {   // export
             xr_string fname;
             if (EFS.GetSaveName(_import_, fname))
             {
@@ -94,7 +95,8 @@ void CActorTools::OnExportImportRefsClick(ButtonValue* V, bool& bModif, bool& bS
             }
         }
         break;
-        case 1: {   // import
+        case 1:
+        {   // import
             xr_string fname;
             if (EFS.GetOpenName(EDevice->m_hWnd, _import_, fname, false))
             {
@@ -328,8 +330,7 @@ void CActorTools::OnBoxAxisClick(ButtonValue* V, bool& bModif, bool& bSafe)
             BONE->shape.box.m_rotate.k.set(0, 0, 1);
             break;
     }
-    Fvector::generate_orthonormal_basis_normalized(
-        BONE->shape.box.m_rotate.k, BONE->shape.box.m_rotate.j, BONE->shape.box.m_rotate.i);
+    Fvector::generate_orthonormal_basis_normalized(BONE->shape.box.m_rotate.k, BONE->shape.box.m_rotate.j, BONE->shape.box.m_rotate.i);
     ExecCommand(COMMAND_UPDATE_PROPERTIES);
 }
 
@@ -361,7 +362,7 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
     CSMotion*  SM = m_pEditObject->m_SMotionRefs.size() ? 0 : (CSMotion*)sender->m_Object;
     PropValue* V;
 
-    xr_string m_cnt;
+    xr_string  m_cnt;
     if (m_pEditObject->m_SMotionRefs.size())
     {
         if (MainForm->GetLeftBarForm()->GetRenderMode() == UILeftBarForm::Render_Engine)
@@ -390,7 +391,7 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
         tmp += m_pEditObject->m_SMotionRefs[i].c_str();
     }
     m_tmp_mot_refs = tmp.c_str();
-    V = PHelper().CreateChoose(items, PrepareKey(pref, "Global\\Motion reference"), &m_tmp_mot_refs, smGameSMotions, 0, 0, MAX_ANIM_SLOT);
+    V              = PHelper().CreateChoose(items, PrepareKey(pref, "Global\\Motion reference"), &m_tmp_mot_refs, smGameSMotions, 0, 0, MAX_ANIM_SLOT);
     // m_pEditObject->m_SMotionRefs
     V->OnChangeEvent.bind(this, &CActorTools::OnMotionRefsChange);
     ButtonValue* B;
@@ -401,36 +402,32 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
     if (m_pEditObject->m_SMotionRefs.size() == 0)
     {
         B = PHelper().CreateButton(items, PrepareKey(pref, "Global\\Edit"), "Append,Delete,Save", ButtonValue::flFirstOnly);
-        B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionEditClick);
+        B->OnBtnClickEvent.bind(this, &CActorTools::OnMotionEditClick);
 
-        V = PHelper().CreateBOOL(items, PrepareKey(pref, "MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant);
-        V->Owner()->hint_text = 
-            "Export animations 16 bit - CoP Format, good quality.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
-            u8"Экспорт анимаций 16 bit - CoP Формат, хорошее качество.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
+        V                     = PHelper().CreateBOOL(items, PrepareKey(pref, "MotionExport\\Force 16bit Motion"), &g_force16BitTransformQuant);
+        V->Owner()->hint_text = "Export animations 16 bit - CoP Format, good quality.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU > u8"Экспорт анимаций 16 bit - CoP Формат, хорошее качество.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
         V->OnChangeEvent.bind(this, &CActorTools::OnMotionCompressionChanged);
 
-        V = PHelper().CreateBOOL(items, PrepareKey(pref, "MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant);
-        V->Owner()->hint_text = 
-            "No compress - New uncompressed format, better quality.\n To support such animations, engine edits are required.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU >
-            u8"No compress - Новый формат без сжатия, лучшее качество.\n Для поддержки таких анимаций - требуются движковые правки.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
+        V                     = PHelper().CreateBOOL(items, PrepareKey(pref, "MotionExport\\No Compress Motion"), &g_forceFloatTransformQuant);
+        V->Owner()->hint_text = "No compress - New uncompressed format, better quality.\n To support such animations, engine edits are required.\n If nothing is selected, animations will be exported\n 8 bit - SoC Format, poor quality."_RU > u8"No compress - Новый формат без сжатия, лучшее качество.\n Для поддержки таких анимаций - требуются движковые правки.\n Если ничего не выбрано - анимации будут экспортированы\n 8 bit - SoC Формат, плохое качество.";
         V->OnChangeEvent.bind(this, &CActorTools::OnMotionCompressionChanged);
     }
     if (SM)
     {
         B = PHelper().CreateButton(items, PrepareKey(pref, "Motion\\Control"), "Play,Stop,Pause", ButtonValue::flFirstOnly);
-        B->OnBtnClickEvent.bind   (this, &CActorTools::OnMotionControlClick);
-        PHelper().CreateCaption   (items, PrepareKey(pref, "Motion\\Frame\\Start"), shared_str().printf("%d", SM->FrameStart()));
-        PHelper().CreateCaption   (items, PrepareKey(pref, "Motion\\Frame\\End"), shared_str().printf("%d", SM->FrameEnd()));
-        PHelper().CreateCaption   (items, PrepareKey(pref, "Motion\\Frame\\Length"), shared_str().printf("%d", SM->Length()));
+        B->OnBtnClickEvent.bind(this, &CActorTools::OnMotionControlClick);
+        PHelper().CreateCaption(items, PrepareKey(pref, "Motion\\Frame\\Start"), shared_str().printf("%d", SM->FrameStart()));
+        PHelper().CreateCaption(items, PrepareKey(pref, "Motion\\Frame\\End"), shared_str().printf("%d", SM->FrameEnd()));
+        PHelper().CreateCaption(items, PrepareKey(pref, "Motion\\Frame\\Length"), shared_str().printf("%d", SM->Length()));
         PropValue* P = 0;
-        P = PHelper().CreateName  (items, PrepareKey(pref, "Motion\\Name"), &SM->name, sender);
-        P->OnChangeEvent.bind     (this, &CActorTools::OnMotionNameChange);
-        PHelper().CreateFloat     (items, PrepareKey(pref, "Motion\\Speed"), &SM->fSpeed, 0.f, 10.f, 0.01f, 2);
-        PHelper().CreateFloat     (items, PrepareKey(pref, "Motion\\Accrue"), &SM->fAccrue, 0.f, 10.f, 0.01f, 2);
-        PHelper().CreateFloat     (items, PrepareKey(pref, "Motion\\Falloff"), &SM->fFalloff, 0.f, 10.f, 0.01f, 2);
+        P            = PHelper().CreateName(items, PrepareKey(pref, "Motion\\Name"), &SM->name, sender);
+        P->OnChangeEvent.bind(this, &CActorTools::OnMotionNameChange);
+        PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\Speed"), &SM->fSpeed, 0.f, 10.f, 0.01f, 2);
+        PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\Accrue"), &SM->fAccrue, 0.f, 10.f, 0.01f, 2);
+        PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\Falloff"), &SM->fFalloff, 0.f, 10.f, 0.01f, 2);
 
         PropValue* TV = 0;
-        TV = PHelper().CreateFlag8(items, PrepareKey(pref, "Motion\\Type FX"), &SM->m_Flags, esmFX);
+        TV            = PHelper().CreateFlag8(items, PrepareKey(pref, "Motion\\Type FX"), &SM->m_Flags, esmFX);
         TV->OnChangeEvent.bind(this, &CActorTools::OnMotionTypeChange);
         m_BoneParts.clear();
         if (SM->m_Flags.is(esmFX))
@@ -445,7 +442,7 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
             m_BoneParts.push_back(xr_rtoken("--all bones--", BI_NONE));
             for (BPIt it = m_pEditObject->FirstBonePart(); it != m_pEditObject->LastBonePart(); it++)
                 m_BoneParts.push_back(xr_rtoken(it->alias.c_str(), it - m_pEditObject->FirstBonePart()));
-            PHelper().CreateRToken16(items, PrepareKey(pref, "Motion\\Cycle\\Bone part"), &SM->m_BoneOrPart, &*m_BoneParts.begin(),  m_BoneParts.size());
+            PHelper().CreateRToken16(items, PrepareKey(pref, "Motion\\Cycle\\Bone part"), &SM->m_BoneOrPart, &*m_BoneParts.begin(), m_BoneParts.size());
             PHelper().CreateFlag8(items, PrepareKey(pref, "Motion\\Cycle\\Stop at end"), &SM->m_Flags, esmStopAtEnd);
             PHelper().CreateFlag8(items, PrepareKey(pref, "Motion\\Cycle\\No mix"), &SM->m_Flags, esmNoMix);
             PHelper().CreateFlag8(items, PrepareKey(pref, "Motion\\Cycle\\Sync part"), &SM->m_Flags, esmSyncPart);
@@ -489,34 +486,20 @@ void    CActorTools::FillMotionProperties(PropItemVec& items, LPCSTR pref, ListI
 }
 //------------------------------------------------------------------------------
 
-xr_token joint_types[] =
-{
-    {"Rigid", jtRigid},
-    {"Cloth", jtCloth},
-    {"Joint", jtJoint},
-    {"Wheel [Steer-X/Roll-Z]", jtWheel},
-    {"Slider", jtSlider},
-    //	{ "Wheel [Steer-X/Roll-Z]", jtWheelXZ	},
-    //	{ "Wheel [Steer-X/Roll-Y]", jtWheelXY	},
-    //	{ "Wheel [Steer-Y/Roll-X]", jtWheelYX	},
-    //	{ "Wheel [Steer-Y/Roll-Z]", jtWheelYZ	},
-    //	{ "Wheel [Steer-Z/Roll-X]", jtWheelZX	},
-    //	{ "Wheel [Steer-Z/Roll-Y]", jtWheelZY	},
-    {0, 0}
-};
+xr_token            joint_types[] = {{"Rigid", jtRigid}, {"Cloth", jtCloth}, {"Joint", jtJoint}, {"Wheel [Steer-X/Roll-Z]", jtWheel}, {"Slider", jtSlider},
+               //	{ "Wheel [Steer-X/Roll-Z]", jtWheelXZ	},
+               //	{ "Wheel [Steer-X/Roll-Y]", jtWheelXY	},
+               //	{ "Wheel [Steer-Y/Roll-X]", jtWheelYX	},
+               //	{ "Wheel [Steer-Y/Roll-Z]", jtWheelYZ	},
+               //	{ "Wheel [Steer-Z/Roll-X]", jtWheelZX	},
+               //	{ "Wheel [Steer-Z/Roll-Y]", jtWheelZY	},
+               {0, 0}};
 
-xr_token shape_types[] =
-{
-    {"None", SBoneShape::stNone},
-    {"Box", SBoneShape::stBox},
-    {"Sphere", SBoneShape::stSphere},
-    {"Cylinder", SBoneShape::stCylinder},
-    {0, 0}
-};
+xr_token            shape_types[] = {{"None", SBoneShape::stNone}, {"Box", SBoneShape::stBox}, {"Sphere", SBoneShape::stSphere}, {"Cylinder", SBoneShape::stCylinder}, {0, 0}};
 
-static const LPCSTR axis[3] = {"Axis X", "Axis Y", "Axis Z"};
+static const LPCSTR axis[3]       = {"Axis X", "Axis Y", "Axis Z"};
 
-void CActorTools::OnJointTypeChange(PropValue* V)
+void                CActorTools::OnJointTypeChange(PropValue* V)
 {
     ExecCommand(COMMAND_UPDATE_PROPERTIES);
 }
@@ -534,7 +517,7 @@ void CActorTools::OnBindTransformChange(PropValue* V)
 
 void CActorTools::OnTypeChange(PropValue* V)
 {
-    u32 current_type = m_pEditObject->m_objectFlags.flags & (CEditableObject::eoDynamic | CEditableObject::eoHOM | CEditableObject::eoSoundOccluder | CEditableObject::eoMultipleUsage);
+    u32 current_type                   = m_pEditObject->m_objectFlags.flags & (CEditableObject::eoDynamic | CEditableObject::eoHOM | CEditableObject::eoSoundOccluder | CEditableObject::eoMultipleUsage);
     m_pEditObject->m_objectFlags.flags = m_pEditObjectType;
 
     if (current_type != m_pEditObjectType)
@@ -707,7 +690,7 @@ bool CActorTools::OnBoneNameAfterEdit(PropValue* sender, shared_str& edit_val)
     m_pEditObject->GetSelectedBones(sel_bones);
     CBone* B = sel_bones.size() ? sel_bones[0] : NULL;
     R_ASSERT(B);
-    for (auto& bone : m_pEditObject->Bones())
+    for (auto& bone: m_pEditObject->Bones())
     {
         if (bone->Name() == edit_val)
             return false;
@@ -796,15 +779,15 @@ void CActorTools::OnBoneLimitsChange(PropValue* sender)
 
 void CActorTools::OnMotionCompressionChanged(PropValue* sender)
 {
-  BOOLValue * casted = dynamic_cast<BOOLValue*>(sender);
+    BOOLValue* casted = dynamic_cast<BOOLValue*>(sender);
 
-  if (g_force16BitTransformQuant && g_forceFloatTransformQuant)
-  {
-    if(casted->value == &g_force16BitTransformQuant)
-      g_forceFloatTransformQuant = false;
-    else
-      g_force16BitTransformQuant = false;
-  }
+    if (g_force16BitTransformQuant && g_forceFloatTransformQuant)
+    {
+        if (casted->value == &g_force16BitTransformQuant)
+            g_forceFloatTransformQuant = false;
+        else
+            g_force16BitTransformQuant = false;
+    }
 }
 
 void CActorTools::FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* sender)
@@ -842,7 +825,7 @@ void CActorTools::FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* 
         PHelper().CreateFlag16(items, PrepareKey(pref, "Bone\\Shape\\Flags\\No Pickable"), &BONE->shape.flags, SBoneShape::sfNoPickable);
         PHelper().CreateFlag16(items, PrepareKey(pref, "Bone\\Shape\\Flags\\No Physics"), &BONE->shape.flags, SBoneShape::sfNoPhysics);
         PHelper().CreateFlag16(items, PrepareKey(pref, "Bone\\Shape\\Flags\\Remove After Break"), &BONE->shape.flags, SBoneShape::sfRemoveAfterBreak);
-        PHelper().CreateFlag16( items, PrepareKey(pref, "Bone\\Shape\\Flags\\No Fog Collider"), &BONE->shape.flags, SBoneShape::sfNoFogCollider);
+        PHelper().CreateFlag16(items, PrepareKey(pref, "Bone\\Shape\\Flags\\No Fog Collider"), &BONE->shape.flags, SBoneShape::sfNoFogCollider);
 
         V = PHelper().CreateToken16(items, PrepareKey(pref, "Bone\\Shape\\Type"), &BONE->shape.type, shape_types);
         V->OnChangeEvent.bind(this, &CActorTools::OnShapeTypeChange);
@@ -882,7 +865,7 @@ void CActorTools::FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* 
 
         PHelper().CreateCaption(items, PrepareKey(pref, "Bone\\Joint\\Current Rotation"), shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(lim_rot)));
         SJointIKData& data = BONE->IK_data;
-        V = PHelper().CreateFlag32(items, PrepareKey(pref, "Bone\\Joint\\Breakable"), &data.ik_flags, SJointIKData::flBreakable);
+        V                  = PHelper().CreateFlag32(items, PrepareKey(pref, "Bone\\Joint\\Breakable"), &data.ik_flags, SJointIKData::flBreakable);
         V->OnChangeEvent.bind(this, &CActorTools::OnJointTypeChange);
         if (data.ik_flags.is(SJointIKData::flBreakable))
         {
@@ -978,17 +961,9 @@ void CActorTools::FillSurfaceProperties(PropItemVec& items, LPCSTR pref, ListIte
     }
 }
 //------------------------------------------------------------------------------
-xr_token eo_type_token[] =
-{
-    {"Static", 0},
-    {"Dynamic", CEditableObject::eoDynamic},
-    {"HOM", CEditableObject::eoHOM},
-    {"Multiple Usage", CEditableObject::eoMultipleUsage},
-    {"Sound Occluder", CEditableObject::eoSoundOccluder},
-    {0, 0}
-};
+xr_token eo_type_token[] = {{"Static", 0}, {"Dynamic", CEditableObject::eoDynamic}, {"HOM", CEditableObject::eoHOM}, {"Multiple Usage", CEditableObject::eoMultipleUsage}, {"Sound Occluder", CEditableObject::eoSoundOccluder}, {0, 0}};
 
-void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem* sender)
+void     CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem* sender)
 {
     R_ASSERT(m_pEditObject);
     PropValue* V      = 0;
@@ -999,31 +974,23 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
     {
         auto FlagOpt1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make progressive", &m_pEditObject->m_objectFlags, CEditableObject::eoProgressive);
         FlagOpt1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        FlagOpt1->Owner()->hint_text =
-            "Make progressive meshes:\n creates progressive meshes when exporting OGF.\n Is are dynamic optimize of the model (lod's),\n is used to optimize world objects."_RU >
-            u8"Make progressive meshes:\n создает прогрессивные меши при экспорте OGF.\n Это динамическая детализация модели (lod'ы),\n используется для оптимизации мировых объектов.";
+        FlagOpt1->Owner()->hint_text = "Make progressive meshes:\n creates progressive meshes when exporting OGF.\n Is are dynamic optimize of the model (lod's),\n is used to optimize world objects."_RU > u8"Make progressive meshes:\n создает прогрессивные меши при экспорте OGF.\n Это динамическая детализация модели (lod'ы),\n используется для оптимизации мировых объектов.";
 
-        auto FlagOpt2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make stripify", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
+        auto FlagOpt2                = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Make stripify", &m_pEditObject->m_objectFlags, CEditableObject::eoStripify);
         FlagOpt2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        FlagOpt2->Owner()->hint_text =
-            "Make stripify meshes:\n optimization of vertex's and face's of meshes, which spoiled the mesh of polygons,\n used to be by default in the SDK and was used to optimize meshes\n for old DirectX and video cards. Can be enabled to optimize world models."_RU >
+        FlagOpt2->Owner()->hint_text = "Make stripify meshes:\n optimization of vertex's and face's of meshes, which spoiled the mesh of polygons,\n used to be by default in the SDK and was used to optimize meshes\n for old DirectX and video cards. Can be enabled to optimize world models."_RU >
             u8"Make stripify meshes:\n оптимизация vertex'ов и face'ов у мешей, которая портила сетку полигонов,\n раньше стояла по дефолту в SDK и использовалась для оптимизации мешей\n под старый DirectX и видеокарты. Можно включать для оптимизации мировых моделей.";
 
-        PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf)->Owner()->hint_text =
-            "Optimize surfaces:\n combines meshes with the same textures and shaders into one."_RU >
-            u8"Optimize surfaces:\n объединяет меши с одинаковыми текстурами и шейдерами в один.";
+        PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\Optimize surfaces", &m_pEditObject->m_objectFlags, CEditableObject::eoOptimizeSurf)->Owner()->hint_text = "Optimize surfaces:\n combines meshes with the same textures and shaders into one."_RU > u8"Optimize surfaces:\n объединяет меши с одинаковыми текстурами и шейдерами в один.";
 
-        auto FlagHQ1 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
+        auto FlagHQ1                                                                                                                                                            = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExport);
         FlagHQ1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags,  CEditableObject::eoHQExportPlus);
+        auto FlagHQ2 = PHelper().CreateFlag32(items, "Object\\Model export\\Optimize:\\HQ Geometry Plus", &m_pEditObject->m_objectFlags, CEditableObject::eoHQExportPlus);
         FlagHQ2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-        FlagHQ2->Owner()->hint_text =
-            "HQ Geometry+:\n the compiler will not remove similar vertex's and faces'y,\n support for a denser mesh of polygons."_RU >
-            u8"HQ Geometry+:\n компилятор не будет удалять похожие vertex'ы и face'ы,\n поддержка более плотной сетки полигонов.";
+        FlagHQ2->Owner()->hint_text = "HQ Geometry+:\n the compiler will not remove similar vertex's and faces'y,\n support for a denser mesh of polygons."_RU > u8"HQ Geometry+:\n компилятор не будет удалять похожие vertex'ы и face'ы,\n поддержка более плотной сетки полигонов.";
 
         PHelper().CreateFlag32(items, "Object\\Model export\\SoC bone export", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCInfluence)->Owner()->hint_text =
-            "SoC bone export:\n when exporting a dynamic OGF, a polygon will be affected by a maximum of 2 bones.\n If disabled, CoP influence of 4 bones will be enabled (not supported in SoC)"_RU >
-            u8"Экспорт костей SoC:\n при экспорте динамического OGF, на полигон будут влиять максимум 2 кости.\n При отключении будет включено CoP влияние в 4 кости(не поддерживается в SoC).";
+            "SoC bone export:\n when exporting a dynamic OGF, a polygon will be affected by a maximum of 2 bones.\n If disabled, CoP influence of 4 bones will be enabled (not supported in SoC)"_RU > u8"Экспорт костей SoC:\n при экспорте динамического OGF, на полигон будут влиять максимум 2 кости.\n При отключении будет включено CoP влияние в 4 кости(не поддерживается в SoC).";
     }
     else if (m_pEditObjectType & CEditableObject::eoMultipleUsage)
     {
@@ -1032,28 +999,23 @@ void CActorTools::FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem
 
     auto FlagSM1 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Use split Normals", &m_pEditObject->m_objectFlags, CEditableObject::eoNormals);
     FlagSM1->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-    FlagSM1->Owner()->hint_text =
-        "Anti-aliasing type when exporting a model - Normals:\n uses original Split normals, if the model has them.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU >
+    FlagSM1->Owner()->hint_text = "Anti-aliasing type when exporting a model - Normals:\n uses original Split normals, if the model has them.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU >
         u8"Тип сглаживания при экспорте модели - Normals:\n использует оригинальные Split нормали, если таковые имеются у модели.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
     auto FlagSM2 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth CS/CoP", &m_pEditObject->m_objectFlags, CEditableObject::eoCoPSmooth);
     FlagSM2->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-    FlagSM2->Owner()->hint_text =
-        "Anti-aliasing type when exporting a model - CoP: type #2.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU >
-        u8"Тип сглаживания при экспорте модели - CoP: тип #2.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
-    auto FlagSM3 = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth SoC", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCSmooth);
+    FlagSM2->Owner()->hint_text = "Anti-aliasing type when exporting a model - CoP: type #2.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU > u8"Тип сглаживания при экспорте модели - CoP: тип #2.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
+    auto FlagSM3                = PHelper().CreateFlag32(items, "Object\\Model export\\Smooth Type:\\Smooth SoC", &m_pEditObject->m_objectFlags, CEditableObject::eoSoCSmooth);
     FlagSM3->OnChangeEvent.bind(this, &CActorTools::OnChangeFlag);
-    FlagSM3->Owner()->hint_text =
-        "Anti-aliasing type when exporting a model - SoC: type #1.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU >
-        u8"Тип сглаживания при экспорте модели - SoC: тип #1.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
+    FlagSM3->Owner()->hint_text = "Anti-aliasing type when exporting a model - SoC: type #1.\n Default - when importing a model into the editor\n the anti-aliasing type is determined automatically\n and the necessary anti-aliasing flag is already set."_RU > u8"Тип сглаживания при экспорте модели - SoC: тип #1.\n По умолчанию - при импорте модели в редактор\n тип сглаживания определяется автоматически\n и уже установлен необходимый флаг сглаживания.";
 
-    V = PHelper().CreateVector(items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 2);
+    V                           = PHelper().CreateVector(items, "Object\\Transform\\Position", &m_pEditObject->a_vPosition, -10000, 10000, 0.01, 2);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
     V = PHelper().CreateAngle3(items, "Object\\Transform\\Rotation", &m_pEditObject->a_vRotate, -10000, 10000, 0.1, 1);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
     V = PHelper().CreateFloat(items, "Object\\Transform\\Scale", &m_pEditObject->a_vScale, -10000, 10000, 0.01, 2);
     V->OnChangeEvent.bind(this, &CActorTools::OnChangeTransform);
     PHelper().CreateBOOL(items, "Object\\Transform\\Adjust Mass By Scale", &m_pEditObject->a_vAdjustMass);
-    V = PHelper().CreateCaption( items, "Object\\Transform\\BBox Min", shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().min)));
+    V = PHelper().CreateCaption(items, "Object\\Transform\\BBox Min", shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().min)));
     V = PHelper().CreateCaption(items, "Object\\Transform\\BBox Max", shared_str().printf("{%3.2f, %3.2f, %3.2f}", VPUSH(m_pEditObject->GetBox().max)));
 
     // PHelper().CreateChoose(items, "Object\\LOD\\Reference", &m_pEditObject->m_LODs, smObject);
@@ -1080,15 +1042,15 @@ void CActorTools::SelectListItem(LPCSTR pref, LPCSTR name, bool bVal, bool bLeav
 
 void CActorTools::OnChangeFlag(PropValue* sender)
 {
-    const auto flag = dynamic_cast<Flag32Value*>(sender);
+    const auto flag           = dynamic_cast<Flag32Value*>(sender);
     //------------------------------------------------------------------------------
     // HQ Geometry / HQ Geometry+
-    const bool changingHqGeom      = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Optimize:\\HQ Geometry");
-    const auto hqFlag              = CEditableObject::eoHQExport;
-    const auto hq2Flag             = CEditableObject::eoHQExportPlus;
+    const bool changingHqGeom = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Optimize:\\HQ Geometry");
+    const auto hqFlag         = CEditableObject::eoHQExport;
+    const auto hq2Flag        = CEditableObject::eoHQExportPlus;
 
-    const bool hqSet               = m_pEditObject->m_objectFlags.test(hqFlag);
-    const bool hq2Set              = m_pEditObject->m_objectFlags.test(hq2Flag);
+    const bool hqSet          = m_pEditObject->m_objectFlags.test(hqFlag);
+    const bool hq2Set         = m_pEditObject->m_objectFlags.test(hq2Flag);
 
     if (hqSet && hq2Set)
     {
@@ -1115,16 +1077,16 @@ void CActorTools::OnChangeFlag(PropValue* sender)
     }
     //------------------------------------------------------------------------------
     // split normals / CS/CoP Smooth / SoC Smooth
-    const bool changingNormals     = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split Normals");
-    const bool changingCoP         = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth CS/CoP");
-    const bool changingSoC         = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth SoC");
-    const auto Smooth1Flag         = CEditableObject::eoNormals;
-    const auto Smooth2Flag         = CEditableObject::eoCoPSmooth;
-    const auto Smooth3Flag         = CEditableObject::eoSoCSmooth;
+    const bool changingNormals = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Use split Normals");
+    const bool changingCoP     = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth CS/CoP");
+    const bool changingSoC     = !strcmp(flag->Owner()->Key(), "Object\\Model export\\Smooth Type:\\Smooth SoC");
+    const auto Smooth1Flag     = CEditableObject::eoNormals;
+    const auto Smooth2Flag     = CEditableObject::eoCoPSmooth;
+    const auto Smooth3Flag     = CEditableObject::eoSoCSmooth;
 
-    const bool Smooth1Set          = m_pEditObject->m_objectFlags.test(Smooth1Flag);
-    const bool Smooth2Set          = m_pEditObject->m_objectFlags.test(Smooth2Flag);
-    const bool Smooth3Set          = m_pEditObject->m_objectFlags.test(Smooth3Flag);
+    const bool Smooth1Set      = m_pEditObject->m_objectFlags.test(Smooth1Flag);
+    const bool Smooth2Set      = m_pEditObject->m_objectFlags.test(Smooth2Flag);
+    const bool Smooth3Set      = m_pEditObject->m_objectFlags.test(Smooth3Flag);
 
     if (Smooth1Set || Smooth2Set || Smooth3Set)
     {

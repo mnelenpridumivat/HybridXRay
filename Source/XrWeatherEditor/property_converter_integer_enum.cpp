@@ -34,12 +34,7 @@ StandardValuesCollection ^ property_converter_integer_enum::GetStandardValues(IT
     return (gcnew StandardValuesCollection(value->m_collection));
 }
 
-Object ^
-    property_converter_integer_enum::ConvertTo(
-        ITypeDescriptorContext ^ context,
-        CultureInfo ^ culture,
-        Object ^ value,
-        Type ^ destination_type)
+Object ^ property_converter_integer_enum::ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type)
 {
     if (!context)
         return (inherited::ConvertTo(context, culture, value, destination_type));

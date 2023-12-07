@@ -115,7 +115,7 @@ void CUIChangeWeather::OnBtnCancel()
 
 void CUIChangeWeather::ParseWeather()
 {
-    weather_counter = 0;
+    weather_counter                 = 0;
 
     GAME_WEATHERS     game_weathers = gMapListHelper.GetGameWeathers();
     GAME_WEATHERS_CIT it            = game_weathers.begin();

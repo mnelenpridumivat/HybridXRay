@@ -1,4 +1,4 @@
-/********************************************************************
+﻿/********************************************************************
  *                                                                  *
  * THIS FILE IS PART OF THE OggVorbis SOFTWARE CODEC SOURCE CODE.   *
  * USE, DISTRIBUTION AND REPRODUCTION OF THIS LIBRARY SOURCE IS     *
@@ -24,8 +24,8 @@ extern float vorbis_invsq2explook(int a);
 extern float vorbis_fromdBlook(float a);
 #endif
 #ifdef INT_LOOKUP
-extern long vorbis_invsqlook_i(long a,long e);
-extern long vorbis_coslook_i(long a);
+extern long  vorbis_invsqlook_i(long a, long e);
+extern long  vorbis_coslook_i(long a);
 extern float vorbis_fromdBlook_i(long a);
 #endif
 

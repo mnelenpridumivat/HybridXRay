@@ -10,10 +10,10 @@
 
 CUIStatsPlayerInfo::CUIStatsPlayerInfo(xr_vector<PI_FIELD_INFO>* info, CGameFont* pF, u32 text_col)
 {
-    m_field_info = info;
+    m_field_info  = info;
 
-    m_pF       = pF;
-    m_text_col = text_col;
+    m_pF          = pF;
+    m_text_col    = text_col;
 
     m_pBackground = xr_new<CUIStatic>();
     AttachChild(m_pBackground);

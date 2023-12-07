@@ -14,13 +14,7 @@ typedef void __stdcall xrHemisphereIterator(float x, float y, float z, float ene
 extern "C"
 {
     // Returns TRUE only if everything OK.
-    XRHS_API void xrHemisphereBuild(
-        int                   quality,
-        BOOL                  ground,
-        float                 ground_scale,
-        float                 energy,
-        xrHemisphereIterator* it,
-        LPVOID                param);
+    XRHS_API void xrHemisphereBuild(int quality, BOOL ground, float ground_scale, float energy, xrHemisphereIterator* it, LPVOID param);
 };
 
 #endif   // xrHemisphereH

@@ -19,7 +19,7 @@ IC CScriptEntityAction::CScriptEntityAction(const CScriptEntityAction* entity_ac
     *this = *entity_action;
 }
 
-template <typename T> IC void CScriptEntityAction::SetAction(const T& t, T& tt)
+template<typename T> IC void CScriptEntityAction::SetAction(const T& t, T& tt)
 {
     tt = t;
 }
@@ -111,9 +111,7 @@ IC bool CScriptEntityAction::CheckIfMonsterActionCompleted() const
 
 IC bool CScriptEntityAction::CheckIfTimeOver()
 {
-    return (
-        (m_tActionCondition.m_tLifeTime >= 0) &&
-        ((m_tActionCondition.m_tStartTime + m_tActionCondition.m_tLifeTime) < Device->dwTimeGlobal));
+    return ((m_tActionCondition.m_tLifeTime >= 0) && ((m_tActionCondition.m_tStartTime + m_tActionCondition.m_tLifeTime) < Device->dwTimeGlobal));
 }
 
 IC bool CScriptEntityAction::CheckIfActionCompleted()
@@ -141,9 +139,7 @@ IC bool CScriptEntityAction::CheckIfActionCompleted()
     if ((CScriptActionCondition::ACT_FLAG & m_tActionCondition.m_dwFlags) && CheckIfMonsterActionCompleted())
         l_dwFlags ^= CScriptActionCondition::ACT_FLAG;
 
-    if (!m_tActionCondition.m_dwFlags && (m_tActionCondition.m_tLifeTime < 0) && CheckIfMovementCompleted() &&
-        CheckIfWatchCompleted() && CheckIfAnimationCompleted() && CheckIfSoundCompleted() &&
-        CheckIfParticleCompleted() && CheckIfObjectCompleted() && CheckIfMonsterActionCompleted())
+    if (!m_tActionCondition.m_dwFlags && (m_tActionCondition.m_tLifeTime < 0) && CheckIfMovementCompleted() && CheckIfWatchCompleted() && CheckIfAnimationCompleted() && CheckIfSoundCompleted() && CheckIfParticleCompleted() && CheckIfObjectCompleted() && CheckIfMonsterActionCompleted())
         return (true);
     else
         return (!l_dwFlags);

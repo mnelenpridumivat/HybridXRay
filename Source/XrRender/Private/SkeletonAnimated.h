@@ -16,8 +16,10 @@ public:
     typedef svector<CBlend*, MAX_BLENDED> BlendSVec;
     typedef BlendSVec::iterator           BlendSVecIt;
     typedef BlendSVec::const_iterator     BlendSVecCIt;
+
 private:
     BlendSVec Blend;
+
 public:
     // methods
     IC BlendSVec& blend_vector()
@@ -47,6 +49,7 @@ class ECORE_API CKinematicsAnimated: public CKinematics, public IKinematicsAnima
     friend class CBoneData;
     friend class CMotionDef;
     friend class CSkeletonX;
+
 private:
     // Motion control
     void Bone_Motion_Start(CBoneData* bd, CBlend* handle);   // with recursion
@@ -54,18 +57,24 @@ private:
 
     void Bone_Motion_Start_IM(CBoneData* bd, CBlend* handle);
     void Bone_Motion_Stop_IM(CBoneData* bd, CBlend* handle);
+
 public:
     // Calculation
+
 private:
     void         LL_BuldBoneMatrixDequatize(const CBoneData* bd, u8 channel_mask, SKeyTable& keys);
     void         LL_BoneMatrixBuild(CBoneInstance& bi, const Fmatrix* parent, const SKeyTable& keys);
     virtual void BuildBoneMatrix(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 mask_channel = (1 << 0));
+
 public:
     virtual void OnCalculateBones();
+
 public:
 #ifdef REDITOR
+
 public:
 #else
+
 private:
 #endif
     u32             Update_LastTime;
@@ -89,6 +98,7 @@ private:
     BlendSVec                         blend_cycles[MAX_PARTS];
     BlendSVec                         blend_fx;
     animation::channels               channels;
+
 protected:
     // internal functions
     virtual void IBoneInstances_Create();
@@ -97,10 +107,12 @@ protected:
     void         IBlend_Startup();
     void         ChannelFactorsStartup();
     CBlend*      IBlend_Create();
+
 private:
     void IBlendSetup(CBlend& B, u16 part, u8 channel, MotionID motion_ID, BOOL bMixing, float blendAccrue, float blendFalloff, float Speed, BOOL noloop, PlayCallback Callback, LPVOID CallbackParam);
     void IFXBlendSetup(CBlend& B, MotionID motion_ID, float blendAccrue, float blendFalloff, float Power, float Speed, u16 bone);
     //.	bool						LoadMotions				(LPCSTR N, IReader *data);
+
 public:
 #if (defined DEBUG || defined REDITOR)
     std::pair<LPCSTR, LPCSTR> LL_MotionDefName_dbg(MotionID ID);

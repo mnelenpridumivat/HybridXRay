@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "ISpatial.h"
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <xmmintrin.h>
 #pragma warning(pop)
 
@@ -138,33 +138,31 @@ ICF BOOL isect_fpu(const Fvector& min, const Fvector& max, const ray_t& ray, Fve
 }
 
 // turn those verbose intrinsics into something readable.
-#define loadps(mem) _mm_load_ps((const float* const)(mem))
-#define storess(ss, mem) _mm_store_ss((float* const)(mem), (ss))
-#define minss _mm_min_ss
-#define maxss _mm_max_ss
-#define minps _mm_min_ps
-#define maxps _mm_max_ps
-#define mulps _mm_mul_ps
-#define subps _mm_sub_ps
-#define rotatelps(ps) _mm_shuffle_ps((ps), (ps), 0x39)   // a,b,c,d -> b,c,d,a
-#define muxhps(low, high) _mm_movehl_ps((low), (high))   // low{a,b,c,d}|high{e,f,g,h} = {c,d,g,h}
+#define loadps(mem)       _mm_load_ps((const float* const)(mem))
+#define storess(ss, mem)  _mm_store_ss((float* const)(mem), (ss))
+#define minss             _mm_min_ss
+#define maxss             _mm_max_ss
+#define minps             _mm_min_ps
+#define maxps             _mm_max_ps
+#define mulps             _mm_mul_ps
+#define subps             _mm_sub_ps
+#define rotatelps(ps)     _mm_shuffle_ps((ps), (ps), 0x39)   // a,b,c,d -> b,c,d,a
+#define muxhps(low, high) _mm_movehl_ps((low), (high))       // low{a,b,c,d}|high{e,f,g,h} = {c,d,g,h}
 
-static const float             flt_plus_inf        = -logf(0);   // let's keep C and C++ compilers happy.
-static const float _MM_ALIGN16 ps_cst_plus_inf[4]  = {flt_plus_inf, flt_plus_inf, flt_plus_inf, flt_plus_inf},
-                               ps_cst_minus_inf[4] = {-flt_plus_inf, -flt_plus_inf, -flt_plus_inf, -flt_plus_inf};
+static const float             flt_plus_inf       = -logf(0);   // let's keep C and C++ compilers happy.
+static const float _MM_ALIGN16 ps_cst_plus_inf[4] = {flt_plus_inf, flt_plus_inf, flt_plus_inf, flt_plus_inf}, ps_cst_minus_inf[4] = {-flt_plus_inf, -flt_plus_inf, -flt_plus_inf, -flt_plus_inf};
 
-ICF BOOL isect_sse(const aabb_t& box, const ray_t& ray, float& dist)
+ICF BOOL                       isect_sse(const aabb_t& box, const ray_t& ray, float& dist)
 {
     // you may already have those values hanging around somewhere
     const __m128 plus_inf = loadps(ps_cst_plus_inf), minus_inf = loadps(ps_cst_minus_inf);
 
     // use whatever's apropriate to load.
-    const __m128 box_min = loadps(&box.min), box_max = loadps(&box.max), pos = loadps(&ray.pos),
-                 inv_dir = loadps(&ray.inv_dir);
+    const __m128 box_min = loadps(&box.min), box_max = loadps(&box.max), pos = loadps(&ray.pos), inv_dir = loadps(&ray.inv_dir);
 
     // use a div if inverted directions aren't available
-    const __m128 l1 = mulps(subps(box_min, pos), inv_dir);
-    const __m128 l2 = mulps(subps(box_max, pos), inv_dir);
+    const __m128 l1           = mulps(subps(box_min, pos), inv_dir);
+    const __m128 l2           = mulps(subps(box_max, pos), inv_dir);
 
     // the order we use for those min/max is vital to filter out
     // NaNs that happens when an inv_dir is +/- inf and
@@ -176,21 +174,21 @@ ICF BOOL isect_sse(const aabb_t& box, const ray_t& ray, float& dist)
     const __m128 filtered_l2b = maxps(l2, minus_inf);
 
     // now that we're back on our feet, test those slabs.
-    __m128 lmax = maxps(filtered_l1a, filtered_l2a);
-    __m128 lmin = minps(filtered_l1b, filtered_l2b);
+    __m128       lmax         = maxps(filtered_l1a, filtered_l2a);
+    __m128       lmin         = minps(filtered_l1b, filtered_l2b);
 
     // unfold back. try to hide the latency of the shufps & co.
-    const __m128 lmax0 = rotatelps(lmax);
-    const __m128 lmin0 = rotatelps(lmin);
-    lmax               = minss(lmax, lmax0);
-    lmin               = maxss(lmin, lmin0);
+    const __m128 lmax0        = rotatelps(lmax);
+    const __m128 lmin0        = rotatelps(lmin);
+    lmax                      = minss(lmax, lmax0);
+    lmin                      = maxss(lmin, lmin0);
 
-    const __m128 lmax1 = muxhps(lmax, lmax);
-    const __m128 lmin1 = muxhps(lmin, lmin);
-    lmax               = minss(lmax, lmax1);
-    lmin               = maxss(lmin, lmin1);
+    const __m128 lmax1        = muxhps(lmax, lmax);
+    const __m128 lmin1        = muxhps(lmin, lmin);
+    lmax                      = minss(lmax, lmax1);
+    lmin                      = maxss(lmin, lmin1);
 
-    const BOOL ret = _mm_comige_ss(lmax, _mm_setzero_ps()) & _mm_comige_ss(lmax, lmin);
+    const BOOL ret            = _mm_comige_ss(lmax, _mm_setzero_ps()) & _mm_comige_ss(lmax, lmin);
 
     storess(lmin, &dist);
     // storess	(lmax, &rs.t_far);
@@ -198,9 +196,9 @@ ICF BOOL isect_sse(const aabb_t& box, const ray_t& ray, float& dist)
     return ret;
 }
 
-extern Fvector c_spatial_offset[8];
+extern Fvector                                                           c_spatial_offset[8];
 
-template <bool b_use_sse, bool b_first, bool b_nearest> class _MM_ALIGN16 walker
+template<bool b_use_sse, bool b_first, bool b_nearest> class _MM_ALIGN16 walker
 {
 public:
     ray_t        ray;
@@ -220,18 +218,15 @@ public:
         {
             // for FPU - zero out inf
             if (_abs(_dir.x) > flt_eps)
-            {
-            }
+            {}
             else
                 ray.inv_dir.x = 0;
             if (_abs(_dir.y) > flt_eps)
-            {
-            }
+            {}
             else
                 ray.inv_dir.y = 0;
             if (_abs(_dir.z) > flt_eps)
-            {
-            }
+            {}
             else
                 ray.inv_dir.z = 0;
         }
@@ -339,13 +334,7 @@ public:
     }
 };
 
-void ISpatial_DB::q_ray(
-    xr_vector<ISpatial*>& R,
-    u32                   _o,
-    u32                   _mask_and,
-    const Fvector&        _start,
-    const Fvector&        _dir,
-    float                 _range)
+void ISpatial_DB::q_ray(xr_vector<ISpatial*>& R, u32 _o, u32 _mask_and, const Fvector& _start, const Fvector& _dir, float _range)
 {
     cs.Enter();
     q_result = &R;

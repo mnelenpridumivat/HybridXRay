@@ -54,8 +54,7 @@ int CPortalUtils::CalculateSelectedPortals()
         {
             CSector* SF = ((CPortal*)(*_F))->m_SectorFront;
             CSector* SB = ((CPortal*)(*_F))->m_SectorBack;
-            if ((std::find(s_lst.begin(), s_lst.end(), SF) != s_lst.end()) &&
-                (std::find(s_lst.begin(), s_lst.end(), SB) != s_lst.end()))
+            if ((std::find(s_lst.begin(), s_lst.end(), SF) != s_lst.end()) && (std::find(s_lst.begin(), s_lst.end(), SB) != s_lst.end()))
                 xr_delete(*_F);
         }
         ObjectIt _E = remove(p_lst.begin(), p_lst.end(), (CCustomObject*)0);
@@ -176,8 +175,7 @@ bool CPortalUtils::Validate(bool bMsg)
             {
                 ELog.DlgMsg(mtError, "& ERROR: Scene has '%d' non associated face!", f_cnt);
                 for (SItemIt it = sector_def->sector_items.begin(); it != sector_def->sector_items.end(); it++)
-                    Msg("! - scene object: '%s' [O:'%s', M:'%s']", it->object->GetName(), it->object->RefName(),
-                        it->mesh->Name().c_str());
+                    Msg("! - scene object: '%s' [O:'%s', M:'%s']", it->object->GetName(), it->object->RefName(), it->mesh->Name().c_str());
             }
             bResult = false;
         }
@@ -206,7 +204,7 @@ class sCollector
         u32      v[3];
         CSector* sector;
 
-        bool hasVertex(u32 vert)
+        bool     hasVertex(u32 vert)
         {
             return (v[0] == vert) || (v[1] == vert) || (v[2] == vert);
         }
@@ -264,11 +262,11 @@ public:
     sEdgeVec   edges;
     sPortalVec portals;
 
-    Fvector VMmin, VMscale;
-    U32Vec  VM[clpMX + 1][clpMY + 1][clpMZ + 1];
-    Fvector VMeps;
+    Fvector    VMmin, VMscale;
+    U32Vec     VM[clpMX + 1][clpMY + 1][clpMZ + 1];
+    Fvector    VMeps;
 
-    u32 VPack(Fvector& V)
+    u32        VPack(Fvector& V)
     {
         u32 P = 0xffffffff;
 
@@ -344,11 +342,10 @@ public:
         VMeps.z = (VMeps.z < EPS_L) ? VMeps.z : EPS_L;
     }
 
-    void add_face(
-        Fvector& v0,   // vertices
-        Fvector& v1,
-        Fvector& v2,
-        CSector* sector)
+    void add_face(Fvector& v0,   // vertices
+        Fvector&           v1,
+        Fvector&           v2,
+        CSector*           sector)
     {
         sFace T;
         T.v[0]   = VPack(v0);

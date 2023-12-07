@@ -79,12 +79,12 @@ void CUIRankingWnd::Init()
     xml.Load(CONFIG_PATH, UI_PATH, PDA_RANKING_XML);
 
     CUIXmlInit::InitWindow(xml, "main_wnd", 0, this);
-    m_delay = (u32)xml.ReadAttribInt("main_wnd", 0, "delay", 3000);
+    m_delay           = (u32)xml.ReadAttribInt("main_wnd", 0, "delay", 3000);
 
     m_background      = UIHelper::CreateFrameWindow(xml, "background", this);
     m_down_background = UIHelper::CreateFrameWindow(xml, "down_background", this);
 
-    m_actor_ch_info = xr_new<CUICharacterInfo>();
+    m_actor_ch_info   = xr_new<CUICharacterInfo>();
     m_actor_ch_info->SetAutoDelete(true);
     AttachChild(m_actor_ch_info);
     m_actor_ch_info->InitCharacterInfo(&xml, "actor_ch_info");
@@ -98,7 +98,7 @@ void CUIRankingWnd::Init()
     pos.x += m_money_caption->GetWndSize().x + 10.0f;
     m_money_value->SetWndPos(pos);
 
-    m_center_caption = UIHelper::CreateTextWnd(xml, "center_caption", this);
+    m_center_caption      = UIHelper::CreateTextWnd(xml, "center_caption", this);
 
     XML_NODE* stored_root = xml.GetLocalRoot();
     XML_NODE* node        = xml.NavigateToNode("stat_info", 0);
@@ -133,10 +133,10 @@ void CUIRankingWnd::Init()
     xr_strcat(buf, sizeof(buf), CStringTable().translate("ui_ranking_center_caption").c_str());
     m_center_caption->SetText(buf);
 
-    m_monster_icon_back  = UIHelper::CreateStatic(xml, "monster_icon_back", this);
-    m_monster_icon       = UIHelper::CreateStatic(xml, "monster_icon", this);
-    m_monster_background = UIHelper::CreateFrameWindow(xml, "monster_background", this);
-    m_monster_over       = UIHelper::CreateFrameWindow(xml, "monster_over", this);
+    m_monster_icon_back       = UIHelper::CreateStatic(xml, "monster_icon_back", this);
+    m_monster_icon            = UIHelper::CreateStatic(xml, "monster_icon", this);
+    m_monster_background      = UIHelper::CreateFrameWindow(xml, "monster_background", this);
+    m_monster_over            = UIHelper::CreateFrameWindow(xml, "monster_over", this);
 
     m_favorite_weapon_bckgrnd = UIHelper::CreateStatic(xml, "favorite_weapon_back", this);
     m_favorite_weapon_icon    = UIHelper::CreateStatic(xml, "favorite_weapon_icon", this);
@@ -267,8 +267,7 @@ void CUIRankingWnd::get_favorite_weapon()
             m_favorite_weapon_icon->SetTextureRect(tex_rect);
             m_favorite_weapon_icon->TextureOn();
             m_favorite_weapon_icon->SetTextureColor(color_rgba(255, 255, 255, 255));
-            m_favorite_weapon_icon->SetWndSize(Fvector2().set(
-                (tex_rect.x2 - tex_rect.x1) * UI().get_current_kx() * 0.8, (tex_rect.y2 - tex_rect.y1) * 0.8));
+            m_favorite_weapon_icon->SetWndSize(Fvector2().set((tex_rect.x2 - tex_rect.x1) * UI().get_current_kx() * 0.8, (tex_rect.y2 - tex_rect.y1) * 0.8));
             m_favorite_weapon_icon->SetStretchTexture(true);
         }
         m_last_weapon_icon = str;

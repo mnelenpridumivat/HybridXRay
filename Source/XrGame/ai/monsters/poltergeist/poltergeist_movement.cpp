@@ -3,10 +3,7 @@
 #include "poltergeist.h"
 #include "../../../detail_path_manager.h"
 
-void CPoltergeisMovementManager::move_along_path(
-    CPHMovementControl* movement_control,
-    Fvector&            dest_position,
-    float               time_delta)
+void CPoltergeisMovementManager::move_along_path(CPHMovementControl* movement_control, Fvector& dest_position, float time_delta)
 {
     if (!m_monster->is_hidden())
     {
@@ -17,9 +14,7 @@ void CPoltergeisMovementManager::move_along_path(
     dest_position = m_monster->m_current_position;
 
     // Если нет движения по пути
-    if (!enabled() || path_completed() || detail().path().empty() ||
-        detail().completed(m_monster->m_current_position, true) ||
-        (detail().curr_travel_point_index() >= detail().path().size() - 1) || fis_zero(old_desirable_speed()))
+    if (!enabled() || path_completed() || detail().path().empty() || detail().completed(m_monster->m_current_position, true) || (detail().curr_travel_point_index() >= detail().path().size() - 1) || fis_zero(old_desirable_speed()))
     {
         m_speed       = 0.f;
         dest_position = CalculateRealPosition();
@@ -35,24 +30,21 @@ void CPoltergeisMovementManager::move_along_path(
     // Вычислить пройденную дистанцию, определить целевую позицию на маршруте,
     //			 изменить detail().curr_travel_point_index()
 
-    float desirable_speed = old_desirable_speed();         // желаемая скорость объекта
-    float dist           = desirable_speed * time_delta;   // пройденное расстояние в соостветствие с желаемой скоростью
-    float desirable_dist = dist;
+    float   desirable_speed = old_desirable_speed();          // желаемая скорость объекта
+    float   dist            = desirable_speed * time_delta;   // пройденное расстояние в соостветствие с желаемой скоростью
+    float   desirable_dist  = dist;
 
     // определить целевую точку
     Fvector target;
 
-    u32 prev_cur_point_index = detail().curr_travel_point_index();
+    u32     prev_cur_point_index = detail().curr_travel_point_index();
 
     // обновить detail().curr_travel_point_index() в соответствие с текущей позицией
     while (detail().curr_travel_point_index() < detail().path().size() - 2)
     {
-        float pos_dist_to_cur_point =
-            dest_position.distance_to(detail().path()[detail().curr_travel_point_index()].position);
-        float pos_dist_to_next_point =
-            dest_position.distance_to(detail().path()[detail().curr_travel_point_index() + 1].position);
-        float cur_point_dist_to_next_point = detail().path()[detail().curr_travel_point_index()].position.distance_to(
-            detail().path()[detail().curr_travel_point_index() + 1].position);
+        float pos_dist_to_cur_point        = dest_position.distance_to(detail().path()[detail().curr_travel_point_index()].position);
+        float pos_dist_to_next_point       = dest_position.distance_to(detail().path()[detail().curr_travel_point_index() + 1].position);
+        float cur_point_dist_to_next_point = detail().path()[detail().curr_travel_point_index()].position.distance_to(detail().path()[detail().curr_travel_point_index() + 1].position);
 
         if ((pos_dist_to_cur_point > cur_point_dist_to_next_point) && (pos_dist_to_cur_point > pos_dist_to_next_point))
         {
@@ -105,10 +97,10 @@ void CPoltergeisMovementManager::move_along_path(
     dest_position.add(motion);
 
     // установить скорость
-    float real_motion = motion.magnitude() + desirable_dist - dist;
-    float real_speed  = real_motion / time_delta;
+    float real_motion             = motion.magnitude() + desirable_dist - dist;
+    float real_speed              = real_motion / time_delta;
 
-    m_speed = 0.5f * desirable_speed + 0.5f * real_speed;
+    m_speed                       = 0.5f * desirable_speed + 0.5f * real_speed;
 
     // Обновить позицию
     m_monster->m_current_position = dest_position;

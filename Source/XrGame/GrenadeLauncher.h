@@ -25,7 +25,7 @@ public:
     virtual void UpdateCL();
     virtual void renderable_Render();
 
-    float GetGrenadeVel()
+    float        GetGrenadeVel()
     {
         return m_fGrenadeVel;
     }

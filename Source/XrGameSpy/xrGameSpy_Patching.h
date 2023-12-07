@@ -4,8 +4,7 @@
 
 extern "C"
 {
-    EXPORT_FN_DECL(
-        bool,
+    EXPORT_FN_DECL(bool,
         ptCheckForPatchA,
         (
             //		int productID,  const gsi_char * versionUniqueID,  int distributionID,

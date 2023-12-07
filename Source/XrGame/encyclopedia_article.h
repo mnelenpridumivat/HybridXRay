@@ -16,14 +16,14 @@
 //////////////////////////////////////////////////////////////////////////
 struct SArticleData: CSharedResource
 {
-    shared_str name;
-    shared_str group;
+    shared_str                 name;
+    shared_str                 group;
 
     // картинка
-    CUIStatic image;
+    CUIStatic                  image;
 
     // текст статьи
-    xr_string text;
+    xr_string                  text;
 
     // секция ltx, откуда читать данные
     //	shared_str ltx;
@@ -35,9 +35,7 @@ struct SArticleData: CSharedResource
 
 class CEncyclopediaArticle;
 
-class CEncyclopediaArticle:
-    public CSharedClass<SArticleData, shared_str, false>,
-    public CXML_IdToIndex<CEncyclopediaArticle>
+class CEncyclopediaArticle: public CSharedClass<SArticleData, shared_str, false>, public CXML_IdToIndex<CEncyclopediaArticle>
 {
 private:
     typedef CSharedClass<SArticleData, shared_str, false> inherited_shared;

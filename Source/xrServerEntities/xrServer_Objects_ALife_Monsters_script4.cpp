@@ -81,34 +81,31 @@ void ForceSetGoodwill(CSE_ALifeMonsterAbstract* self, int goodwill, ALife::_OBJE
 #pragma optimize("s", on)
 void CSE_ALifeMonsterAbstract::script_register(lua_State* L)
 {
-    module(
-        L)[luabind_class_monster2(
-        CSE_ALifeMonsterAbstract, "cse_alife_monster_abstract", CSE_ALifeCreatureAbstract, CSE_ALifeSchedulable)
-               .def("smart_terrain_id", &smart_terrain_id)
-               .def_readonly("group_id", &CSE_ALifeMonsterAbstract::m_group_id)
-               .def_readwrite("m_smart_terrain_id", &CSE_ALifeMonsterAbstract::m_smart_terrain_id)
-               .def("clear_smart_terrain", &clear_smart_terrain)
-               .def("brain", &monster_brain)
-               .def("rank", &CSE_ALifeMonsterAbstract::Rank)
-               .def("smart_terrain_task_activate", &smart_terrain_task_activate)
-               .def("smart_terrain_task_deactivate", &smart_terrain_task_deactivate)
+    module(L)[luabind_class_monster2(CSE_ALifeMonsterAbstract, "cse_alife_monster_abstract", CSE_ALifeCreatureAbstract, CSE_ALifeSchedulable)
+                  .def("smart_terrain_id", &smart_terrain_id)
+                  .def_readonly("group_id", &CSE_ALifeMonsterAbstract::m_group_id)
+                  .def_readwrite("m_smart_terrain_id", &CSE_ALifeMonsterAbstract::m_smart_terrain_id)
+                  .def("clear_smart_terrain", &clear_smart_terrain)
+                  .def("brain", &monster_brain)
+                  .def("rank", &CSE_ALifeMonsterAbstract::Rank)
+                  .def("smart_terrain_task_activate", &smart_terrain_task_activate)
+                  .def("smart_terrain_task_deactivate", &smart_terrain_task_deactivate)
 #ifdef XRGAME_EXPORTS
-               .def("travel_speed", &travel_speed)
-               .def("travel_speed", &travel_speed2)
-               .def("current_level_travel_speed", &current_level_travel_speed)
-               .def("current_level_travel_speed", &current_level_travel_speed2)
-               .def("kill", &CSE_ALifeMonsterAbstract::kill)
-               .def("has_detector", &CSE_ALifeMonsterAbstract::has_detector)
+                  .def("travel_speed", &travel_speed)
+                  .def("travel_speed", &travel_speed2)
+                  .def("current_level_travel_speed", &current_level_travel_speed)
+                  .def("current_level_travel_speed", &current_level_travel_speed2)
+                  .def("kill", &CSE_ALifeMonsterAbstract::kill)
+                  .def("has_detector", &CSE_ALifeMonsterAbstract::has_detector)
 
-               .def("force_set_goodwill", &ForceSetGoodwill)
+                  .def("force_set_goodwill", &ForceSetGoodwill)
 #endif   // #ifdef XRGAME_EXPORTS
     ];
 }
 
 void CSE_ALifeHumanAbstract::script_register(lua_State* L)
 {
-    module(L)[luabind_class_monster2(
-        CSE_ALifeHumanAbstract, "cse_alife_human_abstract", CSE_ALifeTraderAbstract, CSE_ALifeMonsterAbstract)
+    module(L)[luabind_class_monster2(CSE_ALifeHumanAbstract, "cse_alife_human_abstract", CSE_ALifeTraderAbstract, CSE_ALifeMonsterAbstract)
                   .def("brain", &human_brain)
 #ifdef XRGAME_EXPORTS
                   .def("rank", &CSE_ALifeTraderAbstract::Rank)

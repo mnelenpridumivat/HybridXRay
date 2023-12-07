@@ -19,12 +19,12 @@
 CALifeMonsterPatrolPathManager::CALifeMonsterPatrolPathManager(object_type* object)
 {
     VERIFY(object);
-    m_object = object;
+    m_object                = object;
 
-    m_path = 0;
+    m_path                  = 0;
 
-    m_actual    = true;
-    m_completed = true;
+    m_actual                = true;
+    m_completed             = true;
 
     m_current_vertex_index  = u32(-1);
     m_previous_vertex_index = u32(-1);
@@ -57,11 +57,11 @@ const Fvector& CALifeMonsterPatrolPathManager::target_position() const
 
 void CALifeMonsterPatrolPathManager::select_nearest()
 {
-    m_current_vertex_index               = u32(-1);
-    Fvector global_position              = ai().game_graph().vertex(object().get_object().m_tGraphID)->game_point();
-    float   best_distance                = flt_max;
-    CPatrolPath::const_vertex_iterator I = path().vertices().begin();
-    CPatrolPath::const_vertex_iterator E = path().vertices().end();
+    m_current_vertex_index                             = u32(-1);
+    Fvector                            global_position = ai().game_graph().vertex(object().get_object().m_tGraphID)->game_point();
+    float                              best_distance   = flt_max;
+    CPatrolPath::const_vertex_iterator I               = path().vertices().begin();
+    CPatrolPath::const_vertex_iterator E               = path().vertices().end();
     for (; I != E; ++I)
     {
         if ((*I).second->data().game_vertex_id() == object().get_object().m_tGraphID)
@@ -70,8 +70,7 @@ void CALifeMonsterPatrolPathManager::select_nearest()
             break;
         }
 
-        float distance =
-            global_position.distance_to(ai().game_graph().vertex((*I).second->data().game_vertex_id())->game_point());
+        float distance = global_position.distance_to(ai().game_graph().vertex((*I).second->data().game_vertex_id())->game_point());
 
         if (distance >= best_distance)
             continue;
@@ -92,19 +91,23 @@ void CALifeMonsterPatrolPathManager::actualize()
 
     switch (start_type())
     {
-        case PatrolPathManager::ePatrolStartTypeFirst: {
+        case PatrolPathManager::ePatrolStartTypeFirst:
+        {
             m_current_vertex_index = 0;
             break;
         }
-        case PatrolPathManager::ePatrolStartTypeLast: {
+        case PatrolPathManager::ePatrolStartTypeLast:
+        {
             m_current_vertex_index = path().vertices().size() - 1;
             break;
         }
-        case PatrolPathManager::ePatrolStartTypeNearest: {
+        case PatrolPathManager::ePatrolStartTypeNearest:
+        {
             select_nearest();
             break;
         }
-        case PatrolPathManager::ePatrolStartTypePoint: {
+        case PatrolPathManager::ePatrolStartTypePoint:
+        {
             m_current_vertex_index = m_start_vertex_index;
             break;
         }
@@ -130,13 +133,13 @@ bool CALifeMonsterPatrolPathManager::location_reached() const
 
 void CALifeMonsterPatrolPathManager::navigate()
 {
-    const CPatrolPath::CVertex& vertex = *path().vertex(m_current_vertex_index);
+    const CPatrolPath::CVertex&         vertex = *path().vertex(m_current_vertex_index);
 
     typedef CPatrolPath::CVertex::EDGES EDGES;
     EDGES::const_iterator               I = vertex.edges().begin(), B = I;
-    EDGES::const_iterator               E = vertex.edges().end();
+    EDGES::const_iterator               E                = vertex.edges().end();
 
-    u32 branching_factor = 0;
+    u32                                 branching_factor = 0;
     for (; I != E; ++I)
     {
         if (*I == m_previous_vertex_index)
@@ -149,12 +152,14 @@ void CALifeMonsterPatrolPathManager::navigate()
     {
         switch (route_type())
         {
-            case PatrolPathManager::ePatrolRouteTypeStop: {
+            case PatrolPathManager::ePatrolRouteTypeStop:
+            {
                 VERIFY(!m_completed);
                 m_completed = true;
                 break;
             };
-            case PatrolPathManager::ePatrolRouteTypeContinue: {
+            case PatrolPathManager::ePatrolRouteTypeContinue:
+            {
                 if (vertex.edges().empty())
                 {
                     VERIFY(!m_completed);

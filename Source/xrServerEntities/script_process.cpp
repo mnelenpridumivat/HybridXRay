@@ -93,8 +93,7 @@ void CScriptProcess::update()
         lua_gc(ai().script_engine().lua(), LUA_GCSTEP, 0);
     }
     catch (...)
-    {
-    }
+    {}
 #endif
 }
 

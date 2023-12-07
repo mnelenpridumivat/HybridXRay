@@ -26,10 +26,7 @@ IC const shared_str& CPatrolPoint::name() const
     return (m_name);
 }
 
-IC const u32& CPatrolPoint::level_vertex_id(
-    const CLevelGraph*          level_graph,
-    const CGameLevelCrossTable* cross,
-    const CGameGraph*           game_graph) const
+IC const u32& CPatrolPoint::level_vertex_id(const CLevelGraph* level_graph, const CGameLevelCrossTable* cross, const CGameGraph* game_graph) const
 {
     VERIFY(m_initialized);
 #ifdef DEBUG
@@ -38,10 +35,7 @@ IC const u32& CPatrolPoint::level_vertex_id(
     return (m_level_vertex_id);
 }
 
-IC const GameGraph::_GRAPH_ID& CPatrolPoint::game_vertex_id(
-    const CLevelGraph*          level_graph,
-    const CGameLevelCrossTable* cross,
-    const CGameGraph*           game_graph) const
+IC const GameGraph::_GRAPH_ID& CPatrolPoint::game_vertex_id(const CLevelGraph* level_graph, const CGameLevelCrossTable* cross, const CGameGraph* game_graph) const
 {
     VERIFY(m_initialized);
 #ifdef DEBUG

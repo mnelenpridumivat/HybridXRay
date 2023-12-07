@@ -12,17 +12,12 @@
 #include "graph_edge.h"
 #include "object_broker.h"
 
-template <
-    typename _data_type        = Loki::EmptyType,
-    typename _edge_weight_type = float,
-    typename _vertex_id_type   = u32,
-    typename _edge_data_type   = Loki::EmptyType>
-class CGraphAbstract
+template<typename _data_type = Loki::EmptyType, typename _edge_weight_type = float, typename _vertex_id_type = u32, typename _edge_data_type = Loki::EmptyType> class CGraphAbstract
 {
 public:
     typedef CVertex<_data_type, _vertex_id_type, CGraphAbstract> CVertex;
 
-    typedef CEdge<_edge_weight_type, CVertex, _edge_data_type> CEdge;
+    typedef CEdge<_edge_weight_type, CVertex, _edge_data_type>   CEdge;
 
 public:
     typedef xr_map<_vertex_id_type, CVertex*> VERTICES;
@@ -42,19 +37,12 @@ private:
 public:
     IC CGraphAbstract();
     virtual ~CGraphAbstract();
-    IC bool operator==(const CGraphAbstract& obj) const;
-    IC void clear();
-    IC void add_vertex(const _data_type& data, const _vertex_id_type& vertex_id);
-    IC void remove_vertex(const _vertex_id_type& vertex_id);
-    IC void add_edge(
-        const _vertex_id_type&   vertex_id0,
-        const _vertex_id_type&   vertex_id1,
-        const _edge_weight_type& edge_weight);
-    IC void add_edge(
-        const _vertex_id_type&   vertex_id0,
-        const _vertex_id_type&   vertex_id1,
-        const _edge_weight_type& edge_weight0,
-        const _edge_weight_type& edge_weight1);
+    IC bool                    operator==(const CGraphAbstract& obj) const;
+    IC void                    clear();
+    IC void                    add_vertex(const _data_type& data, const _vertex_id_type& vertex_id);
+    IC void                    remove_vertex(const _vertex_id_type& vertex_id);
+    IC void                    add_edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1, const _edge_weight_type& edge_weight);
+    IC void                    add_edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1, const _edge_weight_type& edge_weight0, const _edge_weight_type& edge_weight1);
     IC void                    remove_edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1);
     IC u32                     vertex_count() const;
     IC u32                     edge_count() const;
@@ -66,20 +54,14 @@ public:
     IC const CEdge*            edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1) const;
     IC CEdge*                  edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1);
     IC const CGraphAbstract&   header() const;
-    IC const _edge_weight_type get_edge_weight(
-        const _vertex_id_type vertex_index0,
-        const _vertex_id_type vertex_index1,
-        const_iterator        i) const;
-    IC bool                   is_accessible(const _vertex_id_type vertex_index) const;
-    IC _vertex_id_type const& value(_vertex_id_type const& vertex_index, const_iterator i) const;
-    IC void                   begin(const CVertex* vertex, const_iterator& b, const_iterator& e) const;
-    IC void                   begin(_vertex_id_type const& vertex_index, const_iterator& b, const_iterator& e) const;
+    IC const _edge_weight_type get_edge_weight(const _vertex_id_type vertex_index0, const _vertex_id_type vertex_index1, const_iterator i) const;
+    IC bool                    is_accessible(const _vertex_id_type vertex_index) const;
+    IC _vertex_id_type const&  value(_vertex_id_type const& vertex_index, const_iterator i) const;
+    IC void                    begin(const CVertex* vertex, const_iterator& b, const_iterator& e) const;
+    IC void                    begin(_vertex_id_type const& vertex_index, const_iterator& b, const_iterator& e) const;
 };
 
-template <typename _data_type = Loki::EmptyType, typename _edge_weight_type = float, typename _vertex_id_type = u32>
-class CGraphAbstractSerialize:
-    public CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type>,
-    public IPureSerializeObject<IReader, IWriter>
+template<typename _data_type = Loki::EmptyType, typename _edge_weight_type = float, typename _vertex_id_type = u32> class CGraphAbstractSerialize: public CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type>, public IPureSerializeObject<IReader, IWriter>
 {
 public:
     virtual void save(IWriter& stream);

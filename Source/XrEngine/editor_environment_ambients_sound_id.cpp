@@ -49,10 +49,7 @@ void sound_id::fill(XrWeatherEditor::property_holder_collection* collection)
     collection_size_getter_type                                                  collection_size_getter;
     collection_size_getter.bind(this, &sound_id::collection_size);
 
-    m_property_holder->add_property(
-        "sound channel", "properties", "this option is resposible for sound", m_id.c_str(), m_id, collection_getter,
-        collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box,
-        XrWeatherEditor::property_holder::cannot_enter_text);
+    m_property_holder->add_property("sound channel", "properties", "this option is resposible for sound", m_id.c_str(), m_id, collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
 }
 
 sound_id::property_holder_type* sound_id::object()

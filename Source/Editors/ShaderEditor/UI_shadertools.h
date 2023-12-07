@@ -12,10 +12,10 @@ class CShaderTool: public CToolCustom
 {
     typedef CToolCustom inherited;
 
-    void RegisterTools();
-    void UnregisterTools();
-    void RealUpdateProperties();
-    void RealUpdateList();
+    void                RegisterTools();
+    void                UnregisterTools();
+    void                RealUpdateProperties();
+    void                RealUpdateList();
 
     enum
     {
@@ -24,7 +24,7 @@ class CShaderTool: public CToolCustom
     };
     Flags32 m_Flags;
 
-    void PrepareLighting();
+    void    PrepareLighting();
 
 public:
     UIItemListForm*   m_Items;
@@ -45,29 +45,29 @@ public:
     CShaderTool();
     virtual ~CShaderTool();
 
-    virtual void Render();
-    virtual void RenderEnvironment();
-    virtual void OnFrame();
+    virtual void   Render();
+    virtual void   RenderEnvironment();
+    virtual void   OnFrame();
 
-    virtual bool OnCreate();
-    virtual void OnDestroy();
+    virtual bool   OnCreate();
+    virtual void   OnDestroy();
 
-    virtual bool IfModified();
-    virtual bool IsModified();
-    virtual void Modified();
+    virtual bool   IfModified();
+    virtual bool   IsModified();
+    virtual void   Modified();
 
     virtual LPCSTR GetInfo();
 
-    virtual void ZoomObject(BOOL bSelOnly);
+    virtual void   ZoomObject(BOOL bSelOnly);
 
-    virtual bool Load(LPCSTR name);
-    virtual bool Save(LPCSTR name, bool bInternal = false);
-    virtual void Reload();
+    virtual bool   Load(LPCSTR name);
+    virtual bool   Save(LPCSTR name, bool bInternal = false);
+    virtual void   Reload();
 
-    virtual void OnDeviceCreate();
-    virtual void OnDeviceDestroy();
+    virtual void   OnDeviceCreate();
+    virtual void   OnDeviceDestroy();
 
-    virtual void Clear()
+    virtual void   Clear()
     {
         inherited::Clear();
     }
@@ -111,22 +111,22 @@ public:
     }
     virtual bool GetSelectionPosition(Fmatrix& result);
 
-    LPCSTR CurrentToolsName();
+    LPCSTR       CurrentToolsName();
 
-    void OnChangeEditor(ISHTools* tools);
+    void         OnChangeEditor(ISHTools* tools);
 
-    void ApplyChanges();
+    void         ApplyChanges();
 
-    ISHTools* FindTools(EToolsID id);
+    ISHTools*    FindTools(EToolsID id);
     //  ISHTools*			FindTools			(TElTabSheet* sheet);
 
     // commands
-    CCommandVar CommandSave(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandSaveBackup(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandReload(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandClear(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandSave(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandSaveBackup(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandReload(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandClear(CCommandVar p1, CCommandVar p2);
 
-    CCommandVar CommandUpdateList(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandUpdateList(CCommandVar p1, CCommandVar p2);
 };
 extern CShaderTool* STools;
 //---------------------------------------------------------------------------

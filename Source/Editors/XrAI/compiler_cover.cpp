@@ -272,9 +272,9 @@ class CoverThread: public CThread
     Query         Q;
 
     typedef float Cover[4];
+
 public:
-    CoverThread(u32 ID, u32 _start, u32 _end):
-        CThread(ID)
+    CoverThread(u32 ID, u32 _start, u32 _end): CThread(ID)
     {
         Nstart = _start;
         Nend   = _end;
@@ -394,17 +394,12 @@ bool cover(const vertex& v, u32 index0, u32 index1)
 
 bool critical_point(const vertex& v, u32 index, u32 index0, u32 index1)
 {
-    return (
-        !valid_vertex_id(v.n[index]) &&
-        (!valid_vertex_id(v.n[index0]) || !valid_vertex_id(v.n[index1]) || cover(v, index0, index) ||
-            cover(v, index1, index)));
+    return (!valid_vertex_id(v.n[index]) && (!valid_vertex_id(v.n[index0]) || !valid_vertex_id(v.n[index1]) || cover(v, index0, index) || cover(v, index1, index)));
 }
 
 bool is_cover(const vertex& v)
 {
-    return (
-        critical_point(v, 0, 1, 3) || critical_point(v, 2, 1, 3) || critical_point(v, 1, 0, 2) ||
-        critical_point(v, 3, 0, 2));
+    return (critical_point(v, 0, 1, 3) || critical_point(v, 2, 1, 3) || critical_point(v, 1, 0, 2) || critical_point(v, 3, 0, 2));
 }
 
 extern float CalculateHeight(Fbox& BB);
@@ -627,8 +622,7 @@ void        xrCover(bool pure_covers)
     u32            last   = g_nodes.size() - stride * (NUM_THREADS - 1);
     for (u32 thID = 0; thID < NUM_THREADS; thID++)
     {
-        Threads.start(
-            xr_new<CoverThread>(thID, thID * stride, thID * stride + ((thID == (NUM_THREADS - 1)) ? last : stride)));
+        Threads.start(xr_new<CoverThread>(thID, thID * stride, thID * stride + ((thID == (NUM_THREADS - 1)) ? last : stride)));
         //		CoverThread(thID,thID*stride,thID*stride+((thID==(NUM_THREADS-1))?last:stride)).Execute();
         //		Threads.wait		();
     }

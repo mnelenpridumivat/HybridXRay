@@ -32,6 +32,7 @@ protected:
     Flags16 m_flags;
 
 protected:
+
 public:
     // get
     virtual float volume()           = 0;
@@ -54,10 +55,10 @@ public:
     virtual float radius()                                                                                  = 0;
     virtual void  get_Extensions(const Fvector& axis, float center_prg, float& lo_ext, float& hi_ext) const = 0;
 
-    void clear_cashed_tries();
+    void          clear_cashed_tries();
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    IC dGeomID geom()
+    IC dGeomID    geom()
     {
         return dGeomTransformGetGeom(m_geom_transform);
     }
@@ -115,8 +116,8 @@ public:
     void                   set_local_form_bt(const Fmatrix& xform);
     // set
     // element part
-    void set_body(dBodyID body);
-    void set_bone_id(u16 id)
+    void                   set_body(dBodyID body);
+    void                   set_bone_id(u16 id)
     {
         m_bone_id = id;
     }
@@ -141,6 +142,7 @@ public:
     void  set_ph_object(CPHObject* o);
 
     // build/destroy
+
 protected:
     void            init();
     void            get_final_tx_bt(const dReal*& p, const dReal*& R, dReal* bufV, dReal* bufM) const;

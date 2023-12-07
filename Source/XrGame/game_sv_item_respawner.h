@@ -28,8 +28,8 @@ private:
         u16        count_of_ammo;
     };
 
-    typedef xr_vector<spawn_item>        respawn_collection;
-    typedef respawn_collection::iterator respawn_iter;
+    typedef xr_vector<spawn_item>                          respawn_collection;
+    typedef respawn_collection::iterator                   respawn_iter;
 
     typedef xr_vector<section_item>                        section_items;
     typedef section_items::iterator                        section_items_iter;
@@ -52,10 +52,10 @@ private:
     u32                  load_section_items(CInifile& ini, const char* section_name, section_items* items);
     void                 clear_respawn_sections();
 
-    CSE_Abstract* make_respawn_entity(shared_str const& section_name, u8 addons, u16 count_of_ammo);
+    CSE_Abstract*        make_respawn_entity(shared_str const& section_name, u8 addons, u16 count_of_ammo);
 
-    xr_set<u16> level_items_respawn;
-    void        clear_level_items();
+    xr_set<u16>          level_items_respawn;
+    void                 clear_level_items();
 
 public:
     item_respawn_manager();

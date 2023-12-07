@@ -20,9 +20,9 @@ public:
             unsigned short g;
         };
     };
-    u16v16_t& operator += (const u16v16_t & v);   // incrementation by a Vec4f
+    u16v16_t& operator+=(const u16v16_t& v);   // incrementation by a Vec4f
 
-    void set(unsigned short _r, unsigned short _g)
+    void      set(unsigned short _r, unsigned short _g)
     {
         r = _r;
         g = _g;
@@ -36,14 +36,14 @@ public:
     {
         struct
         {
-            unsigned long r : 12;
-            unsigned long g : 12;
-            unsigned long b : 8;
+            unsigned long r:12;
+            unsigned long g:12;
+            unsigned long b:8;
         };
     };
-    r12g12b8_t& operator += (const r12g12b8_t& v);   // incrementation by a Vec4f
+    r12g12b8_t& operator+=(const r12g12b8_t& v);   // incrementation by a Vec4f
 
-    void set(unsigned long _r, unsigned long _g, unsigned long _b)
+    void        set(unsigned long _r, unsigned long _g, unsigned long _b)
     {
         r = _r;
         g = _g;
@@ -93,7 +93,7 @@ public:
         b = _b;
     }
 
-    rgba_t& operator += (const rgba_t& v)   // incrementation by a rgba_t
+    rgba_t& operator+=(const rgba_t& v)   // incrementation by a rgba_t
     {
         r = iClamp((int)r + (int)v.r, 0, 255);
         g = iClamp((int)g + (int)v.g, 0, 255);
@@ -230,7 +230,7 @@ public:
     union
     {
         unsigned long u;
-        char rgba[4];
+        char          rgba[4];
         struct
         {
             char r;
@@ -241,7 +241,7 @@ public:
     };
     urgba_t& operator+=(const urgba_t& v);   // incrementation by a Vec4f
 
-    void set(char _r, char _g, char _b, char _a)
+    void     set(char _r, char _g, char _b, char _a)
     {
         r = _r;
         g = _g;
@@ -266,7 +266,7 @@ public:
     };
     q8w8v8u8_t& operator+=(const q8w8v8u8_t& v);   // incrementation by a Vec4f
 
-    void set(char _r, char _g, char _b, char _a)
+    void        set(char _r, char _g, char _b, char _a)
     {
         q = _r;
         w = _g;
@@ -335,12 +335,12 @@ public:
         b = v.b;
     }
 
-    fpPixel& operator+=(const fpPixel& v);   // incrementation by a Vec4f
+    fpPixel&       operator+=(const fpPixel& v);   // incrementation by a Vec4f
 
-    fpPixel& operator=(const fpPixel& v);    // assignment of a Vec3f
-    fpPixel& operator-=(const fpPixel& v);   // decrementation by a Vec3f
-    fpPixel& operator*=(const float d);      // multiplication by a constant
-    fpPixel& operator/=(const float d);      // division by a constant
+    fpPixel&       operator=(const fpPixel& v);    // assignment of a Vec3f
+    fpPixel&       operator-=(const fpPixel& v);   // decrementation by a Vec3f
+    fpPixel&       operator*=(const float d);      // multiplication by a constant
+    fpPixel&       operator/=(const float d);      // division by a constant
 
     friend fpPixel operator+(const fpPixel& v1, const fpPixel& v2)
     {
@@ -353,7 +353,7 @@ public:
     }
     friend int operator==(const fpPixel& v1, const fpPixel& v2);   // v1 == v2 ?
 
-    int normalize()
+    int        normalize()
     {
         double u;
         u = x * x + y * y + z * z;
@@ -379,10 +379,7 @@ public:
 
 inline int operator==(const fpPixel& v1, const fpPixel& v2)
 {
-    return v1.a == v2.a &&
-           v1.r == v2.r &&
-           v1.b == v2.b &&
-           v1.g == v2.g;
+    return v1.a == v2.a && v1.r == v2.r && v1.b == v2.b && v1.g == v2.g;
 }
 
 inline fpPixel& fpPixel::operator=(const fpPixel& v)
@@ -410,14 +407,13 @@ public:
             normals = 0;
         }
     }
-    int width;
-    int height;
+    int      width;
+    int      height;
 
     fpPixel* normals;
 };
 
-template <class _type>
-class CImage
+template<class _type> class CImage
 {
     int             m_width;
     int             m_height;
@@ -470,8 +466,8 @@ public:
 
     CImage()
     {
-        m_width  = 0;
-        m_height = 0;
+        m_width       = 0;
+        m_height      = 0;
 
         nPlanesInFile = -1;
 
@@ -514,14 +510,14 @@ public:
 
     void FlipTopToBottom()
     {
-        _type* swap = new _type[m_width];
+        _type*        swap = new _type[m_width];
 
         unsigned long row;
 
-        _type* end_row;
-        _type* start_row;
+        _type*        end_row;
+        _type*        start_row;
 
-        int len = sizeof(_type) * m_width;
+        int           len = sizeof(_type) * m_width;
 
         for (row = 0; row < m_height / 2; row++)
         {
@@ -595,8 +591,8 @@ public:
 
     RGBAImage()
     {
-        m_width  = 0;
-        m_height = 0;
+        m_width       = 0;
+        m_height      = 0;
 
         nPlanesInFile = -1;
 
@@ -639,14 +635,14 @@ public:
 
     void FlipTopToBottom()
     {
-        rgba_t* swap = new rgba_t[m_width];
+        rgba_t*       swap = new rgba_t[m_width];
 
         unsigned long row;
 
-        rgba_t* end_row;
-        rgba_t* start_row;
+        rgba_t*       end_row;
+        rgba_t*       start_row;
 
-        int len = sizeof(rgba_t) * m_width;
+        int           len = sizeof(rgba_t) * m_width;
 
         for (row = 0; row < m_height / 2; row++)
         {
@@ -767,14 +763,14 @@ public:
 
     void FlipTopToBottom()
     {
-        fpPixel* swap = new fpPixel[m_width];
+        fpPixel*      swap = new fpPixel[m_width];
 
         unsigned long row;
 
-        fpPixel* end_row;
-        fpPixel* start_row;
+        fpPixel*      end_row;
+        fpPixel*      start_row;
 
-        int len = sizeof(rgba_t) * m_width;
+        int           len = sizeof(rgba_t) * m_width;
 
         for (row = 0; row < m_height / 2; row++)
         {

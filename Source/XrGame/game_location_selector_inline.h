@@ -8,13 +8,12 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _VertexEvaluator, typename _vertex_id_type>
+#define TEMPLATE_SPECIALIZATION template<typename _VertexEvaluator, typename _vertex_id_type>
 
-#define CGameLocationSelector CBaseLocationSelector<IGameGraph, _VertexEvaluator, _vertex_id_type>
+#define CGameLocationSelector   CBaseLocationSelector<IGameGraph, _VertexEvaluator, _vertex_id_type>
 
 TEMPLATE_SPECIALIZATION
-IC CGameLocationSelector::CBaseLocationSelector(CRestrictedObject* object, CLocationManager* location_manager):
-    inherited(object)
+IC CGameLocationSelector::CBaseLocationSelector(CRestrictedObject* object, CLocationManager* location_manager): inherited(object)
 {
     m_location_manager = location_manager;
     VERIFY(location_manager);
@@ -45,14 +44,16 @@ IC void CGameLocationSelector::select_location(const _vertex_id_type start_verte
 {
     switch (m_selection_type)
     {
-        case eSelectionTypeMask: {
+        case eSelectionTypeMask:
+        {
             if (used())
                 perform_search(start_vertex_id);
             else
                 m_failed = false;
             break;
         }
-        case eSelectionTypeRandomBranching: {
+        case eSelectionTypeRandomBranching:
+        {
             if (m_graph)
                 select_random_location(start_vertex_id, dest_vertex_id);
             m_failed = m_failed && (start_vertex_id == dest_vertex_id);
@@ -64,9 +65,7 @@ IC void CGameLocationSelector::select_location(const _vertex_id_type start_verte
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CGameLocationSelector::select_random_location(
-    const _vertex_id_type start_vertex_id,
-    _vertex_id_type&      dest_vertex_id)
+IC void CGameLocationSelector::select_random_location(const _vertex_id_type start_vertex_id, _vertex_id_type& dest_vertex_id)
 {
     VERIFY(m_graph);
     VERIFY(m_graph->valid_vertex_id(start_vertex_id));
@@ -74,13 +73,13 @@ IC void CGameLocationSelector::select_random_location(
     if (!m_graph->valid_vertex_id(m_previous_vertex_id))
         m_previous_vertex_id = GameGraph::_GRAPH_ID(start_vertex_id);
 
-    u32 branch_factor = 0;
+    u32                                       branch_factor = 0;
 
-    const GameGraph::TERRAIN_VECTOR&          vertex_types = m_location_manager->vertex_types();
-    GameGraph::TERRAIN_VECTOR::const_iterator B            = vertex_types.begin(), I;
-    GameGraph::TERRAIN_VECTOR::const_iterator E            = vertex_types.end();
+    const GameGraph::TERRAIN_VECTOR&          vertex_types  = m_location_manager->vertex_types();
+    GameGraph::TERRAIN_VECTOR::const_iterator B             = vertex_types.begin(), I;
+    GameGraph::TERRAIN_VECTOR::const_iterator E             = vertex_types.end();
 
-    _Graph::const_iterator i, e;
+    _Graph::const_iterator                    i, e;
     m_graph->begin(start_vertex_id, i, e);
     for (; i != e; ++i)
     {
@@ -172,8 +171,7 @@ IC bool CGameLocationSelector::actual(const _vertex_id_type start_vertex_id, boo
 TEMPLATE_SPECIALIZATION
 IC bool CGameLocationSelector::accessible(const _vertex_id_type vertex_id) const
 {
-    return (
-        m_restricted_object ? m_restricted_object->accessible(m_graph->vertex(vertex_id)->level_vertex_id()) : true);
+    return (m_restricted_object ? m_restricted_object->accessible(m_graph->vertex(vertex_id)->level_vertex_id()) : true);
 }
 
 #undef TEMPLATE_SPECIALIZATION

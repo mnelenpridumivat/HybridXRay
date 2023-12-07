@@ -13,7 +13,7 @@
 #include "../../../entity_alive.h"
 #include "../../../actor.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION   template<typename _Object>
 
 #define CStateGroupAttackAbstract CStateGroupAttack<_Object>
 
@@ -44,9 +44,9 @@ void CStateGroupAttackAbstract::initialize()
     inherited::initialize();
 
     object->MeleeChecker.init_attack();
-    m_drive_out = false;
+    m_drive_out          = false;
 
-    m_enemy = object->EnemyMan.get_enemy();
+    m_enemy              = object->EnemyMan.get_enemy();
 
     CMonsterSquad* squad = monster_squad().get_squad(object);
 
@@ -103,15 +103,15 @@ void CStateGroupAttackAbstract::critical_finalize()
 TEMPLATE_SPECIALIZATION
 void CStateGroupAttackAbstract::execute()
 {
-    bool          can_attack_on_move = object->can_attack_on_move();
-    CEntityAlive* enemy              = const_cast<CEntityAlive*>(object->EnemyMan.get_enemy());
+    bool           can_attack_on_move = object->can_attack_on_move();
+    CEntityAlive*  enemy              = const_cast<CEntityAlive*>(object->EnemyMan.get_enemy());
 
-    bool const enemy_is_actor = !!smart_cast<CActor*>(enemy);
+    bool const     enemy_is_actor     = !!smart_cast<CActor*>(enemy);
 
-    const Fvector3 enemy_pos = enemy->Position();
+    const Fvector3 enemy_pos          = enemy->Position();
 
-    const bool enemy_at_max_home = object->Home->at_home(enemy_pos);
-    const bool enemy_at_mid_home = object->Home->at_mid_home(enemy_pos);
+    const bool     enemy_at_max_home  = object->Home->at_home(enemy_pos);
+    const bool     enemy_at_mid_home  = object->Home->at_mid_home(enemy_pos);
 
     if (enemy == object->EnemyMan.get_script_enemy())
     {
@@ -280,8 +280,7 @@ void CStateGroupAttackAbstract::execute()
                         break;
 
                     case eStateAttack_ControlFire:
-                        if (object->Position().distance_to(enemy_pos) > 7.f + m_delta_distance ||
-                            Device->dwTimeGlobal - m_time_start_drive_out > object->m_drive_out_time)
+                        if (object->Position().distance_to(enemy_pos) > 7.f + m_delta_distance || Device->dwTimeGlobal - m_time_start_drive_out > object->m_drive_out_time)
                         {
                             if (object->get_custom_anim_state())
                             {
@@ -460,9 +459,9 @@ void CStateGroupAttackAbstract::setup_substates()
     }
 }
 
-#define TIME_CHECK_BEHINDER 2000
-#define TIME_IN_BEHINDER 3000
-#define ANGLE_START_CHECK_BEHINDER 2 * PI_DIV_3
+#define TIME_CHECK_BEHINDER           2000
+#define TIME_IN_BEHINDER              3000
+#define ANGLE_START_CHECK_BEHINDER    2 * PI_DIV_3
 #define ANGLE_CONTINUE_CHECK_BEHINDER PI_DIV_2
 
 TEMPLATE_SPECIALIZATION
@@ -487,8 +486,7 @@ bool CStateGroupAttackAbstract::check_behinder()
             // if we already in check mode
 
             // - check if object is not behind (break checker)
-            if (object->control().direction().is_face_target(
-                    object->EnemyMan.get_enemy(), ANGLE_CONTINUE_CHECK_BEHINDER))
+            if (object->control().direction().is_face_target(object->EnemyMan.get_enemy(), ANGLE_CONTINUE_CHECK_BEHINDER))
             {
                 m_time_start_check_behinder = 0;
             }

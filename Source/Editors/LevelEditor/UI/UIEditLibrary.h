@@ -14,36 +14,36 @@ public:
     ImTextureID m_NullTexture;
     ImTextureID m_RealTexture;
 
-    void OnItemFocused(ListItem* item);
+    void        OnItemFocused(ListItem* item);
 
 private:
-    static UIEditLibrary* Form;
+    static UIEditLibrary*    Form;
 
-    virtual void Draw();
-    void         DrawObjects();
+    virtual void             Draw();
+    void                     DrawObjects();
 
-    void DrawRightBar();
-    void DrawObject(CCustomObject* obj, const char* name);
-    void InitObjects();
-    void OnPropertiesClick();
-    void OnMakeThmClick();
-    void OnPreviewClick();
+    void                     DrawRightBar();
+    void                     DrawObject(CCustomObject* obj, const char* name);
+    void                     InitObjects();
+    void                     OnPropertiesClick();
+    void                     OnMakeThmClick();
+    void                     OnPreviewClick();
 
-    void MakeLOD(bool highQuality);
-    void GenerateLOD(RStringVec& props, bool bHighQuality);
+    void                     MakeLOD(bool highQuality);
+    void                     GenerateLOD(RStringVec& props, bool bHighQuality);
 
-    void RefreshSelected();
-    void ChangeReference(const RStringVec& items);
-    bool SelectionToReference(ListItemsVec* props);
+    void                     RefreshSelected();
+    void                     ChangeReference(const RStringVec& items);
+    bool                     SelectionToReference(ListItemsVec* props);
 
-    UIItemListForm*   m_ObjectList;
-    UIPropertiesForm* m_Props;
-    LPCSTR            m_Current;
-    bool              m_Preview;
-    ListItem*         m_Selected;
+    UIItemListForm*          m_ObjectList;
+    UIPropertiesForm*        m_Props;
+    LPCSTR                   m_Current;
+    bool                     m_Preview;
+    ListItem*                m_Selected;
 
-    bool m_SelectLods;
-    bool m_HighQualityLod;
+    bool                     m_SelectLods;
+    bool                     m_HighQualityLod;
 
     xr_vector<CSceneObject*> m_pEditObjects;
 

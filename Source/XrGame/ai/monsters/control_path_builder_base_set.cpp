@@ -15,18 +15,18 @@ void CControlPathBuilderBase::prepare_builder()
     m_failed                = false;
     m_cover_info.use_covers = false;
 
-    m_target_actual = false;
+    m_target_actual         = false;
 
     m_target_set.init();
 
     set_target_accessible(m_target_found, m_object->Position());
 
-    m_last_time_target_set = 0;
+    m_last_time_target_set       = 0;
 
     m_time_global_failed_started = 0;
     m_time_path_updated_external = 0;
 
-    m_game_graph_target_vertex = u32(-1);
+    m_game_graph_target_vertex   = u32(-1);
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -90,7 +90,7 @@ void CCat::reinit()
     MotionID             def1, def2, def3;
     IKinematicsAnimated* pSkel = smart_cast<IKinematicsAnimated*>(Visual());
 
-    def1 = pSkel->ID_Cycle_Safe("jump_attack_0");
+    def1                       = pSkel->ID_Cycle_Safe("jump_attack_0");
     VERIFY(def1);
     def2 = pSkel->ID_Cycle_Safe("jump_attack_1");
     VERIFY(def2);

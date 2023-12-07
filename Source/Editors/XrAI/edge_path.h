@@ -25,14 +25,13 @@ template<typename _edge_type, bool bEuclidianHeuristics = true> struct CEdgePath
         };
     };
 
-    template<template<typename _T> class _vertex> class CDataStorage:
-        public CVertexPath<bEuclidianHeuristics>::template CDataStorage<DataStorageEdgePath<_vertex>::_vertex>
+    template<template<typename _T> class _vertex> class CDataStorage: public CVertexPath<bEuclidianHeuristics>::template CDataStorage<DataStorageEdgePath<_vertex>::_vertex>
     {
     public:
-        typedef typename CVertexPath<bEuclidianHeuristics>::template CDataStorage<DataStorageEdgePath<_vertex>::_vertex>
-                                                   inherited;
-        typedef typename inherited::CGraphVertex   CGraphVertex;
-        typedef typename CGraphVertex::_index_type _index_type;
+        typedef typename CVertexPath<bEuclidianHeuristics>::template CDataStorage<DataStorageEdgePath<_vertex>::_vertex> inherited;
+        typedef typename inherited::CGraphVertex                                                                         CGraphVertex;
+        typedef typename CGraphVertex::_index_type                                                                       _index_type;
+
     public:
         IC CDataStorage(const u32 vertex_count);
         virtual ~CDataStorage();

@@ -67,10 +67,7 @@ bool should_process(CAI_Stalker& object, const CEntityAlive* enemy)
 // CStalkerActionReachWounded
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionReachWounded::CStalkerActionReachWounded(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionReachWounded::CStalkerActionReachWounded(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionReachWounded::initialize()
 {
@@ -120,9 +117,7 @@ void CStalkerActionReachWounded::execute()
     if (object().movement().accessible(mem_object.m_object_params.m_level_vertex_id))
         object().movement().set_level_dest_vertex(mem_object.m_object_params.m_level_vertex_id);
     else
-        object().movement().set_nearest_accessible_position(
-            ai().level_graph().vertex_position(mem_object.m_object_params.m_level_vertex_id),
-            mem_object.m_object_params.m_level_vertex_id);
+        object().movement().set_nearest_accessible_position(ai().level_graph().vertex_position(mem_object.m_object_params.m_level_vertex_id), mem_object.m_object_params.m_level_vertex_id);
 
     if (should_process(object(), enemy))
     {
@@ -156,10 +151,7 @@ void CStalkerActionReachWounded::execute()
 // CStalkerActionAimWounded
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionAimWounded::CStalkerActionAimWounded(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionAimWounded::CStalkerActionAimWounded(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionAimWounded::initialize()
 {
@@ -171,8 +163,7 @@ void CStalkerActionAimWounded::initialize()
     object().movement().set_mental_state(eMentalStateDanger);
     object().movement().set_body_state(eBodyStateStand);
     object().movement().set_movement_type(eMovementTypeStand);
-    object().CObjectHandler::set_goal(
-        eObjectActionAimReady1, weapon_to_kill(&object()), MIN_QUEUE, MAX_QUEUE, MIN_INTERVAL, MAX_INTERVAL);
+    object().CObjectHandler::set_goal(eObjectActionAimReady1, weapon_to_kill(&object()), MIN_QUEUE, MAX_QUEUE, MIN_INTERVAL, MAX_INTERVAL);
 
     const CEntityAlive* enemy = object().memory().enemy().selected();
     object().sight().setup(CSightAction(enemy, true));
@@ -222,10 +213,7 @@ void CStalkerActionAimWounded::finalize()
 // CStalkerActionPrepareWounded
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionPrepareWounded::CStalkerActionPrepareWounded(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionPrepareWounded::CStalkerActionPrepareWounded(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionPrepareWounded::initialize()
 {
@@ -238,8 +226,7 @@ void CStalkerActionPrepareWounded::initialize()
     object().movement().set_body_state(eBodyStateStand);
     object().movement().set_movement_type(eMovementTypeStand);
     object().sound().play(eStalkerSoundKillWounded);
-    object().CObjectHandler::set_goal(
-        eObjectActionAimReady1, weapon_to_kill(&object()), MIN_QUEUE, MAX_QUEUE, MIN_INTERVAL, MAX_INTERVAL);
+    object().CObjectHandler::set_goal(eObjectActionAimReady1, weapon_to_kill(&object()), MIN_QUEUE, MAX_QUEUE, MIN_INTERVAL, MAX_INTERVAL);
 }
 
 void CStalkerActionPrepareWounded::finalize()
@@ -280,10 +267,7 @@ void CStalkerActionPrepareWounded::execute()
 // CStalkerActionKillWounded
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionKillWounded::CStalkerActionKillWounded(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionKillWounded::CStalkerActionKillWounded(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionKillWounded::initialize()
 {
@@ -344,10 +328,7 @@ void CStalkerActionKillWounded::execute()
 // CStalkerActionPauseAfterKill
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionPauseAfterKill::CStalkerActionPauseAfterKill(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionPauseAfterKill::CStalkerActionPauseAfterKill(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionPauseAfterKill::initialize()
 {
@@ -359,8 +340,7 @@ void CStalkerActionPauseAfterKill::initialize()
     object().movement().set_mental_state(eMentalStateDanger);
     object().movement().set_body_state(eBodyStateStand);
     object().movement().set_movement_type(eMovementTypeStand);
-    object().CObjectHandler::set_goal(
-        eObjectActionAimReady1, weapon_to_kill(&object()), MIN_QUEUE, MAX_QUEUE, MIN_INTERVAL, MAX_INTERVAL);
+    object().CObjectHandler::set_goal(eObjectActionAimReady1, weapon_to_kill(&object()), MIN_QUEUE, MAX_QUEUE, MIN_INTERVAL, MAX_INTERVAL);
     object().sight().setup(CSightAction(SightManager::eSightTypeCurrentDirection, true));
 }
 

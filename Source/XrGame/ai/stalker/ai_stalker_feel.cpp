@@ -88,8 +88,7 @@ BOOL CAI_Stalker::feel_touch_on_contact(CObject* O)
 
 void CAI_Stalker::feel_touch_delete(CObject* O)
 {
-    ignored_touched_objects_type::iterator i =
-        std::find(m_ignored_touched_objects.begin(), m_ignored_touched_objects.end(), O);
+    ignored_touched_objects_type::iterator i = std::find(m_ignored_touched_objects.begin(), m_ignored_touched_objects.end(), O);
     if (i == m_ignored_touched_objects.end())
         return;
 

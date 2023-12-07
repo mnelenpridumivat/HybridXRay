@@ -25,7 +25,7 @@ void ESceneObjectTool::RemoveControls()
 
 bool ESceneObjectTool::Validate(bool full_test)
 {
-    bool bRes = inherited::Validate(full_test);
+    bool          bRes = inherited::Validate(full_test);
     // verify position & refs duplicate
     CSceneObject *A, *B;
     for (ObjectIt a_it = m_Objects.begin(); a_it != m_Objects.end(); a_it++)
@@ -216,10 +216,8 @@ void ESceneObjectTool::HighlightTexture(LPCSTR tex_name, bool allow_ratio, u32 t
                                         e02.sub(verts[2], verts[0]);
                                         float area = c.crossproduct(e01, e02).magnitude() / 2.f;
                                         (*mesh_it)->GetFaceTC(*i_it, tc);
-                                        e01.sub(
-                                            Fvector().set(tc[1]->x, tc[1]->y, 0), Fvector().set(tc[0]->x, tc[0]->y, 0));
-                                        e02.sub(
-                                            Fvector().set(tc[2]->x, tc[2]->y, 0), Fvector().set(tc[0]->x, tc[0]->y, 0));
+                                        e01.sub(Fvector().set(tc[1]->x, tc[1]->y, 0), Fvector().set(tc[0]->x, tc[0]->y, 0));
+                                        e02.sub(Fvector().set(tc[2]->x, tc[2]->y, 0), Fvector().set(tc[0]->x, tc[0]->y, 0));
                                         float p_area = c.crossproduct(e01, e02).magnitude() / 2.f;
                                         float pm     = _sqrt((p_area * t_width * t_height) / area);
                                         clr          = SSceneSummary::SelectPMColor(pm);

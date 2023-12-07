@@ -6,14 +6,14 @@ class CAlienEffectorPP;
 
 class CBloodsuckerAlien
 {
-    CAI_Bloodsucker* m_object;
+    CAI_Bloodsucker*  m_object;
 
-    bool m_active;
+    bool              m_active;
 
     CAlienEffector*   m_effector;
     CAlienEffectorPP* m_effector_pp;
 
-    bool m_crosshair_show;
+    bool              m_crosshair_show;
 
 public:
     CBloodsuckerAlien();

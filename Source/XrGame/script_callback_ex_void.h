@@ -8,7 +8,7 @@
 
 #pragma once
 
-template <> class CScriptCallbackEx<void>: public CScriptCallbackEx_<void>
+template<> class CScriptCallbackEx<void>: public CScriptCallbackEx_<void>
 {
 public:
 #define macros_return_operator

@@ -27,10 +27,7 @@ namespace award_system
 
     struct victim_raw_kill
     {
-        victim_raw_kill(shared_str const& killer, shared_str const& victim, u32 const after_time):
-            m_killer(killer), m_victim(victim), m_after_time(after_time)
-        {
-        }
+        victim_raw_kill(shared_str const& killer, shared_str const& victim, u32 const after_time): m_killer(killer), m_victim(victim), m_after_time(after_time) {}
 
         victim_raw_kill& operator=(victim_raw_kill const& copy)
         {
@@ -53,11 +50,7 @@ namespace award_system
         u32        m_after_time;
     };   // struct victim_raw_kill
 
-    void harvest_time::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void harvest_time::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         game_PlayerState* tmp_local_player = m_owner->get_local_player();
         if (!tmp_local_player)
@@ -73,7 +66,7 @@ namespace award_system
         if (!victim_obj)
             return;
 
-        victim_raw_kill tmp_predicate(tmp_local_player->getName(), victim_obj->cName(), m_spawn_time);
+        victim_raw_kill                  tmp_predicate(tmp_local_player->getName(), victim_obj->cName(), m_spawn_time);
 
         buffer_vector<kills_store::kill> tmp_fake_buffer(NULL, 0);
 

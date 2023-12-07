@@ -1,33 +1,28 @@
-
+﻿
 #ifndef NVTT_EXPERIMENTAL_H
 #define NVTT_EXPERIMENTAL_H
 
 #include <nvtt/nvtt.h>
 
-typedef struct NvttTexture NvttTexture;
+typedef struct NvttTexture       NvttTexture;
 typedef struct NvttOutputOptions NvttOutputOptions;
 
-
 // Global functions
-void nvttInitialize(...);
-unsigned int nvttGetVersion();
-const char * nvttGetErrorString(unsigned int error);
-
+void                             nvttInitialize(...);
+unsigned int                     nvttGetVersion();
+const char*                      nvttGetErrorString(unsigned int error);
 
 // Texture functions
-NvttTexture * nvttCreateTexture();
-void nvttDestroyTexture(NvttTexture * tex);
+NvttTexture*                     nvttCreateTexture();
+void                             nvttDestroyTexture(NvttTexture* tex);
 
-void nvttSetTexture2D(NvttTexture * tex, NvttInputFormat format, uint w, uint h, uint idx, void * data);
+void                             nvttSetTexture2D(NvttTexture* tex, NvttInputFormat format, uint w, uint h, uint idx, void* data);
 
-void nvttResize(NvttTexture * img, uint w, uint h);
-unsigned int nvttDownsample(NvttTexture * img);
+void                             nvttResize(NvttTexture* img, uint w, uint h);
+unsigned int                     nvttDownsample(NvttTexture* img);
 
-void nvttOutputCompressed(NvttTexture * img, NvttOutputFormat format);
-void nvttOutputPixelFormat(NvttTexture * img, NvttOutputFormat format);
-
-
-
+void                             nvttOutputCompressed(NvttTexture* img, NvttOutputFormat format);
+void                             nvttOutputPixelFormat(NvttTexture* img, NvttOutputFormat format);
 
 // How to control the compression parameters?
 
@@ -99,5 +94,4 @@ void nvttCompressImage(NvttImage * image, void * buffer, int size);
 
 */
 
-
-#endif // NVTT_EXPERIMENTAL_H
+#endif   // NVTT_EXPERIMENTAL_H

@@ -72,16 +72,10 @@ void CStalkerDangerPlanner::initialize()
 void CStalkerDangerPlanner::add_evaluators()
 {
     add_evaluator(eWorldPropertyDanger, xr_new<CStalkerPropertyEvaluatorDangers>(m_object, "danger"));
-    add_evaluator(
-        eWorldPropertyDangerUnknown, xr_new<CStalkerPropertyEvaluatorDangerUnknown>(m_object, "danger unknown"));
-    add_evaluator(
-        eWorldPropertyDangerInDirection,
-        xr_new<CStalkerPropertyEvaluatorDangerInDirection>(m_object, "danger in direction"));
-    add_evaluator(
-        eWorldPropertyDangerGrenade,
-        xr_new<CStalkerPropertyEvaluatorDangerWithGrenade>(m_object, "danger with grenade"));
-    add_evaluator(
-        eWorldPropertyDangerBySound, xr_new<CStalkerPropertyEvaluatorDangerBySound>(m_object, "danger by sound"));
+    add_evaluator(eWorldPropertyDangerUnknown, xr_new<CStalkerPropertyEvaluatorDangerUnknown>(m_object, "danger unknown"));
+    add_evaluator(eWorldPropertyDangerInDirection, xr_new<CStalkerPropertyEvaluatorDangerInDirection>(m_object, "danger in direction"));
+    add_evaluator(eWorldPropertyDangerGrenade, xr_new<CStalkerPropertyEvaluatorDangerWithGrenade>(m_object, "danger with grenade"));
+    add_evaluator(eWorldPropertyDangerBySound, xr_new<CStalkerPropertyEvaluatorDangerBySound>(m_object, "danger by sound"));
 }
 
 void CStalkerDangerPlanner::add_actions()

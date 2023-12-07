@@ -1,4 +1,4 @@
-/* crypto/bf/blowfish.h */
+﻿/* crypto/bf/blowfish.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
  *
@@ -61,18 +61,19 @@
 
 #include <openssl/e_os2.h>
 
-#ifdef  __cplusplus
-extern "C" {
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
 #ifdef OPENSSL_NO_BF
 #error BF is disabled.
 #endif
 
-#define BF_ENCRYPT	1
-#define BF_DECRYPT	0
+#define BF_ENCRYPT 1
+#define BF_DECRYPT 0
 
-/*
+    /*
  * !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
  * ! BF_LONG has to be at least 32 bits wide. If it's wider, then !
  * ! BF_LONG_LOG2 has to be defined along.                        !
@@ -82,7 +83,7 @@ extern "C" {
 #if defined(OPENSSL_SYS_WIN16) || defined(__LP32__)
 #define BF_LONG unsigned long
 #elif defined(OPENSSL_SYS_CRAY) || defined(__ILP64__)
-#define BF_LONG unsigned long
+#define BF_LONG      unsigned long
 #define BF_LONG_LOG2 3
 /*
  * _CRAY note. I could declare short, but I have no idea what impact
@@ -95,34 +96,30 @@ extern "C" {
 #define BF_LONG unsigned int
 #endif
 
-#define BF_ROUNDS	16
-#define BF_BLOCK	8
+#define BF_ROUNDS 16
+#define BF_BLOCK  8
 
-typedef struct bf_key_st
-	{
-	BF_LONG P[BF_ROUNDS+2];
-	BF_LONG S[4*256];
-	} BF_KEY;
+    typedef struct bf_key_st
+    {
+        BF_LONG P[BF_ROUNDS + 2];
+        BF_LONG S[4 * 256];
+    } BF_KEY;
 
-#ifdef OPENSSL_FIPS 
-void private_BF_set_key(BF_KEY *key, int len, const unsigned char *data);
+#ifdef OPENSSL_FIPS
+    void private_BF_set_key(BF_KEY* key, int len, const unsigned char* data);
 #endif
-void BF_set_key(BF_KEY *key, int len, const unsigned char *data);
+    void        BF_set_key(BF_KEY* key, int len, const unsigned char* data);
 
-void BF_encrypt(BF_LONG *data,const BF_KEY *key);
-void BF_decrypt(BF_LONG *data,const BF_KEY *key);
+    void        BF_encrypt(BF_LONG* data, const BF_KEY* key);
+    void        BF_decrypt(BF_LONG* data, const BF_KEY* key);
 
-void BF_ecb_encrypt(const unsigned char *in, unsigned char *out,
-	const BF_KEY *key, int enc);
-void BF_cbc_encrypt(const unsigned char *in, unsigned char *out, long length,
-	const BF_KEY *schedule, unsigned char *ivec, int enc);
-void BF_cfb64_encrypt(const unsigned char *in, unsigned char *out, long length,
-	const BF_KEY *schedule, unsigned char *ivec, int *num, int enc);
-void BF_ofb64_encrypt(const unsigned char *in, unsigned char *out, long length,
-	const BF_KEY *schedule, unsigned char *ivec, int *num);
-const char *BF_options(void);
+    void        BF_ecb_encrypt(const unsigned char* in, unsigned char* out, const BF_KEY* key, int enc);
+    void        BF_cbc_encrypt(const unsigned char* in, unsigned char* out, long length, const BF_KEY* schedule, unsigned char* ivec, int enc);
+    void        BF_cfb64_encrypt(const unsigned char* in, unsigned char* out, long length, const BF_KEY* schedule, unsigned char* ivec, int* num, int enc);
+    void        BF_ofb64_encrypt(const unsigned char* in, unsigned char* out, long length, const BF_KEY* schedule, unsigned char* ivec, int* num);
+    const char* BF_options(void);
 
-#ifdef  __cplusplus
+#ifdef __cplusplus
 }
 #endif
 

@@ -100,7 +100,7 @@ void CShaderMain::RegisterCommands()
 void CShaderMain::OnDrawUI()
 {
     TUI::OnDrawUI();
-    for (auto& tool : STools->m_Tools)
+    for (auto& tool: STools->m_Tools)
     {
         tool.second->OnDrawUI();
     }

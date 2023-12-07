@@ -17,9 +17,9 @@ class CAlienEffectorPP: public CEffectorPP
 {
     typedef CEffectorPP inherited;
 
-    SPPInfo state;
-    float   factor;
-    float   target_factor;
+    SPPInfo             state;
+    float               factor;
+    float               target_factor;
 
 public:
     CAlienEffectorPP(const SPPInfo& ppi, EEffectorPPType type);
@@ -76,39 +76,37 @@ class CAlienEffector: public CEffectorCam
 {
     typedef CEffectorCam inherited;
 
-    float   m_time_total;
-    Fvector dangle_target;
-    Fvector dangle_current;
+    float                m_time_total;
+    Fvector              dangle_target;
+    Fvector              dangle_current;
 
-    CAI_Bloodsucker* monster;
+    CAI_Bloodsucker*     monster;
 
-    float   m_current_fov;
-    Fmatrix m_prev_eye_matrix;
-    float   m_inertion;
+    float                m_current_fov;
+    Fmatrix              m_prev_eye_matrix;
+    float                m_inertion;
 
 public:
     CAlienEffector(ECamEffectorType type, CAI_Bloodsucker* obj);
     virtual BOOL ProcessCam(SCamEffectorInfo& info);
 };
 
-#define DELTA_ANGLE_X 10 * PI / 180
-#define DELTA_ANGLE_Y 10 * PI / 180
-#define DELTA_ANGLE_Z 10 * PI / 180
-#define ANGLE_SPEED 0.2f
+#define DELTA_ANGLE_X   10 * PI / 180
+#define DELTA_ANGLE_Y   10 * PI / 180
+#define DELTA_ANGLE_Z   10 * PI / 180
+#define ANGLE_SPEED     0.2f
 
-#define MIN_FOV 70.f
-#define MAX_FOV 175.f
-#define FOV_SPEED 80.f
+#define MIN_FOV         70.f
+#define MAX_FOV         175.f
+#define FOV_SPEED       80.f
 #define MAX_CAMERA_DIST 3.5f
 
 CAlienEffector::CAlienEffector(ECamEffectorType type, CAI_Bloodsucker* obj): inherited(type, flt_max)
 {
-    dangle_target.set(
-        angle_normalize(Random.randFs(DELTA_ANGLE_X)), angle_normalize(Random.randFs(DELTA_ANGLE_Y)),
-        angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
+    dangle_target.set(angle_normalize(Random.randFs(DELTA_ANGLE_X)), angle_normalize(Random.randFs(DELTA_ANGLE_Y)), angle_normalize(Random.randFs(DELTA_ANGLE_Z)));
     dangle_current.set(0.f, 0.f, 0.f);
 
-    monster = obj;
+    monster             = obj;
 
     m_prev_eye_matrix.c = get_head_position(monster);
     m_prev_eye_matrix.k = monster->Direction();
@@ -145,8 +143,8 @@ BOOL CAlienEffector::ProcessCam(SCamEffectorInfo& info)
 
     // update inertion
     Fmatrix cur_matrix;
-    cur_matrix.k = monster->Direction();
-    cur_matrix.c = get_head_position(monster);
+    cur_matrix.k   = monster->Direction();
+    cur_matrix.c   = get_head_position(monster);
 
     float rel_dist = m_prev_eye_matrix.c.distance_to(cur_matrix.c) / MAX_CAMERA_DIST;
     clamp(rel_dist, 0.f, 1.f);
@@ -159,7 +157,7 @@ BOOL CAlienEffector::ProcessCam(SCamEffectorInfo& info)
     Fvector::generate_orthonormal_basis_normalized(m_prev_eye_matrix.k, m_prev_eye_matrix.j, m_prev_eye_matrix.i);
 
     // apply position and direction
-    Mdef = m_prev_eye_matrix;
+    Mdef            = m_prev_eye_matrix;
 
     // set fov
     float rel_speed = monster->m_fCurSpeed / 15.f;
@@ -259,9 +257,9 @@ void CBloodsuckerAlien::deactivate()
     // Stop postprocess effector
     Actor()->Cameras().RemovePPEffector(EFFECTOR_ID_GEN(EEffectorPPType));
     m_effector_pp->Destroy();
-    m_effector_pp = 0;
+    m_effector_pp             = 0;
 
-    m_active = false;
+    m_active                  = false;
 
     // make visible
     m_object->state_invisible = false;

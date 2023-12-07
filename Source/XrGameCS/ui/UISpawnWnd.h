@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "UIDialogWnd.h"
 //#include "UIFrameWindow.h"
@@ -10,47 +10,49 @@ class CUI3tButtonEx;
 class CUIScrollView;
 
 //typedef	void (*ButtonClickCallback) (int);
-typedef enum{
-	TEAM_MENU_BACK = 0,
+typedef enum
+{
+    TEAM_MENU_BACK = 0,
     TEAM_MENU_SPECTATOR,
-	TEAM_MENU_AUTOSELECT
+    TEAM_MENU_AUTOSELECT
 } ETEAMMENU_BTN;
 
 class CUISpawnWnd: public CUIDialogWnd
 {
 private:
-	typedef CUIDialogWnd inherited;
+    typedef CUIDialogWnd inherited;
+
 public:
-	CUISpawnWnd();
-	virtual ~CUISpawnWnd();
+    CUISpawnWnd();
+    virtual ~CUISpawnWnd();
 
-	virtual void Init();
-	virtual void SendMessage(CUIWindow *pWnd, s16 msg, void *pData);
-	virtual bool OnKeyboard(int dik, EUIMessages keyboard_action);
-			void SetVisibleForBtn(ETEAMMENU_BTN btn, bool state);
-			void SetCurTeam(int team);
-
-protected:
-			void InitTeamLogo();
-
-	// Установка нового режима отображения
-//	void SetDisplayMode(bool bDual = false);
-
-	// -1 - еще не нажималась, 0 - primary (левая), 1 - secondary (правая)
-//	int GetPressingResult() { return 1; }
-
-//	void	SetCallbackFunc (ButtonClickCallback pFunc);
+    virtual void Init();
+    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
+    virtual bool OnKeyboard(int dik, EUIMessages keyboard_action);
+    void         SetVisibleForBtn(ETEAMMENU_BTN btn, bool state);
+    void         SetCurTeam(int team);
 
 protected:
-	CUIStatic*		m_pCaption;
-	CUIStatic*		m_pBackground;
-	CUIStatic*		m_pFrames[3];
-	CUIScrollView*	m_pTextDesc;
-	CUIStatix*		m_pImage1;
-	CUIStatix*		m_pImage2;
-	CUI3tButtonEx*	m_pBtnAutoSelect;
-	CUI3tButtonEx*	m_pBtnSpectator;
-	CUI3tButtonEx*	m_pBtnBack;
+    void InitTeamLogo();
 
-	int		m_iCurTeam;
+    // РЈСЃС‚Р°РЅРѕРІРєР° РЅРѕРІРѕРіРѕ СЂРµР¶РёРјР° РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ
+    //	void SetDisplayMode(bool bDual = false);
+
+    // -1 - РµС‰Рµ РЅРµ РЅР°Р¶РёРјР°Р»Р°СЃСЊ, 0 - primary (Р»РµРІР°СЏ), 1 - secondary (РїСЂР°РІР°СЏ)
+    //	int GetPressingResult() { return 1; }
+
+    //	void	SetCallbackFunc (ButtonClickCallback pFunc);
+
+protected:
+    CUIStatic*     m_pCaption;
+    CUIStatic*     m_pBackground;
+    CUIStatic*     m_pFrames[3];
+    CUIScrollView* m_pTextDesc;
+    CUIStatix*     m_pImage1;
+    CUIStatix*     m_pImage2;
+    CUI3tButtonEx* m_pBtnAutoSelect;
+    CUI3tButtonEx* m_pBtnSpectator;
+    CUI3tButtonEx* m_pBtnBack;
+
+    int            m_iCurTeam;
 };

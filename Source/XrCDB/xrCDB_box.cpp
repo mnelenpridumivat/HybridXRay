@@ -127,19 +127,19 @@ ICF bool planeBoxOverlap(const Point& normal, const float d, const Point& maxbox
     if (min > rad || max < -rad)           \
         return false;
 
-template <bool bClass3, bool bFirst> class box_collider
+template<bool bClass3, bool bFirst> class box_collider
 {
 public:
     COLLIDER* dest;
     TRI*      tris;
     Fvector*  verts;
 
-    Fvector b_min, b_max;
-    Point   center, extents;
+    Fvector   b_min, b_max;
+    Point     center, extents;
 
-    Point mLeafVerts[3];
+    Point     mLeafVerts[3];
 
-    IC void _init(COLLIDER* CL, Fvector* V, TRI* T, const Fvector& C, const Fvector& E)
+    IC void   _init(COLLIDER* CL, Fvector* V, TRI* T, const Fvector& C, const Fvector& E)
     {
         dest    = CL;
         verts   = V;
@@ -211,8 +211,8 @@ public:
         // 3) "Class III" tests
         if (bClass3)
         {
-            float rad;
-            float min, max;
+            float       rad;
+            float       min, max;
             // compute triangle edges
             // - edges lazy evaluated to take advantage of early exits
             // - fabs precomputed (half less work, possible since extents are always >0)

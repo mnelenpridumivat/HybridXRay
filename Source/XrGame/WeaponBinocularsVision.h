@@ -19,12 +19,12 @@ struct SBinocVisibleObj
     CUIStatic m_rb;
     Frect     cur_rect;
 
-    float  m_upd_speed;
-    Flags8 m_flags;
-    void   create_default(u32 color);
-    void   Draw();
-    void   Update();
-    bool   operator<(const SBinocVisibleObj& other) const
+    float     m_upd_speed;
+    Flags8    m_flags;
+    void      create_default(u32 color);
+    void      Draw();
+    void      Update();
+    bool      operator<(const SBinocVisibleObj& other) const
     {
         return m_flags.test(flVisObjNotValid) < other.m_flags.test(flVisObjNotValid);
     }   // move non-actual to tail

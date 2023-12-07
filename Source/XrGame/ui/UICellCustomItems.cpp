@@ -5,7 +5,7 @@
 #include "UIDragDropListEx.h"
 #include "UIProgressBar.h"
 
-#define INV_GRID_WIDTHF 50.0f
+#define INV_GRID_WIDTHF  50.0f
 #define INV_GRID_HEIGHTF 50.0f
 
 namespace detail
@@ -100,12 +100,11 @@ void CUIInventoryCellItem::Update()
 
 void CUIInventoryCellItem::UpdateItemText()
 {
-    const u32 helper_count =
-        (u32)std::count_if(m_childs.begin(), m_childs.end(), detail::is_helper_pred()) + IsHelper() ? 1 : 0;
+    const u32 helper_count = (u32)std::count_if(m_childs.begin(), m_childs.end(), detail::is_helper_pred()) + IsHelper() ? 1 : 0;
 
-    const u32 count = ChildsCount() + 1 - helper_count;
+    const u32 count        = ChildsCount() + 1 - helper_count;
 
-    string32 str;
+    string32  str;
 
     if (count > 1 || helper_count)
     {
@@ -142,10 +141,10 @@ CUIDragItem* CUIAmmoCellItem::CreateDragItem()
 
 u32 CUIAmmoCellItem::CalculateAmmoCount()
 {
-    xr_vector<CUICellItem*>::iterator it   = m_childs.begin();
-    xr_vector<CUICellItem*>::iterator it_e = m_childs.end();
+    xr_vector<CUICellItem*>::iterator it    = m_childs.begin();
+    xr_vector<CUICellItem*>::iterator it_e  = m_childs.end();
 
-    u32 total = IsHelper() ? 0 : object()->m_boxCurr;
+    u32                               total = IsHelper() ? 0 : object()->m_boxCurr;
     for (; it != it_e; ++it)
     {
         CUICellItem* child = *it;
@@ -166,7 +165,7 @@ void CUIAmmoCellItem::UpdateItemText()
     {
         const u32 total = CalculateAmmoCount();
 
-        string32 str;
+        string32  str;
         xr_sprintf(str, "%d", total);
         m_text->TextItemControl()->SetText(str);
         m_text->Show(true);
@@ -301,8 +300,7 @@ void CUIWeaponCellItem::Update()
             {
                 CreateIcon(eLauncher);
                 RefreshOffset();
-                InitAddon(
-                    GetIcon(eLauncher), *object()->GetGrenadeLauncherName(), m_addon_offset[eLauncher], Heading());
+                InitAddon(GetIcon(eLauncher), *object()->GetGrenadeLauncherName(), m_addon_offset[eLauncher], Heading());
             }
         }
         else
@@ -333,18 +331,13 @@ void CUIWeaponCellItem::SetTextureColor(u32 color)
 void CUIWeaponCellItem::OnAfterChild(CUIDragDropListEx* parent_list)
 {
     if (is_silencer() && GetIcon(eSilencer))
-        InitAddon(
-            GetIcon(eSilencer), *object()->GetSilencerName(), m_addon_offset[eSilencer],
-            parent_list->GetVerticalPlacement());
+        InitAddon(GetIcon(eSilencer), *object()->GetSilencerName(), m_addon_offset[eSilencer], parent_list->GetVerticalPlacement());
 
     if (is_scope() && GetIcon(eScope))
-        InitAddon(
-            GetIcon(eScope), *object()->GetScopeName(), m_addon_offset[eScope], parent_list->GetVerticalPlacement());
+        InitAddon(GetIcon(eScope), *object()->GetScopeName(), m_addon_offset[eScope], parent_list->GetVerticalPlacement());
 
     if (is_launcher() && GetIcon(eLauncher))
-        InitAddon(
-            GetIcon(eLauncher), *object()->GetGrenadeLauncherName(), m_addon_offset[eLauncher],
-            parent_list->GetVerticalPlacement());
+        InitAddon(GetIcon(eLauncher), *object()->GetGrenadeLauncherName(), m_addon_offset[eLauncher], parent_list->GetVerticalPlacement());
 }
 
 void CUIWeaponCellItem::InitAddon(CUIStatic* s, LPCSTR section, Fvector2 addon_offset, bool b_rotate)

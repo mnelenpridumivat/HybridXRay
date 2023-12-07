@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2011 Ignacio Castano <castano@gmail.com>
+﻿// Copyright (c) 2009-2011 Ignacio Castano <castano@gmail.com>
 // Copyright (c) 2008-2009 NVIDIA Corporation -- Ignacio Castano <icastano@nvidia.com>
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -9,10 +9,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -55,12 +55,12 @@
 using namespace nv;
 using namespace nvtt;
 
-Compressor::Compressor() : m(*new Compressor::Private())
+Compressor::Compressor(): m(*new Compressor::Private())
 {
     // CUDA initialization.
     m.cudaSupported = cuda::isHardwarePresent();
-    m.cudaEnabled = false;
-    m.cuda = NULL;
+    m.cudaEnabled   = false;
+    m.cuda          = NULL;
 
     enableCudaAcceleration(m.cudaSupported);
 
@@ -71,7 +71,6 @@ Compressor::~Compressor()
 {
     delete &m;
 }
-
 
 void Compressor::enableCudaAcceleration(bool enable)
 {
@@ -87,7 +86,7 @@ void Compressor::enableCudaAcceleration(bool enable)
         if (!m.cuda->isValid())
         {
             m.cudaEnabled = false;
-            m.cuda = NULL;
+            m.cuda        = NULL;
         }
     }
 }
@@ -97,53 +96,55 @@ bool Compressor::isCudaAccelerationEnabled() const
     return m.cudaEnabled;
 }
 
-void Compressor::setTaskDispatcher(TaskDispatcher * disp)
+void Compressor::setTaskDispatcher(TaskDispatcher* disp)
 {
-    if (disp == NULL) {
+    if (disp == NULL)
+    {
         m.dispatcher = &m.defaultDispatcher;
     }
-    else {
+    else
+    {
         m.dispatcher = disp;
     }
 }
 
-
 // Input Options API.
-bool Compressor::process(const InputOptions & inputOptions, const CompressionOptions & compressionOptions, const OutputOptions & outputOptions) const
+bool Compressor::process(const InputOptions& inputOptions, const CompressionOptions& compressionOptions, const OutputOptions& outputOptions) const
 {
     return m.compress(inputOptions.m, compressionOptions.m, outputOptions.m);
 }
 
-int Compressor::estimateSize(const InputOptions & inputOptions, const CompressionOptions & compressionOptions) const
+int Compressor::estimateSize(const InputOptions& inputOptions, const CompressionOptions& compressionOptions) const
 {
     int w = inputOptions.m.width;
     int h = inputOptions.m.height;
     int d = inputOptions.m.depth;
-    
+
     getTargetExtent(&w, &h, &d, inputOptions.m.maxExtent, inputOptions.m.roundMode, inputOptions.m.textureType);
 
     int mipmapCount = 1;
-    if (inputOptions.m.generateMipmaps) {
+    if (inputOptions.m.generateMipmaps)
+    {
         mipmapCount = countMipmaps(w, h, d);
-        if (inputOptions.m.maxLevel > 0) mipmapCount = min(mipmapCount, inputOptions.m.maxLevel);
+        if (inputOptions.m.maxLevel > 0)
+            mipmapCount = min(mipmapCount, inputOptions.m.maxLevel);
     }
 
     return inputOptions.m.faceCount * estimateSize(w, h, d, mipmapCount, compressionOptions);
 }
 
-
 // Surface API.
-bool Compressor::outputHeader(const Surface & tex, int mipmapCount, const CompressionOptions & compressionOptions, const OutputOptions & outputOptions) const
+bool Compressor::outputHeader(const Surface& tex, int mipmapCount, const CompressionOptions& compressionOptions, const OutputOptions& outputOptions) const
 {
     return m.outputHeader(tex.type(), tex.width(), tex.height(), tex.depth(), 1, mipmapCount, tex.isNormalMap(), compressionOptions.m, outputOptions.m);
 }
 
-bool Compressor::compress(const Surface & tex, int face, int mipmap, const CompressionOptions & compressionOptions, const OutputOptions & outputOptions) const
+bool Compressor::compress(const Surface& tex, int face, int mipmap, const CompressionOptions& compressionOptions, const OutputOptions& outputOptions) const
 {
     return m.compress(tex, face, mipmap, compressionOptions.m, outputOptions.m);
 }
 
-int Compressor::estimateSize(const Surface & tex, int mipmapCount, const CompressionOptions & compressionOptions) const
+int Compressor::estimateSize(const Surface& tex, int mipmapCount, const CompressionOptions& compressionOptions) const
 {
     const int w = tex.width();
     const int h = tex.height();
@@ -152,46 +153,47 @@ int Compressor::estimateSize(const Surface & tex, int mipmapCount, const Compres
     return estimateSize(w, h, d, mipmapCount, compressionOptions);
 }
 
-bool Compressor::outputHeader(const CubeSurface & cube, int mipmapCount, const CompressionOptions & compressionOptions, const OutputOptions & outputOptions) const
+bool Compressor::outputHeader(const CubeSurface& cube, int mipmapCount, const CompressionOptions& compressionOptions, const OutputOptions& outputOptions) const
 {
     return m.outputHeader(TextureType_Cube, cube.edgeLength(), cube.edgeLength(), 1, 1, mipmapCount, false, compressionOptions.m, outputOptions.m);
 }
 
-bool Compressor::compress(const CubeSurface & cube, int mipmap, const CompressionOptions & compressionOptions, const OutputOptions & outputOptions) const
+bool Compressor::compress(const CubeSurface& cube, int mipmap, const CompressionOptions& compressionOptions, const OutputOptions& outputOptions) const
 {
-    for (int i = 0; i < 6; i++) {
-        if(!m.compress(cube.face(i), i, mipmap, compressionOptions.m, outputOptions.m)) {
+    for (int i = 0; i < 6; i++)
+    {
+        if (!m.compress(cube.face(i), i, mipmap, compressionOptions.m, outputOptions.m))
+        {
             return false;
         }
     }
     return true;
 }
 
-int Compressor::estimateSize(const CubeSurface & cube, int mipmapCount, const CompressionOptions & compressionOptions) const
+int Compressor::estimateSize(const CubeSurface& cube, int mipmapCount, const CompressionOptions& compressionOptions) const
 {
     return 6 * estimateSize(cube.edgeLength(), cube.edgeLength(), 1, mipmapCount, compressionOptions);
 }
 
-
 // Raw API.
-bool Compressor::outputHeader(TextureType type, int w, int h, int d, int arraySize, int mipmapCount, bool isNormalMap, const CompressionOptions & compressionOptions, const OutputOptions & outputOptions) const
+bool Compressor::outputHeader(TextureType type, int w, int h, int d, int arraySize, int mipmapCount, bool isNormalMap, const CompressionOptions& compressionOptions, const OutputOptions& outputOptions) const
 {
     return m.outputHeader(type, w, h, d, arraySize, mipmapCount, isNormalMap, compressionOptions.m, outputOptions.m);
 }
 
-bool Compressor::compress(int w, int h, int d, int face, int mipmap, const float * rgba, const CompressionOptions & compressionOptions, const OutputOptions & outputOptions) const
+bool Compressor::compress(int w, int h, int d, int face, int mipmap, const float* rgba, const CompressionOptions& compressionOptions, const OutputOptions& outputOptions) const
 {
     return m.compress(AlphaMode_None, w, h, d, face, mipmap, rgba, compressionOptions.m, outputOptions.m);
 }
 
-int Compressor::estimateSize(int w, int h, int d, int mipmapCount, const CompressionOptions & compressionOptions) const
+int Compressor::estimateSize(int w, int h, int d, int mipmapCount, const CompressionOptions& compressionOptions) const
 {
-    const Format format = compressionOptions.m.format;
+    const Format format         = compressionOptions.m.format;
 
-    const uint bitCount = compressionOptions.m.getBitCount();
-    const uint pitchAlignment = compressionOptions.m.pitchAlignment;
+    const uint   bitCount       = compressionOptions.m.getBitCount();
+    const uint   pitchAlignment = compressionOptions.m.pitchAlignment;
 
-    int size = 0;
+    int          size           = 0;
     for (int m = 0; m < mipmapCount; m++)
     {
         size += computeImageSize(w, h, d, bitCount, pitchAlignment, format);
@@ -205,11 +207,7 @@ int Compressor::estimateSize(int w, int h, int d, int mipmapCount, const Compres
     return size;
 }
 
-
-
-
-
-bool Compressor::Private::compress(const InputOptions::Private & inputOptions, const CompressionOptions::Private & compressionOptions, const OutputOptions::Private & outputOptions) const
+bool Compressor::Private::compress(const InputOptions::Private& inputOptions, const CompressionOptions::Private& compressionOptions, const OutputOptions::Private& outputOptions) const
 {
     // Make sure enums match.
     nvStaticCheck(FloatImage::WrapMode_Clamp == (FloatImage::WrapMode)WrapMode_Clamp);
@@ -217,7 +215,8 @@ bool Compressor::Private::compress(const InputOptions::Private & inputOptions, c
     nvStaticCheck(FloatImage::WrapMode_Repeat == (FloatImage::WrapMode)WrapMode_Repeat);
 
     // Get output handler.
-    if (!outputOptions.hasValidOutputHandler()) {
+    if (!outputOptions.hasValidOutputHandler())
+    {
         outputOptions.error(Error_FileOpen);
         return false;
     }
@@ -228,46 +227,50 @@ bool Compressor::Private::compress(const InputOptions::Private & inputOptions, c
     img.setNormalMap(inputOptions.isNormalMap);
 
     const int faceCount = inputOptions.faceCount;
-    int width = inputOptions.width;
-    int height = inputOptions.height;
-    int depth = inputOptions.depth;
-    int arraySize = inputOptions.textureType == TextureType_Array ? faceCount : 1;
+    int       width     = inputOptions.width;
+    int       height    = inputOptions.height;
+    int       depth     = inputOptions.depth;
+    int       arraySize = inputOptions.textureType == TextureType_Array ? faceCount : 1;
 
     nv::getTargetExtent(&width, &height, &depth, inputOptions.maxExtent, inputOptions.roundMode, inputOptions.textureType);
 
     // If the extents have not changed, then we can use source images for all mipmaps.
     bool canUseSourceImages = (inputOptions.width == width && inputOptions.height == height && inputOptions.depth == depth);
 
-    int mipmapCount = 1;
-    if (inputOptions.generateMipmaps) {
+    int  mipmapCount        = 1;
+    if (inputOptions.generateMipmaps)
+    {
         mipmapCount = countMipmaps(width, height, depth);
-        if (inputOptions.maxLevel > 0) mipmapCount = min(mipmapCount, inputOptions.maxLevel);
+        if (inputOptions.maxLevel > 0)
+            mipmapCount = min(mipmapCount, inputOptions.maxLevel);
     }
 
-    if (!outputHeader(inputOptions.textureType, width, height, depth, arraySize, mipmapCount, img.isNormalMap(), compressionOptions, outputOptions)) {
+    if (!outputHeader(inputOptions.textureType, width, height, depth, arraySize, mipmapCount, img.isNormalMap(), compressionOptions, outputOptions))
+    {
         return false;
     }
-
 
     // Output images.
     for (int f = 0; f < faceCount; f++)
     {
-        int w = width;
-        int h = height;
-        int d = depth;
+        int  w                             = width;
+        int  h                             = height;
+        int  d                             = depth;
         bool canUseSourceImagesForThisFace = canUseSourceImages;
 
         img.setImage(inputOptions.inputFormat, inputOptions.width, inputOptions.height, inputOptions.depth, inputOptions.images[f]);
 
         // To normal map.
-        if (inputOptions.convertToNormalMap) {
+        if (inputOptions.convertToNormalMap)
+        {
             img.toGreyScale(inputOptions.heightFactors.x, inputOptions.heightFactors.y, inputOptions.heightFactors.z, inputOptions.heightFactors.w);
             img.toNormalMap(inputOptions.bumpFrequencyScale.x, inputOptions.bumpFrequencyScale.y, inputOptions.bumpFrequencyScale.z, inputOptions.bumpFrequencyScale.w);
             img.packNormals();
         }
 
         // To linear space.
-        if (!img.isNormalMap()) {
+        if (!img.isNormalMap())
+        {
             img.toLinear(inputOptions.inputGamma);
         }
 
@@ -275,44 +278,54 @@ bool Compressor::Private::compress(const InputOptions::Private & inputOptions, c
         img.resize(w, h, d, ResizeFilter_Box);
 
         nvtt::Surface tmp = img;
-        if (!img.isNormalMap()) {
+        if (!img.isNormalMap())
+        {
             tmp.toGamma(inputOptions.outputGamma);
         }
 
         quantize(tmp, compressionOptions);
         compress(tmp, f, 0, compressionOptions, outputOptions);
 
-        for (int m = 1; m < mipmapCount; m++) {
-            w = max(1, w/2);
-            h = max(1, h/2);
-            d = max(1, d/2);
+        for (int m = 1; m < mipmapCount; m++)
+        {
+            w                    = max(1, w / 2);
+            h                    = max(1, h / 2);
+            d                    = max(1, d / 2);
 
-            int idx = m * faceCount + f;
+            int  idx             = m * faceCount + f;
 
             bool useSourceImages = false;
-            if (canUseSourceImagesForThisFace) {
-                if (inputOptions.images[idx] == NULL) { // One face is missing in this mipmap level.
-                    canUseSourceImagesForThisFace = false; // If one level is missing, ignore the following source images.
+            if (canUseSourceImagesForThisFace)
+            {
+                if (inputOptions.images[idx] == NULL)
+                {                                            // One face is missing in this mipmap level.
+                    canUseSourceImagesForThisFace = false;   // If one level is missing, ignore the following source images.
                 }
-                else {
+                else
+                {
                     useSourceImages = true;
                 }
             }
 
-            if (useSourceImages) {
+            if (useSourceImages)
+            {
                 img.setImage(inputOptions.inputFormat, w, h, d, inputOptions.images[idx]);
 
                 // For already generated mipmaps, we need to convert to linear.
-                if (!img.isNormalMap()) {
+                if (!img.isNormalMap())
+                {
                     img.toLinear(inputOptions.inputGamma);
                 }
             }
-            else {
-                if (inputOptions.mipmapFilter == MipmapFilter_Kaiser) {
-                    float params[2] = { inputOptions.kaiserAlpha, inputOptions.kaiserStretch };
+            else
+            {
+                if (inputOptions.mipmapFilter == MipmapFilter_Kaiser)
+                {
+                    float params[2] = {inputOptions.kaiserAlpha, inputOptions.kaiserStretch};
                     img.buildNextMipmap(MipmapFilter_Kaiser, inputOptions.kaiserWidth, params);
                 }
-                else {
+                else
+                {
                     img.buildNextMipmap(inputOptions.mipmapFilter);
                 }
             }
@@ -320,15 +333,18 @@ bool Compressor::Private::compress(const InputOptions::Private & inputOptions, c
             nvDebugCheck(img.height() == h);
             nvDebugCheck(img.depth() == d);
 
-            if (img.isNormalMap()) {
-                if (inputOptions.normalizeMipmaps) {
+            if (img.isNormalMap())
+            {
+                if (inputOptions.normalizeMipmaps)
+                {
                     img.expandNormals();
                     img.normalizeNormalMap();
                     img.packNormals();
                 }
                 tmp = img;
             }
-            else {
+            else
+            {
                 tmp = img;
                 tmp.toGamma(inputOptions.outputGamma);
             }
@@ -341,16 +357,17 @@ bool Compressor::Private::compress(const InputOptions::Private & inputOptions, c
     return true;
 }
 
-bool Compressor::Private::compress(const Surface & tex, int face, int mipmap, const CompressionOptions::Private & compressionOptions, const OutputOptions::Private & outputOptions) const
+bool Compressor::Private::compress(const Surface& tex, int face, int mipmap, const CompressionOptions::Private& compressionOptions, const OutputOptions::Private& outputOptions) const
 {
-    if (!compress(tex.alphaMode(), tex.width(), tex.height(), tex.depth(), face, mipmap, tex.data(), compressionOptions, outputOptions)) {
+    if (!compress(tex.alphaMode(), tex.width(), tex.height(), tex.depth(), face, mipmap, tex.data(), compressionOptions, outputOptions))
+    {
         return false;
     }
 
     return true;
 }
 
-bool Compressor::Private::compress(AlphaMode alphaMode, int w, int h, int d, int face, int mipmap, const float * rgba, const CompressionOptions::Private & compressionOptions, const OutputOptions::Private & outputOptions) const
+bool Compressor::Private::compress(AlphaMode alphaMode, int w, int h, int d, int face, int mipmap, const float* rgba, const CompressionOptions::Private& compressionOptions, const OutputOptions::Private& outputOptions) const
 {
     int size = computeImageSize(w, h, d, compressionOptions.getBitCount(), compressionOptions.pitchAlignment, compressionOptions.format);
     outputOptions.beginImage(size, w, h, d, face, mipmap);
@@ -382,32 +399,37 @@ bool Compressor::Private::compress(AlphaMode alphaMode, int w, int h, int d, int
     return true;
 }
 
-
-void Compressor::Private::quantize(Surface & img, const CompressionOptions::Private & compressionOptions) const
+void Compressor::Private::quantize(Surface& img, const CompressionOptions::Private& compressionOptions) const
 {
-    if (compressionOptions.enableColorDithering) {
-        if (compressionOptions.format >= Format_BC1 && compressionOptions.format <= Format_BC3) {
+    if (compressionOptions.enableColorDithering)
+    {
+        if (compressionOptions.format >= Format_BC1 && compressionOptions.format <= Format_BC3)
+        {
             img.quantize(0, 5, true, true);
             img.quantize(1, 6, true, true);
             img.quantize(2, 5, true, true);
         }
-        else if (compressionOptions.format == Format_RGB) {
+        else if (compressionOptions.format == Format_RGB)
+        {
             img.quantize(0, compressionOptions.rsize, true, true);
             img.quantize(1, compressionOptions.gsize, true, true);
             img.quantize(2, compressionOptions.bsize, true, true);
         }
     }
-    if (compressionOptions.enableAlphaDithering) {
-        if (compressionOptions.format == Format_RGB) {
+    if (compressionOptions.enableAlphaDithering)
+    {
+        if (compressionOptions.format == Format_RGB)
+        {
             img.quantize(3, compressionOptions.asize, true, true);
         }
     }
-    else if (compressionOptions.binaryAlpha) {
-        img.binarize(3, float(compressionOptions.alphaThreshold)/255.0f, compressionOptions.enableAlphaDithering);
+    else if (compressionOptions.binaryAlpha)
+    {
+        img.binarize(3, float(compressionOptions.alphaThreshold) / 255.0f, compressionOptions.enableAlphaDithering);
     }
 }
 
-bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int h, int d, int arraySize, int mipmapCount, bool isNormalMap, const CompressionOptions::Private & compressionOptions, const OutputOptions::Private & outputOptions) const
+bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int h, int d, int arraySize, int mipmapCount, bool isNormalMap, const CompressionOptions::Private& compressionOptions, const OutputOptions::Private& outputOptions) const
 {
     if (w <= 0 || h <= 0 || d <= 0 || arraySize <= 0 || mipmapCount <= 0)
     {
@@ -427,20 +449,24 @@ bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int
 
         header.setUserVersion(outputOptions.version);
 
-        if (textureType == TextureType_2D) {
+        if (textureType == TextureType_2D)
+        {
             nvCheck(arraySize == 1);
             header.setTexture2D();
         }
-        else if (textureType == TextureType_Cube) {
+        else if (textureType == TextureType_Cube)
+        {
             nvCheck(arraySize == 1);
             header.setTextureCube();
         }
-        else if (textureType == TextureType_3D) {
+        else if (textureType == TextureType_3D)
+        {
             nvCheck(arraySize == 1);
             header.setTexture3D();
             header.setDepth(d);
         }
-        else if (textureType == TextureType_Array) {
+        else if (textureType == TextureType_Array)
+        {
             header.setTextureArray(arraySize);
         }
 
@@ -456,32 +482,37 @@ bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int
             {
                 const uint bitcount = compressionOptions.getBitCount();
 
-                if (compressionOptions.pixelType == PixelType_Float) {
-                    if (compressionOptions.rsize == 16 && compressionOptions.gsize == 16 && compressionOptions.bsize == 16 && compressionOptions.asize == 16) {
+                if (compressionOptions.pixelType == PixelType_Float)
+                {
+                    if (compressionOptions.rsize == 16 && compressionOptions.gsize == 16 && compressionOptions.bsize == 16 && compressionOptions.asize == 16)
+                    {
                         header.setDX10Format(DXGI_FORMAT_R16G16B16A16_FLOAT);
                     }
-                    else if (compressionOptions.rsize == 11 && compressionOptions.gsize == 11 && compressionOptions.bsize == 10 && compressionOptions.asize == 0) {
+                    else if (compressionOptions.rsize == 11 && compressionOptions.gsize == 11 && compressionOptions.bsize == 10 && compressionOptions.asize == 0)
+                    {
                         header.setDX10Format(DXGI_FORMAT_R11G11B10_FLOAT);
                     }
-                    else {
+                    else
+                    {
                         supported = false;
                     }
                 }
-                else {
-                    if (bitcount == 16 && compressionOptions.rsize == 16) {
+                else
+                {
+                    if (bitcount == 16 && compressionOptions.rsize == 16)
+                    {
                         header.setDX10Format(DXGI_FORMAT_R16_UNORM);
                     }
-                    else {
-                        uint format = findDXGIFormat(compressionOptions.bitcount,
-                                                     compressionOptions.rmask,
-                                                     compressionOptions.gmask,
-                                                     compressionOptions.bmask,
-                                                     compressionOptions.amask);
+                    else
+                    {
+                        uint format = findDXGIFormat(compressionOptions.bitcount, compressionOptions.rmask, compressionOptions.gmask, compressionOptions.bmask, compressionOptions.amask);
 
-                        if (format != DXGI_FORMAT_UNKNOWN) {
+                        if (format != DXGI_FORMAT_UNKNOWN)
+                        {
                             header.setDX10Format(format);
                         }
-                        else {
+                        else
+                        {
                             supported = false;
                         }
                     }
@@ -489,40 +520,56 @@ bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int
             }
             else
             {
-                if (compressionOptions.format == Format_DXT1 || compressionOptions.format == Format_DXT1a || compressionOptions.format == Format_DXT1n) {
+                if (compressionOptions.format == Format_DXT1 || compressionOptions.format == Format_DXT1a || compressionOptions.format == Format_DXT1n)
+                {
                     header.setDX10Format(outputOptions.srgb ? DXGI_FORMAT_BC1_UNORM_SRGB : DXGI_FORMAT_BC1_UNORM);
-                    if (compressionOptions.format == Format_DXT1a) header.setHasAlphaFlag(true);
-                    if (isNormalMap) header.setNormalFlag(true);
+                    if (compressionOptions.format == Format_DXT1a)
+                        header.setHasAlphaFlag(true);
+                    if (isNormalMap)
+                        header.setNormalFlag(true);
                 }
-                else if (compressionOptions.format == Format_DXT3) {
+                else if (compressionOptions.format == Format_DXT3)
+                {
                     header.setDX10Format(outputOptions.srgb ? DXGI_FORMAT_BC2_UNORM_SRGB : DXGI_FORMAT_BC2_UNORM);
                 }
-                else if (compressionOptions.format == Format_DXT5 || compressionOptions.format == Format_BC3_RGBM) {
+                else if (compressionOptions.format == Format_DXT5 || compressionOptions.format == Format_BC3_RGBM)
+                {
                     header.setDX10Format(outputOptions.srgb ? DXGI_FORMAT_BC3_UNORM_SRGB : DXGI_FORMAT_BC3_UNORM);
                 }
-                else if (compressionOptions.format == Format_DXT5n) {
+                else if (compressionOptions.format == Format_DXT5n)
+                {
                     header.setDX10Format(DXGI_FORMAT_BC3_UNORM);
-                    if (isNormalMap) header.setNormalFlag(true);
+                    if (isNormalMap)
+                        header.setNormalFlag(true);
                 }
-                else if (compressionOptions.format == Format_BC4) {
-                    header.setDX10Format(DXGI_FORMAT_BC4_UNORM); // DXGI_FORMAT_BC4_SNORM ?
+                else if (compressionOptions.format == Format_BC4)
+                {
+                    header.setDX10Format(DXGI_FORMAT_BC4_UNORM);   // DXGI_FORMAT_BC4_SNORM ?
                 }
-                else if (compressionOptions.format == Format_BC5 /*|| compressionOptions.format == Format_BC5_Luma*/) {
-                    header.setDX10Format(DXGI_FORMAT_BC5_UNORM); // DXGI_FORMAT_BC5_SNORM ?
-                    if (isNormalMap) header.setNormalFlag(true);
+                else if (compressionOptions.format == Format_BC5 /*|| compressionOptions.format == Format_BC5_Luma*/)
+                {
+                    header.setDX10Format(DXGI_FORMAT_BC5_UNORM);   // DXGI_FORMAT_BC5_SNORM ?
+                    if (isNormalMap)
+                        header.setNormalFlag(true);
                 }
-                else if (compressionOptions.format == Format_BC6) {
-                    if (compressionOptions.pixelType == PixelType_Float) header.setDX10Format(DXGI_FORMAT_BC6H_SF16);
-                    /*if (compressionOptions.pixelType == PixelType_UnsignedFloat)*/ header.setDX10Format(DXGI_FORMAT_BC6H_UF16); // By default we assume unsigned.
+                else if (compressionOptions.format == Format_BC6)
+                {
+                    if (compressionOptions.pixelType == PixelType_Float)
+                        header.setDX10Format(DXGI_FORMAT_BC6H_SF16);
+                    /*if (compressionOptions.pixelType == PixelType_UnsignedFloat)*/ header.setDX10Format(DXGI_FORMAT_BC6H_UF16);   // By default we assume unsigned.
                 }
-                else if (compressionOptions.format == Format_BC7) {
+                else if (compressionOptions.format == Format_BC7)
+                {
                     header.setDX10Format(outputOptions.srgb ? DXGI_FORMAT_BC7_UNORM_SRGB : DXGI_FORMAT_BC7_UNORM);
-                    if (isNormalMap) header.setNormalFlag(true);
+                    if (isNormalMap)
+                        header.setNormalFlag(true);
                 }
-                else if (compressionOptions.format == Format_CTX1) {
+                else if (compressionOptions.format == Format_CTX1)
+                {
                     supported = false;
                 }
-                else {
+                else
+                {
                     supported = false;
                 }
             }
@@ -538,34 +585,34 @@ bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int
                 {
                     if (compressionOptions.rsize == 16 && compressionOptions.gsize == 0 && compressionOptions.bsize == 0 && compressionOptions.asize == 0)
                     {
-                        header.setFormatCode(111); // D3DFMT_R16F
+                        header.setFormatCode(111);   // D3DFMT_R16F
                     }
                     else if (compressionOptions.rsize == 16 && compressionOptions.gsize == 16 && compressionOptions.bsize == 0 && compressionOptions.asize == 0)
                     {
-                        header.setFormatCode(112); // D3DFMT_G16R16F
+                        header.setFormatCode(112);   // D3DFMT_G16R16F
                     }
                     else if (compressionOptions.rsize == 16 && compressionOptions.gsize == 16 && compressionOptions.bsize == 16 && compressionOptions.asize == 16)
                     {
-                        header.setFormatCode(113); // D3DFMT_A16B16G16R16F
+                        header.setFormatCode(113);   // D3DFMT_A16B16G16R16F
                     }
                     else if (compressionOptions.rsize == 32 && compressionOptions.gsize == 0 && compressionOptions.bsize == 0 && compressionOptions.asize == 0)
                     {
-                        header.setFormatCode(114); // D3DFMT_R32F
+                        header.setFormatCode(114);   // D3DFMT_R32F
                     }
                     else if (compressionOptions.rsize == 32 && compressionOptions.gsize == 32 && compressionOptions.bsize == 0 && compressionOptions.asize == 0)
                     {
-                        header.setFormatCode(115); // D3DFMT_G32R32F
+                        header.setFormatCode(115);   // D3DFMT_G32R32F
                     }
                     else if (compressionOptions.rsize == 32 && compressionOptions.gsize == 32 && compressionOptions.bsize == 32 && compressionOptions.asize == 32)
                     {
-                        header.setFormatCode(116); // D3DFMT_A32B32G32R32F
+                        header.setFormatCode(116);   // D3DFMT_A32B32G32R32F
                     }
                     else
                     {
                         supported = false;
                     }
                 }
-                else // Fixed point
+                else   // Fixed point
                 {
                     const uint bitcount = compressionOptions.getBitCount();
 
@@ -582,10 +629,10 @@ bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int
                         const uint gshift = bshift + compressionOptions.bsize;
                         const uint rshift = gshift + compressionOptions.gsize;
 
-                        const uint rmask = ((1 << compressionOptions.rsize) - 1) << rshift;
-                        const uint gmask = ((1 << compressionOptions.gsize) - 1) << gshift;
-                        const uint bmask = ((1 << compressionOptions.bsize) - 1) << bshift;
-                        const uint amask = ((1 << compressionOptions.asize) - 1) << ashift;
+                        const uint rmask  = ((1 << compressionOptions.rsize) - 1) << rshift;
+                        const uint gmask  = ((1 << compressionOptions.gsize) - 1) << gshift;
+                        const uint bmask  = ((1 << compressionOptions.bsize) - 1) << bshift;
+                        const uint amask  = ((1 << compressionOptions.asize) - 1) << ashift;
 
                         header.setPixelFormat(bitcount, rmask, gmask, bmask, amask);
                     }
@@ -599,53 +646,69 @@ bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int
             {
                 header.setLinearSize(computeImageSize(w, h, d, compressionOptions.bitcount, compressionOptions.pitchAlignment, compressionOptions.format));
 
-                if (compressionOptions.format == Format_DXT1 || compressionOptions.format == Format_DXT1a || compressionOptions.format == Format_DXT1n) {
+                if (compressionOptions.format == Format_DXT1 || compressionOptions.format == Format_DXT1a || compressionOptions.format == Format_DXT1n)
+                {
                     header.setFourCC('D', 'X', 'T', '1');
-                    if (isNormalMap) header.setNormalFlag(true);
+                    if (isNormalMap)
+                        header.setNormalFlag(true);
                 }
-                else if (compressionOptions.format == Format_DXT3) {
+                else if (compressionOptions.format == Format_DXT3)
+                {
                     header.setFourCC('D', 'X', 'T', '3');
                 }
-                else if (compressionOptions.format == Format_DXT5 || compressionOptions.format == Format_BC3_RGBM) {
+                else if (compressionOptions.format == Format_DXT5 || compressionOptions.format == Format_BC3_RGBM)
+                {
                     header.setFourCC('D', 'X', 'T', '5');
                 }
-                else if (compressionOptions.format == Format_DXT5n) {
+                else if (compressionOptions.format == Format_DXT5n)
+                {
                     header.setFourCC('D', 'X', 'T', '5');
-                    if (isNormalMap) {
+                    if (isNormalMap)
+                    {
                         header.setNormalFlag(true);
                         header.setSwizzleCode('A', '2', 'D', '5');
                         //header.setSwizzleCode('x', 'G', 'x', 'R');
                     }
                 }
-                else if (compressionOptions.format == Format_BC4) {
+                else if (compressionOptions.format == Format_BC4)
+                {
                     header.setFourCC('A', 'T', 'I', '1');
                 }
-                else if (compressionOptions.format == Format_BC5 /*|| compressionOptions.format == Format_BC5_Luma*/) {
+                else if (compressionOptions.format == Format_BC5 /*|| compressionOptions.format == Format_BC5_Luma*/)
+                {
                     header.setFourCC('A', 'T', 'I', '2');
-                    if (isNormalMap) {
+                    if (isNormalMap)
+                    {
                         header.setNormalFlag(true);
                         header.setSwizzleCode('A', '2', 'X', 'Y');
                     }
                 }
-                else if (compressionOptions.format == Format_BC6) {
-                    header.setFourCC('Z', 'O', 'H', ' ');               // This is not supported by D3DX. Always use DX10 header with BC6-7 formats.
+                else if (compressionOptions.format == Format_BC6)
+                {
+                    header.setFourCC('Z', 'O', 'H', ' ');   // This is not supported by D3DX. Always use DX10 header with BC6-7 formats.
                     supported = false;
                 }
-                else if (compressionOptions.format == Format_BC7) {
-                    header.setFourCC('Z', 'O', 'L', 'A');               // This is not supported by D3DX. Always use DX10 header with BC6-7 formats.
-                    if (isNormalMap) header.setNormalFlag(true);
+                else if (compressionOptions.format == Format_BC7)
+                {
+                    header.setFourCC('Z', 'O', 'L', 'A');   // This is not supported by D3DX. Always use DX10 header with BC6-7 formats.
+                    if (isNormalMap)
+                        header.setNormalFlag(true);
                     supported = false;
                 }
-                else if (compressionOptions.format == Format_CTX1) {
+                else if (compressionOptions.format == Format_CTX1)
+                {
                     header.setFourCC('C', 'T', 'X', '1');
-                    if (isNormalMap) header.setNormalFlag(true);
+                    if (isNormalMap)
+                        header.setNormalFlag(true);
                 }
-                else {
+                else
+                {
                     supported = false;
                 }
             }
 
-            if (outputOptions.srgb) header.setSrgbFlag(true);
+            if (outputOptions.srgb)
+                header.setSrgbFlag(true);
         }
 
         if (!supported)
@@ -677,8 +740,7 @@ bool Compressor::Private::outputHeader(nvtt::TextureType textureType, int w, int
     return true;
 }
 
-
-CompressorInterface * Compressor::Private::chooseCpuCompressor(const CompressionOptions::Private & compressionOptions) const
+CompressorInterface* Compressor::Private::chooseCpuCompressor(const CompressionOptions::Private& compressionOptions) const
 {
     if (compressionOptions.format == Format_RGB)
     {
@@ -687,26 +749,30 @@ CompressorInterface * Compressor::Private::chooseCpuCompressor(const Compression
     else if (compressionOptions.format == Format_DXT1)
     {
 #if defined(HAVE_ATITC)
-        if (compressionOptions.externalCompressor == "ati") return new AtiCompressorDXT1;
+        if (compressionOptions.externalCompressor == "ati")
+            return new AtiCompressorDXT1;
         else
 #endif
 
 #if defined(HAVE_SQUISH)
-        if (compressionOptions.externalCompressor == "squish") return new SquishCompressorDXT1;
+            if (compressionOptions.externalCompressor == "squish")
+            return new SquishCompressorDXT1;
         else
 #endif
 
 #if defined(HAVE_D3DX)
-        if (compressionOptions.externalCompressor == "d3dx") return new D3DXCompressorDXT1;
+            if (compressionOptions.externalCompressor == "d3dx")
+            return new D3DXCompressorDXT1;
         else
 #endif
 
 #if defined(HAVE_D3DX)
-        if (compressionOptions.externalCompressor == "stb") return new StbCompressorDXT1;
+            if (compressionOptions.externalCompressor == "stb")
+            return new StbCompressorDXT1;
         else
 #endif
 
-        if (compressionOptions.quality == Quality_Fastest)
+            if (compressionOptions.quality == Quality_Fastest)
         {
             return new FastCompressorDXT1;
         }
@@ -738,11 +804,12 @@ CompressorInterface * Compressor::Private::chooseCpuCompressor(const Compression
     else if (compressionOptions.format == Format_DXT5)
     {
 #if defined(HAVE_ATITC)
-        if (compressionOptions.externalCompressor == "ati") return new AtiCompressorDXT5;
+        if (compressionOptions.externalCompressor == "ati")
+            return new AtiCompressorDXT5;
         else
 #endif
 
-        if (compressionOptions.quality == Quality_Fastest)
+            if (compressionOptions.quality == Quality_Fastest)
         {
             return new FastCompressorDXT5;
         }
@@ -800,8 +867,7 @@ CompressorInterface * Compressor::Private::chooseCpuCompressor(const Compression
     return NULL;
 }
 
-
-CompressorInterface * Compressor::Private::chooseGpuCompressor(const CompressionOptions::Private & compressionOptions) const
+CompressorInterface* Compressor::Private::chooseGpuCompressor(const CompressionOptions::Private& compressionOptions) const
 {
     nvDebugCheck(cudaSupported);
 
@@ -856,7 +922,7 @@ CompressorInterface * Compressor::Private::chooseGpuCompressor(const Compression
     {
         // Not supported.
     }
-#endif // defined HAVE_CUDA
+#endif   // defined HAVE_CUDA
 
     return NULL;
 }

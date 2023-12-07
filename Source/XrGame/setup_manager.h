@@ -10,7 +10,7 @@
 
 #include "../xrEngine/object_broker.h"
 
-template <typename _action_type, typename _object_type, typename _action_id_type> class CSetupManager
+template<typename _action_type, typename _object_type, typename _action_id_type> class CSetupManager
 {
 private:
     typedef std::pair<_action_id_type, _action_type*> setup_pair;
@@ -21,7 +21,7 @@ private:
     {
         _action_id_type m_action_id;
 
-        IC setup_pred(const _action_id_type& action_id)
+        IC              setup_pred(const _action_id_type& action_id)
         {
             m_action_id = action_id;
         }

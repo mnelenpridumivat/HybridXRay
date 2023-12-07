@@ -29,32 +29,32 @@ void CUIMapLocationHint::Init(CUIXml& uiXml, LPCSTR path)
 
     CUIStatic* S = NULL;
 
-    S = init_static_field(uiXml, path, "simple_text");
+    S            = init_static_field(uiXml, path, "simple_text");
     AttachChild(S);
     m_info["simple_text"] = S;
 
-    S = init_static_field(uiXml, path, "t_icon");
+    S                     = init_static_field(uiXml, path, "t_icon");
     AttachChild(S);
     m_info["t_icon"] = S;
 
-    S = init_static_field(uiXml, path, "t_caption");
+    S                = init_static_field(uiXml, path, "t_caption");
     AttachChild(S);
     m_info["t_caption"] = S;
 
-    S = init_static_field(uiXml, path, "t_time");
+    S                   = init_static_field(uiXml, path, "t_time");
     AttachChild(S);
     m_info["t_time"] = S;
 
-    S = init_static_field(uiXml, path, "t_time_rem");
+    S                = init_static_field(uiXml, path, "t_time_rem");
     AttachChild(S);
     m_info["t_time_rem"] = S;
 
-    S = init_static_field(uiXml, path, "t_hint_text");
+    S                    = init_static_field(uiXml, path, "t_hint_text");
     AttachChild(S);
     m_info["t_hint_text"] = S;
 
-    m_posx_icon    = m_info["t_icon"]->GetWndPos().x;
-    m_posx_caption = m_info["t_caption"]->GetWndPos().x;
+    m_posx_icon           = m_info["t_icon"]->GetWndPos().x;
+    m_posx_caption        = m_info["t_caption"]->GetWndPos().x;
 }
 
 void CUIMapLocationHint::SetInfoMode(u8 mode)
@@ -88,7 +88,7 @@ void CUIMapLocationHint::SetInfoMSpot(CMapSpot* spot)
 {
     CMapLocation* ml = spot->MapLocation();
 
-    CGameTask* gt = Level().GameTaskManager().HasGameTask(ml, true);
+    CGameTask*    gt = Level().GameTaskManager().HasGameTask(ml, true);
     if (gt)
         SetInfoTask(gt);
     else
@@ -147,7 +147,7 @@ void CUIMapLocationHint::SetInfoTask(CGameTask* task)
 
     {
         m_info["t_icon"]->Show(true);
-        float w = m_info["t_time"]->GetWidth();
+        float    w   = m_info["t_time"]->GetWidth();
 
         Fvector2 pos = m_info["t_icon"]->GetWndPos();
         pos.x        = m_posx_icon;

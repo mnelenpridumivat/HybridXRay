@@ -9,8 +9,6 @@
 #define SMART_COVER_LOOPHOLE_PLANNER_ACTIONS_INLINE_H_INCLUDED
 
 namespace smart_cover
-{
-
-}   // namespace smart_cover
+{}   // namespace smart_cover
 
 #endif   // SMART_COVER_LOOPHOLE_PLANNER_ACTIONS_INLINE_H_INCLUDED

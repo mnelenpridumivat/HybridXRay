@@ -24,11 +24,7 @@ namespace award_system
         virtual void reset_game();
 
         virtual void OnWeapon_Fire(u16 sender, u16 sender_weapon_id);
-        virtual void OnPlayerKilled(
-            u16                                     killer_id,
-            u16                                     target_id,
-            u16                                     weapon_id,
-            std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
+        virtual void OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type);
 
     protected:
         u32 m_shot;

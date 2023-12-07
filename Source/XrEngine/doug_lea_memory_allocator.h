@@ -37,20 +37,20 @@ extern "C"
 #define USE_DL_PREFIX
 
 #ifndef USE_DL_PREFIX
-#define dlcalloc calloc
-#define dlfree free
-#define dlmalloc malloc
-#define dlmemalign memalign
-#define dlrealloc realloc
-#define dlvalloc valloc
-#define dlpvalloc pvalloc
-#define dlmallinfo mallinfo
-#define dlmallopt mallopt
-#define dlmalloc_trim malloc_trim
-#define dlmalloc_stats malloc_stats
-#define dlmalloc_usable_size malloc_usable_size
-#define dlmalloc_footprint malloc_footprint
-#define dlindependent_calloc independent_calloc
+#define dlcalloc               calloc
+#define dlfree                 free
+#define dlmalloc               malloc
+#define dlmemalign             memalign
+#define dlrealloc              realloc
+#define dlvalloc               valloc
+#define dlpvalloc              pvalloc
+#define dlmallinfo             mallinfo
+#define dlmallopt              mallopt
+#define dlmalloc_trim          malloc_trim
+#define dlmalloc_stats         malloc_stats
+#define dlmalloc_usable_size   malloc_usable_size
+#define dlmalloc_footprint     malloc_footprint
+#define dlindependent_calloc   independent_calloc
 #define dlindependent_comalloc independent_comalloc
 #endif /* USE_DL_PREFIX */
 
@@ -77,7 +77,7 @@ extern "C"
       It has no effect if p is null. If p was not malloced or already
       freed, free(p) will by default cuase the current program to abort.
     */
-    void dlfree(void*);
+    void  dlfree(void*);
 
     /*
       calloc(size_t n_elements, size_t element_size);
@@ -148,10 +148,10 @@ extern "C"
       M_GRANULARITY        -2     page size   any power of 2 >= page size
       M_MMAP_THRESHOLD     -3      256*1024   any   (or 0 if no MMAP support)
     */
-    int dlmallopt(int, int);
+    int   dlmallopt(int, int);
 
 #define M_TRIM_THRESHOLD (-1)
-#define M_GRANULARITY (-2)
+#define M_GRANULARITY    (-2)
 #define M_MMAP_THRESHOLD (-3)
 
     /*
@@ -332,7 +332,7 @@ extern "C"
       Equivalent to valloc(minimum-page-that-holds(n)), that is,
       round up n to nearest pagesize.
      */
-    void* dlpvalloc(size_t);
+    void*  dlpvalloc(size_t);
 
     /*
       malloc_trim(size_t pad);
@@ -355,7 +355,7 @@ extern "C"
 
       Malloc_trim returns 1 if it actually released any memory, else 0.
     */
-    int dlmalloc_trim(size_t);
+    int    dlmalloc_trim(size_t);
 
     /*
       malloc_usable_size(void* p);
@@ -392,7 +392,7 @@ extern "C"
       malloc_stats prints only the most commonly interesting statistics.
       More information can be obtained by calling mallinfo.
     */
-    void dlmalloc_stats();
+    void   dlmalloc_stats();
 
 #endif /* !ONLY_MSPACES */
 
@@ -415,7 +415,7 @@ extern "C"
       compiling with a different DEFAULT_GRANULARITY or dynamically
       setting with mallopt(M_GRANULARITY, value).
     */
-    mspace create_mspace(size_t capacity, int locked);
+    mspace        create_mspace(size_t capacity, int locked);
 
     /*
       destroy_mspace destroys the given space, and attempts to return all
@@ -423,7 +423,7 @@ extern "C"
       bytes freed. After destruction, the results of access to all memory
       used by the space become undefined.
     */
-    size_t destroy_mspace(mspace msp);
+    size_t        destroy_mspace(mspace msp);
 
     /*
       create_mspace_with_base uses the memory supplied as the initial base
@@ -434,13 +434,13 @@ extern "C"
       Destroying this space will deallocate all additionally allocated
       space (if possible) but not the initial base.
     */
-    mspace create_mspace_with_base(void* base, size_t capacity, int locked);
+    mspace        create_mspace_with_base(void* base, size_t capacity, int locked);
 
     /*
       mspace_malloc behaves as malloc, but operates within
       the given space.
     */
-    void* mspace_malloc(mspace msp, size_t bytes);
+    void*         mspace_malloc(mspace msp, size_t bytes);
 
     /*
       mspace_free behaves as free, but operates within
@@ -450,7 +450,7 @@ extern "C"
       free may be called instead of mspace_free because freed chunks from
       any space are handled by their originating spaces.
     */
-    void mspace_free(mspace msp, void* mem);
+    void          mspace_free(mspace msp, void* mem);
 
     /*
       mspace_realloc behaves as realloc, but operates within
@@ -461,37 +461,37 @@ extern "C"
       realloced chunks from any space are handled by their originating
       spaces.
     */
-    void* mspace_realloc(mspace msp, void* mem, size_t newsize);
+    void*         mspace_realloc(mspace msp, void* mem, size_t newsize);
 
     /*
       mspace_calloc behaves as calloc, but operates within
       the given space.
     */
-    void* mspace_calloc(mspace msp, size_t n_elements, size_t elem_size);
+    void*         mspace_calloc(mspace msp, size_t n_elements, size_t elem_size);
 
     /*
       mspace_memalign behaves as memalign, but operates within
       the given space.
     */
-    void* mspace_memalign(mspace msp, size_t alignment, size_t bytes);
+    void*         mspace_memalign(mspace msp, size_t alignment, size_t bytes);
 
     /*
       mspace_independent_calloc behaves as independent_calloc, but
       operates within the given space.
     */
-    void** mspace_independent_calloc(mspace msp, size_t n_elements, size_t elem_size, void* chunks[]);
+    void**        mspace_independent_calloc(mspace msp, size_t n_elements, size_t elem_size, void* chunks[]);
 
     /*
       mspace_independent_comalloc behaves as independent_comalloc, but
       operates within the given space.
     */
-    void** mspace_independent_comalloc(mspace msp, size_t n_elements, size_t sizes[], void* chunks[]);
+    void**        mspace_independent_comalloc(mspace msp, size_t n_elements, size_t sizes[], void* chunks[]);
 
     /*
       mspace_footprint() returns the number of bytes obtained from the
       system for this space.
     */
-    size_t mspace_footprint(mspace msp);
+    size_t        mspace_footprint(mspace msp);
 
 #if !NO_MALLINFO
     /*
@@ -511,12 +511,12 @@ extern "C"
       mspace_trim behaves as malloc_trim, but
       operates within the given space.
     */
-    int mspace_trim(mspace msp, size_t pad);
+    int  mspace_trim(mspace msp, size_t pad);
 
     /*
       An alias for mallopt.
     */
-    int mspace_mallopt(int, int);
+    int  mspace_mallopt(int, int);
 
 #endif /* MSPACES */
 

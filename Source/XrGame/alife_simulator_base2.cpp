@@ -43,8 +43,7 @@ void CALifeSimulatorBase::register_object(CSE_ALifeDynamicObject* object, bool a
 #ifdef DEBUG
         if (std::find(II->children.begin(), II->children.end(), item->base()->ID) != II->children.end())
         {
-            Msg("[LSS] Specified item [%s][%d] is already attached to the specified object [%s][%d]",
-                item->base()->name_replace(), item->base()->ID, II->name_replace(), II->ID);
+            Msg("[LSS] Specified item [%s][%d] is already attached to the specified object [%s][%d]", item->base()->name_replace(), item->base()->ID, II->name_replace(), II->ID);
             FATAL("[LSS] Cannot recover from the previous error!");
         }
 #endif
@@ -63,9 +62,7 @@ void CALifeSimulatorBase::unregister_object(CSE_ALifeDynamicObject* object, bool
 
     CSE_ALifeInventoryItem* item = smart_cast<CSE_ALifeInventoryItem*>(object);
     if (item && item->attached())
-        graph().detach(
-            *objects().object(item->base()->ID_Parent), item, objects().object(item->base()->ID_Parent)->m_tGraphID,
-            alife_query);
+        graph().detach(*objects().object(item->base()->ID_Parent), item, objects().object(item->base()->ID_Parent)->m_tGraphID, alife_query);
 
     objects().remove(object->ID);
     story_objects().remove(object->m_story_id);
@@ -88,7 +85,7 @@ void CALifeSimulatorBase::on_death(CSE_Abstract* killed, CSE_Abstract* killer)
 {
     typedef CSE_ALifeOnlineOfflineGroup::MEMBER GROUP_MEMBER;
 
-    CSE_ALifeCreatureAbstract* creature = smart_cast<CSE_ALifeCreatureAbstract*>(killed);
+    CSE_ALifeCreatureAbstract*                  creature = smart_cast<CSE_ALifeCreatureAbstract*>(killed);
     if (creature)
         creature->on_death(killer);
 

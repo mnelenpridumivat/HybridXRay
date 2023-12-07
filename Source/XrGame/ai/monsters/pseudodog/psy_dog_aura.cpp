@@ -55,7 +55,7 @@ void CPsyDogAura::reinit()
     m_time_actor_saw_phantom = 0;
     m_time_phantom_saw_actor = 0;
 
-    m_actor = smart_cast<CActor*>(Level().CurrentEntity());
+    m_actor                  = smart_cast<CActor*>(Level().CurrentEntity());
     VERIFY(m_actor);
 }
 
@@ -64,7 +64,7 @@ void CPsyDogAura::update_schedule()
     if (!m_object->g_Alive())
         return;
 
-    m_time_phantom_saw_actor = 0;
+    m_time_phantom_saw_actor                         = 0;
 
     // check memory of actor and check memory of phantoms
     CVisualMemoryManager::VISIBLES::const_iterator I = m_actor->memory().visual().objects().begin();
@@ -103,8 +103,7 @@ void CPsyDogAura::update_schedule()
     }
 
     bool const close_to_actor = m_actor ? m_object->Position().distance_to(m_actor->Position()) < 30 : false;
-    bool const need_be_active =
-        ((m_time_actor_saw_phantom + 2000 > time()) || (m_time_phantom_saw_actor + 10000 > time())) && close_to_actor;
+    bool const need_be_active = ((m_time_actor_saw_phantom + 2000 > time()) || (m_time_phantom_saw_actor + 10000 > time())) && close_to_actor;
     if (active())
     {
         if (!need_be_active)

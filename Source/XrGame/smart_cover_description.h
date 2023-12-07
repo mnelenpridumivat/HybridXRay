@@ -24,10 +24,7 @@ namespace smart_cover
         class action;
     }
 
-    class description:
-        private debug::make_final<description>,
-        private boost::noncopyable,
-        public detail::intrusive_base_time
+    class description: private debug::make_final<description>, private boost::noncopyable, public detail::intrusive_base_time
     {
     public:
         typedef xr_vector<loophole*>                                            Loopholes;

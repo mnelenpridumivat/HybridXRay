@@ -99,13 +99,9 @@ public:
     ~CPHCommander();
 
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    bool add_call_unique(
-        CPHCondition*    condition,
-        CPHReqComparerV* cmp_condition,
-        CPHAction*       action,
-        CPHReqComparerV* cmp_action);
-    void add_call(CPHCondition* condition, CPHAction* action);
-    void add_call_threadsafety(CPHCondition* condition, CPHAction* action);
+    bool     add_call_unique(CPHCondition* condition, CPHReqComparerV* cmp_condition, CPHAction* action, CPHReqComparerV* cmp_action);
+    void     add_call(CPHCondition* condition, CPHAction* action);
+    void     add_call_threadsafety(CPHCondition* condition, CPHAction* action);
 
     void     remove_call(PHCALL_I i);
     bool     has_call(CPHReqComparerV* cmp_condition, CPHReqComparerV* cmp_action);
@@ -114,33 +110,24 @@ public:
     void     remove_calls(CPHReqComparerV* cmp_object);
     void     remove_calls_threadsafety(CPHReqComparerV* cmp_object);
 
-    void update();
-    void update_threadsafety();
+    void     update();
+    void     update_threadsafety();
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    void add_call_unique_as(
-        CPHCondition*    condition,
-        CPHReqComparerV* cmp_condition,
-        CPHAction*       action,
-        CPHReqComparerV* cmp_action);
-    void add_call_as(CPHCondition* condition, CPHAction* action);
+    void     add_call_unique_as(CPHCondition* condition, CPHReqComparerV* cmp_condition, CPHAction* action, CPHReqComparerV* cmp_action);
+    void     add_call_as(CPHCondition* condition, CPHAction* action);
 
     void     remove_call_as(PHCALL_I i);
     PHCALL_I find_call_as(CPHReqComparerV* cmp_condition, CPHReqComparerV* cmp_action);
     void     remove_call_as(CPHReqComparerV* cmp_condition, CPHReqComparerV* cmp_action);
     void     remove_calls_as(CPHReqComparerV* cmp_object);
 
-    void update_as();
+    void     update_as();
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    void clear();
+    void     clear();
 
 private:
-    IC bool add_call_unique(
-        CPHCondition*    condition,
-        CPHReqComparerV* cmp_condition,
-        CPHAction*       action,
-        CPHReqComparerV* cmp_action,
-        PHCALL_STORAGE&  cs);
-    IC void add_call(CPHCondition* condition, CPHAction* action, PHCALL_STORAGE& cs);
+    IC bool     add_call_unique(CPHCondition* condition, CPHReqComparerV* cmp_condition, CPHAction* action, CPHReqComparerV* cmp_action, PHCALL_STORAGE& cs);
+    IC void     add_call(CPHCondition* condition, CPHAction* action, PHCALL_STORAGE& cs);
 
     IC void     remove_call(PHCALL_I i, PHCALL_STORAGE& cs);
     IC PHCALL_I find_call(CPHReqComparerV* cmp_condition, CPHReqComparerV* cmp_action, PHCALL_STORAGE& cs);

@@ -21,12 +21,14 @@ public:
         P.r_begin(ID);   // VERIFY(M_EVENT==ID);
         switch (ID)
         {
-            case M_SPAWN: {
+            case M_SPAWN:
+            {
                 P.read_start();
                 //				timestamp = P->
             }
             break;
-            case M_EVENT: {
+            case M_EVENT:
+            {
                 P.r_u32(timestamp);
                 timestamp += u32(g_dwEventDelay);
                 P.r_u16(type);
@@ -36,10 +38,12 @@ public:
             case M_MOVE_PLAYERS:
             case M_STATISTIC_UPDATE:
             case M_FILE_TRANSFER:
-            case M_GAMEMESSAGE: {
+            case M_GAMEMESSAGE:
+            {
             }
             break;
-            default: {
+            default:
+            {
                 VERIFY(0);
             }
             break;

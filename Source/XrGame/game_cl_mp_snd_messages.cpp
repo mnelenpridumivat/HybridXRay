@@ -71,12 +71,10 @@ void game_cl_mp::PlaySndMessage(u32 ID)
         }
         if (pSndMsgIP->priority == SndMsg->priority)
         {
-            if (Level().timeServer_Async() >
-                pSndMsgIP->LastStarted + iFloor(pSndMsgIP->pSound.get_length_sec() * 1000.0f))
+            if (Level().timeServer_Async() > pSndMsgIP->LastStarted + iFloor(pSndMsgIP->pSound.get_length_sec() * 1000.0f))
                 continue;
 
-            u32 Delay = pSndMsgIP->LastStarted + iFloor(pSndMsgIP->pSound.get_length_sec() * 1000.0f) -
-                Level().timeServer_Async();
+            u32 Delay = pSndMsgIP->LastStarted + iFloor(pSndMsgIP->pSound.get_length_sec() * 1000.0f) - Level().timeServer_Async();
             if (Delay > MaxDelay)
             {
                 MaxDelay = Delay;

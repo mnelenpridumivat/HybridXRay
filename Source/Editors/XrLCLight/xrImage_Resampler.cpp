@@ -29,8 +29,7 @@ Image* new_image(int xsize, int ysize) /* create a blank image */
 {
     Image* image;
 
-    if ((0 != (image = (Image*)xr_malloc(sizeof(Image)))) &&
-        (0 != (image->data = (Pixel*)xr_malloc(ysize * xsize * sizeof(Pixel)))))
+    if ((0 != (image = (Image*)xr_malloc(sizeof(Image)))) && (0 != (image->data = (Pixel*)xr_malloc(ysize * xsize * sizeof(Pixel)))))
     {
         ZeroMemory(image->data, ysize * xsize * sizeof(Pixel));
         image->xsize = xsize;
@@ -192,9 +191,7 @@ float Mitchell_filter(float t)
     }
     else if (t < 2.0f)
     {
-        t =
-            (((-1.0f * B - 6.0f * C) * (t * tt)) + ((6.0f * B + 30.0f * C) * tt) + ((-12.0f * B - 48.0f * C) * t) +
-                (8.0f * B + 24.f * C));
+        t = (((-1.0f * B - 6.0f * C) * (t * tt)) + ((6.0f * B + 30.0f * C) * tt) + ((-12.0f * B - 48.0f * C) * t) + (8.0f * B + 24.f * C));
         return (t / 6.0f);
     }
     return (0.0);

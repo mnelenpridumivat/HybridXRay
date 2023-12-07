@@ -11,7 +11,7 @@
 #include "../../../actor_memory.h"
 #include "../../../visual_memory_manager.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION               template<typename _Object>
 
 #define CStateBloodsuckerPredatorLiteAbstract CStateBloodsuckerPredatorLite<_Object>
 
@@ -106,8 +106,7 @@ void CStateBloodsuckerPredatorLiteAbstract::critical_finalize()
 TEMPLATE_SPECIALIZATION
 bool CStateBloodsuckerPredatorLiteAbstract::check_completion()
 {
-    if (object->EnemyMan.see_enemy_now() &&
-        (object->Position().distance_to(object->EnemyMan.get_enemy()->Position()) < 4.f))
+    if (object->EnemyMan.see_enemy_now() && (object->Position().distance_to(object->EnemyMan.get_enemy()->Position()) < 4.f))
     {
         object->set_berserk();
         return true;
@@ -159,7 +158,7 @@ void CStateBloodsuckerPredatorLiteAbstract::setup_substates()
     {
         SStateDataLookToPoint data;
 
-        Fvector dir;
+        Fvector               dir;
         object->CoverMan->less_cover_direction(dir);
 
         data.point.mad(object->Position(), dir, 10.f);
@@ -197,8 +196,7 @@ void CStateBloodsuckerPredatorLiteAbstract::check_force_state()
     {
         if (object->HitMemory.get_last_hit_time() > time_state_started)
         {
-            if (object->EnemyMan.get_enemy() &&
-                (object->EnemyMan.get_enemy()->Position().distance_to(object->Position()) < 10.f))
+            if (object->EnemyMan.get_enemy() && (object->EnemyMan.get_enemy()->Position().distance_to(object->Position()) < 10.f))
             {
                 object->set_berserk();
             }

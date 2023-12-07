@@ -11,15 +11,7 @@
 #include "xrface.h"
 #include "xrLC_GlobalData.h"
 
-void LightPoint(
-    CDB::COLLIDER* DB,
-    CDB::MODEL*    MDL,
-    base_color_c&  C,
-    Fvector&       P,
-    Fvector&       N,
-    base_lighting& lights,
-    u32            flags,
-    Face*          skip);
+void LightPoint(CDB::COLLIDER* DB, CDB::MODEL* MDL, base_color_c& C, Fvector& P, Fvector& N, base_lighting& lights, u32 flags, Face* skip);
 union var
 {
     int   i;
@@ -56,12 +48,9 @@ union var
     }
 
     var() {}
-    var(float _f):
-        f(_f) {}
-    var(int _i):
-        i(_i) {}
-    var(bool _b):
-        b(_b) {}
+    var(float _f): f(_f) {}
+    var(int _i): i(_i) {}
+    var(bool _b): b(_b) {}
 };
 
 /*
@@ -78,12 +67,7 @@ var _x	= var(x);
 */
 
 //-----------------------------------------------------------------------
-void xrMU_Model::calc_lighting(
-    xr_vector<base_color>& dest,
-    const Fmatrix&         xform,
-    CDB::MODEL*            MDL,
-    base_lighting&         lights,
-    u32                    flags)
+void xrMU_Model::calc_lighting(xr_vector<base_color>& dest, const Fmatrix& xform, CDB::MODEL* MDL, base_lighting& lights, u32 flags)
 {
     // trans-map
     typedef xr_multimap<float, v_vertices> mapVert;

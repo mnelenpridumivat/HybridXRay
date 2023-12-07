@@ -186,8 +186,8 @@ BOOL        CreateNode(Fvector& vAt, vertex& N)
     }
 
     // *** Create node and register it
-    N.Sector = Sector;                                // sector
-    N.Plane.build(vOffs, vNorm);                      // build plane
+    N.Sector = Sector;             // sector
+    N.Plane.build(vOffs, vNorm);   // build plane
     D.set(0, 1, 0);
     N.Plane.intersectRayPoint(PointDown, D, N.Pos);   // "project" position
 

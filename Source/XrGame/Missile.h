@@ -23,8 +23,8 @@ public:
     {
         return TRUE;
     }
-    virtual void render_item_ui();
-    virtual bool render_item_ui_query();
+    virtual void      render_item_ui();
+    virtual bool      render_item_ui_query();
 
     virtual void      reinit();
     virtual CMissile* cast_missile()
@@ -70,24 +70,24 @@ protected:
 
 protected:
     // время нахождения в текущем состоянии
-    u32  m_dwStateTime;
-    bool m_throw;
+    u32       m_dwStateTime;
+    bool      m_throw;
 
     // время уничтожения
-    u32 m_dwDestroyTime;
-    u32 m_dwDestroyTimeMax;
+    u32       m_dwDestroyTime;
+    u32       m_dwDestroyTimeMax;
 
-    Fvector m_throw_direction;
-    Fmatrix m_throw_matrix;
+    Fvector   m_throw_direction;
+    Fmatrix   m_throw_matrix;
 
     CMissile* m_fake_missile;
 
     // параметры броска
 
-    float m_fMinForce, m_fConstForce, m_fMaxForce, m_fForceGrowSpeed;
+    float     m_fMinForce, m_fConstForce, m_fMaxForce, m_fForceGrowSpeed;
     // private:
-    bool  m_constpower;
-    float m_fThrowForce;
+    bool      m_constpower;
+    float     m_fThrowForce;
 
 protected:
     // относительная точка и направление вылета гранаты
@@ -124,6 +124,5 @@ public:
     {
         return (Device->dwTimeGlobal + m_dwDestroyTimeMax - m_dwDestroyTime);
     }
-    static void
-        ExitContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/);
+    static void ExitContactCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/);
 };

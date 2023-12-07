@@ -9,17 +9,17 @@
 #ifndef _EDITOR
 #include "xr_input_xinput.h"
 #endif
-CInput*        pInput = NULL;
-IInputReceiver dummyController;
+CInput*            pInput = NULL;
+IInputReceiver     dummyController;
 
-ENGINE_API float   psMouseSens      = 1.f;
-ENGINE_API float   psMouseSensScale = 1.f;
-ENGINE_API Flags32 psMouseInvert    = {FALSE};
+ENGINE_API float   psMouseSens         = 1.f;
+ENGINE_API float   psMouseSensScale    = 1.f;
+ENGINE_API Flags32 psMouseInvert       = {FALSE};
 
-float stop_vibration_time = flt_max;
+float              stop_vibration_time = flt_max;
 
-#define MOUSEBUFFERSIZE 64
-#define KEYBOARDBUFFERSIZE 64
+#define MOUSEBUFFERSIZE     64
+#define KEYBOARDBUFFERSIZE  64
 #define _KEYDOWN(name, key) (name[key] & 0x80)
 
 static bool g_exclusive = true;
@@ -47,9 +47,9 @@ CInput::CInput(BOOL bExclusive, int deviceForInit)
 
     Log("Starting INPUT Device->..");
 
-    pDI       = NULL;
-    pMouse    = NULL;
-    pKeyboard = NULL;
+    pDI                     = NULL;
+    pMouse                  = NULL;
+    pKeyboard               = NULL;
 
     //=====================Mouse
     mouse_property.mouse_dt = 25;
@@ -67,7 +67,7 @@ CInput::CInput(BOOL bExclusive, int deviceForInit)
         CHK_DX(DirectInput8Create(GetModuleHandle(NULL), DIRECTINPUT_VERSION, IID_IDirectInput8, (void**)&pDI, NULL));
 
     //.	u32 kb_input_flags = ((bExclusive)?DISCL_EXCLUSIVE:DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND;
-    u32 kb_input_flags = ((bExclusive) ? DISCL_EXCLUSIVE : DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND;
+    u32 kb_input_flags    = ((bExclusive) ? DISCL_EXCLUSIVE : DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND;
 
     //.	u32 mouse_input_flags = ((bExclusive)?DISCL_EXCLUSIVE:DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND | DISCL_NOWINKEY,
     u32 mouse_input_flags = ((bExclusive) ? DISCL_EXCLUSIVE : DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND | DISCL_NOWINKEY;
@@ -119,12 +119,7 @@ CInput::~CInput(void)
 // Name: CreateInputDevice()
 // Desc: Create a DirectInput Device->
 //-----------------------------------------------------------------------------
-HRESULT CInput::CreateInputDevice(
-    LPDIRECTINPUTDEVICE8* device,
-    GUID                  guidDevice,
-    const DIDATAFORMAT*   pdidDataFormat,
-    u32                   dwFlags,
-    u32                   buf_size)
+HRESULT CInput::CreateInputDevice(LPDIRECTINPUTDEVICE8* device, GUID guidDevice, const DIDATAFORMAT* pdidDataFormat, u32 dwFlags, u32 buf_size)
 {
     // Obtain an interface to the input device
     //.	CHK_DX( pDI->CreateDeviceEx( guidDevice, IID_IDirectInputDevice8, (void**)device, NULL ) );
@@ -626,7 +621,7 @@ void CInput::acquire(const bool& exclusive)
 #ifndef MASTER_GOLD
         Device->WeatherEditor() ? Device->WeatherEditor()->main_handle() :
 #endif
-                                  Device->m_hWnd,
+                                Device->m_hWnd,
         (exclusive ? DISCL_EXCLUSIVE : DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND);
     pKeyboard->Acquire();
 
@@ -635,7 +630,7 @@ void CInput::acquire(const bool& exclusive)
 #ifndef MASTER_GOLD
         Device->WeatherEditor() ? Device->WeatherEditor()->main_handle() :
 #endif
-                                  Device->m_hWnd,
+                                Device->m_hWnd,
         (exclusive ? DISCL_EXCLUSIVE : DISCL_NONEXCLUSIVE) | DISCL_FOREGROUND | DISCL_NOWINKEY);
     pMouse->Acquire();
 }

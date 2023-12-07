@@ -1,7 +1,7 @@
-#ifndef MXMAT3_INCLUDED // -*- C++ -*-
+﻿#ifndef MXMAT3_INCLUDED   // -*- C++ -*-
 #define MXMAT3_INCLUDED
 #if !defined(__GNUC__)
-#  pragma once
+#pragma once
 #endif
 
 /************************************************************************
@@ -17,7 +17,7 @@
 #include "mat3.h"
 
 extern bool jacobi(const Mat3& m, Vec3& vals, Vec3 vecs[3]);
-extern bool jacobi(const Mat3& m, double *vals, double *vecs);
+extern bool jacobi(const Mat3& m, double* vals, double* vecs);
 
 extern bool fast_jacobi(const Mat3& m, Vec3& vals, Vec3 vecs[3]);
 

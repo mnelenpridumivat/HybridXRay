@@ -33,11 +33,11 @@ TriangleMesh::~TriangleMesh() {}
 //----------------------------------------------------------------------------
 void TriangleMesh::InsertTriangle(int iV0, int iV1, int iV2)
 {
-    Triangle kT(iV0, iV1, iV2);
-    Edge     kE0(iV0, iV1), kE1(iV1, iV2), kE2(iV2, iV0);
+    Triangle           kT(iV0, iV1, iV2);
+    Edge               kE0(iV0, iV1), kE1(iV1, iV2), kE2(iV2, iV0);
 
     // insert triangle
-    pair<MTIter, bool> kRT = m_kTMap.insert(make_pair(kT, TriangleAttribute()));
+    pair<MTIter, bool> kRT  = m_kTMap.insert(make_pair(kT, TriangleAttribute()));
 
     // insert vertices
     pair<MVIter, bool> kRV0 = m_kVMap.insert(make_pair(iV0, VertexAttribute()));
@@ -94,7 +94,7 @@ void TriangleMesh::RemoveTriangle(int iV0, int iV1, int iV2)
     }
 
     // update edges
-    Edge kE0(iV0, iV1), kE1(iV1, iV2), kE2(iV2, iV0);
+    Edge   kE0(iV0, iV1), kE1(iV1, iV2), kE2(iV2, iV0);
 
     MEIter pkE0 = m_kEMap.find(kE0);
     assert(pkE0 != m_kEMap.end());
@@ -367,7 +367,7 @@ bool TriangleMesh::IsConnected() const
         for (int i = 0; i < 3; i++)
         {
             // get an edge of the current triangle
-            MECIter pkE = m_kEMap.find(Edge(kT.m_aiV[i], kT.m_aiV[(i + 1) % 3]));
+            MECIter                   pkE    = m_kEMap.find(Edge(kT.m_aiV[i], kT.m_aiV[(i + 1) % 3]));
 
             // visit each adjacent triangle
             const SmallSet<Triangle>& rkTSet = pkE->second.m_kTSet;
@@ -432,8 +432,8 @@ void TriangleMesh::GetComponents(vector<TriangleMesh*>& rkComponents)
             for (int i = 0; i < 3; i++)
             {
                 // get an edge of the current triangle
-                Edge    kE(kT.m_aiV[i], kT.m_aiV[(i + 1) % 3]);
-                MECIter pkE = m_kEMap.find(kE);
+                Edge                      kE(kT.m_aiV[i], kT.m_aiV[(i + 1) % 3]);
+                MECIter                   pkE    = m_kEMap.find(kE);
 
                 // visit each adjacent triangle
                 const SmallSet<Triangle>& rkTSet = pkE->second.m_kTSet;
@@ -507,8 +507,8 @@ void TriangleMesh::GetComponents(vector<int>& rkIndex, int*& raiConnect)
             for (int i = 0; i < 3; i++)
             {
                 // get an edge of the current triangle
-                Edge    kE(kT.m_aiV[i], kT.m_aiV[(i + 1) % 3]);
-                MECIter pkE = m_kEMap.find(kE);
+                Edge                      kE(kT.m_aiV[i], kT.m_aiV[(i + 1) % 3]);
+                MECIter                   pkE    = m_kEMap.find(kE);
 
                 // visit each adjacent triangle
                 const SmallSet<Triangle>& rkTSet = pkE->second.m_kTSet;
@@ -555,7 +555,7 @@ void TriangleMesh::RemoveComponent(int& riIQuantity, int* aiConnect)
     // the comments in MgcTriangleMesh.h for RemoveComponent).
     riIQuantity = 0;
 
-    int iTSize = m_kTMap.size();
+    int iTSize  = m_kTMap.size();
     if (iTSize == 0)
         return;
 
@@ -648,9 +648,9 @@ bool TriangleMesh::GetConsistentComponents(vector<TriangleMesh*>& rkComponents)
                 // get an edge of the current triangle
                 int     iV0 = kT.m_aiV[i], iV1 = kT.m_aiV[(i + 1) % 3], iV2;
                 Edge    kE(iV0, iV1);
-                MECIter pkE = m_kEMap.find(kE);
+                MECIter pkE   = m_kEMap.find(kE);
 
-                int iSize = pkE->second.m_kTSet.GetSize();
+                int     iSize = pkE->second.m_kTSet.GetSize();
                 assert(iSize == 1 || iSize == 2);   // mesh is manifold
                 const Triangle* pkTAdj = &pkE->second.m_kTSet[0];
                 if (iSize == 2)
@@ -664,9 +664,7 @@ bool TriangleMesh::GetConsistentComponents(vector<TriangleMesh*>& rkComponents)
                     if (pkVI->second == false)
                     {
                         // adjacent triangle not yet visited
-                        if ((pkTAdj->m_aiV[0] == iV0 && pkTAdj->m_aiV[1] == iV1) ||
-                            (pkTAdj->m_aiV[1] == iV0 && pkTAdj->m_aiV[2] == iV1) ||
-                            (pkTAdj->m_aiV[2] == iV0 && pkTAdj->m_aiV[0] == iV1))
+                        if ((pkTAdj->m_aiV[0] == iV0 && pkTAdj->m_aiV[1] == iV1) || (pkTAdj->m_aiV[1] == iV0 && pkTAdj->m_aiV[2] == iV1) || (pkTAdj->m_aiV[2] == iV0 && pkTAdj->m_aiV[0] == iV1))
                         {
                             // adjacent triangle must be reordered
                             iV0 = pkTAdj->m_aiV[0];
@@ -711,20 +709,11 @@ TriangleMesh* TriangleMesh::GetReversedOrderMesh() const
     return pkReversed;
 }
 //----------------------------------------------------------------------------
-void TriangleMesh::GetStatistics(
-    int&  riVQuantity,
-    int&  riEQuantity,
-    int&  riTQuantity,
-    Real& rfAverageEdgesPerVertex,
-    Real& rfAverageTrianglesPerVertex,
-    Real& rfAverageTrianglesPerEdge,
-    int&  riMaximumEdgesPerVertex,
-    int&  riMaximumTrianglesPerVertex,
-    int&  riMaximumTrianglesPerEdge)
+void TriangleMesh::GetStatistics(int& riVQuantity, int& riEQuantity, int& riTQuantity, Real& rfAverageEdgesPerVertex, Real& rfAverageTrianglesPerVertex, Real& rfAverageTrianglesPerEdge, int& riMaximumEdgesPerVertex, int& riMaximumTrianglesPerVertex, int& riMaximumTrianglesPerEdge)
 {
-    riVQuantity = m_kVMap.size();
-    riEQuantity = m_kEMap.size();
-    riTQuantity = m_kTMap.size();
+    riVQuantity                 = m_kVMap.size();
+    riEQuantity                 = m_kEMap.size();
+    riTQuantity                 = m_kTMap.size();
 
     int iESumForV               = 0;
     int iTSumForV               = 0;

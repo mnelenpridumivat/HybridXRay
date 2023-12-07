@@ -8,13 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPEZIALIZATION                                                                                  \
-    template <                                                                                                   \
-        typename _key_type, typename _data_type, typename _predicate, bool use_time_limit, typename _cycle_type, \
-        bool use_first_update>
+#define TEMPLATE_SPEZIALIZATION template<typename _key_type, typename _data_type, typename _predicate, bool use_time_limit, typename _cycle_type, bool use_first_update>
 
-#define CSSafeMapIterator \
-    CSafeMapIterator<_key_type, _data_type, _predicate, use_time_limit, _cycle_type, use_first_update>
+#define CSSafeMapIterator       CSafeMapIterator<_key_type, _data_type, _predicate, use_time_limit, _cycle_type, use_first_update>
 
 TEMPLATE_SPEZIALIZATION
 IC CSSafeMapIterator::CSafeMapIterator()
@@ -109,8 +105,7 @@ IC const typename CSSafeMapIterator::_REGISTRY& CSSafeMapIterator::objects() con
 }
 
 TEMPLATE_SPEZIALIZATION
-template <typename _update_predicate>
-IC u32 CSSafeMapIterator::update(const _update_predicate& predicate, bool const iterate_as_first_time_next_time)
+template<typename _update_predicate> IC u32 CSSafeMapIterator::update(const _update_predicate& predicate, bool const iterate_as_first_time_next_time)
 {
     if (empty())
         return (0);

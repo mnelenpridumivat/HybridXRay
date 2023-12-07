@@ -20,7 +20,7 @@ public:
     };
 
 private:
-    Fbox m_TBBox;
+    Fbox    m_TBBox;
     // options
     Flags32 m_Flags;
 
@@ -53,7 +53,7 @@ public:
     void         Construct(LPVOID data);
 
     // get object properties methods
-    IC bool RefCompare(CEditableObject* to)
+    IC bool      RefCompare(CEditableObject* to)
     {
         return m_pReference ? !!(m_pReference == to) : false;
     }
@@ -93,9 +93,9 @@ public:
     {
         return (m_pReference ? m_pReference->IsMUStatic() : false);
     }
-    int GetFaceCount();
-    int GetVertexCount();
-    int GetSurfFaceCount(const char* surf_name);
+    int          GetFaceCount();
+    int          GetVertexCount();
+    int          GetSurfFaceCount(const char* surf_name);
 
     // render methods
     virtual bool IsRender();
@@ -110,7 +110,7 @@ public:
     virtual void OnUpdateTransform();
 
     // misc
-    void EvictObject();
+    void         EvictObject();
 
     // pick methods
     bool         BoxPick(const Fbox& box, SBoxPickInfoVec& pinf);
@@ -138,9 +138,9 @@ public:
 
     virtual void OnShowHint(AStringVec& dest);
 
-    void Blink(CSurface* surf = 0);
+    void         Blink(CSurface* surf = 0);
 
     virtual bool Validate(bool bMsg);
 
-    void ClearSurface();
+    void         ClearSurface();
 };

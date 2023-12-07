@@ -40,6 +40,7 @@ class SMAP_Allocator
     u32                  psize;    // pool size
     xr_vector<SMAP_Rect> stack;    //
     xr_vector<Ivector2>  cpoint;   // critical points
+
 private:
     void _add(SMAP_Rect& R)
     {
@@ -52,6 +53,7 @@ private:
         if ((p1.x < ps) && (p1.y < ps))
             cpoint.push_back(p1);   // 2nd
     }
+
 public:
     void initialize(u32 _size)
     {

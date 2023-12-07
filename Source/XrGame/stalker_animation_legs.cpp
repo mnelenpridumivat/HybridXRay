@@ -18,16 +18,16 @@
 #include "inventory.h"
 #include "stalker_animation_manager_impl.h"
 
-const float right_forward_angle = PI_DIV_4;
-const float left_forward_angle  = PI_DIV_4;
+const float right_forward_angle       = PI_DIV_4;
+const float left_forward_angle        = PI_DIV_4;
 // const float standing_turn_angle			= PI_DIV_6;
-const float epsilon = EPS_L;
+const float epsilon                   = EPS_L;
 
-const u32 direction_switch_interval = 500;
+const u32   direction_switch_interval = 500;
 
-const u32 need_look_back_time_delay = 0;
+const u32   need_look_back_time_delay = 0;
 
-const float direction_angles[] = {
+const float direction_angles[]        = {
     0.f,        //	eMovementDirectionForward
     PI,         //	eMovementDirectionBackward
     PI_DIV_2,   //	eMovementDirectionLeft
@@ -113,7 +113,7 @@ void CStalkerAnimationManager::legs_process_direction(float yaw)
     }
     test_angle_backward = PI - test_angle_backward;
 
-    float difference = angle_difference(yaw, head_current);
+    float difference    = angle_difference(yaw, head_current);
 
     if (difference <= test_angle_forward)
         legs_assign_direction(switch_factor, eMovementDirectionForward);
@@ -132,7 +132,7 @@ void CStalkerAnimationManager::legs_process_direction(float yaw)
 
 MotionID CStalkerAnimationManager::legs_move_animation()
 {
-    m_no_move_actual = false;
+    m_no_move_actual                               = false;
 
     stalker_movement_manager_smart_cover& movement = object().movement();
 
@@ -143,10 +143,7 @@ MotionID CStalkerAnimationManager::legs_move_animation()
         m_target_speed        = movement.speed(eMovementDirectionForward);
         m_last_non_zero_speed = m_target_speed;
 
-        return (m_data_storage->m_part_animations.A[body_state()]
-                    .m_movement.A[movement.movement_type()]
-                    .A[eMovementDirectionForward]
-                    .A[1]);
+        return (m_data_storage->m_part_animations.A[body_state()].m_movement.A[movement.movement_type()].A[eMovementDirectionForward].A[1]);
     }
 
     float yaw, pitch;
@@ -202,10 +199,7 @@ MotionID CStalkerAnimationManager::legs_move_animation()
     m_target_speed        = movement.speed(speed_direction);
     m_last_non_zero_speed = m_target_speed;
 
-    return (m_data_storage->m_part_animations.A[body_state()]
-                .m_movement.A[movement.movement_type()]
-                .A[speed_direction]
-                .A[0]);
+    return (m_data_storage->m_part_animations.A[body_state()].m_movement.A[movement.movement_type()].A[speed_direction].A[0]);
 }
 
 MotionID CStalkerAnimationManager::legs_no_move_animation()
@@ -222,10 +216,10 @@ MotionID CStalkerAnimationManager::legs_no_move_animation()
             m_crouch_state = m_crouch_state_config;
     }
 
-    m_change_direction_time = Device->dwTimeGlobal;
+    m_change_direction_time                                = Device->dwTimeGlobal;
 
-    EBodyState                 body_state = this->body_state();
-    const xr_vector<MotionID>& animation  = m_data_storage->m_part_animations.A[body_state].m_in_place->A;
+    EBodyState                            body_state       = this->body_state();
+    const xr_vector<MotionID>&            animation        = m_data_storage->m_part_animations.A[body_state].m_in_place->A;
 
     stalker_movement_manager_smart_cover& movement         = object().movement();
     const SBoneRotation&                  body_orientation = movement.body_orientation();

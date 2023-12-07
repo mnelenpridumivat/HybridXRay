@@ -52,11 +52,11 @@ public:
     virtual char*          getTeamSection(int Team);
     virtual bool           PlayerCanSprint(CActor* pActor);
 
-    virtual void SetScore();
-    virtual void OnSellItemsFromRuck();
+    virtual void           SetScore();
+    virtual void           OnSellItemsFromRuck();
 
-    virtual void OnSpawn(CObject* pObj);
-    virtual void OnDestroy(CObject* pObj);
-    virtual void SendPickUpEvent(u16 ID_who, u16 ID_what);
-    virtual void OnConnected();
+    virtual void           OnSpawn(CObject* pObj);
+    virtual void           OnDestroy(CObject* pObj);
+    virtual void           SendPickUpEvent(u16 ID_who, u16 ID_what);
+    virtual void           OnConnected();
 };

@@ -38,6 +38,7 @@ private:
         Fvector v[3];
         Fvector N;
     };
+
 public:
     struct cache_item
     {
@@ -56,6 +57,7 @@ public:
             tris = 0;
         }
     };
+
 private:
     IRenderable*          current;
     xr_vector<caster*>    casters_pool;
@@ -74,7 +76,9 @@ private:
     ref_geom              geom_World;
     ref_shader            sh_Screen;
     ref_geom              geom_Screen;
+
 private:
+
 public:
     void set_object(IRenderable* O);
     void add_element(NODE& N);

@@ -50,7 +50,7 @@ void UI_Arrow::SetNewValue(float new_value)
         float dif = m_temp_pos - m_pos;
         float val = m_ang_velocity * Device->fTimeDelta;
 
-        val = _min(_abs(val), _abs(dif));
+        val       = _min(_abs(val), _abs(dif));
         val *= (dif > 0.0f) ? +1.0f : -1.0f;
         m_pos += val;
     }

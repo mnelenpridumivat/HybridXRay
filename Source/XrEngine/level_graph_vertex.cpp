@@ -33,44 +33,40 @@ float ILevelGraph::distance(const Fvector& position, const ILevelGraph::CVertex*
     return (best);
 }
 
-void ILevelGraph::choose_point(
-    const Fvector&  start_point,
-    const Fvector&  finish_point,
-    const SContour& _contour,
-    int             node_id,
-    Fvector&        temp_point,
-    int&            saved_index) const
+void ILevelGraph::choose_point(const Fvector& start_point, const Fvector& finish_point, const SContour& _contour, int node_id, Fvector& temp_point, int& saved_index) const
 {
     SContour tNextContour;
     SSegment tNextSegment;
     Fvector  tCheckPoint1 = start_point, tCheckPoint2 = start_point, tIntersectPoint;
     contour(tNextContour, node_id);
     intersect(tNextSegment, tNextContour, _contour);
-    u32 dwIntersect = intersect(
-        start_point.x, start_point.z, finish_point.x, finish_point.z, tNextSegment.v1.x, tNextSegment.v1.z,
-        tNextSegment.v2.x, tNextSegment.v2.z, &tIntersectPoint.x, &tIntersectPoint.z);
+    u32 dwIntersect = intersect(start_point.x, start_point.z, finish_point.x, finish_point.z, tNextSegment.v1.x, tNextSegment.v1.z, tNextSegment.v2.x, tNextSegment.v2.z, &tIntersectPoint.x, &tIntersectPoint.z);
     if (!dwIntersect)
         return;
     for (int i = 0; i < 4; ++i)
     {
         switch (i)
         {
-            case 0: {
+            case 0:
+            {
                 tCheckPoint1 = tNextContour.v1;
                 tCheckPoint2 = tNextContour.v2;
                 break;
             }
-            case 1: {
+            case 1:
+            {
                 tCheckPoint1 = tNextContour.v2;
                 tCheckPoint2 = tNextContour.v3;
                 break;
             }
-            case 2: {
+            case 2:
+            {
                 tCheckPoint1 = tNextContour.v3;
                 tCheckPoint2 = tNextContour.v4;
                 break;
             }
-            case 3: {
+            case 3:
+            {
                 tCheckPoint1 = tNextContour.v4;
                 tCheckPoint2 = tNextContour.v1;
                 break;
@@ -78,9 +74,7 @@ void ILevelGraph::choose_point(
             default:
                 NODEFAULT;
         }
-        dwIntersect = intersect(
-            start_point.x, start_point.z, finish_point.x, finish_point.z, tCheckPoint1.x, tCheckPoint1.z,
-            tCheckPoint2.x, tCheckPoint2.z, &tIntersectPoint.x, &tIntersectPoint.z);
+        dwIntersect = intersect(start_point.x, start_point.z, finish_point.x, finish_point.z, tCheckPoint1.x, tCheckPoint1.z, tCheckPoint2.x, tCheckPoint2.z, &tIntersectPoint.x, &tIntersectPoint.z);
         if (dwIntersect == LevelGraph::eLineIntersectionIntersect)
         {
             if (finish_point.distance_to_xz(tIntersectPoint) < finish_point.distance_to_xz(temp_point) + EPS_L)
@@ -111,11 +105,7 @@ void ILevelGraph::choose_point(
     }
 }
 
-float ILevelGraph::check_position_in_direction(
-    u32            start_vertex_id,
-    const Fvector& start_position,
-    const Fvector& finish_position,
-    const float    max_distance) const
+float ILevelGraph::check_position_in_direction(u32 start_vertex_id, const Fvector& start_position, const Fvector& finish_position, const float max_distance) const
 {
     SContour       _contour;
     const_iterator I, E;
@@ -146,20 +136,13 @@ float ILevelGraph::check_position_in_direction(
             return (max_distance);
     }
 
-    if (inside(vertex(dwCurNode), finish_position) &&
-        (_abs(vertex_plane_y(*vertex(dwCurNode), finish_position.x, finish_position.z) - finish_position.y) < .5f))
+    if (inside(vertex(dwCurNode), finish_position) && (_abs(vertex_plane_y(*vertex(dwCurNode), finish_position.x, finish_position.z) - finish_position.y) < .5f))
         return (start_point.distance_to_xz(finish_position));
     else
         return (max_distance);
 }
 
-float ILevelGraph::mark_nodes_in_direction(
-    u32              start_vertex_id,
-    const Fvector&   start_position,
-    const Fvector&   tDirection,
-    float            fDistance,
-    xr_vector<u32>&  tpaStack,
-    xr_vector<bool>* tpaMarks) const
+float ILevelGraph::mark_nodes_in_direction(u32 start_vertex_id, const Fvector& start_position, const Fvector& tDirection, float fDistance, xr_vector<u32>& tpaStack, xr_vector<bool>* tpaMarks) const
 {
     Fvector finish_point, direction = tDirection;
     direction.normalize();
@@ -168,23 +151,12 @@ float ILevelGraph::mark_nodes_in_direction(
     return (mark_nodes_in_direction(start_vertex_id, start_position, finish_point, tpaStack, tpaMarks));
 }
 
-float ILevelGraph::mark_nodes_in_direction(
-    u32              start_vertex_id,
-    const Fvector&   start_position,
-    u32              finish_vertex_id,
-    xr_vector<u32>&  tpaStack,
-    xr_vector<bool>* tpaMarks) const
+float ILevelGraph::mark_nodes_in_direction(u32 start_vertex_id, const Fvector& start_position, u32 finish_vertex_id, xr_vector<u32>& tpaStack, xr_vector<bool>* tpaMarks) const
 {
-    return (mark_nodes_in_direction(
-        start_vertex_id, start_position, vertex_position(finish_vertex_id), tpaStack, tpaMarks));
+    return (mark_nodes_in_direction(start_vertex_id, start_position, vertex_position(finish_vertex_id), tpaStack, tpaMarks));
 }
 
-float ILevelGraph::mark_nodes_in_direction(
-    u32              start_vertex_id,
-    const Fvector&   start_point,
-    const Fvector&   finish_point,
-    xr_vector<u32>&  tpaStack,
-    xr_vector<bool>* tpaMarks) const
+float ILevelGraph::mark_nodes_in_direction(u32 start_vertex_id, const Fvector& start_point, const Fvector& finish_point, xr_vector<u32>& tpaStack, xr_vector<bool>* tpaMarks) const
 {
     SContour       _contour;
     const_iterator I, E;
@@ -222,13 +194,7 @@ float ILevelGraph::mark_nodes_in_direction(
     return (fCurDistance);
 }
 
-float ILevelGraph::farthest_vertex_in_direction(
-    u32              start_vertex_id,
-    const Fvector&   start_point,
-    const Fvector&   finish_point,
-    u32&             finish_vertex_id,
-    xr_vector<bool>* tpaMarks,
-    bool             check_accessability) const
+float ILevelGraph::farthest_vertex_in_direction(u32 start_vertex_id, const Fvector& start_point, const Fvector& finish_point, u32& finish_vertex_id, xr_vector<bool>* tpaMarks, bool check_accessability) const
 {
     SContour       _contour;
     const_iterator I, E;
@@ -268,24 +234,12 @@ float ILevelGraph::farthest_vertex_in_direction(
     return (fCurDistance);
 }
 
-bool ILevelGraph::create_straight_path(
-    u32                 start_vertex_id,
-    const Fvector&      start_point,
-    const Fvector&      finish_point,
-    xr_vector<Fvector>& tpaOutputPoints,
-    xr_vector<u32>&     tpaOutputNodes,
-    bool                bAddFirstPoint,
-    bool                bClearPath) const
+bool ILevelGraph::create_straight_path(u32 start_vertex_id, const Fvector& start_point, const Fvector& finish_point, xr_vector<Fvector>& tpaOutputPoints, xr_vector<u32>& tpaOutputNodes, bool bAddFirstPoint, bool bClearPath) const
 {
-    return (create_straight_path(
-        start_vertex_id, v2d(start_point), v2d(finish_point), tpaOutputPoints, tpaOutputNodes, bAddFirstPoint,
-        bClearPath));
+    return (create_straight_path(start_vertex_id, v2d(start_point), v2d(finish_point), tpaOutputPoints, tpaOutputNodes, bAddFirstPoint, bClearPath));
 }
 
-u32 ILevelGraph::check_position_in_direction_slow(
-    u32             start_vertex_id,
-    const Fvector2& start_position,
-    const Fvector2& finish_position) const
+u32 ILevelGraph::check_position_in_direction_slow(u32 start_vertex_id, const Fvector2& start_position, const Fvector2& finish_position) const
 {
     if (!valid_vertex_position(v3d(finish_position)))
         return (u32(-1));
@@ -347,10 +301,7 @@ u32 ILevelGraph::check_position_in_direction_slow(
     }
 }
 
-bool ILevelGraph::check_vertex_in_direction_slow(
-    u32             start_vertex_id,
-    const Fvector2& start_position,
-    u32             finish_vertex_id) const
+bool ILevelGraph::check_vertex_in_direction_slow(u32 start_vertex_id, const Fvector2& start_position, u32 finish_vertex_id) const
 {
     Fvector  finish_position = vertex_position(finish_vertex_id);
     u32      cur_vertex_id = start_vertex_id, prev_vertex_id = u32(-1);
@@ -418,14 +369,7 @@ IC Fvector2 v2d(const Fvector& vector3d)
     return (Fvector2().set(vector3d.x, vector3d.z));
 }
 
-bool ILevelGraph::create_straight_path(
-    u32                 start_vertex_id,
-    const Fvector2&     start_point,
-    const Fvector2&     finish_point,
-    xr_vector<Fvector>& tpaOutputPoints,
-    xr_vector<u32>&     tpaOutputNodes,
-    bool                bAddFirstPoint,
-    bool                bClearPath) const
+bool ILevelGraph::create_straight_path(u32 start_vertex_id, const Fvector2& start_point, const Fvector2& finish_point, xr_vector<Fvector>& tpaOutputPoints, xr_vector<u32>& tpaOutputNodes, bool bAddFirstPoint, bool bClearPath) const
 {
     if (!valid_vertex_position(v3d(finish_point)))
         return (false);
@@ -488,22 +432,26 @@ bool ILevelGraph::create_straight_path(
 
                 switch (I)
                 {
-                    case 0: {
+                    case 0:
+                    {
                         next1 = box.max;
                         next2.set(box.max.x, box.min.y);
                         break;
                     }
-                    case 1: {
+                    case 1:
+                    {
                         next1 = box.min;
                         next2.set(box.max.x, box.min.y);
                         break;
                     }
-                    case 2: {
+                    case 2:
+                    {
                         next1 = box.min;
                         next2.set(box.min.x, box.max.y);
                         break;
                     }
-                    case 3: {
+                    case 3:
+                    {
                         next1 = box.max;
                         next2.set(box.min.x, box.max.y);
                         break;
@@ -513,9 +461,7 @@ bool ILevelGraph::create_straight_path(
                 }
                 VERIFY(_valid(next1));
                 VERIFY(_valid(next2));
-                u32 dwIntersect = intersect(
-                    start_point.x, start_point.y, finish_point.x, finish_point.y, next1.x, next1.y, next2.x, next2.y,
-                    &tIntersectPoint.x, &tIntersectPoint.z);
+                u32 dwIntersect = intersect(start_point.x, start_point.y, finish_point.x, finish_point.y, next1.x, next1.y, next2.x, next2.y, &tIntersectPoint.x, &tIntersectPoint.z);
                 if (!dwIntersect)
                     continue;
                 tIntersectPoint.y = vertex_plane_y(vertex(cur_vertex_id), tIntersectPoint.x, tIntersectPoint.z);

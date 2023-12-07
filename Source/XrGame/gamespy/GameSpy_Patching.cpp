@@ -42,7 +42,7 @@ static char const* QueryPatchVersionString(char* dest, u32 dest_size)
 {
     HKEY KeyCDKey = 0;
 
-    long res = RegOpenKeyEx(REGISTRY_BASE, REGISTRY_PATH, 0, KEY_READ, &KeyCDKey);
+    long res      = RegOpenKeyEx(REGISTRY_BASE, REGISTRY_PATH, 0, KEY_READ, &KeyCDKey);
 
     if (res != ERROR_SUCCESS || KeyCDKey == 0)
         return "";
@@ -61,8 +61,8 @@ static char const* QueryPatchVersionString(char* dest, u32 dest_size)
     return dest;
 }
 
-#define PATCH_SUFFIX ".exe"
-#define PATCH_SUFFIX_SIZE (sizeof(PATCH_SUFFIX) - 1)
+#define PATCH_SUFFIX          ".exe"
+#define PATCH_SUFFIX_SIZE     (sizeof(PATCH_SUFFIX) - 1)
 #define APPEND_DWURL_INFO_LEN 256
 static char const* ModifyDownloadUrl(char* dest, u32 dest_size, char const* origDownloadUrl)
 {
@@ -95,13 +95,7 @@ static char const* ModifyDownloadUrl(char* dest, u32 dest_size, char const* orig
 };
 
 bool g_bInformUserThatNoPatchFound = true;
-void __cdecl GS_ptPatchCallback(
-    PTBool      available,
-    PTBool      mandatory,
-    const char* versionName,
-    int         fileID,
-    const char* downloadURL,
-    void*       param)
+void __cdecl GS_ptPatchCallback(PTBool available, PTBool mandatory, const char* versionName, int fileID, const char* downloadURL, void* param)
 {
     if (!MainMenu())
         return;

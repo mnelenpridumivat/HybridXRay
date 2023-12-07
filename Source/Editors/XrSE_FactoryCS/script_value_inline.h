@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_value_inline.h
 //	Created 	: 16.07.2004
 //  Modified 	: 16.07.2004
@@ -8,13 +8,13 @@
 
 #pragma once
 
-IC	CScriptValue::CScriptValue	(luabind::object object, LPCSTR name)
+IC CScriptValue::CScriptValue(luabind::object object, LPCSTR name)
 {
-	m_object	= object;
-	m_name		= name;
+    m_object = object;
+    m_name   = name;
 }
 
-IC	shared_str	CScriptValue::name		()
+IC shared_str CScriptValue::name()
 {
-	return		(m_name);
+    return (m_name);
 }

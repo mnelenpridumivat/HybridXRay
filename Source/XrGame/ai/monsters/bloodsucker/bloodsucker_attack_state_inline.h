@@ -3,7 +3,7 @@
 // #include "bloodsucker_attack_state_hide.h"
 #include "../states/state_move_to_point.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION         template<typename _Object>
 
 #define CBloodsuckerStateAttackAbstract CBloodsuckerStateAttack<_Object>
 
@@ -118,7 +118,7 @@ void CBloodsuckerStateAttackAbstract::execute()
     }
 
     get_state_current()->execute();
-    prev_substate = current_substate;
+    prev_substate        = current_substate;
 
     // Notify squad
     CMonsterSquad* squad = monster_squad().get_squad(object);
@@ -152,8 +152,7 @@ bool CBloodsuckerStateAttackAbstract::check_vampire()
 TEMPLATE_SPECIALIZATION
 bool CBloodsuckerStateAttackAbstract::check_hiding()
 {
-    const bool health_step_lost =
-        object->conditions().GetHealth() < m_last_health - detail::bloodsucker::loose_health_diff;
+    const bool health_step_lost = object->conditions().GetHealth() < m_last_health - detail::bloodsucker::loose_health_diff;
 
     if (health_step_lost)
     {
@@ -213,7 +212,7 @@ void CBloodsuckerStateAttackAbstract::setup_substates()
 // CStateMonsterMoveToPointEx with path rebuild options
 //////////////////////////////////////////////////////////////////////////
 
-template <class _Object> void CStateMonsterBackstubEnemy<_Object>::initialize()
+template<class _Object> void CStateMonsterBackstubEnemy<_Object>::initialize()
 {
     inherited::initialize();
     object->path().prepare_builder();
@@ -223,11 +222,10 @@ template <class _Object> void CStateMonsterBackstubEnemy<_Object>::initialize()
     m_next_change_behaviour_tick = 0;
 }
 
-template <class _Object> void CStateMonsterBackstubEnemy<_Object>::execute()
+template<class _Object> void CStateMonsterBackstubEnemy<_Object>::execute()
 {
     // on hit, change behaviour
-    if (object->conditions().GetHealth() < m_last_health - detail::bloodsucker::loose_health_diff &&
-        Device->dwTimeGlobal > m_next_change_behaviour_tick)
+    if (object->conditions().GetHealth() < m_last_health - detail::bloodsucker::loose_health_diff && Device->dwTimeGlobal > m_next_change_behaviour_tick)
     {
         m_next_change_behaviour_tick = Device->dwTimeGlobal + detail::bloodsucker::change_behaviour_time;
         m_last_health                = object->conditions().GetHealth();
@@ -249,8 +247,8 @@ template <class _Object> void CStateMonsterBackstubEnemy<_Object>::execute()
     object->set_action(data.action.action);
     object->anim().SetSpecParams(data.action.spec_params);
 
-    data.point  = object->EnemyMan.get_enemy_position();
-    data.vertex = 0;
+    data.point                = object->EnemyMan.get_enemy_position();
+    data.vertex               = 0;
 
     data.target_direction     = Fvector().set(0.f, 0.f, 0.f);
     const CEntityAlive* enemy = object->EnemyMan.get_enemy();
@@ -289,7 +287,7 @@ template <class _Object> void CStateMonsterBackstubEnemy<_Object>::execute()
     }
 }
 
-template <class _Object> bool CStateMonsterBackstubEnemy<_Object>::check_start_conditions()
+template<class _Object> bool CStateMonsterBackstubEnemy<_Object>::check_start_conditions()
 {
     if (!object->Home->at_home(object->EnemyMan.get_enemy_position()))
     {
@@ -301,16 +299,14 @@ template <class _Object> bool CStateMonsterBackstubEnemy<_Object>::check_start_c
     return dist > object->MeleeChecker.get_min_distance();
 }
 
-template <class _Object> bool CStateMonsterBackstubEnemy<_Object>::check_completion()
+template<class _Object> bool CStateMonsterBackstubEnemy<_Object>::check_completion()
 {
     if (!object->Home->at_home(object->EnemyMan.get_enemy_position()))
     {
         return true;
     }
 
-    const bool real_path_end = fis_zero(data.completion_dist) ?
-        (data.point.distance_to_xz(object->Position()) < ai().level_graph().header().cell_size()) :
-        true;
+    const bool real_path_end = fis_zero(data.completion_dist) ? (data.point.distance_to_xz(object->Position()) < ai().level_graph().header().cell_size()) : true;
 
     if (object->control().path_builder().is_path_end(data.completion_dist) && real_path_end)
     {

@@ -32,8 +32,8 @@ XrGameManager::XrGameManager()
     R_ASSERT(m_pCreate);
     m_pDestroy = (Factory_Destroy*)GetProcAddress(m_hGame, "xrFactory_Destroy");
     R_ASSERT(m_pCreate);
-    Engine.External.pCreate  = m_pCreate;
-    Engine.External.pDestroy = m_pDestroy;
+    Engine.External.pCreate             = m_pCreate;
+    Engine.External.pDestroy            = m_pDestroy;
 
     xrGameInitialize* pxrGameInitialize = (xrGameInitialize*)GetProcAddress(m_hGame, "xrGameInitialize");
     R_ASSERT(pxrGameInitialize);

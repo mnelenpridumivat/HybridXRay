@@ -22,16 +22,16 @@ CUIMMShniaga::CUIMMShniaga()
 {
     m_sound = xr_new<CMMSound>();
 
-    m_view = xr_new<CUIScrollView>();
+    m_view  = xr_new<CUIScrollView>();
     AttachChild(m_view);
     m_shniaga = xr_new<CUIStatic>();
     AttachChild(m_shniaga);
     m_magnifier = xr_new<CUIStatic>();
     m_shniaga->AttachChild(m_magnifier);
     m_magnifier->SetPPMode();
-    m_mag_pos = 0;
+    m_mag_pos     = 0;
 
-    m_selected = NULL;
+    m_selected    = NULL;
 
     m_start_time  = 0;
     m_origin      = 0;
@@ -58,7 +58,7 @@ CUIMMShniaga::~CUIMMShniaga()
 
 extern CActor* g_actor;
 
-void CUIMMShniaga::InitShniaga(CUIXml& xml_doc, LPCSTR path)
+void           CUIMMShniaga::InitShniaga(CUIXml& xml_doc, LPCSTR path)
 {
     string256 _path;
 
@@ -103,11 +103,11 @@ void CUIMMShniaga::InitShniaga(CUIXml& xml_doc, LPCSTR path)
     m_sound->music_Play();
 }
 
-void CUIMMShniaga::OnDeviceReset() {}
+void           CUIMMShniaga::OnDeviceReset() {}
 
 extern CActor* g_actor;
 
-void CUIMMShniaga::CreateList(xr_vector<CUITextWnd*>& lst, CUIXml& xml_doc, LPCSTR path)
+void           CUIMMShniaga::CreateList(xr_vector<CUITextWnd*>& lst, CUIXml& xml_doc, LPCSTR path)
 {
     CGameFont* pF;
     u32        color;
@@ -117,9 +117,9 @@ void CUIMMShniaga::CreateList(xr_vector<CUITextWnd*>& lst, CUIXml& xml_doc, LPCS
     CUIXmlInit::InitFont(xml_doc, path, 0, color, pF);
     R_ASSERT(pF);
 
-    int nodes_num = xml_doc.GetNodesNum(path, 0, "btn");
+    int       nodes_num = xml_doc.GetNodesNum(path, 0, "btn");
 
-    XML_NODE* tab_node = xml_doc.NavigateToNode(path, 0);
+    XML_NODE* tab_node  = xml_doc.NavigateToNode(path, 0);
     xml_doc.SetLocalRoot(tab_node);
 
     CUITextWnd* st;
@@ -154,15 +154,18 @@ void CUIMMShniaga::SetPage(enum_page_id page_id, LPCSTR xml_file, LPCSTR xml_pat
     xr_vector<CUITextWnd*>* lst = NULL;
     switch (page_id)
     {
-        case epi_main: {
+        case epi_main:
+        {
             lst = &m_buttons;
         }
         break;
-        case epi_new_game: {
+        case epi_new_game:
+        {
             lst = &m_buttons_new;
         }
         break;
-        case epi_new_network_game: {
+        case epi_new_network_game:
+        {
             lst = &m_buttons_new_network;
         }
         break;
@@ -178,15 +181,18 @@ void CUIMMShniaga::ShowPage(enum_page_id page_id)
 {
     switch (page_id)
     {
-        case epi_main: {
+        case epi_main:
+        {
             ShowMain();
         }
         break;
-        case epi_new_game: {
+        case epi_new_game:
+        {
             ShowNewGame();
         }
         break;
-        case epi_new_network_game: {
+        case epi_new_network_game:
+        {
             ShowNetworkGame();
         }
         break;
@@ -428,7 +434,8 @@ void CUIMMShniaga::ProcessEvent(EVENT ev)
 {
     switch (ev)
     {
-        case E_Begin: {
+        case E_Begin:
+        {
             // init whell sound
             m_sound->whell_Play();
 

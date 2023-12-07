@@ -38,7 +38,7 @@ public:
     udword mVRef[3];
 
     // Methods
-    bool IsDegenerate() const;
+    bool   IsDegenerate() const;
 };
 
 #endif   // __ICETRIANGLE_H__

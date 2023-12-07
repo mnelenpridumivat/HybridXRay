@@ -31,9 +31,9 @@ typedef enum
     NONE_DANGEROUS_SOUND
 } TSoundDangerValue;
 
-#define FACTOR_SOUND_TYPE int(8)
-#define FACTOR_DISTANCE int(1)
-#define FACTOR_DELTA_TIME int(2)
+#define FACTOR_SOUND_TYPE  int(8)
+#define FACTOR_DISTANCE    int(1)
+#define FACTOR_DELTA_TIME  int(2)
 #define FACTOR_SOUND_POWER int(50)
 
 typedef struct tagSoundElement
@@ -44,7 +44,7 @@ typedef struct tagSoundElement
     float             power;
     TTime             time;   // время обнаружения звука
 
-    int value;   // оценочное значение данного звука
+    int               value;   // оценочное значение данного звука
 
     tagSoundElement()
     {
@@ -69,11 +69,9 @@ typedef struct tagSoundElement
     }
     TSoundDangerValue ConvertSoundType(ESoundTypes stype);
 
-    void CalcValue(TTime cur_time, Fvector cur_pos)
+    void              CalcValue(TTime cur_time, Fvector cur_pos)
     {
-        value = FACTOR_SOUND_TYPE * u32(NONE_DANGEROUS_SOUND - WEAPON_SHOOTING) -
-            iFloor(FACTOR_DISTANCE * cur_pos.distance_to(position)) -
-            FACTOR_DELTA_TIME * iFloor(float((cur_time - time) / 1000)) + FACTOR_SOUND_POWER * iFloor(power);
+        value = FACTOR_SOUND_TYPE * u32(NONE_DANGEROUS_SOUND - WEAPON_SHOOTING) - iFloor(FACTOR_DISTANCE * cur_pos.distance_to(position)) - FACTOR_DELTA_TIME * iFloor(float((cur_time - time) / 1000)) + FACTOR_SOUND_POWER * iFloor(power);
     }
 
 } SoundElem;
@@ -83,16 +81,16 @@ class CMonsterSoundMemory
     TTime                time_memory;   // время хранения звуков
     xr_vector<SoundElem> Sounds;
 
-    CBaseMonster* monster;
+    CBaseMonster*        monster;
 
-    u32 m_time_help_sound;
-    u32 m_help_node;
+    u32                  m_time_help_sound;
+    u32                  m_help_node;
 
 public:
     CMonsterSoundMemory();
     virtual ~CMonsterSoundMemory();
 
-    void init_external(CBaseMonster* M, TTime mem_time);
+    void    init_external(CBaseMonster* M, TTime mem_time);
 
     void    HearSound(const SoundElem& s);
     void    HearSound(const CObject* who, int eType, const Fvector& Position, float power, TTime time);
@@ -106,17 +104,17 @@ public:
     {
         return Sounds.size();
     }
-    void GetFirstSound(SoundElem& s, bool& bDangerous);
+    void       GetFirstSound(SoundElem& s, bool& bDangerous);
 
     void       GetSound(SoundElem& s, bool& bDangerous);   // возвращает самый опасный звук
     SoundElem& GetSound();
     bool       get_sound_from_object(const CObject* who, SoundElem& value);
 
-    void UpdateHearing();
+    void       UpdateHearing();
 
-    bool is_loud_sound(float val);
+    bool       is_loud_sound(float val);
 
-    void clear()
+    void       clear()
     {
         Sounds.clear();
     }

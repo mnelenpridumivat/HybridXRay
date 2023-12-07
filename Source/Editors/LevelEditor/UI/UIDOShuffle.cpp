@@ -43,12 +43,15 @@ void UIDOShuffle::Draw()
         {
             int selected = m_list_selected;
             ImGui::SetNextItemWidth(-1);
-            if (ImGui::ListBox("##list", &selected, [](void* data, int ind, const char** out) -> bool
-			{
-                auto item = reinterpret_cast<xr_vector<xr_string>*>(data)->at(ind).c_str();
-                *out = item;
-                return true;
-            }, reinterpret_cast<void*>(&m_list), m_list.size(), 15))
+            if (ImGui::ListBox(
+                    "##list", &selected,
+                    [](void* data, int ind, const char** out) -> bool
+                    {
+                        auto item = reinterpret_cast<xr_vector<xr_string>*>(data)->at(ind).c_str();
+                        *out      = item;
+                        return true;
+                    },
+                    reinterpret_cast<void*>(&m_list), m_list.size(), 15))
             {
                 if (m_list_selected != selected)
                 {
@@ -71,7 +74,7 @@ void UIDOShuffle::Draw()
                 if (m_list_selected >= 0 && m_list.size() > m_list_selected)
                 {
                     DM->RemoveDO(m_list[m_list_selected].c_str());
-                    for (UIDOOneColor* one_color : m_color_indices)
+                    for (UIDOOneColor* one_color: m_color_indices)
                     {
                         one_color->RemoveObject(m_list[m_list_selected]);
                     }
@@ -154,7 +157,7 @@ void UIDOShuffle::Draw()
         {
             int index = 0;
 
-            for (UIDOOneColor* one_color : m_color_indices)
+            for (UIDOOneColor* one_color: m_color_indices)
             {
                 ImGui::PushID(index);
                 one_color->Draw();
@@ -178,13 +181,13 @@ void UIDOShuffle::Draw()
     ImGui::Columns();
     if (m_ChooseObject)
     {
-        bool ok = false;
+        bool                 ok = false;
         xr_vector<xr_string> list;
         if (UIChooseForm::GetResult(ok, list))
         {
             if (ok)
             {
-                for (xr_string& l : list)
+                for (xr_string& l: list)
                 {
                     if (!FindItem(l.c_str()))
                     {
@@ -305,7 +308,7 @@ void UIDOShuffle::OnItemFocused(const char* name)
 
 bool UIDOShuffle::FindItem(const char* name)
 {
-    for (xr_string& nm : m_list)
+    for (xr_string& nm: m_list)
     {
         if (nm == name)
             return true;
@@ -329,7 +332,7 @@ bool UIDOShuffle::ApplyChanges(bool msg)
         if (OneColor->list.size())
         {
             u32 clr = color_rgba_f(OneColor->Color[0], OneColor->Color[1], OneColor->Color[2], 1.f);
-            for (xr_string& i : OneColor->list)
+            for (xr_string& i: OneColor->list)
                 DM->AppendIndexObject(clr, i.c_str(), false);
         }
     }

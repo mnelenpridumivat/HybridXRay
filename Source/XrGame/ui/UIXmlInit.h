@@ -73,10 +73,10 @@ public:
     static u32   GetColor(CUIXml& xml_doc, LPCSTR path, int index, u32 def_clr);
 
 public:
-    static bool InitAlignment(CUIXml& xml_doc, const char* path, int index, float& x, float& y, CUIWindow* pWnd);
+    static bool  InitAlignment(CUIXml& xml_doc, const char* path, int index, float& x, float& y, CUIWindow* pWnd);
 
-    static void InitAutoStaticGroup(CUIXml& xml_doc, LPCSTR path, int index, CUIWindow* pParentWnd);
-    static void InitAutoFrameLineGroup(CUIXml& xml_doc, LPCSTR path, int index, CUIWindow* pParentWnd);
+    static void  InitAutoStaticGroup(CUIXml& xml_doc, LPCSTR path, int index, CUIWindow* pParentWnd);
+    static void  InitAutoFrameLineGroup(CUIXml& xml_doc, LPCSTR path, int index, CUIWindow* pParentWnd);
 
     static float ApplyAlignX(float coord, u32 align);
     static float ApplyAlignY(float coord, u32 align);

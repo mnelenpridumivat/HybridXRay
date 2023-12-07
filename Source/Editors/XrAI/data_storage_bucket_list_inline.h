@@ -8,13 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                      \
-    template<typename _path_id_type, typename _bucket_id_type, u32 bucket_count, bool clear_buckets> \
-    template<typename _data_storage, template<typename _T> class _vertex>
+#define TEMPLATE_SPECIALIZATION template<typename _path_id_type, typename _bucket_id_type, u32 bucket_count, bool clear_buckets> template<typename _data_storage, template<typename _T> class _vertex>
 
-#define CBucketList                                                                                    \
-    CDataStorageBucketList<_path_id_type, _bucket_id_type, bucket_count, clear_buckets>::CDataStorage< \
-        _data_storage, _vertex>
+#define CBucketList             CDataStorageBucketList<_path_id_type, _bucket_id_type, bucket_count, clear_buckets>::CDataStorage<_data_storage, _vertex>
 
 TEMPLATE_SPECIALIZATION
 IC CBucketList::CDataStorage(const u32 vertex_count): inherited(vertex_count)
@@ -51,10 +47,7 @@ IC bool CBucketList::is_opened_empty()
     if (!m_buckets[m_min_bucket_id])
     {
         if (!clear_buckets)
-            for (++m_min_bucket_id; (m_min_bucket_id < bucket_count) &&
-                 (!m_buckets[m_min_bucket_id] || (m_buckets[m_min_bucket_id]->m_path_id != current_path_id()) ||
-                     (m_buckets[m_min_bucket_id]->m_bucket_id != m_min_bucket_id));
-                 ++m_min_bucket_id)
+            for (++m_min_bucket_id; (m_min_bucket_id < bucket_count) && (!m_buckets[m_min_bucket_id] || (m_buckets[m_min_bucket_id]->m_path_id != current_path_id()) || (m_buckets[m_min_bucket_id]->m_bucket_id != m_min_bucket_id)); ++m_min_bucket_id)
                 ;
         else
             for (++m_min_bucket_id; (m_min_bucket_id < bucket_count) && !m_buckets[m_min_bucket_id]; ++m_min_bucket_id)

@@ -65,9 +65,9 @@ void              CCustomObject::AnimationDrawPath()
 #ifdef _EDITOR
     if (EPrefs->object_flags.is(epoDrawAnimPath))
     {
-        float fps   = m_Motion->FPS();
-        float min_t = (float)m_Motion->FrameStart() / fps;
-        float max_t = (float)m_Motion->FrameEnd() / fps;
+        float   fps   = m_Motion->FPS();
+        float   min_t = (float)m_Motion->FrameStart() / fps;
+        float   max_t = (float)m_Motion->FrameEnd() / fps;
 
         Fvector T, r;
         u32     clr = 0xffffffff;
@@ -81,8 +81,7 @@ void              CCustomObject::AnimationDrawPath()
         EDevice->SetShader(EDevice->m_WireShader);
         RCache.set_xform_world(Fidentity);
         if (!path_points.empty())
-            DU_impl.DrawPrimitiveL(
-                D3DPT_LINESTRIP, path_points.size() - 1, path_points.data(), path_points.size(), clr, true, false);
+            DU_impl.DrawPrimitiveL(D3DPT_LINESTRIP, path_points.size() - 1, path_points.data(), path_points.size(), clr, true, false);
         CEnvelope* E = m_Motion->Envelope();
         for (KeyIt k_it = E->keys.begin(); k_it != E->keys.end(); k_it++)
         {
@@ -103,14 +102,16 @@ void CCustomObject::OnMotionControlClick(ButtonValue* value, bool& bModif, bool&
     R_ASSERT(B);
     switch (B->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             m_MotionParams->t_current = m_MotionParams->min_t;
             m_MotionParams->tmp       = m_MotionParams->t_current;
 
-            m_MotionParams->bPlay = FALSE;
+            m_MotionParams->bPlay     = FALSE;
         }
         break;
-        case 1: {
+        case 1:
+        {
             float min_k;
             float max_k;
             m_Motion->FindNearestKey(m_MotionParams->t_current, min_k, max_k);
@@ -119,27 +120,32 @@ void CCustomObject::OnMotionControlClick(ButtonValue* value, bool& bModif, bool&
             m_MotionParams->bPlay     = FALSE;
         }
         break;
-        case 2: {
+        case 2:
+        {
             m_MotionParams->t_current -= 1.f / 30.f;
             m_MotionParams->tmp   = m_MotionParams->t_current;
             m_MotionParams->bPlay = FALSE;
         }
         break;
-        case 3: {
+        case 3:
+        {
             m_MotionParams->bPlay = TRUE;
         }
         break;
-        case 4: {
+        case 4:
+        {
             m_MotionParams->bPlay = FALSE;
         }
         break;
-        case 5: {
+        case 5:
+        {
             m_MotionParams->t_current += 1.f / 30.f;
             m_MotionParams->tmp   = m_MotionParams->t_current;
             m_MotionParams->bPlay = FALSE;
         }
         break;
-        case 6: {
+        case 6:
+        {
             float min_k;
             float max_k;
             m_Motion->FindNearestKey(m_MotionParams->t_current, min_k, max_k);
@@ -148,7 +154,8 @@ void CCustomObject::OnMotionControlClick(ButtonValue* value, bool& bModif, bool&
             m_MotionParams->bPlay     = FALSE;
         }
         break;
-        case 7: {
+        case 7:
+        {
             m_MotionParams->t_current = m_MotionParams->max_t;
             m_MotionParams->tmp       = m_MotionParams->t_current;
             m_MotionParams->bPlay     = FALSE;
@@ -163,7 +170,8 @@ void CCustomObject::OnDrawUI()
 {
     switch (m_ButtonId)
     {
-        case 2: {
+        case 2:
+        {
             bool ok = false;
             if (UIPropertiesModal::GetResult(ok))
             {
@@ -184,7 +192,8 @@ void CCustomObject::OnDrawUI()
             UIPropertiesModal::Update();
         }
         break;
-        case 3: {
+        case 3:
+        {
             bool ok = false;
             if (UIPropertiesModal::GetResult(ok))
             {
@@ -219,7 +228,8 @@ void CCustomObject::OnMotionCommandsClick(ButtonValue* value, bool& bModif, bool
         case 1:
             AnimationDeleteKey(m_MotionParams->t_current);
             break;
-        case 2: {
+        case 2:
+        {
             PropItemVec items;
             m_FromTime    = m_MotionParams->min_t;
             m_ToTime      = m_MotionParams->max_t;
@@ -232,7 +242,8 @@ void CCustomObject::OnMotionCommandsClick(ButtonValue* value, bool& bModif, bool
             EDevice->seqDrawUI.Add(this);
         }
         break;
-        case 3: {
+        case 3:
+        {
             m_ButtonId = 3;
             PropItemVec items;
             m_FromTime = m_MotionParams->min_t;
@@ -246,7 +257,8 @@ void CCustomObject::OnMotionCommandsClick(ButtonValue* value, bool& bModif, bool
             EDevice->seqDrawUI.Add(this);
         }
         break;
-        case 4: {
+        case 4:
+        {
             float mn, mx;
             m_Motion->GetLength(&mn, &mx);
             m_MotionParams->min_t = mn;
@@ -337,33 +349,22 @@ void CCustomObject::AnimationFillProp(LPCSTR pref, PropItemVec& items)
         B->OnBtnClickEvent.bind(this, &CCustomObject::OnMotionFilesClick);
         B = PHelper().CreateButton(items, PrepareKey(pref, "Motion\\Commands"), "+ K,- K,Scale,Norm,Clamp", 0);
         B->OnBtnClickEvent.bind(this, &CCustomObject::OnMotionCommandsClick);
-        B = PHelper().CreateButton(
-            items, PrepareKey(pref, "Motion\\Controls"), " |<<, +<<, <<, >, ||, >>, >>+, >>|", 0);
+        B = PHelper().CreateButton(items, PrepareKey(pref, "Motion\\Controls"), " |<<, +<<, <<, >, ||, >>, >>+, >>|", 0);
         B->OnBtnClickEvent.bind(this, &CCustomObject::OnMotionControlClick);
         PHelper().CreateFlag32(items, PrepareKey(pref, "Motion\\Flags\\Auto Key"), &m_CO_Flags, flAutoKey);
         V = PHelper().CreateFlag32(items, PrepareKey(pref, "Motion\\Flags\\Camera View"), &m_CO_Flags, flCameraView);
         V->OnChangeEvent.bind(this, &CCustomObject::OnMotionCameraViewChange);
-        V = PHelper().CreateFloat(
-            items, PrepareKey(pref, "Motion\\Start Frame (sec)"), &m_MotionParams->min_t, -10000.f,
-            m_MotionParams->max_t, 1.f / 30.f, 3);
+        V = PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\Start Frame (sec)"), &m_MotionParams->min_t, -10000.f, m_MotionParams->max_t, 1.f / 30.f, 3);
         V->OnChangeEvent.bind(this, &CCustomObject::OnMotionFrameChange);
-        V = PHelper().CreateFloat(
-            items, PrepareKey(pref, "Motion\\End Frame (sec)"), &m_MotionParams->max_t, m_MotionParams->min_t, 10000.f,
-            1.f / 30.f, 3);
+        V = PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\End Frame (sec)"), &m_MotionParams->max_t, m_MotionParams->min_t, 10000.f, 1.f / 30.f, 3);
         V->OnChangeEvent.bind(this, &CCustomObject::OnMotionFrameChange);
-        V = PHelper().CreateFloat(
-            items, PrepareKey(pref, "Motion\\Current Frame (sec)"), &m_MotionParams->t_current, -10000.f, 10000.f,
-            1.f / 30.f, 3);
+        V = PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\Current Frame (sec)"), &m_MotionParams->t_current, -10000.f, 10000.f, 1.f / 30.f, 3);
         V->OnChangeEvent.bind(this, &CCustomObject::OnMotionCurrentFrameChange);
 
-        V = PHelper().CreateFloat(
-            items, PrepareKey(pref, "Motion\\ChangeKeyTime(sec)"), &m_MotionParams->tmp, -10000.f, 10000.f, 1.f / 30.f,
-            3);
+        V = PHelper().CreateFloat(items, PrepareKey(pref, "Motion\\ChangeKeyTime(sec)"), &m_MotionParams->tmp, -10000.f, 10000.f, 1.f / 30.f, 3);
         V->OnChangeEvent.bind(this, &CCustomObject::OnMotionKeyTimeChange);
 
-        PHelper().CreateCaption(
-            items, PrepareKey(pref, "Motion\\Key Count"), shared_str().printf("%d", m_Motion->KeyCount()));
-        PHelper().CreateCaption(
-            items, PrepareKey(pref, "Motion\\Length (sec)"), shared_str().printf("%3.2f", m_Motion->GetLength()));
+        PHelper().CreateCaption(items, PrepareKey(pref, "Motion\\Key Count"), shared_str().printf("%d", m_Motion->KeyCount()));
+        PHelper().CreateCaption(items, PrepareKey(pref, "Motion\\Length (sec)"), shared_str().printf("%3.2f", m_Motion->GetLength()));
     }
 }

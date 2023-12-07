@@ -16,19 +16,15 @@ CPatrolPathStorage::~CPatrolPathStorage()
     delete_data(m_registry);
 }
 
-void CPatrolPathStorage::load_editor(
-    const ILevelGraph*          level_graph,
-    const IGameLevelCrossTable* cross,
-    const IGameGraph*           game_graph)
+void CPatrolPathStorage::load_editor(const ILevelGraph* level_graph, const IGameLevelCrossTable* cross, const IGameGraph* game_graph)
 {
-    for (auto& Obj : Scene->ListObj(OBJCLASS_WAY))
+    for (auto& Obj: Scene->ListObj(OBJCLASS_WAY))
     {
         CWayObject*    Way         = dynamic_cast<CWayObject*>(Obj);
         shared_str     patrol_name = Way->GetName();
         const_iterator I           = m_registry.find(patrol_name);
         VERIFY3(I == m_registry.end(), "Duplicated patrol path found", *patrol_name);
-        m_registry.insert(std::make_pair(
-            patrol_name, &xr_new<CPatrolPath>(patrol_name)->load_editor(level_graph, cross, game_graph, Way)));
+        m_registry.insert(std::make_pair(patrol_name, &xr_new<CPatrolPath>(patrol_name)->load_editor(level_graph, cross, game_graph, Way)));
     }
 
     /*
@@ -68,11 +64,7 @@ void CPatrolPathStorage::load_editor(
     */
 }
 
-void CPatrolPathStorage::load_raw(
-    const ILevelGraph*          level_graph,
-    const IGameLevelCrossTable* cross,
-    const IGameGraph*           game_graph,
-    IReader&                    stream)
+void CPatrolPathStorage::load_raw(const ILevelGraph* level_graph, const IGameLevelCrossTable* cross, const IGameGraph* game_graph, IReader& stream)
 {
     IReader* chunk = stream.open_chunk(WAY_PATROLPATH_CHUNK);
 

@@ -11,7 +11,7 @@
 
 #ifdef DEBUG
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 #endif   // DEBUG
@@ -40,11 +40,11 @@ static FILE* CompressionDump = NULL;
 
 // size of range encoding code values
 
-#define PPM_CODE_BITS 32
-#define PPM_TOP_VALUE ((NET_Compressor::code_value)1 << (PPM_CODE_BITS - 1))
+#define PPM_CODE_BITS    32
+#define PPM_TOP_VALUE    ((NET_Compressor::code_value)1 << (PPM_CODE_BITS - 1))
 
-#define SHIFT_BITS (PPM_CODE_BITS - 9)
-#define EXTRA_BITS ((PPM_CODE_BITS - 2) % 8 + 1)
+#define SHIFT_BITS       (PPM_CODE_BITS - 9)
+#define EXTRA_BITS       ((PPM_CODE_BITS - 2) % 8 + 1)
 #define PPM_BOTTOM_VALUE (PPM_TOP_VALUE >> 8)
 
 /*
@@ -258,8 +258,7 @@ NET_Compressor::NET_Compressor()
     :
     CS(MUTEX_PROFILE_ID(NET_Compressor))
 #endif   // PROFILE_CRITICAL_SECTIONS
-{
-}
+{}
 
 NET_Compressor::~NET_Compressor()
 {
@@ -322,7 +321,7 @@ u16 NET_Compressor::compressed_size(const u32& count)
 XRNETSERVER_API BOOL g_net_compressor_enabled      = FALSE;
 XRNETSERVER_API BOOL g_net_compressor_gather_stats = FALSE;
 
-u16 NET_Compressor::Compress(BYTE* dest, const u32& dest_size, BYTE* src, const u32& count)
+u16                  NET_Compressor::Compress(BYTE* dest, const u32& dest_size, BYTE* src, const u32& count)
 {
     SCompressorStats::SStatPacket* _p                = NULL;
     bool                           b_compress_packet = (count > 36);
@@ -378,7 +377,7 @@ u16 NET_Compressor::Compress(BYTE* dest, const u32& dest_size, BYTE* src, const 
 
 #if NET_USE_COMPRESSION_CRC
 
-        u32 crc = crc32(dest + offset, compressed_size);
+        u32 crc             = crc32(dest + offset, compressed_size);
 
         *((u32*)(dest + 1)) = crc;
 #endif   // NET_USE_COMPRESSION_CRC
@@ -396,9 +395,7 @@ u16 NET_Compressor::Compress(BYTE* dest, const u32& dest_size, BYTE* src, const 
         if (!CompressionDump)
             CompressionDump = fopen("net-compression.log", "w+b");
 
-        fprintf(
-            CompressionDump, "%s compress %2.0f%% %u->%u\r\n", compressor_name,
-            100.0f * float(compressed_size) / float(count), count, compressed_size);
+        fprintf(CompressionDump, "%s compress %2.0f%% %u->%u\r\n", compressor_name, 100.0f * float(compressed_size) / float(count), count, compressed_size);
 #endif   // NET_DUMP_COMPRESSION
     }
     else
@@ -406,7 +403,7 @@ u16 NET_Compressor::Compress(BYTE* dest, const u32& dest_size, BYTE* src, const 
         if (g_net_compressor_gather_stats && b_compress_packet)
             _p->unlucky_attempts += 1;
 
-        *dest = NET_TAG_NONCOMPRESSED;
+        *dest           = NET_TAG_NONCOMPRESSED;
 
         compressed_size = count + 1;
         CopyMemory(dest + 1, src, count);
@@ -527,8 +524,7 @@ void NET_Compressor::DumpStats(bool brief)
         unlucky_hits += it->second.unlucky_attempts;
         if (!brief)
         {
-            Msg("size[%d] count[%d] unlucky[%d] avg_c[%d]", it->first, it->second.hit_count,
-                it->second.unlucky_attempts, iFloor(float(it->second.compressed_size) / float(it->second.hit_count)));
+            Msg("size[%d] count[%d] unlucky[%d] avg_c[%d]", it->first, it->second.hit_count, it->second.unlucky_attempts, iFloor(float(it->second.compressed_size) / float(it->second.hit_count)));
         }
     }
     Msg("total   [%d]", total_hits);

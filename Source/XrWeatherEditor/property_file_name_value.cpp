@@ -11,19 +11,7 @@
 
 using System::String;
 
-property_file_name_value::property_file_name_value(
-    string_getter_type const& getter,
-    string_setter_type const& setter,
-    System::String ^ DefaultExt_,
-    System::String ^ Filter_,
-    System::String ^ InitialDirectory_,
-    System::String ^ Title_,
-    bool remove_extension):
-    inherited(getter, setter),
-    DefaultExt(DefaultExt_), Filter(Filter_), InitialDirectory(InitialDirectory_), Title(Title_),
-    m_remove_extension(remove_extension)
-{
-}
+property_file_name_value::property_file_name_value(string_getter_type const& getter, string_setter_type const& setter, System::String ^ DefaultExt_, System::String ^ Filter_, System::String ^ InitialDirectory_, System::String ^ Title_, bool remove_extension): inherited(getter, setter), DefaultExt(DefaultExt_), Filter(Filter_), InitialDirectory(InitialDirectory_), Title(Title_), m_remove_extension(remove_extension) {}
 
 String ^ property_file_name_value::default_extension()
 {

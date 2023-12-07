@@ -27,23 +27,23 @@ public:
     };
 
 protected:
-    flags32          m_flags;
-    shared_str       m_hint;
-    CMapSpot*        m_level_spot;
-    CMapSpotPointer* m_level_spot_pointer;
-    CMiniMapSpot*    m_minimap_spot;
-    CMapSpotPointer* m_minimap_spot_pointer;
-    CComplexMapSpot* m_complex_spot;
-    CMapSpotPointer* m_complex_spot_pointer;
+    flags32                 m_flags;
+    shared_str              m_hint;
+    CMapSpot*               m_level_spot;
+    CMapSpotPointer*        m_level_spot_pointer;
+    CMiniMapSpot*           m_minimap_spot;
+    CMapSpotPointer*        m_minimap_spot_pointer;
+    CComplexMapSpot*        m_complex_spot;
+    CMapSpotPointer*        m_complex_spot_pointer;
 
-    shared_str m_spot_border_names[6];
-    CMapSpot*  m_level_map_spot_border;
-    CMapSpot*  m_mini_map_spot_border;
-    CMapSpot*  m_complex_spot_border;
+    shared_str              m_spot_border_names[6];
+    CMapSpot*               m_level_map_spot_border;
+    CMapSpot*               m_mini_map_spot_border;
+    CMapSpot*               m_complex_spot_border;
 
-    CMapSpot* m_level_map_spot_border_na;
-    CMapSpot* m_mini_map_spot_border_na;
-    CMapSpot* m_complex_spot_border_na;
+    CMapSpot*               m_level_map_spot_border_na;
+    CMapSpot*               m_mini_map_spot_border_na;
+    CMapSpot*               m_complex_spot_border_na;
 
     u16                     m_objectID;
     CSE_ALifeDynamicObject* m_owner_se_object;
@@ -81,7 +81,7 @@ public:
     virtual ~CMapLocation();
     virtual void destroy();
 
-    IC bool HintEnabled()
+    IC bool      HintEnabled()
     {
         return !!m_flags.test(eHintEnabled);
     }
@@ -129,8 +129,8 @@ public:
     {
         m_flags.set(eSpotEnabled, FALSE);
     };
-    virtual void UpdateMiniMap(CUICustomMap* map);
-    virtual void UpdateLevelMap(CUICustomMap* map);
+    virtual void         UpdateMiniMap(CUICustomMap* map);
+    virtual void         UpdateLevelMap(CUICustomMap* map);
 
     void                 CalcPosition();
     const Fvector2&      CalcDirection();
@@ -164,7 +164,7 @@ public:
     virtual void save(IWriter& stream);
     virtual void load(IReader& stream);
 
-    shared_str m_owner_task_id;
+    shared_str   m_owner_task_id;
 
 #ifdef DEBUG
     virtual void Dump(){};

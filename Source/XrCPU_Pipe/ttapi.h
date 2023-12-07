@@ -7,7 +7,7 @@
     Trivial (and dumb) Threads API
 */
 
-typedef VOID (*PTTAPI_WORKER_FUNC)(LPVOID lpWorkerParameters);
+typedef VOID               (*PTTAPI_WORKER_FUNC)(LPVOID lpWorkerParameters);
 typedef PTTAPI_WORKER_FUNC LPPTTAPI_WORKER_FUNC;
 #ifdef SHIPPING
 #define TTAPI
@@ -25,17 +25,17 @@ extern "C"
     DWORD TTAPI ttapi_Init();
 
     // Destroys subsystem
-    VOID TTAPI ttapi_Done();
+    VOID TTAPI  ttapi_Done();
 
     // Return number of workers
     DWORD TTAPI ttapi_GetWorkersCount();
 
     // Adds new task
     // No more than TTAPI_HARDCODED_THREADS should be added
-    VOID TTAPI ttapi_AddWorker(LPPTTAPI_WORKER_FUNC lpWorkerFunc, LPVOID lpvWorkerFuncParams);
+    VOID TTAPI  ttapi_AddWorker(LPPTTAPI_WORKER_FUNC lpWorkerFunc, LPVOID lpvWorkerFuncParams);
 
     // Runs and wait for all workers to complete job
-    VOID TTAPI ttapi_RunAllWorkers();
+    VOID TTAPI  ttapi_RunAllWorkers();
 }
 
 #endif   // _TTAPI_H_INCLUDED_

@@ -10,7 +10,7 @@ protected:
     {
         flDrawSimpleModel = (1 << 31),
     };
-    Flags32 m_Flags;
+    Flags32      m_Flags;
     // controls
     virtual void CreateControls();
     virtual void RemoveControls();

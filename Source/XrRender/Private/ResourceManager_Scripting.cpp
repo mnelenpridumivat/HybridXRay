@@ -34,6 +34,7 @@ class adopt_sampler
 {
     CBlender_Compile* C;
     u32               stage;
+
 public:
     adopt_sampler(CBlender_Compile* _C, u32 _stage): C(_C), stage(_stage)
     {
@@ -172,6 +173,7 @@ public:
 class adopt_compiler
 {
     CBlender_Compile* C;
+
 public:
     adopt_compiler(CBlender_Compile* _C): C(_C) {}
     adopt_compiler(const adopt_compiler& _C): C(_C.C) {}

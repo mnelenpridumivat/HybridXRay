@@ -23,26 +23,26 @@
 // #include "phelement.h"
 #include "ui_base.h"
 
-Flags32 ph_dbg_draw_mask;
-Flags32 ph_dbg_draw_mask1;
-bool    draw_frame = 0;
+Flags32     ph_dbg_draw_mask;
+Flags32     ph_dbg_draw_mask1;
+bool        draw_frame                         = 0;
 
 // LPCSTR	dbg_trace_object_name					=NULL;
-string64 s_dbg_trace_obj_name               = "none";
-CObject* trace_object                       = NULL;
-u32      dbg_bodies_num                     = 0;
-u32      dbg_joints_num                     = 0;
-u32      dbg_islands_num                    = 0;
-u32      dbg_contacts_num                   = 0;
-u32      dbg_tries_num                      = 0;
-u32      dbg_saved_tries_for_active_objects = 0;
-u32      dbg_total_saved_tries              = 0;
-u32      dbg_reused_queries_per_step        = 0;
-u32      dbg_new_queries_per_step           = 0;
-float    dbg_vel_collid_damage_to_display   = 7.f;
+string64    s_dbg_trace_obj_name               = "none";
+CObject*    trace_object                       = NULL;
+u32         dbg_bodies_num                     = 0;
+u32         dbg_joints_num                     = 0;
+u32         dbg_islands_num                    = 0;
+u32         dbg_contacts_num                   = 0;
+u32         dbg_tries_num                      = 0;
+u32         dbg_saved_tries_for_active_objects = 0;
+u32         dbg_total_saved_tries              = 0;
+u32         dbg_reused_queries_per_step        = 0;
+u32         dbg_new_queries_per_step           = 0;
+float       dbg_vel_collid_damage_to_display   = 7.f;
 
-float dbg_text_height_scale         = 1.f;
-float dbg_text_current_height_scale = 1.f;
+float       dbg_text_height_scale              = 1.f;
+float       dbg_text_current_height_scale      = 1.f;
 
 PHABS_DBG_V dbg_draw_abstruct0;
 PHABS_DBG_V dbg_draw_abstruct1;
@@ -221,31 +221,23 @@ void DBG_DrawMatrix(const Fmatrix& m, float size, u8 a /* = 255*/)
     DBG_DrawPHAbstruct(xr_new<SPHDBGDrawLine>(m.c, to, color_xrgb(0, 0, a)));
 }
 
-template <int> IC void rotate(Fmatrix& m, float ang);
+template<int> IC void rotate(Fmatrix& m, float ang);
 
-template <> IC void rotate<0>(Fmatrix& m, float ang)
+template<> IC void    rotate<0>(Fmatrix& m, float ang)
 {
     m.rotateX(ang);
 }
-template <> IC void rotate<1>(Fmatrix& m, float ang)
+template<> IC void rotate<1>(Fmatrix& m, float ang)
 {
     m.rotateY(ang);
 }
 
-template <> IC void rotate<2>(Fmatrix& m, float ang)
+template<> IC void rotate<2>(Fmatrix& m, float ang)
 {
     m.rotateZ(ang);
 }
 
-template <int ax> void DBG_DrawRotation(
-    float          ang0,
-    float          ang1,
-    const Fmatrix& m,
-    const Fvector& l,
-    float          size,
-    u32            ac,
-    bool           solid,
-    u32            tessel)
+template<int ax> void DBG_DrawRotation(float ang0, float ang1, const Fmatrix& m, const Fvector& l, float size, u32 ac, bool solid, u32 tessel)
 {
     Fvector from;
     from.set(m.c);
@@ -375,8 +367,7 @@ struct SPHDBGOutText: public SPHDBGDrawAbsract
         // if(rendered) return;
         if (!fsimilar(dbg_text_current_height_scale, dbg_text_height_scale))
         {
-            UI().Font().pFontStat->SetHeight(
-                UI().Font().pFontStat->GetHeight() * dbg_text_height_scale / dbg_text_current_height_scale);
+            UI().Font().pFontStat->SetHeight(UI().Font().pFontStat->GetHeight() * dbg_text_height_scale / dbg_text_current_height_scale);
             dbg_text_current_height_scale = dbg_text_height_scale;
         }
         UI().Font().pFontStat->OutNext("%s", s);
@@ -524,8 +515,7 @@ void DBG_PHAbstructRender()
     for (; e != i; ++i)
     {
         if (!(*i))
-        {
-        }
+        {}
         else
             (*i)->render();
     }
@@ -653,9 +643,8 @@ void DBG_DrawStatAfterFrameStep()
         static float fdbg_saved_tries_for_active_objects = 0;
         static float fdbg_total_saved_tries              = 0;
 
-        fdbg_saved_tries_for_active_objects =
-            0.9f * fdbg_saved_tries_for_active_objects + 0.1f * float(dbg_saved_tries_for_active_objects);
-        fdbg_total_saved_tries = 0.9f * fdbg_total_saved_tries + 0.1f * float(dbg_total_saved_tries);
+        fdbg_saved_tries_for_active_objects              = 0.9f * fdbg_saved_tries_for_active_objects + 0.1f * float(dbg_saved_tries_for_active_objects);
+        fdbg_total_saved_tries                           = 0.9f * fdbg_total_saved_tries + 0.1f * float(dbg_total_saved_tries);
         DBG_OutText("Ph Number of cashed tries in active objects %5.0f", fdbg_saved_tries_for_active_objects);
         DBG_OutText("Ph Total number cashed %5.0f", fdbg_total_saved_tries);
 
@@ -680,17 +669,7 @@ CFunctionGraph::~CFunctionGraph()
     xr_delete(m_stat_graph);
     m_function.clear();
 }
-void CFunctionGraph::Init(
-    type_function fun,
-    float         x0,
-    float         x1,
-    int           l,
-    int           t,
-    int           w,
-    int           h,
-    int           points_num /*=500*/,
-    u32           color /*=*/,
-    u32           bk_color)
+void CFunctionGraph::Init(type_function fun, float x0, float x1, int l, int t, int w, int h, int points_num /*=500*/, u32 color /*=*/, u32 bk_color)
 {
     x_min        = x0;
     x_max        = x1;
@@ -779,11 +758,7 @@ static LPCSTR name_bool(BOOL v)
 
 static LPCSTR name_blend_type(CBlend::ECurvature blend)
 {
-    static xr_token token_blend[] = {
-        {"eFREE_SLOT", CBlend::eFREE_SLOT},
-        {"eAccrue", CBlend::eAccrue},
-        {"eFalloff", CBlend::eFalloff},
-        {"eFORCEDWORD", CBlend::eFORCEDWORD}};
+    static xr_token token_blend[] = {{"eFREE_SLOT", CBlend::eFREE_SLOT}, {"eAccrue", CBlend::eAccrue}, {"eFalloff", CBlend::eFalloff}, {"eFORCEDWORD", CBlend::eFORCEDWORD}};
     return get_token_name(token_blend, blend);
 }
 /*
@@ -823,13 +798,9 @@ void    DBG_AnimBlend(IKinematicsAnimated& ka, const CBlend& B)
         DBG_OutText("accrue: %f, fallof: %f, speed: %f ", B.blendAccrue, B.blendFalloff, B.speed);
 
     if (dbg_track_obj_flags.test(dbg_track_obj_blends_flags))
-        DBG_OutText(
-            "bonepart: %d, channel: %d, stop_at_end: %s, fall_at_end: %s ", B.bone_or_part, B.channel,
-            name_bool(B.stop_at_end), name_bool(B.fall_at_end));
+        DBG_OutText("bonepart: %d, channel: %d, stop_at_end: %s, fall_at_end: %s ", B.bone_or_part, B.channel, name_bool(B.stop_at_end), name_bool(B.fall_at_end));
     if (dbg_track_obj_flags.test(dbg_track_obj_blends_state))
-        DBG_OutText(
-            "state: %s, playing: %s, stop_at_end_callback: %s ", name_blend_type(B.blend_state()), name_bool(B.playing),
-            name_bool(B.stop_at_end_callback));
+        DBG_OutText("state: %s, playing: %s, stop_at_end_callback: %s ", name_blend_type(B.blend_state()), name_bool(B.playing), name_bool(B.stop_at_end_callback));
     // DBG_OutText( "callback: %p callback param: %p", B.Callback, B.CallbackParam );
 }
 
@@ -894,10 +865,10 @@ void DBG_DrawBones(const Fmatrix& xform, IKinematics* K)
     u16 nbb = K->LL_BoneCount();
     for (u16 i = 0; i < nbb; ++i)
     {
-        CBoneInstance& bi = K->LL_GetBoneInstance(i);
-        CBoneData&     bd = K->LL_GetData(i);
+        CBoneInstance& bi       = K->LL_GetBoneInstance(i);
+        CBoneData&     bd       = K->LL_GetData(i);
 
-        Fmatrix bone_pos = bi.mTransform;
+        Fmatrix        bone_pos = bi.mTransform;
         // K->Bone_GetAnimPos( bone_pos, i, u8(-1), false );
 
         DBG_DrawMatrix(Fmatrix().mul_43(xform, bone_pos), 0.1);
@@ -906,9 +877,7 @@ void DBG_DrawBones(const Fmatrix& xform, IKinematics* K)
         if (BI_NONE != bp)
         {
             CBoneInstance& pbi = K->LL_GetBoneInstance(bp);
-            DBG_DrawLine(
-                Fmatrix().mul_43(xform, bone_pos).c, Fmatrix().mul_43(xform, pbi.mTransform).c,
-                color_xrgb(255, 255, 0));
+            DBG_DrawLine(Fmatrix().mul_43(xform, bone_pos).c, Fmatrix().mul_43(xform, pbi.mTransform).c, color_xrgb(255, 255, 0));
         }
     }
     DBG_DrawMatrix(xform, 1);
@@ -945,7 +914,7 @@ void DBG_PhysBones(CObject& O)
 
 void DBG_DrawBind(CObject& O)
 {
-    IKinematics* K = smart_cast<IKinematics*>(O.Visual());
+    IKinematics*       K   = smart_cast<IKinematics*>(O.Visual());
 
     u16                nbb = K->LL_BoneCount();
     xr_vector<Fmatrix> binds;
@@ -959,9 +928,7 @@ void DBG_DrawBind(CObject& O)
         u16 bp = bd.GetParentID();
         if (BI_NONE != bp)
         {
-            DBG_DrawLine(
-                Fmatrix().mul_43(O.XFORM(), binds[i]).c, Fmatrix().mul_43(O.XFORM(), binds[bp]).c,
-                color_xrgb(0, 255, 255));
+            DBG_DrawLine(Fmatrix().mul_43(O.XFORM(), binds[i]).c, Fmatrix().mul_43(O.XFORM(), binds[bp]).c, color_xrgb(0, 255, 255));
         }
     }
 

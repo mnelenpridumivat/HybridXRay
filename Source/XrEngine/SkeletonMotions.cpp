@@ -10,7 +10,7 @@
 
 motions_container* g_pMotionsContainer = 0;
 
-u16 CPartition::part_id(const shared_str& name) const
+u16                CPartition::part_id(const shared_str& name) const
 {
     for (u16 i = 0; i < MAX_PARTS; ++i)
     {
@@ -76,7 +76,7 @@ u16 find_bone_id(vecBones* bones, shared_str nm)
 //-----------------------------------------------------------------------
 BOOL motions_value::load(LPCSTR N, IReader* data, vecBones* bones)
 {
-    m_id = N;
+    m_id          = N;
 
     bool     bRes = true;
     // Load definitions

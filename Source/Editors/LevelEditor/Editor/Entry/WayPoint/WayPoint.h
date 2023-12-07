@@ -87,16 +87,16 @@ public:
     virtual bool RaySelect(int flag, const Fvector& start, const Fvector& dir, bool bRayTest = false);   // flag 1,0,-1 (-1 invert)
     virtual bool FrustumSelect(int flag, const CFrustum& frustum);
 
-    CWayPoint* AppendWayPoint();
-    CWayPoint* GetFirstSelected();
-    int        GetSelectedPoints(WPVec& lst);
-    void       RemoveSelectedPoints();
-    void       RemoveLink();
-    void       InvertLink();
-    void       Convert1Link();
-    void       Convert2Link();
-    bool       Add1Link();
-    bool       Add2Link();
+    CWayPoint*   AppendWayPoint();
+    CWayPoint*   GetFirstSelected();
+    int          GetSelectedPoints(WPVec& lst);
+    void         RemoveSelectedPoints();
+    void         RemoveLink();
+    void         InvertLink();
+    void         Convert1Link();
+    void         Convert2Link();
+    bool         Add1Link();
+    bool         Add2Link();
     // change position/orientation methods
     virtual void MoveTo(const Fvector& pos, const Fvector& up);
     virtual void Move(Fvector& amount);
@@ -121,21 +121,21 @@ public:
         ;
     }
 
-    virtual bool GetBox(Fbox& box);
-    virtual void Render(int priority, bool strictB2F);
-    virtual bool RayPick(float& distance, const Fvector& S, const Fvector& D, SRayPickInfo* pinf = NULL);
-    virtual bool FrustumPick(const CFrustum& frustum);
+    virtual bool           GetBox(Fbox& box);
+    virtual void           Render(int priority, bool strictB2F);
+    virtual bool           RayPick(float& distance, const Fvector& S, const Fvector& D, SRayPickInfo* pinf = NULL);
+    virtual bool           FrustumPick(const CFrustum& frustum);
 
-    virtual bool LoadStream(IReader&);
-    virtual bool LoadLTX(CInifile& ini, LPCSTR sect_name);
-    virtual void SaveStream(IWriter&);
-    virtual void SaveLTX(CInifile& ini, LPCSTR sect_name);
+    virtual bool           LoadStream(IReader&);
+    virtual bool           LoadLTX(CInifile& ini, LPCSTR sect_name);
+    virtual void           SaveStream(IWriter&);
+    virtual void           SaveLTX(CInifile& ini, LPCSTR sect_name);
 
-    virtual bool ExportGame(SExportStreams* data);
+    virtual bool           ExportGame(SExportStreams* data);
 
-    virtual void FillProp(LPCSTR pref, PropItemVec& items);
+    virtual void           FillProp(LPCSTR pref, PropItemVec& items);
 
-    virtual bool OnSelectionRemove();
+    virtual bool           OnSelectionRemove();
 
     virtual const Fvector& GetPosition() const
     {

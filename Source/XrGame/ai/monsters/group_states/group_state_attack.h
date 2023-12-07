@@ -3,7 +3,7 @@
 #include "../state.h"
 #include "../../../ai_debug.h"
 
-template <typename _Object> class CStateGroupAttack: public CState<_Object>
+template<typename _Object> class CStateGroupAttack: public CState<_Object>
 {
 public:
     CStateGroupAttack(_Object* obj);
@@ -20,13 +20,13 @@ protected:
     typedef CState<_Object>  inherited;
     typedef CState<_Object>* state_ptr;
 
-    const CEntityAlive* m_enemy;
-    u32                 m_time_next_run_away;
-    u32                 m_time_start_check_behinder;
-    u32                 m_time_start_behinder;
-    float               m_delta_distance;
-    u32                 m_time_start_drive_out;
-    bool                m_drive_out;
+    const CEntityAlive*      m_enemy;
+    u32                      m_time_next_run_away;
+    u32                      m_time_start_check_behinder;
+    u32                      m_time_start_behinder;
+    float                    m_delta_distance;
+    u32                      m_time_start_drive_out;
+    bool                     m_drive_out;
 
 protected:
     bool check_home_point();

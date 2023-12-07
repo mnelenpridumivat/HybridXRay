@@ -2,7 +2,7 @@
 #define xrPoolH
 // #pragma once
 
-template <class T, int granularity> class poolSS
+template<class T, int granularity> class poolSS
 {
 private:
     T*            list;

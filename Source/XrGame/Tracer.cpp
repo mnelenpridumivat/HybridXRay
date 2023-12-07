@@ -109,15 +109,7 @@ IC void FillSprite_Line(const Fvector& pos, const Fvector& dir, const float widt
     // pv->set         (b.x+pos.x,b.y+pos.y,b.z+pos.z, color, 1.f,0.5f);        pv++;
 }
 
-void CTracer::Render(
-    const Fvector& pos,
-    const Fvector& center,
-    const Fvector& dir,
-    float          length,
-    float          width,
-    u8             colorID,
-    float          speed,
-    bool           bActor)
+void CTracer::Render(const Fvector& pos, const Fvector& center, const Fvector& dir, float length, float width, u8 colorID, float speed, bool bActor)
 {
     if (::Render->ViewBase.testSphere_dirty((Fvector&)center, length * .5f))
     {
@@ -128,8 +120,7 @@ void CTracer::Render(
             float k_speed = speed / 1000.0f;
             //			float f_distance	= Device->vCameraPosition.distance_to(pos);
 
-            FillSprite_Circle(
-                pos, k_speed * width * m_circle_size_k, k_speed * width * m_circle_size_k, m_aColors[colorID]);
+            FillSprite_Circle(pos, k_speed * width * m_circle_size_k, k_speed * width * m_circle_size_k, m_aColors[colorID]);
         }
 
         FillSprite_Line(center, dir, width * .5f, length * .5f, m_aColors[colorID]);

@@ -66,7 +66,7 @@ void UIObjectListItem::Draw()
                 {
                     size_t StartIndex = 0;
                     size_t EndIndex   = 0;
-                    for (UITreeItem* Item : Owner->Items)
+                    for (UITreeItem* Item: Owner->Items)
                     {
                         UIObjectListItem* RItem = (UIObjectListItem*)Item;
                         if (RItem == UIObjectList::Form->m_LastSelected)
@@ -75,7 +75,7 @@ void UIObjectListItem::Draw()
                         }
                         StartIndex++;
                     }
-                    for (UITreeItem* Item : Owner->Items)
+                    for (UITreeItem* Item: Owner->Items)
                     {
                         EndIndex++;
                         UIObjectListItem* RItem = (UIObjectListItem*)Item;
@@ -125,7 +125,7 @@ void UIObjectListItem::Draw()
 
 void UIObjectListItem::DrawRoot()
 {
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIObjectListItem*)Item)->Draw();
         if (ImGui::IsItemHovered())
@@ -135,7 +135,7 @@ void UIObjectListItem::DrawRoot()
 
 void UIObjectListItem::ClearSelcted(UIObjectListItem* Without)
 {
-    for (UITreeItem* Item : Items)
+    for (UITreeItem* Item: Items)
     {
         ((UIObjectListItem*)Item)->bIsSelected = false;
         if (Without != (UIObjectListItem*)Item)

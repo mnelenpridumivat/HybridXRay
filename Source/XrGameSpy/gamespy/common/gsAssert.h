@@ -43,8 +43,8 @@ extern "C"
     // be ignored.
     // ex// BAD:  GS_ASSERT( i== FN())		// FN() will never be called, i will never be set in release builds
 
-#define GS_ASSERT(x) {};          // ex// GS_ASSERT(		result == GS_OK )
-#define GS_ASSERT_STR(x, t) {};   // ex// GS_ASSERT_STR(	result == GS_OK ,"GSFunction failed")
+#define GS_ASSERT(x)          {};   // ex// GS_ASSERT(		result == GS_OK )
+#define GS_ASSERT_STR(x, t)   {};   // ex// GS_ASSERT_STR(	result == GS_OK ,"GSFunction failed")
 #define GS_ASSERT_ALIGN_16(x) {};
 #define GS_FAIL()
 #define GS_FAIL_STR(x)
@@ -91,7 +91,7 @@ extern "C"
     //  Call this function to override the default assert handler
     //	New function should render message / log message based on string passed
     //  calling this with NULL is restores the default setting.
-    void gsDebugAssertCallbackSet(gsDebugAssertCallback theCallback);
+    void         gsDebugAssertCallbackSet(gsDebugAssertCallback theCallback);
 
 // This is like an assert, but test at compile, not run time.
 // ex use STATIC_CHECK(DIM(array) == enumArrayCount)

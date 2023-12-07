@@ -40,13 +40,11 @@
 #include "ui/UISkinSelector.h"
 #include "ui/UIHelper.h"
 
-#define CTA_GAME_WND_XML "ui_game_cta.xml"
+#define CTA_GAME_WND_XML     "ui_game_cta.xml"
 
 #define TEAM_PANELS_XML_NAME "ui_team_panels_cta.xml"
 
-CUIGameCTA::CUIGameCTA():
-    teamPanels(NULL), m_pFragLimitIndicator(NULL), m_team1_score(NULL), m_team2_score(NULL), m_pCurBuyMenu(NULL),
-    m_pCurSkinMenu(NULL), m_pBuySpawnMsgBox(NULL), m_game(NULL), m_voteStatusWnd(NULL), m_team_panels_shown(false)
+CUIGameCTA::CUIGameCTA(): teamPanels(NULL), m_pFragLimitIndicator(NULL), m_team1_score(NULL), m_team2_score(NULL), m_pCurBuyMenu(NULL), m_pCurSkinMenu(NULL), m_pBuySpawnMsgBox(NULL), m_game(NULL), m_voteStatusWnd(NULL), m_team_panels_shown(false)
 {
     m_pUITeamSelectWnd = xr_new<CUISpawnWnd>();
 }
@@ -64,7 +62,7 @@ void CUIGameCTA::Init(int stage)
         m_time_caption         = UIHelper::CreateTextWnd(*m_msgs_xml, "mp_timelimit", m_window);
         m_demo_play_caption    = UIHelper::CreateTextWnd(*m_msgs_xml, "mp_demo_play", m_window);
 
-        teamPanels = xr_new<UITeamPanels>();
+        teamPanels             = xr_new<UITeamPanels>();
         teamPanels->Init(TEAM_PANELS_XML_NAME, "team_panels_wnd");
 
         CUIXml uiXml;
@@ -234,7 +232,7 @@ void CUIGameCTA::UpdateBuyMenu(shared_str const& teamSection, shared_str const& 
     }
     m_teamSectionForBuyMenu = teamSection;
     /// warning !!!
-    m_pCurBuyMenu = xr_new<BUY_WND_TYPE>();
+    m_pCurBuyMenu           = xr_new<BUY_WND_TYPE>();
     m_pCurBuyMenu->Init(m_teamSectionForBuyMenu, costSection);
     m_costSection = costSection;
 }
@@ -261,8 +259,7 @@ void CUIGameCTA::UpdateSkinMenu(shared_str const& teamSection)
         m_pCurSkinMenu = NULL;
     }
     m_teamSectionForSkinMenu = teamSection;
-    m_pCurSkinMenu =
-        xr_new<CUISkinSelectorWnd>(m_teamSectionForSkinMenu.c_str(), static_cast<s16>(tempPlayerState->team));
+    m_pCurSkinMenu           = xr_new<CUISkinSelectorWnd>(m_teamSectionForSkinMenu.c_str(), static_cast<s16>(tempPlayerState->team));
 }
 
 void CUIGameCTA::HideBuyMenu()
@@ -308,9 +305,7 @@ void CUIGameCTA::TryToDefuseAllWeapons(aditional_ammo_t& dest_ammo)
     game_PlayerState* ps = Game().local_player;
     VERIFY2(ps, "local player not initialized");
     CActor* actor = smart_cast<CActor*>(Level().Objects.net_Find(ps->GameID));
-    R_ASSERT2(
-        actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD),
-        make_string("bad actor: not found in game (GameID = %d)", ps->GameID).c_str());
+    R_ASSERT2(actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD), make_string("bad actor: not found in game (GameID = %d)", ps->GameID).c_str());
 
     TIItemContainer const& all_items = actor->inventory().m_all;
 
@@ -327,10 +322,7 @@ struct AmmoSearcherPredicate
     u16        additional_ammo_count;
     shared_str ammo_section;
 
-    AmmoSearcherPredicate(u16 ammo_elapsed, shared_str const& ammo_sect):
-        additional_ammo_count(ammo_elapsed), ammo_section(ammo_sect)
-    {
-    }
+    AmmoSearcherPredicate(u16 ammo_elapsed, shared_str const& ammo_sect): additional_ammo_count(ammo_elapsed), ammo_section(ammo_sect) {}
 
     bool operator()(PIItem const& item)
     {
@@ -351,10 +343,7 @@ struct AmmoSearcherPredicate
     }
 };
 
-void TryToDefuseGrenadeLauncher(
-    CWeaponMagazinedWGrenade const* weapon,
-    TIItemContainer const&          all_items,
-    buffer_vector<shared_str>&      dest_ammo)
+void TryToDefuseGrenadeLauncher(CWeaponMagazinedWGrenade const* weapon, TIItemContainer const& all_items, buffer_vector<shared_str>& dest_ammo)
 {
     if (!weapon)
         return;
@@ -380,9 +369,7 @@ void TryToDefuseGrenadeLauncher(
 
     shared_str ammo_section = (*tmp_ammo_types)[*tmp_ammo_type];
 
-    VERIFY2(
-        ammo_section.size(),
-        make_string("grenade ammo type of [%s] hasn't section name", weapon->cNameSect().c_str()).c_str());
+    VERIFY2(ammo_section.size(), make_string("grenade ammo type of [%s] hasn't section name", weapon->cNameSect().c_str()).c_str());
     if (!ammo_section.size())
         return;
 
@@ -390,10 +377,7 @@ void TryToDefuseGrenadeLauncher(
 
     u16 ammo_box_size = pSettings->r_u16(ammo_section.c_str(), "box_size");
 
-    R_ASSERT2(
-        ammo_elapsed <= 1,
-        make_string("weapon [%s] can't have more than one grenade in grenade launcher", weapon->cNameSect().c_str())
-            .c_str());
+    R_ASSERT2(ammo_elapsed <= 1, make_string("weapon [%s] can't have more than one grenade in grenade launcher", weapon->cNameSect().c_str()).c_str());
 
     while (ammo_elapsed >= ammo_box_size)
     {
@@ -403,7 +387,7 @@ void TryToDefuseGrenadeLauncher(
     if (!ammo_elapsed)
         return;
 
-    AmmoSearcherPredicate ammo_completitor(ammo_elapsed, ammo_section);
+    AmmoSearcherPredicate           ammo_completitor(ammo_elapsed, ammo_section);
 
     TIItemContainer::const_iterator temp_iter = std::find_if(all_items.begin(), all_items.end(), ammo_completitor);
 
@@ -461,7 +445,7 @@ void TryToDefuseWeapon(CWeapon const* weapon, TIItemContainer const& all_items, 
     if (!ammo_elapsed)
         return;
 
-    AmmoSearcherPredicate ammo_completitor(ammo_elapsed, ammo_section);
+    AmmoSearcherPredicate           ammo_completitor(ammo_elapsed, ammo_section);
 
     TIItemContainer::const_iterator temp_iter = std::find_if(all_items.begin(), all_items.end(), ammo_completitor);
 
@@ -549,25 +533,22 @@ void CUIGameCTA::SetPlayerItemsToBuyMenu()
     game_PlayerState* ps = Game().local_player;
     VERIFY2(ps, "local player not initialized");
     CActor* actor = smart_cast<CActor*>(Level().Objects.net_Find(ps->GameID));
-    R_ASSERT2(
-        actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD),
-        make_string("bad actor: not found in game (GameID = %d)", ps->GameID).c_str());
+    R_ASSERT2(actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD), make_string("bad actor: not found in game (GameID = %d)", ps->GameID).c_str());
 
     if (actor && !ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
     {
         auto&            inventory         = actor->inventory();
         u32              max_addammo_count = actor->inventory().m_all.size();
-        aditional_ammo_t add_ammo(
-            _alloca(sizeof(aditional_ammo_t::value_type) * (max_addammo_count * 2)), max_addammo_count * 2);
+        aditional_ammo_t add_ammo(_alloca(sizeof(aditional_ammo_t::value_type) * (max_addammo_count * 2)), max_addammo_count * 2);
         TryToDefuseAllWeapons(add_ammo);
 
         for (u16 i = inventory.FirstSlot(); i <= inventory.LastSlot(); i++)
             BuyMenuItemInserter(inventory.ItemFromSlot(i));
-        for (auto& item : actor->inventory().m_belt)
+        for (auto& item: actor->inventory().m_belt)
             BuyMenuItemInserter(item);
-        for (auto& item : actor->inventory().m_ruck)
+        for (auto& item: actor->inventory().m_ruck)
             BuyMenuItemInserter(item);
-        for (auto& ammo_item : add_ammo)
+        for (auto& ammo_item: add_ammo)
             AdditionalAmmoInserter(ammo_item);
     }
     else
@@ -590,9 +571,7 @@ void CUIGameCTA::SetPlayerParamsToBuyMenu()
     game_PlayerState* ps = Game().local_player;
     VERIFY2(ps, "local player not initialized");
     CActor* actor = smart_cast<CActor*>(Level().Objects.net_Find(ps->GameID));
-    R_ASSERT2(
-        actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD),
-        make_string("bad actor: not found in game (GameID = %d)", ps->GameID).c_str());
+    R_ASSERT2(actor || ps->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD), make_string("bad actor: not found in game (GameID = %d)", ps->GameID).c_str());
 
     m_pCurBuyMenu->SetRank(ps->rank);
     m_pCurBuyMenu->SetMoneyAmount(ps->money_for_round);
@@ -851,7 +830,8 @@ bool CUIGameCTA::IR_UIOnKeyboardPress(int dik)
 
     switch (dik)
     {
-        case DIK_CAPSLOCK: {
+        case DIK_CAPSLOCK:
+        {
             if (m_game)
             {
                 if (m_game->Get_ShowPlayerNamesEnabled())
@@ -873,7 +853,8 @@ bool CUIGameCTA::IR_UIOnKeyboardPress(int dik)
         case kTEAM:
 
         case kSPEECH_MENU_0:
-        case kSPEECH_MENU_1: {
+        case kSPEECH_MENU_1:
+        {
             return Game().OnKeyboardPress(cmd);
         }
         break;
@@ -889,7 +870,8 @@ bool CUIGameCTA::IR_UIOnKeyboardRelease(int dik)
 
     switch (dik)
     {
-        case DIK_CAPSLOCK: {
+        case DIK_CAPSLOCK:
+        {
             if (m_game)
             {
                 if (!m_game->Get_ShowPlayerNamesEnabled())

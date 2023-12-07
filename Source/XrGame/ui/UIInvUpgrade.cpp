@@ -27,7 +27,7 @@ UIUpgrade::UIUpgrade(CUIInventoryUpgradeWnd* parent_wnd): m_point(NULL)
     VERIFY(parent_wnd);
     m_parent_wnd = parent_wnd;
 
-    m_item = xr_new<CUIStatic>();
+    m_item       = xr_new<CUIStatic>();
     m_item->SetAutoDelete(true);
     AttachChild(m_item);
     m_color = xr_new<CUIStatic>();
@@ -109,7 +109,8 @@ void UIUpgrade::set_texture(Layer layer, LPCSTR texture)
             VERIFY(texture);
             m_point->InitTexture(texture);
             break;
-        case LAYER_COLOR: {
+        case LAYER_COLOR:
+        {
             if (texture)
             {
                 m_color->InitTexture(texture);
@@ -251,9 +252,7 @@ void UIUpgrade::OnClick()
 {
     if (m_state == STATE_ENABLED || m_state == STATE_FOCUSED || m_state == STATE_TOUCHED)
     {
-        m_parent_wnd->AskUsing(
-            make_string("%s %s", CStringTable().translate("st_upgrade_install").c_str(), get_upgrade()->name()).c_str(),
-            get_upgrade()->id_str());
+        m_parent_wnd->AskUsing(make_string("%s %s", CStringTable().translate("st_upgrade_install").c_str(), get_upgrade()->name()).c_str(), get_upgrade()->id_str());
     }
     m_parent_wnd->set_info_cur_upgrade(NULL);
     highlight_relation(true);

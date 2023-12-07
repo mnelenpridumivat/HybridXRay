@@ -21,10 +21,10 @@ public:
         on_artefactloosing       // param contains the name of a player that loosed the art
     };
 
-    void pause_on(EAction const action, shared_str const& param);
-    void cancel_pause_on();
-    bool rewind_until(EAction const action, shared_str const& param, user_callback_t ucb = no_user_callback);
-    void stop_rewind();
+    void                   pause_on(EAction const action, shared_str const& param);
+    void                   cancel_pause_on();
+    bool                   rewind_until(EAction const action, shared_str const& param, user_callback_t ucb = no_user_callback);
+    void                   stop_rewind();
 
     static user_callback_t no_user_callback;
 
@@ -36,13 +36,13 @@ private:
         rewinding,
         waiting_for_actions
     };
-    static const float rewind_speed;   // speed for rewinding ...
+    static const float      rewind_speed;   // speed for rewinding ...
 
-    ECurrentControlMode m_current_mode;
-    EAction             m_current_action;
-    float               m_prev_speed;
+    ECurrentControlMode     m_current_mode;
+    EAction                 m_current_action;
+    float                   m_prev_speed;
 
-    shared_str m_action_param_str;
+    shared_str              m_action_param_str;
     // ready to use delegates
     msg_type_subtype_func_t m_onround_start;
     msg_type_subtype_func_t m_on_kill;
@@ -51,18 +51,18 @@ private:
     msg_type_subtype_func_t m_on_artefactcapturing;
     msg_type_subtype_func_t m_on_artefactloosing;
 
-    user_callback_t m_user_callback;
+    user_callback_t         m_user_callback;
 
-    void activate_filer(EAction const action, shared_str const& param);
-    void deactivate_filter();
-    void process_action();   // pause game and changes demo play speed if it's need
+    void                    activate_filer(EAction const action, shared_str const& param);
+    void                    deactivate_filter();
+    void                    process_action();   // pause game and changes demo play speed if it's need
 
-    void on_round_start_impl(u32 message, u32 subtype, NET_Packet& packet);
-    void on_kill_impl(u32 message, u32 subtype, NET_Packet& packet);
-    void on_die_impl(u32 message, u32 subtype, NET_Packet& packet);
-    void on_artefactdelivering_impl(u32 message, u32 subtype, NET_Packet& packet);
-    void on_artefactcapturing_impl(u32 message, u32 subtype, NET_Packet& packet);
-    void on_artefactloosing_impl(u32 message, u32 subtype, NET_Packet& packet);
+    void                    on_round_start_impl(u32 message, u32 subtype, NET_Packet& packet);
+    void                    on_kill_impl(u32 message, u32 subtype, NET_Packet& packet);
+    void                    on_die_impl(u32 message, u32 subtype, NET_Packet& packet);
+    void                    on_artefactdelivering_impl(u32 message, u32 subtype, NET_Packet& packet);
+    void                    on_artefactcapturing_impl(u32 message, u32 subtype, NET_Packet& packet);
+    void                    on_artefactloosing_impl(u32 message, u32 subtype, NET_Packet& packet);
 };   // class demoplay_control
 
 #endif   // #ifndef DEMOPLAY_CONTROL

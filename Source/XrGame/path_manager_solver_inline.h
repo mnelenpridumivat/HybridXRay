@@ -8,28 +8,15 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION                                                                             \
-    template <                                                                                              \
-        typename T1, typename T2, typename T3, typename T4, typename T5, bool T6, typename T7, typename T8, \
-        typename _DataStorage, typename _Parameters, typename _dist_type, typename _index_type,             \
-        typename _iteration_type>
+#define TEMPLATE_SPECIALIZATION template<typename T1, typename T2, typename T3, typename T4, typename T5, bool T6, typename T7, typename T8, typename _DataStorage, typename _Parameters, typename _dist_type, typename _index_type, typename _iteration_type>
 
-#define CSolverPathManager                                                                                  \
-    CPathManager<                                                                                           \
-        CProblemSolver<T1, T2, T3, T4, T5, T6, T7, T8>, _DataStorage, _Parameters, _dist_type, _index_type, \
-        _iteration_type>
+#define CSolverPathManager      CPathManager<CProblemSolver<T1, T2, T3, T4, T5, T6, T7, T8>, _DataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSolverPathManager::~CPathManager() {}
 
 TEMPLATE_SPECIALIZATION
-IC void CSolverPathManager::setup(
-    const _Graph*          _graph,
-    _DataStorage*          _data_storage,
-    xr_vector<_edge_type>* _path,
-    const _index_type&     _start_node_index,
-    const _index_type&     _goal_node_index,
-    const _Parameters&     params)
+IC void CSolverPathManager::setup(const _Graph* _graph, _DataStorage* _data_storage, xr_vector<_edge_type>* _path, const _index_type& _start_node_index, const _index_type& _goal_node_index, const _Parameters& params)
 {
     graph                  = _graph;
     data_storage           = _data_storage;
@@ -60,10 +47,7 @@ IC const typename CSolverPathManager::_edge_type& CSolverPathManager::edge(const
 }
 
 TEMPLATE_SPECIALIZATION
-IC _dist_type CSolverPathManager::evaluate(
-    const _index_type&    node_index1,
-    const _index_type&    node_index2,
-    const const_iterator& i) const
+IC _dist_type CSolverPathManager::evaluate(const _index_type& node_index1, const _index_type& node_index2, const const_iterator& i) const
 {
     VERIFY(graph);
     return (graph->get_edge_weight(node_index1, node_index2, i));
@@ -86,7 +70,7 @@ IC void CSolverPathManager::init_path()
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC void CSolverPathManager::create_path(T& vertex, _DataStorage& data_storage, bool reverse_order)
+template<typename T> IC void CSolverPathManager::create_path(T& vertex, _DataStorage& data_storage, bool reverse_order)
 {
     VERIFY(this->data_storage);
     if (m_edge_path)
@@ -94,7 +78,7 @@ template <typename T> IC void CSolverPathManager::create_path(T& vertex, _DataSt
 }
 
 TEMPLATE_SPECIALIZATION
-template <typename T> IC void CSolverPathManager::create_path(T& vertex)
+template<typename T> IC void CSolverPathManager::create_path(T& vertex)
 {
     VERIFY(this->data_storage);
     if (m_edge_path)

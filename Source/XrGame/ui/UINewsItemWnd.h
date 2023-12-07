@@ -10,10 +10,10 @@ class CUINewsItemWnd: public CUIWindow
 {
     typedef CUIWindow inherited;
 
-    CUITextWnd* m_UIDate;
-    CUITextWnd* m_UICaption;
-    CUITextWnd* m_UIText;
-    CUIStatic*  m_UIImage;
+    CUITextWnd*       m_UIDate;
+    CUITextWnd*       m_UICaption;
+    CUITextWnd*       m_UIText;
+    CUIStatic*        m_UIImage;
 
 public:
     CUINewsItemWnd();

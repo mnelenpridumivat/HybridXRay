@@ -15,8 +15,8 @@ void CTraderAnimation::reinit()
     m_sound          = 0;
     m_external_sound = 0;
 
-    m_anim_global = 0;
-    m_anim_head   = 0;
+    m_anim_global    = 0;
+    m_anim_head      = 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////
@@ -39,7 +39,7 @@ void CTraderAnimation::head_callback(CBlend* B)
 /////////////////////////////////////////////////////////////////////////////////////////
 void CTraderAnimation::set_animation(LPCSTR anim)
 {
-    m_anim_global = anim;
+    m_anim_global                            = anim;
 
     IKinematicsAnimated* kinematics_animated = smart_cast<IKinematicsAnimated*>(m_trader->Visual());
     m_motion_global                          = kinematics_animated->ID_Cycle(m_anim_global);
@@ -48,7 +48,7 @@ void CTraderAnimation::set_animation(LPCSTR anim)
 
 void CTraderAnimation::set_head_animation(LPCSTR anim)
 {
-    m_anim_head = anim;
+    m_anim_head                              = anim;
 
     // назначить анимацию головы
     IKinematicsAnimated* kinematics_animated = smart_cast<IKinematicsAnimated*>(m_trader->Visual());

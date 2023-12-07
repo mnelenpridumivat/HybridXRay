@@ -62,7 +62,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * Same as ArrayMapFn, but can return 0 to stop the mapping.
      * Used by ArrayMap2
      */
-    typedef int (*ArrayMapFn2)(void* elem, void* clientData);
+    typedef int  (*ArrayMapFn2)(void* elem, void* clientData);
 
     /* ArrayElementFreeFn
      * ------------------
@@ -113,7 +113,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * (such as freeing any pointers contained in the element). The client can pass
      * NULL for the cleanupFn if the elements don't require any handling on free.
      */
-    DArray ArrayNew(int elemSize, int numElemsToAllocate, ArrayElementFreeFn elemFreeFn);
+    DArray       ArrayNew(int elemSize, int numElemsToAllocate, ArrayElementFreeFn elemFreeFn);
 
     /* ArrayFree
      * ----------
@@ -126,14 +126,14 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * embedded pointers through that function.  After calling this, the value of
      * what array is pointing to is undefined.
      */
-    void ArrayFree(DArray array);
+    void         ArrayFree(DArray array);
 
     /* ArrayLength
      * -----------
      * Returns the logical length of the array, i.e. the number of elements
      * currently in the array.  Must run in constant time.
      */
-    int ArrayLength(const DArray array);
+    int          ArrayLength(const DArray array);
 
     /* ArrayNth
      * --------
@@ -149,7 +149,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * becomes invalid after any calls which involve insertion, deletion or
      * sorting the array, as all of these may rearrange the element storage.
      */
-    void* ArrayNth(DArray array, int n);
+    void*        ArrayNth(DArray array, int n);
 
     /* ArrayAppend
      * -----------
@@ -160,7 +160,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * minus 1. This function must run in constant time (neglecting
      * the memory reallocation time which may be required occasionally).
      */
-    void ArrayAppend(DArray array, const void* newElem);
+    void         ArrayAppend(DArray array, const void* newElem);
 
     /* ArrayInsertAt
      * -------------
@@ -170,7 +170,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * element is passed by address, the new element's contents are copied from
      * the memory pointed to by newElem. This function runs in linear time.
      */
-    void ArrayInsertAt(DArray array, const void* newElem, int n);
+    void         ArrayInsertAt(DArray array, const void* newElem, int n);
 
     /* ArrayInsertSorted
      * -------------
@@ -179,7 +179,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * The array MUST be sorted prior to calling InsertSorted.
      * Note that if you only ever call InsertSorted, the array will always be sorted.
      */
-    void ArrayInsertSorted(DArray array, const void* newElem, ArrayCompareFn comparator);
+    void         ArrayInsertSorted(DArray array, const void* newElem, ArrayCompareFn comparator);
 
     /* ArrayDeleteAt
      * -------------
@@ -191,7 +191,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * allocated size of the array when an element is deleted, the array just
      * stays over-allocated.
      */
-    void ArrayDeleteAt(DArray array, int n);
+    void         ArrayDeleteAt(DArray array, int n);
 
     /* ArrayDeleteAt
      * -------------
@@ -201,7 +201,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * allocated size of the array when an element is deleted, the array just
      * stays over-allocated.
      */
-    void ArrayRemoveAt(DArray array, int n);
+    void         ArrayRemoveAt(DArray array, int n);
 
     /* ArrayReplaceAt
      * -------------
@@ -214,7 +214,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * operation and the size of the array remains constant. This function must
      * operate in constant time.
      */
-    void ArrayReplaceAt(DArray array, const void* newElem, int n);
+    void         ArrayReplaceAt(DArray array, const void* newElem, int n);
 
     /* ArraySort
      * ---------
@@ -222,7 +222,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * comparator.  The numbering of the elements will change to reflect the
      * new ordering. An assert is raised if the comparator is NULL.
      */
-    void ArraySort(DArray array, ArrayCompareFn comparator);
+    void         ArraySort(DArray array, ArrayCompareFn comparator);
 
 #define NOT_FOUND -1   // returned when a search fails to find the key
 
@@ -245,7 +245,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * array from 0 without getting an assert). An assert is raised if the
      * comparator is NULL.
      */
-    int ArraySearch(DArray array, const void* key, ArrayCompareFn comparator, int fromIndex, int isSorted);
+    int   ArraySearch(DArray array, const void* key, ArrayCompareFn comparator, int fromIndex, int isSorted);
 
     /* ArrayMap
      * -----------
@@ -256,14 +256,14 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * the client-supplied function, if necessary.  If no client data is required,
      * this argument should be NULL. An assert is raised if map function is NULL.
      */
-    void ArrayMap(DArray array, ArrayMapFn fn, void* clientData);
+    void  ArrayMap(DArray array, ArrayMapFn fn, void* clientData);
 
     /* ArrayMapBackwards
      * -----------
      * Same as ArrayMap, but goes through the array from end to front.  This
      * makes it safe to free elements during the mapping.
      */
-    void ArrayMapBackwards(DArray array, ArrayMapFn fn, void* clientData);
+    void  ArrayMapBackwards(DArray array, ArrayMapFn fn, void* clientData);
 
     /* ArrayMap2
      * -----------
@@ -284,7 +284,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * -----------
      * Deletes all elements in the array, but without freeing the array.
      */
-    void ArrayClear(DArray array);
+    void  ArrayClear(DArray array);
 
     /* ArrayGetDataPtr
      * -----------
@@ -296,7 +296,7 @@ typedef int (*ArrayCompareFn)(const void* elem1, const void* elem2);
      * -----------
      * Set the pointer to the actual data storage, which must be allocated with malloc
      */
-    void ArraySetDataPtr(DArray array, void* ptr, int count, int capacity);
+    void  ArraySetDataPtr(DArray array, void* ptr, int count, int capacity);
 
 #ifdef __cplusplus
 }

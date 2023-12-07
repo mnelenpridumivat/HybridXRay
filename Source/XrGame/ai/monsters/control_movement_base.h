@@ -10,22 +10,22 @@ class CControlMovementBase: public CControl_ComBase
     DEFINE_MAP(u32, SVelocityParam, VELOCITY_MAP, VELOCITY_MAP_IT);
     VELOCITY_MAP m_velocities;
 
-    float m_velocity;
-    float m_accel;
+    float        m_velocity;
+    float        m_accel;
 
 public:
-    virtual void load(LPCSTR section);
+    virtual void    load(LPCSTR section);
 
-    virtual void reinit();
-    virtual void update_frame();
+    virtual void    reinit();
+    virtual void    update_frame();
 
     void            load_velocity(LPCSTR section, LPCSTR line, u32 param);
     SVelocityParam& get_velocity(u32 velocity_id);
 
-    void stop();
-    void stop_accel();
-    void set_velocity(float val, bool max_acc = false);
-    void set_accel(float val)
+    void            stop();
+    void            stop_accel();
+    void            set_velocity(float val, bool max_acc = false);
+    void            set_accel(float val)
     {
         m_accel = val;
     }

@@ -162,9 +162,9 @@ public:
         m_flags.set(fl_use_hit_anims, (BOOL)v);
     }
     //////////////////base hierarchi methods///////////////////////////////////////////////////
-    void CreateCharacterSafe();
-    void CreateCharacter();
-    bool CollisionCorrectObjPos();
+    void                       CreateCharacterSafe();
+    void                       CreateCharacter();
+    bool                       CollisionCorrectObjPos();
 
     void                       in_UpdateCL();
     void                       in_shedule_Update(u32 DT);
@@ -203,8 +203,8 @@ private:
 
 public:
     //		void							on_active_weapon_shell_activate();
-    bool         has_shell_collision_place(const CPhysicsShellHolder* obj) const;
-    virtual void on_child_shell_activate(CPhysicsShellHolder* obj);
+    bool                      has_shell_collision_place(const CPhysicsShellHolder* obj) const;
+    virtual void              on_child_shell_activate(CPhysicsShellHolder* obj);
     /////////////////////////////////////////////////////////////////
     CCharacterPhysicsSupport& operator=(CCharacterPhysicsSupport& /**asup/**/)
     {
@@ -214,29 +214,25 @@ public:
     virtual ~CCharacterPhysicsSupport();
 
 private:
-    void CreateSkeleton(CPhysicsShell*& pShell);
+    void        CreateSkeleton(CPhysicsShell*& pShell);
 
-    void ActivateShell(CObject* who);
-    void CreateShell(CObject* who, Fvector& dp, Fvector& velocity);
-    void AddActiveWeaponCollision();
-    void RemoveActiveWeaponCollision();
-    void bone_chain_disable(u16 bone, u16 r_bone, IKinematics& K);
-    void bone_fix_clear();
-    void EndActivateFreeShell(
-        CObject*       who,
-        const Fvector& inital_entity_position,
-        const Fvector& dp,
-        const Fvector& velocity);
+    void        ActivateShell(CObject* who);
+    void        CreateShell(CObject* who, Fvector& dp, Fvector& velocity);
+    void        AddActiveWeaponCollision();
+    void        RemoveActiveWeaponCollision();
+    void        bone_chain_disable(u16 bone, u16 r_bone, IKinematics& K);
+    void        bone_fix_clear();
+    void        EndActivateFreeShell(CObject* who, const Fvector& inital_entity_position, const Fvector& dp, const Fvector& velocity);
     void        KillHit(SHit& H);
     static void DeathAnimCallback(CBlend* B);
     void        CreateIKController();
     void        DestroyIKController();
     bool        CollisionCorrectObjPos(const Fvector& start_from, bool character_create = false);
 
-    void    FlyTo(const Fvector& disp);
-    IC void UpdateDeathAnims();
-    IC bool DoCharacterShellCollide();
-    void    UpdateCollisionActivatingDellay();
-    void    SpawnCharacterCreate();
+    void        FlyTo(const Fvector& disp);
+    IC void     UpdateDeathAnims();
+    IC bool     DoCharacterShellCollide();
+    void        UpdateCollisionActivatingDellay();
+    void        SpawnCharacterCreate();
 };
 #endif   // CHARACTER_PHYSICS_SUPPORT

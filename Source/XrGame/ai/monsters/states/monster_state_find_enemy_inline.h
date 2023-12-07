@@ -5,7 +5,7 @@
 #include "monster_state_find_enemy_walk.h"
 #include "monster_state_find_enemy_look.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION        template<typename _Object>
 
 #define CStateMonsterFindEnemyAbstract CStateMonsterFindEnemy<_Object>
 

@@ -18,32 +18,32 @@ public:
     CUIListBoxItem* GetItemByText(LPCSTR text);
     CUIListBoxItem* GetSelectedItem();
 
-    LPCSTR GetSelectedText();
-    LPCSTR GetText(int idx);
-    void   MoveSelectedUp();
-    void   MoveSelectedDown();
-    void   SetSelectionTexture(LPCSTR texture);
-    void   SetItemHeight(float h);
-    float  GetItemHeight();
-    float  GetLongestLength();
+    LPCSTR          GetSelectedText();
+    LPCSTR          GetText(int idx);
+    void            MoveSelectedUp();
+    void            MoveSelectedDown();
+    void            SetSelectionTexture(LPCSTR texture);
+    void            SetItemHeight(float h);
+    float           GetItemHeight();
+    float           GetLongestLength();
 
-    virtual void SetSelected(CUIWindow* w)
+    virtual void    SetSelected(CUIWindow* w)
     {
         CUIScrollView::SetSelected(w);
     };
-    u32  GetSelectedIDX();
-    void SetSelectedIDX(u32 idx);
-    void SetSelectedTAG(u32 tag_val);
-    void SetSelectedText(LPCSTR txt);
-    void SetImmediateSelection(bool f);
+    u32          GetSelectedIDX();
+    void         SetSelectedIDX(u32 idx);
+    void         SetSelectedTAG(u32 tag_val);
+    void         SetSelectedText(LPCSTR txt);
+    void         SetImmediateSelection(bool f);
 
     virtual bool OnMouseAction(float x, float y, EUIMessages mouse_action);
     virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = 0);
 
-    void       SetTextColor(u32 color);
-    u32        GetTextColor();
-    void       SetFont(CGameFont* pFont);
-    CGameFont* GetFont();
+    void         SetTextColor(u32 color);
+    u32          GetTextColor();
+    void         SetFont(CGameFont* pFont);
+    CGameFont*   GetFont();
 
 protected:
     CGameFont* m_pFont;
@@ -51,7 +51,7 @@ protected:
     u32        m_text_color;
     shared_str m_selection_texture;
 
-    bool m_bImmediateSelection;
+    bool       m_bImmediateSelection;
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };
 add_to_type_list(CUIListBox)

@@ -92,8 +92,7 @@ static bool gFixQuantized = true;
  *	\param		curnode		[in] current node from input tree
  */
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-static void
-    _BuildCollisionTree(AABBCollisionNode* linear, const udword boxid, udword& curid, const AABBTreeNode* curnode)
+static void _BuildCollisionTree(AABBCollisionNode* linear, const udword boxid, udword& curid, const AABBTreeNode* curnode)
 {
     // Current node from input tree is "curnode". Must be flattened into "linear[boxid]".
 
@@ -108,13 +107,13 @@ static void
         // Get the primitive index from the input tree
         udword PrimitiveIndex = curnode->GetPrimitives()[0];
         // Setup box data as the primitive index, marked as leaf
-        linear[boxid].mData = (PrimitiveIndex << 1) | 1;
+        linear[boxid].mData   = (PrimitiveIndex << 1) | 1;
     }
     else
     {
         // To make the negative one implicit, we must store P and N in successive order
-        udword PosID = curid++;   // Get a _new_ id for positive child
-        udword NegID = curid++;   // Get a _new_ id for negative child
+        udword PosID        = curid++;   // Get a _new_ id for positive child
+        udword NegID        = curid++;   // Get a _new_ id for negative child
         // Setup box data as the forthcoming _new_ P pointer
         linear[boxid].mData = (uintptr_t)&linear[PosID];
         // Make sure it's not marked as leaf
@@ -162,12 +161,12 @@ static void _BuildNoLeafTree(AABBNoLeafNode* linear, const udword boxid, udword&
         // Get the primitive index from the input tree
         udword PrimitiveIndex = P->GetPrimitives()[0];
         // Setup prev box data as the primitive index, marked as leaf
-        linear[boxid].mData = (PrimitiveIndex << 1) | 1;
+        linear[boxid].mData   = (PrimitiveIndex << 1) | 1;
     }
     else
     {
         // Get a _new_ id for positive child
-        udword PosID = curid++;
+        udword PosID        = curid++;
         // Setup box data
         linear[boxid].mData = (uintptr_t)&linear[PosID];
         // Make sure it's not marked as leaf
@@ -183,12 +182,12 @@ static void _BuildNoLeafTree(AABBNoLeafNode* linear, const udword boxid, udword&
         // Get the primitive index from the input tree
         udword PrimitiveIndex = N->GetPrimitives()[0];
         // Setup prev box data as the primitive index, marked as leaf
-        linear[boxid].mData2 = (PrimitiveIndex << 1) | 1;
+        linear[boxid].mData2  = (PrimitiveIndex << 1) | 1;
     }
     else
     {
         // Get a _new_ id for positive child
-        udword NegID = curid++;
+        udword NegID         = curid++;
         // Setup box data
         linear[boxid].mData2 = (uintptr_t)&linear[NegID];
         // Make sure it's not marked as leaf
@@ -246,8 +245,7 @@ bool AABBCollisionTree::Build(AABBTree* tree)
 
 #ifdef __ICECORE_H__
     Log("Original tree: %d nodes, depth %d\n", NbNodes, tree->ComputeDepth());
-    Log("AABB Collision tree: %d nodes, %d bytes - Alignment: %d\n", mNbNodes, GetUsedBytes(),
-        Alignment(udword(mNodes)));
+    Log("AABB Collision tree: %d nodes, %d bytes - Alignment: %d\n", mNbNodes, GetUsedBytes(), Alignment(udword(mNodes)));
 #endif
 
     return true;
@@ -301,8 +299,7 @@ bool AABBNoLeafTree::Build(AABBTree* tree)
 
 #ifdef __ICECORE_H__
     Log("Original tree: %d nodes, depth %d\n", NbNodes, tree->ComputeDepth());
-    Log("AABB quantized tree: %d nodes, %d bytes - Alignment: %d\n", mNbNodes, GetUsedBytes(),
-        Alignment(udword(mNodes)));
+    Log("AABB quantized tree: %d nodes, %d bytes - Alignment: %d\n", mNbNodes, GetUsedBytes(), Alignment(udword(mNodes)));
 #endif
 
     return true;
@@ -342,26 +339,26 @@ bool AABBNoLeafTree::Build(AABBTree* tree)
             EMax.z = _abs(Nodes[i].mAABB.mExtents.z); \
     }
 
-#define INIT_QUANTIZATION                           \
-    udword nbc = 15; /* Keep one bit for sign */    \
-    udword nbe = 15; /* Keep one bit for fix */     \
-    if (!gFixQuantized)                             \
-        nbe++;                                      \
-                                                    \
-    /* Compute quantization coeffs */               \
-    Point CQuantCoeff, EQuantCoeff;                 \
-    CQuantCoeff.x = float((1 << nbc) - 1) / CMax.x; \
-    CQuantCoeff.y = float((1 << nbc) - 1) / CMax.y; \
-    CQuantCoeff.z = float((1 << nbc) - 1) / CMax.z; \
-    EQuantCoeff.x = float((1 << nbe) - 1) / EMax.x; \
-    EQuantCoeff.y = float((1 << nbe) - 1) / EMax.y; \
-    EQuantCoeff.z = float((1 << nbe) - 1) / EMax.z; \
-    /* Compute and save dequantization coeffs */    \
-    mCenterCoeff.x  = 1.0f / CQuantCoeff.x;         \
-    mCenterCoeff.y  = 1.0f / CQuantCoeff.y;         \
-    mCenterCoeff.z  = 1.0f / CQuantCoeff.z;         \
-    mExtentsCoeff.x = 1.0f / EQuantCoeff.x;         \
-    mExtentsCoeff.y = 1.0f / EQuantCoeff.y;         \
+#define INIT_QUANTIZATION                             \
+    udword nbc = 15; /* Keep one bit for sign */      \
+    udword nbe = 15; /* Keep one bit for fix */       \
+    if (!gFixQuantized)                               \
+        nbe++;                                        \
+                                                      \
+    /* Compute quantization coeffs */                 \
+    Point CQuantCoeff, EQuantCoeff;                   \
+    CQuantCoeff.x   = float((1 << nbc) - 1) / CMax.x; \
+    CQuantCoeff.y   = float((1 << nbc) - 1) / CMax.y; \
+    CQuantCoeff.z   = float((1 << nbc) - 1) / CMax.z; \
+    EQuantCoeff.x   = float((1 << nbe) - 1) / EMax.x; \
+    EQuantCoeff.y   = float((1 << nbe) - 1) / EMax.y; \
+    EQuantCoeff.z   = float((1 << nbe) - 1) / EMax.z; \
+    /* Compute and save dequantization coeffs */      \
+    mCenterCoeff.x  = 1.0f / CQuantCoeff.x;           \
+    mCenterCoeff.y  = 1.0f / CQuantCoeff.y;           \
+    mCenterCoeff.z  = 1.0f / CQuantCoeff.z;           \
+    mExtentsCoeff.x = 1.0f / EQuantCoeff.x;           \
+    mExtentsCoeff.y = 1.0f / EQuantCoeff.y;           \
     mExtentsCoeff.z = 1.0f / EQuantCoeff.z;
 
 #define PERFORM_QUANTIZATION                                                                          \
@@ -397,7 +394,8 @@ bool AABBNoLeafTree::Build(AABBTree* tree)
                     ((float*)mNodes[i].mAABB.mExtents)[j] = 0xffff;                                   \
                     FixMe                                 = false;                                    \
                 }                                                                                     \
-            } while (FixMe);                                                                          \
+            }                                                                                         \
+            while (FixMe);                                                                            \
         }                                                                                             \
     }
 
@@ -483,8 +481,7 @@ bool AABBQuantizedTree::Build(AABBTree* tree)
 
 #ifdef __ICECORE_H__
     Log("Original tree: %d nodes, depth %d\n", NbNodes, tree->ComputeDepth());
-    Log("AABB quantized tree: %d nodes, %d bytes - Alignment: %d\n", mNbNodes, GetUsedBytes(),
-        Alignment(udword(mNodes)));
+    Log("AABB quantized tree: %d nodes, %d bytes - Alignment: %d\n", mNbNodes, GetUsedBytes(), Alignment(udword(mNodes)));
 #endif
     return true;
 }
@@ -561,8 +558,7 @@ bool AABBQuantizedNoLeafTree::Build(AABBTree* tree)
 
 #ifdef __ICECORE_H__
     Log("Original tree: %d nodes, depth %d\n", NbNodes, tree->ComputeDepth());
-    Log("AABB quantized no-leaf tree: %d nodes, %d bytes - Alignment: %d\n", mNbNodes, GetUsedBytes(),
-        Alignment(udword(mNodes)));
+    Log("AABB quantized no-leaf tree: %d nodes, %d bytes - Alignment: %d\n", mNbNodes, GetUsedBytes(), Alignment(udword(mNodes)));
 #endif
 
     return true;

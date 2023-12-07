@@ -31,21 +31,12 @@ CALifeMonsterDetailPathManager::CALifeMonsterDetailPathManager(object_type* obje
     m_walked_distance               = 0.f;
 }
 
-void CALifeMonsterDetailPathManager::target(
-    const GameGraph::_GRAPH_ID& game_vertex_id,
-    const u32&                  level_vertex_id,
-    const Fvector&              position)
+void CALifeMonsterDetailPathManager::target(const GameGraph::_GRAPH_ID& game_vertex_id, const u32& level_vertex_id, const Fvector& position)
 {
     VERIFY(ai().game_graph().valid_vertex_id(game_vertex_id));
-    VERIFY(
-        (ai().game_graph().vertex(game_vertex_id)->level_id() != ai().alife().graph().level().level_id()) ||
-        ai().level_graph().valid_vertex_id(level_vertex_id));
-    VERIFY(
-        (ai().game_graph().vertex(game_vertex_id)->level_id() != ai().alife().graph().level().level_id()) ||
-        (ai().cross_table().vertex(level_vertex_id).game_vertex_id() == game_vertex_id));
-    VERIFY(
-        (ai().game_graph().vertex(game_vertex_id)->level_id() != ai().alife().graph().level().level_id()) ||
-        ai().level_graph().inside(level_vertex_id, position));
+    VERIFY((ai().game_graph().vertex(game_vertex_id)->level_id() != ai().alife().graph().level().level_id()) || ai().level_graph().valid_vertex_id(level_vertex_id));
+    VERIFY((ai().game_graph().vertex(game_vertex_id)->level_id() != ai().alife().graph().level().level_id()) || (ai().cross_table().vertex(level_vertex_id).game_vertex_id() == game_vertex_id));
+    VERIFY((ai().game_graph().vertex(game_vertex_id)->level_id() != ai().alife().graph().level().level_id()) || ai().level_graph().inside(level_vertex_id, position));
 
     m_destination.m_game_vertex_id  = game_vertex_id;
     m_destination.m_level_vertex_id = level_vertex_id;
@@ -58,9 +49,7 @@ void CALifeMonsterDetailPathManager::target(
 void CALifeMonsterDetailPathManager::target(const GameGraph::_GRAPH_ID& game_vertex_id)
 {
     VERIFY(ai().game_graph().valid_vertex_id(game_vertex_id));
-    target(
-        game_vertex_id, ai().game_graph().vertex(game_vertex_id)->level_vertex_id(),
-        ai().game_graph().vertex(game_vertex_id)->level_point());
+    target(game_vertex_id, ai().game_graph().vertex(game_vertex_id)->level_vertex_id(), ai().game_graph().vertex(game_vertex_id)->level_point());
 }
 
 void CALifeMonsterDetailPathManager::target(const CALifeSmartTerrainTask& task)
@@ -128,8 +117,7 @@ void CALifeMonsterDetailPathManager::actualize()
 
     typedef GraphEngineSpace::CGameVertexParams CGameVertexParams;
     CGameVertexParams                           temp   = CGameVertexParams(object().m_tpaTerrain);
-    bool                                        failed = !ai().graph_engine().search(
-        ai().game_graph(), object().get_object().m_tGraphID, m_destination.m_game_vertex_id, &m_path, temp);
+    bool                                        failed = !ai().graph_engine().search(ai().game_graph(), object().get_object().m_tGraphID, m_destination.m_game_vertex_id, &m_path, temp);
 
 #ifdef DEBUG
     if (failed)
@@ -137,18 +125,14 @@ void CALifeMonsterDetailPathManager::actualize()
         Msg("! %s couldn't build game path from", object().get_object().name_replace());
         {
             const IGameGraph::CVertex* vertex = ai().game_graph().vertex(object().get_object().m_tGraphID);
-            Msg("! [%d][%s][%f][%f][%f]", object().get_object().m_tGraphID,
-                *ai().game_graph().header().level(vertex->level_id()).name(), VPUSH(vertex->level_point()));
-            Msg("! game_graph_mask -> [ %d, %d, %d, %d]", vertex->vertex_type()[0], vertex->vertex_type()[1],
-                vertex->vertex_type()[2], vertex->vertex_type()[3]);
+            Msg("! [%d][%s][%f][%f][%f]", object().get_object().m_tGraphID, *ai().game_graph().header().level(vertex->level_id()).name(), VPUSH(vertex->level_point()));
+            Msg("! game_graph_mask -> [ %d, %d, %d, %d]", vertex->vertex_type()[0], vertex->vertex_type()[1], vertex->vertex_type()[2], vertex->vertex_type()[3]);
         }
 
         {
             const IGameGraph::CVertex* vertex = ai().game_graph().vertex(m_destination.m_game_vertex_id);
-            Msg("! [%d][%s][%f][%f][%f]", m_destination.m_game_vertex_id,
-                *ai().game_graph().header().level(vertex->level_id()).name(), VPUSH(vertex->level_point()));
-            Msg("! game_graph_mask -> [ %d, %d, %d, %d]", vertex->vertex_type()[0], vertex->vertex_type()[1],
-                vertex->vertex_type()[2], vertex->vertex_type()[3]);
+            Msg("! [%d][%s][%f][%f][%f]", m_destination.m_game_vertex_id, *ai().game_graph().header().level(vertex->level_id()).name(), VPUSH(vertex->level_point()));
+            Msg("! game_graph_mask -> [ %d, %d, %d, %d]", vertex->vertex_type()[0], vertex->vertex_type()[1], vertex->vertex_type()[2], vertex->vertex_type()[3]);
         }
         Msg("! List of available game_graph masks:");
         xr_vector<GameGraph::STerrainPlace>::iterator I = object().m_tpaTerrain.begin();
@@ -232,10 +216,9 @@ void CALifeMonsterDetailPathManager::follow_path(const ALife::_TIME_ID& time_del
     for (; m_path.size() > 1;)
     {
         setup_current_speed();
-        float update_distance = (last_time_delta / ai().alife().time_manager().normal_time_factor()) * speed();
+        float update_distance  = (last_time_delta / ai().alife().time_manager().normal_time_factor()) * speed();
 
-        float distance_between = ai().game_graph().distance(
-            object().get_object().m_tGraphID, (GameGraph::_GRAPH_ID)m_path[m_path.size() - 2]);
+        float distance_between = ai().game_graph().distance(object().get_object().m_tGraphID, (GameGraph::_GRAPH_ID)m_path[m_path.size() - 2]);
         if (distance_between > (update_distance + m_walked_distance))
         {
             m_walked_distance += update_distance;
@@ -250,14 +233,13 @@ void CALifeMonsterDetailPathManager::follow_path(const ALife::_TIME_ID& time_del
         update_distance += m_walked_distance;
         update_distance -= distance_between;
 
-        last_time_delta = update_distance * ai().alife().time_manager().normal_time_factor() / speed();
+        last_time_delta   = update_distance * ai().alife().time_manager().normal_time_factor() / speed();
 
         m_walked_distance = 0.f;
         m_path.pop_back();
         //		Msg									("%6d %s changes graph point from %d to
         //%d",Device->dwTimeGlobal,object().name_replace(),object().m_tGraphID,(GameGraph::_GRAPH_ID)m_path.back());
-        object().get_object().alife().graph().change(
-            &object().get_object(), object().get_object().m_tGraphID, (GameGraph::_GRAPH_ID)m_path.back());
+        object().get_object().alife().graph().change(&object().get_object(), object().get_object().m_tGraphID, (GameGraph::_GRAPH_ID)m_path.back());
         VERIFY(m_path.back() == object().get_object().m_tGraphID);
 
         object().on_location_change();

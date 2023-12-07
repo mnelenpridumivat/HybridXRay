@@ -126,9 +126,7 @@ void CActor::PickupModeUpdate()
         return;
 
     // подбирание объекта
-    if (m_pObjectWeLookingAt && m_pObjectWeLookingAt->cast_inventory_item() &&
-        m_pObjectWeLookingAt->cast_inventory_item()->Useful() && m_pUsableObject &&
-        !m_pUsableObject->nonscript_usable() && !Level().m_feel_deny.is_object_denied(m_pObjectWeLookingAt))
+    if (m_pObjectWeLookingAt && m_pObjectWeLookingAt->cast_inventory_item() && m_pObjectWeLookingAt->cast_inventory_item()->Useful() && m_pUsableObject && !m_pUsableObject->nonscript_usable() && !Level().m_feel_deny.is_object_denied(m_pObjectWeLookingAt))
     {
         m_pUsableObject->use(this);
         Game().SendPickUpEvent(ID(), m_pObjectWeLookingAt->ID());
@@ -294,9 +292,9 @@ void CActor::Check_for_AutoPickUp()
 
 void CActor::PickupInfoDraw(CObject* object)
 {
-    LPCSTR draw_str = NULL;
+    LPCSTR          draw_str = NULL;
 
-    CInventoryItem* item = smart_cast<CInventoryItem*>(object);
+    CInventoryItem* item     = smart_cast<CInventoryItem*>(object);
     if (!item)
         return;
 

@@ -13,7 +13,7 @@
 #include "ui/UIMapWnd.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -165,11 +165,10 @@ void CGameTaskManager::UpdateTasks()
 
     {
         typedef buffer_vector<SGameTaskKey> Tasks;
-        Tasks                               tasks(
-            _alloca(task_count * sizeof(SGameTaskKey)), task_count, GetGameTasks().begin(), GetGameTasks().end());
+        Tasks                               tasks(_alloca(task_count * sizeof(SGameTaskKey)), task_count, GetGameTasks().begin(), GetGameTasks().end());
 
-        Tasks::const_iterator I = tasks.begin();
-        Tasks::const_iterator E = tasks.end();
+        Tasks::const_iterator               I = tasks.begin();
+        Tasks::const_iterator               E = tasks.end();
         for (; I != E; ++I)
         {
             CGameTask* const t = (*I).game_task;
@@ -243,7 +242,7 @@ void CGameTaskManager::SetActiveTask(CGameTask* task)
 
 CUIMapWnd* GetMapWnd();
 
-void CGameTaskManager::MapLocationRelcase(CMapLocation* ml)
+void       CGameTaskManager::MapLocationRelcase(CMapLocation* ml)
 {
     CUIMapWnd* mwnd = GetMapWnd();
     if (mwnd)
@@ -351,7 +350,7 @@ u32 CGameTaskManager::GetTaskCount(ETaskState state)
 
 char* sTaskStates[] = {"eTaskStateFail", "TaskStateInProgress", "TaskStateCompleted", "TaskStateDummy"};
 
-void CGameTaskManager::DumpTasks()
+void  CGameTaskManager::DumpTasks()
 {
     vGameTasks_it it   = GetGameTasks().begin();
     vGameTasks_it it_e = GetGameTasks().end();

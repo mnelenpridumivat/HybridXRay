@@ -26,9 +26,9 @@ namespace file_transfer
         };
         ~filereceiver_node();
 
-        bool receive_packet(NET_Packet& packet);   // returns true if receiving is complete
-        bool is_complete();
-        void signal_callback(receiving_status_t status);
+        bool             receive_packet(NET_Packet& packet);   // returns true if receiving is complete
+        bool             is_complete();
+        void             signal_callback(receiving_status_t status);
 
         inline u32 const get_downloaded_size()
         {

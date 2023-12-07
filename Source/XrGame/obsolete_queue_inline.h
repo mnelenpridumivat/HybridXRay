@@ -1,6 +1,6 @@
 ﻿#include "../xrCore/buffer_vector.h"
 
-template <typename T, unsigned int MaxCount> class obsolete_queue<buffer_vector<T>, MaxCount>
+template<typename T, unsigned int MaxCount> class obsolete_queue<buffer_vector<T>, MaxCount>
 {
 public:
     typedef buffer_vector<T>                         container_type;

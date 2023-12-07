@@ -20,39 +20,39 @@ enum EEditMode
 
 class CParticleTool: public CToolCustom
 {
-    typedef CToolCustom inherited;
-    void                FillChooseParticleType(ChooseItemVec& items, void* param);
-    bool                m_CreatingParticle;
-    xr_string           m_CreatingParticlePath;
-    CEditableObject*    m_EditObject;
-    bool                m_bModified;
+    typedef CToolCustom  inherited;
+    void                 FillChooseParticleType(ChooseItemVec& items, void* param);
+    bool                 m_CreatingParticle;
+    xr_string            m_CreatingParticlePath;
+    CEditableObject*     m_EditObject;
+    bool                 m_bModified;
 
-    shared_str m_MotionName;
-    shared_str m_ObjectName;
+    shared_str           m_MotionName;
+    shared_str           m_ObjectName;
     // PE variables
     PS::CPEDef*          m_LibPED;
     PS::CParticleEffect* m_EditPE;
 
     // PG variables
-    PS::CPGDef*         m_LibPGD;
-    PS::CParticleGroup* m_EditPG;
+    PS::CPGDef*          m_LibPGD;
+    PS::CParticleGroup*  m_EditPG;
 
-    Fmatrix m_Transform;
-    Fvector m_Vel;
+    Fmatrix              m_Transform;
+    Fvector              m_Vel;
 
-    void OnItemModified(void);
+    void                 OnItemModified(void);
 
-    void OnParticleItemFocused(ListItem* items);
-    void OnParticleCloneItem(LPCSTR parent_path, LPCSTR new_full_name);
-    void OnParticleCreateItem(LPCSTR path);
-    void OnParticleItemRename(LPCSTR old_name, LPCSTR new_name, EItemType type);
-    void OnParticleItemRemove(LPCSTR name, EItemType type);
+    void                 OnParticleItemFocused(ListItem* items);
+    void                 OnParticleCloneItem(LPCSTR parent_path, LPCSTR new_full_name);
+    void                 OnParticleCreateItem(LPCSTR path);
+    void                 OnParticleItemRename(LPCSTR old_name, LPCSTR new_name, EItemType type);
+    void                 OnParticleItemRemove(LPCSTR name, EItemType type);
 
-    void RealUpdateProperties();
-    void SelectListItem(LPCSTR pref, LPCSTR name, bool bVal, bool bLeaveSel, bool bExpand);
+    void                 RealUpdateProperties();
+    void                 SelectListItem(LPCSTR pref, LPCSTR name, bool bVal, bool bLeaveSel, bool bExpand);
 
-    void RealApplyParent();
-    void ApplyParent(bool bForce = false)
+    void                 RealApplyParent();
+    void                 ApplyParent(bool bForce = false)
     {
         m_Flags.set(flApplyParent, TRUE);
         if (bForce)
@@ -102,13 +102,13 @@ public:
     Flags32 m_Flags;
 
 protected:
-    xr_string sel_eff_name;
+    xr_string        sel_eff_name;
 
     void             OnChangeMotion(PropValue* sender);
     void             OnChangeObject(PropValue* sender);
     CObjectAnimator* m_ParentAnimator;
 
-    void PrepareLighting();
+    void             PrepareLighting();
 
 public:
     CParticleTool();
@@ -126,14 +126,14 @@ public:
     {
         return m_bModified;
     }
-    virtual void Modified();
+    virtual void   Modified();
 
     virtual LPCSTR GetInfo();
 
-    virtual void ZoomObject(BOOL bSelOnly);
+    virtual void   ZoomObject(BOOL bSelOnly);
 
-    virtual bool Load(LPCSTR name);
-    virtual bool Save(LPCSTR name, bool bInternal = false)
+    virtual bool   Load(LPCSTR name);
+    virtual bool   Save(LPCSTR name, bool bInternal = false)
     {
         R_ASSERT(0);
         return true;
@@ -176,58 +176,58 @@ public:
         ;
     }
 
-    void PlayCurrent(int idx = -1);
-    void StopCurrent(bool bFinishPlaying);
-    void SelectEffect(LPCSTR name);
+    void         PlayCurrent(int idx = -1);
+    void         StopCurrent(bool bFinishPlaying);
+    void         SelectEffect(LPCSTR name);
 
-    void Rename(LPCSTR src_name, LPCSTR part_name, int part_idx);
-    void Rename(LPCSTR src_name, LPCSTR dest_name);
+    void         Rename(LPCSTR src_name, LPCSTR part_name, int part_idx);
+    void         Rename(LPCSTR src_name, LPCSTR dest_name);
 
     // PS routine
-    void CloneCurrent();
-    void ResetCurrent();
-    void RemoveCurrent();
-    void Remove(LPCSTR name);
+    void         CloneCurrent();
+    void         ResetCurrent();
+    void         RemoveCurrent();
+    void         Remove(LPCSTR name);
 
     // PG routine
-    PS::CPEDef* FindPE(LPCSTR name);
-    PS::CPEDef* AppendPE(PS::CPEDef* src, const char* path);
-    void        SetCurrentPE(PS::CPEDef* P);
-    void        CommandJumpToItem();
+    PS::CPEDef*  FindPE(LPCSTR name);
+    PS::CPEDef*  AppendPE(PS::CPEDef* src, const char* path);
+    void         SetCurrentPE(PS::CPEDef* P);
+    void         CommandJumpToItem();
 
     // PG routine
-    PS::CPGDef* FindPG(LPCSTR name);
-    PS::CPGDef* AppendPG(PS::CPGDef* src, const char* path);
-    void        SetCurrentPG(PS::CPGDef* P);
-    void        DrawReferenceList();
+    PS::CPGDef*  FindPG(LPCSTR name);
+    PS::CPGDef*  AppendPG(PS::CPGDef* src, const char* path);
+    void         SetCurrentPG(PS::CPGDef* P);
+    void         DrawReferenceList();
 
-    void SelectPreviewObject(int p);
-    void ResetPreviewObject();
-    void FillObjectPrefs();
+    void         SelectPreviewObject(int p);
+    void         ResetPreviewObject();
+    void         FillObjectPrefs();
 
-    bool Validate(bool bMsg);
+    bool         Validate(bool bMsg);
 
     virtual bool GetSelectionPosition(Fmatrix& result);
 
-    CCommandVar Compact(CCommandVar p1, CCommandVar p2);
-    CCommandVar CreateGroupFromSelected(CCommandVar p1, CCommandVar p2);
+    CCommandVar  Compact(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CreateGroupFromSelected(CCommandVar p1, CCommandVar p2);
     // commands
-    CCommandVar CommandSelectPreviewObj(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandEditPreviewProps(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandSave(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandSaveXR(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandLoadXR(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandSaveBackup(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandReload(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandValidate(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandClear(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandPlayCurrent(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandStopCurrent(CCommandVar p1, CCommandVar p2);
-    void        OnDrawUI();
+    CCommandVar  CommandSelectPreviewObj(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandEditPreviewProps(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandSave(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandSaveXR(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandLoadXR(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandSaveBackup(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandReload(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandValidate(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandClear(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandPlayCurrent(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandStopCurrent(CCommandVar p1, CCommandVar p2);
+    void         OnDrawUI();
 };
 #define SYSTEM_PREFIX "Systems"
 #define EFFECT_PREFIX "Effects"
-#define GROUP_PREFIX "Groups"
+#define GROUP_PREFIX  "Groups"
 extern CParticleTool* PTools;
 //---------------------------------------------------------------------------
 #endif

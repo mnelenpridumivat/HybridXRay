@@ -70,7 +70,7 @@ void CConsole::End_log()   // PAGE_DOWN+Ctrl
 
 void CConsole::Find_cmd()   // DIK_TAB
 {
-    shared_str out_str;
+    shared_str        out_str;
 
     IConsole_Command* cc = find_next_cmd(ec().str_edit(), out_str);
     if (cc && out_str.size())
@@ -81,12 +81,12 @@ void CConsole::Find_cmd()   // DIK_TAB
 
 void CConsole::Find_cmd_back()   // DIK_TAB+shift
 {
-    LPCSTR edt             = ec().str_edit();
-    LPCSTR radmin_cmd_name = "ra ";
-    bool   b_ra            = (edt == strstr(edt, radmin_cmd_name));
-    u32    offset          = (b_ra) ? xr_strlen(radmin_cmd_name) : 0;
+    LPCSTR    edt             = ec().str_edit();
+    LPCSTR    radmin_cmd_name = "ra ";
+    bool      b_ra            = (edt == strstr(edt, radmin_cmd_name));
+    u32       offset          = (b_ra) ? xr_strlen(radmin_cmd_name) : 0;
 
-    vecCMD_IT it = Commands.lower_bound(edt + offset);
+    vecCMD_IT it              = Commands.lower_bound(edt + offset);
     if (it != Commands.begin())
     {
         --it;

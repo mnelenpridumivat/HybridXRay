@@ -43,15 +43,15 @@ class CPHWorld:
     public pureRender
 #endif
 {
-    double           m_start_time;
-    u32              m_delay;
-    u32              m_previous_delay;
-    u32              m_reduce_delay;
-    u32              m_update_delay_count;
-    bool             b_world_freezed;
-    bool             b_processing;
-    bool             b_exist;
-    static const u32 update_delay = 1;
+    double                   m_start_time;
+    u32                      m_delay;
+    u32                      m_previous_delay;
+    u32                      m_reduce_delay;
+    u32                      m_update_delay_count;
+    bool                     b_world_freezed;
+    bool                     b_processing;
+    bool                     b_exist;
+    static const u32         update_delay = 1;
     ///	dSpaceID					Space														;
 
     CPHMesh                  Mesh;
@@ -62,10 +62,10 @@ class CPHWorld:
     PH_UPDATE_OBJECT_STORAGE m_freezed_update_objects;
     dGeomID                  m_motion_ray;
     // CPHCommander				*m_commander;
-    IPHWorldUpdateCallbck* m_update_callback;
-    CObjectSpace*          m_object_space;
-    CObjectList*           m_level_objects;
-    XrDeviceInterface*     m_device;
+    IPHWorldUpdateCallbck*   m_update_callback;
+    CObjectSpace*            m_object_space;
+    CObjectList*             m_level_objects;
+    XrDeviceInterface*       m_device;
     ;
 
 public:

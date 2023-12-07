@@ -6,7 +6,7 @@
 #define IC __forceinline
 #endif
 
-template <class T> struct _vector3
+template<class T> struct _vector3
 {
 public:
     typedef T           TYPE;
@@ -15,7 +15,7 @@ public:
     typedef const Self& SelfCRef;
 
 public:
-    T x, y, z;
+    T      x, y, z;
 
     // access operators
     ICF T& operator[](int i)
@@ -640,26 +640,26 @@ public:
             up.set(0.f, 0.f, 1.f);
             fInvLength = 1.f / _sqrt(dir.x * dir.x + dir.y * dir.y);
             // cross (up,dir) and normalize (right)
-            right.x = -dir.y * fInvLength;
-            right.y = dir.x * fInvLength;
-            right.z = 0.f;
+            right.x    = -dir.y * fInvLength;
+            right.y    = dir.x * fInvLength;
+            right.z    = 0.f;
             // cross (dir,right)
-            up.x = -dir.z * right.y;
-            up.y = dir.z * right.x;
-            up.z = dir.x * right.y - dir.y * right.x;
+            up.x       = -dir.z * right.y;
+            up.y       = dir.z * right.x;
+            up.z       = dir.x * right.y - dir.y * right.x;
         }
         else
         {
             up.set(0.f, 1.f, 0.f);
             fInvLength = 1.f / _sqrt(dir.x * dir.x + dir.z * dir.z);
             // cross (up,dir) and normalize (right)
-            right.x = dir.z * fInvLength;
-            right.y = 0.f;
-            right.z = -dir.x * fInvLength;
+            right.x    = dir.z * fInvLength;
+            right.y    = 0.f;
+            right.z    = -dir.x * fInvLength;
             // cross (dir,right)
-            up.x = dir.y * right.z;
-            up.y = dir.z * right.x - dir.x * right.z;
-            up.z = -dir.y * right.x;
+            up.x       = dir.y * right.z;
+            up.y       = dir.z * right.x - dir.x * right.z;
+            up.z       = -dir.y * right.x;
         }
     }
 };
@@ -670,14 +670,14 @@ typedef _vector3<double> Dvector3;
 typedef _vector3<s32>    Ivector;
 typedef _vector3<s32>    Ivector3;
 
-template <class T> BOOL _valid(const _vector3<T>& v)
+template<class T> BOOL   _valid(const _vector3<T>& v)
 {
     return _valid((T)v.x) && _valid((T)v.y) && _valid((T)v.z);
 }
 
 //////////////////////////////////////////////////////////////////////////
 #pragma warning(push)
-#pragma warning(disable : 4244)
+#pragma warning(disable:4244)
 ICF double rsqrt(double v)
 {
     return 1.0 / _sqrt(v);
@@ -721,7 +721,7 @@ IC BOOL exact_normalize(float* a)
     {
         if (aa2 > aa0)
         {
-        aa2_largest:   // aa2 is largest
+aa2_largest:   // aa2 is largest
             a0 /= aa2;
             a1 /= aa2;
             l    = rsqrt(a0 * a0 + a1 * a1 + 1);

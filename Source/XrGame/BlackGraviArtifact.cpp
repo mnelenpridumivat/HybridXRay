@@ -22,7 +22,7 @@ CBlackGraviArtefact::CBlackGraviArtefact(void)
     m_fRadius           = 10.f;
     m_fStrikeImpulse    = 50.f;
 
-    m_bStrike = false;
+    m_bStrike           = false;
 }
 
 CBlackGraviArtefact::~CBlackGraviArtefact(void)
@@ -76,8 +76,7 @@ void CBlackGraviArtefact::net_Relcase(CObject* O)
 {
     inherited::net_Relcase(O);
     // for vector
-    GAME_OBJECT_LIST_it I =
-        std::remove_if(m_GameObjectList.begin(), m_GameObjectList.end(), SRP(smart_cast<CPhysicsShellHolder*>(O)));
+    GAME_OBJECT_LIST_it I = std::remove_if(m_GameObjectList.begin(), m_GameObjectList.end(), SRP(smart_cast<CPhysicsShellHolder*>(O)));
     m_GameObjectList.erase(I, m_GameObjectList.end());
     // for list
     // m_GameObjectList.remove_if(SRP(smart_cast<CPhysicsShellHolder*>(O)));
@@ -125,7 +124,7 @@ void CBlackGraviArtefact::Hit(SHit* pHDS)
     SHit HDS = *pHDS;
     if (HDS.impulse > m_fImpulseThreshold)
     {
-        m_bStrike = true;
+        m_bStrike   = true;
         // чтоб выстрел не повлиял на траекторию полета артефакта
         HDS.impulse = 0;
     }
@@ -171,8 +170,8 @@ void CBlackGraviArtefact::GraviStrike()
     xr_list<s16>     elements_list;
     xr_list<Fvector> bone_position_list;
 
-    Fvector object_pos;
-    Fvector strike_dir;
+    Fvector          object_pos;
+    Fvector          strike_dir;
 
     rq_storage.r_clear();
 
@@ -188,7 +187,7 @@ void CBlackGraviArtefact::GraviStrike()
         strike_dir.sub(object_pos, Position());
         float distance = strike_dir.magnitude();
 
-        float impulse = 100.f * m_fStrikeImpulse * (1.f - (distance / m_fRadius) * (distance / m_fRadius));
+        float impulse  = 100.f * m_fStrikeImpulse * (1.f - (distance / m_fRadius) * (distance / m_fRadius));
 
         if (impulse > .001f)
         {
@@ -202,9 +201,7 @@ void CBlackGraviArtefact::GraviStrike()
         CEntityAlive* pEntityAlive = smart_cast<CEntityAlive*>(pGameObject);
         if (pGameObject->m_pPhysicsShell)
             hit_power = 0;
-        else if (
-            pEntityAlive && pEntityAlive->g_Alive() &&
-            pEntityAlive->character_physics_support()->movement()->CharacterExist())
+        else if (pEntityAlive && pEntityAlive->g_Alive() && pEntityAlive->character_physics_support()->movement()->CharacterExist())
             hit_power = 0;
         else
             hit_power = impulse;
@@ -213,13 +210,12 @@ void CBlackGraviArtefact::GraviStrike()
         {
             while (!elements_list.empty())
             {
-                s16     element  = elements_list.front();
-                Fvector bone_pos = bone_position_list.front();
+                s16        element  = elements_list.front();
+                Fvector    bone_pos = bone_position_list.front();
 
                 NET_Packet P;
                 SHit       HS;
-                HS.GenHeader(
-                    GE_HIT, pGameObject->ID());                //				u_EventGen		(P,GE_HIT, pGameObject->ID());
+                HS.GenHeader(GE_HIT, pGameObject->ID());       //				u_EventGen		(P,GE_HIT, pGameObject->ID());
                 HS.whoID           = ID();                     //				P.w_u16			(ID());
                 HS.weaponID        = ID();                     //				P.w_u16			(ID());
                 HS.dir             = strike_dir;               //				P.w_dir			(strike_dir);

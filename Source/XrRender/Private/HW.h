@@ -20,6 +20,7 @@ class CHW
 #endif   //	USE_DX10
 {
     //	Functions section
+
 public:
     CHW();
     ~CHW();
@@ -56,6 +57,7 @@ public:
 
 //	Variables section
 #if defined(USE_DX11)   //	USE_DX10
+
 public:
     IDXGIAdapter*           m_pAdapter;   //	pD3D equivalent
     ID3D11Device*           pDevice;      //	combine with DX9 pDevice via typedef
@@ -71,6 +73,7 @@ public:
     bool                    m_bUsePerfhud;
     D3D_FEATURE_LEVEL       FeatureLevel;
 #elif defined(USE_DX10)
+
 public:
     IDXGIAdapter*           m_pAdapter;   //	pD3D equivalent
     ID3D10Device1*          pDevice1;     //	combine with DX9 pDevice via typedef
@@ -88,8 +91,10 @@ public:
     bool                    m_bUsePerfhud;
     D3D_FEATURE_LEVEL       FeatureLevel;
 #else
+
 private:
     HINSTANCE hD3D;
+
 public:
     IDirect3D9*           pD3D;      // D3D
     IDirect3DDevice9*     pDevice;   // render device
@@ -114,6 +119,7 @@ public:
     virtual void  OnAppActivate();
     virtual void  OnAppDeactivate();
 #endif   //	USE_DX10
+
 private:
     bool m_move_window;
 };

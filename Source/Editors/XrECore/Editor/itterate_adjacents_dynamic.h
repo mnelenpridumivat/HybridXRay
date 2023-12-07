@@ -1,7 +1,7 @@
 ﻿#ifndef _ITTERATE_ADJACENTS_DYNAMIC_H_
 #define _ITTERATE_ADJACENTS_DYNAMIC_H_
 
-template <typename typeVertex> struct itterate_adjacents_params_dynamic
+template<typename typeVertex> struct itterate_adjacents_params_dynamic
 {
     typedef typeVertex                     type_vertex;
     typedef typename typeVertex::type_face type_face;
@@ -19,16 +19,9 @@ private:
 public:
     itterate_adjacents_params_dynamic(
 
-        Fvector&         _normal,
-        const u32*       _SmoothGroups,
-        const Fvector*   _FaceNormals,
-        const IntVec&    _a_lst,
-        const type_face* _Faces,
-        u32              _FaceCount):
+        Fvector& _normal, const u32* _SmoothGroups, const Fvector* _FaceNormals, const IntVec& _a_lst, const type_face* _Faces, u32 _FaceCount):
 
-        normal(_normal),
-        m_SmoothGroups(_SmoothGroups), m_FaceNormals(_FaceNormals), a_lst(_a_lst), m_Faces(_Faces),
-        m_FaceCount(_FaceCount)
+        normal(_normal), m_SmoothGroups(_SmoothGroups), m_FaceNormals(_FaceNormals), a_lst(_a_lst), m_Faces(_Faces), m_FaceCount(_FaceCount)
 
     {
         normal.set(0, 0, 0);
@@ -86,8 +79,7 @@ private:
     {
         VERIFY(start_face_idx < m_FaceCount);
         VERIFY(test_face_idx < m_FaceCount);
-        return do_connect_faces_by_faces_edge_flags(
-            m_SmoothGroups[start_face_idx], m_SmoothGroups[test_face_idx], start_common_edge_idx, test_common_edge_idx);
+        return do_connect_faces_by_faces_edge_flags(m_SmoothGroups[start_face_idx], m_SmoothGroups[test_face_idx], start_common_edge_idx, test_common_edge_idx);
     }
 
     IC bool is_processed(u32 adj_idx) const
@@ -115,20 +107,18 @@ public:
         if (is_processed(test_face_adj_idx))
             return false;
 
-        const type_face* start_face = current_adjacents_face(start_face_adj_idx);
-        const type_face* test_face  = current_adjacents_face(test_face_adj_idx);
+        const type_face* start_face                  = current_adjacents_face(start_face_adj_idx);
+        const type_face* test_face                   = current_adjacents_face(test_face_adj_idx);
 
-        u32 test_face_idx  = face_idx(test_face_adj_idx);
-        u32 start_face_idx = face_idx(start_face_adj_idx);
+        u32              test_face_idx               = face_idx(test_face_adj_idx);
+        u32              start_face_idx              = face_idx(start_face_adj_idx);
 
-        u16 StartFace_common_edge_index = u16(-1);
-        u16 TestFace_common_edge_index  = u16(-1);
+        u16              StartFace_common_edge_index = u16(-1);
+        u16              TestFace_common_edge_index  = u16(-1);
 
         if (has_same_edge(start_face, test_face, StartFace_common_edge_index, TestFace_common_edge_index))
         {
-            if ((start_face_idx == test_face_idx) ||
-                do_connect_faces(
-                    start_face_idx, test_face_idx, StartFace_common_edge_index, TestFace_common_edge_index))
+            if ((start_face_idx == test_face_idx) || do_connect_faces(start_face_idx, test_face_idx, StartFace_common_edge_index, TestFace_common_edge_index))
             {
                 set_processed(test_face_adj_idx);
                 add_adjacents(test_face_idx);

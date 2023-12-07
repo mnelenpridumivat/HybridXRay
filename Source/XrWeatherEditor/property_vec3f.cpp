@@ -11,10 +11,7 @@
 
 using XrWeatherEditor::vec3f;
 
-property_vec3f::property_vec3f(vec3f_getter_type const& getter, vec3f_setter_type const& setter):
-    m_getter(new vec3f_getter_type(getter)), m_setter(new vec3f_setter_type(setter)), inherited(getter())
-{
-}
+property_vec3f::property_vec3f(vec3f_getter_type const& getter, vec3f_setter_type const& setter): m_getter(new vec3f_getter_type(getter)), m_setter(new vec3f_setter_type(setter)), inherited(getter()) {}
 
 property_vec3f::~property_vec3f()
 {

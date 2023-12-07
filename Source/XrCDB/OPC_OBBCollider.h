@@ -49,38 +49,13 @@ public:
      *	\warning	SCALE NOT SUPPORTED. The matrices must contain rotation & translation parts only.
      */
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    bool Collide(
-        OBBCache&        cache,
-        const OBB&       box,
-        OPCODE_Model*    model,
-        const Matrix4x4* worldb = null,
-        const Matrix4x4* worldm = null);
+    bool         Collide(OBBCache& cache, const OBB& box, OPCODE_Model* model, const Matrix4x4* worldb = null, const Matrix4x4* worldm = null);
 
     // Collision queries
-    bool Collide(
-        OBBCache&                cache,
-        const OBB&               box,
-        const AABBCollisionTree* tree,
-        const Matrix4x4*         worldb = null,
-        const Matrix4x4*         worldm = null);
-    bool Collide(
-        OBBCache&             cache,
-        const OBB&            box,
-        const AABBNoLeafTree* tree,
-        const Matrix4x4*      worldb = null,
-        const Matrix4x4*      worldm = null);
-    bool Collide(
-        OBBCache&                cache,
-        const OBB&               box,
-        const AABBQuantizedTree* tree,
-        const Matrix4x4*         worldb = null,
-        const Matrix4x4*         worldm = null);
-    bool Collide(
-        OBBCache&                      cache,
-        const OBB&                     box,
-        const AABBQuantizedNoLeafTree* tree,
-        const Matrix4x4*               worldb = null,
-        const Matrix4x4*               worldm = null);
+    bool         Collide(OBBCache& cache, const OBB& box, const AABBCollisionTree* tree, const Matrix4x4* worldb = null, const Matrix4x4* worldm = null);
+    bool         Collide(OBBCache& cache, const OBB& box, const AABBNoLeafTree* tree, const Matrix4x4* worldb = null, const Matrix4x4* worldm = null);
+    bool         Collide(OBBCache& cache, const OBB& box, const AABBQuantizedTree* tree, const Matrix4x4* worldb = null, const Matrix4x4* worldm = null);
+    bool         Collide(OBBCache& cache, const OBB& box, const AABBQuantizedNoLeafTree* tree, const Matrix4x4* worldb = null, const Matrix4x4* worldm = null);
     // Settings
 
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -106,45 +81,45 @@ public:
 
 protected:
     // Precomputed data
-    Matrix3x3 mAR;            //!< Absolute rotation matrix
-    Matrix3x3 mRModelToBox;   //!< Rotation from model space to obb space
-    Matrix3x3 mRBoxToModel;   //!< Rotation from obb space to model space
-    Point     mTModelToBox;   //!< Translation from model space to obb space
-    Point     mTBoxToModel;   //!< Translation from obb space to model space
+    Matrix3x3    mAR;            //!< Absolute rotation matrix
+    Matrix3x3    mRModelToBox;   //!< Rotation from model space to obb space
+    Matrix3x3    mRBoxToModel;   //!< Rotation from obb space to model space
+    Point        mTModelToBox;   //!< Translation from model space to obb space
+    Point        mTBoxToModel;   //!< Translation from obb space to model space
 
-    Point mBoxExtents;
-    Point mB0;   //!< - mTModelToBox + mBoxExtents
-    Point mB1;   //!< - mTModelToBox - mBoxExtents
+    Point        mBoxExtents;
+    Point        mB0;   //!< - mTModelToBox + mBoxExtents
+    Point        mB1;   //!< - mTModelToBox - mBoxExtents
 
-    float mBBx1;
-    float mBBy1;
-    float mBBz1;
+    float        mBBx1;
+    float        mBBy1;
+    float        mBBz1;
 
-    float mBB_1;
-    float mBB_2;
-    float mBB_3;
-    float mBB_4;
-    float mBB_5;
-    float mBB_6;
-    float mBB_7;
-    float mBB_8;
-    float mBB_9;
+    float        mBB_1;
+    float        mBB_2;
+    float        mBB_3;
+    float        mBB_4;
+    float        mBB_5;
+    float        mBB_6;
+    float        mBB_7;
+    float        mBB_8;
+    float        mBB_9;
 
     // Leaf description
-    Point mLeafVerts[3];    //!< Triangle vertices
-                            // Settings
-    bool mFullBoxBoxTest;   //!< Perform full BV-BV tests (true) or SAT-lite tests (false)
-                            // Internal methods
-    void _Collide(const AABBCollisionNode* node);
-    void _Collide(const AABBNoLeafNode* node);
-    void _Collide(const AABBQuantizedNode* node);
-    void _Collide(const AABBQuantizedNoLeafNode* node);
+    Point        mLeafVerts[3];     //!< Triangle vertices
+                                    // Settings
+    bool         mFullBoxBoxTest;   //!< Perform full BV-BV tests (true) or SAT-lite tests (false)
+                                    // Internal methods
+    void         _Collide(const AABBCollisionNode* node);
+    void         _Collide(const AABBNoLeafNode* node);
+    void         _Collide(const AABBQuantizedNode* node);
+    void         _Collide(const AABBQuantizedNoLeafNode* node);
     // Overlap tests
     inline_ BOOL OBBContainsBox(const Point& bc, const Point& be);
     inline_ BOOL BoxBoxOverlap(const Point& extents, const Point& center);
     inline_ BOOL TriBoxOverlap();
     // Init methods
-    BOOL InitQuery(OBBCache& cache, const OBB& box, const Matrix4x4* worldb = null, const Matrix4x4* worldm = null);
+    BOOL         InitQuery(OBBCache& cache, const OBB& box, const Matrix4x4* worldb = null, const Matrix4x4* worldm = null);
 };
 
 #endif   // __OPC_OBBCOLLIDER_H__

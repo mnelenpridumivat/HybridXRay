@@ -31,8 +31,7 @@ void xrServer::SecureSendTo(xrClientData* xrCL, NET_Packet& P, u32 dwFlags, u32 
 
     enc_packet.w_begin(M_SECURE_MESSAGE);
     enc_packet.w(P.B.data, P.B.count);
-    u32 checksum = secure_messaging::encrypt(
-        enc_packet.B.data + sizeof(u16), enc_packet.B.count - sizeof(u16), xrCL->m_secret_key);
+    u32 checksum = secure_messaging::encrypt(enc_packet.B.data + sizeof(u16), enc_packet.B.count - sizeof(u16), xrCL->m_secret_key);
     enc_packet.w_u32(checksum);
     SendTo(xrCL->ID, enc_packet, dwFlags, dwTimeout);
 }

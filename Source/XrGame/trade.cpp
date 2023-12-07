@@ -161,8 +161,8 @@ void CTrade::OnPerformTrade(u32 money_get, u32 money_put)
 
 void CTrade::StopTrade()
 {
-    TradeState        = false;
-    m_dwLastTradeTime = 0;
+    TradeState          = false;
+    m_dwLastTradeTime   = 0;
     //	Msg("--TRADE:: [%s]: Trade stopped...",*pThis.base->cName());
 
     CAI_Trader* pTrader = NULL;

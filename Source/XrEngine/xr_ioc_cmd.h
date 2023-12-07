@@ -284,8 +284,7 @@ protected:
     float  min, max;
 
 public:
-    CCC_Float(LPCSTR N, float* V, float _min = 0, float _max = 1):
-        IConsole_Command(N), value(V), min(_min), max(_max){};
+    CCC_Float(LPCSTR N, float* V, float _min = 0, float _max = 1): IConsole_Command(N), value(V), min(_min), max(_max){};
     const float GetValue() const
     {
         return *value;
@@ -375,9 +374,7 @@ public:
     virtual void fill_tips(vecTips& tips, u32 mode)
     {
         TStatus str;
-        xr_sprintf(
-            str, sizeof(str), "(%e, %e, %e)  (current)  [(%e,%e,%e)-(%e,%e,%e)]", value->x, value->y, value->z, min.x,
-            min.y, min.z, max.x, max.y, max.z);
+        xr_sprintf(str, sizeof(str), "(%e, %e, %e)  (current)  [(%e,%e,%e)-(%e,%e,%e)]", value->x, value->y, value->z, min.x, min.y, min.z, max.x, max.y, max.z);
         tips.push_back(str);
         IConsole_Command::fill_tips(tips, mode);
     }

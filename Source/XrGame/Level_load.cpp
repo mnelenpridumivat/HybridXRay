@@ -20,8 +20,7 @@ BOOL CLevel::Load_GameSpecific_Before()
     g_pGamePersistent->LoadTitle();
     string_path fn_game;
 
-    if (GamePersistent().GameType() == eGameIDSingle && !ai().get_alife() && FS.exist(fn_game, "$level$", "level.ai") &&
-        !net_Hosts.empty())
+    if (GamePersistent().GameType() == eGameIDSingle && !ai().get_alife() && FS.exist(fn_game, "$level$", "level.ai") && !net_Hosts.empty())
         ai().load(net_SessionName());
 
     if (!g_dedicated_server && !ai().get_alife() && ai().get_game_graph() && FS.exist(fn_game, "$level$", "level.game"))
@@ -122,7 +121,7 @@ BOOL CLevel::Load_GameSpecific_After()
             u16      version = F->r_u16();
             if (version == 2)
             {
-                u32 cnt = F->r_u32();
+                u32     cnt = F->r_u32();
 
                 Fmatrix volume_matrix;
                 for (u32 i = 0; i < cnt; ++i)
@@ -145,18 +144,14 @@ BOOL CLevel::Load_GameSpecific_After()
         ai().script_engine().remove_script_process(ScriptEngine::eScriptProcessorLevel);
 
         if (pLevel->section_exist("level_scripts") && pLevel->line_exist("level_scripts", "script"))
-            ai().script_engine().add_script_process(
-                ScriptEngine::eScriptProcessorLevel,
-                xr_new<CScriptProcess>("level", pLevel->r_string("level_scripts", "script")));
+            ai().script_engine().add_script_process(ScriptEngine::eScriptProcessorLevel, xr_new<CScriptProcess>("level", pLevel->r_string("level_scripts", "script")));
         else
-            ai().script_engine().add_script_process(
-                ScriptEngine::eScriptProcessorLevel, xr_new<CScriptProcess>("level", ""));
+            ai().script_engine().add_script_process(ScriptEngine::eScriptProcessorLevel, xr_new<CScriptProcess>("level", ""));
     }
 
     BlockCheatLoad();
 
-    g_pGamePersistent->EnvironmentAsCOP()->SetGameTime(
-        GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
+    g_pGamePersistent->EnvironmentAsCOP()->SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
 
     return TRUE;
 }
@@ -166,7 +161,7 @@ struct translation_pair
     u32 m_id;
     u16 m_index;
 
-    IC translation_pair(u32 id, u16 index)
+    IC  translation_pair(u32 id, u16 index)
     {
         m_id    = id;
         m_index = index;

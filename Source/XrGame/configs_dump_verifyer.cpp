@@ -14,8 +14,7 @@ namespace mp_anticheat
     {
         m_original_config.start_dump();
         while (m_original_config.dump_one(m_orig_config_body))
-        {
-        };
+        {};
         m_orig_config_end_pos = m_orig_config_body.tell();
     }
 
@@ -35,7 +34,8 @@ namespace mp_anticheat
             }
             --rbegin;
             --r_size;
-        } while (r_size > 0);
+        }
+        while (r_size > 0);
         return NULL;
     }
 
@@ -50,23 +50,18 @@ namespace mp_anticheat
         IReader  tmp_reader(tmp_info_sect, tmp_info_sect_size);
         CInifile tmp_ini(&tmp_reader);
 
-        if (!tmp_ini.line_exist(cd_info_secion, cd_player_name_key) ||
-            !tmp_ini.line_exist(cd_info_secion, cd_player_digest_key) ||
-            !tmp_ini.line_exist(cd_info_secion, cd_creation_date) ||
-            !tmp_ini.line_exist(cd_info_secion, cd_digital_sign_key))
+        if (!tmp_ini.line_exist(cd_info_secion, cd_player_name_key) || !tmp_ini.line_exist(cd_info_secion, cd_player_digest_key) || !tmp_ini.line_exist(cd_info_secion, cd_creation_date) || !tmp_ini.line_exist(cd_info_secion, cd_digital_sign_key))
         {
             return false;
         }
 
-        char* dst_buffer  = tmp_info_sect;
-        *dst_buffer       = 0;
-        u32 dst_size      = static_cast<u32>((data + data_size) - (u8*)dst_buffer);
-        u32 src_data_size = data_size - dst_size;
+        char* dst_buffer     = tmp_info_sect;
+        *dst_buffer          = 0;
+        u32    dst_size      = static_cast<u32>((data + data_size) - (u8*)dst_buffer);
+        u32    src_data_size = data_size - dst_size;
 
-        LPCSTR add_str = NULL;
-        STRCONCAT(
-            add_str, tmp_ini.r_string(cd_info_secion, cd_player_name_key),
-            tmp_ini.r_string(cd_info_secion, cd_player_digest_key), tmp_ini.r_string(cd_info_secion, cd_creation_date));
+        LPCSTR add_str       = NULL;
+        STRCONCAT(add_str, tmp_ini.r_string(cd_info_secion, cd_player_name_key), tmp_ini.r_string(cd_info_secion, cd_player_digest_key), tmp_ini.r_string(cd_info_secion, cd_creation_date));
 
         shared_str tmp_dsign = tmp_ini.r_string(cd_info_secion, cd_digital_sign_key);
 
@@ -186,27 +181,21 @@ namespace mp_anticheat
         m_orig_config_body.seek(m_orig_config_end_pos);
         tmp_active_params.save_as(m_orig_config_body);
 
-        if (!tmp_ini.line_exist(cd_info_secion, cd_player_name_key) ||
-            !tmp_ini.line_exist(cd_info_secion, cd_player_digest_key) ||
-            !tmp_ini.line_exist(cd_info_secion, cd_creation_date) ||
-            !tmp_ini.line_exist(cd_info_secion, cd_digital_sign_key))
+        if (!tmp_ini.line_exist(cd_info_secion, cd_player_name_key) || !tmp_ini.line_exist(cd_info_secion, cd_player_digest_key) || !tmp_ini.line_exist(cd_info_secion, cd_creation_date) || !tmp_ini.line_exist(cd_info_secion, cd_digital_sign_key))
         {
             xr_strcpy(diff, "invalid dump");
             return false;
         }
 
         LPCSTR add_str = NULL;
-        STRCONCAT(
-            add_str, tmp_ini.r_string(cd_info_secion, cd_player_name_key),
-            tmp_ini.r_string(cd_info_secion, cd_player_digest_key), tmp_ini.r_string(cd_info_secion, cd_creation_date));
+        STRCONCAT(add_str, tmp_ini.r_string(cd_info_secion, cd_player_name_key), tmp_ini.r_string(cd_info_secion, cd_player_digest_key), tmp_ini.r_string(cd_info_secion, cd_creation_date));
 
         m_orig_config_body.w_stringZ(add_str);
 
         crypto::xr_sha256 tmp_sha_checksum;
         tmp_sha_checksum.start_calculate(m_orig_config_body.pointer(), m_orig_config_body.tell());
         while (!tmp_sha_checksum.continue_calculate())
-        {
-        };
+        {};
 
         u8 tmp_checksum[crypto::xr_sha256::digest_length];
         if (!verify_dsign(data, data_size, tmp_checksum))

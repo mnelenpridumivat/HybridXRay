@@ -121,7 +121,8 @@ void CUIKickPlayer::OnBtnOk()
             case MODE_KICK:
                 xr_sprintf(command, "cl_votestart kick %s", item->GetText());
                 break;
-            case MODE_BAN: {
+            case MODE_BAN:
+            {
                 xr_sprintf(command, "cl_votestart ban %s %d", item->GetText(), m_spin_ban_sec->Value());
             }
             break;
@@ -149,15 +150,15 @@ void CUIKickPlayer::Update()
     if (m_prev_upd_time > Device->dwTimeContinual - 1000)
         return;
 
-    m_prev_upd_time = Device->dwTimeContinual;
+    m_prev_upd_time                                     = Device->dwTimeContinual;
 
-    const game_cl_GameState::PLAYERS_MAP& items = Game().players;
+    const game_cl_GameState::PLAYERS_MAP&  items        = Game().players;
 
-    game_cl_GameState::PLAYERS_MAP_CIT I = items.begin();
-    game_cl_GameState::PLAYERS_MAP_CIT E = items.end();
+    game_cl_GameState::PLAYERS_MAP_CIT     I            = items.begin();
+    game_cl_GameState::PLAYERS_MAP_CIT     E            = items.end();
 
-    bool bNeedRefresh = false;
-    bool bHasSelected = false;
+    bool                                   bNeedRefresh = false;
+    bool                                   bHasSelected = false;
 
     xr_vector<game_PlayerState*>::iterator fit;   //, fite;
     for (; I != E; ++I)

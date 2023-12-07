@@ -23,23 +23,23 @@ extern "C"
     ///////////////////////////////////////////////////////////////////////////////
     // Input levels (text is reported at one of these levels)
     typedef gsi_u8 GSIDebugLevel;
-#define GSIDebugLevel_HotError (GSIDebugLevel)(1 << 0)     //  1 Unexpected Error
-#define GSIDebugLevel_WarmError (GSIDebugLevel)(1 << 1)    //  2 Expected Error
-#define GSIDebugLevel_Warning (GSIDebugLevel)(1 << 2)      //  4 Warnings and Errors
-#define GSIDebugLevel_Notice (GSIDebugLevel)(1 << 3)       //  8 Usefull debug info
-#define GSIDebugLevel_Comment (GSIDebugLevel)(1 << 4)      // 16 Debug spam
-#define GSIDebugLevel_RawDump (GSIDebugLevel)(1 << 5)      // 32 e.g. MemoryBuffer
+#define GSIDebugLevel_HotError   (GSIDebugLevel)(1 << 0)   //  1 Unexpected Error
+#define GSIDebugLevel_WarmError  (GSIDebugLevel)(1 << 1)   //  2 Expected Error
+#define GSIDebugLevel_Warning    (GSIDebugLevel)(1 << 2)   //  4 Warnings and Errors
+#define GSIDebugLevel_Notice     (GSIDebugLevel)(1 << 3)   //  8 Usefull debug info
+#define GSIDebugLevel_Comment    (GSIDebugLevel)(1 << 4)   // 16 Debug spam
+#define GSIDebugLevel_RawDump    (GSIDebugLevel)(1 << 5)   // 32 e.g. MemoryBuffer
 #define GSIDebugLevel_StackTrace (GSIDebugLevel)(1 << 6)   // 64 Important function entries
 // add new ones here (update string table in gsiDebug.c!)
-#define GSIDebugLevel_Count 7   // 7 reporting levels
+#define GSIDebugLevel_Count      7   // 7 reporting levels
 
 // Output levels (a mask for the levels you want to receive)
 // (update string table in gsiDebug.c!)
-#define GSIDebugLevel_None (GSIDebugLevel)(0)          //    No output
-#define GSIDebugLevel_Normal (GSIDebugLevel)(0x07)     //    Warnings and above
-#define GSIDebugLevel_Debug (GSIDebugLevel)(0x0F)      //    Notice and above
-#define GSIDebugLevel_Verbose (GSIDebugLevel)(0x1F)    //    Comment and above
-#define GSIDebugLevel_Hardcore (GSIDebugLevel)(0xFF)   //    Recv all
+#define GSIDebugLevel_None       (GSIDebugLevel)(0)      //    No output
+#define GSIDebugLevel_Normal     (GSIDebugLevel)(0x07)   //    Warnings and above
+#define GSIDebugLevel_Debug      (GSIDebugLevel)(0x0F)   //    Notice and above
+#define GSIDebugLevel_Verbose    (GSIDebugLevel)(0x1F)   //    Comment and above
+#define GSIDebugLevel_Hardcore   (GSIDebugLevel)(0xFF)   //    Recv all
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -132,10 +132,10 @@ typedef void (*GSIDebugCallback)(GSIDebugCategory, GSIDebugType, GSIDebugLevel, 
 typedef struct GSIDebugInstance
 {
 #if !defined(_NITRO)
-    FILE*              mGSIDebugFile;
+    FILE* mGSIDebugFile;
 #endif
-    GSIDebugCallback   mDebugCallback;
-    gsi_i32            mInitialized;
+    GSIDebugCallback mDebugCallback;
+    gsi_i32          mInitialized;
 
 #if !defined(GSI_NO_THREADS)
     GSICriticalSection mDebugCrit;
@@ -149,19 +149,9 @@ typedef struct GSIDebugInstance
 // Logging functions
 void gsDebugFormat(GSIDebugCategory theCat, GSIDebugType theType, GSIDebugLevel theLevel, const char* theTokenStr, ...);
 
-void gsDebugVaList(
-    GSIDebugCategory theCat,
-    GSIDebugType     theType,
-    GSIDebugLevel    theLevel,
-    const char*      theTokenStr,
-    va_list          theParams);
+void gsDebugVaList(GSIDebugCategory theCat, GSIDebugType theType, GSIDebugLevel theLevel, const char* theTokenStr, va_list theParams);
 
-void gsDebugBinary(
-    GSIDebugCategory theCat,
-    GSIDebugType     theType,
-    GSIDebugLevel    theLevel,
-    const char*      theBuffer,
-    gsi_i32          theLength);
+void gsDebugBinary(GSIDebugCategory theCat, GSIDebugType theType, GSIDebugLevel theLevel, const char* theBuffer, gsi_i32 theLength);
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
@@ -171,7 +161,7 @@ void gsSetDebugLevel(GSIDebugCategory theCat, GSIDebugType theType, GSIDebugLeve
 #if !defined(_NITRO)
 
 // Set the output file (NULL for no file)
-void gsSetDebugFile(FILE* theFile);
+void  gsSetDebugFile(FILE* theFile);
 
 // Open and set the debug file
 FILE* gsOpenDebugFile(const char* theFileName);

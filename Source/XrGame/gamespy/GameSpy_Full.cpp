@@ -13,11 +13,11 @@
 
 CGameSpy_Full::CGameSpy_Full()
 {
-    m_pGSA         = NULL;
-    m_pGS_Patching = NULL;
-    m_pGS_HTTP     = NULL;
-    m_pGS_SB       = NULL;
-    m_pGS_GP       = NULL;
+    m_pGSA                    = NULL;
+    m_pGS_Patching            = NULL;
+    m_pGS_HTTP                = NULL;
+    m_pGS_SB                  = NULL;
+    m_pGS_GP                  = NULL;
 
     m_hGameSpyDLL             = NULL;
     m_bServicesAlreadyChecked = false;

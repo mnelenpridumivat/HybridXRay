@@ -15,19 +15,19 @@ private:
     DEFINE_VECTOR(COMotion*, MotionVec, MotionIt);
 
 protected:
-    bool bLoop;
+    bool        bLoop;
 
-    shared_str m_Name;
+    shared_str  m_Name;
 
     Fmatrix     m_XFORM;
     SAnimParams m_MParam;
     MotionVec   m_Motions;
     float       m_Speed;
 
-    COMotion* m_Current;
-    void      LoadMotions(LPCSTR fname);
-    void      SetActiveMotion(COMotion* mot);
-    COMotion* FindMotionByName(LPCSTR name);
+    COMotion*   m_Current;
+    void        LoadMotions(LPCSTR fname);
+    void        SetActiveMotion(COMotion* mot);
+    COMotion*   FindMotionByName(LPCSTR name);
 
 public:
     CObjectAnimator();
@@ -61,8 +61,8 @@ public:
     }
     float GetLength();
     // Update
-    void Update(float dt);
-    void DrawPath();
+    void  Update(float dt);
+    void  DrawPath();
 };
 
 #endif   // ObjectAnimatorH

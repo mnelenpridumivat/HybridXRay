@@ -17,7 +17,7 @@
 xr_map<shared_str, TEX_INFO> CUITextureMaster::m_textures;
 xr_map<sh_pair, ui_shader>   CUITextureMaster::m_shaders;
 
-void CUITextureMaster::FreeTexInfo()
+void                         CUITextureMaster::FreeTexInfo()
 {
     m_textures.clear();
     FreeCachedShaders();
@@ -40,14 +40,14 @@ void CUITextureMaster::ParseShTexInfo(LPCSTR xml_file)
         XML_NODE*  root_node = xml.GetLocalRoot();
         shared_str file      = xml.ReadAttrib("file", fi, "name");
 
-        XML_NODE* node = xml.NavigateToNode("file", fi);
+        XML_NODE*  node      = xml.NavigateToNode("file", fi);
 
-        int num = xml.GetNodesNum(node, "texture");
+        int        num       = xml.GetNodesNum(node, "texture");
         for (int i = 0; i < num; i++)
         {
             TEX_INFO info;
 
-            info.file = file;
+            info.file     = file;
 
             info.rect.x1  = xml.ReadAttribFlt(node, "texture", i, "x");
             info.rect.x2  = xml.ReadAttribFlt(node, "texture", i, "width") + info.rect.x1;
@@ -66,11 +66,7 @@ bool CUITextureMaster::IsSh(const shared_str& texture_name)
     return strstr(texture_name.c_str(), "\\") ? false : true;
 }
 
-void CUITextureMaster::InitTexture(
-    const shared_str& texture_name,
-    const shared_str& shader_name,
-    ui_shader&        out_shader,
-    Frect&            out_rect)
+void CUITextureMaster::InitTexture(const shared_str& texture_name, const shared_str& shader_name, ui_shader& out_shader, Frect& out_rect)
 {
     xr_map<shared_str, TEX_INFO>::iterator it = m_textures.find(texture_name);
     if (it != m_textures.end())

@@ -12,7 +12,7 @@ int EDetailManager::RaySelect(int flag, float& dist, const Fvector& start, const
     Fvector P;
     int     sx = -1, sz = -1;
 
-    int count = 0;
+    int     count = 0;
 
     for (u32 z = 0; z < dtH.size_z; z++)
     {
@@ -57,7 +57,7 @@ int EDetailManager::FrustumSelect(int flag, const CFrustum& frustum)
     if (!m_Flags.is(flSlotBoxesDraw))
         return 0;
 
-    int count = 0;
+    int   count = 0;
 
     float fx, fz;
     Fbox  bbox;

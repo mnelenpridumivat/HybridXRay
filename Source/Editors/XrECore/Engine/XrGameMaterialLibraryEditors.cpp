@@ -426,8 +426,7 @@ BOOL SGameMtlPairEditor::SetParent(int parent)
     int ID_parent_save = ID_parent;
     ID_parent          = parent;
 
-    for (GameMtlPairIt it = GameMaterialLibraryEditors->FirstMaterialPair();
-         it != GameMaterialLibraryEditors->LastMaterialPair(); it++)
+    for (GameMtlPairIt it = GameMaterialLibraryEditors->FirstMaterialPair(); it != GameMaterialLibraryEditors->LastMaterialPair(); it++)
     {
         if (!ValidateParent(*it, GameMaterialLibraryEditors->GetMaterialPair((*it)->GetParent())))
         {
@@ -454,12 +453,10 @@ BOOL SGameMtlPairEditor::SetParent(int parent)
 
 void SGameMtlPairEditor::FillChooseMtl(ChooseItemVec& items, void* param)
 {
-    for (GameMtlIt m0_it = GameMaterialLibraryEditors->FirstMaterial();
-         m0_it != GameMaterialLibraryEditors->LastMaterial(); m0_it++)
+    for (GameMtlIt m0_it = GameMaterialLibraryEditors->FirstMaterial(); m0_it != GameMaterialLibraryEditors->LastMaterial(); m0_it++)
     {
         SGameMtl* M0 = *m0_it;
-        for (GameMtlIt m1_it = GameMaterialLibraryEditors->FirstMaterial();
-             m1_it != GameMaterialLibraryEditors->LastMaterial(); m1_it++)
+        for (GameMtlIt m1_it = GameMaterialLibraryEditors->FirstMaterial(); m1_it != GameMaterialLibraryEditors->LastMaterial(); m1_it++)
         {
             SGameMtl*     M1   = *m1_it;
             GameMtlPairIt p_it = GameMaterialLibraryEditors->GetMaterialPairIt(M0->GetID(), M1->GetID());
@@ -474,13 +471,12 @@ void SGameMtlPairEditor::OnParentClick(ButtonValue* V, bool& bModif, bool& bSafe
     bModif = false;
     switch (V->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             LPCSTR        MP = 0;
             SGameMtlPair* P  = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
             xr_string     nm = P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION;
-            UIChooseForm::SelectItem(
-                smCustom, 1, (nm == NONE_CAPTION) ? 0 : nm.c_str(),
-                TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
+            UIChooseForm::SelectItem(smCustom, 1, (nm == NONE_CAPTION) ? 0 : nm.c_str(), TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
             m_EditParent = true;
         }
         break;
@@ -492,7 +488,8 @@ void SGameMtlPairEditor::OnCommandClick(ButtonValue* V, bool& bModif, bool& bSaf
     bModif = false;
     switch (V->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             SGameMtlPair* P  = GameMaterialLibraryEditors->GetMaterialPair(ID_parent);
             xr_string     nm = P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION;
             UIChooseForm::SelectItem(smCustom, 128, 0, TOnChooseFillItems(this, &SGameMtlPairEditor::FillChooseMtl));
@@ -516,20 +513,14 @@ void SGameMtlPairEditor::FillProp(PropItemVec& items)
     ButtonValue* B;
     B = PHelper().CreateButton(items, "Command", "Set As Parent To...", 0);
     B->OnBtnClickEvent.bind(this, &SGameMtlPairEditor::OnCommandClick);
-    B = PHelper().CreateButton(
-        items, "Parent", P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION, 0);
+    B = PHelper().CreateButton(items, "Parent", P ? GameMaterialLibraryEditors->MtlPairToName(P->GetMtl0(), P->GetMtl1()) : NONE_CAPTION, 0);
     B->OnBtnClickEvent.bind(this, &SGameMtlPairEditor::OnParentClick);
 
-    propBreakingSounds =
-        PHelper().CreateChoose(items, "Breaking Sounds", &BreakingSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propStepSounds =
-        PHelper().CreateChoose(items, "Step Sounds", &StepSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT + 2);
-    propCollideSounds =
-        PHelper().CreateChoose(items, "Collide Sounds", &CollideSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propCollideParticles =
-        PHelper().CreateChoose(items, "Collide Particles", &CollideParticles, smParticles, 0, 0, GAMEMTL_SUBITEM_COUNT);
-    propCollideMarks =
-        PHelper().CreateChoose(items, "Collide Marks", &CollideMarks, smTexture, 0, 0, GAMEMTL_SUBITEM_COUNT);
+    propBreakingSounds   = PHelper().CreateChoose(items, "Breaking Sounds", &BreakingSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
+    propStepSounds       = PHelper().CreateChoose(items, "Step Sounds", &StepSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT + 2);
+    propCollideSounds    = PHelper().CreateChoose(items, "Collide Sounds", &CollideSounds, smSoundSource, 0, 0, GAMEMTL_SUBITEM_COUNT);
+    propCollideParticles = PHelper().CreateChoose(items, "Collide Particles", &CollideParticles, smParticles, 0, 0, GAMEMTL_SUBITEM_COUNT);
+    propCollideMarks     = PHelper().CreateChoose(items, "Collide Marks", &CollideMarks, smTexture, 0, 0, GAMEMTL_SUBITEM_COUNT);
 
     propBreakingSounds->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flBreakingSounds));
     propStepSounds->Owner()->m_Flags.assign(SetMask(show_CB, OwnProps, flStepSounds));
@@ -577,18 +568,18 @@ void SGameMtlPairEditor::TransferFromParent(SGameMtlPairEditor* parent)
 void SGameMtlPairEditor::CopyFrom(SGameMtlPairEditor* parent)
 {
     R_ASSERT(parent);
-    OwnProps  = parent->OwnProps;
-    ID_parent = parent->ID_parent;
+    OwnProps         = parent->OwnProps;
+    ID_parent        = parent->ID_parent;
 
-    BreakingSounds = parent->BreakingSounds;
+    BreakingSounds   = parent->BreakingSounds;
 
-    StepSounds = parent->StepSounds;
+    StepSounds       = parent->StepSounds;
 
-    CollideSounds = parent->CollideSounds;
+    CollideSounds    = parent->CollideSounds;
 
     CollideParticles = parent->CollideParticles;
 
-    CollideMarks = parent->CollideMarks;
+    CollideMarks     = parent->CollideMarks;
 }
 
 SGameMtlPairEditor::SGameMtlPairEditor(XrGameMaterialLibraryInterface* owner): SGameMtlPair(owner)
@@ -781,8 +772,7 @@ void SGameMtlPairEditor::OnDrawUI()
                 {
                     int m0, m1;
                     GameMaterialLibraryEditors->NameToMtlPair(it->c_str(), m0, m1);
-                    SGameMtlPairEditor* p =
-                        static_cast<SGameMtlPairEditor*>(GameMaterialLibraryEditors->GetMaterialPair(m0, m1));
+                    SGameMtlPairEditor* p = static_cast<SGameMtlPairEditor*>(GameMaterialLibraryEditors->GetMaterialPair(m0, m1));
                     VERIFY(p);
                     if (!p->SetParent(GetID()))
                     {

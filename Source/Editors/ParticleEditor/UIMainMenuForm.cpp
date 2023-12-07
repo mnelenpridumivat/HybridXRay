@@ -161,12 +161,7 @@ void UIMainMenuForm::Draw()
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::BeginMenu("Fill Mode"_RU >> u8"Режим отображения"))
                 {
-                    bool selected[3] =
-                    {
-                        EDevice->dwFillMode == D3DFILL_POINT,
-                        EDevice->dwFillMode == D3DFILL_WIREFRAME,
-                        EDevice->dwFillMode == D3DFILL_SOLID
-                    };
+                    bool selected[3] = {EDevice->dwFillMode == D3DFILL_POINT, EDevice->dwFillMode == D3DFILL_WIREFRAME, EDevice->dwFillMode == D3DFILL_SOLID};
                     if (ImGui::MenuItem("Point"_RU >> u8"Точки", "", &selected[0]))
                     {
                         EDevice->dwFillMode = D3DFILL_POINT;
@@ -194,11 +189,7 @@ void UIMainMenuForm::Draw()
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                 if (ImGui::BeginMenu("Shader Mode"_RU >> u8"Режим Теней"))
                 {
-                    bool selected[2] =
-                    {
-                        EDevice->dwShadeMode == D3DSHADE_FLAT,
-                        EDevice->dwShadeMode == D3DSHADE_GOURAUD
-                    };
+                    bool selected[2] = {EDevice->dwShadeMode == D3DSHADE_FLAT, EDevice->dwShadeMode == D3DSHADE_GOURAUD};
                     if (ImGui::MenuItem("Flat"_RU >> u8"Плоские", "", &selected[0]))
                     {
                         EDevice->dwShadeMode = D3DSHADE_FLAT;
@@ -366,8 +357,7 @@ void UIMainMenuForm::Draw()
                 if (ImGui::IsItemHovered())
                 {
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
-                    ImGui::SetTooltip("Opens the ImGui Demo Helper, where you can get acquainted with ImGui functionality, visually see demo examples, etc. and so on.."_RU >>
-                                    u8"Открывает Демонстрационный Хелпер по ImGui, где можно ознакомиться с функционалом ImGui, наглядно посмотреть демонстрационные примеры и т.д. и т.п..");
+                    ImGui::SetTooltip("Opens the ImGui Demo Helper, where you can get acquainted with ImGui functionality, visually see demo examples, etc. and so on.."_RU >> u8"Открывает Демонстрационный Хелпер по ImGui, где можно ознакомиться с функционалом ImGui, наглядно посмотреть демонстрационные примеры и т.д. и т.п..");
                 }
             }
             ImGui::EndMenu();

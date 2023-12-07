@@ -1,4 +1,4 @@
-// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
+﻿// Copyright (c) 2003 Daniel Wallin and Arvid Norberg
 
 // Permission is hereby granted, free of charge, to any person obtaining a
 // copy of this software and associated documentation files (the "Software"),
@@ -28,46 +28,38 @@
 
 namespace luabind
 {
-	class_info get_class_info(const object& o)
-	{
-		lua_State* L = o.lua_state();
-	
-		class_info Result(L);
-	
-		o.pushvalue();
-		detail::object_rep* obj = static_cast<detail::object_rep*>(lua_touserdata(L, -1));
-		lua_pop(L, 1);
+    class_info get_class_info(const object& o)
+    {
+        lua_State* L = o.lua_state();
 
-		Result.name = obj->crep()->name();
-		obj->crep()->get_table(L);
-		Result.methods.set();
+        class_info Result(L);
 
-		Result.attributes = newtable(L);
+        o.pushvalue();
+        detail::object_rep* obj = static_cast<detail::object_rep*>(lua_touserdata(L, -1));
+        lua_pop(L, 1);
 
-		typedef detail::class_rep::property_map map_type;
-		
-		unsigned int index = 1;
-		
-		for (map_type::const_iterator i = obj->crep()->properties().begin();
-				i != obj->crep()->properties().end(); ++i)
-		{
-			Result.attributes[index] = i->first;
-		}
+        Result.name = obj->crep()->name();
+        obj->crep()->get_table(L);
+        Result.methods.set();
 
-		return Result;
-	}
+        Result.attributes = newtable(L);
 
-	void bind_class_info(lua_State* L)
-	{
-		module(L)
-		[
-			class_<class_info>("class_info_data")
-				.def_readonly("name", &class_info::name)
-				.def_readonly("methods", &class_info::methods)
-				.def_readonly("attributes", &class_info::attributes),
-		
-			def("class_info", &get_class_info)
-		];
-	}
-}
+        typedef detail::class_rep::property_map map_type;
 
+        unsigned int                            index = 1;
+
+        for (map_type::const_iterator i = obj->crep()->properties().begin(); i != obj->crep()->properties().end(); ++i)
+        {
+            Result.attributes[index] = i->first;
+        }
+
+        return Result;
+    }
+
+    void bind_class_info(lua_State* L)
+    {
+        module(L)[class_<class_info>("class_info_data").def_readonly("name", &class_info::name).def_readonly("methods", &class_info::methods).def_readonly("attributes", &class_info::attributes),
+
+            def("class_info", &get_class_info)];
+    }
+}   // namespace luabind

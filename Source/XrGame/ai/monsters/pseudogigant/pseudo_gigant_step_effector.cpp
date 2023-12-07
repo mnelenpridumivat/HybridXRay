@@ -1,10 +1,9 @@
 ﻿#include "stdafx.h"
 #include "pseudo_gigant_step_effector.h"
 
-CPseudogigantStepEffector::CPseudogigantStepEffector(float time, float amp, float periods, float power):
-    CEffectorCam(eCEPseudoGigantStep, time)
+CPseudogigantStepEffector::CPseudogigantStepEffector(float time, float amp, float periods, float power): CEffectorCam(eCEPseudoGigantStep, time)
 {
-    total = time;
+    total         = time;
 
     max_amp       = amp * power;
     period_number = periods;
@@ -18,7 +17,7 @@ BOOL CPseudogigantStepEffector::ProcessCam(SCamEffectorInfo& info)
         return FALSE;
 
     // процент оставшегося времени
-    float time_left_perc = fLifeTime / total;
+    float   time_left_perc = fLifeTime / total;
 
     // Инициализация
     Fmatrix Mdef;
@@ -28,9 +27,9 @@ BOOL CPseudogigantStepEffector::ProcessCam(SCamEffectorInfo& info)
     Mdef.i.crossproduct(info.n, info.d);
     Mdef.c.set(info.p);
 
-    float period_all = period_number * PI_MUL_2;   // макс. значение цикла
-    float k          = 1 - time_left_perc + EPS_L + (1 - power);
-    float cur_amp    = max_amp * (PI / 180) / (10 * k * k);
+    float   period_all = period_number * PI_MUL_2;   // макс. значение цикла
+    float   k          = 1 - time_left_perc + EPS_L + (1 - power);
+    float   cur_amp    = max_amp * (PI / 180) / (10 * k * k);
 
     Fvector dangle;
     dangle.x = cur_amp / 2 * _sin(period_all * (1.0f - time_left_perc));

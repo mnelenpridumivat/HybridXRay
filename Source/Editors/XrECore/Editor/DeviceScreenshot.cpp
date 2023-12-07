@@ -19,16 +19,13 @@ bool CEditorRenderDevice::MakeScreenshot(U32Vec& pixels, u32 width, u32 height)
     IDirect3DSurface9* pRT    = 0;
     IDirect3DSurface9* poldRT = 0;
     D3DVIEWPORT9       oldViewport;
-    SetRS(
-        D3DRS_COLORWRITEENABLE,
-        D3DCOLORWRITEENABLE_ALPHA | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_RED);
+    SetRS(D3DRS_COLORWRITEENABLE, D3DCOLORWRITEENABLE_ALPHA | D3DCOLORWRITEENABLE_BLUE | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_RED);
     CHK_DX(HW.pDevice->GetRenderTarget(0, &poldRT));
     CHK_DX(HW.pDevice->GetDepthStencilSurface(&poldZB));
     CHK_DX(HW.pDevice->GetViewport(&oldViewport));
 
     CHK_DX(HW.pDevice->CreateRenderTarget(width, height, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, 0, FALSE, &pRT, 0));
-    CHK_DX(HW.pDevice->CreateDepthStencilSurface(
-        width, height, HW.Caps.bStencil ? D3DFMT_D24S8 : D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, FALSE, &pZB, 0));
+    CHK_DX(HW.pDevice->CreateDepthStencilSurface(width, height, HW.Caps.bStencil ? D3DFMT_D24S8 : D3DFMT_D24X8, D3DMULTISAMPLE_NONE, 0, FALSE, &pZB, 0));
     CHK_DX(HW.pDevice->SetRenderTarget(0, pRT));
     CHK_DX(HW.pDevice->SetDepthStencilSurface(pZB));
 
@@ -48,7 +45,7 @@ bool CEditorRenderDevice::MakeScreenshot(U32Vec& pixels, u32 width, u32 height)
     // Image processing
     u32* pPixel = (u32*)D.pBits;
 
-    u32* it = pixels.data();
+    u32* it     = pixels.data();
     for (int h = height - 1; h >= 0; h--, it += width)
     {
         LPDWORD dt = LPDWORD(size_t(pPixel) + size_t(D.Pitch * h));

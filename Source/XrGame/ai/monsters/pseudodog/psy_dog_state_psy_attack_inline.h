@@ -2,7 +2,7 @@
 
 #include "psy_dog_state_psy_attack_hide.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION       template<typename _Object>
 
 #define CStatePsyDogPsyAttackAbstract CStatePsyDogPsyAttack<_Object>
 

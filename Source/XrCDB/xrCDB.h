@@ -48,10 +48,10 @@ namespace CDB
             };
             struct
             {
-                u32 material : 14;          //
-                u32 suppress_shadows : 1;   //
-                u32 suppress_wm : 1;        //
-                u32 sector : 16;            //
+                u32 material        :14;   //
+                u32 suppress_shadows:1;    //
+                u32 suppress_wm     :1;    //
+                u32 sector          :16;   //
             };
 
             void* pointer;
@@ -69,7 +69,7 @@ namespace CDB
     };
 
     // Build callback
-    typedef void build_callback(Fvector* V, int Vcnt, TRI* T, int Tcnt, void* params);
+    typedef void    build_callback(Fvector* V, int Vcnt, TRI* T, int Tcnt, void* params);
 
     // Model definition
     class XRCDB_API MODEL
@@ -89,10 +89,10 @@ namespace CDB
         u32                   status;   // 0=ready, 1=init, 2=building
 
         // tris
-        TRI*     tris;
-        int      tris_count;
-        Fvector* verts;
-        int      verts_count;
+        TRI*                  tris;
+        int                   tris_count;
+        Fvector*              verts;
+        int                   verts_count;
 
     public:
         MODEL();
@@ -148,10 +148,10 @@ namespace CDB
             u32 dummy;   // 4b
             struct
             {
-                u32 material : 14;          //
-                u32 suppress_shadows : 1;   //
-                u32 suppress_wm : 1;        //
-                u32 sector : 16;            //
+                u32 material        :14;   //
+                u32 suppress_shadows:1;    //
+                u32 suppress_wm     :1;    //
+                u32 sector          :16;   //
             };
         };
         int   id;
@@ -172,9 +172,9 @@ namespace CDB
     class XRCDB_API COLLIDER
     {
         // Ray data and methods
-        u32 ray_mode;
-        u32 box_mode;
-        u32 frustum_mode;
+        u32               ray_mode;
+        u32               box_mode;
+        u32               frustum_mode;
 
         // Result management
         xr_vector<RESULT> rd;
@@ -187,19 +187,19 @@ namespace CDB
         {
             ray_mode = f;
         }
-        void ray_query(const MODEL* m_def, const Fvector& r_start, const Fvector& r_dir, float r_range = 10000.f);
+        void     ray_query(const MODEL* m_def, const Fvector& r_start, const Fvector& r_dir, float r_range = 10000.f);
 
         ICF void box_options(u32 f)
         {
             box_mode = f;
         }
-        void box_query(const MODEL* m_def, const Fvector& b_center, const Fvector& b_dim);
+        void     box_query(const MODEL* m_def, const Fvector& b_center, const Fvector& b_dim);
 
         ICF void frustum_options(u32 f)
         {
             frustum_mode = f;
         }
-        void frustum_query(const MODEL* m_def, const CFrustum& F);
+        void        frustum_query(const MODEL* m_def, const CFrustum& F);
 
         ICF RESULT* r_begin()
         {
@@ -231,21 +231,15 @@ namespace CDB
         xr_vector<Fvector> verts;
         xr_vector<TRI>     faces;
 
-        u32 VPack(const Fvector& V, float eps);
+        u32                VPack(const Fvector& V, float eps);
 
     public:
-        void add_face(const Fvector& v0, const Fvector& v1, const Fvector& v2, u16 material, u16 sector);
-        void add_face_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy);
-        void add_face_packed(
-            const Fvector& v0,
-            const Fvector& v1,
-            const Fvector& v2,
-            u16            material,
-            u16            sector,
-            float          eps = EPS);
-        void add_face_packed_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy, float eps = EPS);
-        void remove_duplicate_T();
-        void calc_adjacency(xr_vector<u32>& dest);
+        void     add_face(const Fvector& v0, const Fvector& v1, const Fvector& v2, u16 material, u16 sector);
+        void     add_face_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy);
+        void     add_face_packed(const Fvector& v0, const Fvector& v1, const Fvector& v2, u16 material, u16 sector, float eps = EPS);
+        void     add_face_packed_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy, float eps = EPS);
+        void     remove_duplicate_T();
+        void     calc_adjacency(xr_vector<u32>& dest);
 
         Fvector* getV()
         {
@@ -280,7 +274,7 @@ namespace CDB
     };
 
 #pragma warning(push)
-#pragma warning(disable : 4275)
+#pragma warning(disable:4275)
     const u32       clpMX = 24, clpMY = 16, clpMZ = 24;
     class XRCDB_API CollectorPacked: public non_copyable
     {
@@ -295,7 +289,7 @@ namespace CDB
         DWORDList          VM[clpMX + 1][clpMY + 1][clpMZ + 1];
         Fvector            VMeps;
 
-        u32 VPack(const Fvector& V);
+        u32                VPack(const Fvector& V);
 
     public:
         CollectorPacked(const Fbox& bb, int apx_vertices = 5000, int apx_faces = 5000);
@@ -305,9 +299,9 @@ namespace CDB
         //			verts
         //		}
 
-        void add_face(const Fvector& v0, const Fvector& v1, const Fvector& v2, u16 material, u16 sector, u32 flags);
-        void add_face_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy, u32 flags);
-        void add_face_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, void* pointer, u32 flags);
+        void                add_face(const Fvector& v0, const Fvector& v1, const Fvector& v2, u16 material, u16 sector, u32 flags);
+        void                add_face_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, u32 dummy, u32 flags);
+        void                add_face_D(const Fvector& v0, const Fvector& v1, const Fvector& v2, void* pointer, u32 flags);
 
         xr_vector<Fvector>& getV_Vec()
         {

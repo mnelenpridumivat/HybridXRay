@@ -466,10 +466,7 @@ CSE_ALifeMonsterAbstract *tpALifeMonsterAbstract2) const
         return(ALife::eRelationTypeNeutral);
 }
 /**/
-void CALifeCombatManager::kill_entity(
-    CSE_ALifeMonsterAbstract*   l_tpALifeMonsterAbstract,
-    const GameGraph::_GRAPH_ID& l_tGraphID,
-    CSE_ALifeSchedulable*       schedulable)
+void CALifeCombatManager::kill_entity(CSE_ALifeMonsterAbstract* l_tpALifeMonsterAbstract, const GameGraph::_GRAPH_ID& l_tGraphID, CSE_ALifeSchedulable* schedulable)
 {
     VERIFY(l_tpALifeMonsterAbstract->g_Alive());
     append_item_vector(l_tpALifeMonsterAbstract->children, m_temp_item_vector);

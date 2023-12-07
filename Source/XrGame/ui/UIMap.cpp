@@ -109,9 +109,8 @@ Fvector2 CUICustomMap::ConvertLocalToReal(const Fvector2& src, Frect const& boun
     return res;
 }
 
-Fvector2 CUICustomMap::ConvertRealToLocal(
-    const Fvector2& src,
-    bool            for_drawing)   // meters->pixels (relatively own left-top pos)
+Fvector2 CUICustomMap::ConvertRealToLocal(const Fvector2& src,
+    bool                                                  for_drawing)   // meters->pixels (relatively own left-top pos)
 {
     Fvector2 res;
     if (!Heading())
@@ -126,7 +125,7 @@ Fvector2 CUICustomMap::ConvertRealToLocal(
     {
         Fvector2 heading_pivot = GetStaticItem()->GetHeadingPivot();
 
-        res = ConvertRealToLocalNoTransform(src, BoundRect());
+        res                    = ConvertRealToLocalNoTransform(src, BoundRect());
         res.sub(heading_pivot);
         rotation_(res.x, res.y, GetHeading(), res.x, res.y, for_drawing ? UI().get_current_kx() : 1.0f);
 
@@ -135,9 +134,8 @@ Fvector2 CUICustomMap::ConvertRealToLocal(
     return res;
 }
 
-Fvector2 CUICustomMap::ConvertRealToLocalNoTransform(
-    const Fvector2& src,
-    Frect const&    bound_rect)   // meters->pixels (relatively own left-top pos)
+Fvector2 CUICustomMap::ConvertRealToLocalNoTransform(const Fvector2& src,
+    Frect const&                                                     bound_rect)   // meters->pixels (relatively own left-top pos)
 {
     Fvector2 res;
     res.x = (src.x - bound_rect.lt.x) * GetCurrentZoom().x;
@@ -322,9 +320,8 @@ void CUIGlobalMap::ClipByVisRect()
     SetWndPos(r.lt);
 }
 
-Fvector2 CUIGlobalMap::ConvertRealToLocal(
-    const Fvector2& src,
-    bool            for_drawing)   // pixels->pixels (relatively own left-top pos)
+Fvector2 CUIGlobalMap::ConvertRealToLocal(const Fvector2& src,
+    bool                                                  for_drawing)   // pixels->pixels (relatively own left-top pos)
 {
     Fvector2 res;
     res.x = (src.x - BoundRect().lt.x) * GetCurrentZoom().x;
@@ -348,9 +345,9 @@ float CUIGlobalMap::CalcOpenRect(const Fvector2& center_point, Frect& map_desire
     // calculate center point in new zoom (center_point is in identity global map space)
     new_center_pt.set(center_point.x * tgt_zoom, center_point.y * tgt_zoom);
     // get vis width & height
-    Frect vis_abs_rect = m_mapWnd->ActiveMapRect();
-    float vis_w        = vis_abs_rect.width();
-    float vis_h        = vis_abs_rect.height();
+    Frect    vis_abs_rect = m_mapWnd->ActiveMapRect();
+    float    vis_w        = vis_abs_rect.width();
+    float    vis_h        = vis_abs_rect.height();
     // calculate center delta from vis rect
     Fvector2 delta_pos;
     delta_pos.set(new_center_pt.x - vis_w * 0.5f, new_center_pt.y - vis_h * 0.5f);
@@ -441,8 +438,7 @@ void CUILevelMap::Init_internal(const shared_str& name, CInifile& pLtx, const sh
     if (FALSE == fsimilar(kw, kh, EPS_L))
     {
         Msg(" --incorrect global rect definition for map [%s]  kw=%f kh=%f", *MapName(), kw, kh);
-        Msg(" --try x2=%f or  y2=%f", m_GlobalRect.x1 + kh * BoundRect().width(),
-            m_GlobalRect.y1 + kw * BoundRect().height());
+        Msg(" --try x2=%f or  y2=%f", m_GlobalRect.x1 + kh * BoundRect().width(), m_GlobalRect.y1 + kw * BoundRect().height());
     }
 #endif
 }
@@ -477,8 +473,8 @@ Frect CUILevelMap::CalcWndRectOnGlobal()
     Frect         res;
     CUIGlobalMap* globalMap = MapWnd()->GlobalMap();
 
-    res.lt = globalMap->ConvertRealToLocal(GlobalRect().lt, false);
-    res.rb = globalMap->ConvertRealToLocal(GlobalRect().rb, false);
+    res.lt                  = globalMap->ConvertRealToLocal(GlobalRect().lt, false);
+    res.rb                  = globalMap->ConvertRealToLocal(GlobalRect().rb, false);
     res.add(globalMap->GetWndPos().x, globalMap->GetWndPos().y);
 
     return res;
@@ -587,10 +583,10 @@ void CUIMiniMap::Draw()
     UIRender->SetShader(*m_UIStaticItem.GetShader());
     UIRender->StartPrimitive(segments_count * 3, IUIRender::ptTriList, UI().m_currentPointType);
 
-    u32   color = m_UIStaticItem.GetTextureColor();
-    float angle = GetHeading();
+    u32     color = m_UIStaticItem.GetTextureColor();
+    float   angle = GetHeading();
 
-    float kx = UI().get_current_kx();
+    float   kx    = UI().get_current_kx();
 
     // clip poly
     sPoly2D S;
@@ -600,8 +596,8 @@ void CUIMiniMap::Draw()
     Fvector2 center;
     WorkingArea().getcenter(center);
 
-    float tt_radius   = pt_radius / GetWidth();
-    float k_tt_height = GetWidth() / GetHeight();
+    float    tt_radius   = pt_radius / GetWidth();
+    float    k_tt_height = GetWidth() / GetHeight();
 
     Fvector2 tt_offset;
     tt_offset.set(m_UIStaticItem.vHeadingPivot);
@@ -648,7 +644,7 @@ bool CUIMiniMap::GetPointerTo(const Fvector2& src, float item_radius, Fvector2& 
     Fvector2 direction;
 
     direction.sub(clip_center, src);
-    heading = -direction.getH();
+    heading     = -direction.getH();
 
     float kx    = UI().get_current_kx();
     float cosPT = _cos(heading);
@@ -677,6 +673,5 @@ bool CUIMiniMap::IsRectVisible(Frect r)
     Fvector2 rect_center;
     r.getcenter(rect_center);
     float spot_radius = r.width() / 2.0f;
-    return clip_center.distance_to(rect_center) + spot_radius <
-        vis_radius;   // assume that all minimap spots are circular
+    return clip_center.distance_to(rect_center) + spot_radius < vis_radius;   // assume that all minimap spots are circular
 }

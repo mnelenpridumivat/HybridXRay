@@ -26,21 +26,21 @@
 
 extern int keyname_to_dik(LPCSTR);
 
-#define ARIAL_FONT_NAME "arial"
+#define ARIAL_FONT_NAME       "arial"
 
-#define MEDIUM_FONT_NAME "medium"
-#define SMALL_FONT_NAME "small"
+#define MEDIUM_FONT_NAME      "medium"
+#define SMALL_FONT_NAME       "small"
 
-#define GRAFFITI19_FONT_NAME "graffiti19"
-#define GRAFFITI22_FONT_NAME "graffiti22"
-#define GRAFFITI32_FONT_NAME "graffiti32"
-#define GRAFFITI50_FONT_NAME "graffiti50"
+#define GRAFFITI19_FONT_NAME  "graffiti19"
+#define GRAFFITI22_FONT_NAME  "graffiti22"
+#define GRAFFITI32_FONT_NAME  "graffiti32"
+#define GRAFFITI50_FONT_NAME  "graffiti50"
 
 #define LETTERICA16_FONT_NAME "letterica16"
 #define LETTERICA18_FONT_NAME "letterica18"
 #define LETTERICA25_FONT_NAME "letterica25"
 
-#define DI_FONT_NAME "di"
+#define DI_FONT_NAME          "di"
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -172,7 +172,7 @@ bool CUIXmlInit::InitStatic(CUIXml& xml_doc, LPCSTR path, int index, CUIStatic* 
     int    flag_texture = xml_doc.ReadAttribInt(path, index, "la_texture", 1);
     int    flag_alpha   = xml_doc.ReadAttribInt(path, index, "la_alpha", 0);
 
-    u8 flags = 0;
+    u8     flags        = 0;
     if (flag_cyclic)
         flags |= LA_CYCLIC;
     if (flag_alpha)
@@ -211,7 +211,7 @@ bool CUIXmlInit::InitTextWnd(CUIXml& xml_doc, LPCSTR path, int index, CUITextWnd
     int    flag_cyclic = xml_doc.ReadAttribInt(path, index, "la_cyclic", 1);
     int    flag_alpha  = xml_doc.ReadAttribInt(path, index, "la_alpha", 0);
 
-    u8 flags = LA_TEXTCOLOR;
+    u8     flags       = LA_TEXTCOLOR;
     if (flag_cyclic)
         flags |= LA_CYCLIC;
     if (flag_alpha)
@@ -352,13 +352,13 @@ bool CUIXmlInit::InitText(CUIXml& xml_doc, LPCSTR path, int index, CUILines* pLi
 ////////////////////////////////////////////////////////////////////////////////////////////
 extern int keyname_to_dik(LPCSTR);
 
-bool CUIXmlInit::Init3tButton(CUIXml& xml_doc, LPCSTR path, int index, CUI3tButton* pWnd)
+bool       CUIXmlInit::Init3tButton(CUIXml& xml_doc, LPCSTR path, int index, CUI3tButton* pWnd)
 {
     R_ASSERT4(xml_doc.NavigateToNode(path, index), "XML node not found", path, xml_doc.m_xml_file_name);
 
     pWnd->m_frameline_mode = (xml_doc.ReadAttribInt(path, index, "frame_mode", 0) == 1) ? true : false;
 
-    pWnd->vertical = (xml_doc.ReadAttribInt(path, index, "vertical", 0) == 1) ? true : false;
+    pWnd->vertical         = (xml_doc.ReadAttribInt(path, index, "vertical", 0) == 1) ? true : false;
 
     InitWindow(xml_doc, path, index, pWnd);
     pWnd->InitButton(pWnd->GetWndPos(), pWnd->GetWndSize());
@@ -431,8 +431,8 @@ bool CUIXmlInit::InitTabButtonMP(CUIXml& xml_doc, LPCSTR path, int index, CUITab
         pWnd->m_text_ident_cursor_over.x = xml_doc.ReadAttribFlt(buff, index, "over_x", 0);
         pWnd->m_text_ident_cursor_over.y = xml_doc.ReadAttribFlt(buff, index, "over_y", 0);
 
-        pWnd->m_text_ident_normal.x = xml_doc.ReadAttribFlt(buff, index, "normal_x", 0);
-        pWnd->m_text_ident_normal.y = xml_doc.ReadAttribFlt(buff, index, "normal_y", 0);
+        pWnd->m_text_ident_normal.x      = xml_doc.ReadAttribFlt(buff, index, "normal_x", 0);
+        pWnd->m_text_ident_normal.y      = xml_doc.ReadAttribFlt(buff, index, "normal_y", 0);
     }
 
     strconcat(sizeof(buff), buff, path, ":hint");
@@ -538,8 +538,8 @@ bool CUIXmlInit::InitProgressBar(CUIXml& xml_doc, LPCSTR path, int index, CUIPro
 
     InitAlignment(xml_doc, path, index, pos.x, pos.y, pWnd);
 
-    size.x = xml_doc.ReadAttribFlt(path, index, "width");
-    size.y = xml_doc.ReadAttribFlt(path, index, "height");
+    size.x                                = xml_doc.ReadAttribFlt(path, index, "width");
+    size.y                                = xml_doc.ReadAttribFlt(path, index, "height");
 
     CUIProgressBar::EOrientMode mode      = CUIProgressBar::om_vert;
     int                         mode_horz = xml_doc.ReadAttribInt(path, index, "horz", 0);
@@ -600,7 +600,7 @@ bool CUIXmlInit::InitProgressBar(CUIXml& xml_doc, LPCSTR path, int index, CUIPro
     {
         pWnd->m_bUseColor = true;
 
-        u32 color = GetColor(xml_doc, buf, index, 0xff);
+        u32 color         = GetColor(xml_doc, buf, index, 0xff);
         pWnd->m_minColor.set(color);
 
         strconcat(sizeof(buf), buf, path, ":middle_color");
@@ -740,7 +740,7 @@ void CUIXmlInit::InitAutoFrameLineGroup(CUIXml& xml_doc, LPCSTR path, int index,
 
 bool CUIXmlInit::InitFont(CUIXml& xml_doc, LPCSTR path, int index, u32& color, CGameFont*& pFnt)
 {
-    color = GetColor(xml_doc, path, index, 0xff);
+    color            = GetColor(xml_doc, path, index, 0xff);
 
     LPCSTR font_name = xml_doc.ReadAttrib(path, index, "font", NULL);
     if (!font_name)
@@ -811,10 +811,10 @@ bool CUIXmlInit::InitTabControl(CUIXml& xml_doc, LPCSTR path, int index, CUITabC
 
     status &= InitWindow(xml_doc, path, index, pWnd);
     InitOptionsItem(xml_doc, path, index, pWnd);
-    int tabsCount = xml_doc.GetNodesNum(path, index, "button");
-    int radio     = xml_doc.ReadAttribInt(path, index, "radio");
+    int       tabsCount = xml_doc.GetNodesNum(path, index, "button");
+    int       radio     = xml_doc.ReadAttribInt(path, index, "radio");
 
-    XML_NODE* tab_node = xml_doc.NavigateToNode(path, index);
+    XML_NODE* tab_node  = xml_doc.NavigateToNode(path, index);
     xml_doc.SetLocalRoot(tab_node);
 
     CUITabButton* newButton;
@@ -841,7 +841,7 @@ bool CUIXmlInit::InitFrameLine(CUIXml& xml_doc, LPCSTR path, int index, CUIFrame
 
     string256 buf;
 
-    bool stretch_flag = xml_doc.ReadAttribInt(path, index, "stretch") ? true : false;
+    bool      stretch_flag = xml_doc.ReadAttribInt(path, index, "stretch") ? true : false;
     R_ASSERT(stretch_flag == false);
     //.	pWnd->SetStretchTexture( stretch_flag );
 
@@ -973,10 +973,10 @@ bool CUIXmlInit::InitTexture(CUIXml& xml_doc, LPCSTR path, int index, ITextureOw
     }
     //--------------------
     Frect rect;
-    rect.x1 = xml_doc.ReadAttribFlt(buf, index, "x", 0);
-    rect.y1 = xml_doc.ReadAttribFlt(buf, index, "y", 0);
-    rect.x2 = rect.x1 + xml_doc.ReadAttribFlt(buf, index, "width", 0);
-    rect.y2 = rect.y1 + xml_doc.ReadAttribFlt(buf, index, "height", 0);
+    rect.x1           = xml_doc.ReadAttribFlt(buf, index, "x", 0);
+    rect.y1           = xml_doc.ReadAttribFlt(buf, index, "y", 0);
+    rect.x2           = rect.x1 + xml_doc.ReadAttribFlt(buf, index, "width", 0);
+    rect.y2           = rect.y1 + xml_doc.ReadAttribFlt(buf, index, "height", 0);
 
     bool stretch_flag = xml_doc.ReadAttribInt(path, index, "stretch") ? true : false;
     pWnd->SetStretchTexture(stretch_flag);
@@ -1122,7 +1122,7 @@ bool CUIXmlInit::InitAlignment(CUIXml& xml_doc, const char* path, int index, flo
     // Alignment: right: "r", bottom: "b". Top, left - useless
     shared_str alignStr = xml_doc.ReadAttrib(path, index, "align", "");
 
-    bool result = false;
+    bool       result   = false;
 
     if (strchr(*alignStr, 'r'))
     {
@@ -1155,18 +1155,18 @@ void CUIXmlInit::InitColorDefs()
     CUIXml uiXml;
     uiXml.Load(CONFIG_PATH, UI_PATH, COLOR_DEFINITIONS);
 
-    int num = uiXml.GetNodesNum("colors", 0, "color");
+    int        num = uiXml.GetNodesNum("colors", 0, "color");
 
     shared_str name;
     int        r, b, g, a;
 
     for (int i = 0; i < num; ++i)
     {
-        name = uiXml.ReadAttrib("color", i, "name", "");
-        r    = uiXml.ReadAttribInt("color", i, "r", 0);
-        g    = uiXml.ReadAttribInt("color", i, "g", 0);
-        b    = uiXml.ReadAttribInt("color", i, "b", 0);
-        a    = uiXml.ReadAttribInt("color", i, "a", 255);
+        name                  = uiXml.ReadAttrib("color", i, "name", "");
+        r                     = uiXml.ReadAttribInt("color", i, "r", 0);
+        g                     = uiXml.ReadAttribInt("color", i, "g", 0);
+        b                     = uiXml.ReadAttribInt("color", i, "b", 0);
+        a                     = uiXml.ReadAttribInt("color", i, "a", 255);
 
         (*m_pColorDefs)[name] = color_argb(a, r, g, b);
     }
@@ -1185,7 +1185,7 @@ bool CUIXmlInit::InitScrollView(CUIXml& xml_doc, LPCSTR path, int index, CUIScro
     float vi             = xml_doc.ReadAttribFlt(path, index, "vert_interval", 0.0f);
     pWnd->m_vertInterval = (vi);
 
-    bool bInverseDir = (1 == xml_doc.ReadAttribInt(path, index, "inverse_dir", 0));
+    bool bInverseDir     = (1 == xml_doc.ReadAttribInt(path, index, "inverse_dir", 0));
     pWnd->m_flags.set(CUIScrollView::eInverseDir, bInverseDir);
 
     pWnd->SetScrollBarProfile(xml_doc.ReadAttrib(path, index, "scroll_profile", "default"));
@@ -1204,7 +1204,7 @@ bool CUIXmlInit::InitScrollView(CUIXml& xml_doc, LPCSTR path, int index, CUIScro
     pWnd->m_flags.set(CUIScrollView::eItemsSelectabe, b);
 
     /////////////////////////////////////////////////////////////////////
-    int tabsCount = xml_doc.GetNodesNum(path, index, "text");
+    int       tabsCount    = xml_doc.GetNodesNum(path, index, "text");
 
     XML_NODE* _stored_root = xml_doc.GetLocalRoot();
     xml_doc.SetLocalRoot(xml_doc.NavigateToNode(path, index));

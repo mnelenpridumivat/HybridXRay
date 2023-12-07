@@ -45,7 +45,7 @@ bool CCoverEvaluatorBase::inertia(Fvector const& position, float radius)
     bool radius_criteria = ((m_last_radius + EPS_L) >= radius);
     bool time_criteria   = (Device->dwTimeGlobal < m_last_update + m_inertia_time);
 
-    m_last_radius = radius;
+    m_last_radius        = radius;
 
     if (time_criteria && radius_criteria)
         return true;
@@ -57,8 +57,7 @@ bool CCoverEvaluatorBase::inertia(Fvector const& position, float radius)
     if (!cover)
         return false;
 
-    if (!m_stalker->get_current_loophole() ||
-        !cover->is_position_in_danger_fov(*m_stalker->get_current_loophole(), position))
+    if (!m_stalker->get_current_loophole() || !cover->is_position_in_danger_fov(*m_stalker->get_current_loophole(), position))
         return false;
 
     if (!m_stalker->can_fire_right_now())
@@ -204,7 +203,7 @@ void CCoverEvaluatorBest::evaluate_cover(const CCoverPoint* cover_point, float w
     float   y, p;
     direction.sub(m_enemy_position, cover_point->position());
     direction.getHP(y, p);
-    y = angle_normalize(y);
+    y                      = angle_normalize(y);
 
     float high_cover_value = ai().level_graph().high_cover_in_direction(y, cover_point->level_vertex_id());
     float low_cover_value  = ai().level_graph().low_cover_in_direction(y, cover_point->level_vertex_id());
@@ -236,8 +235,7 @@ void CCoverEvaluatorBest::evaluate_smart_cover(smart_cover::cover const* smart_c
         return;
 
     float                  value;
-    smart_cover::loophole* best_loophole = smart_cover->best_loophole(
-        m_enemy_position, value, false, m_stalker->movement().current_params().cover() == smart_cover);
+    smart_cover::loophole* best_loophole = smart_cover->best_loophole(m_enemy_position, value, false, m_stalker->movement().current_params().cover() == smart_cover);
     if (!best_loophole)
         return;
 
@@ -331,10 +329,10 @@ void CCoverEvaluatorAmbush::setup(const Fvector& my_position, const Fvector& ene
     inherited::setup();
 
     //	m_actuality				= m_actuality && m_my_position.similar(my_position);
-    m_my_position = my_position;
+    m_my_position        = my_position;
 
-    m_actuality      = m_actuality && m_enemy_position.similar(enemy_position, 5.f);
-    m_enemy_position = enemy_position;
+    m_actuality          = m_actuality && m_enemy_position.similar(enemy_position, 5.f);
+    m_enemy_position     = enemy_position;
 
     m_actuality          = m_actuality && fsimilar(m_min_enemy_distance, min_enemy_distance);
     m_min_enemy_distance = min_enemy_distance;
@@ -365,7 +363,7 @@ void CCoverEvaluatorAmbush::evaluate_cover(const CCoverPoint* cover_point, float
     float low_cover_from_myself  = ai().level_graph().low_cover_in_direction(y, cover_point->level_vertex_id());
     float cover_from_myself      = _min(high_cover_from_myself, low_cover_from_myself);
 
-    float value = cover_from_enemy / cover_from_myself;
+    float value                  = cover_from_enemy / cover_from_myself;
     if (value >= m_best_value)
         return;
 

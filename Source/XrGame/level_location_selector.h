@@ -11,9 +11,7 @@
 #include "abstract_location_selector.h"
 #include "level_graph.h"
 
-template <typename _VertexEvaluator, typename _vertex_id_type>
-class CBaseLocationSelector<ILevelGraph, _VertexEvaluator, _vertex_id_type>:
-    public CAbstractLocationSelector<ILevelGraph, _VertexEvaluator, _vertex_id_type>
+template<typename _VertexEvaluator, typename _vertex_id_type> class CBaseLocationSelector<ILevelGraph, _VertexEvaluator, _vertex_id_type>: public CAbstractLocationSelector<ILevelGraph, _VertexEvaluator, _vertex_id_type>
 {
     typedef ILevelGraph                                                          _Graph;
     typedef CAbstractLocationSelector<_Graph, _VertexEvaluator, _vertex_id_type> inherited;

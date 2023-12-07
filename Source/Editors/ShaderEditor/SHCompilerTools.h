@@ -17,7 +17,7 @@ class CSHCompilerTools: public ISHTools
     Shader_xrLC*    FindItem(LPCSTR name);
     Shader_xrLC_LIB m_Library;
 
-    ListItem* m_Selected;
+    ListItem*       m_Selected;
 
 public:
     Shader_xrLC* m_Shader;

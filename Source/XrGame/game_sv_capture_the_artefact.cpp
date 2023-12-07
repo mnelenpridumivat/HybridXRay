@@ -24,21 +24,21 @@
 #include "../xrEngine/xr_ioconsole.h"
 
 //-------------------------------------------------------------
-u32 g_sv_cta_dwInvincibleTime = 5;   // 5 seconds
+u32          g_sv_cta_dwInvincibleTime      = 5;   // 5 seconds
 // u32			g_sv_cta_dwAnomalySetLengthTime	=		3;	//3 seconds
-u32 g_sv_cta_artefactReturningTime = 45;   // 45 seconds
-u32 g_sv_cta_activatedArtefactRet  = 0;
+u32          g_sv_cta_artefactReturningTime = 45;   // 45 seconds
+u32          g_sv_cta_activatedArtefactRet  = 0;
 // s32			g_sv_cta_ScoreLimit				=		3;
-u32   g_sv_cta_PlayerScoresDelayTime = 3;   // 3 seconds
-float g_sv_cta_artefactsBaseRadius   = 1.0f;
-u32   g_sv_cta_rankUpToArtsCountDiv  = 1;
+u32          g_sv_cta_PlayerScoresDelayTime = 3;   // 3 seconds
+float        g_sv_cta_artefactsBaseRadius   = 1.0f;
+u32          g_sv_cta_rankUpToArtsCountDiv  = 1;
 //-------------------------------------------------------------
-extern BOOL g_sv_dm_bAnomaliesEnabled;
-extern u32  g_sv_dm_dwAnomalySetLengthTime;
-extern BOOL g_sv_dm_bPDAHunt;
-extern BOOL g_sv_dm_bDamageBlockIndicators;
-extern u32  g_sv_dm_dwWarmUp_MaxTime;
-extern s32  g_sv_dm_dwTimeLimit;
+extern BOOL  g_sv_dm_bAnomaliesEnabled;
+extern u32   g_sv_dm_dwAnomalySetLengthTime;
+extern BOOL  g_sv_dm_bPDAHunt;
+extern BOOL  g_sv_dm_bDamageBlockIndicators;
+extern u32   g_sv_dm_dwWarmUp_MaxTime;
+extern s32   g_sv_dm_dwTimeLimit;
 //-------------------------------------------------------------
 extern BOOL  g_sv_tdm_bAutoTeamBalance;
 extern BOOL  g_sv_tdm_bAutoTeamSwap;
@@ -46,15 +46,15 @@ extern BOOL  g_sv_tdm_bFriendlyIndicators;
 extern BOOL  g_sv_tdm_bFriendlyNames;
 extern float g_sv_tdm_fFriendlyFireModifier;
 //-------------------------------------------------------------
-extern int g_sv_tdm_iTeamKillLimit;
-extern int g_sv_tdm_bTeamKillPunishment;
+extern int   g_sv_tdm_iTeamKillLimit;
+extern int   g_sv_tdm_bTeamKillPunishment;
 //-------------------------------------------------------
-extern int  g_sv_ah_iReinforcementTime;
-extern BOOL g_sv_ah_bBearerCantSprint;
-extern int  g_sv_ah_dwArtefactsNum;
-extern BOOL g_sv_ah_bBearerCantSprint;
+extern int   g_sv_ah_iReinforcementTime;
+extern BOOL  g_sv_ah_bBearerCantSprint;
+extern int   g_sv_ah_dwArtefactsNum;
+extern BOOL  g_sv_ah_bBearerCantSprint;
 //-------------------------------------------------------
-BOOL game_sv_CaptureTheArtefact::isAnomaliesEnabled()
+BOOL         game_sv_CaptureTheArtefact::isAnomaliesEnabled()
 {
     return g_sv_dm_bAnomaliesEnabled;
 };
@@ -130,13 +130,13 @@ s32 game_sv_CaptureTheArtefact::GetTimeLimit()
 
 game_sv_CaptureTheArtefact::game_sv_CaptureTheArtefact()
 {
-    m_type           = eGameIDCaptureTheArtefact;
-    roundStarted     = FALSE;
-    teams_swaped     = false;
-    m_bSpectatorMode = false;
+    m_type                = eGameIDCaptureTheArtefact;
+    roundStarted          = FALSE;
+    teams_swaped          = false;
+    m_bSpectatorMode      = false;
 
-    m_dwWarmUp_CurTime = 0;
-    m_bInWarmUp        = false;
+    m_dwWarmUp_CurTime    = 0;
+    m_bInWarmUp           = false;
 
     m_dwSM_SwitchDelta    = 0;
     m_dwSM_LastSwitchTime = 0;
@@ -216,7 +216,8 @@ void game_sv_CaptureTheArtefact::Update()
                 }
             }
             break;
-        case GAME_PHASE_PLAYER_SCORES: {
+        case GAME_PHASE_PLAYER_SCORES:
+        {
             currentTime = Level().timeServer();
             if (nextReinforcementTime <= currentTime)
             {
@@ -229,8 +230,7 @@ void game_sv_CaptureTheArtefact::Update()
 
 void game_sv_CaptureTheArtefact::SM_CheckViewSwitching()
 {
-    if (!m_pSM_CurViewEntity || !smart_cast<CActor*>(m_pSM_CurViewEntity) ||
-        m_dwSM_LastSwitchTime < Level().timeServer())
+    if (!m_pSM_CurViewEntity || !smart_cast<CActor*>(m_pSM_CurViewEntity) || m_dwSM_LastSwitchTime < Level().timeServer())
         SM_SwitchOnNextActivePlayer();
 
     CUIGameCTA* gameCTA = smart_cast<CUIGameCTA*>(CurrentGameUI());
@@ -313,8 +313,8 @@ void game_sv_CaptureTheArtefact::SM_SwitchOnNextActivePlayer()
     {
         xrClientData* C = tmp_functor.PossiblePlayers[::Random.randI((int)tmp_functor.PPlayersCount)];
 
-        pNewObject     = Level().Objects.net_Find(C->ps->GameID);
-        CActor* pActor = smart_cast<CActor*>(pNewObject);
+        pNewObject      = Level().Objects.net_Find(C->ps->GameID);
+        CActor* pActor  = smart_cast<CActor*>(pNewObject);
 
         if (!pActor || !pActor->g_Alive() || !pActor->inventory().ActiveItem())
             return;
@@ -511,9 +511,11 @@ void game_sv_CaptureTheArtefact::OnPlayerDisconnect(ClientID id_who, LPSTR Name,
     VERIFY2(actor, make_string("actor not found (GameID = 0x%08x)", GameID).c_str());
 
     TeamsMap::iterator te                = teams.end();
-    TeamsMap::iterator artefactOwnerTeam = std::find_if(teams.begin(), te, [&](const TeamPair& tp) {
-        return SearchOwnerIdFunctor()(tp, GameID);
-    });
+    TeamsMap::iterator artefactOwnerTeam = std::find_if(teams.begin(), te,
+        [&](const TeamPair& tp)
+        {
+            return SearchOwnerIdFunctor()(tp, GameID);
+        });
     if (artefactOwnerTeam != te)
     {
         DropArtefact(artefactOwnerTeam->second.artefactOwner, artefactOwnerTeam->second.artefact);
@@ -546,11 +548,11 @@ void game_sv_CaptureTheArtefact::OnPlayerReady(ClientID id_who)
     }
     else if (m_phase == GAME_PHASE_INPROGRESS)
     {
-        xrClientData*     xrCData = (xrClientData*)m_server->ID_to_client(id_who);
-        game_PlayerState* ps      = get_id(id_who);
-        CSE_Abstract*     pOwner  = xrCData->owner;
+        xrClientData*     xrCData  = (xrClientData*)m_server->ID_to_client(id_who);
+        game_PlayerState* ps       = get_id(id_who);
+        CSE_Abstract*     pOwner   = xrCData->owner;
 
-        xrClientData* xrSCData = (xrClientData*)m_server->GetServerClient();
+        xrClientData*     xrSCData = (xrClientData*)m_server->GetServerClient();
         if (xrSCData && xrSCData->ID == id_who && m_bSpectatorMode)
         {
             SM_SwitchOnNextActivePlayer();
@@ -634,8 +636,8 @@ void game_sv_CaptureTheArtefact::OnRoundStart()
     m_pSM_CurViewEntity   = NULL;
 
     // warmap times
-    m_dwWarmUp_CurTime = 0;
-    m_bInWarmUp        = false;
+    m_dwWarmUp_CurTime    = 0;
+    m_bInWarmUp           = false;
     if (!m_bFastRestart)
     {
         if (GetWarmUpTime() != 0)
@@ -925,7 +927,7 @@ void game_sv_CaptureTheArtefact::OnPlayerChangeTeam(game_PlayerState* playerStat
     {
         TeamsMap::iterator minTeam = std::min_element(teams.begin(), teams.end(), MinPlayersFunctor());
         // we can solve the problem with team identifiers if we change playerState->team type to ETeam
-        playerState->team = static_cast<u8>(minTeam->first);
+        playerState->team          = static_cast<u8>(minTeam->first);
         minTeam->second.playersCount++;
     }
     else
@@ -994,21 +996,19 @@ void game_sv_CaptureTheArtefact::LoadTeamData(ETeam eteam, const shared_str& caS
 
     shared_str artefactName;
 
-    VERIFY2(
-        pSettings->line_exist(caSection, "artefact"),
-        make_string("Not found \"artefact\" in section %s", caSection.c_str()).c_str());
+    VERIFY2(pSettings->line_exist(caSection, "artefact"), make_string("Not found \"artefact\" in section %s", caSection.c_str()).c_str());
 
     artefactName = pSettings->r_string(caSection, "artefact");
 
     if (pSettings->section_exist(caSection))
     {
-        NewTeam.m_iM_Start     = GetMoneyAmount(caSection, "money_start");
-        NewTeam.m_iM_OnRespawn = GetMoneyAmount(caSection, "money_respawn");
-        NewTeam.m_iM_Min       = GetMoneyAmount(caSection, "money_min");
+        NewTeam.m_iM_Start            = GetMoneyAmount(caSection, "money_start");
+        NewTeam.m_iM_OnRespawn        = GetMoneyAmount(caSection, "money_respawn");
+        NewTeam.m_iM_Min              = GetMoneyAmount(caSection, "money_min");
 
-        NewTeam.m_iM_KillRival = GetMoneyAmount(caSection, "kill_rival");
-        NewTeam.m_iM_KillSelf  = GetMoneyAmount(caSection, "kill_self");
-        NewTeam.m_iM_KillTeam  = GetMoneyAmount(caSection, "kill_team");
+        NewTeam.m_iM_KillRival        = GetMoneyAmount(caSection, "kill_rival");
+        NewTeam.m_iM_KillSelf         = GetMoneyAmount(caSection, "kill_self");
+        NewTeam.m_iM_KillTeam         = GetMoneyAmount(caSection, "kill_team");
 
         NewTeam.m_iM_TargetRival      = GetMoneyAmount(caSection, "target_rival");
         NewTeam.m_iM_TargetTeam       = GetMoneyAmount(caSection, "target_team");
@@ -1016,16 +1016,16 @@ void game_sv_CaptureTheArtefact::LoadTeamData(ETeam eteam, const shared_str& caS
         NewTeam.m_iM_TargetSucceedAll = GetMoneyAmount(caSection, "target_succeed_all");
         NewTeam.m_iM_TargetFailed     = GetMoneyAmount(caSection, "target_failed");
 
-        NewTeam.m_iM_RoundWin   = GetMoneyAmount(caSection, "round_win");
-        NewTeam.m_iM_RoundLoose = GetMoneyAmount(caSection, "round_loose");
-        NewTeam.m_iM_RoundDraw  = GetMoneyAmount(caSection, "round_draw");
+        NewTeam.m_iM_RoundWin         = GetMoneyAmount(caSection, "round_win");
+        NewTeam.m_iM_RoundLoose       = GetMoneyAmount(caSection, "round_loose");
+        NewTeam.m_iM_RoundDraw        = GetMoneyAmount(caSection, "round_draw");
 
         NewTeam.m_iM_RoundWin_Minor   = GetMoneyAmount(caSection, "round_win_minor");
         NewTeam.m_iM_RoundLoose_Minor = GetMoneyAmount(caSection, "round_loose_minor");
 
-        NewTeam.m_iM_RivalsWipedOut = GetMoneyAmount(caSection, "rivals_wiped_out");
+        NewTeam.m_iM_RivalsWipedOut   = GetMoneyAmount(caSection, "rivals_wiped_out");
 
-        NewTeam.m_iM_ClearRunBonus = GetMoneyAmount(caSection, "clear_run_bonus");
+        NewTeam.m_iM_ClearRunBonus    = GetMoneyAmount(caSection, "clear_run_bonus");
         //---------------------------------------------------------------------------
         if (pSettings->line_exist(caSection, "kill_while_invincible"))
             NewTeam.m_fInvinsibleKillModifier = pSettings->r_float(caSection, "kill_while_invincible");
@@ -1039,7 +1039,7 @@ void game_sv_CaptureTheArtefact::LoadTeamData(ETeam eteam, const shared_str& caS
 };
 
 #define CTA_ANOMALY_SET_BASE_NAME "cta_game_anomaly_sets"
-#define MAX_ANOMALIES_COUNT 20
+#define MAX_ANOMALIES_COUNT       20
 
 bool game_sv_CaptureTheArtefact::LoadAnomaliesItems(LPCSTR ini_set_id, TAnomaliesVector& destination)
 {
@@ -1142,7 +1142,8 @@ void game_sv_CaptureTheArtefact::ReStartRandomAnomaly()
     do
     {
         to_start = ::Random.randI(m_AnomalySet.size());
-    } while (started_set.find(to_start) != started_ie);
+    }
+    while (started_set.find(to_start) != started_ie);
     VERIFY(m_AnomalySet.size() > to_start);
 
     StopPreviousAnomalies();
@@ -1155,10 +1156,7 @@ void game_sv_CaptureTheArtefact::ReStartRandomAnomaly()
 #endif
 }
 
-void game_sv_CaptureTheArtefact::AddAnomalyChanges(
-    NET_Packet&             packet,
-    TAnomaliesVector const& anomalies,
-    CCustomZone::EZoneState state)
+void game_sv_CaptureTheArtefact::AddAnomalyChanges(NET_Packet& packet, TAnomaliesVector const& anomalies, CCustomZone::EZoneState state)
 {
     typedef TAnomaliesVector::const_iterator TAnomIter;
     TAnomIter                                ie = anomalies.end();
@@ -1240,15 +1238,14 @@ void game_sv_CaptureTheArtefact::LoadArtefactRPoints()
                 if (!(GameType & eGameIDCaptureTheArtefact))
                     continue;
 
-                VERIFY2(
-                    ((team >= 0) && (team < 4)) || (type != rptActorSpawn),
-                    "Problem with team indexes. In Editor green team id = 1, blue team id = 2, but in game - 0, 1.");
+                VERIFY2(((team >= 0) && (team < 4)) || (type != rptActorSpawn), "Problem with team indexes. In Editor green team id = 1, blue team id = 2, but in game - 0, 1.");
 
                 // res
                 // O->r_u8	();
                 switch (type)
                 {
-                    case rptArtefactSpawn: {
+                    case rptArtefactSpawn:
+                    {
                         TeamsMap::iterator teamIter = teams.find(team);
                         if (teamIter != teams.end())
                         {
@@ -1336,8 +1333,7 @@ void game_sv_CaptureTheArtefact::SpawnWeaponsForActor(CSE_Abstract* pE, game_Pla
     while (ps->pItemList.size())
     {
         u16 ItemID = ps->pItemList.front();
-        SpawnWeapon4Actor(
-            pA->ID, *m_strWeaponsData->GetItemName(ItemID & 0x00FF), u8((ItemID & 0xFF00) >> 0x08), ps->pItemList);
+        SpawnWeapon4Actor(pA->ID, *m_strWeaponsData->GetItemName(ItemID & 0x00FF), u8((ItemID & 0xFF00) >> 0x08), ps->pItemList);
         // Game().m_WeaponUsageStatistic->OnWeaponBought(ps, *m_strWeaponsData->GetItemName(ItemID& 0x00FF));
         R_ASSERT(ps->pItemList.size());
         ps->pItemList.erase(ps->pItemList.begin());
@@ -1374,11 +1370,13 @@ bool game_sv_CaptureTheArtefact::OnKillResult(KILL_RES KillResult, game_PlayerSt
 
     switch (KillResult)
     {
-        case KR_NONE: {
+        case KR_NONE:
+        {
             res = false;
         }
         break;
-        case KR_SELF: {
+        case KR_SELF:
+        {
             // pKiller->m_iRivalKills		-= 1;
             pKiller->m_iSelfKills++;
             pKiller->m_iKillsInRowMax = 0;
@@ -1387,7 +1385,8 @@ bool game_sv_CaptureTheArtefact::OnKillResult(KILL_RES KillResult, game_PlayerSt
             res = false;
         }
         break;
-        case KR_RIVAL: {
+        case KR_RIVAL:
+        {
             pKiller->m_iRivalKills++;
             pKiller->m_iKillsInRowCurr++;
             pKiller->m_iKillsInRowMax = _max(pKiller->m_iKillsInRowCurr, pKiller->m_iKillsInRowMax);
@@ -1402,7 +1401,8 @@ bool game_sv_CaptureTheArtefact::OnKillResult(KILL_RES KillResult, game_PlayerSt
         }
         break;
         case KR_TEAMMATE_CRITICAL:
-        case KR_TEAMMATE: {
+        case KR_TEAMMATE:
+        {
             if (pTeam)
             {
                 s32 ResMoney = pTeam->m_iM_KillTeam;
@@ -1444,7 +1444,8 @@ bool game_sv_CaptureTheArtefact::OnKillResult(KILL_RES KillResult, game_PlayerSt
                 }
             }
         }
-        default: {
+        default:
+        {
         }
         break;
     }
@@ -1458,13 +1459,7 @@ void game_sv_CaptureTheArtefact::OnPlayerHitted(NET_Packet P)
     Set_RankUp_Allowed(false);
 }
 
-void game_sv_CaptureTheArtefact::OnGiveBonus(
-    KILL_RES          KillResult,
-    game_PlayerState* pKiller,
-    game_PlayerState* pVictim,
-    KILL_TYPE         KillType,
-    SPECIAL_KILL_TYPE SpecialKillType,
-    CSE_Abstract*     pWeaponA)
+void game_sv_CaptureTheArtefact::OnGiveBonus(KILL_RES KillResult, game_PlayerState* pKiller, game_PlayerState* pVictim, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType, CSE_Abstract* pWeaponA)
 {
     if (!pKiller)
     {
@@ -1473,48 +1468,42 @@ void game_sv_CaptureTheArtefact::OnGiveBonus(
     Set_RankUp_Allowed(true);
     switch (KillResult)
     {
-        case KR_RIVAL: {
+        case KR_RIVAL:
+        {
             switch (KillType)
             {
-                case KT_HIT: {
+                case KT_HIT:
+                {
                     switch (SpecialKillType)
                     {
-                        case SKT_HEADSHOT: {
-                            Player_AddExperience(
-                                pKiller, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "headshot", 0));
-                            Player_AddBonusMoney(
-                                pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "headshot", 0),
-                                SKT_HEADSHOT);
+                        case SKT_HEADSHOT:
+                        {
+                            Player_AddExperience(pKiller, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "headshot", 0));
+                            Player_AddBonusMoney(pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "headshot", 0), SKT_HEADSHOT);
                         }
                         break;
-                        case SKT_EYESHOT: {
-                            Player_AddExperience(
-                                pKiller, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "eyeshot", 0));
-                            Player_AddBonusMoney(
-                                pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "eyeshot", 0), SKT_EYESHOT);
+                        case SKT_EYESHOT:
+                        {
+                            Player_AddExperience(pKiller, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "eyeshot", 0));
+                            Player_AddBonusMoney(pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "eyeshot", 0), SKT_EYESHOT);
                         }
                         break;
-                        case SKT_BACKSTAB: {
-                            Player_AddExperience(
-                                pKiller, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "backstab", 0));
-                            Player_AddBonusMoney(
-                                pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "backstab", 0),
-                                SKT_BACKSTAB);
+                        case SKT_BACKSTAB:
+                        {
+                            Player_AddExperience(pKiller, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "backstab", 0));
+                            Player_AddBonusMoney(pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "backstab", 0), SKT_BACKSTAB);
                         }
                         break;
-                        default: {
+                        default:
+                        {
                             if (pWeaponA)
                             {
                                 switch (pWeaponA->m_tClassID)
                                 {
-                                    case CLSID_OBJECT_W_KNIFE: {
-                                        Player_AddExperience(
-                                            pKiller,
-                                            READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "knife_kill", 0));
-                                        Player_AddBonusMoney(
-                                            pKiller,
-                                            READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "knife_kill", 0),
-                                            SKT_KNIFEKILL);
+                                    case CLSID_OBJECT_W_KNIFE:
+                                    {
+                                        Player_AddExperience(pKiller, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "knife_kill", 0));
+                                        Player_AddBonusMoney(pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "knife_kill", 0), SKT_KNIFEKILL);
                                     }
                                     break;
                                 };
@@ -1524,7 +1513,8 @@ void game_sv_CaptureTheArtefact::OnGiveBonus(
                     };
                 }
                 break;
-                default: {
+                default:
+                {
                 }
                 break;
             };
@@ -1533,13 +1523,12 @@ void game_sv_CaptureTheArtefact::OnGiveBonus(
             {
                 string64 tmpStr;
                 xr_sprintf(tmpStr, "%d_kill_in_row", pKiller->m_iKillsInRowCurr);
-                Player_AddBonusMoney(
-                    pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", tmpStr, 0), SKT_KIR,
-                    u8(pKiller->m_iKillsInRowCurr & 0xff));
+                Player_AddBonusMoney(pKiller, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", tmpStr, 0), SKT_KIR, u8(pKiller->m_iKillsInRowCurr & 0xff));
             };
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     }
@@ -1580,10 +1569,7 @@ void game_sv_CaptureTheArtefact::OnPlayerHitPlayer(u16 id_hitter, u16 id_hitted,
     HitS.Write_Packet(P);
 };
 
-void game_sv_CaptureTheArtefact::OnPlayerHitPlayer_Case(
-    game_PlayerState* ps_hitter,
-    game_PlayerState* ps_hitted,
-    SHit*             pHitS)
+void game_sv_CaptureTheArtefact::OnPlayerHitPlayer_Case(game_PlayerState* ps_hitter, game_PlayerState* ps_hitted, SHit* pHitS)
 {
     // if (pHitS->hit_type != ALife::eHitTypePhysicStrike)
     //{
@@ -1603,12 +1589,7 @@ void game_sv_CaptureTheArtefact::OnPlayerHitPlayer_Case(
     //	}
 };
 
-void game_sv_CaptureTheArtefact::OnPlayerKillPlayer(
-    game_PlayerState* ps_killer,
-    game_PlayerState* ps_killed,
-    KILL_TYPE         KillType,
-    SPECIAL_KILL_TYPE SpecialKillType,
-    CSE_Abstract*     pWeaponA)
+void game_sv_CaptureTheArtefact::OnPlayerKillPlayer(game_PlayerState* ps_killer, game_PlayerState* ps_killed, KILL_TYPE KillType, SPECIAL_KILL_TYPE SpecialKillType, CSE_Abstract* pWeaponA)
 {
     inherited::OnPlayerKillPlayer(ps_killer, ps_killed, KillType, SpecialKillType, pWeaponA);
     ProcessPlayerDeath(ps_killed);
@@ -1621,10 +1602,7 @@ void game_sv_CaptureTheArtefact::OnPlayerKillPlayer(
     signal_Syncronize();
 }
 
-void game_sv_CaptureTheArtefact::DropArtefact(
-    CSE_ActorMP*           aOwner,
-    CSE_ALifeItemArtefact* artefact,
-    Fvector const*         dropPosition)
+void game_sv_CaptureTheArtefact::DropArtefact(CSE_ActorMP* aOwner, CSE_ALifeItemArtefact* artefact, Fvector const* dropPosition)
 {
     VERIFY2(aOwner, "bad parameter");
     VERIFY2(artefact, "bad parameter");
@@ -1648,7 +1626,7 @@ void game_sv_CaptureTheArtefact::ProcessPlayerDeath(game_PlayerState* playerStat
     playerState->m_iDeaths++;
     playerState->m_iKillsInRowCurr = 0;
 
-    TeamStruct* pTeam = GetTeamData(u8(playerState->team));
+    TeamStruct* pTeam              = GetTeamData(u8(playerState->team));
     VERIFY(pTeam);
     Player_AddMoney(playerState, pTeam->m_iM_ClearRunBonus);
     // here we will set the flag that player not bought items yet...
@@ -1663,9 +1641,11 @@ void game_sv_CaptureTheArtefact::ProcessPlayerDeath(game_PlayerState* playerStat
             m_dead_buyers.insert(std::make_pair(l_pC->ID, 0));
     }
     TeamsMap::iterator te                = teams.end();
-    TeamsMap::iterator childArtefactTeam = std::find_if(teams.begin(), te, [&](const TeamPair& tp) {
-        return SearchOwnerIdFunctor()(tp, playerState->GameID);
-    });
+    TeamsMap::iterator childArtefactTeam = std::find_if(teams.begin(), te,
+        [&](const TeamPair& tp)
+        {
+            return SearchOwnerIdFunctor()(tp, playerState->GameID);
+        });
     if (childArtefactTeam != te)
     {
         DropArtefact(childArtefactTeam->second.artefactOwner, childArtefactTeam->second.artefact);
@@ -1696,13 +1676,11 @@ void game_sv_CaptureTheArtefact::ReSpawnArtefacts()
     for (TeamsMap::iterator ti = teams.begin(); ti != te; ti++)
     {
         VERIFY2(!!ti->second.artefactName, make_string("not found artefact class name for team %d", ti->first).c_str());
-        CSE_ALifeItemArtefact* tempSvEntity =
-            smart_cast<CSE_ALifeItemArtefact*>(spawn_begin(ti->second.artefactName.c_str()));
+        CSE_ALifeItemArtefact* tempSvEntity = smart_cast<CSE_ALifeItemArtefact*>(spawn_begin(ti->second.artefactName.c_str()));
         tempSvEntity->s_flags.assign(M_SPAWN_OBJECT_LOCAL);
         // MoveArtefactToPoint(tempSvEntity, ti->second.artefactRPoint);
         tempSvEntity->o_Position.set(ti->second.artefactRPoint.P);
-        ti->second.artefact =
-            smart_cast<CSE_ALifeItemArtefact*>(spawn_end(tempSvEntity, m_server->GetServerClient()->ID));
+        ti->second.artefact = smart_cast<CSE_ALifeItemArtefact*>(spawn_end(tempSvEntity, m_server->GetServerClient()->ID));
         VERIFY(ti->second.artefact);
         ti->second.freeArtefactTimeStart = 0;
     }
@@ -1729,9 +1707,11 @@ BOOL game_sv_CaptureTheArtefact::OnTouch(u16 eid_who, u16 eid_target, BOOL bForc
     // CSE_Abstract *e_what = m_server->ID_to_entity(eid_target);
     /*VERIFY(e_what	); // <- not used because IMHO next code work faster...*/
     TeamsMap::iterator te             = teams.end();
-    TeamsMap::iterator artefactOfTeam = std::find_if(teams.begin(), te, [&](const TeamPair& tp) {
-        return SearchArtefactIdFunctor()(tp, eid_target);
-    });
+    TeamsMap::iterator artefactOfTeam = std::find_if(teams.begin(), te,
+        [&](const TeamPair& tp)
+        {
+            return SearchArtefactIdFunctor()(tp, eid_target);
+        });
     if (artefactOfTeam != te)
     {
         CSE_ALifeItemArtefact* tempArtefact = artefactOfTeam->second.artefact;
@@ -1775,9 +1755,11 @@ BOOL game_sv_CaptureTheArtefact::OnTouch(u16 eid_who, u16 eid_target, BOOL bForc
                     u_EventSend(P);
                     return FALSE;
                 }
-                if (std::find_if(teams.begin(), te, [&](const TeamPair& tp) {
-                        return SearchOwnerIdFunctor()(tp, e_who->ID);
-                    }) != te)
+                if (std::find_if(teams.begin(), te,
+                        [&](const TeamPair& tp)
+                        {
+                            return SearchOwnerIdFunctor()(tp, e_who->ID);
+                        }) != te)
                 {
                     return FALSE;
                 }
@@ -1788,9 +1770,11 @@ BOOL game_sv_CaptureTheArtefact::OnTouch(u16 eid_who, u16 eid_target, BOOL bForc
         }
         else
         {
-            if (std::find_if(teams.begin(), te, [&](const TeamPair& tp) {
-                    return SearchOwnerIdFunctor()(tp, e_who->ID);
-                }) != te)
+            if (std::find_if(teams.begin(), te,
+                    [&](const TeamPair& tp)
+                    {
+                        return SearchOwnerIdFunctor()(tp, e_who->ID);
+                    }) != te)
             {
                 return FALSE;
             }
@@ -1838,8 +1822,7 @@ BOOL game_sv_CaptureTheArtefact::OnTouchItem(CSE_ActorMP* actor, CSE_Abstract* i
                         u_EventGen(P, GE_OWNERSHIP_REJECT, item->ID);
                         P.w_u16(e_child_item->ID);
 
-                        m_server->Process_event_reject(
-                            P, m_server->GetServerClient()->ID, 0, item->ID, e_child_item->ID);
+                        m_server->Process_event_reject(P, m_server->GetServerClient()->ID, 0, item->ID, e_child_item->ID);
                         continue;
                     }
                 }
@@ -1859,8 +1842,7 @@ BOOL game_sv_CaptureTheArtefact::OnTouchItem(CSE_ActorMP* actor, CSE_Abstract* i
         DestroyGameItem(item);
         if (isPDAHuntEnabled() && actor->owner && actor->owner->ps)
         {
-            Player_AddBonusMoney(
-                actor->owner->ps, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "pda_taken", 0), SKT_PDA);
+            Player_AddBonusMoney(actor->owner->ps, READ_IF_EXISTS(pSettings, r_s32, "mp_bonus_money", "pda_taken", 0), SKT_PDA);
         };
 
         //-------------------------------
@@ -1873,12 +1855,14 @@ BOOL game_sv_CaptureTheArtefact::OnTouchItem(CSE_ActorMP* actor, CSE_Abstract* i
 void game_sv_CaptureTheArtefact::OnDetach(u16 eid_who, u16 eid_target)
 {
     TeamsMap::iterator te             = teams.end();
-    TeamsMap::iterator artefactOfTeam = std::find_if(teams.begin(), te, [&](const TeamPair& tp) {
-        return SearchArtefactIdFunctor()(tp, eid_target);
-    });
+    TeamsMap::iterator artefactOfTeam = std::find_if(teams.begin(), te,
+        [&](const TeamPair& tp)
+        {
+            return SearchArtefactIdFunctor()(tp, eid_target);
+        });
 
-    CSE_ActorMP*  e_who  = smart_cast<CSE_ActorMP*>(m_server->ID_to_entity(eid_who));
-    CSE_Abstract* e_item = m_server->ID_to_entity(eid_target);
+    CSE_ActorMP*       e_who          = smart_cast<CSE_ActorMP*>(m_server->ID_to_entity(eid_who));
+    CSE_Abstract*      e_item         = m_server->ID_to_entity(eid_target);
 
     if (!e_who)
     {
@@ -1909,12 +1893,14 @@ void game_sv_CaptureTheArtefact::OnDetach(u16 eid_who, u16 eid_target)
 BOOL game_sv_CaptureTheArtefact::OnActivate(u16 eid_who, u16 eid_target)
 {
     TeamsMap::iterator te             = teams.end();
-    TeamsMap::iterator artefactOfTeam = std::find_if(teams.begin(), te, [&eid_target](auto& a) -> bool {
-        return SearchArtefactIdFunctor()(a, eid_target);
-    });
+    TeamsMap::iterator artefactOfTeam = std::find_if(teams.begin(), te,
+        [&eid_target](auto& a) -> bool
+        {
+            return SearchArtefactIdFunctor()(a, eid_target);
+        });
 
-    CSE_ActorMP*  e_who  = smart_cast<CSE_ActorMP*>(m_server->ID_to_entity(eid_who));
-    CSE_Abstract* e_item = m_server->ID_to_entity(eid_target);
+    CSE_ActorMP*       e_who          = smart_cast<CSE_ActorMP*>(m_server->ID_to_entity(eid_who));
+    CSE_Abstract*      e_item         = m_server->ID_to_entity(eid_target);
 
     VERIFY2(e_who, make_string("failed to get actor entity (id = %d)", eid_who).c_str());
 
@@ -1988,9 +1974,9 @@ void game_sv_CaptureTheArtefact::OnDetachItem(CSE_ActorMP* actor, CSE_Abstract* 
         // move all items from player to rukzak
         xr_vector<u16>::const_iterator it_e = actor->children.end();
 
-        xr_vector<CSE_Abstract*> to_transfer;
-        xr_vector<CSE_Abstract*> to_destroy;
-        xr_vector<CSE_Abstract*> to_reject;
+        xr_vector<CSE_Abstract*>       to_transfer;
+        xr_vector<CSE_Abstract*>       to_destroy;
+        xr_vector<CSE_Abstract*>       to_reject;
         // may be there is a sense to move next invokation into the ProcessDeath method...
         FillDeathActorRejectItems(actor, to_reject);
 
@@ -2019,9 +2005,9 @@ void game_sv_CaptureTheArtefact::OnDetachItem(CSE_ActorMP* actor, CSE_Abstract* 
 
         xr_vector<CSE_Abstract*>::const_iterator tr_it_e = to_transfer.end();
 
-        NET_Packet EventPack;
-        NET_Packet PacketReject;
-        NET_Packet PacketTake;
+        NET_Packet                               EventPack;
+        NET_Packet                               PacketReject;
+        NET_Packet                               PacketTake;
         EventPack.w_begin(M_EVENT_PACK);
 
         for (xr_vector<CSE_Abstract*>::const_iterator tr_it = to_transfer.begin(); tr_it != tr_it_e; ++tr_it)
@@ -2036,11 +2022,11 @@ void game_sv_CaptureTheArtefact::OnDetachItem(CSE_ActorMP* actor, CSE_Abstract* 
         if (EventPack.B.count > 2)
             u_EventSend(EventPack);
 
-        for (auto& item : to_destroy)
+        for (auto& item: to_destroy)
         {
             DestroyGameItem(item);
         }
-        for (auto& item : to_reject)
+        for (auto& item: to_reject)
         {
             RejectGameItem(item);
         }
@@ -2057,9 +2043,7 @@ void game_sv_CaptureTheArtefact::MoveArtefactToPoint(CSE_ALifeItemArtefact* arte
 
     CArtefact* OArtefact = smart_cast<CArtefact*>(Level().Objects.net_Find(artefact->ID));
 
-    R_ASSERT2(
-        OArtefact,
-        make_string("artefact not found. artefact_id = [%d]. CTA:MoveArtefactToPoint()", artefact->ID).c_str());
+    R_ASSERT2(OArtefact, make_string("artefact not found. artefact_id = [%d]. CTA:MoveArtefactToPoint()", artefact->ID).c_str());
 
     OArtefact->StopActivation();
     OArtefact->MoveTo(toPoint.P);   // to server client object
@@ -2069,9 +2053,7 @@ void game_sv_CaptureTheArtefact::MoveArtefactToPoint(CSE_ALifeItemArtefact* arte
     MovePacket.w_u8(1);
     MovePacket.w_u16(artefact->ID);
     MovePacket.w_vec3(toPoint.P);
-    m_server->SendBroadcast(
-        BroadcastCID, MovePacket,
-        net_flags(TRUE, TRUE));   // and to all clients, because it will freeze and will not send updates...
+    m_server->SendBroadcast(BroadcastCID, MovePacket, net_flags(TRUE, TRUE));   // and to all clients, because it will freeze and will not send updates...
 }
 
 void game_sv_CaptureTheArtefact::MoveLifeActors()
@@ -2230,8 +2212,7 @@ void game_sv_CaptureTheArtefact::ActorDeliverArtefactOnBase(CSE_ActorMP* actor, 
     // i hope TEAM_DATA_LIST has random access iteration...
     TEAM_DATA_LIST::const_iterator teamIter = TeamList.begin() + teams[actorTeam].indexOfTeamInList;
 
-    R_ASSERT2(
-        teamIter != TeamList.end(), make_string("deliver artefact team (%d) not found in TeamList", actorTeam).c_str());
+    R_ASSERT2(teamIter != TeamList.end(), make_string("deliver artefact team (%d) not found in TeamList", actorTeam).c_str());
 
     Player_AddMoney(ps, teamIter->m_iM_TargetSucceed);
     ps->af_count++;
@@ -2247,7 +2228,7 @@ void game_sv_CaptureTheArtefact::ActorDeliverArtefactOnBase(CSE_ActorMP* actor, 
         game_PlayerState*           ps;
         s32                         m_iM_TargetSucceedAll;
 
-        void operator()(IClient* client)
+        void                        operator()(IClient* client)
         {
             // init
             xrClientData*     l_pC   = static_cast<xrClientData*>(client);
@@ -2257,8 +2238,7 @@ void game_sv_CaptureTheArtefact::ActorDeliverArtefactOnBase(CSE_ActorMP* actor, 
             if (pstate->team == ps->team)
             {
                 m_owner->Player_AddMoney(pstate, m_iM_TargetSucceedAll);
-                m_owner->Player_AddExperience(
-                    pstate, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "target_succeed_all", 0));
+                m_owner->Player_AddExperience(pstate, READ_IF_EXISTS(pSettings, r_float, "mp_bonus_exp", "target_succeed_all", 0));
             }
             else
             {
@@ -2366,8 +2346,7 @@ void game_sv_CaptureTheArtefact::CheckForArtefactReturning(u32 currentTime)
             //}
             continue;
         }
-        if (!ti->second.freeArtefactTimeStart ||
-            ((currentTime - ti->second.freeArtefactTimeStart) >= Get_ArtefactReturningTime_msec()))
+        if (!ti->second.freeArtefactTimeStart || ((currentTime - ti->second.freeArtefactTimeStart) >= Get_ArtefactReturningTime_msec()))
         {
             MoveArtefactToPoint(artefact, ti->second.artefactRPoint);
             ti->second.freeArtefactTimeStart = currentTime;
@@ -2405,8 +2384,7 @@ void game_sv_CaptureTheArtefact::CheckForArtefactDelivering()
         VERIFY2(myTeamIter != teams.end(), make_string("artefact team (%d) not found", artefactOfTeam).c_str());
         // if some one alredy took your artefact or own artefact not on base, continue
         Fvector3& myArtPoint = myTeamIter->second.artefactRPoint.P;
-        if ((myTeamIter->second.artefactOwner) ||
-            (!myTeamIter->second.artefact->o_Position.similar(myArtPoint, g_sv_cta_artefactsBaseRadius)))
+        if ((myTeamIter->second.artefactOwner) || (!myTeamIter->second.artefact->o_Position.similar(myArtPoint, g_sv_cta_artefactsBaseRadius)))
         {
             continue;
         }
@@ -2560,17 +2538,17 @@ void game_sv_CaptureTheArtefact::ReadOptions(shared_str& options)
     //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
     //-------------------------------------------------------------------------
-    g_sv_tdm_bAutoTeamBalance    = get_option_i(*options, "abalance", (g_sv_tdm_bAutoTeamBalance ? 1 : 0)) != 0;
-    g_sv_tdm_bAutoTeamSwap       = get_option_i(*options, "aswap", (g_sv_tdm_bAutoTeamSwap ? 1 : 0)) != 0;
-    g_sv_tdm_bFriendlyIndicators = get_option_i(*options, "fi", (g_sv_tdm_bFriendlyIndicators ? 1 : 0)) != 0;
-    g_sv_tdm_bFriendlyNames      = get_option_i(*options, "fn", (g_sv_tdm_bFriendlyNames ? 1 : 0)) != 0;
+    g_sv_tdm_bAutoTeamBalance      = get_option_i(*options, "abalance", (g_sv_tdm_bAutoTeamBalance ? 1 : 0)) != 0;
+    g_sv_tdm_bAutoTeamSwap         = get_option_i(*options, "aswap", (g_sv_tdm_bAutoTeamSwap ? 1 : 0)) != 0;
+    g_sv_tdm_bFriendlyIndicators   = get_option_i(*options, "fi", (g_sv_tdm_bFriendlyIndicators ? 1 : 0)) != 0;
+    g_sv_tdm_bFriendlyNames        = get_option_i(*options, "fn", (g_sv_tdm_bFriendlyNames ? 1 : 0)) != 0;
 
     float fFF                      = get_option_f(*options, "ffire", g_sv_tdm_fFriendlyFireModifier);
     g_sv_tdm_fFriendlyFireModifier = fFF;
     //-------------------------------------------------------------------------
-    g_sv_ah_dwArtefactsNum = get_option_i(*options, "anum", g_sv_ah_dwArtefactsNum);
+    g_sv_ah_dwArtefactsNum         = get_option_i(*options, "anum", g_sv_ah_dwArtefactsNum);
     //----------------------------------------------------------------------------
-    g_sv_ah_iReinforcementTime = get_option_i(*options, "reinf", g_sv_ah_iReinforcementTime);
+    g_sv_ah_iReinforcementTime     = get_option_i(*options, "reinf", g_sv_ah_iReinforcementTime);
     if (g_sv_ah_iReinforcementTime <= 0)
         g_sv_ah_iReinforcementTime = 1;
     //----------------------------------------------------------------------------
@@ -2578,7 +2556,7 @@ void game_sv_CaptureTheArtefact::ReadOptions(shared_str& options)
     g_sv_cta_artefactReturningTime = get_option_i(*options, "artrettime", g_sv_cta_artefactReturningTime);   // in (sec)
     g_sv_cta_activatedArtefactRet  = get_option_i(*options, "actret", g_sv_cta_activatedArtefactRet);        // in (sec)
 
-    m_bSpectatorMode = false;
+    m_bSpectatorMode               = false;
     if (!g_dedicated_server && (get_option_i(*options, "spectr", -1) != -1))
     {
         m_bSpectatorMode   = true;
@@ -2592,8 +2570,8 @@ u16 game_sv_CaptureTheArtefact::GetMinUsedAnomalyID(LPCSTR zone_name)
 {
     typedef TMultiMap::iterator TMultiMIter;
 
-    TMultiMIter lower_iter = m_AnomalyIds.lower_bound(zone_name);
-    TMultiMIter upper_iter = m_AnomalyIds.upper_bound(zone_name);
+    TMultiMIter                 lower_iter = m_AnomalyIds.lower_bound(zone_name);
+    TMultiMIter                 upper_iter = m_AnomalyIds.upper_bound(zone_name);
 
     if (lower_iter == m_AnomalyIds.end())
         return 0;

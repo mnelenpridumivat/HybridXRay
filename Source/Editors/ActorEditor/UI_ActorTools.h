@@ -36,7 +36,7 @@ public:
     IRenderVisual* m_pVisual;
 
     // Fmatrix			m_pobject_matrix;
-    CBlend* m_pBlend;
+    CBlend*        m_pBlend;
     struct BPPlayItem
     {
         xr_string name;
@@ -67,10 +67,10 @@ public:
     {
         return !!m_pVisual;
     }
-    void PlayMotion(LPCSTR name, u16 slot);
+    void        PlayMotion(LPCSTR name, u16 slot);
     /*   void			RestoreParams		(TFormStorage* s);
        void			SaveParams			(TFormStorage* s);*/
-    void OnRender();
+    void        OnRender();
     //.    void			PlayCycle			(LPCSTR name, int part, u16 slot);
     //.    void			PlayFX				(LPCSTR name, float power, u16 slot);
     void        StopAnimation();
@@ -145,56 +145,56 @@ class CActorTools: public CToolCustom
 {
     typedef CToolCustom inherited;
 
-    bool m_ChooseSkeletonBones;
+    bool                m_ChooseSkeletonBones;
 
-    Fmatrix          m_AVTransform;
-    CEditableObject* m_pEditObject;
-    u32              m_pEditObjectType;
-    bool             m_bObjectModified;
-    shared_str       m_tmp_mot_refs;
-    EEditMode        m_EditMode;
-    xr_string        m_CurrentMotion;
-    u16              m_CurrentSlot;
+    Fmatrix             m_AVTransform;
+    CEditableObject*    m_pEditObject;
+    u32                 m_pEditObjectType;
+    bool                m_bObjectModified;
+    shared_str          m_tmp_mot_refs;
+    EEditMode           m_EditMode;
+    xr_string           m_CurrentMotion;
+    u16                 m_CurrentSlot;
 
-    RTokenVec m_BoneParts;
+    RTokenVec           m_BoneParts;
 
-    void OnMotionTypeChange(PropValue* sender);
+    void                OnMotionTypeChange(PropValue* sender);
 
-    void OnChangeTransform(PropValue* sender);
-    void OnMotionNameChange(PropValue* sender);
+    void                OnChangeTransform(PropValue* sender);
+    void                OnMotionNameChange(PropValue* sender);
 
-    void OnBoxAxisClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnCylinderAxisClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnBoxAxisClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnCylinderAxisClick(ButtonValue* sender, bool& bModif, bool& bSafe);
 
-    void OnMotionEditClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnMotionControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnExportImportRefsClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnMotionEditClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnMotionControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnExportImportRefsClick(ButtonValue* sender, bool& bModif, bool& bSafe);
 
-    void OnMarksControlClick12(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnMarksControlClick34(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnMarksControlClick12(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnMarksControlClick34(ButtonValue* sender, bool& bModif, bool& bSafe);
 
-    void OnObjectItemsFocused(xr_vector<ListItem*>& items);
+    void                OnObjectItemsFocused(xr_vector<ListItem*>& items);
 
-    void OnBoneShapeClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnBoneCreateDeleteClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnBoneEditClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnBoneFileClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void OnBoneLimitsChange(PropValue* sender);
-    void OnMotionCompressionChanged(PropValue* sender);
-    void OnJointTypeChange(PropValue* sender);
-    void OnShapeTypeChange(PropValue* sender);
+    void                OnBoneShapeClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnBoneCreateDeleteClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnBoneEditClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnBoneFileClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnBoneLimitsChange(PropValue* sender);
+    void                OnMotionCompressionChanged(PropValue* sender);
+    void                OnJointTypeChange(PropValue* sender);
+    void                OnShapeTypeChange(PropValue* sender);
 
-    void OnMotionRefsChange(PropValue* sender);
+    void                OnMotionRefsChange(PropValue* sender);
 
-    void OnBindTransformChange(PropValue* V);
+    void                OnBindTransformChange(PropValue* V);
 
-    void OnTypeChange(PropValue* V);
+    void                OnTypeChange(PropValue* V);
 
-    void OnUsingLodFlagChange(PropValue* V);
+    void                OnUsingLodFlagChange(PropValue* V);
 
-    void       OnMakeThumbnailClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    void       OnMakeLODClick(ButtonValue* sender, bool& bModif, bool& bSafe);
-    SMotionVec appended_motions;
+    void                OnMakeThumbnailClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                OnMakeLODClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    SMotionVec          appended_motions;
 
 protected:
     // flags
@@ -213,7 +213,7 @@ protected:
     };
     Flags32 m_Flags;
 
-    void RefreshSubProperties()
+    void    RefreshSubProperties()
     {
         m_Flags.set(flRefreshSubProps, TRUE);
     }
@@ -236,13 +236,14 @@ protected:
     void PrepareLighting();
 
 public:
-    EngineModel  m_RenderObject;
-    PreviewModel m_PreviewObject;
+    EngineModel       m_RenderObject;
+    PreviewModel      m_PreviewObject;
 
     UIPropertiesForm* m_Props;
     UIItemListForm*   m_ObjectItems;
 
     // undo part
+
 protected:
 #pragma pack(push, 1)
     struct UndoItem
@@ -270,7 +271,7 @@ public:
     virtual bool OnCreate();
     virtual void OnDestroy();
 
-    ICF bool ReadOnly()
+    ICF bool     ReadOnly()
     {
         return m_Flags.is(flReadOnlyMode);
     }
@@ -280,32 +281,32 @@ public:
     {
         return m_bObjectModified;
     }
-    virtual void Modified();
-    void         OnItemModified(void);
+    virtual void   Modified();
+    void           OnItemModified(void);
 
     virtual LPCSTR GetInfo();
 
-    virtual void ZoomObject(BOOL bSelOnly);
+    virtual void   ZoomObject(BOOL bSelOnly);
 
-    virtual bool Load(LPCSTR name);
-    virtual bool Save(LPCSTR name, bool bInternal = false);
-    virtual void Reload();
+    virtual bool   Load(LPCSTR name);
+    virtual bool   Save(LPCSTR name, bool bInternal = false);
+    virtual void   Reload();
 
-    virtual void OnDeviceCreate();
-    virtual void OnDeviceDestroy();
+    virtual void   OnDeviceCreate();
+    virtual void   OnDeviceDestroy();
 
-    virtual void Clear();
+    virtual void   Clear();
 
-    virtual void OnShowHint(AStringVec& SS);
+    virtual void   OnShowHint(AStringVec& SS);
 
-    virtual bool MouseStart(TShiftState Shift);
-    virtual bool MouseEnd(TShiftState Shift);
-    virtual void MouseMove(TShiftState Shift);
+    virtual bool   MouseStart(TShiftState Shift);
+    virtual bool   MouseEnd(TShiftState Shift);
+    virtual void   MouseMove(TShiftState Shift);
 
-    virtual bool Pick(TShiftState Shift);
-    virtual bool RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt, Fvector* n);
+    virtual bool   Pick(TShiftState Shift);
+    virtual bool   RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt, Fvector* n);
 
-    virtual void ShowProperties(LPCSTR focused_item)
+    virtual void   ShowProperties(LPCSTR focused_item)
     {
         ;
     }
@@ -360,50 +361,50 @@ public:
     {
         return m_pEditObject;
     }
-    void      SetCurrentMotion(LPCSTR name, u16 slot);
-    CSMotion* GetCurrentMotion();
-    CSMotion* FindMotion(LPCSTR name);
-    LPCSTR    ExtractMotionName(LPCSTR full_name, LPCSTR prefix = MOTIONS_PREFIX);
-    u16       ExtractMotionSlot(LPCSTR full_name, LPCSTR prefix = MOTIONS_PREFIX);
-    xr_string BuildMotionPref(u16 slot, LPCSTR prefix = MOTIONS_PREFIX);
-    void      FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem* sender);
-    void      FillSurfaceProperties(PropItemVec& items, LPCSTR pref, ListItem* sender);
-    void      FillMotionProperties(PropItemVec& items, LPCSTR pref, ListItem* sender);
-    void      FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* sender);
-    void      PlayMotion();
-    void      StopMotion();
-    void      PauseMotion();
-    bool      RenameMotion(LPCSTR old_name, LPCSTR new_name);
-    void      RemoveMarksChannel(bool b12);
-    void      AddMarksChannel(bool b12);
-    void      OptimizeMotions();
-    void      RealMakeThumbnail();
-    void      RealGenerateLOD(bool hq);
-    bool      BatchConvert(LPCSTR fn, int flags, float scale);
+    void         SetCurrentMotion(LPCSTR name, u16 slot);
+    CSMotion*    GetCurrentMotion();
+    CSMotion*    FindMotion(LPCSTR name);
+    LPCSTR       ExtractMotionName(LPCSTR full_name, LPCSTR prefix = MOTIONS_PREFIX);
+    u16          ExtractMotionSlot(LPCSTR full_name, LPCSTR prefix = MOTIONS_PREFIX);
+    xr_string    BuildMotionPref(u16 slot, LPCSTR prefix = MOTIONS_PREFIX);
+    void         FillObjectProperties(PropItemVec& items, LPCSTR pref, ListItem* sender);
+    void         FillSurfaceProperties(PropItemVec& items, LPCSTR pref, ListItem* sender);
+    void         FillMotionProperties(PropItemVec& items, LPCSTR pref, ListItem* sender);
+    void         FillBoneProperties(PropItemVec& items, LPCSTR pref, ListItem* sender);
+    void         PlayMotion();
+    void         StopMotion();
+    void         PauseMotion();
+    bool         RenameMotion(LPCSTR old_name, LPCSTR new_name);
+    void         RemoveMarksChannel(bool b12);
+    void         AddMarksChannel(bool b12);
+    void         OptimizeMotions();
+    void         RealMakeThumbnail();
+    void         RealGenerateLOD(bool hq);
+    bool         BatchConvert(LPCSTR fn, int flags, float scale);
 
-    void PhysicsSimulate();
-    void PhysicsStopSimulate();
-    void CreatePhysicsWorld();
-    void DestroyPhysicsWorld();
+    void         PhysicsSimulate();
+    void         PhysicsStopSimulate();
+    void         CreatePhysicsWorld();
+    void         DestroyPhysicsWorld();
 
     virtual bool GetSelectionPosition(Fmatrix& result);
 
     // commands
-    CCommandVar CommandClear(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandLoad(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandSaveBackup(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandSave(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandImport(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandExportDM(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandExportOBJ(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandExportOGF(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandExportOMF(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandExportCPP(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandUndo(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandRedo(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandOptimizeMotions(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandMakeThumbnail(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandBatchConvert(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandClear(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandLoad(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandSaveBackup(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandSave(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandImport(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandExportDM(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandExportOBJ(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandExportOGF(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandExportOMF(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandExportCPP(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandUndo(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandRedo(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandOptimizeMotions(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandMakeThumbnail(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandBatchConvert(CCommandVar p1, CCommandVar p2);
 
 public:
     void        OnDrawUI();
@@ -419,8 +420,8 @@ private:
 extern CActorTools* ATools;
 
 #define SURFACES_PREFIX "Surfaces"
-#define BONES_PREFIX "Bones"
-#define MOTIONS_PREFIX "Motions"
-#define OBJECT_PREFIX "Object"
+#define BONES_PREFIX    "Bones"
+#define MOTIONS_PREFIX  "Motions"
+#define OBJECT_PREFIX   "Object"
 //---------------------------------------------------------------------------
 #endif

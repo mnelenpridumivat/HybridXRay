@@ -20,12 +20,7 @@ void ActivateShapeExplosive(IPhysicsShellHolder* self_obj, const Fvector& size, 
     //////////
 }
 
-void ActivateShapePhysShellHolder(
-    IPhysicsShellHolder* obj,
-    const Fmatrix&       in_xform,
-    const Fvector&       in_size,
-    Fvector&             in_pos,
-    Fvector&             out_pos)
+void ActivateShapePhysShellHolder(IPhysicsShellHolder* obj, const Fmatrix& in_xform, const Fvector& in_size, Fvector& in_pos, Fvector& out_pos)
 {
     CPHActivationShape activation_shape;
     activation_shape.Create(in_pos, in_size, obj);
@@ -53,14 +48,7 @@ void ActivateShapePhysShellHolder(
 #endif   // DEBUG
 }
 
-bool ActivateShapeCharacterPhysicsSupport(
-    Fvector&             out_pos,
-    const Fvector&       vbox,
-    const Fvector&       activation_pos,
-    const Fmatrix&       mXFORM,
-    bool                 not_collide_characters,
-    bool                 set_rotation,
-    IPhysicsShellHolder* m_EntityAlife)
+bool ActivateShapeCharacterPhysicsSupport(Fvector& out_pos, const Fvector& vbox, const Fvector& activation_pos, const Fmatrix& mXFORM, bool not_collide_characters, bool set_rotation, IPhysicsShellHolder* m_EntityAlife)
 {
     CPHActivationShape activation_shape;
     activation_shape.Create(activation_pos, vbox, m_EntityAlife);

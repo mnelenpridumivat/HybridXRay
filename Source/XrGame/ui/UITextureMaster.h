@@ -42,17 +42,12 @@ struct sh_pair
 class CUITextureMaster
 {
 public:
-    static void ParseShTexInfo(LPCSTR xml_file);
-    static void FreeTexInfo();
-    static void FreeCachedShaders();
+    static void     ParseShTexInfo(LPCSTR xml_file);
+    static void     FreeTexInfo();
+    static void     FreeCachedShaders();
 
-    static void
-        InitTexture(const shared_str& texture_name, CUIStaticItem* tc, const shared_str& shader_name = "hud\\default");
-    static void InitTexture(
-        const shared_str& texture_name,
-        const shared_str& shader_name,
-        ui_shader&        out_shader,
-        Frect&            out_rect);
+    static void     InitTexture(const shared_str& texture_name, CUIStaticItem* tc, const shared_str& shader_name = "hud\\default");
+    static void     InitTexture(const shared_str& texture_name, const shared_str& shader_name, ui_shader& out_shader, Frect& out_rect);
     static float    GetTextureHeight(const shared_str& texture_name);
     static float    GetTextureWidth(const shared_str& texture_name);
     static Frect    GetTextureRect(const shared_str& texture_name);
@@ -60,9 +55,9 @@ public:
     static TEX_INFO FindItem(const shared_str& texture_name);
 
 protected:
-    IC static bool IsSh(const shared_str& texture_name);
+    IC static bool                      IsSh(const shared_str& texture_name);
 
     static xr_map<shared_str, TEX_INFO> m_textures;
 
-    static xr_map<sh_pair, ui_shader> m_shaders;
+    static xr_map<sh_pair, ui_shader>   m_shaders;
 };

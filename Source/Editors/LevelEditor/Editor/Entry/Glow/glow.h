@@ -19,8 +19,8 @@ public:
     float      m_fRadius;
     Flags8     m_Flags;
 
-    bool m_bDefLoad;
-    void ShaderChange(PropValue* value);
+    bool       m_bDefLoad;
+    void       ShaderChange(PropValue* value);
 
 private:
     mutable Fvector Ftemp;
@@ -54,7 +54,7 @@ public:
         return true;
     }
 
-    void Compile();
+    void         Compile();
 
     virtual void Render(int priority, bool strictB2F);
     virtual bool RayPick(float& distance, const Fvector& start, const Fvector& direction, SRayPickInfo* pinf = NULL);

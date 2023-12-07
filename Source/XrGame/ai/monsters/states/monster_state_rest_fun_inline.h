@@ -4,13 +4,13 @@
 // #include "../../../PHInterpolation.h"
 // #include "../../../PHElement.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION      template<typename _Object>
 
 #define CStateMonsterRestFunAbstract CStateMonsterRestFun<_Object>
 
-#define IMPULSE_TO_CORPSE 15.f
-#define MIN_DELAY 100
-#define TIME_IN_STATE 8000
+#define IMPULSE_TO_CORPSE            15.f
+#define MIN_DELAY                    100
+#define TIME_IN_STATE                8000
 
 TEMPLATE_SPECIALIZATION
 CStateMonsterRestFunAbstract::CStateMonsterRestFun(_Object* obj): inherited(obj) {}
@@ -63,10 +63,7 @@ void CStateMonsterRestFunAbstract::execute()
             // выполнить бросок
             for (u32 i = 0; i < target->m_pPhysicsShell->get_ElementsNumber(); i++)
             {
-                target->m_pPhysicsShell->get_ElementByStoreOrder((u16)i)->applyImpulse(
-                    dir,
-                    IMPULSE_TO_CORPSE * target->m_pPhysicsShell->getMass() /
-                        target->m_pPhysicsShell->Elements().size());
+                target->m_pPhysicsShell->get_ElementByStoreOrder((u16)i)->applyImpulse(dir, IMPULSE_TO_CORPSE * target->m_pPhysicsShell->getMass() / target->m_pPhysicsShell->Elements().size());
             }
 
             time_last_hit = Device->dwTimeGlobal;

@@ -17,17 +17,17 @@ using std::swap;
 //--------
 #ifdef M_NOSTDCONTAINERS_EXT
 
-#define xr_list std::list
-#define xr_deque std::deque
-#define xr_stack std::stack
-#define xr_set std::set
+#define xr_list     std::list
+#define xr_deque    std::deque
+#define xr_stack    std::stack
+#define xr_set      std::set
 #define xr_multiset std::multiset
-#define xr_map std::map
+#define xr_map      std::map
 #define xr_hash_map std::hash_map
 #define xr_multimap std::multimap
-#define xr_string std::string
+#define xr_string   std::string
 
-template <class T> class xr_vector: public std::vector<T>
+template<class T> class xr_vector: public std::vector<T>
 {
 public:
     typedef size_t   size_type;
@@ -66,7 +66,7 @@ public:
     }
 };
 
-template <> class xr_vector<bool>: public std::vector<bool>
+template<> class xr_vector<bool>: public std::vector<bool>
 {
     typedef bool T;
 
@@ -86,7 +86,7 @@ public:
 
 #else
 
-template <class T> class xalloc
+template<class T> class xalloc
 {
 public:
     typedef size_t    size_type;
@@ -98,7 +98,7 @@ public:
     typedef T         value_type;
 
 public:
-    template <class _Other> struct rebind
+    template<class _Other> struct rebind
     {
         typedef xalloc<_Other> other;
     };
@@ -114,8 +114,8 @@ public:
     }
     xalloc() {}
     xalloc(const xalloc<T>&) {}
-    template <class _Other> xalloc(const xalloc<_Other>&) {}
-    template <class _Other> xalloc<T>& operator=(const xalloc<_Other>&)
+    template<class _Other> xalloc(const xalloc<_Other>&) {}
+    template<class _Other> xalloc<T>& operator=(const xalloc<_Other>&)
     {
         return (*this);
     }
@@ -140,7 +140,7 @@ public:
     {
         new (p) T(_Val);
     }
-    template <typename C> void destroy(C* p)
+    template<typename C> void destroy(C* p)
     {
         p->~C();
     }
@@ -153,7 +153,7 @@ public:
 
 struct xr_allocator
 {
-    template <typename T> struct helper
+    template<typename T> struct helper
     {
         typedef xalloc<T> result;
     };
@@ -162,28 +162,28 @@ struct xr_allocator
     {
         return xr_malloc((u32)n);
     }
-    template <typename T> static void dealloc(T*& p)
+    template<typename T> static void dealloc(T*& p)
     {
         xr_free(p);
     }
 };
 
-template <class _Ty, class _Other> inline bool operator==(const xalloc<_Ty>&, const xalloc<_Other>&)
+template<class _Ty, class _Other> inline bool operator==(const xalloc<_Ty>&, const xalloc<_Other>&)
 {
     return (true);
 }
-template <class _Ty, class _Other> inline bool operator!=(const xalloc<_Ty>&, const xalloc<_Other>&)
+template<class _Ty, class _Other> inline bool operator!=(const xalloc<_Ty>&, const xalloc<_Other>&)
 {
     return (false);
 }
 
 namespace std
 {
-    template <class _Tp1, class _Tp2> inline xalloc<_Tp2>& __stl_alloc_rebind(xalloc<_Tp1>& __a, const _Tp2*)
+    template<class _Tp1, class _Tp2> inline xalloc<_Tp2>& __stl_alloc_rebind(xalloc<_Tp1>& __a, const _Tp2*)
     {
         return (xalloc<_Tp2>&)(__a);
     }
-    template <class _Tp1, class _Tp2> inline xalloc<_Tp2> __stl_alloc_create(xalloc<_Tp1>&, const _Tp2*)
+    template<class _Tp1, class _Tp2> inline xalloc<_Tp2> __stl_alloc_create(xalloc<_Tp1>&, const _Tp2*)
     {
         return xalloc<_Tp2>();
     }
@@ -244,7 +244,7 @@ public:
 };
 
 // vector
-template <typename T, typename allocator = xalloc<T>> class xr_vector: public std::vector<T, allocator>
+template<typename T, typename allocator = xalloc<T>> class xr_vector: public std::vector<T, allocator>
 {
 private:
     typedef std::vector<T, allocator> inherited;
@@ -300,7 +300,7 @@ public:
 };
 
 // vector<bool>
-template <> class xr_vector<bool, xalloc<bool>>: public std::vector<bool, xalloc<bool>>
+template<> class xr_vector<bool, xalloc<bool>>: public std::vector<bool, xalloc<bool>>
 {
 private:
     typedef std::vector<bool, xalloc<bool>> inherited;
@@ -316,7 +316,7 @@ public:
     }
 };
 
-template <typename allocator> class xr_vector<bool, allocator>: public std::vector<bool, allocator>
+template<typename allocator> class xr_vector<bool, allocator>: public std::vector<bool, allocator>
 {
 private:
     typedef std::vector<bool, allocator> inherited;
@@ -333,7 +333,7 @@ public:
 };
 
 // deque
-template <typename T, typename allocator = xalloc<T>> class xr_deque: public std::deque<T, allocator>
+template<typename T, typename allocator = xalloc<T>> class xr_deque: public std::deque<T, allocator>
 {
 public:
     typedef typename allocator                  allocator_type;
@@ -346,7 +346,7 @@ public:
 };
 
 // stack
-template <typename _Ty, class _C = xr_vector<_Ty>> class xr_stack
+template<typename _Ty, class _C = xr_vector<_Ty>> class xr_stack
 {
 public:
     typedef typename _C::allocator_type         allocator_type;
@@ -354,7 +354,7 @@ public:
     typedef typename allocator_type::size_type  size_type;
 
     // explicit			stack(const allocator_type& _Al = allocator_type()) : c(_Al) {}
-    allocator_type get_allocator() const
+    allocator_type                              get_allocator() const
     {
         return (c.get_allocator());
     }
@@ -411,7 +411,7 @@ protected:
     _C c;
 };
 
-template <typename T, typename allocator = xalloc<T>> class xr_list: public std::list<T, allocator>
+template<typename T, typename allocator = xalloc<T>> class xr_list: public std::list<T, allocator>
 {
 public:
     u32 size() const
@@ -419,8 +419,7 @@ public:
         return (u32) __super::size();
     }
 };
-template <typename K, class P = std::less<K>, typename allocator = xalloc<K>> class xr_set:
-    public std::set<K, P, allocator>
+template<typename K, class P = std::less<K>, typename allocator = xalloc<K>> class xr_set: public std::set<K, P, allocator>
 {
 public:
     u32 size() const
@@ -428,8 +427,7 @@ public:
         return (u32) __super::size();
     }
 };
-template <typename K, class P = std::less<K>, typename allocator = xalloc<K>> class xr_multiset:
-    public std::multiset<K, P, allocator>
+template<typename K, class P = std::less<K>, typename allocator = xalloc<K>> class xr_multiset: public std::multiset<K, P, allocator>
 {
 public:
     u32 size() const
@@ -437,7 +435,7 @@ public:
         return (u32) __super::size();
     }
 };
-template <typename K, class V, class P = std::less<K>> class xr_map: public std::map<K, V, P>
+template<typename K, class V, class P = std::less<K>> class xr_map: public std::map<K, V, P>
 {
 public:
     u32 size() const
@@ -445,7 +443,7 @@ public:
         return (u32) __super::size();
     }
 };
-template <typename K, class V, class P = std::less<K>> class xr_multimap: public std::multimap<K, V, P>
+template<typename K, class V, class P = std::less<K>> class xr_multimap: public std::multimap<K, V, P>
 {
 public:
     u32 size() const
@@ -455,8 +453,7 @@ public:
 };
 
 #ifdef STLPORT
-template <typename V, class _HashFcn = std::hash<V>, class _EqualKey = std::equal_to<V>, typename allocator = xalloc<V>>
-class xr_hash_set: public std::hash_set<V, _HashFcn, _EqualKey, allocator>
+template<typename V, class _HashFcn = std::hash<V>, class _EqualKey = std::equal_to<V>, typename allocator = xalloc<V>> class xr_hash_set: public std::hash_set<V, _HashFcn, _EqualKey, allocator>
 {
 public:
     u32 size() const
@@ -464,8 +461,7 @@ public:
         return (u32) __super::size();
     }
 };
-template <typename V, class _HashFcn = std::hash<V>, class _EqualKey = std::equal_to<V>, typename allocator = xalloc<V>>
-class xr_hash_multiset: public std::hash_multiset<V, _HashFcn, _EqualKey, allocator>
+template<typename V, class _HashFcn = std::hash<V>, class _EqualKey = std::equal_to<V>, typename allocator = xalloc<V>> class xr_hash_multiset: public std::hash_multiset<V, _HashFcn, _EqualKey, allocator>
 {
 public:
     u32 size() const
@@ -474,13 +470,7 @@ public:
     }
 };
 
-template <
-    typename K,
-    class V,
-    class _HashFcn     = std::hash<K>,
-    class _EqualKey    = std::equal_to<K>,
-    typename allocator = xalloc<std::pair<K, V>>>
-class xr_hash_map: public std::hash_map<K, V, _HashFcn, _EqualKey, allocator>
+template<typename K, class V, class _HashFcn = std::hash<K>, class _EqualKey = std::equal_to<K>, typename allocator = xalloc<std::pair<K, V>>> class xr_hash_map: public std::hash_map<K, V, _HashFcn, _EqualKey, allocator>
 {
 public:
     u32 size() const
@@ -488,13 +478,7 @@ public:
         return (u32) __super::size();
     }
 };
-template <
-    typename K,
-    class V,
-    class _HashFcn     = std::hash<K>,
-    class _EqualKey    = std::equal_to<K>,
-    typename allocator = xalloc<std::pair<K, V>>>
-class xr_hash_multimap: public std::hash_multimap<K, V, _HashFcn, _EqualKey, allocator>
+template<typename K, class V, class _HashFcn = std::hash<K>, class _EqualKey = std::equal_to<K>, typename allocator = xalloc<std::pair<K, V>>> class xr_hash_multimap: public std::hash_multimap<K, V, _HashFcn, _EqualKey, allocator>
 {
 public:
     u32 size() const
@@ -503,8 +487,7 @@ public:
     }
 };
 #else
-template <typename K, class V, class _Traits = stdext::hash_compare<K, std::less<K>>> class xr_hash_map:
-    public stdext::hash_map<K, V, _Traits>
+template<typename K, class V, class _Traits = stdext::hash_compare<K, std::less<K>>> class xr_hash_map: public stdext::hash_map<K, V, _Traits>
 {
 public:
     u32 size() const
@@ -516,7 +499,7 @@ public:
 
 #endif
 
-template <class _Ty1, class _Ty2> inline std::pair<_Ty1, _Ty2> mk_pair(_Ty1 _Val1, _Ty2 _Val2)
+template<class _Ty1, class _Ty2> inline std::pair<_Ty1, _Ty2> mk_pair(_Ty1 _Val1, _Ty2 _Val2)
 {
     return (std::pair<_Ty1, _Ty2>(_Val1, _Val2));
 }

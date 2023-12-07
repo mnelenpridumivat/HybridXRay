@@ -13,9 +13,7 @@
 #include "property_integer_values_value_base.hpp"
 
 public
-ref class property_integer_values_value_reference:
-    public property_integer_reference,
-    public property_integer_values_value_base
+ref class property_integer_values_value_reference: public property_integer_reference, public property_integer_values_value_base
 {
 private:
     typedef property_integer_reference     inherited;

@@ -48,12 +48,12 @@ struct cl_TeamStruct
 {
     shared_str caSection;   // имя секции комманды
     //-----------------------------------
-    ui_shader IndicatorShader;
-    ui_shader InvincibleShader;
+    ui_shader  IndicatorShader;
+    ui_shader  InvincibleShader;
 
-    Fvector IndicatorPos;
-    float   Indicator_r1;
-    float   Indicator_r2;
+    Fvector    IndicatorPos;
+    float      Indicator_r1;
+    float      Indicator_r2;
 };
 
 DEF_DEQUE(CL_TEAM_DATA_LIST, cl_TeamStruct);
@@ -79,7 +79,7 @@ struct cl_MessageMenu
     DEF_VECTOR(MENUMESSAGES, cl_Menu_Message);
     MENUMESSAGES m_aMessages;
 
-    bool operator==(CUISpeechMenu* pMenu)
+    bool         operator==(CUISpeechMenu* pMenu)
     {
         return pMenu == m_pSpeechMenu;
     }
@@ -87,11 +87,11 @@ struct cl_MessageMenu
 
 struct Bonus_Struct
 {
-    shared_str BonusName;
-    shared_str BonusTypeName;
-    shared_str MoneyStr;
-    int        Money;
-    ui_shader  IconShader;
+    shared_str       BonusName;
+    shared_str       BonusTypeName;
+    shared_str       MoneyStr;
+    int              Money;
+    ui_shader        IconShader;
     // ref_shader	IconShader;
     xr_vector<Frect> IconRects;
     Bonus_Struct()
@@ -141,56 +141,56 @@ protected:
     SNDMESSAGESINPLAY m_pSndMessagesInPlay;
 
     DEF_VECTOR(BONUSES, Bonus_Struct);
-    BONUSES m_pBonusList;
+    BONUSES                               m_pBonusList;
 
-    bool               m_bVotingActive;
-    CUIVotingCategory* m_pVoteStartWindow;
-    CUIMpAdminMenu*    m_pAdminMenuWindow;
-    CUIVote*           m_pVoteRespondWindow;
-    CUIMessageBoxEx*   m_pMessageBox;
-    BOOL               m_bSpectatorSelected;
+    bool                                  m_bVotingActive;
+    CUIVotingCategory*                    m_pVoteStartWindow;
+    CUIMpAdminMenu*                       m_pAdminMenuWindow;
+    CUIVote*                              m_pVoteRespondWindow;
+    CUIMessageBoxEx*                      m_pMessageBox;
+    BOOL                                  m_bSpectatorSelected;
 
-    virtual void LoadTeamData(const shared_str& TeamName);
+    virtual void                          LoadTeamData(const shared_str& TeamName);
 
-    virtual void ChatSay(LPCSTR phrase, bool bAll);
+    virtual void                          ChatSay(LPCSTR phrase, bool bAll);
 
-    virtual void OnChatMessage(NET_Packet* P);
-    virtual void OnWarnMessage(NET_Packet* P);
-    virtual void OnRadminMessage(u16 type, NET_Packet* P);
+    virtual void                          OnChatMessage(NET_Packet* P);
+    virtual void                          OnWarnMessage(NET_Packet* P);
+    virtual void                          OnRadminMessage(u16 type, NET_Packet* P);
 
-    virtual void UpdateMapLocations(){};
+    virtual void                          UpdateMapLocations(){};
 
-    ui_shader m_EquipmentIconsShader;
-    ui_shader m_KillEventIconsShader;
-    ui_shader m_RadiationIconsShader;
-    ui_shader m_BloodLossIconsShader;
-    ui_shader m_RankIconsShader;
+    ui_shader                             m_EquipmentIconsShader;
+    ui_shader                             m_KillEventIconsShader;
+    ui_shader                             m_RadiationIconsShader;
+    ui_shader                             m_BloodLossIconsShader;
+    ui_shader                             m_RankIconsShader;
 
-    virtual const ui_shader& GetEquipmentIconsShader();
-    virtual const ui_shader& GetKillEventIconsShader();
-    virtual const ui_shader& GetRadiationIconsShader();
-    virtual const ui_shader& GetBloodLossIconsShader();
-    virtual const ui_shader& GetRankIconsShader();
+    virtual const ui_shader&              GetEquipmentIconsShader();
+    virtual const ui_shader&              GetKillEventIconsShader();
+    virtual const ui_shader&              GetRadiationIconsShader();
+    virtual const ui_shader&              GetBloodLossIconsShader();
+    virtual const ui_shader&              GetRankIconsShader();
 
-    virtual void OnPlayerKilled(NET_Packet& P);
+    virtual void                          OnPlayerKilled(NET_Packet& P);
 
-    virtual bool NeedToSendReady_Actor(int key, game_PlayerState* ps);
-    virtual bool NeedToSendReady_Spectator(int key, game_PlayerState* ps);
+    virtual bool                          NeedToSendReady_Actor(int key, game_PlayerState* ps);
+    virtual bool                          NeedToSendReady_Spectator(int key, game_PlayerState* ps);
 
-    virtual void LoadSndMessage(LPCSTR caSection, LPCSTR caLine, u32 ID);
-    virtual void LoadSndMessages();
-    virtual void UpdateSndMessages();
+    virtual void                          LoadSndMessage(LPCSTR caSection, LPCSTR caLine, u32 ID);
+    virtual void                          LoadSndMessages();
+    virtual void                          UpdateSndMessages();
 
-    u8   m_u8SpectatorModes;
-    bool m_bSpectator_FreeFly;
-    bool m_bSpectator_FirstEye;
-    bool m_bSpectator_LookAt;
-    bool m_bSpectator_FreeLook;
-    bool m_bSpectator_TeamCamera;
+    u8                                    m_u8SpectatorModes;
+    bool                                  m_bSpectator_FreeFly;
+    bool                                  m_bSpectator_FirstEye;
+    bool                                  m_bSpectator_LookAt;
+    bool                                  m_bSpectator_FreeLook;
+    bool                                  m_bSpectator_TeamCamera;
 
-    u32 m_cur_MenuID;
+    u32                                   m_cur_MenuID;
 
-    virtual void LoadBonuses();
+    virtual void                          LoadBonuses();
 
     award_system::reward_event_generator* m_reward_generator;
     void                                  ReInitRewardGenerator(game_PlayerState* local_ps);
@@ -259,7 +259,7 @@ public:
 
     virtual void OnSwitchPhase_InProgress();
 
-    virtual u8 GetTeamCount()
+    virtual u8   GetTeamCount()
     {
         return 0;
     };
@@ -272,48 +272,45 @@ public:
     {
         return m_bSpectator_TeamCamera && !Level().IsDemoPlay();
     };
-    virtual bool Is_Spectator_Camera_Allowed(CSpectator::EActorCameras Camera);
-    virtual bool Is_Rewarding_Allowed() const = 0;
+    virtual bool                          Is_Spectator_Camera_Allowed(CSpectator::EActorCameras Camera);
+    virtual bool                          Is_Rewarding_Allowed() const = 0;
 
-    void           SendPlayerStarted();
-    virtual void   OnConnected();
-    virtual LPCSTR GetGameScore(string32& score_dest) = 0;
+    void                                  SendPlayerStarted();
+    virtual void                          OnConnected();
+    virtual LPCSTR                        GetGameScore(string32& score_dest) = 0;
 
-    screenshot_manager             ss_manager;
-    mp_anticheat::configs_dumper   cd_manager;
-    mp_anticheat::configs_verifyer cd_verifyer;
+    screenshot_manager                    ss_manager;
+    mp_anticheat::configs_dumper          cd_manager;
+    mp_anticheat::configs_verifyer        cd_verifyer;
 
     award_system::reward_event_generator* get_reward_generator() const
     {
         return m_reward_generator;
     };
 
-    void AddRewardTask(u32 const award_id);
+    void                                                AddRewardTask(u32 const award_id);
 
-    void AddSoundMessage(LPCSTR sound_name, u32 const sound_priority, u32 const soundID);
-    void PlaySndMessage(u32 ID);
+    void                                                AddSoundMessage(LPCSTR sound_name, u32 const sound_priority, u32 const soundID);
+    void                                                PlaySndMessage(u32 ID);
     typedef fastdelegate::FastDelegate<void(u32 const)> player_info_reply_cb_t;
     bool                                                RequestPlayersInfo(player_info_reply_cb_t const pinfo_repl_cb);
 
 private:
-    u8*           buffer_for_compress;
-    u32           buffer_for_compress_size;
-    CMemoryWriter upload_memory_writer;
-    void          reinit_compress_buffer(u32 need_size);
-    void          deinit_compress_buffer();
+    u8*                           buffer_for_compress;
+    u32                           buffer_for_compress_size;
+    CMemoryWriter                 upload_memory_writer;
+    void                          reinit_compress_buffer(u32 need_size);
+    void                          deinit_compress_buffer();
 
     award_system::reward_manager* m_reward_manager;
     void                          start_receive_server_info(ClientID const& svclient_id);
 
-    player_info_reply_cb_t m_players_info_reply;
-    void                   ProcessPlayersInfoReply(NET_Packet& P);
+    player_info_reply_cb_t        m_players_info_reply;
+    void                          ProcessPlayersInfoReply(NET_Packet& P);
 
 public:
     void SendCollectedData(u8 const* buffer, u32 buffer_size, u32 uncompressed_size);
-    void PrepareToReceiveFile(
-        ClientID const&    from_client,
-        shared_str const&  client_session_id,
-        clientdata_event_t response_event);
+    void PrepareToReceiveFile(ClientID const& from_client, shared_str const& client_session_id, clientdata_event_t response_event);
 
     struct fr_callback_binder
     {
@@ -354,18 +351,18 @@ public:
         m_ready_to_open_buy_menu = false;
     };
 
-    void decompress_and_save_screenshot(LPCSTR file_name, u8* data, u32 data_size, u32 file_size);
-    void decompress_and_process_config(LPCSTR file_name, u8* data, u32 data_size, u32 file_size);
+    void                decompress_and_save_screenshot(LPCSTR file_name, u8* data, u32 data_size, u32 file_size);
+    void                decompress_and_process_config(LPCSTR file_name, u8* data, u32 data_size, u32 file_size);
 
     void                extract_server_info(u8* data_ptr, u32 data_size);
     fr_callback_binder* get_receiver_cb_binder();
     void                draw_all_active_binder_states();
     void                draw_downloads(bool draw);
 
-    void sending_screenshot_callback(file_transfer::sending_status_t status, u32 bytes_sent, u32 data_size);
+    void                sending_screenshot_callback(file_transfer::sending_status_t status, u32 bytes_sent, u32 data_size);
     //-------------------------------------------------------------------------------------------------
-    static void   generate_file_name(string_path& file_name, LPCSTR file_suffix, SYSTEMTIME const& date_time);
-    static LPCSTR make_file_name(LPCSTR session_id, string_path& dest);
+    static void         generate_file_name(string_path& file_name, LPCSTR file_suffix, SYSTEMTIME const& date_time);
+    static LPCSTR       make_file_name(LPCSTR session_id, string_path& dest);
 //-------------------------------------------------------------------------------------------------
 #include "game_cl_mp_messages_menu.h"
 };

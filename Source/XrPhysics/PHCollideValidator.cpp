@@ -12,8 +12,7 @@ void                CPHCollideValidator::Init()
     NonTypeFlags.set(cbNCGroupObject, TRUE);
 
     ClassFlags.set(cbClassDynamic | cbClassCharacter | cbClassSmall | cbClassRagDoll | cbClassAnimated, TRUE);
-    ClassNCFlags.set(
-        cbNCClassCharacter | cbNCClassSmall | cbNCClassDynamic | cbNCClassRagDoll | cbNCClassAnimated, TRUE);
+    ClassNCFlags.set(cbNCClassCharacter | cbNCClassSmall | cbNCClassDynamic | cbNCClassRagDoll | cbNCClassAnimated, TRUE);
 }
 CGID CPHCollideValidator::RegisterGroup()
 {

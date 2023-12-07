@@ -1,5 +1,5 @@
-//////////////////////////////////////////////////////////////////////
-// UIPdaMsgListItem.cpp: ������� ���� ������ � �������� 
+﻿//////////////////////////////////////////////////////////////////////
+// UIPdaMsgListItem.cpp: ������� ���� ������ � ��������
 // ������ ��� ��������� PDA
 //////////////////////////////////////////////////////////////////////
 
@@ -17,27 +17,26 @@
 
 using namespace InventoryUtilities;
 
-
 void CUIPdaMsgListItem::SetFont(CGameFont* pFont)
 {
-	UITimeText.SetFont		(pFont);
-	UICaptionText.SetFont	(pFont);
-	UIMsgText.SetFont		(pFont);
+    UITimeText.SetFont(pFont);
+    UICaptionText.SetFont(pFont);
+    UIMsgText.SetFont(pFont);
 }
 
 void CUIPdaMsgListItem::InitPdaMsgListItem(Fvector2 pos, Fvector2 size)
 {
-	CUIStatic::SetWndPos	(pos);
-	CUIStatic::SetWndSize	(size);
+    CUIStatic::SetWndPos(pos);
+    CUIStatic::SetWndSize(size);
 
-	CUIXml					uiXml;
-	uiXml.Load				(CONFIG_PATH, UI_PATH,PDA_MSG_MAINGAME_CHAR);
+    CUIXml uiXml;
+    uiXml.Load(CONFIG_PATH, UI_PATH, PDA_MSG_MAINGAME_CHAR);
 
-	CUIXmlInit				xml_init;
-	AttachChild				(&UIIcon);
-	xml_init.InitStatic		(uiXml, "icon_static", 0, &UIIcon);
+    CUIXmlInit xml_init;
+    AttachChild(&UIIcon);
+    xml_init.InitStatic(uiXml, "icon_static", 0, &UIIcon);
 
-	/*AttachChild(&UIName);
+    /*AttachChild(&UIName);
 	if(uiXml.NavigateToNode	("name_static",0))
 		xml_init.InitStatic	(uiXml, "name_static", 0, &UIName);
 	else
@@ -45,26 +44,26 @@ void CUIPdaMsgListItem::InitPdaMsgListItem(Fvector2 pos, Fvector2 size)
 		UIName.Show			(false);
 		UIName.Enable		(false);
 	}*/
-	AttachChild				(&UITimeText);
-	xml_init.InitStatic		(uiXml, "time_static", 0, &UITimeText);
+    AttachChild(&UITimeText);
+    xml_init.InitStatic(uiXml, "time_static", 0, &UITimeText);
 
-	AttachChild				(&UICaptionText);
-	xml_init.InitStatic		(uiXml, "caption_static", 0, &UICaptionText);
+    AttachChild(&UICaptionText);
+    xml_init.InitStatic(uiXml, "caption_static", 0, &UICaptionText);
 
-	AttachChild				(&UIMsgText);
-	xml_init.InitStatic		(uiXml, "msg_static", 0, &UIMsgText);
+    AttachChild(&UIMsgText);
+    xml_init.InitStatic(uiXml, "msg_static", 0, &UIMsgText);
 }
 
 void CUIPdaMsgListItem::SetTextColor(u32 color)
 {
-	UITimeText.SetTextColor		(color);
-	UICaptionText.SetTextColor	(color);
-	UIMsgText.SetTextColor		(color);
+    UITimeText.SetTextColor(color);
+    UICaptionText.SetTextColor(color);
+    UIMsgText.SetTextColor(color);
 }
 
 void CUIPdaMsgListItem::SetColor(u32 color)
 {
-	UIIcon.SetColor(color);
+    UIIcon.SetColor(color);
 }
 
 /*

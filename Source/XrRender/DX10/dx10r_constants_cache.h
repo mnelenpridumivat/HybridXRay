@@ -13,11 +13,13 @@ class ECORE_API R_constants
         BT_DomainBuffer,
         BT_Compute
     };
+
 public:
     //	ALIGN(16)	R_constant_array	a_pixel;
     //	ALIGN(16)	R_constant_array	a_vertex;
 
     void flush_cache();
+
 public:
     // fp, non-array versions
 
@@ -175,6 +177,7 @@ public:
                 *ppGData = 0;
         }
     }
+
 private:
     void set(R_constant* C, R_constant_load& L, const Fmatrix& A, BufferType BType)
     {

@@ -18,7 +18,7 @@ using Flobbster::Windows::Forms::PropertyBag;
 using System::Windows::Forms::GridItem;
 typedef PropertyBag::PropertySpecDescriptor PropertySpecDescriptor;
 
-void window_view::custom_init(window_ide % ide)
+void                                        window_view::custom_init(window_ide % ide)
 {
     SuspendLayout();
 
@@ -292,11 +292,7 @@ void window_view::pick_color_cursor(bool value)
         return;
     }
 
-    ViewPanel->Cursor = gcnew System::Windows::Forms::Cursor((IntPtr)LoadCursor(
-        (HINSTANCE)System::Runtime::InteropServices::Marshal::GetHINSTANCE(
-            System::Reflection::Assembly::GetExecutingAssembly()->GetModules()[0])
-            .ToInt32(),
-        MAKEINTRESOURCE(IDC_CURSOR1)));
+    ViewPanel->Cursor = gcnew System::Windows::Forms::Cursor((IntPtr)LoadCursor((HINSTANCE)System::Runtime::InteropServices::Marshal::GetHINSTANCE(System::Reflection::Assembly::GetExecutingAssembly()->GetModules()[0]).ToInt32(), MAKEINTRESOURCE(IDC_CURSOR1)));
 }
 
 bool window_view::pick_color_cursor()

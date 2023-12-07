@@ -55,36 +55,30 @@ typedef struct
 
 // FUNCTIONS
 ///////////
-GPResult gpiSetInfoi(GPConnection* connection, GPEnum info, int value);
+GPResult                   gpiSetInfoi(GPConnection* connection, GPEnum info, int value);
 
-GPResult gpiSetInfos(GPConnection* connection, GPEnum info, const char* value);
+GPResult                   gpiSetInfos(GPConnection* connection, GPEnum info, const char* value);
 
-GPResult gpiSetInfod(GPConnection* connection, GPEnum info, int day, int month, int year);
+GPResult                   gpiSetInfod(GPConnection* connection, GPEnum info, int day, int month, int year);
 
-GPResult gpiSetInfoMask(GPConnection* connection, GPEnum mask);
+GPResult                   gpiSetInfoMask(GPConnection* connection, GPEnum mask);
 
-void gpiInfoCacheToArg(const GPIInfoCache* cache, GPGetInfoResponseArg* arg);
+void                       gpiInfoCacheToArg(const GPIInfoCache* cache, GPGetInfoResponseArg* arg);
 
-GPResult gpiGetInfo(
-    GPConnection* connection,
-    GPProfile     profile,
-    GPEnum        checkCache,
-    GPEnum        blocking,
-    GPCallback    callback,
-    void*         param);
+GPResult                   gpiGetInfo(GPConnection* connection, GPProfile profile, GPEnum checkCache, GPEnum blocking, GPCallback callback, void* param);
 
-GPResult gpiGetInfoNoWait(GPConnection* connection, GPProfile profile, GPGetInfoResponseArg* arg);
+GPResult                   gpiGetInfoNoWait(GPConnection* connection, GPProfile profile, GPGetInfoResponseArg* arg);
 
-GPResult gpiProcessGetInfo(GPConnection* connection, GPIOperation* operation, const char* input);
+GPResult                   gpiProcessGetInfo(GPConnection* connection, GPIOperation* operation, const char* input);
 
-GPResult gpiSendGetInfo(GPConnection* connection, int profileid, int operationid);
+GPResult                   gpiSendGetInfo(GPConnection* connection, int profileid, int operationid);
 
-GPResult gpiAddLocalInfo(GPConnection* connection, GPIBuffer* buffer);
+GPResult                   gpiAddLocalInfo(GPConnection* connection, GPIBuffer* buffer);
 
 typedef struct GPIProfile* pGPIProfile;
 
-GPIBool gpiSetInfoCache(GPConnection* connection, pGPIProfile profile, const GPIInfoCache* cache);
+GPIBool                    gpiSetInfoCache(GPConnection* connection, pGPIProfile profile, const GPIInfoCache* cache);
 
-void gpiFreeInfoCache(pGPIProfile profile);
+void                       gpiFreeInfoCache(pGPIProfile profile);
 
 #endif

@@ -11,7 +11,7 @@ struct SAnimationPart
     bool    actual;
     u32     time_started;
 
-    void init()
+    void    init()
     {
         motion.invalidate();
         blend        = 0;
@@ -58,7 +58,7 @@ class CControlAnimation: public CControl_ComPure<SControlAnimationData>
 {
     typedef CControl_ComPure<SControlAnimationData> inherited;
 
-    IKinematicsAnimated* m_skeleton_animated;
+    IKinematicsAnimated*                            m_skeleton_animated;
 
     // animation events
     struct SAnimationEvent
@@ -72,10 +72,10 @@ class CControlAnimation: public CControl_ComPure<SControlAnimationData>
     DEFINE_MAP(MotionID, ANIMATION_EVENT_VEC, ANIMATION_EVENT_MAP, ANIMATION_EVENT_MAP_IT);
     ANIMATION_EVENT_MAP m_anim_events;
 
-    bool  m_freeze;
-    float m_saved_global_speed;
-    float m_saved_legs_speed;
-    float m_saved_torso_speed;
+    bool                m_freeze;
+    float               m_saved_global_speed;
+    float               m_saved_legs_speed;
+    float               m_saved_torso_speed;
 
 public:
     bool m_global_animation_end;
@@ -87,17 +87,17 @@ public:
     virtual void update_frame();
     virtual void reset_data();
 
-    void add_anim_event(MotionID, float, u32);
+    void         add_anim_event(MotionID, float, u32);
 
-    CBlend* current_blend()
+    CBlend*      current_blend()
     {
         return m_data.global.blend;
     }
 
-    void restart();
+    void     restart();
 
-    void freeze();
-    void unfreeze();
+    void     freeze();
+    void     unfreeze();
 
     // Services
     IC float motion_time(MotionID motion_id, IRenderVisual* visual);

@@ -400,6 +400,7 @@ public:
     virtual void IsItemClicked(Node* Node) {}
     virtual bool IsDrawFolder(Node* Node) = 0;
     virtual void DrawItem(Node* Node)     = 0;
+
 private:
     inline void SwapData(Node* Dst, Node* Src)
     {

@@ -21,10 +21,7 @@
 
 const u32 need_look_back_time_interval = 2000;
 
-MotionID CStalkerAnimationManager::aim_animation(
-    const u32&                   slot,
-    const xr_vector<CAniVector>& animation,
-    const u32&                   index) const
+MotionID  CStalkerAnimationManager::aim_animation(const u32& slot, const xr_vector<CAniVector>& animation, const u32& index) const
 {
     if (!m_special_danger_move)
         return (animation[6].A[index]);
@@ -75,15 +72,13 @@ void CStalkerAnimationManager::torso_play_callback(CBlend* blend)
 
 MotionID CStalkerAnimationManager::no_object_animation(const EBodyState& body_state) const
 {
-    const CAI_Stalker&                          stalker  = object();
-    const stalker_movement_manager_smart_cover& movement = stalker.movement();
-    const xr_vector<CAniVector>& animation = m_data_storage->m_part_animations.A[body_state].m_torso.A[0].A;
+    const CAI_Stalker&                          stalker   = object();
+    const stalker_movement_manager_smart_cover& movement  = stalker.movement();
+    const xr_vector<CAniVector>&                animation = m_data_storage->m_part_animations.A[body_state].m_torso.A[0].A;
 
     if (eMentalStateFree == movement.mental_state())
     {
-        VERIFY3(
-            eBodyStateStand == movement.body_state(), "Cannot run FREE animations, when body state is not stand!",
-            *stalker.cName());
+        VERIFY3(eBodyStateStand == movement.body_state(), "Cannot run FREE animations, when body state is not stand!", *stalker.cName());
 
         if (standing())
             return (animation[9].A[1]);
@@ -104,15 +99,15 @@ MotionID CStalkerAnimationManager::no_object_animation(const EBodyState& body_st
 MotionID CStalkerAnimationManager::unknown_object_animation(u32 slot, const EBodyState& body_state) const
 {
     // animation shortcuts
-    typedef CStalkerAnimationState STATE;
-    const xr_vector<STATE>&        part_animations = m_data_storage->m_part_animations.A;
-    const xr_vector<CAniVector>&   animation       = part_animations[body_state].m_torso.A[slot].A;
-    const xr_vector<CAniVector>&   animation_stand = part_animations[eBodyStateStand].m_torso.A[slot].A;
+    typedef CStalkerAnimationState              STATE;
+    const xr_vector<STATE>&                     part_animations = m_data_storage->m_part_animations.A;
+    const xr_vector<CAniVector>&                animation       = part_animations[body_state].m_torso.A[slot].A;
+    const xr_vector<CAniVector>&                animation_stand = part_animations[eBodyStateStand].m_torso.A[slot].A;
 
     // stalker shortcuts
-    const CAI_Stalker&                          stalker  = object();
-    const stalker_movement_manager_smart_cover& movement = stalker.movement();
-    u32                                         id       = stalker.CObjectHandler::planner().current_action_state_id();
+    const CAI_Stalker&                          stalker         = object();
+    const stalker_movement_manager_smart_cover& movement        = stalker.movement();
+    u32                                         id              = stalker.CObjectHandler::planner().current_action_state_id();
 
     switch (id)
     {
@@ -123,7 +118,8 @@ MotionID CStalkerAnimationManager::unknown_object_animation(u32 slot, const EBod
         case ObjectHandlerSpace::eWorldOperatorAimingReady1:
         case ObjectHandlerSpace::eWorldOperatorAimingReady2:
         case ObjectHandlerSpace::eWorldOperatorQueueWait1:
-        case ObjectHandlerSpace::eWorldOperatorQueueWait2: {
+        case ObjectHandlerSpace::eWorldOperatorQueueWait2:
+        {
             if (standing())
                 return (aim_animation(slot, animation, 0));
 
@@ -154,9 +150,7 @@ MotionID CStalkerAnimationManager::unknown_object_animation(u32 slot, const EBod
 
     if (eMentalStateFree == movement.mental_state())
     {
-        VERIFY3(
-            eBodyStateStand == movement.body_state(), "Cannot run FREE animation when body state is not stand!",
-            *object().cName());
+        VERIFY3(eBodyStateStand == movement.body_state(), "Cannot run FREE animation when body state is not stand!", *object().cName());
 
         if (standing())
             return (animation[9].A[1]);
@@ -184,7 +178,8 @@ MotionID CStalkerAnimationManager::weapon_animation(u32 slot, const EBodyState& 
 
     switch (m_weapon->GetState())
     {
-        case CWeapon::eReload: {
+        case CWeapon::eReload:
+        {
             switch (m_weapon->GetReloadState())
             {
                 case CWeapon::eSubstateReloadBegin:
@@ -208,7 +203,8 @@ MotionID CStalkerAnimationManager::weapon_animation(u32 slot, const EBodyState& 
         case CWeapon::eHidden:
             return (no_object_animation(body_state));
         case CWeapon::eFire:
-        case CWeapon::eFire2: {
+        case CWeapon::eFire2:
+        {
             CAI_Stalker&                          stalker  = object();
             stalker_movement_manager_smart_cover& movement = stalker.movement();
             if (standing())
@@ -246,7 +242,8 @@ MotionID CStalkerAnimationManager::missile_animation(u32 slot, const EBodyState&
 
     switch (m_missile->GetState())
     {
-        case CMissile::eShowing: {
+        case CMissile::eShowing:
+        {
 #ifdef DEBUG
             if (animation[0].A.empty())
             {
@@ -255,7 +252,8 @@ MotionID CStalkerAnimationManager::missile_animation(u32 slot, const EBodyState&
 #endif   // #ifdef DEBUG
             return (torso().select(animation[0].A));
         }
-        case CMissile::eHiding: {
+        case CMissile::eHiding:
+        {
 #ifdef DEBUG
             if (animation[3].A.empty())
             {
@@ -264,7 +262,8 @@ MotionID CStalkerAnimationManager::missile_animation(u32 slot, const EBodyState&
 #endif   // #ifdef DEBUG
             return (torso().select(animation[3].A));
         }
-        case CMissile::eThrowStart: {
+        case CMissile::eThrowStart:
+        {
 //			Msg						("CMissile::eThrowStart");
 #ifdef DEBUG
             if (animation[1].A.empty())
@@ -274,7 +273,8 @@ MotionID CStalkerAnimationManager::missile_animation(u32 slot, const EBodyState&
 #endif   // #ifdef DEBUG
             return (animation[1].A[0]);
         }
-        case CMissile::eReady: {
+        case CMissile::eReady:
+        {
 //			Msg						("CMissile::eReady");
 #ifdef DEBUG
             if (animation[1].A.size() < 2)
@@ -284,7 +284,8 @@ MotionID CStalkerAnimationManager::missile_animation(u32 slot, const EBodyState&
 #endif   // #ifdef DEBUG
             return (animation[1].A[1]);
         }
-        case CMissile::eThrow: {
+        case CMissile::eThrow:
+        {
 //			Msg						("CMissile::eThrow");
 #ifdef DEBUG
             if (animation[1].A.size() < 3)
@@ -294,17 +295,19 @@ MotionID CStalkerAnimationManager::missile_animation(u32 slot, const EBodyState&
 #endif   // #ifdef DEBUG
             return (animation[1].A[2]);
         }
-        case CMissile::eThrowEnd: {
+        case CMissile::eThrowEnd:
+        {
 #ifdef DEBUG
             if (animation[6].A.empty())
             {
                 Msg("! visual %s", object().cNameVisual().c_str());
             }
-#endif      // #ifdef DEBUG
-            //			Msg						("CMissile::eThrowEnd");
+#endif   // #ifdef DEBUG \
+    //			Msg						("CMissile::eThrowEnd");
             return (animation[6].A[0]);
         }
-        case CMissile::eBore: {
+        case CMissile::eBore:
+        {
 #ifdef DEBUG
             if (animation[1].A.size() < 2)
             {
@@ -313,7 +316,8 @@ MotionID CStalkerAnimationManager::missile_animation(u32 slot, const EBodyState&
 #endif   // #ifdef DEBUG
             return (animation[1].A[1]);
         }
-        case CMissile::eHidden: {
+        case CMissile::eHidden:
+        {
 #ifdef DEBUG
             if (animation[6].A.empty())
             {
@@ -323,7 +327,8 @@ MotionID CStalkerAnimationManager::missile_animation(u32 slot, const EBodyState&
             return (animation[6].A[0]);
         }
         case CMissile::eIdle:
-        default: {
+        default:
+        {
             CAI_Stalker&                          stalker  = object();
             stalker_movement_manager_smart_cover& movement = stalker.movement();
             if (standing())

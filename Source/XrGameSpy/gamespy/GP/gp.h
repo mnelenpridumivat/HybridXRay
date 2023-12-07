@@ -45,13 +45,13 @@ extern "C"
 
         // Blocking
         ///////////
-        GP_BLOCKING     = 1,
-        GP_NON_BLOCKING = 0,
+        GP_BLOCKING         = 1,
+        GP_NON_BLOCKING     = 0,
 
         // Firewall
         ///////////
-        GP_FIREWALL    = 1,
-        GP_NO_FIREWALL = 0,
+        GP_FIREWALL         = 1,
+        GP_NO_FIREWALL      = 0,
 
         // Check Cache
         //////////////
@@ -61,17 +61,17 @@ extern "C"
         // Is Valid Email.
         // PANTS|02.15.00
         //////////////////
-        GP_VALID   = 1,
-        GP_INVALID = 0,
+        GP_VALID            = 1,
+        GP_INVALID          = 0,
 
         // Fatal Error.
         ///////////////
-        GP_FATAL     = 1,
-        GP_NON_FATAL = 0,
+        GP_FATAL            = 1,
+        GP_NON_FATAL        = 0,
 
         // Sex
         //////
-        GP_MALE = 0x0500,
+        GP_MALE             = 0x0500,
         GP_FEMALE,
         GP_PAT,
 
@@ -116,33 +116,33 @@ extern "C"
 
         // New Profile.
         ///////////////
-        GP_REPLACE      = 1,
-        GP_DONT_REPLACE = 0,
+        GP_REPLACE            = 1,
+        GP_DONT_REPLACE       = 0,
 
         // Is Connected.
         ////////////////
-        GP_CONNECTED     = 1,
-        GP_NOT_CONNECTED = 0,
+        GP_CONNECTED          = 1,
+        GP_NOT_CONNECTED      = 0,
 
         // Public mask.
         ///////////////
-        GP_MASK_NONE        = 0x00000000,
-        GP_MASK_HOMEPAGE    = 0x00000001,
-        GP_MASK_ZIPCODE     = 0x00000002,
-        GP_MASK_COUNTRYCODE = 0x00000004,
-        GP_MASK_BIRTHDAY    = 0x00000008,
-        GP_MASK_SEX         = 0x00000010,
-        GP_MASK_EMAIL       = 0x00000020,
-        GP_MASK_ALL         = 0xFFFFFFFF,
+        GP_MASK_NONE          = 0x00000000,
+        GP_MASK_HOMEPAGE      = 0x00000001,
+        GP_MASK_ZIPCODE       = 0x00000002,
+        GP_MASK_COUNTRYCODE   = 0x00000004,
+        GP_MASK_BIRTHDAY      = 0x00000008,
+        GP_MASK_SEX           = 0x00000010,
+        GP_MASK_EMAIL         = 0x00000020,
+        GP_MASK_ALL           = 0xFFFFFFFF,
 
         // Status
         /////////
-        GP_OFFLINE  = 0,
-        GP_ONLINE   = 1,
-        GP_PLAYING  = 2,
-        GP_STAGING  = 3,
-        GP_CHATTING = 4,
-        GP_AWAY     = 5,
+        GP_OFFLINE            = 0,
+        GP_ONLINE             = 1,
+        GP_PLAYING            = 2,
+        GP_STAGING            = 3,
+        GP_CHATTING           = 4,
+        GP_AWAY               = 5,
 
         // Session flags
         /////////////////
@@ -154,7 +154,7 @@ extern "C"
 
         // CPU Brand ID
         ///////////////
-        GP_INTEL = 1,
+        GP_INTEL              = 1,
         GP_AMD,
         GP_CYRIX,
         GP_MOTOROLA,
@@ -203,15 +203,15 @@ extern "C"
 
         // UTM send options.
         ////////////////////
-        GP_DONT_ROUTE = 0xB00,   // only send direct
+        GP_DONT_ROUTE                    = 0xB00,   // only send direct
 
         // Quiet mode flags.
         ////////////////////
-        GP_SILENCE_NONE     = 0x00000000,
-        GP_SILENCE_MESSAGES = 0x00000001,
-        GP_SILENCE_UTMS     = 0x00000002,
-        GP_SILENCE_LIST     = 0x00000004,   // includes requests, auths, and revokes
-        GP_SILENCE_ALL      = 0xFFFFFFFF,
+        GP_SILENCE_NONE                  = 0x00000000,
+        GP_SILENCE_MESSAGES              = 0x00000001,
+        GP_SILENCE_UTMS                  = 0x00000002,
+        GP_SILENCE_LIST                  = 0x00000004,   // includes requests, auths, and revokes
+        GP_SILENCE_ALL                   = 0xFFFFFFFF,
 
         // Flags for checking if newer version of status info is supported
         GP_NEW_STATUS_INFO_SUPPORTED     = 0xC00,
@@ -306,7 +306,7 @@ extern "C"
 
         // Bm.
         //////
-        GP_BM = 0x0900,
+        GP_BM     = 0x0900,
         GP_BM_NOT_BUDDY,
         GP_BM_EXT_INFO_NOT_SUPPORTED,
         GP_BM_BUDDY_OFFLINE,
@@ -372,42 +372,42 @@ extern "C"
 
 // STRING LENGTHS
 ////////////////
-#define GP_NICK_LEN 31
-#define GP_UNIQUENICK_LEN 21
-#define GP_FIRSTNAME_LEN 31
-#define GP_LASTNAME_LEN 31
-#define GP_EMAIL_LEN 51
-#define GP_PASSWORD_LEN 31
-#define GP_PASSWORDENC_LEN ((((GP_PASSWORD_LEN + 2) * 4) / 3) + 1)
-#define GP_HOMEPAGE_LEN 76
-#define GP_ZIPCODE_LEN 11
-#define GP_COUNTRYCODE_LEN 3
-#define GP_PLACE_LEN 128
-#define GP_AIMNAME_LEN 51
-#define GP_REASON_LEN 1025
-#define GP_STATUS_STRING_LEN 256
-#define GP_LOCATION_STRING_LEN 256
-#define GP_ERROR_STRING_LEN 256
-#define GP_AUTHTOKEN_LEN 256
+#define GP_NICK_LEN             31
+#define GP_UNIQUENICK_LEN       21
+#define GP_FIRSTNAME_LEN        31
+#define GP_LASTNAME_LEN         31
+#define GP_EMAIL_LEN            51
+#define GP_PASSWORD_LEN         31
+#define GP_PASSWORDENC_LEN      ((((GP_PASSWORD_LEN + 2) * 4) / 3) + 1)
+#define GP_HOMEPAGE_LEN         76
+#define GP_ZIPCODE_LEN          11
+#define GP_COUNTRYCODE_LEN      3
+#define GP_PLACE_LEN            128
+#define GP_AIMNAME_LEN          51
+#define GP_REASON_LEN           1025
+#define GP_STATUS_STRING_LEN    256
+#define GP_LOCATION_STRING_LEN  256
+#define GP_ERROR_STRING_LEN     256
+#define GP_AUTHTOKEN_LEN        256
 #define GP_PARTNERCHALLENGE_LEN 256
-#define GP_CDKEY_LEN 65
-#define GP_CDKEYENC_LEN ((((GP_CDKEY_LEN + 2) * 4) / 3) + 1)
-#define GP_LOGIN_TICKET_LEN 25
+#define GP_CDKEY_LEN            65
+#define GP_CDKEYENC_LEN         ((((GP_CDKEY_LEN + 2) * 4) / 3) + 1)
+#define GP_LOGIN_TICKET_LEN     25
 
-#define GP_RICH_STATUS_LEN 256
+#define GP_RICH_STATUS_LEN      256
 #define GP_STATUS_BASIC_STR_LEN 33
 
 // Random number seed for PASSWORDENC and CDKEYENC
 //   MUST MATCH SERVER - If you change this, you'll have to
 //                       release an updated server
-#define GP_XOR_SEED 0x79707367   // "gspy"
+#define GP_XOR_SEED             0x79707367   // "gspy"
 
 // Well known values for partner ID.
-#define GP_PARTNERID_GAMESPY 0
-#define GP_PARTNERID_IGN 10
+#define GP_PARTNERID_GAMESPY    0
+#define GP_PARTNERID_IGN        10
 
 // Maximum number of namespaces that can be searched for a uniquenick
-#define GP_MAX_NAMESPACEIDS 16
+#define GP_MAX_NAMESPACEIDS     16
 
     // TYPES
     ////////
@@ -417,15 +417,15 @@ extern "C"
 
     // GPProfile
     ////////////
-    typedef int GPProfile;
+    typedef int   GPProfile;
 
     // GPTransfer
     /////////////
-    typedef int GPTransfer;
+    typedef int   GPTransfer;
 
     // GPCallback
     /////////////
-    typedef void (*GPCallback)(GPConnection* connection, void* arg, void* param);
+    typedef void  (*GPCallback)(GPConnection* connection, void* arg, void* param);
 
     // STRUCTURES
     /////////////
@@ -749,21 +749,21 @@ extern "C"
 // FUNCTIONS
 ////////////
 #ifndef GSI_UNICODE
-#define gpConnect gpConnectA
-#define gpConnectNewUser gpConnectNewUserA
-#define gpConnectUniqueNick gpConnectUniqueNickA
+#define gpConnect                 gpConnectA
+#define gpConnectNewUser          gpConnectNewUserA
+#define gpConnectUniqueNick       gpConnectUniqueNickA
 #define gpConnectPreAuthenticated gpConnectPreAuthenticatedA
-#define gpCheckUser gpCheckUserA
-#define gpNewUser gpNewUserA
-#define gpSuggestUniqueNick gpSuggestUniqueNickA
-#define gpRegisterUniqueNick gpRegisterUniqueNickA
-#define gpRegisterCdKey gpRegisterCdKeyA
-#define gpGetErrorString gpGetErrorStringA
-#define gpNewProfile gpNewProfileA
-#define gpProfileSearch gpProfileSearchA
+#define gpCheckUser               gpCheckUserA
+#define gpNewUser                 gpNewUserA
+#define gpSuggestUniqueNick       gpSuggestUniqueNickA
+#define gpRegisterUniqueNick      gpRegisterUniqueNickA
+#define gpRegisterCdKey           gpRegisterCdKeyA
+#define gpGetErrorString          gpGetErrorStringA
+#define gpNewProfile              gpNewProfileA
+#define gpProfileSearch           gpProfileSearchA
 #define gpProfileSearchUniquenick gpProfileSearchUniquenickA
-#define gpSetInfos gpSetInfosA
-#define gpSendBuddyRequest gpSendBuddyRequestA
+#define gpSetInfos                gpSetInfosA
+#define gpSendBuddyRequest        gpSendBuddyRequestA
 #ifndef GP_NEW_STATUS_INFO
 #define gpSetStatus gpSetStatusA
 #endif
@@ -771,41 +771,41 @@ extern "C"
 // BETA
 #define gpSetStatusInfo gpSetStatusInfoA
 #endif
-#define gpSendBuddyMessage gpSendBuddyMessageA
-#define gpSendBuddyUTM gpSendBuddyUTMA
-#define gpIsValidEmail gpIsValidEmailA
-#define gpGetUserNicks gpGetUserNicksA
+#define gpSendBuddyMessage     gpSendBuddyMessageA
+#define gpSendBuddyUTM         gpSendBuddyUTMA
+#define gpIsValidEmail         gpIsValidEmailA
+#define gpGetUserNicks         gpGetUserNicksA
 #define gpSetInfoCacheFilename gpSetInfoCacheFilenameA
-#define gpSendFiles gpSendFilesA
-#define gpAcceptTransfer gpAcceptTransferA
-#define gpRejectTransfer gpRejectTransferA
+#define gpSendFiles            gpSendFilesA
+#define gpAcceptTransfer       gpAcceptTransferA
+#define gpRejectTransfer       gpRejectTransferA
 #define gpSetTransferDirectory gpSetTransferDirectoryA
-#define gpGetFileName gpGetFileNameA
-#define gpGetFilePath gpGetFilePathA
-#define gpInvitePlayer gpInvitePlayerA
+#define gpGetFileName          gpGetFileNameA
+#define gpGetFilePath          gpGetFilePathA
+#define gpInvitePlayer         gpInvitePlayerA
 #ifdef GP_NEW_STATUS_INFO
 // BETA
-#define gpAddStatusInfoKey gpAddStatusInfoKeyA
-#define gpSetStatusInfoKey gpSetStatusInfoKeyA
+#define gpAddStatusInfoKey    gpAddStatusInfoKeyA
+#define gpSetStatusInfoKey    gpSetStatusInfoKeyA
 #define gpGetStatusInfoKeyVal gpGetStatusInfoKeyValA
-#define gpDelStatusInfoKey gpDelStatusInfoKeyA
+#define gpDelStatusInfoKey    gpDelStatusInfoKeyA
 #endif
 #else
-#define gpConnect gpConnectW
-#define gpConnectNewUser gpConnectNewUserW
-#define gpConnectUniqueNick gpConnectUniqueNickW
+#define gpConnect                 gpConnectW
+#define gpConnectNewUser          gpConnectNewUserW
+#define gpConnectUniqueNick       gpConnectUniqueNickW
 #define gpConnectPreAuthenticated gpConnectPreAuthenticatedW
-#define gpCheckUser gpCheckUserW
-#define gpNewUser gpNewUserW
-#define gpSuggestUniqueNick gpSuggestUniqueNickW
-#define gpRegisterUniqueNick gpRegisterUniqueNickW
-#define gpRegisterCdKey gpRegisterCdKeyW
-#define gpGetErrorString gpGetErrorStringW
-#define gpNewProfile gpNewProfileW
-#define gpProfileSearch gpProfileSearchW
+#define gpCheckUser               gpCheckUserW
+#define gpNewUser                 gpNewUserW
+#define gpSuggestUniqueNick       gpSuggestUniqueNickW
+#define gpRegisterUniqueNick      gpRegisterUniqueNickW
+#define gpRegisterCdKey           gpRegisterCdKeyW
+#define gpGetErrorString          gpGetErrorStringW
+#define gpNewProfile              gpNewProfileW
+#define gpProfileSearch           gpProfileSearchW
 #define gpProfileSearchUniquenick gpProfileSearchUniquenickW
-#define gpSetInfos gpSetInfosW
-#define gpSendBuddyRequest gpSendBuddyRequestW
+#define gpSetInfos                gpSetInfosW
+#define gpSendBuddyRequest        gpSendBuddyRequestW
 #ifndef GP_NEW_STATUS_INFO
 #define gpSetStatus gpSetStatusW
 #endif
@@ -813,18 +813,18 @@ extern "C"
 // BETA
 #define gpSetStatusInfo gpSetStatusInfoW
 #endif
-#define gpSendBuddyMessage gpSendBuddyMessageW
-#define gpSendBuddyUTM gpSendBuddyUTMW
-#define gpIsValidEmail gpIsValidEmailW
-#define gpGetUserNicks gpGetUserNicksW
+#define gpSendBuddyMessage     gpSendBuddyMessageW
+#define gpSendBuddyUTM         gpSendBuddyUTMW
+#define gpIsValidEmail         gpIsValidEmailW
+#define gpGetUserNicks         gpGetUserNicksW
 #define gpSetInfoCacheFilename gpSetInfoCacheFilenameW
-#define gpSendFiles gpSendFilesW
-#define gpAcceptTransfer gpAcceptTransferW
-#define gpRejectTransfer gpRejectTransferW
+#define gpSendFiles            gpSendFilesW
+#define gpAcceptTransfer       gpAcceptTransferW
+#define gpRejectTransfer       gpRejectTransferW
 #define gpSetTransferDirectory gpSetTransferDirectoryW
-#define gpGetFileName gpGetFileNameW
-#define gpGetFilePath gpGetFilePathW
-#define gpInvitePlayer gpInvitePlayerW
+#define gpGetFileName          gpGetFileNameW
+#define gpGetFilePath          gpGetFilePathW
+#define gpInvitePlayer         gpInvitePlayerW
 // #ifdef GP_NEW_STATUS_INFO
 // BETA
 // #define gpAddStatusInfoKey       gpAddStatusInfoKeyW
@@ -836,20 +836,19 @@ extern "C"
 
     // gpInitialize
     ///////////////
-    GPResult gpInitialize(
-        GPConnection* connection,
-        int           productID,   // The productID is a unique ID that identifies your product
-        int namespaceID,   // The namespaceID identified which namespace to login under. A namespaceID of 0 indicates
-                           // that no namespace should be used. A namespaceID of 1 represents the default GameSpy
-                           // namespace
-        int partnerID   // The partnerID identifies the account system being used.
-                        // Use GP_PARTNERID_GAMESPY for GSID accounts.
-                        // Use GP_PARTNERID_IGN for IGN accounts.
+    GPResult gpInitialize(GPConnection* connection,
+        int                             productID,     // The productID is a unique ID that identifies your product
+        int                             namespaceID,   // The namespaceID identified which namespace to login under. A namespaceID of 0 indicates
+                                                       // that no namespace should be used. A namespaceID of 1 represents the default GameSpy
+                                                       // namespace
+        int                             partnerID      // The partnerID identifies the account system being used.
+                                                       // Use GP_PARTNERID_GAMESPY for GSID accounts.
+                                                       // Use GP_PARTNERID_IGN for IGN accounts.
     );
 
     // gpDestroy
     ////////////
-    void gpDestroy(GPConnection* connection);
+    void     gpDestroy(GPConnection* connection);
 
     // gpEnable
     ///////////
@@ -869,55 +868,23 @@ extern "C"
 
     // gpConnect
     ////////////
-    GPResult gpConnect(
-        GPConnection*  connection,
-        const gsi_char nick[GP_NICK_LEN],
-        const gsi_char email[GP_EMAIL_LEN],
-        const gsi_char password[GP_PASSWORD_LEN],
-        GPEnum         firewall,
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpConnect(GPConnection* connection, const gsi_char nick[GP_NICK_LEN], const gsi_char email[GP_EMAIL_LEN], const gsi_char password[GP_PASSWORD_LEN], GPEnum firewall, GPEnum blocking, GPCallback callback, void* param);
 
     // gpConnectNewUser
     ///////////////////
-    GPResult gpConnectNewUser(
-        GPConnection*  connection,
-        const gsi_char nick[GP_NICK_LEN],
-        const gsi_char uniquenick[GP_UNIQUENICK_LEN],
-        const gsi_char email[GP_EMAIL_LEN],
-        const gsi_char password[GP_PASSWORD_LEN],
-        const gsi_char cdkey[GP_CDKEY_LEN],
-        GPEnum         firewall,
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpConnectNewUser(GPConnection* connection, const gsi_char nick[GP_NICK_LEN], const gsi_char uniquenick[GP_UNIQUENICK_LEN], const gsi_char email[GP_EMAIL_LEN], const gsi_char password[GP_PASSWORD_LEN], const gsi_char cdkey[GP_CDKEY_LEN], GPEnum firewall, GPEnum blocking, GPCallback callback, void* param);
 
     // gpConnectUniqueNick
     //////////////////////
-    GPResult gpConnectUniqueNick(
-        GPConnection*  connection,
-        const gsi_char uniquenick[GP_UNIQUENICK_LEN],
-        const gsi_char password[GP_PASSWORD_LEN],
-        GPEnum         firewall,
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpConnectUniqueNick(GPConnection* connection, const gsi_char uniquenick[GP_UNIQUENICK_LEN], const gsi_char password[GP_PASSWORD_LEN], GPEnum firewall, GPEnum blocking, GPCallback callback, void* param);
 
     // gpConnectPreAuthenticated
     ////////////////////////////
-    GPResult gpConnectPreAuthenticated(
-        GPConnection*  connection,
-        const gsi_char authtoken[GP_AUTHTOKEN_LEN],
-        const gsi_char partnerchallenge[GP_PARTNERCHALLENGE_LEN],
-        GPEnum         firewall,
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpConnectPreAuthenticated(GPConnection* connection, const gsi_char authtoken[GP_AUTHTOKEN_LEN], const gsi_char partnerchallenge[GP_PARTNERCHALLENGE_LEN], GPEnum firewall, GPEnum blocking, GPCallback callback, void* param);
 
     // gpDisconnect
     ///////////////
-    void gpDisconnect(GPConnection* connection);
+    void     gpDisconnect(GPConnection* connection);
 
     // gpIsConnected
     ////////////////
@@ -925,55 +892,23 @@ extern "C"
 
     // gpCheckUser
     //////////////
-    GPResult gpCheckUser(
-        GPConnection*  connection,
-        const gsi_char nick[GP_NICK_LEN],
-        const gsi_char email[GP_EMAIL_LEN],
-        const gsi_char password[GP_PASSWORD_LEN],
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpCheckUser(GPConnection* connection, const gsi_char nick[GP_NICK_LEN], const gsi_char email[GP_EMAIL_LEN], const gsi_char password[GP_PASSWORD_LEN], GPEnum blocking, GPCallback callback, void* param);
 
     // gpNewUser
     ////////////
-    GPResult gpNewUser(
-        GPConnection*  connection,
-        const gsi_char nick[GP_NICK_LEN],
-        const gsi_char uniquenick[GP_UNIQUENICK_LEN],
-        const gsi_char email[GP_EMAIL_LEN],
-        const gsi_char password[GP_PASSWORD_LEN],
-        const gsi_char cdkey[GP_CDKEY_LEN],
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpNewUser(GPConnection* connection, const gsi_char nick[GP_NICK_LEN], const gsi_char uniquenick[GP_UNIQUENICK_LEN], const gsi_char email[GP_EMAIL_LEN], const gsi_char password[GP_PASSWORD_LEN], const gsi_char cdkey[GP_CDKEY_LEN], GPEnum blocking, GPCallback callback, void* param);
 
     // gpSuggestUniqueNick
     //////////////////////
-    GPResult gpSuggestUniqueNick(
-        GPConnection*  connection,
-        const gsi_char desirednick[GP_UNIQUENICK_LEN],
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpSuggestUniqueNick(GPConnection* connection, const gsi_char desirednick[GP_UNIQUENICK_LEN], GPEnum blocking, GPCallback callback, void* param);
 
     // gpRegisterUniqueNick
     ///////////////////////
-    GPResult gpRegisterUniqueNick(
-        GPConnection*  connection,
-        const gsi_char uniquenick[GP_UNIQUENICK_LEN],
-        const gsi_char cdkey[GP_CDKEY_LEN],
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpRegisterUniqueNick(GPConnection* connection, const gsi_char uniquenick[GP_UNIQUENICK_LEN], const gsi_char cdkey[GP_CDKEY_LEN], GPEnum blocking, GPCallback callback, void* param);
 
     // gpRegisterCdKey
     ///////////////////////
-    GPResult gpRegisterCdKey(
-        GPConnection*  connection,
-        const gsi_char cdkey[GP_CDKEY_LEN],
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpRegisterCdKey(GPConnection* connection, const gsi_char cdkey[GP_CDKEY_LEN], GPEnum blocking, GPCallback callback, void* param);
 
     // gpGetErrorCode
     /////////////////
@@ -985,13 +920,7 @@ extern "C"
 
     // gpNewProfile
     ///////////////
-    GPResult gpNewProfile(
-        GPConnection*  connection,
-        const gsi_char nick[GP_NICK_LEN],
-        GPEnum         replace,
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpNewProfile(GPConnection* connection, const gsi_char nick[GP_NICK_LEN], GPEnum replace, GPEnum blocking, GPCallback callback, void* param);
 
     // gpDeleteProfile
     //////////////////
@@ -1017,38 +946,15 @@ extern "C"
 
     // gpProfileSearch
     //////////////////
-    GPResult gpProfileSearch(
-        GPConnection*  connection,
-        const gsi_char nick[GP_NICK_LEN],
-        const gsi_char uniquenick[GP_UNIQUENICK_LEN],
-        const gsi_char email[GP_EMAIL_LEN],
-        const gsi_char firstname[GP_FIRSTNAME_LEN],
-        const gsi_char lastname[GP_LASTNAME_LEN],
-        int            icquin,
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpProfileSearch(GPConnection* connection, const gsi_char nick[GP_NICK_LEN], const gsi_char uniquenick[GP_UNIQUENICK_LEN], const gsi_char email[GP_EMAIL_LEN], const gsi_char firstname[GP_FIRSTNAME_LEN], const gsi_char lastname[GP_LASTNAME_LEN], int icquin, GPEnum blocking, GPCallback callback, void* param);
 
     // gpProfileSearchUniquenick
     ////////////////////////////
-    GPResult gpProfileSearchUniquenick(
-        GPConnection*  connection,
-        const gsi_char uniquenick[GP_UNIQUENICK_LEN],
-        const int      namespaceIDs[GP_MAX_NAMESPACEIDS],
-        int            numNamespaces,
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpProfileSearchUniquenick(GPConnection* connection, const gsi_char uniquenick[GP_UNIQUENICK_LEN], const int namespaceIDs[GP_MAX_NAMESPACEIDS], int numNamespaces, GPEnum blocking, GPCallback callback, void* param);
 
     // gpGetInfo
     ////////////
-    GPResult gpGetInfo(
-        GPConnection* connection,
-        GPProfile     profile,
-        GPEnum        checkCache,
-        GPEnum        blocking,
-        GPCallback    callback,
-        void*         param);
+    GPResult gpGetInfo(GPConnection* connection, GPProfile profile, GPEnum checkCache, GPEnum blocking, GPCallback callback, void* param);
 
     // gpGetInfoNoWait
     //////////////////
@@ -1132,37 +1038,18 @@ extern "C"
     // gpIsBuddy
     // returns 1 if a buddy, 0 if not a buddy
     ////////////
-    int gpIsBuddy(GPConnection* connection, GPProfile profile);
+    int      gpIsBuddy(GPConnection* connection, GPProfile profile);
 
-    int gpIsBuddyConnectionOpen(GPConnection* connection, GPProfile profile);
+    int      gpIsBuddyConnectionOpen(GPConnection* connection, GPProfile profile);
 
 // gpSetStatus
 //////////////
 #ifndef GP_NEW_STATUS_INFO
-    GPResult gpSetStatus(
-        GPConnection*  connection,
-        GPEnum         status,
-        const gsi_char statusString[GP_STATUS_STRING_LEN],
-        const gsi_char locationString[GP_LOCATION_STRING_LEN]);
+    GPResult gpSetStatus(GPConnection* connection, GPEnum status, const gsi_char statusString[GP_STATUS_STRING_LEN], const gsi_char locationString[GP_LOCATION_STRING_LEN]);
 #endif
 
 #ifdef GP_NEW_STATUS_INFO
-    GPResult gpSetStatusInfo(
-        GPConnection*   connection,
-        GPEnum          statusState,
-        unsigned int    hostIp,
-        unsigned int    hostPrivateIp,
-        unsigned short  queryPort,
-        unsigned short  hostPort,
-        unsigned int    sessionFlags,
-        const gsi_char* richStatus,
-        int             richStatusLen,
-        const gsi_char* gameType,
-        int             gameTypeLen,
-        const gsi_char* gameVariant,
-        int             gameVariantLen,
-        const gsi_char* gameMapName,
-        int             gameMapNameLen);
+    GPResult gpSetStatusInfo(GPConnection* connection, GPEnum statusState, unsigned int hostIp, unsigned int hostPrivateIp, unsigned short queryPort, unsigned short hostPort, unsigned int sessionFlags, const gsi_char* richStatus, int richStatusLen, const gsi_char* gameType, int gameTypeLen, const gsi_char* gameVariant, int gameVariantLen, const gsi_char* gameMapName, int gameMapNameLen);
 
     GPResult gpAddStatusInfoKey(GPConnection* connection, const gsi_char* keyName, const gsi_char* keyValue);
     GPResult gpSetStatusInfoKey(GPConnection* connection, const gsi_char* keyName, const gsi_char* keyValue);
@@ -1177,11 +1064,10 @@ extern "C"
 
     // gpSendBuddyUTM
     /////////////////////
-    GPResult gpSendBuddyUTM(
-        GPConnection*   connection,
-        GPProfile       profile,
-        const gsi_char* message,
-        int             sendOption   // GP_DONT_ROUTE
+    GPResult gpSendBuddyUTM(GPConnection* connection,
+        GPProfile                         profile,
+        const gsi_char*                   message,
+        int                               sendOption   // GP_DONT_ROUTE
     );
 
     // PANTS|02.15.00
@@ -1190,22 +1076,11 @@ extern "C"
 
     // gpIsValidEmail
     /////////////////
-    GPResult gpIsValidEmail(
-        GPConnection*  connection,
-        const gsi_char email[GP_EMAIL_LEN],
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpIsValidEmail(GPConnection* connection, const gsi_char email[GP_EMAIL_LEN], GPEnum blocking, GPCallback callback, void* param);
 
     // gpGetUserNicks
     /////////////////
-    GPResult gpGetUserNicks(
-        GPConnection*  connection,
-        const gsi_char email[GP_EMAIL_LEN],
-        const gsi_char password[GP_PASSWORD_LEN],
-        GPEnum         blocking,
-        GPCallback     callback,
-        void*          param);
+    GPResult gpGetUserNicks(GPConnection* connection, const gsi_char email[GP_EMAIL_LEN], const gsi_char password[GP_PASSWORD_LEN], GPEnum blocking, GPCallback callback, void* param);
 
     // *DEPRECATED*
     // gpSetInvitableGames
@@ -1219,11 +1094,7 @@ extern "C"
 
     // gpInvitePlayer
     /////////////////
-    GPResult gpInvitePlayer(
-        GPConnection*  connection,
-        GPProfile      profile,
-        int            productID,
-        const gsi_char location[GP_LOCATION_STRING_LEN]);
+    GPResult gpInvitePlayer(GPConnection* connection, GPProfile profile, int productID, const gsi_char location[GP_LOCATION_STRING_LEN]);
 
     // gpGetReverseBuddies
     // Get profiles that have you on their buddy list.
@@ -1234,13 +1105,7 @@ extern "C"
     // Get profile ids and unique nicks for profiles
     // that have you on their buddy list.
     //////////////////////////////////////////////////
-    GPResult gpGetReversBuddiesList(
-        GPConnection* connection,
-        GPProfile*    targets,
-        int           numOfTargets,
-        GPEnum        blocking,
-        GPCallback    callback,
-        void*         param);
+    GPResult gpGetReversBuddiesList(GPConnection* connection, GPProfile* targets, int numOfTargets, GPEnum blocking, GPCallback callback, void* param);
 
     // gpRevokeBuddyAuthorization
     /////////////////////////////
@@ -1262,71 +1127,60 @@ extern "C"
     // gpiSetInfoCacheFilename
     // Should be called before gpIntialize.
     ///////////////////////////////////////
-    void gpSetInfoCacheFilename(const gsi_char* filename);
+    void         gpSetInfoCacheFilename(const gsi_char* filename);
 
     ///////////////////
     // FILE TRANSFER //
     ///////////////////
-    typedef void (*gpSendFilesCallback)(
-        GPConnection*    connection,
-        int              index,
-        const gsi_char** path,
-        const gsi_char** name,
-        void*            param);
+    typedef void (*gpSendFilesCallback)(GPConnection* connection, int index, const gsi_char** path, const gsi_char** name, void* param);
 
-    GPResult gpSendFiles(
-        GPConnection*       connection,
-        GPTransfer*         transfer,
-        GPProfile           profile,
-        const gsi_char*     message,
-        gpSendFilesCallback callback,
-        void*               param);
+    GPResult     gpSendFiles(GPConnection* connection, GPTransfer* transfer, GPProfile profile, const gsi_char* message, gpSendFilesCallback callback, void* param);
 
-    GPResult gpAcceptTransfer(GPConnection* connection, GPTransfer transfer, const gsi_char* message);
+    GPResult     gpAcceptTransfer(GPConnection* connection, GPTransfer transfer, const gsi_char* message);
 
-    GPResult gpRejectTransfer(GPConnection* connection, GPTransfer transfer, const gsi_char* message);
+    GPResult     gpRejectTransfer(GPConnection* connection, GPTransfer transfer, const gsi_char* message);
 
-    GPResult gpFreeTransfer(GPConnection* connection, GPTransfer transfer);
+    GPResult     gpFreeTransfer(GPConnection* connection, GPTransfer transfer);
 
-    GPResult gpSetTransferData(GPConnection* connection, GPTransfer transfer, void* userData);
+    GPResult     gpSetTransferData(GPConnection* connection, GPTransfer transfer, void* userData);
 
-    void* gpGetTransferData(GPConnection* connection, GPTransfer transfer);
+    void*        gpGetTransferData(GPConnection* connection, GPTransfer transfer);
 
-    GPResult gpSetTransferDirectory(GPConnection* connection, GPTransfer transfer, const gsi_char* directory);
+    GPResult     gpSetTransferDirectory(GPConnection* connection, GPTransfer transfer, const gsi_char* directory);
 
     // NOTE: THROTTLING IS NOT CURRENTLY IMPLEMENTED
-    GPResult gpSetTransferThrottle(GPConnection* connection, GPTransfer transfer, int throttle);
+    GPResult     gpSetTransferThrottle(GPConnection* connection, GPTransfer transfer, int throttle);
 
     // NOTE: THROTTLING IS NOT CURRENTLY IMPLEMENTED
-    GPResult gpGetTransferThrottle(GPConnection* connection, GPTransfer transfer, int* throttle);
+    GPResult     gpGetTransferThrottle(GPConnection* connection, GPTransfer transfer, int* throttle);
 
-    GPResult gpGetTransferProfile(GPConnection* connection, GPTransfer transfer, GPProfile* profile);
+    GPResult     gpGetTransferProfile(GPConnection* connection, GPTransfer transfer, GPProfile* profile);
 
-    GPResult gpGetTransferSide(GPConnection* connection, GPTransfer transfer, GPEnum* side);
+    GPResult     gpGetTransferSide(GPConnection* connection, GPTransfer transfer, GPEnum* side);
 
-    GPResult gpGetTransferSize(GPConnection* connection, GPTransfer transfer, int* size);
+    GPResult     gpGetTransferSize(GPConnection* connection, GPTransfer transfer, int* size);
 
-    GPResult gpGetTransferProgress(GPConnection* connection, GPTransfer transfer, int* progress);
+    GPResult     gpGetTransferProgress(GPConnection* connection, GPTransfer transfer, int* progress);
 
-    GPResult gpGetNumFiles(GPConnection* connection, GPTransfer transfer, int* num);
+    GPResult     gpGetNumFiles(GPConnection* connection, GPTransfer transfer, int* num);
 
-    GPResult gpGetCurrentFile(GPConnection* connection, GPTransfer transfer, int* index);
+    GPResult     gpGetCurrentFile(GPConnection* connection, GPTransfer transfer, int* index);
 
-    GPResult gpSkipFile(GPConnection* connection, GPTransfer transfer, int index);
+    GPResult     gpSkipFile(GPConnection* connection, GPTransfer transfer, int index);
 
-    GPResult gpGetFileName(GPConnection* connection, GPTransfer transfer, int index, gsi_char** name);
+    GPResult     gpGetFileName(GPConnection* connection, GPTransfer transfer, int index, gsi_char** name);
 
-    GPResult gpGetFilePath(GPConnection* connection, GPTransfer transfer, int index, gsi_char** path);
+    GPResult     gpGetFilePath(GPConnection* connection, GPTransfer transfer, int index, gsi_char** path);
 
-    GPResult gpGetFileSize(GPConnection* connection, GPTransfer transfer, int index, int* size);
+    GPResult     gpGetFileSize(GPConnection* connection, GPTransfer transfer, int index, int* size);
 
-    GPResult gpGetFileProgress(GPConnection* connection, GPTransfer transfer, int index, int* progress);
+    GPResult     gpGetFileProgress(GPConnection* connection, GPTransfer transfer, int index, int* progress);
 
-    GPResult gpGetFileModificationTime(GPConnection* connection, GPTransfer transfer, int index, gsi_time* modTime);
+    GPResult     gpGetFileModificationTime(GPConnection* connection, GPTransfer transfer, int index, gsi_time* modTime);
 
-    GPResult gpGetNumTransfers(GPConnection* connection, int* num);
+    GPResult     gpGetNumTransfers(GPConnection* connection, int* num);
 
-    GPResult gpGetTransfer(GPConnection* connection, int index, GPTransfer* transfer);
+    GPResult     gpGetTransfer(GPConnection* connection, int index, GPTransfer* transfer);
 #endif
 
 #ifdef _DEBUG

@@ -49,18 +49,14 @@ CPhysicsJoint* P_create_Joint(CPhysicsJoint::enumType type, CPhysicsElement* fir
     return joint;
 }
 
-CPhysicsShell* __stdcall P_build_Shell(
-    IPhysicsShellHolder* obj,
-    bool                 not_active_state,
-    BONE_P_MAP*          bone_map,
-    bool                 not_set_bone_callbacks)
+CPhysicsShell* __stdcall P_build_Shell(IPhysicsShellHolder* obj, bool not_active_state, BONE_P_MAP* bone_map, bool not_set_bone_callbacks)
 {
     VERIFY(obj);
     phys_shell_verify_object_model(*obj);
     // IRenderVisual*	V = obj->ObjectVisual();
     // IKinematics* pKinematics=smart_cast<IKinematics*>(V);
     // IKinematics* pKinematics	=  V->dcast_PKinematics			();
-    IKinematics* pKinematics = obj->ObjectKinematics();
+    IKinematics*   pKinematics   = obj->ObjectKinematics();
 
     CPhysicsShell* pPhysicsShell = P_create_Shell();
 #ifdef DEBUG
@@ -95,12 +91,11 @@ void fix_bones(LPCSTR fixed_bones, CPhysicsShell* shell)
             E->Fix();
     }
 }
-CPhysicsShell*
-    P_build_Shell(IPhysicsShellHolder* obj, bool not_active_state, BONE_P_MAP* p_bone_map, LPCSTR fixed_bones)
+CPhysicsShell* P_build_Shell(IPhysicsShellHolder* obj, bool not_active_state, BONE_P_MAP* p_bone_map, LPCSTR fixed_bones)
 {
     CPhysicsShell* pPhysicsShell = 0;
     // IKinematics* pKinematics=smart_cast<IKinematics*>(obj->ObjectVisual());
-    IKinematics* pKinematics = obj->ObjectKinematics();
+    IKinematics*   pKinematics   = obj->ObjectKinematics();
     if (fixed_bones)
     {
         int count = _GetItemCount(fixed_bones);
@@ -161,7 +156,7 @@ CPhysicsShell*    P_build_Shell(IPhysicsShellHolder* obj, bool not_active_state,
     if (!fixed_bones.empty())
         for (U16It it = fixed_bones.begin(); it != fixed_bones.end(); it++)
             bone_map.insert(mk_pair(*it, physicsBone()));
-    pPhysicsShell = P_build_Shell(obj, not_active_state, &bone_map);
+    pPhysicsShell    = P_build_Shell(obj, not_active_state, &bone_map);
 
     // fix bones
     BONE_P_PAIR_IT i = bone_map.begin(), e = bone_map.end();
@@ -214,8 +209,7 @@ void ApplySpawnIniToPhysicShell(CInifile const* ini, CPhysicsShell* physics_shel
     }
     if (ini->section_exist("collide"))
     {
-        if ((ini->line_exist("collide", "ignore_static") && fixed) ||
-            (ini->line_exist("collide", "ignore_static") && ini->section_exist("animated_object")))
+        if ((ini->line_exist("collide", "ignore_static") && fixed) || (ini->line_exist("collide", "ignore_static") && ini->section_exist("animated_object")))
         {
             physics_shell->SetIgnoreStatic();
         }
@@ -285,11 +279,7 @@ void phys_shell_verify_model(IKinematics& K)
 {
     // IRenderVisual* V = K.dcast_RenderVisual();
     // VERIFY( V );
-    VERIFY2(
-        has_physics_collision_shapes(K),
-        make_string(
-            "Can not create physics shell for model %s because it has no physics collision shapes set",
-            K.getDebugName().c_str()));
+    VERIFY2(has_physics_collision_shapes(K), make_string("Can not create physics shell for model %s because it has no physics collision shapes set", K.getDebugName().c_str()));
 }
 
 void phys_shell_verify_object_model(IPhysicsShellHolder& O)
@@ -303,19 +293,11 @@ void phys_shell_verify_object_model(IPhysicsShellHolder& O)
 
     IKinematics* K = O.ObjectKinematics();
 
-    VERIFY2(
-        K,
-        make_string(
-            "Can not create physics shell for object %s, model %s is not skeleton", O.ObjectName(),
-            O.ObjectNameVisual()));
+    VERIFY2(K, make_string("Can not create physics shell for object %s, model %s is not skeleton", O.ObjectName(), O.ObjectNameVisual()));
 
-    VERIFY2(
-        has_physics_collision_shapes(*K),
-        make_string(
-            "Can not create physics shell for object %s, model %s has no physics collision shapes set", O.ObjectName(),
-            O.ObjectNameVisual()) /*+ make_string("\n object dump: \n") + dbg_object_full_dump_string( &O )*/);
+    VERIFY2(has_physics_collision_shapes(*K), make_string("Can not create physics shell for object %s, model %s has no physics collision shapes set", O.ObjectName(), O.ObjectNameVisual()) /*+ make_string("\n object dump: \n") + dbg_object_full_dump_string( &O )*/);
 
-    VERIFY2( _valid( O.ObjectXFORM() ), make_string( "create physics shell: object matrix is not valid" ) /*+ make_string("\n object dump: \n") + dbg_object_full_dump_string( &O )*/ );
+    VERIFY2(_valid(O.ObjectXFORM()), make_string("create physics shell: object matrix is not valid") /*+ make_string("\n object dump: \n") + dbg_object_full_dump_string( &O )*/);
 
     VERIFY2(valid_pos(O.ObjectXFORM().c), dbg_valide_pos_string(O.ObjectXFORM().c, &O, "create physics shell"));
 }
@@ -327,22 +309,12 @@ bool __stdcall can_create_phys_shell(string1024& reason, IPhysicsShellHolder& O)
     IKinematics* K      = O.ObjectKinematics();
     if (!K)
     {
-        xr_strcpy(
-            reason,
-            make_string(
-                "Can not create physics shell for object %s, model %s is not skeleton", O.ObjectName(),
-                O.ObjectNameVisual())
-                .c_str());
+        xr_strcpy(reason, make_string("Can not create physics shell for object %s, model %s is not skeleton", O.ObjectName(), O.ObjectNameVisual()).c_str());
         return false;
     }
     if (!has_physics_collision_shapes(*K))
     {
-        xr_strcpy(
-            reason,
-            make_string(
-                "Can not create physics shell for object %s, model %s has no physics collision shapes set",
-                O.ObjectName(), O.ObjectNameVisual())
-                .c_str());
+        xr_strcpy(reason, make_string("Can not create physics shell for object %s, model %s has no physics collision shapes set", O.ObjectName(), O.ObjectNameVisual()).c_str());
         return false;
     }
     if (!_valid(O.ObjectXFORM()))

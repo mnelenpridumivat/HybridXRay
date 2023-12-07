@@ -26,11 +26,7 @@ public:
     typedef XrWeatherEditor::property_holder::string_collection_size_getter_type string_collection_size_getter_type;
 
 public:
-    property_string_values_value_getter(
-        string_getter_type const&                 getter,
-        string_setter_type const&                 setter,
-        string_collection_getter_type const&      collection_getter,
-        string_collection_size_getter_type const& collection_size_getter);
+    property_string_values_value_getter(string_getter_type const& getter, string_setter_type const& setter, string_collection_getter_type const& collection_getter, string_collection_size_getter_type const& collection_size_getter);
     virtual ~property_string_values_value_getter();
     !property_string_values_value_getter();
 

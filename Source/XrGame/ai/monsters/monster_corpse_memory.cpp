@@ -22,8 +22,7 @@ void CMonsterCorpseMemory::init_external(CBaseMonster* M, TTime mem_time)
 
 void CMonsterCorpseMemory::update()
 {
-    for (xr_vector<const CGameObject*>::const_iterator I = monster->memory().item().objects().begin();
-         I != monster->memory().item().objects().end(); ++I)
+    for (xr_vector<const CGameObject*>::const_iterator I = monster->memory().item().objects().begin(); I != monster->memory().item().objects().end(); ++I)
     {
         if (monster->memory().visual().visible_now(*I))
         {
@@ -75,8 +74,7 @@ void CMonsterCorpseMemory::remove_non_actual()
         nit = it;
         ++nit;
         // проверить условия удаления
-        if (!it->first || it->first->g_Alive() || it->first->getDestroy() ||
-            (it->second.time + time_memory < cur_time) || (it->first->m_fFood < 1))
+        if (!it->first || it->first->g_Alive() || it->first->getDestroy() || (it->second.time + time_memory < cur_time) || (it->first->m_fFood < 1))
         {
             m_objects.erase(it);
 
@@ -108,7 +106,7 @@ const CEntityAlive* CMonsterCorpseMemory::get_corpse()
 SMonsterCorpse CMonsterCorpseMemory::get_corpse_info()
 {
     SMonsterCorpse ret_val;
-    ret_val.time = 0;
+    ret_val.time     = 0;
 
     CORPSE_MAP_IT it = find_best_corpse();
     if (it != m_objects.end())

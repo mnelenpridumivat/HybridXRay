@@ -17,29 +17,26 @@ namespace debug
     public:   // START INTERFACE
         text_tree(char separator = ':', int group_id_ = 0): group_id(group_id_), shown(true), separator(separator) {}
 
-        void toggle_show(int group_id);
+        void                                                                                 toggle_show(int group_id);
 
         // finds node by first string
-        text_tree* find_node(const xr_string& s1);
+        text_tree*                                                                           find_node(const xr_string& s1);
         // adds if cant find
-        text_tree& find_or_add(const xr_string& s1);
+        text_tree&                                                                           find_or_add(const xr_string& s1);
 
         // add_text appends text to this node
         // add_line makes child nodes
-        template <class Type1> void                    add_text(const Type1& t);
-        template <class Type1, class Type2> void       add_text(const Type1& t1, const Type2& t2);
-        template <class Type1> text_tree&              add_line(const Type1& a1);
-        template <class Type1, class Type2> text_tree& add_line(const Type1& a1, const Type2& a2);
-        template <class Type1, class Type2, class Type3>
-        text_tree& add_line(const Type1& a1, const Type2& a2, const Type3& a3);
-        template <class Type1, class Type2, class Type3, class Type4>
-        text_tree& add_line(const Type1& a1, const Type2& a2, const Type3& a3, const Type4& a4);
-        template <class Type1, class Type2, class Type3, class Type4, class Type5>
-        text_tree& add_line(const Type1& a1, const Type2& a2, const Type3& a3, const Type4& a4, const Type5& a5);
+        template<class Type1> void                                                           add_text(const Type1& t);
+        template<class Type1, class Type2> void                                              add_text(const Type1& t1, const Type2& t2);
+        template<class Type1> text_tree&                                                     add_line(const Type1& a1);
+        template<class Type1, class Type2> text_tree&                                        add_line(const Type1& a1, const Type2& a2);
+        template<class Type1, class Type2, class Type3> text_tree&                           add_line(const Type1& a1, const Type2& a2, const Type3& a3);
+        template<class Type1, class Type2, class Type3, class Type4> text_tree&              add_line(const Type1& a1, const Type2& a2, const Type3& a3, const Type4& a4);
+        template<class Type1, class Type2, class Type3, class Type4, class Type5> text_tree& add_line(const Type1& a1, const Type2& a2, const Type3& a3, const Type4& a4, const Type5& a5);
 
-        void clear();
+        void                                                                                 clear();
 
-        template <class OutFunc> void output(OutFunc func, int indent = 4);
+        template<class OutFunc> void                                                         output(OutFunc func, int indent = 4);
 
         virtual ~text_tree()
         {
@@ -51,34 +48,33 @@ namespace debug
         typedef xr_vector<int>       Columns;
         typedef xr_vector<xr_string> Strings;
 
-        template <class OutFunc> void output(int current_indent, int indent, Columns& columns, OutFunc func);
-        void                          prepare(int current_indent, int indent, Columns& columns);
+        template<class OutFunc> void output(int current_indent, int indent, Columns& columns, OutFunc func);
+        void                         prepare(int current_indent, int indent, Columns& columns);
 
-        static void deleter(text_tree* p)
+        static void                  deleter(text_tree* p)
         {
             xr_delete(p);
         }
-        int      group_id;
-        bool     shown;
-        Strings  strings;
-        Children children;
-        char     separator;
-        int      num_siblings;
+        int        group_id;
+        bool       shown;
+        Strings    strings;
+        Children   children;
+        char       separator;
+        int        num_siblings;
 
         text_tree& add_line();
         text_tree(const text_tree& t);   // no copying allowed
     };
 
-    void draw_text_tree(
-        text_tree& tree,
-        int        indent,   // in spaces
-        int        ori_x,
-        int        ori_y,
-        int        offs,          // skip offs lines
-        int        column_size,   // in pixels
-        int        max_rows,
-        u32        color1,
-        u32        color2);
+    void draw_text_tree(text_tree& tree,
+        int                        indent,   // in spaces
+        int                        ori_x,
+        int                        ori_y,
+        int                        offs,          // skip offs lines
+        int                        column_size,   // in pixels
+        int                        max_rows,
+        u32                        color1,
+        u32                        color2);
 
     void log_text_tree(text_tree& tree);
 

@@ -59,8 +59,7 @@ CPHCapture::~CPHCapture()
 
 bool CPHCapture::Invalid()
 {
-    return !m_taget_object->ObjectPPhysicsShell() || !m_taget_object->ObjectPPhysicsShell()->isActive() ||
-        !m_character->b_exist;
+    return !m_taget_object->ObjectPPhysicsShell() || !m_taget_object->ObjectPPhysicsShell()->isActive() || !m_character->b_exist;
 }
 
 void CPHCapture::PhDataUpdate(dReal /**step/**/)
@@ -103,7 +102,7 @@ void CPHCapture::PhTune(dReal /**step/**/)
     bool act_capturer = m_character->CPHObject::is_active();
     bool act_taget    = m_taget_object->ObjectPPhysicsShell()->isEnabled();
 
-    b_disabled = !act_capturer && !act_taget;
+    b_disabled        = !act_capturer && !act_taget;
     if (act_capturer)
     {
         m_taget_element->Enable();
@@ -116,7 +115,8 @@ void CPHCapture::PhTune(dReal /**step/**/)
     {
         case cstPulling:;
             break;
-        case cstCaptured: {
+        case cstCaptured:
+        {
             if (b_disabled)
                 dBodyDisable(m_body);
             else
@@ -160,7 +160,7 @@ void CPHCapture::PullingUpdate()
     {
         m_back_force = 0.f;
 
-        m_joint = dJointCreateBall(0, 0);
+        m_joint      = dJointCreateBall(0, 0);
         m_island.AddJoint(m_joint);
         m_ajoint = dJointCreateAMotor(0, 0);
         m_island.AddJoint(m_ajoint);
@@ -280,8 +280,7 @@ void CPHCapture::CapturedUpdate()
         m_taget_element->Enable();
     }
 
-    if (!m_taget_element->isActive() ||
-        dDOT(m_joint_feedback.f2, m_joint_feedback.f2) > m_capture_force * m_capture_force)
+    if (!m_taget_element->isActive() || dDOT(m_joint_feedback.f2, m_joint_feedback.f2) > m_capture_force * m_capture_force)
     {
         Release();
         return;
@@ -322,12 +321,7 @@ void CPHCapture::ReleaseInCallBack()
     b_collide = true;
 }
 
-void CPHCapture::object_contactCallbackFun(
-    bool&     do_colide,
-    bool      bo1,
-    dContact& c,
-    SGameMtl* /*material_1*/,
-    SGameMtl* /*material_2*/)
+void CPHCapture::object_contactCallbackFun(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/)
 {
     dxGeomUserData* l_pUD1 = NULL;
     dxGeomUserData* l_pUD2 = NULL;

@@ -11,6 +11,7 @@ class XRLC_LIGHT_API net_task_manager
     float          thProgress;
     void           send(IGridUser& user, u32 id);
     void           receive(INetReader& r);
+
 public:
     net_task_manager();
     void run();

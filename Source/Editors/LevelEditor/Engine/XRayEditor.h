@@ -12,14 +12,14 @@ public:
     virtual CInifile* GetArchiveHeader(LPCSTR name, LPCSTR ver);
 
     // Loading
-    virtual void LoadBegin();
-    virtual void LoadEnd();
-    virtual void LoadTitleInt(LPCSTR str1, LPCSTR str2, LPCSTR str3);
-    virtual void LoadStage();
-    virtual void LoadSwitch();
-    virtual void LoadDraw();
+    virtual void      LoadBegin();
+    virtual void      LoadEnd();
+    virtual void      LoadTitleInt(LPCSTR str1, LPCSTR str2, LPCSTR str3);
+    virtual void      LoadStage();
+    virtual void      LoadSwitch();
+    virtual void      LoadDraw();
 
-    virtual void OnEvent(EVENT E, u64 P1, u64 P2);
+    virtual void      OnEvent(EVENT E, u64 P1, u64 P2);
 
     virtual void _BCL OnFrame();
     virtual void      load_draw_internal();

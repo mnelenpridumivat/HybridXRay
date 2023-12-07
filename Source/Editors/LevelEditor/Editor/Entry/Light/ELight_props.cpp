@@ -6,14 +6,16 @@ void CLight::OnAutoClick(ButtonValue* value, bool& bModif, bool& bSafe)
     R_ASSERT(B);
     switch (B->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             float P        = 0.1f;
             m_Attenuation0 = 1.f;
             m_Attenuation1 = (m_Brightness - P - P * m_Range * m_Range * m_Attenuation2) / (P * m_Range);
             clamp(m_Attenuation1, 0.f, 1.f);
         }
         break;
-        case 1: {
+        case 1:
+        {
             float P        = 0.1f;
             m_Attenuation0 = 1.f;
             m_Attenuation2 = (m_Brightness - P - P * m_Range * m_Attenuation1) / (P * m_Range * m_Range);
@@ -30,7 +32,8 @@ void CLight::OnFuzzyGenerateClick(ButtonValue* value, bool& bModif, bool& bSafe)
     R_ASSERT(B);
     switch (B->btn_num)
     {
-        case 0: {
+        case 0:
+        {
             OnFuzzyDataChange(value);
         }
         break;
@@ -112,7 +115,7 @@ void CLight::OnAttenuationDraw(CanvasValue* sender)
             else		canvas->LineTo(x0+d,y);
         }
     }*/
-#define WIETH 90
+#define WIETH  90
 #define HEIGHT 80.f
     float        d_cost        = m_Range / WIETH;
     static float values[WIETH] = {};
@@ -128,8 +131,7 @@ void CLight::OnAttenuationDraw(CanvasValue* sender)
         {
             float R = d * d_cost;
             float b = m_Brightness / (m_Attenuation0 + m_Attenuation1 * R + m_Attenuation2 * R * R);
-            b -= m_Brightness * R /
-                (m_Range * (m_Attenuation0 + m_Attenuation1 * m_Range + m_Attenuation2 * m_Range * m_Range));
+            b -= m_Brightness * R / (m_Range * (m_Attenuation0 + m_Attenuation1 * m_Range + m_Attenuation2 * m_Range * m_Range));
             float bb = (HEIGHT * b);
             float y  = floorf(bb);
             clamp(y, 0.f, HEIGHT);
@@ -150,10 +152,7 @@ void CLight::OnPointDataTestEqual(CanvasValue* a, CanvasValue* b, bool& res)
     VERIFY(A);
     CLight* B = (CLight*)(b->tag);
     VERIFY(B);
-    res =
-        (fsimilar(A->m_Range, B->m_Range) && fsimilar(A->m_Attenuation0, B->m_Attenuation0) &&
-         fsimilar(A->m_Attenuation1, B->m_Attenuation1) && fsimilar(A->m_Attenuation2, B->m_Attenuation2) &&
-         fsimilar(A->m_Brightness, B->m_Brightness));
+    res = (fsimilar(A->m_Range, B->m_Range) && fsimilar(A->m_Attenuation0, B->m_Attenuation0) && fsimilar(A->m_Attenuation1, B->m_Attenuation1) && fsimilar(A->m_Attenuation2, B->m_Attenuation2) && fsimilar(A->m_Brightness, B->m_Brightness));
 }
 
 void CLight::FillAttProp(LPCSTR pref, PropItemVec& items)
@@ -198,20 +197,16 @@ void     CLight::FillPointProp(LPCSTR pref, PropItemVec& items)
         P->OnChangeEvent.bind(this, &CLight::OnFuzzyDataChange);
         B = PHelper().CreateButton(items, PrepareKey(pref, "Fuzzy\\Generate"), "Random", 0);
         B->OnBtnClickEvent.bind(this, &CLight::OnFuzzyGenerateClick);
-        P = PHelper().CreateToken8(
-            items, PrepareKey(pref, "Fuzzy\\Shape"), (u8*)&m_FuzzyData->m_ShapeType, fuzzy_shape_types);
+        P = PHelper().CreateToken8(items, PrepareKey(pref, "Fuzzy\\Shape"), (u8*)&m_FuzzyData->m_ShapeType, fuzzy_shape_types);
         P->OnChangeEvent.bind(this, &CLight::OnFuzzyTypeChange);
         switch (m_FuzzyData->m_ShapeType)
         {
             case CLight::SFuzzyData::fstSphere:
-                P = PHelper().CreateFloat(
-                    items, PrepareKey(pref, "Fuzzy\\Radius"), &m_FuzzyData->m_SphereRadius, 0.01f, 100.f, 0.01f, 2);
+                P = PHelper().CreateFloat(items, PrepareKey(pref, "Fuzzy\\Radius"), &m_FuzzyData->m_SphereRadius, 0.01f, 100.f, 0.01f, 2);
                 P->OnChangeEvent.bind(this, &CLight::OnFuzzyDataChange);
                 break;
             case CLight::SFuzzyData::fstBox:
-                P = PHelper().CreateVector(
-                    items, PrepareKey(pref, "Fuzzy\\Half Dimension"), &m_FuzzyData->m_BoxDimension, 0.01f, 100.f, 0.01f,
-                    2);
+                P = PHelper().CreateVector(items, PrepareKey(pref, "Fuzzy\\Half Dimension"), &m_FuzzyData->m_BoxDimension, 0.01f, 100.f, 0.01f, 2);
                 P->OnChangeEvent.bind(this, &CLight::OnFuzzyDataChange);
                 break;
         }
@@ -231,18 +226,17 @@ void CLight::FillSpotProp(LPCSTR pref, PropItemVec& items)
     PHelper().CreateChoose(items, PrepareKey(pref, "Spot R1\\Texture"), &m_FalloffTex, smTexture);
 }
 
-xr_token token_light_type[] = {
-    {"Point", ELight::ltPoint},
+xr_token token_light_type[] = {{"Point", ELight::ltPoint},
     //. andy    { "Spot",		ELight::ltSpot			},
     {0, 0}};
 
-void CLight::FillProp(LPCSTR pref, PropItemVec& items)
+void     CLight::FillProp(LPCSTR pref, PropItemVec& items)
 {
     inherited::FillProp(pref, items);
 
     PropValue* V = 0;
 
-    V = PHelper().CreateToken32(items, PrepareKey(pref, "Type"), (u32*)&m_Type, token_light_type);
+    V            = PHelper().CreateToken32(items, PrepareKey(pref, "Type"), (u32*)&m_Type, token_light_type);
     V->OnChangeEvent.bind(this, &CLight::OnTypeChange);
     V = PHelper().CreateFColor(items, PrepareKey(pref, "Color"), &m_Color);
     V->OnChangeEvent.bind(this, &CLight::OnNeedUpdate);
@@ -251,8 +245,7 @@ void CLight::FillProp(LPCSTR pref, PropItemVec& items)
 
     ESceneLightTool* lt = dynamic_cast<ESceneLightTool*>(FParentTools);
     VERIFY(lt);
-    PHelper().CreateRToken32(
-        items, PrepareKey(pref, "Light Control"), &m_LControl, &*lt->lcontrols.begin(), lt->lcontrols.size());
+    PHelper().CreateRToken32(items, PrepareKey(pref, "Light Control"), &m_LControl, &*lt->lcontrols.begin(), lt->lcontrols.size());
 
     switch (m_Type)
     {

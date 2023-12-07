@@ -50,7 +50,8 @@ void CEntity::OnEvent(NET_Packet& P, u16 type)
 
     switch (type)
     {
-        case GE_DIE: {
+        case GE_DIE:
+        {
             u16 id;
             u32 cl;
             P.r_u16(id);
@@ -147,7 +148,7 @@ void CEntity::Load(LPCSTR section)
     id_Group = READ_IF_EXISTS(pSettings, r_s32, section, "group", -1);
 
 #pragma todo("Jim to Dima: no specific figures or comments needed")
-    m_fMorale = 66.f;
+    m_fMorale          = 66.f;
 
     // время убирания тела с уровня
     m_dwBodyRemoveTime = READ_IF_EXISTS(pSettings, r_u32, section, "body_remove_time", BODY_REMOVE_TIME);
@@ -156,9 +157,9 @@ void CEntity::Load(LPCSTR section)
 
 BOOL CEntity::net_Spawn(CSE_Abstract* DC)
 {
-    m_level_death_time = 0;
-    m_game_death_time  = 0;
-    m_killer_id        = ALife::_OBJECT_ID(-1);
+    m_level_death_time           = 0;
+    m_game_death_time            = 0;
+    m_killer_id                  = ALife::_OBJECT_ID(-1);
 
     CSE_Abstract*              e = (CSE_Abstract*)(DC);
     CSE_ALifeCreatureAbstract* E = smart_cast<CSE_ALifeCreatureAbstract*>(e);
@@ -168,11 +169,7 @@ BOOL CEntity::net_Spawn(CSE_Abstract* DC)
     {
         SetfHealth(E->get_health());
 
-        R_ASSERT2(
-            !((E->get_killer_id() != ALife::_OBJECT_ID(-1)) && g_Alive()),
-            make_string(
-                "server entity [%s][%d] has an killer [%d] and not dead", E->name_replace(), E->ID, E->get_killer_id())
-                .c_str());
+        R_ASSERT2(!((E->get_killer_id() != ALife::_OBJECT_ID(-1)) && g_Alive()), make_string("server entity [%s][%d] has an killer [%d] and not dead", E->name_replace(), E->ID, E->get_killer_id()).c_str());
 
         m_killer_id = E->get_killer_id();
         if (m_killer_id == ID())
@@ -189,16 +186,14 @@ BOOL CEntity::net_Spawn(CSE_Abstract* DC)
         CSE_ALifeTrader*     T = smart_cast<CSE_ALifeTrader*>(e);
         CSE_ALifeHelicopter* H = smart_cast<CSE_ALifeHelicopter*>(e);
 
-        R_ASSERT2(
-            C || T || H,
-            "Invalid entity (no inheritance from CSE_CreatureAbstract, CSE_ALifeItemCar and CSE_ALifeTrader and CSE_ALifeHelicopter)!");
+        R_ASSERT2(C || T || H, "Invalid entity (no inheritance from CSE_CreatureAbstract, CSE_ALifeItemCar and CSE_ALifeTrader and CSE_ALifeHelicopter)!");
         id_Team = id_Squad = id_Group = 0;
     }
     else
     {
-        id_Team  = E->g_team();
-        id_Squad = E->g_squad();
-        id_Group = E->g_group();
+        id_Team                       = E->g_team();
+        id_Squad                      = E->g_squad();
+        id_Group                      = E->g_group();
 
         CSE_ALifeMonsterBase* monster = smart_cast<CSE_ALifeMonsterBase*>(E);
         if (monster)
@@ -265,8 +260,7 @@ void CEntity::KillEntity(u16 whoID)
 #ifdef DEBUG
         if (m_killer_id != ALife::_OBJECT_ID(-1))
         {
-            Msg("! Entity [%s][%s] already has killer with id %d, but new killer id arrived - %d", *cNameSect(),
-                *cName(), m_killer_id, whoID);
+            Msg("! Entity [%s][%s] already has killer with id %d, but new killer id arrived - %d", *cNameSect(), *cName(), m_killer_id, whoID);
 
             CObject* old_killer = Level().Objects.net_Find(m_killer_id);
             Msg("! Old killer is %s", old_killer ? *old_killer->cName() : "unknown");
@@ -332,7 +326,7 @@ bool CEntity::IsMyCamera() const
     return (smart_cast<const CEntity*>(g_pGameLevel->CurrentViewEntity()) == this);
 }
 
-void CEntity::set_ready_to_save() {}
+void      CEntity::set_ready_to_save() {}
 
 DLL_Pure* CEntity::_construct()
 {
@@ -344,7 +338,7 @@ DLL_Pure* CEntity::_construct()
 
 const u32 FORGET_KILLER_TIME = 180000;
 
-void CEntity::shedule_Update(u32 dt)
+void      CEntity::shedule_Update(u32 dt)
 {
     inherited::shedule_Update(dt);
     if (!getDestroy() && !g_Alive() && (m_killer_id != u16(-1)))

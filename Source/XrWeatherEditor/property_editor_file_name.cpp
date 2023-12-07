@@ -48,15 +48,13 @@ UITypeEditorEditStyle property_editor_file_name::GetEditStyle(ITypeDescriptorCon
     return (inherited::GetEditStyle(context));
 }
 
-Object ^
-    property_editor_file_name::EditValue(ITypeDescriptorContext ^ context, IServiceProvider ^ provider, Object ^ value)
+Object ^ property_editor_file_name::EditValue(ITypeDescriptorContext ^ context, IServiceProvider ^ provider, Object ^ value)
 {
     if (!context || !provider)
         return (inherited::EditValue(context, provider, value));
 
     typedef System::Windows::Forms::Design::IWindowsFormsEditorService IWindowsFormsEditorService;
-    IWindowsFormsEditorService ^ service =
-        dynamic_cast<IWindowsFormsEditorService ^>(provider->GetService(IWindowsFormsEditorService::typeid));
+    IWindowsFormsEditorService ^ service = dynamic_cast<IWindowsFormsEditorService ^>(provider->GetService(IWindowsFormsEditorService::typeid));
 
     if (!service)
         return (inherited::EditValue(context, provider, value));
@@ -85,7 +83,8 @@ Object ^
 
     switch (m_dialog->ShowDialog())
     {
-        case System::Windows::Forms::DialogResult::OK: {
+        case System::Windows::Forms::DialogResult::OK:
+        {
             String ^ file_name = System::IO::Path::GetFullPath(m_dialog->FileName->ToLower());
             if (file_name->StartsWith(initial_directory))
                 file_name = file_name->Substring(initial_directory->Length);
@@ -102,13 +101,13 @@ Object ^
     dialog->StartLocation                       = CustomControls::Controls::AddonWindowLocation::None;
     dialog->DefaultViewMode                     = CustomControls::OS::FolderViewMode::Thumbnails;
 
-    dialog->OpenDialog->RestoreDirectory = true;
-    dialog->OpenDialog->DefaultExt       = real_value->default_extension();
-    dialog->OpenDialog->Filter           = real_value->filter();
-    dialog->OpenDialog->InitialDirectory = System::IO::Path::GetFullPath(real_value->initial_directory());
-    dialog->OpenDialog->Title            = real_value->title();
-    dialog->OpenDialog->FileName         = dialog->OpenDialog->InitialDirectory + safe_cast<System::String ^>(value);
-    dialog->OpenDialog->InitialDirectory = "";
+    dialog->OpenDialog->RestoreDirectory        = true;
+    dialog->OpenDialog->DefaultExt              = real_value->default_extension();
+    dialog->OpenDialog->Filter                  = real_value->filter();
+    dialog->OpenDialog->InitialDirectory        = System::IO::Path::GetFullPath(real_value->initial_directory());
+    dialog->OpenDialog->Title                   = real_value->title();
+    dialog->OpenDialog->FileName                = dialog->OpenDialog->InitialDirectory + safe_cast<System::String ^>(value);
+    dialog->OpenDialog->InitialDirectory        = "";
     dialog->ShowDialog();
     delete (dialog);
 #endif   // #ifndef USE_CUSTOM_DIALOG

@@ -9,8 +9,7 @@
 namespace award_system
 {
 
-    reward_manager::reward_manager(game_cl_mp* owner):
-        m_reward_process_time(1000), m_last_reward_time(0), m_owner(owner)
+    reward_manager::reward_manager(game_cl_mp* owner): m_reward_process_time(1000), m_last_reward_time(0), m_owner(owner)
     {
         load_rewards();
     }
@@ -48,9 +47,9 @@ namespace award_system
         VERIFY2(tmp_reader, "can't open $game_config$\\mp\\rewarding.ltx");
         CInifile rewards_config(tmp_reader);
 
-        u32    reward_index = 0;
-        LPCSTR section_name = NULL;
-        char   tmp_dst_buff[16];
+        u32      reward_index = 0;
+        LPCSTR   section_name = NULL;
+        char     tmp_dst_buff[16];
 
         STRCONCAT(section_name, section_name_prefix, itoa(reward_index, tmp_dst_buff, 10));
 
@@ -76,9 +75,7 @@ namespace award_system
             }
         };   // struct award_name_searcher
 #endif
-        VERIFY2(
-            m_rewards_map.find(index) == m_rewards_map.end(),
-            make_string("reward with id=%d already loaded", index).c_str());
+        VERIFY2(m_rewards_map.find(index) == m_rewards_map.end(), make_string("reward with id=%d already loaded", index).c_str());
 
         reward_descriptor* tmp_descriptor = xr_new<reward_descriptor>();
         tmp_descriptor->m_award_name      = reward_config.r_string(section, "name");
@@ -87,16 +84,14 @@ namespace award_system
         tmp_descriptor->m_width           = reward_config.r_u32(section, "ingame_texture_width");
         tmp_descriptor->m_height          = reward_config.r_u32(section, "ingame_texture_height");
 
-        LPCSTR tmp_sound_name = reward_config.r_string(section, "play_sound");
+        LPCSTR tmp_sound_name             = reward_config.r_string(section, "play_sound");
         tmp_descriptor->m_play_sound.create(tmp_sound_name, st_Effect, 0);
         tmp_descriptor->m_process_time = reward_config.r_u32(section, "reward_time");
 
 #ifdef DEBUG
         award_name_searcher tmp_award_searcher;
         tmp_award_searcher.m_award_name = tmp_descriptor->m_award_name;
-        VERIFY2(
-            std::find_if(m_rewards_map.begin(), m_rewards_map.end(), tmp_award_searcher) == m_rewards_map.end(),
-            make_string("reward with award %s already loaded", tmp_award_searcher.m_award_name.c_str()).c_str());
+        VERIFY2(std::find_if(m_rewards_map.begin(), m_rewards_map.end(), tmp_award_searcher) == m_rewards_map.end(), make_string("reward with award %s already loaded", tmp_award_searcher.m_award_name.c_str()).c_str());
 #endif
         m_rewards_map.insert(std::make_pair(index, tmp_descriptor));
     }
@@ -115,9 +110,7 @@ namespace award_system
         UIGameMP* tmp_ui_mp_game = smart_cast<UIGameMP*>(CurrentGameUI());
         R_ASSERT(tmp_ui_mp_game);
 
-        tmp_ui_mp_game->AddAchivment(
-            tmp_iter->second->m_texture_name, tmp_iter->second->m_color_animation, tmp_iter->second->m_width,
-            tmp_iter->second->m_height);
+        tmp_ui_mp_game->AddAchivment(tmp_iter->second->m_texture_name, tmp_iter->second->m_color_animation, tmp_iter->second->m_width, tmp_iter->second->m_height);
 
         tmp_iter->second->m_play_sound.play(NULL, sm_2D);
         m_reward_process_time = tmp_iter->second->m_process_time;

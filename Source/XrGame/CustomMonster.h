@@ -30,12 +30,7 @@ class CAI_Stalker;
 class CDangerObject;
 class moving_object;
 
-class CCustomMonster:
-    public CEntityAlive,
-    public CScriptEntity,
-    public Feel::Vision,
-    public Feel::Sound,
-    public Feel::Touch
+class CCustomMonster: public CEntityAlive, public CScriptEntity, public Feel::Vision, public Feel::Sound, public Feel::Touch
 {
 private:
     typedef CEntityAlive inherited;
@@ -57,7 +52,7 @@ protected:
         MotionID ls;
         MotionID rs;
 
-        void Create(IKinematicsAnimated* K, LPCSTR base);
+        void     Create(IKinematicsAnimated* K, LPCSTR base);
     };
 
 private:
@@ -65,28 +60,28 @@ private:
 
 public:
     // Eyes
-    Fmatrix eye_matrix;
-    int     eye_bone;
-    float   eye_fov;
-    float   eye_range;
+    Fmatrix      eye_matrix;
+    int          eye_bone;
+    float        eye_fov;
+    float        eye_range;
 
-    float m_fCurSpeed;
+    float        m_fCurSpeed;
 
-    u32     eye_pp_stage;
-    u32     eye_pp_timestamp;
-    Fvector m_tEyeShift;
-    float   m_fEyeShiftYaw;
-    BOOL    NET_WasExtrapolating;
+    u32          eye_pp_stage;
+    u32          eye_pp_timestamp;
+    Fvector      m_tEyeShift;
+    float        m_fEyeShiftYaw;
+    BOOL         NET_WasExtrapolating;
 
-    Fvector tWatchDirection;
+    Fvector      tWatchDirection;
 
     virtual void Think() = 0;
 
-    float m_fTimeUpdateDelta;
-    u32   m_dwLastUpdateTime;
+    float        m_fTimeUpdateDelta;
+    u32          m_dwLastUpdateTime;
     //	Fmatrix				m_tServerTransform;
 
-    u32 m_dwCurrentTime;   // time updated in UpdateCL
+    u32          m_dwCurrentTime;   // time updated in UpdateCL
 
     struct net_update
     {
@@ -115,21 +110,21 @@ public:
     u32                  NET_Time;               // server time of last update
                                                  //------------------------------
 
-    virtual BOOL feel_touch_on_contact(CObject*);
-    virtual BOOL feel_touch_contact(CObject*);
+    virtual BOOL         feel_touch_on_contact(CObject*);
+    virtual BOOL         feel_touch_contact(CObject*);
     // utils
-    void mk_orientation(Fvector& dir, Fmatrix& mR);
-    void mk_rotation(Fvector& dir, SRotation& R);
+    void                 mk_orientation(Fvector& dir, Fmatrix& mR);
+    void                 mk_rotation(Fvector& dir, SRotation& R);
 
     // stream executors
-    virtual void Exec_Action(float dt);
-    virtual void Exec_Look(float dt);
-    void         Exec_Visibility();
-    virtual void eye_pp_s0();
-    void         eye_pp_s1();
-    void         eye_pp_s2();
+    virtual void         Exec_Action(float dt);
+    virtual void         Exec_Look(float dt);
+    void                 Exec_Visibility();
+    virtual void         eye_pp_s0();
+    void                 eye_pp_s1();
+    void                 eye_pp_s2();
 
-    virtual void UpdateCamera();
+    virtual void         UpdateCamera();
 
 public:
     CCustomMonster();
@@ -150,19 +145,19 @@ public:
     virtual BOOL      net_Spawn(CSE_Abstract* DC);
     virtual void      Die(CObject* who);
 
-    virtual void HitSignal(float P, Fvector& vLocalDir, CObject* who);
-    virtual void g_WeaponBones(int& /**L/**/, int& /**R1/**/, int& /**R2/**/){};
-    virtual void shedule_Update(u32 DT);
-    virtual void UpdateCL();
+    virtual void      HitSignal(float P, Fvector& vLocalDir, CObject* who);
+    virtual void      g_WeaponBones(int& /**L/**/, int& /**R1/**/, int& /**R2/**/){};
+    virtual void      shedule_Update(u32 DT);
+    virtual void      UpdateCL();
 
     // Network
-    virtual void net_Export(NET_Packet& P);   // export to server
-    virtual void net_Import(NET_Packet& P);   // import from server
-    virtual void net_Relcase(CObject* O);
+    virtual void      net_Export(NET_Packet& P);   // export to server
+    virtual void      net_Import(NET_Packet& P);   // import from server
+    virtual void      net_Relcase(CObject* O);
 
-    virtual void SelectAnimation(const Fvector& _view, const Fvector& _move, float speed) = 0;
+    virtual void      SelectAnimation(const Fvector& _view, const Fvector& _move, float speed) = 0;
 
-    virtual bool is_base_monster_with_enemy()
+    virtual bool      is_base_monster_with_enemy()
     {
         return false;
     }
@@ -190,8 +185,8 @@ public:
     {
         return eye_range;
     }
-    void set_fov(float new_fov);
-    void set_range(float new_range);
+    void                 set_fov(float new_fov);
+    void                 set_range(float new_range);
     //	virtual	void				feel_touch_new			(CObject	*O);
     virtual BOOL         feel_visible_isRelevant(CObject* O);
     virtual Feel::Sound* dcast_FeelSound()
@@ -204,7 +199,7 @@ public:
     virtual void net_Destroy();
     virtual BOOL UsedAI_Locations();
     ///////////////////////////////////////////////////////////////////////
-    virtual u16 PHGetSyncItemsNumber()
+    virtual u16  PHGetSyncItemsNumber()
     {
         return inherited ::PHGetSyncItemsNumber();
     }
@@ -221,6 +216,7 @@ public:
         return inherited ::PHFreeze();
     }
     ///////////////////////////////////////////////////////////////////////
+
 public:
     virtual void            Load(LPCSTR section);
     virtual void            reinit();
@@ -245,9 +241,9 @@ public:
 
     virtual const MonsterSpace::SBoneRotation& head_orientation() const;
 
-    virtual void                 UpdatePositionAnimation();
-    virtual void                 set_ready_to_save();
-    virtual CPhysicsShellHolder* cast_physics_shell_holder()
+    virtual void                               UpdatePositionAnimation();
+    virtual void                               set_ready_to_save();
+    virtual CPhysicsShellHolder*               cast_physics_shell_holder()
     {
         return this;
     }
@@ -264,20 +260,19 @@ public:
         return this;
     }
 
-    void load_killer_clsids(LPCSTR section);
-    bool is_special_killer(CObject* obj);
+    void               load_killer_clsids(LPCSTR section);
+    bool               is_special_killer(CObject* obj);
 
     IC CMemoryManager& memory() const;
     virtual float      feel_vision_mtl_transp(CObject* O, u32 element);
-    virtual void
-        feel_sound_new(CObject* who, int type, CSound_UserDataPtr user_data, const Fvector& Position, float power);
+    virtual void       feel_sound_new(CObject* who, int type, CSound_UserDataPtr user_data, const Fvector& Position, float power);
 
-    virtual bool  useful(const CItemManager* manager, const CGameObject* object) const;
-    virtual float evaluate(const CItemManager* manager, const CGameObject* object) const;
-    virtual bool  useful(const CEnemyManager* manager, const CEntityAlive* object) const;
-    virtual float evaluate(const CEnemyManager* manager, const CEntityAlive* object) const;
-    virtual bool  useful(const CDangerManager* manager, const CDangerObject& object) const;
-    virtual float evaluate(const CDangerManager* manager, const CDangerObject& object) const;
+    virtual bool       useful(const CItemManager* manager, const CGameObject* object) const;
+    virtual float      evaluate(const CItemManager* manager, const CGameObject* object) const;
+    virtual bool       useful(const CEnemyManager* manager, const CEntityAlive* object) const;
+    virtual float      evaluate(const CEnemyManager* manager, const CEntityAlive* object) const;
+    virtual bool       useful(const CDangerManager* manager, const CDangerObject& object) const;
+    virtual float      evaluate(const CDangerManager* manager, const CDangerObject& object) const;
 
 protected:
     float m_panic_threshold;
@@ -338,6 +333,7 @@ public:
     //////////////////////////////////////////////////////////////////////////
     // Critical Wounds
     //////////////////////////////////////////////////////////////////////////
+
 public:
     typedef u32 CriticalWoundType;
 
@@ -361,7 +357,7 @@ protected:
     }
     virtual void critical_wounded_state_start() {}
 
-    bool update_critical_wounded(const u16& bone_id, const float& power);
+    bool         update_critical_wounded(const u16& bone_id, const float& power);
 
 public:
     IC void critical_wounded_state_stop();
@@ -371,6 +367,7 @@ public:
     IC const u32& critical_wound_type() const;
 
     //////////////////////////////////////////////////////////////////////////
+
 private:
     bool m_invulnerable;
 

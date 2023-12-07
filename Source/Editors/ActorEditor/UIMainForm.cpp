@@ -39,7 +39,7 @@ void UIMainForm::Draw()
     m_TopBar->Draw();
     m_LeftBar->Draw();
     m_KeyForm->Draw();
-    if(bDemoImGui)
+    if (bDemoImGui)
         ImGui::ShowDemoWindow(&bDemoImGui);
     m_Render->Draw();
     splash::hide();

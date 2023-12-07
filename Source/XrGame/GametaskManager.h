@@ -32,12 +32,12 @@ public:
     void        SetTaskState(const shared_str& id, ETaskState state);
     void        SetTaskState(CGameTask* t, ETaskState state);
 
-    void UpdateTasks();
+    void        UpdateTasks();
 
-    CGameTask* ActiveTask();
+    CGameTask*  ActiveTask();
     //	void					SetActiveTask					(const shared_str& id);
-    void SetActiveTask(CGameTask* task);
-    u32  ActualFrame() const
+    void        SetActiveTask(CGameTask* task);
+    u32         ActualFrame() const
     {
         return m_actual_frame;
     }
@@ -47,7 +47,7 @@ public:
     u32        GetTaskCount(ETaskState state);
     void       MapLocationRelcase(CMapLocation* ml);
 
-    void ResetStorage()
+    void       ResetStorage()
     {
         m_gametasks = NULL;
     };

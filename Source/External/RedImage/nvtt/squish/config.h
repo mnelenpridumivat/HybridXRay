@@ -22,34 +22,34 @@
 	SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 	
    -------------------------------------------------------------------------- */
-   
+
 #ifndef SQUISH_CONFIG_H
 #define SQUISH_CONFIG_H
 
 // Set to 1 when building squish to use altivec instructions.
 #ifndef SQUISH_USE_ALTIVEC
-#	define SQUISH_USE_ALTIVEC defined(__VEC__)
+#define SQUISH_USE_ALTIVEC defined(__VEC__)
 #endif
 
 // Set to 1 when building squish to use sse instructions.
 #ifndef SQUISH_USE_SSE
-#	if defined(__SSE2__)
-#		define SQUISH_USE_SSE 2
-#	elif defined(__SSE__)
-#		define SQUISH_USE_SSE 1
-#	else
-#		define SQUISH_USE_SSE 0
-#	endif
+#if defined(__SSE2__)
+#define SQUISH_USE_SSE 2
+#elif defined(__SSE__)
+#define SQUISH_USE_SSE 1
+#else
+#define SQUISH_USE_SSE 0
+#endif
 #endif
 
 // Internally et SQUISH_USE_SIMD when either altivec or sse is available.
 #if SQUISH_USE_ALTIVEC && SQUISH_USE_SSE
-#	error "Cannot enable both altivec and sse!"
+#error "Cannot enable both altivec and sse!"
 #endif
 #if SQUISH_USE_ALTIVEC || SQUISH_USE_SSE
-#	define SQUISH_USE_SIMD 1
+#define SQUISH_USE_SIMD 1
 #else
-#	define SQUISH_USE_SIMD 0
+#define SQUISH_USE_SIMD 0
 #endif
 
-#endif // ndef SQUISH_CONFIG_H
+#endif   // ndef SQUISH_CONFIG_H

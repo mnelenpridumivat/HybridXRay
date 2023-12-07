@@ -32,7 +32,7 @@ void ELogCallback(LPCSTR txt)
 }
 
 //----------------------------------------------------
-CLog ELog;
+CLog                  ELog;
 //----------------------------------------------------
 inline TMsgDlgButtons MessageDlg(const char* text, TMsgDlgType mt, int btn)
 {

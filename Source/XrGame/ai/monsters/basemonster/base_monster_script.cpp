@@ -34,13 +34,11 @@ using namespace MonsterSound;
 
 void CBaseMonster::GenerateNewOffsetFromLeader()
 {
-    float const min_squad_offset =
-        READ_IF_EXISTS(pSettings, r_float, "monsters_common", "script_move_min_offset_from_leader", 3.f);
-    float const max_squad_offset =
-        READ_IF_EXISTS(pSettings, r_float, "monsters_common", "script_move_max_offset_from_leader", 9.f);
+    float const min_squad_offset     = READ_IF_EXISTS(pSettings, r_float, "monsters_common", "script_move_min_offset_from_leader", 3.f);
+    float const max_squad_offset     = READ_IF_EXISTS(pSettings, r_float, "monsters_common", "script_move_max_offset_from_leader", 9.f);
 
-    float const offset_magnitude = min_squad_offset + (max_squad_offset - min_squad_offset) * Random.randF(1.f);
-    Fvector     offset           = Fvector().set(offset_magnitude, 0, 0);
+    float const offset_magnitude     = min_squad_offset + (max_squad_offset - min_squad_offset) * Random.randF(1.f);
+    Fvector     offset               = Fvector().set(offset_magnitude, 0, 0);
 
     m_offset_from_leader             = rotate_point(offset, deg2rad(360.f) * Random.randF(1.f));
     m_offset_from_leader_chosen_tick = Device->dwTimeGlobal;
@@ -50,9 +48,9 @@ void CBaseMonster::GenerateNewOffsetFromLeader()
 
 bool CBaseMonster::AssignGamePathIfNeeded(Fvector const target_pos, u32 const level_vertex)
 {
-    GameGraph::_GRAPH_ID const self_game_vertex = ai_location().game_vertex_id();
+    GameGraph::_GRAPH_ID const self_game_vertex    = ai_location().game_vertex_id();
 
-    u32 target_level_vertex = 0;
+    u32                        target_level_vertex = 0;
 
     if (ai().level_graph().valid_vertex_id(level_vertex))
     {
@@ -89,10 +87,10 @@ bool CBaseMonster::AssignGamePathIfNeeded(Fvector const target_pos, u32 const le
 
     if (level_vertex_is_valid)
     {
-        m_action_target_pos  = target_pos;
-        m_action_target_node = target_level_vertex;
+        m_action_target_pos                             = target_pos;
+        m_action_target_node                            = target_level_vertex;
 
-        GameGraph::_GRAPH_ID const target_game_vertex = ai().cross_table().vertex(target_level_vertex).game_vertex_id();
+        GameGraph::_GRAPH_ID const target_game_vertex   = ai().cross_table().vertex(target_level_vertex).game_vertex_id();
         bool const                 game_vertex_is_valid = ai().game_graph().valid_vertex_id(target_game_vertex);
         VERIFY(game_vertex_is_valid);
         if (game_vertex_is_valid && self_game_vertex != target_game_vertex)
@@ -126,8 +124,7 @@ bool CBaseMonster::bfAssignMovement(CScriptEntityAction* tpEntityAction)
 
     if (control().path_builder().detail().time_path_built() >= tpEntityAction->m_tActionCondition.m_tStartTime)
     {
-        if ((l_tMovementAction.m_fDistToEnd > 0) &&
-            control().path_builder().is_path_end(l_tMovementAction.m_fDistToEnd))
+        if ((l_tMovementAction.m_fDistToEnd > 0) && control().path_builder().is_path_end(l_tMovementAction.m_fDistToEnd))
         {
             l_tMovementAction.m_bCompleted = true;
         }
@@ -170,7 +167,8 @@ bool CBaseMonster::bfAssignMovement(CScriptEntityAction* tpEntityAction)
 
     switch (l_tMovementAction.m_tGoalType)
     {
-        case CScriptMovementAction::eGoalTypeObject: {
+        case CScriptMovementAction::eGoalTypeObject:
+        {
             CGameObject* l_tpGameObject = smart_cast<CGameObject*>(l_tMovementAction.m_tpObjectToGo);
 
             if (AssignGamePathIfNeeded(Fvector().set(0.f, 0.f, 0.f), l_tpGameObject->ai_location().level_vertex_id()))
@@ -201,16 +199,15 @@ bool CBaseMonster::bfAssignMovement(CScriptEntityAction* tpEntityAction)
             path().set_target_point(l_tMovementAction.m_tDestinationPosition);
             break;
 
-        case CScriptMovementAction::eGoalTypeFollowLeader: {
-            CSE_ALifeMonsterAbstract* const i_am =
-                smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(ID()));
+        case CScriptMovementAction::eGoalTypeFollowLeader:
+        {
+            CSE_ALifeMonsterAbstract* const i_am = smart_cast<CSE_ALifeMonsterAbstract*>(ai().alife().objects().object(ID()));
             VERIFY(i_am);
-            CSE_ALifeOnlineOfflineGroup& group = ai().alife().groups().object(i_am->m_group_id);
+            CSE_ALifeOnlineOfflineGroup& group                = ai().alife().groups().object(i_am->m_group_id);
 
-            ALife::_OBJECT_ID     leader_id            = group.commander_id();
-            bool const            should_follow_leader = leader_id != (ALife::_OBJECT_ID)(-1) && leader_id != ID();
-            CCustomMonster* const leader =
-                should_follow_leader ? smart_cast<CCustomMonster*>(Level().Objects.net_Find(leader_id)) : NULL;
+            ALife::_OBJECT_ID            leader_id            = group.commander_id();
+            bool const                   should_follow_leader = leader_id != (ALife::_OBJECT_ID)(-1) && leader_id != ID();
+            CCustomMonster* const        leader               = should_follow_leader ? smart_cast<CCustomMonster*>(Level().Objects.net_Find(leader_id)) : NULL;
 
             if (!should_follow_leader || !leader || (leader && !leader->GetScriptControl()))
             {
@@ -231,8 +228,7 @@ bool CBaseMonster::bfAssignMovement(CScriptEntityAction* tpEntityAction)
                 u32 vertex_id = u32(-1);
                 for (u32 tries = 0; tries < 3; ++tries)
                 {
-                    vertex_id = ai().level_graph().check_position_in_direction(
-                        leader->ai_location().level_vertex_id(), leader_pos, leader_pos + m_offset_from_leader);
+                    vertex_id = ai().level_graph().check_position_in_direction(leader->ai_location().level_vertex_id(), leader_pos, leader_pos + m_offset_from_leader);
 
                     if (ai().level_graph().valid_vertex_id(vertex_id))
                     {
@@ -260,7 +256,8 @@ bool CBaseMonster::bfAssignMovement(CScriptEntityAction* tpEntityAction)
 
             path().set_target_point(l_tMovementAction.m_tDestinationPosition, l_tMovementAction.m_tNodeID);
             break;
-        case CScriptMovementAction::eGoalTypeJumpToPosition: {
+        case CScriptMovementAction::eGoalTypeJumpToPosition:
+        {
             //			control().deactivate	(ControlCom::eControlRunAttack);
             //			control().deactivate	(ControlCom::eControlRunAttack);
             //			control().deactivate	(ControlCom::eControlRunAttack);
@@ -304,7 +301,7 @@ bool CBaseMonster::bfAssignWatch(CScriptEntityAction* tpEntityAction)
         return (false);
 
     // Инициализировать action
-    anim().m_tAction = ACT_STAND_IDLE;
+    anim().m_tAction                   = ACT_STAND_IDLE;
 
     CScriptWatchAction& l_tWatchAction = tpEntityAction->m_tWatchAction;
     if (l_tWatchAction.completed())
@@ -389,20 +386,13 @@ bool CBaseMonster::bfAssignSound(CScriptEntityAction* tpEntityAction)
     switch (l_tAction.m_monster_sound)
     {
         case eMonsterSoundIdle:
-            sound().play(
-                eMonsterSoundIdle, 0, 0,
-                (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwIdleSndDelay : l_tAction.m_monster_sound_delay);
+            sound().play(eMonsterSoundIdle, 0, 0, (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwIdleSndDelay : l_tAction.m_monster_sound_delay);
             break;
         case eMonsterSoundEat:
-            sound().play(
-                eMonsterSoundEat, 0, 0,
-                (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwEatSndDelay : l_tAction.m_monster_sound_delay);
+            sound().play(eMonsterSoundEat, 0, 0, (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwEatSndDelay : l_tAction.m_monster_sound_delay);
             break;
         case eMonsterSoundAggressive:
-            sound().play(
-                eMonsterSoundAggressive, 0, 0,
-                (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwAttackSndDelay :
-                                                               l_tAction.m_monster_sound_delay);
+            sound().play(eMonsterSoundAggressive, 0, 0, (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwAttackSndDelay : l_tAction.m_monster_sound_delay);
             break;
         case eMonsterSoundAttackHit:
             sound().play(eMonsterSoundAttackHit);
@@ -414,22 +404,13 @@ bool CBaseMonster::bfAssignSound(CScriptEntityAction* tpEntityAction)
             sound().play(eMonsterSoundDie);
             break;
         case eMonsterSoundThreaten:
-            sound().play(
-                eMonsterSoundThreaten, 0, 0,
-                (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwAttackSndDelay :
-                                                               l_tAction.m_monster_sound_delay);
+            sound().play(eMonsterSoundThreaten, 0, 0, (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwAttackSndDelay : l_tAction.m_monster_sound_delay);
             break;
         case eMonsterSoundSteal:
-            sound().play(
-                eMonsterSoundSteal, 0, 0,
-                (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwAttackSndDelay :
-                                                               l_tAction.m_monster_sound_delay);
+            sound().play(eMonsterSoundSteal, 0, 0, (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwAttackSndDelay : l_tAction.m_monster_sound_delay);
             break;
         case eMonsterSoundPanic:
-            sound().play(
-                eMonsterSoundPanic, 0, 0,
-                (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwAttackSndDelay :
-                                                               l_tAction.m_monster_sound_delay);
+            sound().play(eMonsterSoundPanic, 0, 0, (l_tAction.m_monster_sound_delay == int(-1)) ? db().m_dwAttackSndDelay : l_tAction.m_monster_sound_delay);
             break;
     }
 
@@ -494,10 +475,10 @@ void CBaseMonster::ProcessScripts()
     if (m_script_processing_active)
         return;
 
-    m_script_processing_active = true;
+    m_script_processing_active  = true;
 
-    m_bRunTurnRight = false;
-    m_bRunTurnLeft  = false;
+    m_bRunTurnRight             = false;
+    m_bRunTurnLeft              = false;
 
     // movement().Update_Initialize			();
 

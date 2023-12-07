@@ -63,11 +63,11 @@ void CHUDCrosshair::OnRenderFirstBulletDispertion()
 
     UIRender->StartPrimitive(10, IUIRender::ptLineList, UI().m_currentPointType);
 
-    u32 fb_cross_color = color_rgba(255, 0, 0, 255);   // red
+    u32   fb_cross_color = color_rgba(255, 0, 0, 255);   // red
 
-    float cross_length = /*cross_length_perc*/ 0.008f * scr_size.x;
-    float min_radius   = min_radius_perc * scr_size.x;
-    float max_radius   = max_radius_perc * scr_size.x;
+    float cross_length   = /*cross_length_perc*/ 0.008f * scr_size.x;
+    float min_radius     = min_radius_perc * scr_size.x;
+    float max_radius     = max_radius_perc * scr_size.x;
 
     clamp(target_radius, min_radius, max_radius);
 

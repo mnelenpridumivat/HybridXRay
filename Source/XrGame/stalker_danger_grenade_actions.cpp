@@ -30,10 +30,7 @@ using namespace StalkerDecisionSpace;
 // CStalkerActionDangerGrenadeTakeCover
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerGrenadeTakeCover::CStalkerActionDangerGrenadeTakeCover(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerGrenadeTakeCover::CStalkerActionDangerGrenadeTakeCover(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerGrenadeTakeCover::initialize()
 {
@@ -73,8 +70,7 @@ void CStalkerActionDangerGrenadeTakeCover::execute()
         else
         {
             CWeapon* weapon = smart_cast<CWeapon*>(&object().inventory().ActiveItem()->object());
-            if (weapon && weapon->can_be_strapped() && object().best_weapon() &&
-                (object().best_weapon()->object().ID() == weapon->ID()))
+            if (weapon && weapon->can_be_strapped() && object().best_weapon() && (object().best_weapon()->object().ID() == weapon->ID()))
             {
                 object().CObjectHandler::set_goal(eObjectActionStrapped, object().inventory().ActiveItem());
                 if (weapon->strapped_mode())
@@ -118,12 +114,7 @@ void CStalkerActionDangerGrenadeTakeCover::finalize()
 // CStalkerActionDangerGrenadeWaitForExplosion
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerGrenadeWaitForExplosion::CStalkerActionDangerGrenadeWaitForExplosion(
-    CAI_Stalker* object,
-    LPCSTR       action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerGrenadeWaitForExplosion::CStalkerActionDangerGrenadeWaitForExplosion(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerGrenadeWaitForExplosion::initialize()
 {
@@ -159,12 +150,7 @@ void CStalkerActionDangerGrenadeWaitForExplosion::finalize()
 // CStalkerActionDangerGrenadeTakeCoverAfterExplosion
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerGrenadeTakeCoverAfterExplosion::CStalkerActionDangerGrenadeTakeCoverAfterExplosion(
-    CAI_Stalker* object,
-    LPCSTR       action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerGrenadeTakeCoverAfterExplosion::CStalkerActionDangerGrenadeTakeCoverAfterExplosion(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerGrenadeTakeCoverAfterExplosion::initialize()
 {
@@ -221,10 +207,7 @@ void CStalkerActionDangerGrenadeTakeCoverAfterExplosion::finalize()
 // CStalkerActionDangerGrenadeLookAround
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerGrenadeLookAround::CStalkerActionDangerGrenadeLookAround(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerGrenadeLookAround::CStalkerActionDangerGrenadeLookAround(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerGrenadeLookAround::initialize()
 {
@@ -265,10 +248,7 @@ void CStalkerActionDangerGrenadeLookAround::finalize()
 // CStalkerActionDangerGrenadeSearch
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerGrenadeSearch::CStalkerActionDangerGrenadeSearch(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerGrenadeSearch::CStalkerActionDangerGrenadeSearch(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerGrenadeSearch::initialize()
 {

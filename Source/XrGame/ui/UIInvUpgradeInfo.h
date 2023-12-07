@@ -49,15 +49,15 @@ public:
     virtual void Draw();
 
 protected:
-    Upgrade_type*   m_upgrade;
-    CUIFrameWindow* m_background;
+    Upgrade_type*          m_upgrade;
+    CUIFrameWindow*        m_background;
 
     UIInvUpgPropertiesWnd* m_properties_wnd;
 
-    CUITextWnd* m_name;
-    CUITextWnd* m_cost;
-    CUITextWnd* m_desc;
-    CUITextWnd* m_prereq;
+    CUITextWnd*            m_name;
+    CUITextWnd*            m_cost;
+    CUITextWnd*            m_desc;
+    CUITextWnd*            m_prereq;
 
 };   // class UIInvUpgradeInfo
 

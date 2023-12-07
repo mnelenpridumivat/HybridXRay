@@ -19,9 +19,7 @@ enum ESelectionType
     eSelectionTypeDummy = u32(-1),
 };
 
-template <typename _VertexEvaluator, typename _vertex_id_type>
-class CBaseLocationSelector<IGameGraph, _VertexEvaluator, _vertex_id_type>:
-    public CAbstractLocationSelector<IGameGraph, _VertexEvaluator, _vertex_id_type>
+template<typename _VertexEvaluator, typename _vertex_id_type> class CBaseLocationSelector<IGameGraph, _VertexEvaluator, _vertex_id_type>: public CAbstractLocationSelector<IGameGraph, _VertexEvaluator, _vertex_id_type>
 {
     typedef IGameGraph                                                               _Graph;
     typedef CAbstractLocationSelector<IGameGraph, _VertexEvaluator, _vertex_id_type> inherited;

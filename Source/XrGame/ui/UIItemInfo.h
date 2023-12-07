@@ -37,33 +37,29 @@ public:
     {
         return m_pInvItem;
     }
-    void InitItemInfo(Fvector2 pos, Fvector2 size, LPCSTR xml_name);
-    void InitItemInfo(LPCSTR xml_name);
-    void InitItem(
-        CUICellItem*    pCellItem,
-        CInventoryItem* pCompareItem = NULL,
-        u32             item_price   = u32(-1),
-        LPCSTR          trade_tip    = NULL);
+    void                   InitItemInfo(Fvector2 pos, Fvector2 size, LPCSTR xml_name);
+    void                   InitItemInfo(LPCSTR xml_name);
+    void                   InitItem(CUICellItem* pCellItem, CInventoryItem* pCompareItem = NULL, u32 item_price = u32(-1), LPCSTR trade_tip = NULL);
 
-    void TryAddConditionInfo(CInventoryItem& pInvItem, CInventoryItem* pCompareItem);
-    void TryAddWpnInfo(CInventoryItem& pInvItem, CInventoryItem* pCompareItem);
-    void TryAddArtefactInfo(const shared_str& af_section);
-    void TryAddOutfitInfo(CInventoryItem& pInvItem, CInventoryItem* pCompareItem);
-    void TryAddUpgradeInfo(CInventoryItem& pInvItem);
-    void TryAddBoosterInfo(CInventoryItem& pInvItem);
+    void                   TryAddConditionInfo(CInventoryItem& pInvItem, CInventoryItem* pCompareItem);
+    void                   TryAddWpnInfo(CInventoryItem& pInvItem, CInventoryItem* pCompareItem);
+    void                   TryAddArtefactInfo(const shared_str& af_section);
+    void                   TryAddOutfitInfo(CInventoryItem& pInvItem, CInventoryItem* pCompareItem);
+    void                   TryAddUpgradeInfo(CInventoryItem& pInvItem);
+    void                   TryAddBoosterInfo(CInventoryItem& pInvItem);
 
-    virtual void Draw();
-    bool         m_b_FitToHeight;
-    u32          delay;
+    virtual void           Draw();
+    bool                   m_b_FitToHeight;
+    u32                    delay;
 
-    CUIFrameWindow* UIBackground;
-    CUITextWnd*     UIName;
-    CUITextWnd*     UIWeight;
-    CUITextWnd*     UICost;
-    CUITextWnd*     UITradeTip;
+    CUIFrameWindow*        UIBackground;
+    CUITextWnd*            UIName;
+    CUITextWnd*            UIWeight;
+    CUITextWnd*            UICost;
+    CUITextWnd*            UITradeTip;
     //	CUIStatic*			UIDesc_line;
-    CUIScrollView* UIDesc;
-    bool           m_complex_desc;
+    CUIScrollView*         UIDesc;
+    bool                   m_complex_desc;
 
     //	CUIConditionParams*		UIConditionWnd;
     CUIWpnParams*          UIWpnParams;
@@ -72,6 +68,6 @@ public:
     CUIOutfitInfo*         UIOutfitInfo;
     CUIBoosterInfo*        UIBoosterInfo;
 
-    Fvector2   UIItemImageSize;
-    CUIStatic* UIItemImage;
+    Fvector2               UIItemImageSize;
+    CUIStatic*             UIItemImage;
 };

@@ -42,6 +42,7 @@ public:
     {
         u32 o_queries, o_culled;
     } stats;
+
 public:
     // Sector detection and visibility
     CSector*                                                 pLastSector;
@@ -85,6 +86,7 @@ public:
     shared_str                                               c_ldynamic_props;
     bool                                                     m_bMakeAsyncSS;
     bool                                                     m_bFirstFrameAfterReset;   // Determines weather the frame is the first after resetting Device->
+
 private:
     // Loading / Unloading
     void LoadBuffers(CStreamReader* fs);
@@ -97,6 +99,7 @@ private:
     void add_Static(dxRender_Visual* pVisual, u32 planes);
     void add_leafs_Dynamic(dxRender_Visual* pVisual);   // if detected node's full visibility
     void add_leafs_Static(dxRender_Visual* pVisual);    // if detected node's full visibility
+
 public:
     ShaderElement*          rimp_select_sh_static(dxRender_Visual* pVisual, float cdist_sq);
     ShaderElement*          rimp_select_sh_dynamic(dxRender_Visual* pVisual, float cdist_sq);
@@ -110,6 +113,7 @@ public:
     void                    ApplyBlur4(FVF::TL4uv* dest, u32 w, u32 h, float k);
     void                    apply_object(IRenderable* O);
     IC void                 apply_lmaterial(){};
+
 public:
     // feature level
     virtual GenerationLevel get_generation()
@@ -224,8 +228,10 @@ public:
     // Constructor/destructor/loader
     CRender();
     virtual ~CRender();
+
 protected:
     virtual void ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer);
+
 private:
     FS_FileSet m_file_set;
 };

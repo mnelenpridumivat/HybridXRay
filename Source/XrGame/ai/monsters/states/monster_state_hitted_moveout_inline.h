@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION            template<typename _Object>
 #define CStateMonsterHittedMoveOutAbstract CStateMonsterHittedMoveOut<_Object>
 
-#define DIST_TO_PATH_END 1.5f
-#define DIST_TO_HIT_POINT 3.f
+#define DIST_TO_PATH_END                   1.5f
+#define DIST_TO_HIT_POINT                  3.f
 
 TEMPLATE_SPECIALIZATION
 void CStateMonsterHittedMoveOutAbstract::initialize()
@@ -57,8 +57,7 @@ bool CStateMonsterHittedMoveOutAbstract::check_completion()
 TEMPLATE_SPECIALIZATION
 void CStateMonsterHittedMoveOutAbstract::select_target()
 {
-    if (!object->GetCoverCloseToPoint(
-            object->HitMemory.get_last_hit_position(), 10.f, 20.f, 0.f, 15.f, target.position, target.node))
+    if (!object->GetCoverCloseToPoint(object->HitMemory.get_last_hit_position(), 10.f, 20.f, 0.f, 15.f, target.position, target.node))
     {
         target.node = u32(-1);
     }

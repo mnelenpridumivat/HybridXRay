@@ -26,10 +26,7 @@
 // CStalkerActionRunToCover
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionRunToCover::CStalkerActionRunToCover(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionRunToCover::CStalkerActionRunToCover(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionRunToCover::initialize()
 {
@@ -45,13 +42,11 @@ void CStalkerActionRunToCover::initialize()
     MemorySpace::CMemoryInfo mem_object = object().memory().memory(object().memory().enemy().selected());
     Fvector                  position   = mem_object.m_object_params.m_position;
     object().m_ce_close->setup(position, 0.f, object().Position().distance_to(position), 10.f);
-    const CCoverPoint* point = ai().cover_manager().best_cover(
-        object().Position(), 10.f, *object().m_ce_close, CStalkerMovementRestrictor(m_object, true));
+    const CCoverPoint* point = ai().cover_manager().best_cover(object().Position(), 10.f, *object().m_ce_close, CStalkerMovementRestrictor(m_object, true));
     if (!point)
     {
         object().m_ce_close->setup(position, 0.f, object().Position().distance_to(position), 10.f);
-        point = ai().cover_manager().best_cover(
-            object().Position(), 30.f, *object().m_ce_close, CStalkerMovementRestrictor(m_object, true));
+        point = ai().cover_manager().best_cover(object().Position(), 30.f, *object().m_ce_close, CStalkerMovementRestrictor(m_object, true));
     }
 
     if (point)
@@ -68,8 +63,7 @@ void CStalkerActionRunToCover::initialize()
         return;
     }
 
-    object().movement().set_nearest_accessible_position(
-        mem_object.m_object_params.m_position, mem_object.m_object_params.m_level_vertex_id);
+    object().movement().set_nearest_accessible_position(mem_object.m_object_params.m_position, mem_object.m_object_params.m_level_vertex_id);
 }
 
 void CStalkerActionRunToCover::execute()
@@ -102,10 +96,7 @@ void CStalkerActionRunToCover::finalize()
 // CStalkerActionWaitInCover
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionWaitInCover::CStalkerActionWaitInCover(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionWaitInCover::CStalkerActionWaitInCover(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionWaitInCover::initialize()
 {

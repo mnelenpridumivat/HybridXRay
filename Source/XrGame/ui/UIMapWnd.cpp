@@ -44,10 +44,10 @@ CUIMapWnd::CUIMapWnd()
     #endif // DEBUG /**/
 
     //	UIMainMapHeader			= NULL;
-    m_scroll_mode = false;
-    m_nav_timing  = Device->dwTimeGlobal;
-    hint_wnd      = NULL;
-    g_map_wnd     = this;
+    m_scroll_mode       = false;
+    m_nav_timing        = Device->dwTimeGlobal;
+    hint_wnd            = NULL;
+    g_map_wnd           = this;
 }
 
 CUIMapWnd::~CUIMapWnd()
@@ -75,7 +75,7 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 
     m_map_move_step = uiXml.ReadAttribFlt(start_from, 0, "map_move_step", 10.0f);
 
-    m_UILevelFrame = xr_new<CUIWindow>();
+    m_UILevelFrame  = xr_new<CUIWindow>();
     m_UILevelFrame->SetAutoDelete(true);
     strconcat(sizeof(pth), pth, start_from, ":level_frame");
     xml_init.InitWindow(uiXml, pth, 0, m_UILevelFrame);
@@ -93,15 +93,15 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
     {
         float dx, dy, sx, sy;
         strconcat(sizeof(pth), pth, start_from, ":main_map_frame");
-        dx = uiXml.ReadAttribFlt(pth, 0, "dx", 0.0f);
-        dy = uiXml.ReadAttribFlt(pth, 0, "dy", 0.0f);
-        sx = uiXml.ReadAttribFlt(pth, 0, "sx", 5.0f);
-        sy = uiXml.ReadAttribFlt(pth, 0, "sy", 5.0f);
+        dx                     = uiXml.ReadAttribFlt(pth, 0, "dx", 0.0f);
+        dy                     = uiXml.ReadAttribFlt(pth, 0, "dy", 0.0f);
+        sx                     = uiXml.ReadAttribFlt(pth, 0, "sx", 5.0f);
+        sy                     = uiXml.ReadAttribFlt(pth, 0, "sy", 5.0f);
 
         CUIWindow* rect_parent = m_UIMainFrame;   // m_UILevelFrame;
         Frect      r           = rect_parent->GetWndRect();
 
-        m_UIMainScrollH = xr_new<CUIFixedScrollBar>();
+        m_UIMainScrollH        = xr_new<CUIFixedScrollBar>();
         m_UIMainScrollH->SetAutoDelete(true);
         m_UIMainScrollH->InitScrollBar(Fvector2().set(r.left + dx, r.bottom - sy), true);
         m_UIMainScrollH->SetStepSize(_max(1, (int)(m_UILevelFrame->GetWidth() * 0.1f)));
@@ -157,7 +157,7 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
 
             CUICustomMap*& l = m_GameMaps[map_name];
 
-            l = xr_new<CUILevelMap>(this);
+            l                = xr_new<CUILevelMap>(this);
             R_ASSERT2(pGameIni->section_exist(map_name), map_name.c_str());
             l->Initialize(map_name, "hud\\default");
 
@@ -180,8 +180,7 @@ void CUIMapWnd::Init(LPCSTR xml_name, LPCSTR start_from)
             VERIFY(l2);
             if (l->GlobalRect().intersected(l2->GlobalRect()))
             {
-                Msg(" --error-incorrect map definition global rect of map [%s] intersects with [%s]", *l->MapName(),
-                    *l2->MapName());
+                Msg(" --error-incorrect map definition global rect of map [%s] intersects with [%s]", *l->MapName(), *l2->MapName());
             }
         }
         if (FALSE == l->GlobalRect().intersected(GlobalMap()->BoundRect()))
@@ -374,7 +373,8 @@ bool CUIMapWnd::OnKeyboardHold(int dik)
         case DIK_UP:
         case DIK_DOWN:
         case DIK_LEFT:
-        case DIK_RIGHT: {
+        case DIK_RIGHT:
+        {
             Fvector2 pos_delta;
             pos_delta.set(0.0f, 0.0f);
 
@@ -398,14 +398,16 @@ bool CUIMapWnd::OnKeyboardAction(int dik, EUIMessages keyboard_action)
 {
     switch (dik)
     {
-        case DIK_NUMPADMINUS: {
+        case DIK_NUMPADMINUS:
+        {
             // SetZoom(GetZoom()/1.5f);
             UpdateZoom(false);
             // ResetActionPlanner();
             return true;
         }
         break;
-        case DIK_NUMPADPLUS: {
+        case DIK_NUMPADPLUS:
+        {
             // SetZoom(GetZoom()*1.5f);
             UpdateZoom(true);
             // ResetActionPlanner();

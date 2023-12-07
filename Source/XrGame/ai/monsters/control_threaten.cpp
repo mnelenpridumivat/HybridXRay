@@ -23,19 +23,18 @@ void CControlThreaten::activate()
     // set direction
     SControlDirectionData* ctrl_dir = (SControlDirectionData*)m_man->data(this, ControlCom::eControlDir);
     VERIFY(ctrl_dir);
-    ctrl_dir->heading.target_speed = 1.f;
-    ctrl_dir->heading.target_angle = m_man->direction().angle_to_target(m_object->EnemyMan.get_enemy()->Position());
+    ctrl_dir->heading.target_speed   = 1.f;
+    ctrl_dir->heading.target_angle   = m_man->direction().angle_to_target(m_object->EnemyMan.get_enemy()->Position());
 
     //////////////////////////////////////////////////////////////////////////
-    IKinematicsAnimated* skel = smart_cast<IKinematicsAnimated*>(m_object->Visual());
+    IKinematicsAnimated*   skel      = smart_cast<IKinematicsAnimated*>(m_object->Visual());
 
     SControlAnimationData* ctrl_anim = (SControlAnimationData*)m_man->data(this, ControlCom::eControlAnimation);
     VERIFY(ctrl_anim);
     ctrl_anim->global.set_motion(skel->ID_Cycle_Safe(m_data.animation));
     ctrl_anim->global.actual = false;
 
-    m_man->animation().add_anim_event(
-        skel->LL_MotionID(m_data.animation), m_data.time, CControlAnimation::eAnimationCustom);
+    m_man->animation().add_anim_event(skel->LL_MotionID(m_data.animation), m_data.time, CControlAnimation::eAnimationCustom);
 }
 
 void CControlThreaten::update_schedule()
@@ -80,7 +79,8 @@ void CControlThreaten::on_event(ControlCom::EEventType type, ControlCom::IEventD
         case ControlCom::eventAnimationEnd:
             m_man->notify(ControlCom::eventThreatenEnd, 0);
             break;
-        case ControlCom::eventAnimationSignal: {
+        case ControlCom::eventAnimationSignal:
+        {
             SAnimationSignalEventData* event_data = (SAnimationSignalEventData*)dat;
             if (event_data->event_id == CControlAnimation::eAnimationCustom)
                 m_object->on_threaten_execute();

@@ -18,15 +18,12 @@ using XrWeatherEditor::environment::detail::logical_string_predicate;
 using XrWeatherEditor::environment::sound_channels::channel;
 using XrWeatherEditor::environment::sound_channels::manager;
 
-template <> void property_collection<manager::channel_container_type, manager>::display_name(
-    u32 const&   item_index,
-    LPSTR const& buffer,
-    u32 const&   buffer_size)
+template<> void property_collection<manager::channel_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template <> XrWeatherEditor::property_holder* property_collection<manager::channel_container_type, manager>::create()
+template<> XrWeatherEditor::property_holder* property_collection<manager::channel_container_type, manager>::create()
 {
     channel* object = xr_new<channel>(m_holder, generate_unique_id("sound_channel_unique_id_").c_str());
     object->fill(this);
@@ -48,8 +45,7 @@ manager::~manager()
 void manager::load()
 {
     string_path file_name;
-    CInifile*   config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\sound_channels.ltx"), TRUE, TRUE, FALSE);
+    CInifile*   config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\sound_channels.ltx"), TRUE, TRUE, FALSE);
 
     VERIFY(m_channels.empty());
 
@@ -71,12 +67,11 @@ void manager::load()
 
 void manager::save()
 {
-    string_path file_name;
-    CInifile*   config = xr_new<CInifile>(
-        FS.update_path(file_name, "$game_config$", "environment\\sound_channels.ltx"), FALSE, FALSE, TRUE);
+    string_path                      file_name;
+    CInifile*                        config = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\sound_channels.ltx"), FALSE, FALSE, TRUE);
 
-    channel_container_type::iterator i = m_channels.begin();
-    channel_container_type::iterator e = m_channels.end();
+    channel_container_type::iterator i      = m_channels.begin();
+    channel_container_type::iterator e      = m_channels.end();
     for (; i != e; ++i)
         (*i)->save(*config);
 

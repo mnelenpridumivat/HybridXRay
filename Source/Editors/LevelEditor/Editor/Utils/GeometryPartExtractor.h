@@ -49,8 +49,7 @@ struct SBBone
     Fvector   offset;
     u32       f_cnt;
     float     area;
-    SBBone(xr_string _nm, xr_string _parent, xr_string _mtl, u32 _f_cnt, float _area):
-        name(_nm), parent(_parent), mtl(_mtl), f_cnt(_f_cnt), area(_area)
+    SBBone(xr_string _nm, xr_string _parent, xr_string _mtl, u32 _f_cnt, float _area): name(_nm), parent(_parent), mtl(_mtl), f_cnt(_f_cnt), area(_area)
     {
         offset.set(0, 0, 0);
     }
@@ -63,15 +62,15 @@ struct SBPart: public CExportSkeletonCustom
     SBFaceVec m_Faces;
     SBBoneVec m_Bones;
 
-    Fbox m_BBox;
-    Fobb m_OBB;
+    Fbox      m_BBox;
+    Fobb      m_OBB;
 
-    SBPart* m_Reference;
+    SBPart*   m_Reference;
 
-    Fvector m_RefOffset;
-    Fvector m_RefRotate;
+    Fvector   m_RefOffset;
+    Fvector   m_RefRotate;
 
-    bool m_bValid;
+    bool      m_bValid;
 
 public:
     SBPart()
@@ -99,7 +98,7 @@ protected:
     SBAdjVec  m_Adjs;
     SBPartVec m_Parts;
 
-    u32 m_PerBoneFaceCountMin;
+    u32       m_PerBoneFaceCountMin;
 
 public:
     CGeomPartExtractor();
@@ -108,8 +107,8 @@ public:
         Clear();
     }
     // init & clean up
-    void Initialize(const Fbox& bb, float eps, u32 per_bone_face_count_min);
-    void Clear();
+    void       Initialize(const Fbox& bb, float eps, u32 per_bone_face_count_min);
+    void       Clear();
     // I/O routines
     void       AppendFace(CSurface* surf, const Fvector* v, const Fvector* n, const Fvector2* uvs[3]);
     SBPartVec& GetParts()

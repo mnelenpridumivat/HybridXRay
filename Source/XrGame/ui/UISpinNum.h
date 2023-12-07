@@ -17,7 +17,7 @@ public:
     virtual void OnBtnUpClick();
     virtual void OnBtnDownClick();
 
-    void SetMax(int max)
+    void         SetMax(int max)
     {
         m_iMax = max;
     };
@@ -37,11 +37,11 @@ protected:
     virtual void IncVal();
     virtual void DecVal();
 
-    int m_iMax;
-    int m_iMin;
-    int m_iStep;
-    int m_iVal;
-    int m_opt_backup_value;
+    int          m_iMax;
+    int          m_iMin;
+    int          m_iStep;
+    int          m_iVal;
+    int          m_opt_backup_value;
 };
 
 class CUISpinFlt: public CUICustomSpin
@@ -61,8 +61,8 @@ public:
     virtual void OnBtnUpClick();
     virtual void OnBtnDownClick();
 
-    void SetMax(float max);
-    void SetMin(float min);
+    void         SetMax(float max);
+    void         SetMin(float min);
 
 protected:
     void         SetValue(float v);
@@ -71,9 +71,9 @@ protected:
     virtual void IncVal();
     virtual void DecVal();
 
-    float m_fMax;
-    float m_fMin;
-    float m_fStep;
-    float m_fVal;
-    float m_opt_backup_value;
+    float        m_fMax;
+    float        m_fMin;
+    float        m_fStep;
+    float        m_fVal;
+    float        m_opt_backup_value;
 };

@@ -3,7 +3,7 @@
 
 extern XRPHYSICS_API const float phInfinity;
 
-IC float* cast_fp(Fvector& fv)
+IC float*                        cast_fp(Fvector& fv)
 {
     return (float*)(&fv);
 }
@@ -256,8 +256,7 @@ IC void restrict_vector_in_dir(Fvector& V, const Fvector& dir)
 }
 IC bool check_obb_sise(const Fobb& obb)
 {
-    return (
-        !fis_zero(obb.m_halfsize.x, EPS_L) || !fis_zero(obb.m_halfsize.y, EPS_L) || !fis_zero(obb.m_halfsize.z, EPS_L));
+    return (!fis_zero(obb.m_halfsize.x, EPS_L) || !fis_zero(obb.m_halfsize.y, EPS_L) || !fis_zero(obb.m_halfsize.z, EPS_L));
 }
 
 IC float fsignum(float val)
@@ -298,12 +297,7 @@ IC float ThrowMinVelTime(const Fvector& transference, float gravity_accel)
     return _sqrt(2.f * transference.magnitude() / gravity_accel);
 }
 // returns num result, tgA result tangents of throw angle
-IC u8 TransferenceAndThrowVelToTgA(
-    const Fvector& transference,
-    float          throw_vel,
-    float          gravity_accel,
-    Fvector2&      tgA,
-    float&         s)
+IC u8 TransferenceAndThrowVelToTgA(const Fvector& transference, float throw_vel, float gravity_accel, Fvector2& tgA, float& s)
 {
     float sqx  = transference.x * transference.x + transference.z * transference.z;
     float sqv  = throw_vel * throw_vel;
@@ -327,11 +321,7 @@ IC u8 TransferenceAndThrowVelToTgA(const Fvector& transference, float throw_vel,
     float s;
     return TransferenceAndThrowVelToTgA(transference, throw_vel, gravity_accel, tgA, s);
 }
-IC u8 TransferenceAndThrowVelToThrowDir(
-    const Fvector& transference,
-    float          throw_vel,
-    float          gravity_accel,
-    Fvector        throw_dir[2])
+IC u8 TransferenceAndThrowVelToThrowDir(const Fvector& transference, float throw_vel, float gravity_accel, Fvector throw_dir[2])
 {
     throw_dir[0] = throw_dir[1] = transference;
     Fvector2 tgA;
@@ -519,9 +509,7 @@ private:
 
 IC float DET(const Fmatrix& a)
 {
-    return (
-        (a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) +
-         a._13 * (a._21 * a._32 - a._22 * a._31)));
+    return ((a._11 * (a._22 * a._33 - a._23 * a._32) - a._12 * (a._21 * a._33 - a._23 * a._31) + a._13 * (a._21 * a._32 - a._22 * a._31)));
 }
 
 IC bool valid_pos(const Fvector& P, const Fbox& B)

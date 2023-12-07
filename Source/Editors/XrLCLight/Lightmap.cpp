@@ -11,8 +11,7 @@
 #include "xrface.h"
 #include "serialize.h"
 #include "ETextureParams.h"
-extern "C" bool __declspec(dllimport)
-    DXTCompress(LPCSTR out_name, u8* raw_data, u8* normal_map, u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth);
+extern "C" bool __declspec(dllimport) DXTCompress(LPCSTR out_name, u8* raw_data, u8* normal_map, u32 w, u32 h, u32 pitch, STextureParams* fmt, u32 depth);
 
 // extern BOOL ApplyBorders	(lm_layer &lm, u32 ref);
 
@@ -35,8 +34,7 @@ void CLightmap::Capture(CDeflector* D, int b_u, int b_v, int s_u, int s_v, BOOL 
 
     // Addressing
     xr_vector<UVtri> tris;
-    D->RemapUV(
-        tris, b_u + BORDER, b_v + BORDER, s_u - 2 * BORDER, s_v - 2 * BORDER, c_LMAP_size, c_LMAP_size, bRotated);
+    D->RemapUV(tris, b_u + BORDER, b_v + BORDER, s_u - 2 * BORDER, s_v - 2 * BORDER, c_LMAP_size, c_LMAP_size, bRotated);
 
     // Capture faces and setup their coords
     for (UVIt T = tris.begin(); T != tris.end(); T++)
@@ -192,7 +190,7 @@ void CLightmap::Save(LPCSTR path)
         DXTCompress(FN, raw_data, 0, w, h, pitch, &fmt, 4);
     }
     lm_packed.clear_and_free();
-    Status("Compression hemi...");                 //.
+    Status("Compression hemi...");   //.
     {
         u32         w     = lm_texture.dwWidth;    // lm.width;
         u32         h     = lm_texture.dwHeight;   // lm.height;

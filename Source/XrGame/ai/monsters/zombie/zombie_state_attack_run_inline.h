@@ -2,7 +2,7 @@
 
 #include "../../../sound_player.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION       template<typename _Object>
 
 #define CStateZombieAttackRunAbstract CStateZombieAttackRun<_Object>
 
@@ -42,7 +42,7 @@ void CStateZombieAttackRunAbstract::execute()
     bool           squad_active = squad && squad->SquadActive();
 
     // Получить команду
-    SSquadCommand command;
+    SSquadCommand  command;
     squad->GetCommand(object, command);
     if (!squad_active || (command.type != SC_ATTACK))
         squad_active = false;

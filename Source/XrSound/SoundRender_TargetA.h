@@ -10,12 +10,12 @@ class CSoundRender_TargetA: public CSoundRender_Target
     typedef CSoundRender_Target inherited;
 
     // OpenAL
-    ALuint pSource;
-    ALuint pBuffers[sdef_target_count];
-    float  cache_gain;
-    float  cache_pitch;
+    ALuint                      pSource;
+    ALuint                      pBuffers[sdef_target_count];
+    float                       cache_gain;
+    float                       cache_pitch;
 
-    ALuint buf_block;
+    ALuint                      buf_block;
 
 private:
     void fill_block(ALuint BufferID);

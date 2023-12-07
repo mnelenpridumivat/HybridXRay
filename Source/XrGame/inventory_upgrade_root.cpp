@@ -39,8 +39,7 @@ namespace inventory
             add_dependent_groups(upgrade_groups_str, manager_r);
 
             LPCSTR upgrade_scheme_str = pSettings->r_string(root_id, "upgrade_scheme");
-            VERIFY2(
-                upgrade_scheme_str, make_string("In inventory item <%s> `upgrade_scheme` is empty!", root_id.c_str()));
+            VERIFY2(upgrade_scheme_str, make_string("In inventory item <%s> `upgrade_scheme` is empty!", root_id.c_str()));
             m_upgrade_scheme._set(upgrade_scheme_str);
 
             inherited::fill_root_container(this);
@@ -59,11 +58,7 @@ namespace inventory
             }
 
             Ivector2 scheme_index = upgr->get_scheme_index();
-            VERIFY2(
-                verify_scheme_index(scheme_index),
-                make_string(
-                    "in upgrade <%s> for item <%s> scheme index [%d, %d] is duplicated !", upgr->id_str(), id_str(),
-                    scheme_index.x, scheme_index.y));
+            VERIFY2(verify_scheme_index(scheme_index), make_string("in upgrade <%s> for item <%s> scheme index [%d, %d] is duplicated !", upgr->id_str(), id_str(), scheme_index.x, scheme_index.y));
             m_contained_upgrades.push_back(upgr);
         }
 
@@ -94,8 +89,7 @@ namespace inventory
 
                 if (g_upgrades_log == 1)
                 {
-                    Msg("# Checking upgrade <%s> (id = %d) is successful: %s ", (*ib)->section(), item.object_id(),
-                        res ? "OK" : "FAILED");
+                    Msg("# Checking upgrade <%s> (id = %d) is successful: %s ", (*ib)->section(), item.object_id(), res ? "OK" : "FAILED");
                 }
             }
         }

@@ -1,4 +1,4 @@
-/*************************************************************************
+﻿/*************************************************************************
  *                                                                       *
  * Open Dynamics Engine, Copyright (C) 2001,2002 Russell L. Smith.       *
  * All rights reserved.  Email: russ@q12.org   Web: www.q12.org          *
@@ -34,111 +34,114 @@ static const dReal tol = 1.0e-5f;
 
 // matrix header on the stack
 
-struct dMatrixComparison::dMatInfo {
-  int n,m;		// size of matrix
-  char name[128];	// name of the matrix
-  dReal *data;		// matrix data
-  int size;		// size of `data'
+struct dMatrixComparison::dMatInfo
+{
+    int    n, m;        // size of matrix
+    char   name[128];   // name of the matrix
+    dReal* data;        // matrix data
+    int    size;        // size of `data'
 };
-
-
 
 dMatrixComparison::dMatrixComparison()
 {
-  afterfirst = 0;
-  index = 0;
+    afterfirst = 0;
+    index      = 0;
 }
-
 
 dMatrixComparison::~dMatrixComparison()
 {
-  reset();
+    reset();
 }
 
-
-dReal dMatrixComparison::nextMatrix (dReal *A, int n, int m, int lower_tri,
-				     char *name, ...)
+dReal dMatrixComparison::nextMatrix(dReal* A, int n, int m, int lower_tri, char* name, ...)
 {
-  if (A==0 || n < 1 || m < 1 || name==0) dDebug (0,"bad args to nextMatrix");
-  int num = n*dPAD(m);
+    if (A == 0 || n < 1 || m < 1 || name == 0)
+        dDebug(0, "bad args to nextMatrix");
+    int num = n * dPAD(m);
 
-  if (afterfirst==0) {
-    dMatInfo *mi = (dMatInfo*) dAlloc (sizeof(dMatInfo));
-    mi->n = n;
-    mi->m = m;
-    mi->size = num * sizeof(dReal);
-    mi->data = (dReal*) dAlloc (mi->size);
-    memcpy (mi->data,A,mi->size);
+    if (afterfirst == 0)
+    {
+        dMatInfo* mi = (dMatInfo*)dAlloc(sizeof(dMatInfo));
+        mi->n        = n;
+        mi->m        = m;
+        mi->size     = num * sizeof(dReal);
+        mi->data     = (dReal*)dAlloc(mi->size);
+        memcpy(mi->data, A, mi->size);
 
-    va_list ap;
-    va_start (ap,name);
-   sprintf_s (mi->name,name,ap);
-	va_end(ap);
-    if (strlen(mi->name) >= sizeof (mi->name)) dDebug (0,"name too long");
+        va_list ap;
+        va_start(ap, name);
+        sprintf_s(mi->name, name, ap);
+        va_end(ap);
+        if (strlen(mi->name) >= sizeof(mi->name))
+            dDebug(0, "name too long");
 
-    mat.push (mi);
-    return 0;
-  }
-  else {
-    if (lower_tri && n != m)
-      dDebug (0,"dMatrixComparison, lower triangular matrix must be square");
-    if (index >= mat.size()) dDebug (0,"dMatrixComparison, too many matrices");
-    dMatInfo *mp = mat[index];
-    index++;
-
-    dMatInfo mi;
-    va_list ap;
-    va_start (ap,name);
-    sprintf_s(mi.name,name,ap);
-	va_end(ap);
-    if (strlen(mi.name) >= sizeof (mi.name)) dDebug (0,"name too long");
-
-    if (strcmp(mp->name,mi.name) != 0)
-      dDebug (0,"dMatrixComparison, name mismatch (\"%s\" and \"%s\")",
-	      mp->name,mi.name);
-    if (mp->n != n || mp->m != m)
-      dDebug (0,"dMatrixComparison, size mismatch (%dx%d and %dx%d)",
-	      mp->n,mp->m,n,m);
-
-    dReal maxdiff;
-    if (lower_tri) {
-      maxdiff = dMaxDifferenceLowerTriangle (A,mp->data,n);
+        mat.push(mi);
+        return 0;
     }
-    else {
-      maxdiff = dMaxDifference (A,mp->data,n,m);
+    else
+    {
+        if (lower_tri && n != m)
+            dDebug(0, "dMatrixComparison, lower triangular matrix must be square");
+        if (index >= mat.size())
+            dDebug(0, "dMatrixComparison, too many matrices");
+        dMatInfo* mp = mat[index];
+        index++;
+
+        dMatInfo mi;
+        va_list  ap;
+        va_start(ap, name);
+        sprintf_s(mi.name, name, ap);
+        va_end(ap);
+        if (strlen(mi.name) >= sizeof(mi.name))
+            dDebug(0, "name too long");
+
+        if (strcmp(mp->name, mi.name) != 0)
+            dDebug(0, "dMatrixComparison, name mismatch (\"%s\" and \"%s\")", mp->name, mi.name);
+        if (mp->n != n || mp->m != m)
+            dDebug(0, "dMatrixComparison, size mismatch (%dx%d and %dx%d)", mp->n, mp->m, n, m);
+
+        dReal maxdiff;
+        if (lower_tri)
+        {
+            maxdiff = dMaxDifferenceLowerTriangle(A, mp->data, n);
+        }
+        else
+        {
+            maxdiff = dMaxDifference(A, mp->data, n, m);
+        }
+        if (maxdiff > tol)
+            dDebug(0,
+                "dMatrixComparison, matrix error (size=%dx%d, name=\"%s\", "
+                "error=%.4e)",
+                n, m, mi.name, maxdiff);
+        return maxdiff;
     }
-    if (maxdiff > tol)
-      dDebug (0,"dMatrixComparison, matrix error (size=%dx%d, name=\"%s\", "
-	      "error=%.4e)",n,m,mi.name,maxdiff);
-    return maxdiff;
-  }
 }
-
 
 void dMatrixComparison::end()
 {
-  if (mat.size() <= 0) dDebug (0,"no matrices in sequence");
-  afterfirst = 1;
-  index = 0;
+    if (mat.size() <= 0)
+        dDebug(0, "no matrices in sequence");
+    afterfirst = 1;
+    index      = 0;
 }
-
 
 void dMatrixComparison::reset()
 {
-  for (int i=0; i<mat.size(); i++) {
-    dFree (mat[i]->data,mat[i]->size);
-    dFree (mat[i],sizeof(dMatInfo));
-  }
-  mat.setSize (0);
-  afterfirst = 0;
-  index = 0;
+    for (int i = 0; i < mat.size(); i++)
+    {
+        dFree(mat[i]->data, mat[i]->size);
+        dFree(mat[i], sizeof(dMatInfo));
+    }
+    mat.setSize(0);
+    afterfirst = 0;
+    index      = 0;
 }
-
 
 void dMatrixComparison::dump()
 {
-  for (int i=0; i<mat.size(); i++)
-    printf ("%d: %s (%dx%d)\n",i,mat[i]->name,mat[i]->n,mat[i]->m);
+    for (int i = 0; i < mat.size(); i++)
+        printf("%d: %s (%dx%d)\n", i, mat[i]->name, mat[i]->n, mat[i]->m);
 }
 
 //****************************************************************************
@@ -146,13 +149,11 @@ void dMatrixComparison::dump()
 
 #include <setjmp.h>
 
-static jmp_buf jump_buffer;
-
-
+static jmp_buf  jump_buffer;
 
 extern "C" void dTestMatrixComparison()
 {
- /* volatile int i;
+    /* volatile int i;
   printf ("dTestMatrixComparison()\n");
   dMessageFunction *orig_debug = dGetDebugHandler();
 

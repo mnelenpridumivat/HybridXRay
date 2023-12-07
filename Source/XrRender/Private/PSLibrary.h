@@ -21,14 +21,17 @@ class ECORE_API CPSLibrary: public particles_systems::library_interface
     PS::PGDVec m_PGDs;
 
     xr_string  m_CurrentParticles;
+
 public:
     void FindByName(LPCSTR new_name, bool& res);
+
 public:
     bool Load(LPCSTR nm);
     bool Save(LPCSTR nm);
 
     bool Load2();
     bool Save2();
+
 public:
     CPSLibrary()
     {

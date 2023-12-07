@@ -20,28 +20,28 @@ class CPoltergeist: public CBaseMonster, public CTelekinesis, public CEnergyHold
     friend class CPoltergeisMovementManager;
     friend class CPolterTele;
 
-    float m_height;
-    bool  m_disable_hide;
+    float                  m_height;
+    bool                   m_disable_hide;
 
-    SMotionVel invisible_vel;
+    SMotionVel             invisible_vel;
 
     CPolterSpecialAbility* m_flame;
     CPolterSpecialAbility* m_tele;
 
-    bool m_actor_ignore;
+    bool                   m_actor_ignore;
 
-    TTime       m_last_detection_time;
-    Fvector     m_last_actor_pos;
-    char const* m_detection_pp_effector_name;
-    u32         m_detection_pp_type_index;
-    float       m_detection_near_range_factor;
-    float       m_detection_far_range_factor;
-    float       m_detection_far_range;
-    float       m_detection_speed_factor;
-    float       m_detection_loose_speed;
-    float       m_current_detection_level;
-    float       m_detection_success_level;
-    float       m_detection_max_level;
+    TTime                  m_last_detection_time;
+    Fvector                m_last_actor_pos;
+    char const*            m_detection_pp_effector_name;
+    u32                    m_detection_pp_type_index;
+    float                  m_detection_near_range_factor;
+    float                  m_detection_far_range_factor;
+    float                  m_detection_far_range;
+    float                  m_detection_speed_factor;
+    float                  m_detection_loose_speed;
+    float                  m_current_detection_level;
+    float                  m_detection_success_level;
+    float                  m_detection_max_level;
 
 public:
     bool m_detect_without_sight;
@@ -61,7 +61,7 @@ public:
     virtual void UpdateCL();
     virtual void shedule_Update(u32 dt);
 
-    void set_actor_ignore(bool const actor_ignore)
+    void         set_actor_ignore(bool const actor_ignore)
     {
         m_actor_ignore = actor_ignore;
     }
@@ -70,16 +70,16 @@ public:
         return m_actor_ignore;
     }
 
-    virtual void Die(CObject* who);
+    virtual void              Die(CObject* who);
 
     virtual CMovementManager* create_movement_manager();
 
-    virtual void ForceFinalAnimation();
+    virtual void              ForceFinalAnimation();
 
-    virtual void  on_activate();
-    virtual void  on_deactivate();
-    virtual void  Hit(SHit* pHDS);
-    virtual char* get_monster_class_name()
+    virtual void              on_activate();
+    virtual void              on_deactivate();
+    virtual void              Hit(SHit* pHDS);
+    virtual char*             get_monster_class_name()
     {
         return "poltergeist";
     }
@@ -94,7 +94,7 @@ public:
         return m_fly_around_change_direction_time;
     }
 
-    virtual void renderable_Render();
+    virtual void              renderable_Render();
 
     IC CPolterSpecialAbility* ability()
     {
@@ -107,23 +107,23 @@ public:
     }
 
     // Poltergeist ability
-    void PhysicalImpulse(const Fvector& position);
-    void StrangeSounds(const Fvector& position);
+    void      PhysicalImpulse(const Fvector& position);
+    void      StrangeSounds(const Fvector& position);
 
     ref_sound m_strange_sound;
 
     // Movement
-    Fvector m_current_position;   // Позиция на ноде
+    Fvector   m_current_position;   // Позиция на ноде
 
     // Dynamic Height
-    u32   time_height_updated;
-    float target_height;
+    u32       time_height_updated;
+    float     target_height;
 
-    void UpdateHeight();
+    void      UpdateHeight();
 
     // Invisibility
 
-    void EnableHide()
+    void      EnableHide()
     {
         m_disable_hide = false;
     }
@@ -139,8 +139,8 @@ public:
     }
 
 private:
-    void Hide();
-    void Show();
+    void  Hide();
+    void  Show();
 
     float m_height_change_velocity;
     u32   m_height_change_min_time;
@@ -156,9 +156,9 @@ private:
     {
         return m_current_detection_level;
     }
-    bool check_work_condition() const;
-    void remove_pp_effector();
-    void update_detection();
+    bool  check_work_condition() const;
+    void  remove_pp_effector();
+    void  update_detection();
 
     float get_detection_near_range_factor();
     float get_detection_far_range_factor();
@@ -190,13 +190,13 @@ add_to_type_list(CPoltergeist)
     CParticlesObject* m_particles_object;
     CParticlesObject* m_particles_object_electro;
 
-    LPCSTR m_particles_hidden;
-    LPCSTR m_particles_damage;
-    LPCSTR m_particles_death;
-    LPCSTR m_particles_idle;
+    LPCSTR            m_particles_hidden;
+    LPCSTR            m_particles_damage;
+    LPCSTR            m_particles_death;
+    LPCSTR            m_particles_idle;
 
-    ref_sound m_sound_base;
-    u32       m_last_hit_frame;
+    ref_sound         m_sound_base;
+    u32               m_last_hit_frame;
 
 protected:
     CPoltergeist* m_object;
@@ -222,42 +222,42 @@ class CPolterFlame: public CPolterSpecialAbility
 {
     typedef CPolterSpecialAbility inherited;
 
-    ref_sound m_sound;
-    LPCSTR    m_particles_prepare;
-    LPCSTR    m_particles_fire;
-    LPCSTR    m_particles_stop;
-    u32       m_time_fire_delay;
-    u32       m_time_fire_play;
+    ref_sound                     m_sound;
+    LPCSTR                        m_particles_prepare;
+    LPCSTR                        m_particles_fire;
+    LPCSTR                        m_particles_stop;
+    u32                           m_time_fire_delay;
+    u32                           m_time_fire_play;
 
-    float m_length;
-    float m_hit_value;
-    u32   m_hit_delay;
+    float                         m_length;
+    float                         m_hit_value;
+    u32                           m_hit_delay;
 
-    u32 m_count;
-    u32 m_delay;   // between 2 flames
+    u32                           m_count;
+    u32                           m_delay;   // between 2 flames
 
-    u32 m_time_flame_started;
+    u32                           m_time_flame_started;
 
-    float m_min_flame_dist;
-    float m_max_flame_dist;
-    float m_min_flame_height;
-    float m_max_flame_height;
+    float                         m_min_flame_dist;
+    float                         m_max_flame_dist;
+    float                         m_min_flame_height;
+    float                         m_max_flame_height;
 
-    float m_pmt_aura_radius;
+    float                         m_pmt_aura_radius;
 
     // Scanner
-    float m_scan_radius;
-    u32   m_scan_delay_min;
-    u32   m_scan_delay_max;
+    float                         m_scan_radius;
+    u32                           m_scan_delay_min;
+    u32                           m_scan_delay_max;
 
-    SPPInfo   m_scan_effector_info;
-    float     m_scan_effector_time;
-    float     m_scan_effector_time_attack;
-    float     m_scan_effector_time_release;
-    ref_sound m_scan_sound;
+    SPPInfo                       m_scan_effector_info;
+    float                         m_scan_effector_time;
+    float                         m_scan_effector_time_attack;
+    float                         m_scan_effector_time_release;
+    ref_sound                     m_scan_sound;
 
-    bool m_state_scanning;
-    u32  m_scan_next_time;
+    bool                          m_state_scanning;
+    u32                           m_scan_next_time;
 
     enum EFlameState
     {
@@ -305,27 +305,27 @@ class CPolterTele: public CPolterSpecialAbility
 {
     typedef CPolterSpecialAbility inherited;
 
-    xr_vector<CObject*> m_nearest;
+    xr_vector<CObject*>           m_nearest;
 
     // external params
-    float m_pmt_radius;
-    float m_pmt_object_min_mass;
-    float m_pmt_object_max_mass;
-    u32   m_pmt_object_count;
-    u32   m_pmt_time_to_hold;
-    u32   m_pmt_time_to_wait;
-    u32   m_pmt_time_to_wait_in_objects;
-    u32   m_pmt_raise_time_to_wait_in_objects;
-    float m_pmt_distance;
-    float m_pmt_object_height;
-    u32   m_pmt_time_object_keep;
-    float m_pmt_raise_speed;
-    float m_pmt_fly_velocity;
+    float                         m_pmt_radius;
+    float                         m_pmt_object_min_mass;
+    float                         m_pmt_object_max_mass;
+    u32                           m_pmt_object_count;
+    u32                           m_pmt_time_to_hold;
+    u32                           m_pmt_time_to_wait;
+    u32                           m_pmt_time_to_wait_in_objects;
+    u32                           m_pmt_raise_time_to_wait_in_objects;
+    float                         m_pmt_distance;
+    float                         m_pmt_object_height;
+    u32                           m_pmt_time_object_keep;
+    float                         m_pmt_raise_speed;
+    float                         m_pmt_fly_velocity;
 
-    float m_pmt_object_collision_damage;
+    float                         m_pmt_object_collision_damage;
 
-    ref_sound m_sound_tele_hold;
-    ref_sound m_sound_tele_throw;
+    ref_sound                     m_sound_tele_hold;
+    ref_sound                     m_sound_tele_throw;
 
     enum ETeleState
     {

@@ -13,7 +13,7 @@
 #include "MgcLinearSystem.h"
 using namespace Mgc;
 
-Real LinearSystem::ms_fTolerance = 1e-06f;
+Real   LinearSystem::ms_fTolerance = 1e-06f;
 
 //----------------------------------------------------------------------------
 Real** LinearSystem::NewMatrix(int iSize)
@@ -151,8 +151,8 @@ bool LinearSystem::Inverse(int iSize, Real** aafA)
         }
 
         // keep track of the permutations of the rows
-        aiRowIndex[i0] = iRow;
-        aiColIndex[i0] = iCol;
+        aiRowIndex[i0]   = iRow;
+        aiColIndex[i0]   = iCol;
 
         // scale the row so that the pivot entry is 1
         Real fInv        = 1.0f / aafA[iCol][iCol];
@@ -251,14 +251,14 @@ bool LinearSystem::Solve(int iSize, Real** aafA, Real* afB)
             aafA[iRow]     = aafA[iCol];
             aafA[iCol]     = afRowPtr;
 
-            fSave     = afB[iRow];
-            afB[iRow] = afB[iCol];
-            afB[iCol] = fSave;
+            fSave          = afB[iRow];
+            afB[iRow]      = afB[iCol];
+            afB[iCol]      = fSave;
         }
 
         // keep track of the permutations of the rows
-        aiRowIndex[i0] = iRow;
-        aiColIndex[i0] = iCol;
+        aiRowIndex[i0]   = iRow;
+        aiColIndex[i0]   = iCol;
 
         // scale the row so that the pivot entry is 1
         Real fInv        = 1.0f / aafA[iCol][iCol];
@@ -374,8 +374,8 @@ bool LinearSystem::SolveSymmetric(int iSize, Real** aafA, Real* afB)
 
     const Real fTolerance = 1e-06f;
 
-    int   i0, i1;
-    Real* afV = new Real[iSize];
+    int        i0, i1;
+    Real*      afV = new Real[iSize];
     assert(afV);
 
     for (i1 = 0; i1 < iSize; i1++)

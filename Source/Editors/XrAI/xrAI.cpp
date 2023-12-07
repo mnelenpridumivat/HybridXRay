@@ -29,16 +29,15 @@ extern void          verify_level_graph(LPCSTR name, bool verbose);
 extern void          compare_graphs(LPCSTR level_name);
 extern void          test_levels();
 
-static const char*   h_str =
-    "The following keys are supported / required:\n"
-    "-? or -h   == this help\n"
-    "-f<NAME>   == compile level in gamedata/levels/<NAME>/\n"
-    "-o         == modify build options\n"
-    "-s         == build game spawn data\n"
-    "\n"
-    "NOTE: The last key is required for any functionality\n";
+static const char*   h_str = "The following keys are supported / required:\n"
+                             "-? or -h   == this help\n"
+                             "-f<NAME>   == compile level in gamedata/levels/<NAME>/\n"
+                             "-o         == modify build options\n"
+                             "-s         == build game spawn data\n"
+                             "\n"
+                             "NOTE: The last key is required for any functionality\n";
 
-void Help()
+void                 Help()
 {
     MessageBox(0, h_str, "Command line options", MB_OK | MB_ICONINFORMATION);
 }
@@ -144,9 +143,7 @@ void Startup(LPSTR lpCmdLine)
         Help();
         return;
     }
-    if ((strstr(cmd, "-f") == 0) && (strstr(cmd, "-g") == 0) && (strstr(cmd, "-m") == 0) && (strstr(cmd, "-s") == 0) &&
-        (strstr(cmd, "-t") == 0) && (strstr(cmd, "-c") == 0) && (strstr(cmd, "-verify") == 0) &&
-        (strstr(cmd, "-patch") == 0))
+    if ((strstr(cmd, "-f") == 0) && (strstr(cmd, "-g") == 0) && (strstr(cmd, "-m") == 0) && (strstr(cmd, "-s") == 0) && (strstr(cmd, "-t") == 0) && (strstr(cmd, "-c") == 0) && (strstr(cmd, "-verify") == 0) && (strstr(cmd, "-patch") == 0))
     {
         Help();
         return;

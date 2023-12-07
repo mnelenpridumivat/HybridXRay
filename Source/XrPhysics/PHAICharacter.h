@@ -4,7 +4,7 @@ class CPHAICharacter: public CPHSimpleCharacter
 {
     typedef CPHSimpleCharacter inherited;
 
-    bool m_forced_physics_control;
+    bool                       m_forced_physics_control;
 
 public:
     CPHAICharacter();

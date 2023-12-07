@@ -32,8 +32,8 @@ void UIShapeTool::Draw()
         ImGui::Separator();
         ImGui::EndGroup();
     }
-    if (ImGui::IsItemHovered()) 
-        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand); 
+    if (ImGui::IsItemHovered())
+        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     // ------------------------------------------------------------------------------------------------------ //
     if (ImGui::CollapsingHeader(("  Edit"_RU >> u8"  Редактор"), ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding | ImGuiTableFlags_NoBordersInBody))
     {

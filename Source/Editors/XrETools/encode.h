@@ -8,23 +8,22 @@ typedef void TIMER;
 typedef long (*audio_read_func)(void* src, float** buffer, int samples);
 typedef void (*progress_func)(char* fn, long totalsamples, long samples, double time);
 typedef void (*enc_end_func)(char* fn, double time, int rate, long samples, long bytes);
-typedef void (
-    *enc_start_func)(char* fn, char* outfn, int bitrate, float quality, int qset, int managed, int min_br, int max_br);
+typedef void (*enc_start_func)(char* fn, char* outfn, int bitrate, float quality, int qset, int managed, int min_br, int max_br);
 typedef void (*error_func)(char* errormessage);
 
-void*  timer_start(void);
-double timer_time(void*);
-void   timer_clear(void*);
-int    create_directories(char*);
+void*        timer_start(void);
+double       timer_time(void*);
+void         timer_clear(void*);
+int          create_directories(char*);
 
-void   update_statistics_full(char* fn, long total, long done, double time);
-void   update_statistics_notime(char* fn, long total, long done, double time);
-void   update_statistics_null(char* fn, long total, long done, double time);
-void   start_encode_full(char* fn, char* outfn, int bitrate, float quality, int qset, int managed, int min, int max);
-void   start_encode_null(char* fn, char* outfn, int bitrate, float quality, int qset, int managed, int min, int max);
-void   final_statistics(char* fn, double time, int rate, long total_samples, long bytes);
-void   final_statistics_null(char* fn, double time, int rate, long total_samples, long bytes);
-void   encode_error(char* errmsg);
+void         update_statistics_full(char* fn, long total, long done, double time);
+void         update_statistics_notime(char* fn, long total, long done, double time);
+void         update_statistics_null(char* fn, long total, long done, double time);
+void         start_encode_full(char* fn, char* outfn, int bitrate, float quality, int qset, int managed, int min, int max);
+void         start_encode_null(char* fn, char* outfn, int bitrate, float quality, int qset, int managed, int min, int max);
+void         final_statistics(char* fn, double time, int rate, long total_samples, long bytes);
+void         final_statistics_null(char* fn, double time, int rate, long total_samples, long bytes);
+void         encode_error(char* errmsg);
 
 typedef struct
 {

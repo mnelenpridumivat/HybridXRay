@@ -63,8 +63,7 @@ void CSHGameMtlPairTools::FillItemList()
     for (GameMtlIt m0_it = GameMaterialLibrary->FirstMaterial(); m0_it != GameMaterialLibrary->LastMaterial(); m0_it++)
     {
         SGameMtl* M0 = *m0_it;
-        for (GameMtlIt m1_it = GameMaterialLibrary->FirstMaterial(); m1_it != GameMaterialLibrary->LastMaterial();
-             m1_it++)
+        for (GameMtlIt m1_it = GameMaterialLibrary->FirstMaterial(); m1_it != GameMaterialLibrary->LastMaterial(); m1_it++)
         {
             SGameMtl*     M1   = *m1_it;
             GameMtlPairIt p_it = GameMaterialLibraryEditors->GetMaterialPairIt(M0->GetID(), M1->GetID());

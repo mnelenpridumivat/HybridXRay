@@ -37,22 +37,14 @@ float CLevelGraph::distance(const Fvector& position, const CLevelGraph::CVertex*
     return (best);
 }
 
-void CLevelGraph::choose_point(
-    const Fvector&  start_point,
-    const Fvector&  finish_point,
-    const SContour& _contour,
-    int             node_id,
-    Fvector&        temp_point,
-    int&            saved_index) const
+void CLevelGraph::choose_point(const Fvector& start_point, const Fvector& finish_point, const SContour& _contour, int node_id, Fvector& temp_point, int& saved_index) const
 {
     SContour tNextContour;
     SSegment tNextSegment;
     Fvector  tCheckPoint1 = start_point, tCheckPoint2 = start_point, tIntersectPoint;
     contour(tNextContour, node_id);
     intersect(tNextSegment, tNextContour, _contour);
-    u32 dwIntersect = intersect(
-        start_point.x, start_point.z, finish_point.x, finish_point.z, tNextSegment.v1.x, tNextSegment.v1.z,
-        tNextSegment.v2.x, tNextSegment.v2.z, &tIntersectPoint.x, &tIntersectPoint.z);
+    u32 dwIntersect = intersect(start_point.x, start_point.z, finish_point.x, finish_point.z, tNextSegment.v1.x, tNextSegment.v1.z, tNextSegment.v2.x, tNextSegment.v2.z, &tIntersectPoint.x, &tIntersectPoint.z);
     if (!dwIntersect)
         return;
     for (int i = 0; i < 4; ++i)
@@ -86,9 +78,7 @@ void CLevelGraph::choose_point(
             default:
                 NODEFAULT;
         }
-        dwIntersect = intersect(
-            start_point.x, start_point.z, finish_point.x, finish_point.z, tCheckPoint1.x, tCheckPoint1.z,
-            tCheckPoint2.x, tCheckPoint2.z, &tIntersectPoint.x, &tIntersectPoint.z);
+        dwIntersect = intersect(start_point.x, start_point.z, finish_point.x, finish_point.z, tCheckPoint1.x, tCheckPoint1.z, tCheckPoint2.x, tCheckPoint2.z, &tIntersectPoint.x, &tIntersectPoint.z);
         if (dwIntersect == eLineIntersectionIntersect)
         {
             if (finish_point.distance_to_xz(tIntersectPoint) < finish_point.distance_to_xz(temp_point) + EPS_L)
@@ -119,11 +109,7 @@ void CLevelGraph::choose_point(
     }
 }
 
-float CLevelGraph::check_position_in_direction(
-    u32            start_vertex_id,
-    const Fvector& start_position,
-    const Fvector& finish_position,
-    const float    max_distance) const
+float CLevelGraph::check_position_in_direction(u32 start_vertex_id, const Fvector& start_position, const Fvector& finish_position, const float max_distance) const
 {
     SContour       _contour;
     const_iterator I, E;
@@ -154,20 +140,13 @@ float CLevelGraph::check_position_in_direction(
             return (max_distance);
     }
 
-    if (inside(vertex(dwCurNode), finish_position) &&
-        (_abs(vertex_plane_y(*vertex(dwCurNode), finish_position.x, finish_position.z) - finish_position.y) < .5f))
+    if (inside(vertex(dwCurNode), finish_position) && (_abs(vertex_plane_y(*vertex(dwCurNode), finish_position.x, finish_position.z) - finish_position.y) < .5f))
         return (start_point.distance_to_xz(finish_position));
     else
         return (max_distance);
 }
 
-float CLevelGraph::mark_nodes_in_direction(
-    u32              start_vertex_id,
-    const Fvector&   start_position,
-    const Fvector&   tDirection,
-    float            fDistance,
-    xr_vector<u32>&  tpaStack,
-    xr_vector<bool>* tpaMarks) const
+float CLevelGraph::mark_nodes_in_direction(u32 start_vertex_id, const Fvector& start_position, const Fvector& tDirection, float fDistance, xr_vector<u32>& tpaStack, xr_vector<bool>* tpaMarks) const
 {
     Fvector finish_point, direction = tDirection;
     direction.normalize();
@@ -176,23 +155,12 @@ float CLevelGraph::mark_nodes_in_direction(
     return (mark_nodes_in_direction(start_vertex_id, start_position, finish_point, tpaStack, tpaMarks));
 }
 
-float CLevelGraph::mark_nodes_in_direction(
-    u32              start_vertex_id,
-    const Fvector&   start_position,
-    u32              finish_vertex_id,
-    xr_vector<u32>&  tpaStack,
-    xr_vector<bool>* tpaMarks) const
+float CLevelGraph::mark_nodes_in_direction(u32 start_vertex_id, const Fvector& start_position, u32 finish_vertex_id, xr_vector<u32>& tpaStack, xr_vector<bool>* tpaMarks) const
 {
-    return (mark_nodes_in_direction(
-        start_vertex_id, start_position, vertex_position(finish_vertex_id), tpaStack, tpaMarks));
+    return (mark_nodes_in_direction(start_vertex_id, start_position, vertex_position(finish_vertex_id), tpaStack, tpaMarks));
 }
 
-float CLevelGraph::mark_nodes_in_direction(
-    u32              start_vertex_id,
-    const Fvector&   start_point,
-    const Fvector&   finish_point,
-    xr_vector<u32>&  tpaStack,
-    xr_vector<bool>* tpaMarks) const
+float CLevelGraph::mark_nodes_in_direction(u32 start_vertex_id, const Fvector& start_point, const Fvector& finish_point, xr_vector<u32>& tpaStack, xr_vector<bool>* tpaMarks) const
 {
     SContour       _contour;
     const_iterator I, E;
@@ -230,13 +198,7 @@ float CLevelGraph::mark_nodes_in_direction(
     return (fCurDistance);
 }
 
-float CLevelGraph::farthest_vertex_in_direction(
-    u32              start_vertex_id,
-    const Fvector&   start_point,
-    const Fvector&   finish_point,
-    u32&             finish_vertex_id,
-    xr_vector<bool>* tpaMarks,
-    bool             check_accessability) const
+float CLevelGraph::farthest_vertex_in_direction(u32 start_vertex_id, const Fvector& start_point, const Fvector& finish_point, u32& finish_vertex_id, xr_vector<bool>* tpaMarks, bool check_accessability) const
 {
     SContour       _contour;
     const_iterator I, E;
@@ -276,24 +238,12 @@ float CLevelGraph::farthest_vertex_in_direction(
     return (fCurDistance);
 }
 
-bool CLevelGraph::create_straight_path(
-    u32                 start_vertex_id,
-    const Fvector&      start_point,
-    const Fvector&      finish_point,
-    xr_vector<Fvector>& tpaOutputPoints,
-    xr_vector<u32>&     tpaOutputNodes,
-    bool                bAddFirstPoint,
-    bool                bClearPath) const
+bool CLevelGraph::create_straight_path(u32 start_vertex_id, const Fvector& start_point, const Fvector& finish_point, xr_vector<Fvector>& tpaOutputPoints, xr_vector<u32>& tpaOutputNodes, bool bAddFirstPoint, bool bClearPath) const
 {
-    return (create_straight_path(
-        start_vertex_id, v2d(start_point), v2d(finish_point), tpaOutputPoints, tpaOutputNodes, bAddFirstPoint,
-        bClearPath));
+    return (create_straight_path(start_vertex_id, v2d(start_point), v2d(finish_point), tpaOutputPoints, tpaOutputNodes, bAddFirstPoint, bClearPath));
 }
 
-u32 CLevelGraph::check_position_in_direction_slow(
-    u32             start_vertex_id,
-    const Fvector2& start_position,
-    const Fvector2& finish_position) const
+u32 CLevelGraph::check_position_in_direction_slow(u32 start_vertex_id, const Fvector2& start_position, const Fvector2& finish_position) const
 {
     if (!valid_vertex_position(v3d(finish_position)))
         return (u32(-1));
@@ -355,10 +305,7 @@ u32 CLevelGraph::check_position_in_direction_slow(
     }
 }
 
-bool CLevelGraph::check_vertex_in_direction_slow(
-    u32             start_vertex_id,
-    const Fvector2& start_position,
-    u32             finish_vertex_id) const
+bool CLevelGraph::check_vertex_in_direction_slow(u32 start_vertex_id, const Fvector2& start_position, u32 finish_vertex_id) const
 {
     Fvector  finish_position = vertex_position(finish_vertex_id);
     u32      cur_vertex_id = start_vertex_id, prev_vertex_id = u32(-1);
@@ -426,14 +373,7 @@ IC Fvector2 v2d(const Fvector& vector3d)
     return (Fvector2().set(vector3d.x, vector3d.z));
 }
 
-bool CLevelGraph::create_straight_path(
-    u32                 start_vertex_id,
-    const Fvector2&     start_point,
-    const Fvector2&     finish_point,
-    xr_vector<Fvector>& tpaOutputPoints,
-    xr_vector<u32>&     tpaOutputNodes,
-    bool                bAddFirstPoint,
-    bool                bClearPath) const
+bool CLevelGraph::create_straight_path(u32 start_vertex_id, const Fvector2& start_point, const Fvector2& finish_point, xr_vector<Fvector>& tpaOutputPoints, xr_vector<u32>& tpaOutputNodes, bool bAddFirstPoint, bool bClearPath) const
 {
     if (!valid_vertex_position(v3d(finish_point)))
         return (false);
@@ -525,9 +465,7 @@ bool CLevelGraph::create_straight_path(
                 }
                 VERIFY(_valid(next1));
                 VERIFY(_valid(next2));
-                u32 dwIntersect = intersect(
-                    start_point.x, start_point.y, finish_point.x, finish_point.y, next1.x, next1.y, next2.x, next2.y,
-                    &tIntersectPoint.x, &tIntersectPoint.z);
+                u32 dwIntersect = intersect(start_point.x, start_point.y, finish_point.x, finish_point.y, next1.x, next1.y, next2.x, next2.y, &tIntersectPoint.x, &tIntersectPoint.z);
                 if (!dwIntersect)
                     continue;
                 tIntersectPoint.y = vertex_plane_y(vertex(cur_vertex_id), tIntersectPoint.x, tIntersectPoint.z);

@@ -23,6 +23,7 @@ public:
         u32 bLIGHT_CastShadow:1;
         u32 bLIGHT_Sharp     :1;
     };
+
 public:
     char Name[128];
     union
@@ -54,6 +55,7 @@ DEFINE_VECTOR(Shader_xrLC, Shader_xrLCVec, Shader_xrLCIt);
 class Shader_xrLC_LIB
 {
     Shader_xrLCVec library;
+
 public:
     void Load(LPCSTR name)
     {
@@ -144,10 +146,7 @@ public:
     }
 };
 
-IC void post_process_materials(
-    const Shader_xrLC_LIB&     shaders,
-    const xr_vector<b_shader>& shader_compile,
-    xr_vector<b_material>&     materials)
+IC void post_process_materials(const Shader_xrLC_LIB& shaders, const xr_vector<b_shader>& shader_compile, xr_vector<b_material>& materials)
 {
     for (u32 m = 0; m < materials.size(); m++)
     {

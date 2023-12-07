@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_human_brain_script.cpp
 //	Created 	: 02.11.2005
 //  Modified 	: 02.11.2005
@@ -11,11 +11,8 @@
 
 using namespace luabind;
 
-#pragma optimize("s",on)
-void CALifeHumanBrain::script_register	(lua_State *L)
+#pragma optimize("s", on)
+void CALifeHumanBrain::script_register(lua_State* L)
 {
-	module(L)
-	[
-		class_<CALifeHumanBrain,CALifeMonsterBrain>("CALifeHumanBrain")
-	];
+    module(L)[class_<CALifeHumanBrain, CALifeMonsterBrain>("CALifeHumanBrain")];
 }

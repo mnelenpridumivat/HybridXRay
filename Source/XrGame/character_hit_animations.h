@@ -15,6 +15,7 @@ private:
     bool IsEffected(u16 bi, IKinematics& ca) const;
 
 protected:
+
 private:
     //
     u16              base_bone;
@@ -29,6 +30,6 @@ private:
     MotionID         hit_downr;
     static const u16 num_anims = 9;
     // mutable u32							block_times[num_anims];
-    mutable CBlend* block_blends[num_anims];
+    mutable CBlend*  block_blends[num_anims];
     //
 };

@@ -18,18 +18,10 @@ BOOL CVisualZone::net_Spawn(CSE_Abstract* DC)
     CSE_ALifeZoneVisual* Z  = smart_cast<CSE_ALifeZoneVisual*>(e);
     IKinematicsAnimated* SA = smart_cast<IKinematicsAnimated*>(Visual());
     m_attack_animation      = SA->ID_Cycle_Safe(Z->attack_animation);
-    R_ASSERT2(
-        m_attack_animation.valid(),
-        make_string(
-            "object[%s]: cannot find attack animation[%s] in model[%s]", cName().c_str(), Z->attack_animation.c_str(),
-            cNameVisual().c_str()));
+    R_ASSERT2(m_attack_animation.valid(), make_string("object[%s]: cannot find attack animation[%s] in model[%s]", cName().c_str(), Z->attack_animation.c_str(), cNameVisual().c_str()));
 
     m_idle_animation = SA->ID_Cycle_Safe(Z->startup_animation);
-    R_ASSERT2(
-        m_idle_animation.valid(),
-        make_string(
-            "object[%s]: cannot find startup animation[%s] in model[%s]", cName().c_str(), Z->startup_animation.c_str(),
-            cNameVisual().c_str()));
+    R_ASSERT2(m_idle_animation.valid(), make_string("object[%s]: cannot find startup animation[%s] in model[%s]", cName().c_str(), Z->startup_animation.c_str(), cNameVisual().c_str()));
 
     SA->PlayCycle(m_idle_animation);
 
@@ -53,9 +45,7 @@ void CVisualZone::Load(LPCSTR section)
     inherited::Load(section);
     m_dwAttackAnimaionStart = pSettings->r_u32(section, "attack_animation_start");
     m_dwAttackAnimaionEnd   = pSettings->r_u32(section, "attack_animation_end");
-    VERIFY2(
-        m_dwAttackAnimaionStart < m_dwAttackAnimaionEnd,
-        "attack_animation_start must be less then attack_animation_end");
+    VERIFY2(m_dwAttackAnimaionStart < m_dwAttackAnimaionEnd, "attack_animation_start must be less then attack_animation_end");
 }
 
 void CVisualZone::UpdateBlowout()

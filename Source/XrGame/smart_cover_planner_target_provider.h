@@ -23,11 +23,7 @@ namespace smart_cover
         typedef CActionBase<animation_planner> inherited;
 
     public:
-        target_provider(
-            animation_planner*                            object,
-            LPCSTR                                        name,
-            StalkerDecisionSpace::EWorldProperties const& world_property,
-            u32 const&                                    loophole_value);
+        target_provider(animation_planner* object, LPCSTR name, StalkerDecisionSpace::EWorldProperties const& world_property, u32 const& loophole_value);
         virtual void setup(animation_planner* object, CPropertyStorage* storage);
         virtual void initialize();
         virtual void finalize();
@@ -48,11 +44,7 @@ namespace smart_cover
 
     public:
         virtual ~target_idle(){};
-        target_idle(
-            animation_planner*                            object,
-            LPCSTR                                        name,
-            StalkerDecisionSpace::EWorldProperties const& world_property,
-            u32 const&                                    loophole_value);
+        target_idle(animation_planner* object, LPCSTR name, StalkerDecisionSpace::EWorldProperties const& world_property, u32 const& loophole_value);
         virtual void execute();
     };
 
@@ -67,11 +59,7 @@ namespace smart_cover
 
     public:
         virtual ~target_fire(){};
-        target_fire(
-            animation_planner*                            object,
-            LPCSTR                                        name,
-            StalkerDecisionSpace::EWorldProperties const& world_property,
-            u32 const&                                    loophole_value);
+        target_fire(animation_planner* object, LPCSTR name, StalkerDecisionSpace::EWorldProperties const& world_property, u32 const& loophole_value);
         virtual void initialize();
         virtual void execute();
     };
@@ -87,11 +75,7 @@ namespace smart_cover
 
     public:
         virtual ~target_fire_no_lookout(){};
-        target_fire_no_lookout(
-            animation_planner*                            object,
-            LPCSTR                                        name,
-            StalkerDecisionSpace::EWorldProperties const& world_property,
-            u32 const&                                    loophole_value);
+        target_fire_no_lookout(animation_planner* object, LPCSTR name, StalkerDecisionSpace::EWorldProperties const& world_property, u32 const& loophole_value);
         virtual void initialize();
 
     private:

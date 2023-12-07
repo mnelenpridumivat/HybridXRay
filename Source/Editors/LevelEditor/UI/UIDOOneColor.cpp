@@ -43,7 +43,8 @@ void UIDOOneColor::Draw()
     ImGui::SetNextItemWidth(-1);
     ImGui::ListBox(
         "##list", &list_index,
-        [](void* data, int ind, const char** out) -> bool {
+        [](void* data, int ind, const char** out) -> bool
+        {
             auto item = reinterpret_cast<xr_vector<xr_string>*>(data)->at(ind).c_str();
             ;
             *out = item;
@@ -68,7 +69,7 @@ void UIDOOneColor::RemoveObject(const xr_string& str)
 
 void UIDOOneColor::AppendItem(const xr_string& item)
 {
-    for (xr_string& i : list)
+    for (xr_string& i: list)
     {
         if (i == item)
             return;

@@ -42,10 +42,10 @@ public:
         return m_rect;
     }
 
-    void init_from_xml(CUIXml& xml, LPCSTR path);
+    void         init_from_xml(CUIXml& xml, LPCSTR path);
 
-    void   set_text(LPCSTR text);
-    LPCSTR get_text() const;
+    void         set_text(LPCSTR text);
+    LPCSTR       get_text() const;
 
     //	virtual void	Update		();
     virtual void Draw();
@@ -54,9 +54,9 @@ protected:
     CUIFrameWindow* m_background;
     CUITextWnd*     m_text;
 
-    bool  m_visible;
-    float m_border;
-    Frect m_rect;
+    bool            m_visible;
+    float           m_border;
+    Frect           m_rect;
 };   // class UIHint
 
 // =================================================================================================
@@ -74,7 +74,7 @@ public:
     virtual void OnFocusLost();
     virtual void Show(bool status);
 
-    IC void set_hint_wnd(UIHint* hint_wnd)
+    IC void      set_hint_wnd(UIHint* hint_wnd)
     {
         m_hint_wnd = hint_wnd;
     }

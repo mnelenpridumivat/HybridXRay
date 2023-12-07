@@ -47,12 +47,9 @@
 #define READ_U16_BE(buf) (((buf)[0] << 8) | ((buf)[1] & 0xff))
 
 /* Define the supported formats here */
-input_format formats[] = {
-    {wav_id, 12, wav_open, wav_close, "wav", N_("WAV file reader")},
-    {aiff_id, 12, aiff_open, wav_close, "aiff", N_("AIFF/AIFC file reader")},
+input_format formats[] = {{wav_id, 12, wav_open, wav_close, "wav", N_("WAV file reader")}, {aiff_id, 12, aiff_open, wav_close, "aiff", N_("AIFF/AIFC file reader")},
 #ifdef HAVE_LIBFLAC
-    {flac_id, 4, flac_open, flac_close, "flac", N_("FLAC file reader")},
-    {oggflac_id, 32, flac_open, flac_close, "ogg", N_("Ogg FLAC file reader")},
+    {flac_id, 4, flac_open, flac_close, "flac", N_("FLAC file reader")}, {oggflac_id, 32, flac_open, flac_close, "ogg", N_("Ogg FLAC file reader")},
 #endif
     {NULL, 0, NULL, NULL, NULL, NULL}};
 
@@ -180,8 +177,7 @@ double read_IEEE80(unsigned char* buf)
 {
     int    s = buf[0] & 0xff;
     int    e = ((buf[0] & 0x7f) << 8) | (buf[1] & 0xff);
-    double f =
-        ((unsigned long)(buf[2] & 0xff) << 24) | ((buf[3] & 0xff) << 16) | ((buf[4] & 0xff) << 8) | (buf[5] & 0xff);
+    double f = ((unsigned long)(buf[2] & 0xff) << 24) | ((buf[3] & 0xff) << 16) | ((buf[4] & 0xff) << 8) | (buf[5] & 0xff);
 
     if (e == 32767)
     {
@@ -279,9 +275,7 @@ int aiff_open(FILE* in, oe_enc_opt* opt, unsigned char* buf, int buflen)
         }
         else
         {
-            fprintf(
-                stderr, _("Warning: Can't handle compressed AIFF-C (%c%c%c%c)\n"), *(buffer + 18), *(buffer + 19),
-                *(buffer + 20), *(buffer + 21));
+            fprintf(stderr, _("Warning: Can't handle compressed AIFF-C (%c%c%c%c)\n"), *(buffer + 18), *(buffer + 19), *(buffer + 20), *(buffer + 21));
             return 0; /* Compressed. Can't handle */
         }
     }
@@ -329,8 +323,7 @@ int aiff_open(FILE* in, oe_enc_opt* opt, unsigned char* buf, int buflen)
     }
     else
     {
-        fprintf(
-            stderr,
+        fprintf(stderr,
             _("Warning: OggEnc does not support this type of AIFF/AIFC file\n"
               " Must be 8 or 16 bit PCM.\n"));
         return 0;
@@ -345,7 +338,7 @@ int wav_id(unsigned char* buf, int len)
         return 0; /* Something screwed up */
 
     if (memcmp(buf, "RIFF", 4))
-        return 0;                /* Not wave */
+        return 0; /* Not wave */
 
     flen = READ_U32_LE(buf + 4); /* We don't use this */
 
@@ -385,8 +378,7 @@ int wav_open(FILE* in, oe_enc_opt* opt, unsigned char* oldbuf, int buflen)
      * 16 or 18 bytes in size, report a bug to the author.
      */
     if (len != 16 && len != 18)
-        fprintf(
-            stderr,
+        fprintf(stderr,
             _("Warning: INVALID format chunk in wav header.\n"
               " Trying to read anyway (may not work)...\n"));
 
@@ -423,16 +415,13 @@ int wav_open(FILE* in, oe_enc_opt* opt, unsigned char* oldbuf, int buflen)
     }
     else
     {
-        fprintf(
-            stderr,
+        fprintf(stderr,
             _("ERROR: Wav file is unsupported type (must be standard PCM\n"
               " or type 3 floating point PCM\n"));
         return 0;
     }
 
-    if (format.align == format.channels * samplesize && format.samplesize == samplesize * 8 &&
-        (format.samplesize == 24 || format.samplesize == 16 || format.samplesize == 8 ||
-            (format.samplesize == 32 && format.format == 3)))
+    if (format.align == format.channels * samplesize && format.samplesize == samplesize * 8 && (format.samplesize == 24 || format.samplesize == 16 || format.samplesize == 8 || (format.samplesize == 32 && format.format == 3)))
     {
         /* OK, good - we have the one supported format,
            now we want to find the size of the file */
@@ -471,8 +460,7 @@ int wav_open(FILE* in, oe_enc_opt* opt, unsigned char* oldbuf, int buflen)
     }
     else
     {
-        fprintf(
-            stderr,
+        fprintf(stderr,
             _("ERROR: Wav file is unsupported subformat (must be 8,16, or 24 bit PCM\n"
               "or floating point PCM\n"));
         return 0;
@@ -515,9 +503,7 @@ long wav_read(void* in, float** buffer, int samples)
             {
                 for (j = 0; j < f->channels; j++)
                 {
-                    buffer[j][i] =
-                        ((buf[i * 2 * f->channels + 2 * j + 1] << 8) | (buf[i * 2 * f->channels + 2 * j] & 0xff)) /
-                        32768.0f;
+                    buffer[j][i] = ((buf[i * 2 * f->channels + 2 * j + 1] << 8) | (buf[i * 2 * f->channels + 2 * j] & 0xff)) / 32768.0f;
                 }
             }
         }
@@ -527,9 +513,7 @@ long wav_read(void* in, float** buffer, int samples)
             {
                 for (j = 0; j < f->channels; j++)
                 {
-                    buffer[j][i] =
-                        ((buf[i * 2 * f->channels + 2 * j] << 8) | (buf[i * 2 * f->channels + 2 * j + 1] & 0xff)) /
-                        32768.0f;
+                    buffer[j][i] = ((buf[i * 2 * f->channels + 2 * j] << 8) | (buf[i * 2 * f->channels + 2 * j + 1] & 0xff)) / 32768.0f;
                 }
             }
         }
@@ -542,17 +526,13 @@ long wav_read(void* in, float** buffer, int samples)
             {
                 for (j = 0; j < f->channels; j++)
                 {
-                    buffer[j][i] = ((buf[i * 3 * f->channels + 3 * j + 2] << 16) |
-                                       (((unsigned char*)buf)[i * 3 * f->channels + 3 * j + 1] << 8) |
-                                       (((unsigned char*)buf)[i * 3 * f->channels + 3 * j] & 0xff)) /
-                        8388608.0f;
+                    buffer[j][i] = ((buf[i * 3 * f->channels + 3 * j + 2] << 16) | (((unsigned char*)buf)[i * 3 * f->channels + 3 * j + 1] << 8) | (((unsigned char*)buf)[i * 3 * f->channels + 3 * j] & 0xff)) / 8388608.0f;
                 }
             }
         }
         else
         {
-            fprintf(
-                stderr,
+            fprintf(stderr,
                 _("Big endian 24 bit PCM data is not currently "
                   "supported, aborting.\n"));
             return 0;
@@ -560,8 +540,7 @@ long wav_read(void* in, float** buffer, int samples)
     }
     else
     {
-        fprintf(
-            stderr,
+        fprintf(stderr,
             _("Internal error: attempt to read unsupported "
               "bitdepth %d\n"),
             f->samplesize);
@@ -690,8 +669,7 @@ int setup_resample(oe_enc_opt* opt)
     opt->read_samples = read_resampled;
     opt->readdata     = rs;
     if (opt->total_samples_per_channel)
-        opt->total_samples_per_channel =
-            (int)((float)opt->total_samples_per_channel * ((float)opt->resamplefreq / (float)opt->rate));
+        opt->total_samples_per_channel = (int)((float)opt->total_samples_per_channel * ((float)opt->resamplefreq / (float)opt->rate));
     opt->rate = opt->resamplefreq;
 
     return 0;

@@ -36,16 +36,16 @@ void CProjector::BoneCallbackX(CBoneInstance* B)
 {
     CProjector* P = static_cast<CProjector*>(B->callback_param());
 
-    Fmatrix M;
+    Fmatrix     M;
     M.setHPB(0.0f, P->_current.pitch, 0.0f);
     B->mTransform.mulB_43(M);
 }
 
 void CProjector::BoneCallbackY(CBoneInstance* B)
 {
-    CProjector* P = static_cast<CProjector*>(B->callback_param());
+    CProjector* P         = static_cast<CProjector*>(B->callback_param());
 
-    float delta_yaw = angle_difference(P->_start.yaw, P->_current.yaw);
+    float       delta_yaw = angle_difference(P->_start.yaw, P->_current.yaw);
     if (angle_normalize_signed(P->_start.yaw - P->_current.yaw) > 0)
         delta_yaw = -delta_yaw;
 
@@ -147,9 +147,9 @@ void CProjector::UpdateCL()
         // calc color animator
         if (lanim)
         {
-            int frame;
+            int    frame;
             // возвращает в формате BGR
-            u32 clr = lanim->CalculateBGR(Device->fTimeGlobal, frame);
+            u32    clr = lanim->CalculateBGR(Device->fTimeGlobal, frame);
 
             Fcolor fclr;
             fclr.set((float)color_get_B(clr), (float)color_get_G(clr), (float)color_get_R(clr), 1.f);
@@ -191,15 +191,14 @@ bool CProjector::bfAssignWatch(CScriptEntityAction* tpEntityAction)
 
     CScriptWatchAction& l_tWatchAction = tpEntityAction->m_tWatchAction;
 
-    (!l_tWatchAction.m_tpObjectToWatch) ? SetTarget(l_tWatchAction.m_tTargetPoint) :
-                                          SetTarget(l_tWatchAction.m_tpObjectToWatch->Position());
+    (!l_tWatchAction.m_tpObjectToWatch) ? SetTarget(l_tWatchAction.m_tTargetPoint) : SetTarget(l_tWatchAction.m_tpObjectToWatch->Position());
 
     float delta_yaw   = angle_difference(_current.yaw, _target.yaw);
     float delta_pitch = angle_difference(_current.pitch, _target.pitch);
 
-    bone_x.velocity = l_tWatchAction.vel_bone_x;
-    float time      = delta_yaw / bone_x.velocity;
-    bone_y.velocity = (fis_zero(time, EPS_L) ? l_tWatchAction.vel_bone_y : delta_pitch / time);
+    bone_x.velocity   = l_tWatchAction.vel_bone_x;
+    float time        = delta_yaw / bone_x.velocity;
+    bone_y.velocity   = (fis_zero(time, EPS_L) ? l_tWatchAction.vel_bone_y : delta_pitch / time);
 
     return false == (l_tWatchAction.m_bCompleted = ((delta_yaw < EPS_L) && (delta_pitch < EPS_L)));
 }

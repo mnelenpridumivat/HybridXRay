@@ -9,16 +9,7 @@
 #include "pch.hpp"
 #include "property_float_limited.hpp"
 
-property_float_limited::property_float_limited(
-    float_getter_type const& getter,
-    float_setter_type const& setter,
-    float const % increment_factor,
-    float const % min,
-    float const % max):
-    inherited(getter, setter, increment_factor),
-    m_min(min), m_max(max)
-{
-}
+property_float_limited::property_float_limited(float_getter_type const& getter, float_setter_type const& setter, float const % increment_factor, float const % min, float const % max): inherited(getter, setter, increment_factor), m_min(min), m_max(max) {}
 
 System::Object ^ property_float_limited::get_value()
 {

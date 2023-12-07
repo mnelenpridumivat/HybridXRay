@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // Silencer.cpp
-// Silencer - апгрейд оружия глушитель 
+// Silencer - Р°РїРіСЂРµР№Рґ РѕСЂСѓР¶РёСЏ РіР»СѓС€РёС‚РµР»СЊ
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -8,45 +8,41 @@
 #include "silencer.h"
 //#include "PhysicsShell.h"
 
-CSilencer::CSilencer()
+CSilencer::CSilencer() {}
+
+CSilencer::~CSilencer() {}
+
+BOOL CSilencer::net_Spawn(CSE_Abstract* DC)
 {
+    return (inherited::net_Spawn(DC));
 }
 
-CSilencer::~CSilencer() 
+void CSilencer::Load(LPCSTR section)
 {
+    inherited::Load(section);
 }
 
-BOOL CSilencer::net_Spawn(CSE_Abstract* DC) 
+void CSilencer::net_Destroy()
 {
-	return		(inherited::net_Spawn(DC));
+    inherited::net_Destroy();
 }
 
-void CSilencer::Load(LPCSTR section) 
+void CSilencer::UpdateCL()
 {
-	inherited::Load(section);
+    inherited::UpdateCL();
 }
 
-void CSilencer::net_Destroy() 
+void CSilencer::OnH_A_Chield()
 {
-	inherited::net_Destroy();
+    inherited::OnH_A_Chield();
 }
 
-void CSilencer::UpdateCL() 
+void CSilencer::OnH_B_Independent(bool just_before_destroy)
 {
-	inherited::UpdateCL();
+    inherited::OnH_B_Independent(just_before_destroy);
 }
 
-void CSilencer::OnH_A_Chield() 
+void CSilencer::renderable_Render()
 {
-	inherited::OnH_A_Chield		();
-}
-
-void CSilencer::OnH_B_Independent(bool just_before_destroy) 
-{
-	inherited::OnH_B_Independent(just_before_destroy);
-}
-
-void CSilencer::renderable_Render() 
-{
-	inherited::renderable_Render();
+    inherited::renderable_Render();
 }

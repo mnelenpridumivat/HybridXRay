@@ -57,7 +57,7 @@ void CServerEntityWrapper::load(IReader& stream)
     u16        ID;
     IReader*   chunk;
 
-    chunk = stream.open_chunk(0);
+    chunk              = stream.open_chunk(0);
 
     net_packet.B.count = chunk->r_u16();
     chunk->r(net_packet.B.data, net_packet.B.count);
@@ -75,7 +75,7 @@ void CServerEntityWrapper::load(IReader& stream)
     R_ASSERT3(m_object, "Can't create entity.", s_name);
     m_object->Spawn_Read(net_packet);
 
-    chunk = stream.open_chunk(1);
+    chunk              = stream.open_chunk(1);
 
     net_packet.B.count = chunk->r_u16();
     chunk->r(net_packet.B.data, net_packet.B.count);

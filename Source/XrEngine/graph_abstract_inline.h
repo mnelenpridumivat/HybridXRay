@@ -8,10 +8,9 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION \
-    template <typename _data_type, typename _edge_weight_type, typename _vertex_id_type, typename _edge_data_type>
+#define TEMPLATE_SPECIALIZATION template<typename _data_type, typename _edge_weight_type, typename _vertex_id_type, typename _edge_data_type>
 
-#define CAbstractGraph CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type, _edge_data_type>
+#define CAbstractGraph          CGraphAbstract<_data_type, _edge_weight_type, _vertex_id_type, _edge_data_type>
 
 TEMPLATE_SPECIALIZATION
 IC CAbstractGraph::CGraphAbstract()
@@ -43,10 +42,7 @@ IC void CAbstractGraph::remove_vertex(const _vertex_id_type& vertex_id)
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CAbstractGraph::add_edge(
-    const _vertex_id_type&   vertex_id0,
-    const _vertex_id_type&   vertex_id1,
-    const _edge_weight_type& edge_weight)
+IC void CAbstractGraph::add_edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1, const _edge_weight_type& edge_weight)
 {
     CVertex* _vertex0 = vertex(vertex_id0);
     VERIFY(_vertex0);
@@ -56,11 +52,7 @@ IC void CAbstractGraph::add_edge(
 }
 
 TEMPLATE_SPECIALIZATION
-IC void CAbstractGraph::add_edge(
-    const _vertex_id_type&   vertex_id0,
-    const _vertex_id_type&   vertex_id1,
-    const _edge_weight_type& edge_weight0,
-    const _edge_weight_type& edge_weight1)
+IC void CAbstractGraph::add_edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1, const _edge_weight_type& edge_weight0, const _edge_weight_type& edge_weight1)
 {
     add_edge(vertex_id0, vertex_id1, edge_weight0);
     add_edge(vertex_id1, vertex_id0, edge_weight1);
@@ -120,8 +112,7 @@ IC typename CAbstractGraph::CVertex* CAbstractGraph::vertex(const _vertex_id_typ
 }
 
 TEMPLATE_SPECIALIZATION
-IC const typename CAbstractGraph::CEdge*
-    CAbstractGraph::edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1) const
+IC const typename CAbstractGraph::CEdge* CAbstractGraph::edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1) const
 {
     const CVertex* _vertex = vertex(vertex_id0);
     if (!_vertex)
@@ -130,8 +121,7 @@ IC const typename CAbstractGraph::CEdge*
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CAbstractGraph::CEdge*
-    CAbstractGraph::edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1)
+IC typename CAbstractGraph::CEdge* CAbstractGraph::edge(const _vertex_id_type& vertex_id0, const _vertex_id_type& vertex_id1)
 {
     CVertex* _vertex = vertex(vertex_id0);
     if (!_vertex)
@@ -170,10 +160,7 @@ IC bool CAbstractGraph::operator==(const CGraphAbstract& obj) const
 }
 
 TEMPLATE_SPECIALIZATION
-IC const _edge_weight_type CAbstractGraph::get_edge_weight(
-    const _vertex_id_type vertex_index0,
-    const _vertex_id_type vertex_index1,
-    const_iterator        i) const
+IC const _edge_weight_type CAbstractGraph::get_edge_weight(const _vertex_id_type vertex_index0, const _vertex_id_type vertex_index1, const_iterator i) const
 {
     VERIFY(edge(vertex_index0, vertex_index1));
     return ((*i).weight());
@@ -186,8 +173,7 @@ IC bool CAbstractGraph::is_accessible(const _vertex_id_type vertex_index) const
 }
 
 TEMPLATE_SPECIALIZATION
-IC typename CAbstractGraph::_vertex_id_type const&
-    CAbstractGraph::value(_vertex_id_type const& vertex_index, const_iterator i) const
+IC typename CAbstractGraph::_vertex_id_type const& CAbstractGraph::value(_vertex_id_type const& vertex_index, const_iterator i) const
 {
     return ((*i).vertex_id());
 }
@@ -209,9 +195,9 @@ IC void CAbstractGraph::begin(_vertex_id_type const& vertex_index, const_iterato
 #undef TEMPLATE_SPECIALIZATION
 #undef CAbstractGraph
 
-#define TEMPLATE_SPECIALIZATION template <typename _data_type, typename _edge_weight_type, typename _vertex_id_type>
+#define TEMPLATE_SPECIALIZATION template<typename _data_type, typename _edge_weight_type, typename _vertex_id_type>
 
-#define CAbstractGraph CGraphAbstractSerialize<_data_type, _edge_weight_type, _vertex_id_type>
+#define CAbstractGraph          CGraphAbstractSerialize<_data_type, _edge_weight_type, _vertex_id_type>
 
 TEMPLATE_SPECIALIZATION
 IC void CAbstractGraph::save(IWriter& stream)

@@ -27,8 +27,7 @@ namespace lc_net
         // inStream->Clear();
     }
 
-    task_manager::task_manager():
-        _user(0), tasks_completed(0), current_pool(0), start(0), session_id(DWORD(-1)), _release(false)
+    task_manager::task_manager(): _user(0), tasks_completed(0), current_pool(0), start(0), session_id(DWORD(-1)), _release(false)
     {
         for (u8 i = 0; i < num_pools; ++i)
             pools[i] = 0;

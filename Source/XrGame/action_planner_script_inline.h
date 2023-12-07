@@ -8,8 +8,8 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _object_type>
-#define _CActionPlannerScript CActionPlannerScript<_object_type>
+#define TEMPLATE_SPECIALIZATION template<typename _object_type>
+#define _CActionPlannerScript   CActionPlannerScript<_object_type>
 
 TEMPLATE_SPECIALIZATION
 IC _CActionPlannerScript::CActionPlannerScript()

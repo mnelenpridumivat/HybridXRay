@@ -81,17 +81,12 @@ typedef struct GPICallbackData
 
 // FUNCTIONS
 ///////////
-void gpiCallErrorCallback(GPConnection* connection, GPResult result, GPEnum fatal);
+void                           gpiCallErrorCallback(GPConnection* connection, GPResult result, GPEnum fatal);
 
 typedef struct GPIOperation_s* GPIOperation_st;
 
-GPResult gpiAddCallback(
-    GPConnection*                connection,
-    GPICallback                  callback,
-    void*                        arg,
-    const struct GPIOperation_s* operation,
-    int                          type);
+GPResult                       gpiAddCallback(GPConnection* connection, GPICallback callback, void* arg, const struct GPIOperation_s* operation, int type);
 
-GPResult gpiProcessCallbacks(GPConnection* connection, int blockingOperationID);
+GPResult                       gpiProcessCallbacks(GPConnection* connection, int blockingOperationID);
 
 #endif

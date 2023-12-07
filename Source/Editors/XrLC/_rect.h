@@ -9,6 +9,7 @@ public:
     typedef Self&       SelfRef;
     typedef const Self& SelfCRef;
     typedef _vector2<T> Tvector;
+
 public:
     union
     {

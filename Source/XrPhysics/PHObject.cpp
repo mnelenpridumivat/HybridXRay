@@ -104,14 +104,12 @@ void CPHObject::Collide()
             if (magnitude < EPS)
                 continue;
             dir.mul(1.f / magnitude);
-            g_SpatialSpacePhysic->q_ray(
-                ph_world->r_spatial, 0, STYPE_PHYSIC, *from, dir, magnitude);   //|ISpatial_DB::O_ONLYFIRST
+            g_SpatialSpacePhysic->q_ray(ph_world->r_spatial, 0, STYPE_PHYSIC, *from, dir, magnitude);   //|ISpatial_DB::O_ONLYFIRST
 #ifdef DEBUG
             if (debug_output().ph_dbg_draw_mask().test(phDbgDrawRayMotions))
             {
                 debug_output().DBG_OpenCashedDraw();
-                debug_output().DBG_DrawLine(
-                    *from, Fvector().add(*from, Fvector().mul(dir, magnitude)), D3DCOLOR_XRGB(0, 255, 0));
+                debug_output().DBG_DrawLine(*from, Fvector().add(*from, Fvector().mul(dir, magnitude)), D3DCOLOR_XRGB(0, 255, 0));
                 debug_output().DBG_ClosedCashedDraw(30000);
             }
 

@@ -8,7 +8,7 @@ class CInifile;
 class IKinematicsAnimated;
 class CEntityAlive;
 
-template <typename T> void vec_clear(T*& p)
+template<typename T> void vec_clear(T*& p)
 {
     xr_delete(p);
 }

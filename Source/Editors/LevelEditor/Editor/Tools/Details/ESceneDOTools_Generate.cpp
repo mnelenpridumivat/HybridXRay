@@ -8,7 +8,7 @@ static Fvector back_vec  = {0.f, 0.f, -1.f};
 
 static CRandom DetailRandom(0x26111975);
 
-DetailSlot& EDetailManager::GetSlot(u32 sx, u32 sz)
+DetailSlot&    EDetailManager::GetSlot(u32 sx, u32 sz)
 {
     VERIFY(sx < dtH.size_x);
     VERIFY(sz < dtH.size_z);
@@ -28,8 +28,7 @@ void EDetailManager::FindClosestIndex(const Fcolor& C, SIndexDistVec& best)
     for (; it != E; it++)
     {
         src.set(it->first);
-        float d = inv_a +
-            sqrtf((C.r - src.r) * (C.r - src.r) + (C.g - src.g) * (C.g - src.g) + (C.b - src.b) * (C.b - src.b));
+        float d = inv_a + sqrtf((C.r - src.r) * (C.r - src.r) + (C.g - src.g) * (C.g - src.g) + (C.b - src.b) * (C.b - src.b));
         if (d < dist)
         {
             dist  = d;
@@ -230,7 +229,7 @@ bool EDetailManager::UpdateSlots()
 {
     // clear previous slots
     xr_free(dtSlots);
-    dtSlots = xr_alloc<DetailSlot>(dtH.size_x * dtH.size_z);
+    dtSlots     = xr_alloc<DetailSlot>(dtH.size_x * dtH.size_z);
 
     SPBItem* pb = UI->ProgressStart(dtH.size_x * dtH.size_z, "Updating bounding boxes...");
     for (u32 z = 0; z < dtH.size_z; z++)
@@ -279,8 +278,7 @@ void EDetailManager::CalcClosestCount(int part, const Fcolor& C, SIndexDistVec& 
     for (u32 k = 0; k < best.size(); k++)
     {
         src.set(best[k].index);
-        float d = inv_a +
-            sqrtf((C.r - src.r) * (C.r - src.r) + (C.g - src.g) * (C.g - src.g) + (C.b - src.b) * (C.b - src.b));
+        float d = inv_a + sqrtf((C.r - src.r) * (C.r - src.r) + (C.g - src.g) * (C.g - src.g) + (C.b - src.b) * (C.b - src.b));
         if (d < dist)
         {
             dist = d;
@@ -359,22 +357,22 @@ bool EDetailManager::UpdateSlotObjects(int x, int z)
 
     //	2 3
     //	0 1
-    P[0].x1 = R.x1;
-    P[0].y1 = iFloor(R.y1 + dy + 0.501f);
-    P[0].x2 = iFloor(R.x1 + dx + .499f);
-    P[0].y2 = R.y2;
-    P[1].x1 = iFloor(R.x1 + dx + 0.501f);
-    P[1].y1 = iFloor(R.y1 + dy + 0.501f);
-    P[1].x2 = R.x2;
-    P[1].y2 = R.y2;
-    P[2].x1 = R.x1;
-    P[2].y1 = R.y1;
-    P[2].x2 = iFloor(R.x1 + dx + .499f);
-    P[2].y2 = iFloor(R.y1 + dy + .499f);
-    P[3].x1 = iFloor(R.x1 + dx + 0.501f);
-    P[3].y1 = R.y1;
-    P[3].x2 = R.x2;
-    P[3].y2 = iFloor(R.y1 + dx + .499f);
+    P[0].x1  = R.x1;
+    P[0].y1  = iFloor(R.y1 + dy + 0.501f);
+    P[0].x2  = iFloor(R.x1 + dx + .499f);
+    P[0].y2  = R.y2;
+    P[1].x1  = iFloor(R.x1 + dx + 0.501f);
+    P[1].y1  = iFloor(R.y1 + dy + 0.501f);
+    P[1].x2  = R.x2;
+    P[1].y2  = R.y2;
+    P[2].x1  = R.x1;
+    P[2].y1  = R.y1;
+    P[2].x2  = iFloor(R.x1 + dx + .499f);
+    P[2].y2  = iFloor(R.y1 + dy + .499f);
+    P[3].x1  = iFloor(R.x1 + dx + 0.501f);
+    P[3].y1  = R.y1;
+    P[3].x2  = R.x2;
+    P[3].y2  = iFloor(R.y1 + dx + .499f);
 
     for (int part = 0; part < 4; part++)
     {
@@ -417,7 +415,8 @@ bool EDetailManager::UpdateSlotObjects(int x, int z)
                 id++;
                 if (id > 3)
                     id = 0;
-            } while (m_ColorIndices[best[id].index].size() <= 1);
+            }
+            while (m_ColorIndices[best[id].index].size() <= 1);
             best.push_back(SIndexDist());
             best.back() = best[id];
             if (best.size() == o_cnt)
@@ -454,7 +453,7 @@ bool EDetailManager::UpdateSlotObjects(int x, int z)
 
         slot->color_editor();
         // density
-        float f = ((EDetail*)objects[slot->r_id(k)])->m_fDensityFactor;
+        float f             = ((EDetail*)objects[slot->r_id(k)])->m_fDensityFactor;
 
         slot->palette[k].a0 = (u16)iFloor(best[k].dens[0] * f * 15.f + .5f);
         slot->palette[k].a1 = (u16)iFloor(best[k].dens[1] * f * 15.f + .5f);

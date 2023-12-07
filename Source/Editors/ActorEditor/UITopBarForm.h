@@ -2,9 +2,9 @@
 class UITopBarForm: public XrUI
 {
 public:
-	UITopBarForm();
-	virtual ~UITopBarForm();
-	virtual void Draw();
+    UITopBarForm();
+    virtual ~UITopBarForm();
+    virtual void Draw();
 
 private:
     void        ClickUndo();

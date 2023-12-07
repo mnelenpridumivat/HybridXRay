@@ -10,8 +10,8 @@ class game_cl_TeamDeathmatch: public game_cl_Deathmatch
     CUIGameTDM*                m_game_ui;
 
 protected:
-    bool m_bFriendlyIndicators;
-    bool m_bFriendlyNames;
+    bool         m_bFriendlyIndicators;
+    bool         m_bFriendlyNames;
 
     virtual void shedule_Update(u32 dt);
     virtual void TranslateGameMessage(u32 msg, NET_Packet& P);
@@ -27,25 +27,25 @@ public:
     virtual void           SetGameUI(CUIGameCustom*);
     virtual void           GetMapEntities(xr_vector<SZoneMapEntityData>& dst);
 
-    virtual BOOL CanCallBuyMenu();
-    virtual BOOL CanCallSkinMenu();
-    virtual BOOL CanCallInventoryMenu();
-    virtual BOOL CanCallTeamSelectMenu();
+    virtual BOOL           CanCallBuyMenu();
+    virtual BOOL           CanCallSkinMenu();
+    virtual BOOL           CanCallInventoryMenu();
+    virtual BOOL           CanCallTeamSelectMenu();
 
-    virtual void OnSpectatorSelect();
-    virtual void OnSkinMenuBack();
-    virtual void OnTeamMenuBack();
-    virtual void OnMapInfoAccept();
+    virtual void           OnSpectatorSelect();
+    virtual void           OnSkinMenuBack();
+    virtual void           OnTeamMenuBack();
+    virtual void           OnMapInfoAccept();
 
-    virtual void OnGameMenuRespond_ChangeTeam(NET_Packet& P);
+    virtual void           OnGameMenuRespond_ChangeTeam(NET_Packet& P);
 
-    virtual void  OnTeamSelect(int Result);
-    virtual char* getTeamSection(int Team);
-    virtual void  OnTeamChanged();
-    virtual void  PlayRankChangesSndMessage();
-    virtual void  OnTeamMenu_Cancel();
+    virtual void           OnTeamSelect(int Result);
+    virtual char*          getTeamSection(int Team);
+    virtual void           OnTeamChanged();
+    virtual void           PlayRankChangesSndMessage();
+    virtual void           OnTeamMenu_Cancel();
 
-    virtual void Set_ShowPlayerNames(bool Show)
+    virtual void           Set_ShowPlayerNames(bool Show)
     {
         m_bShowPlayersNames = Show;
     };
@@ -73,6 +73,7 @@ public:
         return teams[1].score;
     };
     // from UIGameTDM
+
 protected:
     virtual const shared_str GetBaseCostSect()
     {
@@ -81,29 +82,29 @@ protected:
     virtual const shared_str GetTeamMenu(s16 team);
     //	CUISpawnWnd*						pUITeamSelectWnd;
 
-    PRESET_ITEMS PresetItemsTeam1;
-    PRESET_ITEMS PresetItemsTeam2;
+    PRESET_ITEMS             PresetItemsTeam1;
+    PRESET_ITEMS             PresetItemsTeam2;
 
-    BOOL m_bTeamSelected;
-    bool m_bShowPlayersNames;
+    BOOL                     m_bTeamSelected;
+    bool                     m_bShowPlayersNames;
 
-    virtual bool CanBeReady();
-    virtual void SetCurrentBuyMenu();
-    virtual void SetCurrentSkinMenu();
+    virtual bool             CanBeReady();
+    virtual void             SetCurrentBuyMenu();
+    virtual void             SetCurrentSkinMenu();
 
-    virtual bool OnKeyboardPress(int key);
+    virtual bool             OnKeyboardPress(int key);
 
-    virtual void OnRender();
-    virtual bool IsEnemy(game_PlayerState* ps);
-    virtual bool IsEnemy(CEntityAlive* ea1, CEntityAlive* ea2);
+    virtual void             OnRender();
+    virtual bool             IsEnemy(game_PlayerState* ps);
+    virtual bool             IsEnemy(CEntityAlive* ea1, CEntityAlive* ea2);
 
-    virtual void UpdateMapLocations();
-    virtual void OnSwitchPhase(u32 old_phase, u32 new_phase);
+    virtual void             UpdateMapLocations();
+    virtual void             OnSwitchPhase(u32 old_phase, u32 new_phase);
 
-    virtual void SetScore();
-    virtual void OnSwitchPhase_InProgress();
+    virtual void             SetScore();
+    virtual void             OnSwitchPhase_InProgress();
 
-    virtual u8 GetTeamCount()
+    virtual u8               GetTeamCount()
     {
         return 2;
     };

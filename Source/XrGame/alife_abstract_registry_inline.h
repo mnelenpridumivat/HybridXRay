@@ -8,7 +8,7 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _index_type, typename _data_type>
+#define TEMPLATE_SPECIALIZATION template<typename _index_type, typename _data_type>
 #define CSALifeAbstractRegistry CALifeAbstractRegistry<_index_type, _data_type>
 
 TEMPLATE_SPECIALIZATION

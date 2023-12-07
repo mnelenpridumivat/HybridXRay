@@ -237,11 +237,10 @@ float CacheAddTri(WORD wIndex1, WORD wIndex2, WORD wIndex3, BOOL bDontActuallyAd
                 if (!bFound[iVert])
                 {
                     // Not in the cache. Add it to the FIFO.
-                    WORD wInd = wIndex[iVert];
+                    WORD wInd                                                       = wIndex[iVert];
 
                     // Store the current tail of the FIFO.
-                    pct->ctti[iType].wIndicesBinned[pct->ctti[iType].iIndicesAdded] =
-                        ccs.pwCacheFifoState[ccs.iCacheFifoWritePos];
+                    pct->ctti[iType].wIndicesBinned[pct->ctti[iType].iIndicesAdded] = ccs.pwCacheFifoState[ccs.iCacheFifoWritePos];
                     pct->ctti[iType].iIndicesAdded++;
 
                     // This vert just fell off the end.
@@ -867,14 +866,13 @@ float FindBestScoreLookahead(int iCountdown, float fCurrentScore, float fInputBe
     }
 }
 
-float FindBestScore(
-    int        iCountdown,
-    float      fCurrentScore,
-    float      fInputBestSoFar,
+float FindBestScore(int iCountdown,
+    float               fCurrentScore,
+    float               fInputBestSoFar,
     // WORD *pwIndices,
-    ScoreTri** ppstCurTris,   // Pointer to a list of pointers to ScoreTris
-    int        iNumTris,
-    WORD*      pwResult)
+    ScoreTri**          ppstCurTris,   // Pointer to a list of pointers to ScoreTris
+    int                 iNumTris,
+    WORD*               pwResult)
 
 {
     int iLookahead = iCountdown;

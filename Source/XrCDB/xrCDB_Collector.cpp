@@ -18,11 +18,10 @@ namespace CDB
         return verts.size() - 1;
     }
 
-    void Collector::add_face_D(
-        const Fvector& v0,
-        const Fvector& v1,
-        const Fvector& v2,     // vertices
-        u32            dummy   // misc
+    void Collector::add_face_D(const Fvector& v0,
+        const Fvector&                        v1,
+        const Fvector&                        v2,     // vertices
+        u32                                   dummy   // misc
     )
     {
         TRI T;
@@ -52,13 +51,12 @@ namespace CDB
         faces.push_back(T);
     }
 
-    void Collector::add_face_packed(
-        const Fvector& v0,
-        const Fvector& v1,
-        const Fvector& v2,   // vertices
-        u16            material,
-        u16            sector,   // misc
-        float          eps)
+    void Collector::add_face_packed(const Fvector& v0,
+        const Fvector&                             v1,
+        const Fvector&                             v2,   // vertices
+        u16                                        material,
+        u16                                        sector,   // misc
+        float                                      eps)
     {
         TRI T;
         T.verts[0] = VPack(v0, eps);
@@ -69,12 +67,11 @@ namespace CDB
         faces.push_back(T);
     }
 
-    void Collector::add_face_packed_D(
-        const Fvector& v0,
-        const Fvector& v1,
-        const Fvector& v2,   // vertices
-        u32            dummy,
-        float          eps)
+    void Collector::add_face_packed_D(const Fvector& v0,
+        const Fvector&                               v1,
+        const Fvector&                               v2,   // vertices
+        u32                                          dummy,
+        float                                        eps)
     {
         TRI T;
         T.verts[0] = VPack(v0, eps);
@@ -85,15 +82,15 @@ namespace CDB
     }
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
 #pragma pack(push, 1)
     struct edge
     {
-        u32 face_id : 30;
-        u32 edge_id : 2;
+        u32 face_id:30;
+        u32 edge_id:2;
         u16 vertex_id0;
         u16 vertex_id1;
     };
@@ -135,7 +132,7 @@ namespace CDB
         xr_vector<TRI>::const_iterator E = faces.end();
         for (; I != E; ++I)
         {
-            u32 face_id = u32(I - B);
+            u32 face_id     = u32(I - B);
 
             (*i).face_id    = face_id;
             (*i).edge_id    = 0;
@@ -267,23 +264,17 @@ namespace CDB
     }
     IC BOOL similar(TRI& T1, TRI& T2)
     {
-        if ((T1.verts[0] == T2.verts[0]) && (T1.verts[1] == T2.verts[1]) && (T1.verts[2] == T2.verts[2]) &&
-            (T1.dummy == T2.dummy))
+        if ((T1.verts[0] == T2.verts[0]) && (T1.verts[1] == T2.verts[1]) && (T1.verts[2] == T2.verts[2]) && (T1.dummy == T2.dummy))
             return TRUE;
-        if ((T1.verts[0] == T2.verts[0]) && (T1.verts[2] == T2.verts[1]) && (T1.verts[1] == T2.verts[2]) &&
-            (T1.dummy == T2.dummy))
+        if ((T1.verts[0] == T2.verts[0]) && (T1.verts[2] == T2.verts[1]) && (T1.verts[1] == T2.verts[2]) && (T1.dummy == T2.dummy))
             return TRUE;
-        if ((T1.verts[2] == T2.verts[0]) && (T1.verts[0] == T2.verts[1]) && (T1.verts[1] == T2.verts[2]) &&
-            (T1.dummy == T2.dummy))
+        if ((T1.verts[2] == T2.verts[0]) && (T1.verts[0] == T2.verts[1]) && (T1.verts[1] == T2.verts[2]) && (T1.dummy == T2.dummy))
             return TRUE;
-        if ((T1.verts[2] == T2.verts[0]) && (T1.verts[1] == T2.verts[1]) && (T1.verts[0] == T2.verts[2]) &&
-            (T1.dummy == T2.dummy))
+        if ((T1.verts[2] == T2.verts[0]) && (T1.verts[1] == T2.verts[1]) && (T1.verts[0] == T2.verts[2]) && (T1.dummy == T2.dummy))
             return TRUE;
-        if ((T1.verts[1] == T2.verts[0]) && (T1.verts[0] == T2.verts[1]) && (T1.verts[2] == T2.verts[2]) &&
-            (T1.dummy == T2.dummy))
+        if ((T1.verts[1] == T2.verts[0]) && (T1.verts[0] == T2.verts[1]) && (T1.verts[2] == T2.verts[2]) && (T1.dummy == T2.dummy))
             return TRUE;
-        if ((T1.verts[1] == T2.verts[0]) && (T1.verts[2] == T2.verts[1]) && (T1.verts[0] == T2.verts[2]) &&
-            (T1.dummy == T2.dummy))
+        if ((T1.verts[1] == T2.verts[0]) && (T1.verts[2] == T2.verts[1]) && (T1.verts[0] == T2.verts[2]) && (T1.dummy == T2.dummy))
             return TRUE;
         return FALSE;
     }
@@ -332,13 +323,12 @@ namespace CDB
                     VM[ix][iy][iz].reserve(_average);
     }
 
-    void CollectorPacked::add_face(
-        const Fvector& v0,
-        const Fvector& v1,
-        const Fvector& v2,   // vertices
-        u16            material,
-        u16            sector,
-        u32            _flags   // misc
+    void CollectorPacked::add_face(const Fvector& v0,
+        const Fvector&                            v1,
+        const Fvector&                            v2,   // vertices
+        u16                                       material,
+        u16                                       sector,
+        u32                                       _flags   // misc
     )
     {
         TRI T;
@@ -351,12 +341,11 @@ namespace CDB
         faces.push_back(T);
     }
 
-    void CollectorPacked::add_face_D(
-        const Fvector& v0,
-        const Fvector& v1,
-        const Fvector& v2,   // vertices
-        u32            dummy,
-        u32            _flags   // misc
+    void CollectorPacked::add_face_D(const Fvector& v0,
+        const Fvector&                              v1,
+        const Fvector&                              v2,   // vertices
+        u32                                         dummy,
+        u32                                         _flags   // misc
     )
     {
         TRI T;
@@ -368,12 +357,11 @@ namespace CDB
         flags.push_back(_flags);
     }
 
-    void CollectorPacked::add_face_D(
-        const Fvector& v0,
-        const Fvector& v1,
-        const Fvector& v2,   // vertices
-        void*          pointer,
-        u32            _flags   // misc
+    void CollectorPacked::add_face_D(const Fvector& v0,
+        const Fvector&                              v1,
+        const Fvector&                              v2,   // vertices
+        void*                                       pointer,
+        u32                                         _flags   // misc
     )
     {
         TRI T;

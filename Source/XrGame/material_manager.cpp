@@ -22,8 +22,8 @@ CMaterialManager::CMaterialManager(CObject* object, CPHMovementControl* movement
     VERIFY(movement_control);
     m_movement_control = movement_control;
 
-    m_my_material_idx = GAMEMTL_NONE_IDX;
-    m_run_mode        = false;
+    m_my_material_idx  = GAMEMTL_NONE_IDX;
+    m_run_mode         = false;
 }
 
 CMaterialManager::~CMaterialManager() {}
@@ -33,8 +33,7 @@ BOOL debug_character_material_load = FALSE;
 
 void CMaterialManager::Load(LPCSTR section)
 {
-    R_ASSERT3(
-        pSettings->line_exist(section, "material"), "Material not found in the section ", *(m_object->cNameSect()));
+    R_ASSERT3(pSettings->line_exist(section, "material"), "Material not found in the section ", *(m_object->cNameSect()));
     m_my_material_idx = GameMaterialLibrary->GetMaterialIdx(pSettings->r_string(section, "material"));
 
 #ifdef DEBUG
@@ -47,8 +46,7 @@ void CMaterialManager::Load(LPCSTR section)
             SGameMtl* m = GameMaterialLibrary->GetMaterialByIdx(m_my_material_idx);
 
             VERIFY(m);
-            Msg("(CMaterialManager::Load(LPCSTR section)) material: %s loaded for %s, from section: %s ",
-                m->m_Name.c_str(), entity_alive->cName().c_str(), section);
+            Msg("(CMaterialManager::Load(LPCSTR section)) material: %s loaded for %s, from section: %s ", m->m_Name.c_str(), entity_alive->cName().c_str(), section);
         }
     }
 #endif
@@ -56,9 +54,9 @@ void CMaterialManager::Load(LPCSTR section)
 
 void CMaterialManager::reinit()
 {
-    m_last_material_idx = GameMaterialLibrary->GetMaterialIdx("default");
-    m_step_id           = 0;
-    m_run_mode          = false;
+    m_last_material_idx        = GameMaterialLibrary->GetMaterialIdx("default");
+    m_step_id                  = 0;
+    m_run_mode                 = false;
 
     CEntityAlive* entity_alive = smart_cast<CEntityAlive*>(m_object);
     if (entity_alive)
@@ -78,8 +76,7 @@ void CMaterialManager::reinit()
             VERIFY(GAMEMTL_NONE_IDX != m_my_material_idx);
             SGameMtl* m = GameMaterialLibrary->GetMaterialByIdx(m_my_material_idx);
             VERIFY(m);
-            Msg("(CMaterialManager::reinit) material: %s loaded for %s ", m->m_Name.c_str(),
-                entity_alive->cName().c_str());
+            Msg("(CMaterialManager::reinit) material: %s loaded for %s ", m->m_Name.c_str(), entity_alive->cName().c_str());
         }
 #endif
     }
@@ -111,8 +108,8 @@ void CMaterialManager::update(float time_delta, float volume, float step_time, b
 
             if (snd_array.size() > 0)
             {
-                m_step_id      = ::Random.randI(0, snd_array.size());
-                m_time_to_step = step_time;
+                m_step_id               = ::Random.randI(0, snd_array.size());
+                m_time_to_step          = step_time;
 
                 m_step_sound[m_step_id] = snd_array[m_step_id];
                 m_step_sound[m_step_id].play_at_pos(m_object, position);

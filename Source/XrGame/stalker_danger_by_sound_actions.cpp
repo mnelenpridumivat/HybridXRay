@@ -20,10 +20,7 @@
 // CStalkerActionDangerBySoundListenTo
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerBySoundListenTo::CStalkerActionDangerBySoundListenTo(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerBySoundListenTo::CStalkerActionDangerBySoundListenTo(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerBySoundListenTo::initialize()
 {
@@ -53,10 +50,7 @@ void CStalkerActionDangerBySoundListenTo::finalize()
 // CStalkerActionDangerBySoundCheck
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerBySoundCheck::CStalkerActionDangerBySoundCheck(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerBySoundCheck::CStalkerActionDangerBySoundCheck(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerBySoundCheck::initialize()
 {
@@ -86,10 +80,7 @@ void CStalkerActionDangerBySoundCheck::finalize()
 // CStalkerActionDangerBySoundTakeCover
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerBySoundTakeCover::CStalkerActionDangerBySoundTakeCover(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerBySoundTakeCover::CStalkerActionDangerBySoundTakeCover(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerBySoundTakeCover::initialize()
 {
@@ -119,10 +110,7 @@ void CStalkerActionDangerBySoundTakeCover::finalize()
 // CStalkerActionDangerBySoundLookOut
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerBySoundLookOut::CStalkerActionDangerBySoundLookOut(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerBySoundLookOut::CStalkerActionDangerBySoundLookOut(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerBySoundLookOut::initialize()
 {
@@ -152,10 +140,7 @@ void CStalkerActionDangerBySoundLookOut::finalize()
 // CStalkerActionDangerBySoundLookAround
 //////////////////////////////////////////////////////////////////////////
 
-CStalkerActionDangerBySoundLookAround::CStalkerActionDangerBySoundLookAround(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerActionDangerBySoundLookAround::CStalkerActionDangerBySoundLookAround(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerActionDangerBySoundLookAround::initialize()
 {

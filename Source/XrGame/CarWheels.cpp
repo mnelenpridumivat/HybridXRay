@@ -16,12 +16,7 @@ CCar::SWheel::SWheelCollisionParams::SWheelCollisionParams()
     damping_factor = 1;
     mu_factor      = 1;
 }
-IC void CCar::SWheel::applywheelCollisionParams(
-    const dxGeomUserData* ud,
-    bool&                 do_colide,
-    dContact&             c,
-    SGameMtl*             material_1,
-    SGameMtl*             material_2)
+IC void CCar::SWheel::applywheelCollisionParams(const dxGeomUserData* ud, bool& do_colide, dContact& c, SGameMtl* material_1, SGameMtl* material_2)
 {
     if (ud && ud->object_callbacks && ud->object_callbacks->HasCallback(WheellCollisionCallback))
     {
@@ -32,12 +27,7 @@ IC void CCar::SWheel::applywheelCollisionParams(
     }
 }
 
-void CCar::SWheel::WheellCollisionCallback(
-    bool&     do_colide,
-    bool      bo1,
-    dContact& c,
-    SGameMtl* material_1,
-    SGameMtl* material_2)
+void CCar::SWheel::WheellCollisionCallback(bool& do_colide, bool bo1, dContact& c, SGameMtl* material_1, SGameMtl* material_2)
 {
     dxGeomUserData* ud1 = PHRetrieveGeomUserData(c.geom.g1);
     dxGeomUserData* ud2 = PHRetrieveGeomUserData(c.geom.g2);
@@ -88,12 +78,9 @@ void CCar::SWheel::Load(LPCSTR section)
     VERIFY(ini);
     if (ini->section_exist(section))
     {
-        collision_params.damping_factor =
-            READ_IF_EXISTS(ini, r_float, section, "damping_factor", collision_params.damping_factor);
-        collision_params.spring_factor =
-            READ_IF_EXISTS(ini, r_float, section, "spring_factor", collision_params.spring_factor);
-        collision_params.mu_factor =
-            READ_IF_EXISTS(ini, r_float, section, "friction_factor", collision_params.mu_factor);
+        collision_params.damping_factor = READ_IF_EXISTS(ini, r_float, section, "damping_factor", collision_params.damping_factor);
+        collision_params.spring_factor  = READ_IF_EXISTS(ini, r_float, section, "spring_factor", collision_params.spring_factor);
+        collision_params.mu_factor      = READ_IF_EXISTS(ini, r_float, section, "friction_factor", collision_params.mu_factor);
     }
     else if (ini->section_exist("wheels_params"))
     {
@@ -272,8 +259,7 @@ void CCar::SWheelSteer::Init()
     switch (bone_data.IK_data.type)
     {
         case jtWheel:
-            pos_right = bone_map.find(pwheel->bone_id)
-                            ->second.element->mXFORM.i.y;   //.dotproduct(pwheel->car->m_root_transform.j);
+            pos_right = bone_map.find(pwheel->bone_id)->second.element->mXFORM.i.y;   //.dotproduct(pwheel->car->m_root_transform.j);
             break;
 
         default:

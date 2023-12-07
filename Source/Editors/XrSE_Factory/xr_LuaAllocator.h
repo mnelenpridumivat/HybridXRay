@@ -58,7 +58,7 @@ extern "C"
 #ifndef USE_DL_PREFIX
     void* malloc(size_t);
 #else
-void*           dlmalloc(size_t);
+void* dlmalloc(size_t);
 #endif
 
 /*
@@ -75,7 +75,7 @@ void*           dlmalloc(size_t);
 #ifndef USE_DL_PREFIX
     void free(void*);
 #else
-void            dlfree(void*);
+void dlfree(void*);
 #endif
 
 /*
@@ -86,7 +86,7 @@ void            dlfree(void*);
 #ifndef USE_DL_PREFIX
     void* calloc(size_t, size_t);
 #else
-void*           dlcalloc(size_t, size_t);
+void* dlcalloc(size_t, size_t);
 #endif
 
     /*
@@ -119,7 +119,7 @@ void*           dlcalloc(size_t, size_t);
 #ifndef USE_DL_PREFIX
     void* realloc(void*, size_t);
 #else
-void*           dlrealloc(void*, size_t);
+void* dlrealloc(void*, size_t);
 #endif
 
     /*
@@ -138,7 +138,7 @@ void*           dlrealloc(void*, size_t);
 #ifndef USE_DL_PREFIX
     void* memalign(size_t, size_t);
 #else
-void*           dlmemalign(size_t, size_t);
+void* dlmemalign(size_t, size_t);
 #endif
 
     /*
@@ -151,7 +151,7 @@ void*           dlmemalign(size_t, size_t);
 #ifndef USE_DL_PREFIX
     void* valloc(size_t);
 #else
-void*           dlvalloc(size_t);
+void* dlvalloc(size_t);
 #endif
 
     /*
@@ -210,7 +210,7 @@ void*           dlvalloc(size_t);
 #ifndef USE_DL_PREFIX
     void** independent_calloc(size_t, size_t, void**);
 #else
-void**          dlindependent_calloc(size_t, size_t, void**);
+void** dlindependent_calloc(size_t, size_t, void**);
 #endif
 
     /*
@@ -276,7 +276,7 @@ void**          dlindependent_calloc(size_t, size_t, void**);
 #ifndef USE_DL_PREFIX
     void** independent_comalloc(size_t, size_t*, void**);
 #else
-void**          dlindependent_comalloc(size_t, size_t*, void**);
+void** dlindependent_comalloc(size_t, size_t*, void**);
 #endif
 
     /*
@@ -288,7 +288,7 @@ void**          dlindependent_comalloc(size_t, size_t*, void**);
 #ifndef USE_DL_PREFIX
     void* pvalloc(size_t);
 #else
-void*           dlpvalloc(size_t);
+void* dlpvalloc(size_t);
 #endif
 
     /*
@@ -303,7 +303,7 @@ void*           dlpvalloc(size_t);
 #ifndef USE_DL_PREFIX
     void cfree(void*);
 #else
-void            dlcfree(void*);
+void dlcfree(void*);
 #endif
 
     /*
@@ -334,7 +334,7 @@ void            dlcfree(void*);
 #ifndef USE_DL_PREFIX
     int malloc_trim(size_t);
 #else
-int             dlmalloc_trim(size_t);
+int dlmalloc_trim(size_t);
 #endif
 
     /*
@@ -355,7 +355,7 @@ int             dlmalloc_trim(size_t);
 #ifndef USE_DL_PREFIX
     size_t malloc_usable_size(void*);
 #else
-size_t          dlmalloc_usable_size(void*);
+size_t dlmalloc_usable_size(void*);
 #endif
 
     /*
@@ -381,7 +381,7 @@ size_t          dlmalloc_usable_size(void*);
 #ifndef USE_DL_PREFIX
     void malloc_stats();
 #else
-void            dlmalloc_stats();
+void dlmalloc_stats();
 #endif
 
     /*
@@ -471,7 +471,7 @@ struct mallinfo dlmallinfo(void);
 #ifndef USE_DL_PREFIX
     int mallopt(int, int);
 #else
-int             dlmallopt(int, int);
+int dlmallopt(int, int);
 #endif
 
     /* Descriptions of tuning options */

@@ -4,16 +4,16 @@
 
 #define LEVEL_LODS_TEX_NAME "level_lods"
 #define LEVEL_LODS_NRM_NAME "level_lods_nm"
-#define LEVEL_DI_TEX_NAME "level_stat"
+#define LEVEL_DI_TEX_NAME   "level_stat"
 
 class CSceneStat
 {
     Fvector bb_min;
     u32     bb_sx, bb_sz;
 
-    u32    max_svert;
-    U32Vec svertices;
-    u32&   svertex(u32 ix, u32 iz)
+    u32     max_svert;
+    U32Vec  svertices;
+    u32&    svertex(u32 ix, u32 iz)
     {
         VERIFY((ix < bb_sx) && (iz < bb_sz));
         return svertices[iz * bb_sx + ix];
@@ -67,9 +67,9 @@ public:
         U32Vec data(sx * sz);
         // prepare vertex info
         // find max
-        u32 ix, iz;
-        u32 total_svert  = 0;
-        u32 total_muvert = 0;
+        u32    ix, iz;
+        u32    total_svert  = 0;
+        u32    total_muvert = 0;
         for (ix = 0; ix < bb_sx; ix++)
         {
             for (iz = 0; iz < bb_sz; iz++)
@@ -175,10 +175,10 @@ void SceneBuilder::SaveBuildAsObject()
     b_texture_real* last_texture = NULL;
     for (idx = 0; idx < l_face_it; ++idx)
     {
-        const b_face& it = l_faces[idx];
+        const b_face&   it = l_faces[idx];
 
-        b_material&     m = l_materials[it.dwMaterial];
-        b_texture_real& t = l_textures[m.surfidx];
+        b_material&     m  = l_materials[it.dwMaterial];
+        b_texture_real& t  = l_textures[m.surfidx];
         if (last_texture != &t)
         {
             _splitpath(t.name, 0, 0, tex_name, 0);
@@ -216,10 +216,10 @@ void SceneBuilder::SaveBuildAsObject()
         // faces
         for (int fi = 0; fi < m.m_iFaceCount; ++fi)
         {
-            const b_face& it = m.m_pFaces[fi];
+            const b_face&   it = m.m_pFaces[fi];
 
-            b_material&     m = l_materials[it.dwMaterial];
-            b_texture_real& t = l_textures[m.surfidx];
+            b_material&     m  = l_materials[it.dwMaterial];
+            b_texture_real& t  = l_textures[m.surfidx];
             if (last_texture != &t)
             {
                 _splitpath(t.name, 0, 0, tex_name, 0);
@@ -417,7 +417,7 @@ void SceneBuilder::SaveBuild()
 
     for (int k = 0; k < (int)l_mu_models.size(); ++k)
     {
-         b_mu_model& m = l_mu_models[k];
+        b_mu_model& m = l_mu_models[k];
         // name
         F->w_stringZ(m.name);
         // vertices
@@ -500,7 +500,7 @@ float CalcArea(const Fvector& v0, const Fvector& v1, const Fvector& v2)
     float e2 = v0.distance_to(v2);
     float e3 = v1.distance_to(v2);
 
-    float p = (e1 + e2 + e3) / 2.f;
+    float p  = (e1 + e2 + e3) / 2.f;
     return _sqrt(p * (p - e1) * (p - e2) * (p - e3));
 }
 
@@ -540,10 +540,7 @@ BOOL GetStaticCformData(const Fmatrix& parent, CEditableMesh* mesh, CEditableObj
         for (IntIt f_it = face_lst.begin(); f_it != face_lst.end(); ++f_it)
         {
             st_Face& face = mesh->Faces()[*f_it];
-            float    _a   = CalcArea(
-                mesh->Vertices()[face.pv[0].pindex],
-                mesh->Vertices()[face.pv[1].pindex],
-                mesh->Vertices()[face.pv[2].pindex]);
+            float    _a   = CalcArea(mesh->Vertices()[face.pv[0].pindex], mesh->Vertices()[face.pv[1].pindex], mesh->Vertices()[face.pv[2].pindex]);
             if (!_valid(_a) || (_a < EPS))
             {
                 continue;
@@ -570,7 +567,7 @@ BOOL GetStaticCformData(const Fmatrix& parent, CEditableMesh* mesh, CEditableObj
                     second_face.material  = first_face.material;
                     for (int k = 0; k < 3; ++k)
                     {
-                        st_FaceVert& fv = face.pv[2 - k];
+                        st_FaceVert& fv      = face.pv[2 - k];
                         // vertex index
                         second_face.verts[k] = fv.pindex + point_offs;
                         // uv maps
@@ -709,7 +706,7 @@ BOOL SceneBuilder::BuildMesh(const Fmatrix& parent, CEditableObject* object, CEd
                     R_ASSERT2((fv.pindex + point_offs) < vert_it, "Index out of range");
                     first_face.v[k] = fv.pindex + point_offs;
                     // uv maps
-                    int offs = 0;
+                    int offs        = 0;
                     for (u32 t = 0; t < dwTexCnt; ++t)
                     {
                         st_VMapPt& vm_pt = mesh->m_VMRefs[fv.vmref].pts[t];
@@ -737,11 +734,11 @@ BOOL SceneBuilder::BuildMesh(const Fmatrix& parent, CEditableObject* object, CEd
 
                 for (int k = 0; k < 3; ++k)
                 {
-                    st_FaceVert& fv = face.pv[2 - k];
+                    st_FaceVert& fv  = face.pv[2 - k];
                     // vertex index
                     second_face.v[k] = fv.pindex + point_offs;
                     // uv maps
-                    int offs = 0;
+                    int offs         = 0;
                     for (u32 t = 0; t < dwTexCnt; t++)
                     {
                         st_VMapPt& vm_pt = mesh->m_VMRefs[fv.vmref].pts[t];
@@ -774,7 +771,7 @@ BOOL SceneBuilder::BuildObject(CSceneObject* obj)
     temp.sprintf("Building object: %s", obj->GetName());
     UI->SetStatus(temp.c_str());
 
-    Fmatrix T = obj->_Transform();
+    Fmatrix T  = obj->_Transform();
 
     Fmatrix cv = Fidentity;
 
@@ -802,7 +799,7 @@ BOOL SceneBuilder::BuildObject(CSceneObject* obj)
             Fvector        v_res1, v_res2;
             const Fvector& v_src = (*M)->m_Vertices[pt_id];
 
-            Fvector tmp;
+            Fvector        tmp;
             cv.transform_tiny(tmp, v_src);
             T.transform_tiny(v_res1, tmp);
 
@@ -844,11 +841,11 @@ BOOL SceneBuilder::BuildMUObject(CSceneObject* obj)
     temp.sprintf("Building object: %s", obj->GetName());
     UI->SetStatus(temp.c_str());
 
-    int model_idx = GetModelIdx(O->GetName());
+    int      model_idx = GetModelIdx(O->GetName());
 
     // detect sector
-    CSector* S        = PortalUtils.FindSector(obj, *O->FirstMesh());
-    int      sect_num = S ? S->m_sector_num : m_iDefaultSectorNum;
+    CSector* S         = PortalUtils.FindSector(obj, *O->FirstMesh());
+    int      sect_num  = S ? S->m_sector_num : m_iDefaultSectorNum;
 
     // build model
     if (-1 == model_idx || m_save_as_object)
@@ -877,11 +874,11 @@ BOOL SceneBuilder::BuildMUObject(CSceneObject* obj)
 
         if (m_save_as_object)
         {
-            T = obj->_Transform();
+            T          = obj->_Transform();
 
             Fmatrix cv = Fidentity;
 
-            cv.k.z = -1.f;
+            cv.k.z     = -1.f;
 
             Fmatrix TM;
 
@@ -903,7 +900,7 @@ BOOL SceneBuilder::BuildMUObject(CSceneObject* obj)
     R.model_index     = model_idx;
     R.transform       = obj->_Transform();
     R.flags.zero();
-    R.sector = (u16)sect_num;
+    R.sector      = (u16)sect_num;
 
     // scene statssm
     b_mu_model& M = l_mu_models[model_idx];
@@ -1102,13 +1099,13 @@ BOOL SceneBuilder::BuildLight(CLight* e)
     Fvector dir;
     dir.setHP(e->GetRotation().y, e->GetRotation().x);
     L.data.direction.set(dir);
-    L.data.range        = e->m_Range;
-    L.data.attenuation0 = e->m_Attenuation0;
-    L.data.attenuation1 = e->m_Attenuation1;
-    L.data.attenuation2 = e->m_Attenuation2;
-    L.data.phi          = e->m_Cone;
+    L.data.range                = e->m_Range;
+    L.data.attenuation0         = e->m_Attenuation0;
+    L.data.attenuation1         = e->m_Attenuation1;
+    L.data.attenuation2         = e->m_Attenuation2;
+    L.data.phi                  = e->m_Cone;
 
-    L.controller_ID = BuildLightControl(e->GetLControlName());   // BuildLightControl(LCONTROL_STATIC);
+    L.controller_ID             = BuildLightControl(e->GetLControlName());   // BuildLightControl(LCONTROL_STATIC);
 
     svector<u16, 16>* lpSectors = nullptr;
     if (e->m_Flags.is(ELight::flAffectDynamic))
@@ -1167,7 +1164,7 @@ BOOL SceneBuilder::BuildLight(CLight* e)
 BOOL SceneBuilder::BuildGlow(CGlow* e)
 {
     l_glows.push_back(b_glow());
-    b_glow& b = l_glows.back();
+    b_glow&    b = l_glows.back();
     // material
     b_material mtl;
     ZeroMemory(&mtl, sizeof(mtl));
@@ -1304,10 +1301,7 @@ int SceneBuilder::FindInMaterials(b_material* m)
 {
     for (u32 i = 0; i < l_materials.size(); i++)
     {
-        if ((l_materials[i].surfidx == m->surfidx) &&
-            (l_materials[i].shader == m->shader) &&
-            (l_materials[i].shader_xrlc == m->shader_xrlc) &&
-            (l_materials[i].sector == m->sector))
+        if ((l_materials[i].surfidx == m->surfidx) && (l_materials[i].shader == m->shader) && (l_materials[i].shader_xrlc == m->shader_xrlc) && (l_materials[i].sector == m->sector))
             return i;
     }
     return -1;
@@ -1420,7 +1414,7 @@ BOOL SceneBuilder::CompileStatic(bool b_selected_only)
         return FALSE;
     ESceneToolBase* pCurrentTool = Scene->GetOTool(cls);
 
-    BOOL bResult = TRUE;
+    BOOL            bResult      = TRUE;
 
     Clear();
 
@@ -1467,11 +1461,11 @@ BOOL SceneBuilder::CompileStatic(bool b_selected_only)
                 mt->GetStaticDesc(l_vert_cnt, l_face_cnt, b_selected_only, false);
         }
     }
-    l_faces    = xr_alloc<b_face>(l_face_cnt);
-    l_smgroups = xr_alloc<u32>(l_face_cnt);
-    l_verts    = xr_alloc<b_vertex>(l_vert_cnt);
+    l_faces                    = xr_alloc<b_face>(l_face_cnt);
+    l_smgroups                 = xr_alloc<u32>(l_face_cnt);
+    l_verts                    = xr_alloc<b_vertex>(l_vert_cnt);
 
-    l_scene_stat = xr_new<CSceneStat>(m_LevelBox);
+    l_scene_stat               = xr_new<CSceneStat>(m_LevelBox);
 
     // make hemisphere
     ESceneLightTool* lt        = dynamic_cast<ESceneLightTool*>(Scene->GetOTool(OBJCLASS_LIGHT));

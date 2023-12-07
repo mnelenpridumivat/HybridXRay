@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION            template<typename _Object>
 
 #define CStateMonsterHideFromPointAbstract CStateMonsterHideFromPoint<_Object>
-#define DIST_TO_PATH_END 1.5f
+#define DIST_TO_PATH_END                   1.5f
 
 TEMPLATE_SPECIALIZATION
 void CStateMonsterHideFromPointAbstract::initialize()

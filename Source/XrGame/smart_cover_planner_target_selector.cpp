@@ -56,35 +56,15 @@ void target_selector::update()
 
 void target_selector::add_evaluators()
 {
-    add_evaluator(
-        eWorldPropertyLookedOut,
-        xr_new<CPropertyEvaluatorMember<animation_planner>>(
-            (CPropertyStorage*)0, eWorldPropertyLookedOut, true, true, "looked out"));
-    add_evaluator(
-        eWorldPropertyLoopholeTooMuchTimeFiring,
-        xr_new<CPropertyEvaluatorMember<animation_planner>>(
-            (CPropertyStorage*)0, eWorldPropertyLoopholeTooMuchTimeFiring, true, true, "too much time firing"));
-    add_evaluator(
-        eWorldPropertyLoopholeLastHitWasLongAgo,
-        xr_new<evaluators::loophole_hit_long_ago_evaluator>(&object(), "last hit was long ago", 16000));
-    add_evaluator(
-        eWorldPropertyLoopholeCanLookout,
-        xr_new<evaluators::is_action_available_evaluator>(&object(), "can lookout", "lookout"));
-    add_evaluator(
-        eWorldPropertyLoopholeCanFire,
-        xr_new<evaluators::is_action_available_evaluator>(&object(), "can fire", "fire"));
-    add_evaluator(
-        eWorldPropertyLoopholeCanFireNoLookout,
-        xr_new<evaluators::is_action_available_evaluator>(&object(), "can fire_no_lookout", "fire_no_lookout"));
-    add_evaluator(
-        eWorldPropertyLoopholeUseDefaultBehaviour,
-        xr_new<evaluators::default_behaviour_evaluator>(&object(), "use default behaviour"));
-    add_evaluator(
-        eWorldPropertyLoopholeCanFireAtEnemy,
-        xr_new<evaluators::can_fire_at_enemy_evaluator>(&object(), "can fire at enemy"));
-    add_evaluator(
-        eWorldPropertyPlannerHasTarget,
-        xr_new<evaluators::loophole_planner_const_evaluator>(&object(), "loophole planner has target", false));
+    add_evaluator(eWorldPropertyLookedOut, xr_new<CPropertyEvaluatorMember<animation_planner>>((CPropertyStorage*)0, eWorldPropertyLookedOut, true, true, "looked out"));
+    add_evaluator(eWorldPropertyLoopholeTooMuchTimeFiring, xr_new<CPropertyEvaluatorMember<animation_planner>>((CPropertyStorage*)0, eWorldPropertyLoopholeTooMuchTimeFiring, true, true, "too much time firing"));
+    add_evaluator(eWorldPropertyLoopholeLastHitWasLongAgo, xr_new<evaluators::loophole_hit_long_ago_evaluator>(&object(), "last hit was long ago", 16000));
+    add_evaluator(eWorldPropertyLoopholeCanLookout, xr_new<evaluators::is_action_available_evaluator>(&object(), "can lookout", "lookout"));
+    add_evaluator(eWorldPropertyLoopholeCanFire, xr_new<evaluators::is_action_available_evaluator>(&object(), "can fire", "fire"));
+    add_evaluator(eWorldPropertyLoopholeCanFireNoLookout, xr_new<evaluators::is_action_available_evaluator>(&object(), "can fire_no_lookout", "fire_no_lookout"));
+    add_evaluator(eWorldPropertyLoopholeUseDefaultBehaviour, xr_new<evaluators::default_behaviour_evaluator>(&object(), "use default behaviour"));
+    add_evaluator(eWorldPropertyLoopholeCanFireAtEnemy, xr_new<evaluators::can_fire_at_enemy_evaluator>(&object(), "can fire at enemy"));
+    add_evaluator(eWorldPropertyPlannerHasTarget, xr_new<evaluators::loophole_planner_const_evaluator>(&object(), "loophole planner has target", false));
 }
 
 void target_selector::add_actions()

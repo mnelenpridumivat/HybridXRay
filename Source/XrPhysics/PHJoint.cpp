@@ -21,7 +21,7 @@
 const float hinge2_spring  = 20000.f;
 const float hinge2_damping = 1000.f;
 
-IC dBodyID body_for_joint(CPhysicsElement* ee)
+IC dBodyID  body_for_joint(CPhysicsElement* ee)
 {
     VERIFY(smart_cast<CPHElement*>(ee));
     CPHElement* e = static_cast<CPHElement*>(ee);
@@ -82,9 +82,9 @@ void CPHJoint::CreateHinge()
 {
     m_joint = dJointCreateHinge(0, 0);
 
-    Fvector pos;
-    Fmatrix first_matrix, second_matrix;
-    Fvector axis;
+    Fvector     pos;
+    Fmatrix     first_matrix, second_matrix;
+    Fvector     axis;
 
     CPHElement* first  = (pFirst_element);
     CPHElement* second = (pSecond_element);
@@ -1482,14 +1482,7 @@ u16 CPHJoint::GetAxesNumber()
 {
     return u16(axes.size());
 }
-void CPHJoint::CalcAxis(
-    int            ax_num,
-    Fvector&       axis,
-    float&         lo,
-    float&         hi,
-    const Fmatrix& first_matrix,
-    const Fmatrix& second_matrix,
-    const Fmatrix& rotate)
+void CPHJoint::CalcAxis(int ax_num, Fvector& axis, float& lo, float& hi, const Fmatrix& first_matrix, const Fmatrix& second_matrix, const Fmatrix& rotate)
 {
     switch (axes[ax_num].vs)
     {
@@ -1529,13 +1522,7 @@ void CPHJoint::CalcAxis(
     }
 }
 
-void CPHJoint::CalcAxis(
-    int            ax_num,
-    Fvector&       axis,
-    float&         lo,
-    float&         hi,
-    const Fmatrix& first_matrix,
-    const Fmatrix& second_matrix)
+void CPHJoint::CalcAxis(int ax_num, Fvector& axis, float& lo, float& hi, const Fmatrix& first_matrix, const Fmatrix& second_matrix)
 {
     switch (axes[ax_num].vs)
     {
@@ -1680,8 +1667,8 @@ CPHJoint::SPHAxis::SPHAxis()
     erp = world_erp;
     cfm = world_cfm;
 #else
-    erp   = 0.3f;
-    cfm   = 0.000001f;
+    erp = 0.3f;
+    cfm = 0.000001f;
 #endif
     direction.set(0, 0, 1);
     vs       = vs_first;

@@ -7,7 +7,7 @@ class CGameSpy_Available
 private:
     HMODULE m_hGameSpyDLL;
 
-    void LoadGameSpy(HMODULE hGameSpyDLL);
+    void    LoadGameSpy(HMODULE hGameSpyDLL);
 
 public:
     CGameSpy_Available();

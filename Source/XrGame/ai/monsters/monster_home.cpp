@@ -15,20 +15,8 @@
 
 void check_path(const CBaseMonster* monster, const CPatrolPath* path)
 {
-    VERIFY2(
-        ai().game_graph().vertex(path->vertices().begin()->second->data().game_vertex_id())->level_id() ==
-            ai().level_graph().level_id(),
-        make_string(
-            "invalid patrol path [%s] as home specified for monster [%s]\nmonster is on level %s\npatrol path is on level %s",
-            *path->m_name, *monster->cName(),
-            *ai().game_graph()
-                 .header()
-                 .level(ai().game_graph().vertex(monster->ai_location().game_vertex_id())->level_id())
-                 .name(),
-            *ai().game_graph()
-                 .header()
-                 .level(ai().game_graph().vertex(path->vertices().begin()->second->data().game_vertex_id())->level_id())
-                 .name()));
+    VERIFY2(ai().game_graph().vertex(path->vertices().begin()->second->data().game_vertex_id())->level_id() == ai().level_graph().level_id(),
+        make_string("invalid patrol path [%s] as home specified for monster [%s]\nmonster is on level %s\npatrol path is on level %s", *path->m_name, *monster->cName(), *ai().game_graph().header().level(ai().game_graph().vertex(monster->ai_location().game_vertex_id())->level_id()).name(), *ai().game_graph().header().level(ai().game_graph().vertex(path->vertices().begin()->second->data().game_vertex_id())->level_id()).name()));
 }
 #else   // DEBUG
 #define check_path(a, b)
@@ -53,8 +41,7 @@ void CMonsterHome::load(LPCSTR line)
         if (m_object->spawn_ini()->line_exist(line, "radius_max"))
             m_radius_max = m_object->spawn_ini()->r_float(line, "radius_max");
 
-        VERIFY3(
-            m_radius_max > m_radius_min, "Error: Wrong home point radius specified for monster ", *m_object->cName());
+        VERIFY3(m_radius_max > m_radius_min, "Error: Wrong home point radius specified for monster ", *m_object->cName());
 
         if (m_object->spawn_ini()->line_exist(line, "radius_middle"))
         {
@@ -160,8 +147,8 @@ u32 CMonsterHome::get_place_in_mid_home()
     u32                         input_node;
     const CPatrolPath::CVertex* vertex;
 
-    int   m_move_dist = min_move_dist + Random.randI(max_move_dist - min_move_dist);
-    float m_res_dist  = 0.f + m_move_dist;
+    int                         m_move_dist = min_move_dist + Random.randI(max_move_dist - min_move_dist);
+    float                       m_res_dist  = 0.f + m_move_dist;
     if (!at_mid_home(m_object->Position()) || at_min_home(m_object->Position()))
     {
         if (!m_path)
@@ -207,7 +194,8 @@ u32 CMonsterHome::get_place_in_mid_home()
             m_dest_direction.setHP(m_heading, m_pitch);
             m_dest_direction.mul(m_res_dist);
             m_dest_direction.add(m_object->Position(), m_dest_direction);
-        } while (!ai().level_graph().valid_vertex_position(m_dest_direction) && i <= 10);
+        }
+        while (!ai().level_graph().valid_vertex_position(m_dest_direction) && i <= 10);
         if (ai().level_graph().valid_vertex_position(m_dest_direction))
         {
             result     = ai().level_graph().vertex_id(m_dest_direction);
@@ -269,15 +257,14 @@ u32 CMonsterHome::get_place_in_max_home_to_direction(Fvector to_direction)
         m_dest_direction.x = m_home_point.x + m_res_dist * m_dest_direction.x;
         m_dest_direction.y = m_home_point.y + m_res_dist * m_dest_direction.y;
         m_dest_direction.z = m_home_point.z + m_res_dist * m_dest_direction.z;
-
-    } while (!ai().level_graph().valid_vertex_position(m_dest_direction) && i <= 10);
+    }
+    while (!ai().level_graph().valid_vertex_position(m_dest_direction) && i <= 10);
 
     if (ai().level_graph().valid_vertex_position(m_dest_direction))
         input_node = ai().level_graph().vertex_id(m_dest_direction);
 
     if (input_node != u32(-1))
-        m_object->control().path_builder().get_node_in_radius(
-            input_node, 1, (m_radius_max - m_radius_middle) / 2, 5, result);
+        m_object->control().path_builder().get_node_in_radius(input_node, 1, (m_radius_max - m_radius_middle) / 2, 5, result);
 
     if (result == u32(-1))
     {
@@ -314,19 +301,18 @@ u32 CMonsterHome::get_place_in_max_home_to_direction(Fvector to_direction)
                 m_dest_direction.x = m_home_point.x + m_res_dist * m_dest_direction.x;
                 m_dest_direction.y = m_home_point.y + m_res_dist * m_dest_direction.y;
                 m_dest_direction.z = m_home_point.z + m_res_dist * m_dest_direction.z;
-            } while (!ai().level_graph().valid_vertex_position(m_dest_direction) && i <= 10);
+            }
+            while (!ai().level_graph().valid_vertex_position(m_dest_direction) && i <= 10);
 
             if (ai().level_graph().valid_vertex_position(m_dest_direction))
                 input_node = ai().level_graph().vertex_id(m_dest_direction);
 
             if (input_node != u32(-1))
-                m_object->control().path_builder().get_node_in_radius(
-                    input_node, 1, (m_radius_max - m_radius_middle) / 2, 5, result);
+                m_object->control().path_builder().get_node_in_radius(input_node, 1, (m_radius_max - m_radius_middle) / 2, 5, result);
 
             if (result == u32(-1))
             {
-                if (ai().level_graph().valid_vertex_id(input_node) &&
-                    m_object->control().path_builder().accessible(input_node))
+                if (ai().level_graph().valid_vertex_id(input_node) && m_object->control().path_builder().accessible(input_node))
                 {
                     result = input_node;
                 }
@@ -381,17 +367,14 @@ u32 CMonsterHome::get_place()
     if (!m_path)
     {
         if (ai().level_graph().valid_vertex_id(m_level_vertex_id))
-            m_object->control().path_builder().get_node_in_radius(
-                m_level_vertex_id, m_radius_min, m_radius_min + (m_radius_max - m_radius_min) / 2, 5, result);
+            m_object->control().path_builder().get_node_in_radius(m_level_vertex_id, m_radius_min, m_radius_min + (m_radius_max - m_radius_min) / 2, 5, result);
 
         if (result == u32(-1))
         {
-            m_object->control().path_builder().get_node_in_radius(
-                m_object->ai_location().level_vertex_id(), 5, 15, 5, result);
+            m_object->control().path_builder().get_node_in_radius(m_object->ai_location().level_vertex_id(), 5, 15, 5, result);
             if (result == u32(-1))
             {
-                m_object->control().path_builder().get_node_in_radius(
-                    m_object->ai_location().level_vertex_id(), 2, 3, 10, result);
+                m_object->control().path_builder().get_node_in_radius(m_object->ai_location().level_vertex_id(), 2, 3, 10, result);
                 if (result == u32(-1))
                     return m_object->ai_location().level_vertex_id();
             }
@@ -405,9 +388,7 @@ u32 CMonsterHome::get_place()
         const CPatrolPath::CVertex* vertex = m_path->vertex(Random.randI(m_path->vertex_count()));
 
         // get_random node
-        m_object->control().path_builder().get_node_in_radius(
-            vertex->data().level_vertex_id(), m_radius_min, m_radius_min + (m_radius_max - m_radius_min) / 2, 5,
-            result);
+        m_object->control().path_builder().get_node_in_radius(vertex->data().level_vertex_id(), m_radius_min, m_radius_min + (m_radius_max - m_radius_min) / 2, 5, result);
         if (result == u32(-1))
         {
             // TODO: find more acceptable decision, than return its level_vertex_id, if !accessible
@@ -429,10 +410,7 @@ u32 CMonsterHome::get_place_in_cover()
     {
         if (ai().level_graph().valid_vertex_id(m_level_vertex_id))
         {
-            const CCoverPoint* point = m_object->CoverMan->find_cover(
-                ai().level_graph().vertex_position(m_level_vertex_id),
-                ai().level_graph().vertex_position(m_level_vertex_id), m_radius_min,
-                m_radius_min + (m_radius_max - m_radius_min) / 2);
+            const CCoverPoint* point = m_object->CoverMan->find_cover(ai().level_graph().vertex_position(m_level_vertex_id), ai().level_graph().vertex_position(m_level_vertex_id), m_radius_min, m_radius_min + (m_radius_max - m_radius_min) / 2);
             if (point)
                 return point->level_vertex_id();
         }
@@ -445,9 +423,7 @@ u32 CMonsterHome::get_place_in_cover()
         const CPatrolPath::CVertex* vertex = m_path->vertex(Random.randI(m_path->vertex_count()));
 
         // find cover
-        const CCoverPoint* point = m_object->CoverMan->find_cover(
-            vertex->data().position(), vertex->data().position(), m_radius_min,
-            m_radius_min + (m_radius_max - m_radius_min) / 2);
+        const CCoverPoint*          point  = m_object->CoverMan->find_cover(vertex->data().position(), vertex->data().position(), m_radius_min, m_radius_min + (m_radius_max - m_radius_min) / 2);
         if (point)
             return point->level_vertex_id();
     }
@@ -491,9 +467,9 @@ bool CMonsterHome::at_home(const Fvector& pos, float const radius)
         // check every point and distance to it
         for (u32 i = 0; i < m_path->vertex_count(); i++)
         {
-            const CPatrolPath::CVertex* vertex = m_path->vertex(i);
+            const CPatrolPath::CVertex* vertex       = m_path->vertex(i);
 
-            u32 const level_vertex = vertex->data().level_vertex_id();
+            u32 const                   level_vertex = vertex->data().level_vertex_id();
             if (!ai().level_graph().valid_vertex_id(level_vertex))
                 continue;
 

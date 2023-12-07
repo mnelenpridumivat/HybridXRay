@@ -119,29 +119,29 @@ public:
     {
         return TRUE;
     }
-    virtual void Die(CObject* who);
-    virtual void HitSignal(float amount, Fvector& vLocalDir, CObject* who, s16 element);
-    virtual void Hit(SHit* pHDS);
-    virtual void PHHit(SHit& H);
-    virtual void SelectAnimation(const Fvector& _view, const Fvector& _move, float speed);
+    virtual void      Die(CObject* who);
+    virtual void      HitSignal(float amount, Fvector& vLocalDir, CObject* who, s16 element);
+    virtual void      Hit(SHit* pHDS);
+    virtual void      PHHit(SHit& H);
+    virtual void      SelectAnimation(const Fvector& _view, const Fvector& _move, float speed);
 
-    virtual void Load(LPCSTR section);
+    virtual void      Load(LPCSTR section);
 
     // must be called at the end of most derived's Load
-    virtual void PostLoad(LPCSTR section);
+    virtual void      PostLoad(LPCSTR section);
 
     virtual DLL_Pure* _construct();
 
-    virtual BOOL net_Spawn(CSE_Abstract* DC);
-    virtual void net_Destroy();
-    virtual void net_Save(NET_Packet& P);
-    virtual BOOL net_SaveRelevant();
-    virtual void net_Export(NET_Packet& P);
-    virtual void net_Import(NET_Packet& P);
-    virtual void net_Relcase(CObject* O);
+    virtual BOOL      net_Spawn(CSE_Abstract* DC);
+    virtual void      net_Destroy();
+    virtual void      net_Save(NET_Packet& P);
+    virtual BOOL      net_SaveRelevant();
+    virtual void      net_Export(NET_Packet& P);
+    virtual void      net_Import(NET_Packet& P);
+    virtual void      net_Relcase(CObject* O);
 
     // save/load server serialization
-    virtual void save(NET_Packet& output_packet)
+    virtual void      save(NET_Packet& output_packet)
     {
         inherited::save(output_packet);
     }
@@ -150,27 +150,26 @@ public:
         inherited::load(input_packet);
     }
 
-    virtual void UpdateCL();
-    virtual void shedule_Update(u32 dt);
+    virtual void  UpdateCL();
+    virtual void  shedule_Update(u32 dt);
 
-    virtual void InitThink() {}
-    virtual void Think();
-    virtual void reinit();
-    virtual void reload(LPCSTR section);
+    virtual void  InitThink() {}
+    virtual void  Think();
+    virtual void  reinit();
+    virtual void  reload(LPCSTR section);
 
-    virtual void init() {}
+    virtual void  init() {}
 
-    virtual void
-        feel_sound_new(CObject* who, int eType, CSound_UserDataPtr user_data, const Fvector& Position, float power);
-    virtual BOOL feel_vision_isRelevant(CObject* O);
-    virtual BOOL feel_touch_on_contact(CObject* O);
-    virtual BOOL feel_touch_contact(CObject*);
+    virtual void  feel_sound_new(CObject* who, int eType, CSound_UserDataPtr user_data, const Fvector& Position, float power);
+    virtual BOOL  feel_vision_isRelevant(CObject* O);
+    virtual BOOL  feel_touch_on_contact(CObject* O);
+    virtual BOOL  feel_touch_contact(CObject*);
 
     virtual bool  useful(const CItemManager* manager, const CGameObject* object) const;
     virtual float evaluate(const CItemManager* manager, const CGameObject* object) const;
 
-    virtual void OnEvent(NET_Packet& P, u16 type);
-    virtual void OnHUDDraw(CCustomHUD* hud)
+    virtual void  OnEvent(NET_Packet& P, u16 type);
+    virtual void  OnHUDDraw(CCustomHUD* hud)
     {
         return inherited::OnHUDDraw(hud);
     }
@@ -218,13 +217,7 @@ public:
         return false;
     }
 
-    virtual void HitEntity(
-        const CEntity*  pEntity,
-        float           fDamage,
-        float           impulse,
-        Fvector&        dir,
-        ALife::EHitType hit_type       = ALife::eHitTypeWound,
-        bool            draw_hit_marks = true);
+    virtual void HitEntity(const CEntity* pEntity, float fDamage, float impulse, Fvector& dir, ALife::EHitType hit_type = ALife::eHitTypeWound, bool draw_hit_marks = true);
 
     virtual void HitEntityInJump(const CEntity* pEntity) {}
 
@@ -233,37 +226,37 @@ public:
     {
         return 0.5f;
     }
-    void ChangeSatiety(float v) {}
+    void             ChangeSatiety(float v) {}
     // ---------------------------------------------------------------------------------
     // Process scripts
     // ---------------------------------------------------------------------------------
-    virtual bool bfAssignMovement(CScriptEntityAction* tpEntityAction);
-    bool         AssignGamePathIfNeeded(Fvector target_pos, u32 level_vertex);
-    virtual bool bfAssignObject(CScriptEntityAction* tpEntityAction);
-    virtual bool bfAssignWatch(CScriptEntityAction* tpEntityAction);
-    virtual bool bfAssignAnimation(CScriptEntityAction* tpEntityAction);
-    virtual bool bfAssignMonsterAction(CScriptEntityAction* tpEntityAction);
-    virtual bool bfAssignSound(CScriptEntityAction* tpEntityAction);
+    virtual bool     bfAssignMovement(CScriptEntityAction* tpEntityAction);
+    bool             AssignGamePathIfNeeded(Fvector target_pos, u32 level_vertex);
+    virtual bool     bfAssignObject(CScriptEntityAction* tpEntityAction);
+    virtual bool     bfAssignWatch(CScriptEntityAction* tpEntityAction);
+    virtual bool     bfAssignAnimation(CScriptEntityAction* tpEntityAction);
+    virtual bool     bfAssignMonsterAction(CScriptEntityAction* tpEntityAction);
+    virtual bool     bfAssignSound(CScriptEntityAction* tpEntityAction);
 
-    virtual void vfFinishAction(CScriptEntityAction* tpEntityAction);
+    virtual void     vfFinishAction(CScriptEntityAction* tpEntityAction);
 
-    virtual void ProcessScripts();
+    virtual void     ProcessScripts();
 
     virtual CEntity* GetCurrentEnemy();
     virtual CEntity* GetCurrentCorpse();
     virtual int      get_enemy_strength();
 
-    virtual void SetScriptControl(const bool bScriptControl, shared_str caSciptName);
+    virtual void     SetScriptControl(const bool bScriptControl, shared_str caSciptName);
 
-    virtual void SetEnemy(const CEntityAlive* sent);
-    bool         m_force_real_speed;
-    bool         m_script_processing_active;
-    bool         m_script_state_must_execute;
+    virtual void     SetEnemy(const CEntityAlive* sent);
+    bool             m_force_real_speed;
+    bool             m_script_processing_active;
+    bool             m_script_state_must_execute;
 
-    virtual void jump(const Fvector& position, float factor) {}
+    virtual void     jump(const Fvector& position, float factor) {}
 
-    bool    m_skip_transfer_enemy;
-    IC void skip_transfer_enemy(bool value)
+    bool             m_skip_transfer_enemy;
+    IC void          skip_transfer_enemy(bool value)
     {
         m_skip_transfer_enemy = value;
     }
@@ -280,10 +273,8 @@ public:
     // установка специфических анимаций
     virtual void CheckSpecParams(u32 /**spec_params/**/) {}
     virtual void ForceFinalAnimation() {}
-    virtual void LookPosition(
-        Fvector to_point,
-        float   angular_speed =
-            PI_DIV_3);   // каждый монстр может по-разному реализвать эту функ (e.g. кровосос с поворотом головы и т.п.)
+    virtual void LookPosition(Fvector to_point,
+        float                         angular_speed = PI_DIV_3);   // каждый монстр может по-разному реализвать эту функ (e.g. кровосос с поворотом головы и т.п.)
 
     // Team
     virtual void ChangeTeam(int team, int squad, int group);
@@ -337,28 +328,16 @@ public:
     virtual void on_threaten_execute() {}
     // ---------------------------------------------------------------------------------
     // Memory
-    void UpdateMemory();
+    void         UpdateMemory();
 
     // Cover
-    bool GetCorpseCover(Fvector& position, u32& vertex_id);
-    bool GetCoverFromEnemy(const Fvector& enemy_pos, Fvector& position, u32& vertex_id);
-    bool GetCoverFromPoint(
-        const Fvector& pos,
-        Fvector&       position,
-        u32&           vertex_id,
-        float          min_dist,
-        float          max_dist,
-        float          radius);
-    bool GetCoverCloseToPoint(
-        const Fvector& dest_pos,
-        float          min_dist,
-        float          max_dist,
-        float          deviation,
-        float          radius,
-        Fvector&       position,
-        u32&           vertex_id);
+    bool         GetCorpseCover(Fvector& position, u32& vertex_id);
+    bool         GetCoverFromEnemy(const Fvector& enemy_pos, Fvector& position, u32& vertex_id);
+    bool         GetCoverFromPoint(const Fvector& pos, Fvector& position, u32& vertex_id, float min_dist, float max_dist, float radius);
+    bool         GetCoverCloseToPoint(const Fvector& dest_pos, float min_dist, float max_dist, float deviation, float radius, Fvector& position, u32& vertex_id);
 
     // Movement Manager
+
 protected:
     CControlPathBuilder* m_movement_manager;
 
@@ -366,6 +345,7 @@ protected:
     virtual CMovementManager* create_movement_manager();
 
     // members
+
 public:
     void set_force_anti_aim(bool force_anti_aim)
     {
@@ -381,55 +361,55 @@ public:
     ref_smem<SMonsterSettings> m_base_settings;
     ref_smem<SMonsterSettings> m_current_settings;
 
-    void settings_read(CInifile const* ini, LPCSTR section, SMonsterSettings& data);
-    void settings_load(LPCSTR section);
-    void settings_overrides();
+    void                       settings_read(CInifile const* ini, LPCSTR section, SMonsterSettings& data);
+    void                       settings_load(LPCSTR section);
+    void                       settings_overrides();
 
-    SMonsterSettings& db()
+    SMonsterSettings&          db()
     {
         return *(*m_current_settings);
     }
     // --------------------------------------------------------------------------------------
 
-    CCharacterPhysicsSupport* m_pPhysics_support;
+    CCharacterPhysicsSupport*     m_pPhysics_support;
 
     CMonsterCorpseCoverEvaluator* m_corpse_cover_evaluator;
     CCoverEvaluatorFarFromEnemy*  m_enemy_cover_evaluator;
     CCoverEvaluatorCloseToEnemy*  m_cover_evaluator_close_point;
 
     // ---------------------------------------------------------------------------------
-    IStateManagerBase* StateMan;
+    IStateManagerBase*            StateMan;
     // ---------------------------------------------------------------------------------
 
-    CMonsterEnemyMemory  EnemyMemory;
-    CMonsterSoundMemory  SoundMemory;
-    CMonsterCorpseMemory CorpseMemory;
-    CMonsterHitMemory    HitMemory;
+    CMonsterEnemyMemory           EnemyMemory;
+    CMonsterSoundMemory           SoundMemory;
+    CMonsterCorpseMemory          CorpseMemory;
+    CMonsterHitMemory             HitMemory;
 
-    CMonsterEnemyManager  EnemyMan;
-    CMonsterCorpseManager CorpseMan;
+    CMonsterEnemyManager          EnemyMan;
+    CMonsterCorpseManager         CorpseMan;
 
-    const CEntityAlive* EatedCorpse;
+    const CEntityAlive*           EatedCorpse;
     // Lain: added
-    bool         check_eated_corpse_draggable();
-    virtual bool is_base_monster_with_enemy()
+    bool                          check_eated_corpse_draggable();
+    virtual bool                  is_base_monster_with_enemy()
     {
         return EnemyMan.get_enemy() != NULL;
     }
 
-    bool hear_dangerous_sound;
-    bool hear_interesting_sound;
+    bool                   hear_dangerous_sound;
+    bool                   hear_interesting_sound;
 
     // -----------------------------------------------------------------------------
-    CMonsterEventManager EventMan;
+    CMonsterEventManager   EventMan;
     // -----------------------------------------------------------------------------
 
-    CMeleeChecker  MeleeChecker;
-    CMonsterMorale Morale;
+    CMeleeChecker          MeleeChecker;
+    CMonsterMorale         Morale;
 
     // -----------------------------------------------------------------------------
 
-    CMonsterCoverManager* CoverMan;
+    CMonsterCoverManager*  CoverMan;
 
     // -----------------------------------------------------------------------------
 
@@ -449,6 +429,7 @@ public:
 
     // -----------------------------------------------------------------------------
     // Anomaly Detector
+
 private:
     CAnomalyDetector* m_anomaly_detector;
     bool              m_force_anti_aim;
@@ -470,21 +451,22 @@ public:
     //--------------------------------------------------------------------
     // Berserk
     //--------------------------------------------------------------------
+
 public:
     u32     time_berserk_start;
     IC void set_berserk()
     {
         time_berserk_start = time();
     }
-    bool berserk_always;
+    bool              berserk_always;
 
     //--------------------------------------------------------------------
     // Panic Threshold (extension for scripts)
     //--------------------------------------------------------------------
 
-    float   m_default_panic_threshold;
-    IC void set_custom_panic_threshold(float value);
-    IC void set_default_panic_threshold();
+    float             m_default_panic_threshold;
+    IC void           set_custom_panic_threshold(float value);
+    IC void           set_default_panic_threshold();
     //--------------------------------------------------------------------
 
     //////////////////////////////////////////////////////////////////////////
@@ -494,35 +476,30 @@ public:
     void              on_kill_enemy(const CEntity* obj);
     void              Hit_Psy(CObject* object, float value);
     void              Hit_Wound(CObject* object, float value, const Fvector& dir, float impulse);
-    CParticlesObject* PlayParticles(
-        const shared_str& name,
-        const Fvector&    position,
-        const Fvector&    dir,
-        BOOL              auto_remove = TRUE,
-        BOOL              xformed     = TRUE);
-    void load_effector(LPCSTR section, LPCSTR line, SAttackEffector& effector);
+    CParticlesObject* PlayParticles(const shared_str& name, const Fvector& position, const Fvector& dir, BOOL auto_remove = TRUE, BOOL xformed = TRUE);
+    void              load_effector(LPCSTR section, LPCSTR line, SAttackEffector& effector);
 
     // --------------------------------------------------------------------------------------
     // Kill From Here
     // --------------------------------------------------------------------------------------
     // State flags
-    bool m_bDamaged;
-    bool m_bAngry;
-    bool m_bGrowling;
-    bool m_bAggressive;
-    bool m_bSleep;
-    bool m_bRunTurnLeft;
-    bool m_bRunTurnRight;
+    bool              m_bDamaged;
+    bool              m_bAngry;
+    bool              m_bGrowling;
+    bool              m_bAggressive;
+    bool              m_bSleep;
+    bool              m_bRunTurnLeft;
+    bool              m_bRunTurnRight;
 
-    void set_aggressive(bool val = true)
+    void              set_aggressive(bool val = true)
     {
         m_bAggressive = val;
     }
 
     //---------------------------------------------------------------------------------------
 
-    u32         m_prev_sound_type;
-    virtual u32 get_attack_rebuild_time();
+    u32                m_prev_sound_type;
+    virtual u32        get_attack_rebuild_time();
 
     IC virtual EAction CustomVelocityIndex2Action(u32 velocity_index)
     {
@@ -530,11 +507,11 @@ public:
     }
     virtual void TranslateActionToPathParams();
 
-    bool state_invisible;
+    bool         state_invisible;
 
-    void    set_action(EAction action);
-    void    set_state_sound(u32 type, bool once = false);
-    IC void fall_asleep()
+    void         set_action(EAction action);
+    void         set_state_sound(u32 type, bool once = false);
+    IC void      fall_asleep()
     {
         m_bSleep = true;
     }
@@ -591,16 +568,16 @@ public:
     virtual void on_activate_control(ControlCom::EControlType) {}
 
 protected:
-    CControl_Manager* m_control_manager;
+    CControl_Manager*        m_control_manager;
 
     CControlAnimationBase*   m_anim_base;
     CControlMovementBase*    m_move_base;
     CControlPathBuilderBase* m_path_base;
     CControlDirectionBase*   m_dir_base;
 
-    CControlManagerCustom m_com_manager;
+    CControlManagerCustom    m_com_manager;
 
-    virtual void create_base_controls();
+    virtual void             create_base_controls();
 
     //////////////////////////////////////////////////////////////////////////
     // Critical Wounded
@@ -616,13 +593,14 @@ protected:
     virtual bool critical_wound_external_conditions_suitable();
     virtual void critical_wounded_state_start();
 
-    void fill_bones_body_parts(LPCSTR body_part, CriticalWoundType wound_type);
+    void         fill_bones_body_parts(LPCSTR body_part, CriticalWoundType wound_type);
 
-    LPCSTR m_critical_wound_anim_head;
-    LPCSTR m_critical_wound_anim_torso;
-    LPCSTR m_critical_wound_anim_legs;
+    LPCSTR       m_critical_wound_anim_head;
+    LPCSTR       m_critical_wound_anim_torso;
+    LPCSTR       m_critical_wound_anim_legs;
 
     //////////////////////////////////////////////////////////////////////////
+
 public:
     virtual char* get_monster_class_name() = 0;
 
@@ -630,7 +608,7 @@ public:
 // DEBUG stuff
 #ifdef DEBUG
 
-    template <class Type> bool get_debug_var(pcstr var_name, OUT Type& result);
+    template<class Type> bool get_debug_var(pcstr var_name, OUT Type& result);
 
 public:
     struct SDebugInfo
@@ -643,10 +621,7 @@ public:
         u32   delimiter_color;
 
         SDebugInfo(): active(false) {}
-        SDebugInfo(float px, float py, float dy, u32 c, u32 dc):
-            active(true), x(px), y(py), delta_y(dy), color(c), delimiter_color(dc)
-        {
-        }
+        SDebugInfo(float px, float py, float dy, u32 c, u32 dc): active(true), x(px), y(py), delta_y(dy), color(c), delimiter_color(dc) {}
     };
 
     u8   m_show_debug_info;   // 0 - none, 1 - first column, 2 - second column
@@ -657,7 +632,7 @@ public:
     virtual SDebugInfo show_debug_info();
     virtual void       add_debug_info(debug::text_tree& root_s);
 
-    void debug_fsm();
+    void               debug_fsm();
 #endif
 
 #ifdef _DEBUG
@@ -679,10 +654,11 @@ public:
     //-------------------------------------------------------------------
     // CBaseMonster's      Steering Behaviour
     //-------------------------------------------------------------------
+
 public:
     steering_behaviour::manager* get_steer_manager();
 
-    float get_feel_enemy_who_just_hit_max_distance()
+    float                        get_feel_enemy_who_just_hit_max_distance()
     {
         return m_feel_enemy_who_just_hit_max_distance;
     }
@@ -703,19 +679,20 @@ private:
     steering_behaviour::manager* m_steer_manager;
     squad_grouping_behaviour*    m_grouping_behaviour;   // freed by manager
 
-    void update_enemy_accessible_and_at_home_info();
+    void                         update_enemy_accessible_and_at_home_info();
     // updates position by applying little "pushing" force
     // so that monsters rarely intersect
-    void  update_pos_by_grouping_behaviour();
-    TTime m_last_grouping_behaviour_update_tick;
+    void                         update_pos_by_grouping_behaviour();
+    TTime                        m_last_grouping_behaviour_update_tick;
 
-    float m_feel_enemy_who_made_sound_max_distance;
-    float m_feel_enemy_who_just_hit_max_distance;
-    float m_feel_enemy_max_distance;
+    float                        m_feel_enemy_who_made_sound_max_distance;
+    float                        m_feel_enemy_who_just_hit_max_distance;
+    float                        m_feel_enemy_max_distance;
 
     //-------------------------------------------------------------------
     // CBaseMonster's  Atack on Move Parameters
     //-------------------------------------------------------------------
+
 public:
     struct attack_on_move_params_t
     {
@@ -738,18 +715,19 @@ public:
     float get_attack_on_move_prepare_radius();
     float get_attack_on_move_prepare_time();
 
-    bool enemy_accessible();
-    bool at_home();
+    bool  enemy_accessible();
+    bool  at_home();
 
 protected:
     attack_on_move_params_t m_attack_on_move_params;
 
 public:
-    template <class Type> Type override_if_debug(pcstr var_name, Type value);
+    template<class Type> Type override_if_debug(pcstr var_name, Type value);
 
     //-------------------------------------------------------------------
     // CBaseMonster's  Auras
     //-------------------------------------------------------------------
+
 public:
     float get_psy_influence();
     float get_radiation_influence();
@@ -771,8 +749,8 @@ protected:
     //-------------------------------------------------------------------
     // CBaseMonster's  protections
     //-------------------------------------------------------------------
-    float m_fSkinArmor;
-    float m_fHitFracMonster;
+    float             m_fSkinArmor;
+    float             m_fHitFracMonster;
 
 private:
     pcstr      m_head_bone_name;
@@ -797,8 +775,8 @@ public:
     virtual void on_attack_on_run_hit() {}
 
 private:
-    void  update_eyes_visibility();
-    float get_screen_space_coverage_diagonal();
+    void    update_eyes_visibility();
+    float   get_screen_space_coverage_diagonal();
 
     void    GenerateNewOffsetFromLeader();
     u32     m_offset_from_leader_chosen_tick;
@@ -809,9 +787,9 @@ private:
     Fvector m_action_target_pos;
     u32     m_action_target_node;
 
-    TTime m_first_tick_enemy_inaccessible;
-    TTime m_last_tick_enemy_inaccessible;
-    TTime m_first_tick_object_not_at_home;
+    TTime   m_first_tick_enemy_inaccessible;
+    TTime   m_last_tick_enemy_inaccessible;
+    TTime   m_first_tick_object_not_at_home;
 
 public:
     virtual bool run_home_point_when_enemy_inaccessible() const
@@ -831,7 +809,7 @@ public:
 #include "../../../ai_debug_variables.h"
 
 #ifdef DEBUG
-template <class Type> bool CBaseMonster::get_debug_var(pcstr var_name, OUT Type& result)
+template<class Type> bool CBaseMonster::get_debug_var(pcstr var_name, OUT Type& result)
 {
     char* full_var_name;
     STRCONCAT(full_var_name, get_monster_class_name(), "_", var_name);
@@ -839,7 +817,7 @@ template <class Type> bool CBaseMonster::get_debug_var(pcstr var_name, OUT Type&
 }
 #endif   // DEBUG
 
-template <class Type> Type CBaseMonster::override_if_debug(pcstr var_name, Type value)
+template<class Type> Type CBaseMonster::override_if_debug(pcstr var_name, Type value)
 {
 #ifdef DEBUG
     Type debug_value;

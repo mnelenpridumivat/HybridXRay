@@ -22,6 +22,7 @@ class CScriptValueContainer
 {
 protected:
     xr_vector<CScriptValue*> m_values;
+
 public:
     virtual ~CScriptValueContainer();
     IC void assign();

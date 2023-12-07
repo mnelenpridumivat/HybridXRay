@@ -16,10 +16,7 @@
 using XrWeatherEditor::environment::ambients::effect_id;
 using XrWeatherEditor::environment::effects::manager;
 
-effect_id::effect_id(effects::manager const& manager, shared_str const& id):
-    m_manager(manager), m_id(id), m_property_holder(0)
-{
-}
+effect_id::effect_id(effects::manager const& manager, shared_str const& id): m_manager(manager), m_id(id), m_property_holder(0) {}
 
 effect_id::~effect_id()
 {
@@ -52,10 +49,7 @@ void effect_id::fill(XrWeatherEditor::property_holder_collection* collection)
     collection_size_getter_type                                                  collection_size_getter;
     collection_size_getter.bind(this, &effect_id::collection_size);
 
-    m_property_holder->add_property(
-        "effect", "properties", "this option is resposible for effect", m_id.c_str(), m_id, collection_getter,
-        collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box,
-        XrWeatherEditor::property_holder::cannot_enter_text);
+    m_property_holder->add_property("effect", "properties", "this option is resposible for effect", m_id.c_str(), m_id, collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
 }
 
 effect_id::property_holder_type* effect_id::object()

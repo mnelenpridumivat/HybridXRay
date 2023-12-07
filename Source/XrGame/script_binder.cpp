@@ -92,9 +92,7 @@ void CScriptBinder::reload(LPCSTR section)
     luabind::functor<void> lua_function;
     if (!ai().script_engine().functor(pSettings->r_string(section, "script_binding"), lua_function))
     {
-        ai().script_engine().script_log(
-            ScriptStorage::eLuaMessageTypeError, "function %s is not loaded!",
-            pSettings->r_string(section, "script_binding"));
+        ai().script_engine().script_log(ScriptStorage::eLuaMessageTypeError, "function %s is not loaded!", pSettings->r_string(section, "script_binding"));
         return;
     }
 
@@ -170,8 +168,7 @@ void CScriptBinder::net_Destroy()
     if (m_object)
     {
 #ifdef _DEBUG
-        Msg("* Core object %s is UNbinded from the script object",
-            smart_cast<CGameObject*>(this) ? *smart_cast<CGameObject*>(this)->cName() : "");
+        Msg("* Core object %s is UNbinded from the script object", smart_cast<CGameObject*>(this) ? *smart_cast<CGameObject*>(this)->cName() : "");
 #endif   // _DEBUG
         try
         {
@@ -191,8 +188,7 @@ void CScriptBinder::set_object(CScriptBinderObject* object)
     {
         VERIFY2(!m_object, "Cannot bind to the object twice!");
 #ifdef _DEBUG
-        Msg("* Core object %s is binded with the script object",
-            smart_cast<CGameObject*>(this) ? *smart_cast<CGameObject*>(this)->cName() : "");
+        Msg("* Core object %s is binded with the script object", smart_cast<CGameObject*>(this) ? *smart_cast<CGameObject*>(this)->cName() : "");
 #endif   // _DEBUG
         m_object = object;
     }

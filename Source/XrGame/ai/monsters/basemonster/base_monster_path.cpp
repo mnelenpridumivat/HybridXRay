@@ -54,13 +54,7 @@ bool CBaseMonster::GetCoverFromEnemy(const Fvector& enemy_pos, Fvector& position
     return true;
 }
 
-bool CBaseMonster::GetCoverFromPoint(
-    const Fvector& pos,
-    Fvector&       position,
-    u32&           vertex_id,
-    float          min_dist,
-    float          max_dist,
-    float          radius)
+bool CBaseMonster::GetCoverFromPoint(const Fvector& pos, Fvector& position, u32& vertex_id, float min_dist, float max_dist, float radius)
 {
     m_enemy_cover_evaluator->setup(pos, min_dist, max_dist);
     const CCoverPoint* point = ai().cover_manager().best_cover(Position(), radius, *m_enemy_cover_evaluator);
@@ -72,14 +66,7 @@ bool CBaseMonster::GetCoverFromPoint(
     return true;
 }
 
-bool CBaseMonster::GetCoverCloseToPoint(
-    const Fvector& dest_pos,
-    float          min_dist,
-    float          max_dist,
-    float          deviation,
-    float          radius,
-    Fvector&       position,
-    u32&           vertex_id)
+bool CBaseMonster::GetCoverCloseToPoint(const Fvector& dest_pos, float min_dist, float max_dist, float deviation, float radius, Fvector& position, u32& vertex_id)
 {
     m_cover_evaluator_close_point->setup(dest_pos, min_dist, max_dist, deviation);
     const CCoverPoint* point = ai().cover_manager().best_cover(Position(), radius, *m_cover_evaluator_close_point);

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * OpenAL cross platform audio library
  * Copyright (C) 1999-2000 by authors.
  * This library is free software; you can redistribute it and/or
@@ -22,11 +22,8 @@
 #pragma warning(disable:4005 4100)
 #endif
 
-
-
 #include <windows.h>
 #include "OpenAL32.h"
-
 
 //*****************************************************************************
 // DllMain
@@ -37,7 +34,7 @@ BOOL APIENTRY DllMain(HANDLE module, DWORD reason, LPVOID reserved)
     BOOL result = TRUE;
 
     // Perform actions based on the reason for calling.
-    switch(reason)
+    switch (reason)
     {
         case DLL_PROCESS_ATTACH:
             // Create the context list lock so I can safely add/remove contexts.
@@ -61,4 +58,3 @@ BOOL APIENTRY DllMain(HANDLE module, DWORD reason, LPVOID reserved)
 
     return TRUE;
 }
-

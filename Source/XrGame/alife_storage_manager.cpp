@@ -36,12 +36,10 @@ CALifeStorageManager::~CALifeStorageManager()
 
 void CALifeStorageManager::save(LPCSTR save_name_no_check, bool update_name)
 {
-    LPCSTR game_saves_path = FS.get_path("$game_saves$")->m_Path;
+    LPCSTR      game_saves_path = FS.get_path("$game_saves$")->m_Path;
 
     string_path save_name;
-    strncpy_s(
-        save_name, sizeof(save_name), save_name_no_check,
-        sizeof(save_name) - 5 - xr_strlen(SAVE_EXTENSION) - xr_strlen(game_saves_path));
+    strncpy_s(save_name, sizeof(save_name), save_name_no_check, sizeof(save_name) - 5 - xr_strlen(SAVE_EXTENSION) - xr_strlen(game_saves_path));
 
     xr_strcpy(g_last_saved_game, save_name);
 
@@ -89,8 +87,7 @@ void CALifeStorageManager::save(LPCSTR save_name_no_check, bool update_name)
     xr_free(dest_data);
     FS.w_close(writer);
 #ifdef DEBUG
-    Msg("* Game %s is successfully saved to file '%s' (%d bytes compressed to %d)", m_save_name, temp, source_count,
-        dest_count + 4);
+    Msg("* Game %s is successfully saved to file '%s' (%d bytes compressed to %d)", m_save_name, temp, source_count, dest_count + 4);
 #else    // DEBUG
     Msg("* Game %s is successfully saved to file '%s'", m_save_name, temp);
 #endif   // DEBUG
@@ -136,12 +133,10 @@ void CALifeStorageManager::load(void* buffer, const u32& buffer_size, LPCSTR fil
 
 bool CALifeStorageManager::load(LPCSTR save_name_no_check)
 {
-    LPCSTR game_saves_path = FS.get_path("$game_saves$")->m_Path;
+    LPCSTR      game_saves_path = FS.get_path("$game_saves$")->m_Path;
 
     string_path save_name;
-    strncpy_s(
-        save_name, sizeof(save_name), save_name_no_check,
-        sizeof(save_name) - 5 - xr_strlen(SAVE_EXTENSION) - xr_strlen(game_saves_path));
+    strncpy_s(save_name, sizeof(save_name), save_name_no_check, sizeof(save_name) - 5 - xr_strlen(SAVE_EXTENSION) - xr_strlen(game_saves_path));
 
     CTimer timer;
     timer.Start();
@@ -172,9 +167,7 @@ bool CALifeStorageManager::load(LPCSTR save_name_no_check)
         return (false);
     }
 
-    CHECK_OR_EXIT(
-        CSavedGameWrapper::valid_saved_game(*stream),
-        make_string("%s\nSaved game version mismatch or saved game is corrupted", file_name));
+    CHECK_OR_EXIT(CSavedGameWrapper::valid_saved_game(*stream), make_string("%s\nSaved game version mismatch or saved game is corrupted", file_name));
     /*
         string512					temp;
         strconcat					(sizeof(temp),temp,CStringTable().translate("st_loading_saved_game").c_str(),"

@@ -3,15 +3,15 @@
 #include "../state.h"
 #include "../../../ai_debug.h"
 
-template <typename _Object> class CStateMonsterAttack: public CState<_Object>
+template<typename _Object> class CStateMonsterAttack: public CState<_Object>
 {
 protected:
     typedef CState<_Object>  inherited;
     typedef CState<_Object>* state_ptr;
 
-    u32 m_time_next_run_away;
-    u32 m_time_start_check_behinder;
-    u32 m_time_start_behinder;
+    u32                      m_time_next_run_away;
+    u32                      m_time_start_check_behinder;
+    u32                      m_time_start_behinder;
 
 public:
     CStateMonsterAttack(_Object* obj);

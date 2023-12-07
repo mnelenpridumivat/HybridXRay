@@ -35,29 +35,12 @@
 
 // #define DEMO_BUILD
 
-string128 ErrMsgBoxTemplate[] = {
-    "message_box_invalid_pass",
-    "message_box_invalid_host",
-    "message_box_session_full",
-    "message_box_server_reject",
-    "message_box_cdkey_in_use",
-    "message_box_cdkey_disabled",
-    "message_box_cdkey_invalid",
-    "message_box_different_version",
-    "message_box_gs_service_not_available",
-    "message_box_sb_master_server_connect_failed",
-    "msg_box_no_new_patch",
-    "msg_box_new_patch",
-    "msg_box_patch_download_error",
-    "msg_box_patch_download_success",
-    "msg_box_connect_to_master_server",
-    "msg_box_kicked_by_server",
-    "msg_box_error_loading",
-    "message_box_download_level"};
+string128 ErrMsgBoxTemplate[] = {"message_box_invalid_pass", "message_box_invalid_host", "message_box_session_full", "message_box_server_reject", "message_box_cdkey_in_use", "message_box_cdkey_disabled", "message_box_cdkey_invalid", "message_box_different_version", "message_box_gs_service_not_available", "message_box_sb_master_server_connect_failed", "msg_box_no_new_patch", "msg_box_new_patch", "msg_box_patch_download_error", "msg_box_patch_download_success", "msg_box_connect_to_master_server",
+    "msg_box_kicked_by_server", "msg_box_error_loading", "message_box_download_level"};
 
 extern bool b_shniaganeed_pp;
 
-CMainMenu* MainMenu()
+CMainMenu*  MainMenu()
 {
     return (CMainMenu*)g_pGamePersistent->m_pMainMenu;
 };
@@ -79,17 +62,17 @@ CMainMenu::CMainMenu()
         OnDeviceCreate();
     ReadTextureInfo();
     CUIXmlInit::InitColorDefs();
-    g_btnHint           = NULL;
-    g_statHint          = NULL;
-    m_deactivated_frame = 0;
+    g_btnHint                  = NULL;
+    g_statHint                 = NULL;
+    m_deactivated_frame        = 0;
 
-    m_sPatchURL          = "";
-    m_pGameSpyFull       = NULL;
-    m_account_mngr       = NULL;
-    m_login_mngr         = NULL;
-    m_profile_store      = NULL;
-    m_stats_submitter    = NULL;
-    m_atlas_submit_queue = NULL;
+    m_sPatchURL                = "";
+    m_pGameSpyFull             = NULL;
+    m_account_mngr             = NULL;
+    m_login_mngr               = NULL;
+    m_profile_store            = NULL;
+    m_stats_submitter          = NULL;
+    m_atlas_submit_queue       = NULL;
 
     m_sPDProgress.IsInProgress = false;
     m_downloaded_mp_map_url._set("");
@@ -116,18 +99,11 @@ CMainMenu::CMainMenu()
             m_pMB_ErrDlgs.push_back(pNewErrDlg);
         }
 
-        m_pMB_ErrDlgs[PatchDownloadSuccess]->AddCallbackStr(
-            "button_yes", MESSAGE_BOX_YES_CLICKED,
-            CUIWndCallback::void_function(this, &CMainMenu::OnRunDownloadedPatch));
-        m_pMB_ErrDlgs[PatchDownloadSuccess]->AddCallbackStr(
-            "button_yes", MESSAGE_BOX_OK_CLICKED,
-            CUIWndCallback::void_function(this, &CMainMenu::OnConnectToMasterServerOkClicked));
+        m_pMB_ErrDlgs[PatchDownloadSuccess]->AddCallbackStr("button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnRunDownloadedPatch));
+        m_pMB_ErrDlgs[PatchDownloadSuccess]->AddCallbackStr("button_yes", MESSAGE_BOX_OK_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnConnectToMasterServerOkClicked));
 
-        m_pMB_ErrDlgs[DownloadMPMap]->AddCallbackStr(
-            "button_copy", MESSAGE_BOX_COPY_CLICKED,
-            CUIWndCallback::void_function(this, &CMainMenu::OnDownloadMPMap_CopyURL));
-        m_pMB_ErrDlgs[DownloadMPMap]->AddCallbackStr(
-            "button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadMPMap));
+        m_pMB_ErrDlgs[DownloadMPMap]->AddCallbackStr("button_copy", MESSAGE_BOX_COPY_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadMPMap_CopyURL));
+        m_pMB_ErrDlgs[DownloadMPMap]->AddCallbackStr("button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadMPMap));
 
         m_account_mngr       = xr_new<gamespy_gp::account_manager>(m_pGameSpyFull->GetGameSpyGP());
         m_login_mngr         = xr_new<gamespy_gp::login_manager>(m_pGameSpyFull);
@@ -179,14 +155,13 @@ void CMainMenu::ReadTextureInfo()
 extern ENGINE_API BOOL bShowPauseString;
 extern bool            IsGameTypeSingle();
 
-void CMainMenu::Activate(bool bActivate)
+void                   CMainMenu::Activate(bool bActivate)
 {
     if (!!m_Flags.test(flActive) == bActivate)
         return;
     if (m_Flags.test(flGameSaveScreenshot))
         return;
-    if ((m_screenshotFrame == Device->dwFrame) || (m_screenshotFrame == Device->dwFrame - 1) ||
-        (m_screenshotFrame == Device->dwFrame + 1))
+    if ((m_screenshotFrame == Device->dwFrame) || (m_screenshotFrame == Device->dwFrame - 1) || (m_screenshotFrame == Device->dwFrame + 1))
         return;
 
     bool b_is_single = IsGameTypeSingle();
@@ -309,8 +284,7 @@ bool CMainMenu::ReloadUI()
     m_startDialog->m_bWorkInPause = true;
     m_startDialog->ShowDialog(true);
 
-    m_activatedScreenRatio =
-        (float)Device->dwWidth / (float)Device->dwHeight > (UI_BASE_WIDTH / UI_BASE_HEIGHT + 0.01f);
+    m_activatedScreenRatio = (float)Device->dwWidth / (float)Device->dwHeight > (UI_BASE_WIDTH / UI_BASE_HEIGHT + 0.01f);
     return true;
 }
 
@@ -594,8 +568,7 @@ void CMainMenu::OnNewPatchFound(LPCSTR VersionName, LPCSTR URL)
     m_sPatchURL = URL;
 
     Register(m_pMB_ErrDlgs[NewPatchFound]);
-    m_pMB_ErrDlgs[NewPatchFound]->AddCallbackStr(
-        "button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadPatch));
+    m_pMB_ErrDlgs[NewPatchFound]->AddCallbackStr("button_yes", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(this, &CMainMenu::OnDownloadPatch));
     m_pMB_ErrDlgs[NewPatchFound]->ShowDialog(false);
 };
 
@@ -724,8 +697,8 @@ LPCSTR AddHyphens(LPCSTR c)
 {
     static string64 buf;
 
-    u32 sz = xr_strlen(c);
-    u32 j  = 0;
+    u32             sz = xr_strlen(c);
+    u32             j  = 0;
 
     for (u32 i = 1; i <= 3; ++i)
     {
@@ -746,10 +719,10 @@ LPCSTR DelHyphens(LPCSTR c)
 {
     static string64 buf;
 
-    u32 sz  = xr_strlen(c);
-    u32 sz1 = _min(iFloor(sz / 4.0f), 3);
+    u32             sz  = xr_strlen(c);
+    u32             sz1 = _min(iFloor(sz / 4.0f), 3);
 
-    u32 j = 0;
+    u32             j   = 0;
     for (u32 i = 0; i < sz - sz1; ++i)
     {
         j      = i + iFloor(i / 4.0f);

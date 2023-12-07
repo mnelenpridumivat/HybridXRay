@@ -1,10 +1,7 @@
 ﻿#include "stdafx.h"
 
 // Node Add
-TUI_ControlWallmarkAdd::TUI_ControlWallmarkAdd(int st, int act, ESceneToolBase* parent):
-    TUI_CustomControl(st, act, parent)
-{
-}
+TUI_ControlWallmarkAdd::TUI_ControlWallmarkAdd(int st, int act, ESceneToolBase* parent): TUI_CustomControl(st, act, parent) {}
 
 bool TUI_ControlWallmarkAdd::Start(TShiftState Shift)
 {

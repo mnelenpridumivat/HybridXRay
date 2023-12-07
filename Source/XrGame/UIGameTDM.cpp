@@ -14,7 +14,7 @@
 #include "ui/UIMoneyIndicator.h"
 #include "ui/UIRankIndicator.h"
 
-#define MSGS_OFFS 510
+#define MSGS_OFFS                510
 #define TEAM_PANELS_TDM_XML_NAME "ui_team_panels_tdm.xml"
 
 //--------------------------------------------------------------------
@@ -84,7 +84,8 @@ bool CUIGameTDM::IR_UIOnKeyboardPress(int dik)
 {
     switch (dik)
     {
-        case DIK_CAPSLOCK: {
+        case DIK_CAPSLOCK:
+        {
             if (m_game)
             {
                 if (m_game->Get_ShowPlayerNamesEnabled())
@@ -103,7 +104,8 @@ bool CUIGameTDM::IR_UIOnKeyboardRelease(int dik)
 {
     switch (dik)
     {
-        case DIK_CAPSLOCK: {
+        case DIK_CAPSLOCK:
+        {
             if (m_game)
             {
                 if (!m_game->Get_ShowPlayerNamesEnabled())

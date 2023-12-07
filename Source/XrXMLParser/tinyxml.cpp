@@ -81,8 +81,8 @@ TiXmlNode* TiXmlNode::LinkEndChild(TiXmlNode* node)
 
     node->parent = this;
 
-    node->prev = lastChild;
-    node->next = 0;
+    node->prev   = lastChild;
+    node->next   = 0;
 
     if (lastChild)
         lastChild->next = node;
@@ -434,8 +434,7 @@ bool TiXmlText::Accept(TiXmlVisitor* visitor) const
     return visitor->Visit(*this);
 }
 
-TiXmlDeclaration::TiXmlDeclaration(const char* _version, const char* _encoding, const char* _standalone):
-    TiXmlNode(TiXmlNode::DECLARATION)
+TiXmlDeclaration::TiXmlDeclaration(const char* _version, const char* _encoding, const char* _standalone): TiXmlNode(TiXmlNode::DECLARATION)
 {
     version    = _version;
     encoding   = _encoding;
@@ -443,8 +442,7 @@ TiXmlDeclaration::TiXmlDeclaration(const char* _version, const char* _encoding, 
 }
 
 #ifdef TIXML_USE_STL
-TiXmlDeclaration::TiXmlDeclaration(const xr_string& _version, const xr_string& _encoding, const xr_string& _standalone):
-    TiXmlNode(TiXmlNode::DECLARATION)
+TiXmlDeclaration::TiXmlDeclaration(const xr_string& _version, const xr_string& _encoding, const xr_string& _standalone): TiXmlNode(TiXmlNode::DECLARATION)
 {
     version    = _version;
     encoding   = _encoding;
@@ -482,8 +480,8 @@ void TiXmlAttributeSet::Add(TiXmlAttribute* addMe)
     assert(!Find(addMe->Name()));   // Shouldn't be multiply adding to the set.
 #endif
 
-    addMe->next = &sentinel;
-    addMe->prev = sentinel.prev;
+    addMe->next         = &sentinel;
+    addMe->prev         = sentinel.prev;
 
     sentinel.prev->next = addMe;
     sentinel.prev       = addMe;

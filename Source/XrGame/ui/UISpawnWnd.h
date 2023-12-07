@@ -54,5 +54,5 @@ protected:
     CUI3tButton*   m_pBtnSpectator;
     CUI3tButton*   m_pBtnBack;
 
-    int m_iCurTeam;
+    int            m_iCurTeam;
 };

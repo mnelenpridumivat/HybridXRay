@@ -10,10 +10,7 @@ namespace award_system
 
     ammunition_group::~ammunition_group() {}
 
-    void ammunition_group::init_ammunition_group(
-        CItemMgr const*   item_manager,
-        enum_group_id     gid,
-        shared_str const& weapons_string)
+    void ammunition_group::init_ammunition_group(CItemMgr const* item_manager, enum_group_id gid, shared_str const& weapons_string)
     {
         string256 dststr;
         u32       count = _GetItemCount(weapons_string.c_str());
@@ -31,7 +28,7 @@ namespace award_system
 
     static char const* dm_team_data = "deathmatch_team0";
 
-    void ammunition_group::init(CItemMgr const* item_manager)
+    void               ammunition_group::init(CItemMgr const* item_manager)
     {
         m_wpn_groups.clear();
 
@@ -75,8 +72,7 @@ namespace award_system
         if (gid == gid_any)
             return true;
 
-        ammun_groups_map_t::const_iterator tmp_iter =
-            std::find(m_wpn_groups.begin(), m_wpn_groups.end(), ammun_groups_map_t::value_type(item_id & 0x00ff, gid));
+        ammun_groups_map_t::const_iterator tmp_iter = std::find(m_wpn_groups.begin(), m_wpn_groups.end(), ammun_groups_map_t::value_type(item_id & 0x00ff, gid));
 
         if (tmp_iter == m_wpn_groups.end())
             return false;

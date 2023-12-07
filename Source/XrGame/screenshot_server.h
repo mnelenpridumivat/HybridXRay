@@ -26,9 +26,9 @@ private:
     bool                              m_first_receive;
     file_transfer::filereceiver_node* m_receiver;
 
-    file_transfer::server_site* m_ft_server;
+    file_transfer::server_site*       m_ft_server;
     // memory file
-    void notify_admin(clientdata_event_t event_for_admin, char const* reason);
+    void                              notify_admin(clientdata_event_t event_for_admin, char const* reason);
     clientdata_proxy(){};
 
 public:

@@ -159,7 +159,7 @@ bool CToolCustom::MouseStart(TShiftState Shift)
             }
             m_MoveReminder.set(0, 0, 0);
             m_MovedAmount.set(0, 0, 0);
-        break;
+            break;
         case etaRotate:
             m_RotateCenter.set(0, 0, 0);
             m_RotateVector.set(0, 0, 0);
@@ -171,11 +171,11 @@ bool CToolCustom::MouseStart(TShiftState Shift)
                 m_RotateVector.set(0, 0, 1);
             m_fRotateSnapValue = 0;
             m_RotateAmount     = 0;
-        break;
+            break;
         case etaScale:
             m_ScaleAmount.set(0, 0, 0);
             m_fScaleFixedValue.set(0, 0, 0);
-        break;
+            break;
     }
 
     if (m_Action == etaMove && m_pAxisMoveObject)

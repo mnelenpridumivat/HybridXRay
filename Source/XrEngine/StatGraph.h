@@ -47,7 +47,7 @@ protected:
         };
     };
     DEFINE_VECTOR(SSubGraph, SubGraphVec, SubGraphVecIt);
-    SubGraphVec subgraphs;
+    SubGraphVec                  subgraphs;
 
     float                        mn, mx;
     u32                          max_item_count;
@@ -80,6 +80,7 @@ protected:
     //	virtual void	RenderBarLines	( FVF::TL0uv** ppv, ElementsDeq* pelements );
     ////	virtual void	RenderPoints	( FVF::TL0uv** ppv, ElementsDeq* pelements );
     //	virtual	void	RenderMarkers	( FVF::TL0uv** ppv, MarkersDeq* pmarkers );
+
 public:
     CStatGraph();
     ~CStatGraph();
@@ -87,7 +88,7 @@ public:
     void         OnDeviceCreate();
     void         OnDeviceDestroy();
 
-    IC void SetStyle(EStyle s, u32 SubGraphID = 0)
+    IC void      SetStyle(EStyle s, u32 SubGraphID = 0)
     {
         if (SubGraphID >= subgraphs.size())
             return;

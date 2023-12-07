@@ -40,9 +40,9 @@ public:
         return rendering;
     }
 
-    virtual BOOL _initialize() = 0;
-    virtual void _destroy()    = 0;
-    virtual void _restart()    = 0;
+    virtual BOOL _initialize()                  = 0;
+    virtual void _destroy()                     = 0;
+    virtual void _restart()                     = 0;
 
     virtual void start(CSoundRender_Emitter* E) = 0;
     virtual void render()                       = 0;

@@ -14,9 +14,7 @@ Fmatrix global_transform(cphysics_element_scripted* E)
 void cphysics_element_scripted::script_register(lua_State* L)
 {
     module(L)[class_<cphysics_element_scripted>("physics_element")
-                  .def(
-                      "apply_force",
-                      (void(cphysics_element_scripted::*)(float, float, float))(&cphysics_element_scripted::applyForce))
+                  .def("apply_force", (void(cphysics_element_scripted::*)(float, float, float))(&cphysics_element_scripted::applyForce))
                   .def("is_breakable", &cphysics_element_scripted::isBreakable)
                   .def("get_linear_vel", &cphysics_element_scripted::get_LinearVel)
                   .def("get_angular_vel", &cphysics_element_scripted::get_AngularVel)

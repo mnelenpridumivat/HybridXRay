@@ -499,16 +499,7 @@ nv_scalar det2x2(nv_scalar a1, nv_scalar a2, nv_scalar b1, nv_scalar b2)
     | c1 c2 c3 |
 
 */
-nv_scalar det3x3(
-    nv_scalar a1,
-    nv_scalar a2,
-    nv_scalar a3,
-    nv_scalar b1,
-    nv_scalar b2,
-    nv_scalar b3,
-    nv_scalar c1,
-    nv_scalar c2,
-    nv_scalar c3)
+nv_scalar det3x3(nv_scalar a1, nv_scalar a2, nv_scalar a3, nv_scalar b1, nv_scalar b2, nv_scalar b3, nv_scalar c1, nv_scalar c2, nv_scalar c3)
 {
     return a1 * det2x2(b2, b3, c2, c3) - b1 * det2x2(a2, a3, c2, c3) + c1 * det2x2(a2, a3, b2, b3);
 }
@@ -701,14 +692,7 @@ mat4& look_at(mat4& M, const vec3& eye, const vec3& center, const vec3& up)
     return M;
 }
 
-mat4& frustum(
-    mat4&           M,
-    const nv_scalar l,
-    const nv_scalar r,
-    const nv_scalar b,
-    const nv_scalar t,
-    const nv_scalar n,
-    const nv_scalar f)
+mat4& frustum(mat4& M, const nv_scalar l, const nv_scalar r, const nv_scalar b, const nv_scalar t, const nv_scalar n, const nv_scalar f)
 {
     M.a00 = (nv_two * n) / (r - l);
     M.a10 = 0.0;
@@ -747,8 +731,7 @@ mat4& perspective(mat4& M, const nv_scalar fovy, const nv_scalar aspect, const n
 
 const quat quat::Identity(0, 0, 0, 1);
 
-quat::quat(nv_scalar x, nv_scalar y, nv_scalar z, nv_scalar w):
-    x(x), y(y), z(z), w(w) {}
+quat::quat(nv_scalar x, nv_scalar y, nv_scalar z, nv_scalar w): x(x), y(y), z(z), w(w) {}
 
 quat::quat(const quat& quat)
 {
@@ -864,9 +847,7 @@ void quat::ToMatrix(mat3& mat) const
 
 const quat operator*(const quat& p, const quat& q)
 {
-    return quat(
-        p.w * q.x + p.x * q.w + p.y * q.z - p.z * q.y, p.w * q.y + p.y * q.w + p.z * q.x - p.x * q.z,
-        p.w * q.z + p.z * q.w + p.x * q.y - p.y * q.x, p.w * q.w - p.x * q.x - p.y * q.y - p.z * q.z);
+    return quat(p.w * q.x + p.x * q.w + p.y * q.z - p.z * q.y, p.w * q.y + p.y * q.w + p.z * q.x - p.x * q.z, p.w * q.z + p.z * q.w + p.x * q.y - p.y * q.x, p.w * q.w - p.x * q.x - p.y * q.y - p.z * q.z);
 }
 
 quat& quat::operator*=(const quat& quat)
@@ -1173,15 +1154,7 @@ quat& mat4::get_rot(quat& q) const
     return q;
 }
 
-mat3& tangent_basis(
-    mat3&       basis,
-    const vec3& v0,
-    const vec3& v1,
-    const vec3& v2,
-    const vec2& t0,
-    const vec2& t1,
-    const vec2& t2,
-    const vec3& n)
+mat3& tangent_basis(mat3& basis, const vec3& v0, const vec3& v1, const vec3& v2, const vec2& t0, const vec2& t1, const vec2& t2, const vec3& n)
 {
     vec3 cp;
     vec3 e0(v1.x - v0.x, t1.s - t0.s, t1.t - t0.t);

@@ -39,7 +39,7 @@ public:
 typedef xr_vector<EEditorState> EStateList;
 typedef EStateList::iterator    EStateIt;
 
-class ECORE_API TUI: public IInputReceiver, public XrUIManager
+class ECORE_API                 TUI: public IInputReceiver, public XrUIManager
 {
     bool        m_AppClosed;
     inline void RealQuit()
@@ -57,7 +57,7 @@ protected:
 
     TShiftState m_ShiftState;
 
-    bool m_bAppActive;
+    bool        m_bAppActive;
 
 protected:
     EStateList m_EditorState;
@@ -105,27 +105,27 @@ public:
     Ivector2 m_StartCp;
     Ivector2 m_CurrentCp;
 
-    Fvector m_CurrentRStart;
-    Fvector m_CurrentRDir;
+    Fvector  m_CurrentRStart;
+    Fvector  m_CurrentRDir;
 
-    Fvector m_StartRStart;
-    Fvector m_StartRDir;
+    Fvector  m_StartRStart;
+    Fvector  m_StartRDir;
 
     // hidden ops
     Ivector2 m_StartCpH;
     Ivector2 m_DeltaCpH;
 
 protected:
-    bool m_MouseCaptured;
-    bool m_MouseMultiClickCaptured;
-    bool bMouseInUse;
+    bool      m_MouseCaptured;
+    bool      m_MouseMultiClickCaptured;
+    bool      bMouseInUse;
 
     xr_string m_LastHint;
     bool      m_bHintShowing;
     POINT     m_HintPoint;
 
     // mailslot
-    HANDLE hMailSlot;
+    HANDLE    hMailSlot;
 
 public:
     void ShowObjectHint();
@@ -178,15 +178,15 @@ public:
         return m_ShiftState;
     }
 
-    virtual bool OnCreate();
-    virtual void OnDestroy();
+    virtual bool  OnCreate();
+    virtual void  OnDestroy();
 
     virtual char* GetCaption() = 0;
 
-    bool IsModified();
+    bool          IsModified();
 
-    bool Idle();
-    void Resize(int x, int y, bool maximize = false, bool bForced = false)
+    bool          Idle();
+    void          Resize(int x, int y, bool maximize = false, bool bForced = false)
     {
         m_Size.set(x, y);
         m_Size_Maximize = maximize;
@@ -245,7 +245,7 @@ public:
     void         MouseRelease(TShiftState Shift, int X, int Y);
     void         MouseMove(TShiftState Shift, int X, int Y);
 
-    void BeginEState(EEditorState st)
+    void         BeginEState(EEditorState st)
     {
         m_EditorState.push_back(st);
     }
@@ -279,10 +279,10 @@ public:
     // direct input
     virtual void IR_OnMouseMove(int x, int y);
 
-    void OnAppActivate();
-    void OnAppDeactivate();
+    void         OnAppActivate();
+    void         OnAppDeactivate();
 
-    bool NeedAbort()
+    bool         NeedAbort()
     {
         return bNeedAbort;
     }
@@ -298,7 +298,7 @@ public:
     virtual bool ApplyShortCut(DWORD Key, TShiftState Shift)       = 0;
     virtual bool ApplyGlobalShortCut(DWORD Key, TShiftState Shift) = 0;
 
-    void SetGradient(u32 color)
+    void         SetGradient(u32 color)
     {
         ;
     }
@@ -314,7 +314,7 @@ public:
 	void 			SendMail			(LPCSTR name, LPCSTR dest, LPCSTR msg);
 #endif
 
-    void CheckWindowPos(HWND* form);
+    void           CheckWindowPos(HWND* form);
 
     virtual LPCSTR EditorName() = 0;
     virtual LPCSTR EditorDesc() = 0;
@@ -327,9 +327,9 @@ public:
     virtual void RegisterCommands() = 0;
     void         ClearCommands();
 
-    CCommandVar CommandRenderFocus(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandBreakLastOperation(CCommandVar p1, CCommandVar p2);
-    CCommandVar CommandRenderResize(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandRenderFocus(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandBreakLastOperation(CCommandVar p1, CCommandVar p2);
+    CCommandVar  CommandRenderResize(CCommandVar p1, CCommandVar p2);
 
     virtual void SaveSettings(CInifile*) {}
     virtual void LoadSettings(CInifile*) {}
@@ -379,7 +379,7 @@ public:
 //---------------------------------------------------------------------------
 extern ECORE_API TUI* UI;
 //---------------------------------------------------------------------------
-void ECORE_API ResetActionToSelect();
+void ECORE_API        ResetActionToSelect();
 #define COMMAND0(cmd)     \
     {                     \
         ExecCommand(cmd); \

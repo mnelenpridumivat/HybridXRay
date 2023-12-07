@@ -7,7 +7,7 @@ class CGameSpy_GCD_Client
 private:
     HMODULE m_hGameSpyDLL;
 
-    void LoadGameSpy(HMODULE hGameSpyDLL);
+    void    LoadGameSpy(HMODULE hGameSpyDLL);
 
 public:
     CGameSpy_GCD_Client();

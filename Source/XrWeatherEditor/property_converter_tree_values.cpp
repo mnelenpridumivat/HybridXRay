@@ -21,7 +21,7 @@ using System::ComponentModel::TypeDescriptor;
 
 typedef PropertyBag::PropertySpecDescriptor PropertySpecDescriptor;
 
-bool property_converter_tree_values::CanConvertFrom(ITypeDescriptorContext ^ context, Type ^ source_type)
+bool                                        property_converter_tree_values::CanConvertFrom(ITypeDescriptorContext ^ context, Type ^ source_type)
 {
     return (false);
 }

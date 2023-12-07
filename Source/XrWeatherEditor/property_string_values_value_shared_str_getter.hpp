@@ -13,9 +13,7 @@
 #include "property_string_values_value_base.hpp"
 
 public
-ref class property_string_values_value_shared_str_getter:
-    public property_string_shared_str,
-    public property_string_values_value_base
+ref class property_string_values_value_shared_str_getter: public property_string_shared_str, public property_string_values_value_base
 {
 private:
     typedef property_string_shared_str inherited;
@@ -28,11 +26,7 @@ public:
     typedef XrWeatherEditor::property_holder::string_collection_size_getter_type string_collection_size_getter_type;
 
 public:
-    property_string_values_value_shared_str_getter(
-        XrWeatherEditor::engine*                  engine,
-        shared_str&                               value,
-        string_collection_getter_type const&      collection_getter,
-        string_collection_size_getter_type const& collection_size_getter);
+    property_string_values_value_shared_str_getter(XrWeatherEditor::engine* engine, shared_str& value, string_collection_getter_type const& collection_getter, string_collection_size_getter_type const& collection_size_getter);
     virtual ~property_string_values_value_shared_str_getter();
     !property_string_values_value_shared_str_getter();
     virtual collection_type ^ values();

@@ -10,7 +10,7 @@ DEFINE_MAP(STRING_ID, STRING_VALUE, STRING_TABLE_MAP, STRING_TABLE_MAP_IT);
 
 struct STRING_TABLE_DATA
 {
-    shared_str m_sLanguage;
+    shared_str       m_sLanguage;
 
     STRING_TABLE_MAP m_StringTable;
 
@@ -22,13 +22,13 @@ class CStringTable
 public:
     CStringTable();
 
-    static void Destroy();
+    static void  Destroy();
 
     STRING_VALUE translate(const STRING_ID& str_id) const;
     void         rescan();
 
-    static BOOL m_bWriteErrorsToLog;
-    static void ReparseKeyBindings();
+    static BOOL  m_bWriteErrorsToLog;
+    static void  ReparseKeyBindings();
 
 private:
     void                      Init();

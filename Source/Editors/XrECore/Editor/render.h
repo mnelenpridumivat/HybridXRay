@@ -56,8 +56,8 @@ public:
     // options
 
     // Data
-    CFrustum   ViewBase;
-    CPSLibrary PSLibrary;
+    CFrustum    ViewBase;
+    CPSLibrary  PSLibrary;
 
     CModelPool* Models;
 
@@ -71,17 +71,17 @@ public:
     CRender();
     virtual ~CRender();
 
-    void Initialize();
-    void ShutDown();
+    void                   Initialize();
+    void                   ShutDown();
 
-    void OnDeviceCreate();
-    void OnDeviceDestroy();
+    void                   OnDeviceCreate();
+    void                   OnDeviceDestroy();
 
-    virtual void Calculate();
-    virtual void Render();
+    virtual void           Calculate();
+    virtual void           Render();
 
-    virtual void set_Transform(Fmatrix* M);
-    virtual void add_Visual(IRenderVisual* visual);
+    virtual void           set_Transform(Fmatrix* M);
+    virtual void           add_Visual(IRenderVisual* visual);
 
     virtual ref_shader     getShader(int id);
     virtual CRenderTarget* getTarget()
@@ -90,12 +90,12 @@ public:
     }
     //.	virtual IRender_Target*	getTarget		(){return Target;}
 
-    void                   reset_begin();
-    void                   reset_end();
-    virtual IRenderVisual* model_Create(LPCSTR name, IReader* data = 0);
-    virtual IRenderVisual* model_CreateChild(LPCSTR name, IReader* data);
-    virtual IRenderVisual* model_CreatePE(LPCSTR name);
-    virtual IRenderVisual* model_CreateParticles(LPCSTR name);
+    void                         reset_begin();
+    void                         reset_end();
+    virtual IRenderVisual*       model_Create(LPCSTR name, IReader* data = 0);
+    virtual IRenderVisual*       model_CreateChild(LPCSTR name, IReader* data);
+    virtual IRenderVisual*       model_CreatePE(LPCSTR name);
+    virtual IRenderVisual*       model_CreateParticles(LPCSTR name);
 
     virtual IRender_DetailModel* model_CreateDM(IReader* R);
     virtual IRenderVisual*       model_Duplicate(IRenderVisual* V);
@@ -110,8 +110,8 @@ public:
             F = NULL;
         }
     }
-    void model_Render(IRenderVisual* m_pVisual, const Fmatrix& mTransform, int priority, bool strictB2F, float m_fLOD);
-    void model_RenderSingle(IRenderVisual* m_pVisual, const Fmatrix& mTransform, float m_fLOD);
+    void                    model_Render(IRenderVisual* m_pVisual, const Fmatrix& mTransform, int priority, bool strictB2F, float m_fLOD);
+    void                    model_RenderSingle(IRenderVisual* m_pVisual, const Fmatrix& mTransform, float m_fLOD);
     virtual GenerationLevel get_generation()
     {
         return GENERATION_R1;
@@ -121,101 +121,66 @@ public:
         return true;
     };
 
-    virtual void add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm){};
-    virtual void add_SkeletonWallmark(
-        const Fmatrix* xf,
-        CKinematics*   obj,
-        ref_shader&    sh,
-        const Fvector& start,
-        const Fvector& dir,
-        float          size){};
+    virtual void   add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm){};
+    virtual void   add_SkeletonWallmark(const Fmatrix* xf, CKinematics* obj, ref_shader& sh, const Fvector& start, const Fvector& dir, float size){};
 
-    virtual void add_SkeletonWallmark(
-        const Fmatrix*  xf,
-        IKinematics*    obj,
-        IWallMarkArray* pArray,
-        const Fvector&  start,
-        const Fvector&  dir,
-        float           size)
-    {
-    }
+    virtual void   add_SkeletonWallmark(const Fmatrix* xf, IKinematics* obj, IWallMarkArray* pArray, const Fvector& start, const Fvector& dir, float size) {}
     // Render mode
-    virtual void rmNear();
-    virtual void rmFar();
-    virtual void rmNormal();
+    virtual void   rmNear();
+    virtual void   rmFar();
+    virtual void   rmNormal();
 
-    void apply_lmaterial() {}
+    void           apply_lmaterial() {}
 
     virtual LPCSTR getShaderPath()
     {
         return "editor\\";
     }
 
-    virtual HRESULT CompileShader(
-        LPCSTR pSrcData,
-        UINT   SrcDataLen,
-        void*  pDefines,
-        void*  pInclude,
-        LPCSTR pFunctionName,
-        LPCSTR pTarget,
-        DWORD  Flags,
-        void*  ppShader,
-        void*  ppErrorMsgs,
-        void*  ppConstantTable);
+    virtual HRESULT                CompileShader(LPCSTR pSrcData, UINT SrcDataLen, void* pDefines, void* pInclude, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, void* ppShader, void* ppErrorMsgs, void* ppConstantTable);
 
     virtual IDirect3DBaseTexture9* texture_load(LPCSTR fname, u32& mem_size);
     virtual IDirect3DBaseTexture9* texture_load_software(LPCSTR fname, u32& mem_size);
-    virtual HRESULT                shader_compile(
-                       LPCSTR name,
-                       LPCSTR pSrcData,
-                       UINT   SrcDataLen,
-                       void*  pDefines,
-                       void*  pInclude,
-                       LPCSTR pFunctionName,
-                       LPCSTR pTarget,
-                       DWORD  Flags,
-                       void*  ppShader,
-                       void*  ppErrorMsgs,
-                       void*  ppConstantTable);
+    virtual HRESULT                shader_compile(LPCSTR name, LPCSTR pSrcData, UINT SrcDataLen, void* pDefines, void* pInclude, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, void* ppShader, void* ppErrorMsgs, void* ppConstantTable);
 
-    virtual DWORD get_dx_level();
+    virtual DWORD                  get_dx_level();
 
     // Loading / Unloading
-    virtual void create();
-    virtual void destroy();
+    virtual void                   create();
+    virtual void                   destroy();
 
-    virtual void level_Load(IReader*);
-    virtual void level_Unload();
+    virtual void                   level_Load(IReader*);
+    virtual void                   level_Unload();
 
     // virtual IDirect3DBaseTexture9*	texture_load			(LPCSTR	fname, u32& msize)					= 0;
 
     // Information
-    virtual void Statistics(CGameFont* F){};
+    virtual void                   Statistics(CGameFont* F){};
 
     //	virtual ref_shader				getShader				(int id)									= 0;
-    virtual IRender_Sector* getSector(int id);
-    virtual IRenderVisual*  getVisual(int id);
-    virtual IRender_Sector* detectSector(const Fvector& P);
+    virtual IRender_Sector*        getSector(int id);
+    virtual IRenderVisual*         getVisual(int id);
+    virtual IRender_Sector*        detectSector(const Fvector& P);
 
     // Main
-    IC void set_Frustum(CFrustum* O)
+    IC void                        set_Frustum(CFrustum* O)
     {
         VERIFY(O);
         View = O;
     }
-    virtual void set_HUD(BOOL V);
-    virtual BOOL get_HUD();
-    virtual void set_Invisible(BOOL V);
-    virtual void flush();
-    virtual void set_Object(IRenderable* O);
-    virtual void add_Occluder(Fbox2& bb_screenspace);   // mask screen region as oclluded (-1..1, -1..1)
-    virtual void add_Geometry(IRenderVisual* V);        // add visual(s)	(all culling performed)
+    virtual void                    set_HUD(BOOL V);
+    virtual BOOL                    get_HUD();
+    virtual void                    set_Invisible(BOOL V);
+    virtual void                    flush();
+    virtual void                    set_Object(IRenderable* O);
+    virtual void                    add_Occluder(Fbox2& bb_screenspace);   // mask screen region as oclluded (-1..1, -1..1)
+    virtual void                    add_Geometry(IRenderVisual* V);        // add visual(s)	(all culling performed)
     //	virtual void					add_StaticWallmark		(ref_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector*
     //V)=0;
-    virtual void add_StaticWallmark(const wm_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V) {}
+    virtual void                    add_StaticWallmark(const wm_shader& S, const Fvector& P, float s, CDB::TRI* T, Fvector* V) {}
     //	Prefer this function when possible
-    virtual void add_StaticWallmark(IWallMarkArray* pArray, const Fvector& P, float s, CDB::TRI* T, Fvector* V) {}
-    virtual void clear_static_wallmarks() {}
+    virtual void                    add_StaticWallmark(IWallMarkArray* pArray, const Fvector& P, float s, CDB::TRI* T, Fvector* V) {}
+    virtual void                    clear_static_wallmarks() {}
     // virtual void					add_SkeletonWallmark	(intrusive_ptr<CSkeletonWallmark> wm)						=
     // 0;
     // virtual void					add_SkeletonWallmark	(const Fmatrix* xf, CKinematics* obj, ref_shader& sh, const Fvector& start,
@@ -228,36 +193,29 @@ public:
     virtual void                    ros_destroy(IRender_ObjectSpecific*&);
 
     // Lighting/glowing
-    virtual IRender_Light* light_create();
-    virtual void           light_destroy(IRender_Light* p_);
-    virtual IRender_Glow*  glow_create();
-    virtual void           glow_destroy(IRender_Glow* p_);
+    virtual IRender_Light*          light_create();
+    virtual void                    light_destroy(IRender_Light* p_);
+    virtual IRender_Glow*           glow_create();
+    virtual void                    glow_destroy(IRender_Glow* p_);
 
     // Models
-    virtual void model_Logging(BOOL bEnable);
-    virtual void models_Prefetch();
-    virtual void models_Clear(BOOL b_complete);
+    virtual void                    model_Logging(BOOL bEnable);
+    virtual void                    models_Prefetch();
+    virtual void                    models_Clear(BOOL b_complete);
 
     // Main
 
-    virtual void Screenshot(ScreenshotMode mode = SM_NORMAL, LPCSTR name = 0);
-    virtual void Screenshot(ScreenshotMode mode, CMemoryWriter& memory_writer);
-    virtual void ScreenshotAsyncBegin();
-    virtual void ScreenshotAsyncEnd(CMemoryWriter& memory_writer);
+    virtual void                    Screenshot(ScreenshotMode mode = SM_NORMAL, LPCSTR name = 0);
+    virtual void                    Screenshot(ScreenshotMode mode, CMemoryWriter& memory_writer);
+    virtual void                    ScreenshotAsyncBegin();
+    virtual void                    ScreenshotAsyncEnd(CMemoryWriter& memory_writer);
 
     // Render mode
-    virtual u32 memory_usage();
+    virtual u32                     memory_usage();
 
 protected:
     virtual void    ScreenshotImpl(ScreenshotMode mode, LPCSTR name, CMemoryWriter* memory_writer){};
-    virtual HRESULT shader_compile(
-        LPCSTR       name,
-        DWORD const* pSrcData,
-        UINT         SrcDataLen,
-        LPCSTR       pFunctionName,
-        LPCSTR       pTarget,
-        DWORD        Flags,
-        void*&       result)
+    virtual HRESULT shader_compile(LPCSTR name, DWORD const* pSrcData, UINT SrcDataLen, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, void*& result)
     {
         return E_FAIL;
     }

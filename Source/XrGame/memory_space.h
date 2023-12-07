@@ -60,7 +60,7 @@ namespace MemorySpace
 #endif
     };
 
-    template <typename T> struct CObjectParams: public SObjectParams
+    template<typename T> struct CObjectParams: public SObjectParams
     {
         IC SRotation orientation(const T* object) const;
         IC void      fill(const T* game_object);
@@ -114,8 +114,7 @@ namespace MemorySpace
             m_update_count(0),
 #endif
             m_enabled(true)
-        {
-        }
+        {}
 
         IC void fill()
         {
@@ -123,16 +122,16 @@ namespace MemorySpace
         }
     };
 
-    template <typename T> struct CMemoryObject: public SMemoryObject
+    template<typename T> struct CMemoryObject: public SMemoryObject
     {
         const T*                m_object;
         CObjectParams<T>        m_object_params;
         CObjectParams<T>        m_self_params;
         _flags<squad_mask_type> m_squad_mask;
 
-        IC      CMemoryObject();
-        IC bool operator==(u16 id) const;
-        IC void fill(const T* game_object, const T* self, const squad_mask_type& mask);
+        IC                      CMemoryObject();
+        IC bool                 operator==(u16 id) const;
+        IC void                 fill(const T* game_object, const T* self, const squad_mask_type& mask);
     };
 
     struct CVisibleObject: CMemoryObject<CGameObject>
@@ -156,11 +155,7 @@ namespace MemorySpace
             m_visible.set(mask, value ? TRUE : FALSE);
         }
 
-        IC void fill(
-            const CGameObject*     game_object,
-            const CGameObject*     self,
-            const squad_mask_type& mask,
-            const squad_mask_type& visibility_mask)
+        IC void fill(const CGameObject* game_object, const CGameObject* self, const squad_mask_type& mask, const squad_mask_type& visibility_mask)
         {
             inherited::fill(game_object, self, mask);
             m_visible.set(visibility_mask, TRUE);
@@ -179,12 +174,7 @@ namespace MemorySpace
         ESoundTypes m_sound_type;
         float       m_power;
 
-        IC void fill(
-            const CGameObject*     game_object,
-            const CGameObject*     self,
-            const ESoundTypes      sound_type,
-            const float            sound_power,
-            const squad_mask_type& mask)
+        IC void     fill(const CGameObject* game_object, const CGameObject* self, const ESoundTypes sound_type, const float sound_power, const squad_mask_type& mask)
         {
             CMemoryObject<CGameObject>::fill(game_object, self, mask);
             m_sound_type = sound_type;
@@ -215,7 +205,7 @@ namespace MemorySpace
 #undef script_type_list
 #define script_type_list save_type_list(CMemoryInfo)
 
-        template <typename T>
+        template<typename T>
         struct SLevelTimePredicate
     {
         bool operator()(const CMemoryObject<T>& object1, const CMemoryObject<T>& object2) const

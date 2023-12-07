@@ -50,8 +50,8 @@ static void hermite(float t, float* h1, float* h2, float* h3, float* h4)
 {
     float t2, t3;
 
-    t2 = t * t;
-    t3 = t * t2;
+    t2  = t * t;
+    t3  = t * t2;
 
     *h2 = 3.0f * t2 - t3 - t3;
     *h1 = 1.0f - *h2;
@@ -71,9 +71,9 @@ static float bezier(float x0, float x1, float x2, float x3, float t)
     t2 = t * t;
     t3 = t2 * t;
 
-    c = 3.0f * (x1 - x0);
-    b = 3.0f * (x2 - x1) - c;
-    a = x3 - x0 - c - b;
+    c  = 3.0f * (x1 - x0);
+    b  = 3.0f * (x2 - x1) - c;
+    a  = x3 - x0 - c - b;
 
     return a * t3 + b * t2 + c * t + x0;
 }

@@ -38,8 +38,7 @@ CSoundCollectionStorage::~CSoundCollectionStorage()
     delete_data(m_objects);
 }
 
-const CSoundCollectionStorage::SOUND_COLLECTION_PAIR&
-    CSoundCollectionStorage::object(const CSoundCollectionParams& params)
+const CSoundCollectionStorage::SOUND_COLLECTION_PAIR& CSoundCollectionStorage::object(const CSoundCollectionParams& params)
 {
     OBJECTS::const_iterator I = std::find_if(m_objects.begin(), m_objects.end(), collection_predicate(params));
     if (I != m_objects.end())

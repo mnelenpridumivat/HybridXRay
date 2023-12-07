@@ -41,9 +41,7 @@ bool action::applicable() const
 {
     luabind::functor<bool> functor;
 
-    R_ASSERT2(
-        ai().script_engine().functor(m_precondition_functor.c_str(), functor),
-        make_string("failed to get [%s]", m_precondition_functor.c_str()));
+    R_ASSERT2(ai().script_engine().functor(m_precondition_functor.c_str(), functor), make_string("failed to get [%s]", m_precondition_functor.c_str()));
 
     return (functor(m_precondition_params.c_str()));
 }
@@ -69,7 +67,7 @@ class body_state_predicate
     MonsterSpace::EBodyState m_body_state;
 
 public:
-    IC body_state_predicate(MonsterSpace::EBodyState const& body_state): m_body_state(body_state) {}
+    IC      body_state_predicate(MonsterSpace::EBodyState const& body_state): m_body_state(body_state) {}
 
     IC bool operator()(animation_action* animation_action) const
     {
@@ -84,14 +82,12 @@ public:
 
 animation_action const& action::animation(MonsterSpace::EBodyState const& target_body_state) const
 {
-    Animations::const_iterator found =
-        std::find_if(m_animations.begin(), m_animations.end(), body_state_predicate(target_body_state));
+    Animations::const_iterator found = std::find_if(m_animations.begin(), m_animations.end(), body_state_predicate(target_body_state));
 
     if (found == m_animations.end())
     {
 #ifndef MASTER_GOLD
-        Msg("! There is no animation which can transfer bot to body_state [%i], selecting random transition",
-            target_body_state);
+        Msg("! There is no animation which can transfer bot to body_state [%i], selecting random transition", target_body_state);
 #endif   // #ifndef MASTER_GOLD
         return (animation());
     }

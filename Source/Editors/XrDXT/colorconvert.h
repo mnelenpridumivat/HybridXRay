@@ -4,7 +4,7 @@
 #ifndef ULMIN
 #define ULMIN
 
-template <class T> inline T ulMin(const T& x, const T& y)
+template<class T> inline T ulMin(const T& x, const T& y)
 {
     if (x < y)
         return x;
@@ -15,7 +15,7 @@ template <class T> inline T ulMin(const T& x, const T& y)
 
 #ifndef ULMAX
 #define ULMAX
-template <class T> inline T ulMax(const T& x, const T& y)
+template<class T> inline T ulMax(const T& x, const T& y)
 {
     if (x < y)
         return y;
@@ -56,11 +56,11 @@ inline void AlphaAndVectorToRGBA(const unsigned long& theHeight, const fpPixel& 
     const unsigned int blue  = ulMin(255u, (unsigned int)((inVector.z + 1.0f) * 127.5f));
 
     // outColor = ( ( (unsigned int)theHeight << 24 ) | ( red << 16 ) | ( green << 8 ) | ( blue << 0 ) );
-    outColor.a = theHeight;
+    outColor.a               = theHeight;
 
-    outColor.r = red;
-    outColor.g = green;
-    outColor.b = blue;
+    outColor.r               = red;
+    outColor.g               = green;
+    outColor.b               = blue;
 }
 inline void RGBAToAlphaAndVector(const rgba_t& inColor, unsigned long& theHeight, fpPixel& outVector)
 {
@@ -68,7 +68,7 @@ inline void RGBAToAlphaAndVector(const rgba_t& inColor, unsigned long& theHeight
     outVector.y = (double)inColor.g / 127.5 - 1.0;
     outVector.z = (double)inColor.b / 127.5 - 1.0;
 
-    theHeight = inColor.a;
+    theHeight   = inColor.a;
 }
 
 /*
@@ -108,9 +108,9 @@ __forceinline void AlphaAndVectorToQ8W8V8U8(unsigned long theHeight, float fq, f
     // Map the range [-1,1] to [0,255]
     // Does not clamp for you
 
-    int q = (int)(((fq)*127.0f) + 0.5f);
-    int w = (int)(((fw)*127.0f) + 0.5f);
-    int v = (int)(((fv)*127.0f) + 0.5f);
+    int q = (int)(((fq) * 127.0f) + 0.5f);
+    int w = (int)(((fw) * 127.0f) + 0.5f);
+    int v = (int)(((fv) * 127.0f) + 0.5f);
 
     if (q < -127)
         q = -127;
@@ -139,16 +139,15 @@ __forceinline void VectorToU16V16(float u, float v, u16v16_t& outColor)
     // two's complement 16 bit integers and stored in output unsigned long
 
     short int du, dv;
-    du = (int)(u * (2 << 15));
-    dv = (int)(v * (2 << 15));
+    du         = (int)(u * (2 << 15));
+    dv         = (int)(v * (2 << 15));
 
     //*outColor = du | (( dv << 16 ) & 0xFFFF0000);
     outColor.r = du;
     outColor.g = dv;
 }
 
-__forceinline void
-    AlphaAndVectorToARGB(unsigned long theHeight, float fred, float fgreen, float fblue, rgba_t& outColor)
+__forceinline void AlphaAndVectorToARGB(unsigned long theHeight, float fred, float fgreen, float fblue, rgba_t& outColor)
 {
     // Map the range [-1,1] to [0,255]
     // Does not clamp for you
@@ -261,12 +260,12 @@ __forceinline void AlphaAndVectorToR12G12B8(float red, float green, float blue, 
     unsigned int maxval_12 = (1 << 12) - 1;
     unsigned int maxval_8  = (1 << 8) - 1;
 
-    float scale_12 = (float)maxval_12 / 2.0;
-    float scale_8  = (float)maxval_8 / 2.0;
+    float        scale_12  = (float)maxval_12 / 2.0;
+    float        scale_8   = (float)maxval_8 / 2.0;
 
-    int r = (int)((red + 1.0f) * scale_12);
-    int g = (int)((green + 1.0f) * scale_12);
-    int b = (int)((blue + 1.0f) * scale_8);
+    int          r         = (int)((red + 1.0f) * scale_12);
+    int          g         = (int)((green + 1.0f) * scale_12);
+    int          b         = (int)((blue + 1.0f) * scale_8);
 
     if (r < 0)
         r = 0;

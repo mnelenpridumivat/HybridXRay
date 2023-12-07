@@ -27,8 +27,8 @@ void Minimize1D::GetMinimum(Real fT0, Real fT1, Real fTInitial, Real& rfTMin, Re
 {
     assert(fT0 <= fTInitial && fTInitial <= fT1);
 
-    m_fTMin = Math::MAX_REAL;
-    m_fFMin = Math::MAX_REAL;
+    m_fTMin        = Math::MAX_REAL;
+    m_fFMin        = Math::MAX_REAL;
 
     Real fF0       = m_oF(fT0, m_pvUserData);
     Real fFInitial = m_oF(fTInitial, m_pvUserData);

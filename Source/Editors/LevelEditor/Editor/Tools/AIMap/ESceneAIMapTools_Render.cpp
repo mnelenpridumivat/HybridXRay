@@ -6,73 +6,25 @@
 typedef Fvector2   t_node_tc[4];
 static const float dtc         = 0.25f;
 static t_node_tc   node_tc[16] = {
-    {{0.f + 0 * dtc, 0.25f + 0 * dtc},
-       {0.25f + 0 * dtc, 0.25f + 0 * dtc},
-       {0.25f + 0 * dtc, 0.f + 0 * dtc},
-       {0.f + 0 * dtc, 0.f + 0 * dtc}},
-    {{0.f + 1 * dtc, 0.25f + 0 * dtc},
-       {0.25f + 1 * dtc, 0.25f + 0 * dtc},
-       {0.25f + 1 * dtc, 0.f + 0 * dtc},
-       {0.f + 1 * dtc, 0.f + 0 * dtc}},
-    {{0.f + 2 * dtc, 0.25f + 0 * dtc},
-       {0.25f + 2 * dtc, 0.25f + 0 * dtc},
-       {0.25f + 2 * dtc, 0.f + 0 * dtc},
-       {0.f + 2 * dtc, 0.f + 0 * dtc}},
-    {{0.f + 3 * dtc, 0.25f + 0 * dtc},
-       {0.25f + 3 * dtc, 0.25f + 0 * dtc},
-       {0.25f + 3 * dtc, 0.f + 0 * dtc},
-       {0.f + 3 * dtc, 0.f + 0 * dtc}},
+    {{0.f + 0 * dtc, 0.25f + 0 * dtc}, {0.25f + 0 * dtc, 0.25f + 0 * dtc}, {0.25f + 0 * dtc, 0.f + 0 * dtc}, {0.f + 0 * dtc, 0.f + 0 * dtc}},
+    {{0.f + 1 * dtc, 0.25f + 0 * dtc}, {0.25f + 1 * dtc, 0.25f + 0 * dtc}, {0.25f + 1 * dtc, 0.f + 0 * dtc}, {0.f + 1 * dtc, 0.f + 0 * dtc}},
+    {{0.f + 2 * dtc, 0.25f + 0 * dtc}, {0.25f + 2 * dtc, 0.25f + 0 * dtc}, {0.25f + 2 * dtc, 0.f + 0 * dtc}, {0.f + 2 * dtc, 0.f + 0 * dtc}},
+    {{0.f + 3 * dtc, 0.25f + 0 * dtc}, {0.25f + 3 * dtc, 0.25f + 0 * dtc}, {0.25f + 3 * dtc, 0.f + 0 * dtc}, {0.f + 3 * dtc, 0.f + 0 * dtc}},
 
-    {{0.f + 0 * dtc, 0.25f + 1 * dtc},
-       {0.25f + 0 * dtc, 0.25f + 1 * dtc},
-       {0.25f + 0 * dtc, 0.f + 1 * dtc},
-       {0.f + 0 * dtc, 0.f + 1 * dtc}},
-    {{0.f + 1 * dtc, 0.25f + 1 * dtc},
-       {0.25f + 1 * dtc, 0.25f + 1 * dtc},
-       {0.25f + 1 * dtc, 0.f + 1 * dtc},
-       {0.f + 1 * dtc, 0.f + 1 * dtc}},
-    {{0.f + 2 * dtc, 0.25f + 1 * dtc},
-       {0.25f + 2 * dtc, 0.25f + 1 * dtc},
-       {0.25f + 2 * dtc, 0.f + 1 * dtc},
-       {0.f + 2 * dtc, 0.f + 1 * dtc}},
-    {{0.f + 3 * dtc, 0.25f + 1 * dtc},
-       {0.25f + 3 * dtc, 0.25f + 1 * dtc},
-       {0.25f + 3 * dtc, 0.f + 1 * dtc},
-       {0.f + 3 * dtc, 0.f + 1 * dtc}},
+    {{0.f + 0 * dtc, 0.25f + 1 * dtc}, {0.25f + 0 * dtc, 0.25f + 1 * dtc}, {0.25f + 0 * dtc, 0.f + 1 * dtc}, {0.f + 0 * dtc, 0.f + 1 * dtc}},
+    {{0.f + 1 * dtc, 0.25f + 1 * dtc}, {0.25f + 1 * dtc, 0.25f + 1 * dtc}, {0.25f + 1 * dtc, 0.f + 1 * dtc}, {0.f + 1 * dtc, 0.f + 1 * dtc}},
+    {{0.f + 2 * dtc, 0.25f + 1 * dtc}, {0.25f + 2 * dtc, 0.25f + 1 * dtc}, {0.25f + 2 * dtc, 0.f + 1 * dtc}, {0.f + 2 * dtc, 0.f + 1 * dtc}},
+    {{0.f + 3 * dtc, 0.25f + 1 * dtc}, {0.25f + 3 * dtc, 0.25f + 1 * dtc}, {0.25f + 3 * dtc, 0.f + 1 * dtc}, {0.f + 3 * dtc, 0.f + 1 * dtc}},
 
-    {{0.f + 0 * dtc, 0.25f + 2 * dtc},
-       {0.25f + 0 * dtc, 0.25f + 2 * dtc},
-       {0.25f + 0 * dtc, 0.f + 2 * dtc},
-       {0.f + 0 * dtc, 0.f + 2 * dtc}},
-    {{0.f + 1 * dtc, 0.25f + 2 * dtc},
-       {0.25f + 1 * dtc, 0.25f + 2 * dtc},
-       {0.25f + 1 * dtc, 0.f + 2 * dtc},
-       {0.f + 1 * dtc, 0.f + 2 * dtc}},
-    {{0.f + 2 * dtc, 0.25f + 2 * dtc},
-       {0.25f + 2 * dtc, 0.25f + 2 * dtc},
-       {0.25f + 2 * dtc, 0.f + 2 * dtc},
-       {0.f + 2 * dtc, 0.f + 2 * dtc}},
-    {{0.f + 3 * dtc, 0.25f + 2 * dtc},
-       {0.25f + 3 * dtc, 0.25f + 2 * dtc},
-       {0.25f + 3 * dtc, 0.f + 2 * dtc},
-       {0.f + 3 * dtc, 0.f + 2 * dtc}},
+    {{0.f + 0 * dtc, 0.25f + 2 * dtc}, {0.25f + 0 * dtc, 0.25f + 2 * dtc}, {0.25f + 0 * dtc, 0.f + 2 * dtc}, {0.f + 0 * dtc, 0.f + 2 * dtc}},
+    {{0.f + 1 * dtc, 0.25f + 2 * dtc}, {0.25f + 1 * dtc, 0.25f + 2 * dtc}, {0.25f + 1 * dtc, 0.f + 2 * dtc}, {0.f + 1 * dtc, 0.f + 2 * dtc}},
+    {{0.f + 2 * dtc, 0.25f + 2 * dtc}, {0.25f + 2 * dtc, 0.25f + 2 * dtc}, {0.25f + 2 * dtc, 0.f + 2 * dtc}, {0.f + 2 * dtc, 0.f + 2 * dtc}},
+    {{0.f + 3 * dtc, 0.25f + 2 * dtc}, {0.25f + 3 * dtc, 0.25f + 2 * dtc}, {0.25f + 3 * dtc, 0.f + 2 * dtc}, {0.f + 3 * dtc, 0.f + 2 * dtc}},
 
-    {{0.f + 0 * dtc, 0.25f + 3 * dtc},
-       {0.25f + 0 * dtc, 0.25f + 3 * dtc},
-       {0.25f + 0 * dtc, 0.f + 3 * dtc},
-       {0.f + 0 * dtc, 0.f + 3 * dtc}},
-    {{0.f + 1 * dtc, 0.25f + 3 * dtc},
-       {0.25f + 1 * dtc, 0.25f + 3 * dtc},
-       {0.25f + 1 * dtc, 0.f + 3 * dtc},
-       {0.f + 1 * dtc, 0.f + 3 * dtc}},
-    {{0.f + 2 * dtc, 0.25f + 3 * dtc},
-       {0.25f + 2 * dtc, 0.25f + 3 * dtc},
-       {0.25f + 2 * dtc, 0.f + 3 * dtc},
-       {0.f + 2 * dtc, 0.f + 3 * dtc}},
-    {{0.f + 3 * dtc, 0.25f + 3 * dtc},
-       {0.25f + 3 * dtc, 0.25f + 3 * dtc},
-       {0.25f + 3 * dtc, 0.f + 3 * dtc},
-       {0.f + 3 * dtc, 0.f + 3 * dtc}},
+    {{0.f + 0 * dtc, 0.25f + 3 * dtc}, {0.25f + 0 * dtc, 0.25f + 3 * dtc}, {0.25f + 0 * dtc, 0.f + 3 * dtc}, {0.f + 0 * dtc, 0.f + 3 * dtc}},
+    {{0.f + 1 * dtc, 0.25f + 3 * dtc}, {0.25f + 1 * dtc, 0.25f + 3 * dtc}, {0.25f + 1 * dtc, 0.f + 3 * dtc}, {0.f + 1 * dtc, 0.f + 3 * dtc}},
+    {{0.f + 2 * dtc, 0.25f + 3 * dtc}, {0.25f + 2 * dtc, 0.25f + 3 * dtc}, {0.25f + 2 * dtc, 0.f + 3 * dtc}, {0.f + 2 * dtc, 0.f + 3 * dtc}},
+    {{0.f + 3 * dtc, 0.25f + 3 * dtc}, {0.25f + 3 * dtc, 0.25f + 3 * dtc}, {0.25f + 3 * dtc, 0.f + 3 * dtc}, {0.f + 3 * dtc, 0.f + 3 * dtc}},
 };
 
 void ESceneAIMapTool::OnDeviceCreate()
@@ -87,9 +39,9 @@ void ESceneAIMapTool::OnDeviceDestroy()
     m_RGeom.destroy();
 }
 
-BOOL ai_map_shown = TRUE;
+BOOL             ai_map_shown = TRUE;
 
-static const u32 block_size = 0x2000;
+static const u32 block_size   = 0x2000;
 void             ESceneAIMapTool::OnRender(int priority, bool strictB2F)
 {
     if (m_Flags.is(flHideNodes) || !ai_map_shown)
@@ -132,11 +84,10 @@ void             ESceneAIMapTool::OnRender(int priority, bool strictB2F)
                             {
                                 SAINode& N = **it;
 
-                                Fvector v;
+                                Fvector  v;
                                 v.set(N.Pos.x - st, N.Pos.y, N.Pos.z - st);
                                 float p_denom = N.Plane.n.dotproduct(DUP);
-                                float b =
-                                    (_abs(p_denom) < EPS_S) ? m_Params.fPatchSize : _abs(N.Plane.classify(v) / p_denom);
+                                float b       = (_abs(p_denom) < EPS_S) ? m_Params.fPatchSize : _abs(N.Plane.classify(v) / p_denom);
 
                                 if (Render->ViewBase.testSphere_dirty(N.Pos, _max(b, st)))
                                 {

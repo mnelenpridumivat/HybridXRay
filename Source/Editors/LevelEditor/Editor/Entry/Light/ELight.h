@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#define LCONTROL_HEMI "$hemi"       // hemisphere
-#define LCONTROL_SUN "$sun"         // sun
+#define LCONTROL_HEMI   "$hemi"     // hemisphere
+#define LCONTROL_SUN    "$sun"      // sun
 #define LCONTROL_STATIC "$static"   // all other static lights
 
 namespace ELight
@@ -36,7 +36,7 @@ protected:
 
 public:
     // flags
-    Flags32 m_Flags;
+    Flags32       m_Flags;
 
     // light
     ELight::EType m_Type;  /* Type of light source */
@@ -48,18 +48,18 @@ public:
     float         m_Attenuation2; /* Quadratic attenuation */
     float         m_Cone;         /* Outer angle of spotlight cone */
 
-    float m_VirtualSize;
+    float         m_VirtualSize;
 
-    CLAItem* m_pAnimRef;
+    CLAItem*      m_pAnimRef;
 
     // spot light
-    shared_str m_FalloffTex;
+    shared_str    m_FalloffTex;
 
     // controller
-    u32 m_LControl;
+    u32           m_LControl;
 
     // build options
-    BOOL m_UseInD3D;
+    BOOL          m_UseInD3D;
 
     // fuzzy
     struct SFuzzyData
@@ -100,26 +100,27 @@ public:
         void SaveLTX(CInifile& ini, LPCSTR sect_name);
         void LoadLTX(CInifile& ini, LPCSTR sect_name);
     };
-    SFuzzyData* m_FuzzyData;
+    SFuzzyData*  m_FuzzyData;
 
     virtual void OnUpdateTransform();
     void         OnTypeChange(PropValue* value);
 
-    void OnFuzzyFlagChange(PropValue* value);
-    void OnFuzzyDataChange(PropValue* value);
-    void OnFuzzyTypeChange(PropValue* value);
+    void         OnFuzzyFlagChange(PropValue* value);
+    void         OnFuzzyDataChange(PropValue* value);
+    void         OnFuzzyTypeChange(PropValue* value);
 
-    void OnFuzzyGenerateClick(ButtonValue* value, bool& bModif, bool& bSafe);
-    void OnAutoClick(ButtonValue* value, bool& bModif, bool& bSafe);
-    void OnNeedUpdate(PropValue* value);
+    void         OnFuzzyGenerateClick(ButtonValue* value, bool& bModif, bool& bSafe);
+    void         OnAutoClick(ButtonValue* value, bool& bModif, bool& bSafe);
+    void         OnNeedUpdate(PropValue* value);
 
-    void OnPointDataChange(PropValue* value);
-    void OnAttenuationDraw(CanvasValue* sender);
-    void OnPointDataTestEqual(CanvasValue* a, CanvasValue* b, bool& res);
+    void         OnPointDataChange(PropValue* value);
+    void         OnAttenuationDraw(CanvasValue* sender);
+    void         OnPointDataTestEqual(CanvasValue* a, CanvasValue* b, bool& res);
 
 protected:
     //    virtual Fvector& GetPosition	()						{ return m_D3D.position; 	}
     //    virtual void 	SetPosition		(const Fvector& pos)	{ m_D3D.position.set(pos);	UpdateTransform();}
+
 public:
     CLight(LPVOID data, LPCSTR name);
     void Construct(LPVOID data);
@@ -157,13 +158,13 @@ public:
     virtual bool GetSummaryInfo(SSceneSummary* inf);
 
     // render utility function
-    void AffectD3D(BOOL flag);
+    void         AffectD3D(BOOL flag);
 
     virtual void Render(int priority, bool strictB2F);
     virtual void OnFrame();
     void         Update();
 
-    LPCSTR GetLControlName();
+    LPCSTR       GetLControlName();
 
     // events
     virtual void OnShowHint(AStringVec& dest);

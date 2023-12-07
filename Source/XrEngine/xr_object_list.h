@@ -37,32 +37,32 @@ public:
     typedef xr_vector<SRelcasePair> RELCASE_CALLBACK_VEC;
     RELCASE_CALLBACK_VEC            m_relcase_callbacks;
 
-    void relcase_register(RELCASE_CALLBACK, int*);
-    void relcase_unregister(int*);
+    void                            relcase_register(RELCASE_CALLBACK, int*);
+    void                            relcase_unregister(int*);
 
 public:
     // methods
     CObjectList();
     ~CObjectList();
 
-    CObject* FindObjectByName(shared_str name);
-    CObject* FindObjectByName(LPCSTR name);
-    CObject* FindObjectByCLS_ID(CLASS_ID cls);
+    CObject*     FindObjectByName(shared_str name);
+    CObject*     FindObjectByName(LPCSTR name);
+    CObject*     FindObjectByCLS_ID(CLASS_ID cls);
 
-    void Load();
-    void Unload();
+    void         Load();
+    void         Unload();
 
-    CObject* Create(LPCSTR name);
-    void     Destroy(CObject* O);
+    CObject*     Create(LPCSTR name);
+    void         Destroy(CObject* O);
 
-    void SingleUpdate(CObject* O);
-    void Update(bool bForce);
+    void         SingleUpdate(CObject* O);
+    void         Update(bool bForce);
 
-    void net_Register(CObject* O);
-    void net_Unregister(CObject* O);
+    void         net_Register(CObject* O);
+    void         net_Unregister(CObject* O);
 
-    u32  net_Export(NET_Packet* P, u32 _start, u32 _count);   // return next start
-    void net_Import(NET_Packet* P);
+    u32          net_Export(NET_Packet* P, u32 _start, u32 _count);   // return next start
+    void         net_Import(NET_Packet* P);
 
     ICF CObject* net_Find(u16 ID) const
     {

@@ -21,12 +21,12 @@ class ENGINE_API CTheoraSurface
     CTheoraStream* m_rgb;
     CTheoraStream* m_alpha;
 
-    u32  tm_start;
-    u32  tm_play;
-    u32  tm_total;
-    BOOL ready;
-    BOOL bShaderYUV2RGB;
-    int  prefetch;
+    u32            tm_start;
+    u32            tm_play;
+    u32            tm_total;
+    BOOL           ready;
+    BOOL           bShaderYUV2RGB;
+    int            prefetch;
 
 public:
     BOOL playing;
@@ -39,6 +39,7 @@ protected:
     void open_sdl_video();
     void write_sdl_video();
 #endif
+
 public:
     CTheoraSurface();
     virtual ~CTheoraSurface();

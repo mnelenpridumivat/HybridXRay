@@ -6,11 +6,11 @@ class EParticlesObject: public CCustomObject
     Fbox                  m_BBox;
     shared_str            m_RefName;
 
-    IParticleCustom* m_Particles;
-    GameTypeChooser  m_GameType;
+    IParticleCustom*      m_Particles;
+    GameTypeChooser       m_GameType;
 
-    void OnRefChange(PropValue* V);
-    void OnControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);
+    void                  OnRefChange(PropValue* V);
+    void                  OnControlClick(ButtonValue* sender, bool& bModif, bool& bSafe);
 
 public:
     EParticlesObject(LPVOID data, LPCSTR name);
@@ -44,18 +44,18 @@ public:
     virtual bool GetBox(Fbox& box);
     virtual void OnFrame();
 
-    void Play();
-    void Stop();
+    void         Play();
+    void         Stop();
 
     virtual void OnUpdateTransform();
 
-    IC bool RefCompare(LPCSTR ref_name)
+    IC bool      RefCompare(LPCSTR ref_name)
     {
         VERIFY(ref_name && ref_name[0]);
         return (0 == stricmp(ref_name, GetReferenceName()));
     }
 
-    bool Compile(LPCSTR ref_name);
+    bool         Compile(LPCSTR ref_name);
 
     // device dependent routine
     virtual void OnDeviceCreate();

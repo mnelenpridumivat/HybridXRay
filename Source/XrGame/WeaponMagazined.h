@@ -17,11 +17,11 @@ private:
 
 protected:
     // звук текущего выстрела
-    shared_str m_sSndShotCurrent;
+    shared_str  m_sSndShotCurrent;
 
     // дополнительная информация о глушителе
-    LPCSTR m_sSilencerFlameParticles;
-    LPCSTR m_sSilencerSmokeParticles;
+    LPCSTR      m_sSilencerFlameParticles;
+    LPCSTR      m_sSilencerSmokeParticles;
 
     ESoundTypes m_eSoundShow;
     ESoundTypes m_eSoundHide;
@@ -31,7 +31,7 @@ protected:
     bool        m_sounds_enabled;
     // General
     // кадр момента пересчета UpdateSounds
-    u32 dwUpdateSounds_Frame;
+    u32         dwUpdateSounds_Frame;
 
 protected:
     virtual void OnMagazineEmpty();
@@ -53,7 +53,7 @@ protected:
 
     virtual void UpdateSounds();
 
-    bool TryReload();
+    bool         TryReload();
 
 protected:
     virtual void ReloadMagazine();
@@ -124,22 +124,22 @@ public:
 
 protected:
     // максимальный размер очереди, которой можно стрельнуть
-    int m_iQueueSize;
+    int           m_iQueueSize;
     // количество реально выстреляных патронов
-    int m_iShotNum;
+    int           m_iShotNum;
     // после какого патрона, при непрерывной стрельбе, начинается отдача (сделано из-за Абакана)
-    int m_iBaseDispersionedBulletsCount;
+    int           m_iBaseDispersionedBulletsCount;
     // скорость вылета патронов, на которые не влияет отдача (сделано из-за Абакана)
-    float m_fBaseDispersionedBulletsSpeed;
+    float         m_fBaseDispersionedBulletsSpeed;
     // скорость вылета остальных патронов
-    float   m_fOldBulletSpeed;
-    Fvector m_vStartPos, m_vStartDir;
+    float         m_fOldBulletSpeed;
+    Fvector       m_vStartPos, m_vStartDir;
     // флаг того, что мы остановились после того как выстреляли
     // ровно столько патронов, сколько было задано в m_iQueueSize
-    bool m_bStopedAfterQueueFired;
+    bool          m_bStopedAfterQueueFired;
     // флаг того, что хотя бы один выстрел мы должны сделать
     //(даже если очень быстро нажали на курок и вызвалось FireEnd)
-    bool m_bFireSingleShot;
+    bool          m_bFireSingleShot;
     // режимы стрельбы
     bool          m_bHasDifferentFireModes;
     xr_vector<s8> m_aFireModes;
@@ -148,7 +148,7 @@ protected:
 
     // переменная блокирует использование
     // только разных типов патронов
-    bool m_bLockType;
+    bool          m_bLockType;
 
 public:
     virtual void OnZoomIn();
@@ -185,18 +185,11 @@ protected:
     virtual void PlayReloadSound();
     virtual void PlayAnimAim();
 
-    virtual int ShotsFired()
+    virtual int  ShotsFired()
     {
         return m_iShotNum;
     }
     virtual float GetWeaponDeterioration();
 
-    virtual void FireBullet(
-        const Fvector&    pos,
-        const Fvector&    dir,
-        float             fire_disp,
-        const CCartridge& cartridge,
-        u16               parent_id,
-        u16               weapon_id,
-        bool              send_hit);
+    virtual void  FireBullet(const Fvector& pos, const Fvector& dir, float fire_disp, const CCartridge& cartridge, u16 parent_id, u16 weapon_id, bool send_hit);
 };

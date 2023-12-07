@@ -17,8 +17,7 @@ CTeleWhirlwind ::CTeleWhirlwind()
     m_throw_power = 100.f;
 }
 
-CTelekineticObject*
-    CTeleWhirlwind::activate(CPhysicsShellHolder* obj, float strength, float height, u32 max_time_keep, bool rot)
+CTelekineticObject* CTeleWhirlwind::activate(CPhysicsShellHolder* obj, float strength, float height, u32 max_time_keep, bool rot)
 {
     if (inherited::activate(obj, strength, height, max_time_keep, rot))
     {
@@ -86,7 +85,7 @@ bool CTeleWhirlwindObject::init(CTelekinesis* tele, CPhysicsShellHolder* obj, fl
     bool result   = inherited::init(tele, obj, s, h, ttk, rot);
     m_telekinesis = static_cast<CTeleWhirlwind*>(tele);
 
-    throw_power = strength;
+    throw_power   = strength;
     if (m_telekinesis->is_active_object(obj))
     {
         return false;
@@ -169,8 +168,7 @@ bool CTeleWhirlwindObject::destroy_object(const Fvector dir, float val)
         if (PP)
         {
             u16 root = (smart_cast<IKinematics*>(object->Visual()))->LL_GetBoneRoot();
-            PP->StartParticles(
-                m_telekinesis->destroing_particles(), root, Fvector().set(0, 1, 0), m_telekinesis->OwnerObject()->ID());
+            PP->StartParticles(m_telekinesis->destroing_particles(), root, Fvector().set(0, 1, 0), m_telekinesis->OwnerObject()->ID());
         }
         return true;
     }
@@ -193,11 +191,11 @@ void CTeleWhirlwindObject::raise(float step)
     CPhysicsElement* maxE           = p->get_ElementByStoreOrder(0);
     for (u16 element = 0; element < element_number; ++element)
     {
-        float k             = strength;   // 600.f;
-        float predict_v_eps = 0.1f;
-        float mag_eps       = .01f;
+        float            k             = strength;   // 600.f;
+        float            predict_v_eps = 0.1f;
+        float            mag_eps       = .01f;
 
-        CPhysicsElement* E = p->get_ElementByStoreOrder(element);
+        CPhysicsElement* E             = p->get_ElementByStoreOrder(element);
         if (maxE->getMass() < E->getMass())
             maxE = E;
         if (!E->isActive())
@@ -245,8 +243,8 @@ void CTeleWhirlwindObject::raise(float step)
 
         Fvector predict_diff;
         predict_diff.sub(lc, predict_pos);
-        float predict_mag = predict_diff.magnitude();
-        float predict_v   = predict_vel.magnitude();
+        float   predict_mag = predict_diff.magnitude();
+        float   predict_v   = predict_vel.magnitude();
 
         Fvector force;
         force.set(dir);
@@ -297,10 +295,10 @@ void CTeleWhirlwindObject::keep()
         p->set_ApplyByGravity(FALSE);
     }
 
-    u16     element_number = p->get_ElementsNumber();
-    Fvector center         = m_telekinesis->Center();
+    u16              element_number = p->get_ElementsNumber();
+    Fvector          center         = m_telekinesis->Center();
 
-    CPhysicsElement* maxE = p->get_ElementByStoreOrder(0);
+    CPhysicsElement* maxE           = p->get_ElementByStoreOrder(0);
     for (u16 element = 0; element < element_number; ++element)
     {
         CPhysicsElement* E = p->get_ElementByStoreOrder(element);

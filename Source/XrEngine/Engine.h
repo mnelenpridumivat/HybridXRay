@@ -22,8 +22,8 @@ public:
     CEventAPI  Event;
     CSheduler  Sheduler;
 
-    void Initialize();
-    void Destroy();
+    void       Initialize();
+    void       Destroy();
 
     CEngine();
     ~CEngine();

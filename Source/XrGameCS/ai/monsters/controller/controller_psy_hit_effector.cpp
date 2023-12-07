@@ -1,6 +1,5 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "controller_psy_hit_effector.h"
-
 
 //void CPsyHitEffectorPP::load(LPCSTR section)
 //{
@@ -18,7 +17,7 @@
 //bool CPsyHitEffectorPP::check_start_conditions()
 //{
 //	return (m_dist < m_radius * m_r_max_perc);
-//}	
+//}
 //
 //void CPsyHitEffectorPP::update_factor()
 //{
@@ -35,10 +34,6 @@
 //	return xr_new<CPPEffectorControlled>(this,m_state);
 //}
 
-
-
 //////////////////////////////////////////////////////////////////////////
 // Alien Camera Effector
 //////////////////////////////////////////////////////////////////////////
-
-

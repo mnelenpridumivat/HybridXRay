@@ -36,7 +36,7 @@ public:
     virtual void Reset();
 
     // Установка состояния кнопки: утоплена, не утоплена
-    void SetButtonState(E_BUTTON_STATE eBtnState)
+    void         SetButtonState(E_BUTTON_STATE eBtnState)
     {
         m_eButtonState = eBtnState;
     }
@@ -54,9 +54,9 @@ public:
     // Работа с акселератором
     // Код акселератора берется из файла dinput.h, из DirectX SDK.
     // Например: кнопка A - код 0x1E(DIK_A)
-    void      SetAccelerator(int iAccel, int idx);
-    const int GetAccelerator(int idx) const;
-    bool      IsAccelerator(int iAccel) const;
+    void       SetAccelerator(int iAccel, int idx);
+    const int  GetAccelerator(int idx) const;
+    bool       IsAccelerator(int iAccel) const;
 
     shared_str m_hint_text;
 

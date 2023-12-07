@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "../state.h"
 
-template <typename _Object> class CStateMonsterLookActor: public CState<_Object>
+template<typename _Object> class CStateMonsterLookActor: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
@@ -14,7 +14,7 @@ public:
     }
 };
 
-template <typename _Object> class CStateMonsterTurnAwayFromActor: public CState<_Object>
+template<typename _Object> class CStateMonsterTurnAwayFromActor: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 
@@ -23,7 +23,7 @@ public:
     virtual void execute();
 };
 
-template <typename _Object> class CStateMonstertTestIdle: public CState<_Object>
+template<typename _Object> class CStateMonstertTestIdle: public CState<_Object>
 {
     typedef CState<_Object> inherited;
 

@@ -73,20 +73,20 @@ void CActorMP::fill_state(actor_mp_state& state)
     state.physics_torque           = State.torque;
     state.physics_position         = State.position;
 
-    state.position = Position();
+    state.position                 = Position();
 
-    state.logic_acceleration = NET_SavedAccel;
+    state.logic_acceleration       = NET_SavedAccel;
 
-    state.model_yaw    = angle_normalize(r_model_yaw);
-    state.camera_yaw   = angle_normalize(unaffected_r_torso.yaw);
-    state.camera_pitch = angle_normalize(unaffected_r_torso.pitch);
-    state.camera_roll  = angle_normalize(unaffected_r_torso.roll);
+    state.model_yaw                = angle_normalize(r_model_yaw);
+    state.camera_yaw               = angle_normalize(unaffected_r_torso.yaw);
+    state.camera_pitch             = angle_normalize(unaffected_r_torso.pitch);
+    state.camera_roll              = angle_normalize(unaffected_r_torso.roll);
 
-    state.time = Level().timeServer();
+    state.time                     = Level().timeServer();
 
-    state.inventory_active_slot = inventory().GetActiveSlot();
-    state.body_state_flags      = mstate_real & 0x0000ffff;
-    state.health                = GetfHealth();
+    state.inventory_active_slot    = inventory().GetActiveSlot();
+    state.body_state_flags         = mstate_real & 0x0000ffff;
+    state.health                   = GetfHealth();
     // because after packing to 1 byte, this value can be positive...
     if (state.health < EPS)
         state.health = 0;

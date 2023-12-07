@@ -16,9 +16,7 @@ IC static_obstacles_avoider::static_obstacles_avoider(): m_need_path_to_rebuild(
 #endif   // DEBUG
 }
 
-IC void static_obstacles_avoider::construct(
-    stalker_movement_manager_obstacles* movement_manager,
-    const bool&                         failed_to_build_path)
+IC void static_obstacles_avoider::construct(stalker_movement_manager_obstacles* movement_manager, const bool& failed_to_build_path)
 {
     m_movement_manager     = movement_manager;
     m_failed_to_build_path = &failed_to_build_path;

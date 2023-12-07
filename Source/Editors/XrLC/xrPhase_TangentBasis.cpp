@@ -28,18 +28,12 @@ static u32 add_vertex(const Vertex& V, const Fvector2& Ftc, xr_vector<MeshMender
     return theVerts.size() - 1;
 }
 
-static void add_face(
-    const Face&                    F,
-    xr_vector<MeshMender::Vertex>& theVerts,
-    xr_vector<unsigned int>&       theIndices,
-    xr_vector<xr_vector<u32>>&     remap)
+static void add_face(const Face& F, xr_vector<MeshMender::Vertex>& theVerts, xr_vector<unsigned int>& theIndices, xr_vector<xr_vector<u32>>& remap)
 {
     for (u32 v = 0; v < 3; v++)
     {
-        const Vertex* V = F.v[v];
-        u32           ID =
-            u32(std::lower_bound(lc_global_data()->g_vertices().begin(), lc_global_data()->g_vertices().end(), V) -
-                lc_global_data()->g_vertices().begin());
+        const Vertex*   V            = F.v[v];
+        u32             ID           = u32(std::lower_bound(lc_global_data()->g_vertices().begin(), lc_global_data()->g_vertices().end(), V) - lc_global_data()->g_vertices().begin());
         xr_vector<u32>& m            = remap[ID];
         Fvector2        Ftc          = F.tc.front().uv[v];
 
@@ -72,9 +66,7 @@ static void fill_mender_input(xr_vector<MeshMender::Vertex>& theVerts, xr_vector
     remap.clear();
 }
 
-static void retrive_data_from_mender_otput(
-    const xr_vector<MeshMender::Vertex>& theVerts,
-    const xr_vector<unsigned int>&       theIndices)
+static void retrive_data_from_mender_otput(const xr_vector<MeshMender::Vertex>& theVerts, const xr_vector<unsigned int>& theIndices)
 
 {
     // ************************************* Retreive data
@@ -115,17 +107,14 @@ void                                 CBuild::xrPhase_TangentBasis()
 
     u32 v_was    = lc_global_data()->g_vertices().size();
     u32 v_become = mender_in_out_verts.size();
-    clMsg(
-        "duplication: was[%d] / become[%d] - %2.1f%%", v_was, v_become, 100.f * float(v_become - v_was) / float(v_was));
+    clMsg("duplication: was[%d] / become[%d] - %2.1f%%", v_was, v_become, 100.f * float(v_become - v_was) / float(v_was));
 
     // ************************************* Perform mungle
     Status("Calculating basis...");
 
     MeshMender mender;
 
-    if (!mender.Mend(
-            mender_in_out_verts, mender_in_out_indices, mender_mapping_out_to_in_vert, 1, 0.5, 0.5, 0.0f,
-            MeshMender::DONT_CALCULATE_NORMALS, MeshMender::RESPECT_SPLITS, MeshMender::DONT_FIX_CYLINDRICAL))
+    if (!mender.Mend(mender_in_out_verts, mender_in_out_indices, mender_mapping_out_to_in_vert, 1, 0.5, 0.5, 0.0f, MeshMender::DONT_CALCULATE_NORMALS, MeshMender::RESPECT_SPLITS, MeshMender::DONT_FIX_CYLINDRICAL))
     {
         Debug.fatal(DEBUG_INFO, "NVMeshMender failed ");
         // Debug.fatal	(DEBUG_INFO,"NVMeshMender failed (%s)",mender.GetLastError().c_str());

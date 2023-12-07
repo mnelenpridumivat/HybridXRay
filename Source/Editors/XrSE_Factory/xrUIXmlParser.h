@@ -1,10 +1,11 @@
 ﻿#pragma once
 
-#include UP(xrXMLParser/xrXMLParser.h)
+#include "../XrXMLParser/xrXMLParser.h"
 
 class CUIXml: public CXml
 {
     int m_dbg_id;
+
 public:
     CUIXml();
     virtual ~CUIXml();

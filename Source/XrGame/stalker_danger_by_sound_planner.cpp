@@ -16,10 +16,7 @@
 
 using namespace StalkerDecisionSpace;
 
-CStalkerDangerBySoundPlanner::CStalkerDangerBySoundPlanner(CAI_Stalker* object, LPCSTR action_name):
-    inherited(object, action_name)
-{
-}
+CStalkerDangerBySoundPlanner::CStalkerDangerBySoundPlanner(CAI_Stalker* object, LPCSTR action_name): inherited(object, action_name) {}
 
 void CStalkerDangerBySoundPlanner::setup(CAI_Stalker* object, CPropertyStorage* storage)
 {

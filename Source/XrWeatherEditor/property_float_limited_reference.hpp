@@ -18,11 +18,7 @@ private:
     typedef property_float_reference inherited;
 
 public:
-    property_float_limited_reference(
-        float& value,
-        float const % increment_factor,
-        float const % min,
-        float const % max);
+    property_float_limited_reference(float& value, float const % increment_factor, float const % min, float const % max);
     virtual Object ^ get_value() override;
     virtual void set_value(System::Object ^ object) override;
 

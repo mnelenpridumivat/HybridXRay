@@ -33,17 +33,17 @@ extern "C"
 
 // Session GUID size - must match backend
 // #define SC_SESSION_GUID_SIZE 16
-#define SC_AUTHDATA_SIZE 16
-#define SC_SESSION_GUID_SIZE 40
+#define SC_AUTHDATA_SIZE        16
+#define SC_SESSION_GUID_SIZE    40
 #define SC_CONNECTION_GUID_SIZE 40
 
-#define SC_GUID_BINARY_SIZE 16   // convert the 40 byte string guid into an int, 2 shorts and 8 bytes
+#define SC_GUID_BINARY_SIZE     16   // convert the 40 byte string guid into an int, 2 shorts and 8 bytes
 
 // Limit to the number of teams
-#define SC_MAX_NUM_TEAMS 64
+#define SC_MAX_NUM_TEAMS        64
 
 // OPTIONS flags - first two bits reserved for authoritative / final flags
-#define SC_OPTIONS_NONE 0
+#define SC_OPTIONS_NONE         0
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -97,8 +97,8 @@ extern "C"
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     // Data types
-    typedef void* SCInterfacePtr;
-    typedef void* SCReportPtr;
+    typedef void*    SCInterfacePtr;
+    typedef void*    SCReportPtr;
 
     // typedef gsi_u32 SCTeamCount;
     // typedef gsi_u32 SCTeamIndex;
@@ -108,7 +108,7 @@ extern "C"
 
     // typedef gsi_u16 SCKey;
 
-    typedef char SCHiddenData[64];
+    typedef char     SCHiddenData[64];
 
     // typedef enum
     //{
@@ -120,21 +120,9 @@ extern "C"
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     // Callbacks
-    typedef void (*SCCreateSessionCallback)(
-        const SCInterfacePtr theInterface,
-        GHTTPResult          theHttpResult,
-        SCResult             theResult,
-        void*                theUserData);
-    typedef void (*SCSetReportIntentionCallback)(
-        const SCInterfacePtr theInterface,
-        GHTTPResult          theHttpResult,
-        SCResult             theResult,
-        void*                theUserData);
-    typedef void (*SCSubmitReportCallback)(
-        const SCInterfacePtr theInterface,
-        GHTTPResult          theHttpResult,
-        SCResult             theResult,
-        void*                theUserData);
+    typedef void     (*SCCreateSessionCallback)(const SCInterfacePtr theInterface, GHTTPResult theHttpResult, SCResult theResult, void* theUserData);
+    typedef void     (*SCSetReportIntentionCallback)(const SCInterfacePtr theInterface, GHTTPResult theHttpResult, SCResult theResult, void* theUserData);
+    typedef void     (*SCSubmitReportCallback)(const SCInterfacePtr theInterface, GHTTPResult theHttpResult, SCResult theResult, void* theUserData);
 
     /*
     typedef void (*SCKeyCallback) (SCReportPtr theReport,
@@ -150,50 +138,22 @@ extern "C"
     SCResult SC_CALL scShutdown(SCInterfacePtr theInterface);
     SCResult SC_CALL scThink(SCInterfacePtr theInterface);
 
-    SCResult SC_CALL scCreateSession(
-        SCInterfacePtr            theInterface,
-        const GSLoginCertificate* theCertificate,
-        const GSLoginPrivateData* thePrivateData,
-        SCCreateSessionCallback   theCallback,
-        gsi_time                  theTimeoutMs,
-        void*                     theUserData);
+    SCResult SC_CALL scCreateSession(SCInterfacePtr theInterface, const GSLoginCertificate* theCertificate, const GSLoginPrivateData* thePrivateData, SCCreateSessionCallback theCallback, gsi_time theTimeoutMs, void* theUserData);
 
     // This is a variation of scCreateSession that creates a "matchless" session.
     // "matchless" means incoming data will be scrutinized less, and applied to stats immediately instead of when the
     // match is over.
-    SCResult SC_CALL scCreateMatchlessSession(
-        SCInterfacePtr            theInterface,
-        const GSLoginCertificate* theCertificate,
-        const GSLoginPrivateData* thePrivateData,
-        SCCreateSessionCallback   theCallback,
-        gsi_time                  theTimeoutMs,
-        void*                     theUserData);
+    SCResult SC_CALL scCreateMatchlessSession(SCInterfacePtr theInterface, const GSLoginCertificate* theCertificate, const GSLoginPrivateData* thePrivateData, SCCreateSessionCallback theCallback, gsi_time theTimeoutMs, void* theUserData);
 
-    SCResult SC_CALL scSetReportIntention(
-        const SCInterfacePtr         theInterface,
-        const gsi_u8                 theConnectionId[SC_CONNECTION_GUID_SIZE],
-        gsi_bool                     isAuthoritative,
-        const GSLoginCertificate*    theCertificate,
-        const GSLoginPrivateData*    thePrivateData,
-        SCSetReportIntentionCallback theCallback,
-        gsi_time                     theTimeoutMs,
-        void*                        theUserData);
+    SCResult SC_CALL scSetReportIntention(const SCInterfacePtr theInterface, const gsi_u8 theConnectionId[SC_CONNECTION_GUID_SIZE], gsi_bool isAuthoritative, const GSLoginCertificate* theCertificate, const GSLoginPrivateData* thePrivateData, SCSetReportIntentionCallback theCallback, gsi_time theTimeoutMs, void* theUserData);
 
-    SCResult SC_CALL scSubmitReport(
-        const SCInterfacePtr      theInterface,
-        const SCReportPtr         theReport,
-        gsi_bool                  isAuthoritative,
-        const GSLoginCertificate* theCertificate,
-        const GSLoginPrivateData* thePrivateData,
-        SCSubmitReportCallback    theCallback,
-        gsi_time                  theTimeoutMs,
-        void*                     theUserData);
+    SCResult SC_CALL scSubmitReport(const SCInterfacePtr theInterface, const SCReportPtr theReport, gsi_bool isAuthoritative, const GSLoginCertificate* theCertificate, const GSLoginPrivateData* thePrivateData, SCSubmitReportCallback theCallback, gsi_time theTimeoutMs, void* theUserData);
 
     // SCResult SC_CALL sc
     SCResult SC_CALL scSetSessionId(const SCInterfacePtr theInterface, const gsi_u8 theSessionId[SC_SESSION_GUID_SIZE]);
 
-    const char* scGetSessionId(const SCInterfacePtr theInterface);
-    const char* scGetConnectionId(const SCInterfacePtr theInterface);
+    const char*      scGetSessionId(const SCInterfacePtr theInterface);
+    const char*      scGetConnectionId(const SCInterfacePtr theInterface);
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
@@ -202,12 +162,7 @@ extern "C"
     // Create a new (empty) report
     //    - Specify player and team count so we can allocate memory
     //      and later sanity check against reported data
-    SCResult SC_CALL scCreateReport(
-        const SCInterfacePtr theInterface,
-        gsi_u32              theHeaderVersion,
-        gsi_u32              thePlayerCount,
-        gsi_u32              theTeamCount,
-        SCReportPtr*         theReportOut);
+    SCResult SC_CALL scCreateReport(const SCInterfacePtr theInterface, gsi_u32 theHeaderVersion, gsi_u32 thePlayerCount, gsi_u32 theTeamCount, SCReportPtr* theReportOut);
 
     //    - Write global data key/values
     SCResult SC_CALL scReportBeginGlobalData(SCReportPtr theReportData);
@@ -216,15 +171,7 @@ extern "C"
 
     //    - Write player auth info and key/values
     SCResult SC_CALL scReportBeginNewPlayer(SCReportPtr theReportData);
-    SCResult SC_CALL scReportSetPlayerData(
-        SCReportPtr               theReport,
-        gsi_u32                   thePlayerIndex,
-        const gsi_u8              thePlayerConnectionId[SC_CONNECTION_GUID_SIZE],
-        gsi_u32                   thePlayerTeamId,
-        SCGameResult              theResult,
-        gsi_u32                   theProfileId,
-        const GSLoginCertificate* theCertificate,
-        const gsi_u8              theAuthData[16]);
+    SCResult SC_CALL scReportSetPlayerData(SCReportPtr theReport, gsi_u32 thePlayerIndex, const gsi_u8 thePlayerConnectionId[SC_CONNECTION_GUID_SIZE], gsi_u32 thePlayerTeamId, SCGameResult theResult, gsi_u32 theProfileId, const GSLoginCertificate* theCertificate, const gsi_u8 theAuthData[16]);
 
     //     - Write team info and key/values
     SCResult SC_CALL scReportBeginNewTeam(SCReportPtr theReportData);
@@ -260,20 +207,13 @@ extern "C"
         gsi_bool   mInitialized;
     } SCPeerCipher;
 
-    typedef char SCPeerKeyExchangeMsg[GS_CRYPT_RSA_BYTE_SIZE];
+    typedef char     SCPeerKeyExchangeMsg[GS_CRYPT_RSA_BYTE_SIZE];
 
     SCResult SC_CALL scPeerCipherInit(const GSLoginCertificate* theLocalCert, SCPeerCipher* theCipher);
 
-    SCResult SC_CALL scPeerCipherCreateKeyExchangeMsg(
-        const GSLoginCertificate* theRemoteCert,
-        const SCPeerCipher*       theCipher,
-        SCPeerKeyExchangeMsg      theMsgOut);
+    SCResult SC_CALL scPeerCipherCreateKeyExchangeMsg(const GSLoginCertificate* theRemoteCert, const SCPeerCipher* theCipher, SCPeerKeyExchangeMsg theMsgOut);
 
-    SCResult SC_CALL scPeerCipherParseKeyExchangeMsg(
-        const GSLoginCertificate*  theLocalCert,
-        const GSLoginPrivateData*  theCertPrivateData,
-        const SCPeerKeyExchangeMsg theMsg,
-        SCPeerCipher*              theCipherOut);
+    SCResult SC_CALL scPeerCipherParseKeyExchangeMsg(const GSLoginCertificate* theLocalCert, const GSLoginPrivateData* theCertPrivateData, const SCPeerKeyExchangeMsg theMsg, SCPeerCipher* theCipherOut);
 
     // Encrypt/Decrypt in place, also the RC4 context is modified everytime encryption/decryption take place
     SCResult SC_CALL scPeerCipherEncryptBuffer(SCPeerCipher* theCipher, gsi_u8* theData, gsi_u32 theLen);
@@ -281,10 +221,8 @@ extern "C"
 
     // When using UDP (non-ordered) you must supply a message num
     //    - This is less efficient then ecrypting an ordered stream
-    SCResult SC_CALL
-        scPeerCipherEncryptBufferIV(SCPeerCipher* theCipher, gsi_u32 theMessageNum, gsi_u8* theData, gsi_u32 theLen);
-    SCResult SC_CALL
-        scPeerCipherDecryptBufferIV(SCPeerCipher* theCipher, gsi_u32 theMessageNum, gsi_u8* theData, gsi_u32 theLen);
+    SCResult SC_CALL scPeerCipherEncryptBufferIV(SCPeerCipher* theCipher, gsi_u32 theMessageNum, gsi_u8* theData, gsi_u32 theLen);
+    SCResult SC_CALL scPeerCipherDecryptBufferIV(SCPeerCipher* theCipher, gsi_u32 theMessageNum, gsi_u8* theData, gsi_u32 theLen);
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////

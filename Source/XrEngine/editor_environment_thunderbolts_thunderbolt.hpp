@@ -28,10 +28,7 @@ namespace XrWeatherEditor
 
             class manager;
 
-            class thunderbolt:
-                public SThunderboltDesc,
-                public XrWeatherEditor::property_holder_holder,
-                private boost::noncopyable
+            class thunderbolt: public SThunderboltDesc, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             private:
                 typedef SThunderboltDesc inherited;
@@ -39,11 +36,9 @@ namespace XrWeatherEditor
             public:
                 thunderbolt(manager* manager, shared_str const& id);
                 virtual ~thunderbolt();
-                void load(CInifile& config);
-                void save(CInifile& config);
-                void fill(
-                    ::XrWeatherEditor::environment::manager&     environment,
-                    XrWeatherEditor::property_holder_collection* collection);
+                void          load(CInifile& config);
+                void          save(CInifile& config);
+                void          fill(::XrWeatherEditor::environment::manager& environment, XrWeatherEditor::property_holder_collection* collection);
                 inline LPCSTR id() const
                 {
                     return m_id.c_str();

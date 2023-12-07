@@ -22,7 +22,7 @@ generic<typename type0, typename type1> private ref struct Pair
     type1 second;
 };
 
-template <typename T> class value_holder: private boost::noncopyable
+template<typename T> class value_holder: private boost::noncopyable
 {
 public:
     inline value_holder(T& value): m_value(value) {}

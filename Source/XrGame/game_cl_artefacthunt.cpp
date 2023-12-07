@@ -25,9 +25,9 @@
 #include "clsid_game.h"
 #include "ui/UIActorMenu.h"
 
-#define TEAM0_MENU "artefacthunt_team0"
-#define TEAM1_MENU "artefacthunt_team1"
-#define TEAM2_MENU "artefacthunt_team2"
+#define TEAM0_MENU    "artefacthunt_team0"
+#define TEAM1_MENU    "artefacthunt_team1"
+#define TEAM2_MENU    "artefacthunt_team2"
 
 #define MESSAGE_MENUS "ahunt_messages_menu"
 
@@ -38,9 +38,9 @@
 
 game_cl_ArtefactHunt::game_cl_ArtefactHunt()
 {
-    m_game_ui = NULL;
+    m_game_ui          = NULL;
 
-    m_bBuyEnabled = FALSE;
+    m_bBuyEnabled      = FALSE;
     //---------------------------------
     m_Eff_Af_Spawn     = "";
     m_Eff_Af_Disappear = "";
@@ -147,7 +147,7 @@ void game_cl_ArtefactHunt::net_import_state(NET_Packet& P)
     P.r_u16(artefactBearerID);
     P.r_u8(teamInPossession);
     P.r_u16(artefactID);
-    bBearerCantSprint = !!P.r_u8();
+    bBearerCantSprint  = !!P.r_u8();
 
     iReinforcementTime = P.r_s32();
     if (iReinforcementTime > 0)
@@ -167,8 +167,8 @@ void game_cl_ArtefactHunt::TranslateGameMessage(u32 msg, NET_Packet& P)
     string512    Text;
     string512    tmp;
     //	LPSTR	Color_Teams[3]		= {"%c[255,255,255,255]", "%c[255,64,255,64]", "%c[255,64,64,255]"};
-    char Color_Main[]     = "%c[255,192,192,192]";
-    char Color_Artefact[] = "%c[255,255,255,0]";
+    char         Color_Main[]     = "%c[255,192,192,192]";
+    char         Color_Artefact[] = "%c[255,255,255,0]";
     //	LPSTR	TeamsNames[3]		= {"Zero Team", "Team Green", "Team Blue"};
 
     switch (msg)
@@ -189,8 +189,7 @@ void game_cl_ArtefactHunt::TranslateGameMessage(u32 msg, NET_Packet& P)
 
             xr_sprintf(tmp, "%s%s", "%s%s %s", *st.translate("mp_has_tak_art"));
 
-            xr_sprintf(
-                Text, tmp, CTeamInfo::GetTeam_color_tag(int(Team)), pPlayer->getName(), Color_Main, Color_Artefact);
+            xr_sprintf(Text, tmp, CTeamInfo::GetTeam_color_tag(int(Team)), pPlayer->getName(), Color_Main, Color_Artefact);
 
             if (CurrentGameUI())
                 CurrentGameUI()->CommonMessageOut(Text);
@@ -220,8 +219,7 @@ void game_cl_ArtefactHunt::TranslateGameMessage(u32 msg, NET_Packet& P)
 
             xr_sprintf(tmp, "%s%s", "%s%s %s", *st.translate("mp_has_drop_art"));
 
-            xr_sprintf(
-                Text, tmp, CTeamInfo::GetTeam_color_tag(int(Team)), pPlayer->getName(), Color_Main, Color_Artefact);
+            xr_sprintf(Text, tmp, CTeamInfo::GetTeam_color_tag(int(Team)), pPlayer->getName(), Color_Main, Color_Artefact);
             if (CurrentGameUI())
                 CurrentGameUI()->CommonMessageOut(Text);
 
@@ -244,8 +242,7 @@ void game_cl_ArtefactHunt::TranslateGameMessage(u32 msg, NET_Packet& P)
 
             xr_sprintf(tmp, "%s%s", "%s%s %s", *st.translate("mp_scores"));
 
-            xr_sprintf(
-                Text, tmp, CTeamInfo::GetTeam_color_tag(int(Team)), CTeamInfo::GetTeam_name(int(Team)), Color_Main);
+            xr_sprintf(Text, tmp, CTeamInfo::GetTeam_color_tag(int(Team)), CTeamInfo::GetTeam_name(int(Team)), Color_Main);
             if (CurrentGameUI())
                 CurrentGameUI()->CommonMessageOut(Text);
 
@@ -273,9 +270,9 @@ void game_cl_ArtefactHunt::TranslateGameMessage(u32 msg, NET_Packet& P)
         case GAME_EVENT_ARTEFACT_DESTROYED:   // ahunt
         {
             xr_sprintf(Text, "%s%s", Color_Main, *st.translate("mp_art_destroyed"));
-            u16 ArtefactID = P.r_u16();
+            u16      ArtefactID = P.r_u16();
             //-------------------------------------------
-            CObject* pObj = Level().Objects.net_Find(ArtefactID);
+            CObject* pObj       = Level().Objects.net_Find(ArtefactID);
             if (pObj && xr_strlen(m_Eff_Af_Disappear))
                 PlayParticleEffect(m_Eff_Af_Disappear.c_str(), pObj->Position());
             //-------------------------------------------
@@ -318,9 +315,9 @@ void game_cl_ArtefactHunt::GetMapEntities(xr_vector<SZoneMapEntityData>& dst)
     u32                color_artefact             = 0xffffffff;
     u32                color_friend_with_artefact = 0xffffff00;
 
-    s16 local_team = local_player->team;
+    s16                local_team                 = local_player->team;
 
-    CObject* pObject = Level().Objects.net_Find(artefactID);
+    CObject*           pObject                    = Level().Objects.net_Find(artefactID);
     if (!pObject)
         return;
 
@@ -340,7 +337,7 @@ void game_cl_ArtefactHunt::GetMapEntities(xr_vector<SZoneMapEntityData>& dst)
     {
         CObject* pBearer = Level().Objects.net_Find(artefactBearerID);
         VERIFY(pBearer);
-        D.pos = pBearer->Position();
+        D.pos                = pBearer->Position();
 
         game_PlayerState* ps = GetPlayerByGameID(artefactBearerID);
         (ps->team == local_team) ? D.color = color_friend_with_artefact : D.color = color_enemy_with_artefact;
@@ -370,11 +367,11 @@ void game_cl_ArtefactHunt::shedule_Update(u32 dt)
 
     switch (m_phase)
     {
-        case GAME_PHASE_INPROGRESS: {
+        case GAME_PHASE_INPROGRESS:
+        {
             if (local_player)
             {
-                if (local_player->testFlag(GAME_PLAYER_FLAG_ONBASE) &&
-                    !local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
+                if (local_player->testFlag(GAME_PLAYER_FLAG_ONBASE) && !local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD))
                 {
                     m_bBuyEnabled = TRUE;
                 }
@@ -416,8 +413,7 @@ void game_cl_ArtefactHunt::shedule_Update(u32 dt)
                     {
                         if (iReinforcementTime != 0)
                         {
-                            if (!m_game_ui->m_pBuySpawnMsgBox->IsShown() &&
-                                (local_player->money_for_round + m_iSpawn_Cost) >= 0)
+                            if (!m_game_ui->m_pBuySpawnMsgBox->IsShown() && (local_player->money_for_round + m_iSpawn_Cost) >= 0)
                             {
                                 if (m_game_ui)
                                     m_game_ui->SetPressJumpMsgCaption("mp_press_jump2pay_spaw");
@@ -475,25 +471,27 @@ void game_cl_ArtefactHunt::shedule_Update(u32 dt)
             SetScore();
         }
         break;
-        case GAME_PHASE_TEAM1_ELIMINATED: {
+        case GAME_PHASE_TEAM1_ELIMINATED:
+        {
             m_game_ui->SetRoundResultCaption("Team Green ELIMINATED!");
             SetScore();
         }
         break;
-        case GAME_PHASE_TEAM2_ELIMINATED: {
+        case GAME_PHASE_TEAM2_ELIMINATED:
+        {
             m_game_ui->SetRoundResultCaption("Team Blue ELIMINATED!");
             SetScore();
         }
         break;
-        default: {
+        default:
+        {
         }
         break;
     };
 
     if (m_game_ui->m_pBuySpawnMsgBox->IsShown())
     {
-        if (m_phase != GAME_PHASE_INPROGRESS ||
-            (!local_player || !local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD)))
+        if (m_phase != GAME_PHASE_INPROGRESS || (!local_player || !local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD)))
         {
             m_game_ui->m_pBuySpawnMsgBox->HideDialog();
         };
@@ -584,11 +582,13 @@ char* game_cl_ArtefactHunt::getTeamSection(int Team)
 {
     switch (Team)
     {
-        case 1: {
+        case 1:
+        {
             return "artefacthunt_team1";
         }
         break;
-        case 2: {
+        case 2:
+        {
             return "artefacthunt_team2";
         }
         break;
@@ -610,8 +610,8 @@ bool game_cl_ArtefactHunt::PlayerCanSprint(CActor* pActor)
 };
 
 #define ARTEFACT_NEUTRAL "mp_af_neutral_location"
-#define ARTEFACT_FRIEND "mp_af_friend_location"
-#define ARTEFACT_ENEMY "mp_af_enemy_location"
+#define ARTEFACT_FRIEND  "mp_af_friend_location"
+#define ARTEFACT_ENEMY   "mp_af_enemy_location"
 
 void game_cl_ArtefactHunt::UpdateMapLocations()
 {
@@ -686,21 +686,17 @@ void game_cl_ArtefactHunt::UpdateMapLocations()
 bool game_cl_ArtefactHunt::NeedToSendReady_Spectator(int key, game_PlayerState* ps)
 {
     CStringTable st;
-    bool         res = (GAME_PHASE_PENDING == Phase() && kWPN_FIRE == key) ||
-        ((kJUMP == key) && GAME_PHASE_INPROGRESS == Phase() && CanBeReady());
+    bool         res = (GAME_PHASE_PENDING == Phase() && kWPN_FIRE == key) || ((kJUMP == key) && GAME_PHASE_INPROGRESS == Phase() && CanBeReady());
 
     if ((Phase() == GAME_PHASE_INPROGRESS) && (kJUMP == key) && m_cl_dwWarmUp_Time)
     {
         return res;
     }
 
-    if ((GAME_PHASE_INPROGRESS == Phase()) && (kJUMP == key) && (iReinforcementTime != 0) &&
-        (!m_game_ui->m_pBuySpawnMsgBox->IsShown()) && local_player &&
-        (local_player->money_for_round + m_iSpawn_Cost) >= 0)
+    if ((GAME_PHASE_INPROGRESS == Phase()) && (kJUMP == key) && (iReinforcementTime != 0) && (!m_game_ui->m_pBuySpawnMsgBox->IsShown()) && local_player && (local_player->money_for_round + m_iSpawn_Cost) >= 0)
     {
         string1024 BuySpawnText;
-        xr_sprintf(
-            BuySpawnText, *st.translate("mp_press_yes2pay"), abs(local_player->money_for_round), abs(m_iSpawn_Cost));
+        xr_sprintf(BuySpawnText, *st.translate("mp_press_yes2pay"), abs(local_player->money_for_round), abs(m_iSpawn_Cost));
         m_game_ui->m_pBuySpawnMsgBox->SetText(BuySpawnText);
 
         if (m_bTeamSelected && m_bSkinSelected)
@@ -765,8 +761,7 @@ void game_cl_ArtefactHunt::OnBuySpawnMenu_Ok()
 
 void game_cl_ArtefactHunt::OnSellItemsFromRuck()
 {
-    if (!local_player || local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) ||
-        !local_player->testFlag(GAME_PLAYER_FLAG_ONBASE))
+    if (!local_player || local_player->testFlag(GAME_PLAYER_FLAG_VERY_VERY_DEAD) || !local_player->testFlag(GAME_PLAYER_FLAG_ONBASE))
         return;
     CActor* pCurActor = smart_cast<CActor*>(Level().Objects.net_Find(local_player->GameID));
     if (!pCurActor)
@@ -775,7 +770,7 @@ void game_cl_ArtefactHunt::OnSellItemsFromRuck()
     TIItemContainer::const_iterator IRuck = pCurActor->inventory().m_ruck.begin();
     TIItemContainer::const_iterator ERuck = pCurActor->inventory().m_ruck.end();
 
-    NET_Packet P;
+    NET_Packet                      P;
     pCurActor->u_EventGen(P, GEG_PLAYER_ITEM_SELL, pCurActor->ID());
     P.w_u16(u16(pCurActor->inventory().m_ruck.size() & 0xffff));
     for (; IRuck != ERuck; ++IRuck)

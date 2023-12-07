@@ -39,15 +39,14 @@ void __cdecl callback_serverkey(int keyid, qr2_buffer_t outbuf, void* userdata)
     if (!pQR2)
         return;
 
-    game_sv_mp*             gmMP    = smart_cast<game_sv_mp*>(pServer->game);
-    game_sv_Deathmatch*     gmDM    = smart_cast<game_sv_Deathmatch*>(pServer->game);
-    game_sv_TeamDeathmatch* gmTDM   = smart_cast<game_sv_TeamDeathmatch*>(pServer->game);
-    game_sv_ArtefactHunt*   gmAhunt = smart_cast<game_sv_ArtefactHunt*>(pServer->game);
+    game_sv_mp*             gmMP     = smart_cast<game_sv_mp*>(pServer->game);
+    game_sv_Deathmatch*     gmDM     = smart_cast<game_sv_Deathmatch*>(pServer->game);
+    game_sv_TeamDeathmatch* gmTDM    = smart_cast<game_sv_TeamDeathmatch*>(pServer->game);
+    game_sv_ArtefactHunt*   gmAhunt  = smart_cast<game_sv_ArtefactHunt*>(pServer->game);
 
-    LPCSTR time_str =
-        InventoryUtilities::GetTimeAsString(Device->dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay).c_str();
+    LPCSTR                  time_str = InventoryUtilities::GetTimeAsString(Device->dwTimeGlobal, InventoryUtilities::etpTimeToSecondsAndDay).c_str();
 
-    string4096 game_version;
+    string4096              game_version;
 
     switch (keyid)
     {
@@ -197,7 +196,8 @@ void __cdecl callback_serverkey(int keyid, qr2_buffer_t outbuf, void* userdata)
         case G_BEARER_CANT_SPRINT_KEY:
             ADD_KEY_VAL(gmAhunt, pQR2, BufferAdd_Int, outbuf, Get_BearerCantSprint());
             break;   // if (gmAhunt) pQR2->BufferAdd_Int(outbuf, gmAhunt->Get_BearerCantSprint		()); break;
-        default: {
+        default:
+        {
             //			R_ASSERT2(0, "Unknown GameSpy Server key ");
             pQR2->BufferAdd(outbuf, "");
         }
@@ -280,7 +280,8 @@ void __cdecl callback_playerkey(int keyid, int index, qr2_buffer_t outbuf, void*
                 pQR2->BufferAdd_Int(outbuf, pCD->ps->af_count);
             break;
             break;
-        default: {
+        default:
+        {
             pQR2->BufferAdd(outbuf, "");
         }
         break;
@@ -307,7 +308,8 @@ void __cdecl callback_teamkey(int keyid, int index, qr2_buffer_t outbuf, void* u
             if (gmDM)
                 pQR2->BufferAdd_Int(outbuf, gmDM->GetTeamScore(index));
             break;
-        default: {
+        default:
+        {
             pQR2->BufferAdd(outbuf, "");
         }
         break;
@@ -325,7 +327,8 @@ void __cdecl callback_keylist(qr2_key_type keytype, qr2_keybuffer_t keybuffer, v
 
     switch (keytype)
     {
-        case key_server: {
+        case key_server:
+        {
             pQR2->KeyBufferAdd(keybuffer, HOSTNAME_KEY);
             pQR2->KeyBufferAdd(keybuffer, MAPNAME_KEY);
             pQR2->KeyBufferAdd(keybuffer, GAMEVER_KEY);
@@ -374,7 +377,8 @@ void __cdecl callback_keylist(qr2_key_type keytype, qr2_keybuffer_t keybuffer, v
             pQR2->KeyBufferAdd(keybuffer, G_BEARER_CANT_SPRINT_KEY);
         }
         break;
-        case key_player: {
+        case key_player:
+        {
             //			pQR2->KeyBufferAdd(keybuffer, P_NAME__KEY);
             //			pQR2->KeyBufferAdd(keybuffer, P_FRAGS__KEY);
             //			pQR2->KeyBufferAdd(keybuffer, P_DEATH__KEY);
@@ -389,7 +393,8 @@ void __cdecl callback_keylist(qr2_key_type keytype, qr2_keybuffer_t keybuffer, v
             pQR2->KeyBufferAdd(keybuffer, P_ARTEFACTS__KEY);
         }
         break;
-        case key_team: {
+        case key_team:
+        {
             pQR2->KeyBufferAdd(keybuffer, T_SCORE_T_KEY);
         }
         break;
@@ -405,11 +410,13 @@ int __cdecl callback_count(qr2_key_type keytype, void* userdata)
     xrGameSpyServer* pServer = (xrGameSpyServer*)userdata;
     switch (keytype)
     {
-        case key_player: {
+        case key_player:
+        {
             return pServer->GetPlayersCount();
         }
         break;
-        case key_team: {
+        case key_team:
+        {
             if (!pServer->game)
                 return 0;
             switch (pServer->game->Type())

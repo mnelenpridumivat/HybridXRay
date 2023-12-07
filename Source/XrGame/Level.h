@@ -43,8 +43,8 @@ class CDebugRenderer;
 
 extern float g_fov;
 
-const int maxRP    = 64;
-const int maxTeams = 32;
+const int    maxRP    = 64;
+const int    maxTeams = 32;
 
 // class CFogOfWar;
 class CFogOfWarMngr;
@@ -66,23 +66,25 @@ private:
     bool m_bSynchronization;
     bool m_bEnvPaused;
 #endif
-protected:
-    typedef IGame_Level inherited;
 
-    CLevelSoundManager* m_level_sound_manager;
+protected:
+    typedef IGame_Level        inherited;
+
+    CLevelSoundManager*        m_level_sound_manager;
 
     // movement restriction manager
-    CSpaceRestrictionManager* m_space_restriction_manager;
+    CSpaceRestrictionManager*  m_space_restriction_manager;
     // seniority hierarchy holder
     CSeniorityHierarchyHolder* m_seniority_hierarchy_holder;
     // client spawn_manager
-    CClientSpawnManager* m_client_spawn_manager;
+    CClientSpawnManager*       m_client_spawn_manager;
     // autosave manager
-    CAutosaveManager* m_autosave_manager;
+    CAutosaveManager*          m_autosave_manager;
 #ifdef DEBUG
     // debug renderer
     CDebugRenderer* m_debug_renderer;
 #endif
+
 protected:
     CPHCommander* m_ph_commander;
     CPHCommander* m_ph_commander_scripts;
@@ -90,11 +92,11 @@ protected:
 
 private:
     // Local events
-    EVENT eChangeRP;
-    EVENT eDemoPlay;
-    EVENT eChangeTrack;
-    EVENT eEnvironment;
-    EVENT eEntitySpawn;
+    EVENT       eChangeRP;
+    EVENT       eDemoPlay;
+    EVENT       eChangeTrack;
+    EVENT       eEnvironment;
+    EVENT       eEntitySpawn;
     //---------------------------------------------
     CStatGraph* pStatGraphS;
     u32         m_dwSPC;   // SendedPacketsCount
@@ -134,9 +136,9 @@ public:
     virtual void OnConnectRejected();
 
 private:
-    void OnSecureMessage(NET_Packet& P);
-    void OnSecureKeySync(NET_Packet& P);
-    void SecureSend(NET_Packet& P, u32 dwFlags = DPNSEND_GUARANTEED, u32 dwTimeout = 0);
+    void                    OnSecureMessage(NET_Packet& P);
+    void                    OnSecureKeySync(NET_Packet& P);
+    void                    SecureSend(NET_Packet& P, u32 dwFlags = DPNSEND_GUARANTEED, u32 dwTimeout = 0);
 
     secure_messaging::key_t m_secret_key;
 
@@ -147,17 +149,17 @@ private:
 
     DEF_VECTOR(OBJECTS_LIST, CGameObject*);
 
-    OBJECTS_LIST pObjects4CrPr;
-    OBJECTS_LIST pActors4CrPr;
+    OBJECTS_LIST       pObjects4CrPr;
+    OBJECTS_LIST       pActors4CrPr;
 
     CObject*           pCurrentControlEntity;
     xrServer::EConnect m_connect_server_err;
 
 public:
-    void AddObject_To_Objects4CrPr(CGameObject* pObj);
-    void AddActor_To_Actors4CrPr(CGameObject* pActor);
+    void     AddObject_To_Objects4CrPr(CGameObject* pObj);
+    void     AddActor_To_Actors4CrPr(CGameObject* pActor);
 
-    void RemoveObject_From_4CrPr(CGameObject* pObj);
+    void     RemoveObject_From_4CrPr(CGameObject* pObj);
 
     CObject* CurrentControlEntity(void) const
     {
@@ -169,16 +171,17 @@ public:
     }
 
 protected:
-    void make_NetCorrectionPrediction();
+    void       make_NetCorrectionPrediction();
 
-    u32  m_dwDeltaUpdate;
-    u32  m_dwLastNetUpdateTime;
-    void UpdateDeltaUpd(u32 LastTime);
-    void BlockCheatLoad();
+    u32        m_dwDeltaUpdate;
+    u32        m_dwLastNetUpdateTime;
+    void       UpdateDeltaUpd(u32 LastTime);
+    void       BlockCheatLoad();
 
     BOOL       Connect2Server(LPCSTR options);
     void       SendClientDigestToServer();
     shared_str m_client_digest;   // for screenshots
+
 public:
     shared_str const get_cdkey_digest() const
     {
@@ -199,7 +202,7 @@ public:
     //////////////////////////////////////////////
     // static particles
     DEFINE_VECTOR(CParticlesObject*, POVec, POIt);
-    POVec m_StaticParticles;
+    POVec                   m_StaticParticles;
 
     game_cl_GameState*      game;
     BOOL                    m_bGameConfigStarted;
@@ -209,8 +212,8 @@ public:
     xrServer*               Server;
     GlobalFeelTouch         m_feel_deny;
 
-    CZoneList* hud_zones_list;
-    CZoneList* create_hud_zones_list();
+    CZoneList*              hud_zones_list;
+    CZoneList*              create_hud_zones_list();
 
 private:
     // preload sounds registry
@@ -221,102 +224,102 @@ public:
     void PrefetchSound(LPCSTR name);
 
 protected:
-    BOOL net_start_result_total;
-    BOOL connected_to_server;
+    BOOL             net_start_result_total;
+    BOOL             connected_to_server;
 
-    BOOL deny_m_spawn;   // only for debug...
+    BOOL             deny_m_spawn;   // only for debug...
 
-    BOOL sended_request_connection_data;
+    BOOL             sended_request_connection_data;
 
-    void MakeReconnect();
+    void             MakeReconnect();
 
     LevelMapSyncData map_data;
     bool             synchronize_map_data();
     bool             synchronize_client();
 
-    bool net_start1();
-    bool net_start2();
-    bool net_start3();
-    bool net_start4();
-    bool net_start5();
-    bool net_start6();
+    bool             net_start1();
+    bool             net_start2();
+    bool             net_start3();
+    bool             net_start4();
+    bool             net_start5();
+    bool             net_start6();
 
-    bool net_start_client1();
-    bool net_start_client2();
-    bool net_start_client3();
-    bool net_start_client4();
-    bool net_start_client5();
-    bool net_start_client6();
+    bool             net_start_client1();
+    bool             net_start_client2();
+    bool             net_start_client3();
+    bool             net_start_client4();
+    bool             net_start_client5();
+    bool             net_start_client6();
 
-    void net_OnChangeSelfName(NET_Packet* P);
+    void             net_OnChangeSelfName(NET_Packet* P);
 
-    void CalculateLevelCrc32();
+    void             CalculateLevelCrc32();
 
 public:
-    bool IsChecksumsEqual(u32 check_sum) const;
+    bool                          IsChecksumsEqual(u32 check_sum) const;
 
     // sounds
-    xr_vector<ref_sound*> static_Sounds;
+    xr_vector<ref_sound*>         static_Sounds;
 
     // startup options
-    shared_str m_caServerOptions;
-    shared_str m_caClientOptions;
+    shared_str                    m_caServerOptions;
+    shared_str                    m_caClientOptions;
 
     // Starting/Loading
-    virtual BOOL net_Start(LPCSTR op_server, LPCSTR op_client);
-    virtual void net_Load(LPCSTR name);
-    virtual void net_Save(LPCSTR name);
-    virtual void net_Stop();
-    virtual BOOL net_Start_client(LPCSTR name);
-    virtual void net_Update();
+    virtual BOOL                  net_Start(LPCSTR op_server, LPCSTR op_client);
+    virtual void                  net_Load(LPCSTR name);
+    virtual void                  net_Save(LPCSTR name);
+    virtual void                  net_Stop();
+    virtual BOOL                  net_Start_client(LPCSTR name);
+    virtual void                  net_Update();
 
-    virtual BOOL Load_GameSpecific_Before();
-    virtual BOOL Load_GameSpecific_After();
-    virtual void Load_GameSpecific_CFORM(CDB::TRI* T, u32 count);
+    virtual BOOL                  Load_GameSpecific_Before();
+    virtual BOOL                  Load_GameSpecific_After();
+    virtual void                  Load_GameSpecific_CFORM(CDB::TRI* T, u32 count);
 
     // Events
-    virtual void      OnEvent(EVENT E, u64 P1, u64 P2);
-    virtual void _BCL OnFrame(void);
-    virtual void      OnRender();
+    virtual void                  OnEvent(EVENT E, u64 P1, u64 P2);
+    virtual void _BCL             OnFrame(void);
+    virtual void                  OnRender();
 
-    virtual shared_str OpenDemoFile(LPCSTR demo_file_name);
-    virtual void       net_StartPlayDemo();
+    virtual shared_str            OpenDemoFile(LPCSTR demo_file_name);
+    virtual void                  net_StartPlayDemo();
 
-    void cl_Process_Event(u16 dest, u16 type, NET_Packet& P);
-    void cl_Process_Spawn(NET_Packet& P);
-    void ProcessGameEvents();
-    void ProcessGameSpawns();
-    void ProcessCompressedUpdate(NET_Packet& P, u8 const compression_type);
+    void                          cl_Process_Event(u16 dest, u16 type, NET_Packet& P);
+    void                          cl_Process_Spawn(NET_Packet& P);
+    void                          ProcessGameEvents();
+    void                          ProcessGameSpawns();
+    void                          ProcessCompressedUpdate(NET_Packet& P, u8 const compression_type);
 
     // Input
-    virtual void IR_OnKeyboardPress(int btn);
-    virtual void IR_OnKeyboardRelease(int btn);
-    virtual void IR_OnKeyboardHold(int btn);
-    virtual void IR_OnMousePress(int btn);
-    virtual void IR_OnMouseRelease(int btn);
-    virtual void IR_OnMouseHold(int btn);
-    virtual void IR_OnMouseMove(int, int);
-    virtual void IR_OnMouseStop(int, int);
-    virtual void IR_OnMouseWheel(int direction);
-    virtual void IR_OnActivate(void);
+    virtual void                  IR_OnKeyboardPress(int btn);
+    virtual void                  IR_OnKeyboardRelease(int btn);
+    virtual void                  IR_OnKeyboardHold(int btn);
+    virtual void                  IR_OnMousePress(int btn);
+    virtual void                  IR_OnMouseRelease(int btn);
+    virtual void                  IR_OnMouseHold(int btn);
+    virtual void                  IR_OnMouseMove(int, int);
+    virtual void                  IR_OnMouseStop(int, int);
+    virtual void                  IR_OnMouseWheel(int direction);
+    virtual void                  IR_OnActivate(void);
 
-    int get_RPID(LPCSTR name);
+    int                           get_RPID(LPCSTR name);
 
     // Game
-    void         InitializeClientGame(NET_Packet& P);
-    void         ClientReceive();
-    void         ClientSend();
-    void         ClientSendProfileData();
-    void         ClientSave();
-    u32          Objects_net_Save(NET_Packet* _Packet, u32 start, u32 count);
-    virtual void Send(NET_Packet& P, u32 dwFlags = DPNSEND_GUARANTEED, u32 dwTimeout = 0);
+    void                          InitializeClientGame(NET_Packet& P);
+    void                          ClientReceive();
+    void                          ClientSend();
+    void                          ClientSendProfileData();
+    void                          ClientSave();
+    u32                           Objects_net_Save(NET_Packet* _Packet, u32 start, u32 count);
+    virtual void                  Send(NET_Packet& P, u32 dwFlags = DPNSEND_GUARANTEED, u32 dwTimeout = 0);
 
-    void g_cl_Spawn(LPCSTR name, u8 rp, u16 flags, Fvector pos);   // only ask server
-    void g_sv_Spawn(CSE_Abstract* E);                              // server reply/command spawning
+    void                          g_cl_Spawn(LPCSTR name, u8 rp, u16 flags, Fvector pos);   // only ask server
+    void                          g_sv_Spawn(CSE_Abstract* E);                              // server reply/command spawning
 
     // Save/Load/State
-    void SLS_Load(LPCSTR name);   // Game Load
-    void SLS_Default();           // Default/Editor Load
+    void                          SLS_Load(LPCSTR name);   // Game Load
+    void                          SLS_Default();           // Default/Editor Load
 
     IC CSpaceRestrictionManager&  space_restriction_manager();
     IC CSeniorityHierarchyHolder& seniority_holder();
@@ -325,7 +328,7 @@ public:
 #ifdef DEBUG
     IC CDebugRenderer& debug_renderer();
 #endif
-    void script_gc();   // GC-cycle
+    void             script_gc();   // GC-cycle
 
     IC CPHCommander& ph_commander();
     IC CPHCommander& ph_commander_scripts();
@@ -342,7 +345,7 @@ public:
         return map_data.m_map_version.c_str();
     }   // this method can be used ONLY from CCC_ChangeGameType
 
-    virtual void GetLevelInfo(CServerInfo* si);
+    virtual void    GetLevelInfo(CServerInfo* si);
 
     // gets the time from the game simulation
 
@@ -352,21 +355,22 @@ public:
     // возвращает время для энвайронмента в милисекундах относительно начала игры
     ALife::_TIME_ID GetEnvironmentGameTime();
     // игровое время в отформатированном виде
-    void GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& mins, u32& secs, u32& milisecs);
+    void            GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& mins, u32& secs, u32& milisecs);
 
-    float        GetGameTimeFactor();
-    void         SetGameTimeFactor(const float fTimeFactor);
-    void         SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor);
-    virtual void SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor);
+    float           GetGameTimeFactor();
+    void            SetGameTimeFactor(const float fTimeFactor);
+    void            SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor);
+    virtual void    SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor);
 
     // gets current daytime [0..23]
-    u8    GetDayTime();
-    u32   GetGameDayTimeMS();
-    float GetGameDayTimeSec();
-    float GetEnvironmentGameDayTimeSec();
+    u8              GetDayTime();
+    u32             GetGameDayTimeMS();
+    float           GetGameDayTimeSec();
+    float           GetEnvironmentGameDayTimeSec();
 
 protected:
     //	CFogOfWarMngr*		m_pFogOfWarMngr;
+
 protected:
     CMapManager*      m_map_manager;
     CGameTaskManager* m_game_task_manager;
@@ -383,6 +387,7 @@ public:
     void OnAlifeSimulatorLoaded();
     void OnAlifeSimulatorUnLoaded();
     // работа с пулями
+
 protected:
     CBulletManager* m_pBulletManager;
 
@@ -395,12 +400,7 @@ public:
     // by Mad Max
     bool          IsServer();
     bool          IsClient();
-    CSE_Abstract* spawn_item(
-        LPCSTR         section,
-        const Fvector& position,
-        u32            level_vertex_id,
-        u16            parent_id,
-        bool           return_item = false);
+    CSE_Abstract* spawn_item(LPCSTR section, const Fvector& position, u32 level_vertex_id, u16 parent_id, bool return_item = false);
 
 protected:
     u32 m_dwCL_PingDeltaSend;
@@ -414,19 +414,19 @@ public:
     };
 
 public:
-    void         remove_objects();
-    virtual void OnSessionTerminate(LPCSTR reason);
+    void                               remove_objects();
+    virtual void                       OnSessionTerminate(LPCSTR reason);
 
-    file_transfer::client_site* m_file_transfer;
+    file_transfer::client_site*        m_file_transfer;
 
     compression::ppmd_trained_stream*  m_trained_stream;
     compression::lzo_dictionary_buffer m_lzo_dictionary;
     // alligned to 16 bytes m_lzo_working_buffer
-    u8* m_lzo_working_memory;
-    u8* m_lzo_working_buffer;
+    u8*                                m_lzo_working_memory;
+    u8*                                m_lzo_working_buffer;
 
-    void init_compression();
-    void deinit_compression();
+    void                               init_compression();
+    void                               deinit_compression();
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };

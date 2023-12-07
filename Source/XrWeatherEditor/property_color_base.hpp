@@ -50,11 +50,7 @@ public:
 };   // value struct Color
 
 public
-ref class property_color_base abstract:
-    public property_value,
-    public property_container_holder,
-    public XrWeatherEditor::controls::property_mouse_events,
-    public XrWeatherEditor::controls::property_incrementable
+ref class property_color_base abstract: public property_value, public property_container_holder, public XrWeatherEditor::controls::property_mouse_events, public XrWeatherEditor::controls::property_incrementable
 {
 public:
     typedef System::Attribute Attribute;

@@ -23,13 +23,7 @@ namespace Mgc
     public:
         typedef Real (*Function)(const Real*, void*);
 
-        MinimizeND(
-            int      iDimensions,
-            Function oF,
-            int      iMaxLevel,
-            int      iMaxBracket,
-            int      iMaxIterations,
-            void*    pvUserData = 0);
+        MinimizeND(int iDimensions, Function oF, int iMaxLevel, int iMaxBracket, int iMaxIterations, void* pvUserData = 0);
 
         ~MinimizeND();
 
@@ -38,24 +32,24 @@ namespace Mgc
         void*& UserData();
 
         // find minimum on Cartesian-product domain
-        void GetMinimum(const Real* afT0, const Real* afT1, const Real* afTInitial, Real* afTMin, Real& rfFMin);
+        void   GetMinimum(const Real* afT0, const Real* afT1, const Real* afTInitial, Real* afTMin, Real& rfFMin);
 
     protected:
-        int        m_iDimensions;
-        Function   m_oF;
-        int        m_iMaxIterations;
-        void*      m_pvUserData;
-        Minimize1D m_kMinimizer;
-        Real*      m_afDirectionStorage;
-        Real**     m_aafDirection;
-        Real*      m_afDConj;
-        Real*      m_afDCurr;
-        Real*      m_afTSave;
-        Real*      m_afTCurr;
-        Real       m_fFCurr;
-        Real*      m_afLineArg;
+        int         m_iDimensions;
+        Function    m_oF;
+        int         m_iMaxIterations;
+        void*       m_pvUserData;
+        Minimize1D  m_kMinimizer;
+        Real*       m_afDirectionStorage;
+        Real**      m_aafDirection;
+        Real*       m_afDConj;
+        Real*       m_afDCurr;
+        Real*       m_afTSave;
+        Real*       m_afTCurr;
+        Real        m_fFCurr;
+        Real*       m_afLineArg;
 
-        void ComputeDomain(const Real* afT0, const Real* afT1, Real& rfL0, Real& rfL1);
+        void        ComputeDomain(const Real* afT0, const Real* afT1, Real& rfL0, Real& rfL1);
 
         static Real LineFunction(Real fT, void* pvUserData);
     };

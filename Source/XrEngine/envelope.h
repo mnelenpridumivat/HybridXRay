@@ -19,19 +19,19 @@ envelope.h
       the envelopes.
 ====================================================================== */
 
-#define SHAPE_TCB 0
-#define SHAPE_HERM 1
-#define SHAPE_BEZI 2
-#define SHAPE_LINE 3
-#define SHAPE_STEP 4
-#define SHAPE_BEZ2 5
+#define SHAPE_TCB     0
+#define SHAPE_HERM    1
+#define SHAPE_BEZI    2
+#define SHAPE_LINE    3
+#define SHAPE_STEP    4
+#define SHAPE_BEZ2    5
 
-#define BEH_RESET 0
-#define BEH_CONSTANT 1
-#define BEH_REPEAT 2
+#define BEH_RESET     0
+#define BEH_CONSTANT  1
+#define BEH_REPEAT    2
 #define BEH_OSCILLATE 3
-#define BEH_OFFSET 4
-#define BEH_LINEAR 5
+#define BEH_OFFSET    4
+#define BEH_LINEAR    5
 
 #pragma pack(push, 1)
 struct st_Key
@@ -140,15 +140,15 @@ public:
 
     float Evaluate(float t);
 
-    void Clear();
-    void ClearAndFree();
-    void Save(IWriter& F);
-    void Load_1(IReader& F);
-    void Load_2(IReader& F);
-    void SaveA(IWriter& F);
-    void LoadA(IReader& F);
+    void  Clear();
+    void  ClearAndFree();
+    void  Save(IWriter& F);
+    void  Load_1(IReader& F);
+    void  Load_2(IReader& F);
+    void  SaveA(IWriter& F);
+    void  LoadA(IReader& F);
 
-    void RotateKeys(float angle);
+    void  RotateKeys(float angle);
 
     KeyIt FindKey(float t, float eps);
     void  FindNearestKey(float t, KeyIt& min, KeyIt& max, float eps);
@@ -157,7 +157,7 @@ public:
     BOOL  ScaleKeys(float from_time, float to_time, float scale_factor, float eps);
     float GetLength(float* mn, float* mx);
 
-    void Optimize();
+    void  Optimize();
 };
 
 #endif   //_ENVELOPE_H_

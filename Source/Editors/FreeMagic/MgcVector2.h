@@ -28,7 +28,7 @@ namespace Mgc
         Vector2(const Vector2& rkVector);
 
         // coordinates
-        Real x, y;
+        Real  x, y;
 
         // access vector V as V[0] = V.x, V[1] = V.y
         //
@@ -36,18 +36,18 @@ namespace Mgc
         // (1) Vector2 not having virtual functions
         // (2) the data packed in a 2*sizeof(Real) memory block
         Real& operator[](int i) const;
-              operator Real*();
+        operator Real*();
 
         // assignment
-        Vector2& operator=(const Vector2& rkVector);
+        Vector2&               operator=(const Vector2& rkVector);
 
         // comparison (supports fuzzy arithmetic when FUZZ > 0)
-        bool operator==(const Vector2& rkVector) const;
-        bool operator!=(const Vector2& rkVector) const;
-        bool operator<(const Vector2& rkVector) const;
-        bool operator<=(const Vector2& rkVector) const;
-        bool operator>(const Vector2& rkVector) const;
-        bool operator>=(const Vector2& rkVector) const;
+        bool                   operator==(const Vector2& rkVector) const;
+        bool                   operator!=(const Vector2& rkVector) const;
+        bool                   operator<(const Vector2& rkVector) const;
+        bool                   operator<=(const Vector2& rkVector) const;
+        bool                   operator>(const Vector2& rkVector) const;
+        bool                   operator>=(const Vector2& rkVector) const;
 
         // arithmetic operations
         Vector2                operator+(const Vector2& rkVector) const;
@@ -58,29 +58,29 @@ namespace Mgc
         MAGICFM friend Vector2 operator*(Real fScalar, const Vector2& rkVector);
 
         // arithmetic updates
-        Vector2& operator+=(const Vector2& rkVector);
-        Vector2& operator-=(const Vector2& rkVector);
-        Vector2& operator*=(Real fScalar);
-        Vector2& operator/=(Real fScalar);
+        Vector2&               operator+=(const Vector2& rkVector);
+        Vector2&               operator-=(const Vector2& rkVector);
+        Vector2&               operator*=(Real fScalar);
+        Vector2&               operator/=(Real fScalar);
 
         // vector operations
-        Real    Length() const;
-        Real    SquaredLength() const;
-        Real    Dot(const Vector2& rkVector) const;
-        Real    Unitize(Real fTolerance = 1e-06f);
-        Vector2 Cross() const;       // returns (y,-x)
-        Vector2 UnitCross() const;   // returns (y,-x)/sqrt(x*x+y*y)
+        Real                   Length() const;
+        Real                   SquaredLength() const;
+        Real                   Dot(const Vector2& rkVector) const;
+        Real                   Unitize(Real fTolerance = 1e-06f);
+        Vector2                Cross() const;       // returns (y,-x)
+        Vector2                UnitCross() const;   // returns (y,-x)/sqrt(x*x+y*y)
 
         // Gram-Schmidt orthonormalization.
-        static void Orthonormalize(Vector2 akVector[/*2*/]);
+        static void            Orthonormalize(Vector2 akVector[/*2*/]);
 
         // special points
-        static const Vector2 ZERO;
-        static const Vector2 UNIT_X;
-        static const Vector2 UNIT_Y;
+        static const Vector2   ZERO;
+        static const Vector2   UNIT_X;
+        static const Vector2   UNIT_Y;
 
         // fuzzy arithmetic (set FUZZ > 0 to enable)
-        static Real FUZZ;
+        static Real            FUZZ;
     };
 
 #include "MgcVector2.inl"

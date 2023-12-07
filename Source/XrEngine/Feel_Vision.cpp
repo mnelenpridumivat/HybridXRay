@@ -19,10 +19,7 @@ namespace Feel
         Vision::feel_visible_Item* item;
         float                      vis;
         float                      vis_threshold;
-        SFeelParam(Vision* _parent, Vision::feel_visible_Item* _item, float _vis_threshold):
-            parent(_parent), item(_item), vis(1.f), vis_threshold(_vis_threshold)
-        {
-        }
+        SFeelParam(Vision* _parent, Vision::feel_visible_Item* _item, float _vis_threshold): parent(_parent), item(_item), vis(1.f), vis_threshold(_vis_threshold) {}
     };
     IC BOOL feel_vision_callback(collide::rq_result& result, LPVOID params)
     {
@@ -129,8 +126,7 @@ namespace Feel
 
             {
                 diff.resize(_max(seen.size(), query.size()));
-                xr_vector<CObject*>::iterator E =
-                    std::set_difference(seen.begin(), seen.end(), query.begin(), query.end(), diff.begin());
+                xr_vector<CObject*>::iterator E = std::set_difference(seen.begin(), seen.end(), query.begin(), query.end(), diff.begin());
                 diff.resize(E - diff.begin());
                 for (u32 i = 0; i < diff.size(); i++)
                     o_new(diff[i]);
@@ -141,8 +137,7 @@ namespace Feel
         if (!query.empty())
         {
             diff.resize(_max(seen.size(), query.size()));
-            xr_vector<CObject*>::iterator E =
-                std::set_difference(query.begin(), query.end(), seen.begin(), seen.end(), diff.begin());
+            xr_vector<CObject*>::iterator E = std::set_difference(query.begin(), query.end(), seen.begin(), seen.end(), diff.begin());
             diff.resize(E - diff.begin());
             for (u32 i = 0; i < diff.size(); i++)
                 o_delete(diff[i]);
@@ -186,10 +181,8 @@ namespace Feel
             {
                 D.div(f);
                 // setup ray defs & feel params
-                collide::ray_defs RD(
-                    P, D, f, CDB::OPT_CULL,
-                    collide::rq_target(collide::rqtStatic | /**/ collide::rqtObject | /**/ collide::rqtObstacle));
-                SFeelParam feel_params(this, &*I, vis_threshold);
+                collide::ray_defs RD(P, D, f, CDB::OPT_CULL, collide::rq_target(collide::rqtStatic | /**/ collide::rqtObject | /**/ collide::rqtObstacle));
+                SFeelParam        feel_params(this, &*I, vis_threshold);
                 // check cache
                 if (I->Cache.result && I->Cache.similar(P, D, f))
                 {
@@ -228,7 +221,7 @@ namespace Feel
                 r_spatial.clear_not_free();
                 g_SpatialSpace->q_ray(r_spatial, 0, STYPE_VISIBLEFORAI, P, D, f);
 
-                RD.flags = CDB::OPT_ONLYFIRST;
+                RD.flags                                             = CDB::OPT_ONLYFIRST;
 
                 bool                                 collision_found = false;
                 xr_vector<ISpatial*>::const_iterator i               = r_spatial.begin();

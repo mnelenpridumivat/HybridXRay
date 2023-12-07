@@ -51,20 +51,20 @@ public:
     virtual void      OnEvent(NET_Packet& P, u16 type);
 
     // serialization
-    virtual void save(NET_Packet& output_packet);
-    virtual void load(IReader& input_packet);
+    virtual void      save(NET_Packet& output_packet);
+    virtual void      load(IReader& input_packet);
 
     // обновление
-    virtual void UpdateInventoryOwner(u32 deltaT);
-    virtual bool CanPutInSlot(PIItem item, u32 slot)
+    virtual void      UpdateInventoryOwner(u32 deltaT);
+    virtual bool      CanPutInSlot(PIItem item, u32 slot)
     {
         return true;
     };
 
-    CPda* GetPDA() const;
+    CPda*        GetPDA() const;
 
     // инвентарь
-    CInventory* m_inventory;
+    CInventory*  m_inventory;
 
     ////////////////////////////////////
     // торговля и общение с персонажем
@@ -73,7 +73,7 @@ public:
     virtual void OnFollowerCmd(int cmd){};   // redefine for CAI_Stalkker
     bool         bDisableBreakDialog;
     // инициализация объекта торговли
-    CTrade* GetTrade();
+    CTrade*      GetTrade();
 
     // для включения разговора
     virtual bool OfferTalk(CInventoryOwner* talk_partner);
@@ -81,9 +81,9 @@ public:
     virtual void StopTalk();
     virtual bool IsTalking();
 
-    void StartTrading();
-    void StopTrading();
-    bool IsTrading();
+    void         StartTrading();
+    void         StopTrading();
+    bool         IsTrading();
 
     virtual void EnableTalk()
     {
@@ -128,8 +128,8 @@ public:
     {
         return m_pTalkPartner;
     }
-    virtual void NewPdaContact(CInventoryOwner*);
-    virtual void LostPdaContact(CInventoryOwner*);
+    virtual void   NewPdaContact(CInventoryOwner*);
+    virtual void   LostPdaContact(CInventoryOwner*);
 
     // игровое имя
     virtual LPCSTR Name() const;
@@ -142,22 +142,23 @@ public:
     bool is_alive();
 
 protected:
-    u32 m_money;
+    u32              m_money;
     // торговля
     CTrade*          m_pTrade;
     bool             m_bTrading;
     bool             m_bTalking;
     CInventoryOwner* m_pTalkPartner;
 
-    bool m_bAllowTalk;
-    bool m_bAllowTrade;
-    bool m_bAllowInvUpgrade;
+    bool             m_bAllowTalk;
+    bool             m_bAllowTrade;
+    bool             m_bAllowInvUpgrade;
 
-    u16 m_tmp_active_slot_num;
+    u16              m_tmp_active_slot_num;
 
-    bool m_play_show_hide_reload_sounds;
+    bool             m_play_show_hide_reload_sounds;
     //////////////////////////////////////////////////////////////////////////
     // сюжетная информация
+
 public:
     // персонаж получил новую порцию информации
     virtual bool OnReceiveInfo(shared_str info_id) const;
@@ -177,6 +178,7 @@ public:
 
     //////////////////////////////////////////////////////////////////////////
     // инвентарь
+
 public:
     const CInventory& inventory() const
     {
@@ -190,13 +192,13 @@ public:
     }
 
     // возвращает текуший разброс стрельбы (в радианах) с учетом движения
-    virtual float GetWeaponAccuracy() const;
+    virtual float  GetWeaponAccuracy() const;
     // максимальный переносимы вес
-    virtual float MaxCarryWeight() const;
+    virtual float  MaxCarryWeight() const;
 
     CCustomOutfit* GetOutfit() const;
 
-    bool CanPlayShHdRldSounds() const
+    bool           CanPlayShHdRldSounds() const
     {
         return m_play_show_hide_reload_sounds;
     };
@@ -206,6 +208,7 @@ public:
     };
     //////////////////////////////////////////////////////////////////////////
     // игровые характеристики персонажа
+
 public:
     CCharacterInfo& CharacterInfo() const
     {
@@ -222,11 +225,11 @@ public:
     }
 
     // установка группировки на клиентском и серверном объкте
-    virtual void SetCommunity(CHARACTER_COMMUNITY_INDEX);
-    virtual void SetRank(CHARACTER_RANK_VALUE);
-    virtual void ChangeRank(CHARACTER_RANK_VALUE);
-    virtual void SetReputation(CHARACTER_REPUTATION_VALUE);
-    virtual void ChangeReputation(CHARACTER_REPUTATION_VALUE);
+    virtual void              SetCommunity(CHARACTER_COMMUNITY_INDEX);
+    virtual void              SetRank(CHARACTER_RANK_VALUE);
+    virtual void              ChangeRank(CHARACTER_RANK_VALUE);
+    virtual void              SetReputation(CHARACTER_REPUTATION_VALUE);
+    virtual void              ChangeReputation(CHARACTER_REPUTATION_VALUE);
 
     // для работы с relation system
     u16                       object_id() const;

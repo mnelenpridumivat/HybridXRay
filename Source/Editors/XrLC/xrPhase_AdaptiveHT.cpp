@@ -151,8 +151,7 @@ public:
 
             R_ASSERT(V);
             V->normalFromAdj();
-            LightPoint(
-                &DB, lc_global_data()->RCAST_Model(), vC, V->P, V->N, pBuild->L_static(), LP_dont_rgb + LP_dont_sun, 0);
+            LightPoint(&DB, lc_global_data()->RCAST_Model(), vC, V->P, V->N, pBuild->L_static(), LP_dont_rgb + LP_dont_sun, 0);
             vC.mul(0.5f);
             V->C._set(vC);
         }
@@ -426,9 +425,7 @@ void CBuild::u_Tesselate(tesscb_estimator* cb_E, tesscb_face* cb_F, tesscb_verte
                 if (lc_global_data()->g_vertices()[I]->m_adjacents.empty())
                     lc_global_data()->destroy_vertex(lc_global_data()->g_vertices()[I]);
 
-            Status(
-                "Working: %d verts created, %d(now) / %d(was) ...", counter_create,
-                lc_global_data()->g_vertices().size(), cnt_verts);
+            Status("Working: %d verts created, %d(now) / %d(was) ...", counter_create, lc_global_data()->g_vertices().size(), cnt_verts);
             FlushLog();
         }
 
@@ -444,12 +441,8 @@ void CBuild::u_Tesselate(tesscb_estimator* cb_E, tesscb_face* cb_F, tesscb_verte
         if (lc_global_data()->g_vertices()[I]->m_adjacents.empty())
             lc_global_data()->destroy_vertex(lc_global_data()->g_vertices()[I]);
 
-    lc_global_data()->g_faces().erase(
-        std::remove(lc_global_data()->g_faces().begin(), lc_global_data()->g_faces().end(), (Face*)0),
-        lc_global_data()->g_faces().end());
-    lc_global_data()->g_vertices().erase(
-        std::remove(lc_global_data()->g_vertices().begin(), lc_global_data()->g_vertices().end(), (Vertex*)0),
-        lc_global_data()->g_vertices().end());
+    lc_global_data()->g_faces().erase(std::remove(lc_global_data()->g_faces().begin(), lc_global_data()->g_faces().end(), (Face*)0), lc_global_data()->g_faces().end());
+    lc_global_data()->g_vertices().erase(std::remove(lc_global_data()->g_vertices().begin(), lc_global_data()->g_vertices().end(), (Vertex*)0), lc_global_data()->g_vertices().end());
     g_bUnregister = true;
 }
 

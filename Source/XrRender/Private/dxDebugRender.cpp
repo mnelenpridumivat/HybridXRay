@@ -147,6 +147,7 @@ private:
 
     //	Vertices		_line_vertices;
     //	Indices			_line_indices;
+
 public:
     RDebugRender()
     {

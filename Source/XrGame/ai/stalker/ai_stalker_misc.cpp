@@ -36,22 +36,19 @@ const float FRIENDLY_GRENADE_ALARM_DIST = 5.f;
 const u32   DANGER_INFINITE_INTERVAL    = 60000000;
 const float DANGER_EXPLOSIVE_DISTANCE   = 10.f;
 
-bool CAI_Stalker::useful(const CItemManager* manager, const CGameObject* object) const
+bool        CAI_Stalker::useful(const CItemManager* manager, const CGameObject* object) const
 {
     const CExplosive* explosive = smart_cast<const CExplosive*>(object);
 
     if (explosive && smart_cast<const CInventoryItem*>(object))
-        agent_manager().location().add(xr_new<CDangerObjectLocation>(
-            object, Device->dwTimeGlobal, DANGER_INFINITE_INTERVAL, DANGER_EXPLOSIVE_DISTANCE));
+        agent_manager().location().add(xr_new<CDangerObjectLocation>(object, Device->dwTimeGlobal, DANGER_INFINITE_INTERVAL, DANGER_EXPLOSIVE_DISTANCE));
 
     if (explosive && (explosive->CurrentParentID() != 0xffff))
     {
         agent_manager().explosive().register_explosive(explosive, object);
         CEntityAlive* entity_alive = smart_cast<CEntityAlive*>(Level().Objects.net_Find(explosive->CurrentParentID()));
         if (entity_alive)
-            memory().danger().add(CDangerObject(
-                entity_alive, object->Position(), Device->dwTimeGlobal, CDangerObject::eDangerTypeGrenade,
-                CDangerObject::eDangerPerceiveTypeVisual, object));
+            memory().danger().add(CDangerObject(entity_alive, object->Position(), Device->dwTimeGlobal, CDangerObject::eDangerTypeGrenade, CDangerObject::eDangerPerceiveTypeVisual, object));
     }
 
     if (!memory().item().useful(object))
@@ -92,7 +89,7 @@ ALife::ERelationType CAI_Stalker::tfGetRelationType(const CEntityAlive* tpEntity
 {
     const CInventoryOwner* pOtherIO = smart_cast<const CInventoryOwner*>(tpEntityAlive);
 
-    ALife::ERelationType relation = ALife::eRelationTypeDummy;
+    ALife::ERelationType   relation = ALife::eRelationTypeDummy;
 
     if (pOtherIO && !(const_cast<CEntityAlive*>(tpEntityAlive)->cast_base_monster()))
         relation = RELATION_REGISTRY().GetRelationType(static_cast<const CInventoryOwner*>(this), pOtherIO);
@@ -121,8 +118,7 @@ void CAI_Stalker::react_on_grenades()
     if (missile && agent_manager().member().group_behaviour())
     {
         //		Msg						("%6d : Stalker %s : grenade reaction",Device->dwTimeGlobal,*m_object->cName());
-        CEntityAlive* initiator =
-            smart_cast<CEntityAlive*>(Level().Objects.net_Find(reaction.m_grenade->CurrentParentID()));
+        CEntityAlive* initiator = smart_cast<CEntityAlive*>(Level().Objects.net_Find(reaction.m_grenade->CurrentParentID()));
         /*		VERIFY2					(
                     initiator,
                     make_string(
@@ -139,9 +135,7 @@ void CAI_Stalker::react_on_grenades()
                 sound().play(StalkerSpace::eStalkerSoundGrenadeAlarm);
             else if (missile->Position().distance_to(Position()) < FRIENDLY_GRENADE_ALARM_DIST)
             {
-                u32 const time = missile->destroy_time() >= Device->dwTimeGlobal ?
-                    u32(missile->destroy_time() - Device->dwTimeGlobal) :
-                    0;
+                u32 const time = missile->destroy_time() >= Device->dwTimeGlobal ? u32(missile->destroy_time() - Device->dwTimeGlobal) : 0;
                 sound().play(StalkerSpace::eStalkerSoundFriendlyGrenadeAlarm, time + 1500, time + 1000);
             }
         }
@@ -178,10 +172,10 @@ void CAI_Stalker::process_enemies()
     typedef MemorySpace::squad_mask_type   squad_mask_type;
     typedef CVisualMemoryManager::VISIBLES VISIBLES;
 
-    bool                     found = false;
-    squad_mask_type          mask  = memory().visual().mask();
-    VISIBLES::const_iterator I     = memory().visual().objects().begin();
-    VISIBLES::const_iterator E     = memory().visual().objects().end();
+    bool                                   found = false;
+    squad_mask_type                        mask  = memory().visual().mask();
+    VISIBLES::const_iterator               I     = memory().visual().objects().begin();
+    VISIBLES::const_iterator               E     = memory().visual().objects().end();
     for (; I != E; ++I)
     {
         if (!(*I).visible(mask))

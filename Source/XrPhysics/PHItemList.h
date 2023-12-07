@@ -23,7 +23,7 @@
 
 // #define TPI(item)								((T::CPHListItem*)item)
 
-template <class T> class CPHItemList
+template<class T> class CPHItemList
 {
     T*  first_next;
     T** last_tome;
@@ -112,7 +112,7 @@ public:
     }
 };
 
-template <class T> class CPHItemStack: public CPHItemList<T>
+template<class T> class CPHItemStack: public CPHItemList<T>
 {
 public:
     void push_back(T* item)

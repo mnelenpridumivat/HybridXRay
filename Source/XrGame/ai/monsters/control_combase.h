@@ -29,11 +29,11 @@ public:
         m_active = false;
         m_inited = true;
     }
-    virtual void reload(LPCSTR section) {}
+    virtual void                    reload(LPCSTR section) {}
 
     // update
-    virtual void update_schedule() {}
-    virtual void update_frame() {}
+    virtual void                    update_schedule() {}
+    virtual void                    update_frame() {}
 
     virtual CControl_ComControlled* ced()
     {
@@ -87,7 +87,7 @@ public:
         m_capturer = 0;
         reset_data();
     }
-    virtual void reset_data() {}
+    virtual void                  reset_data() {}
 
     virtual ControlCom::IComData* data()
     {
@@ -101,7 +101,7 @@ public:
     }
     virtual void on_release() {}
 
-    bool is_locked()
+    bool         is_locked()
     {
         return m_locked;
     }
@@ -145,7 +145,7 @@ protected:
 
 //////////////////////////////////////////////////////////////////////////
 // Data Storage
-template <class T> class CControl_ComControlledStorage: public CControl_ComControlled
+template<class T> class CControl_ComControlledStorage: public CControl_ComControlled
 {
 public:
     virtual ControlCom::IComData* data()
@@ -159,7 +159,7 @@ protected:
 
 //////////////////////////////////////////////////////////////////////////
 // Pure
-template <class T> class CControl_ComPure: public CControl_Com, public CControl_ComControlledStorage<T>
+template<class T> class CControl_ComPure: public CControl_Com, public CControl_ComControlledStorage<T>
 {
 public:
     virtual CControl_ComControlled* ced()
@@ -191,8 +191,7 @@ public:
 };
 //////////////////////////////////////////////////////////////////////////
 // Custom
-template <class T = ControlCom::IComData>
-class CControl_ComCustom: public CControl_Com, public CControl_ComControlledStorage<T>, public CControl_ComControlling
+template<class T = ControlCom::IComData> class CControl_ComCustom: public CControl_Com, public CControl_ComControlledStorage<T>, public CControl_ComControlling
 {
 public:
     virtual CControl_ComControlled* ced()

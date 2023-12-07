@@ -2,7 +2,7 @@
 #define _VECTOR4_H
 #pragma once
 
-template <class T> struct _vector4
+template<class T> struct _vector4
 {
     typedef T           TYPE;
     typedef _vector4<T> Self;
@@ -10,7 +10,7 @@ template <class T> struct _vector4
     typedef const Self& SelfCRef;
 
 public:
-    T x, y, z, w;
+    T     x, y, z, w;
 
     IC T& operator[](int i)
     {
@@ -229,7 +229,7 @@ typedef __declspec(align(16)) _vector4<double> Dvector4a;
 typedef __declspec(align(16)) _vector4<s32> Ivector4a;
 #endif
 
-template <class T> BOOL _valid(const _vector4<T>& v)
+template<class T> BOOL _valid(const _vector4<T>& v)
 {
     return _valid((T)v.x) && _valid((T)v.y) && _valid((T)v.z) && _valid((T)v.w);
 }

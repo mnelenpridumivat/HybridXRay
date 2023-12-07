@@ -10,7 +10,7 @@
 
 poolSS<_vertex, 8 * 1024>& mu_vertices_pool();
 
-void destroy_vertex(_vertex*& v, bool unregister)
+void                       destroy_vertex(_vertex*& v, bool unregister)
 {
     mu_vertices_pool().destroy(v);
     v = NULL;

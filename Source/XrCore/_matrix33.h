@@ -1,7 +1,7 @@
 ﻿#ifndef _matrix33H_
 #define _matrix33H_
 
-template <class T> struct _matrix33
+template<class T> struct _matrix33
 {
 public:
     typedef _matrix33<T> Self;
@@ -408,7 +408,7 @@ public:
 typedef _matrix33<float>  Fmatrix33;
 typedef _matrix33<double> Dmatrix33;
 
-template <class T> BOOL _valid(const _matrix33<T>& m)
+template<class T> BOOL    _valid(const _matrix33<T>& m)
 {
     return _valid(m.i) && _valid(m.j) && _valid(m.k);
 }

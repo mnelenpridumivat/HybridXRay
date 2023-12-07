@@ -18,15 +18,15 @@ enum
     M_MIGRATE_DEACTIVATE,   // TO:   Changing server, just deactivate
     M_MIGRATE_ACTIVATE,     // TO:   Changing server, full state
 
-    M_CHAT,                 // DUAL:
+    M_CHAT,   // DUAL:
 
-    M_EVENT,                // Game Event
-    M_CL_INPUT,             // Client Input Data
+    M_EVENT,      // Game Event
+    M_CL_INPUT,   // Client Input Data
     //----------- for E3 -----------------------------
     M_CL_UPDATE,
     M_UPDATE_OBJECTS,
     //-------------------------------------------------
-    M_CLIENTREADY,    // Client has finished to load level and are ready to play
+    M_CLIENTREADY,   // Client has finished to load level and are ready to play
 
     M_CHANGE_LEVEL,   // changing level
     M_LOAD_GAME,
@@ -85,7 +85,7 @@ enum
 enum
 {
     GE_RESPAWN,
-    GE_OWNERSHIP_TAKE,     // DUAL: Client request for ownership of an item
+    GE_OWNERSHIP_TAKE,   // DUAL: Client request for ownership of an item
     GE_OWNERSHIP_TAKE_MP_FORCED,
     GE_OWNERSHIP_REJECT,   // DUAL: Client request ownership rejection
     GE_TRANSFER_AMMO,      // DUAL: Take ammo out of weapon for our weapon
@@ -164,7 +164,7 @@ enum
 };
 
 enum EGameMessages
-{                                     // game_cl <----> game_sv messages
+{   // game_cl <----> game_sv messages
     GAME_EVENT_PLAYER_READY,
     GAME_EVENT_PLAYER_KILL,           // player wants to die
     GAME_EVENT_PLAYER_BUY_FINISHED,   // player end to buy items
@@ -253,6 +253,6 @@ enum enum_connection_results
     ecr_password_verification_failed,
     ecr_have_been_banned,
     ecr_profile_error,
-};     // enum enum_connection_results
+};   // enum enum_connection_results
 
 #endif /*_INCDEF_XRMESSAGES_H_*/

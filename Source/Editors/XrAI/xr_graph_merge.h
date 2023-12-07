@@ -15,10 +15,7 @@ struct CLevelInfo
     Fvector    m_offset;
     shared_str m_section;
 
-    CLevelInfo(u8 id, shared_str name, const Fvector& offset, shared_str section):
-        m_id(id), m_name(name), m_offset(offset), m_section(section)
-    {
-    }
+    CLevelInfo(u8 id, shared_str name, const Fvector& offset, shared_str section): m_id(id), m_name(name), m_offset(offset), m_section(section) {}
 
     IC bool operator<(const CLevelInfo& info) const
     {

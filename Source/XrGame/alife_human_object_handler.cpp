@@ -15,20 +15,12 @@ u16 CALifeHumanObjectHandler::get_available_ammo_count(const CSE_ALifeItemWeapon
     return (0);
 }
 
-u16 CALifeHumanObjectHandler::get_available_ammo_count(
-    const CSE_ALifeItemWeapon* weapon,
-    ALife::ITEM_P_VECTOR&      items,
-    ALife::OBJECT_VECTOR*      objects)
+u16 CALifeHumanObjectHandler::get_available_ammo_count(const CSE_ALifeItemWeapon* weapon, ALife::ITEM_P_VECTOR& items, ALife::OBJECT_VECTOR* objects)
 {
     return (0);
 }
 
-void CALifeHumanObjectHandler::attach_available_ammo(
-    CSE_ALifeItemWeapon*  weapon,
-    ALife::ITEM_P_VECTOR& items,
-    ALife::OBJECT_VECTOR* objects)
-{
-}
+void CALifeHumanObjectHandler::attach_available_ammo(CSE_ALifeItemWeapon* weapon, ALife::ITEM_P_VECTOR& items, ALife::OBJECT_VECTOR* objects) {}
 
 bool CALifeHumanObjectHandler::can_take_item(CSE_ALifeInventoryItem* inventory_item)
 {
@@ -37,14 +29,12 @@ bool CALifeHumanObjectHandler::can_take_item(CSE_ALifeInventoryItem* inventory_i
 
 void CALifeHumanObjectHandler::collect_ammo_boxes() {}
 
-int CALifeHumanObjectHandler::choose_equipment(ALife::OBJECT_VECTOR* objects)
+int  CALifeHumanObjectHandler::choose_equipment(ALife::OBJECT_VECTOR* objects)
 {
     return (-1);
 }
 
-int CALifeHumanObjectHandler::choose_weapon(
-    const ALife::EWeaponPriorityType& weapon_priority_type,
-    ALife::OBJECT_VECTOR*             objects)
+int CALifeHumanObjectHandler::choose_weapon(const ALife::EWeaponPriorityType& weapon_priority_type, ALife::OBJECT_VECTOR* objects)
 {
     return (-1);
 }
@@ -74,13 +64,13 @@ bool CALifeHumanObjectHandler::choose_fast()
     return (false);
 }
 
-void CALifeHumanObjectHandler::choose_group(CSE_ALifeGroupAbstract* group_abstract) {}
+void                    CALifeHumanObjectHandler::choose_group(CSE_ALifeGroupAbstract* group_abstract) {}
 
-void CALifeHumanObjectHandler::detach_all(bool fictitious) {}
+void                    CALifeHumanObjectHandler::detach_all(bool fictitious) {}
 
-void CALifeHumanObjectHandler::update_weapon_ammo() {}
+void                    CALifeHumanObjectHandler::update_weapon_ammo() {}
 
-void CALifeHumanObjectHandler::process_items() {}
+void                    CALifeHumanObjectHandler::process_items() {}
 
 CSE_ALifeDynamicObject* CALifeHumanObjectHandler::best_detector()
 {

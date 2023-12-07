@@ -19,11 +19,11 @@ namespace ai_dbg
     typedef xr_map<xr_string, var> debug_vars_t;
     static debug_vars_t            s_debug_vars;
 
-    void set_var(const char* name, float value)
+    void                           set_var(const char* name, float value)
     {
         var new_var;
-        new_var.fval = value;
-        new_var.type = var::real;
+        new_var.fval              = value;
+        new_var.type              = var::real;
 
         debug_vars_t::iterator it = s_debug_vars.find(xr_string(name));
         if (it != s_debug_vars.end())

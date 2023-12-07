@@ -74,7 +74,7 @@ void CUIGameAHunt::SetClGame(game_cl_GameState* g)
     m_pBuySpawnMsgBox->InitMessageBox("message_box_buy_spawn");
     m_pBuySpawnMsgBox->SetText("");
 
-    game_cl_mp* clmp_game = smart_cast<game_cl_mp*>(g);
+    game_cl_mp* clmp_game         = smart_cast<game_cl_mp*>(g);
     // m_pBuySpawnMsgBox->AddCallback("msg_box", MESSAGE_BOX_YES_CLICKED, CUIWndCallback::void_function(clmp_game,
     // &game_cl_mp::OnBuySpawn));
     m_pBuySpawnMsgBox->func_on_ok = CUIWndCallback::void_function(clmp_game, &game_cl_mp::OnBuySpawn);

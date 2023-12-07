@@ -9,7 +9,7 @@ class CCoverEvaluatorCloseToEnemy;
 
 class CControlPathBuilderBase: public CControl_ComBase
 {
-    typedef CControl_ComBase inherited;
+    typedef CControl_ComBase   inherited;
 
     // -----------------------------------------------------------
     // external setup
@@ -75,7 +75,7 @@ class CControlPathBuilderBase: public CControl_ComBase
     bool  m_failed;
     u32   m_last_time_dir_set;
 
-    bool m_target_actual;   // устанавливаемый таргет соответствует предыдущему
+    bool  m_target_actual;   // устанавливаемый таргет соответствует предыдущему
 
     struct
     {
@@ -104,13 +104,13 @@ class CControlPathBuilderBase: public CControl_ComBase
         eStateNoPath      = u32(1) << 3,
         eStatePathFailed  = u32(1) << 4
     };
-    u32 m_state;
+    u32  m_state;
 
     bool m_path_end;
 
     // состояние, в котором path_builder работает независимо
-    u32 m_time_global_failed_started;
-    u32 m_time_path_updated_external;
+    u32  m_time_global_failed_started;
+    u32  m_time_path_updated_external;
 
 public:
     CControlPathBuilderBase();
@@ -126,10 +126,10 @@ public:
 
     // -------------------------------------------------------------------
 
-    void pre_update();
+    void         pre_update();
 
     // -------------------------------------------------------------------
-    IC void set_try_min_time(bool new_val)
+    IC void      set_try_min_time(bool new_val)
     {
         m_try_min_time = new_val;
     }
@@ -169,7 +169,7 @@ public:
     {
         m_desirable_mask = mask;
     }
-    void set_dest_direction(const Fvector& dir);
+    void    set_dest_direction(const Fvector& dir);
 
     IC bool enabled()
     {
@@ -177,9 +177,9 @@ public:
     }
     // -------------------------------------------------------------------
     // Set methods
-    void set_target_point(const Fvector& position, u32 node = u32(-1));
-    void set_target_point(u32 node);
-    void set_retreat_from_point(const Fvector& position);
+    void    set_target_point(const Fvector& position, u32 node = u32(-1));
+    void    set_target_point(u32 node);
+    void    set_retreat_from_point(const Fvector& position);
 
     IC void set_rebuild_time(u32 time);
     IC void set_cover_params(float min, float max, float dev, float radius);
@@ -190,7 +190,7 @@ public:
     void    detour_graph_points(u32 game_graph_vertex_id = u32(-1));
     IC void set_generic_parameters();
 
-    bool is_target_actual() const
+    bool    is_target_actual() const
     {
         return m_target_actual;
     }

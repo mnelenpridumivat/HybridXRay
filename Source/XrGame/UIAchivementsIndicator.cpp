@@ -26,11 +26,7 @@ void CUIAchivementIndicator::Update()
     inherited::Update();
 }
 
-void CUIAchivementIndicator::AddAchivement(
-    shared_str const& achivement_name,
-    shared_str const& color_animation,
-    u32 const         width,
-    u32 const         height)
+void CUIAchivementIndicator::AddAchivement(shared_str const& achivement_name, shared_str const& color_animation, u32 const width, u32 const height)
 {
     CUIPdaMsgListItem* tmp_item = m_achivement_log->AddPdaMessage();
     VERIFY(tmp_item);

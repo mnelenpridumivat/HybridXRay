@@ -8,8 +8,8 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _return_type>
-#define CSScriptCallbackEx CScriptCallbackEx_<_return_type>
+#define TEMPLATE_SPECIALIZATION template<typename _return_type>
+#define CSScriptCallbackEx      CScriptCallbackEx_<_return_type>
 
 TEMPLATE_SPECIALIZATION
 IC CSScriptCallbackEx::CScriptCallbackEx_() {}

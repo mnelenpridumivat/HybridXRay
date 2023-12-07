@@ -24,6 +24,7 @@ public:
     void                Selected(int Start, int End);
     void                SelectedToFavorite(bool Favorite);
     void                OpenParentItems(const char* path, char delimiter = '\\');
+
 protected:
     bool        CheckFilter();
     UITreeItem* CreateItem(shared_str Name, SLocalizedString _HintText) override;

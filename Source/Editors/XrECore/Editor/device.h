@@ -22,8 +22,8 @@ class ECORE_API CEditorRenderDevice: public XrDeviceInterface
 {
     friend class CUI_Camera;
     friend class TUI;
-    HMODULE hPSGP;
-    float   m_fNearer;
+    HMODULE    hPSGP;
+    float      m_fNearer;
 
     // u32						Timer_MM_Delta;
     // CTimer					Timer;
@@ -31,16 +31,16 @@ class ECORE_API CEditorRenderDevice: public XrDeviceInterface
 
     ref_shader m_CurrentShader;
 
-    void      _SetupStates();
-    void      _Create(IReader* F);
-    void      _Destroy(BOOL bKeepTextures);
-    xr_string _GetWindowTitle();
+    void       _SetupStates();
+    void       _Create(IReader* F);
+    void       _Destroy(BOOL bKeepTextures);
+    xr_string  _GetWindowTitle();
 
 public:
     ref_shader m_WireShader;
     ref_shader m_SelectionShader;
 
-    Fmaterial m_DefaultMat;
+    Fmaterial  m_DefaultMat;
 
 public:
     float RadiusRender;
@@ -49,8 +49,8 @@ public:
     float m_RenderArea;
     float m_ScreenQuality;
 
-    u32 dwFillMode;
-    u32 dwShadeMode;
+    u32   dwFillMode;
+    u32   dwShadeMode;
 
 public:
     //   HWND 					m_hWnd;
@@ -69,7 +69,7 @@ public:
     //   u32						dwTimeContinual;
 
     // camera
-    CUI_Camera m_Camera;
+    CUI_Camera        m_Camera;
 
     //   Fvector					vCameraPosition;
     //   Fvector					vCameraDirection;
@@ -87,7 +87,7 @@ public:
     CResourceManager* Resources;
     CEStats*          EStatistic;
 
-    CGameFont* pSystemFont;
+    CGameFont*        pSystemFont;
 
     // registrators
     //	CRegistrator <pureDeviceDestroy>	seqDevDestroy;
@@ -99,6 +99,7 @@ public:
     // CRegistrator <pureAppEnd>					seqAppEnd;
     // CRegistrator <pureAppActivate	>			seqAppActivate;
     // CRegistrator <pureAppDeactivate	>			seqAppDeactivate;
+
 public:
     CEditorRenderDevice();
     virtual ~CEditorRenderDevice();
@@ -107,21 +108,21 @@ public:
     {
         return FALSE;
     };
-    void time_factor(float);
-    bool Create();
-    void Destroy();
-    void Resize(int w, int h, bool maximized);
-    void ReloadTextures();
-    void UnloadTextures();
+    void         time_factor(float);
+    bool         Create();
+    void         Destroy();
+    void         Resize(int w, int h, bool maximized);
+    void         ReloadTextures();
+    void         UnloadTextures();
 
-    void RenderNearer(float f_Near);
-    void ResetNearer();
-    bool Begin();
-    void End();
+    void         RenderNearer(float f_Near);
+    void         ResetNearer();
+    bool         Begin();
+    void         End();
 
-    void Initialize(void);
-    void ShutDown(void);
-    void Reset(IReader* F, BOOL bKeepTextures);
+    void         Initialize(void);
+    void         ShutDown(void);
+    void         Reset(IReader* F, BOOL bKeepTextures);
 
     virtual void DumpResourcesMemoryUsage() {}
     IC float     GetRenderArea()
@@ -143,8 +144,8 @@ public:
     {
         m_CurrentShader = sh;
     }
-    void DP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 startV, u32 pc);
-    void DIP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC);
+    void    DP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 startV, u32 pc);
+    void    DIP(D3DPRIMITIVETYPE pt, ref_geom geom, u32 baseV, u32 startV, u32 countV, u32 startI, u32 PC);
 
     IC void SetRS(D3DRENDERSTATETYPE p1, u32 p2)
     {
@@ -176,12 +177,12 @@ public:
     }
 
     // update
-    void UpdateView();
-    void FrameMove();
+    void         UpdateView();
+    void         FrameMove();
 
-    bool MakeScreenshot(U32Vec& pixels, u32 width, u32 height);
+    bool         MakeScreenshot(U32Vec& pixels, u32 width, u32 height);
 
-    void InitTimer();
+    void         InitTimer();
     // Mode control
     virtual void Pause(BOOL bOn, BOOL bTimer, BOOL bSound, LPCSTR reason) {}
     virtual void PreCache(u32 amount, bool b_draw_loadscreen, bool b_wait_user_input) {}

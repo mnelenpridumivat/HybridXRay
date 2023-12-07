@@ -5,63 +5,63 @@
 
 typedef u32 TTime;
 
-#define COLOR color_xrgb
-#define COLOR_RED COLOR(255, 0, 0)
+#define COLOR       color_xrgb
+#define COLOR_RED   COLOR(255, 0, 0)
 #define COLOR_GREEN COLOR(0, 255, 0)
-#define COLOR_BLUE COLOR(0, 0, 255)
+#define COLOR_BLUE  COLOR(0, 0, 255)
 
 class CBlend;
 
 // специальные параметры анимаций (animation spec params)
-#define ASP_MOVE_BKWD (1 << 0)
-#define ASP_DRAG_CORPSE (1 << 1)
-#define ASP_CHECK_CORPSE (1 << 2)
-#define ASP_ATTACK_RAT (1 << 3)
-#define ASP_ATTACK_RAT_JUMP (1 << 4)
-#define ASP_STAND_SCARED (1 << 5)
-#define ASP_THREATEN (1 << 6)
-#define ASP_BACK_ATTACK (1 << 7)
-#define ASP_ROTATION_JUMP (1 << 8)
-#define ASP_ROTATION_RUN_LEFT (1 << 9)
-#define ASP_ROTATION_RUN_RIGHT (1 << 10)
-#define ASP_ATTACK_RUN (1 << 11)
-#define ASP_PSI_ATTACK (1 << 12)
-#define ASP_UPPER_STATE (1 << 13)
-#define ASP_MOVE_SMELLING (1 << 14)
+#define ASP_MOVE_BKWD                   (1 << 0)
+#define ASP_DRAG_CORPSE                 (1 << 1)
+#define ASP_CHECK_CORPSE                (1 << 2)
+#define ASP_ATTACK_RAT                  (1 << 3)
+#define ASP_ATTACK_RAT_JUMP             (1 << 4)
+#define ASP_STAND_SCARED                (1 << 5)
+#define ASP_THREATEN                    (1 << 6)
+#define ASP_BACK_ATTACK                 (1 << 7)
+#define ASP_ROTATION_JUMP               (1 << 8)
+#define ASP_ROTATION_RUN_LEFT           (1 << 9)
+#define ASP_ROTATION_RUN_RIGHT          (1 << 10)
+#define ASP_ATTACK_RUN                  (1 << 11)
+#define ASP_PSI_ATTACK                  (1 << 12)
+#define ASP_UPPER_STATE                 (1 << 13)
+#define ASP_MOVE_SMELLING               (1 << 14)
 
-#define AA_FLAG_ATTACK_RAT (1 << 0)    // аттака крыс?
-#define AA_FLAG_FIRE_ANYWAY (1 << 1)   // трассировка не нужна
+#define AA_FLAG_ATTACK_RAT              (1 << 0)   // аттака крыс?
+#define AA_FLAG_FIRE_ANYWAY             (1 << 1)   // трассировка не нужна
 
-#define CRITICAL_STAND_TIME 1400
-#define TIME_STAND_RECHECK 2000
+#define CRITICAL_STAND_TIME             1400
+#define TIME_STAND_RECHECK              2000
 
-#define HIT_SIDE_COUNT 2
-#define HIT_BACK 0
-#define HIT_FRONT 1
+#define HIT_SIDE_COUNT                  2
+#define HIT_BACK                        0
+#define HIT_FRONT                       1
 
-#define HIT_HEIGHT_COUNT 2
-#define HIT_LOW 0
-#define HIT_HIGH 1
+#define HIT_HEIGHT_COUNT                2
+#define HIT_LOW                         0
+#define HIT_HIGH                        1
 
 // Enemy flags
-#define FLAG_ENEMY_DIE (1 << 0)
-#define FLAG_ENEMY_LOST_SIGHT (1 << 1)
-#define FLAG_ENEMY_GO_CLOSER (1 << 2)
-#define FLAG_ENEMY_GO_FARTHER (1 << 3)
-#define FLAG_ENEMY_GO_CLOSER_FAST (1 << 4)
-#define FLAG_ENEMY_GO_FARTHER_FAST (1 << 5)
-#define FLAG_ENEMY_STANDING (1 << 6)
-#define FLAG_ENEMY_HIDING (1 << 7)
-#define FLAG_ENEMY_RUN_AWAY (1 << 8)
+#define FLAG_ENEMY_DIE                  (1 << 0)
+#define FLAG_ENEMY_LOST_SIGHT           (1 << 1)
+#define FLAG_ENEMY_GO_CLOSER            (1 << 2)
+#define FLAG_ENEMY_GO_FARTHER           (1 << 3)
+#define FLAG_ENEMY_GO_CLOSER_FAST       (1 << 4)
+#define FLAG_ENEMY_GO_FARTHER_FAST      (1 << 5)
+#define FLAG_ENEMY_STANDING             (1 << 6)
+#define FLAG_ENEMY_HIDING               (1 << 7)
+#define FLAG_ENEMY_RUN_AWAY             (1 << 8)
 #define FLAG_ENEMY_DOESNT_KNOW_ABOUT_ME (1 << 9)
-#define FLAG_ENEMY_GO_OFFLINE (1 << 10)
-#define FLAG_ENEMY_DOESNT_SEE_ME (1 << 11)
-#define FLAG_ENEMY_STATS_NOT_READY (1 << 12)
+#define FLAG_ENEMY_GO_OFFLINE           (1 << 10)
+#define FLAG_ENEMY_DOESNT_SEE_ME        (1 << 11)
+#define FLAG_ENEMY_STATS_NOT_READY      (1 << 12)
 
-#define SOUND_ATTACK_HIT_MIN_DELAY 1000
-#define MORALE_NORMAL 0.5f
+#define SOUND_ATTACK_HIT_MIN_DELAY      1000
+#define MORALE_NORMAL                   0.5f
 
-#define STANDART_ATTACK -PI_DIV_6, PI_DIV_6, -PI_DIV_6, PI_DIV_6, 3.5f
+#define STANDART_ATTACK                 -PI_DIV_6, PI_DIV_6, -PI_DIV_6, PI_DIV_6, 3.5f
 #define SIMPLE_ENEMY_HIT_TEST
 
 // StepSounds
@@ -79,10 +79,10 @@ struct SAttackEffector
     float   time_release;
 
     // camera effects
-    float ce_time;
-    float ce_amplitude;
-    float ce_period_number;
-    float ce_power;
+    float   ce_time;
+    float   ce_amplitude;
+    float   ce_period_number;
+    float   ce_power;
 };
 
 struct SVelocityParam
@@ -268,13 +268,13 @@ typedef shared_str anim_string;
 // элемент анимации
 struct SAnimItem
 {
-    anim_string target_name;   // "stand_idle_"
-    int         spec_id;       // (-1) - any,  (0 - ...) - идентификатор 3
-    u8          count;         // количество анимаций : "idle_0", "idle_1", "idle_2"
+    anim_string    target_name;   // "stand_idle_"
+    int            spec_id;       // (-1) - any,  (0 - ...) - идентификатор 3
+    u8             count;         // количество анимаций : "idle_0", "idle_1", "idle_2"
 
     SVelocityParam velocity;
 
-    EPState pos_state;
+    EPState        pos_state;
 
     struct
     {
@@ -330,24 +330,24 @@ typedef struct
     EMotionAnim anim;   // параметры конкретной анимации
     u32         anim_i3;
 
-    TTime time_from;   // диапазон времени когда можно наносить hit (от)
-    TTime time_to;     // диапазон времени когда можно наносить hit (до)
+    TTime       time_from;   // диапазон времени когда можно наносить hit (от)
+    TTime       time_to;     // диапазон времени когда можно наносить hit (до)
 
-    Fvector trace_from;   // направление трассировки (относительно центра)
-    Fvector trace_to;
+    Fvector     trace_from;   // направление трассировки (относительно центра)
+    Fvector     trace_to;
 
-    u32 flags;   // специальные флаги
+    u32         flags;   // специальные флаги
 
-    float   damage;    // урон при данной атаке
-    Fvector hit_dir;   // угол направления приложения силы к объекту
+    float       damage;    // урон при данной атаке
+    Fvector     hit_dir;   // угол направления приложения силы к объекту
 
     //-----------------------------------------
     // temp
-    float yaw_from;
-    float yaw_to;
-    float pitch_from;
-    float pitch_to;
-    float dist;
+    float       yaw_from;
+    float       yaw_to;
+    float       pitch_from;
+    float       pitch_to;
+    float       dist;
 
 } SAttackAnimation;
 
@@ -377,9 +377,9 @@ struct SCurrentAnimationInfo
 {
     shared_str name;
 
-    u8 index;
+    u8         index;
 
-    TTime time_started;
+    TTime      time_started;
 
     struct
     {
@@ -407,8 +407,8 @@ struct SCurrentAnimationInfo
         float target;
     } speed;
 
-    float   speed_change_vel;
-    CBlend* blend;
+    float       speed_change_vel;
+    CBlend*     blend;
 
     void        set_motion(EMotionAnim new_motion);
     EMotionAnim get_motion() const
@@ -453,7 +453,7 @@ struct SVelocity
     float current;
     float target;
 
-    void set(float c, float t)
+    void  set(float c, float t)
     {
         current = c;
         target  = t;
@@ -491,7 +491,7 @@ enum EAccelValue
     if (!flag)              \
     {                       \
         flag = true;
-#define DO_ONCE_END() }
+#define DO_ONCE_END()  }
 
 #define TIME_OUT(a, b) a + b < m_dwCurrentTime
 
@@ -502,11 +502,11 @@ enum EAccelValue
 #define DO_IN_TIME_INTERVAL_END() }
 ///////////////////////////////////////////////////////////////////////////////
 
-#define PATH_NEED_REBUILD() m_object->IsPathEnd(2, 0.5f)
+#define PATH_NEED_REBUILD()       m_object->IsPathEnd(2, 0.5f)
 
 // тип монстра (по количеству ног)
-#define QUADRUPEDAL 4
-#define BIPEDAL 2
+#define QUADRUPEDAL               4
+#define BIPEDAL                   2
 
 struct SMonsterEnemy
 {
@@ -536,7 +536,7 @@ struct SMonsterHit
     EHitSide side;
     Fvector  position;
 
-    bool operator==(const CObject* obj)
+    bool     operator==(const CObject* obj)
     {
         return (object == obj);
     }

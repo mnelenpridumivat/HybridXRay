@@ -2,7 +2,7 @@
 #define _FIXEDSET_H
 #pragma once
 
-template <class K, class allocator = xr_allocator> class FixedSET
+template<class K, class allocator = xr_allocator> class FixedSET
 {
     enum
     {
@@ -57,7 +57,7 @@ private:
             }
         }
         if (nodes)
-        allocator:
+allocator:
             dealloc(nodes);
 
         nodes = newNodes;
@@ -107,7 +107,7 @@ public:
     }
     ~FixedSET()
     {
-    allocator:
+allocator:
         dealloc(nodes);
     }
     IC TNode* insert(const K& k)
@@ -116,7 +116,7 @@ public:
         {
             TNode* node = nodes;
 
-        once_more:
+once_more:
             if (k < node->key)
             {
                 if (node->left)
@@ -159,7 +159,7 @@ public:
         {
             TNode* node = nodes;
 
-        once_more:
+once_more:
             if (k <= node->key)
             {
                 if (node->left)

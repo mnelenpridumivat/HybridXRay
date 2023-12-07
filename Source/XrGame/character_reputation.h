@@ -31,7 +31,7 @@ public:
     CHARACTER_REPUTATION(): m_current_value(NO_REPUTATION){};
     ~CHARACTER_REPUTATION(){};
 
-    void set(CHARACTER_REPUTATION_VALUE);
+    void       set(CHARACTER_REPUTATION_VALUE);
 
     shared_str id() const;
     int        index() const
@@ -49,14 +49,14 @@ private:
     CHARACTER_REPUTATION_VALUE m_current_value;
     int                        m_current_index;
 
-    static void InitIdToIndex();
+    static void                InitIdToIndex();
 
 public:
     // отношение между репутациями
     static CHARACTER_GOODWILL relation(int from, int to);
     CHARACTER_GOODWILL        relation(int to);
 
-    static void DeleteIdToIndexData();
+    static void               DeleteIdToIndexData();
 
 private:
     typedef CIni_Table<CHARACTER_GOODWILL, CHARACTER_REPUTATION> GOODWILL_TABLE;

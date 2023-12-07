@@ -132,7 +132,7 @@ public:
     COMotion(COMotion* src);
     virtual ~COMotion();
 
-    void Clear();
+    void         Clear();
 
     void         _Evaluate(float t, Fvector& T, Fvector& R);
     virtual void Save(IWriter& F);
@@ -182,25 +182,25 @@ class ENGINE_API CSMotion: public CCustomMotion
     BoneMotionVec bone_mots;
 
 public:
-    u16    m_BoneOrPart;
-    float  fSpeed;
-    float  fAccrue;
-    float  fFalloff;
-    float  fPower;
-    Flags8 m_Flags;
+    u16                     m_BoneOrPart;
+    float                   fSpeed;
+    float                   fAccrue;
+    float                   fFalloff;
+    float                   fPower;
+    Flags8                  m_Flags;
 
     xr_vector<motion_marks> marks;
 
-    void Clear();
+    void                    Clear();
 
 public:
     CSMotion();
     CSMotion(CSMotion* src);
     virtual ~CSMotion();
 
-    void _Evaluate(int bone_idx, float t, Fvector& T, Fvector& R);
+    void           _Evaluate(int bone_idx, float t, Fvector& T, Fvector& R);
 
-    void CopyMotion(CSMotion* src);
+    void           CopyMotion(CSMotion* src);
 
     st_BoneMotion* FindBoneMotion(shared_str name);
     BoneMotionVec& BoneMotions()
@@ -211,7 +211,7 @@ public:
     {
         return bone_mots[bone_idx].m_Flags;
     }
-    void add_empty_motion(shared_str const& bone_id);
+    void         add_empty_motion(shared_str const& bone_id);
 
     virtual void Save(IWriter& F);
     virtual bool Load(IReader& F);
@@ -219,10 +219,10 @@ public:
     virtual void SaveMotion(const char* buf);
     virtual bool LoadMotion(const char* buf);
 
-    void SortBonesBySkeleton(BoneVec& bones);
-    void WorldRotate(int boneId, float h, float p, float b);
+    void         SortBonesBySkeleton(BoneVec& bones);
+    void         WorldRotate(int boneId, float h, float p, float b);
 
-    void Optimize();
+    void         Optimize();
 #ifdef _LW_EXPORT
     void ParseBoneMotion(LWItemID bone);
 #endif

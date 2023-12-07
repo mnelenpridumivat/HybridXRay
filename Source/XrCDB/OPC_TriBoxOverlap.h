@@ -126,8 +126,8 @@ inline_ BOOL planeBoxOverlap(const Point& normal, const float d, const Point& ma
 // - customized macros to take advantage of the null component
 // - axis vector3 discarded, possibly saves useless movs
 #define IMPLEMENT_CLASS3_TESTS                        \
-    float rad;                                        \
-    float min, max;                                   \
+    float       rad;                                  \
+    float       min, max;                             \
                                                       \
     const float fey0 = _abs(e0.y);                    \
     const float fez0 = _abs(e0.z);                    \
@@ -344,7 +344,7 @@ inline_ BOOL AABBCollider::TriBoxOverlap()
     //    this gives 3x3=9 more tests
 
     // move everything so that the boxcenter is in (0,0,0)
-    Point v0, v1, v2;
+    Point        v0, v1, v2;
     v0.x = mLeafVerts[0].x - center.x;
     v1.x = mLeafVerts[1].x - center.x;
     v2.x = mLeafVerts[2].x - center.x;

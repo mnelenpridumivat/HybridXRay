@@ -16,21 +16,18 @@
 extern BOOL death_anim_debug;
 #endif   // DEBUG
 
-character_shell_control::character_shell_control():
-    m_shot_up_factor(0.f), m_after_death_velocity_factor(1.f), m_was_wounded(false), m_Pred_Time(0.0)
-{
-}
+character_shell_control::character_shell_control(): m_shot_up_factor(0.f), m_after_death_velocity_factor(1.f), m_was_wounded(false), m_Pred_Time(0.0) {}
 
 void character_shell_control::Load(LPCSTR section)
 {
-    skel_airr_ang_factor      = pSettings->r_float(section, "ph_skeleton_airr_ang_factor");
-    skel_airr_lin_factor      = pSettings->r_float(section, "ph_skeleton_airr_lin_factor");
-    hinge_force_factor1       = pSettings->r_float(section, "ph_skeleton_hinger_factor1");
-    skel_ddelay               = pSettings->r_float(section, "ph_skeleton_ddelay");
-    skel_remain_time          = skel_ddelay;
-    skel_fatal_impulse_factor = pSettings->r_float(section, "ph_skel_fatal_impulse_factor");
-    skeleton_skin_ddelay      = pSettings->r_float(section, "ph_skeleton_skin_ddelay");
-    skeleton_skin_remain_time = skeleton_skin_ddelay;
+    skel_airr_ang_factor                  = pSettings->r_float(section, "ph_skeleton_airr_ang_factor");
+    skel_airr_lin_factor                  = pSettings->r_float(section, "ph_skeleton_airr_lin_factor");
+    hinge_force_factor1                   = pSettings->r_float(section, "ph_skeleton_hinger_factor1");
+    skel_ddelay                           = pSettings->r_float(section, "ph_skeleton_ddelay");
+    skel_remain_time                      = skel_ddelay;
+    skel_fatal_impulse_factor             = pSettings->r_float(section, "ph_skel_fatal_impulse_factor");
+    skeleton_skin_ddelay                  = pSettings->r_float(section, "ph_skeleton_skin_ddelay");
+    skeleton_skin_remain_time             = skeleton_skin_ddelay;
     // gray_wolf>Читаем из ltx параметры для поддержки изменяющегося трения у персонажей во время смерти
     // gray_wolf<
     skeleton_skin_friction_start          = pSettings->r_float(section, "ph_skeleton_skin_friction_start");
@@ -62,12 +59,7 @@ void character_shell_control::set_fatal_impulse(SHit& H) const
         H.impulse *= (H.type() == ALife::eHitTypeExplosion ? 1.f : skel_fatal_impulse_factor);
     }
 }
-void OnCharacterContactInDeath(
-    bool&     do_colide,
-    bool      bo1,
-    dContact& c,
-    SGameMtl* /*material_1*/,
-    SGameMtl* /*material_2*/)
+void OnCharacterContactInDeath(bool& do_colide, bool bo1, dContact& c, SGameMtl* /*material_1*/, SGameMtl* /*material_2*/)
 {
     dSurfaceParameters&      surface                    = c.surface;
     character_shell_control* l_character_physic_support = 0;
@@ -116,9 +108,7 @@ void character_shell_control::TestForWounded(const Fmatrix& xform, IKinematics* 
 
     xrXRC xrc;
     xrc.ray_options(0);
-    xrc.ray_query(
-        Level().ObjectSpace.GetStaticModel(), position_matrix.c, Fvector().set(0.0f, -1.0f, 0.0f),
-        pelvis_factor_low_pose_detect);
+    xrc.ray_query(Level().ObjectSpace.GetStaticModel(), position_matrix.c, Fvector().set(0.0f, -1.0f, 0.0f), pelvis_factor_low_pose_detect);
 
     if (xrc.r_count())
     {
@@ -192,6 +182,5 @@ void character_shell_control::UpdateFrictionAndJointResistanse(CPhysicsShell* sh
         remain = skeleton_skin_remain_time;
     }
 
-    m_curr_skin_friction_in_death =
-        skeleton_skin_friction_end + (remain / ddelay) * (skeleton_skin_friction_start - skeleton_skin_friction_end);
+    m_curr_skin_friction_in_death = skeleton_skin_friction_end + (remain / ddelay) * (skeleton_skin_friction_start - skeleton_skin_friction_end);
 };

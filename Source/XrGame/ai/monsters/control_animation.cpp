@@ -26,7 +26,7 @@ void CControlAnimation::reinit()
     m_legs_animation_end   = false;
     m_torso_animation_end  = false;
 
-    m_freeze = false;
+    m_freeze               = false;
 }
 
 void CControlAnimation::reset_data()
@@ -186,8 +186,7 @@ void CControlAnimation::check_events(SAnimationPart& part)
         ANIMATION_EVENT_MAP_IT it = m_anim_events.find(part.get_motion());
         if (it != m_anim_events.end())
         {
-            float cur_perc =
-                float(Device->dwTimeGlobal - part.time_started) / ((part.blend->timeTotal / part.blend->speed) * 1000);
+            float cur_perc = float(Device->dwTimeGlobal - part.time_started) / ((part.blend->timeTotal / part.blend->speed) * 1000);
 
             for (ANIMATION_EVENT_VEC_IT event_it = it->second.begin(); event_it != it->second.end(); ++event_it)
             {
@@ -236,10 +235,10 @@ void CControlAnimation::restart(SAnimationPart& part, PlayCallback callback)
         bone_or_part = m_skeleton_animated->LL_PartID("default");
 
     // save
-    float time_saved = part.blend->timeCurrent;
+    float time_saved        = part.blend->timeCurrent;
 
     // start
-    part.blend = m_skeleton_animated->LL_PlayCycle(bone_or_part, part.get_motion(), TRUE, callback, this);
+    part.blend              = m_skeleton_animated->LL_PlayCycle(bone_or_part, part.get_motion(), TRUE, callback, this);
 
     // restore
     part.blend->timeCurrent = time_saved;

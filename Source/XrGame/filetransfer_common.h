@@ -33,11 +33,11 @@ namespace file_transfer
     typedef fastdelegate::FastDelegate3<sending_status_t, u32, u32>   sending_state_callback_t;
     typedef fastdelegate::FastDelegate3<receiving_status_t, u32, u32> receiving_state_callback_t;
 
-    typedef std::pair<u8*, u32 const>       mutable_buffer_t;
-    typedef std::pair<u8 const*, u32 const> const_buffer_t;
+    typedef std::pair<u8*, u32 const>                                 mutable_buffer_t;
+    typedef std::pair<u8 const*, u32 const>                           const_buffer_t;
 
-    void make_reject_packet(NET_Packet& packet, ClientID const& client);
-    void make_abort_packet(NET_Packet& packet, ClientID const& client);
+    void                                                              make_reject_packet(NET_Packet& packet, ClientID const& client);
+    void                                                              make_abort_packet(NET_Packet& packet, ClientID const& client);
 
 }   // namespace file_transfer
 

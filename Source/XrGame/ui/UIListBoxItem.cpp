@@ -77,7 +77,7 @@ float CUIListBoxItem::FieldsLength() const
     if (m_ChildWndList.empty())
         return 0.0f;
 
-    float len = 0.0f;
+    float      len = 0.0f;
     /*
         WINDOW_LIST::const_iterator it		= m_ChildWndList.begin();
         WINDOW_LIST::const_iterator it_e	= m_ChildWndList.end();
@@ -88,7 +88,7 @@ float CUIListBoxItem::FieldsLength() const
             len				+= w->GetWndPos().x + w->GetWidth();
         }
     */
-    CUIWindow* w = m_ChildWndList.back();
+    CUIWindow* w   = m_ChildWndList.back();
     len += w->GetWndPos().x + w->GetWidth();
     return len;
 }

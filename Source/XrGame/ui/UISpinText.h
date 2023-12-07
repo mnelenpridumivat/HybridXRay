@@ -15,8 +15,8 @@ public:
     virtual void OnBtnUpClick();
     virtual void OnBtnDownClick();
 
-    void   AddItem_(const char* item, int id);
-    LPCSTR GetTokenText();
+    void         AddItem_(const char* item, int id);
+    LPCSTR       GetTokenText();
 
 protected:
     virtual bool CanPressUp();
@@ -33,7 +33,7 @@ protected:
     typedef xr_vector<SInfo> Items;
     typedef Items::iterator  Items_it;
 
-    Items m_list;
-    int   m_curItem;
-    int   m_opt_backup_value;
+    Items                    m_list;
+    int                      m_curItem;
+    int                      m_opt_backup_value;
 };

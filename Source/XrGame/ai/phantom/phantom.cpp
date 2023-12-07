@@ -30,9 +30,9 @@ void CPhantom::Load(LPCSTR section)
         self->spatial.type &= ~STYPE_REACTTOSOUND;
     }
     //////////////////////////////////////////////////////////////////////////
-    fSpeed      = pSettings->r_float(section, "speed");
-    fASpeed     = pSettings->r_float(section, "angular_speed");
-    fContactHit = pSettings->r_float(section, "contact_hit");
+    fSpeed                          = pSettings->r_float(section, "speed");
+    fASpeed                         = pSettings->r_float(section, "angular_speed");
+    fContactHit                     = pSettings->r_float(section, "contact_hit");
 
     LPCSTR snd_name                 = 0;
     m_state_data[stBirth].particles = pSettings->r_string(section, "particles_birth");
@@ -156,7 +156,8 @@ void CPhantom::SwitchToState_internal(EState new_state)
                 break;
             case stFly:
                 break;
-            case stContact: {
+            case stContact:
+            {
                 SStateData& sdata = m_state_data[m_CurState];
                 PlayParticles(sdata.particles.c_str(), FALSE, xform);
                 Fvector vE, vP;
@@ -169,7 +170,8 @@ void CPhantom::SwitchToState_internal(EState new_state)
                 }
             }
             break;
-            case stShoot: {
+            case stShoot:
+            {
                 SStateData& sdata = m_state_data[m_CurState];
                 PlayParticles(sdata.particles.c_str(), FALSE, xform);
             }
@@ -180,14 +182,16 @@ void CPhantom::SwitchToState_internal(EState new_state)
         // before event
         switch (new_state)
         {
-            case stBirth: {
+            case stBirth:
+            {
                 SStateData& sdata = m_state_data[new_state];
                 PlayParticles(sdata.particles.c_str(), TRUE, xform);
                 sdata.sound.play_at_pos(0, xform.c);
                 K->PlayCycle(sdata.motion, TRUE, animation_end_callback, this);
             }
             break;
-            case stFly: {
+            case stFly:
+            {
                 UpdateEvent.bind(this, &CPhantom::OnFlyState);
                 SStateData& sdata = m_state_data[new_state];
                 m_fly_particles   = PlayParticles(sdata.particles.c_str(), FALSE, xform);
@@ -195,14 +199,16 @@ void CPhantom::SwitchToState_internal(EState new_state)
                 K->PlayCycle(sdata.motion);
             }
             break;
-            case stContact: {
+            case stContact:
+            {
                 UpdateEvent.bind(this, &CPhantom::OnDeadState);
                 SStateData& sdata = m_state_data[new_state];
                 sdata.sound.play_at_pos(0, xform.c);
                 K->PlayCycle(sdata.motion, TRUE, animation_end_callback, this);
             }
             break;
-            case stShoot: {
+            case stShoot:
+            {
                 UpdateEvent.bind(this, &CPhantom::OnDeadState);
                 SStateData& sdata = m_state_data[new_state];
                 PlayParticles(sdata.particles.c_str(), TRUE, xform);
@@ -210,7 +216,8 @@ void CPhantom::SwitchToState_internal(EState new_state)
                 K->PlayCycle(sdata.motion, TRUE, animation_end_callback, this);
             }
             break;
-            case stIdle: {
+            case stIdle:
+            {
                 UpdateEvent.bind(this, &CPhantom::OnIdleState);
                 SStateData& sdata = m_state_data[m_CurState];
                 sdata.sound.stop();
@@ -240,9 +247,7 @@ void CPhantom::OnFlyState()
             SwitchToState(stContact);
             float power   = 1000.0f;
             float impulse = 100.0f;
-            SHit  HDS(
-                power, Fvector().set(0, 0, 1), this, BI_NONE, Fvector().set(0, 0, 0), impulse, ALife::eHitTypeFireWound,
-                0.0f, false);
+            SHit  HDS(power, Fvector().set(0, 0, 1), this, BI_NONE, Fvector().set(0, 0, 0), impulse, ALife::eHitTypeFireWound, 0.0f, false);
             Hit(&HDS);
         }
     }
@@ -395,7 +400,7 @@ void CPhantom::net_Import(NET_Packet& P)
     // import
     R_ASSERT(Remote());
 
-    u8 flags;
+    u8    flags;
 
     float health;
     P.r_float(health);

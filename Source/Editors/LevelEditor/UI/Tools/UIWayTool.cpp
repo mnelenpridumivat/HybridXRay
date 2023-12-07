@@ -46,8 +46,7 @@ void UIWayTool::Draw()
         ImGui::BeginGroup();
         {
             if (ImGui::Checkbox("Auto Link"_RU >> u8"Авто линковка", &m_AutoLink))
-            {
-            }
+            {}
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::PushItemWidth(-1);
@@ -60,7 +59,7 @@ void UIWayTool::Draw()
                         ELog.DlgMsg(mtInformation, "Before editing enter Point Mode.");
                         return;
                     }
-                    bool bRes = false;
+                    bool       bRes = false;
                     ObjectList lst;
                     Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
                     // remove links
@@ -79,7 +78,7 @@ void UIWayTool::Draw()
                 if (ImGui::Button("Convert to 1-Link"_RU >> u8"Конверт. в 1-связь", ImVec2(size / 2, 0)))
                 {
                     ObjectList lst;
-                    int cnt = Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
+                    int        cnt = Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
                     for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                         ((CWayObject*)(*it))->Convert1Link();
                     if (cnt)
@@ -96,7 +95,7 @@ void UIWayTool::Draw()
                         ELog.DlgMsg(mtInformation, "Before editing enter Point Mode.");
                         return;
                     }
-                    bool bRes = false;
+                    bool       bRes = false;
                     ObjectList lst;
                     Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
                     for (ObjectIt it = lst.begin(); it != lst.end(); it++)
@@ -111,7 +110,7 @@ void UIWayTool::Draw()
                 if (ImGui::Button("Convert to 2-Link"_RU >> u8"Конверт. в 2-связь", ImVec2(size / 2, 0)))
                 {
                     ObjectList lst;
-                    int cnt = Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
+                    int        cnt = Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
                     for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                         ((CWayObject*)(*it))->Convert2Link();
                     if (cnt)
@@ -129,7 +128,7 @@ void UIWayTool::Draw()
                         return;
                     }
                     ObjectList lst;
-                    int cnt = Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
+                    int        cnt = Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
                     for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                         ((CWayObject*)(*it))->InvertLink();
                     if (cnt)
@@ -147,7 +146,7 @@ void UIWayTool::Draw()
                         return;
                     }
                     ObjectList lst;
-                    int cnt = Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
+                    int        cnt = Scene->GetQueryObjects(lst, OBJCLASS_WAY, 1, 1, 0);
                     for (ObjectIt it = lst.begin(); it != lst.end(); it++)
                         ((CWayObject*)(*it))->RemoveLink();
                     if (cnt)

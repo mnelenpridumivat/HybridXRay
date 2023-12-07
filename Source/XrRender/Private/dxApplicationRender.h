@@ -15,6 +15,7 @@ public:
     virtual void load_draw_internal(CApplication& owner);
     //	?????
     virtual void KillHW();
+
 private:
 #ifndef REDITOR
     ref_shader hLevelLogo;

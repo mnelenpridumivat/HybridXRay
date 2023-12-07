@@ -30,12 +30,7 @@ IC dReal dcTriListCollider::PointSphereTest(const dReal* center, const dReal rad
     return depth;
 }
 
-inline dReal dcTriListCollider::FragmentonSphereTest(
-    const dReal* center,
-    const dReal  radius,
-    const dReal* pt1,
-    const dReal* pt2,
-    dReal*       norm)
+inline dReal dcTriListCollider::FragmentonSphereTest(const dReal* center, const dReal radius, const dReal* pt1, const dReal* pt2, dReal* norm)
 {
     dVector3 direction = {pt2[0] - pt1[0], pt2[1] - pt1[1], pt2[2] - pt1[2]};
     cast_fv(direction).normalize();
@@ -45,14 +40,12 @@ inline dReal dcTriListCollider::FragmentonSphereTest(
     dReal from1_dist = center_prg - pt1_prg;
     if (center_prg < pt1_prg || center_prg > pt2_prg)
         return -1;
-    dVector3 line_to_center = {
-        -pt1[0] - direction[0] * from1_dist + center[0], -pt1[1] - direction[1] * from1_dist + center[1],
-        -pt1[2] - direction[2] * from1_dist + center[2]};
+    dVector3 line_to_center = {-pt1[0] - direction[0] * from1_dist + center[0], -pt1[1] - direction[1] * from1_dist + center[1], -pt1[2] - direction[2] * from1_dist + center[2]};
 
-    float mag = dSqrt(dDOT(line_to_center, line_to_center));
+    float    mag            = dSqrt(dDOT(line_to_center, line_to_center));
     // dNormalize3(norm);
 
-    dReal depth = radius - mag;
+    dReal    depth          = radius - mag;
     if (depth < 0.f)
         return -1.f;
     if (mag > 0.f)
@@ -71,13 +64,7 @@ inline dReal dcTriListCollider::FragmentonSphereTest(
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-IC bool dcTriListCollider::FragmentonSphereTest(
-    const dReal* center,
-    const dReal  radius,
-    const dReal* pt1,
-    const dReal* pt2,
-    dReal*       norm,
-    dReal&       depth)
+IC bool dcTriListCollider::FragmentonSphereTest(const dReal* center, const dReal radius, const dReal* pt1, const dReal* pt2, dReal* norm, dReal& depth)
 {
     dVector3 V        = {pt2[0] - pt1[0], pt2[1] - pt1[1], pt2[2] - pt1[2]};
     dVector3 L        = {pt1[0] - center[0], pt1[1] - center[1], pt1[2] - center[2]};
@@ -111,12 +98,7 @@ IC bool dcTriListCollider::FragmentonSphereTest(
     return true;
 }
 
-IC bool dcTriListCollider::PointSphereTest(
-    const dReal* center,
-    const dReal  radius,
-    const dReal* pt,
-    dReal*       norm,
-    dReal&       depth)
+IC bool dcTriListCollider::PointSphereTest(const dReal* center, const dReal radius, const dReal* pt, dReal* norm, dReal& depth)
 {
     norm[0]    = center[0] - pt[0];
     norm[1]    = center[1] - pt[1];
@@ -142,36 +124,24 @@ IC bool dcTriListCollider::PointSphereTest(
 }
 /////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
-int dcTriListCollider::dSortedTriSphere(
-    const dReal* /**v1/**/,
-    const dReal* /**v2/**/,
-    const dReal*  triAx,
-    CDB::TRI*     T,
-    dReal         dist,
-    dxGeom*       Sphere,
-    dxGeom*       Geometry,
-    int           Flags,
-    dContactGeom* Contacts,
-    int           skip)
+int dcTriListCollider::dSortedTriSphere(const dReal* /**v1/**/, const dReal* /**v2/**/, const dReal* triAx, CDB::TRI* T, dReal dist, dxGeom* Sphere, dxGeom* Geometry, int Flags, dContactGeom* Contacts, int skip)
 {
     // const dReal* v1=(dReal*)T->verts[1];
     // const dReal* v2=(dReal*)T->verts[2];
-    const dReal* SphereCenter = dGeomGetPosition(Sphere);
-    const float  SphereRadius = dGeomSphereGetRadius(Sphere);
+    const dReal* SphereCenter  = dGeomGetPosition(Sphere);
+    const float  SphereRadius  = dGeomSphereGetRadius(Sphere);
 
     //	dNormalize3(triAx);
     const dReal* ContactNormal = triAx;   //{triAx[0],triAx[1],triAx[2]};
-    dVector3     ContactPos    = {
-        SphereCenter[0] - triAx[0] * SphereRadius, SphereCenter[1] - triAx[1] * SphereRadius,
-        SphereCenter[2] - triAx[2] * SphereRadius};
+    dVector3     ContactPos    = {SphereCenter[0] - triAx[0] * SphereRadius, SphereCenter[1] - triAx[1] * SphereRadius, SphereCenter[2] - triAx[2] * SphereRadius};
 
-    float ContactDepth = -dist + SphereRadius;
+    float        ContactDepth  = -dist + SphereRadius;
     if (ContactDepth >= 0)
     {
-        Contacts->normal[0] = -ContactNormal[0];
-        Contacts->normal[1] = -ContactNormal[1];
-        Contacts->normal[2] = -ContactNormal[2];
-        Contacts->depth     = ContactDepth;
+        Contacts->normal[0]                                   = -ContactNormal[0];
+        Contacts->normal[1]                                   = -ContactNormal[1];
+        Contacts->normal[2]                                   = -ContactNormal[2];
+        Contacts->depth                                       = ContactDepth;
         ////////////////////
 
         Contacts->pos[0]                                      = ContactPos[0];
@@ -190,16 +160,7 @@ int dcTriListCollider::dSortedTriSphere(
     return 0;
 }
 
-int dcTriListCollider::dTriSphere(
-    const dReal*  v0,
-    const dReal*  v1,
-    const dReal*  v2,
-    Triangle*     T,
-    dxGeom*       Sphere,
-    dxGeom*       Geometry,
-    int           Flags,
-    dContactGeom* Contacts,
-    int /**skip/**/)
+int dcTriListCollider::dTriSphere(const dReal* v0, const dReal* v1, const dReal* v2, Triangle* T, dxGeom* Sphere, dxGeom* Geometry, int Flags, dContactGeom* Contacts, int /**skip/**/)
 {
     const dVector3& triSideAx0 = T->side0;
     const dVector3& triSideAx1 = T->side1;
@@ -207,8 +168,8 @@ int dcTriListCollider::dTriSphere(
 
     // if(!TriPlaneContainPoint(triAx,v0,SphereCenter)) return 0;
 
-    const dReal radius = dGeomSphereGetRadius(Sphere);
-    float       Depth  = -T->dist + radius;
+    const dReal     radius     = dGeomSphereGetRadius(Sphere);
+    float           Depth      = -T->dist + radius;
     if (Depth < 0.f)
         return 0;
     const dReal* pos = dGeomGetPosition(Sphere);
@@ -260,10 +221,10 @@ int dcTriListCollider::dTriSphere(
         }
     }
 
-    Contacts->normal[0] = -ContactNormal[0];
-    Contacts->normal[1] = -ContactNormal[1];
-    Contacts->normal[2] = -ContactNormal[2];
-    Contacts->depth     = Depth;
+    Contacts->normal[0]                                   = -ContactNormal[0];
+    Contacts->normal[1]                                   = -ContactNormal[1];
+    Contacts->normal[2]                                   = -ContactNormal[2];
+    Contacts->depth                                       = Depth;
     ////////////////////
 
     Contacts->pos[0]                                      = pos[0] - ContactNormal[0] * radius;

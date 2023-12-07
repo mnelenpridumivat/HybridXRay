@@ -30,12 +30,12 @@ public:
 
     virtual void OnRender();   // only for list-box
 
-    LPCSTR GetText();
-    LPCSTR GetTextOf(int index);
-    void   SetText(LPCSTR text);
+    LPCSTR       GetText();
+    LPCSTR       GetTextOf(int index);
+    void         SetText(LPCSTR text);
 
-    void SetListLength(int length);
-    void SetVertScroll(bool bVScroll = true)
+    void         SetListLength(int length);
+    void         SetVertScroll(bool bVScroll = true)
     {
         m_list_box.SetFixedScrollBar(bVScroll);
     };
@@ -44,10 +44,10 @@ public:
     void            SetItemIDX(int idx);
     void            SetItemToken(int tok);
 
-    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = 0);
-    virtual void OnFocusLost();
-    virtual void OnFocusReceive();
-    int          CurrentID()
+    virtual void    SendMessage(CUIWindow* pWnd, s16 msg, void* pData = 0);
+    virtual void    OnFocusLost();
+    virtual void    OnFocusReceive();
+    int             CurrentID()
     {
         return m_itoken_id;
     }
@@ -63,20 +63,20 @@ protected:
     virtual void Draw();
     void         ClearList();
 
-    u32 GetSize();
+    u32          GetSize();
 
 protected:
-    bool          m_bInited;
-    int           m_iListHeight;
-    int           m_itoken_id;
-    E_COMBO_STATE m_eState;
-    int           m_opt_backup_value;
+    bool                m_bInited;
+    int                 m_iListHeight;
+    int                 m_itoken_id;
+    E_COMBO_STATE       m_eState;
+    int                 m_opt_backup_value;
 
     CUI_IB_FrameLineWnd m_frameLine;
     CUITextWnd          m_text;
     CUIFrameWindow      m_list_frame;
 
-    u32 m_textColor[2];
+    u32                 m_textColor[2];
 
 public:
     CUIListBox m_list_box;

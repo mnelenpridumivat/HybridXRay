@@ -10,7 +10,7 @@
 
 const float _pmt_psy_attack_time = 0.5f;
 
-void CControllerAnimation::reinit()
+void        CControllerAnimation::reinit()
 {
     m_controller = smart_cast<CController*>(m_object);
 
@@ -53,7 +53,8 @@ void CControllerAnimation::on_event(ControlCom::EEventType type, ControlCom::IEv
 {
     switch (type)
     {
-        case ControlCom::eventAnimationEnd: {
+        case ControlCom::eventAnimationEnd:
+        {
             select_animation(true);
             m_state_attack = false;
             break;
@@ -65,7 +66,8 @@ void CControllerAnimation::on_event(ControlCom::EEventType type, ControlCom::IEv
         case ControlCom::eventLegsAnimationEnd:
             select_legs_animation();
             break;
-        case ControlCom::eventAnimationSignal: {
+        case ControlCom::eventAnimationSignal:
+        {
             SAnimationSignalEventData* event_data = (SAnimationSignalEventData*)data;
             if (event_data->event_id == CControlAnimation::eAnimationHit)
             {
@@ -99,24 +101,24 @@ void CControllerAnimation::update_frame()
 
 void CControllerAnimation::load()
 {
-    IKinematicsAnimated* skeleton = smart_cast<IKinematicsAnimated*>(m_object->Visual());
+    IKinematicsAnimated* skeleton      = smart_cast<IKinematicsAnimated*>(m_object->Visual());
 
-    m_legs[eLegsStand]        = skeleton->ID_Cycle_Safe("new_idle_0");
-    m_legs[eLegsSteal]        = skeleton->ID_Cycle_Safe("new_cr_idle_0");
-    m_legs[eLegsRun]          = skeleton->ID_Cycle_Safe("new_run_fwd_0");
-    m_legs[eLegsWalk]         = skeleton->ID_Cycle_Safe("new_walk_0");
-    m_legs[eLegsBackRun]      = skeleton->ID_Cycle_Safe("new_run_beack_0");
-    m_legs[eLegsRunFwdLeft]   = skeleton->ID_Cycle_Safe("stand_fwd_ls");
-    m_legs[eLegsRunFwdRight]  = skeleton->ID_Cycle_Safe("stand_fwd_rs");
-    m_legs[eLegsRunBkwdLeft]  = skeleton->ID_Cycle_Safe("stand_bwd_ls");
-    m_legs[eLegsRunBkwdRight] = skeleton->ID_Cycle_Safe("stand_bwd_rs");
-    m_legs[eLegsStealFwd]     = skeleton->ID_Cycle_Safe("new_walk_steal_0");
-    m_legs[eLegsStealBkwd]    = skeleton->ID_Cycle_Safe("new_walk_steal_beack_0");
+    m_legs[eLegsStand]                 = skeleton->ID_Cycle_Safe("new_idle_0");
+    m_legs[eLegsSteal]                 = skeleton->ID_Cycle_Safe("new_cr_idle_0");
+    m_legs[eLegsRun]                   = skeleton->ID_Cycle_Safe("new_run_fwd_0");
+    m_legs[eLegsWalk]                  = skeleton->ID_Cycle_Safe("new_walk_0");
+    m_legs[eLegsBackRun]               = skeleton->ID_Cycle_Safe("new_run_beack_0");
+    m_legs[eLegsRunFwdLeft]            = skeleton->ID_Cycle_Safe("stand_fwd_ls");
+    m_legs[eLegsRunFwdRight]           = skeleton->ID_Cycle_Safe("stand_fwd_rs");
+    m_legs[eLegsRunBkwdLeft]           = skeleton->ID_Cycle_Safe("stand_bwd_ls");
+    m_legs[eLegsRunBkwdRight]          = skeleton->ID_Cycle_Safe("stand_bwd_rs");
+    m_legs[eLegsStealFwd]              = skeleton->ID_Cycle_Safe("new_walk_steal_0");
+    m_legs[eLegsStealBkwd]             = skeleton->ID_Cycle_Safe("new_walk_steal_beack_0");
 
-    m_legs[eLegsStealFwdLeft]   = skeleton->ID_Cycle_Safe("steal_fwd_ls");
-    m_legs[eLegsStealFwdRight]  = skeleton->ID_Cycle_Safe("steal_fwd_rs");
-    m_legs[eLegsStealBkwdLeft]  = skeleton->ID_Cycle_Safe("steal_bwd_ls");
-    m_legs[eLegsStealBkwdRight] = skeleton->ID_Cycle_Safe("steal_bwd_rs");
+    m_legs[eLegsStealFwdLeft]          = skeleton->ID_Cycle_Safe("steal_fwd_ls");
+    m_legs[eLegsStealFwdRight]         = skeleton->ID_Cycle_Safe("steal_fwd_rs");
+    m_legs[eLegsStealBkwdLeft]         = skeleton->ID_Cycle_Safe("steal_bwd_ls");
+    m_legs[eLegsStealBkwdRight]        = skeleton->ID_Cycle_Safe("steal_bwd_rs");
 
     m_legs[eLegsStandDamaged]          = skeleton->ID_Cycle_Safe("new_run_fwd_0");
     m_legs[eLegsRunDamaged]            = skeleton->ID_Cycle_Safe("new_run_fwd_0");
@@ -125,10 +127,10 @@ void CControllerAnimation::load()
     m_legs[eLegsRunStrafeLeftDamaged]  = skeleton->ID_Cycle_Safe("new_run_fwd_0");
     m_legs[eLegsRunStrafeRightDamaged] = skeleton->ID_Cycle_Safe("new_run_fwd_0");
 
-    m_torso[eTorsoIdle]      = skeleton->ID_Cycle_Safe("new_torso_idle_0");
-    m_torso[eTorsoSteal]     = skeleton->ID_Cycle_Safe("new_torso_steal_0");
-    m_torso[eTorsoPsyAttack] = skeleton->ID_Cycle_Safe("new_torso_attack_0");
-    m_torso[eTorsoRun]       = skeleton->ID_Cycle_Safe("new_torso_run_0");
+    m_torso[eTorsoIdle]                = skeleton->ID_Cycle_Safe("new_torso_idle_0");
+    m_torso[eTorsoSteal]               = skeleton->ID_Cycle_Safe("new_torso_steal_0");
+    m_torso[eTorsoPsyAttack]           = skeleton->ID_Cycle_Safe("new_torso_attack_0");
+    m_torso[eTorsoRun]                 = skeleton->ID_Cycle_Safe("new_torso_run_0");
 
     add_path_rotation(eLegsTypeRun, 0, eLegsRun);
     add_path_rotation(eLegsTypeRun, PI, eLegsBackRun);
@@ -152,8 +154,8 @@ void CControllerAnimation::load()
 void CControllerAnimation::add_path_rotation(ELegsActionType action, float angle, ELegsActionType type)
 {
     SPathRotations rot;
-    rot.angle       = angle;
-    rot.legs_motion = type;
+    rot.angle                    = angle;
+    rot.legs_motion              = type;
 
     PATH_ROTATIONS_MAP_IT map_it = m_path_rotations.find(action);
     if (map_it == m_path_rotations.end())
@@ -176,8 +178,7 @@ void CControllerAnimation::select_velocity()
         float cur_yaw, target_yaw;
         m_man->direction().get_heading(cur_yaw, target_yaw);
         SPathRotations path_rot = get_path_rotation(cur_yaw);
-        if ((path_rot.legs_motion == eLegsBackRun) || (path_rot.legs_motion == eLegsRunBkwdLeft) ||
-            (path_rot.legs_motion == eLegsRunBkwdRight))
+        if ((path_rot.legs_motion == eLegsBackRun) || (path_rot.legs_motion == eLegsRunBkwdLeft) || (path_rot.legs_motion == eLegsRunBkwdRight))
         {
             m_man->path_builder().set_desirable_speed(2.f);
         }
@@ -196,11 +197,11 @@ void CControllerAnimation::select_velocity()
 // and according to point it has to look at
 void CControllerAnimation::set_path_direction()
 {
-    float cur_yaw = Fvector().sub(m_controller->custom_dir().get_head_look_point(), m_object->Position()).getH();
-    cur_yaw       = angle_normalize(-cur_yaw);
+    float cur_yaw           = Fvector().sub(m_controller->custom_dir().get_head_look_point(), m_object->Position()).getH();
+    cur_yaw                 = angle_normalize(-cur_yaw);
 
-    float target_yaw = m_man->path_builder().detail().direction().getH();
-    target_yaw       = angle_normalize(-target_yaw);
+    float target_yaw        = m_man->path_builder().detail().direction().getH();
+    target_yaw              = angle_normalize(-target_yaw);
 
     SPathRotations path_rot = get_path_rotation(cur_yaw);
 
@@ -281,20 +282,19 @@ CControllerAnimation::SPathRotations CControllerAnimation::get_path_rotation(flo
     float target_yaw = m_man->path_builder().detail().direction().getH();
     target_yaw       = angle_normalize(-target_yaw);
 
-    float diff = angle_difference(cur_yaw, target_yaw);
+    float diff       = angle_difference(cur_yaw, target_yaw);
     if (from_right(target_yaw, cur_yaw))
         diff = -diff;
 
-    diff = angle_normalize(diff);
+    diff                            = angle_normalize(diff);
 
     PATH_ROTATIONS_VEC_IT it_best   = m_path_rotations[m_current_legs_action].begin();
     float                 best_diff = flt_max;
-    for (PATH_ROTATIONS_VEC_IT it = m_path_rotations[m_current_legs_action].begin();
-         it != m_path_rotations[m_current_legs_action].end(); it++)
+    for (PATH_ROTATIONS_VEC_IT it = m_path_rotations[m_current_legs_action].begin(); it != m_path_rotations[m_current_legs_action].end(); it++)
     {
         float angle_diff = angle_normalize(it->angle);
 
-        float cur_diff = angle_difference(angle_diff, diff);
+        float cur_diff   = angle_difference(angle_diff, diff);
         if (cur_diff < best_diff)
         {
             best_diff = cur_diff;
@@ -318,9 +318,7 @@ bool CControllerAnimation::is_moving()
     if (!m_man->path_builder().is_moving_on_path())
         return false;
 
-    if (((m_current_legs_action & eLegsTypeStealMotion) != eLegsTypeStealMotion) &&
-        ((m_current_legs_action & eLegsTypeWalk) != eLegsTypeWalk) &&
-        ((m_current_legs_action & eLegsTypeRun) != eLegsTypeRun))
+    if (((m_current_legs_action & eLegsTypeStealMotion) != eLegsTypeStealMotion) && ((m_current_legs_action & eLegsTypeWalk) != eLegsTypeWalk) && ((m_current_legs_action & eLegsTypeRun) != eLegsTypeRun))
         return false;
 
     return true;
@@ -330,19 +328,17 @@ bool CControllerAnimation::is_moving()
 // then set negative speed
 void CControllerAnimation::set_path_params()
 {
-    bool moving_action = ((m_current_legs_action & eLegsTypeStealMotion) == eLegsTypeStealMotion) ||
-        ((m_current_legs_action & eLegsTypeWalk) == eLegsTypeWalk) ||
-        ((m_current_legs_action & eLegsTypeRun) == eLegsTypeRun);
+    bool moving_action = ((m_current_legs_action & eLegsTypeStealMotion) == eLegsTypeStealMotion) || ((m_current_legs_action & eLegsTypeWalk) == eLegsTypeWalk) || ((m_current_legs_action & eLegsTypeRun) == eLegsTypeRun);
 
     if (moving_action)
     {
-        u32 vel_mask = 0;
-        u32 des_mask = 0;
+        u32     vel_mask    = 0;
+        u32     des_mask    = 0;
 
-        bool looking_fwd = true;
+        bool    looking_fwd = true;
 
-        Fvector target_pos = m_object->path().get_target_set();
-        Fvector dir        = Fvector().sub(target_pos, m_object->Position());
+        Fvector target_pos  = m_object->path().get_target_set();
+        Fvector dir         = Fvector().sub(target_pos, m_object->Position());
         if (!fis_zero(dir.square_magnitude()))
         {
             float target_yaw = dir.getH();

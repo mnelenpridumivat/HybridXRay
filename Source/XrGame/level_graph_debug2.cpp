@@ -50,14 +50,14 @@ void CLevelGraph::draw_nodes()
     POSITION.y += 0.5f;
 
     // display
-    Fvector P = POSITION;
+    Fvector    P  = POSITION;
 
     //	CPosition			Local;
     //	vertex_position		(Local,P);
 
-    u32 ID = O->ai_location().level_vertex_id();
+    u32        ID = O->ai_location().level_vertex_id();
 
-    CGameFont* F = UI().Font().pFontDI;
+    CGameFont* F  = UI().Font().pFontDI;
     F->SetHeightI(.02f);
     F->OutI(0.f, 0.5f, "%f,%f,%f", VPUSH(P));
     //	float				x,z;
@@ -73,9 +73,9 @@ void CLevelGraph::draw_nodes()
     }
 
     // render
-    float sc = header().cell_size() / 16;
-    float st = 0.98f * header().cell_size() / 2;
-    float tt = 0.01f;
+    float   sc = header().cell_size() / 16;
+    float   st = 0.98f * header().cell_size() / 2;
+    float   tt = 0.01f;
 
     Fvector DUP;
     DUP.set(0, 1, 0);
@@ -112,7 +112,7 @@ void CLevelGraph::draw_nodes()
     {
         const CLevelGraph::CVertex& N = *I;
         Fvector                     PC;
-        PC = vertex_position(N);
+        PC      = vertex_position(N);
 
         u32 Nid = vertex_id(I);
 
@@ -122,11 +122,11 @@ void CLevelGraph::draw_nodes()
         float sr = header().cell_size();
         if (::Render->ViewBase.testSphere_dirty(PC, sr))
         {
-            u32 LL = 255;
+            u32  LL  = 255;
 
-            u32 CC = color_xrgb(0, 0, 255);
-            u32 CT = color_xrgb(LL, LL, LL);
-            u32 CH = color_xrgb(0, 128, 0);
+            u32  CC  = color_xrgb(0, 0, 255);
+            u32  CT  = color_xrgb(LL, LL, LL);
+            u32  CH  = color_xrgb(0, 128, 0);
 
             BOOL bHL = FALSE;
             if (Nid == u32(ID))
@@ -199,12 +199,10 @@ void CLevelGraph::draw_nodes()
 
 void CLevelGraph::draw_restrictions()
 {
-    CSpaceRestrictionManager::SPACE_RESTRICTIONS::const_iterator I =
-        Level().space_restriction_manager().restrictions().begin();
-    CSpaceRestrictionManager::SPACE_RESTRICTIONS::const_iterator E =
-        Level().space_restriction_manager().restrictions().end();
+    CSpaceRestrictionManager::SPACE_RESTRICTIONS::const_iterator I = Level().space_restriction_manager().restrictions().begin();
+    CSpaceRestrictionManager::SPACE_RESTRICTIONS::const_iterator E = Level().space_restriction_manager().restrictions().end();
 
-    CRandom R;
+    CRandom                                                      R;
 
     for (; I != E; ++I)
     {
@@ -213,9 +211,9 @@ void CLevelGraph::draw_restrictions()
         if (!(*I).second->initialized())
             continue;
 
-        u8 b = u8(R.randI(255));
-        u8 g = u8(R.randI(255));
-        u8 r = u8(R.randI(255));
+        u8                             b = u8(R.randI(255));
+        u8                             g = u8(R.randI(255));
+        u8                             r = u8(R.randI(255));
 
         xr_vector<u32>::const_iterator i = (*I).second->border().begin();
         xr_vector<u32>::const_iterator e = (*I).second->border().end();
@@ -266,9 +264,7 @@ void CLevelGraph::draw_covers()
     {
         Fvector position = (*I)->position();
         position.y += 1.5f;
-        Level().debug_renderer().draw_aabb(
-            position, half_size - .01f, 1.f, ai().level_graph().header().cell_size() * .5f - .01f,
-            color_xrgb(0 * 255, 255, 0 * 255));
+        Level().debug_renderer().draw_aabb(position, half_size - .01f, 1.f, ai().level_graph().header().cell_size() * .5f - .01f, color_xrgb(0 * 255, 255, 0 * 255));
 
         CVertex* v = vertex((*I)->level_vertex_id());
         Fvector  direction;
@@ -315,9 +311,7 @@ void CLevelGraph::draw_covers()
         {
             position = (*I)->position();
             position.y += 0.6f;
-            Level().debug_renderer().draw_aabb(
-                position, half_size - .01f, 1.f, ai().level_graph().header().cell_size() * .5f - .01f,
-                color_xrgb(0 * 255, 255, 0 * 255));
+            Level().debug_renderer().draw_aabb(position, half_size - .01f, 1.f, ai().level_graph().header().cell_size() * .5f - .01f, color_xrgb(0 * 255, 255, 0 * 255));
 
             CVertex* v = vertex((*I)->level_vertex_id());
             Fvector  direction;
@@ -383,10 +377,7 @@ void CLevelGraph::draw_objects()
             tpCustomMonster->OnRender();
             if (!tpCustomMonster->movement().detail().path().empty())
             {
-                Fvector temp = tpCustomMonster->movement()
-                                   .detail()
-                                   .path()[tpCustomMonster->movement().detail().path().size() - 1]
-                                   .position;
+                Fvector temp = tpCustomMonster->movement().detail().path()[tpCustomMonster->movement().detail().path().size() - 1].position;
                 Level().debug_renderer().draw_aabb(temp, 1.f, 1.f, 1.f, color_xrgb(0, 0, 255));
             }
         }

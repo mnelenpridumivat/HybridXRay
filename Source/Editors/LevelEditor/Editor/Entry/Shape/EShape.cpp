@@ -11,12 +11,7 @@
 #define SHAPE_CHUNK_SHAPES         0x0001
 #define SHAPE_CHUNK_DATA           0x0002
 
-xr_token shape_type_tok[] =
-{
-    {"common", eShapeCommon},
-    {"level bound", eShapeLevelBound},
-    {0, 0}
-};
+xr_token shape_type_tok[] = {{"common", eShapeCommon}, {"level bound", eShapeLevelBound}, {0, 0}};
 
 CEditShape::CEditShape(LPVOID data, LPCSTR name): CCustomObject(data, name)
 {
@@ -27,13 +22,13 @@ CEditShape::~CEditShape() {}
 
 void CEditShape::Construct(LPVOID data)
 {
-    FClassID          = OBJCLASS_SHAPE;
+    FClassID = OBJCLASS_SHAPE;
     if (xrGameManager::GetGame() == EGame::SHOC)
         m_DrawTranspColor = SHAPE_COLOR_TRANSP_SHOC;
     else
         m_DrawTranspColor = SHAPE_COLOR_TRANSP;
-    m_DrawEdgeColor   = SHAPE_COLOR_EDGE;
-    m_shape_type      = eShapeCommon;
+    m_DrawEdgeColor = SHAPE_COLOR_EDGE;
+    m_shape_type    = eShapeCommon;
     m_Box.invalidate();
 }
 
@@ -68,7 +63,7 @@ void CEditShape::ComputeBounds()
                 Fmatrix& T = it->data.box;
 
                 // Build points
-                Fvector p;
+                Fvector  p;
                 for (int i = 0; i < DU_BOX_NUMVERTEX; i++)
                 {
                     T.transform_tiny(P, du_box_vertices[i]);
@@ -248,7 +243,7 @@ void CEditShape::OnDetach()
         m_DrawTranspColor = SHAPE_COLOR_TRANSP_SHOC;
     else
         m_DrawTranspColor = SHAPE_COLOR_TRANSP;
-    m_DrawEdgeColor   = SHAPE_COLOR_EDGE;
+    m_DrawEdgeColor = SHAPE_COLOR_EDGE;
 }
 
 bool CEditShape::RayPick(float& distance, const Fvector& start, const Fvector& direction, SRayPickInfo* pinf)
@@ -492,7 +487,7 @@ void CEditShape::Render(int priority, bool strictB2F)
         {
             EDevice->SetShader(EDevice->m_WireShader);
             EDevice->SetRS(D3DRS_CULLMODE, D3DCULL_NONE);
-            u32 clr = Selected() ? subst_alpha(m_DrawTranspColor, color_get_A(m_DrawTranspColor) * 2) : m_DrawTranspColor;
+            u32     clr  = Selected() ? subst_alpha(m_DrawTranspColor, color_get_A(m_DrawTranspColor) * 2) : m_DrawTranspColor;
 
             Fvector zero = {0.f, 0.f, 0.f};
             for (ShapeIt it = shapes.begin(); it != shapes.end(); ++it)

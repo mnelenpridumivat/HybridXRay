@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: inventory_upgrade_manager_inline.h
 //	Created 	: 01.11.2007
 //  Modified 	: 27.11.2007
@@ -11,10 +11,8 @@
 
 namespace inventory
 {
-namespace upgrade
-{
+    namespace upgrade
+    {}   // namespace upgrade
+}   // namespace inventory
 
-} // namespace upgrade
-} // namespace inventory
-
-#endif // INVENTORY_UPGRADE_MANAGER_INLINE_H_INCLUDED
+#endif   // INVENTORY_UPGRADE_MANAGER_INLINE_H_INCLUDED

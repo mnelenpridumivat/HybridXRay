@@ -12,7 +12,7 @@ struct CRemoveDangerObject
 {
     const CObject* m_object;
 
-    IC CRemoveDangerObject(const CObject* object)
+    IC             CRemoveDangerObject(const CObject* object)
     {
         m_object = object;
     }
@@ -42,8 +42,7 @@ IC void CAgentLocationManager::clear()
 
 IC CAgentLocationManager::CDangerLocationPtr CAgentLocationManager::location(const CObject* object)
 {
-    LOCATIONS::iterator I =
-        std::find_if(m_danger_locations.begin(), m_danger_locations.end(), CRemoveDangerObject(object));
+    LOCATIONS::iterator I = std::find_if(m_danger_locations.begin(), m_danger_locations.end(), CRemoveDangerObject(object));
     if (I != m_danger_locations.end())
         return (*I);
     return (0);

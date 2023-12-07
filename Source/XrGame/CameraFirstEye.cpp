@@ -38,7 +38,7 @@ void CCameraFirstEye::UpdateLookat()
     if (fsimilar(yaw, xyz.y, EPS) && fsimilar(pitch, xyz.x, EPS))
         lookat_active = false;
 
-    yaw = angle_inertion_var(yaw, xyz.y, 1.0f, PI, PI, Device->fTimeDelta);
+    yaw   = angle_inertion_var(yaw, xyz.y, 1.0f, PI, PI, Device->fTimeDelta);
 
     pitch = angle_inertion_var(pitch, xyz.x, 1.0f, PI, PI, Device->fTimeDelta);
 }

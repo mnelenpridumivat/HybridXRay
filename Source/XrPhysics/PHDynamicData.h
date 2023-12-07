@@ -28,8 +28,8 @@ private:
     dGeomID           transform;
     // PHDynamicData* Childs;
     // xr_vector<PHDynamicData>  Childs;
-    unsigned int numOfChilds;
-    Fmatrix      ZeroTransform;
+    unsigned int      numOfChilds;
+    Fmatrix           ZeroTransform;
 
 public:
     inline void UpdateInterpolation()
@@ -37,9 +37,9 @@ public:
         body_interpolation.UpdatePositions();
         body_interpolation.UpdateRotations();
     }
-    void UpdateInterpolationRecursive();
-    void InterpolateTransform(Fmatrix& transform);
-    void InterpolateTransformVsParent(Fmatrix& transform);
+    void           UpdateInterpolationRecursive();
+    void           InterpolateTransform(Fmatrix& transform);
+    void           InterpolateTransformVsParent(Fmatrix& transform);
     //	PHDynamicData& operator [] (unsigned int i) {return Childs[i];};
     void           Destroy();
     void           Create(unsigned int numOfchilds, dBodyID Body);
@@ -119,13 +119,13 @@ public:
     };
     static inline void FMX33toDMX(const Fmatrix33& aTransform, dReal* R)
     {
-        R[0] = aTransform._11;
-        R[4] = aTransform._12;
-        R[8] = aTransform._13;
+        R[0]  = aTransform._11;
+        R[4]  = aTransform._12;
+        R[8]  = aTransform._13;
 
-        R[1] = aTransform._21;
-        R[5] = aTransform._22;
-        R[9] = aTransform._23;
+        R[1]  = aTransform._21;
+        R[5]  = aTransform._22;
+        R[9]  = aTransform._23;
 
         R[2]  = aTransform._31;
         R[6]  = aTransform._32;
@@ -133,13 +133,13 @@ public:
     };
     static inline void FMXtoDMX(const Fmatrix& aTransform, dReal* R)
     {
-        R[0] = aTransform._11;
-        R[4] = aTransform._12;
-        R[8] = aTransform._13;
+        R[0]  = aTransform._11;
+        R[4]  = aTransform._12;
+        R[8]  = aTransform._13;
 
-        R[1] = aTransform._21;
-        R[5] = aTransform._22;
-        R[9] = aTransform._23;
+        R[1]  = aTransform._21;
+        R[5]  = aTransform._22;
+        R[9]  = aTransform._23;
 
         R[2]  = aTransform._31;
         R[6]  = aTransform._32;

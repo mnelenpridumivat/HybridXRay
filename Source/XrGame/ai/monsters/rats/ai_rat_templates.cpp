@@ -33,8 +33,7 @@ IC bool CAI_Rat::bfCheckIfOutsideAIMap(Fvector& tTemp1)
     if (!ai().level_graph().valid_vertex_position(tTemp1))
         return (false);
     ai().level_graph().vertex_position(QueryPos, tTemp1);
-    if (!ai().level_graph().valid_vertex_id(dwNewNode) ||
-        !ai().level_graph().inside(*ai_location().level_vertex(), QueryPos))
+    if (!ai().level_graph().valid_vertex_id(dwNewNode) || !ai().level_graph().inside(*ai_location().level_vertex(), QueryPos))
     {
         dwNewNode = ai().level_graph().vertex(ai_location().level_vertex_id(), tTemp1);
         tpNewNode = ai().level_graph().vertex(dwNewNode);
@@ -185,9 +184,9 @@ void CAI_Rat::make_turn()
     m_turning               = true;
     movement().m_body.speed = PI_MUL_2;
 
-    Fvector tSavedPosition = Position();
-    m_tHPB.x               = -movement().m_body.current.yaw;
-    m_tHPB.y               = -movement().m_body.current.pitch;
+    Fvector tSavedPosition  = Position();
+    m_tHPB.x                = -movement().m_body.current.yaw;
+    m_tHPB.y                = -movement().m_body.current.pitch;
 
     XFORM().setHPB(m_tHPB.x, m_tHPB.y, 0.f);   // m_tHPB.z);
     Position() = tSavedPosition;
@@ -203,7 +202,7 @@ bool CAI_Rat::calc_node(Fvector const& next_position)
     u32                         dwNewNode = ai_location().level_vertex_id();
     const ILevelGraph::CVertex* tpNewNode = ai_location().level_vertex();
     ILevelGraph::CPosition      QueryPos;
-    bool a = !ai().level_graph().valid_vertex_id(dwNewNode) || !ai().level_graph().valid_vertex_position(next_position);
+    bool                        a = !ai().level_graph().valid_vertex_id(dwNewNode) || !ai().level_graph().valid_vertex_position(next_position);
     if (!a)
     {
         ai().level_graph().vertex_position(QueryPos, next_position);
@@ -229,12 +228,12 @@ Fvector CAI_Rat::calc_position()
     SRotation tSavedTorsoTarget = movement().m_body.target;
 
     // Update position and orientation of the planes
-    float fAT = m_fASpeed * m_fTimeUpdateDelta;
+    float     fAT               = m_fASpeed * m_fTimeUpdateDelta;
 
-    Fvector& tDirection = XFORM().k;
+    Fvector&  tDirection        = XFORM().k;
 
     // Tweak orientation based on last position and goal
-    Fvector tOffset;
+    Fvector   tOffset;
     tOffset.sub(m_tGoalDir, Position());
 
     if (!m_bStraightForward)
@@ -261,7 +260,7 @@ Fvector CAI_Rat::calc_position()
     float fDot     = tDirection.dotproduct(tOffset);
     float fSafeDot = fDot;
 
-    fDot = (1.0f - fDot) / 2.0f * fAT * 10.0f;
+    fDot           = (1.0f - fDot) / 2.0f * fAT * 10.0f;
 
     tOffset.crossproduct(tOffset, tDirection);
 
@@ -317,8 +316,8 @@ Fvector CAI_Rat::calc_position()
     // movement().m_body.target.pitch = -pitch;
     m_newPitch = -pitch;
 
-    m_tHPB.x = angle_normalize_signed(m_tHPB.x);
-    m_tHPB.y = -movement().m_body.current.pitch;
+    m_tHPB.x   = angle_normalize_signed(m_tHPB.x);
+    m_tHPB.y   = -movement().m_body.current.pitch;
     return tSavedPosition.mad(tDirection, m_fSpeed * m_fTimeUpdateDelta);
 }
 
@@ -336,8 +335,8 @@ void CAI_Rat::set_pitch(float pitch, float yaw)
 
 void CAI_Rat::move(bool bCanAdjustSpeed, bool bStraightForward)
 {
-    m_bCanAdjustSpeed  = bCanAdjustSpeed;
-    m_bStraightForward = bStraightForward;
+    m_bCanAdjustSpeed           = bCanAdjustSpeed;
+    m_bStraightForward          = bStraightForward;
 
     Fvector   tSafeHPB          = m_tHPB;
     Fvector   tSavedPosition    = Position();
@@ -382,8 +381,7 @@ void CAI_Rat::move(bool bCanAdjustSpeed, bool bStraightForward)
         movement().m_body.target = tSavedTorsoTarget;
         m_fDHeading              = fSavedDHeading;
     }
-    if (m_bNoWay &&
-        (!m_turning || (angle_difference(movement().m_body.target.yaw, movement().m_body.current.yaw) < EPS_L)))
+    if (m_bNoWay && (!m_turning || (angle_difference(movement().m_body.target.yaw, movement().m_body.current.yaw) < EPS_L)))
     {
         if ((Device->dwTimeGlobal - m_previous_query_time > TIME_TO_RETURN) || (!m_previous_query_time))
         {
@@ -416,10 +414,7 @@ void CAI_Rat::select_next_home_position()
     int iBranches   = 0;
     for (; i != e; ++i)
         for (int j = 0; j < iPointCount; ++j)
-            if (ai().game_graph().mask(
-                    movement().locations().vertex_types()[j].tMask,
-                    ai().game_graph().vertex((*i).vertex_id())->vertex_type()) &&
-                ((*i).vertex_id() != m_current_graph_point))
+            if (ai().game_graph().mask(movement().locations().vertex_types()[j].tMask, ai().game_graph().vertex((*i).vertex_id())->vertex_type()) && ((*i).vertex_id() != m_current_graph_point))
                 ++iBranches;
     ai().game_graph().begin(tGraphID, i, e);
     if (!iBranches)
@@ -427,9 +422,7 @@ void CAI_Rat::select_next_home_position()
         for (; i != e; ++i)
         {
             for (int j = 0; j < iPointCount; ++j)
-                if (ai().game_graph().mask(
-                        movement().locations().vertex_types()[j].tMask,
-                        ai().game_graph().vertex((*i).vertex_id())->vertex_type()))
+                if (ai().game_graph().mask(movement().locations().vertex_types()[j].tMask, ai().game_graph().vertex((*i).vertex_id())->vertex_type()))
                 {
                     m_current_graph_point        = m_next_graph_point;
                     m_next_graph_point           = (*i).vertex_id();
@@ -445,10 +438,7 @@ void CAI_Rat::select_next_home_position()
         for (; i != e; ++i)
         {
             for (int j = 0; j < iPointCount; ++j)
-                if (ai().game_graph().mask(
-                        movement().locations().vertex_types()[j].tMask,
-                        ai().game_graph().vertex((*i).vertex_id())->vertex_type()) &&
-                    ((*i).vertex_id() != m_current_graph_point))
+                if (ai().game_graph().mask(movement().locations().vertex_types()[j].tMask, ai().game_graph().vertex((*i).vertex_id())->vertex_type()) && ((*i).vertex_id() != m_current_graph_point))
                 {
                     if (iBranches == iChosenBranch)
                     {
@@ -476,7 +466,7 @@ bool CAI_Rat::can_stand_in_position()
     Fmatrix M = XFORM();
     M.transform_tiny(C2, c);
     M.c = C2;
-    MagicBox3 box(M, d);
+    MagicBox3                     box(M, d);
 
     xr_vector<CObject*>::iterator I = tpNearestList.begin();
     xr_vector<CObject*>::iterator E = tpNearestList.end();
@@ -509,7 +499,7 @@ bool CAI_Rat::can_stand_here()
     Fmatrix M = XFORM();
     M.transform_tiny(C2, c);
     M.c = C2;
-    MagicBox3 box(M, d);
+    MagicBox3                     box(M, d);
 
     xr_vector<CObject*>::iterator I = tpNearestList.begin();
     xr_vector<CObject*>::iterator E = tpNearestList.end();

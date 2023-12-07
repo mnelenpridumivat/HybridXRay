@@ -8,18 +8,17 @@
 #include "../xrGameSpy/xrGameSpy_MainDefs.h"
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #include "directx\dxerr.h"
 
 // #pragma warning(pop)
 //
 //  {0218FA8B-515B-4bf2-9A5F-2F079D1759F3}
-static const GUID NET_GUID = {0x218fa8b, 0x515b, 0x4bf2, {0x9a, 0x5f, 0x2f, 0x7, 0x9d, 0x17, 0x59, 0xf3}};
+static const GUID NET_GUID                           = {0x218fa8b, 0x515b, 0x4bf2, {0x9a, 0x5f, 0x2f, 0x7, 0x9d, 0x17, 0x59, 0xf3}};
 
 // {8D3F9E5E-A3BD-475b-9E49-B0E77139143C}
-static const GUID CLSID_NETWORKSIMULATOR_DP8SP_TCPIP =
-    {0x8d3f9e5e, 0xa3bd, 0x475b, {0x9e, 0x49, 0xb0, 0xe7, 0x71, 0x39, 0x14, 0x3c}};
+static const GUID CLSID_NETWORKSIMULATOR_DP8SP_TCPIP = {0x8d3f9e5e, 0xa3bd, 0x475b, {0x9e, 0x49, 0xb0, 0xe7, 0x71, 0x39, 0x14, 0x3c}};
 //
 // const GUID CLSID_DirectPlay8Client =
 //{ 0x743f1dc6, 0x5aba, 0x429f, { 0x8b, 0xdf, 0xc5, 0x4d, 0x03, 0x25, 0x3d, 0xc2 } };
@@ -108,9 +107,9 @@ static const GUID CLSID_NETWORKSIMULATOR_DP8SP_TCPIP =
 // const GUID IID_IDirectPlay8Address =
 //{ 0x83783300, 0x4063, 0x4c8a, { 0x9d, 0xb3, 0x82, 0x83, 0x0a, 0x7f, 0xeb, 0x31 } };
 
-static INetLog* pClNetLog = NULL;
+static INetLog*   pClNetLog                          = NULL;
 
-void dump_URL(LPCSTR p, IDirectPlay8Address* A)
+void              dump_URL(LPCSTR p, IDirectPlay8Address* A)
 {
     string256 aaaa;
     DWORD     aaaa_s = sizeof(aaaa);
@@ -152,7 +151,7 @@ NET_Packet* INetQueue::Create()
     if (unused.empty())
     {
         ready.push_back(xr_new<NET_Packet>());
-        P = ready.back();
+        P              = ready.back();
         //---------------------------------------------
         LastTimeCreate = GetTickCount();
         //---------------------------------------------
@@ -176,7 +175,7 @@ NET_Packet* INetQueue::Create(const NET_Packet& _other)
     if (unused.empty())
     {
         ready.push_back(xr_new<NET_Packet>());
-        P = ready.back();
+        P              = ready.back();
         //---------------------------------------------
         LastTimeCreate = GetTickCount();
         //---------------------------------------------
@@ -293,7 +292,7 @@ XRNETSERVER_API BOOL    psNET_direct_connect = FALSE;
  *
  ****************************************************************************/
 
-static HRESULT WINAPI Handler(PVOID pvUserContext, DWORD dwMessageType, PVOID pMessage)
+static HRESULT WINAPI   Handler(PVOID pvUserContext, DWORD dwMessageType, PVOID pMessage)
 {
     IPureClient* C = (IPureClient*)pvUserContext;
     return C->net_Handler(dwMessageType, pMessage);
@@ -371,7 +370,7 @@ IPureClient::IPureClient(CTimer* timer):
     net_TimeDelta            = 0;
     net_TimeDelta_Calculated = 0;
 
-    pClNetLog = NULL;   // xr_new<INetLog>("logs\\net_cl_log.log", timeServer());
+    pClNetLog                = NULL;   // xr_new<INetLog>("logs\\net_cl_log.log", timeServer());
 }
 
 IPureClient::~IPureClient()
@@ -452,12 +451,12 @@ BOOL IPureClient::Connect(LPCSTR options)
         //	Msg("* Client connect on port %d\n",psNET_Port);
 
         //
-        net_Connected    = EnmConnectionWait;
-        net_Syncronised  = FALSE;
-        net_Disconnected = FALSE;
+        net_Connected                  = EnmConnectionWait;
+        net_Syncronised                = FALSE;
+        net_Disconnected               = FALSE;
 
         //---------------------------
-        string1024 tmp = "";
+        string1024 tmp                 = "";
         //	HRESULT CoInitializeExRes = CoInitializeEx(NULL, 0);
         //	if (CoInitializeExRes != S_OK && CoInitializeExRes != S_FALSE)
         //	{
@@ -466,8 +465,7 @@ BOOL IPureClient::Connect(LPCSTR options)
         //	};
         //---------------------------
         // Create the IDirectPlay8Client object.
-        HRESULT CoCreateInstanceRes = CoCreateInstance(
-            CLSID_DirectPlay8Client, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Client, (LPVOID*)&NET);
+        HRESULT    CoCreateInstanceRes = CoCreateInstance(CLSID_DirectPlay8Client, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Client, (LPVOID*)&NET);
         //---------------------------
         if (CoCreateInstanceRes != S_OK)
         {
@@ -488,9 +486,7 @@ BOOL IPureClient::Connect(LPCSTR options)
 
         // Create our IDirectPlay8Address Device Address, --- Set the SP for our Device Address
         net_Address_device = NULL;
-        R_CHK(CoCreateInstance(
-            CLSID_DirectPlay8Address, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Address,
-            (LPVOID*)&net_Address_device));
+        R_CHK(CoCreateInstance(CLSID_DirectPlay8Address, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Address, (LPVOID*)&net_Address_device));
         R_CHK(net_Address_device->SetSP(bSimulator ? &CLSID_NETWORKSIMULATOR_DP8SP_TCPIP : &CLSID_DP8SP_TCPIP));
 
         // Create our IDirectPlay8Address Server Address, --- Set the SP for our Server Address
@@ -498,12 +494,9 @@ BOOL IPureClient::Connect(LPCSTR options)
         R_CHK(MultiByteToWideChar(CP_ACP, 0, server_name, -1, ServerNameUNICODE, 256));
 
         net_Address_server = NULL;
-        R_CHK(CoCreateInstance(
-            CLSID_DirectPlay8Address, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Address,
-            (LPVOID*)&net_Address_server));
+        R_CHK(CoCreateInstance(CLSID_DirectPlay8Address, NULL, CLSCTX_INPROC_SERVER, IID_IDirectPlay8Address, (LPVOID*)&net_Address_server));
         R_CHK(net_Address_server->SetSP(bSimulator ? &CLSID_NETWORKSIMULATOR_DP8SP_TCPIP : &CLSID_DP8SP_TCPIP));
-        R_CHK(net_Address_server->AddComponent(
-            DPNA_KEY_HOSTNAME, ServerNameUNICODE, 2 * u32(wcslen(ServerNameUNICODE) + 1), DPNA_DATATYPE_STRING));
+        R_CHK(net_Address_server->AddComponent(DPNA_KEY_HOSTNAME, ServerNameUNICODE, 2 * u32(wcslen(ServerNameUNICODE) + 1), DPNA_DATATYPE_STRING));
         R_CHK(net_Address_server->AddComponent(DPNA_KEY_PORT, &psSV_Port, sizeof(psSV_Port), DPNA_DATATYPE_DWORD));
 
         // Debug
@@ -557,16 +550,15 @@ BOOL IPureClient::Connect(LPCSTR options)
             while (res != S_OK)
             {
                 R_CHK(net_Address_device->AddComponent(DPNA_KEY_PORT, &c_port, sizeof(c_port), DPNA_DATATYPE_DWORD));
-                res = NET->Connect(
-                    &dpAppDesc,           // pdnAppDesc
-                    net_Address_server,   // pHostAddr
-                    net_Address_device,   // pDeviceInfo
-                    NULL,                 // pdnSecurity
-                    NULL,                 // pdnCredentials
-                    NULL, 0,              // pvUserConnectData/Size
-                    NULL,                 // pvAsyncContext
-                    NULL,                 // pvAsyncHandle
-                    DPNCONNECT_SYNC);     // dwFlags
+                res = NET->Connect(&dpAppDesc,   // pdnAppDesc
+                    net_Address_server,          // pHostAddr
+                    net_Address_device,          // pDeviceInfo
+                    NULL,                        // pdnSecurity
+                    NULL,                        // pdnCredentials
+                    NULL, 0,                     // pvUserConnectData/Size
+                    NULL,                        // pvAsyncContext
+                    NULL,                        // pvAsyncHandle
+                    DPNCONNECT_SYNC);            // dwFlags
                 if (res != S_OK)
                 {
                     //			xr_string res = Debug.error2string(HostSuccess);
@@ -616,14 +608,11 @@ BOOL IPureClient::Connect(LPCSTR options)
                 OnInvalidHost();
                 return FALSE;
             }
-            CopyMemory(
-                &m_game_description, dpServerDesc->pvApplicationReservedData,
-                dpServerDesc->dwApplicationReservedDataSize);
+            CopyMemory(&m_game_description, dpServerDesc->pvApplicationReservedData, dpServerDesc->dwApplicationReservedDataSize);
             if (dpServerDesc->pwszSessionName)
             {
                 string4096 dpSessionName;
-                R_CHK(WideCharToMultiByte(
-                    CP_ACP, 0, dpServerDesc->pwszSessionName, -1, dpSessionName, sizeof(dpSessionName), 0, 0));
+                R_CHK(WideCharToMultiByte(CP_ACP, 0, dpServerDesc->pwszSessionName, -1, dpSessionName, sizeof(dpSessionName), 0, 0));
                 NODE.dpSessionName = (char*)(&dpSessionName[0]);
             }
             net_Hosts.push_back(NODE);
@@ -633,37 +622,38 @@ BOOL IPureClient::Connect(LPCSTR options)
             string64 EnumData;
             EnumData[0] = 0;
             xr_strcat(EnumData, "ToConnect");
-            DWORD EnumSize = xr_strlen(EnumData) + 1;
+            DWORD   EnumSize = xr_strlen(EnumData) + 1;
             // We now have the host address so lets enum
-            u32     c_port = psCL_Port;
-            HRESULT res    = S_FALSE;
+            u32     c_port   = psCL_Port;
+            HRESULT res      = S_FALSE;
             while (res != S_OK && c_port <= END_PORT)
             {
                 R_CHK(net_Address_device->AddComponent(DPNA_KEY_PORT, &c_port, sizeof(c_port), DPNA_DATATYPE_DWORD));
 
-                res = NET->EnumHosts(
-                    &dpAppDesc,           // pApplicationDesc - for unknown reason
-                    net_Address_server,   // pdpaddrHost
-                    net_Address_device,   // pdpaddrDeviceInfo
-                    EnumData, EnumSize,   // pvUserEnumData, size
-                    10,                   // dwEnumCount
-                    1000,                 // dwRetryInterval
-                    1000,                 // dwTimeOut
-                    NULL,                 // pvUserContext
-                    NULL,                 // pAsyncHandle
-                    DPNENUMHOSTS_SYNC     // dwFlags
+                res = NET->EnumHosts(&dpAppDesc,   // pApplicationDesc - for unknown reason
+                    net_Address_server,            // pdpaddrHost
+                    net_Address_device,            // pdpaddrDeviceInfo
+                    EnumData, EnumSize,            // pvUserEnumData, size
+                    10,                            // dwEnumCount
+                    1000,                          // dwRetryInterval
+                    1000,                          // dwTimeOut
+                    NULL,                          // pvUserContext
+                    NULL,                          // pAsyncHandle
+                    DPNENUMHOSTS_SYNC              // dwFlags
                 );
                 if (res != S_OK)
                 {
                     //			xr_string res = Debug.error2string(HostSuccess);
                     switch (res)
                     {
-                        case DPNERR_INVALIDHOSTADDRESS: {
+                        case DPNERR_INVALIDHOSTADDRESS:
+                        {
                             OnInvalidHost();
                             return FALSE;
                         }
                         break;
-                        case DPNERR_SESSIONFULL: {
+                        case DPNERR_SESSIONFULL:
+                        {
                             OnSessionFull();
                             return FALSE;
                         }
@@ -714,17 +704,16 @@ BOOL IPureClient::Connect(LPCSTR options)
 
             R_CHK(net_Hosts.front().pHostAddress->Duplicate(&pHostAddress));
             // dump_URL		("! c2s ",	pHostAddress);
-            res = NET->Connect(
-                &dpAppDesc,           // pdnAppDesc
-                pHostAddress,         // pHostAddr
-                net_Address_device,   // pDeviceInfo
-                NULL,                 // pdnSecurity
-                NULL,                 // pdnCredentials
-                NULL, 0,              // pvUserConnectData/Size
-                NULL,                 // pvAsyncContext
-                NULL,                 // pvAsyncHandle
-                DPNCONNECT_SYNC);     // dwFlags
-                                      //		R_CHK(res);
+            res = NET->Connect(&dpAppDesc,   // pdnAppDesc
+                pHostAddress,                // pHostAddr
+                net_Address_device,          // pDeviceInfo
+                NULL,                        // pdnSecurity
+                NULL,                        // pdnCredentials
+                NULL, 0,                     // pvUserConnectData/Size
+                NULL,                        // pvAsyncContext
+                NULL,                        // pvAsyncHandle
+                DPNCONNECT_SYNC);            // dwFlags
+                                             //		R_CHK(res);
             net_csEnumeration.Leave();
             _RELEASE(pHostAddress);
 #ifdef DEBUG
@@ -734,15 +723,18 @@ BOOL IPureClient::Connect(LPCSTR options)
 #endif
             switch (res)
             {
-                case DPNERR_INVALIDPASSWORD: {
+                case DPNERR_INVALIDPASSWORD:
+                {
                     OnInvalidPassword();
                 }
                 break;
-                case DPNERR_SESSIONFULL: {
+                case DPNERR_SESSIONFULL:
+                {
                     OnSessionFull();
                 }
                 break;
-                case DPNERR_CANTCREATEPLAYER: {
+                case DPNERR_CANTCREATEPLAYER:
+                {
                     Msg("! Error: Can\'t create player");
                 }
                 break;
@@ -803,7 +795,8 @@ HRESULT IPureClient::net_Handler(u32 dwMessageType, PVOID pMessage)
 
     switch (dwMessageType)
     {
-        case DPN_MSGID_ENUM_HOSTS_RESPONSE: {
+        case DPN_MSGID_ENUM_HOSTS_RESPONSE:
+        {
             PDPNMSG_ENUM_HOSTS_RESPONSE pEnumHostsResponseMsg;
             const DPN_APPLICATION_DESC* pDesc;
             // HOST_NODE*                      pHostNode = NULL;
@@ -853,8 +846,7 @@ HRESULT IPureClient::net_Handler(u32 dwMessageType, PVOID pMessage)
                 if (pDesc->pwszSessionName)
                 {
                     string4096 dpSessionName;
-                    R_CHK(WideCharToMultiByte(
-                        CP_ACP, 0, pDesc->pwszSessionName, -1, dpSessionName, sizeof(dpSessionName), 0, 0));
+                    R_CHK(WideCharToMultiByte(CP_ACP, 0, pDesc->pwszSessionName, -1, dpSessionName, sizeof(dpSessionName), 0, 0));
                     NODE.dpSessionName = (char*)(&dpSessionName[0]);
                 }
 
@@ -864,19 +856,21 @@ HRESULT IPureClient::net_Handler(u32 dwMessageType, PVOID pMessage)
         }
         break;
 
-        case DPN_MSGID_RECEIVE: {
+        case DPN_MSGID_RECEIVE:
+        {
             PDPNMSG_RECEIVE pMsg = (PDPNMSG_RECEIVE)pMessage;
 
             MultipacketReciever::RecievePacket(pMsg->pReceiveData, pMsg->dwReceiveDataSize);
         }
         break;
-        case DPN_MSGID_TERMINATE_SESSION: {
+        case DPN_MSGID_TERMINATE_SESSION:
+        {
             PDPNMSG_TERMINATE_SESSION pMsg          = (PDPNMSG_TERMINATE_SESSION)pMessage;
             char*                     m_data        = (char*)pMsg->pvTerminateData;
             u32                       m_size        = pMsg->dwTerminateDataSize;
             HRESULT                   m_hResultCode = pMsg->hResultCode;
 
-            net_Disconnected = TRUE;
+            net_Disconnected                        = TRUE;
 
             if (m_size != 0)
             {
@@ -894,7 +888,8 @@ HRESULT IPureClient::net_Handler(u32 dwMessageType, PVOID pMessage)
             }
         };
         break;
-        default: {
+        default:
+        {
 #if 1
             LPSTR msg = "";
             switch (dwMessageType)
@@ -908,7 +903,8 @@ HRESULT IPureClient::net_Handler(u32 dwMessageType, PVOID pMessage)
                 case DPN_MSGID_CLIENT_INFO:
                     msg = "DPN_MSGID_CLIENT_INFO";
                     break;
-                case DPN_MSGID_CONNECT_COMPLETE: {
+                case DPN_MSGID_CONNECT_COMPLETE:
+                {
                     PDPNMSG_CONNECT_COMPLETE pMsg = (PDPNMSG_CONNECT_COMPLETE)pMessage;
 #ifdef DEBUG
                     //					const char* x = DXGetErrorString9(pMsg->hResultCode);
@@ -1136,7 +1132,8 @@ void IPureClient::Sync_Thread()
             {
                 R_CHK(NET->GetSendQueueInfo(&dwPending, 0, 0));
                 Sleep(1);
-            } while (dwPending);
+            }
+            while (dwPending);
         }
 
         // Construct message
@@ -1239,8 +1236,7 @@ bool IPureClient::GetServerAddress(ip_address& pAddress, DWORD* pPort)
     WCHAR wstrHostname[2048] = {0};
     DWORD dwHostNameSize     = sizeof(wstrHostname);
     DWORD dwHostNameDataType = DPNA_DATATYPE_STRING;
-    CHK_DX(
-        net_Address_server->GetComponentByName(DPNA_KEY_HOSTNAME, wstrHostname, &dwHostNameSize, &dwHostNameDataType));
+    CHK_DX(net_Address_server->GetComponentByName(DPNA_KEY_HOSTNAME, wstrHostname, &dwHostNameSize, &dwHostNameDataType));
 
     string2048 HostName;
     CHK_DX(WideCharToMultiByte(CP_ACP, 0, wstrHostname, -1, HostName, sizeof(HostName), 0, 0));

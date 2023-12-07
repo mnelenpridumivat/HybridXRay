@@ -85,9 +85,9 @@ void CUIMessagesWindow::Init(float x, float y, float width, float height)
         m_pGameLog->SetTextAtrib(pFont, color);
 
         CUIXmlInit::InitScrollView(xml, "chat_log_list", 0, m_pChatLog);
-        m_inprogress_chat_log_rect = m_pChatLog->GetWndRect();
+        m_inprogress_chat_log_rect  = m_pChatLog->GetWndRect();
 
-        m_in_pending_mode = false;
+        m_in_pending_mode           = false;
 
         XML_NODE* pending_chat_list = xml.NavigateToNode(CHAT_LOG_LIST_PENDING);
 
@@ -111,10 +111,9 @@ void CUIMessagesWindow::Init(float x, float y, float width, float height)
 
 void CUIMessagesWindow::AddIconedPdaMessage(GAME_NEWS_DATA* news)
 {
-    CUIPdaMsgListItem* pItem = m_pGameLog->AddPdaMessage();
+    CUIPdaMsgListItem* pItem    = m_pGameLog->AddPdaMessage();
 
-    LPCSTR time_str =
-        InventoryUtilities::GetTimeAsString(news->receive_time, InventoryUtilities::etpTimeToMinutes).c_str();
+    LPCSTR             time_str = InventoryUtilities::GetTimeAsString(news->receive_time, InventoryUtilities::etpTimeToMinutes).c_str();
     pItem->UITimeText.SetText(time_str);
     pItem->UITimeText.AdjustWidthToText();
     Fvector2 p = pItem->UICaptionText.GetWndPos();
@@ -124,8 +123,7 @@ void CUIMessagesWindow::AddIconedPdaMessage(GAME_NEWS_DATA* news)
     pItem->UIMsgText.SetTextST(news->news_text.c_str());
     pItem->UIMsgText.AdjustHeightToText();
 
-    pItem->SetColorAnimation(
-        "ui_main_msgs_short", LA_ONLYALPHA | LA_TEXTCOLOR | LA_TEXTURECOLOR, float(news->show_time));
+    pItem->SetColorAnimation("ui_main_msgs_short", LA_ONLYALPHA | LA_TEXTCOLOR | LA_TEXTURECOLOR, float(news->show_time));
     pItem->UIIcon.InitTexture(news->texture_name.c_str());
 
     float h1 = _max(pItem->UIIcon.GetHeight(), pItem->UIMsgText.GetWndPos().y + pItem->UIMsgText.GetHeight());

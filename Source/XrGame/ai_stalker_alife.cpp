@@ -24,12 +24,12 @@
 #include "trade_parameters.h"
 #include "clsid_game.h"
 
-extern u32 get_rank(const shared_str& section);
+extern u32       get_rank(const shared_str& section);
 
 static const int MAX_AMMO_ATTACH_COUNT = 1;
 static const int enough_ammo_box_count = 1;
 
-IC bool CAI_Stalker::CTradeItem::operator<(const CTradeItem& trade_item) const
+IC bool          CAI_Stalker::CTradeItem::operator<(const CTradeItem& trade_item) const
 {
     return (m_item->object().ID() < trade_item.m_item->object().ID());
 }
@@ -113,8 +113,7 @@ void CAI_Stalker::attach_available_ammo(CWeapon* weapon)
         if (m_total_money < (*I).m_item->Cost())
             continue;
 
-        if (std::find(weapon->m_ammoTypes.begin(), weapon->m_ammoTypes.end(), (*I).m_item->object().cNameSect()) ==
-            weapon->m_ammoTypes.end())
+        if (std::find(weapon->m_ammoTypes.begin(), weapon->m_ammoTypes.end(), (*I).m_item->object().cNameSect()) == weapon->m_ammoTypes.end())
             continue;
 
         buy_item_virtual(*I);
@@ -131,8 +130,8 @@ void CAI_Stalker::choose_weapon(ALife::EWeaponPriorityType weapon_priority_type)
     float       best_value                 = -1.f;
     ai().ef_storage().non_alife().member() = this;
 
-    xr_vector<CTradeItem>::iterator I = m_temp_items.begin();
-    xr_vector<CTradeItem>::iterator E = m_temp_items.end();
+    xr_vector<CTradeItem>::iterator I      = m_temp_items.begin();
+    xr_vector<CTradeItem>::iterator E      = m_temp_items.end();
     for (; I != E; ++I)
     {
         if (m_total_money < (*I).m_item->Cost())
@@ -140,11 +139,12 @@ void CAI_Stalker::choose_weapon(ALife::EWeaponPriorityType weapon_priority_type)
 
         ai().ef_storage().non_alife().member_item() = &(*I).m_item->object();
 
-        int   j             = ai().ef_storage().m_pfPersonalWeaponType->dwfGetWeaponType();
-        float current_value = -1.f;
+        int   j                                     = ai().ef_storage().m_pfPersonalWeaponType->dwfGetWeaponType();
+        float current_value                         = -1.f;
         switch (weapon_priority_type)
         {
-            case ALife::eWeaponPriorityTypeKnife: {
+            case ALife::eWeaponPriorityTypeKnife:
+            {
                 if (1 != j)
                     continue;
                 current_value = ai().ef_storage().m_pfItemValue->ffGetValue();
@@ -153,7 +153,8 @@ void CAI_Stalker::choose_weapon(ALife::EWeaponPriorityType weapon_priority_type)
 
                 break;
             }
-            case ALife::eWeaponPriorityTypeSecondary: {
+            case ALife::eWeaponPriorityTypeSecondary:
+            {
                 if (5 != j)
                     continue;
                 current_value = ai().ef_storage().m_pfSmallWeaponValue->ffGetValue();
@@ -161,7 +162,8 @@ void CAI_Stalker::choose_weapon(ALife::EWeaponPriorityType weapon_priority_type)
                     current_value += 10.0f;
                 break;
             }
-            case ALife::eWeaponPriorityTypePrimary: {
+            case ALife::eWeaponPriorityTypePrimary:
+            {
                 if ((6 != j) && (7 != j) && (8 != j) && (9 != j) && (11 != j) && (12 != j))
                     continue;
                 current_value = ai().ef_storage().m_pfMainWeaponValue->ffGetValue();
@@ -169,7 +171,8 @@ void CAI_Stalker::choose_weapon(ALife::EWeaponPriorityType weapon_priority_type)
                     current_value += 10.0f;
                 break;
             }
-            case ALife::eWeaponPriorityTypeGrenade: {
+            case ALife::eWeaponPriorityTypeGrenade:
+            {
                 if (4 != j)
                     continue;
                 current_value = ai().ef_storage().m_pfItemValue->ffGetValue();
@@ -307,14 +310,13 @@ bool CAI_Stalker::non_conflicted(const CInventoryItem* item, const CWeapon* new_
 
 bool CAI_Stalker::enough_ammo(const CWeapon* new_weapon) const
 {
-    int ammo_box_count = 0;
+    int                             ammo_box_count = 0;
 
-    TIItemContainer::const_iterator I = inventory().m_all.begin();
-    TIItemContainer::const_iterator E = inventory().m_all.end();
+    TIItemContainer::const_iterator I              = inventory().m_all.begin();
+    TIItemContainer::const_iterator E              = inventory().m_all.end();
     for (; I != E; ++I)
     {
-        if (std::find(new_weapon->m_ammoTypes.begin(), new_weapon->m_ammoTypes.end(), (*I)->object().cNameSect()) ==
-            new_weapon->m_ammoTypes.end())
+        if (std::find(new_weapon->m_ammoTypes.begin(), new_weapon->m_ammoTypes.end(), (*I)->object().cNameSect()) == new_weapon->m_ammoTypes.end())
             continue;
 
         ++ammo_box_count;
@@ -325,11 +327,7 @@ bool CAI_Stalker::enough_ammo(const CWeapon* new_weapon) const
     return (false);
 }
 
-bool CAI_Stalker::conflicted(
-    const CInventoryItem* item,
-    const CWeapon*        new_weapon,
-    bool                  new_wepon_enough_ammo,
-    int                   new_weapon_rank) const
+bool CAI_Stalker::conflicted(const CInventoryItem* item, const CWeapon* new_weapon, bool new_wepon_enough_ammo, int new_weapon_rank) const
 {
     if (non_conflicted(item, new_weapon))
         return (false);
@@ -364,11 +362,11 @@ bool CAI_Stalker::can_take(CInventoryItem const* item)
     if (!new_weapon)
         return (false);
 
-    bool new_weapon_enough_ammo = enough_ammo(new_weapon);
-    u32  new_weapon_rank        = get_rank(new_weapon->cNameSect());
+    bool                      new_weapon_enough_ammo = enough_ammo(new_weapon);
+    u32                       new_weapon_rank        = get_rank(new_weapon->cNameSect());
 
-    TIItemContainer::iterator I = inventory().m_all.begin();
-    TIItemContainer::iterator E = inventory().m_all.end();
+    TIItemContainer::iterator I                      = inventory().m_all.begin();
+    TIItemContainer::iterator E                      = inventory().m_all.end();
     for (; I != E; ++I)
         if (conflicted(*I, new_weapon, new_weapon_enough_ammo, new_weapon_rank))
             return (false);
@@ -385,10 +383,10 @@ void CAI_Stalker::remove_personal_only_ammo(const CInventoryItem* item)
     xr_vector<shared_str>::const_iterator E = weapon->m_ammoTypes.end();
     for (; I != E; ++I)
     {
-        bool found = false;
+        bool                            found = false;
 
-        TIItemContainer::const_iterator i = inventory().m_all.begin();
-        TIItemContainer::const_iterator e = inventory().m_all.end();
+        TIItemContainer::const_iterator i     = inventory().m_all.begin();
+        TIItemContainer::const_iterator e     = inventory().m_all.end();
         for (; i != e; ++i)
         {
             if ((*i)->object().ID() == weapon->ID())

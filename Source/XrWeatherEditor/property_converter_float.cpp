@@ -21,7 +21,7 @@ using System::ComponentModel::TypeDescriptor;
 
 typedef PropertyBag::PropertySpecDescriptor PropertySpecDescriptor;
 
-bool property_converter_float::CanConvertTo(ITypeDescriptorContext ^ context, Type ^ destination_type)
+bool                                        property_converter_float::CanConvertTo(ITypeDescriptorContext ^ context, Type ^ destination_type)
 {
     if (destination_type == float ::typeid)
         return (true);
@@ -32,12 +32,7 @@ bool property_converter_float::CanConvertTo(ITypeDescriptorContext ^ context, Ty
     return (inherited::CanConvertTo(context, destination_type));
 }
 
-Object ^
-    property_converter_float::ConvertTo(
-        ITypeDescriptorContext ^ context,
-        CultureInfo ^ culture,
-        Object ^ value,
-        Type ^ destination_type)
+Object ^ property_converter_float::ConvertTo(ITypeDescriptorContext ^ context, CultureInfo ^ culture, Object ^ value, Type ^ destination_type)
 {
     if (destination_type != String::typeid)
         return (inherited::ConvertTo(context, culture, value, destination_type));

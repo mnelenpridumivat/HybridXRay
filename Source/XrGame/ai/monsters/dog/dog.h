@@ -43,25 +43,25 @@ public:
     u32          random_anim();
     bool         is_night();
 
-    bool    b_end_state_eat;
-    bool    b_state_check;
-    bool    b_state_end;
-    Fvector enemy_position;
-    u32     saved_state;
-    u32     m_anim_factor;
-    u32     m_corpse_use_timeout;
-    u32     m_min_life_time;
-    u32     m_drive_out_time;
-    u32     m_min_sleep_time;
-    u32     m_start_smelling;
-    u32     m_smelling_count;
+    bool         b_end_state_eat;
+    bool         b_state_check;
+    bool         b_state_end;
+    Fvector      enemy_position;
+    u32          saved_state;
+    u32          m_anim_factor;
+    u32          m_corpse_use_timeout;
+    u32          m_min_life_time;
+    u32          m_drive_out_time;
+    u32          m_min_sleep_time;
+    u32          m_start_smelling;
+    u32          m_smelling_count;
 
 private:
-    bool b_state_anim;
-    bool b_anim_end;
-    u32  current_anim;
-    u32  min_move_dist;
-    u32  max_move_dist;
+    bool        b_state_anim;
+    bool        b_anim_end;
+    u32         current_anim;
+    u32         min_move_dist;
+    u32         max_move_dist;
 
     LPCSTR      get_current_animation();
     static void animation_end(CBlend* B);

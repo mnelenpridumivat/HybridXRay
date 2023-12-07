@@ -11,17 +11,16 @@
 #include "ui_base.h"
 #include "debug_renderer.h"
 
-u32 hud_adj_mode     = 0;
-u32 hud_adj_item_idx = 0;
+u32   hud_adj_mode     = 0;
+u32   hud_adj_item_idx = 0;
 // "press SHIFT+NUM 0-return 1-hud_pos 2-hud_rot 3-itm_pos 4-itm_rot 5-fire_point 6-fire_2_point 7-shell_point";
 
-float _delta_pos = 0.0005f;
-float _delta_rot = 0.05f;
+float _delta_pos       = 0.0005f;
+float _delta_rot       = 0.05f;
 
-bool is_attachable_item_tuning_mode()
+bool  is_attachable_item_tuning_mode()
 {
-    return pInput->iGetAsyncKeyState(DIK_LSHIFT) || pInput->iGetAsyncKeyState(DIK_Z) ||
-        pInput->iGetAsyncKeyState(DIK_X) || pInput->iGetAsyncKeyState(DIK_C);
+    return pInput->iGetAsyncKeyState(DIK_LSHIFT) || pInput->iGetAsyncKeyState(DIK_Z) || pInput->iGetAsyncKeyState(DIK_X) || pInput->iGetAsyncKeyState(DIK_C);
 }
 
 void tune_remap(const Ivector& in_values, Ivector& out_values)
@@ -149,10 +148,8 @@ void attachable_hud_item::tune(Ivector values)
         if ((values.x) || (values.y) || (values.z))
         {
             Msg("[%s]", m_sect_name.c_str());
-            Msg("item_position				= %f,%f,%f", m_measures.m_item_attach[0].x, m_measures.m_item_attach[0].y,
-                m_measures.m_item_attach[0].z);
-            Msg("item_orientation			= %f,%f,%f", m_measures.m_item_attach[1].x, m_measures.m_item_attach[1].y,
-                m_measures.m_item_attach[1].z);
+            Msg("item_position				= %f,%f,%f", m_measures.m_item_attach[0].x, m_measures.m_item_attach[0].y, m_measures.m_item_attach[0].z);
+            Msg("item_orientation			= %f,%f,%f", m_measures.m_item_attach[1].x, m_measures.m_item_attach[1].y, m_measures.m_item_attach[1].z);
             Log("-----------");
         }
     }
@@ -181,12 +178,9 @@ void attachable_hud_item::tune(Ivector values)
         if ((values.x) || (values.y) || (values.z))
         {
             Msg("[%s]", m_sect_name.c_str());
-            Msg("fire_point				= %f,%f,%f", m_measures.m_fire_point_offset.x, m_measures.m_fire_point_offset.y,
-                m_measures.m_fire_point_offset.z);
-            Msg("fire_point2			= %f,%f,%f", m_measures.m_fire_point2_offset.x,
-                m_measures.m_fire_point2_offset.y, m_measures.m_fire_point2_offset.z);
-            Msg("shell_point			= %f,%f,%f", m_measures.m_shell_point_offset.x,
-                m_measures.m_shell_point_offset.y, m_measures.m_shell_point_offset.z);
+            Msg("fire_point				= %f,%f,%f", m_measures.m_fire_point_offset.x, m_measures.m_fire_point_offset.y, m_measures.m_fire_point_offset.z);
+            Msg("fire_point2			= %f,%f,%f", m_measures.m_fire_point2_offset.x, m_measures.m_fire_point2_offset.y, m_measures.m_fire_point2_offset.z);
+            Msg("shell_point			= %f,%f,%f", m_measures.m_shell_point_offset.x, m_measures.m_shell_point_offset.y, m_measures.m_shell_point_offset.z);
             Log("-----------");
         }
     }
@@ -202,7 +196,7 @@ void attachable_hud_item::debug_draw_firedeps()
     {
         CDebugRenderer& render = Level().debug_renderer();
 
-        firedeps fd;
+        firedeps        fd;
         setup_firedeps(fd);
 
         if (hud_adj_mode == 5 || bForce)
@@ -232,14 +226,12 @@ void player_hud::tune(Ivector _values)
 
         float _curr_dr = _delta_rot;
 
-        u8 idx = m_attached_items[hud_adj_item_idx]->m_parent_hud_item->GetCurrentHudOffsetIdx();
+        u8    idx      = m_attached_items[hud_adj_item_idx]->m_parent_hud_item->GetCurrentHudOffsetIdx();
         if (idx)
             _curr_dr /= 20.0f;
 
-        Fvector& pos_ = (idx != 0) ? m_attached_items[hud_adj_item_idx]->hands_offset_pos() :
-                                     m_attached_items[hud_adj_item_idx]->hands_attach_pos();
-        Fvector& rot_ = (idx != 0) ? m_attached_items[hud_adj_item_idx]->hands_offset_rot() :
-                                     m_attached_items[hud_adj_item_idx]->hands_attach_rot();
+        Fvector& pos_ = (idx != 0) ? m_attached_items[hud_adj_item_idx]->hands_offset_pos() : m_attached_items[hud_adj_item_idx]->hands_attach_pos();
+        Fvector& rot_ = (idx != 0) ? m_attached_items[hud_adj_item_idx]->hands_offset_rot() : m_attached_items[hud_adj_item_idx]->hands_attach_rot();
 
         if (hud_adj_mode == 1)
         {
@@ -314,8 +306,7 @@ void hud_draw_adjust_mode()
 
     LPCSTR _text = NULL;
     if (pInput->iGetAsyncKeyState(DIK_LSHIFT) && hud_adj_mode)
-        _text =
-            "press SHIFT+NUM 0-return 1-hud_pos 2-hud_rot 3-itm_pos 4-itm_rot 5-fire_point 6-fire_2_point 7-shell_point 8-pos_step 9-rot_step";
+        _text = "press SHIFT+NUM 0-return 1-hud_pos 2-hud_rot 3-itm_pos 4-itm_rot 5-fire_point 6-fire_2_point 7-shell_point 8-pos_step 9-rot_step";
 
     switch (hud_adj_mode)
     {

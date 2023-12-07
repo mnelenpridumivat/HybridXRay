@@ -45,7 +45,7 @@ static vecTris clContactedT;
 // Notes :
 // Return: One of 3 classification codes
 // -----------------------------------------------------------------------
-IC float classifyPoint(const Fvector& point, const Fvector& planeO, const Fvector& planeN)
+IC float       classifyPoint(const Fvector& point, const Fvector& planeO, const Fvector& planeN)
 {
     Fvector dir;
     dir.sub(point, planeO);
@@ -60,11 +60,7 @@ IC float classifyPoint(const Fvector& point, const Fvector& planeO, const Fvecto
 // Notes : Normalized directional vectors expected
 // Return: distance to plane in world units, -1 if no intersection.
 // -----------------------------------------------------------------------
-IC float intersectRayPlane(
-    const Fvector& rayOrigin,
-    const Fvector& rayDirection,
-    const Fvector& planeOrigin,
-    const Fvector& planeNormal)
+IC float intersectRayPlane(const Fvector& rayOrigin, const Fvector& rayDirection, const Fvector& planeOrigin, const Fvector& planeNormal)
 {
     float numer = classifyPoint(rayOrigin, planeOrigin, planeNormal);
     float denom = planeNormal.dotproduct(rayDirection);
@@ -112,13 +108,12 @@ IC void closestPointOnLine(Fvector& res, const Fvector& a, const Fvector& b, con
     // set length of V to t. V is normalized so this is easy
     res.mad(a, V, t);
 }
-IC void closestPointOnEdge(
-    Fvector&       res,   // result
-    const Fvector& a,
-    const Fvector& b,   // points
-    const Fvector& ED,
-    float          elen,   // edge direction (b-a) and length
-    const Fvector& P)      // query point
+IC void closestPointOnEdge(Fvector& res,   // result
+    const Fvector&                  a,
+    const Fvector&                  b,   // points
+    const Fvector&                  ED,
+    float                           elen,   // edge direction (b-a) and length
+    const Fvector&                  P)                       // query point
 {
     // Determine t (the length of the vector from ‘a’ to ‘p’)
     Fvector c;
@@ -257,7 +252,7 @@ IC bool CheckPointInIdentitySphere(const Fvector& point)
 // -----------------------------------------------------------------------
 extern CStatTimer g_tm;
 
-void msimulator_CheckCollision(SCollisionData& cl)
+void              msimulator_CheckCollision(SCollisionData& cl)
 {
     // from package
     Fvector source;
@@ -275,10 +270,10 @@ void msimulator_CheckCollision(SCollisionData& cl)
     Fvector polyIPoint;   // polygon intersection point
 
     // how long is our velocity
-    float distanceToTravel = velocity.magnitude();
+    float   distanceToTravel = velocity.magnitude();
 
-    float distToPlaneIntersection;
-    float distToEllipsoidIntersection;
+    float   distToPlaneIntersection;
+    float   distToEllipsoidIntersection;
 
     for (DWORD i_t = 0; i_t != clContactedT.size(); i_t++)
     {
@@ -363,8 +358,8 @@ void msimulator_ResolveStuck(SCollisionData& cl, Fvector& position)
     Fvector stuckDir;
     int     stuckCount;
 
-    float dist;
-    float safe_R = 1.f + EPS_L * 2;   // psSqueezeVelocity*EDevice->fTimeDelta;
+    float   dist;
+    float   safe_R = 1.f + EPS_L * 2;   // psSqueezeVelocity*EDevice->fTimeDelta;
 
     for (int passes = 0; passes < psCollideActStuckDepth; passes++)
     {
@@ -495,7 +490,7 @@ Fvector msimulator_CollideWithWorld(SCollisionData& cl, Fvector position, Fvecto
         slidePlaneNormal.sub(newSourcePoint, cl.vNearestPolygonIntersectionPoint);
 
         // We now project the destination point onto the sliding plane
-        float l = intersectRayPlane(destinationPoint, slidePlaneNormal, slidePlaneOrigin, slidePlaneNormal);
+        float   l = intersectRayPlane(destinationPoint, slidePlaneNormal, slidePlaneOrigin, slidePlaneNormal);
 
         // We can now calculate a _new destination point on the sliding plane
         Fvector newDestinationPoint;
@@ -522,7 +517,7 @@ void ESceneAIMapTool::MotionSimulate(Fvector& result, Fvector& start, Fvector& e
     float          half_height = _height / 2;
 
     // Calc BB
-    Fbox b1, b2, bb;
+    Fbox           b1, b2, bb;
     create_bb(b1, start, _radius, _height);
     create_bb(b2, end, _radius, _height);
     bb.merge(b1, b2);
@@ -571,7 +566,7 @@ void ESceneAIMapTool::MotionSimulate(Fvector& result, Fvector& start, Fvector& e
             SPickQuery::SResult* R = PQ.r_begin() + i_t;
             if (R->e_obj && R->e_mesh)
             {
-                CSurface* surf = R->e_mesh->GetSurfaceByFaceID(R->tag);
+                CSurface*    surf = R->e_mesh->GetSurfaceByFaceID(R->tag);
                 //.				SGameMtl* mtl 		=  GameMaterialLibrary->GetMaterialByID(surf->_GameMtl());
                 //.				if (mtl->Flags.is(SGameMtl::flPassable))continue;
                 Shader_xrLC* c_sh = EDevice->ShaderXRLC.Get(surf->_ShaderXRLCName());

@@ -15,21 +15,14 @@
 using namespace Wml;
 
 //----------------------------------------------------------------------------
-template <class Real> MinimizeN<Real>::MinimizeN(
-    int      iDimensions,
-    Function oFunction,
-    int      iMaxLevel,
-    int      iMaxBracket,
-    int      iMaxIterations,
-    void*    pvData):
-    m_kMinimizer(LineFunction, iMaxLevel, iMaxBracket)
+template<class Real> MinimizeN<Real>::MinimizeN(int iDimensions, Function oFunction, int iMaxLevel, int iMaxBracket, int iMaxIterations, void* pvData): m_kMinimizer(LineFunction, iMaxLevel, iMaxBracket)
 {
     assert(iDimensions >= 1 && oFunction);
 
-    m_iDimensions    = iDimensions;
-    m_oFunction      = oFunction;
-    m_iMaxIterations = iMaxIterations;
-    m_pvData         = pvData;
+    m_iDimensions        = iDimensions;
+    m_oFunction          = oFunction;
+    m_iMaxIterations     = iMaxIterations;
+    m_pvData             = pvData;
 
     m_afTCurr            = new Real[m_iDimensions];
     m_afTSave            = new Real[m_iDimensions];
@@ -37,12 +30,12 @@ template <class Real> MinimizeN<Real>::MinimizeN(
     m_aafDirection       = new Real*[m_iDimensions + 1];
     for (int i = 0; i <= m_iDimensions; i++)
         m_aafDirection[i] = &m_afDirectionStorage[i * m_iDimensions];
-    m_afDConj = m_aafDirection[m_iDimensions];
+    m_afDConj   = m_aafDirection[m_iDimensions];
 
     m_afLineArg = new Real[m_iDimensions];
 }
 //----------------------------------------------------------------------------
-template <class Real> MinimizeN<Real>::~MinimizeN()
+template<class Real> MinimizeN<Real>::~MinimizeN()
 {
     delete[] m_afTCurr;
     delete[] m_afTSave;
@@ -51,30 +44,29 @@ template <class Real> MinimizeN<Real>::~MinimizeN()
     delete[] m_afLineArg;
 }
 //----------------------------------------------------------------------------
-template <class Real> int& MinimizeN<Real>::MaxLevel()
+template<class Real> int& MinimizeN<Real>::MaxLevel()
 {
     return m_kMinimizer.MaxLevel();
 }
 //----------------------------------------------------------------------------
-template <class Real> int& MinimizeN<Real>::MaxBracket()
+template<class Real> int& MinimizeN<Real>::MaxBracket()
 {
     return m_kMinimizer.MaxBracket();
 }
 //----------------------------------------------------------------------------
-template <class Real> void*& MinimizeN<Real>::UserData()
+template<class Real> void*& MinimizeN<Real>::UserData()
 {
     return m_pvData;
 }
 //----------------------------------------------------------------------------
-template <class Real>
-void MinimizeN<Real>::GetMinimum(const Real* afT0, const Real* afT1, const Real* afTInitial, Real* afTMin, Real& rfFMin)
+template<class Real> void MinimizeN<Real>::GetMinimum(const Real* afT0, const Real* afT1, const Real* afTInitial, Real* afTMin, Real& rfFMin)
 {
     // for 1D function callback
     m_kMinimizer.UserData() = this;
 
     // initial guess
-    int iQuantity = m_iDimensions * sizeof(Real);
-    m_fFCurr      = m_oFunction(afTInitial, m_pvData);
+    int iQuantity           = m_iDimensions * sizeof(Real);
+    m_fFCurr                = m_oFunction(afTInitial, m_pvData);
     memcpy(m_afTSave, afTInitial, iQuantity);
     memcpy(m_afTCurr, afTInitial, iQuantity);
 
@@ -138,7 +130,7 @@ void MinimizeN<Real>::GetMinimum(const Real* afT0, const Real* afT1, const Real*
     rfFMin = m_fFCurr;
 }
 //----------------------------------------------------------------------------
-template <class Real> void MinimizeN<Real>::ComputeDomain(const Real* afT0, const Real* afT1, Real& rfL0, Real& rfL1)
+template<class Real> void MinimizeN<Real>::ComputeDomain(const Real* afT0, const Real* afT1, Real& rfL0, Real& rfL1)
 {
     rfL0 = -Math<Real>::MAX_REAL;
     rfL1 = +Math<Real>::MAX_REAL;
@@ -179,7 +171,7 @@ template <class Real> void MinimizeN<Real>::ComputeDomain(const Real* afT0, cons
         rfL1 = (Real)0.0;
 }
 //----------------------------------------------------------------------------
-template <class Real> Real MinimizeN<Real>::LineFunction(Real fT, void* pvData)
+template<class Real> Real MinimizeN<Real>::LineFunction(Real fT, void* pvData)
 {
     MinimizeN* pkThis = (MinimizeN*)pvData;
 

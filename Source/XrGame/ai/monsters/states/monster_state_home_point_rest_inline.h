@@ -2,7 +2,7 @@
 
 #include "../monster_home.h"
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION                  template<typename _Object>
 
 #define CStateMonsterRestMoveToHomePointAbstract CStateMonsterRestMoveToHomePoint<_Object>
 
@@ -24,8 +24,7 @@ void CStateMonsterRestMoveToHomePointAbstract::execute()
     object->path().set_use_covers(false);
 
     object->set_action(object->Home->is_aggressive() ? ACT_RUN : ACT_WALK_FWD);
-    object->set_state_sound(
-        object->Home->is_aggressive() ? MonsterSound::eMonsterSoundAggressive : MonsterSound::eMonsterSoundIdle);
+    object->set_state_sound(object->Home->is_aggressive() ? MonsterSound::eMonsterSoundAggressive : MonsterSound::eMonsterSoundIdle);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -37,9 +36,7 @@ bool CStateMonsterRestMoveToHomePointAbstract::check_start_conditions()
 TEMPLATE_SPECIALIZATION
 bool CStateMonsterRestMoveToHomePointAbstract::check_completion()
 {
-    return (
-        (object->ai_location().level_vertex_id() == m_target_node) &&
-        !object->control().path_builder().is_moving_on_path());
+    return ((object->ai_location().level_vertex_id() == m_target_node) && !object->control().path_builder().is_moving_on_path());
 }
 
 #undef TEMPLATE_SPECIALIZATION

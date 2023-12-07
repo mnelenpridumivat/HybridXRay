@@ -20,9 +20,7 @@ void CLevel::PrepareToSaveDemo()
     string_path demo_path;
     SYSTEMTIME  Time;
     GetLocalTime(&Time);
-    xr_sprintf(
-        demo_name, "xray_%02d-%02d-%02d_%02d-%02d-%02d.demo", Time.wMonth, Time.wDay, Time.wYear, Time.wHour,
-        Time.wMinute, Time.wSecond);
+    xr_sprintf(demo_name, "xray_%02d-%02d-%02d_%02d-%02d-%02d.demo", Time.wMonth, Time.wDay, Time.wYear, Time.wHour, Time.wMinute, Time.wSecond);
     Msg("Demo would be stored in - %s", demo_name);
     FS.update_path(demo_path, "$logs$", demo_name);
     m_writer   = FS.w_open(demo_path);
@@ -90,7 +88,7 @@ void CLevel::RestartPlayDemo()
     if (IsDemoPlayStarted())
     {
         remove_objects();   // WARNING ! need to be in DemoPlayStarted mode .
-        // After remove_objects() invokation there where left a serveral (20) UpdateCLs so:
+                            // After remove_objects() invokation there where left a serveral (20) UpdateCLs so:
 #ifdef DEBUG
         VERIFY(g_pGameLevel);
         VERIFY(m_current_spectator);
@@ -198,8 +196,8 @@ bool CLevel::LoadPacket(NET_Packet& dest_packet, u32 global_time_delta)
     m_prev_packet_dtime = tmp_hdr.m_time_global_delta;
 
     if (map_data.m_sended_map_name_request ?   /// ???
-            (tmp_hdr.m_time_global_delta <= global_time_delta) :
-            (tmp_hdr.m_time_global_delta < global_time_delta))
+            (tmp_hdr.m_time_global_delta <= global_time_delta)
+                                           : (tmp_hdr.m_time_global_delta < global_time_delta))
     {
         R_ASSERT2(tmp_hdr.m_packet_size < NET_PacketSizeLimit, "bad demo packet");
         m_reader->r(dest_packet.B.data, tmp_hdr.m_packet_size);
@@ -230,19 +228,17 @@ void CLevel::SimulateServerUpdate()
 void CLevel::SpawnDemoSpectator()
 {
     R_ASSERT(Server && Server->game);
-    m_current_spectator     = NULL;
-    game_sv_mp* tmp_sv_game = smart_cast<game_sv_mp*>(Server->game);
-    game_cl_mp* mp_cl_game  = smart_cast<game_cl_mp*>(Level().game);
+    m_current_spectator        = NULL;
+    game_sv_mp*    tmp_sv_game = smart_cast<game_sv_mp*>(Server->game);
+    game_cl_mp*    mp_cl_game  = smart_cast<game_cl_mp*>(Level().game);
 
-    CSE_Spectator* specentity = smart_cast<CSE_Spectator*>(tmp_sv_game->spawn_begin("spectator"));
+    CSE_Spectator* specentity  = smart_cast<CSE_Spectator*>(tmp_sv_game->spawn_begin("spectator"));
     R_ASSERT(specentity);
     R_ASSERT2(mp_cl_game->local_player, "player not spawned");
     // mp_cl_game->local_player		= mp_cl_game->createPlayerState();
     // xr_strcpy						(mp_cl_game->local_player->name, "demo_spectator");
     specentity->set_name_replace(mp_cl_game->local_player->getName());
-    specentity->s_flags.assign(
-        M_SPAWN_OBJECT_LOCAL | M_SPAWN_OBJECT_ASPLAYER |
-        M_SPAWN_OBJECT_PHANTOM);   // M_SPAWN_OBJECT_PHANTOM is ONLY to indicate thath this is a fake spectator
+    specentity->s_flags.assign(M_SPAWN_OBJECT_LOCAL | M_SPAWN_OBJECT_ASPLAYER | M_SPAWN_OBJECT_PHANTOM);   // M_SPAWN_OBJECT_PHANTOM is ONLY to indicate thath this is a fake spectator
     tmp_sv_game->assign_RP(specentity, Level().game->local_player);
 
     g_sv_Spawn(specentity);
@@ -345,9 +341,8 @@ void CLevel::SetDemoPlaySpeed(float const time_factor)
 
 void CLevel::CatchStartingSpawns()
 {
-    message_filter::msg_type_subtype_func_t spawns_catcher =
-        fastdelegate::MakeDelegate(this, &CLevel::MSpawnsCatchCallback);
-    message_filter* tmp_msg_filter = GetMessageFilter();
+    message_filter::msg_type_subtype_func_t spawns_catcher = fastdelegate::MakeDelegate(this, &CLevel::MSpawnsCatchCallback);
+    message_filter*                         tmp_msg_filter = GetMessageFilter();
     R_ASSERT(tmp_msg_filter);
     u32 fake_sub_msg = 0;
     tmp_msg_filter->filter(M_SPAWN, fake_sub_msg, spawns_catcher);

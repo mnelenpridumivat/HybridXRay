@@ -104,37 +104,24 @@ protected:
 
 public:
     PDomain() {}
-    PDomain(
-        EType             et,
-        BOOL              renderable,
-        u32               color = 0x00000000,
-        PAPI::PDomainEnum type  = PAPI::PDPoint,
-        float             inA0  = 0.0f,
-        float             inA1  = 0.0f,
-        float             inA2  = 0.0f,
-        float             inA3  = 0.0f,
-        float             inA4  = 0.0f,
-        float             inA5  = 0.0f,
-        float             inA6  = 0.0f,
-        float             inA7  = 0.0f,
-        float             inA8  = 0.0f);
+    PDomain(EType et, BOOL renderable, u32 color = 0x00000000, PAPI::PDomainEnum type = PAPI::PDPoint, float inA0 = 0.0f, float inA1 = 0.0f, float inA2 = 0.0f, float inA3 = 0.0f, float inA4 = 0.0f, float inA5 = 0.0f, float inA6 = 0.0f, float inA7 = 0.0f, float inA8 = 0.0f);
     ~PDomain();
     PDomain(const PDomain& in);
 
-    void MoveXYZ(float x, float y, float z);
-    void RotateXYZ(float x, float y, float z);
-    void ScaleXYZ(float x, float y, float z);
+    void     MoveXYZ(float x, float y, float z);
+    void     RotateXYZ(float x, float y, float z);
+    void     ScaleXYZ(float x, float y, float z);
 
     Fvector& GetCenter();
 
-    void Load(IReader& F);
-    void Save(IWriter& F);
+    void     Load(IReader& F);
+    void     Save(IWriter& F);
 
-    void Load2(CInifile& ini, const shared_str& sect);
-    void Save2(CInifile& ini, const shared_str& sect);
+    void     Load2(CInifile& ini, const shared_str& sect);
+    void     Save2(CInifile& ini, const shared_str& sect);
 
-    void Render(u32 color, const Fmatrix& parent);
-    void FillProp(PropItemVec& items, LPCSTR pref, u32 clr);
+    void     Render(u32 color, const Fmatrix& parent);
+    void     FillProp(PropItemVec& items, LPCSTR pref, u32 clr);
 };
 struct EParticleAction
 {
@@ -155,11 +142,11 @@ struct EParticleAction
     Flags32           flags;
     PAPI::PActionEnum type;
 
-    PDomainMap domains;
-    PBoolMap   bools;
-    PFloatMap  floats;
-    PIntMap    ints;
-    PVectorMap vectors;
+    PDomainMap        domains;
+    PBoolMap          bools;
+    PFloatMap         floats;
+    PIntMap           ints;
+    PVectorMap        vectors;
 
     enum EValType
     {
@@ -185,16 +172,9 @@ struct EParticleAction
     }
 
 public:
-    void appendFloat(LPCSTR name, float v, float mn, float mx);
-    void appendInt(LPCSTR name, int v, int mn = -P_MAXINT, int mx = P_MAXINT);
-    void appendVector(
-        LPCSTR         name,
-        PVector::EType type,
-        float          vx,
-        float          vy,
-        float          vz,
-        float          mn = -P_MAXFLOAT,
-        float          mx = P_MAXFLOAT);
+    void    appendFloat(LPCSTR name, float v, float mn, float mx);
+    void    appendInt(LPCSTR name, int v, int mn = -P_MAXINT, int mx = P_MAXINT);
+    void    appendVector(LPCSTR name, PVector::EType type, float vx, float vy, float vz, float mn = -P_MAXFLOAT, float mx = P_MAXFLOAT);
     void    appendDomain(LPCSTR name, PDomain v);
     void    appendBool(LPCSTR name, BOOL b);
     PFloat& _float(LPCSTR name)
@@ -429,9 +409,9 @@ public:
     virtual void Render(const Fmatrix& parent);
 };
 
-extern xr_token2 actions_token[];
+extern xr_token2                actions_token[];
 
-typedef EParticleAction* (*_CreateEAction)(PAPI::PActionEnum type);
+typedef EParticleAction*        (*_CreateEAction)(PAPI::PActionEnum type);
 extern ECORE_API _CreateEAction pCreateEAction;
 //---------------------------------------------------------------------------
 #endif

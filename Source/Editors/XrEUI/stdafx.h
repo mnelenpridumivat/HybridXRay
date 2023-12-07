@@ -20,7 +20,7 @@ using ImTextureID = IDirect3DBaseTexture9*;
 #include "localization_types.h"
 
 extern XREUI_API ELocalization EditorLocalization;
-extern XREUI_API bool bDemoImGui;
+extern XREUI_API bool          bDemoImGui;
 
 inline SEnglishStringToRussify operator"" _RU(const char* _Source, size_t)
 {

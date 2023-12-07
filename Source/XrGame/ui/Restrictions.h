@@ -48,17 +48,17 @@ private:
     void  AddRestriction4rank(u32 rank, const shared_str& lst);
     RESTR GetRestr(const shared_str& item);
 
-    u32  m_rank;
-    bool m_bInited;
+    u32   m_rank;
+    bool  m_bInited;
 
     DEF_VECTOR(group_items, shared_str);
     DEF_MAP(Groups, shared_str, group_items);
-    Groups m_goups;
+    Groups                             m_goups;
 
     typedef std::pair<shared_str, u32> restr_item;
     DEF_VECTOR(rank_rest_vec, restr_item);
-    rank_rest_vec m_restrictions[_RANK_COUNT + 1];
-    shared_str    m_names[_RANK_COUNT];
+    rank_rest_vec     m_restrictions[_RANK_COUNT + 1];
+    shared_str        m_names[_RANK_COUNT];
 
     const restr_item* find_restr_item(const u32& rank, const shared_str& what) const;
     restr_item*       find_restr_item_internal(const u32& rank, const shared_str& what);

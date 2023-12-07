@@ -28,7 +28,7 @@ public:
     {
         return m_atlas_in_process;
     };
-    void update();
+    void                                update();
 
     gamespy_profile::all_best_scores_t& get_best_results_store()
     {
@@ -48,23 +48,20 @@ private:
         u32                            m_awards_count;
         // gamespy_profile::all_best_scores_t*	m_best_scores_ptr;
     };   // struct submit_task
-    typedef xr_deque<submit_task>      reward_tasks_t;
-    reward_tasks_t                     m_reward_tasks;
-    gamespy_profile::all_best_scores_t m_best_results_to_submit;
+    typedef xr_deque<submit_task>       reward_tasks_t;
+    reward_tasks_t                      m_reward_tasks;
+    gamespy_profile::all_best_scores_t  m_best_results_to_submit;
 
-    void do_task(submit_task const& td);
-    void do_atlas_reward(
-        gamespy_gp::profile const*           profile,
-        gamespy_profile::enum_awards_t const award_id,
-        u32 const                            count);
-    void do_atlas_best_results(gamespy_gp::profile const* profile, gamespy_profile::all_best_scores_t* br_ptr);
-    void do_atlas_submit_all(gamespy_gp::profile const* profile);
+    void                                do_task(submit_task const& td);
+    void                                do_atlas_reward(gamespy_gp::profile const* profile, gamespy_profile::enum_awards_t const award_id, u32 const count);
+    void                                do_atlas_best_results(gamespy_gp::profile const* profile, gamespy_profile::all_best_scores_t* br_ptr);
+    void                                do_atlas_submit_all(gamespy_gp::profile const* profile);
 
     gamespy_profile::stats_submitter*   m_stats_submitter;
     gamespy_profile::store_operation_cb m_atlas_submitted;
     bool                                m_atlas_in_process;
 
-    void atlas_submitted(bool result, char const* err_string);
+    void                                atlas_submitted(bool result, char const* err_string);
 };   // class atlas_submit_quque
 
 #endif   // #ifndef ATLAS_SUBMIT_QUEUE_INCLUDED

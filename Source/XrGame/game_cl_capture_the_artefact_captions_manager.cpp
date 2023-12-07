@@ -119,15 +119,18 @@ void CTAGameClCaptionsManager::ShowCaptions()
 
     switch (parent_game_object->Phase())
     {
-        case GAME_PHASE_PENDING: {
+        case GAME_PHASE_PENDING:
+        {
             ShowPendingCaptions();
             break;
         };
-        case GAME_PHASE_INPROGRESS: {
+        case GAME_PHASE_INPROGRESS:
+        {
             ShowInProgressCaptions();
             break;
         };
-        case GAME_PHASE_PLAYER_SCORES: {
+        case GAME_PHASE_PLAYER_SCORES:
+        {
             ShowScoreCaptions();
             break;
         };
@@ -178,7 +181,7 @@ u32 CTAGameClCaptionsManager::SetWarmupTime(u32 current_warmup_time, u32 current
     {
         current_warmup_time = current_time;
     }
-    u32 time_remains = current_warmup_time - current_time;
+    u32          time_remains = current_warmup_time - current_time;
 
     string64     time_str;
     CStringTable st;

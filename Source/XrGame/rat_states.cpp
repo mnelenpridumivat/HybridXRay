@@ -122,8 +122,7 @@ void rat_state_attack_range::execute()
         object().m_state_manager->pop_state();
         return;
     }
-    if (!object().m_attack_rebuild && !object().can_stand_in_position() || object().switch_if_position() ||
-        object().switch_if_diff())
+    if (!object().m_attack_rebuild && !object().can_stand_in_position() || object().switch_if_position() || object().switch_if_diff())
     {
         object().m_state_manager->push_state(CAI_Rat::aiRatNoWay);
         return;
@@ -180,13 +179,10 @@ void rat_state_attack_melee::execute()
 
     CMonsterSquad* squad = monster_squad().get_squad(object().cast_entity());
 
-    if (squad &&
-        ((squad->GetLeader() != object().cast_entity() && !squad->GetLeader()->g_Alive()) ||
-         squad->get_index(object().cast_entity()) == u32(-1)))
+    if (squad && ((squad->GetLeader() != object().cast_entity() && !squad->GetLeader()->g_Alive()) || squad->get_index(object().cast_entity()) == u32(-1)))
         squad->SetLeader(object().cast_entity());
 
-    if (squad && squad->SquadActive() && squad->GetLeader() == object().cast_entity() &&
-        object().m_squad_count != squad->squad_alife_count())
+    if (squad && squad->SquadActive() && squad->GetLeader() == object().cast_entity() && object().m_squad_count != squad->squad_alife_count())
     {
         squad->set_rat_squad_index(object().get_enemy());
         object().m_squad_count = squad->squad_alife_count();

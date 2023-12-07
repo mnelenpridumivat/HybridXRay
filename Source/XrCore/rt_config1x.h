@@ -66,9 +66,9 @@
 
 #define MX_MAX_OFFSET (M1_MAX_OFFSET + M2_MAX_OFFSET)
 
-#define M1_MIN_LEN 2
-#define M1_MAX_LEN 2
-#define M2_MIN_LEN 3
+#define M1_MIN_LEN    2
+#define M1_MAX_LEN    2
+#define M2_MIN_LEN    3
 #ifndef M2_MAX_LEN
 #define M2_MAX_LEN 8
 #endif
@@ -77,10 +77,10 @@
 #define M4_MIN_LEN 3
 #define M4_MAX_LEN 9
 
-#define M1_MARKER 0
-#define M2_MARKER 64
-#define M3_MARKER 32
-#define M4_MARKER 16
+#define M1_MARKER  0
+#define M2_MARKER  64
+#define M3_MARKER  32
+#define M4_MARKER  16
 
 /***********************************************************************
 //

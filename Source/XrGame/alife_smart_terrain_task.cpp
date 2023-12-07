@@ -31,9 +31,7 @@ GameGraph::_GRAPH_ID CALifeSmartTerrainTask::game_vertex_id() const
 {
     if (m_game_vertex_id == GameGraph::_GRAPH_ID(-1))
     {
-        VERIFY3(
-            ai().game_graph().valid_vertex_id(patrol_point().game_vertex_id()), *m_patrol_path_name,
-            *m_patrol_point->name());
+        VERIFY3(ai().game_graph().valid_vertex_id(patrol_point().game_vertex_id()), *m_patrol_path_name, *m_patrol_point->name());
         return (patrol_point().game_vertex_id());
     }
     else
@@ -47,16 +45,12 @@ u32 CALifeSmartTerrainTask::level_vertex_id() const
 {
     if (m_level_vertex_id == u32(-1))
     {
-        VERIFY3(
-            ai().game_graph().valid_vertex_id(patrol_point().game_vertex_id()), *m_patrol_path_name,
-            *m_patrol_point->name());
+        VERIFY3(ai().game_graph().valid_vertex_id(patrol_point().game_vertex_id()), *m_patrol_path_name, *m_patrol_point->name());
         return (patrol_point().level_vertex_id());
     }
     else
     {
-        VERIFY2(
-            ai().game_graph().valid_vertex_id(m_game_vertex_id),
-            make_string("Vertex [%d] is not valid!!!", m_game_vertex_id));
+        VERIFY2(ai().game_graph().valid_vertex_id(m_game_vertex_id), make_string("Vertex [%d] is not valid!!!", m_game_vertex_id));
         return m_level_vertex_id;
     }
 }

@@ -34,14 +34,14 @@ public:
 };
 template<typename DataVertexType> struct Tvertex;
 class CDeflector;
-template<typename DataVertexType>
-struct MESHSTRUCTURE_API Tface: public DataVertexType::DataFaceType, public vector_item
+template<typename DataVertexType> struct MESHSTRUCTURE_API Tface: public DataVertexType::DataFaceType, public vector_item
 {
     typedef Tvertex<DataVertexType> type_vertex;
     typedef Tface<DataVertexType>   type_face;
     // private:
     type_vertex*                    v[3];
     //	u32				m_self_index;
+
 public:
     // IC	void			set_index	( u32 idx )		{ m_self_index = idx; }
     // IC	u32				self_index	( )	const		{return m_self_index ;}

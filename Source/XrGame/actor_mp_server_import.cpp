@@ -26,23 +26,23 @@ void CSE_ActorMP::UPDATE_Read(NET_Packet& packet)
     m_AliveState.torque      = m_state_holder.state().physics_torque;
     m_AliveState.position    = m_state_holder.state().physics_position;
 
-    o_Position = m_state_holder.state().position;
+    o_Position               = m_state_holder.state().position;
 
-    accel = m_state_holder.state().logic_acceleration;
+    accel                    = m_state_holder.state().logic_acceleration;
 
-    o_model       = m_state_holder.state().model_yaw;
-    o_torso.yaw   = m_state_holder.state().camera_yaw;
-    o_torso.pitch = m_state_holder.state().camera_pitch;
-    o_torso.roll  = m_state_holder.state().camera_roll;
+    o_model                  = m_state_holder.state().model_yaw;
+    o_torso.yaw              = m_state_holder.state().camera_yaw;
+    o_torso.pitch            = m_state_holder.state().camera_pitch;
+    o_torso.roll             = m_state_holder.state().camera_roll;
 
-    timestamp = m_state_holder.state().time;
+    timestamp                = m_state_holder.state().time;
 
-    weapon = m_state_holder.state().inventory_active_slot;
-    mstate = m_state_holder.state().body_state_flags;
+    weapon                   = m_state_holder.state().inventory_active_slot;
+    mstate                   = m_state_holder.state().body_state_flags;
     set_health(m_state_holder.state().health);
     fRadiation           = m_state_holder.state().radiation;
     m_AliveState.enabled = m_state_holder.state().physics_state_enabled;
 
-    m_ready_to_update = true;
+    m_ready_to_update    = true;
     // Msg("--- Client 0x%08x UPDATE_Read, health is: %2.04f", this->ID, m_state_holder.state().health);
 }

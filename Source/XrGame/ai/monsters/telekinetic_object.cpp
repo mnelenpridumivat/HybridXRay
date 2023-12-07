@@ -9,8 +9,8 @@
 #include "../../gameobject.h"
 
 #define KEEP_IMPULSE_UPDATE 200
-#define FIRE_TIME 3000
-#define RAISE_MAX_TIME 5000
+#define FIRE_TIME           3000
+#define RAISE_MAX_TIME      5000
 
 CTelekineticObject::CTelekineticObject()
 {
@@ -29,20 +29,20 @@ bool CTelekineticObject::init(CTelekinesis* tele, CPhysicsShellHolder* obj, floa
 
     // state				= TS_Raise;
     switch_state(TS_Raise);
-    object = obj;
+    object            = obj;
 
-    target_height = obj->Position().y + h;
+    target_height     = obj->Position().y + h;
 
     time_keep_started = 0;
     time_keep_updated = 0;
     time_to_keep      = ttk;
 
-    strength = s;
+    strength          = s;
 
     time_fire_started = 0;
     // time_raise_started	= Device->dwTimeGlobal;
 
-    m_rotate = rot;
+    m_rotate          = rot;
 
     if (object->m_pPhysicsShell)
         object->m_pPhysicsShell->set_ApplyByGravity(FALSE);
@@ -165,7 +165,7 @@ void CTelekineticObject::keep()
         return;
 
     // проверить высоту
-    float cur_h = object->Position().y;
+    float   cur_h = object->Position().y;
 
     // установить dir в соответствие с текущей высотой
     Fvector dir;
@@ -253,8 +253,7 @@ void CTelekineticObject::fire(const Fvector& target, float power)
     {
         // выполнить бросок
         for (u32 i = 0; i < object->m_pPhysicsShell->get_ElementsNumber(); i++)
-            object->m_pPhysicsShell->get_ElementByStoreOrder(u16(i))->applyImpulse(
-                dir, power * 20.f * object->m_pPhysicsShell->getMass() / object->m_pPhysicsShell->Elements().size());
+            object->m_pPhysicsShell->get_ElementByStoreOrder(u16(i))->applyImpulse(dir, power * 20.f * object->m_pPhysicsShell->getMass() / object->m_pPhysicsShell->Elements().size());
     };
 };
 

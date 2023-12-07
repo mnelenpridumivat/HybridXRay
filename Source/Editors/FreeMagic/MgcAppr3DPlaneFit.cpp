@@ -45,7 +45,7 @@ bool Mgc::HeightPlaneFit(int iQuantity, Vector3* akPoint, Real& rfA, Real& rfB, 
 
     Real aafA[3][3] = {fSumXX, fSumXY, fSumX, fSumXY, fSumYY, fSumY, fSumX, fSumY, Real(iQuantity)};
 
-    Real afB[3] = {fSumXZ, fSumYZ, fSumZ};
+    Real afB[3]     = {fSumXZ, fSumYZ, fSumZ};
 
     Real afX[3];
 

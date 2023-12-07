@@ -1,12 +1,12 @@
 ﻿#pragma once
 
-#define TEMPLATE_SPECIALIZATION template <typename _Object>
+#define TEMPLATE_SPECIALIZATION         template<typename _Object>
 #define CStateMonsterHittedHideAbstract CStateMonsterHittedHide<_Object>
 
-#define GOOD_DISTANCE_TO_ENEMY 10.f
-#define GOOD_DISTANCE_IN_COVER 15.f
-#define MIN_HIDE_TIME 3.f
-#define DIST_TO_PATH_END 1.5f
+#define GOOD_DISTANCE_TO_ENEMY          10.f
+#define GOOD_DISTANCE_IN_COVER          15.f
+#define MIN_HIDE_TIME                   3.f
+#define DIST_TO_PATH_END                1.5f
 
 TEMPLATE_SPECIALIZATION
 void CStateMonsterHittedHideAbstract::initialize()

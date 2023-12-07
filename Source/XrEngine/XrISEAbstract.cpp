@@ -6,13 +6,7 @@ void ISE_Abstract::FillProp(LPCSTR pref, PropItemVec& items)
     R_ASSERT(FALSE);
 }
 
-void ISE_Abstract::on_render(
-    CDUInterface*        du,
-    ISE_AbstractLEOwner* owner,
-    bool                 bSelected,
-    const Fmatrix&       parent,
-    int                  priority,
-    bool                 strictB2F)
+void ISE_Abstract::on_render(CDUInterface* du, ISE_AbstractLEOwner* owner, bool bSelected, const Fmatrix& parent, int priority, bool strictB2F)
 {
     R_ASSERT(FALSE);
 }

@@ -93,9 +93,9 @@ public:
 public:
     virtual void Load(LPCSTR section);
 
-    LPCSTR     NameItem();   // remove <virtual> by sea
-    LPCSTR     NameShort();
-    shared_str ItemDescription()
+    LPCSTR       NameItem();   // remove <virtual> by sea
+    LPCSTR       NameShort();
+    shared_str   ItemDescription()
     {
         return m_Description;
     }
@@ -165,7 +165,7 @@ public:
 
     virtual void Hit(SHit* pHDS);
 
-    BOOL GetDropManual() const
+    BOOL         GetDropManual() const
     {
         return m_flags.test(FdropManual);
     }
@@ -188,17 +188,17 @@ public:
     }
 
 public:
-    CInventory* m_pInventory;
-    shared_str  m_section_id;
-    shared_str  m_name;
-    shared_str  m_nameShort;
-    shared_str  m_nameComplex;
+    CInventory*       m_pInventory;
+    shared_str        m_section_id;
+    shared_str        m_name;
+    shared_str        m_nameShort;
+    shared_str        m_nameComplex;
 
-    SInvItemPlace m_ItemCurrPlace;
+    SInvItemPlace     m_ItemCurrPlace;
 
-    virtual void OnMoveToSlot(const SInvItemPlace& prev){};
-    virtual void OnMoveToBelt(const SInvItemPlace& prev){};
-    virtual void OnMoveToRuck(const SInvItemPlace& prev){};
+    virtual void      OnMoveToSlot(const SInvItemPlace& prev){};
+    virtual void      OnMoveToBelt(const SInvItemPlace& prev){};
+    virtual void      OnMoveToRuck(const SInvItemPlace& prev){};
 
     Irect             GetInvGridRect() const;
     Irect             GetUpgrIconRect() const;
@@ -206,7 +206,7 @@ public:
     {
         return m_icon_name;
     };
-    Frect GetKillMsgRect() const;
+    Frect    GetKillMsgRect() const;
     //---------------------------------------------------------------------
     IC float GetCondition() const
     {
@@ -222,7 +222,7 @@ public:
     }
     void ChangeCondition(float fDeltaCondition);
 
-    u16 BaseSlot() const
+    u16  BaseSlot() const
     {
         return m_ItemCurrPlace.base_slot_id;
     }
@@ -285,8 +285,8 @@ protected:
 protected:
     ALife::_TIME_ID m_dwItemIndependencyTime;
 
-    float      m_fControlInertionFactor;
-    shared_str m_icon_name;
+    float           m_fControlInertionFactor;
+    shared_str      m_icon_name;
 
 public:
     virtual void make_Interpolation(){};
@@ -301,13 +301,13 @@ public:
     virtual void net_Export(NET_Packet& P);   // export to server
 
 public:
-    virtual void activate_physic_shell();
-    virtual bool has_network_synchronization() const;
+    virtual void            activate_physic_shell();
+    virtual bool            has_network_synchronization() const;
 
     virtual bool            NeedToDestroyObject() const;
     virtual ALife::_TIME_ID TimePassedAfterIndependant() const;
 
-    virtual bool IsSprintAllowed() const
+    virtual bool            IsSprintAllowed() const
     {
         return !!m_flags.test(FAllowSprint);
     };
@@ -409,6 +409,7 @@ public:
     }
 
     ////////// upgrades //////////////////////////////////////////////////
+
 public:
     typedef xr_vector<shared_str> Upgrades_type;
 
@@ -437,31 +438,21 @@ public:
 
     IC Upgrades_type const& upgardes() const;
     virtual void            Interpolate();
-    float interpolate_states(net_update_IItem const& first, net_update_IItem const& last, SPHNetState& current);
+    float                   interpolate_states(net_update_IItem const& first, net_update_IItem const& last, SPHNetState& current);
 
 protected:
-    virtual void net_Spawn_install_upgrades(Upgrades_type saved_upgrades);
-    virtual bool install_upgrade_impl(LPCSTR section, bool test);
+    virtual void                        net_Spawn_install_upgrades(Upgrades_type saved_upgrades);
+    virtual bool                        install_upgrade_impl(LPCSTR section, bool test);
 
-    template <typename T> IC static bool process_if_exists(
-        LPCSTR section,
-        LPCSTR name,
-        T (CInifile::*method)(LPCSTR, LPCSTR) const,
-        T&   value,
-        bool test);
+    template<typename T> IC static bool process_if_exists(LPCSTR section, LPCSTR name, T (CInifile::*method)(LPCSTR, LPCSTR) const, T& value, bool test);
 
-    template <typename T> IC static bool process_if_exists_set(
-        LPCSTR section,
-        LPCSTR name,
-        T (CInifile::*method)(LPCSTR, LPCSTR) const,
-        T&   value,
-        bool test);
+    template<typename T> IC static bool process_if_exists_set(LPCSTR section, LPCSTR name, T (CInifile::*method)(LPCSTR, LPCSTR) const, T& value, bool test);
 
-    void net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mask_inv_num_items& num_items);
-    void net_Import_PH_Params(NET_Packet& P, net_update_IItem& N, mask_inv_num_items& num_items);
+    void                                net_Export_PH_Params(NET_Packet& P, SPHNetState& State, mask_inv_num_items& num_items);
+    void                                net_Import_PH_Params(NET_Packet& P, net_update_IItem& N, mask_inv_num_items& num_items);
 
-    bool m_just_after_spawn;
-    bool m_activated;
+    bool                                m_just_after_spawn;
+    bool                                m_activated;
 
 public:
     IC bool is_helper_item()

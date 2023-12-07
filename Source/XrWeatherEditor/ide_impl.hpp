@@ -49,18 +49,11 @@ public:
     virtual void pause();
 
 public:
-    virtual property_holder* create_property_holder(
-        LPCSTR                                       display_name,
-        XrWeatherEditor::property_holder_collection* collection,
-        XrWeatherEditor::property_holder_holder*     holder);
-    virtual void destroy(property_holder*& property_holder);
-    virtual void environment_levels(property_holder* property_holder);
-    virtual void environment_weathers(property_holder* property_holder);
-    virtual void weather_editor_setup(
-        weathers_getter_type const&      weathers_getter,
-        weathers_size_getter_type const& weathers_size_getter,
-        frames_getter_type const&        frames_getter,
-        frames_size_getter_type const&   frames_size_getter);
+    virtual property_holder* create_property_holder(LPCSTR display_name, XrWeatherEditor::property_holder_collection* collection, XrWeatherEditor::property_holder_holder* holder);
+    virtual void             destroy(property_holder*& property_holder);
+    virtual void             environment_levels(property_holder* property_holder);
+    virtual void             environment_weathers(property_holder* property_holder);
+    virtual void             weather_editor_setup(weathers_getter_type const& weathers_getter, weathers_size_getter_type const& weathers_size_getter, frames_getter_type const& frames_getter, frames_size_getter_type const& frames_size_getter);
 
 private:
     XrWeatherEditor::engine* m_engine;

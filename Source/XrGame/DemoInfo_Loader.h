@@ -10,7 +10,7 @@ private:
     typedef associative_vector<shared_str, demo_info*> demo_info_cache_t;
     demo_info_cache_t                                  m_demo_info_cache;
 
-    demo_info* load_demofile(LPCSTR demo_file_name);
+    demo_info*                                         load_demofile(LPCSTR demo_file_name);
 
 public:
     demo_info_loader();

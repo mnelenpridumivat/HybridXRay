@@ -103,11 +103,7 @@ namespace inventory
         {
             if (get_upgrade(upgrade_id))
             {
-                VERIFY2(
-                    0,
-                    make_string(
-                        "Try add the existent upgrade (%s), in group <%s>. Such upgrade is in group <%s> already!",
-                        upgrade_id.c_str(), parent_group.id_str(), get_upgrade(upgrade_id)->parent_group_id().c_str()));
+                VERIFY2(0, make_string("Try add the existent upgrade (%s), in group <%s>. Such upgrade is in group <%s> already!", upgrade_id.c_str(), parent_group.id_str(), get_upgrade(upgrade_id)->parent_group_id().c_str()));
             }
             Upgrade* new_upgrade = xr_new<Upgrade>();
             m_upgrades.insert(std::make_pair(upgrade_id, new_upgrade));
@@ -145,8 +141,7 @@ namespace inventory
 
         bool Manager::item_upgrades_exist(shared_str const& item_id)
         {
-            VERIFY2(
-                pSettings->section_exist(item_id), make_string("Inventory item [%s] does not exist!", item_id.c_str()));
+            VERIFY2(pSettings->section_exist(item_id), make_string("Inventory item [%s] does not exist!", item_id.c_str()));
             if (!pSettings->line_exist(item_id, "upgrades") || !pSettings->r_string(item_id, "upgrades"))
             {
                 return false;
@@ -163,8 +158,7 @@ namespace inventory
         {
             LPCSTR items_section = "upgraded_inventory";
 
-            VERIFY2(
-                pSettings->section_exist(items_section), make_string("Section [%s] does not exist !", items_section));
+            VERIFY2(pSettings->section_exist(items_section), make_string("Section [%s] does not exist !", items_section));
             VERIFY2(pSettings->line_count(items_section), make_string("Section [%s] is empty !", items_section));
 
             if (g_upgrades_log == 1)
@@ -200,11 +194,8 @@ namespace inventory
         {
             LPCSTR properties_section = "upgrades_properties";
 
-            VERIFY2(
-                pSettings->section_exist(properties_section),
-                make_string("Section [%s] does not exist !", properties_section));
-            VERIFY2(
-                pSettings->line_count(properties_section), make_string("Section [%s] is empty !", properties_section));
+            VERIFY2(pSettings->section_exist(properties_section), make_string("Section [%s] does not exist !", properties_section));
+            VERIFY2(pSettings->line_count(properties_section), make_string("Section [%s] is empty !", properties_section));
 
             CInifile::Sect&   inv_section = pSettings->r_section(properties_section);
             CInifile::SectIt_ ib          = inv_section.Data.begin();
@@ -282,16 +273,12 @@ namespace inventory
         void Manager::test_all_upgrades(CInventoryItem& item)
         {
             Root* root_p = get_root(item.m_section_id);
-            VERIFY2(
-                root_p,
-                make_string(
-                    "Upgrades for item <%s> (id = %d) does not exist!", item.m_section_id.c_str(), item.object_id()));
+            VERIFY2(root_p, make_string("Upgrades for item <%s> (id = %d) does not exist!", item.m_section_id.c_str(), item.object_id()));
             root_p->test_all_upgrades(item);
 
             if (g_upgrades_log == 1)
             {
-                Msg("- Checking all upgrades of item <%s> (id = %d) is successful.", root_p->id_str(),
-                    item.object_id());
+                Msg("- Checking all upgrades of item <%s> (id = %d) is successful.", root_p->id_str(), item.object_id());
             }
         }
 
@@ -303,14 +290,9 @@ namespace inventory
             VERIFY2(root_p, make_string("Upgrades of item <%s> don`t exist!", item_section.c_str()));
 
             Upgrade* upgrade_p = get_upgrade(upgrade_id);
-            VERIFY2(
-                upgrade_p,
-                make_string("Upgrade <%s> in item <%s> does not exist!", upgrade_id.c_str(), item_section.c_str()));
+            VERIFY2(upgrade_p, make_string("Upgrade <%s> in item <%s> does not exist!", upgrade_id.c_str(), item_section.c_str()));
 
-            VERIFY2(
-                root_p->contain_upgrade(upgrade_id),
-                make_string(
-                    "Inventory item <%s> not contain upgrade <%s> !", item_section.c_str(), upgrade_id.c_str()));
+            VERIFY2(root_p->contain_upgrade(upgrade_id), make_string("Inventory item <%s> not contain upgrade <%s> !", item_section.c_str(), upgrade_id.c_str()));
 
             return (upgrade_p);
         }
@@ -366,24 +348,19 @@ namespace inventory
 
                     if (g_upgrades_log == 1)
                     {
-                        Msg("# Upgrade <%s> of inventory item [%s] (id = %d) is installed.", upgrade_id.c_str(),
-                            item.m_section_id.c_str(), item.object_id());
+                        Msg("# Upgrade <%s> of inventory item [%s] (id = %d) is installed.", upgrade_id.c_str(), item.m_section_id.c_str(), item.object_id());
                     }
                     return true;
                 }
                 else
                 {
-                    FATAL(make_string(
-                              "! Upgrade <%s> of item [%s] (id = %d) is EMPTY or FAILED !", upgrade_id.c_str(),
-                              item.m_section_id.c_str(), item.object_id())
-                              .c_str());
+                    FATAL(make_string("! Upgrade <%s> of item [%s] (id = %d) is EMPTY or FAILED !", upgrade_id.c_str(), item.m_section_id.c_str(), item.object_id()).c_str());
                 }
             }
 
             if (g_upgrades_log == 1)
             {
-                Msg("- Upgrade <%s> of inventory item [%s] (id = %d) can`t be installed. Error = %d",
-                    upgrade_id.c_str(), item.m_section_id.c_str(), item.object_id(), res);
+                Msg("- Upgrade <%s> of inventory item [%s] (id = %d) can`t be installed. Error = %d", upgrade_id.c_str(), item.m_section_id.c_str(), item.object_id(), res);
             }
             return false;
         }
@@ -426,7 +403,7 @@ namespace inventory
         {
             Upgrade* upgrade = NULL;
 
-            Root* root_p = get_root(item.m_section_id);
+            Root*    root_p  = get_root(item.m_section_id);
             if (root_p)
             {
                 upgrade = root_p->get_upgrade_by_index(index);
@@ -436,11 +413,7 @@ namespace inventory
                 }
             }
 
-            VERIFY2(
-                upgrade,
-                make_string(
-                    "! Upgrade with index <%d,%d> in inventory item [%s] does not exist!", index.x, index.y,
-                    item.m_section_id.c_str()));
+            VERIFY2(upgrade, make_string("! Upgrade with index <%d,%d> in inventory item [%s] does not exist!", index.x, index.y, item.m_section_id.c_str()));
             return NULL;
         }
 
@@ -448,8 +421,8 @@ namespace inventory
 
         bool Manager::compute_range(LPCSTR parameter, float& low, float& high)
         {
-            low  = flt_max;
-            high = flt_min;
+            low                     = flt_max;
+            high                    = flt_min;
 
             Roots_type::iterator ib = m_roots.begin();
             Roots_type::iterator ie = m_roots.end();

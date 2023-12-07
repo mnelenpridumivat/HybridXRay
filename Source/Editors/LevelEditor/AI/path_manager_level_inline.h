@@ -8,25 +8,15 @@
 
 #pragma once
 
-#define TEMPLATE_SPECIALIZATION \
-    template <typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
+#define TEMPLATE_SPECIALIZATION template<typename _DataStorage, typename _dist_type, typename _index_type, typename _iteration_type>
 
-#define CLevelPathManager                                                                                              \
-    CPathManager<                                                                                                      \
-        ILevelGraph, _DataStorage, SBaseParameters<_dist_type, _index_type, _iteration_type>, _dist_type, _index_type, \
-        _iteration_type>
+#define CLevelPathManager       CPathManager<ILevelGraph, _DataStorage, SBaseParameters<_dist_type, _index_type, _iteration_type>, _dist_type, _index_type, _iteration_type>
 
 TEMPLATE_SPECIALIZATION
 CLevelPathManager::~CPathManager() {}
 
 TEMPLATE_SPECIALIZATION
-IC void CLevelPathManager::setup(
-    const _Graph*           _graph,
-    _DataStorage*           _data_storage,
-    xr_vector<_index_type>* _path,
-    const _index_type&      _start_node_index,
-    const _index_type&      _goal_node_index,
-    const _Parameters&      parameters)
+IC void CLevelPathManager::setup(const _Graph* _graph, _DataStorage* _data_storage, xr_vector<_index_type>* _path, const _index_type& _start_node_index, const _index_type& _goal_node_index, const _Parameters& parameters)
 {
     inherited::setup(_graph, _data_storage, _path, _start_node_index, _goal_node_index, parameters);
     m_distance_xz     = graph->header().cell_size();
@@ -51,10 +41,7 @@ IC void CLevelPathManager::init()
 }
 
 TEMPLATE_SPECIALIZATION
-IC _dist_type CLevelPathManager::evaluate(
-    const _index_type& node_index1,
-    const _index_type& node_index2,
-    const _Graph::const_iterator& /**i/**/)
+IC _dist_type CLevelPathManager::evaluate(const _index_type& node_index1, const _index_type& node_index2, const _Graph::const_iterator& /**i/**/)
 {
     VERIFY(graph);
 

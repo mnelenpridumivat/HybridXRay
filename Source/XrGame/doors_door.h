@@ -30,8 +30,8 @@ namespace doors
         bool       check_initiator(actor const* initiator) const;
 #endif   // #ifdef DEBUG
 
-        void lock();
-        void unlock();
+        void           lock();
+        void           unlock();
 
         Fvector const& position() const;
         Fmatrix const& get_matrix() const;

@@ -27,10 +27,12 @@ public:
     // virtual		void	net_Export					(NET_Packet& P);
     virtual void PH_A_CrPr();
     // virtual void				Interpolate			();
+
 protected:
     virtual void CreateArtefactActivation();
     virtual void InitializeArtefactRPoint();
     // virtual		BOOL	net_Relevant				();
+
 private:
     bool                        IsMyTeamArtefact();
     typedef CArtefact           inherited;

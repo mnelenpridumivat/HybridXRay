@@ -7,8 +7,10 @@ class bnon_copy
 {
 protected:
     bnon_copy() {}
+
 protected:
     bnon_copy(const bnon_copy&) {}
+
 protected:
     const bnon_copy& operator=(const bnon_copy&)
     {
@@ -27,6 +29,7 @@ public:
         eFalloff,
         eFORCEDWORD = u32(-1)
     };
+
 public:
     float    blendAmount;
     float    timeCurrent;
@@ -34,8 +37,10 @@ public:
     MotionID motionID;
     u16      bone_or_part;   // startup parameters
     u8       channel;
+
 private:
     ECurvature blend;
+
 public:
     float        blendAccrue;    // increasing
     float        blendFalloff;   // decreasing

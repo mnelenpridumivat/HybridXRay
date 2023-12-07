@@ -14,8 +14,7 @@ void turn_zone()
         g_zone->turn_on_script();
 }
 */
-CZoneCampfire::CZoneCampfire():
-    m_pDisabledParticles(NULL), m_pEnablingParticles(NULL), m_turned_on(true), m_turn_time(0)
+CZoneCampfire::CZoneCampfire(): m_pDisabledParticles(NULL), m_pEnablingParticles(NULL), m_turned_on(true), m_turn_time(0)
 {
     //.	g_zone = this;
 }
@@ -102,9 +101,7 @@ void CZoneCampfire::shedule_Update(u32 dt)
     if (m_pIdleParticles)
     {
         Fvector vel;
-        vel.mul(
-            GamePersistent().EnvironmentAsCOP()->wind_blast_direction,
-            GamePersistent().EnvironmentAsCOP()->wind_strength_factor);
+        vel.mul(GamePersistent().EnvironmentAsCOP()->wind_blast_direction, GamePersistent().EnvironmentAsCOP()->wind_strength_factor);
         m_pIdleParticles->UpdateParent(XFORM(), vel);
     }
     inherited::shedule_Update(dt);
@@ -161,9 +158,7 @@ void CZoneCampfire::UpdateWorkload(u32 dt)
             int    frame = 0;
             u32    clr   = m_pIdleLAnim->CalculateBGR(Device->fTimeGlobal, frame);
             Fcolor fclr;
-            fclr.set(
-                ((float)color_get_B(clr) / 255.f) * k, ((float)color_get_G(clr) / 255.f) * k,
-                ((float)color_get_R(clr) / 255.f) * k, 1.f);
+            fclr.set(((float)color_get_B(clr) / 255.f) * k, ((float)color_get_G(clr) / 255.f) * k, ((float)color_get_R(clr) / 255.f) * k, 1.f);
 
             float range = m_fIdleLightRange + 0.25f * ::Random.randF(-1.f, 1.f);
             range *= k;

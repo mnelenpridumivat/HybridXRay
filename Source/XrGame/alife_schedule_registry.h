@@ -13,8 +13,7 @@
 #include "ai_debug.h"
 #include "profiler.h"
 
-class CALifeScheduleRegistry:
-    public CSafeMapIterator<ALife::_OBJECT_ID, CSE_ALifeSchedulable, std::less<ALife::_OBJECT_ID>, false>
+class CALifeScheduleRegistry: public CSafeMapIterator<ALife::_OBJECT_ID, CSE_ALifeSchedulable, std::less<ALife::_OBJECT_ID>, false>
 {
 private:
     struct CUpdatePredicate
@@ -22,7 +21,7 @@ private:
         u32         m_count;
         mutable u32 m_current;
 
-        IC CUpdatePredicate(const u32& count)
+        IC          CUpdatePredicate(const u32& count)
         {
             m_count   = count;
             m_current = 0;

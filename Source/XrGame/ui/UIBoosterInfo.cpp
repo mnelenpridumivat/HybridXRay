@@ -29,22 +29,9 @@ CUIBoosterInfo::~CUIBoosterInfo()
     xr_delete(m_Prop_line);
 }
 
-LPCSTR boost_influence_caption[] = {
-    "ui_inv_health",
-    "ui_inv_power",
-    "ui_inv_radiation",
-    "ui_inv_bleeding",
-    "ui_inv_outfit_additional_weight",
-    "ui_inv_outfit_radiation_protection",
-    "ui_inv_outfit_telepatic_protection",
-    "ui_inv_outfit_chemical_burn_protection",
-    "ui_inv_outfit_burn_immunity",
-    "ui_inv_outfit_shock_immunity",
-    "ui_inv_outfit_radiation_immunity",
-    "ui_inv_outfit_telepatic_immunity",
-    "ui_inv_outfit_chemical_burn_immunity"};
+LPCSTR boost_influence_caption[] = {"ui_inv_health", "ui_inv_power", "ui_inv_radiation", "ui_inv_bleeding", "ui_inv_outfit_additional_weight", "ui_inv_outfit_radiation_protection", "ui_inv_outfit_telepatic_protection", "ui_inv_outfit_chemical_burn_protection", "ui_inv_outfit_burn_immunity", "ui_inv_outfit_shock_immunity", "ui_inv_outfit_radiation_immunity", "ui_inv_outfit_telepatic_immunity", "ui_inv_outfit_chemical_burn_immunity"};
 
-void CUIBoosterInfo::InitFromXml(CUIXml& xml)
+void   CUIBoosterInfo::InitFromXml(CUIXml& xml)
 {
     LPCSTR    base        = "booster_params";
     XML_NODE* stored_root = xml.GetLocalRoot();
@@ -108,9 +95,9 @@ void CUIBoosterInfo::SetInfo(shared_str const& section)
 
     CEntityCondition::BOOSTER_MAP boosters = actor->conditions().GetCurBoosterInfluences();
 
-    float    val = 0.0f, max_val = 1.0f;
-    Fvector2 pos;
-    float    h = m_Prop_line->GetWndPos().y + m_Prop_line->GetWndSize().y;
+    float                         val = 0.0f, max_val = 1.0f;
+    Fvector2                      pos;
+    float                         h = m_Prop_line->GetWndPos().y + m_Prop_line->GetWndSize().y;
 
     for (u32 i = 0; i < eBoostExplImmunity; ++i)
     {
@@ -226,10 +213,10 @@ void UIBoosterInfoItem::Init(CUIXml& xml, LPCSTR section)
     CUIXmlInit::InitWindow(xml, section, 0, this);
     xml.SetLocalRoot(xml.NavigateToNode(section));
 
-    m_caption   = UIHelper::CreateStatic(xml, "caption", this);
-    m_value     = UIHelper::CreateTextWnd(xml, "value", this);
-    m_magnitude = xml.ReadAttribFlt("value", 0, "magnitude", 1.0f);
-    m_show_sign = (xml.ReadAttribInt("value", 0, "show_sign", 1) == 1);
+    m_caption       = UIHelper::CreateStatic(xml, "caption", this);
+    m_value         = UIHelper::CreateTextWnd(xml, "value", this);
+    m_magnitude     = xml.ReadAttribFlt("value", 0, "magnitude", 1.0f);
+    m_show_sign     = (xml.ReadAttribInt("value", 0, "show_sign", 1) == 1);
 
     LPCSTR unit_str = xml.ReadAttrib("value", 0, "unit_str", "");
     m_unit_str._set(CStringTable().translate(unit_str));

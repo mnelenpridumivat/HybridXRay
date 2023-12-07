@@ -41,9 +41,7 @@ using namespace IceMaths;
 // Cast operator
 Matrix3x3::operator Matrix4x4() const
 {
-    return Matrix4x4(
-        m[0][0], m[0][1], m[0][2], 0.0f, m[1][0], m[1][1], m[1][2], 0.0f, m[2][0], m[2][1], m[2][2], 0.0f, 0.0f, 0.0f,
-        0.0f, 1.0f);
+    return Matrix4x4(m[0][0], m[0][1], m[0][2], 0.0f, m[1][0], m[1][1], m[1][2], 0.0f, m[2][0], m[2][1], m[2][2], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +80,7 @@ Matrix3x3& Matrix3x3::FromTo(const Point& from, const Point& to)
         // Normalize "left"
         Left.Normalize();
 
-        Point Up = Left ^ from;
+        Point Up  = Left ^ from;
         /* now we have a coordinate system, i.e., a basis;    */
         /* M=(from, up, left), and we want to rotate to:      */
         /* N=(-from, up, -left). This is done with the matrix:*/
@@ -108,15 +106,15 @@ Matrix3x3& Matrix3x3::FromTo(const Point& from, const Point& to)
         float lxz = -Left.x * Left.z;
         float lyz = -Left.y * Left.z;
         // symmetric matrix
-        m[0][0] = fxx + uxx + lxx;
-        m[1][0] = fxy + uxy + lxy;
-        m[2][0] = fxz + uxz + lxz;
-        m[0][1] = m[1][0];
-        m[1][1] = fyy + uyy + lyy;
-        m[2][1] = fyz + uyz + lyz;
-        m[0][2] = m[2][0];
-        m[1][2] = m[2][1];
-        m[2][2] = fzz + uzz + lzz;
+        m[0][0]   = fxx + uxx + lxx;
+        m[1][0]   = fxy + uxy + lxy;
+        m[2][0]   = fxz + uxz + lxz;
+        m[0][1]   = m[1][0];
+        m[1][1]   = fyy + uyy + lyy;
+        m[2][1]   = fyz + uyz + lyz;
+        m[0][2]   = m[2][0];
+        m[1][2]   = m[2][1];
+        m[2][2]   = fzz + uzz + lzz;
     }
     else   // the most common case, unless "from"="to", or "from"=-"to"
     {

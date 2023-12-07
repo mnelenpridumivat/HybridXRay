@@ -20,17 +20,11 @@ IC CGraphEngineEditor::~CGraphEngineEditor()
     xr_delete(m_algorithm);
 }
 
-template <typename _Graph, typename _Parameters> IC bool CGraphEngineEditor::search(
-    const _Graph&           graph,
-    const _index_type&      start_node,
-    const _index_type&      dest_node,
-    xr_vector<_index_type>* node_path,
-    const _Parameters&      parameters)
+template<typename _Graph, typename _Parameters> IC bool CGraphEngineEditor::search(const _Graph& graph, const _index_type& start_node, const _index_type& dest_node, xr_vector<_index_type>* node_path, const _Parameters& parameters)
 {
-    typedef CPathManager<_Graph, CAlgorithm::CDataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
-        CPathManagerGeneric;
+    typedef CPathManager<_Graph, CAlgorithm::CDataStorage, _Parameters, _dist_type, _index_type, _iteration_type> CPathManagerGeneric;
 
-    CPathManagerGeneric path_manager;
+    CPathManagerGeneric                                                                                           path_manager;
 
     path_manager.setup(&graph, &m_algorithm->data_storage(), node_path, start_node, dest_node, parameters);
 
@@ -39,17 +33,11 @@ template <typename _Graph, typename _Parameters> IC bool CGraphEngineEditor::sea
     return (successfull);
 }
 
-template <typename _Graph, typename _Parameters> IC bool CGraphEngineEditor::search(
-    const _Graph&           graph,
-    const _index_type&      start_node,
-    const _index_type&      dest_node,
-    xr_vector<_index_type>* node_path,
-    _Parameters&            parameters)
+template<typename _Graph, typename _Parameters> IC bool CGraphEngineEditor::search(const _Graph& graph, const _index_type& start_node, const _index_type& dest_node, xr_vector<_index_type>* node_path, _Parameters& parameters)
 {
-    typedef CPathManager<_Graph, CAlgorithm::CDataStorage, _Parameters, _dist_type, _index_type, _iteration_type>
-        CPathManagerGeneric;
+    typedef CPathManager<_Graph, CAlgorithm::CDataStorage, _Parameters, _dist_type, _index_type, _iteration_type> CPathManagerGeneric;
 
-    CPathManagerGeneric path_manager;
+    CPathManagerGeneric                                                                                           path_manager;
 
     path_manager.setup(&graph, &m_algorithm->data_storage(), node_path, start_node, dest_node, parameters);
 
@@ -58,13 +46,7 @@ template <typename _Graph, typename _Parameters> IC bool CGraphEngineEditor::sea
     return (successfull);
 }
 
-template <typename _Graph, typename _Parameters, typename _PathManager> IC bool CGraphEngineEditor::search(
-    const _Graph&           graph,
-    const _index_type&      start_node,
-    const _index_type&      dest_node,
-    xr_vector<_index_type>* node_path,
-    const _Parameters&      parameters,
-    _PathManager&           path_manager)
+template<typename _Graph, typename _Parameters, typename _PathManager> IC bool CGraphEngineEditor::search(const _Graph& graph, const _index_type& start_node, const _index_type& dest_node, xr_vector<_index_type>* node_path, const _Parameters& parameters, _PathManager& path_manager)
 {
     path_manager.setup(&graph, &m_algorithm->data_storage(), node_path, start_node, dest_node, parameters);
 

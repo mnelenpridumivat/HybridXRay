@@ -83,6 +83,7 @@ protected:
     virtual BOOL _PickBoneHW4W(IKinematics::pick_result& r, float range, const Fvector& S, const Fvector& D, Fvisual* V, u16* indices, CBoneData::FacesVec& faces) = 0;
 
     virtual BOOL _PickBone(IKinematics::pick_result& r, float range, const Fvector& S, const Fvector& D, Fvisual* V, u16 bone_id, u32 iBase, u32 iCount)           = 0;
+
 public:
     BOOL has_visible_bones();
     CSkeletonX()
@@ -101,6 +102,7 @@ public:
     virtual void FillVertices(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, u16 bone_id) = 0;
 
 #if defined(USE_DX10) || defined(USE_DX11)
+
 protected:
     void          _DuplicateIndices(const char* N, IReader* data);
 

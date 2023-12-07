@@ -42,8 +42,8 @@ TUI::TUI()
     m_SelectionRect           = false;
     bMouseInUse               = false;
 
-    m_bHintShowing = false;
-    m_LastHint     = "";
+    m_bHintShowing            = false;
+    m_LastHint                = "";
     m_Size.set(1280, 800);
 }
 //---------------------------------------------------------------------------
@@ -132,7 +132,7 @@ void TUI::MousePress(TShiftState Shift, int X, int Y)
     if (m_MouseCaptured)
         return;
 
-    bMouseInUse = true;
+    bMouseInUse  = true;
 
     m_ShiftState = Shift;
 
@@ -414,7 +414,7 @@ void TUI::PrepareRedraw()
     RCache.set_xform_world(Fidentity);
 }
 extern ENGINE_API BOOL g_bRendering;
-void TUI::Redraw()
+void                   TUI::Redraw()
 {
     PrepareRedraw();
     try
@@ -428,7 +428,7 @@ void TUI::Redraw()
             RT.create("rt_color", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, HW.Caps.fTarget);
             ZB.create("rt_depth", RTSize.x * EDevice->m_ScreenQuality, RTSize.y * EDevice->m_ScreenQuality, D3DFORMAT::D3DFMT_D24X8);
             m_Flags.set(flRedraw, TRUE);
-            EDevice->fASPECT = ((float)RTSize.y) / ((float)RTSize.x);
+            EDevice->fASPECT   = ((float)RTSize.y) / ((float)RTSize.x);
 
             EDevice->m_fNearer = EDevice->mProject._43;
             EDevice->fWidth_2  = GetRenderWidth() / 2.f;
@@ -640,7 +640,7 @@ bool TUI::OnCreate()
     // Creation
     ETOOLS::ray_options(CDB::OPT_ONLYNEAREST | CDB::OPT_CULL);
 
-    pInput = xr_new<CInput>(FALSE, all_device_key);
+    pInput  = xr_new<CInput>(FALSE, all_device_key);
 
     Console = xr_new<CConsole>();
     Console->Initialize();

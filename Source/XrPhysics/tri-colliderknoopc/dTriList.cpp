@@ -7,7 +7,7 @@
 #include "dcTriListCollider.cpp"   // Allow inlining
 // #include "../gameobject.h"
 
-int dTriListClass = -1;
+int                dTriListClass = -1;
 
 dcTriListCollider* GetData(dxGeom* TriList)
 {
@@ -119,7 +119,7 @@ void dGeomTriListSetCallback(dGeomID g, dTriCallback* Callback)
 {
     dxTriList* Data = (dxTriList*)dGeomGetClassData(g);
 
-    Data->Callback = Callback;
+    Data->Callback  = Callback;
 }
 
 dTriCallback* dGeomTriListGetCallback(dGeomID g)
@@ -131,7 +131,7 @@ dTriCallback* dGeomTriListGetCallback(dGeomID g)
 
 void dGeomTriListSetArrayCallback(dGeomID g, dTriArrayCallback* ArrayCallback)
 {
-    dxTriList* Data = (dxTriList*)dGeomGetClassData(g);
+    dxTriList* Data     = (dxTriList*)dGeomGetClassData(g);
 
     Data->ArrayCallback = ArrayCallback;
 }
@@ -149,16 +149,16 @@ dxGeom* dCreateTriList(dSpaceID space, dTriCallback* Callback, dTriArrayCallback
     {
         dGeomClass c;
 
-        c.bytes = sizeof(dxTriList);
+        c.bytes       = sizeof(dxTriList);
 
-        c.collider = &dTriListColliderFn;
+        c.collider    = &dTriListColliderFn;
 
-        c.aabb = &dInfiniteAABB;
+        c.aabb        = &dInfiniteAABB;
 
-        c.aabb_test = &dAABBTestTL;
+        c.aabb_test   = &dAABBTestTL;
 
         //	c.aabb_test=NULL;
-        c.dtor = &dDestroyTriList;
+        c.dtor        = &dDestroyTriList;
 
         dTriListClass = dCreateGeomClass(&c);
     }
@@ -168,13 +168,13 @@ dxGeom* dCreateTriList(dSpaceID space, dTriCallback* Callback, dTriArrayCallback
     if (space)
         dSpaceAdd(space, g);
 
-    dxTriList* Data = (dxTriList*)dGeomGetClassData(g);
+    dxTriList* Data     = (dxTriList*)dGeomGetClassData(g);
 
-    Data->Callback = Callback;
+    Data->Callback      = Callback;
 
     Data->ArrayCallback = ArrayCallback;
 
-    Data->Collider = xr_new<dcTriListCollider>(g);
+    Data->Collider      = xr_new<dcTriListCollider>(g);
 
     return g;
 }

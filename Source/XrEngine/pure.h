@@ -44,7 +44,7 @@ struct _REG_INFO
 
 // ENGINE_API extern int	__cdecl	_REG_Compare(const void *, const void *);
 
-template <class T> class CRegistrator   // the registrator itself
+template<class T> class CRegistrator   // the registrator itself
 {
     //	friend ENGINE_API int	__cdecl	_REG_Compare(const void *, const void *);
     static int __cdecl _REG_Compare(const void* e1, const void* e2)
@@ -59,8 +59,8 @@ public:
     // constructor
     struct
     {
-        u32 in_process : 1;
-        u32 changed : 1;
+        u32 in_process:1;
+        u32 changed   :1;
     };
     CRegistrator()
     {

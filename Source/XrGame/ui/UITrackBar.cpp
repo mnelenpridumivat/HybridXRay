@@ -7,8 +7,7 @@
 
 #define DEF_CONTROL_HEIGHT 16.0f
 
-CUITrackBar::CUITrackBar():
-    m_f_min(0), m_f_max(1), m_f_val(0), m_f_opt_backup_value(0), m_f_step(0.01f), m_b_is_float(true), m_b_invert(false)
+CUITrackBar::CUITrackBar(): m_f_min(0), m_f_max(1), m_f_val(0), m_f_opt_backup_value(0), m_f_step(0.01f), m_b_is_float(true), m_b_invert(false)
 {
     m_pSlider = xr_new<CUI3tButton>();
     AttachChild(m_pSlider);
@@ -22,7 +21,8 @@ bool CUITrackBar::OnMouseAction(float x, float y, EUIMessages mouse_action)
 
     switch (mouse_action)
     {
-        case WINDOW_MOUSE_MOVE: {
+        case WINDOW_MOUSE_MOVE:
+        {
             if (m_bCursorOverWindow && m_b_mouse_capturer)
             {
                 if (pInput->iGetAsyncBtnState(0))
@@ -30,18 +30,21 @@ bool CUITrackBar::OnMouseAction(float x, float y, EUIMessages mouse_action)
             }
         }
         break;
-        case WINDOW_LBUTTON_DOWN: {
+        case WINDOW_LBUTTON_DOWN:
+        {
             m_b_mouse_capturer = m_bCursorOverWindow;
             if (m_b_mouse_capturer)
                 UpdatePosRelativeToMouse();
         }
         break;
 
-        case WINDOW_LBUTTON_UP: {
+        case WINDOW_LBUTTON_UP:
+        {
             m_b_mouse_capturer = false;
         }
         break;
-        case WINDOW_MOUSE_WHEEL_UP: {
+        case WINDOW_MOUSE_WHEEL_UP:
+        {
             if (m_b_is_float)
             {
                 m_f_val -= GetInvert() ? -m_f_step : m_f_step;
@@ -57,7 +60,8 @@ bool CUITrackBar::OnMouseAction(float x, float y, EUIMessages mouse_action)
             OnChangedOptValue();
         }
         break;
-        case WINDOW_MOUSE_WHEEL_DOWN: {
+        case WINDOW_MOUSE_WHEEL_DOWN:
+        {
             if (m_b_is_float)
             {
                 m_f_val += GetInvert() ? -m_f_step : m_f_step;
@@ -92,8 +96,7 @@ void CUITrackBar::InitTrackBar(Fvector2 pos, Fvector2 size)
 
     item_width *= UI().get_current_kx();
 
-    m_pSlider->InitButton(
-        Fvector2().set(0.0f, 0.0f) /*(size.y - item_height)/2.0f)*/, Fvector2().set(item_width, item_height));   // size
+    m_pSlider->InitButton(Fvector2().set(0.0f, 0.0f) /*(size.y - item_height)/2.0f)*/, Fvector2().set(item_width, item_height));   // size
     m_pSlider->InitTexture("ui_inGame2_opt_slider_box");
 
     SetCurrentState(S_Enabled);
@@ -214,13 +217,13 @@ void CUITrackBar::UpdatePosRelativeToMouse()
     float __fmin  = (m_b_is_float) ? m_f_min : (float)m_i_min;
     float __fstep = (m_b_is_float) ? m_f_step : (float)m_i_step;
 
-    __fval = (__fmax - __fmin) * (fpos - btn_width / 2) / (window_width - btn_width) + __fmin;
+    __fval        = (__fmax - __fmin) * (fpos - btn_width / 2) / (window_width - btn_width) + __fmin;
 
-    float _d = (__fval - __fmin);
+    float _d      = (__fval - __fmin);
 
-    float _v  = _d / __fstep;
-    int   _vi = iFloor(_v);
-    float _vf = __fstep * _vi;
+    float _v      = _d / __fstep;
+    int   _vi     = iFloor(_v);
+    float _vf     = __fstep * _vi;
 
     if (_d - _vf > __fstep / 2.0f)
         _vf += __fstep;
@@ -256,11 +259,9 @@ void CUITrackBar::UpdatePos()
 #ifdef DEBUG
 
     if (m_b_is_float)
-        R_ASSERT2(
-            m_f_val >= m_f_min && m_f_val <= m_f_max, "CUITrackBar::UpdatePos() - m_val >= m_min && m_val <= m_max");
+        R_ASSERT2(m_f_val >= m_f_min && m_f_val <= m_f_max, "CUITrackBar::UpdatePos() - m_val >= m_min && m_val <= m_max");
     else
-        R_ASSERT2(
-            m_i_val >= m_i_min && m_i_val <= m_i_max, "CUITrackBar::UpdatePos() - m_val >= m_min && m_val <= m_max");
+        R_ASSERT2(m_i_val >= m_i_min && m_i_val <= m_i_max, "CUITrackBar::UpdatePos() - m_val >= m_min && m_val <= m_max");
 
 #endif
 
@@ -269,11 +270,11 @@ void CUITrackBar::UpdatePos()
     float    free_space   = window_width - btn_width;
     Fvector2 pos          = m_pSlider->GetWndPos();
 
-    float __fval = (m_b_is_float) ? m_f_val : (float)m_i_val;
-    float __fmax = (m_b_is_float) ? m_f_max : (float)m_i_max;
-    float __fmin = (m_b_is_float) ? m_f_min : (float)m_i_min;
+    float    __fval       = (m_b_is_float) ? m_f_val : (float)m_i_val;
+    float    __fmax       = (m_b_is_float) ? m_f_max : (float)m_i_max;
+    float    __fmin       = (m_b_is_float) ? m_f_min : (float)m_i_min;
 
-    pos.x = (__fval - __fmin) * free_space / (__fmax - __fmin);
+    pos.x                 = (__fval - __fmin) * free_space / (__fmax - __fmin);
     if (GetInvert())
         pos.x = free_space - pos.x;
 

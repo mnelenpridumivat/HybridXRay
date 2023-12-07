@@ -60,8 +60,8 @@ void CPHDestroyable::GenSpawnReplace(u16 ref_id, LPCSTR section, shared_str visu
     // init
 
     // Send
-    D->s_name    = section;   //*cNameSect()
-    D->ID_Parent = u16(-1);
+    D->s_name                 = section;   //*cNameSect()
+    D->ID_Parent              = u16(-1);
     InitServerObject(D);
     if (OnServer())
     {
@@ -87,8 +87,8 @@ void CPHDestroyable::InitServerObject(CSE_Abstract* D)
 
     D->set_name_replace("");
     //.	D->s_gameid			=	u8(GameID());
-    D->s_RP = 0xff;
-    D->ID   = 0xffff;
+    D->s_RP       = 0xff;
+    D->ID         = 0xffff;
 
     D->ID_Phantom = 0xffff;
     D->o_Position = obj->Position();
@@ -105,7 +105,7 @@ void CPHDestroyable::PhysicallyRemoveSelf()
 {
     CPhysicsShellHolder* obj = PPhysicsShellHolder();
 
-    CActor* A = smart_cast<CActor*>(obj);
+    CActor*              A   = smart_cast<CActor*>(obj);
     if (A)
     {
         A->character_physics_support()->SetRemoved();
@@ -224,16 +224,16 @@ void CPHDestroyable::NotificatePart(CPHDestroyableNotificate* dn)
     CInifile* own_ini = own_K->LL_UserData();
     CInifile* new_ini = new_K->LL_UserData();
     //////////////////////////////////////////////////////////////////////////////////
-    Fmatrix own_transform;
+    Fmatrix   own_transform;
     own_shell->GetGlobalTransformDynamic(&own_transform);
     new_shell->SetGlTransformDynamic(own_transform);
     ////////////////////////////////////////////////////////////
 
     ////////////////////////////////////////////////////////////////////////////////////
-    float random_min     = 1.f;
-    float random_hit_imp = 1.f;
+    float random_min            = 1.f;
+    float random_hit_imp        = 1.f;
     ////////////////////////////////////////////////////////////////////////////////////
-    u16 ref_bone = own_K->LL_GetBoneRoot();
+    u16   ref_bone              = own_K->LL_GetBoneRoot();
 
     float imp_transition_factor = 1.f;
     float lv_transition_factor  = 1.f;
@@ -327,8 +327,7 @@ void CPHDestroyable::NotificatePart(CPHDestroyableNotificate* dn)
     {
         if (own_ini && own_ini->section_exist("autoremove_parts"))
         {
-            ps->SetAutoRemove(
-                1000 * (READ_IF_EXISTS(own_ini, r_u32, "autoremove_parts", "time", ps->DefaultExitenceTime())));
+            ps->SetAutoRemove(1000 * (READ_IF_EXISTS(own_ini, r_u32, "autoremove_parts", "time", ps->DefaultExitenceTime())));
         }
 
         if (new_ini && new_ini->section_exist("autoremove"))

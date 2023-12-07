@@ -20,11 +20,7 @@ IC CSpaceRestrictionBase& CSpaceRestrictionBridge::object() const
     return (*m_object);
 }
 
-template <typename T> IC u32 CSpaceRestrictionBridge::accessible_nearest(
-    T&             restriction,
-    const Fvector& position,
-    Fvector&       result,
-    bool           out_restriction)
+template<typename T> IC u32 CSpaceRestrictionBridge::accessible_nearest(T& restriction, const Fvector& position, Fvector& result, bool out_restriction)
 {
 #pragma todo("Dima to Dima : _Warning : this place can be optimized in case of a slowdown")
     VERIFY(initialized());
@@ -33,8 +29,8 @@ template <typename T> IC u32 CSpaceRestrictionBridge::accessible_nearest(
 
     float                          min_dist_sqr = flt_max;
     u32                            selected     = u32(-1);
-    xr_vector<u32>::const_iterator I = restriction->accessible_neighbour_border(restriction, out_restriction).begin();
-    xr_vector<u32>::const_iterator E = restriction->accessible_neighbour_border(restriction, out_restriction).end();
+    xr_vector<u32>::const_iterator I            = restriction->accessible_neighbour_border(restriction, out_restriction).begin();
+    xr_vector<u32>::const_iterator E            = restriction->accessible_neighbour_border(restriction, out_restriction).end();
     for (; I != E; ++I)
     {
         VERIFY2(ai().level_graph().valid_vertex_id(*I), make_string("%d", *I));
@@ -45,9 +41,7 @@ template <typename T> IC u32 CSpaceRestrictionBridge::accessible_nearest(
             selected     = *I;
         }
     }
-    VERIFY2(
-        ai().level_graph().valid_vertex_id(selected),
-        make_string("vertex_id[%d], object[%s], position[%f][%f][%f]", selected, *name(), VPUSH(position)));
+    VERIFY2(ai().level_graph().valid_vertex_id(selected), make_string("vertex_id[%d], object[%s], position[%f][%f][%f]", selected, *name(), VPUSH(position)));
 
     {
         min_dist_sqr                             = flt_max;
@@ -130,8 +124,7 @@ template <typename T> IC u32 CSpaceRestrictionBridge::accessible_nearest(
     return (selected);
 }
 
-template <typename T>
-IC const xr_vector<u32>& CSpaceRestrictionBridge::accessible_neighbour_border(T& restriction, bool out_restriction)
+template<typename T> IC const xr_vector<u32>& CSpaceRestrictionBridge::accessible_neighbour_border(T& restriction, bool out_restriction)
 {
     return (object().accessible_neighbour_border(restriction, out_restriction));
 }

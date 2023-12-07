@@ -24,8 +24,8 @@ namespace award_system
         event_action_delegate_t tmp_delegate(this, &reward_event_generator::AddRewardTask);
         m_state_event_checker = xr_new<rewarding_state_events>(m_state_accum, tmp_delegate);
 
-        m_event_handlers     = xr_new<rewarding_event_handlers>(m_state_accum, tmp_delegate);
-        m_best_scores_helper = xr_new<best_scores_helper>(m_state_accum);
+        m_event_handlers      = xr_new<rewarding_event_handlers>(m_state_accum, tmp_delegate);
+        m_best_scores_helper  = xr_new<best_scores_helper>(m_state_accum);
         m_event_handlers->set_null_handler(m_best_scores_helper);
 
         m_state_event_checker->init();
@@ -66,21 +66,13 @@ namespace award_system
         m_event_handlers->OnWeapon_Fire(sender, sender_weapon_id);
     }
 
-    void reward_event_generator::OnBullet_Fire(
-        u16            sender,
-        u16            sender_weapon_id,
-        const Fvector& position,
-        const Fvector& direction)
+    void reward_event_generator::OnBullet_Fire(u16 sender, u16 sender_weapon_id, const Fvector& position, const Fvector& direction)
     {
         m_state_accum->OnBullet_Fire(sender, sender_weapon_id, position, direction);
         m_event_handlers->OnBullet_Fire(sender, sender_weapon_id, position, direction);
     }
 
-    void reward_event_generator::OnBullet_Hit(
-        CObject const* hitter,
-        CObject const* victim,
-        CObject*       weapon,
-        u16 const      bone)
+    void reward_event_generator::OnBullet_Hit(CObject const* hitter, CObject const* victim, CObject* weapon, u16 const bone)
     {
         m_state_accum->OnBullet_Hit(hitter, victim, weapon, bone);
         m_event_handlers->OnBullet_Hit(hitter, victim, weapon, bone);
@@ -122,11 +114,7 @@ namespace award_system
         m_state_event_checker->check_for_events();
     }
 
-    void reward_event_generator::OnPlayerKilled(
-        u16                                     killer_id,
-        u16                                     target_id,
-        u16                                     weapon_id,
-        std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
+    void reward_event_generator::OnPlayerKilled(u16 killer_id, u16 target_id, u16 weapon_id, std::pair<KILL_TYPE, SPECIAL_KILL_TYPE> kill_type)
     {
         m_event_handlers->OnPlayerKilled(killer_id, target_id, weapon_id, kill_type);
         m_state_accum->OnPlayerKilled(killer_id, target_id, weapon_id, kill_type);
@@ -186,8 +174,7 @@ namespace award_system
         }
         if ((m_rewarded >= m_max_rewards) && (m_max_rewards != u32(-1)))
         {
-            Msg("! You have been rewarded by award [%s], but maximum rewards per game reached... sorry :(",
-                gamespy_profile::get_award_name(tmp_award_type));
+            Msg("! You have been rewarded by award [%s], but maximum rewards per game reached... sorry :(", gamespy_profile::get_award_name(tmp_award_type));
             return;
         }
 

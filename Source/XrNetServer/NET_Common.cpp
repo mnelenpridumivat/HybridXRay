@@ -52,9 +52,9 @@ struct MultipacketHeader
 //==============================================================================
 
 static NET_Compressor Compressor;
-static const unsigned MaxMultipacketSize = 32768;
+static const unsigned MaxMultipacketSize         = 32768;
 
-XRNETSERVER_API int psNET_GuaranteedPacketMode = NET_GUARANTEEDPACKET_DEFAULT;
+XRNETSERVER_API int   psNET_GuaranteedPacketMode = NET_GUARANTEEDPACKET_DEFAULT;
 
 //------------------------------------------------------------------------------
 
@@ -72,12 +72,14 @@ void MultipacketSender::SendPacket(const void* packet_data, u32 packet_sz, u32 f
 
     switch (psNET_GuaranteedPacketMode)
     {
-        case NET_GUARANTEEDPACKET_IGNORE: {
+        case NET_GUARANTEEDPACKET_IGNORE:
+        {
             flags &= ~DPNSEND_GUARANTEED;
         }
         break;
 
-        case NET_GUARANTEEDPACKET_SEPARATE: {
+        case NET_GUARANTEEDPACKET_SEPARATE:
+        {
             if (flags & DPNSEND_GUARANTEED)
                 buf = &_gbuf;
         }
@@ -87,8 +89,7 @@ void MultipacketSender::SendPacket(const void* packet_data, u32 packet_sz, u32 f
     u32 old_flags = (buf->last_flags) & (~DPNSEND_IMMEDIATELLY);
     u32 new_flags = flags & (~DPNSEND_IMMEDIATELLY);
 
-    if ((buf->buffer.B.count + packet_sz + sizeof(u16) >= NET_PacketSizeLimit) || (old_flags != new_flags) ||
-        (flags & DPNSEND_IMMEDIATELLY))
+    if ((buf->buffer.B.count + packet_sz + sizeof(u16) >= NET_PacketSizeLimit) || (old_flags != new_flags) || (flags & DPNSEND_IMMEDIATELLY))
     {
         _FlushSendBuffer(timeout, buf);
     }
@@ -132,9 +133,7 @@ void MultipacketSender::_FlushSendBuffer(u32 timeout, Buffer* buf)
         R_ASSERT(comp_sz < sizeof(packet_data) - sizeof(MultipacketHeader));
         R_ASSERT(comp_sz < 65535);
 
-        comp_sz = Compressor.Compress(
-            packet_data + sizeof(MultipacketHeader), sizeof(packet_data) - sizeof(MultipacketHeader),
-            buf->buffer.B.data, buf->buffer.B.count);
+        comp_sz               = Compressor.Compress(packet_data + sizeof(MultipacketHeader), sizeof(packet_data) - sizeof(MultipacketHeader), buf->buffer.B.data, buf->buffer.B.count);
 
         header->tag           = NET_TAG_MERGED;
         header->unpacked_size = (u16)buf->buffer.B.count;
@@ -142,8 +141,7 @@ void MultipacketSender::_FlushSendBuffer(u32 timeout, Buffer* buf)
         // dump/log if needed
 
 #if NET_LOG_PACKETS
-        Msg("#send %smulti-packet %u    flags= %08X", (buf->last_flags & DPNSEND_IMMEDIATELLY) ? "IMMEDIATE " : "",
-            buf->buffer.B.count, buf->last_flags);
+        Msg("#send %smulti-packet %u    flags= %08X", (buf->last_flags & DPNSEND_IMMEDIATELLY) ? "IMMEDIATE " : "", buf->buffer.B.count, buf->last_flags);
 #endif   // NET_LOG_PACKETS
 
         if (strstr(Core.Params, "-dump_traffic"))
@@ -181,8 +179,7 @@ void MultipacketReciever::RecievePacket(const void* packet_data, u32 packet_sz, 
     if (header->tag != NET_TAG_MERGED && header->tag != NET_TAG_NONMERGED)
         return;
 
-    Compressor.Decompress(
-        data, sizeof(data), (u8*)packet_data + sizeof(MultipacketHeader), packet_sz - sizeof(MultipacketHeader));
+    Compressor.Decompress(data, sizeof(data), (u8*)packet_data + sizeof(MultipacketHeader), packet_sz - sizeof(MultipacketHeader));
 
 #if NET_LOG_PACKETS
     Msg("#receive multi-packet %u", packet_sz);

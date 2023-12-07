@@ -7,16 +7,16 @@
 using namespace CDB;
 using namespace Opcode;
 
-template <bool bClass3, bool bFirst> class frustum_collider
+template<bool bClass3, bool bFirst> class frustum_collider
 {
 public:
-    COLLIDER* dest;
-    TRI*      tris;
-    Fvector*  verts;
+    COLLIDER*       dest;
+    TRI*            tris;
+    Fvector*        verts;
 
     const CFrustum* F;
 
-    IC void _init(COLLIDER* CL, Fvector* V, TRI* T, const CFrustum* _F)
+    IC void         _init(COLLIDER* CL, Fvector* V, TRI* T, const CFrustum* _F)
     {
         dest  = CL;
         tris  = T;

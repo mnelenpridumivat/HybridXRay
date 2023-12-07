@@ -25,7 +25,7 @@ enum IBState
     S_Total
 };
 
-template <class T> class CUIInteractiveBackground: public CUIWindow
+template<class T> class CUIInteractiveBackground: public CUIWindow
 {
 public:
     CUIInteractiveBackground();
@@ -38,8 +38,8 @@ public:
         return m_states[state];
     };
 
-    void InitState(IBState state, LPCSTR texture);
-    void SetCurrentState(IBState state);
+    void         InitState(IBState state, LPCSTR texture);
+    void         SetCurrentState(IBState state);
 
     virtual void Draw();
     virtual void SetWidth(float width);
@@ -49,18 +49,18 @@ protected:
     T* m_states[S_Total];
 };
 
-template <class T> CUIInteractiveBackground<T>::CUIInteractiveBackground()
+template<class T> CUIInteractiveBackground<T>::CUIInteractiveBackground()
 {
     ZeroMemory(m_states, S_Total * sizeof(T*));
 }
 
-template <class T> void CUIInteractiveBackground<T>::InitIB(Fvector2 pos, Fvector2 size)
+template<class T> void CUIInteractiveBackground<T>::InitIB(Fvector2 pos, Fvector2 size)
 {
     CUIWindow::SetWndPos(pos);
     CUIWindow::SetWndSize(size);
 }
 
-template <class T> void CUIInteractiveBackground<T>::InitIB(LPCSTR texture, Fvector2 pos, Fvector2 size)
+template<class T> void CUIInteractiveBackground<T>::InitIB(LPCSTR texture, Fvector2 pos, Fvector2 size)
 {
     CUIWindow::SetWndPos(pos);
     CUIWindow::SetWndSize(size);
@@ -68,7 +68,7 @@ template <class T> void CUIInteractiveBackground<T>::InitIB(LPCSTR texture, Fvec
     InitState(S_Enabled, texture);
 }
 
-template <class T> void CUIInteractiveBackground<T>::InitState(IBState state, LPCSTR texture)
+template<class T> void CUIInteractiveBackground<T>::InitState(IBState state, LPCSTR texture)
 {
     Fvector2 size = GetWndSize();
 
@@ -86,27 +86,27 @@ template <class T> void CUIInteractiveBackground<T>::InitState(IBState state, LP
     SetCurrentState(state);
 }
 
-template <class T> void CUIInteractiveBackground<T>::SetCurrentState(IBState state)
+template<class T> void CUIInteractiveBackground<T>::SetCurrentState(IBState state)
 {
     m_states[S_Current] = m_states[state];
     if (!m_states[S_Current])
         m_states[S_Current] = m_states[S_Enabled];
 }
 
-template <class T> void CUIInteractiveBackground<T>::Draw()
+template<class T> void CUIInteractiveBackground<T>::Draw()
 {
     if (m_states[S_Current])
         m_states[S_Current]->Draw();
 }
 
-template <class T> void CUIInteractiveBackground<T>::SetWidth(float width)
+template<class T> void CUIInteractiveBackground<T>::SetWidth(float width)
 {
     for (int i = 0; i < S_Total; ++i)
         if (m_states[i])
             m_states[i]->SetWidth(width);
 }
 
-template <class T> void CUIInteractiveBackground<T>::SetHeight(float height)
+template<class T> void CUIInteractiveBackground<T>::SetHeight(float height)
 {
     for (int i = 0; i < S_Total; ++i)
         if (m_states[i])

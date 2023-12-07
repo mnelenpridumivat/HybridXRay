@@ -28,10 +28,10 @@ protected:
     virtual CPhysicsShellHolder* PPhysicsShellHolder() = 0;
     void                         Init();
 
-    void Clear();
+    void                         Clear();
 
 private:
-    void BoneInsert(u16 id, float k);
+    void              BoneInsert(u16 id, float k);
 
     IC DAMAGE_BONES_I FindBone(u16 id)
     {

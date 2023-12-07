@@ -1,6 +1,6 @@
-// Copyright (c) 2009-2011 Ignacio Castano <castano@gmail.com>
+﻿// Copyright (c) 2009-2011 Ignacio Castano <castano@gmail.com>
 // Copyright (c) 2007-2009 NVIDIA Corporation -- Ignacio Castano <icastano@nvidia.com>
-// 
+//
 // Permission is hereby granted, free of charge, to any person
 // obtaining a copy of this software and associated documentation
 // files (the "Software"), to deal in the Software without
@@ -9,10 +9,10 @@
 // copies of the Software, and to permit persons to whom the
 // Software is furnished to do so, subject to the following
 // conditions:
-// 
+//
 // The above copyright notice and this permission notice shall be
 // included in all copies or substantial portions of the Software.
-// 
+//
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 // EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 // OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -33,57 +33,54 @@
 
 #include "nvmath/ftoi.h"
 
-#include <new> // placement new
+#include <new>   // placement new
 
 using namespace nv;
 using namespace nvtt;
 
-
-void FastCompressorBC4::compressBlock(ColorBlock & src, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private & compressionOptions, void * output)
+void FastCompressorBC4::compressBlock(ColorBlock& src, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private& compressionOptions, void* output)
 {
-	BlockATI1 * block = new(output) BlockATI1;
-	
-    AlphaBlock4x4 tmp;
-    tmp.init(src, 0);  // Copy red to alpha
-	QuickCompress::compressDXT5A(tmp, &block->alpha);
-}
-
-void FastCompressorBC5::compressBlock(ColorBlock & src, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private & compressionOptions, void * output)
-{
-	BlockATI2 * block = new(output) BlockATI2;
-	
-    AlphaBlock4x4 tmp;
-
-    tmp.init(src, 0);  // Copy red to alpha
-	QuickCompress::compressDXT5A(tmp, &block->x);
-	
-    tmp.init(src, 1);  // Copy green to alpha
-	QuickCompress::compressDXT5A(tmp, &block->y);
-}
-
-
-void ProductionCompressorBC4::compressBlock(ColorBlock & src, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private & compressionOptions, void * output)
-{
-	BlockATI1 * block = new(output) BlockATI1;
+    BlockATI1*    block = new (output) BlockATI1;
 
     AlphaBlock4x4 tmp;
-    tmp.init(src, 0);  // Copy red to alpha
-	OptimalCompress::compressDXT5A(tmp, &block->alpha);
+    tmp.init(src, 0);   // Copy red to alpha
+    QuickCompress::compressDXT5A(tmp, &block->alpha);
 }
 
-void ProductionCompressorBC5::compressBlock(ColorBlock & src, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private & compressionOptions, void * output)
+void FastCompressorBC5::compressBlock(ColorBlock& src, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private& compressionOptions, void* output)
 {
-	BlockATI2 * block = new(output) BlockATI2;
+    BlockATI2*    block = new (output) BlockATI2;
 
     AlphaBlock4x4 tmp;
 
-    tmp.init(src, 0);  // Copy red to alpha
-	OptimalCompress::compressDXT5A(tmp, &block->x);
-	
-    tmp.init(src, 1);  // Copy green to alpha
-	OptimalCompress::compressDXT5A(tmp, &block->y);
+    tmp.init(src, 0);   // Copy red to alpha
+    QuickCompress::compressDXT5A(tmp, &block->x);
+
+    tmp.init(src, 1);   // Copy green to alpha
+    QuickCompress::compressDXT5A(tmp, &block->y);
 }
 
+void ProductionCompressorBC4::compressBlock(ColorBlock& src, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private& compressionOptions, void* output)
+{
+    BlockATI1*    block = new (output) BlockATI1;
+
+    AlphaBlock4x4 tmp;
+    tmp.init(src, 0);   // Copy red to alpha
+    OptimalCompress::compressDXT5A(tmp, &block->alpha);
+}
+
+void ProductionCompressorBC5::compressBlock(ColorBlock& src, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private& compressionOptions, void* output)
+{
+    BlockATI2*    block = new (output) BlockATI2;
+
+    AlphaBlock4x4 tmp;
+
+    tmp.init(src, 0);   // Copy red to alpha
+    OptimalCompress::compressDXT5A(tmp, &block->x);
+
+    tmp.init(src, 1);   // Copy green to alpha
+    OptimalCompress::compressDXT5A(tmp, &block->y);
+}
 
 #if 0
 void ProductionCompressorBC5_Luma::compressBlock(ColorSet & set, nvtt::AlphaMode alphaMode, const nvtt::CompressionOptions::Private & compressionOptions, void * output)
@@ -119,4 +116,4 @@ void ProductionCompressorBC5_Luma::compressBlock(ColorSet & set, nvtt::AlphaMode
     OptimalCompress::compressDXT5A(tmp, &block->y);
    
 }
-#endif // 0
+#endif   // 0

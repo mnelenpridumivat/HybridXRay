@@ -21,8 +21,7 @@ void interactive_motion_diagnostic(LPCSTR message, const MotionID& m, CPhysicsSh
     CPhysicsShellHolder* O = smart_cast<CPhysicsShellHolder*>(s->get_ElementByStoreOrder(0)->PhysicsRefObject());
     VERIFY(O);
     LPCSTR motion_name = KA->LL_MotionDefName_dbg(m).first;
-    Msg("death anims - interactive_motion:- %s, motion: %s, obj: %s, model:  %s ", message, motion_name,
-        O->cName().c_str(), O->cNameVisual().c_str());
+    Msg("death anims - interactive_motion:- %s, motion: %s, obj: %s, model:  %s ", message, motion_name, O->cName().c_str(), O->cNameVisual().c_str());
 #endif
 }
 
@@ -64,9 +63,7 @@ void interactive_motion::setup(const MotionID& m, CPhysicsShell* s, float _angle
 #ifdef DEBUG
     IKinematicsAnimated* KA = smart_cast<IKinematicsAnimated*>(s->PKinematics());
     CMotionDef*          MD = KA->LL_GetMotionDef(m);
-    VERIFY2(
-        MD->StopAtEnd(),
-        make_string("can not use cyclic anim in death animth motion: %s", KA->LL_MotionDefName_dbg(m).first));
+    VERIFY2(MD->StopAtEnd(), make_string("can not use cyclic anim in death animth motion: %s", KA->LL_MotionDefName_dbg(m).first));
 
 #endif
     motion = m;

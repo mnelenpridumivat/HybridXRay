@@ -165,15 +165,13 @@ struct OGF: public OGF_Base
         u32              ib_id;
         u32              ib_start;
         u32              sw_id;
-        ogf_container():
-            vb_id(-1), vb_start(-1), ib_id(-1), ib_start(-1), sw_id(-1) {}
+        ogf_container(): vb_id(-1), vb_start(-1), ib_id(-1), ib_start(-1), sw_id(-1) {}
     };
 
     ogf_container<vecOGF_V> data;
     ogf_container<vec_XV>   fast_path_data;
 
-    OGF():
-        OGF_Base(0)
+    OGF(): OGF_Base(0)
     {
         data.m_SWI.count       = 0;
         data.m_SWI.sw          = 0;
@@ -250,8 +248,7 @@ struct OGF_Reference: public OGF_Base
     base_color_c c_scale;
     base_color_c c_bias;
 
-    OGF_Reference():
-        OGF_Base(0)
+    OGF_Reference(): OGF_Base(0)
     {
         model = 0;
     }
@@ -272,8 +269,7 @@ struct OGF_Node: public OGF_Base
 {
     xr_vector<u32> chields;
 
-    OGF_Node(int _L, u16 _Sector):
-        OGF_Base(_L)
+    OGF_Node(int _L, u16 _Sector): OGF_Base(_L)
     {
         Sector = _Sector;
     }
@@ -296,8 +292,7 @@ struct OGF_Node: public OGF_Base
 
 struct OGF_LOD: public OGF_Node
 {
-    OGF_LOD(int _L, u16 _Sector):
-        OGF_Node(_L, _Sector){};
+    OGF_LOD(int _L, u16 _Sector): OGF_Node(_L, _Sector){};
 
     struct _vertex
     {

@@ -42,10 +42,10 @@ extern "C"
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
     // delegates (optional, may be NULL)
-    typedef void (*GSTaskExecuteFunc)(void* theTaskData);
-    typedef void (*GSTaskCallbackFunc)(void* theTaskData, GSTaskResult theResult);
-    typedef void (*GSTaskCancelFunc)(void* theTaskData);
-    typedef gsi_bool (*GSTaskCleanupFunc)(void* theTaskData);   // post run cleanup
+    typedef void         (*GSTaskExecuteFunc)(void* theTaskData);
+    typedef void         (*GSTaskCallbackFunc)(void* theTaskData, GSTaskResult theResult);
+    typedef void         (*GSTaskCancelFunc)(void* theTaskData);
+    typedef gsi_bool     (*GSTaskCleanupFunc)(void* theTaskData);   // post run cleanup
     typedef GSTaskResult (*GSTaskThinkFunc)(void* theTaskData);
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -55,16 +55,16 @@ extern "C"
     //      - When creating a task, you should set only the task data and delegates
     typedef struct
     {
-        int      mId;
-        gsi_time mTimeout;
-        gsi_time mStartTime;
-        gsi_bool mAutoThink;
+        int                mId;
+        gsi_time           mTimeout;
+        gsi_time           mStartTime;
+        gsi_bool           mAutoThink;
 
         // These are not exclusive states (use bit flags?)
-        gsi_i32 mIsStarted;
-        gsi_i32 mIsRunning;
-        gsi_i32 mIsCanceled;
-        gsi_i32 mIsCallbackPending;   // does the task require a callback?
+        gsi_i32            mIsStarted;
+        gsi_i32            mIsRunning;
+        gsi_i32            mIsCanceled;
+        gsi_i32            mIsCallbackPending;   // does the task require a callback?
 
         // delegates
         void*              mTaskData;
@@ -96,16 +96,16 @@ extern "C"
 
     ///////////////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////////////
-    void        gsCoreInitialize(void);
-    void        gsCoreThink(gsi_time theMS);
-    void        gsCoreShutdown(void);
-    GSCoreValue gsCoreIsShutdown(void);
+    void         gsCoreInitialize(void);
+    void         gsCoreThink(gsi_time theMS);
+    void         gsCoreShutdown(void);
+    GSCoreValue  gsCoreIsShutdown(void);
 
     GSTaskResult gsCoreTaskThink(GSTask* theTask);
     void         gsiCoreExecuteTask(GSTask* theTask, gsi_time theTimeoutMs);
     void         gsiCoreCancelTask(GSTask* theTask);
 
-    GSTask* gsiCoreCreateTask(void);
+    GSTask*      gsiCoreCreateTask(void);
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////

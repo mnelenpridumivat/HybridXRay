@@ -122,9 +122,9 @@ matrix applied to my tex0 coords FixTangents,            // fix degenerate bases
 
 ******************************************************************************/
 
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <string>
-#pragma warning(default : 4995)
+#pragma warning(default:4995)
 
 class NVMeshMender
 {
@@ -139,7 +139,7 @@ private:
         unsigned int face;
         unsigned int face2;
 
-        bool operator==(const Edge& rhs) const
+        bool         operator==(const Edge& rhs) const
         {
             return ((v0 == rhs.v0) && (v1 == rhs.v1));
         }
@@ -179,15 +179,15 @@ public:
 
     struct VertexAttribute
     {
-        xr_string Name_;
+        xr_string                Name_;
 
-        typedef xr_vector<int> IntVector;
-        IntVector              intVector_;
+        typedef xr_vector<int>   IntVector;
+        IntVector                intVector_;
 
         typedef xr_vector<float> FloatVector;
         FloatVector              floatVector_;
 
-        VertexAttribute& operator=(const VertexAttribute& rhs)
+        VertexAttribute&         operator=(const VertexAttribute& rhs)
         {
             Name_        = rhs.Name_;
             intVector_   = rhs.intVector_;
@@ -230,22 +230,8 @@ public:
         DontWeightNormalsByFaceSize
     };
 
-    bool NVMeshMender::Munge(
-        const NVMeshMender::VAVector& input,
-        NVMeshMender::VAVector&       output,
-        const float                   bSmoothCreaseAngleRadians = 3.141592654f / 3.0f,
-        const float*                  pTextureMatrix            = 0,
-        const Option                  _FixTangents              = FixTangents,
-        const Option                  _FixCylindricalTexGen     = FixCylindricalTexGen,
-        const Option                  _WeightNormalsByFaceSize  = WeightNormalsByFaceSize);
-    bool NVMeshMender::MungeD3DX(
-        const NVMeshMender::VAVector& input,
-        NVMeshMender::VAVector&       output,
-        const float                   bSmoothCreaseAngleRadians = 3.141592654f / 3.0f,
-        const float*                  pTextureMatrix            = 0,
-        const Option                  _FixTangents              = FixTangents,
-        const Option                  _FixCylindricalTexGen     = FixCylindricalTexGen,
-        const Option                  _WeightNormalsByFaceSize  = WeightNormalsByFaceSize);
+    bool NVMeshMender::Munge(const NVMeshMender::VAVector& input, NVMeshMender::VAVector& output, const float bSmoothCreaseAngleRadians = 3.141592654f / 3.0f, const float* pTextureMatrix = 0, const Option _FixTangents = FixTangents, const Option _FixCylindricalTexGen = FixCylindricalTexGen, const Option _WeightNormalsByFaceSize = WeightNormalsByFaceSize);
+    bool NVMeshMender::MungeD3DX(const NVMeshMender::VAVector& input, NVMeshMender::VAVector& output, const float bSmoothCreaseAngleRadians = 3.141592654f / 3.0f, const float* pTextureMatrix = 0, const Option _FixTangents = FixTangents, const Option _FixCylindricalTexGen = FixCylindricalTexGen, const Option _WeightNormalsByFaceSize = WeightNormalsByFaceSize);
 };
 
 #endif   //_NVMeshMender_H_

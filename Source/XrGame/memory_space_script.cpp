@@ -25,7 +25,7 @@ int get_sound_type(const CSoundObject& sound_object)
     return ((int)sound_object.m_sound_type);
 }
 
-template <typename T> CScriptGameObject* get_memory_object(const MemorySpace::CMemoryObject<T>& memory_object)
+template<typename T> CScriptGameObject* get_memory_object(const MemorySpace::CMemoryObject<T>& memory_object)
 {
     return (memory_object.m_object->lua_game_object());
 }
@@ -91,52 +91,26 @@ void CMemoryInfo::script_register(lua_State* L)
 #endif
             ,
 
-        class_<MemorySpace::CMemoryObject<CEntityAlive>, MemorySpace::SMemoryObject>("entity_memory_object")
-            .def_readonly("object_info", &MemorySpace::CMemoryObject<CEntityAlive>::m_object_params)
-            .def_readonly("self_info", &MemorySpace::CMemoryObject<CEntityAlive>::m_self_params)
-            .def("object", &get_memory_object<CEntityAlive>),
+        class_<MemorySpace::CMemoryObject<CEntityAlive>, MemorySpace::SMemoryObject>("entity_memory_object").def_readonly("object_info", &MemorySpace::CMemoryObject<CEntityAlive>::m_object_params).def_readonly("self_info", &MemorySpace::CMemoryObject<CEntityAlive>::m_self_params).def("object", &get_memory_object<CEntityAlive>),
 
-        class_<MemorySpace::CMemoryObject<CGameObject>, MemorySpace::SMemoryObject>("game_memory_object")
-            .def_readonly("object_info", &MemorySpace::CMemoryObject<CGameObject>::m_object_params)
-            .def_readonly("self_info", &MemorySpace::CMemoryObject<CGameObject>::m_self_params)
-            .def("object", &get_memory_object<CGameObject>),
+        class_<MemorySpace::CMemoryObject<CGameObject>, MemorySpace::SMemoryObject>("game_memory_object").def_readonly("object_info", &MemorySpace::CMemoryObject<CGameObject>::m_object_params).def_readonly("self_info", &MemorySpace::CMemoryObject<CGameObject>::m_self_params).def("object", &get_memory_object<CGameObject>),
 
-        class_<MemorySpace::CHitObject, MemorySpace::CMemoryObject<CEntityAlive>>("hit_memory_object")
-            .def_readonly("direction", &MemorySpace::CHitObject::m_direction)
-            .def_readonly("bone_index", &MemorySpace::CHitObject::m_bone_index)
-            .def_readonly("amount", &MemorySpace::CHitObject::m_amount),
+        class_<MemorySpace::CHitObject, MemorySpace::CMemoryObject<CEntityAlive>>("hit_memory_object").def_readonly("direction", &MemorySpace::CHitObject::m_direction).def_readonly("bone_index", &MemorySpace::CHitObject::m_bone_index).def_readonly("amount", &MemorySpace::CHitObject::m_amount),
 
         class_<MemorySpace::CVisibleObject, MemorySpace::CMemoryObject<CGameObject>>("visible_memory_object")
         //			.def("visible",					&MemorySpace_CVisibleObject_visible)
         ,
 
-        class_<MemorySpace::CMemoryInfo, MemorySpace::CVisibleObject>("memory_info")
-            .def_readonly("visual_info", &MemorySpace::CMemoryInfo::m_visual_info)
-            .def_readonly("sound_info", &MemorySpace::CMemoryInfo::m_sound_info)
-            .def_readonly("hit_info", &MemorySpace::CMemoryInfo::m_hit_info),
+        class_<MemorySpace::CMemoryInfo, MemorySpace::CVisibleObject>("memory_info").def_readonly("visual_info", &MemorySpace::CMemoryInfo::m_visual_info).def_readonly("sound_info", &MemorySpace::CMemoryInfo::m_sound_info).def_readonly("hit_info", &MemorySpace::CMemoryInfo::m_hit_info),
 
-        class_<MemorySpace::CSoundObject, MemorySpace::CMemoryObject<CGameObject>>("sound_memory_object")
-            .def("type", &MemorySpace::CSoundObject::sound_type)
-            .def_readonly("power", &MemorySpace::CSoundObject::m_power),
+        class_<MemorySpace::CSoundObject, MemorySpace::CMemoryObject<CGameObject>>("sound_memory_object").def("type", &MemorySpace::CSoundObject::sound_type).def_readonly("power", &MemorySpace::CSoundObject::m_power),
 
-        class_<MemorySpace::CNotYetVisibleObject>("not_yet_visible_object")
-            .def_readonly("value", &MemorySpace::CNotYetVisibleObject::m_value)
-            .def("object", &not_yet_visible_object),
+        class_<MemorySpace::CNotYetVisibleObject>("not_yet_visible_object").def_readonly("value", &MemorySpace::CNotYetVisibleObject::m_value).def("object", &not_yet_visible_object),
 
         class_<CDangerObject>("danger_object")
-            .enum_("danger_type")
-                [value("bullet_ricochet", CDangerObject::eDangerTypeBulletRicochet),
-                 value("attack_sound", CDangerObject::eDangerTypeAttackSound),
-                 value("entity_attacked", CDangerObject::eDangerTypeEntityAttacked),
-                 value("entity_death", CDangerObject::eDangerTypeEntityDeath),
-                 value("entity_corpse", CDangerObject::eDangerTypeFreshEntityCorpse),
-                 value("attacked", CDangerObject::eDangerTypeAttacked),
-                 value("grenade", CDangerObject::eDangerTypeGrenade),
-                 value("enemy_sound", CDangerObject::eDangerTypeEnemySound)]
-            .enum_("danger_perceive_type")
-                [value("visual", CDangerObject::eDangerPerceiveTypeVisual),
-                 value("sound", CDangerObject::eDangerPerceiveTypeSound),
-                 value("hit", CDangerObject::eDangerPerceiveTypeHit)]
+            .enum_("danger_type")[value("bullet_ricochet", CDangerObject::eDangerTypeBulletRicochet), value("attack_sound", CDangerObject::eDangerTypeAttackSound), value("entity_attacked", CDangerObject::eDangerTypeEntityAttacked), value("entity_death", CDangerObject::eDangerTypeEntityDeath), value("entity_corpse", CDangerObject::eDangerTypeFreshEntityCorpse), value("attacked", CDangerObject::eDangerTypeAttacked), value("grenade", CDangerObject::eDangerTypeGrenade),
+                value("enemy_sound", CDangerObject::eDangerTypeEnemySound)]
+            .enum_("danger_perceive_type")[value("visual", CDangerObject::eDangerPerceiveTypeVisual), value("sound", CDangerObject::eDangerPerceiveTypeSound), value("hit", CDangerObject::eDangerPerceiveTypeHit)]
             .def(const_self == other<CDangerObject>())
             .def("position", &CDangerObject__position)
             .def("time", &CDangerObject::time)

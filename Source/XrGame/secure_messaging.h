@@ -24,8 +24,8 @@ namespace secure_messaging
         static u32 const max_key_length = 32;   // in bytes
         static u32 const min_key_length = 16;
 
-        u32 m_key_length;
-        s32 m_key[max_key_length];
+        u32              m_key_length;
+        s32              m_key[max_key_length];
     };   // struct key_t
 
     u32 const generate_key(s32 const seed, key_t& result_key);

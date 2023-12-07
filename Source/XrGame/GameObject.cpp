@@ -35,7 +35,7 @@
 extern MagicBox3 MagicMinBox(int iQuantity, const Fvector* akPoint);
 
 #pragma warning(push)
-#pragma warning(disable : 4995)
+#pragma warning(disable:4995)
 #include <malloc.h>
 #pragma warning(pop)
 
@@ -160,7 +160,8 @@ void CGameObject::OnEvent(NET_Packet& P, u16 type)
     switch (type)
     {
         case GE_HIT:
-        case GE_HIT_STATISTIC: {
+        case GE_HIT_STATISTIC:
+        {
             /*
                         u16				id,weapon_id;
                         Fvector			dir;
@@ -203,12 +204,14 @@ void CGameObject::OnEvent(NET_Packet& P, u16 type)
             //-------------------------------------------------------
             switch (HDS.PACKET_TYPE)
             {
-                case GE_HIT_STATISTIC: {
+                case GE_HIT_STATISTIC:
+                {
                     if (GameID() != eGameIDSingle)
                         Game().m_WeaponUsageStatistic->OnBullet_Check_Request(&HDS);
                 }
                 break;
-                default: {
+                default:
+                {
                 }
                 break;
             }
@@ -225,11 +228,11 @@ void CGameObject::OnEvent(NET_Packet& P, u16 type)
             //---------------------------------------------------------------------------
         }
         break;
-        case GE_DESTROY: {
+        case GE_DESTROY:
+        {
             if (H_Parent())
             {
-                Msg("! ERROR (GameObject): GE_DESTROY arrived to object[%d][%s], that has parent[%d][%s], frame[%d]",
-                    ID(), cNameSect().c_str(), H_Parent()->ID(), H_Parent()->cName().c_str(), Device->dwFrame);
+                Msg("! ERROR (GameObject): GE_DESTROY arrived to object[%d][%s], that has parent[%d][%s], frame[%d]", ID(), cNameSect().c_str(), H_Parent()->ID(), H_Parent()->cName().c_str(), Device->dwFrame);
 
                 // This object will be destroy on call function <H_Parent::Destroy>
                 // or it will be call <H_Parent::Reject>  ==>  H_Parent = NULL
@@ -252,9 +255,9 @@ void VisualCallback(IKinematics* tpKinematics);
 BOOL CGameObject::net_Spawn(CSE_Abstract* DC)
 {
     VERIFY(!m_spawned);
-    m_spawned     = true;
-    m_spawn_time  = Device->dwFrame;
-    m_ai_obstacle = xr_new<ai_obstacle>(this);
+    m_spawned       = true;
+    m_spawn_time    = Device->dwFrame;
+    m_ai_obstacle   = xr_new<ai_obstacle>(this);
 
     CSE_Abstract* E = (CSE_Abstract*)DC;
     VERIFY(E);
@@ -297,8 +300,7 @@ BOOL CGameObject::net_Spawn(CSE_Abstract* DC)
 #ifdef DEBUG
     if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && stricmp(PH_DBG_ObjectTrackName(), *cName()) == 0)
     {
-        Msg("CGameObject::net_Spawn obj %s Position set from CSE_Abstract %f,%f,%f", PH_DBG_ObjectTrackName(),
-            Position().x, Position().y, Position().z);
+        Msg("CGameObject::net_Spawn obj %s Position set from CSE_Abstract %f,%f,%f", PH_DBG_ObjectTrackName(), Position().x, Position().y, Position().z);
     }
 #endif
     VERIFY(_valid(renderable.xform));
@@ -307,9 +309,8 @@ BOOL CGameObject::net_Spawn(CSE_Abstract* DC)
     if (O && xr_strlen(O->m_ini_string))
     {
 #pragma warning(push)
-#pragma warning(disable : 4238)
-        m_ini_file = xr_new<CInifile>(
-            &IReader((void*)(*(O->m_ini_string)), O->m_ini_string.size()), FS.get_path("$game_config$")->m_Path);
+#pragma warning(disable:4238)
+        m_ini_file = xr_new<CInifile>(&IReader((void*)(*(O->m_ini_string)), O->m_ini_string.size()), FS.get_path("$game_config$")->m_Path);
 #pragma warning(pop)
     }
 
@@ -351,8 +352,7 @@ BOOL CGameObject::net_Spawn(CSE_Abstract* DC)
 #ifdef DEBUG
     if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && stricmp(PH_DBG_ObjectTrackName(), *cName()) == 0)
     {
-        Msg("CGameObject::net_Spawn obj %s After Script Binder reinit %f,%f,%f", PH_DBG_ObjectTrackName(), Position().x,
-            Position().y, Position().z);
+        Msg("CGameObject::net_Spawn obj %s After Script Binder reinit %f,%f,%f", PH_DBG_ObjectTrackName(), Position().x, Position().y, Position().z);
     }
 #endif
     // load custom user data from server
@@ -388,10 +388,8 @@ BOOL CGameObject::net_Spawn(CSE_Abstract* DC)
             validate_ai_locations(false);
 
             // validating position
-            if (UsedAI_Locations() && ai().level_graph().inside(ai_location().level_vertex_id(), Position()) &&
-                can_validate_position_on_spawn())
-                Position().y = EPS_L +
-                    ai().level_graph().vertex_plane_y(*ai_location().level_vertex(), Position().x, Position().z);
+            if (UsedAI_Locations() && ai().level_graph().inside(ai_location().level_vertex_id(), Position()) && can_validate_position_on_spawn())
+                Position().y = EPS_L + ai().level_graph().vertex_plane_y(*ai_location().level_vertex(), Position().x, Position().z);
         }
         else
         {
@@ -411,8 +409,7 @@ BOOL CGameObject::net_Spawn(CSE_Abstract* DC)
 #ifdef DEBUG
     if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && stricmp(PH_DBG_ObjectTrackName(), *cName()) == 0)
     {
-        Msg("CGameObject::net_Spawn obj %s Before CScriptBinder::net_Spawn %f,%f,%f", PH_DBG_ObjectTrackName(),
-            Position().x, Position().y, Position().z);
+        Msg("CGameObject::net_Spawn obj %s Before CScriptBinder::net_Spawn %f,%f,%f", PH_DBG_ObjectTrackName(), Position().x, Position().y, Position().z);
     }
     BOOL ret = CScriptBinder::net_Spawn(DC);
 #else
@@ -422,8 +419,7 @@ BOOL CGameObject::net_Spawn(CSE_Abstract* DC)
 #ifdef DEBUG
     if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && stricmp(PH_DBG_ObjectTrackName(), *cName()) == 0)
     {
-        Msg("CGameObject::net_Spawn obj %s Before CScriptBinder::net_Spawn %f,%f,%f", PH_DBG_ObjectTrackName(),
-            Position().x, Position().y, Position().z);
+        Msg("CGameObject::net_Spawn obj %s Before CScriptBinder::net_Spawn %f,%f,%f", PH_DBG_ObjectTrackName(), Position().x, Position().y, Position().z);
     }
     return ret;
 #endif
@@ -487,8 +483,7 @@ void CGameObject::net_Load(IReader& ireader)
 #ifdef DEBUG
     if (ph_dbg_draw_mask1.test(ph_m1_DbgTrackObject) && stricmp(PH_DBG_ObjectTrackName(), *cName()) == 0)
     {
-        Msg("CGameObject::net_Load obj %s (loaded) %f,%f,%f", PH_DBG_ObjectTrackName(), Position().x, Position().y,
-            Position().z);
+        Msg("CGameObject::net_Load obj %s (loaded) %f,%f,%f", PH_DBG_ObjectTrackName(), Position().x, Position().y, Position().z);
     }
 
 #endif
@@ -515,8 +510,8 @@ void CGameObject::spawn_supplies()
     for (u32 k = 0, j; spawn_ini()->r_line("spawn", k, &N, &V); k++)
     {
         VERIFY(xr_strlen(N));
-        j = 1;
-        p = 1.f;
+        j            = 1;
+        p            = 1.f;
 
         float f_cond = 1.0f;
         if (V && xr_strlen(V))
@@ -541,7 +536,7 @@ void CGameObject::spawn_supplies()
         for (u32 i = 0; i < j; ++i)
             if (::Random.randF(1.f) < p)
             {
-                CSE_Abstract* A = Level().spawn_item(N, Position(), ai_location().level_vertex_id(), ID(), true);
+                CSE_Abstract*           A                 = Level().spawn_item(N, Position(), ai_location().level_vertex_id(), ID(), true);
 
                 CSE_ALifeInventoryItem* pSE_InventoryItem = smart_cast<CSE_ALifeInventoryItem*>(A);
                 if (pSE_InventoryItem)
@@ -591,8 +586,7 @@ void CGameObject::setup_parent_ai_locations(bool assign_position)
     if (!ai().get_level_graph())
         return;
 
-    if (l_tpGameObject->UsedAI_Locations() &&
-        ai().level_graph().valid_vertex_id(l_tpGameObject->ai_location().level_vertex_id()))
+    if (l_tpGameObject->UsedAI_Locations() && ai().level_graph().valid_vertex_id(l_tpGameObject->ai_location().level_vertex_id()))
         ai_location().level_vertex(l_tpGameObject->ai_location().level_vertex_id());
     else
         validate_ai_locations(false);
@@ -671,14 +665,16 @@ void CGameObject::dbg_DrawSkeleton()
             continue;
         switch (I->type)
         {
-            case SBoneShape::stBox: {
+            case SBoneShape::stBox:
+            {
                 Fmatrix M;
                 M.invert(I->b_IM);
                 Fvector h_size = I->b_hsize;
                 Level().debug_renderer().draw_obb(M, h_size, color_rgba(0, 255, 0, 255));
             }
             break;
-            case SBoneShape::stCylinder: {
+            case SBoneShape::stCylinder:
+            {
                 Fmatrix M;
                 M.c.set(I->c_cylinder.m_center);
                 M.k.set(I->c_cylinder.m_direction);
@@ -688,7 +684,8 @@ void CGameObject::dbg_DrawSkeleton()
                 Level().debug_renderer().draw_obb(M, h_size, color_rgba(0, 127, 255, 255));
             }
             break;
-            case SBoneShape::stSphere: {
+            case SBoneShape::stSphere:
+            {
                 Fmatrix l_ball;
                 l_ball.scale(I->s_sphere.R, I->s_sphere.R, I->s_sphere.R);
                 l_ball.translate_add(I->s_sphere.P);
@@ -988,19 +985,9 @@ void CGameObject::create_anim_mov_ctrl(CBlend* b, Fmatrix* start_pose, bool loca
         if (m_anim_mov_ctrl)
             destroy_anim_mov_ctrl();
 
-        VERIFY2(
-            start_pose,
-            make_string(
-                "start pose hasn't been specified for animation [%s][%s]",
-                smart_cast<IKinematicsAnimated&>(*Visual()).LL_MotionDefName_dbg(b->motionID).first,
-                smart_cast<IKinematicsAnimated&>(*Visual()).LL_MotionDefName_dbg(b->motionID).second));
+        VERIFY2(start_pose, make_string("start pose hasn't been specified for animation [%s][%s]", smart_cast<IKinematicsAnimated&>(*Visual()).LL_MotionDefName_dbg(b->motionID).first, smart_cast<IKinematicsAnimated&>(*Visual()).LL_MotionDefName_dbg(b->motionID).second));
 
-        VERIFY2(
-            !animation_movement(),
-            make_string(
-                "start pose hasn't been specified for animation [%s][%s]",
-                smart_cast<IKinematicsAnimated&>(*Visual()).LL_MotionDefName_dbg(b->motionID).first,
-                smart_cast<IKinematicsAnimated&>(*Visual()).LL_MotionDefName_dbg(b->motionID).second));
+        VERIFY2(!animation_movement(), make_string("start pose hasn't been specified for animation [%s][%s]", smart_cast<IKinematicsAnimated&>(*Visual()).LL_MotionDefName_dbg(b->motionID).first, smart_cast<IKinematicsAnimated&>(*Visual()).LL_MotionDefName_dbg(b->motionID).second));
 
         VERIFY(Visual());
         IKinematics* K = Visual()->dcast_PKinematics();
@@ -1057,12 +1044,7 @@ void CGameObject::on_matrix_change(const Fmatrix& previous)
 
 #ifdef DEBUG
 
-void render_box(
-    IRenderVisual* visual,
-    const Fmatrix& xform,
-    const Fvector& additional,
-    bool           draw_child_boxes,
-    const u32&     color)
+void render_box(IRenderVisual* visual, const Fmatrix& xform, const Fvector& additional, bool draw_child_boxes, const u32& color)
 {
     CDebugRenderer& renderer   = Level().debug_renderer();
     IKinematics*    kinematics = smart_cast<IKinematics*>(visual);
@@ -1102,10 +1084,7 @@ void render_box(
         if (draw_child_boxes)
             renderer.draw_obb(matrix, color);
 
-        static const Fvector local_points[8] = {Fvector().set(-1.f, -1.f, -1.f), Fvector().set(-1.f, -1.f, +1.f),
-                                                Fvector().set(-1.f, +1.f, +1.f), Fvector().set(-1.f, +1.f, -1.f),
-                                                Fvector().set(+1.f, +1.f, +1.f), Fvector().set(+1.f, +1.f, -1.f),
-                                                Fvector().set(+1.f, -1.f, +1.f), Fvector().set(+1.f, -1.f, -1.f)};
+        static const Fvector local_points[8] = {Fvector().set(-1.f, -1.f, -1.f), Fvector().set(-1.f, -1.f, +1.f), Fvector().set(-1.f, +1.f, +1.f), Fvector().set(-1.f, +1.f, -1.f), Fvector().set(+1.f, +1.f, +1.f), Fvector().set(+1.f, +1.f, -1.f), Fvector().set(+1.f, -1.f, +1.f), Fvector().set(+1.f, -1.f, -1.f)};
 
         for (u32 i = 0; i < 8; ++i, ++I)
             matrix.transform_tiny(*I, local_points[i]);

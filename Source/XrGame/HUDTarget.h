@@ -16,9 +16,9 @@ struct SPickParam
 class CHUDTarget
 {
 private:
-    ui_shader  hShader;
-    float      fuzzyShowInfo;
-    SPickParam PP;
+    ui_shader     hShader;
+    float         fuzzyShowInfo;
+    SPickParam    PP;
 
     bool          m_bShowCrosshair;
     CHUDCrosshair HUDCrosshair;

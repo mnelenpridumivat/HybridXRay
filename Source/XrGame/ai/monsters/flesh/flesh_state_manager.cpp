@@ -23,8 +23,7 @@ CStateManagerFlesh::CStateManagerFlesh(CAI_Flesh* monster): inherited(monster)
     add_state(eStateRest, xr_new<CStateMonsterRest<CAI_Flesh>>(monster));
     add_state(eStatePanic, xr_new<CStateMonsterPanic<CAI_Flesh>>(monster));
 
-    CStateMonsterAttackMoveToHomePoint<CAI_Flesh>* move2home =
-        xr_new<CStateMonsterAttackMoveToHomePoint<CAI_Flesh>>(monster);
+    CStateMonsterAttackMoveToHomePoint<CAI_Flesh>* move2home = xr_new<CStateMonsterAttackMoveToHomePoint<CAI_Flesh>>(monster);
 
     add_state(eStateAttack, xr_new<CStateMonsterAttack<CAI_Flesh>>(monster, move2home));
 
@@ -46,8 +45,7 @@ void CStateManagerFlesh::execute()
 
         if (enemy)
         {
-            state_id = object->EnemyMan.get_danger_type() == eStrong && !object->HitMemory.is_hit() ? eStatePanic :
-                                                                                                      eStateAttack;
+            state_id = object->EnemyMan.get_danger_type() == eStrong && !object->HitMemory.is_hit() ? eStatePanic : eStateAttack;
         }
         else if (object->HitMemory.is_hit())
         {

@@ -100,8 +100,10 @@ public:
     typedef svector<CDetail*, dm_max_objects>  DetailVec;
     typedef DetailVec::iterator                DetailIt;
     typedef poolSS<SlotItem, 4096>             PSS;
+
 public:
     int dither[16][16];
+
 public:
     // swing values
     struct SSwingValue
@@ -119,11 +121,13 @@ public:
     float       m_time_rot_2;
     float       m_time_pos;
     float       m_global_time_old;
+
 public:
     IReader*     dtFS;
     DetailHeader dtH;
     DetailSlot*  dtSlots;   // note: pointer into VFS
     DetailSlot   DS_empty;
+
 public:
     DetailVec objects;
     vis_list  m_visibles[3];   // 0=still, 1=Wave1, 2=Wave2
@@ -142,6 +146,7 @@ public:
 
     void                          UpdateVisibleM();
     void                          UpdateVisibleS();
+
 public:
 #ifdef REDITOR
     virtual ObjectList* GetSnapList() = 0;
@@ -180,6 +185,7 @@ public:
 #else    //	USE_DX10
     void hw_Render_dump(ref_constant array, u32 var_id, u32 lod_id, u32 c_base);
 #endif   //	USE_DX10
+
 public:
     // get unpacked slot
     DetailSlot& QueryDB(int sx, int sz);

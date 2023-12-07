@@ -9,10 +9,7 @@
 #include "pch.hpp"
 #include "property_string.hpp"
 
-property_string::property_string(string_getter_type const& getter, string_setter_type const& setter):
-    m_getter(new string_getter_type(getter)), m_setter(new string_setter_type(setter))
-{
-}
+property_string::property_string(string_getter_type const& getter, string_setter_type const& setter): m_getter(new string_getter_type(getter)), m_setter(new string_setter_type(setter)) {}
 
 property_string::~property_string()
 {
@@ -33,6 +30,6 @@ System::Object ^ property_string::get_value()
 void property_string::set_value(System::Object ^ object)
 {
     LPSTR result = to_string(safe_cast<System::String ^>(object));
-    (*m_setter)(result);
+          (*m_setter)(result);
     free(result);
 }

@@ -18,32 +18,31 @@ public:
     // allocates relevant TelekineticObject
 
     // активировать объект
-    virtual CTelekineticObject*
-        activate(CPhysicsShellHolder* obj, float strength, float height, u32 max_time_keep, bool rot = true);
+    virtual CTelekineticObject* activate(CPhysicsShellHolder* obj, float strength, float height, u32 max_time_keep, bool rot = true);
 
     // деактивировать все объекты
-    void deactivate();
+    void                        deactivate();
 
     // clear objects (does not call release, but call switch to TS_None)
-    void clear_deactivate();
+    void                        clear_deactivate();
     // clear
-    virtual void clear();
-    virtual void clear_notrelevant();
+    virtual void                clear();
+    virtual void                clear_notrelevant();
     // деактивировать объект
-    void deactivate(CPhysicsShellHolder* obj);
-    void remove_object(TELE_OBJECTS_IT it);
-    void remove_object(CPhysicsShellHolder* obj);
+    void                        deactivate(CPhysicsShellHolder* obj);
+    void                        remove_object(TELE_OBJECTS_IT it);
+    void                        remove_object(CPhysicsShellHolder* obj);
     // бросить все объекты в позицию 'target'
-    void fire_all(const Fvector& target);
+    void                        fire_all(const Fvector& target);
 
     // бросить объект 'obj' в позицию 'target' с учетом коэф силы
-    void fire(CPhysicsShellHolder* obj, const Fvector& target, float power);
+    void                        fire(CPhysicsShellHolder* obj, const Fvector& target, float power);
 
     // бросить объект 'obj' в позицию 'target' с учетом коэф силы
-    void fire_t(CPhysicsShellHolder* obj, const Fvector& target, float time);
+    void                        fire_t(CPhysicsShellHolder* obj, const Fvector& target, float time);
 
     // вернуть активность телекинеза
-    bool is_active()
+    bool                        is_active()
     {
         return active;
     }
@@ -52,10 +51,10 @@ public:
     bool is_active_object(CPhysicsShellHolder* obj);
 
     // вернуть количество контролируемых объектов (в состоянии TS_Raise & TS_Keep)
-    u32 get_objects_count();
+    u32  get_objects_count();
 
     // вернуть количество контролируемых объектов (всех)
-    u32 get_objects_total_count()
+    u32  get_objects_total_count()
     {
         return objects.size();
     }
