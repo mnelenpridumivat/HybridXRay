@@ -716,7 +716,7 @@ void foo	()
 BOOL IsPCAccessAllowed();
 #endif   // DEDICATED_SERVER
 
-ENGINE_API int EngineLaunch(EGamePath Game)
+ENGINE_API int EngineLaunch()
 {
 #ifdef DEDICATED_SERVER
     Debug._initialize(true);
@@ -826,7 +826,7 @@ ENGINE_API int EngineLaunch(EGamePath Game)
 
     compute_build_id();
 
-    Core._initialize("xray", NULL, TRUE, fsgame[0] ? fsgame : NULL, false, Game);
+    Core._initialize("xray", NULL, TRUE, fsgame[0] ? fsgame : NULL, false);
 
     InitSettings();
 

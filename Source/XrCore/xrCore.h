@@ -350,7 +350,7 @@ public:
     bool        Editor;
 
 public:
-    void _initialize(LPCSTR ApplicationName, LogCallback cb = 0, BOOL init_fs = TRUE, LPCSTR fs_fname = 0, bool editor_fs = false, EGamePath Game = EGamePath::NONE);
+    void _initialize(LPCSTR ApplicationName, LogCallback cb = 0, BOOL init_fs = TRUE, LPCSTR fs_fname = 0, bool editor_fs = false);
     void _destroy();
 };
 
