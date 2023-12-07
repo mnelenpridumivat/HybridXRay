@@ -382,7 +382,7 @@ xr_token game_types[] = {{"any_game", eGameIDNoGame}, {"single", eGameIDSingle},
 void     CSE_Abstract::FillProps(LPCSTR pref, PropItemVec& items)
 {
 #ifdef XRSEFACTORY_EXPORTS
-    m_gameType.FillProp(pref, items);
+    CreatePropsForGameTypeChooser(&m_gameType, pref, items);
     PHelper().CreateU16(items, PrepareKey(pref, "Respawn Time (s)"), &RespawnTime, 0, 43200);
 
 #ifdef DEBUG
