@@ -4,13 +4,13 @@
     <Import Project="..\..\xray_ProjectConfigurations.props" />
   </ImportGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrEngine\XrEngine.vcxproj">
+    <ProjectReference Include="..\..\xrEngine\xrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrEUI\XrEUI.vcxproj">
+    <ProjectReference Include="..\xrEUI\xrEUI.vcxproj">
       <Project>{7e28883c-db86-4ee8-813a-991ba20c68c9}</Project>
     </ProjectReference>
   </ItemGroup>
@@ -50,7 +50,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{6D47AFC7-0557-4BBF-8902-B248F3621419}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrEProps</RootNamespace>
+    <RootNamespace>xrEProps</RootNamespace>
+    <ProjectName>xrEProps</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">

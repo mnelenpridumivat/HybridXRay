@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3D3CC439-AABC-4565-99C8-9C53F425380C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrPhysics</RootNamespace>
+    <RootNamespace>xrPhysics</RootNamespace>
+    <ProjectName>xrPhysics</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -248,16 +249,16 @@
     <ProjectReference Include="..\External\Ode\Ode.vcxproj">
       <Project>{eb58439b-1f16-4e81-b0b3-1e1e95ad4901}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCDB\XrCDB.vcxproj">
+    <ProjectReference Include="..\xrCDB\xrCDB.vcxproj">
       <Project>{7e263157-2fc0-42d7-a676-dd6049bb60f5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrEngine\XrEngine.vcxproj">
+    <ProjectReference Include="..\xrEngine\xrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
   </ItemGroup>

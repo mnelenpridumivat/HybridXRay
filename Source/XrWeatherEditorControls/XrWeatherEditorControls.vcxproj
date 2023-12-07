@@ -33,8 +33,9 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A170D052-A69E-48B4-A5A6-1E0EBACDE726}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrWeatherEditorControls</RootNamespace>
+    <RootNamespace>xrWeatherEditorControls</RootNamespace>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <ProjectName>xrWeatherEditorControls</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">

@@ -6,7 +6,7 @@
   <PropertyGroup Label="Globals">
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{50070B16-A65A-481A-AE05-0FD14260351E}</ProjectGuid>
-    <RootNamespace>Xr3DA_COP</RootNamespace>
+    <RootNamespace>HybridXRay</RootNamespace>
     <ProjectName>HybridXRay</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -75,19 +75,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrEngine\XrEngine.vcxproj">
+    <ProjectReference Include="..\xrEngine\xrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrGame\XrGame.vcxproj">
+    <ProjectReference Include="..\xrGame\xrGame.vcxproj">
       <Project>{a95ce1ff-9f86-4f4d-b5c4-6d505bf7a56c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrRender\R4_PC\XrRender_R4.vcxproj">
+    <ProjectReference Include="..\xrRender\R4_PC\xrRender_R4.vcxproj">
       <Project>{61ea3c25-c6eb-4518-b407-d8806ab47f9f}</Project>
     </ProjectReference>
   </ItemGroup>

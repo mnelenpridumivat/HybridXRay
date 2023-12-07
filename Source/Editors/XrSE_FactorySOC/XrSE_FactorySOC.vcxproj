@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{002A905F-B07D-4131-B745-C37D639629FD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrSEFactoryCS</RootNamespace>
+    <RootNamespace>xrSEFactoryCS</RootNamespace>
+    <ProjectName>xrSE_FactorySOC</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -463,19 +464,19 @@
     <ProjectReference Include="..\..\External\Luabind\Luabind.vcxproj">
       <Project>{18c37994-f2f2-46c0-bd55-bc738e8b9d89}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrEngine\XrEngine.vcxproj">
+    <ProjectReference Include="..\..\xrEngine\xrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrXMLParser\XrXMLParser.vcxproj">
+    <ProjectReference Include="..\..\xrXMLParser\xrXMLParser.vcxproj">
       <Project>{39abb344-2136-46c3-814d-8e80bc59a08e}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrEProps\XrEProps.vcxproj">
+    <ProjectReference Include="..\xrEProps\xrEProps.vcxproj">
       <Project>{6d47afc7-0557-4bbf-8902-b248f3621419}</Project>
     </ProjectReference>
   </ItemGroup>

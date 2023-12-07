@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <Keyword>Win32Proj</Keyword>
     <ProjectGuid>{8ebf0db4-c45d-4889-81cc-3c43a967b76c}</ProjectGuid>
-    <RootNamespace>XrAI</RootNamespace>
+    <RootNamespace>xrAI</RootNamespace>
+    <ProjectName>xrAI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -343,16 +344,16 @@
     <ProjectReference Include="..\..\External\RedImage\RedImageTool\RedImageTool.vcxproj">
       <Project>{416e323e-3a4b-41a7-b0f5-7a8ec8517b11}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCDB\XrCDB.vcxproj">
+    <ProjectReference Include="..\..\xrCDB\xrCDB.vcxproj">
       <Project>{7e263157-2fc0-42d7-a676-dd6049bb60f5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrEngine\XrEngine.vcxproj">
+    <ProjectReference Include="..\..\xrEngine\xrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
     <ProjectReference Include="..\FreeMagic\FreeMagic.vcxproj">

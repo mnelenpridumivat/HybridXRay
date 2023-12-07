@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{7E263157-2FC0-42D7-A676-DD6049BB60F5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrCDB</RootNamespace>
+    <RootNamespace>xrCDB</RootNamespace>
+    <ProjectName>xrCDB</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -209,10 +210,10 @@
     <ClInclude Include="xr_collide_defs.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
   </ItemGroup>

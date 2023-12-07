@@ -27,20 +27,21 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCPU_Pipe\XrCPU_Pipe.vcxproj">
+    <ProjectReference Include="..\xrCPU_Pipe\xrCPU_Pipe.vcxproj">
       <Project>{e671b0d4-52f0-471b-90b4-8317946c3c26}</Project>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C50A948D-9175-4388-AE07-0CDAB7FB69C8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrParticles</RootNamespace>
+    <RootNamespace>xrParticles</RootNamespace>
+    <ProjectName>xrParticles</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">

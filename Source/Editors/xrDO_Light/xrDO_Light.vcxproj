@@ -24,10 +24,10 @@
     <ClCompile Include="xrDO_Light.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrLCLight\XrLCLight.vcxproj">
+    <ProjectReference Include="..\xrLCLight\xrLCLight.vcxproj">
       <Project>{a81b25a8-d576-4b25-ac1e-1e6390832395}</Project>
     </ProjectReference>
   </ItemGroup>

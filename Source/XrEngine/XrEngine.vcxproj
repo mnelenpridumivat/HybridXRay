@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{2820680F-79FE-4477-A14C-007F273A5FA8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrEngine</RootNamespace>
+    <RootNamespace>xrEngine</RootNamespace>
+    <ProjectName>xrEngine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -454,19 +455,19 @@
     <ProjectReference Include="..\External\Theora\Theora.vcxproj">
       <Project>{0cbe8406-ae28-414b-b353-cb2d3c4003c8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCDB\XrCDB.vcxproj">
+    <ProjectReference Include="..\xrCDB\xrCDB.vcxproj">
       <Project>{7e263157-2fc0-42d7-a676-dd6049bb60f5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrNetServer\XrNetServer.vcxproj">
+    <ProjectReference Include="..\xrNetServer\xrNetServer.vcxproj">
       <Project>{5a93a01a-05bd-4bf8-8d6e-2a5ae2e0bf14}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrSound\XrSound.vcxproj">
+    <ProjectReference Include="..\xrSound\xrSound.vcxproj">
       <Project>{57601b62-902a-4ec8-bcc7-b6a2e30b0676}</Project>
     </ProjectReference>
   </ItemGroup>

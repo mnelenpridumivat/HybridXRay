@@ -6,8 +6,9 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{77E2E2AC-AC5B-48B8-B6C5-EC5F9F953927}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrWeatherEditor</RootNamespace>
+    <RootNamespace>xrWeatherEditor</RootNamespace>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <ProjectName>xrWeatherEditor</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -303,16 +304,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrEngine\XrEngine.vcxproj">
+    <ProjectReference Include="..\xrEngine\xrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrWeatherEditorControls\XrWeatherEditorControls.vcxproj">
+    <ProjectReference Include="..\xrWeatherEditorControls\xrWeatherEditorControls.vcxproj">
       <Project>{a170d052-a69e-48b4-a5a6-1e0ebacde726}</Project>
     </ProjectReference>
   </ItemGroup>

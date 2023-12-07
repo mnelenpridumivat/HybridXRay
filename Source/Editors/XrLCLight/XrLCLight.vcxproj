@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{A81B25A8-D576-4B25-AC1E-1E6390832395}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrLCLight</RootNamespace>
+    <RootNamespace>xrLCLight</RootNamespace>
+    <ProjectName>xrLCLight</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -277,16 +278,16 @@
     <ProjectReference Include="..\..\External\zlib\zlib.vcxproj">
       <Project>{86d28925-9f85-43ec-980e-e99d7ff2501c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCDB\XrCDB.vcxproj">
+    <ProjectReference Include="..\..\xrCDB\xrCDB.vcxproj">
       <Project>{7e263157-2fc0-42d7-a676-dd6049bb60f5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
     <ProjectReference Include="..\FreeMagic\FreeMagic.vcxproj">
       <Project>{dcc5b76d-be13-4d1f-be14-75d0fa678340}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrDXT\XrDXT.vcxproj">
+    <ProjectReference Include="..\xrDXT\xrDXT.vcxproj">
       <Project>{7c119635-1963-4547-b345-cb7ed7eb2ee4}</Project>
     </ProjectReference>
   </ItemGroup>

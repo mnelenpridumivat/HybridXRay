@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{BB04BACA-763F-46DB-9C3F-8914F99CCF69}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrLC</RootNamespace>
+    <RootNamespace>xrLC</RootNamespace>
+    <ProjectName>xrLC</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -242,25 +243,25 @@
     <ProjectReference Include="..\..\External\zlib\zlib.vcxproj">
       <Project>{86d28925-9f85-43ec-980e-e99d7ff2501c}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCDB\XrCDB.vcxproj">
+    <ProjectReference Include="..\..\xrCDB\xrCDB.vcxproj">
       <Project>{7e263157-2fc0-42d7-a676-dd6049bb60f5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
     <ProjectReference Include="..\FreeMagic\FreeMagic.vcxproj">
       <Project>{dcc5b76d-be13-4d1f-be14-75d0fa678340}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrDXT\XrDXT.vcxproj">
+    <ProjectReference Include="..\xrDXT\xrDXT.vcxproj">
       <Project>{7c119635-1963-4547-b345-cb7ed7eb2ee4}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrETools\XrETools.vcxproj">
+    <ProjectReference Include="..\xrETools\xrETools.vcxproj">
       <Project>{fb040f9f-8344-43da-a4d6-1c8a9d5dbc59}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrLCLight\XrLCLight.vcxproj">
+    <ProjectReference Include="..\xrLCLight\xrLCLight.vcxproj">
       <Project>{a81b25a8-d576-4b25-ac1e-1e6390832395}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\XrQSlim\XrQSlim.vcxproj">
+    <ProjectReference Include="..\xrQSlim\xrQSlim.vcxproj">
       <Project>{f4cd3b2b-16e4-47ef-80a9-b7d20dfc3713}</Project>
     </ProjectReference>
   </ItemGroup>

@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DA642D7C-4FFF-43DC-98F8-3F96CAF1E4BA}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrCore</RootNamespace>
+    <RootNamespace>xrCore</RootNamespace>
+    <ProjectName>xrCore</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -65,7 +66,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>XRCORE_EXPORTS;_WINDOWS;_USRDLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\SDK\tbb\Include;$(SolutionDir)..\SDK\Include;$(SolutionDir)XrRender\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\SDK\tbb\Include;$(SolutionDir)..\SDK\Include;$(SolutionDir)xrRender\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <Optimization>Full</Optimization>
@@ -271,7 +272,7 @@
     <ClInclude Include="_vector4.h" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
   </ItemGroup>

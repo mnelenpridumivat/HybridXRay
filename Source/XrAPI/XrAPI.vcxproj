@@ -19,7 +19,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{FF16EF0A-8A51-4C36-9213-4AA87CB4B317}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrAPI</RootNamespace>
+    <RootNamespace>xrAPI</RootNamespace>
+    <ProjectName>xrAPI</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">

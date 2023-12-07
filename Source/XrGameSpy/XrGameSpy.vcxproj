@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{DF395308-092A-4BFB-8FD3-8E33DD807B06}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrGameSpy</RootNamespace>
+    <RootNamespace>xrGameSpy</RootNamespace>
+    <ProjectName>xrGameSpy</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -1161,7 +1162,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
   </ItemGroup>

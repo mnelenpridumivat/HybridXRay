@@ -6,7 +6,8 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CFF3EDC1-E1E1-4AAC-BD9A-D61A56364DA7}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>XrRenderR2</RootNamespace>
+    <RootNamespace>xrRenderR2</RootNamespace>
+    <ProjectName>xrRender_R2</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">
@@ -55,7 +56,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>lua51.lib;XrEngine.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua51.lib;xrEngine.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -82,7 +83,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <AdditionalDependencies>lua51.lib;XrEngine.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>lua51.lib;xrEngine.lib;d3d9.lib;d3dx9.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -434,22 +435,22 @@
     <ProjectReference Include="..\..\External\Luabind\Luabind.vcxproj">
       <Project>{18c37994-f2f2-46c0-bd55-bc738e8b9d89}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrAPI\XrAPI.vcxproj">
+    <ProjectReference Include="..\..\xrAPI\xrAPI.vcxproj">
       <Project>{ff16ef0a-8a51-4c36-9213-4aa87cb4b317}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCDB\XrCDB.vcxproj">
+    <ProjectReference Include="..\..\xrCDB\xrCDB.vcxproj">
       <Project>{7e263157-2fc0-42d7-a676-dd6049bb60f5}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCore\XrCore.vcxproj">
+    <ProjectReference Include="..\..\xrCore\xrCore.vcxproj">
       <Project>{da642d7c-4fff-43dc-98f8-3f96caf1e4ba}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrCPU_Pipe\XrCPU_Pipe.vcxproj">
+    <ProjectReference Include="..\..\xrCPU_Pipe\xrCPU_Pipe.vcxproj">
       <Project>{e671b0d4-52f0-471b-90b4-8317946c3c26}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrEngine\XrEngine.vcxproj">
+    <ProjectReference Include="..\..\xrEngine\xrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\..\XrParticles\XrParticles.vcxproj">
+    <ProjectReference Include="..\..\xrParticles\xrParticles.vcxproj">
       <Project>{c50a948d-9175-4388-ae07-0cdab7fb69c8}</Project>
     </ProjectReference>
   </ItemGroup>
