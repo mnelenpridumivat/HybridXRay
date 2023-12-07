@@ -84,12 +84,6 @@
     <ProjectReference Include="..\xrEngine\xrEngine.vcxproj">
       <Project>{2820680f-79fe-4477-a14c-007f273a5fa8}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\xrGame\xrGame.vcxproj">
-      <Project>{a95ce1ff-9f86-4f4d-b5c4-6d505bf7a56c}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\xrRender\R4_PC\xrRender_R4.vcxproj">
-      <Project>{61ea3c25-c6eb-4518-b407-d8806ab47f9f}</Project>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
