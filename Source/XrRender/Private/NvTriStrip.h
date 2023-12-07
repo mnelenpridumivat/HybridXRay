@@ -109,9 +109,6 @@ void GenerateStrips(const u16* in_indices, const s32 in_numIndices, xr_vector<Pr
 //
 // Credit goes to the MS Xbox crew for the idea for this interface.
 //
-void RemapIndices(
-    const xr_vector<PrimitiveGroup>& in_primGroups,
-    const u16                        numVerts,
-    xr_vector<PrimitiveGroup>&       remappedGroups);
+void RemapIndices(const xr_vector<PrimitiveGroup>& in_primGroups, const u16 numVerts, xr_vector<PrimitiveGroup>& remappedGroups);
 
 #endif

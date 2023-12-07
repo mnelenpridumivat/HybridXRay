@@ -84,9 +84,7 @@ void CBlender_default_aref::Compile(CBlender_Compile& C)
                 if (C.bDetail_Diffuse)
                     sname = "lmap_dt";
                 if (oBlend.value)
-                    C.r_Pass(
-                        sname, sname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE,
-                        oAREF.value);
+                    C.r_Pass(sname, sname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, oAREF.value);
                 else
                     C.r_Pass(sname, sname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_ONE, D3DBLEND_ZERO, TRUE, oAREF.value);
                 C.r_Sampler("s_base", C.L_textures[0]);
@@ -100,9 +98,7 @@ void CBlender_default_aref::Compile(CBlender_Compile& C)
             {
                 LPCSTR sname = "lmap";
                 if (oBlend.value)
-                    C.r_Pass(
-                        sname, sname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE,
-                        oAREF.value);
+                    C.r_Pass(sname, sname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, oAREF.value);
                 else
                     C.r_Pass(sname, sname, TRUE, TRUE, TRUE, TRUE, D3DBLEND_ONE, D3DBLEND_ZERO, TRUE, oAREF.value);
                 C.r_Sampler("s_base", C.L_textures[0]);
@@ -114,9 +110,7 @@ void CBlender_default_aref::Compile(CBlender_Compile& C)
             case SE_R1_LPOINT:
                 if (!oBlend.value)
                 {
-                    C.r_Pass(
-                        "lmap_point", "add_point", FALSE, TRUE, FALSE, TRUE, D3DBLEND_ONE, D3DBLEND_ONE, TRUE,
-                        oAREF.value);
+                    C.r_Pass("lmap_point", "add_point", FALSE, TRUE, FALSE, TRUE, D3DBLEND_ONE, D3DBLEND_ONE, TRUE, oAREF.value);
                     C.r_Sampler("s_base", C.L_textures[0]);
                     C.r_Sampler_clf("s_lmap", TEX_POINT_ATT);
                     C.r_Sampler_clf("s_att", TEX_POINT_ATT);
@@ -126,9 +120,7 @@ void CBlender_default_aref::Compile(CBlender_Compile& C)
             case SE_R1_LSPOT:
                 if (!oBlend.value)
                 {
-                    C.r_Pass(
-                        "lmap_spot", "add_spot", FALSE, TRUE, FALSE, TRUE, D3DBLEND_ONE, D3DBLEND_ONE, TRUE,
-                        oAREF.value);
+                    C.r_Pass("lmap_spot", "add_spot", FALSE, TRUE, FALSE, TRUE, D3DBLEND_ONE, D3DBLEND_ONE, TRUE, oAREF.value);
                     C.r_Sampler("s_base", C.L_textures[0]);
                     C.r_Sampler_clf("s_lmap", "internal\\internal_light_att", true);
                     C.r_Sampler_clf("s_att", TEX_SPOT_ATT);

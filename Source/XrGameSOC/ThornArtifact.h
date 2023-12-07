@@ -1,20 +1,21 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // ThornArtifact.h
-// ThornArtefact - артефакт колючка
+// ThornArtefact - Р°СЂС‚РµС„Р°РєС‚ РєРѕР»СЋС‡РєР°
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 #include "artifact.h"
 
-class CThornArtefact : public CArtefact 
+class CThornArtefact: public CArtefact
 {
 private:
-	typedef CArtefact inherited;
-public:
-	CThornArtefact(void);
-	virtual ~CThornArtefact(void);
+    typedef CArtefact inherited;
 
-	virtual void Load				(LPCSTR section);
+public:
+    CThornArtefact(void);
+    virtual ~CThornArtefact(void);
+
+    virtual void Load(LPCSTR section);
 
 protected:
 };

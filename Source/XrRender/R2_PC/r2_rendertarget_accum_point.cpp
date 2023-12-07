@@ -17,9 +17,7 @@ void CRenderTarget::accum_point(light* L)
         extern ENGINE_API float psHUD_FOV;
         Pold  = Device->mProject;
         FTold = Device->mFullTransform;
-        Device->mProject.build_projection(
-            deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
-            g_pGamePersistent->Environment().CurrentEnv->far_plane);
+        Device->mProject.build_projection(deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, g_pGamePersistent->Environment().CurrentEnv->far_plane);
 
         Device->mFullTransform.mul(Device->mProject, Device->mView);
         RCache.set_xform_project(Device->mProject);
@@ -53,15 +51,12 @@ void CRenderTarget::accum_point(light* L)
 
     // backfaces: if (stencil>=1 && zfail)	stencil = light_id
     RCache.set_CullMode(CULL_CW);
-    RCache.set_Stencil(
-        TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP,
-        D3DSTENCILOP_REPLACE);
+    RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
     draw_volume(L);
 
     // frontfaces: if (stencil>=light_id && zfail)	stencil = 0x1
     RCache.set_CullMode(CULL_CCW);
-    RCache.set_Stencil(
-        TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
+    RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
     draw_volume(L);
 
     // nv-stencil recompression
@@ -118,9 +113,7 @@ void CRenderTarget::accum_point(light* L)
         }
 
         // Render if (stencil >= light_id && z-pass)
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0xff, 0x00, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP,
-            D3DSTENCILOP_KEEP);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0xff, 0x00, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP);
         draw_volume(L);
 
         // Fetch4 : disable

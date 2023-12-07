@@ -2,16 +2,6 @@
 #pragma hdrstop
 
 #include "gametype_chooser.h"
-// old
-enum ERPGameType
-{   // [0..255]
-    rpgtGameAny = u8(0),
-    rpgtGameDeathmatch,
-    rpgtGameTeamDeathmatch,
-    rpgtGameArtefactHunt,
-    rpgtGameCaptureTheArtefact,
-    rpgtGameCount,
-};
 
 extern ENGINE_API xr_token rpoint_game_type[] =
 {

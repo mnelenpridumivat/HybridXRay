@@ -3,6 +3,7 @@
 
 #include "stdafx.h"
 #include "xrGameSpy.h"
+#include "../XrAPI/xrGameManager.h"
 
 void FillSecretKey(char* SecretKey)
 {
@@ -37,7 +38,10 @@ const char* GetGameVersion()
         return GAME_VERSION;
     };*/
     //	return KeyValue;
-    return GAME_VERSION;
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        return GAME_VERSION_SOC;
+    else
+        return GAME_VERSION;
 }
 
 XRGAMESPY_API const char* xrGS_GetGameVersion()

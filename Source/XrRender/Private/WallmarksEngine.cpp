@@ -206,12 +206,7 @@ void CWallmarksEngine::BuildMatrix(Fmatrix& mView, float invsz, const Fvector& f
     mView.mulA_43(mScale);
 }
 
-void CWallmarksEngine::AddWallmark_internal(
-    CDB::TRI*      pTri,
-    const Fvector* pVerts,
-    const Fvector& contact_point,
-    ref_shader     hShader,
-    float          sz)
+void CWallmarksEngine::AddWallmark_internal(CDB::TRI* pTri, const Fvector* pVerts, const Fvector& contact_point, ref_shader hShader, float sz)
 {
     // query for polygons in bounding box
     // calculate adjacency
@@ -307,12 +302,7 @@ void CWallmarksEngine::AddWallmark_internal(
     // }
 }
 
-void CWallmarksEngine::AddStaticWallmark(
-    CDB::TRI*      pTri,
-    const Fvector* pVerts,
-    const Fvector& contact_point,
-    ref_shader     hShader,
-    float          sz)
+void CWallmarksEngine::AddStaticWallmark(CDB::TRI* pTri, const Fvector* pVerts, const Fvector& contact_point, ref_shader hShader, float sz)
 {
     // optimization cheat: don't allow wallmarks more than 100 m from viewer/actor
     if (contact_point.distance_to_sqr(Device->vCameraPosition) > _sqr(100.f))
@@ -324,13 +314,7 @@ void CWallmarksEngine::AddStaticWallmark(
     lock.Leave();
 }
 
-void CWallmarksEngine::AddSkeletonWallmark(
-    const Fmatrix* xf,
-    CKinematics*   obj,
-    ref_shader&    sh,
-    const Fvector& start,
-    const Fvector& dir,
-    float          size)
+void CWallmarksEngine::AddSkeletonWallmark(const Fmatrix* xf, CKinematics* obj, ref_shader& sh, const Fvector& start, const Fvector& dir, float size)
 {
     if (0 == g_r || ::RImplementation.phase != CRender::PHASE_NORMAL)
         return;
@@ -373,13 +357,7 @@ ICF void     BeginStream(ref_geom hGeom, u32& w_offset, FVF::LIT*& w_verts, FVF:
     w_start  = w_verts;
 }
 
-ICF void FlushStream(
-    ref_geom   hGeom,
-    ref_shader shader,
-    u32&       w_offset,
-    FVF::LIT*& w_verts,
-    FVF::LIT*& w_start,
-    BOOL       bSuppressCull)
+ICF void FlushStream(ref_geom hGeom, ref_shader shader, u32& w_offset, FVF::LIT*& w_verts, FVF::LIT*& w_start, BOOL bSuppressCull)
 {
     u32 w_count = u32(w_verts - w_start);
     RCache.Vertex.Unlock(w_count, hGeom->vb_stride);
@@ -463,13 +441,11 @@ void CWallmarksEngine::Render()
             }
         }
         // Flush stream
-        FlushStream(
-            hGeom, slot->shader, w_offset, w_verts, w_start, FALSE);   //. remove line if !(suppress cull needed)
+        FlushStream(hGeom, slot->shader, w_offset, w_verts, w_start, FALSE);   //. remove line if !(suppress cull needed)
         BeginStream(hGeom, w_offset, w_verts, w_start);
 
         // dynamic wallmarks
-        for (xr_vector<intrusive_ptr<CSkeletonWallmark>>::iterator w_it = slot->skeleton_items.begin();
-             w_it != slot->skeleton_items.end(); w_it++)
+        for (xr_vector<intrusive_ptr<CSkeletonWallmark>>::iterator w_it = slot->skeleton_items.begin(); w_it != slot->skeleton_items.end(); w_it++)
         {
             intrusive_ptr<CSkeletonWallmark> W = *w_it;
             if (!W)

@@ -105,8 +105,7 @@ void CBlender_LmEbB::Compile(CBlender_Compile& C)
                 {
                 */
                 if (oBlend.value)
-                    C.r_Pass(
-                        "lmapE", "lmapE", TRUE, TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, 0);
+                    C.r_Pass("lmapE", "lmapE", TRUE, TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, 0);
                 else
                     C.r_Pass("lmapE", "lmapE", TRUE);
                 C.r_Sampler("s_base", C.L_textures[0]);

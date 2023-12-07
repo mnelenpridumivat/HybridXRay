@@ -60,7 +60,7 @@ void CBackend::CreateQuadIB()
     HW.stats_manager.increment_stats_ib(QuadIB);
 }
 
-#else    //	USE_DX10
+#else   //	USE_DX10
 
 // Igor: is used to test bug with rain, particles corruption
 void CBackend::RestoreQuadIBData()

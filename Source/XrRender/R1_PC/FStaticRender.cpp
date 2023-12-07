@@ -27,8 +27,7 @@ ShaderElement* CRender::rimp_select_sh_dynamic(dxRender_Visual* pVisual, float c
     switch (phase)
     {
         case PHASE_NORMAL:
-            return (RImplementation.L_Projector->shadowing() ? pVisual->shader->E[SE_R1_NORMAL_HQ] : pVisual->shader->E[SE_R1_NORMAL_LQ])
-                ._get();
+            return (RImplementation.L_Projector->shadowing() ? pVisual->shader->E[SE_R1_NORMAL_HQ] : pVisual->shader->E[SE_R1_NORMAL_LQ])._get();
         case PHASE_POINT:
             return pVisual->shader->E[SE_R1_LPOINT]._get();
         case PHASE_SPOT:
@@ -46,8 +45,7 @@ ShaderElement* CRender::rimp_select_sh_static(dxRender_Visual* pVisual, float cd
     switch (phase)
     {
         case PHASE_NORMAL:
-            return (((_sqrt(cdist_sq) - pVisual->vis.sphere.R) < 44) ? pVisual->shader->E[SE_R1_NORMAL_HQ] : pVisual->shader->E[SE_R1_NORMAL_LQ])
-                ._get();
+            return (((_sqrt(cdist_sq) - pVisual->vis.sphere.R) < 44) ? pVisual->shader->E[SE_R1_NORMAL_HQ] : pVisual->shader->E[SE_R1_NORMAL_LQ])._get();
         case PHASE_POINT:
             return pVisual->shader->E[SE_R1_LPOINT]._get();
         case PHASE_SPOT:
@@ -357,23 +355,11 @@ void CRender::add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm)
 {
     Wallmarks->AddSkeletonWallmark(wm);
 }
-void CRender::add_SkeletonWallmark(
-    const Fmatrix* xf,
-    CKinematics*   obj,
-    ref_shader&    sh,
-    const Fvector& start,
-    const Fvector& dir,
-    float          size)
+void CRender::add_SkeletonWallmark(const Fmatrix* xf, CKinematics* obj, ref_shader& sh, const Fvector& start, const Fvector& dir, float size)
 {
     Wallmarks->AddSkeletonWallmark(xf, obj, sh, start, dir, size);
 }
-void CRender::add_SkeletonWallmark(
-    const Fmatrix*  xf,
-    IKinematics*    obj,
-    IWallMarkArray* pArray,
-    const Fvector&  start,
-    const Fvector&  dir,
-    float           size)
+void CRender::add_SkeletonWallmark(const Fmatrix* xf, IKinematics* obj, IWallMarkArray* pArray, const Fvector& start, const Fvector& dir, float size)
 {
     dxWallMarkArray* pWMA    = (dxWallMarkArray*)pArray;
     ref_shader*      pShader = pWMA->dxGenerateWallmark();
@@ -453,8 +439,7 @@ IC void     gm_SetNearer(BOOL bNearer)
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-CRender::CRender():
-    m_bFirstFrameAfterReset(false) {}
+CRender::CRender(): m_bFirstFrameAfterReset(false) {}
 
 CRender::~CRender() {}
 
@@ -530,9 +515,7 @@ void CRender::Calculate()
     if (pLastSector)
     {
         // Traverse sector/portal structure
-        PortalTraverser.traverse(
-            pLastSector, ViewBase, Device->vCameraPosition, Device->mFullTransform,
-            CPortalTraverser::VQ_HOM + CPortalTraverser::VQ_SSA + CPortalTraverser::VQ_FADE);
+        PortalTraverser.traverse(pLastSector, ViewBase, Device->vCameraPosition, Device->mFullTransform, CPortalTraverser::VQ_HOM + CPortalTraverser::VQ_SSA + CPortalTraverser::VQ_FADE);
 
         // Determine visibility for static geometry hierrarhy
         if (psDeviceFlags.test(rsDrawStatic))
@@ -552,8 +535,7 @@ void CRender::Calculate()
         // Traverse object database
         if (psDeviceFlags.test(rsDrawDynamic))
         {
-            g_SpatialSpace->q_frustum(
-                lstRenderables, ISpatial_DB::O_ORDERED, STYPE_RENDERABLE + STYPE_LIGHTSOURCE, ViewBase);
+            g_SpatialSpace->q_frustum(lstRenderables, ISpatial_DB::O_ORDERED, STYPE_RENDERABLE + STYPE_LIGHTSOURCE, ViewBase);
 
             // Exact sorting order (front-to-back)
             std::sort(lstRenderables.begin(), lstRenderables.end(), pred_sp_sort);
@@ -596,9 +578,7 @@ void CRender::Calculate()
                     {
                         set_Frustum(&(sector->r_frustums[v_it]));
 
-                        if (!View->testSphere_dirty(
-                                spatial->spatial.sphere.P,
-                                spatial->spatial.sphere.R) /*&& (spatial->spatial.type & STYPE_RENDERABLE)*/)
+                        if (!View->testSphere_dirty(spatial->spatial.sphere.P, spatial->spatial.sphere.R) /*&& (spatial->spatial.type & STYPE_RENDERABLE)*/)
                             continue;
                         // renderable
                         IRenderable* renderable = spatial->dcast_Renderable();
@@ -634,7 +614,7 @@ void CRender::Calculate()
                             renderable->renderable_Render();
                             set_Object(0);   //? is it needed at all
                         }
-                        break;               // exit loop on frustums
+                        break;   // exit loop on frustums
                     }
                 }
                 else
@@ -711,16 +691,16 @@ void       CRender::Render()
     Target->Begin();
     o.vis_intersect = FALSE;
     phase           = PHASE_NORMAL;
-    r_dsgraph_render_hud();                            // hud
-    r_dsgraph_render_graph(0);                         // normal level
+    r_dsgraph_render_hud();      // hud
+    r_dsgraph_render_graph(0);   // normal level
     if (Details)
-        Details->Render();                             // grass / details
-    r_dsgraph_render_lods(true, false);                // lods - FB
+        Details->Render();                // grass / details
+    r_dsgraph_render_lods(true, false);   // lods - FB
 
     g_pGamePersistent->Environment().RenderSky();      // sky / sun
     g_pGamePersistent->Environment().RenderClouds();   // clouds
 
-    r_pmask(true, false);                              // disable priority "1"
+    r_pmask(true, false);   // disable priority "1"
     o.vis_intersect = TRUE;
     HOM.Disable();
     L_Dynamic->render(0);   // addititional light sources
@@ -732,14 +712,14 @@ void       CRender::Render()
     HOM.Enable();
     o.vis_intersect = FALSE;
     phase           = PHASE_NORMAL;
-    r_pmask(true, true);                               // enable priority "0" and "1"
+    r_pmask(true, true);   // enable priority "0" and "1"
     if (L_Shadows)
-        L_Shadows->render();                           // ... and shadows
-    r_dsgraph_render_lods(false, true);                // lods - FB
-    r_dsgraph_render_graph(1);                         // normal level, secondary priority
-    L_Dynamic->render(1);                              // addititional light sources, secondary priority
-    PortalTraverser.fade_render();                     // faded-portals
-    r_dsgraph_render_sorted();                         // strict-sorted geoms
+        L_Shadows->render();              // ... and shadows
+    r_dsgraph_render_lods(false, true);   // lods - FB
+    r_dsgraph_render_graph(1);            // normal level, secondary priority
+    L_Dynamic->render(1);                 // addititional light sources, secondary priority
+    PortalTraverser.fade_render();        // faded-portals
+    r_dsgraph_render_sorted();            // strict-sorted geoms
     if (L_Glows)
         L_Glows->Render();                             // glows
     g_pGamePersistent->Environment().RenderFlares();   // lens-flares
@@ -824,22 +804,13 @@ void CRender::Statistics(CGameFont* _F)
 
 #include <boost/crc.hpp>
 
-static inline bool match_shader_id(
-    LPCSTR const      debug_shader_id,
-    LPCSTR const      full_shader_id,
-    FS_FileSet const& file_set,
-    string_path&      result);
+static inline bool match_shader_id(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result);
 
 //--------------------------------------------------------------------------------------------------------------
 class includer: public ID3DXInclude
 {
 public:
-    HRESULT __stdcall Open(
-        D3DXINCLUDE_TYPE IncludeType,
-        LPCSTR           pFileName,
-        LPCVOID          pParentData,
-        LPCVOID*         ppData,
-        UINT*            pBytes)
+    HRESULT __stdcall Open(D3DXINCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes)
     {
         string_path pname;
         strconcat(sizeof(pname), pname, ::Render->getShaderPath(), pFileName);
@@ -870,13 +841,7 @@ public:
     }
 };
 
-static HRESULT create_shader(
-    LPCSTR const pTarget,
-    DWORD const* buffer,
-    u32 const    buffer_size,
-    LPCSTR const file_name,
-    void*&       result,
-    bool const   disasm)
+static HRESULT create_shader(LPCSTR const pTarget, DWORD const* buffer, u32 const buffer_size, LPCSTR const file_name, void*& result, bool const disasm)
 {
     HRESULT _result = E_FAIL;
     if (pTarget[0] == 'p')
@@ -943,14 +908,7 @@ static HRESULT create_shader(
     return _result;
 }
 
-HRESULT CRender::shader_compile(
-    LPCSTR       name,
-    DWORD const* pSrcData,
-    UINT         SrcDataLen,
-    LPCSTR       pFunctionName,
-    LPCSTR       pTarget,
-    DWORD        Flags,
-    void*&       result)
+HRESULT CRender::shader_compile(LPCSTR name, DWORD const* pSrcData, UINT SrcDataLen, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, void*& result)
 {
     D3DXMACRO defines[128];
     int       def_it            = 0;
@@ -1096,25 +1054,20 @@ HRESULT CRender::shader_compile(
         LPD3DXCONSTANTTABLE pConstants = NULL;
         LPD3DXINCLUDE       pInclude   = (LPD3DXINCLUDE)&Includer;
 
-        _result                        = D3DXCompileShader(
-            (LPCSTR)pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget,
-            Flags | D3DXSHADER_USE_LEGACY_D3DX9_31_DLL, &pShaderBuf, &pErrorBuf, &pConstants);
+        _result                        = D3DXCompileShader((LPCSTR)pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget, Flags | D3DXSHADER_USE_LEGACY_D3DX9_31_DLL, &pShaderBuf, &pErrorBuf, &pConstants);
         if (SUCCEEDED(_result))
         {
             IWriter*           file = FS.w_open(file_name);
 
             boost::crc_32_type processor;
-            processor.process_block(
-                pShaderBuf->GetBufferPointer(), ((char*)pShaderBuf->GetBufferPointer()) + pShaderBuf->GetBufferSize());
+            processor.process_block(pShaderBuf->GetBufferPointer(), ((char*)pShaderBuf->GetBufferPointer()) + pShaderBuf->GetBufferSize());
             u32 const crc = processor.checksum();
 
             file->w_u32(crc);
             file->w(pShaderBuf->GetBufferPointer(), (u32)pShaderBuf->GetBufferSize());
             FS.w_close(file);
 
-            _result = create_shader(
-                pTarget, (DWORD*)pShaderBuf->GetBufferPointer(), pShaderBuf->GetBufferSize(), file_name, result,
-                o.disasm);
+            _result = create_shader(pTarget, (DWORD*)pShaderBuf->GetBufferPointer(), pShaderBuf->GetBufferSize(), file_name, result, o.disasm);
         }
         else
         {
@@ -1129,13 +1082,10 @@ HRESULT CRender::shader_compile(
     return _result;
 }
 
-static inline bool
-    match_shader(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, LPCSTR const mask, size_t const mask_length)
+static inline bool match_shader(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, LPCSTR const mask, size_t const mask_length)
 {
     u32 const full_shader_id_length = xr_strlen(full_shader_id);
-    R_ASSERT2(
-        full_shader_id_length == mask_length,
-        make_string("bad cache for shader %s, [%s], [%s]", debug_shader_id, mask, full_shader_id));
+    R_ASSERT2(full_shader_id_length == mask_length, make_string("bad cache for shader %s, [%s], [%s]", debug_shader_id, mask, full_shader_id));
     char const*       i = full_shader_id;
     char const* const e = full_shader_id + full_shader_id_length;
     char const*       j = mask;
@@ -1153,11 +1103,7 @@ static inline bool
     return true;
 }
 
-static inline bool match_shader_id(
-    LPCSTR const      debug_shader_id,
-    LPCSTR const      full_shader_id,
-    FS_FileSet const& file_set,
-    string_path&      result)
+static inline bool match_shader_id(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result)
 {
 #if 0
 	strcpy_s					( result, "" );

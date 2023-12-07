@@ -10,7 +10,7 @@
 #if defined(USE_DX10) || defined(USE_DX11)
 #include "../DX10/dx10R_Backend_Runtime.h"
 #include "../DX10/StateManager/dx10State.h"
-#else    //	USE_DX10
+#else   //	USE_DX10
 #include "../DX9/dx9R_Backend_Runtime.h"
 #endif   //	USE_DX10
 

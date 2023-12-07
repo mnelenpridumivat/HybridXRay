@@ -6,8 +6,7 @@
 
 using dx10StateUtils::operator==;
 
-template<class IDeviceState, class StateDecs>
-IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(SimulatorStates& state_code)
+template<class IDeviceState, class StateDecs> IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(SimulatorStates& state_code)
 {
     StateDecs desc;
     dx10StateUtils::ResetDescription(desc);
@@ -33,8 +32,7 @@ IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(SimulatorStates&
     */
 }
 
-template<class IDeviceState, class StateDecs>
-IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(StateDecs& desc)
+template<class IDeviceState, class StateDecs> IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(StateDecs& desc)
 {
     IDeviceState* pResult;
 
@@ -56,8 +54,7 @@ IDeviceState* dx10StateCache<IDeviceState, StateDecs>::GetState(StateDecs& desc)
     return pResult;
 }
 
-template<class IDeviceState, class StateDecs>
-IDeviceState* dx10StateCache<IDeviceState, StateDecs>::FindState(const StateDecs& desc, u32 StateCRC)
+template<class IDeviceState, class StateDecs> IDeviceState* dx10StateCache<IDeviceState, StateDecs>::FindState(const StateDecs& desc, u32 StateCRC)
 {
     u32 res = 0xffffffff;
     for (u32 i = 0; i < m_StateArray.size(); ++i)

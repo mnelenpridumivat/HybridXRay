@@ -1,128 +1,196 @@
-#pragma once
+ï»¿#pragma once
 
 #include "../XrRender/Public/KinematicsAnimated.h"
 class CHudItem;
 
 struct weapon_hud_value: public shared_value
 {
-	IKinematicsAnimated*	m_animations;
-public:
-	int					m_fire_bone;
-	Fvector				m_fp_offset;
-	Fvector				m_fp2_offset;
-	Fvector				m_sp_offset;
+    IKinematicsAnimated* m_animations;
 
-	Fmatrix				m_offset;
 public:
-	virtual				~weapon_hud_value		();
-	BOOL				load					(const shared_str& section, CHudItem* owner);
+    int     m_fire_bone;
+    Fvector m_fp_offset;
+    Fvector m_fp2_offset;
+    Fvector m_sp_offset;
+
+    Fmatrix m_offset;
+
+public:
+    virtual ~weapon_hud_value();
+    BOOL load(const shared_str& section, CHudItem* owner);
 };
 
-typedef shared_container<weapon_hud_value>		weapon_hud_container;
-extern weapon_hud_container*					g_pWeaponHUDContainer;
+typedef shared_container<weapon_hud_value> weapon_hud_container;
+extern weapon_hud_container*               g_pWeaponHUDContainer;
 
 class shared_weapon_hud: public shared_item<weapon_hud_value>
 {
 protected:
-	struct	on_new_pred{
-		CHudItem*		owner;
-						on_new_pred				(CHudItem* _owner):owner(_owner){}
-		BOOL			operator()				(const shared_str& key, weapon_hud_value* val) const {return val->load(key,owner);}
-	};
+    struct on_new_pred
+    {
+        CHudItem* owner;
+        on_new_pred(CHudItem* _owner): owner(_owner) {}
+        BOOL operator()(const shared_str& key, weapon_hud_value* val) const
+        {
+            return val->load(key, owner);
+        }
+    };
+
 public:
-	void				create					(shared_str key, CHudItem* owner)
-	{	
-		shared_item<weapon_hud_value>::create	(key,g_pWeaponHUDContainer,on_new_pred(owner));	
-	}
-	IKinematicsAnimated*	animations				(){return p_->m_animations;}
-	u32					motion_length			(MotionID M);
-	MotionID			motion_id				(LPCSTR name);
+    void create(shared_str key, CHudItem* owner)
+    {
+        shared_item<weapon_hud_value>::create(key, g_pWeaponHUDContainer, on_new_pred(owner));
+    }
+    IKinematicsAnimated* animations()
+    {
+        return p_->m_animations;
+    }
+    u32      motion_length(MotionID M);
+    MotionID motion_id(LPCSTR name);
 };
 //---------------------------------------------------------------------------
 
 class CWeaponHUD
 {
-	//ðîäèòåëüñêèé îáúåêò HUD
-	CHudItem*			m_pParentWeapon;		
-	//ôëàã, åñëè hud ñïðÿòàí íå ïîêàçûâàåòñÿ
-	bool				m_bHidden;
-	bool				m_bVisible;
+    //Ñ€Ð¾Ð´Ð¸Ñ‚ÐµÐ»ÑŒÑÐºÐ¸Ð¹ Ð¾Ð±ÑŠÐµÐºÑ‚ HUD
+    CHudItem*         m_pParentWeapon;
+    //Ñ„Ð»Ð°Ð³, ÐµÑÐ»Ð¸ hud ÑÐ¿Ñ€ÑÑ‚Ð°Ð½ Ð½Ðµ Ð¿Ð¾ÐºÐ°Ð·Ñ‹Ð²Ð°ÐµÑ‚ÑÑ
+    bool              m_bHidden;
+    bool              m_bVisible;
 
-	Fmatrix				m_Transform;
+    Fmatrix           m_Transform;
 
-	//shared HUD data
-	shared_weapon_hud	m_shared_data;
+    //shared HUD data
+    shared_weapon_hud m_shared_data;
 
-	//òàéìåðû äëÿ ïðîèãðûâàíèÿ àíèìàöèé
-	u32					m_dwAnimTime;
-	u32					m_dwAnimEndTime;
-	bool				m_bStopAtEndAnimIsRunning;
-	u32					m_startedAnimState;
-//	CInventoryItem*		m_pCallbackItem;
-	CHudItem*			m_pCallbackItem;
+    //Ñ‚Ð°Ð¹Ð¼ÐµÑ€Ñ‹ Ð´Ð»Ñ Ð¿Ñ€Ð¾Ð¸Ð³Ñ€Ñ‹Ð²Ð°Ð½Ð¸Ñ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸Ð¹
+    u32               m_dwAnimTime;
+    u32               m_dwAnimEndTime;
+    bool              m_bStopAtEndAnimIsRunning;
+    u32               m_startedAnimState;
+    //	CInventoryItem*		m_pCallbackItem;
+    CHudItem*         m_pCallbackItem;
 
-	//îñòàíîâëåíèå òàéìåðà òåêóùåé àíèìàöèè, è âûçîâ callback
-	void				StopCurrentAnim	();
+    //Ð¾ÑÑ‚Ð°Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ Ñ‚Ð°Ð¹Ð¼ÐµÑ€Ð° Ñ‚ÐµÐºÑƒÑ‰ÐµÐ¹ Ð°Ð½Ð¸Ð¼Ð°Ñ†Ð¸Ð¸, Ð¸ Ð²Ñ‹Ð·Ð¾Ð² callback
+    void              StopCurrentAnim();
 
-	//ïîâîðîò è ñìåùåíèå äëÿ ðåæèìà ïðèáëèæåíèÿ
-	float				m_fZoomRotateX;
-	float				m_fZoomRotateY;
-	Fvector				m_fZoomOffset;
-public: 
-						CWeaponHUD		(CHudItem* pHudItem);
-						~CWeaponHUD		();
-
-	// misc
-	void				Load			(LPCSTR section);
-	void				net_DestroyHud	();
-	void				Init			();
-
-	IC IRenderVisual*	Visual			()	{ return m_shared_data.animations()->dcast_RenderVisual();}
-	IC Fmatrix&			Transform		()	{ return m_Transform;							}
-
-	int					FireBone		()	{return m_shared_data.get_value()->m_fire_bone;	}
-	const Fvector&		FirePoint		()	{return m_shared_data.get_value()->m_fp_offset;	}
-	const Fvector&		FirePoint2		()	{return m_shared_data.get_value()->m_fp2_offset;}
-	const Fvector&		ShellPoint		()	{return m_shared_data.get_value()->m_sp_offset;	}
-
-	const Fvector&		ZoomOffset		()	const {return m_fZoomOffset;}
-	float				ZoomRotateX		()	const {return m_fZoomRotateX;}
-	float				ZoomRotateY		()	const {return m_fZoomRotateY;}
-	void				SetZoomOffset	(const Fvector& zoom_offset)  { m_fZoomOffset = zoom_offset;}
-	void				SetZoomRotateX	(float zoom_rotate_x)		  { m_fZoomRotateX = zoom_rotate_x;}
-	void				SetZoomRotateY	(float zoom_rotate_y)		  { m_fZoomRotateY = zoom_rotate_y;}
-	
-
-	// Animations
-	void				animPlay		(MotionID M, BOOL bMixIn/*=TRUE*/, CHudItem*  W /*=0*/, u32 state);
-	void				animDisplay		(MotionID M, BOOL bMixIn);
-	MotionID			animGet			(LPCSTR name);
-	
-	void				UpdatePosition	(const Fmatrix& transform);
-
-	bool				IsHidden		() {return m_bHidden;}
-	void				Hide			() {m_bHidden = true;}
-	void				Show			() {m_bHidden = false;}
-
-	void				Visible			(bool val){m_bVisible=val;}
-	
-	//îáíîâëåíèå HUD äîëæíî âûçûâàòüñÿ íà êàæäîì êàäðå
-	void				Update			();
-
-	void				StopCurrentAnimWithoutCallback	();
+    //Ð¿Ð¾Ð²Ð¾Ñ€Ð¾Ñ‚ Ð¸ ÑÐ¼ÐµÑ‰ÐµÐ½Ð¸Ðµ Ð´Ð»Ñ Ñ€ÐµÐ¶Ð¸Ð¼Ð° Ð¿Ñ€Ð¸Ð±Ð»Ð¸Ð¶ÐµÐ½Ð¸Ñ
+    float             m_fZoomRotateX;
+    float             m_fZoomRotateY;
+    Fvector           m_fZoomOffset;
 
 public:
-	static void			CreateSharedContainer	();
-	static void			DestroySharedContainer	();
-	static void			CleanSharedContainer	();
+    CWeaponHUD(CHudItem* pHudItem);
+    ~CWeaponHUD();
+
+    // misc
+    void              Load(LPCSTR section);
+    void              net_DestroyHud();
+    void              Init();
+
+    IC IRenderVisual* Visual()
+    {
+        return m_shared_data.animations()->dcast_RenderVisual();
+    }
+    IC Fmatrix& Transform()
+    {
+        return m_Transform;
+    }
+
+    int FireBone()
+    {
+        return m_shared_data.get_value()->m_fire_bone;
+    }
+    const Fvector& FirePoint()
+    {
+        return m_shared_data.get_value()->m_fp_offset;
+    }
+    const Fvector& FirePoint2()
+    {
+        return m_shared_data.get_value()->m_fp2_offset;
+    }
+    const Fvector& ShellPoint()
+    {
+        return m_shared_data.get_value()->m_sp_offset;
+    }
+
+    const Fvector& ZoomOffset() const
+    {
+        return m_fZoomOffset;
+    }
+    float ZoomRotateX() const
+    {
+        return m_fZoomRotateX;
+    }
+    float ZoomRotateY() const
+    {
+        return m_fZoomRotateY;
+    }
+    void SetZoomOffset(const Fvector& zoom_offset)
+    {
+        m_fZoomOffset = zoom_offset;
+    }
+    void SetZoomRotateX(float zoom_rotate_x)
+    {
+        m_fZoomRotateX = zoom_rotate_x;
+    }
+    void SetZoomRotateY(float zoom_rotate_y)
+    {
+        m_fZoomRotateY = zoom_rotate_y;
+    }
+
+    // Animations
+    void     animPlay(MotionID M, BOOL bMixIn /*=TRUE*/, CHudItem* W /*=0*/, u32 state);
+    void     animDisplay(MotionID M, BOOL bMixIn);
+    MotionID animGet(LPCSTR name);
+
+    void     UpdatePosition(const Fmatrix& transform);
+
+    bool     IsHidden()
+    {
+        return m_bHidden;
+    }
+    void Hide()
+    {
+        m_bHidden = true;
+    }
+    void Show()
+    {
+        m_bHidden = false;
+    }
+
+    void Visible(bool val)
+    {
+        m_bVisible = val;
+    }
+
+    //Ð¾Ð±Ð½Ð¾Ð²Ð»ÐµÐ½Ð¸Ðµ HUD Ð´Ð¾Ð»Ð¶Ð½Ð¾ Ð²Ñ‹Ð·Ñ‹Ð²Ð°Ñ‚ÑŒÑÑ Ð½Ð° ÐºÐ°Ð¶Ð´Ð¾Ð¼ ÐºÐ°Ð´Ñ€Ðµ
+    void Update();
+
+    void StopCurrentAnimWithoutCallback();
+
+public:
+    static void CreateSharedContainer();
+    static void DestroySharedContainer();
+    static void CleanSharedContainer();
 #ifdef DEBUG
+
 public:
-	void				dbg_SetFirePoint	(const Fvector &fp)			{((weapon_hud_value*)m_shared_data.get_value())->m_fp_offset.set(fp);}
-	void				dbg_SetFirePoint2	(const Fvector &fp)			{((weapon_hud_value*)m_shared_data.get_value())->m_fp2_offset.set(fp);}
-	void				dbg_SetShellPoint	(const Fvector &sp)			{((weapon_hud_value*)m_shared_data.get_value())->m_sp_offset.set(sp);}
+    void dbg_SetFirePoint(const Fvector& fp)
+    {
+        ((weapon_hud_value*)m_shared_data.get_value())->m_fp_offset.set(fp);
+    }
+    void dbg_SetFirePoint2(const Fvector& fp)
+    {
+        ((weapon_hud_value*)m_shared_data.get_value())->m_fp2_offset.set(fp);
+    }
+    void dbg_SetShellPoint(const Fvector& sp)
+    {
+        ((weapon_hud_value*)m_shared_data.get_value())->m_sp_offset.set(sp);
+    }
 #endif
 };
 
-#define		MAX_ANIM_COUNT							8
-typedef		svector<MotionID,MAX_ANIM_COUNT>		MotionSVec;
-MotionID	random_anim								(MotionSVec& v); 
+#define MAX_ANIM_COUNT 8
+typedef svector<MotionID, MAX_ANIM_COUNT> MotionSVec;
+MotionID                                  random_anim(MotionSVec& v);

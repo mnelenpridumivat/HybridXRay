@@ -22,10 +22,11 @@ enum EWayType
 };
 
 enum ERPpointType
-{   // [0..255]
+{
     rptActorSpawn = 0,
     rptArtefactSpawn,
     rptItemSpawn,
+    rptTeamBaseParticle = rptItemSpawn
 };
 
 enum EEnvModUsedParams
@@ -39,26 +40,27 @@ enum EEnvModUsedParams
 };
 
 extern ENGINE_API xr_token rpoint_type[];
+extern ENGINE_API xr_token rpoint_type_soc[];
 extern ENGINE_API xr_token rpoint_game_type[];
 
 // BASE offset
-#define WAY_BASE 0x1000
-#define POINT_BASE 0x2000
+#define WAY_BASE                0x1000
+#define POINT_BASE              0x2000
 
 // POINT chunks
-#define RPOINT_CHUNK POINT_BASE + ptRPoint
+#define RPOINT_CHUNK            POINT_BASE + ptRPoint
 
 // WAY chunks
-#define WAY_PATROLPATH_CHUNK WAY_BASE + wtPatrolPath
+#define WAY_PATROLPATH_CHUNK    WAY_BASE + wtPatrolPath
 //----------------------------------------------------
 
-#define WAYOBJECT_VERSION 0x0013
+#define WAYOBJECT_VERSION       0x0013
 //----------------------------------------------------
 #define WAYOBJECT_CHUNK_VERSION 0x0001
-#define WAYOBJECT_CHUNK_POINTS 0x0002
-#define WAYOBJECT_CHUNK_LINKS 0x0003
-#define WAYOBJECT_CHUNK_TYPE 0x0004
-#define WAYOBJECT_CHUNK_NAME 0x0005
+#define WAYOBJECT_CHUNK_POINTS  0x0002
+#define WAYOBJECT_CHUNK_LINKS   0x0003
+#define WAYOBJECT_CHUNK_TYPE    0x0004
+#define WAYOBJECT_CHUNK_NAME    0x0005
 
 /*
 - chunk RPOINT_CHUNK

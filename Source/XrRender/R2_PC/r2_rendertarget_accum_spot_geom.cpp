@@ -143,8 +143,7 @@ void CRenderTarget::accum_volumetric_geom_create()
         const u32 iCount = VOLUMETRIC_SLICES * 6;
 
         BYTE*     pData  = 0;
-        R_CHK(HW.pDevice->CreateIndexBuffer(
-            iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_accum_volumetric_ib, 0));
+        R_CHK(HW.pDevice->CreateIndexBuffer(iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_accum_volumetric_ib, 0));
         HW.stats_manager.increment_stats_ib(g_accum_volumetric_ib);
         R_CHK(g_accum_volumetric_ib->Lock(0, 0, (void**)&pData, 0));
         u16* pInd = (u16*)pData;

@@ -1,8 +1,7 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // ScientificOutfit.h
-// ScientificOutfit - защитный костюм ученого
+// ScientificOutfit - Р·Р°С‰РёС‚РЅС‹Р№ РєРѕСЃС‚СЋРј СѓС‡РµРЅРѕРіРѕ
 ///////////////////////////////////////////////////////////////
-
 
 #pragma once
 
@@ -11,8 +10,9 @@
 class CScientificOutfit: public CCustomOutfit
 {
 private:
-    typedef	CCustomOutfit inherited;
+    typedef CCustomOutfit inherited;
+
 public:
-	CScientificOutfit(void);
-	virtual ~CScientificOutfit(void);
+    CScientificOutfit(void);
+    virtual ~CScientificOutfit(void);
 };

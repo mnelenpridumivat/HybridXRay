@@ -120,7 +120,7 @@ void smapvis::mark()
     RImplementation.stats.ic_culled += invisible.size();
     u32 marker = RImplementation.marker + 1;   // we are called befor marker increment
     for (u32 it = 0; it < invisible.size(); it++)
-        invisible[it]->vis.marker = marker;    // this effectively disables processing
+        invisible[it]->vis.marker = marker;   // this effectively disables processing
 }
 
 void smapvis::rfeedback_static(dxRender_Visual* V)

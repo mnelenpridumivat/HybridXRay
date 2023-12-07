@@ -21,23 +21,22 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PWSTR pCmdLine
     if (!IsDebuggerPresent())
         Debug._initialize(false);
 
+    splash::update_progress(5);
     const char* FSName = "fs.ltx";
     {
-        if (strstr(GetCommandLine(), "-soc_14") || strstr(GetCommandLine(), "-soc_10004"))
+        if (strstr(GetCommandLine(), "-soc_14") || strstr(GetCommandLine(), "-soc_10004") || strstr(GetCommandLine(), "-soc"))
         {
             FSName = "fs_soc.ltx";
-        }
-        else if (strstr(GetCommandLine(), "-soc"))
-        {
-            FSName = "fs_soc.ltx";
+            Core._initialize("Shader_Editor_ShoC", ELogCallback, 1, FSName, true);
         }
         else if (strstr(GetCommandLine(), "-cs"))
         {
             FSName = "fs_cs.ltx";
+            Core._initialize("Shader_Editor_CS", ELogCallback, 1, FSName, true);
         }
+        else
+            Core._initialize("Shader_Editor_CoP", ELogCallback, 1, FSName, true);
     }
-    splash::update_progress(5);
-    Core._initialize("Shader_Editor", ELogCallback, 1, FSName, true);
 
     splash::update_progress(39);
     STools = xr_new<CShaderTool>();

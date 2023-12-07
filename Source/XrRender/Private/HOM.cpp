@@ -136,10 +136,8 @@ public:
     occTri* m_pTris;
     Fvector camera;
 public:
-    pred_fb(occTri* _t):
-        m_pTris(_t) {}
-    pred_fb(occTri* _t, Fvector& _c):
-        m_pTris(_t), camera(_c) {}
+    pred_fb(occTri* _t): m_pTris(_t) {}
+    pred_fb(occTri* _t, Fvector& _c): m_pTris(_t), camera(_c) {}
     ICF bool operator()(const CDB::RESULT& _1, const CDB::RESULT& _2) const
     {
         occTri& t0 = m_pTris[_1.id];
@@ -157,12 +155,8 @@ void CHOM::Render_DB(CFrustum& base)
 {
     // Update projection matrices on every frame to ensure valid HOM culling
     float   view_dim      = occ_dim_0;
-    Fmatrix m_viewport    = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f,
-           0.0f, 0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f + 0 + 0, view_dim / 2.f + 0 + 0,
-           0.0f, 1.0f};
-    Fmatrix m_viewport_01 = {1.f / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -1.f / 2.f, 0.0f,
-        0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.f / 2.f + 0 + 0, 1.f / 2.f + 0 + 0,
-        0.0f, 1.0f};
+    Fmatrix m_viewport    = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f + 0 + 0, view_dim / 2.f + 0 + 0, 0.0f, 1.0f};
+    Fmatrix m_viewport_01 = {1.f / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -1.f / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.f / 2.f + 0 + 0, 1.f / 2.f + 0 + 0, 0.0f, 1.0f};
     m_xform.mul(m_viewport, Device->mFullTransform);
     m_xform_01.mul(m_viewport_01, Device->mFullTransform);
 

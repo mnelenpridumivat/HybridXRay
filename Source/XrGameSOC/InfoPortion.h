@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "shared_data.h"
 #include "PhraseScript.h"
@@ -9,75 +9,99 @@
 #include "GameTaskDefs.h"
 #include "PhraseDialogDefs.h"
 
-
-struct SInfoPortionData : CSharedResource
+struct SInfoPortionData: CSharedResource
 {
-						SInfoPortionData ();
-	virtual				~SInfoPortionData ();
+    SInfoPortionData();
+    virtual ~SInfoPortionData();
 
-	//массив с именами диалогов, которые могут быть инициированы
-	//из этого InfoPortion
-	DIALOG_ID_VECTOR	m_DialogNames;
+    //РјР°СЃСЃРёРІ СЃ РёРјРµРЅР°РјРё РґРёР°Р»РѕРіРѕРІ, РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚ Р±С‹С‚СЊ РёРЅРёС†РёРёСЂРѕРІР°РЅС‹
+    //РёР· СЌС‚РѕРіРѕ InfoPortion
+    DIALOG_ID_VECTOR  m_DialogNames;
 
-	//список статей в энциклопедии, которые становятся известными 
-	ARTICLE_ID_VECTOR	m_Articles;
-	//список статей в энциклопедии, которые становятся неизвестными (на тот случай если
-	//нужно заменить одну статью другой)
-	ARTICLE_ID_VECTOR	m_ArticlesDisable;
-    	
-	//присоединенные задания
-	TASK_ID_VECTOR		m_GameTasks;
+    //СЃРїРёСЃРѕРє СЃС‚Р°С‚РµР№ РІ СЌРЅС†РёРєР»РѕРїРµРґРёРё, РєРѕС‚РѕСЂС‹Рµ СЃС‚Р°РЅРѕРІСЏС‚СЃСЏ РёР·РІРµСЃС‚РЅС‹РјРё
+    ARTICLE_ID_VECTOR m_Articles;
+    //СЃРїРёСЃРѕРє СЃС‚Р°С‚РµР№ РІ СЌРЅС†РёРєР»РѕРїРµРґРёРё, РєРѕС‚РѕСЂС‹Рµ СЃС‚Р°РЅРѕРІСЏС‚СЃСЏ РЅРµРёР·РІРµСЃС‚РЅС‹РјРё (РЅР° С‚РѕС‚ СЃР»СѓС‡Р°Р№ РµСЃР»Рё
+    //РЅСѓР¶РЅРѕ Р·Р°РјРµРЅРёС‚СЊ РѕРґРЅСѓ СЃС‚Р°С‚СЊСЋ РґСЂСѓРіРѕР№)
+    ARTICLE_ID_VECTOR m_ArticlesDisable;
 
-	//скриптовые действия, которые активируется после того как 
-	//информацию получает персонаж
-	CPhraseScript		m_PhraseScript;
+    //РїСЂРёСЃРѕРµРґРёРЅРµРЅРЅС‹Рµ Р·Р°РґР°РЅРёСЏ
+    TASK_ID_VECTOR    m_GameTasks;
 
-	//массив с индексами тех порций информации, которые
-	//исчезнут, после получения этой info_portion
-	DEFINE_VECTOR		(shared_str, INFO_ID_VECTOR, INFO_ID_VECTOR_IT);
-	INFO_ID_VECTOR		m_DisableInfo;
+    //СЃРєСЂРёРїС‚РѕРІС‹Рµ РґРµР№СЃС‚РІРёСЏ, РєРѕС‚РѕСЂС‹Рµ Р°РєС‚РёРІРёСЂСѓРµС‚СЃСЏ РїРѕСЃР»Рµ С‚РѕРіРѕ РєР°Рє
+    //РёРЅС„РѕСЂРјР°С†РёСЋ РїРѕР»СѓС‡Р°РµС‚ РїРµСЂСЃРѕРЅР°Р¶
+    CPhraseScript     m_PhraseScript;
+
+    //РјР°СЃСЃРёРІ СЃ РёРЅРґРµРєСЃР°РјРё С‚РµС… РїРѕСЂС†РёР№ РёРЅС„РѕСЂРјР°С†РёРё, РєРѕС‚РѕСЂС‹Рµ
+    //РёСЃС‡РµР·РЅСѓС‚, РїРѕСЃР»Рµ РїРѕР»СѓС‡РµРЅРёСЏ СЌС‚РѕР№ info_portion
+    DEFINE_VECTOR(shared_str, INFO_ID_VECTOR, INFO_ID_VECTOR_IT);
+    INFO_ID_VECTOR m_DisableInfo;
 };
-
 
 class CInfoPortion;
 
-//квант  - порция информации
-class CInfoPortion : public CSharedClass<SInfoPortionData, shared_str, false>,
-					 public CXML_IdToIndex<CInfoPortion>
+//РєРІР°РЅС‚  - РїРѕСЂС†РёСЏ РёРЅС„РѕСЂРјР°С†РёРё
+class CInfoPortion: public CSharedClass<SInfoPortionData, shared_str, false>, public CXML_IdToIndex<CInfoPortion>
 {
 private:
-	typedef CSharedClass<SInfoPortionData, shared_str, false>	inherited_shared;
-	typedef CXML_IdToIndex<CInfoPortion>						id_to_index;
+    typedef CSharedClass<SInfoPortionData, shared_str, false> inherited_shared;
+    typedef CXML_IdToIndex<CInfoPortion>                      id_to_index;
 
-	friend id_to_index;
+    friend id_to_index;
+
 public:
-				CInfoPortion	(void);
-	virtual		~CInfoPortion	(void);
+    CInfoPortion(void);
+    virtual ~CInfoPortion(void);
 
-	//инициализация info данными
-	//если info с таким id раньше не использовался
-	//он будет загружен из файла
-	virtual void Load	(shared_str info_str_id);
-//	virtual void Load	(INFO_INDEX info_index);
+    //РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ info РґР°РЅРЅС‹РјРё
+    //РµСЃР»Рё info СЃ С‚Р°РєРёРј id СЂР°РЅСЊС€Рµ РЅРµ РёСЃРїРѕР»СЊР·РѕРІР°Р»СЃСЏ
+    //РѕРЅ Р±СѓРґРµС‚ Р·Р°РіСЂСѓР¶РµРЅ РёР· С„Р°Р№Р»Р°
+    virtual void             Load(shared_str info_str_id);
+    //	virtual void Load	(INFO_INDEX info_index);
 
-//	const LOCATIONS_VECTOR&							MapLocations()	const {return info_data()->m_MapLocations;}
-	const ARTICLE_ID_VECTOR&						Articles	()	const {return info_data()->m_Articles;}
-	const ARTICLE_ID_VECTOR&						ArticlesDisable	()	const {return info_data()->m_ArticlesDisable;}
-	const TASK_ID_VECTOR&							GameTasks	()	const {return info_data()->m_GameTasks;}
-	const DIALOG_ID_VECTOR&							DialogNames	()	const {return info_data()->m_DialogNames;}
-	const SInfoPortionData::INFO_ID_VECTOR&			DisableInfos()	const {return info_data()->m_DisableInfo;}
-	
-			void									RunScriptActions		(const CGameObject* pOwner)	{info_data()->m_PhraseScript.Action(pOwner, NULL, NULL);}
+    //	const LOCATIONS_VECTOR&							MapLocations()	const {return info_data()->m_MapLocations;}
+    const ARTICLE_ID_VECTOR& Articles() const
+    {
+        return info_data()->m_Articles;
+    }
+    const ARTICLE_ID_VECTOR& ArticlesDisable() const
+    {
+        return info_data()->m_ArticlesDisable;
+    }
+    const TASK_ID_VECTOR& GameTasks() const
+    {
+        return info_data()->m_GameTasks;
+    }
+    const DIALOG_ID_VECTOR& DialogNames() const
+    {
+        return info_data()->m_DialogNames;
+    }
+    const SInfoPortionData::INFO_ID_VECTOR& DisableInfos() const
+    {
+        return info_data()->m_DisableInfo;
+    }
 
-	//текстовое представление информации
-			shared_str								GetText () const ;
+    void RunScriptActions(const CGameObject* pOwner)
+    {
+        info_data()->m_PhraseScript.Action(pOwner, NULL, NULL);
+    }
+
+    //С‚РµРєСЃС‚РѕРІРѕРµ РїСЂРµРґСЃС‚Р°РІР»РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРё
+    shared_str GetText() const;
 
 protected:
-    shared_str		m_InfoId;
+    shared_str        m_InfoId;
 
-	void			load_shared						(LPCSTR);
-	SInfoPortionData* info_data						() { VERIFY(inherited_shared::get_sd()); return inherited_shared::get_sd();}
-	const SInfoPortionData* info_data				() const { VERIFY(inherited_shared::get_sd()); return inherited_shared::get_sd();}
+    void              load_shared(LPCSTR);
+    SInfoPortionData* info_data()
+    {
+        VERIFY(inherited_shared::get_sd());
+        return inherited_shared::get_sd();
+    }
+    const SInfoPortionData* info_data() const
+    {
+        VERIFY(inherited_shared::get_sd());
+        return inherited_shared::get_sd();
+    }
 
-	static void InitXmlIdToIndex();
+    static void InitXmlIdToIndex();
 };

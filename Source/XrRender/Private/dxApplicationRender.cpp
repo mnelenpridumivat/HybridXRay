@@ -139,13 +139,9 @@ void dxApplicationRender::load_draw_internal(CApplication& owner)
     for (u32 idx = 0; idx < v_cnt + 1; ++idx)
     {
         clr = calc_progress_color(idx, v_cnt, owner.load_stage, owner.max_load_stage);
-        pv->set(
-            back_coords.lt.x + pos_delta * idx + offs, back_coords.rb.y + offs, 0 + EPS_S, 1, clr,
-            back_tex_coords.lt.x + tc_delta * idx, back_tex_coords.rb.y);
+        pv->set(back_coords.lt.x + pos_delta * idx + offs, back_coords.rb.y + offs, 0 + EPS_S, 1, clr, back_tex_coords.lt.x + tc_delta * idx, back_tex_coords.rb.y);
         pv++;
-        pv->set(
-            back_coords.lt.x + pos_delta * idx + offs, back_coords.lt.y + offs, 0 + EPS_S, 1, clr,
-            back_tex_coords.lt.x + tc_delta * idx, back_tex_coords.lt.y);
+        pv->set(back_coords.lt.x + pos_delta * idx + offs, back_coords.lt.y + offs, 0 + EPS_S, 1, clr, back_tex_coords.lt.x + tc_delta * idx, back_tex_coords.lt.y);
         pv++;
     }
     VERIFY(u32(pv - _pv) == 2 * (v_cnt + 1));
@@ -295,9 +291,7 @@ u32 calc_progress_color(u32 idx, u32 total, int stage, int max_stage)
     return color_argb_f(f, 1.0f, 1.0f, 1.0f);
 }
 
-#define IsSpace(ch)                                                                                              \
-    ((ch) == ' ' || (ch) == '\t' || (ch) == '\r' || (ch) == '\n' || (ch) == ',' || (ch) == '.' || (ch) == ':' || \
-        (ch) == '!')
+#define IsSpace(ch) ((ch) == ' ' || (ch) == '\t' || (ch) == '\r' || (ch) == '\n' || (ch) == ',' || (ch) == '.' || (ch) == ':' || (ch) == '!')
 
 void parse_word(LPCSTR str, CGameFont* font, float& length, LPCSTR& next_word)
 {

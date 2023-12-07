@@ -1,8 +1,7 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // MilitaryOutfit.h
-// MilitaryOutfit - защитный костюм военного
+// MilitaryOutfit - Р·Р°С‰РёС‚РЅС‹Р№ РєРѕСЃС‚СЋРј РІРѕРµРЅРЅРѕРіРѕ
 ///////////////////////////////////////////////////////////////
-
 
 #pragma once
 
@@ -11,8 +10,9 @@
 class CMilitaryOutfit: public CCustomOutfit
 {
 private:
-    typedef	CCustomOutfit inherited;
+    typedef CCustomOutfit inherited;
+
 public:
-	CMilitaryOutfit(void);
-	virtual ~CMilitaryOutfit(void);
+    CMilitaryOutfit(void);
+    virtual ~CMilitaryOutfit(void);
 };

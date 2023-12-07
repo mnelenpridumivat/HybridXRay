@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: server_entity_wrapper_inline.h
 //	Created 	: 16.10.2004
 //  Modified 	: 16.10.2004
@@ -8,13 +8,13 @@
 
 #pragma once
 
-IC	CServerEntityWrapper::CServerEntityWrapper	(CSE_Abstract *object)
+IC CServerEntityWrapper::CServerEntityWrapper(CSE_Abstract* object)
 {
-	m_object	= object;
+    m_object = object;
 }
 
-IC	CSE_Abstract &CServerEntityWrapper::object	() const
+IC CSE_Abstract& CServerEntityWrapper::object() const
 {
-	VERIFY		(m_object);
-	return		(*m_object);
+    VERIFY(m_object);
+    return (*m_object);
 }

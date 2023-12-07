@@ -40,8 +40,7 @@ void CPGDef::Clone(CPGDef* source)
     m_fTimeLimit = source->m_fTimeLimit;
 
     m_Effects.resize(source->m_Effects.size(), 0);
-    for (EffectIt d_it = m_Effects.begin(), s_it = source->m_Effects.begin(); s_it != source->m_Effects.end();
-         s_it++, d_it++)
+    for (EffectIt d_it = m_Effects.begin(), s_it = source->m_Effects.begin(); s_it != source->m_Effects.end(); s_it++, d_it++)
         *d_it = xr_new<SEffect>(**s_it);
 }
 #endif
@@ -166,14 +165,9 @@ void CPGDef::Save2(CInifile& ini)
         xr_sprintf(buff, sizeof(buff), "effect_%04d", counter);
 
         ini.w_string(buff, "effect_name", (*it)->m_EffectName.c_str());
-        ini.w_string(
-            buff, "on_play_child", (*it)->m_Flags.test(SEffect::flOnPlayChild) ? (*it)->m_OnPlayChildName.c_str() : "");
-        ini.w_string(
-            buff, "on_birth_child",
-            (*it)->m_Flags.test(SEffect::flOnBirthChild) ? (*it)->m_OnBirthChildName.c_str() : "");
-        ini.w_string(
-            buff, "on_death_child",
-            (*it)->m_Flags.test(SEffect::flOnDeadChild) ? (*it)->m_OnDeadChildName.c_str() : "");
+        ini.w_string(buff, "on_play_child", (*it)->m_Flags.test(SEffect::flOnPlayChild) ? (*it)->m_OnPlayChildName.c_str() : "");
+        ini.w_string(buff, "on_birth_child", (*it)->m_Flags.test(SEffect::flOnBirthChild) ? (*it)->m_OnBirthChildName.c_str() : "");
+        ini.w_string(buff, "on_death_child", (*it)->m_Flags.test(SEffect::flOnDeadChild) ? (*it)->m_OnDeadChildName.c_str() : "");
         ini.w_float(buff, "time0", (*it)->m_Time0);
         ini.w_float(buff, "time1", (*it)->m_Time1);
         ini.w_u32(buff, "flags", (*it)->m_Flags.get());

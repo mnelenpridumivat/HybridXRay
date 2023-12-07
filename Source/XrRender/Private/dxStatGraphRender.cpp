@@ -171,9 +171,8 @@ void dxStatGraphRender::RenderBack(CStatGraph& owner)
     int   Num_H_LinesUp   = (owner.grid.y < PNum_H_LinesUp) ? owner.grid.y : PNum_H_LinesUp;
     int   Num_H_LinesDwn  = (owner.grid.y < PNum_H_LinesUp) ? owner.grid.y : PNum_H_LinesDwn;
 
-    pv_start              = (FVF::TL0uv*)RCache.Vertex.Lock(
-        2 + 2 * owner.grid.x + Num_H_LinesUp * 2 + Num_H_LinesDwn * 2, hGeomLine->vb_stride, dwOffset);
-    pv = pv_start;
+    pv_start              = (FVF::TL0uv*)RCache.Vertex.Lock(2 + 2 * owner.grid.x + Num_H_LinesUp * 2 + Num_H_LinesDwn * 2, hGeomLine->vb_stride, dwOffset);
+    pv                    = pv_start;
     // base Coordinate Line
     pv->set(owner.lt.x, int(base_y), owner.base_color);
     pv++;   // 0
@@ -262,8 +261,7 @@ void dxStatGraphRender::RenderLines(CStatGraph& owner, FVF::TL0uv** ppv, CStatGr
     float elem_factor = float(owner.rb.y - owner.lt.y) / float(owner.mx - owner.mn);
     float base_y      = float(owner.rb.y) + (owner.mn * elem_factor);
 
-    for (CStatGraph::ElementsDeqIt it = pelements->begin() + 1; it != pelements->end() && it != pelements->end() + 1;
-         it++)
+    for (CStatGraph::ElementsDeqIt it = pelements->begin() + 1; it != pelements->end() && it != pelements->end() + 1; it++)
     {
         CStatGraph::ElementsDeqIt it_prev = it - 1;
         float                     X0      = float(it_prev - pelements->begin()) * elem_offs + owner.lt.x;
@@ -283,8 +281,7 @@ void dxStatGraphRender::RenderBarLines(CStatGraph& owner, FVF::TL0uv** ppv, CSta
     float elem_factor = float(owner.rb.y - owner.lt.y) / float(owner.mx - owner.mn);
     float base_y      = float(owner.rb.y) + (owner.mn * elem_factor);
 
-    for (CStatGraph::ElementsDeqIt it = pelements->begin() + 1; it != pelements->end() && it != pelements->end() + 1;
-         it++)
+    for (CStatGraph::ElementsDeqIt it = pelements->begin() + 1; it != pelements->end() && it != pelements->end() + 1; it++)
     {
         CStatGraph::ElementsDeqIt it_prev = it - 1;
         float                     X0      = float(it_prev - pelements->begin()) * elem_offs + owner.lt.x + elem_offs;

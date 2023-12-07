@@ -208,10 +208,9 @@ void CTexture::Load()
                 u32            _w       = pTheora->Width(false);
                 u32            _h       = pTheora->Height(false);
 
-                HRESULT        hrr =
-                    HW.pDevice->CreateTexture(_w, _h, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTexture, NULL);
+                HRESULT        hrr      = HW.pDevice->CreateTexture(_w, _h, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTexture, NULL);
 
-                pSurface = pTexture;
+                pSurface                = pTexture;
                 if (FAILED(hrr))
                 {
                     FATAL("Invalid video stream");
@@ -239,9 +238,8 @@ void CTexture::Load()
 
                 // Now create texture
                 ID3DTexture2D* pTexture = 0;
-                HRESULT        hrr      = HW.pDevice->CreateTexture(
-                    pAVI->m_dwWidth, pAVI->m_dwHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTexture, NULL);
-                pSurface = pTexture;
+                HRESULT        hrr      = HW.pDevice->CreateTexture(pAVI->m_dwWidth, pAVI->m_dwHeight, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &pTexture, NULL);
+                pSurface                = pTexture;
                 if (FAILED(hrr))
                 {
                     FATAL("Invalid video stream");

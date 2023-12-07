@@ -16,8 +16,7 @@ const float     MAP_GROW_FACTOR                = 4.f;
 //////////////////////////////////////////////////////////////////////////
 // tables to calculate view-frustum bounds in world space
 // note: D3D uses [0..1] range for Z
-static Fvector3 corners[8]                     = {{-1, -1, 0}, {-1, -1, +1}, {-1, +1, +1}, {-1, +1, 0},
-                        {+1, +1, +1}, {+1, +1, 0}, {+1, -1, +1}, {+1, -1, 0}};
+static Fvector3 corners[8]                     = {{-1, -1, 0}, {-1, -1, +1}, {-1, +1, +1}, {-1, +1, 0}, {+1, +1, +1}, {+1, +1, 0}, {+1, -1, +1}, {+1, -1, 0}};
 static int      facetable[6][4]                = {
     {6, 7, 5, 4},
     {1, 0, 7, 6},
@@ -49,26 +48,21 @@ struct BoundingBox
     D3DXVECTOR3 minPt;
     D3DXVECTOR3 maxPt;
 
-    BoundingBox():
-        minPt(1e33f, 1e33f, 1e33f), maxPt(-1e33f, -1e33f, -1e33f) {}
-    BoundingBox(const BoundingBox& other):
-        minPt(other.minPt), maxPt(other.maxPt) {}
+    BoundingBox(): minPt(1e33f, 1e33f, 1e33f), maxPt(-1e33f, -1e33f, -1e33f) {}
+    BoundingBox(const BoundingBox& other): minPt(other.minPt), maxPt(other.maxPt) {}
 
-    explicit BoundingBox(const D3DXVECTOR3* points, UINT n):
-        minPt(1e33f, 1e33f, 1e33f), maxPt(-1e33f, -1e33f, -1e33f)
+    explicit BoundingBox(const D3DXVECTOR3* points, UINT n): minPt(1e33f, 1e33f, 1e33f), maxPt(-1e33f, -1e33f, -1e33f)
     {
         for (unsigned int i = 0; i < n; i++)
             Merge(&points[i]);
     }
 
-    explicit BoundingBox(const std::vector<D3DXVECTOR3>* points):
-        minPt(1e33f, 1e33f, 1e33f), maxPt(-1e33f, -1e33f, -1e33f)
+    explicit BoundingBox(const std::vector<D3DXVECTOR3>* points): minPt(1e33f, 1e33f, 1e33f), maxPt(-1e33f, -1e33f, -1e33f)
     {
         for (unsigned int i = 0; i < points->size(); i++)
             Merge(&(*points)[i]);
     }
-    explicit BoundingBox(const std::vector<BoundingBox>* boxes):
-        minPt(1e33f, 1e33f, 1e33f), maxPt(-1e33f, -1e33f, -1e33f)
+    explicit BoundingBox(const std::vector<BoundingBox>* boxes): minPt(1e33f, 1e33f, 1e33f), maxPt(-1e33f, -1e33f, -1e33f)
     {
         for (unsigned int i = 0; i < boxes->size(); i++)
         {
@@ -120,8 +114,7 @@ BOOL LineIntersection2D(D3DXVECTOR2* result, const D3DXVECTOR2* lineA, const D3D
 //  PlaneIntersection
 //    computes the point where three planes intersect
 //    returns whether or not the point exists.
-static inline BOOL
-    PlaneIntersection(D3DXVECTOR3* intersectPt, const D3DXPLANE* p0, const D3DXPLANE* p1, const D3DXPLANE* p2)
+static inline BOOL PlaneIntersection(D3DXVECTOR3* intersectPt, const D3DXPLANE* p0, const D3DXPLANE* p1, const D3DXPLANE* p2)
 {
     D3DXVECTOR3 n0(p0->a, p0->b, p0->c);
     D3DXVECTOR3 n1(p1->a, p1->b, p1->c);
@@ -227,8 +220,7 @@ public:
         {
             _poly& P = light_cuboid_polys[it];
 
-            P.plane.build(
-                light_cuboid_points[P.points[0]], light_cuboid_points[P.points[2]], light_cuboid_points[P.points[1]]);
+            P.plane.build(light_cuboid_points[P.points[0]], light_cuboid_points[P.points[2]], light_cuboid_points[P.points[1]]);
 
             // verify
             if (_debug)
@@ -250,11 +242,7 @@ public:
         }
     }
 
-    void compute_caster_model_fixed(
-        xr_vector<Fplane>& dest,
-        Fvector3&          translation,
-        float              map_size,
-        bool               clip_by_view_near)
+    void compute_caster_model_fixed(xr_vector<Fplane>& dest, Fvector3& translation, float map_size, bool clip_by_view_near)
     {
         translation.set(0.f, 0.f, 0.f);
 
@@ -498,8 +486,7 @@ public:
     {
         int p0, p1;
         int counter;
-        _edge(int _p0, int _p1, int m):
-            p0(_p0), p1(_p1), counter(m)
+        _edge(int _p0, int _p1, int m): p0(_p0), p1(_p1), counter(m)
         {
             if (p0 > p1)
                 swap(p0, p1);
@@ -872,9 +859,7 @@ void CRender::render_sun()
         }
         Fbox& bb = frustum_bb;
         bb.grow(EPS);
-        D3DXMatrixOrthoOffCenterLH(
-            (D3DXMATRIX*)&mdir_Project, bb.min.x, bb.max.x, bb.min.y, bb.max.y,
-            bb.min.z - tweak_ortho_xform_initial_offs, bb.max.z);
+        D3DXMatrixOrthoOffCenterLH((D3DXMATRIX*)&mdir_Project, bb.min.x, bb.max.x, bb.min.y, bb.max.y, bb.min.z - tweak_ortho_xform_initial_offs, bb.max.z);
 
         // full-xform
         cull_xform.mul(mdir_Project, mdir_View);
@@ -915,13 +900,12 @@ void CRender::render_sun()
     //	Prepare to interact with D3DX code
     const D3DXMATRIX& m_View       = *((D3DXMATRIX*)(&Device->mView));
     const D3DXMATRIX& m_Projection = *((D3DXMATRIX*)(&ex_project));
-    const D3DXVECTOR3 m_lightDir =
-        -D3DXVECTOR3(fuckingsun->direction.x, fuckingsun->direction.y, fuckingsun->direction.z);
+    const D3DXVECTOR3 m_lightDir   = -D3DXVECTOR3(fuckingsun->direction.x, fuckingsun->direction.y, fuckingsun->direction.z);
 
     //  these are the limits specified by the physical camera
     //  gamma is the "tilt angle" between the light and the view direction.
-    float m_fCosGamma  = m_lightDir.x * m_View._13 + m_lightDir.y * m_View._23 + m_lightDir.z * m_View._33;
-    float m_fTSM_Delta = ps_r2_sun_tsm_projection;
+    float             m_fCosGamma  = m_lightDir.x * m_View._13 + m_lightDir.y * m_View._23 + m_lightDir.z * m_View._33;
+    float             m_fTSM_Delta = ps_r2_sun_tsm_projection;
 
     // Compute REAL sheared xform based on receivers/casters information
     FPU::m64r();
@@ -971,9 +955,7 @@ void CRender::render_sun()
         lightSpaceBasis._44 = 1.f;
 
         //  rotate the view frustum into light space
-        D3DXVec3TransformCoordArray(
-            frustumPnts, sizeof(D3DXVECTOR3), frustumPnts, sizeof(D3DXVECTOR3), &lightSpaceBasis,
-            sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
+        D3DXVec3TransformCoordArray(frustumPnts, sizeof(D3DXVECTOR3), frustumPnts, sizeof(D3DXVECTOR3), &lightSpaceBasis, sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
 
         //  build an off-center ortho projection that translates and scales the eye frustum's 3D AABB to the unit cube
         BoundingBox frustumBox(frustumPnts, sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
@@ -992,21 +974,15 @@ void CRender::render_sun()
             max_z = -min_z + max_z + 1.f;
             min_z = 1.f;
             D3DXMatrixMultiply(&lightSpaceBasis, &lightSpaceBasis, &lightSpaceTranslate);
-            D3DXVec3TransformCoordArray(
-                frustumPnts, sizeof(D3DXVECTOR3), frustumPnts, sizeof(D3DXVECTOR3), &lightSpaceTranslate,
-                sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
+            D3DXVec3TransformCoordArray(frustumPnts, sizeof(D3DXVECTOR3), frustumPnts, sizeof(D3DXVECTOR3), &lightSpaceTranslate, sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
             frustumBox = BoundingBox(frustumPnts, sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
         }
 
         D3DXMATRIX lightSpaceOrtho;
-        D3DXMatrixOrthoOffCenterLH(
-            &lightSpaceOrtho, frustumBox.minPt.x, frustumBox.maxPt.x, frustumBox.minPt.y, frustumBox.maxPt.y, min_z,
-            max_z);
+        D3DXMatrixOrthoOffCenterLH(&lightSpaceOrtho, frustumBox.minPt.x, frustumBox.maxPt.x, frustumBox.minPt.y, frustumBox.maxPt.y, min_z, max_z);
 
         //  transform the view frustum by the new matrix
-        D3DXVec3TransformCoordArray(
-            frustumPnts, sizeof(D3DXVECTOR3), frustumPnts, sizeof(D3DXVECTOR3), &lightSpaceOrtho,
-            sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
+        D3DXVec3TransformCoordArray(frustumPnts, sizeof(D3DXVECTOR3), frustumPnts, sizeof(D3DXVECTOR3), &lightSpaceOrtho, sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
 
         D3DXVECTOR2 centerPts[2];
         //  near plane
@@ -1020,8 +996,7 @@ void CRender::render_sun()
 
         D3DXMATRIX  trapezoid_space;
 
-        D3DXMATRIX  xlate_center(
-            1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, -centerOrig.x, -centerOrig.y, 0.f, 1.f);
+        D3DXMATRIX  xlate_center(1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, -centerOrig.x, -centerOrig.y, 0.f, 1.f);
 
         D3DXVECTOR2 center_dirl     = D3DXVECTOR2(centerPts[1] - centerOrig);
         float       half_center_len = D3DXVec2Length(&center_dirl);
@@ -1031,17 +1006,14 @@ void CRender::render_sun()
         float       cos_theta       = x_len / half_center_len;
         float       sin_theta       = y_len / half_center_len;
 
-        D3DXMATRIX  rot_center(
-            cos_theta, -sin_theta, 0.f, 0.f, sin_theta, cos_theta, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f);
+        D3DXMATRIX  rot_center(cos_theta, -sin_theta, 0.f, 0.f, sin_theta, cos_theta, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f);
 
         //  this matrix transforms the center line to y=0.
         //  since Top and Base are orthogonal to Center, we can skip computing the convex hull, and instead
         //  just find the view frustum X-axis extrema.  The most negative is Top, the most positive is Base
         //  Point Q (trapezoid projection point) will be a point on the y=0 line.
         D3DXMatrixMultiply(&trapezoid_space, &xlate_center, &rot_center);
-        D3DXVec3TransformCoordArray(
-            frustumPnts, sizeof(D3DXVECTOR3), frustumPnts, sizeof(D3DXVECTOR3), &trapezoid_space,
-            sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
+        D3DXVec3TransformCoordArray(frustumPnts, sizeof(D3DXVECTOR3), frustumPnts, sizeof(D3DXVECTOR3), &trapezoid_space, sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
 
         BoundingBox frustumAABB2D(frustumPnts, sizeof(frustumPnts) / sizeof(D3DXVECTOR3));
 
@@ -1089,8 +1061,7 @@ void CRender::render_sun()
         float      xn = eta;
         float      xf = lambda + eta;
 
-        D3DXMATRIX ptQ_xlate(
-            -1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, projectionPtQ.x, 0.f, 0.f, 1.f);
+        D3DXMATRIX ptQ_xlate(-1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, projectionPtQ.x, 0.f, 0.f, 1.f);
         D3DXMatrixMultiply(&trapezoid_space, &trapezoid_space, &ptQ_xlate);
 
         //  this shear balances the "trapezoid" around the y=0 axis (no change to the projection pt position)
@@ -1098,17 +1069,14 @@ void CRender::render_sun()
         float shear_amt = (max_slope + _abs(min_slope)) * 0.5f - max_slope;
         max_slope       = max_slope + shear_amt;
 
-        D3DXMATRIX trapezoid_shear(
-            1.f, shear_amt, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f);
+        D3DXMATRIX trapezoid_shear(1.f, shear_amt, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, 0.f, 0.f, 0.f, 1.f);
 
         D3DXMatrixMultiply(&trapezoid_space, &trapezoid_space, &trapezoid_shear);
 
         float      z_aspect = (frustumBox.maxPt.z - frustumBox.minPt.z) / (frustumAABB2D.maxPt.y - frustumAABB2D.minPt.y);
 
         //  perform a 2DH projection to 'unsqueeze' the top line.
-        D3DXMATRIX trapezoid_projection(
-            xf / (xf - xn), 0.f, 0.f, 1.f, 0.f, 1.f / max_slope, 0.f, 0.f, 0.f, 0.f, 1.f / (z_aspect * max_slope), 0.f,
-            -xn * xf / (xf - xn), 0.f, 0.f, 0.f);
+        D3DXMATRIX trapezoid_projection(xf / (xf - xn), 0.f, 0.f, 1.f, 0.f, 1.f / max_slope, 0.f, 0.f, 0.f, 0.f, 1.f / (z_aspect * max_slope), 0.f, -xn * xf / (xf - xn), 0.f, 0.f, 0.f);
 
         D3DXMatrixMultiply(&trapezoid_space, &trapezoid_space, &trapezoid_projection);
 
@@ -1162,12 +1130,8 @@ void CRender::render_sun()
         b_receivers = view_clipper.clipped_AABB(s_receivers, xform);
         Fmatrix x_project, x_full, x_full_inverse;
         {
-            x_project.build_projection(
-                deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, ps_r2_sun_near,
-                ps_r2_sun_near + tweak_guaranteed_range);
-            x_project.build_projection(
-                deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
-                ps_r2_sun_near + tweak_guaranteed_range);
+            x_project.build_projection(deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, ps_r2_sun_near, ps_r2_sun_near + tweak_guaranteed_range);
+            x_project.build_projection(deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, ps_r2_sun_near + tweak_guaranteed_range);
             x_full.mul(x_project, Device->mView);
             D3DXMatrixInverse((D3DXMATRIX*)&x_full_inverse, 0, (D3DXMATRIX*)&x_full);
         }
@@ -1211,9 +1175,7 @@ void CRender::render_sun()
         //  the divide by two's cancel out in the translation, but included for clarity
         float      boxX      = (b_receivers.max.x + b_receivers.min.x) / 2.f;
         float      boxY      = (b_receivers.max.y + b_receivers.min.y) / 2.f;
-        D3DXMATRIX trapezoidUnitCube(
-            2.f / boxWidth, 0.f, 0.f, 0.f, 0.f, 2.f / boxHeight, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, -2.f * boxX / boxWidth,
-            -2.f * boxY / boxHeight, 0.f, 1.f);
+        D3DXMATRIX trapezoidUnitCube(2.f / boxWidth, 0.f, 0.f, 0.f, 0.f, 2.f / boxHeight, 0.f, 0.f, 0.f, 0.f, 1.f, 0.f, -2.f * boxX / boxWidth, -2.f * boxY / boxHeight, 0.f, 1.f);
         D3DXMatrixMultiply(&m_LightViewProj, &m_LightViewProj, &trapezoidUnitCube);
         // D3DXMatrixMultiply( &trapezoid_space, &trapezoid_space, &trapezoidUnitCube );
         FPU::m24r();
@@ -1271,8 +1233,7 @@ void CRender::render_sun_near()
     // calculate view-frustum bounds in world space
     Fmatrix    ex_project, ex_full, ex_full_inverse;
     {
-        ex_project.build_projection(
-            deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, ps_r2_sun_near);
+        ex_project.build_projection(deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, ps_r2_sun_near);
         ex_full.mul(ex_project, Device->mView);
         D3DXMatrixInverse((D3DXMATRIX*)&ex_full_inverse, 0, (D3DXMATRIX*)&ex_full);
     }
@@ -1291,7 +1252,7 @@ void CRender::render_sun_near()
 #ifdef _DEBUG
         typedef DumbConvexVolume<true> t_volume;
 #else
-        typedef DumbConvexVolume<false>  t_volume;
+        typedef DumbConvexVolume<false> t_volume;
 #endif
         t_volume hull;
         {
@@ -1393,15 +1354,12 @@ void CRender::render_sun_near()
         }
         Fbox& bb = frustum_bb;
         bb.grow(EPS);
-        D3DXMatrixOrthoOffCenterLH(
-            (D3DXMATRIX*)&mdir_Project, bb.min.x, bb.max.x, bb.min.y, bb.max.y,
-            bb.min.z - tweak_ortho_xform_initial_offs, bb.max.z);
+        D3DXMatrixOrthoOffCenterLH((D3DXMATRIX*)&mdir_Project, bb.min.x, bb.max.x, bb.min.y, bb.max.y, bb.min.z - tweak_ortho_xform_initial_offs, bb.max.z);
         /**/
 
         // build viewport xform
         float   view_dim   = float(RImplementation.o.smapsize);
-        Fmatrix m_viewport = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f,
-            0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f, view_dim / 2.f, 0.0f, 1.0f};
+        Fmatrix m_viewport = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f, view_dim / 2.f, 0.0f, 1.0f};
         Fmatrix m_viewport_inv;
         D3DXMatrixInverse((D3DXMATRIX*)&m_viewport_inv, 0, (D3DXMATRIX*)&m_viewport);
 
@@ -1571,7 +1529,7 @@ void CRender::render_sun_cascade(u32 cascade_ind)
 #ifdef _DEBUG
         typedef DumbConvexVolume<true> t_volume;
 #else
-        typedef DumbConvexVolume<false>  t_volume;
+        typedef DumbConvexVolume<false> t_volume;
 #endif
 
         //******************************* Need to be placed after cuboid built **************************
@@ -1646,14 +1604,11 @@ void CRender::render_sun_cascade(u32 cascade_ind)
         float dist     = light_top_plane.classify(Device->vCameraPosition);
 
         float map_size = m_sun_cascades[cascade_ind].size;
-        D3DXMatrixOrthoOffCenterLH(
-            (D3DXMATRIX*)&mdir_Project, -map_size * 0.5f, map_size * 0.5f, -map_size * 0.5f, map_size * 0.5f, 0.1,
-            dist + map_size);
+        D3DXMatrixOrthoOffCenterLH((D3DXMATRIX*)&mdir_Project, -map_size * 0.5f, map_size * 0.5f, -map_size * 0.5f, map_size * 0.5f, 0.1, dist + map_size);
 
         // build viewport xform
         float   view_dim   = float(RImplementation.o.smapsize);
-        Fmatrix m_viewport = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f,
-            0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f, view_dim / 2.f, 0.0f, 1.0f};
+        Fmatrix m_viewport = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f, view_dim / 2.f, 0.0f, 1.0f};
         Fmatrix m_viewport_inv;
         D3DXMatrixInverse((D3DXMATRIX*)&m_viewport_inv, 0, (D3DXMATRIX*)&m_viewport);
 
@@ -1677,8 +1632,7 @@ void CRender::render_sun_cascade(u32 cascade_ind)
             }
 
         Fvector lightXZshift;
-        light_cuboid.compute_caster_model_fixed(
-            cull_planes, lightXZshift, m_sun_cascades[cascade_ind].size, m_sun_cascades[cascade_ind].reset_chain);
+        light_cuboid.compute_caster_model_fixed(cull_planes, lightXZshift, m_sun_cascades[cascade_ind].size, m_sun_cascades[cascade_ind].reset_chain);
         Fvector proj_view = Device->vCameraDirection;
         proj_view.y       = 0;
         proj_view.normalize();
@@ -1714,10 +1668,7 @@ void CRender::render_sun_cascade(u32 cascade_ind)
         {
             Fvector     cam_proj            = Device->vCameraPosition;
             const float align_aim_step_coef = 4.f;
-            cam_proj.set(
-                floorf(cam_proj.x / align_aim_step_coef) + align_aim_step_coef / 2,
-                floorf(cam_proj.y / align_aim_step_coef) + align_aim_step_coef / 2,
-                floorf(cam_proj.z / align_aim_step_coef) + align_aim_step_coef / 2);
+            cam_proj.set(floorf(cam_proj.x / align_aim_step_coef) + align_aim_step_coef / 2, floorf(cam_proj.y / align_aim_step_coef) + align_aim_step_coef / 2, floorf(cam_proj.z / align_aim_step_coef) + align_aim_step_coef / 2);
             cam_proj.mul(align_aim_step_coef);
             Fvector cam_pixel  = wform(cull_xform, cam_proj);
             cam_pixel          = wform(m_viewport, cam_pixel);
@@ -1814,17 +1765,11 @@ void CRender::render_sun_cascade(u32 cascade_ind)
     Target->phase_accumulator();
 
     if (cascade_ind == 0)
-        Target->accum_direct_cascade(
-            SE_SUN_NEAR, m_sun_cascades[cascade_ind].xform, m_sun_cascades[cascade_ind].xform,
-            m_sun_cascades[cascade_ind].bias);
+        Target->accum_direct_cascade(SE_SUN_NEAR, m_sun_cascades[cascade_ind].xform, m_sun_cascades[cascade_ind].xform, m_sun_cascades[cascade_ind].bias);
     else if (cascade_ind < m_sun_cascades.size() - 1)
-        Target->accum_direct_cascade(
-            SE_SUN_MIDDLE, m_sun_cascades[cascade_ind].xform, m_sun_cascades[cascade_ind - 1].xform,
-            m_sun_cascades[cascade_ind].bias);
+        Target->accum_direct_cascade(SE_SUN_MIDDLE, m_sun_cascades[cascade_ind].xform, m_sun_cascades[cascade_ind - 1].xform, m_sun_cascades[cascade_ind].bias);
     else
-        Target->accum_direct_cascade(
-            SE_SUN_FAR, m_sun_cascades[cascade_ind].xform, m_sun_cascades[cascade_ind - 1].xform,
-            m_sun_cascades[cascade_ind].bias);
+        Target->accum_direct_cascade(SE_SUN_FAR, m_sun_cascades[cascade_ind].xform, m_sun_cascades[cascade_ind - 1].xform, m_sun_cascades[cascade_ind].bias);
 
     // Restore XForms
     RCache.set_xform_world(Fidentity);

@@ -1,4 +1,4 @@
-#ifndef __XR_WEAPON_MAG_H__
+п»ї#ifndef __XR_WEAPON_MAG_H__
 #define __XR_WEAPON_MAG_H__
 #pragma once
 
@@ -8,185 +8,217 @@
 
 class ENGINE_API CMotionDef;
 
-//размер очереди считается бесконечность
-//заканчиваем стрельбу, только, если кончились патроны
+//СЂР°Р·РјРµСЂ РѕС‡РµСЂРµРґРё СЃС‡РёС‚Р°РµС‚СЃСЏ Р±РµСЃРєРѕРЅРµС‡РЅРѕСЃС‚СЊ
+//Р·Р°РєР°РЅС‡РёРІР°РµРј СЃС‚СЂРµР»СЊР±Сѓ, С‚РѕР»СЊРєРѕ, РµСЃР»Рё РєРѕРЅС‡РёР»РёСЃСЊ РїР°С‚СЂРѕРЅС‹
 #define WEAPON_ININITE_QUEUE -1
-
 
 class CWeaponMagazined: public CWeapon
 {
 private:
-	typedef CWeapon inherited;
-protected:
-	// Media :: sounds
-	HUD_SOUND		sndShow;
-	HUD_SOUND		sndHide;
-	HUD_SOUND		sndShot;
-	HUD_SOUND		sndEmptyClick;
-	HUD_SOUND		sndReload;
-	//звук текущего выстрела
-	HUD_SOUND*		m_pSndShotCurrent;
-
-	virtual void	StopHUDSounds		();
-
-	//дополнительная информация о глушителе
-	LPCSTR			m_sSilencerFlameParticles;
-	LPCSTR			m_sSilencerSmokeParticles;
-	HUD_SOUND		sndSilencerShot;
-
-	ESoundTypes		m_eSoundShow;
-	ESoundTypes		m_eSoundHide;
-	ESoundTypes		m_eSoundShot;
-	ESoundTypes		m_eSoundEmptyClick;
-	ESoundTypes		m_eSoundReload;
-	struct SWMmotions{
-		MotionSVec		mhud_idle;
-		MotionSVec		mhud_idle_aim;
-		MotionSVec		mhud_reload;	//
-		MotionSVec		mhud_hide;		//
-		MotionSVec		mhud_show;		//
-		MotionSVec		mhud_shots;		//
-		MotionSVec		mhud_idle_sprint;
-	};
-	SWMmotions			mhud;	
-	
-	// General
-	//кадр момента пересчета UpdateSounds
-	u32				dwUpdateSounds_Frame;
-protected:
-	virtual void	OnMagazineEmpty	();
-
-	virtual void	switch2_Idle	();
-	virtual void	switch2_Fire	();
-	virtual void	switch2_Fire2	(){}
-	virtual void	switch2_Empty	();
-	virtual void	switch2_Reload	();
-	virtual void	switch2_Hiding	();
-	virtual void	switch2_Hidden	();
-	virtual void	switch2_Showing	();
-	
-	virtual void	OnShot			();	
-	
-	virtual void	OnEmptyClick	();
-
-	virtual void	OnAnimationEnd	(u32 state);
-	virtual void	OnStateSwitch	(u32 S);
-
-	virtual void	UpdateSounds	();
-
-	bool			TryReload		();
-	bool			TryPlayAnimIdle	();
+    typedef CWeapon inherited;
 
 protected:
-	virtual void	ReloadMagazine	();
-			void	ApplySilencerKoeffs	();
+    // Media :: sounds
+    HUD_SOUND    sndShow;
+    HUD_SOUND    sndHide;
+    HUD_SOUND    sndShot;
+    HUD_SOUND    sndEmptyClick;
+    HUD_SOUND    sndReload;
+    //Р·РІСѓРє С‚РµРєСѓС‰РµРіРѕ РІС‹СЃС‚СЂРµР»Р°
+    HUD_SOUND*   m_pSndShotCurrent;
 
-	virtual void	state_Fire		(float dt);
-	virtual void	state_MagEmpty	(float dt);
-	virtual void	state_Misfire	(float dt);
+    virtual void StopHUDSounds();
+
+    //РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РіР»СѓС€РёС‚РµР»Рµ
+    LPCSTR       m_sSilencerFlameParticles;
+    LPCSTR       m_sSilencerSmokeParticles;
+    HUD_SOUND    sndSilencerShot;
+
+    ESoundTypes  m_eSoundShow;
+    ESoundTypes  m_eSoundHide;
+    ESoundTypes  m_eSoundShot;
+    ESoundTypes  m_eSoundEmptyClick;
+    ESoundTypes  m_eSoundReload;
+    struct SWMmotions
+    {
+        MotionSVec mhud_idle;
+        MotionSVec mhud_idle_aim;
+        MotionSVec mhud_reload;   //
+        MotionSVec mhud_hide;     //
+        MotionSVec mhud_show;     //
+        MotionSVec mhud_shots;    //
+        MotionSVec mhud_idle_sprint;
+    };
+    SWMmotions mhud;
+
+    // General
+    //РєР°РґСЂ РјРѕРјРµРЅС‚Р° РїРµСЂРµСЃС‡РµС‚Р° UpdateSounds
+    u32        dwUpdateSounds_Frame;
+
+protected:
+    virtual void OnMagazineEmpty();
+
+    virtual void switch2_Idle();
+    virtual void switch2_Fire();
+    virtual void switch2_Fire2() {}
+    virtual void switch2_Empty();
+    virtual void switch2_Reload();
+    virtual void switch2_Hiding();
+    virtual void switch2_Hidden();
+    virtual void switch2_Showing();
+
+    virtual void OnShot();
+
+    virtual void OnEmptyClick();
+
+    virtual void OnAnimationEnd(u32 state);
+    virtual void OnStateSwitch(u32 S);
+
+    virtual void UpdateSounds();
+
+    bool         TryReload();
+    bool         TryPlayAnimIdle();
+
+protected:
+    virtual void ReloadMagazine();
+    void         ApplySilencerKoeffs();
+
+    virtual void state_Fire(float dt);
+    virtual void state_MagEmpty(float dt);
+    virtual void state_Misfire(float dt);
+
 public:
-					CWeaponMagazined	(LPCSTR name="AK74",ESoundTypes eSoundType=SOUND_TYPE_WEAPON_SUBMACHINEGUN);
-	virtual			~CWeaponMagazined	();
+    CWeaponMagazined(LPCSTR name = "AK74", ESoundTypes eSoundType = SOUND_TYPE_WEAPON_SUBMACHINEGUN);
+    virtual ~CWeaponMagazined();
 
-	virtual void	Load			(LPCSTR section);
-	virtual CWeaponMagazined*cast_weapon_magazined	()		 {return this;}
+    virtual void              Load(LPCSTR section);
+    virtual CWeaponMagazined* cast_weapon_magazined()
+    {
+        return this;
+    }
 
-	virtual void	SetDefaults		();
-	virtual void	FireStart		();
-	virtual void	FireEnd			();
-	virtual void	Reload			();
-	
+    virtual void SetDefaults();
+    virtual void FireStart();
+    virtual void FireEnd();
+    virtual void Reload();
 
-	virtual	void	UpdateCL		();
-	virtual void	net_Destroy		();
-	virtual void			net_Export			(NET_Packet& P);
-	virtual void			net_Import			(NET_Packet& P);
+    virtual void UpdateCL();
+    virtual void net_Destroy();
+    virtual void net_Export(NET_Packet& P);
+    virtual void net_Import(NET_Packet& P);
 
-	virtual void	OnH_A_Chield		();
+    virtual void OnH_A_Chield();
 
-	virtual bool	Attach(PIItem pIItem, bool b_send_event);
-	virtual bool	Detach(const char* item_section_name, bool b_spawn_item);
-	virtual bool	CanAttach(PIItem pIItem);
-	virtual bool	CanDetach(const char* item_section_name);
+    virtual bool Attach(PIItem pIItem, bool b_send_event);
+    virtual bool Detach(const char* item_section_name, bool b_spawn_item);
+    virtual bool CanAttach(PIItem pIItem);
+    virtual bool CanDetach(const char* item_section_name);
 
-	virtual void	InitAddons();
+    virtual void InitAddons();
 
-	virtual bool	Action			(s32 cmd, u32 flags);
-	virtual void	onMovementChanged	(ACTOR_DEFS::EMoveCommand cmd);
-	bool			IsAmmoAvailable	();
-	virtual void	UnloadMagazine	(bool spawn_ammo = true);
+    virtual bool Action(s32 cmd, u32 flags);
+    virtual void onMovementChanged(ACTOR_DEFS::EMoveCommand cmd);
+    bool         IsAmmoAvailable();
+    virtual void UnloadMagazine(bool spawn_ammo = true);
 
-	virtual void	GetBriefInfo				(xr_string& str_name, xr_string& icon_sect_name, xr_string& str_count);
+    virtual void GetBriefInfo(xr_string& str_name, xr_string& icon_sect_name, xr_string& str_count);
 
+    //////////////////////////////////////////////
+    // РґР»СЏ СЃС‚СЂРµР»СЊР±С‹ РѕС‡РµСЂРµРґСЏРјРё РёР»Рё РѕРґРёРЅРѕС‡РЅС‹РјРё
+    //////////////////////////////////////////////
 
-	//////////////////////////////////////////////
-	// для стрельбы очередями или одиночными
-	//////////////////////////////////////////////
 public:
-	virtual bool	SwitchMode				();
-	virtual bool	SingleShotMode			()			{return 1 == m_iQueueSize;}
-	virtual void	SetQueueSize			(int size);
-	IC		int		GetQueueSize			() const	{return m_iQueueSize;};
-	virtual bool	StopedAfterQueueFired	()			{return m_bStopedAfterQueueFired; }
-	virtual void	StopedAfterQueueFired	(bool value){m_bStopedAfterQueueFired = value; }
+    virtual bool SwitchMode();
+    virtual bool SingleShotMode()
+    {
+        return 1 == m_iQueueSize;
+    }
+    virtual void SetQueueSize(int size);
+    IC int       GetQueueSize() const
+    {
+        return m_iQueueSize;
+    };
+    virtual bool StopedAfterQueueFired()
+    {
+        return m_bStopedAfterQueueFired;
+    }
+    virtual void StopedAfterQueueFired(bool value)
+    {
+        m_bStopedAfterQueueFired = value;
+    }
 
 protected:
-	//максимальный размер очереди, которой можно стрельнуть
-	int				m_iQueueSize;
-	//количество реально выстреляных патронов
-	int				m_iShotNum;
-	//  [7/20/2005]
-	//после какого патрона, при непрерывной стрельбе, начинается отдача (сделано из-зи Абакана)
-	int				m_iShootEffectorStart;
-	Fvector			m_vStartPos, m_vStartDir;
-	//  [7/20/2005]
-	//флаг того, что мы остановились после того как выстреляли
-	//ровно столько патронов, сколько было задано в m_iQueueSize
-	bool			m_bStopedAfterQueueFired;
-	//флаг того, что хотя бы один выстрел мы должны сделать
-	//(даже если очень быстро нажали на курок и вызвалось FireEnd)
-	bool			m_bFireSingleShot;
-	//режимы стрельбы
-	bool			m_bHasDifferentFireModes;
-	xr_vector<int>	m_aFireModes;
-	int				m_iCurFireMode;
-	string16		m_sCurFireMode;
-	int				m_iPrefferedFireMode;
+    //РјР°РєСЃРёРјР°Р»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РѕС‡РµСЂРµРґРё, РєРѕС‚РѕСЂРѕР№ РјРѕР¶РЅРѕ СЃС‚СЂРµР»СЊРЅСѓС‚СЊ
+    int            m_iQueueSize;
+    //РєРѕР»РёС‡РµСЃС‚РІРѕ СЂРµР°Р»СЊРЅРѕ РІС‹СЃС‚СЂРµР»СЏРЅС‹С… РїР°С‚СЂРѕРЅРѕРІ
+    int            m_iShotNum;
+    //  [7/20/2005]
+    //РїРѕСЃР»Рµ РєР°РєРѕРіРѕ РїР°С‚СЂРѕРЅР°, РїСЂРё РЅРµРїСЂРµСЂС‹РІРЅРѕР№ СЃС‚СЂРµР»СЊР±Рµ, РЅР°С‡РёРЅР°РµС‚СЃСЏ РѕС‚РґР°С‡Р° (СЃРґРµР»Р°РЅРѕ РёР·-Р·Рё РђР±Р°РєР°РЅР°)
+    int            m_iShootEffectorStart;
+    Fvector        m_vStartPos, m_vStartDir;
+    //  [7/20/2005]
+    //С„Р»Р°Рі С‚РѕРіРѕ, С‡С‚Рѕ РјС‹ РѕСЃС‚Р°РЅРѕРІРёР»РёСЃСЊ РїРѕСЃР»Рµ С‚РѕРіРѕ РєР°Рє РІС‹СЃС‚СЂРµР»СЏР»Рё
+    //СЂРѕРІРЅРѕ СЃС‚РѕР»СЊРєРѕ РїР°С‚СЂРѕРЅРѕРІ, СЃРєРѕР»СЊРєРѕ Р±С‹Р»Рѕ Р·Р°РґР°РЅРѕ РІ m_iQueueSize
+    bool           m_bStopedAfterQueueFired;
+    //С„Р»Р°Рі С‚РѕРіРѕ, С‡С‚Рѕ С…РѕС‚СЏ Р±С‹ РѕРґРёРЅ РІС‹СЃС‚СЂРµР» РјС‹ РґРѕР»Р¶РЅС‹ СЃРґРµР»Р°С‚СЊ
+    //(РґР°Р¶Рµ РµСЃР»Рё РѕС‡РµРЅСЊ Р±С‹СЃС‚СЂРѕ РЅР°Р¶Р°Р»Рё РЅР° РєСѓСЂРѕРє Рё РІС‹Р·РІР°Р»РѕСЃСЊ FireEnd)
+    bool           m_bFireSingleShot;
+    //СЂРµР¶РёРјС‹ СЃС‚СЂРµР»СЊР±С‹
+    bool           m_bHasDifferentFireModes;
+    xr_vector<int> m_aFireModes;
+    int            m_iCurFireMode;
+    string16       m_sCurFireMode;
+    int            m_iPrefferedFireMode;
 
-	//переменная блокирует использование
-	//только разных типов патронов
-	bool m_bLockType;
+    //РїРµСЂРµРјРµРЅРЅР°СЏ Р±Р»РѕРєРёСЂСѓРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёРµ
+    //С‚РѕР»СЊРєРѕ СЂР°Р·РЅС‹С… С‚РёРїРѕРІ РїР°С‚СЂРѕРЅРѕРІ
+    bool           m_bLockType;
 
-	//////////////////////////////////////////////
-	// режим приближения
-	//////////////////////////////////////////////
+    //////////////////////////////////////////////
+    // СЂРµР¶РёРј РїСЂРёР±Р»РёР¶РµРЅРёСЏ
+    //////////////////////////////////////////////
+
 public:
-	virtual void	OnZoomIn			();
-	virtual void	OnZoomOut			();
-	virtual	void	OnNextFireMode		();
-	virtual	void	OnPrevFireMode		();
-	virtual bool	HasFireModes		() { return m_bHasDifferentFireModes; };
-	virtual	int		GetCurrentFireMode	() { return m_aFireModes[m_iCurFireMode]; };	
-	virtual LPCSTR	GetCurrentFireModeStr	() {return m_sCurFireMode;};
+    virtual void OnZoomIn();
+    virtual void OnZoomOut();
+    virtual void OnNextFireMode();
+    virtual void OnPrevFireMode();
+    virtual bool HasFireModes()
+    {
+        return m_bHasDifferentFireModes;
+    };
+    virtual int GetCurrentFireMode()
+    {
+        return m_aFireModes[m_iCurFireMode];
+    };
+    virtual LPCSTR GetCurrentFireModeStr()
+    {
+        return m_sCurFireMode;
+    };
 
-	virtual void	save				(NET_Packet &output_packet);
-	virtual void	load				(IReader &input_packet);
+    virtual void save(NET_Packet& output_packet);
+    virtual void load(IReader& input_packet);
 
 protected:
-	virtual bool	AllowFireWhileWorking() {return false;}
+    virtual bool AllowFireWhileWorking()
+    {
+        return false;
+    }
 
-	//виртуальные функции для проигрывания анимации HUD
-	virtual void	PlayAnimShow();
-	virtual void	PlayAnimHide();
-	virtual void	PlayAnimReload();
-	virtual void	PlayAnimIdle();
-	virtual void	PlayAnimShoot();
-	virtual void	PlayReloadSound		();
+    //РІРёСЂС‚СѓР°Р»СЊРЅС‹Рµ С„СѓРЅРєС†РёРё РґР»СЏ РїСЂРѕРёРіСЂС‹РІР°РЅРёСЏ Р°РЅРёРјР°С†РёРё HUD
+    virtual void PlayAnimShow();
+    virtual void PlayAnimHide();
+    virtual void PlayAnimReload();
+    virtual void PlayAnimIdle();
+    virtual void PlayAnimShoot();
+    virtual void PlayReloadSound();
 
-	virtual void	StartIdleAnim		();
-	virtual	int		ShotsFired			() { return m_iShotNum; }
-	virtual float	GetWeaponDeterioration	();
-
+    virtual void StartIdleAnim();
+    virtual int  ShotsFired()
+    {
+        return m_iShotNum;
+    }
+    virtual float GetWeaponDeterioration();
 };
 
-#endif //__XR_WEAPON_MAG_H__
+#endif   //__XR_WEAPON_MAG_H__

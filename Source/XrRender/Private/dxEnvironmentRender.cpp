@@ -11,19 +11,16 @@
 //////////////////////////////////////////////////////////////////////////
 // half box def
 static Fvector3 hbox_verts[24] = {
-    {-1.f, -1.f, -1.f}, {-1.f, -1.01f, -1.f},   // down
-    {1.f, -1.f, -1.f},  {1.f, -1.01f, -1.f},    // down
-    {-1.f, -1.f, 1.f},  {-1.f, -1.01f, 1.f},    // down
-    {1.f, -1.f, 1.f},   {1.f, -1.01f, 1.f},     // down
-    {-1.f, 2.f, -1.f},  {-1.f, 1.f, -1.f},    {1.f, 2.f, -1.f}, {1.f, 1.f, -1.f},  {-1.f, 2.f, 1.f},
-    {-1.f, 1.f, 1.f},   {1.f, 2.f, 1.f},      {1.f, 1.f, 1.f},  {-1.f, 0.f, -1.f}, {-1.f, -1.f, -1.f},   // half
-    {1.f, 0.f, -1.f},   {1.f, -1.f, -1.f},                                                               // half
-    {1.f, 0.f, 1.f},    {1.f, -1.f, 1.f},                                                                // half
-    {-1.f, 0.f, 1.f},   {-1.f, -1.f, 1.f}                                                                // half
+    {-1.f, -1.f, -1.f}, {-1.f, -1.01f, -1.f},                                                                                                                                                // down
+    {1.f, -1.f, -1.f}, {1.f, -1.01f, -1.f},                                                                                                                                                  // down
+    {-1.f, -1.f, 1.f}, {-1.f, -1.01f, 1.f},                                                                                                                                                  // down
+    {1.f, -1.f, 1.f}, {1.f, -1.01f, 1.f},                                                                                                                                                    // down
+    {-1.f, 2.f, -1.f}, {-1.f, 1.f, -1.f}, {1.f, 2.f, -1.f}, {1.f, 1.f, -1.f}, {-1.f, 2.f, 1.f}, {-1.f, 1.f, 1.f}, {1.f, 2.f, 1.f}, {1.f, 1.f, 1.f}, {-1.f, 0.f, -1.f}, {-1.f, -1.f, -1.f},   // half
+    {1.f, 0.f, -1.f}, {1.f, -1.f, -1.f},                                                                                                                                                     // half
+    {1.f, 0.f, 1.f}, {1.f, -1.f, 1.f},                                                                                                                                                       // half
+    {-1.f, 0.f, 1.f}, {-1.f, -1.f, 1.f}                                                                                                                                                      // half
 };
-static u16 hbox_faces[20 * 3] = {0,  2, 3,  3,  1, 0, 4,  5,  7, 7, 6, 4,  0,  1, 9,  9, 8, 0, 8,  9,
-                                 5,  5, 4,  8,  1, 3, 10, 10, 9, 1, 9, 10, 7,  7, 5,  9, 3, 2, 11, 11,
-                                 10, 3, 10, 11, 6, 6, 7,  10, 2, 0, 8, 8,  11, 2, 11, 8, 4, 4, 6,  11};
+static u16 hbox_faces[20 * 3] = {0, 2, 3, 3, 1, 0, 4, 5, 7, 7, 6, 4, 0, 1, 9, 9, 8, 0, 8, 9, 5, 5, 4, 8, 1, 3, 10, 10, 9, 1, 9, 10, 7, 7, 5, 9, 3, 2, 11, 11, 10, 3, 10, 11, 6, 6, 7, 10, 2, 0, 8, 8, 11, 2, 11, 8, 4, 4, 6, 11};
 
 #pragma pack(push, 1)
 struct v_skybox
@@ -232,10 +229,8 @@ void dxEnvironmentRender::RenderSky(IEnvironment& env)
     mSky.rotateY(env.CurrentEnv->sky_rotation);
     mSky.translate_over(Device->vCameraPosition);
 
-    u32 i_offset, v_offset;
-    u32 C = color_rgba(
-        iFloor(env.CurrentEnv->sky_color.x * 255.f), iFloor(env.CurrentEnv->sky_color.y * 255.f),
-        iFloor(env.CurrentEnv->sky_color.z * 255.f), iFloor(env.CurrentEnv->weight * 255.f));
+    u32  i_offset, v_offset;
+    u32  C   = color_rgba(iFloor(env.CurrentEnv->sky_color.x * 255.f), iFloor(env.CurrentEnv->sky_color.y * 255.f), iFloor(env.CurrentEnv->sky_color.z * 255.f), iFloor(env.CurrentEnv->weight * 255.f));
 
     // Fill index buffer
     u16* pib = RCache.Index.Lock(20 * 3, i_offset);
@@ -288,11 +283,9 @@ void dxEnvironmentRender::RenderClouds(IEnvironment& env)
     wd0.setHP(PI_DIV_4, 0);
     wd1.setHP(PI_DIV_4 + PI_DIV_8, 0);
     wind_dir.set(wd0.x, wd0.z, wd1.x, wd1.z).mul(0.5f).add(0.5f).mul(255.f);
-    u32 i_offset, v_offset;
-    u32 C0 = color_rgba(iFloor(wind_dir.x), iFloor(wind_dir.y), iFloor(wind_dir.w), iFloor(wind_dir.z));
-    u32 C1 = color_rgba(
-        iFloor(env.CurrentEnv->clouds_color.x * 255.f), iFloor(env.CurrentEnv->clouds_color.y * 255.f),
-        iFloor(env.CurrentEnv->clouds_color.z * 255.f), iFloor(env.CurrentEnv->clouds_color.w * 255.f));
+    u32  i_offset, v_offset;
+    u32  C0  = color_rgba(iFloor(wind_dir.x), iFloor(wind_dir.y), iFloor(wind_dir.w), iFloor(wind_dir.z));
+    u32  C1  = color_rgba(iFloor(env.CurrentEnv->clouds_color.x * 255.f), iFloor(env.CurrentEnv->clouds_color.y * 255.f), iFloor(env.CurrentEnv->clouds_color.z * 255.f), iFloor(env.CurrentEnv->clouds_color.w * 255.f));
 
     // Fill index buffer
     u16* pib = RCache.Index.Lock(env.CloudsIndices.size(), i_offset);

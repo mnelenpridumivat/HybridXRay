@@ -112,8 +112,7 @@ BOOL R_constant_table::parse(void* _desc, u32 destination)
                                         r_type = RC_3x4;
                                         break;
                                     default:
-                                        Msg("Invalid matrix dimension:%dx%d in constant %s", it->RegisterCount,
-                                            T->Columns, name);
+                                        Msg("Invalid matrix dimension:%dx%d in constant %s", it->RegisterCount, T->Columns, name);
                                         fatal("MATRIX_ROWS: unsupported number of RegisterCount");
                                         break;
                                 }
@@ -246,9 +245,7 @@ void R_constant_table::merge(R_constant_table* T)
         }
         else
         {
-            VERIFY2(
-                !(C->destination & src->destination & RC_dest_sampler),
-                "Can't have samplers or textures with the same name for PS, VS and GS.");
+            VERIFY2(!(C->destination & src->destination & RC_dest_sampler), "Can't have samplers or textures with the same name for PS, VS and GS.");
             C->destination |= src->destination;
             VERIFY(C->type == src->type);
             R_constant_load& sL = src->get_load(src->destination);

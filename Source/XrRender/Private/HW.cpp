@@ -30,8 +30,7 @@ CHW HW;
 IDirect3DStateBlock9* dwDebugSB = 0;
 #endif
 
-CHW::CHW():
-    hD3D(NULL), pD3D(NULL), pDevice(NULL), pBaseRT(NULL), pBaseZB(NULL), m_move_window(true)
+CHW::CHW(): hD3D(NULL), pD3D(NULL), pDevice(NULL), pBaseRT(NULL), pBaseZB(NULL), m_move_window(true)
 {
     ;
 }
@@ -140,8 +139,7 @@ D3DFORMAT CHW::selectDepthStencil(D3DFORMAT fTarget)
 
     for (int it = 0; it < fDS_Cnt; it++)
     {
-        if (SUCCEEDED(pD3D->CheckDeviceFormat(
-                DevAdapter, DevT, fTarget, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, fDS_Try[it])))
+        if (SUCCEEDED(pD3D->CheckDeviceFormat(DevAdapter, DevT, fTarget, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, fDS_Try[it])))
         {
             if (SUCCEEDED(pD3D->CheckDepthStencilMatch(DevAdapter, DevT, fTarget, fTarget, fDS_Try[it])))
             {
@@ -318,9 +316,7 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
             "Please try to restart the game.\n"
             "Can not find matching format for back buffer.");
         FlushLog();
-        MessageBox(
-            NULL, "Failed to initialize graphics hardware.\nPlease try to restart the game.", "Error!",
-            MB_OK | MB_ICONERROR);
+        MessageBox(NULL, "Failed to initialize graphics hardware.\nPlease try to restart the game.", "Error!", MB_OK | MB_ICONERROR);
         TerminateProcess(GetCurrentProcess(), 0);
     }
 
@@ -360,15 +356,13 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
 
     // Create the device
     u32     GPU = selectGPU();
-    HRESULT R   = HW.pD3D->CreateDevice(
-        DevAdapter, DevT, m_hWnd,
-        GPU | D3DCREATE_MULTITHREADED,   //. ? locks at present
-        &P, &pDevice);
+    HRESULT R   = HW.pD3D->CreateDevice(DevAdapter, DevT, m_hWnd,
+          GPU | D3DCREATE_MULTITHREADED,   //. ? locks at present
+          &P, &pDevice);
 
     if (FAILED(R))
     {
-        R = HW.pD3D->CreateDevice(
-            DevAdapter, DevT, m_hWnd,
+        R = HW.pD3D->CreateDevice(DevAdapter, DevT, m_hWnd,
             GPU | D3DCREATE_MULTITHREADED,   //. ? locks at present
             &P, &pDevice);
     }
@@ -380,9 +374,7 @@ void CHW::CreateDevice(HWND m_hWnd, bool move_window)
             "CreateDevice returned 0x%08x(D3DERR_DEVICELOST)",
             R);
         FlushLog();
-        MessageBox(
-            NULL, "Failed to initialize graphics hardware.\nPlease try to restart the game.", "Error!",
-            MB_OK | MB_ICONERROR);
+        MessageBox(NULL, "Failed to initialize graphics hardware.\nPlease try to restart the game.", "Error!", MB_OK | MB_ICONERROR);
         TerminateProcess(GetCurrentProcess(), 0);
     };
     R_CHK(R);
@@ -444,12 +436,9 @@ u32 CHW::selectGPU()
 
 #define GMA_SL_SIZE 43
 
-        DWORD IntelGMA_SoftList[GMA_SL_SIZE] = {0x2782, 0x2582, 0x2792, 0x2592, 0x2772, 0x2776, 0x27A2, 0x27A6, 0x27AE,
-            0x2982, 0x2983, 0x2992, 0x2993, 0x29A2, 0x29A3, 0x2972, 0x2973, 0x2A02,
-            0x2A03, 0x2A12, 0x2A13, 0x29C2, 0x29C3, 0x29B2, 0x29B3, 0x29D2, 0x29D3,
+        DWORD IntelGMA_SoftList[GMA_SL_SIZE] = {0x2782, 0x2582, 0x2792, 0x2592, 0x2772, 0x2776, 0x27A2, 0x27A6, 0x27AE, 0x2982, 0x2983, 0x2992, 0x2993, 0x29A2, 0x29A3, 0x2972, 0x2973, 0x2A02, 0x2A03, 0x2A12, 0x2A13, 0x29C2, 0x29C3, 0x29B2, 0x29B3, 0x29D2, 0x29D3,
 
-            0x2A42, 0x2A43, 0x2E02, 0x2E03, 0x2E12, 0x2E13, 0x2E22, 0x2E23, 0x2E32,
-            0x2E33, 0x2E42, 0x2E43, 0x2E92, 0x2E93, 0x0042, 0x0046};
+            0x2A42, 0x2A43, 0x2E02, 0x2E03, 0x2E12, 0x2E13, 0x2E22, 0x2E23, 0x2E32, 0x2E33, 0x2E42, 0x2E43, 0x2E92, 0x2E93, 0x0042, 0x0046};
 
         for (int idx = 0; idx < GMA_SL_SIZE; ++idx)
             if (IntelGMA_SoftList[idx] == Caps.id_device)
@@ -586,10 +575,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
                 GetClientRect(GetDesktopWindow(), &DesktopRect);
 
-                SetRect(
-                    &m_rcWindowBounds, (DesktopRect.right - DevPP.BackBufferWidth) / 2,
-                    (DesktopRect.bottom - DevPP.BackBufferHeight) / 2, (DesktopRect.right + DevPP.BackBufferWidth) / 2,
-                    (DesktopRect.bottom + DevPP.BackBufferHeight) / 2);
+                SetRect(&m_rcWindowBounds, (DesktopRect.right - DevPP.BackBufferWidth) / 2, (DesktopRect.bottom - DevPP.BackBufferHeight) / 2, (DesktopRect.right + DevPP.BackBufferWidth) / 2, (DesktopRect.bottom + DevPP.BackBufferHeight) / 2);
             }
             else
             {
@@ -598,10 +584,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
             AdjustWindowRect(&m_rcWindowBounds, dwWindowStyle, FALSE);
 
-            SetWindowPos(
-                m_hWnd, HWND_NOTOPMOST, m_rcWindowBounds.left, m_rcWindowBounds.top,
-                (m_rcWindowBounds.right - m_rcWindowBounds.left), (m_rcWindowBounds.bottom - m_rcWindowBounds.top),
-                SWP_SHOWWINDOW | SWP_NOCOPYBITS | SWP_DRAWFRAME);
+            SetWindowPos(m_hWnd, HWND_NOTOPMOST, m_rcWindowBounds.left, m_rcWindowBounds.top, (m_rcWindowBounds.right - m_rcWindowBounds.left), (m_rcWindowBounds.bottom - m_rcWindowBounds.top), SWP_SHOWWINDOW | SWP_NOCOPYBITS | SWP_DRAWFRAME);
         }
     }
     else
@@ -621,8 +604,7 @@ void CHW::updateWindowProps(HWND m_hWnd)
 
 struct _uniq_mode
 {
-    _uniq_mode(LPCSTR v):
-        _val(v) {}
+    _uniq_mode(LPCSTR v): _val(v) {}
     LPCSTR _val;
     bool   operator()(LPCSTR _other)
     {

@@ -24,9 +24,7 @@ IDirect3DStateBlock9* SimulatorStates::record()
                 break;
             case 2:
             {
-                CHK_DX(HW.pDevice->SetSamplerState(
-                    S.v1, (D3DSAMPLERSTATETYPE)S.v2,
-                    ((D3DSAMPLERSTATETYPE)S.v2 == D3DSAMP_MAGFILTER && S.v3 == D3DTEXF_ANISOTROPIC) ? D3DTEXF_LINEAR : S.v3));
+                CHK_DX(HW.pDevice->SetSamplerState(S.v1, (D3DSAMPLERSTATETYPE)S.v2, ((D3DSAMPLERSTATETYPE)S.v2 == D3DSAMP_MAGFILTER && S.v3 == D3DTEXF_ANISOTROPIC) ? D3DTEXF_LINEAR : S.v3));
             }
             break;
         }
@@ -414,10 +412,7 @@ void SimulatorStates::UpdateDesc(D3D_BLEND_DESC& desc) const
 }
 #endif
 
-void SimulatorStates::UpdateDesc(
-    D3D_SAMPLER_DESC descArray[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT],
-    bool             SamplerUsed[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT],
-    int              iBaseSamplerIndex) const
+void SimulatorStates::UpdateDesc(D3D_SAMPLER_DESC descArray[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT], bool SamplerUsed[D3D_COMMONSHADER_SAMPLER_SLOT_COUNT], int iBaseSamplerIndex) const
 {
     const int MipfilterLinear   = 0x01;
     const int MagfilterLinear   = 0x04;

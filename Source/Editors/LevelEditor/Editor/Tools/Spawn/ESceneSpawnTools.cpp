@@ -1,10 +1,14 @@
 ﻿#include "stdafx.h"
 
-static HMODULE hXRSE_FACTORY = 0;
+static HMODULE   hXRSE_FACTORY = 0;
 
 CEditableObject* ESceneSpawnTool::get_draw_visual(u8 _RP_TeamID, u8 _RP_Type, const GameTypeChooser& _GameType)
 {
-    CEditableObject* ret = NULL;
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        return nullptr;
+
+    CEditableObject* ret = nullptr;
+
     if (m_draw_RP_visuals.empty())
     {
         m_draw_RP_visuals.push_back(Lib.CreateEditObject("editor\\artefakt_ah"));          // 0
@@ -18,6 +22,7 @@ CEditableObject* ESceneSpawnTool::get_draw_visual(u8 _RP_TeamID, u8 _RP_Type, co
         m_draw_RP_visuals.push_back(Lib.CreateEditObject("editor\\spectator"));            // 8
         m_draw_RP_visuals.push_back(Lib.CreateEditObject("editor\\item_spawn"));           // 9
     }
+
     switch (_RP_Type)
     {
         case rptActorSpawn:   // actor spawn
@@ -26,35 +31,38 @@ CEditableObject* ESceneSpawnTool::get_draw_visual(u8 _RP_TeamID, u8 _RP_Type, co
             {
                 if (_RP_TeamID == 0)
                     ret = m_draw_RP_visuals[5];
-            };
+            }
+
             if (_GameType.MatchType(eGameIDTeamDeathmatch))
             {
                 if (_RP_TeamID == 2)
                     ret = m_draw_RP_visuals[7];
                 else if (_RP_TeamID == 1)
                     ret = m_draw_RP_visuals[6];
-            };
+            }
 
             if (_GameType.MatchType(eGameIDCaptureTheArtefact))
             {
-                if (_RP_TeamID == 0)
+                if (!_RP_TeamID)
                     Msg("! incorrect ActorRP teamID [%d] for CTA", _RP_TeamID);
                 else if (_RP_TeamID == 1)
                     ret = m_draw_RP_visuals[4];
                 else if (_RP_TeamID == 2)
                     ret = m_draw_RP_visuals[3];
-            };
+            }
+
             if (_GameType.MatchType(eGameIDArtefactHunt))
             {
-                if (_RP_TeamID == 0)
+                if (!_RP_TeamID)
                     ret = m_draw_RP_visuals[8];   // spactator
                 else if (_RP_TeamID == 1)
                     ret = m_draw_RP_visuals[4];
                 else if (_RP_TeamID == 2)
                     ret = m_draw_RP_visuals[3];
-            };
+            }
         }
         break;
+
         case rptArtefactSpawn:   // AF spawn
         {
             if (_GameType.MatchType(eGameIDCaptureTheArtefact))
@@ -67,16 +75,17 @@ CEditableObject* ESceneSpawnTool::get_draw_visual(u8 _RP_TeamID, u8 _RP_Type, co
                     Msg("! incorrect AF teamID [%d] for CTA", _RP_TeamID);
             }
             else if (_GameType.MatchType(eGameIDArtefactHunt))
-            {
                 ret = m_draw_RP_visuals[0];
-            }
         }
         break;
-        case rptItemSpawn: {
+
+        case rptItemSpawn:
+        {
             ret = m_draw_RP_visuals[9];
         }
         break;
     }
+
     return ret;
 }
 
@@ -137,11 +146,13 @@ void ESceneSpawnTool::CreateControls()
 
     pForm = xr_new<UISpawnTool>();
 }
+//----------------------------------------------------
 
 void ESceneSpawnTool::RemoveControls()
 {
     inherited::RemoveControls();
 }
+//----------------------------------------------------
 
 void ESceneSpawnTool::FillProp(LPCSTR pref, PropItemVec& items)
 {
@@ -149,6 +160,7 @@ void ESceneSpawnTool::FillProp(LPCSTR pref, PropItemVec& items)
     //.	PHelper().CreateFlag32(items, PrepareKey(pref,"Common\\Trace Visibility"),	&m_Flags,		flPickSpawnType);
     inherited::FillProp(pref, items);
 }
+//------------------------------------------------------------------------------
 
 ref_shader ESceneSpawnTool::CreateIcon(shared_str name)
 {
@@ -184,7 +196,7 @@ CCustomObject* ESceneSpawnTool::CreateObject(LPVOID data, LPCSTR name)
     {
         if (pSettings->line_exist((LPCSTR)data, "$def_sphere"))
         {
-            float size = pSettings->r_float((LPCSTR)data, "$def_sphere");
+            float          size  = pSettings->r_float((LPCSTR)data, "$def_sphere");
 
             CCustomObject* S     = Scene->GetOTool(OBJCLASS_SHAPE)->CreateObject(0, 0);
             CEditShape*    shape = dynamic_cast<CEditShape*>(S);
@@ -199,6 +211,7 @@ CCustomObject* ESceneSpawnTool::CreateObject(LPVOID data, LPCSTR name)
     }
     return O;
 }
+//----------------------------------------------------
 
 int ESceneSpawnTool::MultiRenameObjects()
 {

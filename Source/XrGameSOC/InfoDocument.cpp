@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // InfoDocument.cpp
-// InfoDocument - документ, содержащий сюжетную информацию
+// InfoDocument - РґРѕРєСѓРјРµРЅС‚, СЃРѕРґРµСЂР¶Р°С‰РёР№ СЃСЋР¶РµС‚РЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ
 ///////////////////////////////////////////////////////////////
 #include "stdafx.h"
 #include "InfoDocument.h"
@@ -10,77 +10,74 @@
 #include "xrserver_objects_alife_items.h"
 #include "../XrCore/net_utils.h"
 
-CInfoDocument::CInfoDocument(void) 
+CInfoDocument::CInfoDocument(void)
 {
-	m_Info = NULL;
+    m_Info = NULL;
 }
 
-CInfoDocument::~CInfoDocument(void) 
+CInfoDocument::~CInfoDocument(void) {}
+
+BOOL CInfoDocument::net_Spawn(CSE_Abstract* DC)
 {
+    BOOL                   res                   = inherited::net_Spawn(DC);
+
+    CSE_Abstract*          l_tpAbstract          = static_cast<CSE_Abstract*>(DC);
+    CSE_ALifeItemDocument* l_tpALifeItemDocument = smart_cast<CSE_ALifeItemDocument*>(l_tpAbstract);
+    R_ASSERT(l_tpALifeItemDocument);
+
+    m_Info = l_tpALifeItemDocument->m_wDoc;
+
+    return (res);
 }
 
-
-BOOL CInfoDocument::net_Spawn(CSE_Abstract* DC) 
+void CInfoDocument::Load(LPCSTR section)
 {
-	BOOL					res = inherited::net_Spawn(DC);
-
-	CSE_Abstract			*l_tpAbstract = static_cast<CSE_Abstract*>(DC);
-	CSE_ALifeItemDocument	*l_tpALifeItemDocument = smart_cast<CSE_ALifeItemDocument*>(l_tpAbstract);
-	R_ASSERT				(l_tpALifeItemDocument);
-
-	m_Info					= l_tpALifeItemDocument->m_wDoc;
-
-	return					(res);
+    inherited::Load(section);
 }
 
-void CInfoDocument::Load(LPCSTR section) 
+void CInfoDocument::net_Destroy()
 {
-	inherited::Load(section);
+    inherited::net_Destroy();
 }
 
-void CInfoDocument::net_Destroy() 
+void CInfoDocument::shedule_Update(u32 dt)
 {
-	inherited::net_Destroy();
+    inherited::shedule_Update(dt);
 }
 
-void CInfoDocument::shedule_Update(u32 dt) 
+void CInfoDocument::UpdateCL()
 {
-	inherited::shedule_Update(dt);
+    inherited::UpdateCL();
 }
 
-void CInfoDocument::UpdateCL() 
+void CInfoDocument::OnH_A_Chield()
 {
-	inherited::UpdateCL();
+    inherited::OnH_A_Chield();
+
+    //РїРµСЂРµРґР°С‚СЊ РёРЅС„РѕСЂРјР°С†РёСЋ СЃРѕРґРµСЂР¶Р°С‰СѓСЋСЃСЏ РІ РґРѕРєСѓРјРµРЅС‚Рµ
+    //РѕР±СЉРµРєС‚Сѓ, РєРѕС‚РѕСЂС‹Р№ РїРѕРґРЅСЏР» РґРѕРєСѓРјРµРЅС‚
+    CInventoryOwner* pInvOwner = smart_cast<CInventoryOwner*>(H_Parent());
+    if (!pInvOwner)
+        return;
+
+    //СЃРѕР·РґР°С‚СЊ Рё РѕС‚РїСЂР°РІРёС‚СЊ РїР°РєРµС‚ Рѕ РїРѕР»СѓС‡РµРЅРёРё РЅРѕРІРѕР№ РёРЅС„РѕСЂРјР°С†РёРё
+    if (m_Info.size())
+    {
+        NET_Packet P;
+        u_EventGen(P, GE_INFO_TRANSFER, H_Parent()->ID());
+        P.w_u16(ID());         //РѕС‚РїСЂР°РІРёС‚РµР»СЊ
+        P.w_stringZ(m_Info);   //СЃРѕРѕР±С‰РµРЅРёРµ
+        P.w_u8(1);             //РґРѕР±Р°РІР»РµРЅРёРµ СЃРѕРѕР±С‰РµРЅРёСЏ
+        u_EventSend(P);
+    }
 }
 
-
-void CInfoDocument::OnH_A_Chield() 
+void CInfoDocument::OnH_B_Independent(bool just_before_destroy)
 {
-	inherited::OnH_A_Chield		();
-	
-	//передать информацию содержащуюся в документе
-	//объекту, который поднял документ
-	CInventoryOwner* pInvOwner = smart_cast<CInventoryOwner*>(H_Parent());
-	if(!pInvOwner) return;
-	
-	//создать и отправить пакет о получении новой информации
-	if(m_Info.size())
-	{
-		NET_Packet		P;
-		u_EventGen		(P,GE_INFO_TRANSFER, H_Parent()->ID());
-		P.w_u16			(ID());						//отправитель
-		P.w_stringZ		(m_Info);				//сообщение
-		P.w_u8			(1);						//добавление сообщения
-		u_EventSend		(P);
-	}
+    inherited::OnH_B_Independent(just_before_destroy);
 }
 
-void CInfoDocument::OnH_B_Independent(bool just_before_destroy) 
+void CInfoDocument::renderable_Render()
 {
-	inherited::OnH_B_Independent(just_before_destroy);
-}
-
-void CInfoDocument::renderable_Render() 
-{
-	inherited::renderable_Render();
+    inherited::renderable_Render();
 }

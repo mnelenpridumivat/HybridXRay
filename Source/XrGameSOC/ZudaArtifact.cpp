@@ -1,22 +1,17 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // ZudaArtifact.cpp
-// ZudaArtefact - артефакт "зуда"
+// ZudaArtefact - Р°СЂС‚РµС„Р°РєС‚ "Р·СѓРґР°"
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "ZudaArtifact.h"
 #include "PhysicsShell.h"
 
+CZudaArtefact::CZudaArtefact(void) {}
 
-CZudaArtefact::CZudaArtefact(void) 
-{
-}
+CZudaArtefact::~CZudaArtefact(void) {}
 
-CZudaArtefact::~CZudaArtefact(void) 
+void CZudaArtefact::Load(LPCSTR section)
 {
-}
-
-void CZudaArtefact::Load(LPCSTR section) 
-{
-	inherited::Load(section);
+    inherited::Load(section);
 }

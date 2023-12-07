@@ -61,16 +61,12 @@ void CBlender_Detail_Still::Compile(CBlender_Compile& C)
         switch (C.iElement)
         {
             case SE_R1_NORMAL_HQ:
-                C.r_Pass(
-                    "detail_wave", "detail", FALSE, TRUE, TRUE, FALSE, D3DBLEND_ONE, D3DBLEND_ZERO,
-                    oBlend.value ? TRUE : FALSE, oBlend.value ? 200 : 0);
+                C.r_Pass("detail_wave", "detail", FALSE, TRUE, TRUE, FALSE, D3DBLEND_ONE, D3DBLEND_ZERO, oBlend.value ? TRUE : FALSE, oBlend.value ? 200 : 0);
                 C.r_Sampler("s_base", C.L_textures[0]);
                 C.r_End();
                 break;
             case SE_R1_NORMAL_LQ:
-                C.r_Pass(
-                    "detail_still", "detail", FALSE, TRUE, TRUE, FALSE, D3DBLEND_ONE, D3DBLEND_ZERO,
-                    oBlend.value ? TRUE : FALSE, oBlend.value ? 200 : 0);
+                C.r_Pass("detail_still", "detail", FALSE, TRUE, TRUE, FALSE, D3DBLEND_ONE, D3DBLEND_ZERO, oBlend.value ? TRUE : FALSE, oBlend.value ? 200 : 0);
                 C.r_Sampler("s_base", C.L_textures[0]);
                 C.r_End();
                 break;
@@ -119,8 +115,7 @@ void CBlender_Detail_Still::Compile(CBlender_Compile& C)
             if (bUseATOC)
             {
                 uber_deffer(C, false, "detail_w", "base_atoc", true, 0, true);
-                C.r_Stencil(
-                    TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+                C.r_Stencil(TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
                 C.r_StencilRef(0x01);
                 C.r_ColorWriteEnable(false, false, false, false);
                 C.r_CullMode(D3DCULL_NONE);
@@ -141,8 +136,7 @@ void CBlender_Detail_Still::Compile(CBlender_Compile& C)
             if (bUseATOC)
             {
                 uber_deffer(C, false, "detail_s", "base_atoc", true, 0, true);
-                C.r_Stencil(
-                    TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+                C.r_Stencil(TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
                 C.r_StencilRef(0x01);
                 C.r_CullMode(D3DCULL_NONE);
                 C.r_ColorWriteEnable(false, false, false, false);

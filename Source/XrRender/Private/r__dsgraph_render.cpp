@@ -218,11 +218,7 @@ IC bool cmp_textures_ssa_mat(mapMatrixTextures::TNode* N1, mapMatrixTextures::TN
     return (N1->val.ssa > N2->val.ssa);
 }
 
-void sort_tlist_nrm(
-    xr_vector<mapNormalTextures::TNode*, render_alloc<mapNormalTextures::TNode*>>& lst,
-    xr_vector<mapNormalTextures::TNode*, render_alloc<mapNormalTextures::TNode*>>& temp,
-    mapNormalTextures&                                                             textures,
-    BOOL                                                                           bSSA)
+void sort_tlist_nrm(xr_vector<mapNormalTextures::TNode*, render_alloc<mapNormalTextures::TNode*>>& lst, xr_vector<mapNormalTextures::TNode*, render_alloc<mapNormalTextures::TNode*>>& temp, mapNormalTextures& textures, BOOL bSSA)
 {
     int amount = textures.begin()->key->size();
     if (bSSA)
@@ -271,11 +267,7 @@ void sort_tlist_nrm(
     }
 }
 
-void sort_tlist_mat(
-    xr_vector<mapMatrixTextures::TNode*, render_alloc<mapMatrixTextures::TNode*>>& lst,
-    xr_vector<mapMatrixTextures::TNode*, render_alloc<mapMatrixTextures::TNode*>>& temp,
-    mapMatrixTextures&                                                             textures,
-    BOOL                                                                           bSSA)
+void sort_tlist_mat(xr_vector<mapMatrixTextures::TNode*, render_alloc<mapMatrixTextures::TNode*>>& lst, xr_vector<mapMatrixTextures::TNode*, render_alloc<mapMatrixTextures::TNode*>>& temp, mapMatrixTextures& textures, BOOL bSSA)
 {
     int amount = textures.begin()->key->size();
     if (bSSA)
@@ -561,9 +553,7 @@ void R_dsgraph_structure::r_dsgraph_render_hud()
     // Change projection
     Fmatrix                 Pold  = Device->mProject;
     Fmatrix                 FTold = Device->mFullTransform;
-    Device->mProject.build_projection(
-        deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
-        g_pGamePersistent->Environment().CurrentEnv->far_plane);
+    Device->mProject.build_projection(deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, g_pGamePersistent->Environment().CurrentEnv->far_plane);
 
     Device->mFullTransform.mul(Device->mProject, Device->mView);
     RCache.set_xform_project(Device->mProject);
@@ -624,9 +614,7 @@ void R_dsgraph_structure::r_dsgraph_render_hud_ui()
     // Change projection
     Fmatrix                 Pold  = Device->mProject;
     Fmatrix                 FTold = Device->mFullTransform;
-    Device->mProject.build_projection(
-        deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
-        g_pGamePersistent->Environment().CurrentEnv->far_plane);
+    Device->mProject.build_projection(deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, g_pGamePersistent->Environment().CurrentEnv->far_plane);
 
     Device->mFullTransform.mul(Device->mProject, Device->mView);
     RCache.set_xform_project(Device->mProject);
@@ -647,11 +635,9 @@ void R_dsgraph_structure::r_dsgraph_render_hud_ui()
     else
     {
         if (RImplementation.o.albedo_wo)
-            RImplementation.Target->u_setrt(
-                RImplementation.Target->rt_Accumulator, rt_null, rt_null, RImplementation.Target->rt_MSAADepth->pZRT);
+            RImplementation.Target->u_setrt(RImplementation.Target->rt_Accumulator, rt_null, rt_null, RImplementation.Target->rt_MSAADepth->pZRT);
         else
-            RImplementation.Target->u_setrt(
-                RImplementation.Target->rt_Color, rt_null, rt_null, RImplementation.Target->rt_MSAADepth->pZRT);
+            RImplementation.Target->u_setrt(RImplementation.Target->rt_Color, rt_null, rt_null, RImplementation.Target->rt_MSAADepth->pZRT);
     }
 #else    // (RENDER==R_R3) || (RENDER==R_R4)
     if (RImplementation.o.albedo_wo)
@@ -696,9 +682,7 @@ void R_dsgraph_structure::r_dsgraph_render_emissive()
     // Change projection
     Fmatrix                 Pold  = Device->mProject;
     Fmatrix                 FTold = Device->mFullTransform;
-    Device->mProject.build_projection(
-        deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR,
-        g_pGamePersistent->Environment().CurrentEnv->far_plane);
+    Device->mProject.build_projection(deg2rad(psHUD_FOV * Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, g_pGamePersistent->Environment().CurrentEnv->far_plane);
 
     Device->mFullTransform.mul(Device->mProject, Device->mView);
     RCache.set_xform_project(Device->mProject);
@@ -740,12 +724,7 @@ void R_dsgraph_structure::r_dsgraph_render_distort()
 
 //////////////////////////////////////////////////////////////////////////
 // sub-space rendering - shortcut to render with frustum extracted from matrix
-void R_dsgraph_structure::r_dsgraph_render_subspace(
-    IRender_Sector* _sector,
-    Fmatrix&        mCombined,
-    Fvector&        _cop,
-    BOOL            _dynamic,
-    BOOL            _precise_portals)
+void R_dsgraph_structure::r_dsgraph_render_subspace(IRender_Sector* _sector, Fmatrix& mCombined, Fvector& _cop, BOOL _dynamic, BOOL _precise_portals)
 {
     CFrustum temp;
     temp.CreateFromMatrix(mCombined, FRUSTUM_P_ALL & (~FRUSTUM_P_NEAR));
@@ -753,13 +732,7 @@ void R_dsgraph_structure::r_dsgraph_render_subspace(
 }
 
 // sub-space rendering - main procedure
-void R_dsgraph_structure::r_dsgraph_render_subspace(
-    IRender_Sector* _sector,
-    CFrustum*       _frustum,
-    Fmatrix&        mCombined,
-    Fvector&        _cop,
-    BOOL            _dynamic,
-    BOOL            _precise_portals)
+void R_dsgraph_structure::r_dsgraph_render_subspace(IRender_Sector* _sector, CFrustum* _frustum, Fmatrix& mCombined, Fvector& _cop, BOOL _dynamic, BOOL _precise_portals)
 {
     VERIFY(_sector);
     RImplementation.marker++;   // !!! critical here
@@ -778,9 +751,7 @@ void R_dsgraph_structure::r_dsgraph_render_subspace(
         RImplementation.Sectors_xrc.box_query(RImplementation.rmPortals, _cop, box_radius);
         for (int K = 0; K < RImplementation.Sectors_xrc.r_count(); K++)
         {
-            CPortal* pPortal =
-                (CPortal*)RImplementation
-                    .Portals[RImplementation.rmPortals->get_tris()[RImplementation.Sectors_xrc.r_begin()[K].id].dummy];
+            CPortal* pPortal     = (CPortal*)RImplementation.Portals[RImplementation.rmPortals->get_tris()[RImplementation.Sectors_xrc.r_begin()[K].id].dummy];
             pPortal->bDualRender = TRUE;
         }
     }

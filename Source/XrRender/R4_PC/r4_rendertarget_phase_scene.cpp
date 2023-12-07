@@ -16,9 +16,7 @@ void CRenderTarget::phase_scene_prepare()
 
     //	TODO: DX10: Check if complete clear of _ALL_ rendertargets will increase
     //	FPS. Make check for SLI configuration.
-    if (RImplementation.o.advancedpp &&
-        (ps_r2_ls_flags.test(R2FLAG_SOFT_PARTICLES | R2FLAG_DOF) || ((ps_r_sun_shafts > 0) && (fValue >= 0.0001)) ||
-            (ps_r_ssao > 0)))
+    if (RImplementation.o.advancedpp && (ps_r2_ls_flags.test(R2FLAG_SOFT_PARTICLES | R2FLAG_DOF) || ((ps_r_sun_shafts > 0) && (fValue >= 0.0001)) || (ps_r_ssao > 0)))
     {
         //	TODO: DX10: Check if we need to set RT here.
         if (!RImplementation.o.dx10_msaa)
@@ -89,8 +87,7 @@ void CRenderTarget::phase_scene_begin()
     }
 
     // Stencil - write 0x1 at pixel pos
-    RCache.set_Stencil(
-        TRUE, D3DCMP_ALWAYS, 0x01, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+    RCache.set_Stencil(TRUE, D3DCMP_ALWAYS, 0x01, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
 
     // Misc		- draw only front-faces
     //	TODO: DX10: siable two-sided stencil here

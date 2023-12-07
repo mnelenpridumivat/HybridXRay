@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: danger_cover_location.cpp
 //	Created 	: 24.05.2004
 //  Modified 	: 14.01.2005
@@ -10,7 +10,7 @@
 #include "danger_cover_location.h"
 #include "cover_point.h"
 
-const Fvector &CDangerCoverLocation::position	() const
+const Fvector& CDangerCoverLocation::position() const
 {
-	return		(m_cover->position());
+    return (m_cover->position());
 }

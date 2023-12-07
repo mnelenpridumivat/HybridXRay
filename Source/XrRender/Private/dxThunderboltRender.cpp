@@ -38,9 +38,8 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt& owner)
 
     u32                                vCount_Lock = pThRen->l_model->number_vertices;
     u32                                iCount_Lock = pThRen->l_model->number_indices;
-    IRender_DetailModel::fvfVertexOut* v_ptr =
-        (IRender_DetailModel::fvfVertexOut*)RCache.Vertex.Lock(vCount_Lock, hGeom_model->vb_stride, v_offset);
-    u16* i_ptr = RCache.Index.Lock(iCount_Lock, i_offset);
+    IRender_DetailModel::fvfVertexOut* v_ptr       = (IRender_DetailModel::fvfVertexOut*)RCache.Vertex.Lock(vCount_Lock, hGeom_model->vb_stride, v_offset);
+    u16*                               i_ptr       = RCache.Index.Lock(iCount_Lock, i_offset);
     // XForm verts
     pThRen->l_model->transfer(owner.current_xform, v_ptr, 0xffffffff, i_ptr, 0, 0.f, dv);
     // Flush if needed
@@ -62,21 +61,13 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt& owner)
         u32 c     = color_rgba(c_val, c_val, c_val, c_val);
         vecSx.mul(Device->vCameraRight, owner.current->m_GradientTop->fRadius.x * owner.lightning_size);
         vecSy.mul(Device->vCameraTop, -owner.current->m_GradientTop->fRadius.y * owner.lightning_size);
-        pv->set(
-            owner.current_xform.c.x + vecSx.x - vecSy.x, owner.current_xform.c.y + vecSx.y - vecSy.y,
-            owner.current_xform.c.z + vecSx.z - vecSy.z, c, 0, 0);
+        pv->set(owner.current_xform.c.x + vecSx.x - vecSy.x, owner.current_xform.c.y + vecSx.y - vecSy.y, owner.current_xform.c.z + vecSx.z - vecSy.z, c, 0, 0);
         pv++;
-        pv->set(
-            owner.current_xform.c.x + vecSx.x + vecSy.x, owner.current_xform.c.y + vecSx.y + vecSy.y,
-            owner.current_xform.c.z + vecSx.z + vecSy.z, c, 0, 1);
+        pv->set(owner.current_xform.c.x + vecSx.x + vecSy.x, owner.current_xform.c.y + vecSx.y + vecSy.y, owner.current_xform.c.z + vecSx.z + vecSy.z, c, 0, 1);
         pv++;
-        pv->set(
-            owner.current_xform.c.x - vecSx.x - vecSy.x, owner.current_xform.c.y - vecSx.y - vecSy.y,
-            owner.current_xform.c.z - vecSx.z - vecSy.z, c, 1, 0);
+        pv->set(owner.current_xform.c.x - vecSx.x - vecSy.x, owner.current_xform.c.y - vecSx.y - vecSy.y, owner.current_xform.c.z - vecSx.z - vecSy.z, c, 1, 0);
         pv++;
-        pv->set(
-            owner.current_xform.c.x - vecSx.x + vecSy.x, owner.current_xform.c.y - vecSx.y + vecSy.y,
-            owner.current_xform.c.z - vecSx.z + vecSy.z, c, 1, 1);
+        pv->set(owner.current_xform.c.x - vecSx.x + vecSy.x, owner.current_xform.c.y - vecSx.y + vecSy.y, owner.current_xform.c.z - vecSx.z + vecSy.z, c, 1, 1);
         pv++;
     }
     // center
@@ -85,21 +76,13 @@ void dxThunderboltRender::Render(CEffect_Thunderbolt& owner)
         u32 c     = color_rgba(c_val, c_val, c_val, c_val);
         vecSx.mul(Device->vCameraRight, owner.current->m_GradientCenter->fRadius.x * owner.lightning_size);
         vecSy.mul(Device->vCameraTop, -owner.current->m_GradientCenter->fRadius.y * owner.lightning_size);
-        pv->set(
-            owner.lightning_center.x + vecSx.x - vecSy.x, owner.lightning_center.y + vecSx.y - vecSy.y,
-            owner.lightning_center.z + vecSx.z - vecSy.z, c, 0, 0);
+        pv->set(owner.lightning_center.x + vecSx.x - vecSy.x, owner.lightning_center.y + vecSx.y - vecSy.y, owner.lightning_center.z + vecSx.z - vecSy.z, c, 0, 0);
         pv++;
-        pv->set(
-            owner.lightning_center.x + vecSx.x + vecSy.x, owner.lightning_center.y + vecSx.y + vecSy.y,
-            owner.lightning_center.z + vecSx.z + vecSy.z, c, 0, 1);
+        pv->set(owner.lightning_center.x + vecSx.x + vecSy.x, owner.lightning_center.y + vecSx.y + vecSy.y, owner.lightning_center.z + vecSx.z + vecSy.z, c, 0, 1);
         pv++;
-        pv->set(
-            owner.lightning_center.x - vecSx.x - vecSy.x, owner.lightning_center.y - vecSx.y - vecSy.y,
-            owner.lightning_center.z - vecSx.z - vecSy.z, c, 1, 0);
+        pv->set(owner.lightning_center.x - vecSx.x - vecSy.x, owner.lightning_center.y - vecSx.y - vecSy.y, owner.lightning_center.z - vecSx.z - vecSy.z, c, 1, 0);
         pv++;
-        pv->set(
-            owner.lightning_center.x - vecSx.x + vecSy.x, owner.lightning_center.y - vecSx.y + vecSy.y,
-            owner.lightning_center.z - vecSx.z + vecSy.z, c, 1, 1);
+        pv->set(owner.lightning_center.x - vecSx.x + vecSy.x, owner.lightning_center.y - vecSx.y + vecSy.y, owner.lightning_center.z - vecSx.z + vecSy.z, c, 1, 1);
         pv++;
     }
     RCache.Vertex.Unlock(8, hGeom_gradient.stride());

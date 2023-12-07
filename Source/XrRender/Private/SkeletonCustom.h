@@ -53,10 +53,9 @@ public:
     DEFINE_VECTOR(WMFace, WMFacesVec, WMFacesVecIt);
     WMFacesVec m_Faces;   // 16
 public:
-    Fsphere m_Bounds;     // 16		world space
+    Fsphere m_Bounds;   // 16		world space
 public:
-    CSkeletonWallmark(CKinematics* p, const Fmatrix* m, ref_shader s, const Fvector& cp, float ts):
-        m_Parent(p), m_XForm(m), m_Shader(s), m_fTimeStart(ts), m_ContactPoint(cp)
+    CSkeletonWallmark(CKinematics* p, const Fmatrix* m, ref_shader s, const Fvector& cp, float ts): m_Parent(p), m_XForm(m), m_Shader(s), m_fTimeStart(ts), m_ContactPoint(cp)
     {
 #ifdef DEBUG
         used_in_render = u32(-1);
@@ -66,8 +65,7 @@ public:
 #ifdef DEBUG
         ;
 #else
-    {
-    }
+    {}
 #endif
 
     IC CKinematics* Parent()
@@ -131,14 +129,13 @@ public:
 #ifdef DEBUG
     BOOL dbg_single_use_marker;
 #endif
-    void Bone_Calculate(CBoneData* bd, Fmatrix* parent);
-    void CLBone(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 mask_channel = (1 << 0));
+    void         Bone_Calculate(CBoneData* bd, Fmatrix* parent);
+    void         CLBone(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 mask_channel = (1 << 0));
 
-    void BoneChain_Calculate(const CBoneData* bd, CBoneInstance& bi, u8 channel_mask, bool ignore_callbacks);
-    void Bone_GetAnimPos(Fmatrix& pos, u16 id, u8 channel_mask, bool ignore_callbacks);
+    void         BoneChain_Calculate(const CBoneData* bd, CBoneInstance& bi, u8 channel_mask, bool ignore_callbacks);
+    void         Bone_GetAnimPos(Fmatrix& pos, u16 id, u8 channel_mask, bool ignore_callbacks);
 
-    virtual void
-                 BuildBoneMatrix(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 mask_channel = (1 << 0));
+    virtual void BuildBoneMatrix(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 mask_channel = (1 << 0));
     virtual void OnCalculateBones() {}
 public:
     dxRender_Visual* m_lod;
@@ -190,13 +187,7 @@ public:
     void RenderWallmark(intrusive_ptr<CSkeletonWallmark> wm, FVF::LIT*& verts);
     void ClearWallmarks();
 public:
-    bool PickBone(
-        const Fmatrix&            parent_xform,
-        IKinematics::pick_result& r,
-        float                     dist,
-        const Fvector&            start,
-        const Fvector&            dir,
-        u16                       bone_id);
+    bool         PickBone(const Fmatrix& parent_xform, IKinematics::pick_result& r, float dist, const Fvector& start, const Fvector& dir, u16 bone_id);
     virtual void EnumBoneVertices(SEnumVerticesCallback& C, u16 bone_id);
 public:
     CKinematics();

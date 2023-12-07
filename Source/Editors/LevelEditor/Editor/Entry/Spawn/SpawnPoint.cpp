@@ -1,34 +1,39 @@
 ﻿#include "stdafx.h"
 
-#define SPAWNPOINT_CHUNK_VERSION 0xE411
-#define SPAWNPOINT_CHUNK_POSITION 0xE412
-#define SPAWNPOINT_CHUNK_RPOINT 0xE413
-#define SPAWNPOINT_CHUNK_DIRECTION 0xE414
-#define SPAWNPOINT_CHUNK_SQUADID 0xE415
-#define SPAWNPOINT_CHUNK_GROUPID 0xE416
-#define SPAWNPOINT_CHUNK_TYPE 0xE417
-#define SPAWNPOINT_CHUNK_FLAGS 0xE418
+#define SPAWNPOINT_CHUNK_VERSION      0xE411
+#define SPAWNPOINT_CHUNK_POSITION     0xE412
+#define SPAWNPOINT_CHUNK_RPOINT       0xE413
+#define SPAWNPOINT_CHUNK_DIRECTION    0xE414
+#define SPAWNPOINT_CHUNK_SQUADID      0xE415
+#define SPAWNPOINT_CHUNK_GROUPID      0xE416
+#define SPAWNPOINT_CHUNK_TYPE         0xE417
+#define SPAWNPOINT_CHUNK_FLAGS        0xE418
 
-#define SPAWNPOINT_CHUNK_ENTITYREF 0xE419
-#define SPAWNPOINT_CHUNK_SPAWNDATA 0xE420
+#define SPAWNPOINT_CHUNK_ENTITYREF    0xE419
+#define SPAWNPOINT_CHUNK_SPAWNDATA    0xE420
 
 #define SPAWNPOINT_CHUNK_ATTACHED_OBJ 0xE421
 
-#define SPAWNPOINT_CHUNK_ENVMOD 0xE422
-#define SPAWNPOINT_CHUNK_ENVMOD2 0xE423
-#define SPAWNPOINT_CHUNK_ENVMOD3 0xE424
-#define SPAWNPOINT_CHUNK_FLAGS 0xE425
+#define SPAWNPOINT_CHUNK_ENVMOD       0xE422
+#define SPAWNPOINT_CHUNK_ENVMOD2      0xE423
+#define SPAWNPOINT_CHUNK_ENVMOD3      0xE424
+#define SPAWNPOINT_CHUNK_FLAGS        0xE425
 
-const float RPOINT_SIZE = 0.5f;
-const float ENVMOD_SIZE = 0.25f;
-const int   MAX_TEAM    = 32;
+const float RPOINT_SIZE         = 0.5f;
+const float ENVMOD_SIZE         = 0.25f;
+const int   MAX_TEAM            = 32;
 
-const u32 RP_COLORS[MAX_TEAM] = {0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x00ffff, 0xff00ff, 0xCD5C5C, 0xF08080,
-                                 0xDC143C, 0xB22222, 0x8B0000, 0xFFC0CB, 0xFF69B4, 0xC71585, 0xFF7F50, 0xFF8C00,
-                                 0xFFD700, 0xFFFFE0, 0xFFE4B5, 0xF0E68C, 0xBDB76B, 0xE6E6FA, 0xDDA0DD, 0xEE82EE,
-                                 0xFF00FF, 0xBA55D3, 0x9400D3, 0x4B0082, 0xB8860B, 0x800000, 0x808080, 0x000000};
+const u32   RP_COLORS[MAX_TEAM] =
+{
+    0xff0000, 0x00ff00, 0x0000ff, 0xffff00, 0x00ffff, 0xff00ff, 0xCD5C5C, 0xF08080,
+    0xDC143C, 0xB22222, 0x8B0000, 0xFFC0CB, 0xFF69B4, 0xC71585, 0xFF7F50, 0xFF8C00,
+    0xFFD700, 0xFFFFE0, 0xFFE4B5, 0xF0E68C, 0xBDB76B, 0xE6E6FA, 0xDDA0DD, 0xEE82EE,
+    0xFF00FF, 0xBA55D3, 0x9400D3, 0x4B0082, 0xB8860B, 0x800000, 0x808080, 0x000000
+};
 
+//------------------------------------------------------------------------------
 // CLE_Visual
+//------------------------------------------------------------------------------
 CLE_Visual::CLE_Visual(ISE_Visual* src)
 {
     source = src;
@@ -67,10 +72,10 @@ void CLE_Visual::OnChangeVisual()
 
         if (NULL == visual && !g_tmp_lock)
         {
-            xr_string _msg = "Model [" + xr_string(source->visual_name.c_str()) + "] not found. Do you want to select it from library?";
-            int    mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _msg.c_str());
-            LPCSTR _new_val = 0;
-            g_tmp_lock      = true;
+            xr_string _msg     = "Model [" + xr_string(source->visual_name.c_str()) + "] not found. Do you want to select it from library?";
+            int       mr       = ELog.DlgMsg(mtConfirmation, mbYes | mbNo, _msg.c_str());
+            LPCSTR    _new_val = 0;
+            g_tmp_lock         = true;
             if (mr == mrYes)
             {
                 UIChooseForm::SelectItem(smVisual, 1);
@@ -196,7 +201,9 @@ void CLE_Visual::PauseAnimation()
         K->CalculateBones();
 }
 
+//------------------------------------------------------------------------------
 // CLE_Motion
+//------------------------------------------------------------------------------
 CSpawnPoint::CLE_Motion::CLE_Motion(ISE_Motion* src)
 {
     source   = src;
@@ -220,7 +227,9 @@ void CSpawnPoint::CLE_Motion::PlayMotion()
     if (animator)
         animator->Play(true);
 }
+//------------------------------------------------------------------------------
 // SpawnData
+//------------------------------------------------------------------------------
 void CSpawnPoint::SSpawnData::Create(LPCSTR _entity_ref)
 {
     m_Data = g_SEFactoryManager->create_entity(_entity_ref);
@@ -323,9 +332,12 @@ void CSpawnPoint::SSpawnData::SaveStream(IWriter& F)
     F.w_stringZ(m_Data->name());
     F.close_chunk();
 
-    F.open_chunk(SPAWNPOINT_CHUNK_FLAGS);
-    F.w_u8(m_flags.get());
-    F.close_chunk();
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        F.open_chunk(SPAWNPOINT_CHUNK_FLAGS);
+        F.w_u8(m_flags.get());
+        F.close_chunk();
+    }
 
     F.open_chunk(SPAWNPOINT_CHUNK_SPAWNDATA);
     NET_Packet Packet;
@@ -349,12 +361,13 @@ bool CSpawnPoint::SSpawnData::LoadStream(IReader& F)
     Packet.B.count = F.r_u32();
     F.r(Packet.B.data, Packet.B.count);
     Create(temp);
-    if (Valid())
-        if (!m_Data->Spawn_Read(Packet))
-            Destroy();
+
+    if (Valid() && !m_Data->Spawn_Read(Packet))
+        Destroy();
 
     return Valid();
 }
+
 bool CSpawnPoint::SSpawnData::ExportGame(SExportStreams* F, CSpawnPoint* owner)
 {
     // set params
@@ -364,12 +377,14 @@ bool CSpawnPoint::SSpawnData::ExportGame(SExportStreams* F, CSpawnPoint* owner)
 
     // export cform (if needed)
     ISE_Shape* cform = m_Data->shape();
+
     // SHAPE
     if (cform && !(owner->m_AttachedObject && (owner->m_AttachedObject->FClassID == OBJCLASS_SHAPE)))
     {
         ELog.DlgMsg(mtError, "& Spawn Point: '%s' must contain attached shape.", owner->GetName());
         return false;
     }
+
     if (cform)
     {
         CEditShape* shape = dynamic_cast<CEditShape*>(owner->m_AttachedObject);
@@ -411,7 +426,6 @@ void CSpawnPoint::SSpawnData::PreExportSpawn(CSpawnPoint* owner)
     if (cform && !(owner->m_AttachedObject && (owner->m_AttachedObject->FClassID == OBJCLASS_SHAPE)))
     {
         ELog.DlgMsg(mtError, "& Spawn Point: '%s' must contain attached shape.", owner->GetName());
-        ;
     }
     if (cform)
     {
@@ -564,6 +578,7 @@ void CSpawnPoint::SSpawnData::OnFrame()
     // reset editor flags
     m_Data->m_editor_flags.zero();
 }
+//------------------------------------------------------------------------------
 CSpawnPoint::CSpawnPoint(LPVOID data, LPCSTR name): CCustomObject(data, name), m_SpawnData(this)
 {
     m_rpProfile = "";
@@ -574,46 +589,53 @@ CSpawnPoint::CSpawnPoint(LPVOID data, LPCSTR name): CCustomObject(data, name), m
 void CSpawnPoint::Construct(LPVOID data)
 {
     FClassID         = OBJCLASS_SPAWNPOINT;
-    m_AttachedObject = 0;
-    if (data)
+    m_AttachedObject = nullptr;
+
+    if (!data)
     {
-        if (strcmp(LPSTR(data), RPOINT_CHOOSE_NAME) == 0)
+        SetValid(false);
+        return;
+    }
+
+    if (!strcmp(LPSTR(data), RPOINT_CHOOSE_NAME))
+    {
+        m_Type    = ptRPoint;
+        m_RP_Type = rptActorSpawn;
+
+        if (xrGameManager::GetGame() == EGame::SHOC)
         {
-            m_Type    = ptRPoint;
-            m_RP_Type = rptActorSpawn;
-            m_GameType.SetDefaults();
-            m_RP_TeamID = 1;
-        }
-        else if (strcmp(LPSTR(data), ENVMOD_CHOOSE_NAME) == 0)
-        {
-            m_Type            = ptEnvMod;
-            m_EM_Radius       = 10.f;
-            m_EM_Power        = 1.f;
-            m_EM_ViewDist     = 300.f;
-            m_EM_FogColor     = 0x00808080;
-            m_EM_FogDensity   = 1.f;
-            m_EM_AmbientColor = 0x00000000;
-            m_EM_SkyColor     = 0x00FFFFFF;
-            m_EM_HemiColor    = 0x00FFFFFF;
+            m_GameType.m_GameType.assign(static_cast<u16>(rpgtGameAny));
+            m_RP_TeamID = 0;
         }
         else
         {
-            CreateSpawnData(LPCSTR(data));
-            if (!m_SpawnData.Valid())
-            {
-                SetValid(false);
-            }
-            else
-            {
-                m_Type = ptSpawnPoint;
-            }
+            m_GameType.SetDefaults();
+            m_RP_TeamID = 1;
         }
+    }
+    else if (!strcmp(LPSTR(data), ENVMOD_CHOOSE_NAME))
+    {
+        m_Type            = ptEnvMod;
+        m_EM_Radius       = 10.f;
+        m_EM_Power        = 1.f;
+        m_EM_ViewDist     = 300.f;
+        m_EM_FogColor     = 0x00808080;
+        m_EM_FogDensity   = 1.f;
+        m_EM_AmbientColor = 0x00000000;
+        m_EM_SkyColor     = 0x00FFFFFF;
+        m_EM_HemiColor    = 0x00FFFFFF;
     }
     else
     {
-        SetValid(false);
+        CreateSpawnData(LPCSTR(data));
+
+        if (!m_SpawnData.Valid())
+            SetValid(false);
+        else
+            m_Type = ptSpawnPoint;
     }
 }
+
 void CSpawnPoint::OnSceneRemove()
 {
     DeletePhysicsShell();
@@ -723,6 +745,7 @@ bool CSpawnPoint::CreateSpawnData(LPCSTR entity_ref)
         m_Type = ptSpawnPoint;
     return m_SpawnData.Valid();
 }
+//----------------------------------------------------
 
 bool CSpawnPoint::GetBox(Fbox& box)
 {
@@ -1087,6 +1110,7 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
         ELog.Msg(mtError, "& SPAWNPOINT: Unsupported spawn version.");
         return false;
     }
+
     switch (m_Type)
     {
         case ptSpawnPoint:
@@ -1146,7 +1170,6 @@ bool CSpawnPoint::LoadLTX(CInifile& ini, LPCSTR sect_name)
 void CSpawnPoint::SaveLTX(CInifile& ini, LPCSTR sect_name)
 {
     CCustomObject::SaveLTX(ini, sect_name);
-
     ini.w_u32(sect_name, "version", SPAWNPOINT_VERSION);
 
     // save attachment
@@ -1197,8 +1220,8 @@ void CSpawnPoint::SaveLTX(CInifile& ini, LPCSTR sect_name)
 bool CSpawnPoint::LoadStream(IReader& F)
 {
     u16 version = 0;
-
     R_ASSERT(F.r_chunk(SPAWNPOINT_CHUNK_VERSION, &version));
+
     if (version < 0x0014)
     {
         ELog.Msg(mtError, "& SPAWNPOINT: Unsupported version.");
@@ -1276,9 +1299,13 @@ bool CSpawnPoint::LoadStream(IReader& F)
 void CSpawnPoint::SaveStream(IWriter& F)
 {
     CCustomObject::SaveStream(F);
-
     F.open_chunk(SPAWNPOINT_CHUNK_VERSION);
-    F.w_u16(SPAWNPOINT_VERSION);
+
+    if (xrGameManager::GetGame() != EGame::SHOC)
+        F.w_u16(SPAWNPOINT_VERSION);
+    else
+        F.w_u16(SPAWNPOINT_VERSION - 3);
+
     F.close_chunk();
 
     // save attachment
@@ -1292,41 +1319,54 @@ void CSpawnPoint::SaveStream(IWriter& F)
     if (m_SpawnData.Valid())
     {
         m_SpawnData.SaveStream(F);
+        return;
     }
-    else
+
+    F.w_chunk(SPAWNPOINT_CHUNK_TYPE, &m_Type, sizeof(u32));
+
+    switch (m_Type)
     {
-        F.w_chunk(SPAWNPOINT_CHUNK_TYPE, &m_Type, sizeof(u32));
-        switch (m_Type)
-        {
-            case ptRPoint:
-                F.open_chunk(SPAWNPOINT_CHUNK_RPOINT);
-                F.w_u8(m_RP_TeamID);
-                F.w_u8(m_RP_Type);
+        case ptRPoint:
+            F.open_chunk(SPAWNPOINT_CHUNK_RPOINT);
+            F.w_u8(m_RP_TeamID);
+            F.w_u8(m_RP_Type);
+
+            if (xrGameManager::GetGame() == EGame::SHOC)
+            {
+                F.w_u8(m_GameType.m_GameType.get());
+                F.w_u8(0);
+            }
+            else
+            {
                 m_GameType.SaveStream(F);
                 F.w_stringZ(m_rpProfile);
-                F.close_chunk();
-                break;
-            case ptEnvMod:
-                F.open_chunk(SPAWNPOINT_CHUNK_ENVMOD);
-                F.w_float(m_EM_Radius);
-                F.w_float(m_EM_Power);
-                F.w_float(m_EM_ViewDist);
-                F.w_u32(m_EM_FogColor);
-                F.w_float(m_EM_FogDensity);
-                F.w_u32(m_EM_AmbientColor);
-                F.w_u32(m_EM_SkyColor);
-                F.close_chunk();
-                F.open_chunk(SPAWNPOINT_CHUNK_ENVMOD2);
-                F.w_u32(m_EM_HemiColor);
-                F.close_chunk();
+            }
+            F.close_chunk();
+        break;
+        case ptEnvMod:
+            F.open_chunk(SPAWNPOINT_CHUNK_ENVMOD);
+            F.w_float(m_EM_Radius);
+            F.w_float(m_EM_Power);
+            F.w_float(m_EM_ViewDist);
+            F.w_u32(m_EM_FogColor);
+            F.w_float(m_EM_FogDensity);
+            F.w_u32(m_EM_AmbientColor);
+            F.w_u32(m_EM_SkyColor);
+            F.close_chunk();
 
+            F.open_chunk(SPAWNPOINT_CHUNK_ENVMOD2);
+            F.w_u32(m_EM_HemiColor);
+            F.close_chunk();
+
+            if (xrGameManager::GetGame() != EGame::SHOC)
+            {
                 F.open_chunk(SPAWNPOINT_CHUNK_ENVMOD3);
                 F.w_u16(m_EM_Flags.get());
                 F.close_chunk();
-                break;
-            default:
-                THROW;
-        }
+            }
+        break;
+        default:
+            THROW;
     }
 }
 
@@ -1346,9 +1386,7 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
     if (m_SpawnData.Valid())
     {
         if (m_SpawnData.m_Data->validate())
-        {
             m_SpawnData.ExportGame(F, this);
-        }
         else
         {
             Log("! Invalid spawn data:", GetName());
@@ -1366,10 +1404,18 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
                 F->rpoint.stream.w_fvector3(GetRotation());
                 F->rpoint.stream.w_u8(m_RP_TeamID);
                 F->rpoint.stream.w_u8(m_RP_Type);
-                F->rpoint.stream.w_u16(m_GameType.m_GameType.get());
+
+                if (xrGameManager::GetGame() == EGame::SHOC)
+                {
+                    F->rpoint.stream.w_u8(static_cast<u8>(m_GameType.m_GameType.get()));
+                    F->rpoint.stream.w_u8(0);
+                }
+                else
+                    F->rpoint.stream.w_u16(m_GameType.m_GameType.get());
+
                 F->rpoint.stream.w_stringZ(m_rpProfile);
                 F->rpoint.stream.close_chunk();
-                break;
+            break;
             case ptEnvMod:
                 Fcolor tmp;
                 F->envmodif.stream.open_chunk(F->envmodif.chunk++);
@@ -1384,7 +1430,7 @@ bool CSpawnPoint::ExportGame(SExportStreams* F)
                 F->envmodif.stream.w_fvector3(u32_3f(m_EM_HemiColor));
                 F->envmodif.stream.w_u16(m_EM_Flags.get());
                 F->envmodif.stream.close_chunk();
-                break;
+            break;
             default:
                 THROW;
         }
@@ -1495,16 +1541,21 @@ void CSpawnPoint::FillProp(LPCSTR pref, PropItemVec& items)
         {
             case ptRPoint:
             {
-                if (m_RP_Type == rptItemSpawn)
+                if (m_RP_Type == rptItemSpawn && xrGameManager::GetGame() != EGame::SHOC)
                 {
                     ChooseValue* C = PHelper().CreateChoose(items, PrepareKey(pref, "Respawn Point\\Profile"), &m_rpProfile, smCustom, 0, 0, 10, cfMultiSelect);
                     C->OnChooseFillEvent.bind(this, &CSpawnPoint::OnFillRespawnItemProfile);
                 }
                 else
-                {
                     PHelper().CreateU8(items, PrepareKey(pref, "Respawn Point\\Team"), &m_RP_TeamID, 0, MAX_TEAM - 1);
-                }
-                Token8Value* TV = PHelper().CreateToken8(items, PrepareKey(pref, "Respawn Point\\Spawn Type"), &m_RP_Type, rpoint_type);
+
+                Token8Value* TV;
+
+                if (xrGameManager::GetGame() == EGame::SHOC)
+                    TV = PHelper().CreateToken8(items, PrepareKey(pref, "Respawn Point\\Spawn Type"), &m_RP_Type, rpoint_type_soc);
+                else
+                    TV = PHelper().CreateToken8(items, PrepareKey(pref, "Respawn Point\\Spawn Type"), &m_RP_Type, rpoint_type);
+
                 TV->OnChangeEvent.bind(this, &CSpawnPoint::OnRPointTypeChange);
 
                 CreatePropsForGameTypeChooser(&m_GameType, pref, items);

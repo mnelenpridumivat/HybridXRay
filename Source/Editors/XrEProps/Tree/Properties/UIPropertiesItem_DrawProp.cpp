@@ -655,19 +655,12 @@ void UIPropertiesItem::DrawProp()
             GameTypeValue* V = dynamic_cast<GameTypeValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
             ImGui::Text(PItem->GetDrawText().c_str());
-            PropertiesFrom->m_EditGameTypeChooser = V->GetValue();
-            PItem->BeforeEdit<GameTypeValue, GameTypeChooser>(PropertiesFrom->m_EditGameTypeChooser);
+
             if (ImGui::OpenPopupOnItemClick2("EditGameType", 0))
             {
+                PropertiesFrom->m_EditGameTypeChooser = V->GetValue();
+                PItem->BeforeEdit<GameTypeValue, GameTypeChooser>(PropertiesFrom->m_EditGameTypeChooser);
                 PropertiesFrom->m_EditGameTypeValue = PItem;
-                /*
-                m_EditGameTypeValue = node;
-                m_bSingle = m_EditGameTypeChooser.MatchType(eGameIDSingle);
-                m_bDM = m_EditGameTypeChooser.MatchType(eGameIDDeathmatch);
-                m_bTDM = m_EditGameTypeChooser.MatchType(eGameIDTeamDeathmatch);
-                m_bAH = m_EditGameTypeChooser.MatchType(eGameIDArtefactHunt);
-                m_bCTA = m_EditGameTypeChooser.MatchType(eGameIDCaptureTheArtefact);
-                */
             }
             PropertiesFrom->DrawEditGameType();
         }

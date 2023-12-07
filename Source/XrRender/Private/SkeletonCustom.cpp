@@ -500,12 +500,10 @@ void CKinematics::LL_SetBoneVisible(u16 bone_id, BOOL val, BOOL bRecursive)
     {
         CalculateBones_Invalidate();
     }
-    bone_instances[bone_id].mRenderTransform.mul_43(
-        bone_instances[bone_id].mTransform, (*bones)[bone_id]->m2b_transform);
+    bone_instances[bone_id].mRenderTransform.mul_43(bone_instances[bone_id].mTransform, (*bones)[bone_id]->m2b_transform);
     if (bRecursive)
     {
-        for (xr_vector<CBoneData*>::iterator C = (*bones)[bone_id]->children.begin();
-             C != (*bones)[bone_id]->children.end(); C++)
+        for (xr_vector<CBoneData*>::iterator C = (*bones)[bone_id]->children.begin(); C != (*bones)[bone_id]->children.end(); C++)
             LL_SetBoneVisible((*C)->GetSelfID(), val, bRecursive);
     }
     Visibility_Invalidate();
@@ -605,13 +603,7 @@ void CKinematics::EnumBoneVertices(SEnumVerticesCallback& C, u16 bone_id)
 
 DEFINE_VECTOR(Fobb, OBBVec, OBBVecIt);
 
-bool CKinematics::PickBone(
-    const Fmatrix&            parent_xform,
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            start,
-    const Fvector&            dir,
-    u16                       bone_id)
+bool CKinematics::PickBone(const Fmatrix& parent_xform, IKinematics::pick_result& r, float dist, const Fvector& start, const Fvector& dir, u16 bone_id)
 {
     Fvector S, D;   // normal		= {0,0,0}
     // transform ray from world to model
@@ -631,12 +623,7 @@ bool CKinematics::PickBone(
     return false;
 }
 
-void CKinematics::AddWallmark(
-    const Fmatrix*  parent_xform,
-    const Fvector3& start,
-    const Fvector3& dir,
-    ref_shader      shader,
-    float           size)
+void CKinematics::AddWallmark(const Fmatrix* parent_xform, const Fvector3& start, const Fvector3& dir, ref_shader shader, float size)
 {
     Fvector S, D, normal = {0, 0, 0};
     // transform ray from world to model
@@ -711,8 +698,7 @@ void CKinematics::AddWallmark(
     }
 
     // ok. allocate wallmark
-    intrusive_ptr<CSkeletonWallmark> wm =
-        xr_new<CSkeletonWallmark>(this, parent_xform, shader, cp, Device->fTimeGlobal);
+    intrusive_ptr<CSkeletonWallmark> wm = xr_new<CSkeletonWallmark>(this, parent_xform, shader, cp, Device->fTimeGlobal);
     wm->m_LocalBounds.set(cp, size * 2.f);
     wm->XFORM()->transform_tiny(wm->m_Bounds.P, cp);
     wm->m_Bounds.R = wm->m_Bounds.R;

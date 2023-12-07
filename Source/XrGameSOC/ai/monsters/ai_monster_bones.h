@@ -1,55 +1,64 @@
-
+п»ї
 #pragma once
 
-#define AXIS_X	(1 << 0)
-#define AXIS_Y	(1 << 1)
-#define AXIS_Z	(1 << 2)
+#define AXIS_X (1 << 0)
+#define AXIS_Y (1 << 1)
+#define AXIS_Z (1 << 2)
 
-// параметры движения характерные для конкретной оси в боне
-struct bonesAxis {
-	float			cur_yaw;
-	float			target_yaw;
-	float			r_speed;
-	float			dist_yaw;		// необходимо лишь для определения текущей скорости по оси
+// РїР°СЂР°РјРµС‚СЂС‹ РґРІРёР¶РµРЅРёСЏ С…Р°СЂР°РєС‚РµСЂРЅС‹Рµ РґР»СЏ РєРѕРЅРєСЂРµС‚РЅРѕР№ РѕСЃРё РІ Р±РѕРЅРµ
+struct bonesAxis
+{
+    float cur_yaw;
+    float target_yaw;
+    float r_speed;
+    float dist_yaw;   // РЅРµРѕР±С…РѕРґРёРјРѕ Р»РёС€СЊ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ С‚РµРєСѓС‰РµР№ СЃРєРѕСЂРѕСЃС‚Рё РїРѕ РѕСЃРё
 };
 
-// бона с параметрами движения по осям
-struct bonesBone {
-	CBoneInstance	*bone;
-	bonesAxis		params;
-	u8				axis;
+// Р±РѕРЅР° СЃ РїР°СЂР°РјРµС‚СЂР°РјРё РґРІРёР¶РµРЅРёСЏ РїРѕ РѕСЃСЏРј
+struct bonesBone
+{
+    CBoneInstance* bone;
+    bonesAxis      params;
+    u8             axis;
 
-	bonesBone	() {bone = 0;}
-	void	Set			(CBoneInstance *b, u8 a, float ty, float cy, float r_s);
-	bool	NeedTurn	();					// необходим поворот по оси p_axis?
-	void	Turn		(u32 dt);			// выполнить поворот по оси p_axis
-	void	Apply		();								// установить углы у боны
-
+    bonesBone()
+    {
+        bone = 0;
+    }
+    void Set(CBoneInstance* b, u8 a, float ty, float cy, float r_s);
+    bool NeedTurn();     // РЅРµРѕР±С…РѕРґРёРј РїРѕРІРѕСЂРѕС‚ РїРѕ РѕСЃРё p_axis?
+    void Turn(u32 dt);   // РІС‹РїРѕР»РЅРёС‚СЊ РїРѕРІРѕСЂРѕС‚ РїРѕ РѕСЃРё p_axis
+    void Apply();        // СѓСЃС‚Р°РЅРѕРІРёС‚СЊ СѓРіР»С‹ Сѓ Р±РѕРЅС‹
 };
 
+// СѓРїСЂР°РІР»РµРЅРёРµ РґРІРёР¶РµРЅРёСЏРјРё РєРѕСЃС‚РµР№
+class bonesManipulation
+{
+    xr_vector<bonesBone> m_Bones;
+    u32                  freeze_time;
 
-// управление движениями костей
-class bonesManipulation {
-	xr_vector<bonesBone>	m_Bones;
-	u32		freeze_time;
+    bool                 in_return_state;   // РµСЃР»Рё РёРґС‘С‚ РІРѕР·РІСЂР°С‚ Рє РёСЃС…РѕРґРЅРѕРјСѓ РїРѕР»РѕР¶РµРЅРёСЋ
+    u32                  time_started;
+    u32                  time_last_update;
+    u32                  time_last_delta;
 
-	bool	in_return_state;				// если идёт возврат к исходному положению
-	u32		time_started;
-	u32		time_last_update;
-	u32		time_last_delta;
+    bool                 bActive;
 
-	bool	bActive;
 public:
-	void 		Reset				();
+    void Reset();
 
-	void 		AddBone				(CBoneInstance *bone, u8 axis_used);
-	void 		SetMotion			(CBoneInstance *bone, u8 axis_used, float target_yaw, float r_speed, u32 t);
+    void AddBone(CBoneInstance* bone, u8 axis_used);
+    void SetMotion(CBoneInstance* bone, u8 axis_used, float target_yaw, float r_speed, u32 t);
 
-	void 		Update				(CBoneInstance *bone, u32 cur_time);
-	bool 		IsActive			() {return bActive;}
-	bool 		IsReturn			() {return in_return_state;}
+    void Update(CBoneInstance* bone, u32 cur_time);
+    bool IsActive()
+    {
+        return bActive;
+    }
+    bool IsReturn()
+    {
+        return in_return_state;
+    }
 
-	bonesAxis	&GetBoneParams		(CBoneInstance *bone, u8 axis_used);
+    bonesAxis& GetBoneParams(CBoneInstance* bone, u8 axis_used);
 };
-
-

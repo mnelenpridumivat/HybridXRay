@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: stalker_decision_space.h
 //	Created 	: 30.03.2004
 //  Modified 	: 30.03.2004
@@ -8,151 +8,155 @@
 
 #pragma once
 
-namespace StalkerDecisionSpace {
-	enum EWorldProperties {
-		eWorldPropertyAlive			= u32(0),
-		eWorldPropertyDead,
-		eWorldPropertyAlreadyDead,
-		
-		eWorldPropertyALife,
-		eWorldPropertyPuzzleSolved,
+namespace StalkerDecisionSpace
+{
+    enum EWorldProperties
+    {
+        eWorldPropertyAlive = u32(0),
+        eWorldPropertyDead,
+        eWorldPropertyAlreadyDead,
 
-		eWorldPropertySmartTerrainTask,
-		eWorldPropertyItems,
-		eWorldPropertyEnemy,
-		eWorldPropertyDanger,
-		
-		eWorldPropertyItemToKill,
-		eWorldPropertyFoundItemToKill,
-		eWorldPropertyItemCanKill,
-		eWorldPropertyFoundAmmo,
-		eWorldPropertyReadyToKill,
-		eWorldPropertyReadyToDetour,
-		eWorldPropertySeeEnemy,
-		eWorldPropertyEnemySeeMe,
-		eWorldPropertyPanic,
-		eWorldPropertyInCover,
-		eWorldPropertyLookedOut,
-		eWorldPropertyPositionHolded,
-		eWorldPropertyEnemyDetoured,
-		eWorldPropertyUseSuddenness,
-		eWorldPropertyPureEnemy,
-		eWorldPropertyUseCrouchToLookOut,
-		eWorldPropertyEnemyWounded,
-		eWorldPropertyWoundedEnemyReached,
-		eWorldPropertyWoundedEnemyPrepared,
-		eWorldPropertyPlayerOnThePath,
-		eWorldPropertyCriticallyWounded,
-		eWorldPropertyEnemyCriticallyWounded,
-		eWorldPropertyWoundedEnemyAimed,
-		eWorldPropertyPausedAfterKill,
-		eWorldPropertyKilledWounded,
+        eWorldPropertyALife,
+        eWorldPropertyPuzzleSolved,
 
-		eWorldPropertyDangerUnknown,
-		eWorldPropertyDangerInDirection,
-		eWorldPropertyDangerGrenade,
-		eWorldPropertyDangerBySound,
+        eWorldPropertySmartTerrainTask,
+        eWorldPropertyItems,
+        eWorldPropertyEnemy,
+        eWorldPropertyDanger,
 
-		eWorldPropertyCoverActual,
-		eWorldPropertyCoverReached,
-		eWorldPropertyLookedAround,
-		eWorldPropertyGrenadeExploded,
+        eWorldPropertyItemToKill,
+        eWorldPropertyFoundItemToKill,
+        eWorldPropertyItemCanKill,
+        eWorldPropertyFoundAmmo,
+        eWorldPropertyReadyToKill,
+        eWorldPropertyReadyToDetour,
+        eWorldPropertySeeEnemy,
+        eWorldPropertyEnemySeeMe,
+        eWorldPropertyPanic,
+        eWorldPropertyInCover,
+        eWorldPropertyLookedOut,
+        eWorldPropertyPositionHolded,
+        eWorldPropertyEnemyDetoured,
+        eWorldPropertyUseSuddenness,
+        eWorldPropertyPureEnemy,
+        eWorldPropertyUseCrouchToLookOut,
+        eWorldPropertyEnemyWounded,
+        eWorldPropertyWoundedEnemyReached,
+        eWorldPropertyWoundedEnemyPrepared,
+        eWorldPropertyPlayerOnThePath,
+        eWorldPropertyCriticallyWounded,
+        eWorldPropertyEnemyCriticallyWounded,
+        eWorldPropertyWoundedEnemyAimed,
+        eWorldPropertyPausedAfterKill,
+        eWorldPropertyKilledWounded,
 
-		eWorldPropertyAnomaly,
-		eWorldPropertyInsideAnomaly,
+        eWorldPropertyDangerUnknown,
+        eWorldPropertyDangerInDirection,
+        eWorldPropertyDangerGrenade,
+        eWorldPropertyDangerBySound,
 
-		eWorldPropertyScript,
-		eWorldPropertyDummy			= u32(-1),
-	};
+        eWorldPropertyCoverActual,
+        eWorldPropertyCoverReached,
+        eWorldPropertyLookedAround,
+        eWorldPropertyGrenadeExploded,
 
-	enum EWorldOperators {
-// death
-		eWorldOperatorDead	= u32(0),
-		eWorldOperatorDying,
-		
-// alife
-		eWorldOperatorGatherItems,
-		eWorldOperatorALifeEmulation,
-		eWorldOperatorSmartTerrainTask,
+        eWorldPropertyAnomaly,
+        eWorldPropertyInsideAnomaly,
 
-// alife : tasks
-		eWorldOperatorSolveZonePuzzle,
-		eWorldOperatorReachTaskLocation,
-		eWorldOperatorAccomplishTask,
-		eWorldOperatorReachCustomerLocation,
-		eWorldOperatorCommunicateWithCustomer,
+        eWorldPropertyScript,
+        eWorldPropertyDummy = u32(-1),
+    };
 
-// anomaly
-		eWorldOperatorGetOutOfAnomaly,
-		eWorldOperatorDetectAnomaly,
+    enum EWorldOperators
+    {
+        // death
+        eWorldOperatorDead = u32(0),
+        eWorldOperatorDying,
 
-// combat
-		eWorldOperatorGetItemToKill,
-		eWorldOperatorFindItemToKill,
-		eWorldOperatorMakeItemKilling,
-		eWorldOperatorFindAmmo,
+        // alife
+        eWorldOperatorGatherItems,
+        eWorldOperatorALifeEmulation,
+        eWorldOperatorSmartTerrainTask,
 
-		eWorldOperatorAimEnemy,
-		eWorldOperatorGetReadyToKill,
-		eWorldOperatorGetReadyToDetour,
-		eWorldOperatorKillEnemy,
-		eWorldOperatorRetreatFromEnemy,
-		eWorldOperatorTakeCover,
-		eWorldOperatorLookOut,
-		eWorldOperatorHoldPosition,
-		eWorldOperatorGetDistance,
-		eWorldOperatorDetourEnemy,
-		eWorldOperatorSearchEnemy,
-		eWorldOperatorHideFromGrenade,
-		eWorldOperatorSuddenAttack,
-		eWorldOperatorKillEnemyIfNotVisible,
-		eWorldOperatorReachWoundedEnemy,
-		eWorldOperatorAimWoundedEnemy,
-		eWorldOperatorPrepareWoundedEnemy,
-		eWorldOperatorKillWoundedEnemy,
-		eWorldOperatorPostCombatWait,
-		eWorldOperatorKillEnemyIfPlayerOnThePath,
-		eWorldOperatorCriticallyWounded,
-		eWorldOperatorKillEnemyIfCriticallyWounded,
-		eWorldOperatorPauseAfterKill,
+        // alife : tasks
+        eWorldOperatorSolveZonePuzzle,
+        eWorldOperatorReachTaskLocation,
+        eWorldOperatorAccomplishTask,
+        eWorldOperatorReachCustomerLocation,
+        eWorldOperatorCommunicateWithCustomer,
 
-// danger
-		eWorldOperatorDangerUnknownPlanner,
-		eWorldOperatorDangerInDirectionPlanner,
-		eWorldOperatorDangerGrenadePlanner,
-		eWorldOperatorDangerBySoundPlanner,
+        // anomaly
+        eWorldOperatorGetOutOfAnomaly,
+        eWorldOperatorDetectAnomaly,
 
-		eWorldOperatorDangerUnknownTakeCover,
-		eWorldOperatorDangerUnknownLookAround,
-		eWorldOperatorDangerUnknownSearchEnemy,
+        // combat
+        eWorldOperatorGetItemToKill,
+        eWorldOperatorFindItemToKill,
+        eWorldOperatorMakeItemKilling,
+        eWorldOperatorFindAmmo,
 
-		eWorldOperatorDangerInDirectionTakeCover,
-		eWorldOperatorDangerInDirectionLookOut,
-		eWorldOperatorDangerInDirectionHoldPosition,
-		eWorldOperatorDangerInDirectionDetourEnemy,
-		eWorldOperatorDangerInDirectionSearchEnemy,
+        eWorldOperatorAimEnemy,
+        eWorldOperatorGetReadyToKill,
+        eWorldOperatorGetReadyToDetour,
+        eWorldOperatorKillEnemy,
+        eWorldOperatorRetreatFromEnemy,
+        eWorldOperatorTakeCover,
+        eWorldOperatorLookOut,
+        eWorldOperatorHoldPosition,
+        eWorldOperatorGetDistance,
+        eWorldOperatorDetourEnemy,
+        eWorldOperatorSearchEnemy,
+        eWorldOperatorHideFromGrenade,
+        eWorldOperatorSuddenAttack,
+        eWorldOperatorKillEnemyIfNotVisible,
+        eWorldOperatorReachWoundedEnemy,
+        eWorldOperatorAimWoundedEnemy,
+        eWorldOperatorPrepareWoundedEnemy,
+        eWorldOperatorKillWoundedEnemy,
+        eWorldOperatorPostCombatWait,
+        eWorldOperatorKillEnemyIfPlayerOnThePath,
+        eWorldOperatorCriticallyWounded,
+        eWorldOperatorKillEnemyIfCriticallyWounded,
+        eWorldOperatorPauseAfterKill,
 
-		eWorldOperatorDangerGrenadeTakeCover,
-		eWorldOperatorDangerGrenadeWaitForExplosion,
-		eWorldOperatorDangerGrenadeTakeCoverAfterExplosion,
-		eWorldOperatorDangerGrenadeLookAround,
-		eWorldOperatorDangerGrenadeSearch,
+        // danger
+        eWorldOperatorDangerUnknownPlanner,
+        eWorldOperatorDangerInDirectionPlanner,
+        eWorldOperatorDangerGrenadePlanner,
+        eWorldOperatorDangerBySoundPlanner,
 
-// global
-		eWorldOperatorDeathPlanner,
-		eWorldOperatorALifePlanner,
-		eWorldOperatorCombatPlanner,
-		eWorldOperatorAnomalyPlanner,
-		eWorldOperatorDangerPlanner,
+        eWorldOperatorDangerUnknownTakeCover,
+        eWorldOperatorDangerUnknownLookAround,
+        eWorldOperatorDangerUnknownSearchEnemy,
 
-// script
-		eWorldOperatorScript,
-		eWorldOperatorDummy			= u32(-1),
-	};
+        eWorldOperatorDangerInDirectionTakeCover,
+        eWorldOperatorDangerInDirectionLookOut,
+        eWorldOperatorDangerInDirectionHoldPosition,
+        eWorldOperatorDangerInDirectionDetourEnemy,
+        eWorldOperatorDangerInDirectionSearchEnemy,
 
-	enum ESightActionType {
-		eSightActionTypeWatchItem	= u32(0),
-		eSightActionTypeWatchEnemy,
-		eSightActionTypeDummy		= u32(-1),
-	};
-};
+        eWorldOperatorDangerGrenadeTakeCover,
+        eWorldOperatorDangerGrenadeWaitForExplosion,
+        eWorldOperatorDangerGrenadeTakeCoverAfterExplosion,
+        eWorldOperatorDangerGrenadeLookAround,
+        eWorldOperatorDangerGrenadeSearch,
+
+        // global
+        eWorldOperatorDeathPlanner,
+        eWorldOperatorALifePlanner,
+        eWorldOperatorCombatPlanner,
+        eWorldOperatorAnomalyPlanner,
+        eWorldOperatorDangerPlanner,
+
+        // script
+        eWorldOperatorScript,
+        eWorldOperatorDummy = u32(-1),
+    };
+
+    enum ESightActionType
+    {
+        eSightActionTypeWatchItem = u32(0),
+        eSightActionTypeWatchEnemy,
+        eSightActionTypeDummy = u32(-1),
+    };
+};   // namespace StalkerDecisionSpace

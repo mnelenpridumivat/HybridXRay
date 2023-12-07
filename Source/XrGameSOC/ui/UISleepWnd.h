@@ -1,4 +1,4 @@
-// UISleepWnd.h:  окошко для выбора того, сколько спать
+п»ї// UISleepWnd.h:  РѕРєРѕС€РєРѕ РґР»СЏ РІС‹Р±РѕСЂР° С‚РѕРіРѕ, СЃРєРѕР»СЊРєРѕ СЃРїР°С‚СЊ
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -10,35 +10,39 @@ class CUIButton;
 class CUISleepWnd: public CUIStatic
 {
 private:
-	typedef			CUIStatic inherited;
+    typedef CUIStatic inherited;
+
 public:
-					CUISleepWnd			();
-	virtual			~CUISleepWnd		();
+    CUISleepWnd();
+    virtual ~CUISleepWnd();
 
+    virtual void Init();
+    virtual void SetText(LPCSTR str);
 
-	virtual void	Init				();
-	virtual void	SetText				(LPCSTR str);
+    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
 
-	virtual void	SendMessage			(CUIWindow *pWnd, s16 msg, void *pData);
+    // РР·РјРµРЅСЏРµРј С‚РµРєСѓС‰РµРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРµ РІСЂРµРјСЏ РѕС‚РґС‹С…Р° РЅР° РґРµР»СЊС‚Р°-Р·РЅР°С‡РµРЅРёСЏ
+    void         ModifyRestTime(s8 dHours, s8 dMinutes);
+    // РЎР±СЂР°СЃС‹РІР°РµРј РІСЂРµРјСЏ РІ 0
+    void         ResetTime()
+    {
+        SetRestTime(0, 0);
+    }
 
-	// Изменяем текущее установленное время отдыха на дельта-значения
-	void			ModifyRestTime		(s8 dHours, s8 dMinutes);
-	// Сбрасываем время в 0
-	void			ResetTime			()								{ SetRestTime(0, 0); }
 protected:
-	// Устанавливаем на отображение время для сна
-	void			SetRestTime			(u8 hours, u8 minutes);
-	// Текущее запоменное время отдыха
-	s8				m_Hours, m_Minutes;
-/*
-	// Время индицирующее утро и вечер
+    // РЈСЃС‚Р°РЅР°РІР»РёРІР°РµРј РЅР° РѕС‚РѕР±СЂР°Р¶РµРЅРёРµ РІСЂРµРјСЏ РґР»СЏ СЃРЅР°
+    void       SetRestTime(u8 hours, u8 minutes);
+    // РўРµРєСѓС‰РµРµ Р·Р°РїРѕРјРµРЅРЅРѕРµ РІСЂРµРјСЏ РѕС‚РґС‹С…Р°
+    s8         m_Hours, m_Minutes;
+    /*
+	// Р’СЂРµРјСЏ РёРЅРґРёС†РёСЂСѓСЋС‰РµРµ СѓС‚СЂРѕ Рё РІРµС‡РµСЂ
 	s8				m_MorningH, m_EveningH, m_MorningM, m_EveningM;
-	// Текущее время
+	// РўРµРєСѓС‰РµРµ РІСЂРµРјСЏ
 	u8				m_CurrMins, m_CurrHours;
 */
-	// Контролы
-	CUIStatic*		UIStaticRestAmount;
-	CUIButton*		UIPlusBtn;
-	CUIButton*		UIMinusBtn;
-	CUIButton*		UIRestBtn;
+    // РљРѕРЅС‚СЂРѕР»С‹
+    CUIStatic* UIStaticRestAmount;
+    CUIButton* UIPlusBtn;
+    CUIButton* UIMinusBtn;
+    CUIButton* UIRestBtn;
 };

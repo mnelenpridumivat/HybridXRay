@@ -45,9 +45,7 @@ void CBlender_deffer_aref::Compile(CBlender_Compile& C)
             case SE_R2_NORMAL_LQ:
                 if (lmapped)
                 {
-                    C.r_Pass(
-                        "lmapE", "lmapE", TRUE, TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE,
-                        oAREF.value);
+                    C.r_Pass("lmapE", "lmapE", TRUE, TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, oAREF.value);
                     // C.r_Sampler			("s_base",	C.L_textures[0]	);
                     // C.r_Sampler			("s_lmap",	C.L_textures[1]	);
                     // C.r_Sampler_clf		("s_hemi",	*C.L_textures[2]);
@@ -65,9 +63,7 @@ void CBlender_deffer_aref::Compile(CBlender_Compile& C)
                 }
                 else
                 {
-                    C.r_Pass(
-                        "vert", "vert", TRUE, TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE,
-                        oAREF.value);
+                    C.r_Pass("vert", "vert", TRUE, TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, oAREF.value);
                     // C.r_Sampler			("s_base",	C.L_textures[0]	);
                     C.r_dx10Texture("s_base", C.L_textures[0]);
                     C.r_dx10Sampler("smp_base");
@@ -93,8 +89,7 @@ void CBlender_deffer_aref::Compile(CBlender_Compile& C)
                 if (bUseATOC)
                 {
                     uber_deffer(C, true, "base", "base_atoc", true, 0, true);
-                    C.r_Stencil(
-                        TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+                    C.r_Stencil(TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
                     C.r_ColorWriteEnable(false, false, false, false);
                     C.r_StencilRef(0x01);
                     //	Alpha to coverage.
@@ -103,8 +98,7 @@ void CBlender_deffer_aref::Compile(CBlender_Compile& C)
                 }
 
                 uber_deffer(C, true, "base", "base", true, 0, true);
-                C.r_Stencil(
-                    TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+                C.r_Stencil(TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
                 C.r_StencilRef(0x01);
                 if (bUseATOC)
                     C.RS.SetRS(D3DRS_ZFUNC, D3DCMP_EQUAL);
@@ -116,8 +110,7 @@ void CBlender_deffer_aref::Compile(CBlender_Compile& C)
                 if (bUseATOC)
                 {
                     uber_deffer(C, false, "base", "base_atoc", true, 0, true);
-                    C.r_Stencil(
-                        TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+                    C.r_Stencil(TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
                     C.r_StencilRef(0x01);
                     C.r_ColorWriteEnable(false, false, false, false);
                     //	Alpha to coverage.
@@ -126,8 +119,7 @@ void CBlender_deffer_aref::Compile(CBlender_Compile& C)
                 }
 
                 uber_deffer(C, false, "base", "base", true, 0, true);
-                C.r_Stencil(
-                    TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+                C.r_Stencil(TRUE, D3DCMP_ALWAYS, 0xff, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
                 C.r_StencilRef(0x01);
                 if (bUseATOC)
                     C.RS.SetRS(D3DRS_ZFUNC, D3DCMP_EQUAL);

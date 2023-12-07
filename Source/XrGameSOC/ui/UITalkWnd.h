@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "UIDialogWnd.h"
 #include "UIStatic.h"
@@ -6,7 +6,6 @@
 #include "UIEditBox.h"
 #include "UIListWnd.h"
 #include "UIFrameWindow.h"
-
 
 #include "../PhraseDialogDefs.h"
 
@@ -22,70 +21,75 @@ class CUITradeWnd;
 class CUITalkWnd: public CUIDialogWnd
 {
 private:
-	typedef CUIDialogWnd inherited;
-	ref_sound			m_sound;
-	void				PlaySnd					(LPCSTR text);
-	void				StopSnd					();
+    typedef CUIDialogWnd inherited;
+    ref_sound            m_sound;
+    void                 PlaySnd(LPCSTR text);
+    void                 StopSnd();
+
 public:
-						CUITalkWnd();
-	virtual				~CUITalkWnd();
+    CUITalkWnd();
+    virtual ~CUITalkWnd();
 
-	virtual void		Init();
+    virtual void Init();
 
-	virtual bool		StopAnyMove					(){return true;}
-	virtual void		SendMessage					(CUIWindow* pWnd, s16 msg, void* pData = NULL);
+    virtual bool StopAnyMove()
+    {
+        return true;
+    }
+    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = NULL);
 
-	virtual void		Draw();
-	virtual void		Update();
-		
-	virtual void		Show();
-	virtual void		Hide();
-	
-	void				Stop();					//deffered
+    virtual void Draw();
+    virtual void Update();
 
-	void				UpdateQuestions();
-	void				NeedUpdateQuestions();
-	//инициализации начального диалога собеседника
-	void				InitOthersStartDialog();
-	virtual bool		IR_OnKeyboardPress(int dik);
-	virtual bool		OnKeyboard(int dik, EUIMessages keyboard_action);
-	void				SwitchToTrade();
-	void				AddIconedMessage(LPCSTR text, LPCSTR texture_name, Frect texture_rect, LPCSTR templ_name);
+    virtual void Show();
+    virtual void Hide();
+
+    void         Stop();   //deffered
+
+    void         UpdateQuestions();
+    void         NeedUpdateQuestions();
+    //РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РЅР°С‡Р°Р»СЊРЅРѕРіРѕ РґРёР°Р»РѕРіР° СЃРѕР±РµСЃРµРґРЅРёРєР°
+    void         InitOthersStartDialog();
+    virtual bool IR_OnKeyboardPress(int dik);
+    virtual bool OnKeyboard(int dik, EUIMessages keyboard_action);
+    void         SwitchToTrade();
+    void         AddIconedMessage(LPCSTR text, LPCSTR texture_name, Frect texture_rect, LPCSTR templ_name);
 
 protected:
-	//диалог
-	void				InitTalkDialog			();
-	void				AskQuestion				();
+    //РґРёР°Р»РѕРі
+    void InitTalkDialog();
+    void AskQuestion();
 
-	void				SayPhrase				(const shared_str& phrase_id);
+    void SayPhrase(const shared_str& phrase_id);
 
-	// Функции добавления строк в листы вопросов и ответов
+    // Р¤СѓРЅРєС†РёРё РґРѕР±Р°РІР»РµРЅРёСЏ СЃС‚СЂРѕРє РІ Р»РёСЃС‚С‹ РІРѕРїСЂРѕСЃРѕРІ Рё РѕС‚РІРµС‚РѕРІ
+
 public:
-	void				AddQuestion				(const shared_str& text, const shared_str& id);
-	void				AddAnswer				(const shared_str& text, LPCSTR SpeakerName);
+    void AddQuestion(const shared_str& text, const shared_str& id);
+    void AddAnswer(const shared_str& text, LPCSTR SpeakerName);
+
 protected:
-	//для режима торговли
-	CUITradeWnd*			UITradeWnd;
-	CUITalkDialogWnd*		UITalkDialogWnd;
+    //РґР»СЏ СЂРµР¶РёРјР° С‚РѕСЂРіРѕРІР»Рё
+    CUITradeWnd*          UITradeWnd;
+    CUITalkDialogWnd*     UITalkDialogWnd;
 
+    //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РІР»Р°РґРµР»СЊС†Р° РёРЅРІРµРЅС‚Р°СЂСЏ РІС‹Р·РІР°РІС€РµРіРѕ РјРµРЅСЋС€РєСѓ
+    //Рё РµРіРѕ СЃРѕР±РµСЃРµРґРЅРёРєР°
+    CActor*               m_pActor;
+    CInventoryOwner*      m_pOurInvOwner;
+    CInventoryOwner*      m_pOthersInvOwner;
 
-	//указатель на владельца инвентаря вызвавшего менюшку
-	//и его собеседника
-	CActor*				m_pActor;
-	CInventoryOwner*	m_pOurInvOwner;
-	CInventoryOwner*	m_pOthersInvOwner;
-	
-	CPhraseDialogManager* m_pOurDialogManager;
-	CPhraseDialogManager* m_pOthersDialogManager;
+    CPhraseDialogManager* m_pOurDialogManager;
+    CPhraseDialogManager* m_pOthersDialogManager;
 
-	//спец. переменная, нужна для того чтобы RemoveAll
-	//могла быть корректно вызвана из SendMessage
-	//так как иначе возникает ситуация, что класс, который
-	//вызвал нам SendMessage обращается к удаленному объекту pListItem
-	bool				m_bNeedToUpdateQuestions;
+    //СЃРїРµС†. РїРµСЂРµРјРµРЅРЅР°СЏ, РЅСѓР¶РЅР° РґР»СЏ С‚РѕРіРѕ С‡С‚РѕР±С‹ RemoveAll
+    //РјРѕРіР»Р° Р±С‹С‚СЊ РєРѕСЂСЂРµРєС‚РЅРѕ РІС‹Р·РІР°РЅР° РёР· SendMessage
+    //С‚Р°Рє РєР°Рє РёРЅР°С‡Рµ РІРѕР·РЅРёРєР°РµС‚ СЃРёС‚СѓР°С†РёСЏ, С‡С‚Рѕ РєР»Р°СЃСЃ, РєРѕС‚РѕСЂС‹Р№
+    //РІС‹Р·РІР°Р» РЅР°Рј SendMessage РѕР±СЂР°С‰Р°РµС‚СЃСЏ Рє СѓРґР°Р»РµРЅРЅРѕРјСѓ РѕР±СЉРµРєС‚Сѓ pListItem
+    bool                  m_bNeedToUpdateQuestions;
 
-	//текущий диалог, если NULL, то переходим в режим выбора темы
-	DIALOG_SHARED_PTR	m_pCurrentDialog;
-	bool				TopicMode				();
-	void				ToTopicMode				();
+    //С‚РµРєСѓС‰РёР№ РґРёР°Р»РѕРі, РµСЃР»Рё NULL, С‚Рѕ РїРµСЂРµС…РѕРґРёРј РІ СЂРµР¶РёРј РІС‹Р±РѕСЂР° С‚РµРјС‹
+    DIALOG_SHARED_PTR     m_pCurrentDialog;
+    bool                  TopicMode();
+    void                  ToTopicMode();
 };

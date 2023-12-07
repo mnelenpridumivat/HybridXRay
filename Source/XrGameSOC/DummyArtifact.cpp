@@ -1,23 +1,17 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // DummyArtifact.cpp
-// DummyArtefact - артефакт пустышка
+// DummyArtefact - Р°СЂС‚РµС„Р°РєС‚ РїСѓСЃС‚С‹С€РєР°
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "DummyArtifact.h"
 #include "PhysicsShell.h"
 
+CDummyArtefact::CDummyArtefact(void) {}
 
-CDummyArtefact::CDummyArtefact(void) 
+CDummyArtefact::~CDummyArtefact(void) {}
+
+void CDummyArtefact::Load(LPCSTR section)
 {
+    inherited::Load(section);
 }
-
-CDummyArtefact::~CDummyArtefact(void) 
-{
-}
-
-void CDummyArtefact::Load(LPCSTR section) 
-{
-	inherited::Load(section);
-}
-

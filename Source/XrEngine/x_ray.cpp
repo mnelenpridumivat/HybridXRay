@@ -18,7 +18,7 @@
 #include "x_ray.h"
 #include "std_classes.h"
 #include "GameFont.h"
-#include "../Xr3DA_COP/resources/resource.h"
+#include "../xrHybridXRay/resources/resource.h"
 #include "LightAnimLibrary.h"
 #include "../xrcdb/ispatial.h"
 #include "CopyProtection.h"
@@ -33,11 +33,11 @@
 #include "GameMtlLib.h"
 #include "device.h"
 //---------------------------------------------------------------------
-ENGINE_API CInifile* pGameIni         = NULL;
-BOOL                 g_bIntroFinished = FALSE;
-extern void          Intro(void* fn);
-extern void          Intro_DSHOW(void* fn);
-extern int PASCAL    IntroDSHOW_wnd(HINSTANCE hInstC, HINSTANCE hInstP, LPSTR lpCmdLine, int nCmdShow);
+ENGINE_API CInifile*     pGameIni         = NULL;
+BOOL                     g_bIntroFinished = FALSE;
+extern void              Intro(void* fn);
+extern void              Intro_DSHOW(void* fn);
+extern int PASCAL        IntroDSHOW_wnd(HINSTANCE hInstC, HINSTANCE hInstP, LPSTR lpCmdLine, int nCmdShow);
 // int		max_load_stage = 0;
 
 // computing build id
@@ -48,13 +48,13 @@ XRCORE_API extern u32    build_id;
 #define NO_MULTI_INSTANCES
 #endif   // #ifdef MASTER_GOLD
 
-static LPSTR month_id[12] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+static LPSTR month_id[12]      = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-static int days_in_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+static int   days_in_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
-static int start_day   = 31;     // 31
-static int start_month = 1;      // January
-static int start_year  = 1999;   // 1999
+static int   start_day         = 31;     // 31
+static int   start_month       = 1;      // January
+static int   start_year        = 1999;   // 1999
 
 // binary hash, mainly for copy-protection
 
@@ -67,55 +67,55 @@ static char szEngineHash[33] = DEFAULT_MODULE_HASH;
 
  char * ComputeModuleHash( char * pszHash )
 {
-	SECUROM_MARKER_HIGH_SECURITY_ON(3)
+    SECUROM_MARKER_HIGH_SECURITY_ON(3)
 
-	char szModuleFileName[ MAX_PATH ];
-	HANDLE hModuleHandle = NULL , hFileMapping = NULL;
-	LPVOID lpvMapping = NULL;
-	MEMORY_BASIC_INFORMATION MemoryBasicInformation;
+    char szModuleFileName[ MAX_PATH ];
+    HANDLE hModuleHandle = NULL , hFileMapping = NULL;
+    LPVOID lpvMapping = NULL;
+    MEMORY_BASIC_INFORMATION MemoryBasicInformation;
 
-	if ( ! GetModuleFileName( NULL , szModuleFileName , MAX_PATH ) )
-		return pszHash;
+    if ( ! GetModuleFileName( NULL , szModuleFileName , MAX_PATH ) )
+        return pszHash;
 
-	hModuleHandle = CreateFile( szModuleFileName , GENERIC_READ , FILE_SHARE_READ , NULL , OPEN_EXISTING , 0 , NULL );
+    hModuleHandle = CreateFile( szModuleFileName , GENERIC_READ , FILE_SHARE_READ , NULL , OPEN_EXISTING , 0 , NULL );
 
-	if ( hModuleHandle == INVALID_HANDLE_VALUE )
-		return pszHash;
+    if ( hModuleHandle == INVALID_HANDLE_VALUE )
+        return pszHash;
 
-	hFileMapping = CreateFileMapping( hModuleHandle , NULL , PAGE_READONLY , 0 , 0 , NULL );
+    hFileMapping = CreateFileMapping( hModuleHandle , NULL , PAGE_READONLY , 0 , 0 , NULL );
 
-	if ( hFileMapping == NULL ) {
-		CloseHandle( hModuleHandle );
-		return pszHash;
-	}
+    if ( hFileMapping == NULL ) {
+        CloseHandle( hModuleHandle );
+        return pszHash;
+    }
 
-	lpvMapping = MapViewOfFile( hFileMapping , FILE_MAP_READ , 0 , 0 , 0 );
+    lpvMapping = MapViewOfFile( hFileMapping , FILE_MAP_READ , 0 , 0 , 0 );
 
-	if ( lpvMapping == NULL ) {
-		CloseHandle( hFileMapping );
-		CloseHandle( hModuleHandle );
-		return pszHash;
-	}
+    if ( lpvMapping == NULL ) {
+        CloseHandle( hFileMapping );
+        CloseHandle( hModuleHandle );
+        return pszHash;
+    }
 
-	ZeroMemory( &MemoryBasicInformation , sizeof( MEMORY_BASIC_INFORMATION ) );
+    ZeroMemory( &MemoryBasicInformation , sizeof( MEMORY_BASIC_INFORMATION ) );
 
-	VirtualQuery( lpvMapping , &MemoryBasicInformation , sizeof( MEMORY_BASIC_INFORMATION ) );
+    VirtualQuery( lpvMapping , &MemoryBasicInformation , sizeof( MEMORY_BASIC_INFORMATION ) );
 
-	if ( MemoryBasicInformation.RegionSize ) {
-		char szHash[33];
-		MD5Digest( ( unsigned char *)lpvMapping , (unsigned int) MemoryBasicInformation.RegionSize , szHash );
-		MD5Digest( ( unsigned char *)szHash , 32 , pszHash );
-		for ( int i = 0 ; i < 32 ; ++i )
-			pszHash[ i ] = (char)toupper( pszHash[ i ] );
-	}
+    if ( MemoryBasicInformation.RegionSize ) {
+        char szHash[33];
+        MD5Digest( ( unsigned char *)lpvMapping , (unsigned int) MemoryBasicInformation.RegionSize , szHash );
+        MD5Digest( ( unsigned char *)szHash , 32 , pszHash );
+        for ( int i = 0 ; i < 32 ; ++i )
+            pszHash[ i ] = (char)toupper( pszHash[ i ] );
+    }
 
-	UnmapViewOfFile( lpvMapping );
-	CloseHandle( hFileMapping );
-	CloseHandle( hModuleHandle );
+    UnmapViewOfFile( lpvMapping );
+    CloseHandle( hFileMapping );
+    CloseHandle( hModuleHandle );
 
-	SECUROM_MARKER_HIGH_SECURITY_OFF(3)
+    SECUROM_MARKER_HIGH_SECURITY_OFF(3)
 
-	return pszHash;
+    return pszHash;
 }
 #endif   // DEDICATED_SERVER
 
@@ -169,17 +169,17 @@ struct _SoundProcessor: public pureFrame
 ENGINE_API CApplication* pApp       = NULL;
 static HWND              logoWindow = NULL;
 
-int             doLauncher();
-void            doBenchmark(LPCSTR name);
-ENGINE_API bool g_bBenchmark = false;
-string512       g_sBenchmarkName;
+int                      doLauncher();
+void                     doBenchmark(LPCSTR name);
+ENGINE_API bool          g_bBenchmark = false;
+string512                g_sBenchmarkName;
 
-ENGINE_API string512   g_sLaunchOnExit_params;
-ENGINE_API string512   g_sLaunchOnExit_app;
-ENGINE_API string_path g_sLaunchWorkingFolder;
+ENGINE_API string512     g_sLaunchOnExit_params;
+ENGINE_API string512     g_sLaunchOnExit_app;
+ENGINE_API string_path   g_sLaunchWorkingFolder;
 // -------------------------------------------
 // startup point
-void InitEngine()
+void                     InitEngine()
 {
     EngineDevice        = xr_new<CRenderDevice>();
     GameMaterialLibrary = xr_new<CGameMtlLibrary>();
@@ -266,7 +266,7 @@ void InitInput()
 {
     BOOL bCaptureInput = !strstr(Core.Params, "-i");
 
-    pInput = xr_new<CInput>(bCaptureInput);
+    pInput             = xr_new<CInput>(bCaptureInput);
 }
 void destroyInput()
 {
@@ -425,21 +425,31 @@ void Startup()
 
 static INT_PTR CALLBACK logDlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
 {
+    pcstr splash  = "Splash_CoP.bmp";
+    if (xrGameManager::GetGame() == EGame::SHOC)
+    {
+        splash = "Splash_ShoC.bmp";
+    }
+    else if (xrGameManager::GetGame() == EGame::CS)
+    {
+        splash = "Splash_CS.bmp";
+    }
+
     switch (msg)
     {
-    case WM_INITDIALOG:
-        if (auto hBMP = LoadImage(nullptr, "splash.bmp", IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE))
-            SendDlgItemMessage(hw, IDC_STATIC, STM_SETIMAGE, IMAGE_BITMAP, reinterpret_cast<LPARAM>(hBMP));
+        case WM_INITDIALOG:
+            if (auto hBMP = LoadImage(nullptr, splash, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE))
+                SendDlgItemMessage(hw, IDC_STATIC, STM_SETIMAGE, IMAGE_BITMAP, reinterpret_cast<LPARAM>(hBMP));
         break;
         case WM_DESTROY:
-            break;
+        break;
         case WM_CLOSE:
             DestroyWindow(hw);
-            break;
+        break;
         case WM_COMMAND:
             if (LOWORD(wp) == IDCANCEL)
                 DestroyWindow(hw);
-            break;
+        break;
         default:
             return FALSE;
     }
@@ -518,7 +528,7 @@ void	__cdecl		intro_dshow_x	(void*)
 
 struct damn_keys_filter
 {
-    BOOL bScreenSaverState;
+    BOOL       bScreenSaverState;
 
     // Sticky & Filter & Toggle keys
 
@@ -526,9 +536,9 @@ struct damn_keys_filter
     FILTERKEYS FilterKeysStruct;
     TOGGLEKEYS ToggleKeysStruct;
 
-    DWORD dwStickyKeysFlags;
-    DWORD dwFilterKeysFlags;
-    DWORD dwToggleKeysFlags;
+    DWORD      dwStickyKeysFlags;
+    DWORD      dwFilterKeysFlags;
+    DWORD      dwToggleKeysFlags;
 
     damn_keys_filter()
     {
@@ -621,7 +631,7 @@ struct damn_keys_filter
 // Фунция для тупых требований THQ и тупых американских пользователей
 BOOL IsOutOfVirtualMemory()
 {
-#define VIRT_ERROR_SIZE 256
+#define VIRT_ERROR_SIZE   256
 #define VIRT_MESSAGE_SIZE 512
 
     SECUROM_MARKER_HIGH_SECURITY_ON(1)
@@ -674,34 +684,34 @@ BOOL IsOutOfVirtualMemory()
 #if 0
 void foo	()
 {
-	typedef std::map<int,int>	TEST_MAP;
-	TEST_MAP					temp;
-	temp.insert					(std::make_pair(0,0));
-	TEST_MAP::const_iterator	I = temp.upper_bound(2);
-	if (I == temp.end())
-		OutputDebugString		("end() returned\r\n");
-	else
-		OutputDebugString		("last element returned\r\n");
+    typedef std::map<int,int>	TEST_MAP;
+    TEST_MAP					temp;
+    temp.insert					(std::make_pair(0,0));
+    TEST_MAP::const_iterator	I = temp.upper_bound(2);
+    if (I == temp.end())
+        OutputDebugString		("end() returned\r\n");
+    else
+        OutputDebugString		("last element returned\r\n");
 
-	typedef void*	pvoid;
+    typedef void*	pvoid;
 
-	LPCSTR			path = "d:\\network\\stalker_net2";
-	FILE			*f = fopen(path,"rb");
-	int				file_handle = _fileno(f);
-	u32				buffer_size = _filelength(file_handle);
-	pvoid			buffer = xr_malloc(buffer_size);
-	size_t			result = fread(buffer,buffer_size,1,f);
-	R_ASSERT3		(!buffer_size || (result && (buffer_size >= result)),"Cannot read from file",path);
-	fclose			(f);
+    LPCSTR			path = "d:\\network\\stalker_net2";
+    FILE			*f = fopen(path,"rb");
+    int				file_handle = _fileno(f);
+    u32				buffer_size = _filelength(file_handle);
+    pvoid			buffer = xr_malloc(buffer_size);
+    size_t			result = fread(buffer,buffer_size,1,f);
+    R_ASSERT3		(!buffer_size || (result && (buffer_size >= result)),"Cannot read from file",path);
+    fclose			(f);
 
-	u32				compressed_buffer_size = rtc_csize(buffer_size);
-	pvoid			compressed_buffer = xr_malloc(compressed_buffer_size);
-	u32				compressed_size = rtc_compress(compressed_buffer,compressed_buffer_size,buffer,buffer_size);
+    u32				compressed_buffer_size = rtc_csize(buffer_size);
+    pvoid			compressed_buffer = xr_malloc(compressed_buffer_size);
+    u32				compressed_size = rtc_compress(compressed_buffer,compressed_buffer_size,buffer,buffer_size);
 
-	LPCSTR			compressed_path = "d:\\network\\stalker_net2.rtc";
-	FILE			*f1 = fopen(compressed_path,"wb");
-	fwrite			(compressed_buffer,compressed_size,1,f1);
-	fclose			(f1);
+    LPCSTR			compressed_path = "d:\\network\\stalker_net2.rtc";
+    FILE			*f1 = fopen(compressed_path,"wb");
+    fwrite			(compressed_buffer,compressed_size,1,f1);
+    fclose			(f1);
 }
 #endif   // 0
 
@@ -775,8 +785,17 @@ ENGINE_API int EngineLaunch(EGamePath Game)
 
     SetThreadAffinityMask(GetCurrentThread(), 1);
 
+    int _STARTUP = IDD_STARTUP_COP;
+    if (strstr(GetCommandLine(), "-soc_14") || strstr(GetCommandLine(), "-soc_10004") || strstr(GetCommandLine(), "-soc"))
+    {
+        _STARTUP = IDD_STARTUP_SHOC;
+    }
+    else if (strstr(GetCommandLine(), "-cs"))
+    {
+        _STARTUP = IDD_STARTUP_CS;
+    }
     // Title window
-    logoWindow = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(IDD_STARTUP), 0, logDlgProc);
+    logoWindow = CreateDialog(GetModuleHandle(NULL), MAKEINTRESOURCE(_STARTUP), 0, logDlgProc);
 
     HWND logoPicture = GetDlgItem(logoWindow, IDC_STATIC);
     RECT logoRect;
@@ -795,10 +814,10 @@ ENGINE_API int EngineLaunch(EGamePath Game)
     UpdateWindow(logoWindow);
 
     // AVI
-    g_bIntroFinished = TRUE;
+    g_bIntroFinished            = TRUE;
 
-    g_sLaunchOnExit_app[0]    = NULL;
-    g_sLaunchOnExit_params[0] = NULL;
+    g_sLaunchOnExit_app[0]      = NULL;
+    g_sLaunchOnExit_params[0]   = NULL;
 
     LPCSTR      fsgame_ltx_name = "-fsltx ";
     string_path fsgame          = "";
@@ -932,11 +951,11 @@ LPCSTR _GetFontTexName(LPCSTR section)
     int          idx         = def_idx;
 
 #if 0
-	u32 w = EngineDevice->dwWidth;
+    u32 w = EngineDevice->dwWidth;
 
-	if(w<=800)		idx = 0;
-	else if(w<=1280)idx = 1;
-	else 			idx = 2;
+    if(w<=800)		idx = 0;
+    else if(w<=1280)idx = 1;
+    else 			idx = 2;
 #else
     u32 h = EngineDevice->dwHeight;
 
@@ -984,17 +1003,17 @@ void _InitializeFont(CGameFont*& F, LPCSTR section, u32 flags)
 
 CApplication::CApplication()
 {
-    ll_dwReference = 0;
+    ll_dwReference   = 0;
 
-    max_load_stage = 0;
+    max_load_stage   = 0;
 
     // events
-    eQuit        = Engine.Event.Handler_Attach("KERNEL:quit", this);
-    eStart       = Engine.Event.Handler_Attach("KERNEL:start", this);
-    eStartLoad   = Engine.Event.Handler_Attach("KERNEL:load", this);
-    eDisconnect  = Engine.Event.Handler_Attach("KERNEL:disconnect", this);
-    eConsole     = Engine.Event.Handler_Attach("KERNEL:console", this);
-    eStartMPDemo = Engine.Event.Handler_Attach("KERNEL:start_mp_demo", this);
+    eQuit            = Engine.Event.Handler_Attach("KERNEL:quit", this);
+    eStart           = Engine.Event.Handler_Attach("KERNEL:start", this);
+    eStartLoad       = Engine.Event.Handler_Attach("KERNEL:load", this);
+    eDisconnect      = Engine.Event.Handler_Attach("KERNEL:disconnect", this);
+    eConsole         = Engine.Event.Handler_Attach("KERNEL:console", this);
+    eStartMPDemo     = Engine.Event.Handler_Attach("KERNEL:start_mp_demo", this);
 
     // levels
     Level_Current    = u32(-1);
@@ -1154,7 +1173,7 @@ void CApplication::OnEvent(EVENT E, u64 P1, u64 P2)
 static CTimer          phase_timer;
 extern ENGINE_API BOOL g_appLoaded = FALSE;
 
-void CApplication::LoadBegin()
+void                   CApplication::LoadBegin()
 {
     ll_dwReference++;
     if (1 == ll_dwReference)
@@ -1311,11 +1330,11 @@ void CApplication::Level_Set(u32 L)
 
     if (Level_Current != L)
     {
-        path[0] = 0;
+        path[0]       = 0;
 
         Level_Current = L;
 
-        int count = 0;
+        int count     = 0;
         while (true)
         {
             string_path temp2;
@@ -1401,10 +1420,10 @@ CInifile* CApplication::GetArchiveHeader(LPCSTR name, LPCSTR ver)
 
     for (; it != it_e; ++it)
     {
-        CLocatorAPI::archive& A = *it;
+        CLocatorAPI::archive& A  = *it;
 
-        LPCSTR ln = A.header->r_string("header", "level_name");
-        LPCSTR lv = A.header->r_string("header", "level_ver");
+        LPCSTR                ln = A.header->r_string("header", "level_name");
+        LPCSTR                lv = A.header->r_string("header", "level_ver");
         if (0 == stricmp(ln, name) && 0 == stricmp(lv, ver))
         {
             return A.header;
@@ -1428,7 +1447,7 @@ void CApplication::LoadAllArchives()
 // Parential control for Vista and upper
 typedef BOOL (*PCCPROC)(CHAR*);
 
-BOOL IsPCAccessAllowed()
+BOOL         IsPCAccessAllowed()
 {
     CHAR      szPCtrlChk[MAX_PATH], szGDF[MAX_PATH], *pszLastSlash;
     HINSTANCE hPCtrlChk = NULL;
@@ -1483,7 +1502,7 @@ extern "C"
 HMODULE       hLauncher = NULL;
 LauncherFunc* pLauncher = NULL;
 
-void InitLauncher()
+void          InitLauncher()
 {
     if (hLauncher)
         return;

@@ -55,13 +55,13 @@ public:
 #endif
 
 //	Variables section
-#if defined(USE_DX11)                     //	USE_DX10
+#if defined(USE_DX11)   //	USE_DX10
 public:
     IDXGIAdapter*           m_pAdapter;   //	pD3D equivalent
     ID3D11Device*           pDevice;      //	combine with DX9 pDevice via typedef
     ID3D11DeviceContext*    pContext;     //	combine with DX9 pDevice via typedef
     IDXGISwapChain*         m_pSwapChain;
-    ID3D11RenderTargetView* pBaseRT;      //	combine with DX9 pBaseRT via typedef
+    ID3D11RenderTargetView* pBaseRT;   //	combine with DX9 pBaseRT via typedef
     ID3D11DepthStencilView* pBaseZB;
 
     CHWCaps                 Caps;
@@ -78,7 +78,7 @@ public:
     ID3D10Device1*          pContext1;    //	combine with DX9 pDevice via typedef
     ID3D10Device*           pContext;     //	combine with DX9 pDevice via typedef
     IDXGISwapChain*         m_pSwapChain;
-    ID3D10RenderTargetView* pBaseRT;      //	combine with DX9 pBaseRT via typedef
+    ID3D10RenderTargetView* pBaseRT;   //	combine with DX9 pBaseRT via typedef
     ID3D10DepthStencilView* pBaseZB;
 
     CHWCaps                 Caps;

@@ -1,72 +1,96 @@
-#pragma once
+п»ї#pragma once
 #include "ai_monster_defs.h"
 
 class CBaseMonster;
 
-class CMonsterEnemyManager {
-	CBaseMonster		*monster;
+class CMonsterEnemyManager
+{
+    CBaseMonster*       monster;
 
-	const CEntityAlive	*enemy;
-	Fvector				position;
-	u32					vertex;
-	u32					time_last_seen;
+    const CEntityAlive* enemy;
+    Fvector             position;
+    u32                 vertex;
+    u32                 time_last_seen;
 
-	Flags32				flags;
-	bool				forced;
+    Flags32             flags;
+    bool                forced;
 
-	bool				expediency;
+    bool                expediency;
 
-	const CEntityAlive *prev_enemy;
-	Fvector				prev_enemy_position;
+    const CEntityAlive* prev_enemy;
+    Fvector             prev_enemy_position;
 
-	bool				enemy_see_me;
+    bool                enemy_see_me;
 
-	EDangerType			danger_type;
+    EDangerType         danger_type;
 
-	// node, where monster saw enemy last time
-	u32					my_vertex_enemy_last_seen;
-	// node, of enemy (its always valid unlike vertex)
-	u32					enemy_vertex_enemy_last_seen;
+    // node, where monster saw enemy last time
+    u32                 my_vertex_enemy_last_seen;
+    // node, of enemy (its always valid unlike vertex)
+    u32                 enemy_vertex_enemy_last_seen;
 
-	u32					m_time_updated;
-	u32					m_time_start_see_enemy;
-	
+    u32                 m_time_updated;
+    u32                 m_time_start_see_enemy;
+
 public:
-						CMonsterEnemyManager		(); 
-						~CMonsterEnemyManager		();
-	void				init_external				(CBaseMonster *M);
-	void				reinit						();
+    CMonsterEnemyManager();
+    ~CMonsterEnemyManager();
+    void                init_external(CBaseMonster* M);
+    void                reinit();
 
-	void				update						();
+    void                update();
 
-	void				force_enemy					(const CEntityAlive *enemy);
-	void				unforce_enemy				();
+    void                force_enemy(const CEntityAlive* enemy);
+    void                unforce_enemy();
 
-	const CEntityAlive *get_enemy					() {return enemy;}
-	EDangerType			get_danger_type				() {return danger_type;}
-	const Fvector		&get_enemy_position			() {return position;}
-	u32					get_enemy_vertex			() {return vertex;}
-	TTime				get_enemy_time_last_seen	() {return time_last_seen;}
+    const CEntityAlive* get_enemy()
+    {
+        return enemy;
+    }
+    EDangerType get_danger_type()
+    {
+        return danger_type;
+    }
+    const Fvector& get_enemy_position()
+    {
+        return position;
+    }
+    u32 get_enemy_vertex()
+    {
+        return vertex;
+    }
+    TTime get_enemy_time_last_seen()
+    {
+        return time_last_seen;
+    }
 
-	Flags32				&get_flags					() {return flags;}
-	
-	bool				see_enemy_now				();
-	bool				enemy_see_me_now			();
+    Flags32& get_flags()
+    {
+        return flags;
+    }
 
-	// вернуть количество врагов
-	u32					get_enemies_count			();
+    bool see_enemy_now();
+    bool enemy_see_me_now();
 
-	void				add_enemy					(const CEntityAlive *);
-	bool				is_faced					(const CEntityAlive *object0, const CEntityAlive *object1);
-	
-	bool				is_enemy					(const CEntityAlive *obj);
+    // РІРµСЂРЅСѓС‚СЊ РєРѕР»РёС‡РµСЃС‚РІРѕ РІСЂР°РіРѕРІ
+    u32  get_enemies_count();
 
-	// обновить врага в соответствии с врагом у monster
-	void				transfer_enemy				(CBaseMonster *friend_monster);
+    void add_enemy(const CEntityAlive*);
+    bool is_faced(const CEntityAlive* object0, const CEntityAlive* object1);
 
-	u32					get_my_vertex_enemy_last_seen		() {return my_vertex_enemy_last_seen;}
-	u32					get_enemy_vertex_enemy_last_seen	() {return enemy_vertex_enemy_last_seen;}
+    bool is_enemy(const CEntityAlive* obj);
 
-	u32					see_enemy_duration			();
+    // РѕР±РЅРѕРІРёС‚СЊ РІСЂР°РіР° РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РІСЂР°РіРѕРј Сѓ monster
+    void transfer_enemy(CBaseMonster* friend_monster);
+
+    u32  get_my_vertex_enemy_last_seen()
+    {
+        return my_vertex_enemy_last_seen;
+    }
+    u32 get_enemy_vertex_enemy_last_seen()
+    {
+        return enemy_vertex_enemy_last_seen;
+    }
+
+    u32 see_enemy_duration();
 };
-

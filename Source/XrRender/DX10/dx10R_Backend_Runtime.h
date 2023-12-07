@@ -382,8 +382,7 @@ IC void CBackend::set_Scissor(Irect* R)
     }
 }
 
-IC void
-    CBackend::set_Stencil(u32 _enable, u32 _func, u32 _ref, u32 _mask, u32 _writemask, u32 _fail, u32 _pass, u32 _zfail)
+IC void CBackend::set_Stencil(u32 _enable, u32 _func, u32 _ref, u32 _mask, u32 _writemask, u32 _fail, u32 _pass, u32 _zfail)
 {
     StateManager.SetStencil(_enable, _func, _ref, _mask, _writemask, _fail, _pass, _zfail);
     // Simple filter
@@ -470,9 +469,7 @@ IC void CBackend::ApplyVertexLayout()
     {
         ID3DInputLayout* pLayout;
 
-        CHK_DX(HW.pDevice->CreateInputLayout(
-            &decl->dx10_dcl_code[0], decl->dx10_dcl_code.size() - 1, m_pInputSignature->GetBufferPointer(),
-            m_pInputSignature->GetBufferSize(), &pLayout));
+        CHK_DX(HW.pDevice->CreateInputLayout(&decl->dx10_dcl_code[0], decl->dx10_dcl_code.size() - 1, m_pInputSignature->GetBufferPointer(), m_pInputSignature->GetBufferSize(), &pLayout));
 
         it = decl->vs_to_layout.insert(std::pair<ID3DBlob*, ID3DInputLayout*>(m_pInputSignature, pLayout)).first;
     }
@@ -496,8 +493,7 @@ ICF void CBackend::set_VS(SVS* _vs)
     set_VS(_vs->vs, _vs->cName.c_str());
 }
 
-IC bool
-    CBackend::CBuffersNeedUpdate(ref_cbuffer buf1[MaxCBuffers], ref_cbuffer buf2[MaxCBuffers], u32& uiMin, u32& uiMax)
+IC bool CBackend::CBuffersNeedUpdate(ref_cbuffer buf1[MaxCBuffers], ref_cbuffer buf2[MaxCBuffers], u32& uiMin, u32& uiMax)
 {
     bool bRes = false;
     int  i    = 0;

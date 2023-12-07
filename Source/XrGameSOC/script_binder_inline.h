@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_binder_inline.h
 //	Created 	: 26.03.2004
 //  Modified 	: 26.03.2004
@@ -8,7 +8,7 @@
 
 #pragma once
 
-IC	CScriptBinderObject	*CScriptBinder::object	()
+IC CScriptBinderObject* CScriptBinder::object()
 {
-	return			(m_object);
+    return (m_object);
 }

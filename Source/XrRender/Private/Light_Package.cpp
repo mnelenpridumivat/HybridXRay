@@ -16,12 +16,12 @@ IC bool pred_light_cmp(light* _1, light* _2)
         if (_2->vis.pending)
             return _1->vis.query_order > _2->vis.query_order;   // q-order
         else
-            return false;                                       // _2 should be first
+            return false;   // _2 should be first
     }
     else
     {
         if (_2->vis.pending)
-            return true;                    // _1 should be first
+            return true;   // _1 should be first
         else
             return _1->range > _2->range;   // sort by range
     }

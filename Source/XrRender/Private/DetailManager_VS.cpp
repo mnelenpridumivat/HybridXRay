@@ -19,9 +19,8 @@ const int                quant    = 16384;
 const int                c_hdr    = 10;
 const int                c_size   = 4;
 
-static D3DVERTEXELEMENT9 dwDecl[] = {
-    {0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},    // pos
-    {0, 12, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},   // uv
+static D3DVERTEXELEMENT9 dwDecl[] = {{0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0},   // pos
+    {0, 12, D3DDECLTYPE_SHORT4, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_TEXCOORD, 0},                                   // uv
     D3DDECL_END()};
 
 #pragma pack(push, 1)

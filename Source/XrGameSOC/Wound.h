@@ -1,4 +1,4 @@
-// Wound.h: ����� �������� ����
+﻿// Wound.h: ����� �������� ����
 //
 //////////////////////////////////////////////////////////////////////
 
@@ -12,47 +12,71 @@ class NET_Packet;
 class CWound
 {
 public:
-	CWound				(u16 bone_num);
-	virtual ~CWound		(void);
+    CWound(u16 bone_num);
+    virtual ~CWound(void);
 
-	//serialization
-	virtual void save	(NET_Packet &output_packet);
-	virtual void load	(IReader &input_packet);
+    //serialization
+    virtual void save(NET_Packet& output_packet);
+    virtual void load(IReader& input_packet);
 
-	float	TotalSize	();
-	float	TypeSize	(ALife::EHitType hit_type);
-	float	BloodSize	();
+    float        TotalSize();
+    float        TypeSize(ALife::EHitType hit_type);
+    float        BloodSize();
 
-	void	AddHit		(float hit_power, ALife::EHitType hit_type);
-	
-	//���������� ����
-	void	Incarnation	(float percent, float min_wound_size);
-	u16		GetBoneNum	() {return m_iBoneNum;}
-	void 	SetBoneNum	(u16 bone_num) {m_iBoneNum = bone_num;}
+    void         AddHit(float hit_power, ALife::EHitType hit_type);
 
-	u16		GetParticleBoneNum	() {return m_iParticleBoneNum;}
-	void	SetParticleBoneNum	(u16 bone_num) {m_iParticleBoneNum = bone_num;}
+    //���������� ����
+    void         Incarnation(float percent, float min_wound_size);
+    u16          GetBoneNum()
+    {
+        return m_iBoneNum;
+    }
+    void SetBoneNum(u16 bone_num)
+    {
+        m_iBoneNum = bone_num;
+    }
 
-	const shared_str& GetParticleName	()						{return m_sParticleName;}
-	void	SetParticleName	(shared_str particle_name) {m_sParticleName = particle_name;}
+    u16 GetParticleBoneNum()
+    {
+        return m_iParticleBoneNum;
+    }
+    void SetParticleBoneNum(u16 bone_num)
+    {
+        m_iParticleBoneNum = bone_num;
+    }
 
-	void  SetDestroy(bool destroy) {m_bToBeDestroy = destroy;}
-	bool  GetDestroy()			   {return m_bToBeDestroy;}
+    const shared_str& GetParticleName()
+    {
+        return m_sParticleName;
+    }
+    void SetParticleName(shared_str particle_name)
+    {
+        m_sParticleName = particle_name;
+    }
 
-	//����� ���������� (��� ������ �����)
-	float m_fDropTime;
+    void SetDestroy(bool destroy)
+    {
+        m_bToBeDestroy = destroy;
+    }
+    bool GetDestroy()
+    {
+        return m_bToBeDestroy;
+    }
+
+    //����� ���������� (��� ������ �����)
+    float m_fDropTime;
 
 protected:
-	//�������� �� ������� ��������� ����
-	u16 m_iBoneNum;
+    //�������� �� ������� ��������� ����
+    u16                      m_iBoneNum;
 
-	//��������, ���� �� ���� ������������ �������
-	u16 m_iParticleBoneNum;
-	//��� ����� ��������
-	shared_str m_sParticleName;
+    //��������, ���� �� ���� ������������ �������
+    u16                      m_iParticleBoneNum;
+    //��� ����� ��������
+    shared_str               m_sParticleName;
 
-	//������ ������������ ���� 
-	HitImmunity::HitTypeSVec m_Wounds;
+    //������ ������������ ����
+    HitImmunity::HitTypeSVec m_Wounds;
 
-	bool		m_bToBeDestroy;
+    bool                     m_bToBeDestroy;
 };

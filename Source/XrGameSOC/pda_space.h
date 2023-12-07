@@ -1,9 +1,9 @@
-#pragma once
+п»ї#pragma once
 
-//типы сообщений PDA
-enum EPdaMsg {
-	ePdaMsgDialog,				//диалог
-	ePdaMsgInfo,				//сообщение передает некоторую информацию
-	ePdaMsgMax
+//С‚РёРїС‹ СЃРѕРѕР±С‰РµРЅРёР№ PDA
+enum EPdaMsg
+{
+    ePdaMsgDialog,   //РґРёР°Р»РѕРі
+    ePdaMsgInfo,     //СЃРѕРѕР±С‰РµРЅРёРµ РїРµСЂРµРґР°РµС‚ РЅРµРєРѕС‚РѕСЂСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ
+    ePdaMsgMax
 };
-

@@ -1,20 +1,21 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // DummyArtifact.h
-// DummyArtefact - артефакт пустышка
+// DummyArtefact - Р°СЂС‚РµС„Р°РєС‚ РїСѓСЃС‚С‹С€РєР°
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 #include "artifact.h"
 
-class CDummyArtefact : public CArtefact 
+class CDummyArtefact: public CArtefact
 {
 private:
-	typedef CArtefact inherited;
-public:
-	CDummyArtefact(void);
-	virtual ~CDummyArtefact(void);
+    typedef CArtefact inherited;
 
-	virtual void Load				(LPCSTR section);
+public:
+    CDummyArtefact(void);
+    virtual ~CDummyArtefact(void);
+
+    virtual void Load(LPCSTR section);
 
 protected:
 };

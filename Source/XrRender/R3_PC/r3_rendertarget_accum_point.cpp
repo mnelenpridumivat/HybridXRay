@@ -42,23 +42,17 @@ void CRenderTarget::accum_point(light* L)
     // backfaces: if (1<=stencil && zfail)	stencil = light_id
     RCache.set_CullMode(CULL_CW);
     if (!RImplementation.o.dx10_msaa)
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP,
-            D3DSTENCILOP_REPLACE);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
     else
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP,
-            D3DSTENCILOP_REPLACE);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, dwLightMarkerID, 0x01, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
     draw_volume(L);
 
     // frontfaces: if (1<=stencil && zfail)	stencil = 0x1
     RCache.set_CullMode(CULL_CCW);
     if (!RImplementation.o.dx10_msaa)
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0xff, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
     else
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, 0x01, 0x7f, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0x7f, 0x7f, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE);
     draw_volume(L);
 
     // nv-stencil recompression

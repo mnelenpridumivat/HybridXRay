@@ -23,8 +23,7 @@ void CRenderTarget::accum_omnip_geom_create()
         u32   iCount = DU_SPHERE_PART_NUMFACES * 3;
 
         BYTE* pData  = 0;
-        R_CHK(
-            HW.pDevice->CreateIndexBuffer(iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_accum_omnip_ib, 0));
+        R_CHK(HW.pDevice->CreateIndexBuffer(iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &g_accum_omnip_ib, 0));
         HW.stats_manager.increment_stats_ib(g_accum_omnip_ib);
         R_CHK(g_accum_omnip_ib->Lock(0, 0, (void**)&pData, 0));
         CopyMemory(pData, du_sphere_part_faces, iCount * 2);

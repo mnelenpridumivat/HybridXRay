@@ -16,8 +16,7 @@
 #define MAX_GlowsDist2  float(MAX_GlowsDist1 * MAX_GlowsDist1)
 
 //////////////////////////////////////////////////////////////////////
-CGlow::CGlow():
-    ISpatial(g_SpatialSpace)
+CGlow::CGlow(): ISpatial(g_SpatialSpace)
 {
     flags.bActive = false;
     position.set(0, 0, 0);

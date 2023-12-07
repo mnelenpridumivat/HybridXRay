@@ -80,9 +80,7 @@ void CBlender_deffer_model::Compile(CBlender_Compile& C)
             case 0:   //
             case 1:   //
                 vsname = psname = "model_def_lq";
-                C.r_Pass(
-                    vsname, psname, TRUE, TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE,
-                    oAREF.value);
+                C.r_Pass(vsname, psname, TRUE, TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_INVSRCALPHA, TRUE, oAREF.value);
                 C.r_Sampler("s_base", C.L_textures[0]);
                 C.r_End();
                 break;
@@ -107,9 +105,7 @@ void CBlender_deffer_model::Compile(CBlender_Compile& C)
                 if (bAref)
                 {
                     if (RImplementation.o.HW_smap)
-                        C.r_Pass(
-                            "shadow_direct_model_aref", "shadow_direct_base_aref", FALSE, TRUE, TRUE, FALSE,
-                            D3DBLEND_ZERO, D3DBLEND_ONE, TRUE, 220);
+                        C.r_Pass("shadow_direct_model_aref", "shadow_direct_base_aref", FALSE, TRUE, TRUE, FALSE, D3DBLEND_ZERO, D3DBLEND_ONE, TRUE, 220);
                     else
                         C.r_Pass("shadow_direct_model_aref", "shadow_direct_base_aref", FALSE);
                     C.r_Sampler("s_base", C.L_textures[0]);

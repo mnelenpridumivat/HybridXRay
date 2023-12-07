@@ -1,8 +1,8 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 
-BOOL	xrRender_test_hw		()
+BOOL xrRender_test_hw()
 {
-	/*D3DCAPS9					caps	;
+    /*D3DCAPS9					caps	;
 	CHW							_HW;
 	_HW.CreateD3D				()		;
 	_HW.pD3D->GetDeviceCaps		(D3DADAPTER_DEFAULT,D3DDEVTYPE_HAL,&caps);
@@ -13,5 +13,5 @@ BOOL	xrRender_test_hw		()
 	if		(ps_ver_major<2)		return	FALSE;
 	if		(ps_instructions<256)	return	FALSE;
 	if		(mrt_count<3)			return	FALSE;*/
-	return	TRUE;
+    return TRUE;
 }

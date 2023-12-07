@@ -111,8 +111,7 @@ struct FTreeVisual_setup
         scale = 1.f / float(FTreeVisual_quant);
 
         // setup constants
-        wave.set(
-            ps_r__Tree_Wave.x, ps_r__Tree_Wave.y, ps_r__Tree_Wave.z,
+        wave.set(ps_r__Tree_Wave.x, ps_r__Tree_Wave.y, ps_r__Tree_Wave.z,
             Device->fTimeGlobal * ps_r__Tree_w_speed);   // wave
         wave.div(PI_MUL_2);
     }
@@ -141,8 +140,7 @@ void FTreeVisual::Render(float LOD)
 #else
     IEnvDescriptor& desc = *g_pGamePersistent->Environment().CurrentEnv;
     RCache.tree.set_c_scale(s * c_scale.rgb.x, s * c_scale.rgb.y, s * c_scale.rgb.z, s * c_scale.hemi);   // scale
-    RCache.tree.set_c_bias(
-        s * c_bias.rgb.x + desc.ambient.x, s * c_bias.rgb.y + desc.ambient.y, s * c_bias.rgb.z + desc.ambient.z,
+    RCache.tree.set_c_bias(s * c_bias.rgb.x + desc.ambient.x, s * c_bias.rgb.y + desc.ambient.y, s * c_bias.rgb.z + desc.ambient.z,
         s * c_bias.hemi);   // bias
 #endif
     RCache.tree.set_c_sun(s * c_scale.sun, s * c_bias.sun, 0, 0);   // sun

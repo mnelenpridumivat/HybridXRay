@@ -1,76 +1,119 @@
-#pragma once
+п»ї#pragma once
 #include "../xr_level_controller.h"
 class CUIWindow;
 
 #ifdef _WIN64
-struct _24b { DWORD _[6]; };
-extern poolSS< _24b, 128>	ui_allocator;
-#else
-struct _12b { DWORD _[3]; };
-extern poolSS< _12b, 128>	ui_allocator;
-#endif
-
-
-template <class T>
-class	uialloc	{
-public:
-	typedef	size_t		size_type;
-	typedef ptrdiff_t	difference_type;
-	typedef T*			pointer;
-	typedef const T*	const_pointer;
-	typedef T&			reference;
-	typedef const T&	const_reference;
-	typedef T			value_type;
-
-public:
-	template<class _Other>	
-	struct rebind			{	typedef uialloc<_Other> other;	};
-public:
-							pointer					address			(reference _Val) const					{	return (&_Val);	}
-							const_pointer			address			(const_reference _Val) const			{	return (&_Val);	}
-													uialloc			()										{	}
-													uialloc			(const uialloc<T>&)						{	}
-	template<class _Other>							uialloc			(const uialloc<_Other>&)					{	}
-	template<class _Other>	uialloc<T>&				operator=		(const uialloc<_Other>&)					{	return (*this);	}
-							pointer					allocate		(size_type n, const void* p=0) const	
-							{	VERIFY(1==n);
-								return (pointer) ui_allocator.create();	
-							};
-							char*			__charalloc		(size_type n)							
-							{	VERIFY	(1==n);
-								return	(char*) ui_allocator.create();	
-							};
-							void					deallocate		(pointer p, size_type n) const			
-							{	
-								VERIFY(1==n);
-#ifdef _WIN64
-								_24b* p_ = (_24b*)p;
-#else
-								_12b* p_ = (_12b*)p;
-#endif
-								ui_allocator.destroy	(p_);				
-							}
-							void					deallocate		(void* p, size_type n) const		
-							{	
-								VERIFY(1==n);
-#ifdef _WIN64
-								_24b* p_ = (_24b*)p;
-#else
-								_12b* p_ = (_12b*)p;
-#endif
-								ui_allocator.destroy	(p_);				
-							}
-							void					construct		(pointer p, const T& _Val)				{	std::_Construct(p, _Val);	}
-							void					destroy			(pointer p)								{	std::_Destroy(p);			}
-							size_type				max_size		() const								{	size_type _Count = (size_type)(-1) / sizeof (T);	return (0 < _Count ? _Count : 1);	}
+struct _24b
+{
+    DWORD _[6];
 };
-template<class _Ty,	class _Other>	inline	bool operator==(const uialloc<_Ty>&, const uialloc<_Other>&)		{	return (true);							}
-template<class _Ty, class _Other>	inline	bool operator!=(const uialloc<_Ty>&, const uialloc<_Other>&)		{	return (false);							}
+extern poolSS<_24b, 128> ui_allocator;
+#else
+struct _12b
+{
+    DWORD _[3];
+};
+extern poolSS<_12b, 128> ui_allocator;
+#endif
 
-template<typename T>	
-class	ui_list 		: public std::list<T,uialloc<T> >{ public: u32 size() const {return (u32)__super::size(); } };
+template<class T> class uialloc
+{
+public:
+    typedef size_t    size_type;
+    typedef ptrdiff_t difference_type;
+    typedef T*        pointer;
+    typedef const T*  const_pointer;
+    typedef T&        reference;
+    typedef const T&  const_reference;
+    typedef T         value_type;
 
-#define DEF_UILIST(N,T)		typedef ui_list< T > N;			typedef N::iterator N##_it;
+public:
+    template<class _Other> struct rebind
+    {
+        typedef uialloc<_Other> other;
+    };
+
+public:
+    pointer address(reference _Val) const
+    {
+        return (&_Val);
+    }
+    const_pointer address(const_reference _Val) const
+    {
+        return (&_Val);
+    }
+    uialloc() {}
+    uialloc(const uialloc<T>&) {}
+    template<class _Other> uialloc(const uialloc<_Other>&) {}
+    template<class _Other> uialloc<T>& operator=(const uialloc<_Other>&)
+    {
+        return (*this);
+    }
+    pointer allocate(size_type n, const void* p = 0) const
+    {
+        VERIFY(1 == n);
+        return (pointer)ui_allocator.create();
+    };
+    char* __charalloc(size_type n)
+    {
+        VERIFY(1 == n);
+        return (char*)ui_allocator.create();
+    };
+    void deallocate(pointer p, size_type n) const
+    {
+        VERIFY(1 == n);
+#ifdef _WIN64
+        _24b* p_ = (_24b*)p;
+#else
+        _12b* p_ = (_12b*)p;
+#endif
+        ui_allocator.destroy(p_);
+    }
+    void deallocate(void* p, size_type n) const
+    {
+        VERIFY(1 == n);
+#ifdef _WIN64
+        _24b* p_ = (_24b*)p;
+#else
+        _12b* p_ = (_12b*)p;
+#endif
+        ui_allocator.destroy(p_);
+    }
+    void construct(pointer p, const T& _Val)
+    {
+        std::_Construct(p, _Val);
+    }
+    void destroy(pointer p)
+    {
+        std::_Destroy(p);
+    }
+    size_type max_size() const
+    {
+        size_type _Count = (size_type)(-1) / sizeof(T);
+        return (0 < _Count ? _Count : 1);
+    }
+};
+template<class _Ty, class _Other> inline bool operator==(const uialloc<_Ty>&, const uialloc<_Other>&)
+{
+    return (true);
+}
+template<class _Ty, class _Other> inline bool operator!=(const uialloc<_Ty>&, const uialloc<_Other>&)
+{
+    return (false);
+}
+
+template<typename T> class ui_list: public std::list<T, uialloc<T>>
+{
+public:
+    u32 size() const
+    {
+        return (u32) __super::size();
+    }
+};
+
+#define DEF_UILIST(N, T)   \
+    typedef ui_list<T>  N; \
+    typedef N::iterator N##_it;
 
 //////////////////////////////////////////////////////////////////////////
 
@@ -78,189 +121,253 @@ class	ui_list 		: public std::list<T,uialloc<T> >{ public: u32 size() const {ret
 #include "script_export_space.h"
 #include "uiabstract.h"
 
-
-class CUIWindow  : public CUISimpleWindow
+class CUIWindow: public CUISimpleWindow
 {
 public:
-	using CUISimpleWindow::Init;
+    using CUISimpleWindow::Init;
 
-				CUIWindow						();
-	virtual		~CUIWindow						();
+    CUIWindow();
+    virtual ~CUIWindow();
 
-	////////////////////////////////////
-	//инициализация
-	virtual void			Init				(Frect* pRect);
+    ////////////////////////////////////
+    //РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ
+    virtual void Init(Frect* pRect);
 
-	////////////////////////////////////
-	//работа с дочерними и родительскими окнами
-	virtual void			AttachChild			(CUIWindow* pChild);
-	virtual void			DetachChild			(CUIWindow* pChild);
-	virtual bool			IsChild				(CUIWindow* pChild) const;
-	virtual void			DetachAll			();
-	int						GetChildNum			()								{return m_ChildWndList.size();} 
+    ////////////////////////////////////
+    //СЂР°Р±РѕС‚Р° СЃ РґРѕС‡РµСЂРЅРёРјРё Рё СЂРѕРґРёС‚РµР»СЊСЃРєРёРјРё РѕРєРЅР°РјРё
+    virtual void AttachChild(CUIWindow* pChild);
+    virtual void DetachChild(CUIWindow* pChild);
+    virtual bool IsChild(CUIWindow* pChild) const;
+    virtual void DetachAll();
+    int          GetChildNum()
+    {
+        return m_ChildWndList.size();
+    }
 
-	void					SetParent			(CUIWindow* pNewParent);
-	CUIWindow*				GetParent			()	const							{return m_pParentWnd;}
-	
-	//получить окно самого верхнего уровня
-	CUIWindow*				GetTop				()								{if(m_pParentWnd == NULL) return  this; 
-																				else return  m_pParentWnd->GetTop();}
-	CUIWindow*				GetCurrentMouseHandler();
-	CUIWindow*				GetChildMouseHandler();
+    void       SetParent(CUIWindow* pNewParent);
+    CUIWindow* GetParent() const
+    {
+        return m_pParentWnd;
+    }
 
+    //РїРѕР»СѓС‡РёС‚СЊ РѕРєРЅРѕ СЃР°РјРѕРіРѕ РІРµСЂС…РЅРµРіРѕ СѓСЂРѕРІРЅСЏ
+    CUIWindow* GetTop()
+    {
+        if (m_pParentWnd == NULL)
+            return this;
+        else
+            return m_pParentWnd->GetTop();
+    }
+    CUIWindow*   GetCurrentMouseHandler();
+    CUIWindow*   GetChildMouseHandler();
 
-	//поднять на вершину списка выбранное дочернее окно
-	bool					BringToTop			(CUIWindow* pChild);
+    //РїРѕРґРЅСЏС‚СЊ РЅР° РІРµСЂС€РёРЅСѓ СЃРїРёСЃРєР° РІС‹Р±СЂР°РЅРЅРѕРµ РґРѕС‡РµСЂРЅРµРµ РѕРєРЅРѕ
+    bool         BringToTop(CUIWindow* pChild);
 
-	//поднять на вершину списка всех родителей окна и его самого
-	void					BringAllToTop		();
-	
+    //РїРѕРґРЅСЏС‚СЊ РЅР° РІРµСЂС€РёРЅСѓ СЃРїРёСЃРєР° РІСЃРµС… СЂРѕРґРёС‚РµР»РµР№ РѕРєРЅР° Рё РµРіРѕ СЃР°РјРѕРіРѕ
+    void         BringAllToTop();
 
+    virtual bool OnMouse(float x, float y, EUIMessages mouse_action);
+    virtual void OnMouseMove();
+    virtual void OnMouseScroll(float iDirection);
+    virtual bool OnDbClick();
+    virtual bool OnMouseDown(int mouse_btn);
+    virtual void OnMouseUp(int mouse_btn);
+    virtual void OnFocusReceive();
+    virtual void OnFocusLost();
+    bool         HasChildMouseHandler();
 
-	virtual bool 			OnMouse				(float x, float y, EUIMessages mouse_action);
-	virtual void 			OnMouseMove			();
-	virtual void 			OnMouseScroll		(float iDirection);
-	virtual bool 			OnDbClick			();
-	virtual bool 			OnMouseDown			(int mouse_btn);
-	virtual void 			OnMouseUp			(int mouse_btn);
-	virtual void 			OnFocusReceive		();
-	virtual void 			OnFocusLost			();
-			bool 			HasChildMouseHandler();
+    //Р·Р°С…РІР°С‚РёС‚СЊ/РѕСЃРІРѕР±РѕРґРёС‚СЊ РјС‹С€СЊ РѕРєРЅРѕРј
+    //СЃРѕРѕР±С‰РµРЅРёРµ РїРѕСЃС‹Р»Р°РµС‚СЃСЏ РґРѕС‡РµСЂРЅРёРј РѕРєРЅРѕРј СЂРѕРґРёС‚РµР»СЊСЃРєРѕРјСѓ
+    void         SetCapture(CUIWindow* pChildWindow, bool capture_status);
+    CUIWindow*   GetMouseCapturer()
+    {
+        return m_pMouseCapturer;
+    }
 
-	//захватить/освободить мышь окном
-	//сообщение посылается дочерним окном родительскому
-	void					SetCapture			(CUIWindow* pChildWindow, bool capture_status);
-	CUIWindow*				GetMouseCapturer	()													{return m_pMouseCapturer;}
+    //РѕРєРѕС€РєРѕ, РєРѕС‚РѕСЂРѕРјСѓ РїРµСЂРµСЃС‹Р»Р°СЋС‚СЃСЏ СЃРѕРѕР±С‰РµРЅРёСЏ,
+    //РµСЃР»Рё NULL, С‚Рѕ С€Р»РµРј РЅР° GetParent()
+    void SetMessageTarget(CUIWindow* pWindow)
+    {
+        m_pMessageTarget = pWindow;
+    }
+    CUIWindow*   GetMessageTarget();
 
-	//окошко, которому пересылаются сообщения,
-	//если NULL, то шлем на GetParent()
-	void					SetMessageTarget	(CUIWindow* pWindow)								{m_pMessageTarget = pWindow;}
-	CUIWindow*				GetMessageTarget	();
+    //СЂРµР°РєС†РёСЏ РЅР° РєР»Р°РІРёР°С‚СѓСЂСѓ
+    virtual bool OnKeyboard(int dik, EUIMessages keyboard_action);
+    virtual bool OnKeyboardHold(int dik);
+    virtual void SetKeyboardCapture(CUIWindow* pChildWindow, bool capture_status);
 
-	//реакция на клавиатуру
-	virtual bool			OnKeyboard			(int dik, EUIMessages keyboard_action);
-	virtual bool			OnKeyboardHold		(int dik);
-	virtual void			SetKeyboardCapture	(CUIWindow* pChildWindow, bool capture_status);
+    //РѕР±СЂР°Р±РѕС‚РєР° СЃРѕРѕР±С‰РµРЅРёР№ РЅРµ РїСЂРµРґСѓСЃРјРѕС‚СЂРµРЅС‹С… СЃС‚Р°РЅРґР°СЂС‚РЅС‹РјРё РѕР±СЂР°Р±РѕС‚С‡РёРєР°РјРё
+    //С„-С†РёСЏ РґРѕР»Р¶РЅР° РїРµСЂРµРѕРїСЂРµРґРµР»СЏС‚СЊСЃСЏ
+    //pWnd - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РѕРєРЅРѕ, РєРѕС‚РѕСЂРѕРµ РїРѕСЃР»Р°Р»Рѕ СЃРѕРѕР±С‰РµРЅРёРµ
+    //pData - СѓРєР°Р·Р°С‚РµР»СЊ РЅР° РґРѕРїРѕР»РЅРёС‚РµР»СЊРЅС‹Рµ РґР°РЅРЅС‹Рµ, РєРѕС‚РѕСЂС‹Рµ РјРѕРіСѓС‚ РїРѕРЅР°РґРѕР±РёС‚СЊСЃСЏ
+    virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData = NULL);
 
-	
-	
-	//обработка сообщений не предусмотреных стандартными обработчиками
-	//ф-ция должна переопределяться
-	//pWnd - указатель на окно, которое послало сообщение
-	//pData - указатель на дополнительные данные, которые могут понадобиться
-	virtual void			SendMessage			(CUIWindow* pWnd, s16 msg, void* pData = NULL);
-	
-	
+    //Р·Р°РїСЂРµС‰РµРЅРёРµ/СЂР°Р·СЂРµС€РµРЅРёРµ РЅР° РІРІРѕРґ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹
+    virtual void Enable(bool status)
+    {
+        m_bIsEnabled = status;
+    }
+    virtual bool IsEnabled()
+    {
+        return m_bIsEnabled;
+    }
 
-	//запрещение/разрешение на ввод с клавиатуры
-	virtual void			Enable				(bool status)									{m_bIsEnabled=status;}
-	virtual bool			IsEnabled			()												{return m_bIsEnabled;}
+    //СѓР±СЂР°С‚СЊ/РїРѕРєР°Р·Р°С‚СЊ РѕРєРЅРѕ Рё РµРіРѕ РґРѕС‡РµСЂРЅРёРµ РѕРєРЅР°
+    virtual void Show(bool status)
+    {
+        SetVisible(status);
+        Enable(status);
+    }
+    IC bool IsShown()
+    {
+        return this->GetVisible();
+    }
+    void    ShowChildren(bool show);
 
-	//убрать/показать окно и его дочерние окна
-	virtual void			Show				(bool status)									{SetVisible(status); Enable(status); }
-	IC		bool			IsShown				()												{return this->GetVisible();}
-			void			ShowChildren		(bool show);
-	
-	//абсолютные координаты
-	IC void					GetAbsoluteRect		(Frect& r) ;
-	IC void					GetAbsolutePos		(Fvector2& p) 	{Frect abs; GetAbsoluteRect(abs); p.set(abs.x1,abs.y1);}
+    //Р°Р±СЃРѕР»СЋС‚РЅС‹Рµ РєРѕРѕСЂРґРёРЅР°С‚С‹
+    IC void GetAbsoluteRect(Frect& r);
+    IC void GetAbsolutePos(Fvector2& p)
+    {
+        Frect abs;
+        GetAbsoluteRect(abs);
+        p.set(abs.x1, abs.y1);
+    }
 
+    void SetWndRect_script(float x, float y, float width, float height)
+    {
+        CUISimpleWindow::SetWndRect(x, y, width, height);
+    }
+    void SetWndRect_script(Frect rect)
+    {
+        CUISimpleWindow::SetWndRect(rect);
+    }
 
-			void			SetWndRect_script(float x, float y, float width, float height)		{CUISimpleWindow::SetWndRect(x,y,width,height);}
-			void			SetWndRect_script(Frect rect)										{CUISimpleWindow::SetWndRect(rect);}
+    //РїСЂРѕСЂРёСЃРѕРІРєР° РѕРєРЅР°
+    virtual void Draw();
+    virtual void Draw(float x, float y);
+    //РѕР±РЅРѕРІР»РµРЅРёРµ РѕРєРЅР° РїРµСЂРµРґРїСЂРѕСЂРёСЃРѕРІРєРѕР№
+    virtual void Update();
 
-	//прорисовка окна
-	virtual void			Draw				();
-	virtual void			Draw				(float x, float y);
-	//обновление окна передпрорисовкой
-	virtual void			Update				();
+    void         SetPPMode();
+    void         ResetPPMode();
+    IC bool      GetPPMode()
+    {
+        return m_bPP;
+    };
+    //РґР»СЏ РїРµСЂРµРІРѕРґР° РѕРєРЅР° Рё РїРѕС‚РѕРјРєРѕРІ РІ РёСЃС…РѕРґРЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ
+    virtual void Reset();
+    void         ResetAll();
 
+    //РІСЂРµРјРµРЅРЅРѕ!!!! (Р° РјРѕР¶РµС‚ СѓР¶Рµ Рё РЅРµС‚)
+    virtual void SetFont(CGameFont* pFont)
+    {
+        m_pFont = pFont;
+    }
+    CGameFont* GetFont()
+    {
+        if (m_pFont)
+            return m_pFont;
+        if (m_pParentWnd == NULL)
+            return m_pFont;
+        else
+            return m_pParentWnd->GetFont();
+    }
 
-			void			SetPPMode			();
-			void			ResetPPMode			();
-	IC		bool			GetPPMode			()		{return m_bPP;};
-	//для перевода окна и потомков в исходное состояние
-	virtual void			Reset				();
-			void			ResetAll			();
+    DEF_UILIST(WINDOW_LIST, CUIWindow*);
+    WINDOW_LIST& GetChildWndList()
+    {
+        return m_ChildWndList;
+    }
 
+    IC bool IsAutoDelete()
+    {
+        return m_bAutoDelete;
+    }
+    IC void SetAutoDelete(bool auto_delete)
+    {
+        m_bAutoDelete = auto_delete;
+    }
 
-	//временно!!!! (а может уже и нет)
-	virtual void			SetFont				(CGameFont* pFont)			{ m_pFont = pFont;}
-	CGameFont*				GetFont				()							{if(m_pFont) return m_pFont;
-																				if(m_pParentWnd== NULL)	
-																					return  m_pFont;
-																				else
-																					return  m_pParentWnd->GetFont();}
+    // Name of the window
+    const shared_str WindowName() const
+    {
+        return m_windowName;
+    }
+    void SetWindowName(LPCSTR wn)
+    {
+        m_windowName = wn;
+    }
+    LPCSTR WindowName_script()
+    {
+        return *m_windowName;
+    }
+    CUIWindow* FindChild(const shared_str name);
 
-	DEF_UILIST				(WINDOW_LIST, CUIWindow*);
-	WINDOW_LIST&			GetChildWndList		()							{return m_ChildWndList; }
-
-
-	IC bool					IsAutoDelete		()							{return m_bAutoDelete;}
-	IC void					SetAutoDelete		(bool auto_delete)			{m_bAutoDelete = auto_delete;}
-
-	// Name of the window
-	const shared_str		WindowName			() const					{ return m_windowName; }
-	void					SetWindowName		(LPCSTR wn)					{ m_windowName = wn; }
-	LPCSTR					WindowName_script	()							{return *m_windowName;}
-	CUIWindow*				FindChild			(const shared_str name);
-
-	IC bool					CursorOverWindow	() const					{ return m_bCursorOverWindow; }
+    IC bool    CursorOverWindow() const
+    {
+        return m_bCursorOverWindow;
+    }
 
 protected:
-	IC void					SafeRemoveChild(CUIWindow* child)				{WINDOW_LIST_it it = std::find(m_ChildWndList.begin(),m_ChildWndList.end(),child); if(it!=m_ChildWndList.end())m_ChildWndList.erase(it);};
+    IC void SafeRemoveChild(CUIWindow* child)
+    {
+        WINDOW_LIST_it it = std::find(m_ChildWndList.begin(), m_ChildWndList.end(), child);
+        if (it != m_ChildWndList.end())
+            m_ChildWndList.erase(it);
+    };
 
-	shared_str				m_windowName;
-	//список дочерних окон
-	WINDOW_LIST				m_ChildWndList;
-	
-	//указатель на родительское окно
-	CUIWindow*				m_pParentWnd;
+    shared_str  m_windowName;
+    //СЃРїРёСЃРѕРє РґРѕС‡РµСЂРЅРёС… РѕРєРѕРЅ
+    WINDOW_LIST m_ChildWndList;
 
-	//дочернее окно которое, захватило ввод мыши
-	CUIWindow*				m_pMouseCapturer;
-	
-	//кто изначально иницировал
-	//захват фокуса, только он теперь
-	//может весь фокус и освободить
-	CUIWindow*				m_pOrignMouseCapturer;
+    //СѓРєР°Р·Р°С‚РµР»СЊ РЅР° СЂРѕРґРёС‚РµР»СЊСЃРєРѕРµ РѕРєРЅРѕ
+    CUIWindow*  m_pParentWnd;
 
-	//дочернее окно которое, захватило ввод клавиатуры
-	CUIWindow*				m_pKeyboardCapturer;
+    //РґРѕС‡РµСЂРЅРµРµ РѕРєРЅРѕ РєРѕС‚РѕСЂРѕРµ, Р·Р°С…РІР°С‚РёР»Рѕ РІРІРѕРґ РјС‹С€Рё
+    CUIWindow*  m_pMouseCapturer;
 
-	//кому шлем сообщения
-	CUIWindow*				m_pMessageTarget;
+    //РєС‚Рѕ РёР·РЅР°С‡Р°Р»СЊРЅРѕ РёРЅРёС†РёСЂРѕРІР°Р»
+    //Р·Р°С…РІР°С‚ С„РѕРєСѓСЃР°, С‚РѕР»СЊРєРѕ РѕРЅ С‚РµРїРµСЂСЊ
+    //РјРѕР¶РµС‚ РІРµСЃСЊ С„РѕРєСѓСЃ Рё РѕСЃРІРѕР±РѕРґРёС‚СЊ
+    CUIWindow*  m_pOrignMouseCapturer;
 
+    //РґРѕС‡РµСЂРЅРµРµ РѕРєРЅРѕ РєРѕС‚РѕСЂРѕРµ, Р·Р°С…РІР°С‚РёР»Рѕ РІРІРѕРґ РєР»Р°РІРёР°С‚СѓСЂС‹
+    CUIWindow*  m_pKeyboardCapturer;
 
-	CGameFont*				m_pFont;
+    //РєРѕРјСѓ С€Р»РµРј СЃРѕРѕР±С‰РµРЅРёСЏ
+    CUIWindow*  m_pMessageTarget;
 
-	// Последняя позиция мышки
-	Fvector2 cursor_pos;
+    CGameFont*  m_pFont;
 
-	//время прошлого клика мышки
-	//для определения DoubleClick
-	u32						m_dwLastClickTime;
-	u32						m_dwFocusReceiveTime;
+    // РџРѕСЃР»РµРґРЅСЏСЏ РїРѕР·РёС†РёСЏ РјС‹С€РєРё
+    Fvector2    cursor_pos;
 
-	//флаг автоматического удаления во время вызова деструктора
-	bool					m_bAutoDelete;
+    //РІСЂРµРјСЏ РїСЂРѕС€Р»РѕРіРѕ РєР»РёРєР° РјС‹С€РєРё
+    //РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ DoubleClick
+    u32         m_dwLastClickTime;
+    u32         m_dwFocusReceiveTime;
 
-	// Флаг разрешающий/запрещающий генерацию даблклика
-	bool					m_bPP;
-	//разрешен ли ввод пользователя
-	bool					m_bIsEnabled;
+    //С„Р»Р°Рі Р°РІС‚РѕРјР°С‚РёС‡РµСЃРєРѕРіРѕ СѓРґР°Р»РµРЅРёСЏ РІРѕ РІСЂРµРјСЏ РІС‹Р·РѕРІР° РґРµСЃС‚СЂСѓРєС‚РѕСЂР°
+    bool        m_bAutoDelete;
 
-	// Если курсор над окном
-	bool					m_bCursorOverWindow;
-	bool					m_bClickable;
+    // Р¤Р»Р°Рі СЂР°Р·СЂРµС€Р°СЋС‰РёР№/Р·Р°РїСЂРµС‰Р°СЋС‰РёР№ РіРµРЅРµСЂР°С†РёСЋ РґР°Р±Р»РєР»РёРєР°
+    bool        m_bPP;
+    //СЂР°Р·СЂРµС€РµРЅ Р»Рё РІРІРѕРґ РїРѕР»СЊР·РѕРІР°С‚РµР»СЏ
+    bool        m_bIsEnabled;
+
+    // Р•СЃР»Рё РєСѓСЂСЃРѕСЂ РЅР°Рґ РѕРєРЅРѕРј
+    bool        m_bCursorOverWindow;
+    bool        m_bClickable;
 
 #ifdef DEBUG
-	int m_dbg_id;
-	Flags32					m_dbg_flag;
+    int     m_dbg_id;
+    Flags32 m_dbg_flag;
 #endif
 
 public:
-	DECLARE_SCRIPT_REGISTER_FUNCTION
+    DECLARE_SCRIPT_REGISTER_FUNCTION
 };
 
 add_to_type_list(CUIWindow)

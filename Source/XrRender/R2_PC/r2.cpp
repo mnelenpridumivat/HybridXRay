@@ -20,8 +20,7 @@ class CGlow: public IRender_Glow
 public:
     bool bActive;
 public:
-    CGlow():
-        bActive(false) {}
+    CGlow(): bActive(false) {}
     virtual void set_active(bool b)
     {
         bActive = b;
@@ -75,8 +74,7 @@ static class cl_pos_decompress_params: public R_constant_setup
         float VertTan = -1.0f * tanf(deg2rad(Device->fFOV / 2.0f));
         float HorzTan = -VertTan / Device->fASPECT;
 
-        RCache.set_c(
-            C, HorzTan, VertTan, (2.0f * HorzTan) / (float)Device->dwWidth, (2.0f * VertTan) / (float)Device->dwHeight);
+        RCache.set_c(C, HorzTan, VertTan, (2.0f * HorzTan) / (float)Device->dwWidth, (2.0f * VertTan) / (float)Device->dwHeight);
     }
 } binder_pos_decompress_params;
 
@@ -233,11 +231,7 @@ void                   CRender::create()
     {
         // o.nvstencil = HW.support	((D3DFORMAT)MAKEFOURCC('R','A','W','Z'), D3DRTYPE_SURFACE, 0);
         // o.nvstencil = TRUE;
-        o.nvstencil =
-            (S_OK ==
-                HW.pD3D->CheckDeviceFormat(
-                    D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, 0, D3DRTYPE_TEXTURE,
-                    (D3DFORMAT MAKEFOURCC('R', 'A', 'W', 'Z'))));
+        o.nvstencil = (S_OK == HW.pD3D->CheckDeviceFormat(D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, D3DFMT_X8R8G8B8, 0, D3DRTYPE_TEXTURE, (D3DFORMAT MAKEFOURCC('R', 'A', 'W', 'Z'))));
     }
 
     if (strstr(Core.Params, "-nonvs"))
@@ -298,10 +292,8 @@ void                   CRender::create()
     // constants
     dxRenderDeviceRender::Instance().Resources->RegisterConstantSetup("parallax", &binder_parallax);
     dxRenderDeviceRender::Instance().Resources->RegisterConstantSetup("water_intensity", &binder_water_intensity);
-    dxRenderDeviceRender::Instance().Resources->RegisterConstantSetup(
-        "sun_shafts_intensity", &binder_sun_shafts_intensity);
-    dxRenderDeviceRender::Instance().Resources->RegisterConstantSetup(
-        "pos_decompression_params", &binder_pos_decompress_params);
+    dxRenderDeviceRender::Instance().Resources->RegisterConstantSetup("sun_shafts_intensity", &binder_sun_shafts_intensity);
+    dxRenderDeviceRender::Instance().Resources->RegisterConstantSetup("pos_decompression_params", &binder_pos_decompress_params);
 
     c_lmaterial    = "L_material";
     c_sbase        = "s_base";
@@ -403,8 +395,7 @@ void CRender::OnFrame()
     if (ps_r2_ls_flags.test(R2FLAG_EXP_MT_CALC))
     {
         // MT-details (@front)
-        Device->seqParallel.insert(
-            Device->seqParallel.begin(), fastdelegate::FastDelegate0<>(Details, &CDetailManager::MT_CALC));
+        Device->seqParallel.insert(Device->seqParallel.begin(), fastdelegate::FastDelegate0<>(Details, &CDetailManager::MT_CALC));
 
         // MT-HOM (@front)
         Device->seqParallel.insert(Device->seqParallel.begin(), fastdelegate::FastDelegate0<>(&HOM, &CHOM::MT_RENDER));
@@ -620,23 +611,11 @@ void CRender::add_SkeletonWallmark(intrusive_ptr<CSkeletonWallmark> wm)
 {
     Wallmarks->AddSkeletonWallmark(wm);
 }
-void CRender::add_SkeletonWallmark(
-    const Fmatrix* xf,
-    CKinematics*   obj,
-    ref_shader&    sh,
-    const Fvector& start,
-    const Fvector& dir,
-    float          size)
+void CRender::add_SkeletonWallmark(const Fmatrix* xf, CKinematics* obj, ref_shader& sh, const Fvector& start, const Fvector& dir, float size)
 {
     Wallmarks->AddSkeletonWallmark(xf, obj, sh, start, dir, size);
 }
-void CRender::add_SkeletonWallmark(
-    const Fmatrix*  xf,
-    IKinematics*    obj,
-    IWallMarkArray* pArray,
-    const Fvector&  start,
-    const Fvector&  dir,
-    float           size)
+void CRender::add_SkeletonWallmark(const Fmatrix* xf, IKinematics* obj, IWallMarkArray* pArray, const Fvector& start, const Fvector& dir, float size)
 {
     dxWallMarkArray* pWMA    = (dxWallMarkArray*)pArray;
     ref_shader*      pShader = pWMA->dxGenerateWallmark();
@@ -673,8 +652,7 @@ void CRender::rmNormal()
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-CRender::CRender():
-    m_bFirstFrameAfterReset(false)
+CRender::CRender(): m_bFirstFrameAfterReset(false)
 {
     init_cacades();
 }
@@ -688,8 +666,7 @@ void CRender::Statistics(CGameFont* _F)
     F.OutNext(" **** LT:%2d,LV:%2d **** ", stats.l_total, stats.l_visible);
     stats.l_visible = 0;
     F.OutNext("    S(%2d)   | (%2d)NS   ", stats.l_shadowed, stats.l_unshadowed);
-    F.OutNext(
-        "smap use[%2d], merge[%2d], finalclip[%2d]", stats.s_used, stats.s_merged - stats.s_used, stats.s_finalclip);
+    F.OutNext("smap use[%2d], merge[%2d], finalclip[%2d]", stats.s_used, stats.s_merged - stats.s_used, stats.s_finalclip);
     stats.s_used      = 0;
     stats.s_merged    = 0;
     stats.s_finalclip = 0;
@@ -719,13 +696,7 @@ LPCSTR WINAPI	D3DXGetPixelShaderProfile	(LPDIRECT3DDEVICE9  pDevice);
 LPCSTR WINAPI	D3DXGetVertexShaderProfile	(LPDIRECT3DDEVICE9	pDevice);
 };
 */
-static HRESULT create_shader(
-    LPCSTR const pTarget,
-    DWORD const* buffer,
-    u32 const    buffer_size,
-    LPCSTR const file_name,
-    void*&       result,
-    bool const   disasm)
+static HRESULT create_shader(LPCSTR const pTarget, DWORD const* buffer, u32 const buffer_size, LPCSTR const file_name, void*& result, bool const disasm)
 {
     HRESULT _result = E_FAIL;
     if (pTarget[0] == 'p')
@@ -794,21 +765,12 @@ static HRESULT create_shader(
 
 #include <boost/crc.hpp>
 
-static inline bool match_shader_id(
-    LPCSTR const      debug_shader_id,
-    LPCSTR const      full_shader_id,
-    FS_FileSet const& file_set,
-    string_path&      result);
+static inline bool match_shader_id(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result);
 
 class includer: public ID3DXInclude
 {
 public:
-    HRESULT __stdcall Open(
-        D3DXINCLUDE_TYPE IncludeType,
-        LPCSTR           pFileName,
-        LPCVOID          pParentData,
-        LPCVOID*         ppData,
-        UINT*            pBytes)
+    HRESULT __stdcall Open(D3DXINCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID* ppData, UINT* pBytes)
     {
         string_path pname;
         strconcat(sizeof(pname), pname, ::Render->getShaderPath(), pFileName);
@@ -839,14 +801,7 @@ public:
     }
 };
 
-HRESULT CRender::shader_compile(
-    LPCSTR       name,
-    DWORD const* pSrcData,
-    UINT         SrcDataLen,
-    LPCSTR       pFunctionName,
-    LPCSTR       pTarget,
-    DWORD        Flags,
-    void*&       result)
+HRESULT CRender::shader_compile(LPCSTR name, DWORD const* pSrcData, UINT SrcDataLen, LPCSTR pFunctionName, LPCSTR pTarget, DWORD Flags, void*& result)
 {
     D3DXMACRO defines[128];
     int       def_it = 0;
@@ -1265,7 +1220,7 @@ HRESULT CRender::shader_compile(
             if ('v' == pTarget[0])
                 pTarget = D3DXGetVertexShaderProfile(HW.pDevice);   // vertex	"vs_2_a"; //
             else
-                pTarget = D3DXGetPixelShaderProfile(HW.pDevice);    // pixel	"ps_2_a"; //
+                pTarget = D3DXGetPixelShaderProfile(HW.pDevice);   // pixel	"ps_2_a"; //
         }
 
         includer            Includer;
@@ -1274,26 +1229,21 @@ HRESULT CRender::shader_compile(
         LPD3DXCONSTANTTABLE pConstants = NULL;
         LPD3DXINCLUDE       pInclude   = (LPD3DXINCLUDE)&Includer;
 
-        _result                        = D3DXCompileShader(
-            (LPCSTR)pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget,
-            Flags | D3DXSHADER_USE_LEGACY_D3DX9_31_DLL, &pShaderBuf, &pErrorBuf, &pConstants);
+        _result                        = D3DXCompileShader((LPCSTR)pSrcData, SrcDataLen, defines, pInclude, pFunctionName, pTarget, Flags | D3DXSHADER_USE_LEGACY_D3DX9_31_DLL, &pShaderBuf, &pErrorBuf, &pConstants);
         if (SUCCEEDED(_result))
         {
             //			Msg						( "shader compilation succeeded" );
             IWriter*           file = FS.w_open(file_name);
 
             boost::crc_32_type processor;
-            processor.process_block(
-                pShaderBuf->GetBufferPointer(), ((char*)pShaderBuf->GetBufferPointer()) + pShaderBuf->GetBufferSize());
+            processor.process_block(pShaderBuf->GetBufferPointer(), ((char*)pShaderBuf->GetBufferPointer()) + pShaderBuf->GetBufferSize());
             u32 const crc = processor.checksum();
 
             file->w_u32(crc);
             file->w(pShaderBuf->GetBufferPointer(), (u32)pShaderBuf->GetBufferSize());
             FS.w_close(file);
 
-            _result = create_shader(
-                pTarget, (DWORD*)pShaderBuf->GetBufferPointer(), pShaderBuf->GetBufferSize(), file_name, result,
-                o.disasm);
+            _result = create_shader(pTarget, (DWORD*)pShaderBuf->GetBufferPointer(), pShaderBuf->GetBufferSize(), file_name, result, o.disasm);
         }
         else
         {
@@ -1312,13 +1262,10 @@ HRESULT CRender::shader_compile(
     return _result;
 }
 
-static inline bool
-    match_shader(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, LPCSTR const mask, size_t const mask_length)
+static inline bool match_shader(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, LPCSTR const mask, size_t const mask_length)
 {
     u32 const full_shader_id_length = xr_strlen(full_shader_id);
-    R_ASSERT2(
-        full_shader_id_length == mask_length,
-        make_string("bad cache for shader %s, [%s], [%s]", debug_shader_id, mask, full_shader_id));
+    R_ASSERT2(full_shader_id_length == mask_length, make_string("bad cache for shader %s, [%s], [%s]", debug_shader_id, mask, full_shader_id));
     char const*       i = full_shader_id;
     char const* const e = full_shader_id + full_shader_id_length;
     char const*       j = mask;
@@ -1336,11 +1283,7 @@ static inline bool
     return true;
 }
 
-static inline bool match_shader_id(
-    LPCSTR const      debug_shader_id,
-    LPCSTR const      full_shader_id,
-    FS_FileSet const& file_set,
-    string_path&      result)
+static inline bool match_shader_id(LPCSTR const debug_shader_id, LPCSTR const full_shader_id, FS_FileSet const& file_set, string_path& result)
 {
 #if 0
 	strcpy_s					( result, "" );

@@ -21,8 +21,7 @@ void CRenderTarget::create_minmax_SM()
     u_setrt(rt_smap_depth_minmax, NULL, NULL, NULL);
     RCache.set_Element(s_create_minmax_sm->E[0]);
     RCache.set_Geometry(g_combine_2UV);
-    StateManager.SetStencil(
-        FALSE, D3DCMP_ALWAYS, 0x80, 0xFF, 0x80, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
+    StateManager.SetStencil(FALSE, D3DCMP_ALWAYS, 0x80, 0xFF, 0x80, D3DSTENCILOP_KEEP, D3DSTENCILOP_REPLACE, D3DSTENCILOP_KEEP);
     StateManager.SetColorWriteEnable(D3D10_COLOR_WRITE_ENABLE_ALL);
     StateManager.SetDepthFunc(D3DCMP_ALWAYS);
     StateManager.SetDepthEnable(FALSE);

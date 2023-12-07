@@ -102,7 +102,7 @@ struct doug_lea_allocator_wrapper
 #define render_alloc doug_lea_alloc
 typedef doug_lea_allocator_wrapper render_allocator;
 
-#else    // USE_DOUG_LEA_ALLOCATOR_FOR_RENDER
+#else   // USE_DOUG_LEA_ALLOCATOR_FOR_RENDER
 #define render_alloc xalloc
 typedef xr_allocator render_allocator;
 #endif   // USE_DOUG_LEA_ALLOCATOR_FOR_RENDER
@@ -148,7 +148,7 @@ namespace R_dsgraph
     typedef ref_hs hs_type;
     typedef ref_ds ds_type;
 #endif
-#endif                                       //	USE_DX10
+#endif   //	USE_DX10
 #else
 #if defined(USE_DX10) || defined(USE_DX11)   //	DX10 needs shader signature to propperly bind deometry to shader
     typedef SVS*                vs_type;
@@ -160,7 +160,7 @@ namespace R_dsgraph
 #else    //	USE_DX10
     typedef ID3DVertexShader* vs_type;
 #endif   //	USE_DX10
-    typedef ID3DPixelShader*    ps_type;
+    typedef ID3DPixelShader* ps_type;
 #endif
 
     // NORMAL
@@ -204,12 +204,10 @@ namespace R_dsgraph
         float ssa;
     };
     struct mapNormalVS: public FixedMAP<vs_type, mapNormalGS, render_allocator>
-    {
-    };
+    {};
 #else    //	USE_DX10
     struct mapNormalVS: public FixedMAP<vs_type, mapNormalPS, render_allocator>
-    {
-    };
+    {};
 #endif   //	USE_DX10
     typedef mapNormalVS                                                           mapNormal_T;
     typedef mapNormal_T                                                           mapNormalPasses_T[SHADER_PASSES_MAX];
@@ -255,12 +253,10 @@ namespace R_dsgraph
         float ssa;
     };
     struct mapMatrixVS: public FixedMAP<vs_type, mapMatrixGS, render_allocator>
-    {
-    };
+    {};
 #else    //	USE_DX10
     struct mapMatrixVS: public FixedMAP<vs_type, mapMatrixPS, render_allocator>
-    {
-    };
+    {};
 #endif   //	USE_DX10
     typedef mapMatrixVS                                     mapMatrix_T;
     typedef mapMatrix_T                                     mapMatrixPasses_T[SHADER_PASSES_MAX];

@@ -1,22 +1,16 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // RustyHairArtifact.cpp
-// RustyHairArtefact - артефакт ржавые волосы
+// RustyHairArtefact - Р°СЂС‚РµС„Р°РєС‚ СЂР¶Р°РІС‹Рµ РІРѕР»РѕСЃС‹
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
 #include "RustyHairArtifact.h"
 
+CRustyHairArtefact::CRustyHairArtefact(void) {}
 
-CRustyHairArtefact::CRustyHairArtefact(void) 
+CRustyHairArtefact::~CRustyHairArtefact(void) {}
+
+void CRustyHairArtefact::Load(LPCSTR section)
 {
+    inherited::Load(section);
 }
-
-CRustyHairArtefact::~CRustyHairArtefact(void) 
-{
-}
-
-void CRustyHairArtefact::Load(LPCSTR section) 
-{
-	inherited::Load(section);
-}
-

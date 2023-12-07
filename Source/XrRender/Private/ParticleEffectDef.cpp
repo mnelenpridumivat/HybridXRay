@@ -119,12 +119,7 @@ void CPEDef::ExecuteAnimate(Particle* particles, u32 p_cnt, float dt)
     }
 }
 
-void CPEDef::ExecuteCollision(
-    PAPI::Particle*   particles,
-    u32               p_cnt,
-    float             dt,
-    CParticleEffect*  owner,
-    CollisionCallback cb)
+void CPEDef::ExecuteCollision(PAPI::Particle* particles, u32 p_cnt, float dt, CParticleEffect* owner, CollisionCallback cb)
 {
     pVector pt, n;
     // Must traverse list in reverse order so Remove will work

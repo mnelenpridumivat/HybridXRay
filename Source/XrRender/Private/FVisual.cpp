@@ -106,8 +106,7 @@ void Fvisual::Load(const char* N, IReader* data, u32 dwFlags)
             {
                 DebugBreak();
             }
-            if (shader->E[SE_R2_SHADOW]._get() &&
-                shader->E[SE_R2_SHADOW]->passes[0]->vs->cName == "shadow_direct_base_aref")
+            if (shader->E[SE_R2_SHADOW]._get() && shader->E[SE_R2_SHADOW]->passes[0]->vs->cName == "shadow_direct_base_aref")
             {
                 DebugBreak();
                 VERIFY(D3DXGetDeclLength(fmt) == 2);
@@ -199,14 +198,12 @@ void Fvisual::Load(const char* N, IReader* data, u32 dwFlags)
             R_CHK(dx10BufferUtils::CreateIndexBuffer(&p_rm_Indices, data->pointer(), iCount * 2));
             HW.stats_manager.increment_stats_ib(p_rm_Indices);
 #else    //	USE_DX10
-            BOOL bSoft   = HW.Caps.geometry.bSoftware;
-            u32  dwUsage = /*D3DUSAGE_WRITEONLY |*/ (
-                bSoft ? D3DUSAGE_SOFTWAREPROCESSING : 0);   // indices are read in model-wallmarks code
-            BYTE* bytes = 0;
+            BOOL  bSoft   = HW.Caps.geometry.bSoftware;
+            u32   dwUsage = /*D3DUSAGE_WRITEONLY |*/ (bSoft ? D3DUSAGE_SOFTWAREPROCESSING : 0);   // indices are read in model-wallmarks code
+            BYTE* bytes   = 0;
 
             VERIFY(NULL == p_rm_Indices);
-            R_CHK(
-                HW.pDevice->CreateIndexBuffer(iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &p_rm_Indices, 0));
+            R_CHK(HW.pDevice->CreateIndexBuffer(iCount * 2, dwUsage, D3DFMT_INDEX16, D3DPOOL_MANAGED, &p_rm_Indices, 0));
             HW.stats_manager.increment_stats_ib(p_rm_Indices);
             R_CHK(p_rm_Indices->Lock(0, 0, (void**)&bytes, 0));
             CopyMemory(bytes, data->pointer(), iCount * 2);

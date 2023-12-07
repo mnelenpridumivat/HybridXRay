@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+п»ї////////////////////////////////////////////////////////////////////////////
 //	Module 		: base_monster_misc.cpp
 //	Created 	: 26.05.2003
 //  Modified 	: 26.05.2003
@@ -11,37 +11,33 @@
 #include "../../../entitycondition.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Входные воздействия 
-// Зрение, слух, вероятность победы, выгодность противника
+// Р’С…РѕРґРЅС‹Рµ РІРѕР·РґРµР№СЃС‚РІРёСЏ
+// Р—СЂРµРЅРёРµ, СЃР»СѓС…, РІРµСЂРѕСЏС‚РЅРѕСЃС‚СЊ РїРѕР±РµРґС‹, РІС‹РіРѕРґРЅРѕСЃС‚СЊ РїСЂРѕС‚РёРІРЅРёРєР°
 void CBaseMonster::UpdateMemory()
 {
-	// Обновить память
-	EnemyMemory.update			();
-	SoundMemory.UpdateHearing	();	
-	CorpseMemory.update			();
-	HitMemory.update			();
-	
-	// обновить менеджеры врагов и трупов
-	EnemyMan.update				();	
-	CorpseMan.update			();
-		
-	// remove hit info from objects that are corpses
-	
+    // РћР±РЅРѕРІРёС‚СЊ РїР°РјСЏС‚СЊ
+    EnemyMemory.update();
+    SoundMemory.UpdateHearing();
+    CorpseMemory.update();
+    HitMemory.update();
 
-	hear_dangerous_sound = hear_interesting_sound = false;
-	SoundElem se;
-	
-	if (SoundMemory.IsRememberSound()) {
-		SoundMemory.GetSound(se,hear_dangerous_sound);
-		hear_interesting_sound = !hear_dangerous_sound;
-	}
+    // РѕР±РЅРѕРІРёС‚СЊ РјРµРЅРµРґР¶РµСЂС‹ РІСЂР°РіРѕРІ Рё С‚СЂСѓРїРѕРІ
+    EnemyMan.update();
+    CorpseMan.update();
 
-	// Setup is own additional flags
-	m_bDamaged		= ((conditions().GetHealth() < db().m_fDamagedThreshold) ? true : false);
-	
-	m_bAggressive	=	hear_dangerous_sound || (EnemyMan.get_enemies_count() > 0) || 
-						HitMemory.is_hit();
+    // remove hit info from objects that are corpses
 
+    hear_dangerous_sound = hear_interesting_sound = false;
+    SoundElem se;
+
+    if (SoundMemory.IsRememberSound())
+    {
+        SoundMemory.GetSound(se, hear_dangerous_sound);
+        hear_interesting_sound = !hear_dangerous_sound;
+    }
+
+    // Setup is own additional flags
+    m_bDamaged    = ((conditions().GetHealth() < db().m_fDamagedThreshold) ? true : false);
+
+    m_bAggressive = hear_dangerous_sound || (EnemyMan.get_enemies_count() > 0) || HitMemory.is_hit();
 }
-
-

@@ -390,9 +390,6 @@
     <ClInclude Include="x_ray.h">
       <Filter>General</Filter>
     </ClInclude>
-    <ClInclude Include="..\Xr3DA_COP\resources\resource.h">
-      <Filter>General\Resources</Filter>
-    </ClInclude>
     <ClInclude Include="psystem.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -955,6 +952,9 @@
       <Filter>Game API\Server</Filter>
     </ClInclude>
     <ClInclude Include="resource.h" />
+    <ClInclude Include="..\xrHybridXRay\resources\resource.h">
+      <Filter>General\Resources</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="defines.cpp">
@@ -1346,19 +1346,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="..\Xr3DA_COP\resources\resource.rc">
-      <Filter>General\Resources</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Xr3DA_COP\resources\Splash_CoP.bmp">
-      <Filter>General\Resources</Filter>
-    </Image>
-    <Image Include="..\Xr3DA_COP\resources\Icon_CoP.ico">
-      <Filter>General\Resources</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="My Amplifier Results\r000hs\r000hs.ampl">
       <Filter>My Amplifier Results</Filter>
     </None>
@@ -1374,5 +1361,33 @@
     <Text Include="Effects description.txt" />
     <Text Include="features.txt" />
     <Text Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\xrHybridXRay\resources\Icon_CoP.ico">
+      <Filter>General\Resources</Filter>
+    </Image>
+    <Image Include="..\xrHybridXRay\resources\Icon_ShoC.ico">
+      <Filter>General\Resources</Filter>
+    </Image>
+    <Image Include="..\xrHybridXRay\resources\Splash_CoP.bmp">
+      <Filter>General\Resources</Filter>
+    </Image>
+    <Image Include="..\xrHybridXRay\resources\Splash_CS.bmp">
+      <Filter>General\Resources</Filter>
+    </Image>
+    <Image Include="..\xrHybridXRay\resources\Splash_ShoC.bmp">
+      <Filter>General\Resources</Filter>
+    </Image>
+    <Image Include="..\xrHybridXRay\resources\Icon_CS.ico">
+      <Filter>General\Resources</Filter>
+    </Image>
+    <Image Include="..\xrHybridXRay\resources\Icon_HybridXRay.ico">
+      <Filter>General\Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\xrHybridXRay\resources\resource.rc">
+      <Filter>General\Resources</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

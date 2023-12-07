@@ -61,8 +61,7 @@ namespace
     };
 }   // namespace
 
-dx103DFluidObstacles::dx103DFluidObstacles(int gridWidth, int gridHeight, int gridDepth, dx103DFluidGrid* pGrid):
-    m_pGrid(pGrid)
+dx103DFluidObstacles::dx103DFluidObstacles(int gridWidth, int gridHeight, int gridDepth, dx103DFluidGrid* pGrid): m_pGrid(pGrid)
 {
     VERIFY(m_pGrid);
 
@@ -169,10 +168,7 @@ void dx103DFluidObstacles::ProcessStaticObstacles(const dx103DFluidData& FluidDa
     }
 }
 
-void dx103DFluidObstacles::ProcessDynamicObstacles(
-    const dx103DFluidData& FluidData,
-    const Fmatrix&         WorldToFluid,
-    float                  timestep)
+void dx103DFluidObstacles::ProcessDynamicObstacles(const dx103DFluidData& FluidData, const Fmatrix& WorldToFluid, float timestep)
 {
     m_lstRenderables.clear_not_free();
     m_lstShells.clear_not_free();
@@ -188,8 +184,7 @@ void dx103DFluidObstacles::ProcessDynamicObstacles(
     box.getradius(size);
 
     // Traverse object database
-    g_SpatialSpace->q_box(
-        m_lstRenderables,
+    g_SpatialSpace->q_box(m_lstRenderables,
         0,   // ISpatial_DB::O_ORDERED,
         STYPE_RENDERABLE, center, size);
 
@@ -262,10 +257,7 @@ void dx103DFluidObstacles::RenderPhysicsShell(const IPhysicsShell* pShell, const
     }
 }
 
-void dx103DFluidObstacles::RenderPhysicsElement(
-    const IPhysicsElement& Element,
-    const Fmatrix&         WorldToFluid,
-    float                  timestep)
+void dx103DFluidObstacles::RenderPhysicsElement(const IPhysicsElement& Element, const Fmatrix& WorldToFluid, float timestep)
 {
     //	Shader must be already set up!
     const Fvector3& MassCenter3 = Element.mass_Center();
@@ -387,10 +379,7 @@ timestep)
 }
 */
 
-void dx103DFluidObstacles::RenderDynamicOOBB(
-    const IPhysicsGeometry& Geometry,
-    const Fmatrix&          WorldToFluid,
-    float                   timestep)
+void dx103DFluidObstacles::RenderDynamicOOBB(const IPhysicsGeometry& Geometry, const Fmatrix& WorldToFluid, float timestep)
 {
     PIX_EVENT(RenderDynamicObstacle);
 

@@ -1,22 +1,22 @@
 ﻿#include "stdafx.h"
 #include "..\XrSound\SoundRender_Source.h"
 
-#define VIS_RADIUS 0.25f
-#define SOUND_SEL0_COLOR 0x00A0A0F0
-#define SOUND_SEL1_COLOR 0x00FFFFFF
-#define SOUND_NORM_COLOR 0x000000FF
-#define SOUND_LOCK_COLOR 0x00FF0000
+#define VIS_RADIUS                 0.25f
+#define SOUND_SEL0_COLOR           0x00A0A0F0
+#define SOUND_SEL1_COLOR           0x00FFFFFF
+#define SOUND_NORM_COLOR           0x000000FF
+#define SOUND_LOCK_COLOR           0x00FF0000
 
-#define SOUND_SOURCE_VERSION 0x0014
+#define SOUND_SOURCE_VERSION       0x0014
 
-#define SOUND_CHUNK_VERSION 0x1001
-#define SOUND_CHUNK_TYPE 0x1002
-#define SOUND_CHUNK_SOURCE_NAME 0x1003
-#define SOUND_CHUNK_SOURCE_PARAMS 0x1004
-#define SOUND_CHUNK_SOURCE_FLAGS 0x1005
+#define SOUND_CHUNK_VERSION        0x1001
+#define SOUND_CHUNK_TYPE           0x1002
+#define SOUND_CHUNK_SOURCE_NAME    0x1003
+#define SOUND_CHUNK_SOURCE_PARAMS  0x1004
+#define SOUND_CHUNK_SOURCE_FLAGS   0x1005
 #define SOUND_CHUNK_SOURCE_PARAMS2 0x1006
 #define SOUND_CHUNK_SOURCE_PARAMS3 0x1007
-#define SOUND_CHUNK_GAME_PARAMS 0x1008
+#define SOUND_CHUNK_GAME_PARAMS    0x1008
 
 ESoundSource::ESoundSource(LPVOID data, LPCSTR name): CCustomObject(data, name)
 {
@@ -25,9 +25,9 @@ ESoundSource::ESoundSource(LPVOID data, LPCSTR name): CCustomObject(data, name)
 
 void ESoundSource::Construct(LPVOID data)
 {
-    FClassID = OBJCLASS_SOUND_SRC;
+    FClassID                 = OBJCLASS_SOUND_SRC;
 
-    m_Type = stStaticSource;
+    m_Type                   = stStaticSource;
 
     m_WAVName                = "";
     m_Params.volume          = 1.f;
@@ -118,7 +118,7 @@ bool ESoundSource::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     inherited::LoadLTX(ini, sect_name);
 
-    m_Type = ESoundType(ini.r_u32(sect_name, "snd_type"));
+    m_Type    = ESoundType(ini.r_u32(sect_name, "snd_type"));
 
     m_WAVName = ini.r_string(sect_name, "snd_name");
 
@@ -131,9 +131,9 @@ bool ESoundSource::LoadLTX(CInifile& ini, LPCSTR sect_name)
     m_Params.max_distance    = ini.r_float(sect_name, "max_dist");
     m_Params.max_ai_distance = ini.r_float(sect_name, "max_ai_dist");
 
-    m_RandomPause = ini.r_fvector2(sect_name, "random_pause");
-    m_ActiveTime  = ini.r_fvector2(sect_name, "active_time");
-    m_PlayTime    = ini.r_fvector2(sect_name, "play_time");
+    m_RandomPause            = ini.r_fvector2(sect_name, "random_pause");
+    m_ActiveTime             = ini.r_fvector2(sect_name, "active_time");
+    m_PlayTime               = ini.r_fvector2(sect_name, "play_time");
 
     ResetSource();
 
@@ -142,7 +142,8 @@ bool ESoundSource::LoadLTX(CInifile& ini, LPCSTR sect_name)
         case stStaticSource:
             if (m_Flags.is(flPlaying))
                 Play();
-            //.    	if (m_Flags.is(flSimulating)) 	Simulate();
+            // if (m_Flags.is(flSimulating))
+            //     Simulate();
             break;
         default:
             THROW;
@@ -196,7 +197,7 @@ bool ESoundSource::LoadStream(IReader& F)
 
     if (m_Type != stStaticSource)
     {
-        Msg("! WARNING unknown type of sound: %u", (u32)m_Type);
+        Msg("~ WARNING unknown type of sound: %u", (u32)m_Type);
         m_Type = stStaticSource;
     }
 
@@ -338,17 +339,13 @@ void ESoundSource::FillProp(LPCSTR pref, PropItemVec& values)
     V->OnChangeEvent.bind(this, &ESoundSource::OnChangeSource);
     V = PHelper().CreateFloat(values, PrepareKey(pref, "Source\\Volume"), &m_Params.volume, 0.0f, 1.f);
     V->OnChangeEvent.bind(this, &ESoundSource::OnChangeSource);
-    V = PHelper().CreateFloat(
-        values, PrepareKey(pref, "Source\\Min dist"), &m_Params.min_distance, 0.1f, 1000.f, 0.1f, 1);
+    V = PHelper().CreateFloat(values, PrepareKey(pref, "Source\\Min dist"), &m_Params.min_distance, 0.1f, 1000.f, 0.1f, 1);
     V->Owner()->Enable(FALSE);
-    V = PHelper().CreateFloat(
-        values, PrepareKey(pref, "Source\\Max dist"), &m_Params.max_distance, 0.1f, 1000.f, 0.1f, 1);
+    V = PHelper().CreateFloat(values, PrepareKey(pref, "Source\\Max dist"), &m_Params.max_distance, 0.1f, 1000.f, 0.1f, 1);
     V->Owner()->Enable(FALSE);
-    V = PHelper().CreateFloat(
-        values, PrepareKey(pref, "Source\\Max ai dist"), &m_Params.max_ai_distance, 0.1f, 1000.f, 0.1f, 1);
+    V = PHelper().CreateFloat(values, PrepareKey(pref, "Source\\Max ai dist"), &m_Params.max_ai_distance, 0.1f, 1000.f, 0.1f, 1);
     V->Owner()->Enable(FALSE);
-    PHelper().CreateCaption(
-        values, PrepareKey(pref, "Game\\Active time\\Hint"), "Zero - play sound looped round the clock.");
+    PHelper().CreateCaption(values, PrepareKey(pref, "Game\\Active time\\Hint"), "Zero - play sound looped round the clock.");
     PHelper().CreateTime(values, PrepareKey(pref, "Game\\Active time\\From"), &m_ActiveTime.x);
     PHelper().CreateTime(values, PrepareKey(pref, "Game\\Active time\\To"), &m_ActiveTime.y);
     PHelper().CreateCaption(values, PrepareKey(pref, "Game\\Play time\\Hint"), "Zero - play sound once.");
@@ -357,8 +354,8 @@ void ESoundSource::FillProp(LPCSTR pref, PropItemVec& values)
     PHelper().CreateCaption(values, PrepareKey(pref, "Game\\Pause delta\\Hint"), "Zero - play sound looped.");
     PHelper().CreateTime(values, PrepareKey(pref, "Game\\Pause delta\\From"), &m_RandomPause.x);
     PHelper().CreateTime(values, PrepareKey(pref, "Game\\Pause delta\\To"), &m_RandomPause.y);
-    //	V=PHelper().CreateFlag32		(values,PHelper().PrepareKey(pref,"Looped"),	&m_Flags, flLooped);
-    //    V->OnChangeEvent			= OnChangeSource;
+    // V=PHelper().CreateFlag32(values,PHelper().PrepareKey(pref,"Looped"), &m_Flags, flLooped);
+    // V->OnChangeEvent = OnChangeSource;
 }
 
 bool ESoundSource::GetSummaryInfo(SSceneSummary* inf)
@@ -380,58 +377,63 @@ void ESoundSource::OnFrame()
             m_Source.set_params(&m_Params);
             m_Command = stNothing;
             m_Flags.set(flPlaying, TRUE);
-            break;
+        break;
         case stStop:
             m_Source.stop();
             m_Command = stNothing;
             m_Flags.set(flPlaying, FALSE);
             m_Flags.set(flSimulating, FALSE);
-            break;
-        case stSimulate: {
+        break;
+        case stSimulate:
+        {
             /*
-                    m_Flags.set			(flSimulating,TRUE);
-                    if ((fis_zero(m_ActiveTime.x)&&fis_zero(m_ActiveTime.y))||
-                        ((g_pGamePersistent->Environment().GetGameTime()>m_ActiveTime.x)&&(g_pGamePersistent->Environment().GetGameTime()<m_ActiveTime.y)))
-                        {
-                        if (0==m_Source._feedback())
-                        {
-                            if (fis_zero(m_RandomPause.x)&&fis_zero(m_RandomPause.y))
-                            {
-                                m_Source.play			(0,sm_Looped);
-                                m_Source.set_params		(&m_Params);
-                                m_StopTime				= 0xFFFFFFFF;
-                            }else{
-                                if (EDevice->dwTimeGlobal>=m_NextTime)
-                                {
-                                    bool bFullPlay		= fis_zero(m_PlayTime.x)&&fis_zero(m_PlayTime.y);
-                                    m_Source.play		(0,bFullPlay?0:sm_Looped);
-                                    m_Source.set_params	(&m_Params);
-                                    if (bFullPlay)
-                                    {
-                                        m_StopTime		= 0xFFFFFFFF;
-                                        m_NextTime		=
-               EDevice->dwTimeGlobal+iFloor(m_Source.get_length_sec()/1000.0f)+Random.randF(m_RandomPause.x,m_RandomPause.y)*1000;
-                                    }else{
-                                        m_StopTime		=
-               bFullPlay?0:EDevice->dwTimeGlobal+Random.randF(m_PlayTime.x,m_PlayTime.y)*1000; m_NextTime		=
-               m_StopTime+Random.randF(m_RandomPause.x,m_RandomPause.y)*1000;
-                                    }
-                                }
-                            }
-                        }else{
-                            if (EDevice->dwTimeGlobal>=m_StopTime)
-                                m_Source.stop_deffered();
-                        }
-
-                    }else{
-                        if (0!=m_Source._feedback())
-                            m_Source.stop_deffered();
+            m_Flags.set(flSimulating, TRUE);
+            if ((fis_zero(m_ActiveTime.x) && fis_zero(m_ActiveTime.y)) || ((g_pGamePersistent->Environment().GetGameTime() > m_ActiveTime.x) && (g_pGamePersistent->Environment().GetGameTime() < m_ActiveTime.y)))
+            {
+                if (0 == m_Source._feedback())
+                {
+                    if (fis_zero(m_RandomPause.x) && fis_zero(m_RandomPause.y))
+                    {
+                        m_Source.play(0, sm_Looped);
+                        m_Source.set_params(&m_Params);
+                        m_StopTime = 0xFFFFFFFF;
                     }
+                    else
+                    {
+                        if (EDevice->dwTimeGlobal >= m_NextTime)
+                        {
+                            bool bFullPlay = fis_zero(m_PlayTime.x) && fis_zero(m_PlayTime.y);
+                            m_Source.play(0, bFullPlay ? 0 : sm_Looped);
+                            m_Source.set_params(&m_Params);
+                            if (bFullPlay)
+                            {
+                                m_StopTime = 0xFFFFFFFF;
+                                m_NextTime = EDevice->dwTimeGlobal + iFloor(m_Source.get_length_sec() / 1000.0f) + Random.randF(m_RandomPause.x, m_RandomPause.y) * 1000;
+                            }
+                            else
+                            {
+                                m_StopTime = bFullPlay ? 0 : EDevice->dwTimeGlobal + Random.randF(m_PlayTime.x, m_PlayTime.y) * 1000;
+                                m_NextTime = m_StopTime + Random.randF(m_RandomPause.x, m_RandomPause.y) * 1000;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (EDevice->dwTimeGlobal >= m_StopTime)
+                        m_Source.stop_deffered();
+                }
+            }
+            else
+            {
+                if (0 != m_Source._feedback())
+                    m_Source.stop_deffered();
+            }
             */
         }
         break;
         case stNothing:
-            break;
+        break;
         default:
             THROW;
     }

@@ -37,7 +37,7 @@ bool EGroupThumbnail::Load(LPCSTR src_name, LPCSTR path)
     if (path)
         FS.update_path(fn, path, fn);
     else
-        FS.update_path(fn, _objects_, fn);
+        FS.update_path(fn, _groups_, fn);
     if (!FS.exist(fn))
         return false;
 
@@ -100,7 +100,7 @@ void EGroupThumbnail::Save(int age, LPCSTR path)
     if (path)
         FS.update_path(fn, path, m_Name.c_str());
     else
-        FS.update_path(fn, _objects_, m_Name.c_str());
+        FS.update_path(fn, _groups_, m_Name.c_str());
     if (F.save_to(fn))
     {
         FS.set_file_age(fn, age ? age : m_Age);

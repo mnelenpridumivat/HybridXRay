@@ -12,8 +12,7 @@ namespace
     shared_str strSplatColor("splatColor");
 }   // namespace
 
-dx103DFluidEmitters::dx103DFluidEmitters(int gridWidth, int gridHeight, int gridDepth, dx103DFluidGrid* pGrid):
-    m_pGrid(pGrid)
+dx103DFluidEmitters::dx103DFluidEmitters(int gridWidth, int gridHeight, int gridDepth, dx103DFluidGrid* pGrid): m_pGrid(pGrid)
 {
     m_vGridDim[0] = float(gridWidth);
     m_vGridDim[1] = float(gridHeight);
@@ -98,9 +97,7 @@ void dx103DFluidEmitters::ApplyDensity(const CEmitter& Emitter)
     // t += 0.05f;
     const float fMiddleIntencity = 1;
     const float saturation       = Emitter.m_fSaturation;
-    FLOAT       density          = 1.5f *
-        (((_sin(t * 1.5f + 2.0f * float(PI) / 3.0f) * 0.5f + 0.5f)) * saturation +
-            fMiddleIntencity * (1.0f - saturation));
+    FLOAT       density          = 1.5f * (((_sin(t * 1.5f + 2.0f * float(PI) / 3.0f) * 0.5f + 0.5f)) * saturation + fMiddleIntencity * (1.0f - saturation));
     density *= Emitter.m_fDensity;
     Fvector4 color;
     color.set(density, density, density, 1.0f);
@@ -139,9 +136,7 @@ void dx103DFluidEmitters::ApplyVelocity(const CEmitter& Emitter)
             float fPeriod = Emitter.m_DraughtParams.m_fPeriod;
             if (fPeriod < 0.0001f)
                 fPeriod = 0.0001f;
-            float fFactor = 1.0f +
-                Emitter.m_DraughtParams.m_fAmp *
-                    _sin((t + Emitter.m_DraughtParams.m_fPhase) * (2.0f * float(PI)) / fPeriod);
+            float fFactor = 1.0f + Emitter.m_DraughtParams.m_fAmp * _sin((t + Emitter.m_DraughtParams.m_fPhase) * (2.0f * float(PI)) / fPeriod);
             FlowVelocity.mul(fFactor);
             break;
     }
@@ -154,8 +149,7 @@ void dx103DFluidEmitters::ApplyVelocity(const CEmitter& Emitter)
     RCache.set_c(strSplatColor, color);
 
     Fvector4 center;
-    center.set(
-        Emitter.m_vPosition.x + lilrand(), Emitter.m_vPosition.y + lilrand(), Emitter.m_vPosition.z + lilrand(), 0);
+    center.set(Emitter.m_vPosition.x + lilrand(), Emitter.m_vPosition.y + lilrand(), Emitter.m_vPosition.z + lilrand(), 0);
     RCache.set_c(strImpulseCenter, center);
 
     m_pGrid->DrawSlices();

@@ -62,9 +62,7 @@ void* _VertexStream::Lock(u32 vl_Count, u32 Stride, u32& vOffset)
 
     // Ensure there is enough space in the VB for this data
     u32 bytes_need = vl_Count * Stride;
-    R_ASSERT2(
-        (bytes_need <= mSize) && vl_Count,
-        make_string("bytes_need = %d, mSize = %d, vl_Count = %d", bytes_need, mSize, vl_Count));
+    R_ASSERT2((bytes_need <= mSize) && vl_Count, make_string("bytes_need = %d, mSize = %d, vl_Count = %d", bytes_need, mSize, vl_Count));
 
     // Vertex-local info
     u32   vl_mSize     = mSize / Stride;
@@ -86,12 +84,11 @@ void* _VertexStream::Lock(u32 vl_Count, u32 Stride, u32& vOffset)
 #elif defined(USE_DX10)
         pVB->Map(D3D_MAP_WRITE_DISCARD, 0, (void**)&pData);
         pData += vOffset;
-#else    //	USE_DX10
+#else   //	USE_DX10
         HRESULT res = pVB->Lock(mPosition, bytes_need, (void**)&pData, LOCKFLAGS_FLUSH);
 
         if (res != D3D_OK)
-            Msg(" pVB->Lock - failed: res = %d,mPosition = %d, bytes_need = %d, &pData = %x, LOCKFLAGS_FLUSH", res,
-                mPosition, bytes_need, (void**)&pData);
+            Msg(" pVB->Lock - failed: res = %d,mPosition = %d, bytes_need = %d, &pData = %x, LOCKFLAGS_FLUSH", res, mPosition, bytes_need, (void**)&pData);
 
 #endif   //	USE_DX10
     }
@@ -108,12 +105,11 @@ void* _VertexStream::Lock(u32 vl_Count, u32 Stride, u32& vOffset)
 #elif defined(USE_DX10)
         pVB->Map(D3D_MAP_WRITE_NO_OVERWRITE, 0, (void**)&pData);
         pData += vOffset * Stride;
-#else    //	USE_DX10
+#else   //	USE_DX10
         HRESULT res = pVB->Lock(mPosition, bytes_need, (void**)&pData, LOCKFLAGS_APPEND);
 
         if (res != D3D_OK)
-            Msg(" pVB->Lock - failed: res = %d,mPosition = %d, bytes_need = %d, &pData = %x, LOCKFLAGS_APPEND", res,
-                mPosition, bytes_need, (void**)&pData);
+            Msg(" pVB->Lock - failed: res = %d,mPosition = %d, bytes_need = %d, &pData = %x, LOCKFLAGS_APPEND", res, mPosition, bytes_need, (void**)&pData);
 
 #endif   //	USE_DX10
     }
@@ -188,8 +184,7 @@ void _IndexStream::Create()
     R_CHK(HW.pDevice->CreateBuffer(&bufferDesc, 0, &pIB));
     HW.stats_manager.increment_stats_ib(pIB);
 #else    //	USE_DX10
-    R_CHK(HW.pDevice->CreateIndexBuffer(
-        mSize, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &pIB, NULL));
+    R_CHK(HW.pDevice->CreateIndexBuffer(mSize, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &pIB, NULL));
     HW.stats_manager.increment_stats_ib(pIB);
 #endif   //	USE_DX10
     R_ASSERT(pIB);

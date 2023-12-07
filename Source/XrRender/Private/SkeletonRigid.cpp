@@ -143,11 +143,7 @@ void check_kinematics(CKinematics* _k, LPCSTR s)
 }
 #endif
 
-void CKinematics::BuildBoneMatrix(
-    const CBoneData* bd,
-    CBoneInstance&   bi,
-    const Fmatrix*   parent,
-    u8               channel_mask /* = (1<<0)*/)
+void CKinematics::BuildBoneMatrix(const CBoneData* bd, CBoneInstance& bi, const Fmatrix* parent, u8 channel_mask /* = (1<<0)*/)
 {
     bi.mTransform.mul_43(*parent, bd->bind_transform);
 }

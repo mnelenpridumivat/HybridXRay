@@ -1,63 +1,63 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "bolt.h"
 #include "ParticlesObject.h"
 #include "PhysicsShell.h"
 #include "xr_level_controller.h"
 
-CBolt::CBolt(void) 
+CBolt::CBolt(void)
 {
-	m_weight					= .1f;
-	m_slot						= BOLT_SLOT;
-	m_flags.set					(Fruck, FALSE);
-	m_thrower_id				=u16(-1);
+    m_weight = .1f;
+    m_slot   = BOLT_SLOT;
+    m_flags.set(Fruck, FALSE);
+    m_thrower_id = u16(-1);
 }
 
-CBolt::~CBolt(void) 
+CBolt::~CBolt(void) {}
+
+void CBolt::OnH_A_Chield()
 {
+    inherited::OnH_A_Chield();
+    CObject* o = H_Parent()->H_Parent();
+    if (o)
+        SetInitiator(o->ID());
 }
 
-void CBolt::OnH_A_Chield() 
+void CBolt::OnEvent(NET_Packet& P, u16 type)
 {
-	inherited::OnH_A_Chield();
-	CObject* o= H_Parent()->H_Parent();
-	if(o)SetInitiator(o->ID());
-	
+    inherited::OnEvent(P, type);
 }
 
-void CBolt::OnEvent(NET_Packet& P, u16 type) 
+bool CBolt::Activate()
 {
-	inherited::OnEvent(P,type);
+    Show();
+    return true;
 }
 
-bool CBolt::Activate() 
+void CBolt::Deactivate()
 {
-	Show();
-	return true;
+    Hide();
 }
 
-void CBolt::Deactivate() 
+void CBolt::Throw()
 {
-	Hide();
-}
-
-void CBolt::Throw() 
-{
-	CMissile					*l_pBolt = smart_cast<CMissile*>(m_fake_missile);
-	if(!l_pBolt)				return;
-	l_pBolt->set_destroy_time	(u32(m_dwDestroyTimeMax/phTimefactor));
-	inherited::Throw			();
-	spawn_fake_missile			();
+    CMissile* l_pBolt = smart_cast<CMissile*>(m_fake_missile);
+    if (!l_pBolt)
+        return;
+    l_pBolt->set_destroy_time(u32(m_dwDestroyTimeMax / phTimefactor));
+    inherited::Throw();
+    spawn_fake_missile();
 }
 
 bool CBolt::Useful() const
 {
-	return false;
+    return false;
 }
 
-bool CBolt::Action(s32 cmd, u32 flags) 
+bool CBolt::Action(s32 cmd, u32 flags)
 {
-	if(inherited::Action(cmd, flags)) return true;
-/*
+    if (inherited::Action(cmd, flags))
+        return true;
+    /*
 	switch(cmd) 
 	{
 	case kDROP:
@@ -76,25 +76,25 @@ bool CBolt::Action(s32 cmd, u32 flags)
 		return true;
 	}
 */
-	return false;
+    return false;
 }
 
 void CBolt::Destroy()
 {
-	inherited::Destroy();
+    inherited::Destroy();
 }
 
-void CBolt::activate_physic_shell	()
+void CBolt::activate_physic_shell()
 {
-	inherited::activate_physic_shell	();
-	m_pPhysicsShell->SetAirResistance	(.0001f);
+    inherited::activate_physic_shell();
+    m_pPhysicsShell->SetAirResistance(.0001f);
 }
 
-void CBolt::SetInitiator			(u16 id)
+void CBolt::SetInitiator(u16 id)
 {
-	m_thrower_id=id;
+    m_thrower_id = id;
 }
-u16	CBolt::Initiator				()
+u16 CBolt::Initiator()
 {
-	return m_thrower_id;
+    return m_thrower_id;
 }

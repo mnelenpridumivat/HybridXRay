@@ -1,4 +1,4 @@
-///////////////////////////////////////////////////////////////////////////////
+﻿///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
 #ifndef __GSCOMMON_H__
 #define __GSCOMMON_H__
@@ -15,9 +15,8 @@
 //#define GS_NO_THREAD         // no multi-thread support
 //#define GS_PEER		       // MUST be defined if you are using Peer SDK
 
-
 #ifdef GS_PEER
-	#define	UNIQUEID			// enable unique id support
+#define UNIQUEID   // enable unique id support
 #endif
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -37,13 +36,12 @@
 //#include "darray.h"
 //#include "hashtable.h"
 
-
-#define	GSI_MIN(a,b)				(((a) < (b)?(a):(b)))
-#define	GSI_MAX(a,b)				(((a) > (b)?(a):(b)))
-#define	GSI_LIMIT(x, minx, maxx)	(((x) < (minx)? (minx) : ((x) > (maxx)? (maxx) : (x))))
-#define	GSI_WRAP(x, minx, maxx)		(((x) < (minx)? (maxx-1 ) : ((x) >= (maxx)? (minx) : (x))))
-#define GSI_DIM( x )				( sizeof( x ) / sizeof((x)[ 0 ]))
+#define GSI_MIN(a, b)            (((a) < (b) ? (a) : (b)))
+#define GSI_MAX(a, b)            (((a) > (b) ? (a) : (b)))
+#define GSI_LIMIT(x, minx, maxx) (((x) < (minx) ? (minx) : ((x) > (maxx) ? (maxx) : (x))))
+#define GSI_WRAP(x, minx, maxx)  (((x) < (minx) ? (maxx - 1) : ((x) >= (maxx) ? (minx) : (x))))
+#define GSI_DIM(x)               (sizeof(x) / sizeof((x)[0]))
 
 ///////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////
-#endif // __GSCOMMON_H__
+#endif   // __GSCOMMON_H__

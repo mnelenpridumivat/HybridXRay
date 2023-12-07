@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: stalker_alife_planner.h
 //	Created 	: 25.03.2004
 //  Modified 	: 27.09.2004
@@ -12,14 +12,15 @@
 
 class CAI_Stalker;
 
-class CStalkerALifePlanner : public CActionPlannerActionScript<CAI_Stalker> {
+class CStalkerALifePlanner: public CActionPlannerActionScript<CAI_Stalker>
+{
 private:
-	typedef CActionPlannerActionScript<CAI_Stalker> inherited;
+    typedef CActionPlannerActionScript<CAI_Stalker> inherited;
 
 public:
-						CStalkerALifePlanner	(CAI_Stalker *object = 0, LPCSTR action_name = "");
-	virtual				~CStalkerALifePlanner	();
-	virtual	void		setup					(CAI_Stalker *object, CPropertyStorage *storage);
-			void		add_evaluators			();
-			void		add_actions				();
+    CStalkerALifePlanner(CAI_Stalker* object = 0, LPCSTR action_name = "");
+    virtual ~CStalkerALifePlanner();
+    virtual void setup(CAI_Stalker* object, CPropertyStorage* storage);
+    void         add_evaluators();
+    void         add_actions();
 };

@@ -1,4 +1,4 @@
-//---------------------------------
+﻿//---------------------------------
 #include <stdlib.h>
 #include <objbase.h>
 #include <windows.h>
@@ -20,49 +20,44 @@
 
 //typedef interface IDirect3D9                    IDirect3D9;
 
-
-
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
+    class xrIDirect3D9: public IDirect3D9
+    {
+    protected:
+        LONG m_refCount;
 
-	class xrIDirect3D9: public IDirect3D9
-	{
-	protected:
+    public:
+        xrIDirect3D9();
+        /*** IUnknown methods ***/
+        HRESULT  QueryInterface(REFIID riid, void** ppvObj);
+        ULONG    AddRef();
+        ULONG    Release();
 
-		LONG		m_refCount;
-	public:
-		xrIDirect3D9();
-		/*** IUnknown methods ***/
-		HRESULT			QueryInterface( REFIID riid, void** ppvObj);
-		ULONG			AddRef();
-		ULONG			Release();
+        /*** IDirect3D9 methods ***/
+        HRESULT  RegisterSoftwareDevice(void* pInitializeFunction);
+        UINT     GetAdapterCount();
+        HRESULT  GetAdapterIdentifier(UINT Adapter, DWORD Flags, D3DADAPTER_IDENTIFIER9* pIdentifier);
+        UINT     GetAdapterModeCount(UINT Adapter, D3DFORMAT Format);
+        HRESULT  EnumAdapterModes(UINT Adapter, D3DFORMAT Format, UINT Mode, D3DDISPLAYMODE* pMode);
+        HRESULT  GetAdapterDisplayMode(UINT Adapter, D3DDISPLAYMODE* pMode);
+        HRESULT  CheckDeviceType(UINT Adapter, D3DDEVTYPE DevType, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, BOOL bWindowed);
+        HRESULT  CheckDeviceFormat(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, DWORD Usage, D3DRESOURCETYPE RType, D3DFORMAT CheckFormat);
+        HRESULT  CheckDeviceMultiSampleType(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SurfaceFormat, BOOL Windowed, D3DMULTISAMPLE_TYPE MultiSampleType, DWORD* pQualityLevels);
+        HRESULT  CheckDepthStencilMatch(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT AdapterFormat, D3DFORMAT RenderTargetFormat, D3DFORMAT DepthStencilFormat);
+        HRESULT  CheckDeviceFormatConversion(UINT Adapter, D3DDEVTYPE DeviceType, D3DFORMAT SourceFormat, D3DFORMAT TargetFormat);
+        HRESULT  GetDeviceCaps(UINT Adapter, D3DDEVTYPE DeviceType, D3DCAPS9* pCaps);
+        HMONITOR GetAdapterMonitor(UINT Adapter);
+        HRESULT  CreateDevice(UINT Adapter, D3DDEVTYPE DeviceType, HWND hFocusWindow, DWORD BehaviorFlags, D3DPRESENT_PARAMETERS* pPresentationParameters, IDirect3DDevice9** ppReturnedDeviceInterface);
 
-		/*** IDirect3D9 methods ***/
-		HRESULT			RegisterSoftwareDevice( void* pInitializeFunction);
-		UINT			GetAdapterCount();
-		HRESULT			GetAdapterIdentifier( UINT Adapter,DWORD Flags,D3DADAPTER_IDENTIFIER9* pIdentifier);
-		UINT			GetAdapterModeCount( UINT Adapter,D3DFORMAT Format);
-		HRESULT			EnumAdapterModes( UINT Adapter,D3DFORMAT Format,UINT Mode,D3DDISPLAYMODE* pMode);
-		HRESULT			GetAdapterDisplayMode( UINT Adapter,D3DDISPLAYMODE* pMode);
-		HRESULT			CheckDeviceType( UINT Adapter,D3DDEVTYPE DevType,D3DFORMAT AdapterFormat,D3DFORMAT BackBufferFormat,BOOL bWindowed);
-		HRESULT			CheckDeviceFormat( UINT Adapter,D3DDEVTYPE DeviceType,D3DFORMAT AdapterFormat,DWORD Usage,D3DRESOURCETYPE RType,D3DFORMAT CheckFormat);
-		HRESULT			CheckDeviceMultiSampleType( UINT Adapter,D3DDEVTYPE DeviceType,D3DFORMAT SurfaceFormat,BOOL Windowed,D3DMULTISAMPLE_TYPE MultiSampleType,DWORD* pQualityLevels);
-		HRESULT			CheckDepthStencilMatch( UINT Adapter,D3DDEVTYPE DeviceType,D3DFORMAT AdapterFormat,D3DFORMAT RenderTargetFormat,D3DFORMAT DepthStencilFormat);
-		HRESULT			CheckDeviceFormatConversion( UINT Adapter,D3DDEVTYPE DeviceType,D3DFORMAT SourceFormat,D3DFORMAT TargetFormat);
-		HRESULT			GetDeviceCaps( UINT Adapter,D3DDEVTYPE DeviceType,D3DCAPS9* pCaps);
-		HMONITOR		GetAdapterMonitor( UINT Adapter);
-		HRESULT			CreateDevice( UINT Adapter,D3DDEVTYPE DeviceType,HWND hFocusWindow,DWORD BehaviorFlags,D3DPRESENT_PARAMETERS* pPresentationParameters,IDirect3DDevice9** ppReturnedDeviceInterface);
-
-///#ifdef D3D_DEBUG_INFO
-		LPCWSTR Version;
-//#endif
-	};
-
+        ///#ifdef D3D_DEBUG_INFO
+        LPCWSTR  Version;
+        //#endif
+    };
 
 #ifdef __cplusplus
 };
 #endif
-
-

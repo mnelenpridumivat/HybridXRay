@@ -1,5 +1,5 @@
-// HUDCrosshair.h:  крестик прицела, отображающий текущую дисперсию
-// 
+п»ї// HUDCrosshair.h:  РєСЂРµСЃС‚РёРє РїСЂРёС†РµР»Р°, РѕС‚РѕР±СЂР°Р¶Р°СЋС‰РёР№ С‚РµРєСѓС‰СѓСЋ РґРёСЃРїРµСЂСЃРёСЋ
+//
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -7,34 +7,35 @@
 #define HUD_CURSOR_SECTION "hud_cursor"
 #include "UICustomItem.h"
 
-class CHUDCrosshair	
+class CHUDCrosshair
 {
 private:
-	float			cross_length_perc;
-	float			min_radius_perc;
-	float			max_radius_perc;
+    float cross_length_perc;
+    float min_radius_perc;
+    float max_radius_perc;
 
-	//текущий радиус прицела
-	float			radius;
-	float			target_radius;
-	float			radius_speed_perc; 
+    //С‚РµРєСѓС‰РёР№ СЂР°РґРёСѓСЃ РїСЂРёС†РµР»Р°
+    float radius;
+    float target_radius;
+    float radius_speed_perc;
 #ifdef DEBUG
-	float			fb_radius;
+    float fb_radius;
 #endif
-	//ref_geom 		hGeomLine;
-	ui_shader		hShader;
+    //ref_geom 		hGeomLine;
+    ui_shader hShader;
+
 public:
-	u32				cross_color;
+    u32 cross_color;
 
-					CHUDCrosshair	();
-					~CHUDCrosshair	();
+    CHUDCrosshair();
+    ~CHUDCrosshair();
 
-			void	OnRender		();
-			void	SetDispersion	(float disp);
+    void OnRender();
+    void SetDispersion(float disp);
 #ifdef DEBUG
-			void	SetFirstBulletDispertion(float fbdisp);
-			void	OnRenderFirstBulletDispertion();
+    void SetFirstBulletDispertion(float fbdisp);
+    void OnRenderFirstBulletDispertion();
 #endif
 
-			void	Load			();
+    void Load();
 };

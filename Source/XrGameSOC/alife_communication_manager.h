@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: alife_communication_manager.h
 //	Created 	: 03.09.2003
 //  Modified 	: 14.05.2004
@@ -18,8 +18,9 @@ class CSE_ALifeTraderAbstract;
 // #pragma todo("Dima to Dima : Be attentive with this speed optimization - it doesn't suit to the OOP paradigm!")
 #define FAST_OWNERSHIP
 
-class CALifeCommunicationManager : public virtual CALifeSimulatorBase {
-/**
+class CALifeCommunicationManager: public virtual CALifeSimulatorBase
+{
+    /**
 protected:
 	typedef CALifeSimulatorBase inherited;
 
@@ -70,9 +71,10 @@ protected:
 			void		vfPrintItems					(CSE_ALifeHumanAbstract		*tpALifeHumanAbstract);
 #endif
 /**/
+
 public:
-						CALifeCommunicationManager		(xrServer *server, LPCSTR section);
-/**
+    CALifeCommunicationManager(xrServer* server, LPCSTR section);
+    /**
 	virtual				~CALifeCommunicationManager		();
 			void		communicate_with_customer		(CSE_ALifeHumanAbstract		*tpALifeHumanAbstract,		CSE_ALifeTrader			*tpALifeTrader);
 /**/

@@ -1,57 +1,56 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // BlackGraviArtifact.h
-// BlackGraviArtefact - гравитационный артефакт, 
-// такой же как и обычный, но при получении хита
+// BlackGraviArtefact - РіСЂР°РІРёС‚Р°С†РёРѕРЅРЅС‹Р№ Р°СЂС‚РµС„Р°РєС‚,
+// С‚Р°РєРѕР№ Р¶Рµ РєР°Рє Рё РѕР±С‹С‡РЅС‹Р№, РЅРѕ РїСЂРё РїРѕР»СѓС‡РµРЅРёРё С…РёС‚Р°
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 #include "GraviArtifact.h"
 #include "../XrEngine/feel_touch.h"
 #include "PhysicsShellHolder.h"
-DEFINE_VECTOR (CPhysicsShellHolder*, GAME_OBJECT_LIST, GAME_OBJECT_LIST_it);
+DEFINE_VECTOR(CPhysicsShellHolder*, GAME_OBJECT_LIST, GAME_OBJECT_LIST_it);
 
-class CBlackGraviArtefact: public CGraviArtefact,
-						   public Feel::Touch
+class CBlackGraviArtefact: public CGraviArtefact, public Feel::Touch
 {
 private:
-	collide::rq_results		rq_storage;
+    collide::rq_results rq_storage;
 
 private:
-	typedef CGraviArtefact inherited;
+    typedef CGraviArtefact inherited;
+
 public:
-	CBlackGraviArtefact(void);
-	virtual ~CBlackGraviArtefact(void);
+    CBlackGraviArtefact(void);
+    virtual ~CBlackGraviArtefact(void);
 
-	virtual BOOL net_Spawn			(CSE_Abstract* DC);
+    virtual BOOL net_Spawn(CSE_Abstract* DC);
 
-	virtual void Load				(LPCSTR section);
+    virtual void Load(LPCSTR section);
 
-	virtual	void Hit				(SHit* pHDS);
+    virtual void Hit(SHit* pHDS);
 
-	virtual void feel_touch_new		(CObject* O);
-	virtual void feel_touch_delete	(CObject* O);
-	virtual BOOL feel_touch_contact	(CObject* O);
+    virtual void feel_touch_new(CObject* O);
+    virtual void feel_touch_delete(CObject* O);
+    virtual BOOL feel_touch_contact(CObject* O);
 
 protected:
-	virtual void	net_Relcase		(CObject* O );
-	virtual void	UpdateCLChild	();
+    virtual void     net_Relcase(CObject* O);
+    virtual void     UpdateCLChild();
 
-	//гравитационный удар по всем объектам в зоне досягаемости
-	void GraviStrike();
+    //РіСЂР°РІРёС‚Р°С†РёРѕРЅРЅС‹Р№ СѓРґР°СЂ РїРѕ РІСЃРµРј РѕР±СЉРµРєС‚Р°Рј РІ Р·РѕРЅРµ РґРѕСЃСЏРіР°РµРјРѕСЃС‚Рё
+    void             GraviStrike();
 
-	GAME_OBJECT_LIST m_GameObjectList;
+    GAME_OBJECT_LIST m_GameObjectList;
 
+    //РєРѕС‚РѕСЂРѕРіРѕ Р°СЂС‚РµС„Р°РєС‚ Р°РєС‚РёРІРёР·РёСЂСѓРµС‚СЃСЏ
+    float            m_fImpulseThreshold;
+    //СЂР°РґРёСѓСЃ РґРµР№СЃС‚РІРёСЏ Р°СЂС‚РµС„Р°РєС‚Р°
+    float            m_fRadius;
+    //РёРјРїСѓР»СЊСЃ РїРµСЂРµРґР°РІР°РµРјС‹Р№ РѕРєСЂСѓР¶Р°СЋС‰РёРј РїСЂРµРґРјРµС‚Р°Рј
+    float            m_fStrikeImpulse;
 
-	//которого артефакт активизируется
-	float m_fImpulseThreshold;
-	//радиус действия артефакта
-	float m_fRadius;
-	//импульс передаваемый окружающим предметам
-	float m_fStrikeImpulse;
+    //С„Р»Р°Рі, С‚РѕРіРѕ С‡С‚Рѕ Р°СЂС‚РµС„Р°РєС‚ РїРѕР»СѓС‡РёР» С…РёС‚
+    //Рё С‚РµРїРµСЂСЊ РјРѕР¶РµС‚ СЃРѕРІРµСЂС€РёС‚СЊ Р±СЂРѕСЃРѕРє
+    bool             m_bStrike;
 
-	//флаг, того что артефакт получил хит 
-	//и теперь может совершить бросок
-	bool m_bStrike;	
-
-	shared_str	m_sParticleName;
+    shared_str       m_sParticleName;
 };

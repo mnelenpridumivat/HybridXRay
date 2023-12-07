@@ -176,8 +176,7 @@ CInifile& CSE_Abstract::spawn_ini()
     if (!m_ini_file)
 #pragma warning(push)
 #pragma warning(disable:4238)
-        m_ini_file = xr_new<CInifile>(
-            &IReader((void*)(*(m_ini_string)), m_ini_string.size()), FS.get_path("$game_config$")->m_Path);
+        m_ini_file = xr_new<CInifile>(&IReader((void*)(*(m_ini_string)), m_ini_string.size()), FS.get_path("$game_config$")->m_Path);
 #pragma warning(pop)
     return (*m_ini_file);
 }
@@ -188,7 +187,7 @@ void CSE_Abstract::Spawn_Write(NET_Packet& tNetPacket, BOOL bLocal)
     tNetPacket.w_begin(M_SPAWN);
     tNetPacket.w_stringZ(s_name);
     tNetPacket.w_stringZ(s_name_replace ? s_name_replace : "");
-    tNetPacket.w_u8(0);
+    tNetPacket.w_u8(0);   // в тч тут режим был, s_gameid!
     tNetPacket.w_u8(s_RP);
     tNetPacket.w_vec3(o_Position);
     tNetPacket.w_vec3(o_Angle);
@@ -204,7 +203,6 @@ void CSE_Abstract::Spawn_Write(NET_Packet& tNetPacket, BOOL bLocal)
         tNetPacket.w_u16(u16(s_flags.flags & ~(M_SPAWN_OBJECT_LOCAL | M_SPAWN_OBJECT_ASPLAYER)));
 
     tNetPacket.w_u16(SPAWN_VERSION);
-
     tNetPacket.w_u16(m_gameType.m_GameType.get());
 
     tNetPacket.w_u16(script_server_object_version());
@@ -308,12 +306,10 @@ BOOL CSE_Abstract::Spawn_Read(NET_Packet& tNetPacket)
     // client object custom data serialization LOAD
     if (m_wVersion > 70)
     {
-        u16 client_data_size =
-            (m_wVersion > 93) ? tNetPacket.r_u16() : tNetPacket.r_u8();   // не может быть больше 256 байт
+        u16 client_data_size = (m_wVersion > 93) ? tNetPacket.r_u16() : tNetPacket.r_u8();   // не может быть больше 256 байт
         if (client_data_size > 0)
         {
-            //			Msg					("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ?
-            // s_name_replace : "");
+            // Msg("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ? s_name_replace : "");
             client_data.resize(client_data_size);
             tNetPacket.r(&*client_data.begin(), client_data_size);
         }
@@ -333,7 +329,7 @@ BOOL CSE_Abstract::Spawn_Read(NET_Packet& tNetPacket)
 
         if (m_wVersion > 83)
         {
-            tNetPacket.r_u32();           // m_spawn_flags.assign(tNetPacket.r_u32());
+            tNetPacket.r_u32();   // m_spawn_flags.assign(tNetPacket.r_u32());
             xr_string temp;
             tNetPacket.r_stringZ(temp);   // tNetPacket.r_stringZ(m_spawn_control);
             tNetPacket.r_u32();           // m_max_spawn_count);
@@ -366,7 +362,7 @@ void CSE_Abstract::load(NET_Packet& tNetPacket)
     {
 #ifdef DEBUG
         // Msg("SERVER:loading:load:%d bytes:%d:%s",client_data_size,ID,s_name_replace ? s_name_replace : "");
-#endif   // DEBUG
+#endif  // DEBUG
         client_data.resize(client_data_size);
         tNetPacket.r(&*client_data.begin(), client_data_size);
     }

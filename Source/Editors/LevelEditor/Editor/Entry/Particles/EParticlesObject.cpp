@@ -90,8 +90,7 @@ void EParticlesObject::Render(int priority, bool strictB2F)
             }
         }
         if (m_Particles)
-            ::RImplementation.model_Render(
-                dynamic_cast<IRenderVisual*>(m_Particles), _Transform(), priority, strictB2F, 1.f);
+            ::RImplementation.model_Render(dynamic_cast<IRenderVisual*>(m_Particles), _Transform(), priority, strictB2F, 1.f);
     }
 }
 
@@ -205,16 +204,22 @@ void EParticlesObject::SaveStream(IWriter& F)
     inherited::SaveStream(F);
 
     F.open_chunk(CPSOBJECT_CHUNK_VERSION);
-    F.w_u16(CPSOBJECT_VERSION);
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        F.w_u16(CPSOBJECT_VERSION - 2);
+    else
+        F.w_u16(CPSOBJECT_VERSION);
     F.close_chunk();
 
     F.open_chunk(CPSOBJECT_CHUNK_REFERENCE);
     F.w_stringZ(m_RefName);
     F.close_chunk();
 
-    F.open_chunk(CPSOBJECT_CHUNK_GAMETYPE);
-    m_GameType.SaveStream(F);
-    F.close_chunk();
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        F.open_chunk(CPSOBJECT_CHUNK_GAMETYPE);
+        m_GameType.SaveStream(F);
+        F.close_chunk();
+    }
 }
 
 void EParticlesObject::OnDeviceCreate() {}
@@ -225,20 +230,32 @@ bool EParticlesObject::ExportGame(SExportStreams* F)
 {
     SExportStreamItem& I = F->pe_static;
 
-    if (I.chunk == 0)
+    if (xrGameManager::GetGame() != EGame::SHOC)
+    {
+        if (I.chunk == 0)
+        {
+            I.stream.open_chunk(I.chunk++);
+            I.stream.w_u32(1);   // version
+            I.stream.close_chunk();
+        }
+
+        I.stream.open_chunk(I.chunk++);
+        I.stream.w_u16(m_GameType.m_GameType.get());
+        I.stream.w_stringZ(m_RefName);
+        I.stream.w(&_Transform(), sizeof(Fmatrix));
+        I.stream.close_chunk();
+    }
+    else
     {
         I.stream.open_chunk(I.chunk++);
-        I.stream.w_u32(1);   // version
+        I.stream.w_stringZ(m_RefName);
+        I.stream.w(&_Transform(), sizeof(Fmatrix));
         I.stream.close_chunk();
     }
 
-    I.stream.open_chunk(I.chunk++);
-    I.stream.w_u16(m_GameType.m_GameType.get());
-    I.stream.w_stringZ(m_RefName);
-    I.stream.w(&_Transform(), sizeof(Fmatrix));
-    I.stream.close_chunk();
     return true;
 }
+//----------------------------------------------------
 
 bool EParticlesObject::Compile(LPCSTR ref_name)
 {
@@ -309,9 +326,10 @@ bool EParticlesObject::GetSummaryInfo(SSceneSummary* inf)
         if (!m_RefName.IsEmpty()&&m_PE.GetDefinition()){
             inf->pe_static.insert(m_PE.GetDefinition()->m_Name);
             if (m_PE.GetDefinition()->m_TextureName&&m_PE.GetDefinition()->m_TextureName[0])
-       inf->textures.insert(ChangeFileExt(m_PE.GetDefinition()->m_TextureName,"").LowerCase());
+                inf->textures.insert(ChangeFileExt(m_PE.GetDefinition()->m_TextureName,"").LowerCase());
         }
         inf->pe_static_cnt++;
     */
     return true;
 }
+//----------------------------------------------------

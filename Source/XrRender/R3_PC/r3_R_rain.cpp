@@ -14,8 +14,7 @@ Fvector3        wform(Fmatrix& m, Fvector3 const& v);
 //////////////////////////////////////////////////////////////////////////
 // tables to calculate view-frustum bounds in world space
 // note: D3D uses [0..1] range for Z
-static Fvector3 corners[8]      = {{-1, -1, 0},  {-1, -1, +1}, {-1, +1, +1}, {-1, +1, 0},
-                                   {+1, +1, +1}, {+1, +1, 0},  {+1, -1, +1}, {+1, -1, 0}};
+static Fvector3 corners[8]      = {{-1, -1, 0}, {-1, -1, +1}, {-1, +1, +1}, {-1, +1, 0}, {+1, +1, +1}, {+1, +1, 0}, {+1, -1, +1}, {+1, -1, 0}};
 static int      facetable[6][4] = {
     {0, 3, 5, 7},
     {1, 2, 3, 0},
@@ -44,8 +43,7 @@ void CRender::render_rain()
 
     static const float source_offset = 10000.f;
     RainLight.direction.set(0.0f, -1.0f, 0.0f);
-    RainLight.position.set(
-        Device->vCameraPosition.x, Device->vCameraPosition.y + source_offset, Device->vCameraPosition.z);
+    RainLight.position.set(Device->vCameraPosition.x, Device->vCameraPosition.y + source_offset, Device->vCameraPosition.z);
 
     float   fBoundingSphereRadius = 0;
 
@@ -54,8 +52,7 @@ void CRender::render_rain()
     {
         //
         const float fRainFar = ps_r3_dyn_wet_surf_far;
-        ex_project.build_projection(
-            deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, fRainFar);
+        ex_project.build_projection(deg2rad(Device->fFOV /* *Device->fASPECT*/), Device->fASPECT, VIEWPORT_NEAR, fRainFar);
         ex_full.mul(ex_project, Device->mView);
         D3DXMatrixInverse((D3DXMATRIX*)&ex_full_inverse, 0, (D3DXMATRIX*)&ex_full);
 
@@ -174,8 +171,7 @@ void CRender::render_rain()
 
         //	Offset RainLight position to center rain shadowmap
         Fvector3 vRectOffset;
-        vRectOffset.set(
-            fBoundingSphereRadius * Device->vCameraDirection.x, 0, fBoundingSphereRadius * Device->vCameraDirection.z);
+        vRectOffset.set(fBoundingSphereRadius * Device->vCameraDirection.x, 0, fBoundingSphereRadius * Device->vCameraDirection.z);
         bb.min.x = -fBoundingSphereRadius + vRectOffset.x;
         bb.max.x = fBoundingSphereRadius + vRectOffset.x;
         bb.min.y = -fBoundingSphereRadius + vRectOffset.z;
@@ -183,9 +179,7 @@ void CRender::render_rain()
 
         // D3DXMatrixOrthoOffCenterLH	((D3DXMATRIX*)&mdir_Project,bb.min.x,bb.max.x,  bb.min.y,bb.max.y,
         // bb.min.z-tweak_rain_ortho_xform_initial_offs,bb.max.z);
-        D3DXMatrixOrthoOffCenterLH(
-            (D3DXMATRIX*)&mdir_Project, bb.min.x, bb.max.x, bb.min.y, bb.max.y,
-            bb.min.z - tweak_rain_ortho_xform_initial_offs, bb.min.z + 2 * tweak_rain_ortho_xform_initial_offs);
+        D3DXMatrixOrthoOffCenterLH((D3DXMATRIX*)&mdir_Project, bb.min.x, bb.max.x, bb.min.y, bb.max.y, bb.min.z - tweak_rain_ortho_xform_initial_offs, bb.min.z + 2 * tweak_rain_ortho_xform_initial_offs);
 
         cull_xform.mul(mdir_Project, mdir_View);
 
@@ -194,23 +188,7 @@ void CRender::render_rain()
         // build viewport xform
         float   view_dim   = float(limit);
         float   fTexelOffs = (.5f / RImplementation.o.smapsize);
-        Fmatrix m_viewport = {
-            view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            -view_dim / 2.f,
-            0.0f,
-            0.0f,
-            0.0f,
-            0.0f,
-            1.0f,
-            0.0f,
-            view_dim / 2.f + fTexelOffs,
-            view_dim / 2.f + fTexelOffs,
-            0.0f,
-            1.0f};
+        Fmatrix m_viewport = {view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, -view_dim / 2.f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, view_dim / 2.f + fTexelOffs, view_dim / 2.f + fTexelOffs, 0.0f, 1.0f};
         Fmatrix m_viewport_inv;
         D3DXMatrixInverse((D3DXMATRIX*)&m_viewport_inv, 0, (D3DXMATRIX*)&m_viewport);
 

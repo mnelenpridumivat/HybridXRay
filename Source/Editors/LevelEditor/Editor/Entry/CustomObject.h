@@ -39,7 +39,7 @@ struct SExportStreams
 class CCustomObject: private pureDrawUI
 {
 protected:
-    shared_str EName;
+    shared_str   EName;
     // orientation
     Fvector      EPosition;
     Fvector      EScale;
@@ -48,12 +48,11 @@ protected:
     COMotion*    m_Motion;
 
     // private animation methods
-    void AnimationOnFrame();
-    void AnimationDrawPath();
-    void AnimationCreateKey(float t);
-    void AnimationDeleteKey(float t);
-    void AnimationUpdate(float t);
-
+    void         AnimationOnFrame();
+    void         AnimationDrawPath();
+    void         AnimationCreateKey(float t);
+    void         AnimationDeleteKey(float t);
+    void         AnimationUpdate(float t);
 public:
     enum
     {
@@ -65,8 +64,8 @@ public:
         flObjectInGroup          = (1 << 5),
         flObjectInGroupUnique    = (1 << 6),
 
-        flAutoKey    = (1 << 30),
-        flCameraView = (1 << 31),
+        flAutoKey                = (1 << 30),
+        flCameraView             = (1 << 31),
     };
     Flags32 m_CO_Flags;
 
@@ -80,21 +79,20 @@ public:
         flRT_SelectedLast    = (1 << 5),
     };
     Flags32 m_RT_Flags;
-
 public:
-    shared_str FName;
-    int        save_id;
+    shared_str     FName;
+    int            save_id;
     // orientation
-    Fvector FPosition;
-    Fvector FScale;
-    Fvector FRotation;
-    Fmatrix FTransformP;
-    Fmatrix FTransformR;
-    Fmatrix FTransformS;
-    Fmatrix FTransformRP;
-    Fmatrix FTransform;
-    Fmatrix FITransformRP;
-    Fmatrix FITransform;
+    Fvector        FPosition;
+    Fvector        FScale;
+    Fvector        FRotation;
+    Fmatrix        FTransformP;
+    Fmatrix        FTransformR;
+    Fmatrix        FTransformS;
+    Fmatrix        FTransformRP;
+    Fmatrix        FTransform;
+    Fmatrix        FITransformRP;
+    Fmatrix        FITransform;
 
     CCustomObject* m_pOwnerObject;
     bool           OnObjectNameAfterEdit(PropValue* sender, shared_str& edit_val);
@@ -106,9 +104,8 @@ public:
     void           OnMotionFrameChange(PropValue* value);
     void           OnMotionKeyTimeChange(PropValue* value);
 
-    void OnMotionCurrentFrameChange(PropValue* value);
-    void OnMotionCameraViewChange(PropValue* value);
-
+    void           OnMotionCurrentFrameChange(PropValue* value);
+    void           OnMotionCameraViewChange(PropValue* value);
 public:
     LPCSTR GetName() const
     {
@@ -152,23 +149,22 @@ public:
         UpdateTransform();
     }
 
-    void OnNameChange(PropValue* sender);
-    void OnChangeIngroupUnique(PropValue* sender);
+    void         OnNameChange(PropValue* sender);
+    void         OnChangeIngroupUnique(PropValue* sender);
 
-    void OnNumChangePosition(PropValue* sender);
-    void OnNumChangeRotation(PropValue* sender);
-    void OnNumChangeScale(PropValue* sender);
+    void         OnNumChangePosition(PropValue* sender);
+    void         OnNumChangeRotation(PropValue* sender);
+    void         OnNumChangeScale(PropValue* sender);
 
     virtual void DeleteThis()
     {
         m_RT_Flags.set(flRT_NeedSelfDelete, TRUE);
     }
-
 public:
     CCustomObject(LPVOID data, LPCSTR name);
     virtual ~CCustomObject();
 
-    BOOL Editable() const;
+    BOOL    Editable() const;
 
     IC BOOL Motionable() const
     {
@@ -333,8 +329,8 @@ public:
         ;
     }
 
-    virtual void OnSynchronize();
-    virtual void OnShowHint(AStringVec& dest);
+    virtual void   OnSynchronize();
+    virtual void   OnShowHint(AStringVec& dest);
 
     virtual LPCSTR RefName()
     {

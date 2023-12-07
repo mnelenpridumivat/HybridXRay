@@ -7,8 +7,7 @@
 class dxUIRender: public IUIRender
 {
 public:
-    dxUIRender():
-        PrimitiveType(ptNone), m_PointType(pttNone)
+    dxUIRender(): PrimitiveType(ptNone), m_PointType(pttNone)
     {
         ;
     }

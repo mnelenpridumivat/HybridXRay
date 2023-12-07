@@ -1,29 +1,42 @@
 ﻿#include "stdafx.h"
 
-#define CUSTOMOBJECT_CHUNK_PARAMS 0xF900
-#define CUSTOMOBJECT_CHUNK_LOCK 0xF902
-#define CUSTOMOBJECT_CHUNK_TRANSFORM 0xF903
-#define CUSTOMOBJECT_CHUNK_GROUP 0xF904
-#define CUSTOMOBJECT_CHUNK_MOTION 0xF905
-#define CUSTOMOBJECT_CHUNK_FLAGS 0xF906
-#define CUSTOMOBJECT_CHUNK_NAME 0xF907
+#define CUSTOMOBJECT_CHUNK_PARAMS       0xF900
+#define CUSTOMOBJECT_CHUNK_LOCK         0xF902
+#define CUSTOMOBJECT_CHUNK_TRANSFORM    0xF903
+#define CUSTOMOBJECT_CHUNK_GROUP        0xF904
+#define CUSTOMOBJECT_CHUNK_MOTION       0xF905
+#define CUSTOMOBJECT_CHUNK_FLAGS        0xF906
+#define CUSTOMOBJECT_CHUNK_NAME         0xF907
 #define CUSTOMOBJECT_CHUNK_MOTION_PARAM 0xF908
+
+enum class SocFlags : u32
+{
+    flSelected   = (1 << 0),
+    flVisible    = (1 << 1),
+    flLocked     = (1 << 2),
+    flMotion     = (1 << 3),
+
+    flAutoKey    = (1 << 30),
+    flCameraView = (1 << 31),
+};
 
 CCustomObject::CCustomObject(LPVOID data, LPCSTR name)
 {
-    save_id  = 0;
-    FClassID = OBJCLASS_DUMMY;
+    save_id      = 0;
+    FClassID     = OBJCLASS_DUMMY;
 
-    FParentTools = 0;
+    FParentTools = nullptr;
+
     if (name)
         FName = name;
+
     m_CO_Flags.assign(0);
     m_RT_Flags.assign(flRT_Valid | flRT_Visible);
     m_pOwnerObject = 0;
     ResetTransform();
     m_RT_Flags.set(flRT_UpdateTransform, TRUE);
-    m_Motion       = NULL;
-    m_MotionParams = NULL;
+    m_Motion       = nullptr;
+    m_MotionParams = nullptr;
 
     FPosition.set(0, 0, 0);
     FScale.set(1, 1, 1);
@@ -35,16 +48,18 @@ CCustomObject::~CCustomObject()
     xr_delete(m_Motion);
     xr_delete(m_MotionParams);
 }
+
 bool CCustomObject::IsRender()
 {
     Fbox bb;
     GetBox(bb);
+
     float distance = 0.f;
-    {
-        Fvector center;
-        bb.getcenter(center);
-        distance = center.distance_to(EDevice->vCameraPosition);
-    }
+    Fvector center;
+
+    bb.getcenter(center);
+    distance = center.distance_to(EDevice->vCameraPosition);
+
     if (distance > bb.getradius() + EDevice->RadiusRender)
         return false;
     return ::Render->occ_visible(bb) || (Selected() && m_CO_Flags.is_any(flRenderAnyWayIfSelected | flMotion));
@@ -53,8 +68,8 @@ bool CCustomObject::IsRender()
 void CCustomObject::OnUpdateTransform()
 {
     m_RT_Flags.set(flRT_UpdateTransform, FALSE);
-    // update transform matrix
 
+    // update transform matrix
     FTransformR.setXYZi(-GetRotation().x, -GetRotation().y, -GetRotation().z);
 
     FTransformS.scale(GetScale());
@@ -87,7 +102,7 @@ void CCustomObject::Show(BOOL flag)
         m_RT_Flags.set(flRT_Selected, FALSE);
 
     UI->RedrawScene();
-};
+}
 
 BOOL CCustomObject::Editable() const
 {
@@ -110,29 +125,32 @@ bool CCustomObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
 
     // object motion
     if (m_CO_Flags.is(flMotion))
-    {
         m_CO_Flags.set(flMotion, FALSE);
-        //    	R_ASSERT		(0);
-        /*
-                VERIFY			(m_Motion);
-                F.open_chunk	(CUSTOMOBJECT_CHUNK_MOTION);
-                m_Motion->Save	(F);
-                F.close_chunk	();
-          */
-        //        m_MotionParams->t_current = ini.r_float		(sect_name, "motion_params_t");
-    }
+
     return true;
 }
 
 bool CCustomObject::LoadStream(IReader& F)
 {
     R_ASSERT(F.find_chunk(CUSTOMOBJECT_CHUNK_FLAGS));
-    {
-        m_CO_Flags.assign(F.r_u32());
 
-        R_ASSERT(F.find_chunk(CUSTOMOBJECT_CHUNK_NAME));
-        F.r_stringZ(FName);
+    if (xrGameManager::GetGame() != EGame::SHOC)
+        m_CO_Flags.assign(F.r_u32());
+    else
+    {
+        Flags32 tempFlags;
+        tempFlags.assign(F.r_u32());
+
+        m_RT_Flags.set(flRT_Selected, tempFlags.is((u32)SocFlags::flSelected));
+        m_RT_Flags.set(flRT_Visible, tempFlags.is((u32)SocFlags::flVisible));
+        m_RT_Flags.set(flRT_Visible, tempFlags.is((u32)SocFlags::flVisible));
+        m_CO_Flags.set(flMotion, tempFlags.is((u32)SocFlags::flMotion));
+        m_CO_Flags.set(flAutoKey, tempFlags.is((u32)SocFlags::flAutoKey));
+        m_CO_Flags.set(flCameraView, tempFlags.is((u32)SocFlags::flCameraView));
     }
+
+    R_ASSERT(F.find_chunk(CUSTOMOBJECT_CHUNK_NAME));
+    F.r_stringZ(FName);
 
     if (F.find_chunk(CUSTOMOBJECT_CHUNK_TRANSFORM))
     {
@@ -146,11 +164,13 @@ bool CCustomObject::LoadStream(IReader& F)
     if (F.find_chunk(CUSTOMOBJECT_CHUNK_MOTION))
     {
         m_Motion = xr_new<COMotion>();
+
         if (!m_Motion->Load(F))
         {
             ELog.Msg(mtError, "! CustomObject: '%s' - motion has different version. Load failed.", GetName());
             xr_delete(m_Motion);
         }
+
         m_MotionParams = xr_new<SAnimParams>();
         m_MotionParams->Set(m_Motion);
         AnimationUpdate(m_MotionParams->Frame());
@@ -161,7 +181,6 @@ bool CCustomObject::LoadStream(IReader& F)
         m_MotionParams->t_current = F.r_float();
         AnimationUpdate(m_MotionParams->Frame());
     }
-
     UpdateTransform();
 
     return true;
@@ -176,27 +195,24 @@ void CCustomObject::SaveLTX(CInifile& ini, LPCSTR sect_name)
     ini.w_fvector3(sect_name, "position", FPosition);
     ini.w_fvector3(sect_name, "rotation", FRotation);
     ini.w_fvector3(sect_name, "scale", FScale);
-
-    /*
-        // object motion
-        if (m_CO_Flags.is(flMotion))
-        {
-            R_ASSERT		(0);
-
-            VERIFY			(m_Motion);
-            F.open_chunk	(CUSTOMOBJECT_CHUNK_MOTION);
-            m_Motion->Save	(F);
-            F.close_chunk	();
-
-            ini.w_float		(sect_name, "motion_params_t", m_MotionParams->t_current);
-        }
-    */
 }
 
 void CCustomObject::SaveStream(IWriter& F)
 {
     F.open_chunk(CUSTOMOBJECT_CHUNK_FLAGS);
-    F.w_u32(m_CO_Flags.get());
+    if (xrGameManager::GetGame() != EGame::SHOC)
+        F.w_u32(m_CO_Flags.get());
+    else
+    {
+        Flags32 tempFlags;
+        tempFlags.set((u32)SocFlags::flSelected, m_RT_Flags.is(flRT_Selected));
+        tempFlags.set((u32)SocFlags::flVisible, m_RT_Flags.is(flRT_Visible));
+        tempFlags.set((u32)SocFlags::flLocked, false);
+        tempFlags.set((u32)SocFlags::flMotion, m_CO_Flags.is(flMotion));
+        tempFlags.set((u32)SocFlags::flAutoKey, m_CO_Flags.is(flAutoKey));
+        tempFlags.set((u32)SocFlags::flCameraView, m_CO_Flags.is(flCameraView));
+        F.w_u32(tempFlags.get());
+    }
     F.close_chunk();
 
     F.open_chunk(CUSTOMOBJECT_CHUNK_NAME);
@@ -244,9 +260,7 @@ void CCustomObject::Render(int priority, bool strictB2F)
     if ((1 == priority) && (false == strictB2F))
     {
         if (EPrefs->object_flags.is(epoDrawPivot) && Selected())
-        {
             DU_impl.DrawObjectAxis(FTransformRP, 0.1f, Selected());
-        }
         if (m_Motion && Visible() && Selected())
             AnimationDrawPath();
     }
@@ -261,7 +275,7 @@ bool CCustomObject::RaySelect(int flag, const Fvector& start, const Fvector& dir
         return true;
     }
     return false;
-};
+}
 
 bool CCustomObject::FrustumSelect(int flag, const CFrustum& frustum)
 {
@@ -271,7 +285,7 @@ bool CCustomObject::FrustumSelect(int flag, const CFrustum& frustum)
         return true;
     }
     return false;
-};
+}
 
 bool CCustomObject::GetSummaryInfo(SSceneSummary* inf)
 {

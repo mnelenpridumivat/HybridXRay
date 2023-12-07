@@ -1,218 +1,218 @@
-#include "stdafx.h"
+ï»¿#include "stdafx.h"
 #include "ai_monster_squad.h"
 #include "../../entity.h"
 
-CMonsterSquad::CMonsterSquad() : leader(0) 
+CMonsterSquad::CMonsterSquad(): leader(0)
 {
-	m_locked_covers.reserve	(20);
-	m_locked_corpses.reserve(10);
+    m_locked_covers.reserve(20);
+    m_locked_corpses.reserve(10);
 }
 
-CMonsterSquad::~CMonsterSquad() 
+CMonsterSquad::~CMonsterSquad() {}
+
+void CMonsterSquad::RegisterMember(CEntity* pE)
 {
+    // Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ Ñ†ÐµÐ»ÑŒ
+    SMemberGoal G;
+    m_goals.insert(mk_pair(pE, G));
+
+    // Ð”Ð¾Ð±Ð°Ð²Ð¸Ñ‚ÑŒ ÐºÐ¾Ð¼Ð°Ð½Ð´Ñƒ
+    SSquadCommand C;
+    C.type = SC_NONE;
+    m_commands.insert(mk_pair(pE, C));
+
+    // ÑƒÑÑ‚Ð°Ð½Ð¾Ð²Ð¸Ñ‚ÑŒ Ð»Ð¸Ð´ÐµÑ€Ð°
+    if (!leader)
+        leader = pE;
 }
 
-void CMonsterSquad::RegisterMember(CEntity *pE)
+void CMonsterSquad::RemoveMember(CEntity* pE)
 {
-	// Äîáàâèòü öåëü
-	SMemberGoal			G;
-	m_goals.insert		(mk_pair(pE, G));
-	
-	// Äîáàâèòü êîìàíäó
-	SSquadCommand		C;
-	C.type				= SC_NONE;
-	m_commands.insert	(mk_pair(pE, C));
-	
-	// óñòàíîâèòü ëèäåðà
-	if (!leader) leader = pE;
-}
+    // ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· Ñ†ÐµÐ»ÐµÐ¹
+    MEMBER_GOAL_MAP_IT it_goal = m_goals.find(pE);
+    if (it_goal == m_goals.end())
+        return;
+    m_goals.erase(it_goal);
 
-void CMonsterSquad::RemoveMember(CEntity *pE)
-{
-	// óäàëèòü èç öåëåé
-	MEMBER_GOAL_MAP_IT it_goal = m_goals.find(pE);
-	if (it_goal == m_goals.end()) return;	
-	m_goals.erase(it_goal);
+    // ÑƒÐ´Ð°Ð»Ð¸Ñ‚ÑŒ Ð¸Ð· ÐºÐ¾Ð¼Ð°Ð½Ð´
+    MEMBER_COMMAND_MAP_IT it_command = m_commands.find(pE);
+    if (it_command == m_commands.end())
+        return;
+    m_commands.erase(it_command);
 
-	// óäàëèòü èç êîìàíä
-	MEMBER_COMMAND_MAP_IT it_command = m_commands.find(pE);
-	if (it_command == m_commands.end()) return;	
-	m_commands.erase(it_command);
+    // ÐµÑÐ»Ð¸ ÑƒÐ´Ð°Ð»ÑÐµÐ¼Ñ‹Ð¹ ÐµÐ»ÐµÐ¼ÐµÐ½Ñ‚ ÑÐ²Ð»ÑÐµÑ‚ÑÑ Ð»Ð¸Ð´ÐµÑ€Ð¾Ð¼ - Ð¿ÐµÑ€ÐµÐ½Ð°Ð·Ð½Ð°Ñ‡Ð¸Ñ‚ÑŒ Ð»Ð¸Ð´ÐµÑ€Ð°
+    if (leader == pE)
+    {
+        if (m_goals.empty())
+            leader = 0;
+        else
+            leader = m_goals.begin()->first;
+    }
 
-	// åñëè óäàëÿåìûé åëåìåíò ÿâëÿåòñÿ ëèäåðîì - ïåðåíàçíà÷èòü ëèäåðà
-	if (leader == pE)  {
-		if (m_goals.empty()) leader = 0;
-		else leader = m_goals.begin()->first;
-	}
-
-	// óñëè ïîñëåäíèé ýëåìåíò, î÷èñòèòü çàëî÷åííûå êàâåðû
-	if (m_goals.empty()) {
-		m_locked_covers.clear	();
-		m_locked_corpses.clear	();
-	}
+    // ÑƒÑÐ»Ð¸ Ð¿Ð¾ÑÐ»ÐµÐ´Ð½Ð¸Ð¹ ÑÐ»ÐµÐ¼ÐµÐ½Ñ‚, Ð¾Ñ‡Ð¸ÑÑ‚Ð¸Ñ‚ÑŒ Ð·Ð°Ð»Ð¾Ñ‡ÐµÐ½Ð½Ñ‹Ðµ ÐºÐ°Ð²ÐµÑ€Ñ‹
+    if (m_goals.empty())
+    {
+        m_locked_covers.clear();
+        m_locked_corpses.clear();
+    }
 }
 
 bool CMonsterSquad::SquadActive()
 {
-	if (!leader) return false;
+    if (!leader)
+        return false;
 
-	// ïðîâåðèòü êîëè÷åñòâî æèâûõ îáúåêòîâ â ãðóïïå
-	u32 alive_num = 0;
-	for (MEMBER_GOAL_MAP_IT it = m_goals.begin(); it != m_goals.end(); it++) 
-		if (it->first->g_Alive()) alive_num++;
-	
-	if (alive_num < 2) return false;
-	
-	return true;
+    // Ð¿Ñ€Ð¾Ð²ÐµÑ€Ð¸Ñ‚ÑŒ ÐºÐ¾Ð»Ð¸Ñ‡ÐµÑÑ‚Ð²Ð¾ Ð¶Ð¸Ð²Ñ‹Ñ… Ð¾Ð±ÑŠÐµÐºÑ‚Ð¾Ð² Ð² Ð³Ñ€ÑƒÐ¿Ð¿Ðµ
+    u32 alive_num = 0;
+    for (MEMBER_GOAL_MAP_IT it = m_goals.begin(); it != m_goals.end(); it++)
+        if (it->first->g_Alive())
+            alive_num++;
+
+    if (alive_num < 2)
+        return false;
+
+    return true;
 }
 
-
-void CMonsterSquad::UpdateGoal(CEntity *pE, const SMemberGoal &goal)
+void CMonsterSquad::UpdateGoal(CEntity* pE, const SMemberGoal& goal)
 {
-	MEMBER_GOAL_MAP_IT it = m_goals.find(pE);
-	VERIFY(it != m_goals.end());
+    MEMBER_GOAL_MAP_IT it = m_goals.find(pE);
+    VERIFY(it != m_goals.end());
 
-	it->second = goal;
+    it->second = goal;
 }
 
-void CMonsterSquad::UpdateCommand(CEntity *pE, const SSquadCommand &com)
+void CMonsterSquad::UpdateCommand(CEntity* pE, const SSquadCommand& com)
 {
-	MEMBER_COMMAND_MAP_IT it = m_commands.find(pE);
-	VERIFY(it != m_commands.end());
+    MEMBER_COMMAND_MAP_IT it = m_commands.find(pE);
+    VERIFY(it != m_commands.end());
 
-	it->second = com;
+    it->second = com;
 }
 
-SMemberGoal &CMonsterSquad::GetGoal(CEntity *pE)
+SMemberGoal& CMonsterSquad::GetGoal(CEntity* pE)
 {
-	MEMBER_GOAL_MAP_IT it = m_goals.find(pE);
-	VERIFY(it != m_goals.end());
+    MEMBER_GOAL_MAP_IT it = m_goals.find(pE);
+    VERIFY(it != m_goals.end());
 
-	return it->second;
+    return it->second;
 }
 
-SSquadCommand &CMonsterSquad::GetCommand(CEntity *pE)
+SSquadCommand& CMonsterSquad::GetCommand(CEntity* pE)
 {
-	MEMBER_COMMAND_MAP_IT it = m_commands.find(pE);
-	VERIFY(it != m_commands.end());
-	return it->second;
+    MEMBER_COMMAND_MAP_IT it = m_commands.find(pE);
+    VERIFY(it != m_commands.end());
+    return it->second;
 }
 
-void CMonsterSquad::GetGoal(CEntity *pE, SMemberGoal &goal)
+void CMonsterSquad::GetGoal(CEntity* pE, SMemberGoal& goal)
 {
-	goal = GetGoal(pE);
+    goal = GetGoal(pE);
 }
 
-void CMonsterSquad::GetCommand(CEntity *pE, SSquadCommand &com)
+void CMonsterSquad::GetCommand(CEntity* pE, SSquadCommand& com)
 {
-	com	= GetCommand(pE);
+    com = GetCommand(pE);
 }
 
 void CMonsterSquad::UpdateSquadCommands()
 {
-	// Îòìåíèòü âñå êîìàíäû â ãðóïïå
-	for (MEMBER_COMMAND_MAP_IT it = m_commands.begin(); it != m_commands.end(); it++) {
-		it->second.type = SC_NONE;
-	}
+    // ÐžÑ‚Ð¼ÐµÐ½Ð¸Ñ‚ÑŒ Ð²ÑÐµ ÐºÐ¾Ð¼Ð°Ð½Ð´Ñ‹ Ð² Ð³Ñ€ÑƒÐ¿Ð¿Ðµ
+    for (MEMBER_COMMAND_MAP_IT it = m_commands.begin(); it != m_commands.end(); it++)
+    {
+        it->second.type = SC_NONE;
+    }
 
-	// Óäàëèòü âñå öåëè, îáúåêòû êîòîðûõ íåâàëèäíû èëè óøëè â îôôëàéí
-	for (MEMBER_GOAL_MAP_IT it_goal = m_goals.begin(); it_goal != m_goals.end(); ++it_goal) {
-		SMemberGoal goal = it_goal->second;
-		if (!goal.entity || goal.entity->getDestroy()) {
-			it_goal->second.type = MG_None;
-		}
-	}
+    // Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð²ÑÐµ Ñ†ÐµÐ»Ð¸, Ð¾Ð±ÑŠÐµÐºÑ‚Ñ‹ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ñ… Ð½ÐµÐ²Ð°Ð»Ð¸Ð´Ð½Ñ‹ Ð¸Ð»Ð¸ ÑƒÑˆÐ»Ð¸ Ð² Ð¾Ñ„Ñ„Ð»Ð°Ð¹Ð½
+    for (MEMBER_GOAL_MAP_IT it_goal = m_goals.begin(); it_goal != m_goals.end(); ++it_goal)
+    {
+        SMemberGoal goal = it_goal->second;
+        if (!goal.entity || goal.entity->getDestroy())
+        {
+            it_goal->second.type = MG_None;
+        }
+    }
 
-	ProcessAttack	();
-	ProcessIdle		();
+    ProcessAttack();
+    ProcessIdle();
 }
 
-void CMonsterSquad::remove_links(CObject *O)
+void CMonsterSquad::remove_links(CObject* O)
 {
-	// Óäàëèòü âñå öåëè, îáúåêòû êîòîðûõ íåâàëèäíû èëè óøëè â îôôëàéí
-	for (MEMBER_GOAL_MAP_IT it_goal = m_goals.begin(); it_goal != m_goals.end(); ++it_goal) {
-		SMemberGoal goal = it_goal->second;
-		if (goal.entity == O) {
-			it_goal->second.entity	= 0;
-			it_goal->second.type	= MG_None;
-		}
-	}
+    // Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð²ÑÐµ Ñ†ÐµÐ»Ð¸, Ð¾Ð±ÑŠÐµÐºÑ‚Ñ‹ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ñ… Ð½ÐµÐ²Ð°Ð»Ð¸Ð´Ð½Ñ‹ Ð¸Ð»Ð¸ ÑƒÑˆÐ»Ð¸ Ð² Ð¾Ñ„Ñ„Ð»Ð°Ð¹Ð½
+    for (MEMBER_GOAL_MAP_IT it_goal = m_goals.begin(); it_goal != m_goals.end(); ++it_goal)
+    {
+        SMemberGoal goal = it_goal->second;
+        if (goal.entity == O)
+        {
+            it_goal->second.entity = 0;
+            it_goal->second.type   = MG_None;
+        }
+    }
 
-	// Óäàëèòü âñå öåëè, îáúåêòû êîòîðûõ íåâàëèäíû èëè óøëè â îôôëàéí
-	for (MEMBER_COMMAND_MAP_IT it = m_commands.begin(); it != m_commands.end(); it++) {
-		SSquadCommand com = it->second;
-		if (com.entity == O) {
-			it->second.entity	= 0;
-			it->second.type		= SC_NONE;
-		}
-	}
+    // Ð£Ð´Ð°Ð»Ð¸Ñ‚ÑŒ Ð²ÑÐµ Ñ†ÐµÐ»Ð¸, Ð¾Ð±ÑŠÐµÐºÑ‚Ñ‹ ÐºÐ¾Ñ‚Ð¾Ñ€Ñ‹Ñ… Ð½ÐµÐ²Ð°Ð»Ð¸Ð´Ð½Ñ‹ Ð¸Ð»Ð¸ ÑƒÑˆÐ»Ð¸ Ð² Ð¾Ñ„Ñ„Ð»Ð°Ð¹Ð½
+    for (MEMBER_COMMAND_MAP_IT it = m_commands.begin(); it != m_commands.end(); it++)
+    {
+        SSquadCommand com = it->second;
+        if (com.entity == O)
+        {
+            it->second.entity = 0;
+            it->second.type   = SC_NONE;
+        }
+    }
 }
-
 
 bool CMonsterSquad::is_locked_cover(u32 node)
 {
-	return	(
-		std::find(
-			m_locked_covers.begin(),
-			m_locked_covers.end(),
-			node
-		)
-		!=
-		m_locked_covers.end()
-	);
+    return (std::find(m_locked_covers.begin(), m_locked_covers.end(), node) != m_locked_covers.end());
 }
 
 void CMonsterSquad::lock_cover(u32 node)
 {
-	m_locked_covers.push_back(node);
+    m_locked_covers.push_back(node);
 }
 
 void CMonsterSquad::unlock_cover(u32 node)
 {
-	NODES_VECTOR_IT it = std::find(m_locked_covers.begin(), m_locked_covers.end(), node);
-	if (it != m_locked_covers.end())
-		m_locked_covers.erase(it);
+    NODES_VECTOR_IT it = std::find(m_locked_covers.begin(), m_locked_covers.end(), node);
+    if (it != m_locked_covers.end())
+        m_locked_covers.erase(it);
 }
 
-u8 CMonsterSquad::get_count(const CEntity *object, float radius)
+u8 CMonsterSquad::get_count(const CEntity* object, float radius)
 {
-	u8 count = 0;
+    u8 count = 0;
 
-	for (MEMBER_GOAL_MAP_IT it_goal = m_goals.begin(); it_goal != m_goals.end(); ++it_goal) {
-		SMemberGoal goal = it_goal->second;
-		if ((goal.entity != 0) && (goal.entity != object) && (goal.entity->g_Alive())) {
-			if (goal.entity->Position().distance_to(object->Position()) < radius) count++;
-		}
-	}
+    for (MEMBER_GOAL_MAP_IT it_goal = m_goals.begin(); it_goal != m_goals.end(); ++it_goal)
+    {
+        SMemberGoal goal = it_goal->second;
+        if ((goal.entity != 0) && (goal.entity != object) && (goal.entity->g_Alive()))
+        {
+            if (goal.entity->Position().distance_to(object->Position()) < radius)
+                count++;
+        }
+    }
 
-	return count;
+    return count;
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Corpses
 //////////////////////////////////////////////////////////////////////////
-bool CMonsterSquad::is_locked_corpse(const CEntityAlive *corpse)
+bool CMonsterSquad::is_locked_corpse(const CEntityAlive* corpse)
 {
-	return	(
-		std::find(
-			m_locked_corpses.begin(),
-			m_locked_corpses.end(),
-			corpse
-		)
-		!=
-		m_locked_corpses.end()
-	);
+    return (std::find(m_locked_corpses.begin(), m_locked_corpses.end(), corpse) != m_locked_corpses.end());
 }
 
-void CMonsterSquad::lock_corpse(const CEntityAlive *corpse)
+void CMonsterSquad::lock_corpse(const CEntityAlive* corpse)
 {
-	m_locked_corpses.push_back(corpse);
+    m_locked_corpses.push_back(corpse);
 }
 
-void CMonsterSquad::unlock_corpse(const CEntityAlive *corpse)
+void CMonsterSquad::unlock_corpse(const CEntityAlive* corpse)
 {
-	CORPSES_VECTOR_IT it = std::find(m_locked_corpses.begin(), m_locked_corpses.end(), corpse);
-	if (it != m_locked_corpses.end())
-		m_locked_corpses.erase(it);
+    CORPSES_VECTOR_IT it = std::find(m_locked_corpses.begin(), m_locked_corpses.end(), corpse);
+    if (it != m_locked_corpses.end())
+        m_locked_corpses.erase(it);
 }
 //////////////////////////////////////////////////////////////////////////

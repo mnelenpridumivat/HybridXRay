@@ -80,7 +80,7 @@ void CResourceManager::reset_end()
             rt[_it]->reset_end();
     }
     {
-    // RTc
+        // RTc
 #pragma todo("container is created in stack!")
         //	DX10 cut 		xr_vector<CRTC*>	rt;
         //	DX10 cut 		for (map_RTCIt rt_it=m_rtargets_c.begin(); rt_it!=m_rtargets_c.end(); rt_it++)

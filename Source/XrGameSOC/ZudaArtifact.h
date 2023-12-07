@@ -1,20 +1,21 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // ZudaArtifact.h
-// ZudaArtefact - артефакт зуда
+// ZudaArtefact - Р°СЂС‚РµС„Р°РєС‚ Р·СѓРґР°
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 #include "artifact.h"
 
-class CZudaArtefact : public CArtefact 
+class CZudaArtefact: public CArtefact
 {
 private:
-	typedef CArtefact inherited;
-public:
-	CZudaArtefact(void);
-	virtual ~CZudaArtefact(void);
+    typedef CArtefact inherited;
 
-	virtual void Load				(LPCSTR section);
+public:
+    CZudaArtefact(void);
+    virtual ~CZudaArtefact(void);
+
+    virtual void Load(LPCSTR section);
 
 protected:
 };

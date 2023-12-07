@@ -8,6 +8,7 @@
 #define WM_CHUNK_PARAMS           0x0003
 #define WM_CHUNK_ITEMS            0x0004
 #define WM_CHUNK_ITEMS2           0x0005
+//----------------------------------------------------
 
 #define MAX_WALLMARK_COUNT        500
 #define MAX_WALLMARK_VERTEX_COUNT 8192
@@ -488,7 +489,10 @@ void ESceneWallmarkTool::SaveStream(IWriter& F)
     inherited::SaveStream(F);
 
     F.open_chunk(WM_CHUNK_VERSION);
-    F.w_u16(WM_VERSION);
+    if (xrGameManager::GetGame() == EGame::SHOC)
+        F.w_u16(WM_VERSION - 1);
+    else
+        F.w_u16(WM_VERSION);
     F.close_chunk();
 
     F.open_chunk(WM_CHUNK_FLAGS);

@@ -1,6 +1,6 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // Phrase.cpp
-// класс, описывающий фразу (элемент диалога)
+// РєР»Р°СЃСЃ, РѕРїРёСЃС‹РІР°СЋС‰РёР№ С„СЂР°Р·Сѓ (СЌР»РµРјРµРЅС‚ РґРёР°Р»РѕРіР°)
 ///////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
@@ -10,24 +10,22 @@
 #include "gameobject.h"
 #include "script_game_object.h"
 
-CPhrase::CPhrase	(void)
+CPhrase::CPhrase(void)
 {
-	m_ID				= "";
-	m_iGoodwillLevel	= 0;
+    m_ID             = "";
+    m_iGoodwillLevel = 0;
 }
-CPhrase::~CPhrase	(void)
-{
-}
+CPhrase::~CPhrase(void) {}
 
-LPCSTR CPhrase::GetText		()	const			
+LPCSTR CPhrase::GetText() const
 {
-	return m_text.c_str();
+    return m_text.c_str();
 }
 
-bool	CPhrase::IsDummy()		const
+bool CPhrase::IsDummy() const
 {
-	if( xr_strlen(GetText()) == 0 )
-		return true;
+    if (xr_strlen(GetText()) == 0)
+        return true;
 
-	return false;
+    return false;
 }

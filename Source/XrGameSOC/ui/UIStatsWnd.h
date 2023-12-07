@@ -1,4 +1,4 @@
-#pragma once
+п»ї#pragma once
 
 #include "UIDialogWnd.h"
 #include "UIFrameWindow.h"
@@ -8,65 +8,80 @@
 #include "UIButton.h"
 #include "UIMultiTextStatic.h"
 
-DEF_VECTOR (FIELDS_VECTOR, CUIButton*)
+DEF_VECTOR(FIELDS_VECTOR, CUIButton*)
 
-// Класс для определения нового члена списка
+// РљР»Р°СЃСЃ РґР»СЏ РѕРїСЂРµРґРµР»РµРЅРёСЏ РЅРѕРІРѕРіРѕ С‡Р»РµРЅР° СЃРїРёСЃРєР°
 class CUIStatsListItem: public CUIListItem
 {
-	typedef CUIListItem inherited;
-public:
-	virtual ~CUIStatsListItem() {};
-	void XmlInit(const char *path, CUIXml &uiXml);
-	void Highlight(bool bHighlight);
-	void SetSubItemColor(u32 uItemIndex, u32 uColor);
+    typedef CUIListItem inherited;
 
-	// поля записи
-	FIELDS_VECTOR FieldsVector;
+public:
+    virtual ~CUIStatsListItem(){};
+    void          XmlInit(const char* path, CUIXml& uiXml);
+    void          Highlight(bool bHighlight);
+    void          SetSubItemColor(u32 uItemIndex, u32 uColor);
+
+    // РїРѕР»СЏ Р·Р°РїРёСЃРё
+    FIELDS_VECTOR FieldsVector;
 };
 
 class CUIStatsWnd: public CUIDialogWnd
 {
 private:
-	typedef CUIDialogWnd inherited;
+    typedef CUIDialogWnd inherited;
 
-	string1024	XML_NAME;
+    string1024           XML_NAME;
+
 public:
-	CUIStatsWnd(LPCSTR XML = NULL);
-	virtual ~CUIStatsWnd();
+    CUIStatsWnd(LPCSTR XML = NULL);
+    virtual ~CUIStatsWnd();
 
-	virtual void Init(LPCSTR XML = NULL);
-//	virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
+    virtual void      Init(LPCSTR XML = NULL);
+    //	virtual void SendMessage(CUIWindow* pWnd, s16 msg, void* pData);
 
-	// Добавить 1 элемент. Заполнить поля необходимо самостоятельно. Возвращает указатель 
-	// на добавленный элемент
-	CUIStatsListItem * AddItem();
-	// Получить элемент, при п		омощи поиска в полях по строке. Можно искать
-	// элемент начиная с заданного номера
-	CUIStatsListItem * FindFrom(u32 beg_pos, const char *strCaption);
-	// Удалить элемент в котором есть статик с текстом strCaption. В каждом Item'е поиск 
-	// начать с позиции beg_pos
-	void RemoveItemFrom(u32 beg_pos, const char *strCaption);
-	// Подсветить нужный элемент
-	void HighlightItem(u32 uItem);
-	// Получить номер подсвеченого эл-та
-	u32	GetHighlightedItem() { return m_uHighlightedItem; }
-	// Выделить нужный элемент
-	void SelectItem(u32 uItem);
-	// Установить текст заголовка нужной колонки
-	void SetHeaderColumnText(u32 headerItem, const shared_str &text);
-	
-	Frect GetFrameRect () { return UIFrameWnd.GetWndRect();};
-	void RemoveItem (const u32 Index) {UIStatsList.RemoveItem(Index);};
+    // Р”РѕР±Р°РІРёС‚СЊ 1 СЌР»РµРјРµРЅС‚. Р—Р°РїРѕР»РЅРёС‚СЊ РїРѕР»СЏ РЅРµРѕР±С…РѕРґРёРјРѕ СЃР°РјРѕСЃС‚РѕСЏС‚РµР»СЊРЅРѕ. Р’РѕР·РІСЂР°С‰Р°РµС‚ СѓРєР°Р·Р°С‚РµР»СЊ
+    // РЅР° РґРѕР±Р°РІР»РµРЅРЅС‹Р№ СЌР»РµРјРµРЅС‚
+    CUIStatsListItem* AddItem();
+    // РџРѕР»СѓС‡РёС‚СЊ СЌР»РµРјРµРЅС‚, РїСЂРё Рї		РѕРјРѕС‰Рё РїРѕРёСЃРєР° РІ РїРѕР»СЏС… РїРѕ СЃС‚СЂРѕРєРµ. РњРѕР¶РЅРѕ РёСЃРєР°С‚СЊ
+    // СЌР»РµРјРµРЅС‚ РЅР°С‡РёРЅР°СЏ СЃ Р·Р°РґР°РЅРЅРѕРіРѕ РЅРѕРјРµСЂР°
+    CUIStatsListItem* FindFrom(u32 beg_pos, const char* strCaption);
+    // РЈРґР°Р»РёС‚СЊ СЌР»РµРјРµРЅС‚ РІ РєРѕС‚РѕСЂРѕРј РµСЃС‚СЊ СЃС‚Р°С‚РёРє СЃ С‚РµРєСЃС‚РѕРј strCaption. Р’ РєР°Р¶РґРѕРј Item'Рµ РїРѕРёСЃРє
+    // РЅР°С‡Р°С‚СЊ СЃ РїРѕР·РёС†РёРё beg_pos
+    void              RemoveItemFrom(u32 beg_pos, const char* strCaption);
+    // РџРѕРґСЃРІРµС‚РёС‚СЊ РЅСѓР¶РЅС‹Р№ СЌР»РµРјРµРЅС‚
+    void              HighlightItem(u32 uItem);
+    // РџРѕР»СѓС‡РёС‚СЊ РЅРѕРјРµСЂ РїРѕРґСЃРІРµС‡РµРЅРѕРіРѕ СЌР»-С‚Р°
+    u32               GetHighlightedItem()
+    {
+        return m_uHighlightedItem;
+    }
+    // Р’С‹РґРµР»РёС‚СЊ РЅСѓР¶РЅС‹Р№ СЌР»РµРјРµРЅС‚
+    void  SelectItem(u32 uItem);
+    // РЈСЃС‚Р°РЅРѕРІРёС‚СЊ С‚РµРєСЃС‚ Р·Р°РіРѕР»РѕРІРєР° РЅСѓР¶РЅРѕР№ РєРѕР»РѕРЅРєРё
+    void  SetHeaderColumnText(u32 headerItem, const shared_str& text);
 
-	CUIFrameWindow*		GetFrameWindow	()	{return &UIFrameWnd;};
+    Frect GetFrameRect()
+    {
+        return UIFrameWnd.GetWndRect();
+    };
+    void RemoveItem(const u32 Index)
+    {
+        UIStatsList.RemoveItem(Index);
+    };
+
+    CUIFrameWindow* GetFrameWindow()
+    {
+        return &UIFrameWnd;
+    };
+
 protected:
-//	CUIButton			UIBtn;
-	// Фрейм - оболочка
-	CUIFrameWindow		UIFrameWnd;
-	// Лист для отображения списка статичтики игроков
-	CUIListWnd			UIStatsList;
-	// Подсвеченый элемент
-	u32					m_uHighlightedItem;
-	// Заголовок
-	CUIMultiTextStatic	UIHeader;
+    //	CUIButton			UIBtn;
+    // Р¤СЂРµР№Рј - РѕР±РѕР»РѕС‡РєР°
+    CUIFrameWindow     UIFrameWnd;
+    // Р›РёСЃС‚ РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ СЃРїРёСЃРєР° СЃС‚Р°С‚РёС‡С‚РёРєРё РёРіСЂРѕРєРѕРІ
+    CUIListWnd         UIStatsList;
+    // РџРѕРґСЃРІРµС‡РµРЅС‹Р№ СЌР»РµРјРµРЅС‚
+    u32                m_uHighlightedItem;
+    // Р—Р°РіРѕР»РѕРІРѕРє
+    CUIMultiTextStatic UIHeader;
 };

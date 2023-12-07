@@ -1,4 +1,4 @@
-/******
+﻿/******
 nonport.h
 GameSpy Common Code
   
@@ -15,7 +15,8 @@ devsupport@gamespy.com
 #define _NONPORT_H_
 
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 #include "common/gsCommon.h"
 #ifdef __cplusplus

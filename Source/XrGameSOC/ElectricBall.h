@@ -1,22 +1,22 @@
-///////////////////////////////////////////////////////////////
+п»ї///////////////////////////////////////////////////////////////
 // ElectricBall.h
-// ElectricBall - артефакт электрический шар
+// ElectricBall - Р°СЂС‚РµС„Р°РєС‚ СЌР»РµРєС‚СЂРёС‡РµСЃРєРёР№ С€Р°СЂ
 ///////////////////////////////////////////////////////////////
 
 #pragma once
 #include "artifact.h"
 
-class CElectricBall : public CArtefact 
+class CElectricBall: public CArtefact
 {
 private:
-	typedef CArtefact inherited;
-public:
-	CElectricBall(void);
-	virtual ~CElectricBall(void);
+    typedef CArtefact inherited;
 
-	virtual void Load				(LPCSTR section);
+public:
+    CElectricBall(void);
+    virtual ~CElectricBall(void);
+
+    virtual void Load(LPCSTR section);
 
 protected:
-	virtual void	UpdateCLChild	();
-
+    virtual void UpdateCLChild();
 };

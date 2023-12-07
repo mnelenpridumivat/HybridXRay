@@ -1,5 +1,6 @@
 # Format Style Options - Created with Clang Power Tools
 ---
+BasedOnStyle: Microsoft
 AccessModifierOffset: -4
 AlignAfterOpenBracket: DontAlign
 AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
@@ -25,7 +26,6 @@ AlwaysBreakBeforeMultilineStrings: false
 AlwaysBreakTemplateDeclarations: No
 AttributeMacros: 
   - __capability
-BasedOnStyle: Microsoft
 BinPackArguments: true
 BinPackParameters: false
 BitFieldColonSpacing: None
@@ -57,7 +57,7 @@ BreakBeforeTernaryOperators: true
 BreakConstructorInitializers: AfterColon
 BreakAfterJavaFieldAnnotations: false
 BreakStringLiterals: false
-ColumnLimit: 0
+ColumnLimit: 500
 CommentPragmas: '^ (IWYU pragma:|NOLINT)'
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
@@ -66,7 +66,7 @@ ContinuationIndentWidth: 4
 Cpp11BracedListStyle: true
 DeriveLineEnding: false
 DerivePointerAlignment: false
-EmptyLineBeforeAccessModifier: Never
+EmptyLineBeforeAccessModifier: Always
 ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 ForEachMacros: 

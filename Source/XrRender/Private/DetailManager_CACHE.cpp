@@ -24,8 +24,7 @@ void CDetailManager::cache_Initialize()
             CacheSlot1& MS = cache_level1[_mz1][_mx1];
             for (int _z = 0; _z < dm_cache1_count; _z++)
                 for (int _x = 0; _x < dm_cache1_count; _x++)
-                    MS.slots[_z * dm_cache1_count + _x] =
-                        &cache[_mz1 * dm_cache1_count + _z][_mx1 * dm_cache1_count + _x];
+                    MS.slots[_z * dm_cache1_count + _x] = &cache[_mz1 * dm_cache1_count + _z][_mx1 * dm_cache1_count + _x];
         }
     }
 }
@@ -45,14 +44,13 @@ void CDetailManager::cache_Task(int gx, int gz, Slot* D)
     int         sz = cg2w_Z(gz);
     DetailSlot& DS = QueryDB(sx, sz);
 
-    D->empty       = (DS.id0 == DetailSlot::ID_Empty) && (DS.id1 == DetailSlot::ID_Empty) &&
-        (DS.id2 == DetailSlot::ID_Empty) && (DS.id3 == DetailSlot::ID_Empty);
+    D->empty       = (DS.id0 == DetailSlot::ID_Empty) && (DS.id1 == DetailSlot::ID_Empty) && (DS.id2 == DetailSlot::ID_Empty) && (DS.id3 == DetailSlot::ID_Empty);
 
     // Unpacking
-    u32 old_type = D->type;
-    D->type      = stPending;
-    D->sx        = sx;
-    D->sz        = sz;
+    u32 old_type   = D->type;
+    D->type        = stPending;
+    D->sx          = sx;
+    D->sz          = sz;
 
     D->vis.box.min.set(sx * dm_slot_size, DS.r_ybase(), sz * dm_slot_size);
     D->vis.box.max.set(D->vis.box.min.x + dm_slot_size, DS.r_ybase() + DS.r_yheight(), D->vis.box.min.z + dm_slot_size);

@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: space_restriction_base_inline.h
 //	Created 	: 17.08.2004
 //  Modified 	: 27.08.2004
@@ -9,8 +9,8 @@
 #pragma once
 
 #ifdef DEBUG
-IC	bool CSpaceRestrictionBase::correct	() const
+IC bool CSpaceRestrictionBase::correct() const
 {
-	return	(m_correct);
+    return (m_correct);
 }
 #endif

@@ -21,7 +21,7 @@ void CRenderTarget::accum_reflected(light* L)
     // Select shader (front or back-faces), *** back, if intersect near plane
     RCache.set_ColorWriteEnable();
     if (bIntersect)
-        RCache.set_CullMode(CULL_CW);    // back
+        RCache.set_CullMode(CULL_CW);   // back
     else
         RCache.set_CullMode(CULL_CCW);   // front
 
@@ -32,8 +32,7 @@ void CRenderTarget::accum_reflected(light* L)
         float   _h            = float(Device->dwHeight);
         float   o_w           = (.5f / _w);
         float   o_h           = (.5f / _h);
-        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f,       -0.5f,      0.0f, 0.0f,
-                                 0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
+        Fmatrix m_TexelAdjust = {0.5f, 0.0f, 0.0f, 0.0f, 0.0f, -0.5f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.5f + o_w, 0.5f + o_h, 0.0f, 1.0f};
         m_Texgen.mul(m_TexelAdjust, RCache.xforms.m_wvp);
     }
 
@@ -56,8 +55,7 @@ void CRenderTarget::accum_reflected(light* L)
         RCache.set_c("direction", L_dir.x, L_dir.y, L_dir.z, 0);
         RCache.set_c("m_texgen", m_Texgen);
 
-        RCache.set_Stencil(
-            TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0x00, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP);
+        RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0x00, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP, D3DSTENCILOP_KEEP);
         draw_volume(L);
     }
 

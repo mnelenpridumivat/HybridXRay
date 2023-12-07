@@ -138,8 +138,7 @@ void CLight_DB::LoadHemi()
                         L->set_range(Ldata.range);
                         L->set_color(Ldata.diffuse.x, Ldata.diffuse.y, Ldata.diffuse.z);
                         L->set_active(true);
-                        L->set_attenuation_params(
-                            Ldata.attenuation0, Ldata.attenuation1, Ldata.attenuation2, Ldata.falloff);
+                        L->set_attenuation_params(Ldata.attenuation0, Ldata.attenuation1, Ldata.attenuation2, Ldata.falloff);
                         L->spatial.type = STYPE_LIGHTSOURCEHEMI;
                         //				R_ASSERT			(L->spatial.sector	);
                     }
@@ -247,8 +246,7 @@ void CLight_DB::Update()
         sun_original->set_range(600.f);
         sun_adapted->set_rotation(AD, _sun_adapted->right);
         sun_adapted->set_position(AP);
-        sun_adapted->set_color(
-            E.sun_color.x * ps_r2_sun_lumscale, E.sun_color.y * ps_r2_sun_lumscale, E.sun_color.z * ps_r2_sun_lumscale);
+        sun_adapted->set_color(E.sun_color.x * ps_r2_sun_lumscale, E.sun_color.y * ps_r2_sun_lumscale, E.sun_color.z * ps_r2_sun_lumscale);
         sun_adapted->set_range(600.f);
 
         if (!::Render->is_sun_static())

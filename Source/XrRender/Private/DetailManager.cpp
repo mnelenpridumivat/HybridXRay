@@ -46,8 +46,7 @@ void        bwdithermap(int levels, int magic[16][16])
         for (int j = 0; j < 4; j++)
             for (int k = 0; k < 4; k++)
                 for (int l = 0; l < 4; l++)
-                    magic[4 * k + i][4 * l + j] =
-                        (int)(0.5 + magic4x4[i][j] * magicfact + (magic4x4[k][l] / 16.) * magicfact);
+                    magic[4 * k + i][4 * l + j] = (int)(0.5 + magic4x4[i][j] * magicfact + (magic4x4[k][l] / 16.) * magicfact);
 }
 //--------------------------------------------------- Decompression
 
@@ -180,9 +179,9 @@ void CDetailManager::Unload()
 
 extern ECORE_API float r_ssaDISCARD;
 
-void CDetailManager::UpdateVisibleM()
+void                   CDetailManager::UpdateVisibleM()
 {
-    Fvector EYE = Device->vCameraPosition_saved;
+    Fvector  EYE = Device->vCameraPosition_saved;
 
     CFrustum View;
     View.CreateFromMatrix(Device->mFullTransform_saved, FRUSTUM_P_LRTB + FRUSTUM_P_FAR);
@@ -365,9 +364,9 @@ void CDetailManager::MT_CALC()
     MT.Enter();
     if (m_frame_calc != Device->dwFrame)
     {
-    #ifndef _EDITOR
+#ifndef _EDITOR
         if ((m_frame_rendered + 1) == Device->dwFrame)   // already rendered
-    #endif
+#endif
         {
             Fvector EYE = Device->vCameraPosition_saved;
 

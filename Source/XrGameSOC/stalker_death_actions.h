@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: stalker_death_actions.h
 //	Created 	: 25.03.2004
 //  Modified 	: 26.03.2004
@@ -14,16 +14,16 @@
 // CStalkerActionDead
 //////////////////////////////////////////////////////////////////////////
 
-class CStalkerActionDead : public CStalkerActionBase {
+class CStalkerActionDead: public CStalkerActionBase
+{
 protected:
-	typedef CStalkerActionBase inherited;
+    typedef CStalkerActionBase inherited;
 
 private:
-			bool		fire						() const;
+    bool fire() const;
 
 public:
-						CStalkerActionDead			(CAI_Stalker *object, LPCSTR action_name = "");
-	virtual void		initialize					();
-	virtual void		execute						();
+    CStalkerActionDead(CAI_Stalker* object, LPCSTR action_name = "");
+    virtual void initialize();
+    virtual void execute();
 };
-

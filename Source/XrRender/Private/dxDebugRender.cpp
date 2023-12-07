@@ -19,9 +19,7 @@ void dxDebugRender::Render()
         return;
 
     RCache.set_xform_world(Fidentity);
-    RCache.dbg_Draw(
-        D3DPT_LINELIST, &*m_line_vertices.begin(), m_line_vertices.size(), &*m_line_indices.begin(),
-        m_line_indices.size() / 2);
+    RCache.dbg_Draw(D3DPT_LINELIST, &*m_line_vertices.begin(), m_line_vertices.size(), &*m_line_indices.begin(), m_line_indices.size() / 2);
     m_line_vertices.resize(0);
     m_line_indices.resize(0);
 }
@@ -42,14 +40,7 @@ void dxDebugRender::try_render(u32 const& vertex_count, u32 const& index_count)
         return;
     }
 }
-void _add_lines(
-    xr_vector<FVF::L>& vertices,
-    xr_vector<u16>&    indices,
-    Fvector const*     pvertices,
-    u32 const&         vertex_count,
-    u16 const*         pairs,
-    u32 const&         pair_count,
-    u32 const&         color)
+void _add_lines(xr_vector<FVF::L>& vertices, xr_vector<u16>& indices, Fvector const* pvertices, u32 const& vertex_count, u16 const* pairs, u32 const& pair_count, u32 const& color)
 {
     VERIFY(vertices.size() < u16(-1));
     u16 vertices_size = (u16)vertices.size();
@@ -72,12 +63,7 @@ void _add_lines(
         (*i).p     = *j;
     }
 }
-void dxDebugRender::add_lines(
-    Fvector const* vertices,
-    u32 const&     vertex_count,
-    u16 const*     pairs,
-    u32 const&     pair_count,
-    u32 const&     color)
+void dxDebugRender::add_lines(Fvector const* vertices, u32 const& vertex_count, u16 const* pairs, u32 const& pair_count, u32 const& color)
 {
     try_render(vertex_count, pair_count);
     _add_lines(m_line_vertices, m_line_indices, vertices, vertex_count, pairs, pair_count, color);
@@ -184,12 +170,7 @@ public:
 
         Render();
     }
-    virtual void add_lines(
-        Fvector const* vertices,
-        u32 const&     vertex_count,
-        u16 const*     pairs,
-        u32 const&     pair_count,
-        u32 const&     color)
+    virtual void add_lines(Fvector const* vertices, u32 const& vertex_count, u16 const* pairs, u32 const& pair_count, u32 const& color)
     {
         _line_indices.resize(0);
         _line_vertices.resize(0);

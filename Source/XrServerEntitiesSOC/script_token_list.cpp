@@ -1,4 +1,4 @@
-////////////////////////////////////////////////////////////////////////////
+﻿////////////////////////////////////////////////////////////////////////////
 //	Module 		: script_token_list.cpp
 //	Created 	: 21.05.2004
 //  Modified 	: 21.05.2004
@@ -9,10 +9,10 @@
 #include "stdafx.h"
 #include "script_token_list.h"
 
-CScriptTokenList::~CScriptTokenList	()
+CScriptTokenList::~CScriptTokenList()
 {
-	iterator	I = tokens().begin();
-	iterator	E = tokens().end();
-	for ( ; I != E; ++I)
-		xr_free	((*I).name);
+    iterator I = tokens().begin();
+    iterator E = tokens().end();
+    for (; I != E; ++I)
+        xr_free((*I).name);
 }

@@ -1,6 +1,6 @@
-//////////////////////////////////////////////////////////////////////
-// UIPdaListItem.h: элемент окна списка в PDA
-// для отображения информации о контакте PDA
+п»ї//////////////////////////////////////////////////////////////////////
+// UIPdaListItem.h: СЌР»РµРјРµРЅС‚ РѕРєРЅР° СЃРїРёСЃРєР° РІ PDA
+// РґР»СЏ РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РёРЅС„РѕСЂРјР°С†РёРё Рѕ РєРѕРЅС‚Р°РєС‚Рµ PDA
 //////////////////////////////////////////////////////////////////////
 
 #pragma once
@@ -10,19 +10,21 @@ class CUIFrameWindow;
 class CUICharacterInfo;
 class CInventoryOwner;
 
-class CUIPdaListItem : public CUIWindow
+class CUIPdaListItem: public CUIWindow
 {
 private:
-	typedef CUIWindow inherited;
+    typedef CUIWindow inherited;
+
 public:
-					CUIPdaListItem		();
-	virtual			~CUIPdaListItem		();
-	virtual void	Init				(float x, float y, float width, float height);
-	virtual void	InitCharacter		(CInventoryOwner* pInvOwner);
-	
-	void*					m_data;
+    CUIPdaListItem();
+    virtual ~CUIPdaListItem();
+    virtual void Init(float x, float y, float width, float height);
+    virtual void InitCharacter(CInventoryOwner* pInvOwner);
+
+    void*        m_data;
+
 protected:
-	//информация о персонаже
-	CUIFrameWindow*			UIMask;
-	CUICharacterInfo*		UIInfo;
+    //РёРЅС„РѕСЂРјР°С†РёСЏ Рѕ РїРµСЂСЃРѕРЅР°Р¶Рµ
+    CUIFrameWindow*   UIMask;
+    CUICharacterInfo* UIInfo;
 };

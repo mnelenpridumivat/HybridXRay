@@ -119,8 +119,7 @@ void CSkeletonX::_Render_soft(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCou
         Device->Statistic->RenderDUMP_SKIN.Begin();
         if (*Vertices1W)
         {
-            PSGP.skin1W(
-                Dest,                    // dest
+            PSGP.skin1W(Dest,            // dest
                 *Vertices1W,             // source
                 vCount,                  // count
                 Parent->bone_instances   // bones
@@ -128,8 +127,7 @@ void CSkeletonX::_Render_soft(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCou
         }
         else if (*Vertices2W)
         {
-            PSGP.skin2W(
-                Dest,                    // dest
+            PSGP.skin2W(Dest,            // dest
                 *Vertices2W,             // source
                 vCount,                  // count
                 Parent->bone_instances   // bones
@@ -137,8 +135,7 @@ void CSkeletonX::_Render_soft(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCou
         }
         else if (*Vertices3W)
         {
-            PSGP.skin3W(
-                Dest,                    // dest
+            PSGP.skin3W(Dest,            // dest
                 *Vertices3W,             // source
                 vCount,                  // count
                 Parent->bone_instances   // bones
@@ -146,8 +143,7 @@ void CSkeletonX::_Render_soft(ref_geom& hGeom, u32 vCount, u32 iOffset, u32 pCou
         }
         else if (*Vertices4W)
         {
-            PSGP.skin4W(
-                Dest,                    // dest
+            PSGP.skin4W(Dest,            // dest
                 *Vertices4W,             // source
                 vCount,                  // count
                 Parent->bone_instances   // bones
@@ -429,46 +425,22 @@ void get_pos_bones(const vertBoned4W& vert, Fvector& p, CKinematics* Parent)
 // Wallmarks
 //-----------------------------------------------------------------------------------------------------
 #include "cl_intersect.h"
-BOOL CSkeletonX::_PickBoneSoft1W(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            S,
-    const Fvector&            D,
-    u16*                      indices,
-    CBoneData::FacesVec&      faces)
+BOOL CSkeletonX::_PickBoneSoft1W(IKinematics::pick_result& r, float dist, const Fvector& S, const Fvector& D, u16* indices, CBoneData::FacesVec& faces)
 {
     return pick_bone<vertBoned1W>(Vertices1W, Parent, r, dist, S, D, indices, faces);
 }
 
-BOOL CSkeletonX::_PickBoneSoft2W(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            S,
-    const Fvector&            D,
-    u16*                      indices,
-    CBoneData::FacesVec&      faces)
+BOOL CSkeletonX::_PickBoneSoft2W(IKinematics::pick_result& r, float dist, const Fvector& S, const Fvector& D, u16* indices, CBoneData::FacesVec& faces)
 {
     return pick_bone<vertBoned2W>(Vertices2W, Parent, r, dist, S, D, indices, faces);
 }
 
-BOOL CSkeletonX::_PickBoneSoft3W(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            S,
-    const Fvector&            D,
-    u16*                      indices,
-    CBoneData::FacesVec&      faces)
+BOOL CSkeletonX::_PickBoneSoft3W(IKinematics::pick_result& r, float dist, const Fvector& S, const Fvector& D, u16* indices, CBoneData::FacesVec& faces)
 {
     return pick_bone<vertBoned3W>(Vertices3W, Parent, r, dist, S, D, indices, faces);
 }
 
-BOOL CSkeletonX::_PickBoneSoft4W(
-    IKinematics::pick_result& r,
-    float                     dist,
-    const Fvector&            S,
-    const Fvector&            D,
-    u16*                      indices,
-    CBoneData::FacesVec&      faces)
+BOOL CSkeletonX::_PickBoneSoft4W(IKinematics::pick_result& r, float dist, const Fvector& S, const Fvector& D, u16* indices, CBoneData::FacesVec& faces)
 {
     return pick_bone<vertBoned4W>(Vertices4W, Parent, r, dist, S, D, indices, faces);
 }
@@ -518,13 +490,7 @@ CBoneData::FacesVec& faces)
 }
 */
 // Fill Vertices
-void CSkeletonX::_FillVerticesSoft1W(
-    const Fmatrix&       view,
-    CSkeletonWallmark&   wm,
-    const Fvector&       normal,
-    float                size,
-    u16*                 indices,
-    CBoneData::FacesVec& faces)
+void CSkeletonX::_FillVerticesSoft1W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, u16* indices, CBoneData::FacesVec& faces)
 {
     VERIFY(*Vertices1W);
     for (CBoneData::FacesVecIt it = faces.begin(); it != faces.end(); it++)
@@ -561,13 +527,7 @@ void CSkeletonX::_FillVerticesSoft1W(
         }
     }
 }
-void CSkeletonX::_FillVerticesSoft2W(
-    const Fmatrix&       view,
-    CSkeletonWallmark&   wm,
-    const Fvector&       normal,
-    float                size,
-    u16*                 indices,
-    CBoneData::FacesVec& faces)
+void CSkeletonX::_FillVerticesSoft2W(const Fmatrix& view, CSkeletonWallmark& wm, const Fvector& normal, float size, u16* indices, CBoneData::FacesVec& faces)
 {
     VERIFY(*Vertices2W);
     for (CBoneData::FacesVecIt it = faces.begin(); it != faces.end(); it++)
