@@ -225,7 +225,7 @@ namespace luabind
 
 #define LUABIND_ADD_LUA_TYPE_NAME(z, n, _) type_name_unless_void<BOOST_PP_CAT(A, BOOST_PP_INC(n))>::apply(s, L, false);
 
-#define BOOST_PP_ITERATION_PARAMS_1        (4, (0, LUABIND_MAX_ARITY, <luabind / detail / get_signature.hpp>, 1))
+#define BOOST_PP_ITERATION_PARAMS_1        (4, (0, LUABIND_MAX_ARITY, <luabind/detail/get_signature.hpp>, 1))
 #include BOOST_PP_ITERATE()
 
         template<class F> struct get_member_signature

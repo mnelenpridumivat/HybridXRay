@@ -78,18 +78,18 @@ namespace luabind
 {
     namespace detail
     {
-#define LUABIND_MATCH_DECL(Z, N, _)                                                                                                                                                                                                                          \
-    typedef typename find_conversion_policy<N + 1, Policies>::type                                                        BOOST_PP_CAT(converter_policy, N);                                                                                                 \
-                                                                                                                                                                                                                                                             \
-    typedef typename BOOST_PP_CAT(converter_policy, N)::template generate_converter<BOOST_PP_CAT(A, N), lua_to_cpp>::type BOOST_PP_CAT(converter, N);                                                                                                        \
-                                                                                                                                                                                                                                                             \
-    int                                                                                                                   BOOST_PP_CAT(r, N) = BOOST_PP_CAT(converter, N)::match(L, LUABIND_DECORATE_TYPE(BOOST_PP_CAT(A, N)), start_index + current_index); \
-                                                                                                                                                                                                                                                             \
-    current_index += BOOST_PP_CAT(converter_policy, N)::has_arg;                                                                                                                                                                                             \
-                                                                                                                                                                                                                                                             \
-    if (BOOST_PP_CAT(r, N) < 0)                                                                                                                                                                                                                              \
-        return -1;                                                                                                                                                                                                                                           \
-    else                                                                                                                                                                                                                                                     \
+#define LUABIND_MATCH_DECL(Z, N, _)                                                                                                                   \
+    typedef typename find_conversion_policy<N + 1, Policies>::type BOOST_PP_CAT(converter_policy, N);                                                 \
+                                                                                                                                                      \
+    typedef typename BOOST_PP_CAT(converter_policy, N)::template generate_converter<BOOST_PP_CAT(A, N), lua_to_cpp>::type BOOST_PP_CAT(converter, N); \
+                                                                                                                                                      \
+    int BOOST_PP_CAT(r, N) = BOOST_PP_CAT(converter, N)::match(L, LUABIND_DECORATE_TYPE(BOOST_PP_CAT(A, N)), start_index + current_index);            \
+                                                                                                                                                      \
+    current_index += BOOST_PP_CAT(converter_policy, N)::has_arg;                                                                                      \
+                                                                                                                                                      \
+    if (BOOST_PP_CAT(r, N) < 0)                                                                                                                       \
+        return -1;                                                                                                                                    \
+    else                                                                                                                                              \
         m += BOOST_PP_CAT(r, N);
 
         template<int N> struct match_constructor;
