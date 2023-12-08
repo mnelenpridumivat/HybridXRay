@@ -38,23 +38,11 @@ BOOL                     g_bIntroFinished = FALSE;
 extern void              Intro(void* fn);
 extern void              Intro_DSHOW(void* fn);
 extern int PASCAL        IntroDSHOW_wnd(HINSTANCE hInstC, HINSTANCE hInstP, LPSTR lpCmdLine, int nCmdShow);
-// int		max_load_stage = 0;
-
-// computing build id
-XRCORE_API extern LPCSTR build_date;
-XRCORE_API extern u32    build_id;
+// int max_load_stage = 0;
 
 #ifdef MASTER_GOLD
 #define NO_MULTI_INSTANCES
 #endif   // #ifdef MASTER_GOLD
-
-static LPSTR month_id[12]      = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-
-static int   days_in_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-static int   start_day         = 31;     // 31
-static int   start_month       = 1;      // January
-static int   start_year        = 1999;   // 1999
 
 // binary hash, mainly for copy-protection
 
@@ -119,35 +107,6 @@ static char szEngineHash[33] = DEFAULT_MODULE_HASH;
 }
 #endif   // DEDICATED_SERVER
 
-void compute_build_id()
-{
-    build_date = __DATE__;
-
-    int       days;
-    int       months = 0;
-    int       years;
-    string16  month;
-    string256 buffer;
-    xr_strcpy(buffer, __DATE__);
-    sscanf(buffer, "%s %d %d", month, &days, &years);
-
-    for (int i = 0; i < 12; i++)
-    {
-        if (_stricmp(month_id[i], month))
-            continue;
-
-        months = i;
-        break;
-    }
-
-    build_id = (years - start_year) * 365 + days - start_day;
-
-    for (int i = 0; i < months; ++i)
-        build_id += days_in_month[i];
-
-    for (int i = 0; i < start_month - 1; ++i)
-        build_id -= days_in_month[i];
-}
 //---------------------------------------------------------------------
 // 2446363
 // umbt@ukr.net
@@ -156,8 +115,7 @@ struct _SoundProcessor: public pureFrame
 {
     virtual void _BCL OnFrame()
     {
-        // Msg							("------------- sound: %d
-        // [%3.2f,%3.2f,%3.2f]",u32(EngineDevice->dwFrame),VPUSH(EngineDevice->vCameraPosition));
+        // Msg ("------------- sound: %d [%3.2f,%3.2f,%3.2f]",u32(EngineDevice->dwFrame),VPUSH(EngineDevice->vCameraPosition));
         EngineDevice->Statistic->Sound.Begin();
         ::Sound->update(EngineDevice->vCameraPosition, EngineDevice->vCameraDirection, EngineDevice->vCameraTop);
         EngineDevice->Statistic->Sound.End();
@@ -179,7 +137,7 @@ ENGINE_API string512     g_sLaunchOnExit_app;
 ENGINE_API string_path   g_sLaunchWorkingFolder;
 // -------------------------------------------
 // startup point
-void                     InitEngine()
+void InitEngine()
 {
     EngineDevice        = xr_new<CRenderDevice>();
     GameMaterialLibrary = xr_new<CGameMtlLibrary>();
@@ -827,9 +785,7 @@ ENGINE_API int EngineLaunch()
         // MessageBox(0, fsgame, "using fsltx", MB_OK);
     }
 
-    //	g_temporary_stuff			= &trivial_encryptor::decode;
-
-    compute_build_id();
+    // g_temporary_stuff = &trivial_encryptor::decode;
 
     Core._initialize("xray", NULL, TRUE, fsgame[0] ? fsgame : NULL, false);
 

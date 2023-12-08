@@ -14,6 +14,7 @@
 #endif   // DEBUG
 
 XRCORE_API xrCore Core;
+// computing build id
 XRCORE_API u32    build_id;
 XRCORE_API LPCSTR build_date;
 
@@ -25,15 +26,51 @@ namespace CPU
 static u32                 init_counter = 0;
 
 XRAPI_API extern EGamePath GCurrentGame;
-//. extern xr_vector<shared_str>*	LogFile;
+// extern xr_vector<shared_str>* LogFile;
 
-void                       xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, LPCSTR fs_fname, bool editor_fs)
+static LPSTR               month_id[12]      = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
+static int                 days_in_month[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+static int                 start_day         = 31;     // 31
+static int                 start_month       = 1;      // January
+static int                 start_year        = 1999;   // 1999
+
+void compute_build_id()
+{
+    build_date = __DATE__;
+
+    int       days;
+    int       months = 0;
+    int       years;
+    string16  month;
+    string256 buffer;
+    xr_strcpy(buffer, __DATE__);
+    sscanf(buffer, "%s %d %d", month, &days, &years);
+
+    for (int i = 0; i < 12; i++)
+    {
+        if (_stricmp(month_id[i], month))
+            continue;
+
+        months = i;
+        break;
+    }
+
+    build_id = (years - start_year) * 365 + days - start_day;
+
+    for (int i = 0; i < months; ++i)
+        build_id += days_in_month[i];
+
+    for (int i = 0; i < start_month - 1; ++i)
+        build_id -= days_in_month[i];
+}
+
+void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, LPCSTR fs_fname, bool editor_fs)
 {
     xr_strcpy(ApplicationName, _ApplicationName);
     if (0 == init_counter)
     {
-
-
         Editor = editor_fs;
 #ifdef XRCORE_STATIC
         _clear87();
@@ -42,8 +79,11 @@ void                       xrCore::_initialize(LPCSTR _ApplicationName, LogCallb
         _control87(_RC_NEAR, MCW_RC);
         _control87(_MCW_EM, MCW_EM);
 #endif
+
+        compute_build_id();
+
         // Init COM so we can use CoCreateInstance
-        //		HRESULT co_res =
+        // HRESULT co_res =
         if (!strstr(GetCommandLine(), "-editor"))
             CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
