@@ -324,11 +324,11 @@ xr_string CEditorRenderDevice::_GetWindowTitle()
 {
     xr_string Result;
     Result += UI->EditorDesc();
-
-#ifdef NIGHT_BUILD_NUMBER
-    Result += " [night build #" + xr_string(NIGHT_BUILD_NUMBER) + "] [" + xr_string(__DATE__) + ']';
-#endif
-
+    if (std::strlen(Core.BuildID) != 0)
+    {
+      Result += " [" + xr_string(Core.BuildID) + ']';
+    }
+    Result += " [" + xr_string(__DATE__) + ']';
     return Result;
 }
 

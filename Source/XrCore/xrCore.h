@@ -346,6 +346,7 @@ public:
     string_path WorkingPath;
     string64    UserName;
     string64    CompName;
+    string64    BuildID;
     string512   Params;
     bool        Editor;
 
