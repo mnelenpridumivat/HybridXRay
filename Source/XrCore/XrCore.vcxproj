@@ -47,7 +47,7 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <PreprocessorDefinitions>XRCORE_EXPORTS;_WINDOWS;_USRDLL;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>XRCORE_EXPORTS;_WINDOWS;_USRDLL;_DEBUG;GITHUB_ACTIONS=$(GITHUB_ACTIONS);GITHUB_RUN_ID=$(GITHUB_RUN_ID);GITHUB_RUN_NUMBER=$(GITHUB_RUN_NUMBER);GITHUB_REPOSITORY=$(GITHUB_REPOSITORY);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
     </ClCompile>
@@ -58,13 +58,22 @@
       <AdditionalDependencies>dxerr.lib;comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
+    <PreBuildEvent>
+      <Command>where /q git
+if errorlevel 1 (
+  echo git not found
+  goto :EOF
+)
+echo git found
+call .GitInfo.cmd</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>XRCORE_EXPORTS;_WINDOWS;_USRDLL;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>XRCORE_EXPORTS;_WINDOWS;_USRDLL;NDEBUG;GITHUB_ACTIONS=$(GITHUB_ACTIONS);GITHUB_RUN_ID=$(GITHUB_RUN_ID);GITHUB_RUN_NUMBER=$(GITHUB_RUN_NUMBER);GITHUB_REPOSITORY=$(GITHUB_REPOSITORY);%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <AdditionalIncludeDirectories>$(SolutionDir)..\SDK\tbb\Include;$(SolutionDir)..\SDK\Include;$(SolutionDir)xrRender\Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
@@ -85,6 +94,15 @@
       <EnableUAC>false</EnableUAC>
       <AdditionalDependencies>dxerr.lib;comdlg32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>where /q git
+if errorlevel 1 (
+  echo git not found
+  goto :EOF
+)
+echo git found
+call .GitInfo.cmd</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="clsid.cpp" />

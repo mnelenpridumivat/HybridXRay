@@ -328,6 +328,10 @@ xr_string CEditorRenderDevice::_GetWindowTitle()
     {
       Result += " [" + xr_string(Core.BuildID) + ']';
     }
+    else
+    {
+        Result += " [Local build: " + xr_string(Core.GetBuildIDLocal()) + ']';
+    }
     Result += " [" + xr_string(__DATE__) + ']';
     return Result;
 }

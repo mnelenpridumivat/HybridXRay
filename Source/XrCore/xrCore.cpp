@@ -15,6 +15,38 @@
 
 XRCORE_API xrCore Core;
 
+#if __has_include(".GitInfo.hpp")
+#include ".GitInfo.hpp"
+#endif
+
+#define DO_EXPAND(...) __VA_ARGS__##1
+#define EXPAND(VAL)    DO_EXPAND(VAL)
+
+#ifdef CI
+#if EXPAND(CI) == 1
+#undef CI
+#endif
+#endif
+
+#ifdef GITHUB_ACTIONS
+#if EXPAND(GITHUB_ACTIONS) == 1
+#undef GITHUB_ACTIONS
+#endif
+#endif
+
+#ifndef GIT_INFO_CURRENT_COMMIT
+#define GIT_INFO_CURRENT_COMMIT unknown
+#endif
+
+#ifndef GIT_INFO_CURRENT_BRANCH
+#define GIT_INFO_CURRENT_BRANCH unknown
+#endif
+
+// computing build id
+const pcstr            xrCore::buildDate   = __DATE__;
+XRCORE_API const pcstr xrCore::buildCommit = MACRO_TO_STRING(GIT_INFO_CURRENT_COMMIT);
+XRCORE_API const pcstr xrCore::buildBranch = MACRO_TO_STRING(GIT_INFO_CURRENT_BRANCH);
+
 namespace CPU
 {
     extern void Detect();
@@ -24,6 +56,40 @@ static u32                 init_counter = 0;
 
 XRAPI_API extern EGamePath GCurrentGame;
 // extern xr_vector<shared_str>* LogFile;
+
+void xrCore::CalculateBuildId()
+{
+    constexpr int      MonthsCount              = 12;
+
+    static const char* MonthId[MonthsCount]     = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    static const int   DaysInMonth[MonthsCount] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+    static const int   startDay                 = 31;
+    static const int   startMonth               = 1;
+    static const int   startYear                = 2023;
+
+    int                days;
+    int                months = 0;
+    int                years;
+
+    string16           month;
+    string256          buffer;
+    xr_strcpy(buffer, buildDate);
+    sscanf(buffer, "%s %d %d", month, &days, &years);
+
+    for (int i = 0; i < MonthsCount; i++)
+    {
+        if (_stricmp(MonthId[i], month))
+            continue;
+        months = i;
+        break;
+    }
+    buildIDLocal = (years - startYear) * 365 + days - startDay;
+    for (int i = 0; i < months; ++i)
+        buildIDLocal += DaysInMonth[i];
+    for (int i = 0; i < startMonth - 1; i++)
+        buildIDLocal -= DaysInMonth[i];
+}
 
 void compute_build_id()
 {
@@ -39,6 +105,7 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 
 
     xr_strcpy(ApplicationName, _ApplicationName);
+
     if (0 == init_counter)
     {
         Editor = editor_fs;
@@ -51,6 +118,7 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 #endif
 
         compute_build_id();
+        CalculateBuildId();
 
         // Init COM so we can use CoCreateInstance
         // HRESULT co_res =
@@ -64,16 +132,16 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 
         // application path
         GetModuleFileName(GetModuleHandle(MODULE_NAME), fn, sizeof(fn));
-        _splitpath(fn, dr, di, 0, 0);
+        _splitpath(fn, dr, di, nullptr, nullptr);
         strconcat(sizeof(ApplicationPath), ApplicationPath, dr, di);
 
 #if 0
-		// working path
+        // working path
         if( strstr(Params,"-wf") )
         {
-            string_path				c_name;
-            sscanf					(strstr(Core.Params,"-wf ")+4,"%[^ ] ",c_name);
-            SetCurrentDirectory     (c_name);
+            string_path c_name;
+            sscanf(strstr(Core.Params,"-wf ")+4,"%[^ ] ",c_name);
+            SetCurrentDirectory(c_name);
         }
 #endif
 
@@ -96,7 +164,7 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
         InitLog();
         _initialize_cpu();
 
-        //		Debug._initialize	();
+        // Debug._initialize();
 
         rtc_initialize();
 
@@ -106,7 +174,7 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
             xr_FS = xr_new<CLocatorAPI>();
 
         xr_EFS = xr_new<EFS_Utils>();
-        //.		R_ASSERT			(co_res==S_OK);
+        // R_ASSERT (co_res==S_OK);
     }
     if (init_fs)
     {
@@ -128,12 +196,17 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 
 #if 1
 #ifndef ELocatorAPIH
-        if (0 != strstr(Params, "-file_activity"))
+        if (strstr(Params, "-file_activity") != nullptr)
             flags |= CLocatorAPI::flDumpFileActivity;
 #endif
 #endif
-        FS._initialize(flags, 0, fs_fname);
-        Msg("'%s' %s, %s\n", "xrCore", BuildID, __DATE__);
+        FS._initialize(flags, nullptr, fs_fname);
+#ifdef NIGHT_BUILD_NUMBER
+        Msg("'xrCore' %s, %s\n", BuildID, buildDate);
+#else
+        Msg("'xrCore' Local build %d, %s\n", buildIDLocal, buildDate);
+#endif
+        Msg("'Branch [%s]', Commit: [%s]\n", buildBranch, buildCommit);
         EFS._initialize();
 #ifdef DEBUG
 #if 1
@@ -187,11 +260,11 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD ul_reason_for_call, LPVOID lpvRese
         case DLL_PROCESS_ATTACH:
         {
         }
-        //.		LogFile.reserve		(256);
+        // LogFile.reserve(256);
         break;
         case DLL_THREAD_ATTACH:
             // if (!strstr(GetCommandLine(),"-editor"))
-            // CoInitializeEx	(NULL, COINIT_MULTITHREADED);
+            // CoInitializeEx(NULL, COINIT_MULTITHREADED);
             timeBeginPeriod(1);
             break;
         case DLL_THREAD_DETACH:

@@ -37,6 +37,7 @@ gamedata_soc/meshes/
 gamedata_soc/sounds/
 gamedata_soc/spawns/
 gamedata_soc/textures/
+Source/xrCore/.GitInfo.hpp
 *.aps
 *.vcxproj.user
 *.bat
