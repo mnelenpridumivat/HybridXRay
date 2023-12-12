@@ -79,13 +79,13 @@ void vfOptimizeParameters(xr_vector<xr_vector<REAL>>& A, xr_vector<xr_vector<REA
     }
     u32  i           = 0;
     REAL dFunctional = dfComputeEvalResults(daEvalResults, A, B, C, D), dPreviousFunctional;
-    // clMsg					("***MU-fitter***: %6d : %17.8f (%17.8f)",i,dFunctional,dFunctional/dwTestCount);
+    // clMsg("***MU-fitter***: %6d : %17.8f (%17.8f)",i,dFunctional,dFunctional/dwTestCount);
     do
     {
         dPreviousFunctional = dFunctional;
         dafGradient(daEvalResults, daGradient, B, dNormaFactor);
-        std::transform(daGradient.begin(), daGradient.end(), daGradient.begin(), std::bind2nd(std::multiplies<REAL>(), -dAlpha));
-        std::transform(daDelta.begin(), daDelta.end(), daDelta.begin(), std::bind2nd(std::multiplies<REAL>(), dBeta));
+        std::transform(daGradient.begin(), daGradient.end(), daGradient.begin(), std::bind(std::multiplies<REAL>(), std::placeholders::_1, -dAlpha));
+        std::transform(daDelta.begin(), daDelta.end(), daDelta.begin(), std::bind(std::multiplies<REAL>(), std::placeholders::_1, dBeta));
         std::transform(daGradient.begin(), daGradient.end(), daDelta.begin(), daDelta.begin(), std::plus<REAL>());
         std::transform(C.begin(), C.end(), daDelta.begin(), C.begin(), std::plus<REAL>());
         std::transform(D.begin(), D.end(), daDelta.begin(), D.begin(), std::plus<REAL>());
@@ -96,11 +96,11 @@ void vfOptimizeParameters(xr_vector<xr_vector<REAL>>& A, xr_vector<xr_vector<REA
 
     if (dPreviousFunctional < dFunctional)
     {
-        std::transform(daDelta.begin(), daDelta.end(), daDelta.begin(), std::bind2nd(std::multiplies<REAL>(), -1));
+        std::transform(daDelta.begin(), daDelta.end(), daDelta.begin(), std::bind(std::multiplies<REAL>(), std::placeholders::_1, -1.f));
         std::transform(C.begin(), C.end(), daDelta.begin(), C.begin(), std::plus<REAL>());
         std::transform(D.begin(), D.end(), daDelta.begin(), D.begin(), std::plus<REAL>());
     }
 
     dFunctional = dfComputeEvalResults(daEvalResults, A, B, C, D);
-    // clMsg					("***MU-fitter***: %6d : %17.8f (%17.8f)",i,dFunctional,dFunctional/dwTestCount);
+    // clMsg("***MU-fitter***: %6d : %17.8f (%17.8f)",i,dFunctional,dFunctional/dwTestCount);
 }
