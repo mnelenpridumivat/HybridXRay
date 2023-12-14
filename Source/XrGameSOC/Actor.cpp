@@ -113,7 +113,7 @@ CActor::CActor(): CEntityAlive()
     fPrevCamPos = 0.0f;
     vPrevCamDir.set(0.f, 0.f, 1.f);
     fCurAVelocity      = 0.0f;
-    // ���������
+    // эффекторы
     pCamBobbing        = 0;
     m_pSleepEffector   = NULL;
     m_pSleepEffectorPP = NULL;
@@ -146,7 +146,7 @@ CActor::CActor(): CEntityAlive()
     Device->seqRender.Add(this, REG_PRIORITY_LOW);
 #endif
 
-    //��������� ������������� ����� � inventory
+    // разрешить использование пояса в inventory
     inventory().SetBeltUseful(true);
 
     m_pPersonWeLookingAt    = NULL;
@@ -243,7 +243,7 @@ void CActor::reload(LPCSTR section)
 
 void CActor::Load(LPCSTR section)
 {
-    // Msg						("Loading actor: %s",section);
+    // Msg("Loading actor: %s",section);
     inherited::Load(section);
     material().Load(section);
     CInventoryOwner::Load(section);
@@ -262,6 +262,7 @@ void CActor::Load(LPCSTR section)
 
     // m_PhysicMovementControl: General
     //m_PhysicMovementControl->SetParent		(this);
+    
     Fbox    bb;
     Fvector vBOX_center, vBOX_size;
     // m_PhysicMovementControl: BOX
@@ -284,6 +285,7 @@ void CActor::Load(LPCSTR section)
     bb.set(vBOX_center, vBOX_center);
     bb.grow(vBOX_size);
     character_physics_support()->movement()->SetBox(0, bb);
+    
 
     //// m_PhysicMovementControl: Foots
     //Fvector	vFOOT_center= pSettings->r_fvector3	(section,"ph_foot_center"	);
@@ -328,13 +330,13 @@ void CActor::Load(LPCSTR section)
     character_physics_support()->in_Load(section);
 
     //��������� ��������� ���������
-    //	LoadShootingEffector	("shooting_effector");
+    // LoadShootingEffector("shooting_effector");
     LoadSleepEffector("sleep_effector");
 
     //��������� ��������� �������� firepoint
     m_vMissileOffset = pSettings->r_fvector3(section, "missile_throw_offset");
 
-    //Weapons				= xr_new<CWeaponList> (this);
+    // Weapons = xr_new<CWeaponList> (this);
 
     if (!g_dedicated_server)
     {
@@ -370,7 +372,7 @@ void CActor::Load(LPCSTR section)
     // sheduler
     shedule.t_min = shedule.t_max = 1;
 
-    // ��������� ��������� ��������
+    // настройки дисперсии стрельбы
     m_fDispBase                   = pSettings->r_float(section, "disp_base");
     m_fDispBase                   = deg2rad(m_fDispBase);
 
@@ -449,12 +451,12 @@ void CActor::Hit(SHit* pHDS)
             bPlaySound = false;
             if (Device->dwFrame != last_hit_frame && HDS.bone() != BI_NONE)
             {
-                // ��������� ������� � �������������� ��������
+                // вычислить позицию и направленность партикла
                 Fmatrix pos;
 
                 CParticlesPlayer::MakeXFORM(this, HDS.bone(), HDS.dir, HDS.p_in_bone_space, pos);
 
-                // ���������� particles
+                // установить particles
                 CParticlesObject* ps = NULL;
 
                 if (eacFirstEye == cam_active && this == Level().CurrentEntity())
@@ -497,7 +499,7 @@ void CActor::Hit(SHit* pHDS)
         };
     }
 
-    //slow actor, only when he gets hit
+    // slow actor, only when he gets hit
     if (HDS.hit_type == ALife::eHitTypeWound || HDS.hit_type == ALife::eHitTypeStrike)
     {
         hit_slowmo = HDS.damage();
@@ -515,7 +517,7 @@ void CActor::Hit(SHit* pHDS)
 
     if ((mstate_real & mcSprint) && Level().CurrentControlEntity() == this && HDS.hit_type != ALife::eHitTypeTelepatic && HDS.hit_type != ALife::eHitTypeRadiation)
     {
-        //		mstate_real	&=~mcSprint;
+        // mstate_real & =~mcSprint;
         mstate_wishful &= ~mcSprint;
     };
     if (!g_dedicated_server)
@@ -529,16 +531,16 @@ void CActor::Hit(SHit* pHDS)
         {
             float hit_power = HitArtefactsOnBelt(HDS.damage(), HDS.hit_type);
 
-            if (GodMode())   //psActorFlags.test(AF_GODMODE))
+            if (GodMode())   // psActorFlags.test(AF_GODMODE))
             {
                 HDS.power = 0.0f;
-                //				inherited::Hit(0.f,dir,who,element,position_in_bone_space,impulse, hit_type);
+                // inherited::Hit(0.f,dir,who,element,position_in_bone_space,impulse, hit_type);
                 inherited::Hit(&HDS);
                 return;
             }
             else
             {
-                //inherited::Hit		(hit_power,dir,who,element,position_in_bone_space, impulse, hit_type);
+                // inherited::Hit(hit_power,dir,who,element,position_in_bone_space, impulse, hit_type);
                 HDS.power = hit_power;
                 inherited::Hit(&HDS);
             };
@@ -718,14 +720,14 @@ void CActor::Die(CObject* who)
                 inventory().Ruck((*I).m_pIItem);
         };
 
-        ///!!! ������ �����
+        ///!!! чистка пояса
         TIItemContainer& l_blist = inventory().m_belt;
         while (!l_blist.empty())
             inventory().Ruck(l_blist.front());
 
         if (!IsGameTypeSingle())
         {
-            //if we are on server and actor has PDA - destroy PDA
+            // if we are on server and actor has PDA - destroy PDA
             TIItemContainer& l_rlist = inventory().m_ruck;
             for (TIItemContainer::iterator l_it = l_rlist.begin(); l_rlist.end() != l_it; ++l_it)
             {
@@ -775,7 +777,7 @@ void CActor::SwitchOutBorder(bool new_border_state)
     }
     else
     {
-        //.		Msg("enter level border");
+        // Msg("enter level border");
         callback(GameObject::eEnterLevelBorder)(lua_game_object());
     }
     m_bOutBorder = new_border_state;
@@ -816,11 +818,11 @@ void CActor::g_Physics(Fvector& _accel, float jump, float dt)
             Fvector                     hdir;
             di->HitDir(hdir);
             SetHitInfo(this, NULL, 0, Fvector().set(0, 0, 0), hdir);
-            //				Hit	(m_PhysicMovementControl->gcontact_HealthLost,hdir,di->DamageInitiator(),m_PhysicMovementControl->ContactBone(),di->HitPos(),0.f,ALife::eHitTypeStrike);//s16(6 + 2*::Random.randI(0,2))
+            // Hit(m_PhysicMovementControl->gcontact_HealthLost,hdir,di->DamageInitiator(),m_PhysicMovementControl->ContactBone(),di->HitPos(),0.f,ALife::eHitTypeStrike);//s16(6 + 2*::Random.randI(0,2))
             if (Level().CurrentControlEntity() == this)
             {
-                SHit       HDS = SHit(character_physics_support()->movement()->gcontact_HealthLost, hdir, di->DamageInitiator(), character_physics_support()->movement()->ContactBone(), di->HitPos(), 0.f, di->HitType());
-                //				Hit(&HDS);
+                SHit HDS = SHit(character_physics_support()->movement()->gcontact_HealthLost, hdir, di->DamageInitiator(), character_physics_support()->movement()->ContactBone(), di->HitPos(), 0.f, di->HitType());
+                // Hit(&HDS);
 
                 NET_Packet l_P;
                 HDS.GenHeader(GE_HIT, ID());
@@ -1063,7 +1065,6 @@ void  CActor::shedule_Update(u32 DT)
         }
         mstate_old = mstate_real;
     }
-
     if (this == Level().CurrentViewEntity())
     {
         UpdateMotionIcon(mstate_real);
@@ -1073,7 +1074,7 @@ void  CActor::shedule_Update(u32 DT)
 
     inherited::shedule_Update(DT);
 
-    //�������� ���������� ��� ������
+    // эффектор включаемый при ходьбе
     if (!pCamBobbing)
     {
         pCamBobbing = xr_new<CEffectorBobbing>();
@@ -1081,7 +1082,7 @@ void  CActor::shedule_Update(u32 DT)
     }
     pCamBobbing->SetState(mstate_real, conditions().IsLimping(), IsZoomAimingMode());
 
-    //���� �������� ������� ��� �������� � ��������
+    // звук тяжелого дыхания при уталости и хромании
     if (this == Level().CurrentControlEntity() && !g_dedicated_server)
     {
         if (conditions().IsLimping() && g_Alive())
@@ -1124,10 +1125,10 @@ void  CActor::shedule_Update(u32 DT)
             m_BloodSnd.stop();
     }
 
-    //���� � ������ HUD, �� ���� ������ ������ �� ��������
+    // если в режиме HUD, то сама модель актера не рисуется
     if (!character_physics_support()->IsRemoved())
         setVisible(!HUDview());
-    //��� ����� ����� ����� �����
+    // что актер видит перед собой
     collide::rq_result& RQ = HUD().GetCurrentRayQuery();
 
     if (!input_external_handler_installed() && RQ.O && RQ.range < inventory().GetTakeDist())
@@ -1167,8 +1168,8 @@ void  CActor::shedule_Update(u32 DT)
 
                 else if (inventory().m_pTarget && inventory().m_pTarget->CanTake())
                     m_sDefaultObjAction = m_sInventoryItemUseAction;
-                //.				else if (m_pInvBoxWeLookingAt)
-                //.					m_sDefaultObjAction = m_sInventoryBoxUseAction;
+                // else if (m_pInvBoxWeLookingAt)
+                // m_sDefaultObjAction = m_sInventoryBoxUseAction;
                 else
                     m_sDefaultObjAction = NULL;
             }
@@ -1185,9 +1186,9 @@ void  CActor::shedule_Update(u32 DT)
         m_pInvBoxWeLookingAt  = NULL;
     }
 
-    //	UpdateSleep									();
+    // UpdateSleep();
 
-    //��� ������ ����������, ����������� �� �����
+    // для свойст артефактов, находящихся на поясе
     UpdateArtefactsOnBelt();
     m_pPhysics_support->in_shedule_Update(DT);
     Check_for_AutoPickUp();
@@ -1195,11 +1196,13 @@ void  CActor::shedule_Update(u32 DT)
 #include "debug_renderer.h"
 void CActor::renderable_Render()
 {
+    VERIFY(_valid(XFORM()));
     inherited::renderable_Render();
-    if (!HUDview())
+    if (1 /*!HUDview()*/)
     {
         CInventoryOwner::renderable_Render();
     }
+    VERIFY(_valid(XFORM()));
 }
 
 BOOL CActor::renderable_ShadowGenerate()
@@ -1530,7 +1533,7 @@ void CActor::UpdateArtefactsOnBelt()
             conditions().ChangeBleeding(artefact->m_fBleedingRestoreSpeed * f_update_time);
             conditions().ChangeHealth(artefact->m_fHealthRestoreSpeed * f_update_time);
             conditions().ChangePower(artefact->m_fPowerRestoreSpeed * f_update_time);
-            //			conditions().ChangeSatiety			(artefact->m_fSatietyRestoreSpeed*f_update_time);
+            // conditions().ChangeSatiety(artefact->m_fSatietyRestoreSpeed*f_update_time);
             conditions().ChangeRadiation(artefact->m_fRadiationRestoreSpeed * f_update_time);
         }
     }
@@ -1668,11 +1671,11 @@ bool CActor::can_attach(const CInventoryItem* inventory_item) const
     if (!item || /*!item->enabled() ||*/ !item->can_be_attached())
         return (false);
 
-    //����� �� ������������ ������� ������ ����
+    // можно ли присоединять объекты такого типа
     if (m_attach_item_sections.end() == std::find(m_attach_item_sections.begin(), m_attach_item_sections.end(), inventory_item->object().cNameSect()))
         return false;
 
-    //���� ��� ���� �������������� ����� ������ ����
+    // если уже есть присоединненый объет такого типа
     if (attached(inventory_item->object().cNameSect()))
         return false;
 

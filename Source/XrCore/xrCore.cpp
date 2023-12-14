@@ -81,13 +81,14 @@ void xrCore::CalculateBuildId()
     {
         if (_stricmp(MonthId[i], month))
             continue;
-        months = i;
-        break;
-    }
+            months = i;
+            break;
+        }
     buildIDLocal = (years - startYear) * 365 + days - startDay;
-    for (int i = 0; i < months; ++i)
+    for (int i = 0; i < months; i++)
         buildIDLocal += DaysInMonth[i];
-    for (int i = 0; i < startMonth - 1; i++)
+
+    for (int i = 0; i <= startMonth - 1; i++)
         buildIDLocal -= DaysInMonth[i];
 }
 
