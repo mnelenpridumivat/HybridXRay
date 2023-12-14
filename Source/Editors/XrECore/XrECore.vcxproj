@@ -139,6 +139,7 @@
     <ClCompile Include="Editor\Library.cpp" />
     <ClCompile Include="Editor\UILogForm.cpp" />
     <ClCompile Include="Editor\UIMinimapEditorForm.cpp" />
+    <ClCompile Include="Editor\UIAboutForm.cpp" />
     <ClCompile Include="Editor\ParticleEffectActions.cpp" />
     <ClCompile Include="Editor\pDomain.cpp" />
     <ClCompile Include="Editor\PhysicsShellHolderEditorBase.cpp" />
@@ -246,6 +247,8 @@
     <ClInclude Include="Editor\GeometryCollector.h" />
     <ClInclude Include="Editor\UIEditLightAnim.h" />
     <ClInclude Include="Editor\UIImageEditorForm.h" />
+    <ClInclude Include="Editor\UIMinimapEditorForm.h" />
+    <ClInclude Include="Editor\UIAboutForm.h" />
     <ClInclude Include="Editor\ImageManager.h" />
     <ClInclude Include="Editor\itterate_adjacents.h" />
     <ClInclude Include="Editor\itterate_adjacents_dynamic.h" />
@@ -253,7 +256,6 @@
     <ClInclude Include="Editor\UILogForm.h" />
     <ClInclude Include="Editor\lwo2.h" />
     <ClInclude Include="Editor\LW_ShaderDef.h" />
-    <ClInclude Include="Editor\UIMinimapEditorForm.h" />
     <ClInclude Include="Editor\ParticleEffectActions.h" />
     <ClInclude Include="Editor\PhysicsShellHolderEditorBase.h" />
     <ClInclude Include="Editor\pick_defs.h" />

@@ -15,6 +15,7 @@
 #include "UIImageEditorForm.h"
 #include "UISoundEditorForm.h"
 #include "UIMinimapEditorForm.h"
+#include "UIAboutForm.h"
 #include "../XrETools/ETools.h"
 #include "UILogForm.h"
 #include "gamefont.h"
@@ -802,6 +803,7 @@ void TUI::OnDrawUI()
     UISoundEditorForm::Update();
     UIMinimapEditorForm::Update();
     UILogForm::Update();
+    UIAboutForm::Update();
     EDevice->seqDrawUI.Process(rp_DrawUI);
 }
 

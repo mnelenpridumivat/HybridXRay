@@ -550,6 +550,9 @@
     <ClCompile Include="Editor\UIMoveToForm.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\UIAboutForm.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WildMagic\WmlMath.h">
@@ -837,6 +840,9 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="Editor\UIMoveToForm.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\UIAboutForm.h">
       <Filter>Editor</Filter>
     </ClInclude>
   </ItemGroup>

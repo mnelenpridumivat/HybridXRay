@@ -9,6 +9,7 @@
 #include "UIEditLightAnim.h"
 #include "UIImageEditorForm.h"
 #include "UIMinimapEditorForm.h"
+#include "UIAboutForm.h"
 #include "UISoundEditorForm.h"
 #include "UIMoveToForm.h"
 #include "d3dutils.h"
@@ -450,6 +451,12 @@ CCommandVar CommandMinimapEditor(CCommandVar p1, CCommandVar p2)
     return TRUE;
 }
 
+CCommandVar CommandAboutEditor(CCommandVar p1, CCommandVar p2)
+{
+    UIAboutForm::Show();
+    return TRUE;
+}
+
 CCommandVar CommandCheckTextures(CCommandVar p1, CCommandVar p2)
 {
     UIImageEditorForm::ImportTextures();
@@ -791,6 +798,7 @@ void TUI::RegisterCommands()
     REGISTER_CMD_S(COMMAND_IMAGE_EDITOR, CommandImageEditor);
     REGISTER_CMD_S(COMMAND_LIGHTANIM_EDITOR, CommandLightAnimEditor);
     REGISTER_CMD_S(COMMAND_MINIMAP_EDITOR, CommandMinimapEditor);
+    REGISTER_CMD_S(COMMAND_ABOUT_EDITOR, CommandAboutEditor);
     REGISTER_CMD_S(COMMAND_CHECK_TEXTURES, CommandCheckTextures);
     REGISTER_CMD_S(COMMAND_REFRESH_TEXTURES, CommandRefreshTextures);
     REGISTER_CMD_S(COMMAND_RELOAD_TEXTURES, CommandReloadTextures);
