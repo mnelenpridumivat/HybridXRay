@@ -33,7 +33,6 @@ static const float MAX_NOISE_FREQ = 0.03f;
 CEnvironmentSOC::CEnvironmentSOC()
 {
     CurrentEnv = xr_new<CEnvSOCDescriptorMixer>();
-    ;
     bWFX               = false;
     Current[0]         = 0;
     Current[1]         = 0;
@@ -66,6 +65,7 @@ CEnvironmentSOC::CEnvironmentSOC()
     PerlinNoise1D->SetOctaves(2);
     PerlinNoise1D->SetAmplitude(0.66666f);
 }
+
 CEnvironmentSOC::~CEnvironmentSOC()
 {
     xr_delete(PerlinNoise1D);

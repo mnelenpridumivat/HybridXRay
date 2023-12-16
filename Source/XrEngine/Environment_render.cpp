@@ -250,6 +250,7 @@ void CEnvironment::OnDeviceCreate()
     }
 
     Invalidate();
+    // OnFrame();
 }
 
 void CEnvironment::OnDeviceDestroy()

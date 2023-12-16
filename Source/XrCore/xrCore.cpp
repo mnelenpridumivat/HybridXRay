@@ -81,9 +81,9 @@ void xrCore::CalculateBuildId()
     {
         if (_stricmp(MonthId[i], month))
             continue;
-            months = i;
-            break;
-        }
+        months = i;
+        break;
+    }
     buildIDLocal = (years - startYear) * 365 + days - startDay;
     for (int i = 0; i < months; i++)
         buildIDLocal += DaysInMonth[i];
@@ -103,8 +103,6 @@ void compute_build_id()
 
 void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, LPCSTR fs_fname, bool editor_fs)
 {
-
-
     xr_strcpy(ApplicationName, _ApplicationName);
 
     if (0 == init_counter)
