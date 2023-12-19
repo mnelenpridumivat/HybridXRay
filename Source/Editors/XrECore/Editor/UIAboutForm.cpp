@@ -22,11 +22,11 @@ UIAboutForm::~UIAboutForm() {}
 
 void UIAboutForm::Draw()
 {
-    u32    buildIDLocal = Core.GetBuildIDLocal();
-    pcstr  buildID      = Core.BuildID;
-    pcstr  buildDate    = Core.GetBuildDate();
-    pcstr  commit       = Core.GetBuildCommit();
-    pcstr  branch       = Core.GetBuildBranch();
+    u32    buildIDLocal = Core.buildIDLocal;
+    pcstr  buildName    = Core.buildName.c_str();
+    pcstr  buildDate    = Core.buildDate;
+    pcstr  commit       = Core.buildCommit;
+    pcstr  branch       = Core.buildBranch;
 
     pcstr  versionSDK   = "SDK v.0.8.1b"_RU >> u8"СДК v.0.8.1b";
 
@@ -117,11 +117,7 @@ void UIAboutForm::Draw()
         ImGui::NewLine();
         ImGui::Spacing();
         ImGui::SameLine(0, 15);
-#ifdef NIGHT_BUILD_NUMBER
-        ImGui::TextColored(ImVec4(1, 1, 0, 1), "Build:        [ GitHub Build: %d ]"_RU >> u8"Билд:        [ %d ]", buildID);
-#else
-        ImGui::TextColored(ImVec4(1, 1, 0, 1), "Build:        [ Local Build: %d ]"_RU >> u8"Билд:        [ %d ]", buildIDLocal);
-#endif
+        ImGui::TextColored(ImVec4(1, 1, 0, 1), "Build:        [ %s ]"_RU >> u8"Билд:        [ %s ]", buildName);
         ImGui::NewLine();
         ImGui::SameLine(0, 15);
         ImGui::TextColored(ImVec4(1, 1, 0, 1), "Data:         [ %s ]"_RU >> u8"Дата:        [ %s ]", buildDate);

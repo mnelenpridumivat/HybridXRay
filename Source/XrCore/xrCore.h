@@ -343,10 +343,12 @@ public:
 // ********************************************** The Core definition
 class XRCORE_API xrCore
 {
-    u32 buildIDLocal;
-    static const pcstr buildDate;
-    static const pcstr buildCommit;
-    static const pcstr buildBranch;
+public:
+    static const u32       buildIDLocal;
+    static const pcstr     buildDate;
+    static const pcstr     buildCommit;
+    static const pcstr     buildBranch;
+    static const xr_string buildName;
 
 public:
     string64    ApplicationName;
@@ -354,33 +356,12 @@ public:
     string_path WorkingPath;
     string64    UserName;
     string64    CompName;
-    string64    BuildID;
     string512   Params;
     bool        Editor;
 
 public:
     void _initialize(LPCSTR ApplicationName, LogCallback cb = nullptr, BOOL init_fs = true, LPCSTR fs_fname = nullptr, bool editor_fs = false);
     void _destroy();
-
-    u32 GetBuildIDLocal() const
-    {
-        return buildIDLocal;
-    }
-    static pcstr GetBuildDate()
-    {
-        return buildDate;
-    }
-    static pcstr GetBuildCommit()
-    {
-        return buildCommit;
-    }
-    static pcstr GetBuildBranch()
-    {
-        return buildBranch;
-    }
-
-private:
-    void CalculateBuildId();
 };
 
 // Borland class dll interface

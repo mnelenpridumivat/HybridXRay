@@ -43,9 +43,65 @@ XRCORE_API xrCore Core;
 #endif
 
 // computing build id
-const pcstr            xrCore::buildDate   = __DATE__;
-XRCORE_API const pcstr xrCore::buildCommit = MACRO_TO_STRING(GIT_INFO_CURRENT_COMMIT);
-XRCORE_API const pcstr xrCore::buildBranch = MACRO_TO_STRING(GIT_INFO_CURRENT_BRANCH);
+const pcstr            xrCore::buildDate    = __DATE__;
+XRCORE_API const pcstr xrCore::buildCommit  = MACRO_TO_STRING(GIT_INFO_CURRENT_COMMIT);
+XRCORE_API const pcstr xrCore::buildBranch  = MACRO_TO_STRING(GIT_INFO_CURRENT_BRANCH);
+const u32              xrCore::buildIDLocal = []
+{
+    u32                Result;
+
+    constexpr int      MonthsCount              = 12;
+
+    static const char* MonthId[MonthsCount]     = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    static const int   DaysInMonth[MonthsCount] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+    static const int   startDay                 = 31;
+    static const int   startMonth               = 1;
+    static const int   startYear                = 2023;
+
+    int                days;
+    int                months = 0;
+    int                years;
+
+    string16           month;
+    string256          buffer;
+    xr_strcpy(buffer, __DATE__);
+    sscanf(buffer, "%s %d %d", month, &days, &years);
+
+    for (int i = 0; i < MonthsCount; i++)
+    {
+        if (_stricmp(MonthId[i], month))
+            continue;
+            months = i;
+            break;
+        }
+    Result = (years - startYear) * 365 + days - startDay;
+    for (int i = 0; i < months; i++)
+      Result += DaysInMonth[i];
+
+    for (int i = 0; i <= startMonth - 1; i++)
+      Result -= DaysInMonth[i];
+
+    return Result;
+}();
+
+const xr_string xrCore::buildName = []
+{
+  xr_string Result;
+
+//#define NEW_RELEASE_VERSION "v.0.8.1b"
+#if defined NEW_RELEASE_VERSION
+    Result += NEW_RELEASE_VERSION;
+#elif defined NIGHT_BUILD_NUMBER
+    Result += "GitHub Build: ";
+    Result += NIGHT_BUILD_NUMBER;
+#else
+    Result += "Local Build: ";
+    Result += xr_string(buildIDLocal);
+#endif
+
+    return Result;
+}();
+
 
 namespace CPU
 {
@@ -57,54 +113,8 @@ static u32                 init_counter = 0;
 XRAPI_API extern EGamePath GCurrentGame;
 // extern xr_vector<shared_str>* LogFile;
 
-void xrCore::CalculateBuildId()
-{
-    constexpr int      MonthsCount              = 12;
-
-    static const char* MonthId[MonthsCount]     = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-    static const int   DaysInMonth[MonthsCount] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
-    static const int   startDay                 = 31;
-    static const int   startMonth               = 1;
-    static const int   startYear                = 2023;
-
-    int                days;
-    int                months = 0;
-    int                years;
-
-    string16           month;
-    string256          buffer;
-    xr_strcpy(buffer, buildDate);
-    sscanf(buffer, "%s %d %d", month, &days, &years);
-
-    for (int i = 0; i < MonthsCount; i++)
-    {
-        if (_stricmp(MonthId[i], month))
-            continue;
-            months = i;
-            break;
-        }
-    buildIDLocal = (years - startYear) * 365 + days - startDay;
-    for (int i = 0; i < months; i++)
-        buildIDLocal += DaysInMonth[i];
-
-    for (int i = 0; i <= startMonth - 1; i++)
-        buildIDLocal -= DaysInMonth[i];
-}
-
-void compute_build_id()
-{
-#ifdef NIGHT_BUILD_NUMBER
-    xr_strcpy(Core.BuildID, std::size(Core.BuildID), ("night build #" + xr_string(NIGHT_BUILD_NUMBER)).c_str());
-#else
-    xr_strcpy(Core.BuildID, std::size(Core.BuildID), "");
-#endif
-}
-
 void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, LPCSTR fs_fname, bool editor_fs)
 {
-
-
     xr_strcpy(ApplicationName, _ApplicationName);
 
     if (0 == init_counter)
@@ -117,10 +127,6 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
         _control87(_RC_NEAR, MCW_RC);
         _control87(_MCW_EM, MCW_EM);
 #endif
-
-        compute_build_id();
-        CalculateBuildId();
-
         // Init COM so we can use CoCreateInstance
         // HRESULT co_res =
         if (!strstr(GetCommandLine(), "-editor"))
@@ -202,11 +208,8 @@ void xrCore::_initialize(LPCSTR _ApplicationName, LogCallback cb, BOOL init_fs, 
 #endif
 #endif
         FS._initialize(flags, nullptr, fs_fname);
-#ifdef NIGHT_BUILD_NUMBER
-        Msg("'xrCore' %s, %s\n", BuildID, buildDate);
-#else
-        Msg("'xrCore' Local build %d, %s\n", buildIDLocal, buildDate);
-#endif
+
+        Msg("'xrCore' %s, %s\n", buildName.c_str(), buildDate);
         Msg("'Branch [%s]', Commit: [%s]\n", buildBranch, buildCommit);
         EFS._initialize();
 #ifdef DEBUG

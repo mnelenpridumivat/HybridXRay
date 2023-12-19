@@ -324,15 +324,8 @@ xr_string CEditorRenderDevice::_GetWindowTitle()
 {
     xr_string Result;
     Result += UI->EditorDesc();
-    if (std::strlen(Core.BuildID) != 0)
-    {
-      Result += " [" + xr_string(Core.BuildID) + ']';
-    }
-    else
-    {
-        Result += " [Local build: " + xr_string(Core.GetBuildIDLocal()) + ']';
-    }
-    Result += " [" + xr_string(__DATE__) + ']';
+    Result += " [" + xrCore::buildName + ']';
+    Result += " [" + xr_string(xrCore::buildDate) + ']';
     return Result;
 }
 
