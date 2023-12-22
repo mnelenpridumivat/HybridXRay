@@ -1252,73 +1252,83 @@ void CDrawUtilities::DrawPivot(const Fvector& pos, float sz)
 
 void CDrawUtilities::DrawAxis(const Fmatrix& T)
 {
-    /*
-        _VertexStream*	Stream	= &RCache.Vertex;
-        Fvector p[6];
-        u32 	c[6];
+    if (xrGameManager::GetGame() == EGame::SHOC)
+    {
+        _VertexStream* Stream = &RCache.Vertex;
+        Fvector        p[6];
+        u32            c[6];
 
         // colors
-        c[0]=c[2]=c[4]=0x00222222; c[1]=0x00FF0000; c[3]=0x0000FF00; c[5]=0x000000FF;
+        c[0] = c[2] = c[4] = 0x00222222;
+        c[1]               = 0x00FF0000;
+        c[3]               = 0x0000FF00;
+        c[5]               = 0x000000FF;
 
         // position
-        p[0].mad(T.c,T.k,0.25f);
-        p[1].set(p[0]); p[1].x+=.015f;
+        p[0].mad(T.c, T.k, 0.25f);
+        p[1].set(p[0]);
+        p[1].x += .015f;
         p[2].set(p[0]);
-        p[3].set(p[0]); p[3].y+=.015f;
+        p[3].set(p[0]);
+        p[3].y += .015f;
         p[4].set(p[0]);
-        p[5].set(p[0]); p[5].z+=.015f;
+        p[5].set(p[0]);
+        p[5].z += .015f;
 
-        u32 vBase;
-        FVF::TL* pv	= (FVF::TL*)Stream->Lock(6,vs_TL->vb_stride,vBase);
+        u32      vBase;
+        FVF::TL* pv = (FVF::TL*)Stream->Lock(6, vs_TL->vb_stride, vBase);
         // transform to screen
-        float dx=-float(EDevice->dwWidth)/2.2f;
-        float dy=float(EDevice->dwHeight)/2.25f;
+        float    dx = -float(EDevice->dwWidth) / 2.2f;
+        float    dy = float(EDevice->dwHeight) / 2.25f;
 
-        for (int i=0; i<6; i++,pv++)
+        for (int i = 0; i < 6; i++, pv++)
         {
-            pv->color 		= c[i];
-            pv->transform	(p[i],EDevice->mFullTransform);
-            pv->p.set((float)iFloor(_x2real(pv->p.x)+dx),(float)iFloor(_y2real(pv->p.y)+dy),0,1);
-            p[i].set(pv->p.x,pv->p.y,0);
+            pv->color = c[i];
+            pv->transform(p[i], EDevice->mFullTransform);
+            pv->p.set((float)iFloor(_x2real(pv->p.x) + dx), (float)iFloor(_y2real(pv->p.y) + dy), 0, 1);
+            p[i].set(pv->p.x, pv->p.y, 0);
         }
 
         // unlock VB and Render it as triangle list
-        Stream->Unlock(6,vs_TL->vb_stride);
-        DU_DRAW_RS(D3DRS_SHADEMODE,D3DSHADE_GOURAUD);
+        Stream->Unlock(6, vs_TL->vb_stride);
+        DU_DRAW_RS(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
         DU_DRAW_SH(EDevice->m_WireShader);
-        DU_DRAW_DP(D3DPT_LINELIST,vs_TL,vBase,3);
-        DU_DRAW_RS(D3DRS_SHADEMODE,SHADE_MODE);
+        DU_DRAW_DP(D3DPT_LINELIST, vs_TL, vBase, 3);
+        DU_DRAW_RS(D3DRS_SHADEMODE, SHADE_MODE);
 
         m_Font->SetColor(0xFF909090);
-        m_Font->Out(p[1].x,p[1].y,"x");
-        m_Font->Out(p[3].x,p[3].y,"y");
-        m_Font->Out(p[5].x,p[5].y,"z");
+        m_Font->Out(p[1].x, p[1].y, "x");
+        m_Font->Out(p[3].x, p[3].y, "y");
+        m_Font->Out(p[5].x, p[5].y, "z");
         m_Font->SetColor(0xFF000000);
-        m_Font->Out(p[1].x-1,p[1].y-1,"x");
-        m_Font->Out(p[3].x-1,p[3].y-1,"y");
-        m_Font->Out(p[5].x-1,p[5].y-1,"z");
-    */
-    if (!m_axis_object)
-        m_axis_object = Lib.CreateEditObject("editor\\axis");
-    R_ASSERT(m_axis_object);
+        m_Font->Out(p[1].x - 1, p[1].y - 1, "x");
+        m_Font->Out(p[3].x - 1, p[3].y - 1, "y");
+        m_Font->Out(p[5].x - 1, p[5].y - 1, "z");
+    }
+    else
+    {
+        if (!m_axis_object)
+            m_axis_object = Lib.CreateEditObject("editor\\axis");
+        R_ASSERT(m_axis_object);
 
-    Fmatrix M = Fidentity;
-    Fmatrix S;
-    S.scale(0.04f, 0.04f, 0.04f);
-    M.mulB_44(S);
+        Fmatrix M = Fidentity;
+        Fmatrix S;
+        S.scale(0.04f, 0.04f, 0.04f);
+        M.mulB_44(S);
 
-    Fvector      start, dir;
-    Ivector2     pt;
+        Fvector      start, dir;
+        Ivector2     pt;
 
-    static int   _wh = 50;
-    static float _kl = 1.0f;
+        static int   _wh = 50;
+        static float _kl = 1.0f;
 
-    pt.x             = _wh;
-    pt.y             = iFloor(UI->GetRenderHeight() - _wh);
+        pt.x             = _wh;
+        pt.y             = iFloor(UI->GetRenderHeight() - _wh);
 
-    EDevice->m_Camera.MouseRayFromPoint(M.c, dir, pt);
-    M.c.mad(dir, _kl);
-    m_axis_object->Render(M, 2, false);
+        EDevice->m_Camera.MouseRayFromPoint(M.c, dir, pt);
+        M.c.mad(dir, _kl);
+        m_axis_object->Render(M, 2, false);
+    }
 }
 
 void CDrawUtilities::DrawObjectAxis(const Fmatrix& T, float sz, BOOL sel)
