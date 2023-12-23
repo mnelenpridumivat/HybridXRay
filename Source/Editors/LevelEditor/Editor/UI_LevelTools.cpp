@@ -1,6 +1,7 @@
 ﻿#include "stdafx.h"
 #include "Utils/Cursor3D.h"
 #include "UI/UIEditLibrary.h"
+#include "Scene/LEPhysics.h"
 
 #define DETACH_FRAME(a) \
     if (a)              \
@@ -588,16 +589,16 @@ bool CLevelTool::GetSelectionPosition(Fmatrix& result)
 }
 void CLevelTool::Simulate()
 {
-    /*	if (!g_scene_physics.Simulating())
+    if (!g_scene_physics.Simulating())
             g_scene_physics.CreateShellsSelected();
         else
             g_scene_physics.DestroyAll();
         UI->RedrawScene();
-        ExecCommand(COMMAND_REFRESH_UI_BAR);*/
+        ExecCommand(COMMAND_REFRESH_UI_BAR);
 }
 void CLevelTool::UseSimulatePositions()
 {
-    /*g_scene_physics.UseSimulatePoses();*/
+    g_scene_physics.UseSimulatePoses();
 }
 
 void CLevelTool::RunGame(const char* Params)
@@ -614,7 +615,7 @@ void CLevelTool::RunGame(const char* Params)
     ZeroMemory(&m_GameProcess, sizeof(m_GameProcess));
 
     string_path CommandLine;
-    xr_sprintf(CommandLine, "Xr3DA.exe %s", Params);
+    xr_sprintf(CommandLine, "HybridXRay.exe %s", Params);
     Msg("~ Run Game %s.\n", CommandLine);
     // Start the child process.
     if (!CreateProcess(NULL,   // No module name (use command line)
