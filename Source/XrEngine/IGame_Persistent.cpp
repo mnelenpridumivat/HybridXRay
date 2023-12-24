@@ -2,7 +2,6 @@
 #pragma hdrstop
 
 #include "IGame_Persistent.h"
-#include "..\XrAPI\xrGameManager.h"
 #ifndef _EDITOR
 #include "environment.h"
 #include "x_ray.h"
@@ -37,17 +36,7 @@ IGame_Persistent::IGame_Persistent(bool bIsEditor)
         if (Device->WeatherEditor())
             pEnvironment = xr_new<XrWeatherEditor::environment::manager>();
         else
-        {
-            switch (xrGameManager::GetGame())
-            {
-                case EGame::SHOC:
-                    pEnvironment = xr_new<CEnvironmentSOC>();
-                    break;
-                default:
-                    pEnvironment = xr_new<CEnvironment>();
-                    break;
-            }
-        }
+            pEnvironment = xr_new<CEnvironment>();
     }
 
 #endif   // #ifdef INGAME_EDITOR

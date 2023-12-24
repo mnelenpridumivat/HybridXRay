@@ -43,9 +43,8 @@ const float MAX_DIST_FACTOR = 0.95f;
 
 //////////////////////////////////////////////////////////////////////////
 // environment
-CEnvironment::CEnvironment(): m_ambients_config(0)
+CEnvironment::CEnvironment(): CurrentEnv(0), m_ambients_config(0)
 {
-    CurrentEnv          = nullptr;
     bNeed_re_create_env = FALSE;
     bWFX                = false;
     Current[0]          = 0;
@@ -286,10 +285,10 @@ bool CEnvironment::SetWeatherFX(shared_str name)
         clamp(current_weight, 0.f, 1.f);
 
         std::sort(CurrentWeather->begin(), CurrentWeather->end(), sort_env_etl_pred);
-        IEnvDescriptor* C0 = CurrentWeather->at(0);
-        IEnvDescriptor* C1 = CurrentWeather->at(1);
-        IEnvDescriptor* CE = CurrentWeather->at(CurrentWeather->size() - 2);
-        IEnvDescriptor* CT = CurrentWeather->at(CurrentWeather->size() - 1);
+        CEnvDescriptor* C0 = CurrentWeather->at(0);
+        CEnvDescriptor* C1 = CurrentWeather->at(1);
+        CEnvDescriptor* CE = CurrentWeather->at(CurrentWeather->size() - 2);
+        CEnvDescriptor* CT = CurrentWeather->at(CurrentWeather->size() - 1);
         C0->copy(*Current[0]);
         C0->exec_time = NormalizeTime(fGameTime - ((rewind_tm / (Current[1]->exec_time - fGameTime)) * current_length - rewind_tm));
         C1->copy(*Current[1]);
@@ -347,12 +346,12 @@ void CEnvironment::StopWFX()
 #endif
 }
 
-IC bool lb_env_pred(const IEnvDescriptor* x, float val)
+IC bool lb_env_pred(const CEnvDescriptor* x, float val)
 {
     return x->exec_time < val;
 }
 
-void CEnvironment::SelectEnv(EnvVec* envs, IEnvDescriptor*& e, float gt)
+void CEnvironment::SelectEnv(EnvVec* envs, CEnvDescriptor*& e, float gt)
 {
     EnvIt env = std::lower_bound(envs->begin(), envs->end(), gt, lb_env_pred);
     if (env == envs->end())
@@ -365,7 +364,7 @@ void CEnvironment::SelectEnv(EnvVec* envs, IEnvDescriptor*& e, float gt)
     }
 }
 
-void CEnvironment::SelectEnvs(EnvVec* envs, IEnvDescriptor*& e0, IEnvDescriptor*& e1, float gt)
+void CEnvironment::SelectEnvs(EnvVec* envs, CEnvDescriptor*& e0, CEnvDescriptor*& e1, float gt)
 {
     EnvIt env = std::lower_bound(envs->begin(), envs->end(), gt, lb_env_pred);
     if (env == envs->end())
@@ -448,7 +447,7 @@ void CEnvironment::lerp(float& current_weight)
     Fvector view   = Device->vCameraPosition;
     float   mpower = 0;
     for (auto mit = Modifiers.begin(); mit != Modifiers.end(); mit++)
-        mpower += EM.sum(**mit, view);
+        mpower += EM.sum(*mit, view);
 
     // final lerp
     CurrentEnv->lerp(this, *Current[0], *Current[1], current_weight, EM, mpower);

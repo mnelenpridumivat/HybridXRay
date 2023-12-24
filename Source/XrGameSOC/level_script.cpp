@@ -338,12 +338,12 @@ CPHWorld* physics_world()
 {
     return ph_world;
 }
-IEnvironment* environment()
+CEnvironment* environment()
 {
     return (g_pGamePersistent->pEnvironment);
 }
 
-IEnvDescriptorMixer* current_environment(IEnvironment* self)
+CEnvDescriptor* current_environment(CEnvironment* self)
 {
     return (self->CurrentEnv);
 }
@@ -526,9 +526,9 @@ void g_change_community_goodwill(LPCSTR _community, int _entity_id, int val)
 #pragma optimize("s", on)
 void CLevel::script_register(lua_State* L)
 {
-    class_<IEnvDescriptorMixer>("CEnvDescriptor").def_readonly("fog_density", &IEnvDescriptorMixer::fog_density).def_readonly("far_plane", &IEnvDescriptorMixer::far_plane),
+    class_<CEnvDescriptor>("CEnvDescriptor").def_readonly("fog_density", &CEnvDescriptor::fog_density).def_readonly("far_plane", &CEnvDescriptor::far_plane),
 
-        class_<IEnvironment>("CEnvironment").def("current", current_environment);
+        class_<CEnvironment>("CEnvironment").def("current", current_environment);
 
     module(L, "level")[
         // obsolete\deprecated

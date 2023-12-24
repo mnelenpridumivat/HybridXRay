@@ -1939,7 +1939,7 @@ public:
 
         if (weather_name && weather_name[0])
         {
-            g_pGamePersistent->EnvironmentAsCOP()->SetWeather(weather_name);
+            g_pGamePersistent->Environment().SetWeather(weather_name);
         }
     };
 

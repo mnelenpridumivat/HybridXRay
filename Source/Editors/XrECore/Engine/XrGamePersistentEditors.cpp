@@ -9,16 +9,7 @@ XrGamePersistentEditors::XrGamePersistentEditors(): IGame_Persistent(true)
     g_dedicated_server = false;
     m_pMainMenu        = NULL;
     pEnvironment       = nullptr;
-    switch (xrGameManager::GetGame())
-    {
-    case EGame::SHOC:
-        pEnvironment = xr_new<CEnvironmentSOC>();
-        break;
-    default:
-        pEnvironment = xr_new<CEnvironment>();
-        break;
-
-    }
+    pEnvironment       = xr_new<CEnvironment>();
 }
 
 XrGamePersistentEditors::~XrGamePersistentEditors() {}

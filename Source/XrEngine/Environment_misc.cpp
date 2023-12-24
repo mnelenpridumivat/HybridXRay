@@ -31,9 +31,8 @@ void CEnvModifier::load(IReader* fs, u32 version)
     }
 }
 
-float CEnvModifier::sum(IEnvModifier& M_, Fvector3& view)
+float CEnvModifier::sum(CEnvModifier& M, Fvector3& view)
 {
-    CEnvModifier& M        = *static_cast<CEnvModifier*>(&M_);
     float         _dist_sq = view.distance_to_sqr(M.position);
     if (_dist_sq >= (M.radius * M.radius))
         return 0;
@@ -92,10 +91,10 @@ void CEnvAmbient::SSndChannel::load(CInifile& config, LPCSTR sect)
     m_sound_period.z = config.r_s32(m_load_section, "period2");
     m_sound_period.w = config.r_s32(m_load_section, "period3");
 
-    //	m_sound_period			= config.r_ivector4(sect,"sound_period");
+    // m_sound_period = config.r_ivector4(sect,"sound_period");
     R_ASSERT(m_sound_period.x <= m_sound_period.y && m_sound_period.z <= m_sound_period.w);
-    //	m_sound_period.mul		(1000);// now in ms
-    //	m_sound_dist			= config.r_fvector2(sect,"sound_dist");
+    // m_sound_period.mul(1000);// now in ms
+    // m_sound_dist = config.r_fvector2(sect,"sound_dist");
     R_ASSERT2(m_sound_dist.y > m_sound_dist.x, sect);
 
     LPCSTR      snds = config.r_string(sect, "sounds");
@@ -168,7 +167,7 @@ void CEnvAmbient::load(CInifile& ambients_config, CInifile& sound_channels_confi
     // sounds
     LPCSTR      channels = ambients_config.r_string(sect, "sound_channels");
     u32         cnt      = _GetItemCount(channels);
-    //	R_ASSERT3				(cnt,"sound_channels empty", sect.c_str());
+    // R_ASSERT3(cnt,"sound_channels empty", sect.c_str());
     m_sound_channels.resize(cnt);
 
     for (u32 i = 0; i < cnt; ++i)
@@ -178,7 +177,7 @@ void CEnvAmbient::load(CInifile& ambients_config, CInifile& sound_channels_confi
     m_effect_period.set(iFloor(ambients_config.r_float(sect, "min_effect_period") * 1000.f), iFloor(ambients_config.r_float(sect, "max_effect_period") * 1000.f));
     LPCSTR effs = ambients_config.r_string(sect, "effects");
     cnt         = _GetItemCount(effs);
-    //	R_ASSERT3				(cnt,"effects empty", sect.c_str());
+    // R_ASSERT3(cnt,"effects empty", sect.c_str());
 
     m_effects.resize(cnt);
     for (u32 k = 0; k < cnt; ++k)
@@ -275,11 +274,8 @@ void CEnvDescriptor::load(CEnvironment& environment, CInifile& config)
     //	if (config.line_exist(m_identifier.c_str(),"sun_altitude"))
     sun_dir.setHP(deg2rad(config.r_float(m_identifier.c_str(), "sun_altitude")), deg2rad(config.r_float(m_identifier.c_str(), "sun_longitude")));
     R_ASSERT(_valid(sun_dir));
-    //	else
-    //		sun_dir.setHP			(
-    //			deg2rad(config.r_fvector2(m_identifier.c_str(),"sun_dir").y),
-    //			deg2rad(config.r_fvector2(m_identifier.c_str(),"sun_dir").x)
-    //		);
+    // else
+    //     sun_dir.setHP(deg2rad(config.r_fvector2(m_identifier.c_str(), "sun_dir").y), deg2rad(config.r_fvector2(m_identifier.c_str(), "sun_dir").x));
     VERIFY2(sun_dir.y < 0, "Invalid sun direction settings while loading");
 
     lens_flare_id = environment.eff_LensFlare->AppendDef(environment, environment.m_suns_config, config.r_string(m_identifier.c_str(), "sun"));
@@ -309,13 +305,13 @@ void CEnvDescriptor::on_device_create()
     m_pDescriptor->OnDeviceCreate(*this);
     /*
     if (sky_texture_name.size())
-        sky_texture.create		(sky_texture_name.c_str());
+        sky_texture.create(sky_texture_name.c_str());
 
     if (sky_texture_env_name.size())
-        sky_texture_env.create	(sky_texture_env_name.c_str());
+        sky_texture_env.create(sky_texture_env_name.c_str());
 
     if (clouds_texture_name.size())
-        clouds_texture.create	(clouds_texture_name.c_str());
+        clouds_texture.create(clouds_texture_name.c_str());
         */
 }
 
@@ -323,9 +319,9 @@ void CEnvDescriptor::on_device_destroy()
 {
     m_pDescriptor->OnDeviceDestroy();
     /*
-    sky_texture.destroy		();
-    sky_texture_env.destroy	();
-    clouds_texture.destroy	();
+    sky_texture.destroy();
+    sky_texture_env.destroy();
+    clouds_texture.destroy();
     */
 }
 
@@ -338,119 +334,115 @@ void CEnvDescriptorMixer::destroy()
 {
     m_pDescriptorMixer->Destroy();
     /*
-    sky_r_textures.clear		();
-    sky_r_textures_env.clear	();
-    clouds_r_textures.clear		();
+    sky_r_textures.clear();
+    sky_r_textures_env.clear();
+    clouds_r_textures.clear();
     */
 
-    //	Reuse existing code
+    // Reuse existing code
     on_device_destroy();
     /*
-        sky_texture.destroy			();
-        sky_texture_env.destroy		();
-        clouds_texture.destroy		();
-        */
+        sky_texture.destroy();
+        sky_texture_env.destroy();
+        clouds_texture.destroy();
+    */
 }
 
 void CEnvDescriptorMixer::clear()
 {
     m_pDescriptorMixer->Clear();
     /*
-    std::pair<u32,ref_texture>	zero = mk_pair(u32(0),ref_texture(0));
-    sky_r_textures.clear		();
-    sky_r_textures.push_back	(zero);
-    sky_r_textures.push_back	(zero);
-    sky_r_textures.push_back	(zero);
+    std::pair<u32, ref_texture>zero = mk_pair(u32(0), ref_texture(0));
+    sky_r_textures.clear();
+    sky_r_textures.push_back(zero);
+    sky_r_textures.push_back(zero);
+    sky_r_textures.push_back(zero);
 
-    sky_r_textures_env.clear	();
+    sky_r_textures_env.clear();
     sky_r_textures_env.push_back(zero);
     sky_r_textures_env.push_back(zero);
     sky_r_textures_env.push_back(zero);
 
-    clouds_r_textures.clear		();
-    clouds_r_textures.push_back	(zero);
-    clouds_r_textures.push_back	(zero);
-    clouds_r_textures.push_back	(zero);
+    clouds_r_textures.clear();
+    clouds_r_textures.push_back(zero);
+    clouds_r_textures.push_back(zero);
+    clouds_r_textures.push_back(zero);
     */
 }
 
-void CEnvDescriptorMixer::lerp(IEnvironment*, IEnvDescriptor& A_, IEnvDescriptor& B_, float f, IEnvModifier& Mdf_, float modifier_power)
+void CEnvDescriptorMixer::lerp(CEnvironment*, CEnvDescriptor& A, CEnvDescriptor& B, float f, CEnvModifier& Mdf, float modifier_power)
 {
-    CEnvDescriptor& A           = *dynamic_cast<CEnvDescriptor*>(&A_);
-    CEnvDescriptor& B           = *dynamic_cast<CEnvDescriptor*>(&B_);
-
-    CEnvModifier&   Mdf         = *static_cast<CEnvModifier*>(&Mdf_);
     float           modif_power = 1.f / (modifier_power + 1);   // the environment itself
     float           fi          = 1 - f;
 
-    m_pDescriptorMixer->lerp(&*A_.m_pDescriptor, &*B_.m_pDescriptor);
+    m_pDescriptorMixer->lerp(&*A.m_pDescriptor, &*B.m_pDescriptor);
     /*
-    sky_r_textures.clear		();
-    sky_r_textures.push_back	(mk_pair(0,A_.sky_texture));
-    sky_r_textures.push_back	(mk_pair(1,B_.sky_texture));
+    sky_r_textures.clear();
+    sky_r_textures.push_back(mk_pair(0, A.sky_texture));
+    sky_r_textures.push_back(mk_pair(1, B.sky_texture));
 
-    sky_r_textures_env.clear	();
+    sky_r_textures_env.clear();
 
-    sky_r_textures_env.push_back(mk_pair(0,A_.sky_texture_env));
-    sky_r_textures_env.push_back(mk_pair(1,B_.sky_texture_env));
+    sky_r_textures_env.push_back(mk_pair(0, A.sky_texture_env));
+    sky_r_textures_env.push_back(mk_pair(1, B.sky_texture_env));
 
-    clouds_r_textures.clear		();
-    clouds_r_textures.push_back	(mk_pair(0,A_.clouds_texture));
-    clouds_r_textures.push_back	(mk_pair(1,B_.clouds_texture));
+    clouds_r_textures.clear();
+    clouds_r_textures.push_back(mk_pair(0, A.clouds_texture));
+    clouds_r_textures.push_back(mk_pair(1, B.clouds_texture));
     */
 
     weight = f;
 
-    clouds_color.lerp(A_.clouds_color, B_.clouds_color, f);
+    clouds_color.lerp(A.clouds_color, B.clouds_color, f);
 
-    sky_rotation = (fi * A_.sky_rotation + f * B_.sky_rotation);
+    sky_rotation = (fi * A.sky_rotation + f * B.sky_rotation);
 
-    //.	far_plane				=	(fi*A_.far_plane + f*B_.far_plane + Mdf.far_plane)*psVisDistance*modif_power;
+    // far_plane = (fi * A.far_plane + f * B.far_plane + Mdf.far_plane) * psVisDistance * modif_power;
     if (Mdf.use_flags.test(eViewDist))
-        far_plane = (fi * A_.far_plane + f * B_.far_plane + Mdf.far_plane) * psVisDistance * modif_power;
+        far_plane = (fi * A.far_plane + f * B.far_plane + Mdf.far_plane) * psVisDistance * modif_power;
     else
-        far_plane = (fi * A_.far_plane + f * B_.far_plane) * psVisDistance;
+        far_plane = (fi * A.far_plane + f * B.far_plane) * psVisDistance;
 
-    //.	fog_color.lerp			(A_.fog_color,B_.fog_color,f).add(Mdf.fog_color).mul(modif_power);
-    fog_color.lerp(A_.fog_color, B_.fog_color, f);
+    // fog_color.lerp(A.fog_color, B.fog_color, f).add(Mdf.fog_color).mul(modif_power);
+    fog_color.lerp(A.fog_color, B.fog_color, f);
     if (Mdf.use_flags.test(eFogColor))
         fog_color.add(Mdf.fog_color).mul(modif_power);
 
-    //.	fog_density				=	(fi*A_.fog_density + f*B_.fog_density + Mdf.fog_density)*modif_power;
-    fog_density = (fi * A_.fog_density + f * B_.fog_density);
+    // fog_density = (fi * A.fog_density + f * B.fog_density + Mdf.fog_density) * modif_power;
+    fog_density = (fi * A.fog_density + f * B.fog_density);
     if (Mdf.use_flags.test(eFogDensity))
     {
         fog_density += Mdf.fog_density;
         fog_density *= modif_power;
     }
 
-    fog_distance = (fi * A_.fog_distance + f * B_.fog_distance);
+    fog_distance = (fi * A.fog_distance + f * B.fog_distance);
     fog_near     = (1.0f - fog_density) * 0.85f * fog_distance;
     fog_far      = 0.99f * fog_distance;
 
-    rain_density = fi * A_.rain_density + f * B_.rain_density;
-    rain_color.lerp(A_.rain_color, B_.rain_color, f);
-    bolt_period           = fi * A_.bolt_period + f * B_.bolt_period;
-    bolt_duration         = fi * A_.bolt_duration + f * B_.bolt_duration;
+    rain_density = fi * A.rain_density + f * B.rain_density;
+    rain_color.lerp(A.rain_color, B.rain_color, f);
+    bolt_period           = fi * A.bolt_period + f * B.bolt_period;
+    bolt_duration         = fi * A.bolt_duration + f * B.bolt_duration;
     // wind
-    wind_velocity         = fi * A_.wind_velocity + f * B_.wind_velocity;
-    wind_direction        = fi * A_.wind_direction + f * B_.wind_direction;
+    wind_velocity         = fi * A.wind_velocity + f * B.wind_velocity;
+    wind_direction        = fi * A.wind_direction + f * B.wind_direction;
 
     m_fSunShaftsIntensity = fi * A.m_fSunShaftsIntensity + f * B.m_fSunShaftsIntensity;
     m_fWaterIntensity     = fi * A.m_fWaterIntensity + f * B.m_fWaterIntensity;
 
     // colors
-    //.	sky_color.lerp			(A_.sky_color,B_.sky_color,f).add(Mdf.sky_color).mul(modif_power);
-    sky_color.lerp(A_.sky_color, B_.sky_color, f);
+    // sky_color.lerp(A.sky_color, B.sky_color, f).add(Mdf.sky_color).mul(modif_power);
+    sky_color.lerp(A.sky_color, B.sky_color, f);
     if (Mdf.use_flags.test(eSkyColor))
         sky_color.add(Mdf.sky_color).mul(modif_power);
 
-    //.	ambient.lerp			(A_.ambient,B_.ambient,f).add(Mdf.ambient).mul(modif_power);
-    ambient.lerp(A_.ambient, B_.ambient, f);
+    // ambient.lerp(A.ambient, B.ambient, f).add(Mdf.ambient).mul(modif_power);
+    ambient.lerp(A.ambient, B.ambient, f);
     if (Mdf.use_flags.test(eAmbientColor))
         ambient.add(Mdf.ambient).mul(modif_power);
 
-    hemi_color.lerp(A_.hemi_color, B_.hemi_color, f);
+    hemi_color.lerp(A.hemi_color, B.hemi_color, f);
 
     if (Mdf.use_flags.test(eHemiColor))
     {
@@ -462,11 +454,11 @@ void CEnvDescriptorMixer::lerp(IEnvironment*, IEnvDescriptor& A_, IEnvDescriptor
         hemi_color.z *= modif_power;
     }
 
-    sun_color.lerp(A_.sun_color, B_.sun_color, f);
+    sun_color.lerp(A.sun_color, B.sun_color, f);
 
-    R_ASSERT(_valid(A_.sun_dir));
-    R_ASSERT(_valid(B_.sun_dir));
-    sun_dir.lerp(A_.sun_dir, B_.sun_dir, f).normalize();
+    R_ASSERT(_valid(A.sun_dir));
+    R_ASSERT(_valid(B.sun_dir));
+    sun_dir.lerp(A.sun_dir, B.sun_dir, f).normalize();
     R_ASSERT(_valid(sun_dir));
 
     VERIFY2(sun_dir.y < 0, "Invalid sun direction settings while lerp");
@@ -475,7 +467,7 @@ void CEnvDescriptorMixer::lerp(IEnvironment*, IEnvDescriptor& A_, IEnvDescriptor
 //-----------------------------------------------------------------------------
 // Environment IO
 //-----------------------------------------------------------------------------
-IEnvAmbient* CEnvironment::AppendEnvAmb(const shared_str& sect)
+CEnvAmbient* CEnvironment::AppendEnvAmb(const shared_str& sect)
 {
     for (EnvAmbVecIt it = Ambients.begin(); it != Ambients.end(); it++)
         if ((*it)->name().equal(sect))
@@ -506,8 +498,8 @@ void CEnvironment::mods_load()
             }
             else
             {
-                IEnvModifier* E = xr_new<CEnvModifier>();
-                E->load(fs, ver);
+                CEnvModifier E;
+                E.load(fs, ver);
                 Modifiers.push_back(E);
             }
             id++;
@@ -537,7 +529,7 @@ void CEnvironment::load_level_specific_ambients()
 
     for (EnvAmbVecIt I = Ambients.begin(), E = Ambients.end(); I != E; ++I)
     {
-        CEnvAmbient* ambient      = static_cast<CEnvAmbient*>(*I);
+        CEnvAmbient* ambient      = *I;
 
         shared_str   section_name = ambient->name();
 

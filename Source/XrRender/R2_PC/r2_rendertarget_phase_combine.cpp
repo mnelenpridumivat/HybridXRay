@@ -14,15 +14,15 @@ void CRenderTarget::DoAsyncScreenshot()
 
         IDirect3DSurface9* pFBSrc      = HW.pBaseRT;
 
-        //	Don't addref, no need to release.
-        //	ID3DTexture2D *pTex = rt_Color->pSurface;
+        // Don't addref, no need to release.
+        // ID3DTexture2D *pTex = rt_Color->pSurface;
 
-        //	hr = pTex->GetSurfaceLevel(0, &pFBSrc);
+        // hr = pTex->GetSurfaceLevel(0, &pFBSrc);
 
-        //	SHould be async function
-        hr                             = HW.pDevice->GetRenderTargetData(pFBSrc, pFB);
+        // SHould be async function
+        hr = HW.pDevice->GetRenderTargetData(pFBSrc, pFB);
 
-        //	pFBSrc->Release();
+        // pFBSrc->Release();
 
         RImplementation.m_bMakeAsyncSS = false;
     }
@@ -70,14 +70,14 @@ void CRenderTarget::phase_combine()
         RCache.set_ColorWriteEnable();
         CHK_DX(HW.pDevice->SetRenderState(D3DRS_ZENABLE, FALSE));
         g_pGamePersistent->Environment().RenderSky();
-        //	Igor: Render clouds before compine without Z-test
-        //	to avoid siluets. HOwever, it's a bit slower process.
+        // Igor: Render clouds before compine without Z-test
+        // to avoid siluets. HOwever, it's a bit slower process.
         g_pGamePersistent->Environment().RenderClouds();
         CHK_DX(HW.pDevice->SetRenderState(D3DRS_ZENABLE, TRUE));
     }
 
     //
-    // if (RImplementation.o.bug)	{
+    // if (RImplementation.o.bug) {
     RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0x00);   // stencil should be >= 1
     if (RImplementation.o.nvstencil)
     {
@@ -108,13 +108,12 @@ void CRenderTarget::phase_combine()
         // Compute params
         Fmatrix m_v2w;
         m_v2w.invert(Device->mView);
-        IEnvDescriptorMixer& envdesc = *g_pGamePersistent->Environment().CurrentEnv;
+        CEnvDescriptorMixer& envdesc = *g_pGamePersistent->Environment().CurrentEnv;
         const float          minamb  = 0.001f;
         Fvector4             ambclr  = {_max(envdesc.ambient.x * 2, minamb), _max(envdesc.ambient.y * 2, minamb), _max(envdesc.ambient.z * 2, minamb), 0};
         ambclr.mul(ps_r2_sun_lumscale_amb);
 
-        //.		Fvector4	envclr			= { envdesc.sky_color.x*2+EPS,	envdesc.sky_color.y*2+EPS,
-        //envdesc.sky_color.z*2+EPS,	envdesc.weight					};
+        // Fvector4	envclr = { envdesc.sky_color.x * 2 + EPS envdesc.sky_color.y * 2 + EPS, envdesc.sky_color.z * 2 + EPS, envdesc.weight };
         Fvector4 envclr = {envdesc.hemi_color.x * 2 + EPS, envdesc.hemi_color.y * 2 + EPS, envdesc.hemi_color.z * 2 + EPS, envdesc.weight};
 
         Fvector4 fogclr = {envdesc.fog_color.x, envdesc.fog_color.y, envdesc.fog_color.z, 0};
@@ -152,12 +151,12 @@ void CRenderTarget::phase_combine()
         p1.set((_w + .5f) / _w, (_h + .5f) / _h);
 
         // Fill vertex buffer
-        // Fvector4* pv				= (Fvector4*)	RCache.Vertex.Lock	(4,g_combine_VP->vb_stride,Offset);
-        // pv->set						(hclip(EPS,		_w),	hclip(_h+EPS,	_h),	p0.x, p1.y);	pv++;
-        // pv->set						(hclip(EPS,		_w),	hclip(EPS,		_h),	p0.x, p0.y);	pv++;
-        // pv->set						(hclip(_w+EPS,	_w),	hclip(_h+EPS,	_h),	p1.x, p1.y);	pv++;
-        // pv->set						(hclip(_w+EPS,	_w),	hclip(EPS,		_h),	p1.x, p0.y);	pv++;
-        // RCache.Vertex.Unlock		(4,g_combine_VP->vb_stride);
+        // Fvector4* pv = (Fvector4*) RCache.Vertex.Lock(4,g_combine_VP->vb_stride, Offset);
+        // pv->set(hclip(EPS, _w), hclip(_h + EPS, _h), p0.x, p1.y); pv++;
+        // pv->set(hclip(EPS, _w), hclip(EPS, _h), p0.x, p0.y); pv++;
+        // pv->set(hclip(_w + EPS, _w), hclip(_h + EPS, _h), p1.x, p1.y); pv++;
+        // pv->set(hclip(_w + EPS, _w), hclip(EPS, _h), p1.x, p0.y); pv++;
+        // RCache.Vertex.Unlock(4, g_combine_VP->vb_stride);
 
         // Fill VB
         float    scale_X = float(Device->dwWidth) / float(TEX_jitter);
@@ -187,7 +186,7 @@ void CRenderTarget::phase_combine()
         // Draw
         RCache.set_Element(s_combine->E[0]);
         RCache.set_Geometry(g_combine_VP);
-        // RCache.set_Geometry			(g_combine		);
+        // RCache.set_Geometry(g_combine);
 
         RCache.set_c("m_v2w", m_v2w);
         RCache.set_c("L_ambient", ambclr);
@@ -207,14 +206,14 @@ void CRenderTarget::phase_combine()
         RCache.set_CullMode(CULL_CCW);
         RCache.set_Stencil(FALSE);
         RCache.set_ColorWriteEnable();
-        // g_pGamePersistent->Environment().RenderClouds	();
+        // g_pGamePersistent->Environment().RenderClouds();
         RImplementation.render_forward();
         if (g_pGamePersistent)
             g_pGamePersistent->OnRenderPPUI_main();   // PP-UI
     }
 
-    //	Igor: for volumetric lights
-    //	combine light volume here
+    // Igor: for volumetric lights
+    // combine light volume here
     if (m_bHasActiveVolumetric)
         phase_combine_volumetric();
 
@@ -241,7 +240,7 @@ void CRenderTarget::phase_combine()
     }
 
     // PP enabled ?
-    //	Render to RT texture to be able to copy RT even in windowed mode.
+    // Render to RT texture to be able to copy RT even in windowed mode.
     BOOL PP_Complex = u_need_PP() | (BOOL)RImplementation.m_bMakeAsyncSS;
     if (_menu_pp)
         PP_Complex = FALSE;
@@ -251,7 +250,6 @@ void CRenderTarget::phase_combine()
         u_setrt(rt_Color, 0, 0, HW.pBaseZB);   // LDR RT
     else
         u_setrt(Device->dwWidth, Device->dwHeight, HW.pBaseRT, NULL, NULL, HW.pBaseZB);
-    //. u_setrt				( Device->dwWidth,Device->dwHeight,HW.pBaseRT,NULL,NULL,HW.pBaseZB);
     RCache.set_CullMode(CULL_NONE);
     RCache.set_Stencil(FALSE);
     if (1)
@@ -316,7 +314,7 @@ void CRenderTarget::phase_combine()
         pv++;
         RCache.Vertex.Unlock(4, g_aa_AA->vb_stride);
 
-        //	Set up variable
+        // Set up variable
         Fvector2 vDofKernel;
         vDofKernel.set(0.5f / Device->dwWidth, 0.5f / Device->dwHeight);
         vDofKernel.mul(ps_r2_dof_kernel_size);
@@ -335,7 +333,7 @@ void CRenderTarget::phase_combine()
         Fvector3 dof;
         g_pGamePersistent->GetCurrentDof(dof);
         RCache.set_c("dof_params", dof.x, dof.y, dof.z, ps_r2_dof_sky);
-        //.		RCache.set_c				("dof_params",	ps_r2_dof.x, ps_r2_dof.y, ps_r2_dof.z, ps_r2_dof_sky);
+        // RCache.set_c("dof_params", ps_r2_dof.x, ps_r2_dof.y, ps_r2_dof.z, ps_r2_dof_sky);
         RCache.set_c("dof_kernel", vDofKernel.x, vDofKernel.y, ps_r2_dof_kernel_size, 0);
 
         RCache.set_Geometry(g_aa_AA);
@@ -343,19 +341,19 @@ void CRenderTarget::phase_combine()
     }
     RCache.set_Stencil(FALSE);
 
-    //	if FP16-BLEND !not! supported - draw flares here, overwise they are already in the bloom target
+    // if FP16-BLEND !not! supported - draw flares here, overwise they are already in the bloom target
     /* if (!RImplementation.o.fp16_blend)*/ g_pGamePersistent->Environment().RenderFlares();   // lens-flares
 
-    //	Igor: screenshot will not have postprocess applied.
-    //	TODO: fox that later
+    // Igor: screenshot will not have postprocess applied.
+    // TODO: fox that later
 
-    //	PP-if required
+    // PP-if required
     if (PP_Complex)
     {
         phase_pp();
     }
 
-    //	Re-adapt luminance
+    // Re-adapt luminance
     RCache.set_Stencil(FALSE);
 
     //*** exposure-pipeline-clear
@@ -416,68 +414,78 @@ void CRenderTarget::phase_combine()
 #endif
 
         // ********************* Debug
-        /*
-        if (0)		{
-            u32		C					= color_rgba	(255,255,255,255);
-            float	_w					= float(Device->dwWidth)/3;
-            float	_h					= float(Device->dwHeight)/3;
+    /*
+    if (0)
+    {
+        u32   C  = color_rgba(255, 255, 255, 255);
+        float _w = float(Device->dwWidth) / 3;
+        float _h = float(Device->dwHeight) / 3;
 
-            // draw light-spheres
+        // draw light-spheres
     #ifdef DEBUG
-            if (0) for (u32 it=0; it<dbg_spheres.size(); it++)
+        if (0)
+            for (u32 it = 0; it < dbg_spheres.size(); it++)
             {
-                Fsphere				S	= dbg_spheres[it].first;
-                Fmatrix				M;
-                u32				ccc		= dbg_spheres[it].second.get();
-                M.scale					(S.R,S.R,S.R);
-                M.translate_over		(S.P);
-                RCache.dbg_DrawEllipse	(M,ccc);
-                RCache.dbg_DrawAABB		(S.P,.05f,.05f,.05f,ccc);
+                Fsphere S = dbg_spheres[it].first;
+                Fmatrix M;
+                u32     ccc = dbg_spheres[it].second.get();
+                M.scale(S.R, S.R, S.R);
+                M.translate_over(S.P);
+                RCache.dbg_DrawEllipse(M, ccc);
+                RCache.dbg_DrawAABB(S.P, .05f, .05f, .05f, ccc);
             }
     #endif
             // Draw quater-screen quad textured with our direct-shadow-map-image
-            if (1)
-            {
-                u32							IX=0,IY=1;
-                p0.set						(.5f/_w, .5f/_h);
-                p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
+        if (1)
+        {
+            u32 IX = 0, IY = 1;
+            p0.set(.5f / _w, .5f / _h);
+            p1.set((_w + .5f) / _w, (_h + .5f) / _h);
 
-                // Fill vertex buffer
-                FVF::TL* pv					= (FVF::TL*) RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-                pv->set						((IX+0)*_w+EPS,	(IY+1)*_h+EPS,	EPS,	1.f, C, p0.x, p1.y);	pv++;
-                pv->set						((IX+0)*_w+EPS,	(IY+0)*_h+EPS,	EPS,	1.f, C, p0.x, p0.y);	pv++;
-                pv->set						((IX+1)*_w+EPS,	(IY+1)*_h+EPS,	EPS,	1.f, C, p1.x, p1.y);	pv++;
-                pv->set						((IX+1)*_w+EPS,	(IY+0)*_h+EPS,	EPS,	1.f, C, p1.x, p0.y);	pv++;
-                RCache.Vertex.Unlock		(4,g_combine->vb_stride);
+            // Fill vertex buffer
+            FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
+            pv->set((IX + 0) * _w + EPS, (IY + 1) * _h + EPS, EPS, 1.f, C, p0.x, p1.y);
+            pv++;
+            pv->set((IX + 0) * _w + EPS, (IY + 0) * _h + EPS, EPS, 1.f, C, p0.x, p0.y);
+            pv++;
+            pv->set((IX + 1) * _w + EPS, (IY + 1) * _h + EPS, EPS, 1.f, C, p1.x, p1.y);
+            pv++;
+            pv->set((IX + 1) * _w + EPS, (IY + 0) * _h + EPS, EPS, 1.f, C, p1.x, p0.y);
+            pv++;
+            RCache.Vertex.Unlock(4, g_combine->vb_stride);
 
-                // Draw COLOR
-                RCache.set_Shader			(s_combine_dbg_0);
-                RCache.set_Geometry			(g_combine);
-                RCache.Render				(D3DPT_TRIANGLELIST,Offset,0,4,0,2);
-            }
-
-            // Draw quater-screen quad textured with our accumulator
-            if (0)
-            {
-                u32							IX=1,IY=1;
-                p0.set						(.5f/_w, .5f/_h);
-                p1.set						((_w+.5f)/_w, (_h+.5f)/_h );
-
-                // Fill vertex buffer
-                FVF::TL* pv					= (FVF::TL*) RCache.Vertex.Lock	(4,g_combine->vb_stride,Offset);
-                pv->set						((IX+0)*_w+EPS,	(IY+1)*_h+EPS,	EPS,	1.f, C, p0.x, p1.y);	pv++;
-                pv->set						((IX+0)*_w+EPS,	(IY+0)*_h+EPS,	EPS,	1.f, C, p0.x, p0.y);	pv++;
-                pv->set						((IX+1)*_w+EPS,	(IY+1)*_h+EPS,	EPS,	1.f, C, p1.x, p1.y);	pv++;
-                pv->set						((IX+1)*_w+EPS,	(IY+0)*_h+EPS,	EPS,	1.f, C, p1.x, p0.y);	pv++;
-                RCache.Vertex.Unlock		(4,g_combine->vb_stride);
-
-                // Draw COLOR
-                RCache.set_Shader			(s_combine_dbg_1);
-                RCache.set_Geometry			(g_combine);
-                RCache.Render				(D3DPT_TRIANGLELIST,Offset,0,4,0,2);
-            }
+            // Draw COLOR
+            RCache.set_Shader(s_combine_dbg_0);
+            RCache.set_Geometry(g_combine);
+            RCache.Render(D3DPT_TRIANGLELIST, Offset, 0, 4, 0, 2);
         }
-        */
+
+        // Draw quater-screen quad textured with our accumulator
+        if (0)
+        {
+            u32 IX = 1, IY = 1;
+            p0.set(.5f / _w, .5f / _h);
+            p1.set((_w + .5f) / _w, (_h + .5f) / _h);
+
+            // Fill vertex buffer
+            FVF::TL* pv = (FVF::TL*)RCache.Vertex.Lock(4, g_combine->vb_stride, Offset);
+            pv->set((IX + 0) * _w + EPS, (IY + 1) * _h + EPS, EPS, 1.f, C, p0.x, p1.y);
+            pv++;
+            pv->set((IX + 0) * _w + EPS, (IY + 0) * _h + EPS, EPS, 1.f, C, p0.x, p0.y);
+            pv++;
+            pv->set((IX + 1) * _w + EPS, (IY + 1) * _h + EPS, EPS, 1.f, C, p1.x, p1.y);
+            pv++;
+            pv->set((IX + 1) * _w + EPS, (IY + 0) * _h + EPS, EPS, 1.f, C, p1.x, p0.y);
+            pv++;
+            RCache.Vertex.Unlock(4, g_combine->vb_stride);
+
+            // Draw COLOR
+            RCache.set_Shader(s_combine_dbg_1);
+            RCache.set_Geometry(g_combine);
+            RCache.Render(D3DPT_TRIANGLELIST, Offset, 0, 4, 0, 2);
+        }
+    }
+    */
 #ifdef DEBUG
     dbg_spheres.clear();
     dbg_lines.clear();
@@ -491,7 +499,7 @@ void CRenderTarget::phase_wallmarks()
     RCache.set_RT(NULL, 2);
     RCache.set_RT(NULL, 1);
     u_setrt(rt_Color, NULL, NULL, HW.pBaseZB);
-    // Stencil	- draw only where stencil >= 0x1
+    // Stencil - draw only where stencil >= 0x1
     RCache.set_Stencil(TRUE, D3DCMP_LESSEQUAL, 0x01, 0xff, 0x00);
     RCache.set_CullMode(CULL_CCW);
     RCache.set_ColorWriteEnable(D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE);
@@ -502,21 +510,20 @@ void CRenderTarget::phase_combine_volumetric()
     u32      Offset = 0;
     Fvector2 p0, p1;
 
-    // u_setrt(rt_Generic_0,0,0,HW.pBaseZB );			// LDR RT
+    // u_setrt(rt_Generic_0,0,0,HW.pBaseZB );   // LDR RT
     u_setrt(rt_Generic_0, rt_Generic_1, 0, HW.pBaseZB);
-    //	Sets limits to both render targets
+    // Sets limits to both render targets
     RCache.set_ColorWriteEnable(D3DCOLORWRITEENABLE_RED | D3DCOLORWRITEENABLE_GREEN | D3DCOLORWRITEENABLE_BLUE);
     {
         // Compute params
         Fmatrix m_v2w;
         m_v2w.invert(Device->mView);
-        IEnvDescriptorMixer& envdesc = *g_pGamePersistent->Environment().CurrentEnv;
+        CEnvDescriptorMixer& envdesc = *g_pGamePersistent->Environment().CurrentEnv;
         const float          minamb  = 0.001f;
         Fvector4             ambclr  = {_max(envdesc.ambient.x * 2, minamb), _max(envdesc.ambient.y * 2, minamb), _max(envdesc.ambient.z * 2, minamb), 0};
         ambclr.mul(ps_r2_sun_lumscale_amb);
 
-        //.		Fvector4	envclr			= { envdesc.sky_color.x*2+EPS,	envdesc.sky_color.y*2+EPS,
-        //envdesc.sky_color.z*2+EPS,	envdesc.weight					};
+        // Fvector4	envclr = { envdesc.sky_color.x * 2 + EPS, envdesc.sky_color.y * 2 + EPS, envdesc.sky_color.z * 2 + EPS, envdesc.weight };
         Fvector4 envclr = {envdesc.hemi_color.x * 2 + EPS, envdesc.hemi_color.y * 2 + EPS, envdesc.hemi_color.z * 2 + EPS, envdesc.weight};
 
         Fvector4 fogclr = {envdesc.fog_color.x, envdesc.fog_color.y, envdesc.fog_color.z, 0};
@@ -546,12 +553,12 @@ void CRenderTarget::phase_combine_volumetric()
         p1.set((_w + .5f) / _w, (_h + .5f) / _h);
 
         // Fill vertex buffer
-        // Fvector4* pv				= (Fvector4*)	RCache.Vertex.Lock	(4,g_combine_VP->vb_stride,Offset);
-        // pv->set						(hclip(EPS,		_w),	hclip(_h+EPS,	_h),	p0.x, p1.y);	pv++;
-        // pv->set						(hclip(EPS,		_w),	hclip(EPS,		_h),	p0.x, p0.y);	pv++;
-        // pv->set						(hclip(_w+EPS,	_w),	hclip(_h+EPS,	_h),	p1.x, p1.y);	pv++;
-        // pv->set						(hclip(_w+EPS,	_w),	hclip(EPS,		_h),	p1.x, p0.y);	pv++;
-        // RCache.Vertex.Unlock		(4,g_combine_VP->vb_stride);
+        // Fvector4* pv = (Fvector4*) RCache.Vertex.Lock(4, g_combine_VP->vb_stride, Offset);
+        // pv->set(hclip(EPS, _w), hclip(_h + EPS, _h), p0.x, p1.y); pv++;
+        // pv->set(hclip(EPS, _w), hclip(EPS, _h), p0.x, p0.y); pv++;
+        // pv->set(hclip(_w + EPS, _w), hclip(_h + EPS, _h), p1.x, p1.y); pv++;
+        // pv->set(hclip(_w + EPS, _w), hclip(EPS, _h), p1.x, p0.y); pv++;
+        // RCache.Vertex.Unlock(4, g_combine_VP->vb_stride);
 
         // Fill VB
         float    scale_X = float(Device->dwWidth) / float(TEX_jitter);

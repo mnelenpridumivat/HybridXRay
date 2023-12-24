@@ -189,7 +189,7 @@ void CROS_impl::update(IRenderable* O)
     if (0 == O->renderable.visual)
         return;
     VERIFY(dynamic_cast<CROS_impl*>(O->renderable_ROS()));
-    // float	dt			=	Device->fTimeDelta;
+    // float dt = Device->fTimeDelta;
 
     CObject*  _object = dynamic_cast<CObject*>(O);
 
@@ -200,8 +200,8 @@ void CROS_impl::update(IRenderable* O)
     position.y += .3f * vis.sphere.R;
     Fvector direction;
     direction.random_dir();
-    //.			position.mad(direction,0.25f*radius);
-    //.			position.mad(direction,0.025f*radius);
+    // position.mad(direction, 0.25f * radius);
+    // position.mad(direction, 0.025f * radius);
 
     // function call order is important at least for r1
     for (size_t i = 0; i < NUM_FACES; ++i)
@@ -217,7 +217,7 @@ void CROS_impl::update(IRenderable* O)
 
     // Process ambient lighting and approximate average lighting
     // Process our lights to find average luminescences
-    IEnvDescriptor& desc  = *g_pGamePersistent->Environment().CurrentEnv;
+    CEnvDescriptor& desc  = *g_pGamePersistent->Environment().CurrentEnv;
     Fvector         accum = {desc.ambient.x, desc.ambient.y, desc.ambient.z};
     Fvector         hemi  = {desc.hemi_color.x, desc.hemi_color.y, desc.hemi_color.z};
     Fvector         sun_  = {desc.sun_color.x, desc.sun_color.y, desc.sun_color.z};

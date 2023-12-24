@@ -118,7 +118,7 @@ void dxEnvDescriptorMixerRender::lerp(IEnvDescriptorRender* inA, IEnvDescriptorR
     clouds_r_textures.push_back(mk_pair(1, pB->clouds_texture));
 }
 
-void dxEnvDescriptorRender::OnDeviceCreate(IEnvDescriptor& owner)
+void dxEnvDescriptorRender::OnDeviceCreate(CEnvDescriptor& owner)
 {
     if (owner.sky_texture_name.size())
         sky_texture.create(owner.sky_texture_name.c_str());
@@ -143,7 +143,7 @@ dxEnvironmentRender::dxEnvironmentRender()
     tsky1 = DEV->_CreateTexture("$user$sky1");
 }
 
-void dxEnvironmentRender::OnFrame(IEnvironment& env)
+void dxEnvironmentRender::OnFrame(CEnvironment& env)
 {
     dxEnvDescriptorMixerRender& mixRen = *(dxEnvDescriptorMixerRender*)&*env.CurrentEnv->m_pDescriptorMixer;
 
@@ -203,15 +203,15 @@ void dxEnvironmentRender::OnUnload()
     tonemap = 0;
 }
 
-void dxEnvironmentRender::RenderSky(IEnvironment& env)
+void dxEnvironmentRender::RenderSky(CEnvironment& env)
 {
-    // clouds_sh.create		("clouds","null");
-    //. this is the bug-fix for the case when the sky is broken
-    //. for some unknown reason the geoms happen to be invalid sometimes
-    //. if vTune show this in profile, please add simple cache (move-to-forward last found)
-    //. to the following functions:
-    //.		CResourceManager::_CreateDecl
-    //.		CResourceManager::CreateGeom
+    // clouds_sh.create("clouds", "null");
+    // this is the bug-fix for the case when the sky is broken
+    // for some unknown reason the geoms happen to be invalid sometimes
+    // if vTune show this in profile, please add simple cache (move-to-forward last found)
+    // to the following functions:
+    // CResourceManager::_CreateDecl
+    // CResourceManager::CreateGeom
     if (env.bNeed_re_create_env)
     {
         sh_2sky.create(&m_b_skybox, "skybox_2t");
@@ -268,7 +268,7 @@ void dxEnvironmentRender::RenderSky(IEnvironment& env)
 #endif
 }
 
-void dxEnvironmentRender::RenderClouds(IEnvironment& env)
+void dxEnvironmentRender::RenderClouds(CEnvironment& env)
 {
     ::Render->rmFar();
 

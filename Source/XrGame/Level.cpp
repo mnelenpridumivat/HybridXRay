@@ -735,17 +735,17 @@ void CLevel::OnFrame()
 #endif
     }
 #ifdef DEBUG
-    g_pGamePersistent->EnvironmentAsCOP()->m_paused = m_bEnvPaused;
+    g_pGamePersistent->Environment().m_paused = m_bEnvPaused;
 #endif
-    g_pGamePersistent->EnvironmentAsCOP()->SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
+    g_pGamePersistent->Environment().SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
 
-    // Device->Statistic->cripting.Begin	();
+    // Device->Statistic->cripting.Begin();
     if (!g_dedicated_server)
         ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->update();
-    // Device->Statistic->Scripting.End	();
+    // Device->Statistic->Scripting.End();
     m_ph_commander->update();
     m_ph_commander_scripts->update();
-    //	autosave_manager().update			();
+    // autosave_manager().update();
 
     //
     Device->Statistic->TEST0.Begin();

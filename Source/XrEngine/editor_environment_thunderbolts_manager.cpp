@@ -158,7 +158,7 @@ void manager::save()
     string_path   file_name;
     CInifile*     config      = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\environment.ltx"), FALSE, FALSE, TRUE);
 
-    CEnvironment& environment = *g_pGamePersistent->EnvironmentAsCOP();
+    CEnvironment& environment = g_pGamePersistent->Environment();
 
     config->w_float("environment", "altitude", rad2deg(environment.p_var_alt));
     config->w_float("environment", "delta_longitude", rad2deg(environment.p_var_long));
