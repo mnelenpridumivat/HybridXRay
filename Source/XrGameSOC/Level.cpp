@@ -536,8 +536,7 @@ void CLevel::OnFrame()
 
                 F->SetColor(color_xrgb(255, 255, 255));
                 F->OutNext("P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d)",
-                    //Server->game->get_option_s(C->Name,"name",C->Name),
-                    //					C->Name,
+                    // Server->game->get_option_s(C->Name, "name", C->Name), C->Name,
                     net_Statistic.getPing(),
                     float(net_Statistic.getBPS()),   // /1024,
                     net_Statistic.getMPS_Receive(), net_Statistic.getMPS_Send(), net_Statistic.getRetriedCount(), net_Statistic.dwTimesBlocked);
@@ -545,18 +544,17 @@ void CLevel::OnFrame()
         }
     }
 
-    //	g_pGamePersistent->Environment().SetGameTime	(GetGameDayTimeSec(),GetGameTimeFactor());
-    g_pGamePersistent->Environment().SetGameTime(GetEnvironmentGameDayTimeSec(), GetGameTimeFactor());
+    g_pGamePersistent->Environment().SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
 
-    //Device->Statistic->cripting.Begin	();
+    // Device->Statistic->cripting.Begin	();
     if (!g_dedicated_server)
         ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->update();
-    //Device->Statistic->Scripting.End	();
+    // Device->Statistic->Scripting.End	();
     m_ph_commander->update();
     m_ph_commander_scripts->update();
-    //	autosave_manager().update			();
+    // autosave_manager().update();
 
-    //���������� ����� ����
+    // Просчитать полёт пуль
     Device->Statistic->TEST0.Begin();
     BulletManager().CommitRenderSet();
     Device->Statistic->TEST0.End();
@@ -604,16 +602,16 @@ extern Flags32 dbg_net_Draw_Flags;
 
 extern void draw_wnds_rects();
 
-void        CLevel::OnRender()
+void CLevel::OnRender()
 {
     inherited::OnRender();
 
     Game().OnRender();
-    //���������� ������ ����
+    // Отрисовать трассы пуль
     //Device->Statistic->TEST1.Begin();
     BulletManager().Render();
     //Device->Statistic->TEST1.End();
-    //���������� ��������c ������������
+    // Отрисовать интерфейс пользователя
     HUD().RenderUI();
 
     draw_wnds_rects();
@@ -1000,34 +998,36 @@ void CLevel::GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& m
 float CLevel::GetGameTimeFactor()
 {
     return (game->GetGameTimeFactor());
-    //	return			(Server->game->GetGameTimeFactor());
 }
 
 void CLevel::SetGameTimeFactor(const float fTimeFactor)
 {
     game->SetGameTimeFactor(fTimeFactor);
-    //	Server->game->SetGameTimeFactor(fTimeFactor);
 }
 
 void CLevel::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor)
 {
     game->SetGameTimeFactor(GameTime, fTimeFactor);
-    //	Server->game->SetGameTimeFactor(fTimeFactor);
 }
+
 void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor)
 {
+    if (!game)
+        return;
+
     game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
-    //	Server->game->SetGameTimeFactor(fTimeFactor);
-} /*
+}
+
+/*
 void CLevel::SetGameTime(ALife::_TIME_ID GameTime)
 {
-	game->SetGameTime(GameTime);
-//	Server->game->SetGameTime(GameTime);
+    game->SetGameTime(GameTime);
 }
 */
+
 bool CLevel::IsServer()
 {
-    //	return (!!Server);
+    // return (!!Server);
     if (IsDemoPlay())
     {
         return IsServerDemo();
@@ -1039,7 +1039,7 @@ bool CLevel::IsServer()
 
 bool CLevel::IsClient()
 {
-    //	return (!Server);
+    // return (!Server);
     if (IsDemoPlay())
     {
         return IsClientDemo();
@@ -1047,7 +1047,7 @@ bool CLevel::IsClient()
     if (Server)
         return false;
 
-    //return (Server->GetClientsCount() == 0);
+    // return (Server->GetClientsCount() == 0);
     return true;
 }
 
@@ -1102,7 +1102,7 @@ struct objects_ptrs_equal: public std::binary_function<Feel::Touch::DenyTouch, C
 
 void GlobalFeelTouch::update()
 {
-    //we ignore P and R arguments, we need just delete evaled denied objects...
+    // we ignore P and R arguments, we need just delete evaled denied objects...
     xr_vector<Feel::Touch::DenyTouch>::iterator new_end = std::remove_if(feel_touch_disable.begin(), feel_touch_disable.end(), std::bind2nd(delete_predicate_by_time(), Device->dwTimeGlobal));
     feel_touch_disable.erase(new_end, feel_touch_disable.end());
 }

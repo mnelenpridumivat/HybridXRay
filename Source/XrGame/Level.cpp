@@ -747,7 +747,7 @@ void CLevel::OnFrame()
     m_ph_commander_scripts->update();
     // autosave_manager().update();
 
-    //
+    // Просчитать полёт пуль
     Device->Statistic->TEST0.Begin();
     BulletManager().CommitRenderSet();
     Device->Statistic->TEST0.End();
@@ -795,7 +795,7 @@ extern Flags32 dbg_net_Draw_Flags;
 
 extern void draw_wnds_rects();
 
-void        CLevel::OnRender()
+void CLevel::OnRender()
 {
     inherited::OnRender();
 
@@ -803,11 +803,11 @@ void        CLevel::OnRender()
         return;
 
     Game().OnRender();
-    //
+    // Отрисовать трассы пуль
     // Device->Statistic->TEST1.Begin();
     BulletManager().Render();
     // Device->Statistic->TEST1.End();
-    //  c
+    // Отрисовать интерфейс пользователя
     HUD().RenderUI();
 
 #ifdef DEBUG

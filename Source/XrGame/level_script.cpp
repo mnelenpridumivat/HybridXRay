@@ -439,15 +439,15 @@ cphysics_world_scripted* physics_world_scripted()
 }
 CEnvironment* environment()
 {
-    return (g_pGamePersistent->pEnvironment);
+    return g_pGamePersistent->pEnvironment;
 }
 
 CEnvDescriptor* current_environment(CEnvironment* self)
 {
-    return (self->CurrentEnv);
+    return self->CurrentEnv;
 }
 extern bool g_bDisableAllInput;
-void        disable_input()
+void disable_input()
 {
     g_bDisableAllInput = true;
 #ifdef DEBUG

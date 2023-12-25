@@ -305,24 +305,24 @@ public:
     CLevel();
     virtual ~CLevel();
 
-    //��������� �������� ������
+    // названияе текущего уровня
     virtual shared_str name() const;
     virtual void       GetLevelInfo(CServerInfo* si);
 
     //gets the time from the game simulation
 
-    //���������� ����� � ������������ ������������ ������ ����
+    // возвращает время в милисекундах относительно начала игры
     ALife::_TIME_ID    GetGameTime();
-    //���������� ����� ��� ������������� � ������������ ������������ ������ ����
+    // возвращает время для энвайронмента в милисекундах относительно начала игры
     ALife::_TIME_ID    GetEnvironmentGameTime();
-    //������� ����� � ����������������� ����
+    // игровое время в отформатированном виде
     void               GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& mins, u32& secs, u32& milisecs);
 
     float              GetGameTimeFactor();
     void               SetGameTimeFactor(const float fTimeFactor);
     void               SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor);
-    //void				SetEnvironmentGameTimeFactor		(ALife::_TIME_ID GameTime, const float fTimeFactor);
-    //	void				SetGameTime				(ALife::_TIME_ID GameTime);
+    virtual void       SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor);
+    // void            SetGameTime(ALife::_TIME_ID GameTime);
 
     // gets current daytime [0..23]
     u8                 GetDayTime();
@@ -331,7 +331,7 @@ public:
     float              GetEnvironmentGameDayTimeSec();
 
 protected:
-    //	CFogOfWarMngr*		m_pFogOfWarMngr;
+    // CFogOfWarMngr* m_pFogOfWarMngr;
 
 protected:
     CMapManager* m_map_manager;
@@ -341,9 +341,9 @@ public:
     {
         return *m_map_manager;
     }
-    //	CFogOfWarMngr&			FogOfWarMngr				()	{return *m_pFogOfWarMngr;}
+    // CFogOfWarMngr& FogOfWarMngr() {return *m_pFogOfWarMngr;}
 
-    //������ � ������
+    // работа с пулями
 
 protected:
     CBulletManager* m_pBulletManager;
@@ -379,7 +379,6 @@ public:
         return "";
     }
     virtual void net_StartPlayDemo() {}
-    virtual void SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor);
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };
