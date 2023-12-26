@@ -92,6 +92,10 @@ BOOL CLevel::Load_GameSpecific_After()
             Sounds_Random_dwNextTime = Device->TimerAsync() + 50000;
             Sounds_Random_Enabled    = FALSE;
         }
+
+        // Сбрасываем состояния дождя при загрузке уровня во избежание пропажи звука. Real Wolf.
+        if (g_pGamePersistent->pEnvironment)
+            g_pGamePersistent->pEnvironment->Invalidate();
     }
 
     if (!g_dedicated_server)

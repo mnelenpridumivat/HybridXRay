@@ -323,7 +323,7 @@ public:
 
     void                               SelectEnvs(float gt);
 
-    void                               UpdateAmbient();
+    void                               UpdateAmbient(){};
     INGAME_EDITOR_VIRTUAL CEnvAmbient* AppendEnvAmb(const shared_str& sect);
 
     void                               Invalidate();
