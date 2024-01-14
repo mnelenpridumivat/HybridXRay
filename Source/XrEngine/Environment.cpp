@@ -207,6 +207,18 @@ void CEnvironment::SetGameTime(float game_time, float time_factor)
     fTimeFactor = time_factor;
 }
 
+void CEnvironment::SplitTime(float time, u32& hours, u32& minutes, u32& seconds) const
+{
+    u32 current_time_u32 = iFloor(time);
+    current_time_u32 = current_time_u32 % (24 * 60 * 60);
+
+    hours = current_time_u32 / (60 * 60);
+    current_time_u32 %= (60 * 60);
+
+    minutes = current_time_u32 / 60;
+    seconds = current_time_u32 % 60;
+}
+
 float CEnvironment::NormalizeTime(float tm)
 {
     if (tm < 0.f)
@@ -485,7 +497,8 @@ void CEnvironment::OnFrame()
         return;
 #endif
 
-    // if (pInput->iGetAsyncKeyState(DIK_O)) SetWeatherFX("surge_day");
+    // if (pInput->iGetAsyncKeyState(DIK_O))
+    //    SetWeatherFX("surge_day");
     float current_weight;
     lerp(current_weight);
 

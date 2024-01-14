@@ -78,7 +78,7 @@ public:
     virtual BOOL         file_find(LPCSTR full_name, FS_File& f);
 
     virtual int          file_list(FS_FileSet& dest, LPCSTR path, u32 flags = FS_ListFiles, LPCSTR mask = 0);
-    //.    void						update_path			(xr_string& dest, LPCSTR initial, LPCSTR src);
+    // void              update_path(xr_string &dest, LPCSTR initial, LPCSTR src);
 };
 
 #endif   // ELocatorAPIH

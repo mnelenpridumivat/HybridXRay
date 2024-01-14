@@ -387,6 +387,9 @@ public:
     }
 #endif   // #ifdef INGAME_EDITOR
 
+    void SplitTime(float time, u32& hours, u32& minutes, u32& seconds) const;
+
+
     bool m_paused;
 #endif   // #ifdef _EDITOR
 

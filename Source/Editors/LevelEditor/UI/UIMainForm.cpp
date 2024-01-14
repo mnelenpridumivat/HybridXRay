@@ -311,11 +311,13 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                         ImGui::Separator();
                         for (auto& i: g_pGamePersistent->Environment().WeatherCycles)
                         {
+                            g_pGamePersistent->Environment().SetWeather(EPrefs->sWeather, true);
                             selected = psDeviceFlags.test(rsEnvironment) && i.first == g_pGamePersistent->Environment().CurrentCycleName;
                             if (ImGui::MenuItem(i.first.c_str(), "", &selected))
                             {
                                 psDeviceFlags.set(rsEnvironment, true);
                                 g_pGamePersistent->Environment().SetWeather(i.first.c_str(), true);
+                                EPrefs->sWeather = g_pGamePersistent->Environment().CurrentCycleName;
                                 UI->RedrawScene();
                             }
                             if (ImGui::IsItemHovered())

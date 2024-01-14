@@ -342,38 +342,6 @@ void _SequenceToList(AStringVec& lst, LPCSTR in, char separator)
     }
 }
 
-AnsiString FloatTimeToStrTime(float v, bool _h, bool _m, bool _s, bool _ms)
-{
-    AnsiString buf = "";
-    int        h = 0, m = 0, s = 0, ms;
-    AnsiString t;
-    if (_h)
-    {
-        h = iFloor(v / 3600);
-        t.sprintf("%02d", h);
-        buf += t;
-    }
-    if (_m)
-    {
-        m = iFloor((v - h * 3600) / 60);
-        t.sprintf("%02d", m);
-        buf += buf.IsEmpty() ? t : ":" + t;
-    }
-    if (_s)
-    {
-        s = iFloor(v - h * 3600 - m * 60);
-        t.sprintf("%02d", s);
-        buf += buf.IsEmpty() ? t : ":" + t;
-    }
-    if (_ms)
-    {
-        ms = iFloor((v - h * 3600 - m * 60 - s) * 1000.f);
-        t.sprintf("%03d", ms);
-        buf += buf.IsEmpty() ? t : "." + t;
-    }
-    return buf;
-}
-
 float StrTimeToFloatTime(LPCSTR buf, bool _h, bool _m, bool _s, bool _ms)
 {
     float t[4] = {0.f, 0.f, 0.f, 0.f};
@@ -397,6 +365,38 @@ float StrTimeToFloatTime(LPCSTR buf, bool _h, bool _m, bool _s, bool _ms)
     return t[0] * 3600 + t[1] * 60 + t[2];
 }
 #endif
+
+xr_string FloatTimeToStrTime(float v, bool _h, bool _m, bool _s, bool _ms)
+{
+    xr_string buf = "";
+    int        h = 0, m = 0, s = 0, ms;
+    xr_string t;
+    if (_h)
+    {
+        h = iFloor(v / 3600);
+        t.sprintf("%02d", h);
+        buf += t;
+    }
+    if (_m)
+    {
+        m = iFloor((v - h * 3600) / 60);
+        t.sprintf("%02d", m);
+        buf += buf.empty() ? t : ":" + t;
+    }
+    if (_s)
+    {
+        s = iFloor(v - h * 3600 - m * 60);
+        t.sprintf("%02d", s);
+        buf += buf.empty() ? t : ":" + t;
+    }
+    if (_ms)
+    {
+        ms = iFloor((v - h * 3600 - m * 60 - s) * 1000.f);
+        t.sprintf("%03d", ms);
+        buf += buf.empty() ? t : "." + t;
+    }
+    return buf;
+}
 
 void _SequenceToList(LPSTRVec& lst, LPCSTR in, char separator)
 {

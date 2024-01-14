@@ -655,4 +655,5 @@ BOOL ELocatorAPI::can_modify_file(LPCSTR path, LPCSTR name)
     update_path(temp, path, name);
     return can_modify_file(temp);
 }
+
 #endif

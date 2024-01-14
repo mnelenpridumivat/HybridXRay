@@ -16,6 +16,7 @@ private:
 
     ref_texture         m_discord_icon;
     ref_texture         m_github_icon;
+    ref_texture         m_githubHXR_icon;
     ref_texture         m_gitea_icon;
     ref_texture         m_vk_icon;
     ref_texture         m_stalkerue_icon;

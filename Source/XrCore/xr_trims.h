@@ -4,6 +4,7 @@
 // refs
 struct xr_token;
 
+XRCORE_API xr_string FloatTimeToStrTime(float v, bool h = true, bool m = true, bool s = true, bool ms = false);
 #ifdef __BORLANDC__
 XRCORE_API AnsiString& _Trim(AnsiString& str);
 XRCORE_API LPCSTR      _GetItem(LPCSTR src, int, AnsiString& p, char separator = ',', LPCSTR = "", bool trim = true);
@@ -14,7 +15,6 @@ XRCORE_API AnsiString  _ListToSequence2(const AStringVec& lst);
 XRCORE_API void        _SequenceToList(AStringVec& lst, LPCSTR in, char separator = ',');
 XRCORE_API AnsiString& _ReplaceItem(LPCSTR src, int index, LPCSTR new_item, AnsiString& dst, char separator);
 XRCORE_API AnsiString& _ReplaceItems(LPCSTR src, int idx_start, int idx_end, LPCSTR new_items, AnsiString& dst, char separator);
-XRCORE_API AnsiString  FloatTimeToStrTime(float v, bool h = true, bool m = true, bool s = true, bool ms = false);
 XRCORE_API float       StrTimeToFloatTime(LPCSTR buf, bool h = true, bool m = true, bool s = true, bool ms = false);
 #endif
 

@@ -13,6 +13,7 @@ UIAboutForm::UIAboutForm()
     m_cocr_icon      = EDevice->Resources->_CreateTexture("ed\\bar\\icon_cocr");
     m_discord_icon   = EDevice->Resources->_CreateTexture("ed\\bar\\discord");
     m_github_icon    = EDevice->Resources->_CreateTexture("ed\\bar\\github");
+    m_githubHXR_icon = EDevice->Resources->_CreateTexture("ed\\bar\\github");
     m_gitea_icon     = EDevice->Resources->_CreateTexture("ed\\bar\\gitea");
     m_vk_icon        = EDevice->Resources->_CreateTexture("ed\\bar\\vk");
     m_stalkerue_icon = EDevice->Resources->_CreateTexture("ed\\bar\\stalkerue");
@@ -22,43 +23,45 @@ UIAboutForm::~UIAboutForm() {}
 
 void UIAboutForm::Draw()
 {
-    u32    buildIDLocal = Core.GetBuildIDLocal();
-    pcstr  buildID      = Core.BuildID;
-    pcstr  buildDate    = Core.GetBuildDate();
-    pcstr  commit       = Core.GetBuildCommit();
-    pcstr  branch       = Core.GetBuildBranch();
+    u32    buildIDLocal    = Core.GetBuildIDLocal();
+    pcstr  buildID         = Core.BuildID;
+    pcstr  buildDate       = Core.GetBuildDate();
+    pcstr  commit          = Core.GetBuildCommit();
+    pcstr  branch          = Core.GetBuildBranch();
 
-    pcstr  versionSDK   = "SDK v.0.8.1b"_RU >> u8"СДК v.0.8.1b";
+    pcstr  titleName       = "CoCRTeam[HybridXRay]"_RU >> u8"CoCRTeam[HybridXRay]";
+    pcstr  titleInfo       = "Information about Build:"_RU >> u8"Информация о Билде:";
+    pcstr  versionSDK      = "SDK v.0.8.1b"_RU >> u8"СДК v.0.8.1b";
+    pcstr  ButtonClose     = "Close"_RU >> u8"Закрыть";
 
-    pcstr  AEtitleCoP   = "X-Ray Actor Editor[CoP mode]"_RU >> u8"X-Ray Actor Editor[CoP режим]";
-    pcstr  AEtitleCS    = "X-Ray Actor Editor[CS mode]"_RU >> u8"X-Ray Actor Editor[CS режим]";
-    pcstr  AEtitleShoC  = "X-Ray Actor Editor[ShoC mode]"_RU >> u8"X-Ray Actor Editor[ShoC режим]";
+    pcstr  AEtitleCoP      = "X-Ray Actor Editor[CoP mode]"_RU >> u8"X-Ray Actor Editor[CoP режим]";
+    pcstr  AEtitleCS       = "X-Ray Actor Editor[CS mode]"_RU >> u8"X-Ray Actor Editor[CS режим]";
+    pcstr  AEtitleShoC     = "X-Ray Actor Editor[ShoC mode]"_RU >> u8"X-Ray Actor Editor[ShoC режим]";
 
-    pcstr  LEtitleCoP   = "X-Ray Level Editor[CoP mode]"_RU >> u8"X-Ray Level Editor[CoP режим]";
-    pcstr  LEtitleCS    = "X-Ray Level Editor[CS mode]"_RU >> u8"X-Ray Level Editor[CS режим]";
-    pcstr  LEtitleShoC  = "X-Ray Level Editor[ShoC mode]"_RU >> u8"X-Ray Level Editor[ShoC режим]";
+    pcstr  LEtitleCoP      = "X-Ray Level Editor[CoP mode]"_RU >> u8"X-Ray Level Editor[CoP режим]";
+    pcstr  LEtitleCS       = "X-Ray Level Editor[CS mode]"_RU >> u8"X-Ray Level Editor[CS режим]";
+    pcstr  LEtitleShoC     = "X-Ray Level Editor[ShoC mode]"_RU >> u8"X-Ray Level Editor[ShoC режим]";
 
-    pcstr  PEtitleCoP   = "X-Ray Particle Editor[CoP mode]"_RU >> u8"X-Ray Particle Editor[CoP режим]";
-    pcstr  PEtitleCS    = "X-Ray Particle Editor[CS mode]"_RU >> u8"X-Ray Particle Editor[CS режим]";
-    pcstr  PEtitleShoC  = "X-Ray Particle Editor[ShoC mode]"_RU >> u8"X-Ray Particle Editor[ShoC режим]";
+    pcstr  PEtitleCoP      = "X-Ray Particle Editor[CoP mode]"_RU >> u8"X-Ray Particle Editor[CoP режим]";
+    pcstr  PEtitleCS       = "X-Ray Particle Editor[CS mode]"_RU >> u8"X-Ray Particle Editor[CS режим]";
+    pcstr  PEtitleShoC     = "X-Ray Particle Editor[ShoC mode]"_RU >> u8"X-Ray Particle Editor[ShoC режим]";
 
-    pcstr  SEtitleCoP   = "X-Ray Shader Editor[CoP mode]"_RU >> u8"X-Ray Shader Editor[CoP режим]";
-    pcstr  SEtitleCS    = "X-Ray Shader Editor[CS mode]"_RU >> u8"X-Ray Shader Editor[CS режим]";
-    pcstr  SEtitleShoC  = "X-Ray Shader Editor[ShoC mode]"_RU >> u8"X-Ray Shader Editor[ShoC режим]";
+    pcstr  SEtitleCoP      = "X-Ray Shader Editor[CoP mode]"_RU >> u8"X-Ray Shader Editor[CoP режим]";
+    pcstr  SEtitleCS       = "X-Ray Shader Editor[CS mode]"_RU >> u8"X-Ray Shader Editor[CS режим]";
+    pcstr  SEtitleShoC     = "X-Ray Shader Editor[ShoC mode]"_RU >> u8"X-Ray Shader Editor[ShoC режим]";
 
-    ImVec2 sizeImage    = ImVec2(150.0f, 150.0f);   // Размер изображения, которое мы хотим сделать видимым
-    ImVec2 sizeButton   = ImVec2(22.0f, 22.0f);     // Размер изображения, которое мы хотим сделать видимым
+    ImVec2 sizeImage       = ImVec2(150.0f, 150.0f);   // Размер изображения, которое мы хотим сделать видимым
+    ImVec2 sizeButton      = ImVec2(22.0f, 22.0f);     // Размер кнопки, которое мы хотим сделать видимым
+    ImVec2 sizeButtonClose = ImVec2(55.0f, 22.0f);     // Размер кнопки, которое мы хотим сделать видимым
 
     ImGui::BeginChild("Center", ImVec2(400, 500), true);
     // Картинка
     {
         m_cocr_icon->Load();
-        ImGui::SameLine(125, 0);
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - sizeImage.x) / 2);
         ImGui::Image(m_cocr_icon->surface_get(), ImVec2(sizeImage));
-        // ImGui::Separator();
-        ImGui::NewLine();
-        ImGui::SameLine(135, 0);
-        ImGui::TextColored(ImVec4(0, 1, 0, 0.9), "CoCRTeam[HybridXRay]"_RU >> u8"CoCRTeam[HybridXRay]");
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(titleName).x) / 2);
+        ImGui::TextColored(ImVec4(0, 1, 0, 0.9), titleName);
     }
     ImGui::Separator();
     ImGui::NewLine();
@@ -81,39 +84,37 @@ void UIAboutForm::Draw()
         else if (bIsLevelEditor)
         {
             if (xrGameManager::GetGame() == EGame::COP)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", LEtitleCoP);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", LEtitleCoP);
             else if (xrGameManager::GetGame() == EGame::CS)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", LEtitleCS);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", LEtitleCS);
             else if (xrGameManager::GetGame() == EGame::SHOC)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", LEtitleShoC);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", LEtitleShoC);
         }
         else if (bIsParticleEditor)
         {
             if (xrGameManager::GetGame() == EGame::COP)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", PEtitleCoP);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", PEtitleCoP);
             else if (xrGameManager::GetGame() == EGame::CS)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", PEtitleCS);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", PEtitleCS);
             else if (xrGameManager::GetGame() == EGame::SHOC)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", PEtitleShoC);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", PEtitleShoC);
         }
         else if (bIsShaderEditor)
         {
             if (xrGameManager::GetGame() == EGame::COP)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", SEtitleCoP);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", SEtitleCoP);
             else if (xrGameManager::GetGame() == EGame::CS)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", SEtitleCS);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", SEtitleCS);
             else if (xrGameManager::GetGame() == EGame::SHOC)
-                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                 [ %s ]", SEtitleShoC);
+                ImGui::TextColored(ImVec4(1, 1, 0, 0.8), "Editor:                  %s ", SEtitleShoC);
         }
     }
     ImGui::NewLine();
-    ImGui::Spacing();
     ImGui::Separator();
-    ImGui::NewLine();
     // Инфо Build
     {
-        ImGui::SameLine(135, 0);
-        ImGui::TextColored(ImVec4(1, 0, 0, 0.9), "Information about Build:"_RU >> u8"Информация о Билде:");
+        ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(titleInfo).x) / 2);
+        ImGui::TextColored(ImVec4(1, 0, 0, 0.9), titleInfo);
         ImGui::NewLine();
         ImGui::Spacing();
         ImGui::SameLine(0, 15);
@@ -133,7 +134,6 @@ void UIAboutForm::Draw()
         ImGui::TextColored(ImVec4(1, 1, 0, 1), "Branch:    [ %s ]"_RU >> u8"Ветка:      [ %s ]", branch);
     }
     ImGui::NewLine();
-    ImGui::Spacing();
     ImGui::Separator();
     ImGui::NewLine();
     ImGui::Spacing();
@@ -227,11 +227,11 @@ void UIAboutForm::Draw()
         // Кнопка на GitHub
         {
             ImGui::SameLine(0, 5);
-            m_github_icon->Load();
-            if (ImGui::ImageButton(m_github_icon->surface_get(), sizeButton))
+            m_githubHXR_icon->Load();
+            if (ImGui::ImageButton(m_githubHXR_icon->surface_get(), sizeButton))
             {
                 // Открыть ссылку
-                std::system("start https://github.com/Roman-n/HybridXRay?tab=readme-ov-file#readme");
+                std::system("start https://github.com/Roman-n/HybridXRay?#readme");
             }
             if (ImGui::IsItemHovered())
             {
@@ -243,8 +243,8 @@ void UIAboutForm::Draw()
     ImGui::EndChild();
 
     ImGui::Separator();
-    ImGui::SameLine(182, 0);
-    if (ImGui::Button("Close"_RU >> u8"Закрыть"))
+    ImGui::SetCursorPosX((ImGui::GetWindowWidth() - sizeButtonClose.x) / 2);
+    if (ImGui::Button(ButtonClose, sizeButtonClose))
     {
         bOpen = false;
         ImGui::CloseCurrentPopup();
