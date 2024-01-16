@@ -2,7 +2,7 @@
 #ifndef UI_ToolsCustomH
 #define UI_ToolsCustomH
 
-#include "../xrEProps/ItemListHelper.h"
+#include "../../xrEProps/ItemListHelper.h"
 #include "EditObject.h"
 
 // refs

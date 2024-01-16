@@ -304,7 +304,7 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
         SndLib->OnCreate();
         LALib.OnCreate();
         Lib.OnCreate();
-        BOOL bWeather = psDeviceFlags.is(rsEnvironment);
+        bool bWeather = psDeviceFlags.is(rsEnvironment);
         psDeviceFlags.set(rsEnvironment, FALSE);
         g_pGamePersistent = xr_new<XrGamePersistentEditors>();
         if (Tools)
@@ -312,7 +312,14 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
             if (Tools->OnCreate())
             {
                 if (EPrefs)
+                {
                     EPrefs->Load();
+                    if (bWeather && EPrefs->sWeather.size())
+                    {
+                        psDeviceFlags.set(rsEnvironment, true);
+                        g_pGamePersistent->Environment().SetWeather(EPrefs->sWeather, true);
+                    }
+                }
                 EDevice->seqAppStart.Process(rp_AppStart);
                 ExecCommand(COMMAND_RESTORE_UI_BAR);
                 ExecCommand(COMMAND_REFRESH_UI_BAR);
@@ -320,14 +327,6 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
                 ExecCommand(COMMAND_RENDER_FOCUS);
                 ExecCommand(COMMAND_CHANGE_ACTION, etaSelect);
                 ExecCommand(COMMAND_RENDER_RESIZE);
-                /*
-                            if(bWeather && EPrefs->sWeather.size() )
-                            {
-                                psDeviceFlags.set(rsEnvironment, TRUE);
-                                g_pGamePersistent->Environment().SetWeather(EPrefs->sWeather, true);
-
-                            }
-                */
             }
             else
             {

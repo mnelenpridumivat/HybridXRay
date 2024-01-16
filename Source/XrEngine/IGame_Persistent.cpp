@@ -3,7 +3,7 @@
 
 #include "IGame_Persistent.h"
 #ifndef _EDITOR
-#include "environment.h"
+// #include "environment.h"
 #include "x_ray.h"
 #include "IGame_Level.h"
 #include "XR_IOConsole.h"
@@ -27,9 +27,9 @@ IGame_Persistent::IGame_Persistent(bool bIsEditor)
     m_pMainMenu = NULL;
 
 #ifndef INGAME_EDITOR
-#ifndef _EDITOR
+// #ifndef _EDITOR
     pEnvironment = xr_new<CEnvironment>();
-#endif
+// #endif
 #else   // #ifdef INGAME_EDITOR
     if (!bIsEditor)
     {
@@ -49,9 +49,9 @@ IGame_Persistent::~IGame_Persistent()
     Device->seqAppEnd.Remove(this);
     Device->seqAppActivate.Remove(this);
     Device->seqAppDeactivate.Remove(this);
-#ifndef _EDITOR
+// #ifndef _EDITOR
     xr_delete(pEnvironment);
-#endif
+// #endif
 }
 
 void IGame_Persistent::OnAppActivate() {}
@@ -115,14 +115,14 @@ void IGame_Persistent::Disconnect()
 
     if (g_hud)
         DEL_INSTANCE(g_hud);
-//.		g_hud->OnDisconnected			();
+    // g_hud->OnDisconnected();
 #endif
 }
 
 void IGame_Persistent::OnGameStart()
 {
 #ifndef _EDITOR
-    //	LoadTitle("st_prefetching_objects");
+    // LoadTitle("st_prefetching_objects");
     LoadTitle();
     if (strstr(Core.Params, "-noprefetch"))
         return;
@@ -135,7 +135,7 @@ void IGame_Persistent::OnGameStart()
     ObjectPool.prefetch();
     Log("Loading models...");
     Render->models_Prefetch();
-    // Device->Resources->DeferredUpload	();
+    // Device->Resources->DeferredUpload();
     Device->m_pRender->ResourcesDeferredUpload();
 
     p_time    = 1000.f * Device->GetTimerGlobal()->GetElapsed_sec() - p_time;
@@ -156,11 +156,10 @@ void IGame_Persistent::OnGameEnd()
 
 void IGame_Persistent::OnFrame()
 {
-#ifndef _EDITOR
-
     if (!Device->Paused() || Device->dwPrecacheFrame)
         Environment().OnFrame();
 
+#ifndef _EDITOR
     Device->Statistic->Particles_starting = ps_needtoplay.size();
     Device->Statistic->Particles_active   = ps_active.size();
     Device->Statistic->Particles_destroy  = ps_destroy.size();
@@ -175,7 +174,7 @@ void IGame_Persistent::OnFrame()
     // Destroy inactive particle systems
     while (ps_destroy.size())
     {
-        //		u32 cnt					= ps_destroy.size();
+        // u32 cnt = ps_destroy.size();
         CPS_Instance* psi = ps_destroy.back();
         VERIFY(psi);
         if (psi->Locked())

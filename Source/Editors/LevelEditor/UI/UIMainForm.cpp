@@ -311,8 +311,8 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                         ImGui::Separator();
                         for (auto& i: g_pGamePersistent->Environment().WeatherCycles)
                         {
-                            g_pGamePersistent->Environment().SetWeather(EPrefs->sWeather, true);
-                            selected = psDeviceFlags.test(rsEnvironment) && i.first == g_pGamePersistent->Environment().CurrentCycleName;
+                            #pragma TODO("Romann: Если в UI_MainCommand.cpp исправится применение погодного цикла из ini файла - то тут надо заменить 'EPrefs->sWeather' на 'g_pGamePersistent->Environment().CurrentCycleName'")
+                            selected = psDeviceFlags.test(rsEnvironment) && i.first == EPrefs->sWeather;
                             if (ImGui::MenuItem(i.first.c_str(), "", &selected))
                             {
                                 psDeviceFlags.set(rsEnvironment, true);

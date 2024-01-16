@@ -139,7 +139,7 @@ extern ECORE_API BOOL g_extendedLogPlus;
 extern ECORE_API BOOL g_force16BitTransformQuant;
 extern ECORE_API BOOL g_forceFloatTransformQuant;
 
-void                  CCustomPreferences::OnMotionCompressChanged(PropValue* sender)
+void CCustomPreferences::OnMotionCompressChanged(PropValue* sender)
 {
     BOOLValue* casted = dynamic_cast<BOOLValue*>(sender);
 
@@ -244,10 +244,11 @@ void CCustomPreferences::Edit()
     // m_ItemProps->ShowPropertiesModal();
 
     // save changed options
+    Save();
 }
 //---------------------------------------------------------------------------
 extern bool bAllowLogCommands;
-void        CCustomPreferences::Load(CInifile* I)
+void CCustomPreferences::Load(CInifile* I)
 {
     psDeviceFlags.flags     = R_U32_SAFE("editor_prefs", "device_flags", psDeviceFlags.flags);
     psSoundFlags.flags      = R_U32_SAFE("editor_prefs", "sound_flags", psSoundFlags.flags);
@@ -438,8 +439,7 @@ void CCustomPreferences::OnCreate()
 {
     Load();
     m_ItemProps = xr_new<UIPropertiesForm>();
-    // m_ItemProps 		= TProperties::CreateModalForm("Editor
-    // Preferences",false,0,0,TOnCloseEvent(this,&CCustomPreferences::OnClose),TProperties::plItemFolders|TProperties::plFullSort);
+    // m_ItemProps = TProperties::CreateModalForm("Editor Preferences", false, 0, 0, TOnCloseEvent(this, &CCustomPreferences::OnClose), TProperties::plItemFolders | TProperties::plFullSort);
     // TProperties::plFullExpand TProperties::plFullSort TProperties::plNoClearStore|TProperties::plFolderStore|
 }
 //---------------------------------------------------------------------------

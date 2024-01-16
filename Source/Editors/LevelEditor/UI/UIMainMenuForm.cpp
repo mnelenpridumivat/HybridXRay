@@ -584,11 +584,13 @@ void UIMainMenuForm::Draw()
                     ImGui::Separator();
                     for (auto& i: g_pGamePersistent->Environment().WeatherCycles)
                     {
-                        selected = psDeviceFlags.test(rsEnvironment) && i.first == g_pGamePersistent->Environment().CurrentCycleName;
+                        #pragma TODO("Romann: Если в UI_MainCommand.cpp исправится применение погодного цикла из ini файла - то тут надо заменить 'EPrefs->sWeather' на 'g_pGamePersistent->Environment().CurrentCycleName'")
+                        selected = psDeviceFlags.test(rsEnvironment) && i.first == EPrefs->sWeather;
                         if (ImGui::MenuItem(i.first.c_str(), "", &selected))
                         {
                             psDeviceFlags.set(rsEnvironment, true);
                             g_pGamePersistent->Environment().SetWeather(i.first.c_str(), true);
+                            EPrefs->sWeather = g_pGamePersistent->Environment().CurrentCycleName;
                             UI->RedrawScene();
                         }
                         if (ImGui::IsItemHovered())
