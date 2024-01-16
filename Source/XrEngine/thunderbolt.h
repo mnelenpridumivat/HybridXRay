@@ -124,7 +124,7 @@ private:
     // float    p_fog_color;
 
 private:
-    BOOL RayPick(const Fvector& s, const Fvector& d, float& range);
+    BOOL RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt, Fvector* n);
     void Bolt(shared_str id, float period, float life_time);
 
 public:

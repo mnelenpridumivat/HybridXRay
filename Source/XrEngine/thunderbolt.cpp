@@ -7,7 +7,7 @@
 #include "Thunderbolt.h"
 #include "igame_persistent.h"
 #include "LightAnimLibrary.h"
- 
+
 #ifdef _EDITOR
 #include "../Editors/xrECore/Editor/UI_ToolsCustom.h"
 #else
@@ -145,33 +145,51 @@ shared_str CEffect_Thunderbolt::AppendDef(CEnvironment& environment, CInifile* p
     return collection.back()->section;
 }
 
-BOOL CEffect_Thunderbolt::RayPick(const Fvector& s, const Fvector& d, float& dist)
+BOOL CEffect_Thunderbolt::RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt, Fvector* n)
 {
     BOOL bRes = TRUE;
 #ifdef _EDITOR
     bRes = Tools->RayPick(s, d, dist, 0, 0);
 #else
-    collide::rq_result RQ;
-    CObject*           E = g_pGameLevel->CurrentViewEntity();
-    bRes                 = g_pGameLevel->ObjectSpace.RayPick(s, d, dist, collide::rqtBoth, RQ, E);
-    if (bRes)
-        dist = RQ.range;
-    else
+    Fvector N = {0.f, -1.f, 0.f};
+    Fvector P = {0.f, 0.f, 0.f};
+    Fplane  PL;
+    PL.build(P, N);
+    if (!g_pGameLevel)
     {
-        Fvector N = {0.f, -1.f, 0.f};
-        Fvector P = {0.f, 0.f, 0.f};
-        Fplane  PL;
-        PL.build(P, N);
-        float dst = dist;
-        if (PL.intersectRayDist(s, d, dst) && (dst <= dist))
+        float d;
+        if (PL.intersectRayDist(start, dir, d) && (d <= dist))
         {
-            dist = dst;
+            dist = d;
+            if (pt)
+                pt->mad(start, dir, dist);
+            if (n)
+                n->set(N);
             return true;
         }
         else
             return false;
     }
-#endif
+    else
+    {
+        collide::rq_result RQ;
+        CObject*           E = g_pGameLevel->CurrentViewEntity();
+        bRes                 = g_pGameLevel->ObjectSpace.RayPick(start, dir, dist, collide::rqtBoth, RQ, E);
+        if (bRes)
+            dist = RQ.range;
+        else
+        {
+            float dst = dist;
+            if (PL.intersectRayDist(start, dir, dst) && (dst <= dist))
+            {
+                dist = dst;
+                return true;
+            }
+            else
+                return false;
+        }
+    }
+#endif   // _EDITOR
     return bRes;
 }
 #define FAR_DIST g_pGamePersistent->Environment().CurrentEnv->far_plane
@@ -204,7 +222,7 @@ void CEffect_Thunderbolt::Bolt(shared_str id, float period, float lt)
     Fvector light_dir = {0.f, -1.f, 0.f};
     XF.transform_dir(light_dir);
     lightning_size = FAR_DIST * 2.f;
-    RayPick(pos, light_dir, lightning_size);
+    RayPick(pos, light_dir, lightning_size, 0, 0);
 
     lightning_center.mad(pos, light_dir, lightning_size * 0.5f);
 
@@ -268,7 +286,7 @@ void CEffect_Thunderbolt::OnFrame(shared_str id, float period, float duration)
         {
             R_ASSERT(_valid(current_direction));
             g_pGamePersistent->Environment().CurrentEnv->sun_dir = current_direction;
-            VERIFY2(g_pGamePersistent->Environment().CurrentEnv->sun_dir.y<0,"Invalid sun direction settings while CEffect_Thunderbolt");
+            VERIFY2(g_pGamePersistent->Environment().CurrentEnv->sun_dir.y < 0, "Invalid sun direction settings while CEffect_Thunderbolt");
         }
     }
 }
