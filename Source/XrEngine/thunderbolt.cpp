@@ -1,16 +1,13 @@
 ﻿#include "stdafx.h"
 #pragma once
 
-#ifndef _EDITOR
-#include "render.h"
-#endif
 #include "Thunderbolt.h"
 #include "igame_persistent.h"
 #include "LightAnimLibrary.h"
+#include "XrEditorSceneInterface.h"
 
-#ifdef _EDITOR
-#include "../Editors/xrECore/Editor/UI_ToolsCustom.h"
-#else
+#if 1
+// #include "render.h"
 #include "igame_level.h"
 #include "../xrcdb/xr_area.h"
 #include "xr_object.h"
@@ -145,30 +142,12 @@ shared_str CEffect_Thunderbolt::AppendDef(CEnvironment& environment, CInifile* p
     return collection.back()->section;
 }
 
-BOOL CEffect_Thunderbolt::RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt, Fvector* n)
+BOOL CEffect_Thunderbolt::RayPick(const Fvector& start, const Fvector& dir, float& dist)
 {
     BOOL bRes = TRUE;
-#ifdef _EDITOR
-    bRes = Tools->RayPick(s, d, dist, 0, 0);
-#else
-    Fvector N = {0.f, -1.f, 0.f};
-    Fvector P = {0.f, 0.f, 0.f};
-    Fplane  PL;
-    PL.build(P, N);
     if (!g_pGameLevel)
     {
-        float d;
-        if (PL.intersectRayDist(start, dir, d) && (d <= dist))
-        {
-            dist = d;
-            if (pt)
-                pt->mad(start, dir, dist);
-            if (n)
-                n->set(N);
-            return true;
-        }
-        else
-            return false;
+        bRes = EditorScene->RayPick(start, dir, dist);
     }
     else
     {
@@ -179,6 +158,10 @@ BOOL CEffect_Thunderbolt::RayPick(const Fvector& start, const Fvector& dir, floa
             dist = RQ.range;
         else
         {
+            Fvector N = {0.f, -1.f, 0.f};
+            Fvector P = {0.f, 0.f, 0.f};
+            Fplane  PL;
+            PL.build(P, N);
             float dst = dist;
             if (PL.intersectRayDist(start, dir, dst) && (dst <= dist))
             {
@@ -189,7 +172,6 @@ BOOL CEffect_Thunderbolt::RayPick(const Fvector& start, const Fvector& dir, floa
                 return false;
         }
     }
-#endif   // _EDITOR
     return bRes;
 }
 #define FAR_DIST g_pGamePersistent->Environment().CurrentEnv->far_plane
@@ -222,7 +204,7 @@ void CEffect_Thunderbolt::Bolt(shared_str id, float period, float lt)
     Fvector light_dir = {0.f, -1.f, 0.f};
     XF.transform_dir(light_dir);
     lightning_size = FAR_DIST * 2.f;
-    RayPick(pos, light_dir, lightning_size, 0, 0);
+    RayPick(pos, light_dir, lightning_size);
 
     lightning_center.mad(pos, light_dir, lightning_size * 0.5f);
 

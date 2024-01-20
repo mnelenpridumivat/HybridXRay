@@ -386,7 +386,6 @@ void ESoundSource::OnFrame()
             break;
         case stSimulate:
         {
-            /*
             m_Flags.set(flSimulating, TRUE);
             if ((fis_zero(m_ActiveTime.x) && fis_zero(m_ActiveTime.y)) || ((g_pGamePersistent->Environment().GetGameTime() > m_ActiveTime.x) && (g_pGamePersistent->Environment().GetGameTime() < m_ActiveTime.y)))
             {
@@ -429,7 +428,6 @@ void ESoundSource::OnFrame()
                 if (0 != m_Source._feedback())
                     m_Source.stop_deffered();
             }
-            */
         }
         break;
         case stNothing:

@@ -24,6 +24,7 @@ public:
 
     void       Initialize();
     void       Destroy();
+    void       ReloadSettings();
 
     CEngine();
     ~CEngine();

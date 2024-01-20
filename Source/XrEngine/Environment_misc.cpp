@@ -6,8 +6,10 @@
 #include "thunderbolt.h"
 #include "rain.h"
 
+#if 1
 #include "IGame_Level.h"
 #include "object_broker.h"
+#endif
 #include "LevelGameDef.h"
 
 #include "securom_api.h"
@@ -33,7 +35,7 @@ void CEnvModifier::load(IReader* fs, u32 version)
 
 float CEnvModifier::sum(CEnvModifier& M, Fvector3& view)
 {
-    float         _dist_sq = view.distance_to_sqr(M.position);
+    float _dist_sq = view.distance_to_sqr(M.position);
     if (_dist_sq >= (M.radius * M.radius))
         return 0;
 
@@ -199,7 +201,6 @@ CEnvDescriptor::CEnvDescriptor(shared_str const& identifier): m_identifier(ident
     sky_rotation = 0.0f;
 
     far_plane    = 400.0f;
-    ;
 
     fog_color.set(1, 1, 1);
     fog_density  = 0.0f;
@@ -271,7 +272,7 @@ void CEnvDescriptor::load(CEnvironment& environment, CInifile& config)
     ambient        = config.r_fvector3(m_identifier.c_str(), "ambient_color");
     hemi_color     = config.r_fvector4(m_identifier.c_str(), "hemisphere_color");
     sun_color      = config.r_fvector3(m_identifier.c_str(), "sun_color");
-    //	if (config.line_exist(m_identifier.c_str(),"sun_altitude"))
+    // if (config.line_exist(m_identifier.c_str(), "sun_altitude"))
     sun_dir.setHP(deg2rad(config.r_float(m_identifier.c_str(), "sun_altitude")), deg2rad(config.r_float(m_identifier.c_str(), "sun_longitude")));
     R_ASSERT(_valid(sun_dir));
     // else
@@ -312,7 +313,7 @@ void CEnvDescriptor::on_device_create()
 
     if (clouds_texture_name.size())
         clouds_texture.create(clouds_texture_name.c_str());
-        */
+    */
 }
 
 void CEnvDescriptor::on_device_destroy()
@@ -372,8 +373,8 @@ void CEnvDescriptorMixer::clear()
 
 void CEnvDescriptorMixer::lerp(CEnvironment*, CEnvDescriptor& A, CEnvDescriptor& B, float f, CEnvModifier& Mdf, float modifier_power)
 {
-    float           modif_power = 1.f / (modifier_power + 1);   // the environment itself
-    float           fi          = 1 - f;
+    float modif_power = 1.f / (modifier_power + 1);   // the environment itself
+    float fi          = 1 - f;
 
     m_pDescriptorMixer->lerp(&*A.m_pDescriptor, &*B.m_pDescriptor);
     /*
@@ -517,6 +518,7 @@ void CEnvironment::mods_unload()
 
 void CEnvironment::load_level_specific_ambients()
 {
+#if 1
     SECUROM_MARKER_PERFORMANCE_ON(13)
 
     const shared_str level_name = g_pGameLevel->name();
@@ -547,6 +549,7 @@ void CEnvironment::load_level_specific_ambients()
     xr_delete(level_ambients);
 
     SECUROM_MARKER_PERFORMANCE_OFF(13)
+#endif
 }
 
 CEnvDescriptor* CEnvironment::create_descriptor(shared_str const& identifier, CInifile* config)
@@ -651,7 +654,7 @@ void CEnvironment::load_weather_effects()
         sections_type&         sections = config->sections();
 
         env.reserve(sections.size() + 2);
-        env.push_back(create_descriptor("00:00:00", false));
+        env.push_back(create_descriptor("00:00:00", NULL));
 
         sections_type::const_iterator i = sections.begin();
         sections_type::const_iterator e = sections.end();
@@ -663,30 +666,33 @@ void CEnvironment::load_weather_effects()
 
         CInifile::Destroy(config);
 
-        env.push_back(create_descriptor("24:00:00", false));
+        env.push_back(create_descriptor("24:00:00", NULL));
         env.back()->exec_time_loaded = DAY_LENGTH;
     }
 
     FS.file_list_close(file_list);
 
 #if 0
-	int line_count	= pSettings->line_count("weather_effects");
-	for (int w_idx=0; w_idx<line_count; w_idx++){
-		LPCSTR weather, sect_w;
-		if (pSettings->r_line("weather_effects",w_idx,&weather,&sect_w)){
-			EnvVec& env		= WeatherFXs[weather];
-			env.push_back	(xr_new<CEnvDescriptor>("00:00:00")); env.back()->exec_time_loaded = 0;
-//. why?	env.push_back	(xr_new<CEnvDescriptor>("00:00:00")); env.back()->exec_time_loaded = 0;
-			int env_count	= pSettings->line_count(sect_w);
-			LPCSTR exec_tm, sect_e;
-			for (int env_idx=0; env_idx<env_count; env_idx++){
-				if (pSettings->r_line(sect_w,env_idx,&exec_tm,&sect_e))
-					env.push_back	(create_descriptor(sect_e));
-			}
-			env.push_back	(create_descriptor("23:59:59"));
-			env.back()->exec_time_loaded = DAY_LENGTH;
-		}
-	}
+    int line_count = pSettings->line_count("weather_effects");
+    for (int w_idx = 0; w_idx < line_count; w_idx++)
+    {
+        LPCSTR weather, sect_w;
+        if (pSettings->r_line("weather_effects", w_idx, &weather, &sect_w))
+        {
+            EnvVec& env = WeatherFXs[weather];
+            env.push_back(xr_new<CEnvDescriptor>("00:00:00"));
+            env.back()->exec_time_loaded = 0;
+            int    env_count             = pSettings->line_count(sect_w);
+            LPCSTR exec_tm, sect_e;
+            for (int env_idx = 0; env_idx < env_count; env_idx++)
+            {
+                if (pSettings->r_line(sect_w, env_idx, &exec_tm, &sect_e))
+                    env.push_back(create_descriptor(sect_e));
+            }
+            env.push_back(create_descriptor("23:59:59"));
+            env.back()->exec_time_loaded = DAY_LENGTH;
+        }
+    }
 #endif   // #if 0
 
     // sorting weather envs
@@ -705,7 +711,7 @@ void CEnvironment::load()
         create_mixer();
 
     m_pRender->OnLoad();
-    // tonemap					= Device->Resources->_CreateTexture("$user$tonemap");	//. hack
+    // tonemap = Device->Resources->_CreateTexture("$user$tonemap");   // hack
     if (!eff_Rain)
         eff_Rain = xr_new<CEffect_Rain>();
     if (!eff_LensFlare)
@@ -752,5 +758,5 @@ void CEnvironment::unload()
     Invalidate();
 
     m_pRender->OnUnload();
-    //	tonemap				= 0;
+    // tonemap = 0;
 }

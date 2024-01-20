@@ -366,32 +366,25 @@ public:
     void OnDeviceCreate();
     void OnDeviceDestroy();
 
-    // editor-related
-#ifdef _EDITOR
-
 public:
     float ed_from_time;
     float ed_to_time;
 
-public:
+    // editor-related
     void  ED_Reload();
+
     float GetGameTime()
     {
         return fGameTime;
     }
-#else   // #ifdef _EDITOR
-#ifdef INGAME_EDITOR
-    float GetGameTime()
+    void GetGameTime(u32& hours, u32& minutes, u32& seconds) const
     {
-        return fGameTime;
+        SplitTime(fGameTime, hours, minutes, seconds);
     }
-#endif   // #ifdef INGAME_EDITOR
 
     void SplitTime(float time, u32& hours, u32& minutes, u32& seconds) const;
 
-
     bool m_paused;
-#endif   // #ifdef _EDITOR
 
     CInifile* m_ambients_config;
     CInifile* m_sound_channels_config;

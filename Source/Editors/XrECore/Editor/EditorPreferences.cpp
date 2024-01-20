@@ -12,12 +12,12 @@ CCustomPreferences::CCustomPreferences()
 {
     bOpen                = false;
     // view
-    view_np              = 0.1f;
-    view_fp              = 1000.f;
+    view_np              = 0.2f;
+    view_fp              = 1500.f;
     view_fov             = deg2rad(60.f);
     // fog
     fog_color            = 0x00555555;
-    fog_fogness          = 0.9;
+    fog_fogness          = 0.5;
     // camera
     cam_fly_speed        = 5.0f;
     cam_fly_alt          = 1.8f;

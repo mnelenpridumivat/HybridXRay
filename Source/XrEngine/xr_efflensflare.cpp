@@ -1,28 +1,27 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
-#include "xr_efflensflare.h"
 
 #include "igame_persistent.h"
 #include "Environment.h"
+#include "xr_efflensflare.h"
 // #include "SkeletonCustom.h"
-//	Instead of SkeletonCustom:
+// Instead of SkeletonCustom:
 #include "bone.h"
 #include "Kinematics.h"
 #include "cl_intersect.h"
 
-#include "object_broker.h"
-
-#ifdef _EDITOR
-#include "ui_toolscustom.h"
-#include "ui_main.h"
-#else
+#if 1
 #include "xr_object.h"
 #include "igame_level.h"
+#else
+#include "XrEditorSceneInterface.h"
+#include "../Editors/xrECore/Editor/ui_main.h"
+#include "../Editors/xrECore/Editor/UI_ToolsCustom.h"
 #endif
 
 #define FAR_DIST        g_pGamePersistent->Environment().CurrentEnv->far_plane
 
-// #define MAX_Flares	24
+// #define MAX_Flares 24
 //////////////////////////////////////////////////////////////////////////////
 // Globals ///////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////
@@ -56,15 +55,6 @@ void CLensFlareDescriptor::AddFlare(float fRadius, float fOpacity, float fPositi
     F.texture   = tex_name;
     m_Flares.push_back(F);
 }
-
-/*
-ref_shader CLensFlareDescriptor::CreateShader(LPCSTR tex_name, LPCSTR sh_name)
-{
-    ref_shader	R;
-    if			(tex_name&&tex_name[0])	R.create(sh_name,tex_name);
-    return		R;
-}
-*/
 
 void CLensFlareDescriptor::load(CInifile* pIni, LPCSTR sect)
 {
@@ -122,11 +112,6 @@ void CLensFlareDescriptor::OnDeviceCreate()
     m_Source.m_pRender->CreateShader(*m_Source.shader, *m_Source.texture);
     for (FlareIt it = m_Flares.begin(); it != m_Flares.end(); it++)
         it->m_pRender->CreateShader(*it->shader, *it->texture);
-    /*
-    m_Gradient.hShader	= CreateShader	(*m_Gradient.texture,*m_Gradient.shader);
-    m_Source.hShader	= CreateShader	(*m_Source.texture,*m_Source.shader);
-    for (FlareIt it=m_Flares.begin(); it!=m_Flares.end(); it++) it->hShader = CreateShader(*it->texture,*it->shader);
-    */
 }
 
 void CLensFlareDescriptor::OnDeviceDestroy()
@@ -136,11 +121,6 @@ void CLensFlareDescriptor::OnDeviceDestroy()
     m_Source.m_pRender->DestroyShader();
     for (FlareIt it = m_Flares.begin(); it != m_Flares.end(); it++)
         it->m_pRender->DestroyShader();
-    /*
-    m_Gradient.hShader.destroy	();
-    m_Source.hShader.destroy	();
-    for (FlareIt it=m_Flares.begin(); it!=m_Flares.end(); it++) it->hShader.destroy();
-    */
 }
 
 //------------------------------------------------------------------------------
@@ -154,13 +134,13 @@ CLensFlare::CLensFlare()
     LightColor.set(0xFFFFFFFF);
     fGradientValue = 0.f;
 
-    // hGeom						= 0;
+    // hGeom = 0;
     m_Current      = 0;
 
     m_State        = lfsNone;
     m_StateBlend   = 0.f;
 
-#ifndef _EDITOR
+#if 1
     for (int i = 0; i < MAX_RAYS; ++i)
     {
         m_ray_cache[i].verts[0].set(0, 0, 0);
@@ -175,21 +155,24 @@ CLensFlare::CLensFlare()
 CLensFlare::~CLensFlare()
 {
     OnDeviceDestroy();
-    delete_data(m_Palette);
+    // delete_data(m_Palette);
+    for (LensFlareDescIt it = m_Palette.begin(), end = m_Palette.end(); it != end; it++)
+        xr_delete(*it);
 }
 
-#ifndef _EDITOR
+#if 1
 struct STranspParam
 {
     Fvector             P;
     Fvector             D;
     float               f;
-    // CLensFlare*			parent;
+    // CLensFlare* parent;
     collide::ray_cache* pray_cache;
     float               vis;
     float               vis_threshold;
     STranspParam(collide::ray_cache* p, const Fvector& _P, const Fvector& _D, float _f, float _vis_threshold): P(_P), D(_D), f(_f), pray_cache(p), vis(1.f), vis_threshold(_vis_threshold) {}
 };
+
 IC BOOL material_callback(collide::rq_result& result, LPVOID params)
 {
     STranspParam* fp  = (STranspParam*)params;
@@ -233,36 +216,42 @@ IC void blend_lerp(float& cur, float tgt, float speed, float dt)
 }
 
 #if 0
-static LPCSTR state_to_string (const CLensFlare::LFState &state)
+static LPCSTR state_to_string(const CLensFlare::LFState& state)
 {
-	switch (state) {
-		case CLensFlare::lfsNone : return("none");
-		case CLensFlare::lfsIdle : return("idle");
-		case CLensFlare::lfsHide : return("hide");
-		case CLensFlare::lfsShow : return("show");
-		default : NODEFAULT;
-	}
+    switch (state)
+    {
+        case CLensFlare::lfsNone:
+            return ("none");
+        case CLensFlare::lfsIdle:
+            return ("idle");
+        case CLensFlare::lfsHide:
+            return ("hide");
+        case CLensFlare::lfsShow:
+            return ("show");
+        default:
+            NODEFAULT;
+    }
 #ifdef DEBUG
-	return			(0);
+    return (0);
 #endif   // DEBUG
 }
 #endif
 
-static Fvector2 RayDeltas[CLensFlare::MAX_RAYS] = {
-    {0, 0},
-    {1, 0},
-    {-1, 0},
-    {0, -1},
-    {0, 1},
+static Fvector2 RayDeltas[CLensFlare::MAX_RAYS] =
+{
+    {0, 0}, {1, 0}, {-1, 0}, {0, -1}, {0, 1},
 };
+
 void CLensFlare::OnFrame(shared_str id)
 {
     if (dwFrame == Device->dwFrame)
         return;
-#ifndef _EDITOR
-    if (!g_pGameLevel)
-        return;
-#endif
+    if (g_pGameLevel)
+    {
+        if (!g_pGameLevel)
+            return;
+    }
+
     dwFrame = Device->dwFrame;
 
     R_ASSERT(_valid(g_pGamePersistent->Environment().CurrentEnv->sun_dir));
@@ -355,7 +344,6 @@ void CLensFlare::OnFrame(shared_str id)
     // Compute axis which goes from light through the center of the screen
     vecAxis.sub(vecLight, vecCenter);
 
-    //
     // Figure out if light is behind something else
     vecX.set(1.0f, 0.0f, 0.0f);
     matEffCamPos.transform_dir(vecX);
@@ -365,75 +353,79 @@ void CLensFlare::OnFrame(shared_str id)
     vecY.crossproduct(vecX, vecDir);
     R_ASSERT(_valid(vecY));
 
-#ifdef _EDITOR
-    float dist = UI->ZFar();
-    if (Tools->RayPick(Device->m_Camera.GetPosition(), vSunDir, dist))
-        fBlend = fBlend - BLEND_DEC_SPEED * Device->fTimeDelta;
-    else
-        fBlend = fBlend + BLEND_INC_SPEED * Device->fTimeDelta;
-#else
-
-    // Side vectors to bend normal.
-    Fvector vecSx;
-    Fvector vecSy;
-
-    // float fScale = m_Current->m_Source.fRadius * vSunDir.magnitude();
-    // float fScale = m_Current->m_Source.fRadius;
-    // HACK: it must be read from the weather!
-    float   fScale = 0.02f;
-
-    vecSx.mul(vecX, fScale);
-    vecSy.mul(vecY, fScale);
-
-    CObject* o_main = g_pGameLevel->CurrentViewEntity();
-    R_ASSERT(_valid(vSunDir));
-    STranspParam TP(&m_ray_cache[0], Device->vCameraPosition, vSunDir, 1000.f, EPS_L);
-
-    R_ASSERT(_valid(TP.P));
-    R_ASSERT(_valid(TP.D));
-    collide::ray_defs RD(TP.P, TP.D, TP.f, CDB::OPT_CULL, collide::rqtBoth);
-    float             fVisResult = 0.0f;
-
-    for (int i = 0; i < MAX_RAYS; ++i)
+    if (!g_pGameLevel)
     {
-        TP.D = vSunDir;
-        TP.D.add(Fvector().mul(vecSx, RayDeltas[i].x));
-        TP.D.add(Fvector().mul(vecSy, RayDeltas[i].y));
-        R_ASSERT(_valid(TP.D));
-        TP.pray_cache = &(m_ray_cache[i]);
-        TP.vis        = 1.0f;
-        RD.dir        = TP.D;
-
-        if (m_ray_cache[i].result && m_ray_cache[i].similar(TP.P, TP.D, TP.f))
-        {
-            // similar with previous query == 0
-            TP.vis = 0.f;
-        }
+#if 0
+        float dist = EditorScene->ZFar();
+        // if (EditorScene->RayPick(Device->vCameraPosition, vSunDir, dist))
+        if (EditorScene->RayPick(EditorScene->GetCameraPosition(), vSunDir, dist))
+            fBlend = fBlend - BLEND_DEC_SPEED * Device->fTimeDelta;
         else
+            fBlend = fBlend + BLEND_INC_SPEED * Device->fTimeDelta;
+#else
+        fBlend = fBlend + BLEND_INC_SPEED * Device->fTimeDelta;
+#endif
+    }
+    else
+    {
+        // Side vectors to bend normal.
+        Fvector vecSx;
+        Fvector vecSy;
+
+        // float fScale = m_Current->m_Source.fRadius * vSunDir.magnitude();
+        // float fScale = m_Current->m_Source.fRadius;
+        // HACK: it must be read from the weather!
+        float   fScale = 0.02f;
+
+        vecSx.mul(vecX, fScale);
+        vecSy.mul(vecY, fScale);
+
+        CObject* o_main = g_pGameLevel->CurrentViewEntity();
+        R_ASSERT(_valid(vSunDir));
+        STranspParam TP(&m_ray_cache[0], Device->vCameraPosition, vSunDir, 1000.f, EPS_L);
+
+        R_ASSERT(_valid(TP.P));
+        R_ASSERT(_valid(TP.D));
+        collide::ray_defs RD(TP.P, TP.D, TP.f, CDB::OPT_CULL, collide::rqtBoth);
+        float             fVisResult = 0.0f;
+
+        for (int i = 0; i < MAX_RAYS; ++i)
         {
-            float _u, _v, _range;
-            if (CDB::TestRayTri(TP.P, TP.D, m_ray_cache[i].verts, _u, _v, _range, false) && (_range > 0 && _range < TP.f))
+            TP.D = vSunDir;
+            TP.D.add(Fvector().mul(vecSx, RayDeltas[i].x));
+            TP.D.add(Fvector().mul(vecSy, RayDeltas[i].y));
+            R_ASSERT(_valid(TP.D));
+            TP.pray_cache = &(m_ray_cache[i]);
+            TP.vis        = 1.0f;
+            RD.dir        = TP.D;
+
+            if (m_ray_cache[i].result && m_ray_cache[i].similar(TP.P, TP.D, TP.f))
             {
+                // similar with previous query == 0
                 TP.vis = 0.f;
             }
             else
             {
-                // cache outdated. real query.
-                r_dest.r_clear();
-                if (g_pGameLevel->ObjectSpace.RayQuery(r_dest, RD, material_callback, &TP, NULL, o_main))
-                    m_ray_cache[i].result = FALSE;
+                float _u, _v, _range;
+                if (CDB::TestRayTri(TP.P, TP.D, m_ray_cache[i].verts, _u, _v, _range, false) && (_range > 0 && _range < TP.f))
+                {
+                    TP.vis = 0.f;
+                }
+                else
+                {
+                    // cache outdated. real query.
+                    r_dest.r_clear();
+                    if (g_pGameLevel->ObjectSpace.RayQuery(r_dest, RD, material_callback, &TP, NULL, o_main))
+                        m_ray_cache[i].result = FALSE;
+                }
             }
+            fVisResult += TP.vis;
         }
+        fVisResult *= (1.0f / MAX_RAYS);
 
-        fVisResult += TP.vis;
+        // blend_lerp(fBlend, TP.vis, BLEND_DEC_SPEED, Device->fTimeDelta);
+        blend_lerp(fBlend, fVisResult, BLEND_DEC_SPEED, Device->fTimeDelta);
     }
-
-    fVisResult *= (1.0f / MAX_RAYS);
-
-    // blend_lerp(fBlend, TP.vis, BLEND_DEC_SPEED, Device->fTimeDelta);
-    blend_lerp(fBlend, fVisResult, BLEND_DEC_SPEED, Device->fTimeDelta);
-
-#endif
     clamp(fBlend, 0.0f, 1.0f);
 
     // gradient
@@ -470,113 +462,6 @@ void CLensFlare::Render(BOOL bSun, BOOL bFlares, BOOL bGradient)
     VERIFY(m_Current);
 
     m_pRender->Render(*this, bSun, bFlares, bGradient);
-
-    /*
-    Fcolor dwLight;
-    Fcolor   color;
-    Fvector  vec, vecSx, vecSy;
-    Fvector  vecDx, vecDy;
-
-    dwLight.set(LightColor);
-    svector<ref_shader, MAX_Flares> _2render;
-
-    u32                             VS_Offset;
-    FVF::LIT*                       pv        = (FVF::LIT*)RCache.Vertex.Lock(MAX_Flares * 4, hGeom.stride(), VS_Offset);
-
-    float                           fDistance = FAR_DIST * 0.75f;
-
-    if (bSun)
-    {
-        if (m_Current->m_Flags.is(CLensFlareDescriptor::flSource))
-        {
-            vecSx.mul(vecX, m_Current->m_Source.fRadius * fDistance);
-            vecSy.mul(vecY, m_Current->m_Source.fRadius * fDistance);
-            if (m_Current->m_Source.ignore_color)
-                color.set(1.f, 1.f, 1.f, 1.f);
-            else
-                color.set(dwLight);
-            color.a *= m_StateBlend;
-            u32 c = color.get();
-            pv->set(vecLight.x + vecSx.x - vecSy.x, vecLight.y + vecSx.y - vecSy.y, vecLight.z + vecSx.z - vecSy.z, c, 0, 0);
-            pv++;
-            pv->set(vecLight.x + vecSx.x + vecSy.x, vecLight.y + vecSx.y + vecSy.y, vecLight.z + vecSx.z + vecSy.z, c, 0, 1);
-            pv++;
-            pv->set(vecLight.x - vecSx.x - vecSy.x, vecLight.y - vecSx.y - vecSy.y, vecLight.z - vecSx.z - vecSy.z, c, 1, 0);
-            pv++;
-            pv->set(vecLight.x - vecSx.x + vecSy.x, vecLight.y - vecSx.y + vecSy.y, vecLight.z - vecSx.z + vecSy.z, c, 1, 1);
-            pv++;
-            _2render.push_back(m_Current->m_Source.hShader);
-        }
-    }
-    if (fBlend >= EPS_L)
-    {
-        if (bFlares)
-        {
-            vecDx.normalize(vecAxis);
-            vecDy.crossproduct(vecDx, vecDir);
-            if (m_Current->m_Flags.is(CLensFlareDescriptor::flFlare))
-            {
-                for (CLensFlareDescriptor::FlareIt it = m_Current->m_Flares.begin(); it != m_Current->m_Flares.end(); it++)
-                {
-                    CLensFlareDescriptor::SFlare& F = *it;
-                    vec.mul(vecAxis, F.fPosition);
-                    vec.add(vecCenter);
-                    vecSx.mul(vecDx, F.fRadius * fDistance);
-                    vecSy.mul(vecDy, F.fRadius * fDistance);
-                    float cl = F.fOpacity * fBlend * m_StateBlend;
-                    color.set(dwLight);
-                    color.mul_rgba(cl);
-                    u32 c = color.get();
-                    pv->set(vec.x + vecSx.x - vecSy.x, vec.y + vecSx.y - vecSy.y, vec.z + vecSx.z - vecSy.z, c, 0, 0);
-                    pv++;
-                    pv->set(vec.x + vecSx.x + vecSy.x, vec.y + vecSx.y + vecSy.y, vec.z + vecSx.z + vecSy.z, c, 0, 1);
-                    pv++;
-                    pv->set(vec.x - vecSx.x - vecSy.x, vec.y - vecSx.y - vecSy.y, vec.z - vecSx.z - vecSy.z, c, 1, 0);
-                    pv++;
-                    pv->set(vec.x - vecSx.x + vecSy.x, vec.y - vecSx.y + vecSy.y, vec.z - vecSx.z + vecSy.z, c, 1, 1);
-                    pv++;
-                    _2render.push_back(it->hShader);
-                }
-            }
-        }
-        // gradient
-        if (bGradient && (fGradientValue >= EPS_L))
-        {
-            if (m_Current->m_Flags.is(CLensFlareDescriptor::flGradient))
-            {
-                vecSx.mul(vecX, m_Current->m_Gradient.fRadius * fGradientValue * fDistance);
-                vecSy.mul(vecY, m_Current->m_Gradient.fRadius * fGradientValue * fDistance);
-
-                color.set(dwLight);
-                color.mul_rgba(fGradientValue * m_StateBlend);
-
-                u32 c = color.get();
-                pv->set(vecLight.x + vecSx.x - vecSy.x, vecLight.y + vecSx.y - vecSy.y, vecLight.z + vecSx.z - vecSy.z, c, 0, 0);
-                pv++;
-                pv->set(vecLight.x + vecSx.x + vecSy.x, vecLight.y + vecSx.y + vecSy.y, vecLight.z + vecSx.z + vecSy.z, c, 0, 1);
-                pv++;
-                pv->set(vecLight.x - vecSx.x - vecSy.x, vecLight.y - vecSx.y - vecSy.y, vecLight.z - vecSx.z - vecSy.z, c, 1, 0);
-                pv++;
-                pv->set(vecLight.x - vecSx.x + vecSy.x, vecLight.y - vecSx.y + vecSy.y, vecLight.z - vecSx.z + vecSy.z, c, 1, 1);
-                pv++;
-                _2render.push_back(m_Current->m_Gradient.hShader);
-            }
-        }
-    }
-    RCache.Vertex.Unlock(_2render.size() * 4, hGeom.stride());
-
-    RCache.set_xform_world(Fidentity);
-    RCache.set_Geometry(hGeom);
-    for (u32 i = 0; i < _2render.size(); i++)
-    {
-        if (_2render[i])
-        {
-            u32 vBase = i * 4 + VS_Offset;
-            RCache.set_Shader(_2render[i]);
-            RCache.Render(D3DPT_TRIANGLELIST, vBase, 0, 4, 0, 2);
-        }
-    }
-    */
 }
 
 shared_str CLensFlare::AppendDef(CEnvironment& environment, CInifile* pIni, LPCSTR sect)
@@ -592,8 +477,6 @@ shared_str CLensFlare::AppendDef(CEnvironment& environment, CInifile* pIni, LPCS
 
 void CLensFlare::OnDeviceCreate()
 {
-    // VS
-    // hGeom.create(FVF::F_LIT, RCache.Vertex.Buffer(), RCache.QuadIB);
     m_pRender->OnDeviceCreate();
 
     // palette
@@ -607,7 +490,5 @@ void CLensFlare::OnDeviceDestroy()
     for (LensFlareDescIt it = m_Palette.begin(); it != m_Palette.end(); it++)
         (*it)->OnDeviceDestroy();
 
-    // VS
-    // hGeom.destroy();
     m_pRender->OnDeviceDestroy();
 }

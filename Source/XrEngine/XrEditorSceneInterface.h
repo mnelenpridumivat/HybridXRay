@@ -13,4 +13,6 @@ public:
     virtual ILevelGraph* GetLevelGraph()                                                                                 = 0;
     virtual void         Stop()                                                                                          = 0;
     virtual bool         RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt = 0, Fvector* n = 0) = 0;
+    virtual IC float     ZFar() = 0;
+    virtual const Fvector& GetCameraPosition() const = 0;
 };

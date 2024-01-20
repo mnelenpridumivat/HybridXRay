@@ -323,6 +323,18 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                             if (ImGui::IsItemHovered())
                                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                         }
+                        // --------------------------------------------------------------------------------------------
+                        ImGui::Separator();
+                        // --------------------------------------------------------------------------------------------
+                        if (ImGui::Button("Reload"_RU >> u8"Перезагрузить"))
+                        {
+                            Engine.ReloadSettings();
+                            g_pGamePersistent->Environment().ED_Reload();
+                            UI->RedrawScene();
+                        }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                        // --------------------------------------------------------------------------------------------
                         ImGui::EndMenu();
                     }
                     if (ImGui::IsItemHovered())

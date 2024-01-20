@@ -58,10 +58,10 @@ EScene::EScene()
     g_SpatialSpacePhysic = xr_new<ISpatial_DB>();
     // first init scene graph for objects
     // mapRenderObjects.init(MAX_VISUALS);
-    // 	Build options
+    // Build options
     m_SummaryInfo        = 0;
-    // ClearSnapList	(false);
-    //   g_frmConflictLoadObject 		= xr_new<TfrmAppendObjectInfo>((TComponent*)NULL);
+    // ClearSnapList(false);
+    // g_frmConflictLoadObject = xr_new<TfrmAppendObjectInfo>((TComponent*)NULL);
 }
 
 EScene::~EScene()
@@ -853,6 +853,16 @@ bool EScene::BuildCForm()
 bool EScene::RayPick(const Fvector& start, const Fvector& dir, float& dis, Fvector* pt, Fvector* n)
 {
     return Tools->RayPick(start, dir, dis, pt, n);
+}
+
+IC float EScene::ZFar()
+{
+    return UI->ZFar();
+}
+
+const Fvector& EScene::GetCameraPosition() const
+{
+    return CUICamera->GetPosition();
 }
 
 void EScene::RegisterSubstObjectName(const xr_string& _from, const xr_string& _to)

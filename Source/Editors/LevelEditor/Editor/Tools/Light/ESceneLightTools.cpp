@@ -80,12 +80,18 @@ void ESceneLightTool::BeforeRender()
         {
             Flight  L;
             Fvector C;
-            //            if (psDeviceFlags.is(rsEnvironment)){
-            //	            C			= g_pGamePersistent->Environment().CurrentEnv->sun_color;
-            //            }else{
-            C.set(1.f, 1.f, 1.f);
-            //            }
-            L.direction.setHP(m_SunShadowDir.y, m_SunShadowDir.x);
+            if (psDeviceFlags.is(rsEnvironment) || UI->IsPlayInEditor())
+            {
+                C = g_pGamePersistent->Environment().CurrentEnv->sun_color;
+            }
+            else
+            {
+                C.set(1.f, 1.f, 1.f);
+            }
+            if (m_Flags.is(flWthrSunDir))
+                L.direction = g_pGamePersistent->Environment().CurrentEnv->sun_dir;
+            else
+                L.direction.setHP(m_SunShadowDir.y, m_SunShadowDir.x);
             L.diffuse.set(C.x, C.y, C.z, 1.f);
             L.ambient.set(0.f, 0.f, 0.f, 0.f);
             L.specular.set(C.x, C.y, C.z, 1.f);
@@ -94,12 +100,23 @@ void ESceneLightTool::BeforeRender()
             EDevice->LightEnable(frame_light.size(), TRUE);
         }
         // ambient
-        /* if (psDeviceFlags.is(rsEnvironment)) {
-               Fvector& V		= g_pGamePersistent->Environment().CurrentEnv->ambient;
-              Fcolor C;		C.set(V.x,V.y,V.z,1.f);
-              EDevice->SetRS	(D3DRS_AMBIENT,C.get());
-          }else	*/
-        EDevice->SetRS(D3DRS_AMBIENT, 0x00000000);
+        if (psDeviceFlags.is(rsEnvironment) || UI->IsPlayInEditor())
+        {
+            Fcolor C;
+            if (m_Flags.is(flWthrHemi))
+            {
+                Fvector4& V = g_pGamePersistent->Environment().CurrentEnv->hemi_color;
+                C.set(V.x, V.y, V.z, 1.f);
+            }
+            else
+            {
+                Fvector& V = g_pGamePersistent->Environment().CurrentEnv->ambient;
+                C.set(V.x, V.y, V.z, 1.f);
+            }
+            EDevice->SetRS(D3DRS_AMBIENT, C.get());
+        }
+        else
+            EDevice->SetRS(D3DRS_AMBIENT, 0x00000000);
 
         EDevice->EStatistic->dwTotalLight   = l_cnt;
         EDevice->EStatistic->dwLightInScene = frame_light.size();
@@ -126,7 +143,10 @@ void ESceneLightTool::OnRender(int priority, bool strictB2F)
             EDevice->SetShader(EDevice->m_WireShader);
             RCache.set_xform_world(Fidentity);
             Fvector dir;
-            dir.setHP(m_SunShadowDir.y, m_SunShadowDir.x);
+            if (m_Flags.is(flWthrSunDir))
+                dir = g_pGamePersistent->Environment().CurrentEnv->sun_dir;
+            else
+                dir.setHP(m_SunShadowDir.y, m_SunShadowDir.x);
             Fvector p;
             float   fd = UI->ZFar() * 0.95f;
             p.mad(EDevice->vCameraPosition, dir, -fd);
@@ -176,6 +196,9 @@ void ESceneLightTool::FillProp(LPCSTR pref, PropItemVec& items)
     PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Sun Shadow\\Visible"), &m_Flags, flShowSun);
     PHelper().CreateAngle(items, PrepareKey(pref, "Common\\Sun Shadow\\Altitude"), &m_SunShadowDir.x, -PI_DIV_2, 0);
     PHelper().CreateAngle(items, PrepareKey(pref, "Common\\Sun Shadow\\Longitude"), &m_SunShadowDir.y, 0, PI_MUL_2);
+    // weather simulation
+    PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Sun Shadow\\Weather Simulation\\Use Sun Dir"), &m_Flags, flWthrSunDir);
+    PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Sun Shadow\\Weather Simulation\\Use Hemi"), &m_Flags, flWthrHemi);
     // light controls
     PHelper().CreateFlag32(items, PrepareKey(pref, "Common\\Controls\\Draw Name"), &m_Flags, flShowControlName);
     PHelper().CreateCaption(items, PrepareKey(pref, "Common\\Controls\\Count"), shared_str().printf("%d", lcontrols.size()));
@@ -270,7 +293,7 @@ void ESceneLightTool::CreateControls()
     inherited::CreateDefaultControls(estDefault);
     // frame
     pForm = xr_new<UILightTool>();
-    // pFrame 			= xr_new<TfraLight>((TComponent*)0);
+    // pFrame = xr_new<TfraLight>((TComponent*)0);
 }
 
 void ESceneLightTool::RemoveControls()

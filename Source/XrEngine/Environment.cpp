@@ -1,8 +1,9 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-#ifndef _EDITOR
+#if 1
 #include "render.h"
+#include "IGame_Level.h"
 #endif
 
 #include "Environment.h"
@@ -13,14 +14,6 @@
 #include "perlin.h"
 
 #include "xr_input.h"
-
-// #include "resourcemanager.h"
-
-#ifndef _EDITOR
-#include "IGame_Level.h"
-#endif
-
-// #include "D3DUtils.h"
 #include "../xrcore/xrCore.h"
 
 #include "EnvironmentRender.h"
@@ -55,14 +48,10 @@ CEnvironment::CEnvironment(): CurrentEnv(0), m_ambients_config(0)
     eff_LensFlare       = 0;
     eff_Thunderbolt     = 0;
     OnDeviceCreate();
-#ifdef _EDITOR
     ed_from_time = 0.f;
     ed_to_time   = DAY_LENGTH;
-#endif
 
-#ifndef _EDITOR
     m_paused = false;
-#endif
 
     fGameTime            = 0.f;
     fTimeFactor          = 12.f;
@@ -194,13 +183,14 @@ void CEnvironment::ChangeGameTime(float game_time)
 
 void CEnvironment::SetGameTime(float game_time, float time_factor)
 {
-#ifndef _EDITOR
-    if (m_paused)
+    if (g_pGameLevel)
     {
-        g_pGameLevel->SetEnvironmentGameTimeFactor(iFloor(fGameTime * 1000.f), fTimeFactor);
-        return;
+        if (m_paused)
+        {
+            g_pGameLevel->SetEnvironmentGameTimeFactor(iFloor(fGameTime * 1000.f), fTimeFactor);
+            return;
+        }
     }
-#endif
     if (bWFX)
         wfx_time -= TimeDiff(fGameTime, game_time);
     fGameTime   = game_time;
@@ -210,9 +200,9 @@ void CEnvironment::SetGameTime(float game_time, float time_factor)
 void CEnvironment::SplitTime(float time, u32& hours, u32& minutes, u32& seconds) const
 {
     u32 current_time_u32 = iFloor(time);
-    current_time_u32 = current_time_u32 % (24 * 60 * 60);
+    current_time_u32     = current_time_u32 % (24 * 60 * 60);
 
-    hours = current_time_u32 / (60 * 60);
+    hours                = current_time_u32 / (60 * 60);
     current_time_u32 %= (60 * 60);
 
     minutes = current_time_u32 / 60;
@@ -232,7 +222,8 @@ float CEnvironment::NormalizeTime(float tm)
 void CEnvironment::SetWeather(shared_str name, bool forced)
 {
     // static BOOL bAlready = FALSE;
-    // if(bAlready) return;
+    // if(bAlready)
+    //     return;
     if (name.size())
     {
         // bAlready = TRUE;
@@ -263,10 +254,7 @@ void CEnvironment::SetWeather(shared_str name, bool forced)
     }
     else
     {
-#ifndef _EDITOR
         FATAL("! Empty weather name");
-#endif
-        Invalidate();
     }
 }
 
@@ -331,9 +319,7 @@ bool CEnvironment::SetWeatherFX(shared_str name)
     }
     else
     {
-#ifndef _EDITOR
         FATAL("! Empty weather effect name");
-#endif
     }
     return true;
 }
@@ -471,32 +457,27 @@ void CEnvironment::lerp(float& current_weight)
 
 void CEnvironment::OnFrame()
 {
-#ifdef _EDITOR
-    SetGameTime(fGameTime + Device->fTimeDelta * fTimeFactor, fTimeFactor);
-    if (fsimilar(ed_to_time, DAY_LENGTH) && fsimilar(ed_from_time, 0.f))
+    if (!g_pGameLevel)
     {
-        if (fGameTime > DAY_LENGTH)
-            fGameTime -= DAY_LENGTH;
-    }
-    else
-    {
-        if (fGameTime > ed_to_time)
+        SetGameTime(fGameTime + Device->fTimeDelta * fTimeFactor, fTimeFactor);
+        if (fsimilar(ed_to_time, DAY_LENGTH) && fsimilar(ed_from_time, 0.f))
         {
-            fGameTime  = fGameTime - ed_to_time + ed_from_time;
-            Current[0] = Current[1] = 0;
+            if (fGameTime > DAY_LENGTH)
+                fGameTime -= DAY_LENGTH;
         }
-        if (fGameTime < ed_from_time)
+        else
         {
-            fGameTime  = ed_from_time;
-            Current[0] = Current[1] = 0;
+            if (fGameTime > ed_to_time || fGameTime < ed_from_time)
+            {
+                fGameTime  = ed_from_time;
+                Current[0] = Current[1] = 0;
+            }
         }
+        // if (!psDeviceFlags.is(rsEnvironment))
+        //    return;
     }
-    if (!psDeviceFlags.is(rsEnvironment))
+    else if (!g_pGameLevel && !Device->IsEditorMode())
         return;
-#else
-    if (!g_pGameLevel && !Device->IsEditorMode())
-        return;
-#endif
 
     // if (pInput->iGetAsyncKeyState(DIK_O))
     //    SetWeatherFX("surge_day");

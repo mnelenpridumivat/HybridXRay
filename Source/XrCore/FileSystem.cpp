@@ -129,7 +129,7 @@ bool EFS_Utils::GetOpenNameInternal(HWND hWnd, LPCSTR initial, LPSTR buffer, int
     VERIFY(buffer && (sz_buf > 0));
     FS_Path&   P = *FS.get_path(initial);
     string1024 flt;
-    int flt_cnt = MakeFilter(flt, P.m_FilterCaption ? P.m_FilterCaption : "", P.m_DefExt);
+    int        flt_cnt = MakeFilter(flt, P.m_FilterCaption ? P.m_FilterCaption : "", P.m_DefExt);
 
     if (xr_strlen(buffer))
     {
@@ -148,13 +148,16 @@ bool EFS_Utils::GetOpenNameInternal(HWND hWnd, LPCSTR initial, LPSTR buffer, int
     }
 
     CFileDialog fd(CFileDialog::fdOpen);
-
     fd.Caption = "Open a File";
-    // string512 path;
-    // xr_strcpy(path, (offset && offset[0]) ? offset : P.m_Path);
-    // fd.CurrentDir = path;
-    // fd.CurrentFile = buffer;
-    // fd.DefaultDir = path;
+
+    if (strstr(Core.Params, "-dont_remember_last_folder"))
+    {
+        string512 path;
+        xr_strcpy(path, (offset && offset[0]) ? offset : P.m_Path);
+        fd.CurrentDir  = path;
+        fd.CurrentFile = buffer;
+        fd.DefaultDir  = path;
+    }
 
     fd.SetFilters(flt);
     if (start_flt_ext >= 0)
@@ -173,12 +176,11 @@ bool EFS_Utils::GetOpenNameInternal(HWND hWnd, LPCSTR initial, LPSTR buffer, int
 
     fd.PathMustExist = true;
     fd.FileMustExist = true;
-    fd.NoChangeDir = true;
-    fd.Multiselect = bMulti;
-    fd.NoPlacesBar = true;
+    fd.NoChangeDir   = true;
+    fd.Multiselect   = bMulti;
+    fd.NoPlacesBar   = true;
 
-
-    bool bRes = fd.ShowModal(GetForegroundWindow());
+    bool bRes        = fd.ShowModal(GetForegroundWindow());
     if (!bRes)
     {
         u32 err = GetLastError();
@@ -235,7 +237,7 @@ bool EFS_Utils::GetSaveName(LPCSTR initial, string_path& buffer, LPCSTR offset, 
 
     CFileDialog fd(CFileDialog::fdSave);
 
-    fd.Caption    = "Save a File";
+    fd.Caption = "Save a File";
     fd.SetFilters(flt);
     if (start_flt_ext >= 0)
     {
@@ -250,16 +252,19 @@ bool EFS_Utils::GetSaveName(LPCSTR initial, string_path& buffer, LPCSTR offset, 
         _GetItem(P.m_DefExt, 0, defext, ';');
         fd.DefaultExt = defext;
     }
-    // string512 path;
-    // xr_strcpy(path, (offset && offset[0]) ? offset : P.m_Path);
-    // fd.CurrentDir = path;
-    // fd.DefaultDir = path;
+    if (strstr(Core.Params, "-dont_remember_last_folder"))
+    {
+        string512 path;
+        xr_strcpy(path, (offset && offset[0]) ? offset : P.m_Path);
+        fd.CurrentDir = path;
+        fd.DefaultDir = path;
+    }
 
     fd.OverwritePrompt = true;
-    fd.NoChangeDir = true;
-    fd.NoPlacesBar = true;
+    fd.NoChangeDir     = true;
+    fd.NoPlacesBar     = true;
 
-    bool bRes = fd.ShowModal(GetForegroundWindow());
+    bool bRes          = fd.ShowModal(GetForegroundWindow());
     if (!bRes)
     {
         u32 err = GetLastError();

@@ -1,11 +1,6 @@
 ﻿#include "stdafx.h"
 #include "xrtheora_stream.h"
 
-#ifdef _EDITOR
-// #	pragma comment(lib,	"x:\\oggB.lib")
-// #	pragma comment(lib,	"x:\\theoraB.lib")
-#endif
-
 CTheoraStream::CTheoraStream()
 {
     // clear self
@@ -146,9 +141,9 @@ BOOL CTheoraStream::ParseHeaders()
     // init decode
     theora_decode_init(&t_state, &t_info);
     // calculate frame per ms
-    fpms                    = ((float)t_info.fps_numerator / (float)t_info.fps_denominator) / 1000.f;
+    fpms = ((float)t_info.fps_numerator / (float)t_info.fps_denominator) / 1000.f;
 
-    //. XXX hack (maybe slow)
+    // XXX hack (maybe slow)
     // calculate frame count & total length in ms & key rate
     ogg_int64_t frame_count = 0;
     ogg_int64_t p_key = 0, c_key = 0;
@@ -200,21 +195,20 @@ BOOL CTheoraStream::Decode(u32 in_tm_play)
                 if (ogg_stream_packetout(&o_stream_state, &o_packet) > 0 && !theora_packet_isheader(&o_packet))
                 {
                     d_frame++;
-                    //. hack preroll
+                    // hack preroll
                     if (d_frame < k_frame)
                     {
-                        //.						dbg_log				((stderr,"%04d: preroll\n",d_frame));
+                        // dbg_log((stderr, "%04d: preroll\n", d_frame));
                         VERIFY((0 != d_frame % key_rate) || (0 == d_frame % key_rate) && theora_packet_iskeyframe(&o_packet));
                         continue;
                     }
                     BOOL is_key = theora_packet_iskeyframe(&o_packet);
                     VERIFY((d_frame != k_frame) || ((d_frame == k_frame) && is_key));
                     // real decode
-                    //.					dbg_log					((stderr,"%04d: decode\n",d_frame));
+                    // dbg_log((stderr, "%04d: decode\n", d_frame));
                     int res = theora_decode_packetin(&t_state, &o_packet);
                     VERIFY(res != OC_BADPACKET);
-                    //.					dbg_log					((stderr,"%04d: granule
-                    //frame\n",theora_granule_frame(&t_state,t_state.granulepos)));
+                    // dbg_log((stderr, "%04d: granule frame\n", theora_granule_frame(&t_state, t_state.granulepos)));
                     if (d_frame >= t_frame)
                         result = TRUE;
                 }
@@ -237,7 +231,7 @@ BOOL CTheoraStream::Decode(u32 in_tm_play)
         VERIFY(TRUE == result);
         VERIFY(d_frame == t_frame);
         theora_decode_YUVout(&t_state, &t_yuv_buffer);
-        //.		dbg_log								((stderr,"%04d: yuv out\n",d_frame));
+        // dbg_log((stderr, "%04d: yuv out\n" ,d_frame));
         return TRUE;
     }
     return FALSE;
@@ -247,7 +241,7 @@ BOOL CTheoraStream::Load(const char* fname)
 {
     VERIFY(0 == source);
     // open source
-#ifdef _EDITOR
+#if 0
     source = FS.r_open(0, fname);
 #else
     source = FS.rs_open(0, fname);
