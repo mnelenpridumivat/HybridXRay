@@ -50,7 +50,7 @@ extern float g_fov;
 const int    maxRP    = 64;
 const int    maxTeams = 32;
 
-//class CFogOfWar;
+// class CFogOfWar;
 class CFogOfWarMngr;
 class CBulletManager;
 class CMapManager;
@@ -58,7 +58,7 @@ class CMapManager;
 namespace file_transfer
 {
     class client_site;
-};   //namespace file_transfer
+};   // namespace file_transfer
 
 class CLevel: public IGame_Level, public IPureClient
 {
@@ -99,12 +99,12 @@ protected:
     EVENT         eEntitySpawn;
     //---------------------------------------------
     CStatGraph*   pStatGraphS;
-    u32           m_dwSPC;   //SendedPacketsCount
-    u32           m_dwSPS;   //SendedPacketsSize
+    u32           m_dwSPC;   // SendedPacketsCount
+    u32           m_dwSPS;   // SendedPacketsSize
     CStatGraph*   pStatGraphR;
-    u32           m_dwRPC;   //ReceivedPacketsCount
-    u32           m_dwRPS;   //ReceivedPacketsSize
-                             //---------------------------------------------
+    u32           m_dwRPC;   // ReceivedPacketsCount
+    u32           m_dwRPS;   // ReceivedPacketsSize
+    //---------------------------------------------
 
 public:
 #ifdef DEBUG
@@ -180,7 +180,7 @@ private:
 
     BOOL       Connect2Server(LPCSTR options);
     void       SendClientDigestToServer();
-    shared_str m_client_digest;   //for screenshots
+    shared_str m_client_digest;   // for screenshots
 
 public:
     shared_str const get_cdkey_digest() const
@@ -327,7 +327,7 @@ public:
 #ifdef DEBUG
     IC CDebugRenderer& debug_renderer();
 #endif
-    void             script_gc();   // GC-cycle
+    void script_gc();   // GC-cycle
 
     IC CPHCommander& ph_commander();
     IC CPHCommander& ph_commander_scripts();
@@ -336,39 +336,42 @@ public:
     CLevel();
     virtual ~CLevel();
 
-    //��������� �������� ������
+    // названияе текущего уровня
     virtual shared_str name() const;
     shared_str         version() const
     {
         return map_data.m_map_version.c_str();
-    }   //this method can be used ONLY from CCC_ChangeGameType
+    }   // this method can be used ONLY from CCC_ChangeGameType
 
-    virtual void    GetLevelInfo(CServerInfo* si);
+    virtual void GetLevelInfo(CServerInfo* si);
 
-    //gets the time from the game simulation
+    // gets the time from the game simulation
 
-    //���������� ����� � ������������ ������������ ������ ����
+    // возвращает время в милисекундах относительно начала игры
     ALife::_TIME_ID GetStartGameTime();
     ALife::_TIME_ID GetGameTime();
-    //���������� ����� ��� ������������� � ������������ ������������ ������ ����
-    ALife::_TIME_ID GetEnvironmentGameTime();
-    //������� ����� � ����������������� ����
+    // возвращает время для энвайронмента в милисекундах относительно начала игры
+    ALife::_TIME_ID GetEnvironmentGameTime() const override;
+    // игровое время в отформатированном виде
     void            GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& mins, u32& secs, u32& milisecs);
 
     float           GetGameTimeFactor();
     void            SetGameTimeFactor(const float fTimeFactor);
     void            SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor);
-    virtual void    SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor);
-    //	void				SetGameTime				(ALife::_TIME_ID GameTime);
+
+    float           GetEnvironmentTimeFactor() const override;
+    void            SetEnvironmentTimeFactor(const float fTimeFactor) override;
+    virtual void    SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor) override;
+    // void         SetGameTime(ALife::_TIME_ID GameTime);
 
     // gets current daytime [0..23]
     u8              GetDayTime();
     u32             GetGameDayTimeMS();
     float           GetGameDayTimeSec();
-    float           GetEnvironmentGameDayTimeSec();
+    float           GetEnvironmentGameDayTimeSec() const override;
 
 protected:
-    //	CFogOfWarMngr*		m_pFogOfWarMngr;
+    // CFogOfWarMngr* m_pFogOfWarMngr;
 
 protected:
     CMapManager*      m_map_manager;
@@ -385,7 +388,7 @@ public:
     }
     void OnAlifeSimulatorLoaded();
     void OnAlifeSimulatorUnLoaded();
-    //������ � ������
+    // работа с пулями
 
 protected:
     CBulletManager* m_pBulletManager;
@@ -413,8 +416,8 @@ public:
     };
 
 public:
-    void                        remove_objects();
-    virtual void                OnSessionTerminate(LPCSTR reason);
+    void         remove_objects();
+    virtual void OnSessionTerminate(LPCSTR reason);
 
     file_transfer::client_site* m_file_transfer;
 
@@ -431,15 +434,17 @@ add_to_type_list(CLevel)
 #undef script_type_list
 #define script_type_list save_type_list(CLevel)
 
-    IC CLevel& Level()
+IC CLevel& Level()
 {
     return *((CLevel*)g_pGameLevel);
 }
+
 IC game_cl_GameState& Game()
 {
     return *Level().game;
 }
-u32             GameID();
+
+u32 GameID();
 
 IC CHUDManager& HUD()
 {
