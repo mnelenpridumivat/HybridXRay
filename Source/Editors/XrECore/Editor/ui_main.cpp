@@ -16,6 +16,7 @@
 #include "UISoundEditorForm.h"
 #include "UIMinimapEditorForm.h"
 #include "UIAboutForm.h"
+#include "UIWeatherPropForm.h"
 #include "../XrETools/ETools.h"
 #include "UILogForm.h"
 #include "gamefont.h"
@@ -354,6 +355,7 @@ void TUI::CheckWindowPos(HWND* form)
 }
 //---------------------------------------------------------------------------
 #include "igame_persistent.h"
+
 void TUI::PrepareRedraw()
 {
     VERIFY(m_bReady);
@@ -804,6 +806,7 @@ void TUI::OnDrawUI()
     UIMinimapEditorForm::Update();
     UILogForm::Update();
     UIAboutForm::Update();
+    UIWeatherPropForm::Update();
     EDevice->seqDrawUI.Process(rp_DrawUI);
 }
 

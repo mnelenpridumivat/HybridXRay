@@ -300,6 +300,18 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                 {
                     if (ImGui::BeginMenu("Environment"_RU >> u8"Погода"))
                     {
+                        // --------------------------------------------------------------------------------------------
+                        {
+                            if (ImGui::Button("Weather properties"_RU >> u8"Свойства погоды"))
+                            {
+                                ExecCommand(COMMAND_WEATHER_PROPERTIES);
+                            }
+                            if (ImGui::IsItemHovered())
+                                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                        }
+                        // --------------------------------------------------------------------------------------------
+                        ImGui::Separator();
+                        // --------------------------------------------------------------------------------------------
                         bool selected = !psDeviceFlags.test(rsEnvironment);
                         if (ImGui::MenuItem("None", "", &selected))
                         {

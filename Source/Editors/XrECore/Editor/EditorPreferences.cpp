@@ -4,6 +4,8 @@
 
 #include "ui_main.h"
 #include "ui_toolscustom.h"
+#include "../XrEngine/Environment.h"
+#include "../XrEngine/IGame_Persistent.h"
 //---------------------------------------------------------------------------
 CCustomPreferences* EPrefs = 0;
 //---------------------------------------------------------------------------
@@ -32,7 +34,7 @@ CCustomPreferences::CCustomPreferences()
         .addFlag("Objects\\Loading\\Deferred Loading CF", epoDeffLoadCF)
         .addFlag("Objects\\GroupObject\\Select ingroup", epoSelectInGroup);
     // view
-    m_Prefs["Viewport\\Near Plane"].set("editor_prefs", "view_np", ptFloat, &view_np, 0.1f, 0.01f, 10.f);
+    m_Prefs["Viewport\\Near Plane"].set("editor_prefs", "view_np", ptFloat, &view_np, 0.2f, 0.01f, 10.f);
     m_Prefs["Viewport\\Far Plane"].set("editor_prefs", "view_fp", ptFloat, &view_fp, 1500.f, 10.f, 10000.f);
     m_Prefs["Viewport\\FOV"].set("editor_prefs", "view_fov", ptAngle, &view_fov, deg2rad(60.f), deg2rad(0.1f), deg2rad(170.f));
     m_Prefs["Viewport\\Clear Color"].set("editor_prefs", "scene_clear_color", ptColor, &scene_clear_color, DEFAULT_CLEARCOLOR);
@@ -298,11 +300,14 @@ void CCustomPreferences::Load(CInifile* I)
                 scene_recent_list.push_back(*fn);
         }
     }
-    sWeather = R_STRING_SAFE("editor_prefs", "weather", shared_str(""));
+    // Weather
+    sWeather         = R_STRING_SAFE("editor_prefs", "weather", shared_str(""));
+    env_from_time    = R_FLOAT_SAFE("editor_prefs", "weather_from_time", 0.f);
+    env_to_time      = R_FLOAT_SAFE("editor_prefs", "weather_to_time", 24.f * 60.f * 60.f);
+    env_speed        = R_FLOAT_SAFE("editor_prefs", "weather_time_factor", 12.f);
+
     // load shortcuts
-
     LoadShortcuts(I);
-
     UI->LoadSettings(I);
 }
 
@@ -339,7 +344,12 @@ void CCustomPreferences::Save(CInifile* I)
         V.sprintf("\"%s\"", it->c_str());
         I->w_string("editor_prefs", L.c_str(), V.c_str());
     }
+    // Weather
     I->w_string("editor_prefs", "weather", sWeather.c_str());
+    I->w_float("editor_prefs", "weather_from_time", env_from_time);
+    I->w_float("editor_prefs", "weather_to_time", env_to_time);
+    I->w_float("editor_prefs", "weather_time_factor", env_speed);
+
     I->w_bool("render", "maximized", EDevice->dwMaximized);
     I->w_u32("render", "w", EDevice->dwRealWidth);
     I->w_u32("render", "h", EDevice->dwRealHeight);

@@ -149,6 +149,7 @@
     <ClCompile Include="Editor\SoundManager.cpp" />
     <ClCompile Include="Editor\TLSPRITE.CPP" />
     <ClCompile Include="Editor\UIRenderForm.cpp" />
+    <ClCompile Include="Editor\UIWeatherPropForm.cpp" />
     <ClCompile Include="Editor\UI_Camera.cpp" />
     <ClCompile Include="Editor\ui_main.cpp" />
     <ClCompile Include="Editor\UI_MainCommand.cpp" />
@@ -267,6 +268,7 @@
     <ClInclude Include="Editor\SoundManager.h" />
     <ClInclude Include="Editor\TLSPRITE.h" />
     <ClInclude Include="Editor\UIRenderForm.h" />
+    <ClInclude Include="Editor\UIWeatherPropForm.h" />
     <ClInclude Include="Editor\UI_Camera.h" />
     <ClInclude Include="Editor\ui_main.h" />
     <ClInclude Include="Editor\UI_MainCommand.h" />

@@ -17,6 +17,8 @@ class ESceneLightTool: public ESceneCustomOTool
     friend class SceneBuilder;
     friend class CLight;
 
+    void OnLightSunChanged(PropValue* sender);
+
 protected:
     enum
     {
@@ -25,6 +27,7 @@ protected:
         flWthrSunDir      = (1 << 29),
         flWthrHemi        = (1 << 28)
     };
+
     Flags32            m_Flags;
     // hemisphere
     u32                m_HemiControl;
