@@ -9,10 +9,11 @@
 //---------------------------------------------------------------------------
 CCustomPreferences* EPrefs = 0;
 //---------------------------------------------------------------------------
+extern ENGINE_API BOOL bIsRaindropCollision;
 
 CCustomPreferences::CCustomPreferences()
 {
-    bOpen                = false;
+    bOpen = false;
 
     m_Prefs["Tools"].set("editor_prefs", "tools_settings", ptFlags, &Tools->m_Settings, Tools->m_Settings);
     m_Prefs["Device"].set("editor_prefs", "device_flags", ptFlags, &psDeviceFlags, psDeviceFlags);
@@ -67,6 +68,8 @@ CCustomPreferences::CCustomPreferences()
     // scene
     m_Prefs["Scene\\Common\\Undo Level"].set("editor_prefs", "scene_undo_level", ptInteger, &scene_undo_level, 125, 0, 125);
     m_Prefs["Scene\\Common\\Recent Count"].set("editor_prefs", "scene_recent_count", ptInteger, &scene_recent_count, 10, 0, 25);
+    // Weather
+    m_Prefs["Weather\\Raindrop Collision"].set("editor_prefs", "weather_raindrop_collision", ptBool, &bIsRaindropCollision, TRUE);
 }
 //---------------------------------------------------------------------------
 

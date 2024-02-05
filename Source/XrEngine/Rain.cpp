@@ -15,7 +15,7 @@
 #include "xr_object.h"
 #endif
 
-//	Warning: duplicated in dxRainRender
+// Warning: duplicated in dxRainRender
 static const int   max_desired_items = 2500;
 static const float source_radius     = 12.5f;
 static const float source_offset     = 40.f;
@@ -33,6 +33,7 @@ const int          max_particles     = 1000;
 const int          particles_cache   = 400;
 const float        particles_time    = .3f;
 
+ENGINE_API extern BOOL bIsRaindropCollision = false;
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -82,14 +83,14 @@ void CEffect_Rain::Born(Item& dest, float radius)
 
 BOOL CEffect_Rain::RayPick(const Fvector& s, const Fvector& d, float& range, collide::rq_target tgt)
 {
-    BOOL bRes = TRUE;
     if (Device->IsEditorMode())
     {
-#ifndef MASTER_GOLD
-        EditorScene->RayPick(s, d, range);
-        return true;
-#endif
+        if (bIsRaindropCollision)
+            return EditorScene->RayPick(s, d, range);
+        else
+            return false;
     }
+    BOOL bRes;
     if (g_pGameLevel)
     {
         collide::rq_result RQ;

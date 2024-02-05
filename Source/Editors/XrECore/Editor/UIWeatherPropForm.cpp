@@ -9,15 +9,17 @@
 #include "UI_ToolsCustom.h"
 #include "XrEditorSceneInterface.h"
 
-ECORE_API extern bool bIsShowSun              = false;
-ECORE_API extern bool bIsUseSunDir            = false;
-ECORE_API extern bool bIsUseHemi              = false;
-UIWeatherPropForm*    UIWeatherPropForm::Form = nullptr;
+extern ENGINE_API BOOL bIsRaindropCollision;
+ECORE_API extern bool  bIsShowSun              = false;
+ECORE_API extern bool  bIsUseSunDir            = false;
+ECORE_API extern bool  bIsUseHemi              = false;
+UIWeatherPropForm*     UIWeatherPropForm::Form = nullptr;
 
 UIWeatherPropForm::UIWeatherPropForm()
 {
     m_weather_properties = EDevice->Resources->_CreateTexture("ed\\bar\\WeatherProp");
     m_speed_time         = EPrefs->env_speed;
+    m_raindrop_collision = bIsRaindropCollision;
 
     m_sun_visible        = false;
     m_use_sun_dir        = false;
@@ -41,7 +43,7 @@ void UIWeatherPropForm::Draw()
         ImGui::Image(m_weather_properties->surface_get(), ImVec2(sizeImage));
     }
     // --------------------------------------------------------------------------------------------
-    ImGui::BeginChild("Center", ImVec2(370, 410), true);
+    ImGui::BeginChild("Center", ImVec2(370, 430), true);
     // --------------------------------------------------------------------------------------------
     // Установки времени погоды
     {
@@ -210,6 +212,23 @@ void UIWeatherPropForm::Draw()
     ImGui::Spacing();
     ImGui::SameLine(10, 0);
     // --------------------------------------------------------------------------------------------
+    // Коллизия дождя
+    {
+        if (ImGui::Checkbox("Collision of raindrops"_RU >> u8"Коллизия капель дождя", &m_raindrop_collision))
+        {
+            IsRaindropCollisionChanged();
+            UI->RedrawScene();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Turn On/Off Collision of raindrops."_RU >> u8"Вкл/выкл Коллизию капель дождя.");
+        }
+    }
+    // --------------------------------------------------------------------------------------------
+    ImGui::Spacing();
+    ImGui::SameLine(10, 0);
+    // --------------------------------------------------------------------------------------------
     // Туман
     {
         bool UseFog = psDeviceFlags.test(rsFog);
@@ -372,4 +391,12 @@ void UIWeatherPropForm::IsUseHemiChanged() const
         bIsUseHemi = true;
     else
         bIsUseHemi = false;
+}
+
+void UIWeatherPropForm::IsRaindropCollisionChanged() const
+{
+    if (m_raindrop_collision && !bIsRaindropCollision)
+        bIsRaindropCollision = true;
+    else
+        bIsRaindropCollision = false;
 }

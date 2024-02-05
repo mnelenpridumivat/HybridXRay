@@ -10,15 +10,15 @@ public:
     static void  Update();
     static void  Show();
 
-    float m_weather_time;
     float m_speed_time;
-
     bool m_sun_visible;
     bool m_use_sun_dir;
     bool m_use_hemi;
+    bool m_raindrop_collision;
     void IsShowSunChanged() const;
     void IsUseSunDirChanged() const;
     void IsUseHemiChanged() const;
+    void IsRaindropCollisionChanged() const;
 
 private:
     static UIWeatherPropForm* Form;
