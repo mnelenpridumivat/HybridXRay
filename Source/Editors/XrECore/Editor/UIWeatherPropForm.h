@@ -15,10 +15,12 @@ public:
     bool m_use_sun_dir;
     bool m_use_hemi;
     bool m_raindrop_collision;
+    bool m_snd_on_roof;
     void IsShowSunChanged() const;
     void IsUseSunDirChanged() const;
     void IsUseHemiChanged() const;
     void IsRaindropCollisionChanged() const;
+    void IsSndOnRoofChanged() const;
 
 private:
     static UIWeatherPropForm* Form;

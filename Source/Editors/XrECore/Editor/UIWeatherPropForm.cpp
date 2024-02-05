@@ -9,6 +9,7 @@
 #include "UI_ToolsCustom.h"
 #include "XrEditorSceneInterface.h"
 
+extern ENGINE_API BOOL bIsSndOnRoof;
 extern ENGINE_API BOOL bIsRaindropCollision;
 ECORE_API extern bool  bIsShowSun              = false;
 ECORE_API extern bool  bIsUseSunDir            = false;
@@ -19,6 +20,7 @@ UIWeatherPropForm::UIWeatherPropForm()
 {
     m_weather_properties = EDevice->Resources->_CreateTexture("ed\\bar\\WeatherProp");
     m_speed_time         = EPrefs->env_speed;
+    m_snd_on_roof        = bIsSndOnRoof;
     m_raindrop_collision = bIsRaindropCollision;
 
     m_sun_visible        = false;
@@ -43,7 +45,7 @@ void UIWeatherPropForm::Draw()
         ImGui::Image(m_weather_properties->surface_get(), ImVec2(sizeImage));
     }
     // --------------------------------------------------------------------------------------------
-    ImGui::BeginChild("Center", ImVec2(370, 430), true);
+    ImGui::BeginChild("Center", ImVec2(370, 450), true);
     // --------------------------------------------------------------------------------------------
     // Установки времени погоды
     {
@@ -229,6 +231,24 @@ void UIWeatherPropForm::Draw()
     ImGui::Spacing();
     ImGui::SameLine(10, 0);
     // --------------------------------------------------------------------------------------------
+    // Звук дождя по крыше
+    {
+        if (ImGui::Checkbox("Sound of rain on roof"_RU >> u8"Звук дождя по крыше", &m_snd_on_roof))
+        {
+            IsSndOnRoofChanged();
+            g_pGamePersistent->Environment().ED_Reload();
+            UI->RedrawScene();
+        }
+        if (ImGui::IsItemHovered())
+        {
+            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::SetTooltip("Turn On/Off sound of rain on roof."_RU >> u8"Вкл/выкл Звук дождя по крыше.");
+        }
+    }
+    // --------------------------------------------------------------------------------------------
+    ImGui::Spacing();
+    ImGui::SameLine(10, 0);
+    // --------------------------------------------------------------------------------------------
     // Туман
     {
         bool UseFog = psDeviceFlags.test(rsFog);
@@ -399,4 +419,12 @@ void UIWeatherPropForm::IsRaindropCollisionChanged() const
         bIsRaindropCollision = true;
     else
         bIsRaindropCollision = false;
+}
+
+void UIWeatherPropForm::IsSndOnRoofChanged() const
+{
+    if (m_snd_on_roof && !bIsSndOnRoof)
+        bIsSndOnRoof = true;
+    else
+        bIsSndOnRoof = false;
 }

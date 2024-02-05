@@ -10,6 +10,7 @@
 CCustomPreferences* EPrefs = 0;
 //---------------------------------------------------------------------------
 extern ENGINE_API BOOL bIsRaindropCollision;
+extern ENGINE_API BOOL bIsSndOnRoof;
 
 CCustomPreferences::CCustomPreferences()
 {
@@ -69,7 +70,8 @@ CCustomPreferences::CCustomPreferences()
     m_Prefs["Scene\\Common\\Undo Level"].set("editor_prefs", "scene_undo_level", ptInteger, &scene_undo_level, 125, 0, 125);
     m_Prefs["Scene\\Common\\Recent Count"].set("editor_prefs", "scene_recent_count", ptInteger, &scene_recent_count, 10, 0, 25);
     // Weather
-    m_Prefs["Weather\\Raindrop Collision"].set("editor_prefs", "weather_raindrop_collision", ptBool, &bIsRaindropCollision, TRUE);
+    m_Prefs["Weather\\Raindrop Collision"].set("editor_prefs", "weather_raindrop_collision", ptBool, &bIsRaindropCollision, false);
+    m_Prefs["Weather\\Sound of rain on roof"].set("editor_prefs", "sound_rain_on_roof", ptBool, &bIsSndOnRoof, false);
 }
 //---------------------------------------------------------------------------
 
