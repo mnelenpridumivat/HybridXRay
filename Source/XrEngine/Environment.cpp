@@ -144,7 +144,7 @@ void CEnvironment::Invalidate()
     if (eff_LensFlare)
         eff_LensFlare->Invalidate();
     if (eff_Rain)
-        eff_Rain->InvalidateState();
+        eff_Rain->Invalidate();
 }
 
 float CEnvironment::TimeDiff(float prev, float cur)
@@ -255,6 +255,7 @@ void CEnvironment::SetWeather(shared_str name, bool forced)
     else
     {
         FATAL("! Empty weather name");
+        Invalidate();
     }
 }
 
@@ -395,7 +396,7 @@ void CEnvironment::SelectEnvs(float gt)
     }
     else
     {
-        bool bSelect = false;
+        bool bSelect;
         if (Current[0]->exec_time > Current[1]->exec_time)
         {
             // terminator
@@ -414,17 +415,6 @@ void CEnvironment::SelectEnvs(float gt)
 #endif
         }
     }
-}
-
-int get_ref_count(IUnknown* ii)
-{
-    if (ii)
-    {
-        ii->AddRef();
-        return ii->Release();
-    }
-    else
-        return 0;
 }
 
 void CEnvironment::lerp(float& current_weight)
@@ -612,9 +602,7 @@ SThunderboltCollection* CEnvironment::thunderbolt_collection(xr_vector<SThunderb
             return (*i);
 
     NODEFAULT;
-#ifdef DEBUG
     return (0);
-#endif   // #ifdef DEBUG
 }
 
 CLensFlareDescriptor* CEnvironment::add_flare(xr_vector<CLensFlareDescriptor*>& collection, shared_str const& id)

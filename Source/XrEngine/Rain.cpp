@@ -340,3 +340,13 @@ void CEffect_Rain::p_free(Particle* P)
     p_remove(P, particle_active);
     p_insert(P, particle_idle);
 }
+
+void CEffect_Rain::Invalidate()
+{
+    if (state == stWorking)
+    {
+        // state = stIdle;
+        snd_Ambient.stop();
+        snd_OnRoof.stop();
+    }
+}

@@ -601,6 +601,7 @@ void UIMainMenuForm::Draw()
                     if (ImGui::MenuItem("None", "", &selected))
                     {
                         psDeviceFlags.set(rsEnvironment, false);
+                        g_pGamePersistent->Environment().Invalidate();
                         UI->RedrawScene();
                     }
                     if (ImGui::IsItemHovered())

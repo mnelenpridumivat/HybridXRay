@@ -316,6 +316,7 @@ void UIMainForm::DrawRenderToolBar(ImVec2 Pos, ImVec2 Size)
                         if (ImGui::MenuItem("None", "", &selected))
                         {
                             psDeviceFlags.set(rsEnvironment, false);
+                            g_pGamePersistent->Environment().Invalidate();
                             UI->RedrawScene();
                         }
                         if (ImGui::IsItemHovered())

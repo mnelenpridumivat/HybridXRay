@@ -459,7 +459,6 @@ void CLensFlare::Render(BOOL bSun, BOOL bFlares, BOOL bGradient)
         return;
     if (!m_Current)
         return;
-    VERIFY(m_Current);
 
     m_pRender->Render(*this, bSun, bFlares, bGradient);
 }
