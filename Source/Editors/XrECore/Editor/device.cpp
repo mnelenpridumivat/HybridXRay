@@ -9,6 +9,7 @@
 #include "../Engine/XrGameMaterialLibraryEditors.h"
 #include "ResourceManager.h"
 #include "UI_ToolsCustom.h"
+#include "igame_persistent.h" // for environment bug-fix
 
 CEditorRenderDevice* EDevice;
 
@@ -362,11 +363,13 @@ void CEditorRenderDevice::Reset(bool)
     HW.Reset(m_hWnd);
     dwRealWidth  = HW.DevPP.BackBufferWidth;
     dwRealHeight = HW.DevPP.BackBufferHeight;
-    //		fWidth_2			= float(dwRealWidth/2);
-    //		fHeight_2			= float(dwRealHeight/2);
+    // fWidth_2  = float(dwRealWidth/2);
+    // fHeight_2 = float(dwRealHeight/2);
     Resources->reset_end();
     UI->ResetEnd();
     _SetupStates();
+    if (g_pGamePersistent)
+        g_pGamePersistent->Environment().bNeed_re_create_env = TRUE;
     u32 tm_end = TimerAsync();
     Msg("*** RESET [%d ms]", tm_end - tm_start);
 }
