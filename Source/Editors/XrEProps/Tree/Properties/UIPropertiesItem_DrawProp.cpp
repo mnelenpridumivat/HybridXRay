@@ -253,7 +253,7 @@ void UIPropertiesItem::DrawProp()
 
             PItem->BeforeEdit<U32Value, u32>(edit_val);
             u32   a        = color_get_A(edit_val);
-            float color[3] = {color_get_R(edit_val) / 255.f, color_get_G(edit_val) / 255.f, color_get_B(edit_val) / 255.f};
+            float color[3] = { color_get_B(edit_val) / 255.f, color_get_G(edit_val) / 255.f, color_get_R(edit_val) / 255.f };
             if (ImGui::ColorEdit3("##value", color))
             {
                 edit_val = color_rgba_f(color[2], color[1], color[0], 1.f);
