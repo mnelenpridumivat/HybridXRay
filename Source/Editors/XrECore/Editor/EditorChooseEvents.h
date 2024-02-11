@@ -357,7 +357,7 @@ namespace ChoseEvents
 
     void SelectTexture(SChooseItem* item, PropItemVec& info_items)
     {
-        if (item->name.size())
+        if (item && item->name.size())
         {
             ETextureThumbnail* thm = xr_new<ETextureThumbnail>(*item->name);
             if (thm->Valid())

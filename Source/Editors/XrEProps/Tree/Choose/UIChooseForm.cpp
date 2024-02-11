@@ -23,7 +23,7 @@ void                     UIChooseForm::UpdateSelected(UIChooseFormItem* NewSelec
                 m_Texture->Release();
             m_Texture = 0;
         }
-        if (!E.on_get_texture.empty())
+        if (m_SelectedItem->Object && !E.on_get_texture.empty())
             E.on_get_texture(m_SelectedItem->Object->name.c_str(), m_Texture);
     }
 }
@@ -140,7 +140,7 @@ void UIChooseForm::Draw()
                 }
                 //   ImGui::Image
                 ImGui::Separator();
-                if (m_SelectedItem == nullptr)
+                if (m_SelectedItem == nullptr || m_SelectedItem->Object == nullptr)
                 {
                     ImGui::Text("Name:");
                     ImGui::Text("Hit:");
