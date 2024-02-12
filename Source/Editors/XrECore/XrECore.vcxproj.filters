@@ -553,6 +553,9 @@
     <ClCompile Include="Editor\UIAboutForm.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\UIWeatherPropForm.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="WildMagic\WmlMath.h">
@@ -843,6 +846,9 @@
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="Editor\UIAboutForm.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor\UIWeatherPropForm.h">
       <Filter>Editor</Filter>
     </ClInclude>
   </ItemGroup>

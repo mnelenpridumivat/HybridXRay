@@ -137,4 +137,5 @@ public:
 
     void MouseRayFromPoint(Fvector& start, Fvector& direction, const Ivector2& point);
 };
+extern ECORE_API CUI_Camera* CUICamera;
 #endif

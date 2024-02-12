@@ -63,7 +63,6 @@ XRCORE_API extern str_container* g_pStringContainer;
 //////////////////////////////////////////////////////////////////////////
 class shared_str
 {
-private:
     str_value* p_;
 
 protected:
@@ -78,7 +77,7 @@ protected:
     }
 
 public:
-    void _set(str_c rhs)
+    void _set(pcstr rhs)
     {
         str_value* v = g_pStringContainer->dock(rhs);
         if (0 != v)
@@ -94,7 +93,7 @@ public:
         _dec();
         p_ = v;
     }
-    //	void				_set		(shared_str const &rhs)			{	str_value* v = g_pStringContainer->dock(rhs.c_str()); if (0!=v) v->dwReference++; _dec(); p_ = v;							}
+    // void _set (shared_str const &rhs) { str_value* v = g_pStringContainer->dock(rhs.c_str()); if (0 != v) v->dwReference++; _dec(); p_ = v; }
 
     const str_value* _get() const
     {
@@ -107,7 +106,7 @@ public:
     {
         p_ = 0;
     }
-    shared_str(str_c rhs)
+    shared_str(pcstr rhs)
     {
         p_ = 0;
         _set(rhs);
@@ -121,9 +120,8 @@ public:
     {
         _dec();
     }
-
     // assignment & accessors
-    shared_str& operator=(str_c rhs)
+    shared_str& operator=(pcstr rhs)
     {
         _set(rhs);
         return (shared_str&)*this;
@@ -133,7 +131,8 @@ public:
         _set(rhs);
         return (shared_str&)*this;
     }
-    str_c operator*() const
+    // XXX tamlin: Remove operator*(). It may be convenient, but it's dangerous. Use
+    pcstr operator*() const
     {
         return p_ ? p_->value : 0;
     }
@@ -145,7 +144,7 @@ public:
     {
         return p_->value[id];
     }
-    str_c c_str() const
+    pcstr c_str() const
     {
         return p_ ? p_->value : 0;
     }
@@ -173,7 +172,7 @@ public:
         string4096 buf;
         va_list    p;
         va_start(p, format);
-        int vs_sz            = _vsnprintf(buf, sizeof(buf) - 1, format, p);
+        int vs_sz            = vsnprintf(buf, sizeof(buf) - 1, format, p);
         buf[sizeof(buf) - 1] = 0;
         va_end(p);
         if (vs_sz)

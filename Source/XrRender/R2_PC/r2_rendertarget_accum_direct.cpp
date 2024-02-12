@@ -140,7 +140,7 @@ void CRenderTarget::accum_direct(u32 sub_phase)
             Fmatrix      m_xform;
             Fvector      direction = fuckingsun->direction;
             float        w_dir     = g_pGamePersistent->Environment().CurrentEnv->wind_direction;
-            // float	w_speed				= g_pGamePersistent->Environment().CurrentEnv->wind_velocity	;
+            // float       w_speed    = g_pGamePersistent->Environment().CurrentEnv->wind_velocity;
             Fvector      normal;
             normal.setHP(w_dir, 0);
             w_shift += 0.003f * Device->fTimeDelta;
@@ -362,7 +362,7 @@ void CRenderTarget::accum_direct_cascade(u32 sub_phase, Fmatrix& xform, Fmatrix&
             Fmatrix      m_xform;
             Fvector      direction = fuckingsun->direction;
             float        w_dir     = g_pGamePersistent->Environment().CurrentEnv->wind_direction;
-            // float	w_speed				= g_pGamePersistent->Environment().CurrentEnv->wind_velocity	;
+            // float        w_speed   = g_pGamePersistent->Environment().CurrentEnv->wind_velocity;
             Fvector      normal;
             normal.setHP(w_dir, 0);
             w_shift += 0.003f * Device->fTimeDelta;
@@ -825,25 +825,25 @@ void CRenderTarget::accum_direct_volumetric(u32 sub_phase, const u32 Offset, con
         return;
 
     {
-        CEnvDescriptor& E      = *static_cast<CEnvDescriptorMixer*>(g_pGamePersistent->Environment().CurrentEnv);
+        CEnvDescriptor& E      = *g_pGamePersistent->Environment().CurrentEnv;
         float           fValue = E.m_fSunShaftsIntensity;
-        //	TODO: add multiplication by sun color here
+        // TODO: add multiplication by sun color here
         if (fValue < 0.0001)
             return;
     }
 
-    //	Test. draw only for near part
-    //	if (sub_phase!=SE_SUN_N/EAR) return;
-    //	if (sub_phase!=SE_SUN_FAR) return;
+    // Test. draw only for near part
+    // if (sub_phase!=SE_SUN_N/EAR) return;
+    // if (sub_phase!=SE_SUN_FAR) return;
 
     phase_vol_accumulator();
 
     RCache.set_ColorWriteEnable();
 
-    //	Assume everything was recalculated before this call by accum_direct
+    // Assume everything was recalculated before this call by accum_direct
 
-    //	Set correct depth surface
-    //	It's slow. Make this when shader is created
+    // Set correct depth surface
+    // It's slow. Make this when shader is created
     {
         char* pszSMapName;
         BOOL  b_HW_smap = RImplementation.o.HW_smap;

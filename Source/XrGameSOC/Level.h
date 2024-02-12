@@ -40,7 +40,7 @@ extern float g_fov;
 const int    maxRP    = 64;
 const int    maxTeams = 32;
 
-//class CFogOfWar;
+// class CFogOfWar;
 class CFogOfWarMngr;
 class CBulletManager;
 class CMapManager;
@@ -98,12 +98,12 @@ protected:
     EVENT         eEntitySpawn;
     //---------------------------------------------
     CStatGraph*   pStatGraphS;
-    u32           m_dwSPC;   //SendedPacketsCount
-    u32           m_dwSPS;   //SendedPacketsSize
+    u32           m_dwSPC;   // SendedPacketsCount
+    u32           m_dwSPS;   // SendedPacketsSize
     CStatGraph*   pStatGraphR;
-    u32           m_dwRPC;   //ReceivedPacketsCount
-    u32           m_dwRPS;   //ReceivedPacketsSize
-                             //---------------------------------------------
+    u32           m_dwRPC;   // ReceivedPacketsCount
+    u32           m_dwRPS;   // ReceivedPacketsSize
+    //---------------------------------------------
 
 public:
 #ifdef DEBUG
@@ -296,7 +296,7 @@ public:
 #ifdef DEBUG
     IC CDebugRenderer& debug_renderer();
 #endif
-    void             script_gc();   // GC-cycle
+    void script_gc();   // GC-cycle
 
     IC CPHCommander& ph_commander();
     IC CPHCommander& ph_commander_scripts();
@@ -305,45 +305,49 @@ public:
     CLevel();
     virtual ~CLevel();
 
-    //��������� �������� ������
+    // названияе текущего уровня
     virtual shared_str name() const;
-    virtual void       GetLevelInfo(CServerInfo* si);
+    virtual void GetLevelInfo(CServerInfo* si);
 
-    //gets the time from the game simulation
+    // gets the time from the game simulation
 
-    //���������� ����� � ������������ ������������ ������ ����
-    ALife::_TIME_ID    GetGameTime();
-    //���������� ����� ��� ������������� � ������������ ������������ ������ ����
-    ALife::_TIME_ID    GetEnvironmentGameTime();
-    //������� ����� � ����������������� ����
-    void               GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& mins, u32& secs, u32& milisecs);
+    // возвращает время в милисекундах относительно начала игры
+    ALife::_TIME_ID GetStartGameTime();
+    ALife::_TIME_ID GetGameTime();
+    // возвращает время для энвайронмента в милисекундах относительно начала игры
+    ALife::_TIME_ID GetEnvironmentGameTime() const override;
+    // игровое время в отформатированном виде
+    void            GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& mins, u32& secs, u32& milisecs);
 
-    float              GetGameTimeFactor();
-    void               SetGameTimeFactor(const float fTimeFactor);
-    void               SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor);
-    //void				SetEnvironmentGameTimeFactor		(ALife::_TIME_ID GameTime, const float fTimeFactor);
-    //	void				SetGameTime				(ALife::_TIME_ID GameTime);
+    float           GetGameTimeFactor();
+    void            SetGameTimeFactor(const float fTimeFactor);
+    void            SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor);
+
+    float           GetEnvironmentTimeFactor() const override;
+    void            SetEnvironmentTimeFactor(const float fTimeFactor) override;
+    virtual void    SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor) override;
+    // void         SetGameTime(ALife::_TIME_ID GameTime);
 
     // gets current daytime [0..23]
-    u8                 GetDayTime();
-    u32                GetGameDayTimeMS();
-    float              GetGameDayTimeSec();
-    float              GetEnvironmentGameDayTimeSec();
+    u8              GetDayTime();
+    u32             GetGameDayTimeMS();
+    float           GetGameDayTimeSec();
+    float           GetEnvironmentGameDayTimeSec() const override;
 
 protected:
-    //	CFogOfWarMngr*		m_pFogOfWarMngr;
+    // CFogOfWarMngr* m_pFogOfWarMngr;
 
 protected:
     CMapManager* m_map_manager;
 
 public:
-    CMapManager& MapManager()
+    CMapManager& MapManager() const
     {
         return *m_map_manager;
     }
-    //	CFogOfWarMngr&			FogOfWarMngr				()	{return *m_pFogOfWarMngr;}
+    // CFogOfWarMngr& FogOfWarMngr() {return *m_pFogOfWarMngr;}
 
-    //������ � ������
+    // работа с пулями
 
 protected:
     CBulletManager* m_pBulletManager;
@@ -371,15 +375,14 @@ public:
     };
 
 public:
-    void               remove_objects();
-    virtual void       OnSessionTerminate(LPCSTR reason);
+    void         remove_objects();
+    virtual void OnSessionTerminate(LPCSTR reason);
 
     virtual shared_str OpenDemoFile(LPCSTR demo_file_name)
     {
         return "";
     }
     virtual void net_StartPlayDemo() {}
-    virtual void SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor);
 
     DECLARE_SCRIPT_REGISTER_FUNCTION
 };
@@ -387,15 +390,17 @@ add_to_type_list(CLevel)
 #undef script_type_list
 #define script_type_list save_type_list(CLevel)
 
-    IC CLevel& Level()
+IC CLevel& Level()
 {
     return *((CLevel*)g_pGameLevel);
 }
+
 IC game_cl_GameState& Game()
 {
     return *Level().game;
 }
-u32             GameID();
+
+u32 GameID();
 
 IC CHUDManager& HUD()
 {

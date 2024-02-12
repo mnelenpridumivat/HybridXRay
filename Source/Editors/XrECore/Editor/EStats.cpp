@@ -21,7 +21,8 @@ CEStats::CEStats()
 
 CEStats::~CEStats() {}
 
-#include "igame_persistent.h"
+#include "IGame_Level.h"
+#include "IGame_Persistent.h"
 void CEStats::Show(CGameFont* font)
 {
     // Stop timers
@@ -67,13 +68,20 @@ void CEStats::Show(CGameFont* font)
     // Show them
     if (psDeviceFlags.is(rsStatistic))
     {
+        auto& env  = g_pGamePersistent->Environment();
+        float time = g_pGameLevel ? g_pGameLevel->GetEnvironmentGameDayTimeSec() : env.GetGameTime();
+        u32   hours, minutes, seconds;
+        env.SplitTime(time, hours, minutes, seconds);
+
         CGameFont& F = *font;
-        F.SetColor(0xFFFFFFFF);
         if (bIsLevelEditor)
             F.OutSet(30, ImGui::GetFrameHeight() * 1.5);
         else
             F.OutSet(5, 5);
+        F.SetColor(0xFFFFFF00);
         F.OutNext("FPS/RFPS:     %3.1f/%3.1f", fFPS, fRFPS);
+        F.OutSkip();
+        F.SetColor(0xFFC8DCAF);
         F.OutNext("TPS:          %2.2f M", fTPS);
         F.OutNext("VERT:         %d", DPS.verts);
         F.OutNext("POLY:         %d", DPS.polys);
@@ -98,9 +106,11 @@ void CEStats::Show(CGameFont* font)
         F.OutNext("TEST 1:       %2.2fms, %d", TEST1.result, TEST1.count);
         F.OutNext("TEST 2:       %2.2fms, %d", TEST2.result, TEST2.count);
         F.OutNext("TEST 3:       %2.2fms, %d", TEST3.result, TEST3.count);
-        F.OutSkip();
-        // F.OutNext("GAME TIME: %s", FloatTimeToStrTime(g_pGamePersistent->Environment().GetGameTime()).c_str());
-        // F.OutSkip(2.f);
+        F.OutSkip(2.f);
+        F.SetColor(0xFF00FF00);
+        // F.OutNext("GAME TIME:    %s", FloatTimeToStrTime(time).c_str());
+        F.OutNext("GAME TIME:    %02d :%02d :%02d", hours, minutes, seconds);
+        F.OutSkip(1.5f);
         // F.OutNext("Level summary:");
         // F.OutNext(" Sel Faces: %d", dwLevelSelFaceCount);
         // F.OutNext(" Sel Verts: %d", dwLevelSelVertexCount);

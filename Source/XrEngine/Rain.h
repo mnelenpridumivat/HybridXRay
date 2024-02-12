@@ -47,16 +47,16 @@ private:
     };
 
 private:
-    // Visualization	(rain) and (drops)
+    // Visualization(rain) and (drops)
     FactoryPtr<IRainRender> m_pRender;
     /*
-    // Visualization	(rain)
-    ref_shader						SH_Rain;
-    ref_geom						hGeom_Rain;
+    // Visualization(rain)
+    ref_shader SH_Rain;
+    ref_geom   hGeom_Rain;
 
-    // Visualization	(drops)
-    IRender_DetailModel*			DM_Drop;
-    ref_geom						hGeom_Drops;
+    // Visualization(drops)
+    IRender_DetailModel* DM_Drop;
+    ref_geom hGeom_Drops;
     */
 
     // Data and logic
@@ -68,9 +68,12 @@ private:
     Particle*               particle_active;
     Particle*               particle_idle;
 
+public:
     // Sounds
     ref_sound               snd_Ambient;
+    ref_sound               snd_OnRoof;
 
+private:
     // Utilities
     void                    p_create();
     void                    p_destroy();
@@ -93,6 +96,7 @@ public:
 
     void Render();
     void OnFrame();
+    void Invalidate();
 };
 
 #endif   // RainH

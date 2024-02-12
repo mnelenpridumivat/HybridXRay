@@ -272,14 +272,14 @@ void CLevelTool::ShowProperties(LPCSTR focus_to_item)
         MainForm->GetPropertiesFrom()->Open();
 
     /*
-    if(focus_to_item)
-        m_Props->SelectFolder	(focus_to_item);
+    if (focus_to_item)
+        m_Props->FindItem(focus_to_item);
     else
     {
-        if(pCurTool && pCurTool->ClassID!=OBJCLASS_DUMMY)
+        if (pCurTool && pCurTool->FClassID != OBJCLASS_DUMMY)
         {
             LPCSTR cn = pCurTool->ClassDesc();
-            m_Props->SelectFolder	(cn);
+            m_Props->FindItem(cn);
         }
     }
     */
@@ -367,8 +367,9 @@ void CLevelTool::GetCurrentFog(u32& fog_color, float& s_fog, float& e_fog)
     }
     else
     {
-        s_fog = psDeviceFlags.is(rsFog) ? (1.0f - fFogness) * 0.85f * UI->ZFar() : 0.99f * UI->ZFar();
-        e_fog = psDeviceFlags.is(rsFog) ? 0.91f * UI->ZFar() : UI->ZFar();
+        s_fog     = psDeviceFlags.is(rsFog) ? (1.0f - fFogness) * 0.85f * UI->ZFar() : 0.99f * UI->ZFar();
+        e_fog     = psDeviceFlags.is(rsFog) ? 0.91f * UI->ZFar() : UI->ZFar();
+        fog_color = dwFogColor;
     }
 }
 
@@ -476,7 +477,10 @@ void CLevelTool::Render()
         case esEditScene:
             Scene->Render(EDevice->m_Camera.GetTransform());
             if (psDeviceFlags.is(rsEnvironment) || UI->IsPlayInEditor())
+            {
+                g_pGamePersistent->Environment().RenderFlares();
                 g_pGamePersistent->Environment().RenderLast();
+            }
             break;
         case esBuildLevel:
             Builder.OnRender();

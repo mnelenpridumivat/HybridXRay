@@ -2,6 +2,12 @@
 #pragma hdrstop
 
 #include "detailmanager.h"
+#ifdef _EDITOR
+#include "IGame_Persistent.h"
+#include "Environment.h"
+#endif // _EDITOR
+#include <d3d9types.h>
+#include "../../xrCore/xrDebug_macros.h"
 
 const u32 vs_size = 3000;
 
@@ -21,9 +27,19 @@ void CDetailManager::soft_Unload()
 void CDetailManager::soft_Render()
 {
     // Render itself
-    // float	fPhaseRange	= PI/16;
-    // float	fPhaseX		= _sin(Device->fTimeGlobal*0.1f)	*fPhaseRange;
-    // float	fPhaseZ		= _sin(Device->fTimeGlobal*0.11f)*fPhaseRange;
+    // float fPhaseRange = PI/16;
+    // float fPhaseX     = _sin(Device->fTimeGlobal * 0.1f) * fPhaseRange;
+    // float fPhaseZ     = _sin(Device->fTimeGlobal * 0.11f) * fPhaseRange;
+    u32 C = 0xFFFFFFFF;
+
+#ifdef _EDITOR
+    if (psDeviceFlags.test(rsEnvironment))
+    {
+        Fvector sun = g_pGamePersistent->Environment().CurrentEnv->sun_color;
+        sun.mul(0.5f);
+        C = color_rgba_f(sun.x, sun.y, sun.z, 1.f);
+    }
+#endif
 
     // Get index-stream
     _IndexStream&  _IS = RCache.Index;
@@ -55,7 +71,7 @@ void CDetailManager::soft_Render()
             // Fill VB (and flush it as nesessary)
             RCache.set_Shader(Object.shader);
 
-            Fmatrix mXform;
+            Fmatrix mXform {};
             for (u32 L_ID = 0; L_ID < lock_count; L_ID++)
             {
                 // Calculate params
@@ -103,8 +119,7 @@ void CDetailManager::soft_Render()
 
                     // Transfer vertices
                     {
-                        u32                    C     = 0xffffffff;
-                        CDetail::fvfVertexIn * srcIt = Object.vertices, *srcEnd = Object.vertices + Object.number_vertices;
+                        CDetail::fvfVertexIn *srcIt  = Object.vertices, *srcEnd = Object.vertices + Object.number_vertices;
                         CDetail::fvfVertexOut* dstIt = vDest;
 
                         for (; srcIt != srcEnd; srcIt++, dstIt++)
@@ -150,28 +165,27 @@ void CDetailManager::soft_Render()
 }
 
 /*
-//.
-                VERIFY(sizeof(CDetail::fvfVertexOut)==soft_Geom->vb_stride);
+VERIFY(sizeof(CDetail::fvfVertexOut) == soft_Geom->vb_stride);
 
-                CDetail::fvfVertexOut	*dstIt = vDest;
+CDetail::fvfVertexOut* dstIt = vDest;
 
-                VERIFY(items->size()*Object.number_vertices==vCount_Lock);
+VERIFY(items->size() * Object.number_vertices == vCount_Lock);
 
-                for	(u32 k=0; k<vCount_Lock; k++)
-                {
-                    // Transfer vertices
-                    {
-                        u32					C = 0xffffffff;
-                        CDetail::fvfVertexIn	*srcIt = Object.vertices, *srcEnd =
-Object.vertices+Object.number_vertices; CDetail::fvfVertexOut	*dstIt = vDest;
+for (u32 k = 0; k < vCount_Lock; k++)
+{
+    // Transfer vertices
+    {
+        u32                    C     = 0xffffffff;
+        CDetail::fvfVertexIn * srcIt = Object.vertices, *srcEnd = Object.vertices + Object.number_vertices;
+        CDetail::fvfVertexOut* dstIt = vDest;
 
-                        for	(; srcIt!=srcEnd; srcIt++, dstIt++)
-                        {
-                            mXform.transform_tiny	(dstIt->P,srcIt->P);
-                            dstIt->C	= C;
-                            dstIt->u	= srcIt->u;
-                            dstIt->v	= srcIt->v;
-                        }
-                    }
-                }
+        for (; srcIt != srcEnd; srcIt++, dstIt++)
+        {
+            mXform.transform_tiny(dstIt->P, srcIt->P);
+            dstIt->C = C;
+            dstIt->u = srcIt->u;
+            dstIt->v = srcIt->v;
+        }
+    }
+}
 */

@@ -418,12 +418,12 @@ CPHWorld* physics_world()
 {
     return ph_world;
 }
-IEnvironment* environment()
+CEnvironment* environment()
 {
     return (g_pGamePersistent->pEnvironment);
 }
 
-IEnvDescriptor* current_environment(IEnvironment* self)
+CEnvDescriptor* current_environment(CEnvironment* self)
 {
     return (self->CurrentEnv);
 }
@@ -642,9 +642,9 @@ u32 render_get_dx_level()
 #pragma optimize("s", on)
 void CLevel::script_register(lua_State* L)
 {
-    class_<IEnvDescriptor>("CEnvDescriptor").def_readonly("fog_density", &IEnvDescriptor::fog_density).def_readonly("far_plane", &IEnvDescriptor::far_plane),
+    class_<CEnvDescriptor>("CEnvDescriptor").def_readonly("fog_density", &CEnvDescriptor::fog_density).def_readonly("far_plane", &CEnvDescriptor::far_plane),
 
-        class_<IEnvironment>("CEnvironment").def("current", current_environment);
+        class_<CEnvironment>("CEnvironment").def("current", current_environment);
 
     module(L, "level")[
         // obsolete\deprecated

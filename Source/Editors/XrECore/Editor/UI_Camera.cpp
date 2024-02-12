@@ -5,6 +5,9 @@
 #include "ui_main.h"
 #include "ui_toolscustom.h"
 
+//------------------------------------------------------------------------------
+CUI_Camera* CUICamera = 0;
+//------------------------------------------------------------------------------
 CUI_Camera::CUI_Camera()
 {
     m_Style = csPlaneMove;

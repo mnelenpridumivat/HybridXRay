@@ -1,8 +1,6 @@
 ﻿#include "stdafx.h"
 #include "dxRenderFactory.h"
 
-#ifndef _EDITOR
-
 #include "dxStatGraphRender.h"
 #include "dxLensFlareRender.h"
 
@@ -13,6 +11,7 @@
 #include "dxLensFlareRender.h"
 #include "dxEnvironmentRender.h"
 
+#ifndef _EDITOR
 #include "dxRenderDeviceRender.h"
 #include "dxObjectSpaceRender.h"
 #endif   // _EDITOR
@@ -49,6 +48,7 @@ RENDER_FACTORY_IMPLEMENT(ObjectSpaceRender)
 RENDER_FACTORY_IMPLEMENT(ApplicationRender)
 RENDER_FACTORY_IMPLEMENT(WallMarkArray)
 RENDER_FACTORY_IMPLEMENT(StatsRender)
+
 RENDER_FACTORY_IMPLEMENT(ThunderboltRender)
 RENDER_FACTORY_IMPLEMENT(ThunderboltDescRender)
 RENDER_FACTORY_IMPLEMENT(RainRender)

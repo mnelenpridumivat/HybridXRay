@@ -79,9 +79,9 @@ public:
         return *m_pCameras;
     };
 
-    BOOL      bReady;
+    BOOL        bReady;
 
-    CInifile* pLevel;
+    CInifile*   pLevel;
 
 public:   // deferred sound events
     struct _esound_delegate
@@ -140,9 +140,20 @@ public:
     void         SoundEvent_OnDestDestroy(Feel::Sound*);
 
     // Loader interface
-    // ref_shader					LL_CreateShader			(int S, int T, int M, int C);
+    // ref_shader LL_CreateShader(int S, int T, int M, int C);
     void         LL_CheckTextures();
-    virtual void SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor) = 0;
+
+    [[nodiscard]]
+    virtual u64   GetEnvironmentGameTime() const = 0;
+
+    [[nodiscard]]
+    virtual float GetEnvironmentTimeFactor() const = 0;
+    virtual void  SetEnvironmentTimeFactor(float fTimeFactor) = 0;
+
+    virtual void  SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor) = 0;
+
+    [[nodiscard]]
+    virtual float GetEnvironmentGameDayTimeSec() const = 0;
 };
 
 //-----------------------------------------------------------------------------------------------------------

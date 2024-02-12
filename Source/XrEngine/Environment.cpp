@@ -1,8 +1,9 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-#ifndef _EDITOR
+#if 1
 #include "render.h"
+#include "IGame_Level.h"
 #endif
 
 #include "Environment.h"
@@ -13,14 +14,6 @@
 #include "perlin.h"
 
 #include "xr_input.h"
-
-// #include "resourcemanager.h"
-
-#ifndef _EDITOR
-#include "IGame_Level.h"
-#endif
-
-// #include "D3DUtils.h"
 #include "../xrcore/xrCore.h"
 
 #include "EnvironmentRender.h"
@@ -43,9 +36,8 @@ const float MAX_DIST_FACTOR = 0.95f;
 
 //////////////////////////////////////////////////////////////////////////
 // environment
-CEnvironment::CEnvironment(): m_ambients_config(0)
+CEnvironment::CEnvironment(): CurrentEnv(0), m_ambients_config(0)
 {
-    CurrentEnv          = nullptr;
     bNeed_re_create_env = FALSE;
     bWFX                = false;
     Current[0]          = 0;
@@ -56,14 +48,10 @@ CEnvironment::CEnvironment(): m_ambients_config(0)
     eff_LensFlare       = 0;
     eff_Thunderbolt     = 0;
     OnDeviceCreate();
-#ifdef _EDITOR
     ed_from_time = 0.f;
     ed_to_time   = DAY_LENGTH;
-#endif
 
-#ifndef _EDITOR
     m_paused = false;
-#endif
 
     fGameTime            = 0.f;
     fTimeFactor          = 12.f;
@@ -90,8 +78,8 @@ CEnvironment::CEnvironment(): m_ambients_config(0)
     PerlinNoise1D->SetOctaves(2);
     PerlinNoise1D->SetAmplitude(0.66666f);
 
-    //	tsky0					= Device->Resources->_CreateTexture("$user$sky0");
-    //	tsky1					= Device->Resources->_CreateTexture("$user$sky1");
+    // tsky0 = Device->Resources->_CreateTexture("$user$sky0");
+    // tsky1 = Device->Resources->_CreateTexture("$user$sky1");
 
     string_path file_name;
     m_ambients_config                = xr_new<CInifile>(FS.update_path(file_name, "$game_config$", "environment\\ambients.ltx"), TRUE, TRUE, FALSE);
@@ -155,6 +143,8 @@ void CEnvironment::Invalidate()
     Current[1] = 0;
     if (eff_LensFlare)
         eff_LensFlare->Invalidate();
+    if (eff_Rain)
+        eff_Rain->Invalidate();
 }
 
 float CEnvironment::TimeDiff(float prev, float cur)
@@ -185,6 +175,7 @@ float CEnvironment::TimeWeight(float val, float min_t, float max_t)
     }
     return weight;
 }
+
 void CEnvironment::ChangeGameTime(float game_time)
 {
     fGameTime = NormalizeTime(fGameTime + game_time);
@@ -192,17 +183,30 @@ void CEnvironment::ChangeGameTime(float game_time)
 
 void CEnvironment::SetGameTime(float game_time, float time_factor)
 {
-#ifndef _EDITOR
-    if (m_paused)
+    if (g_pGameLevel)
     {
-        g_pGameLevel->SetEnvironmentGameTimeFactor(iFloor(fGameTime * 1000.f), fTimeFactor);
-        return;
+        if (m_paused)
+        {
+            g_pGameLevel->SetEnvironmentGameTimeFactor(iFloor(fGameTime * 1000.f), fTimeFactor);
+            return;
+        }
     }
-#endif
     if (bWFX)
         wfx_time -= TimeDiff(fGameTime, game_time);
     fGameTime   = game_time;
     fTimeFactor = time_factor;
+}
+
+void CEnvironment::SplitTime(float time, u32& hours, u32& minutes, u32& seconds) const
+{
+    u32 current_time_u32 = iFloor(time);
+    current_time_u32     = current_time_u32 % (24 * 60 * 60);
+
+    hours                = current_time_u32 / (60 * 60);
+    current_time_u32 %= (60 * 60);
+
+    minutes = current_time_u32 / 60;
+    seconds = current_time_u32 % 60;
 }
 
 float CEnvironment::NormalizeTime(float tm)
@@ -217,11 +221,12 @@ float CEnvironment::NormalizeTime(float tm)
 
 void CEnvironment::SetWeather(shared_str name, bool forced)
 {
-    //.	static BOOL bAlready = FALSE;
-    //.	if(bAlready)	return;
+    // static BOOL bAlready = FALSE;
+    // if(bAlready)
+    //     return;
     if (name.size())
     {
-        //.		bAlready = TRUE;
+        // bAlready = TRUE;
         EnvsMapIt it = WeatherCycles.find(name);
         if (it == WeatherCycles.end())
         {
@@ -249,9 +254,8 @@ void CEnvironment::SetWeather(shared_str name, bool forced)
     }
     else
     {
-#ifndef _EDITOR
         FATAL("! Empty weather name");
-#endif
+        Invalidate();
     }
 }
 
@@ -286,10 +290,10 @@ bool CEnvironment::SetWeatherFX(shared_str name)
         clamp(current_weight, 0.f, 1.f);
 
         std::sort(CurrentWeather->begin(), CurrentWeather->end(), sort_env_etl_pred);
-        IEnvDescriptor* C0 = CurrentWeather->at(0);
-        IEnvDescriptor* C1 = CurrentWeather->at(1);
-        IEnvDescriptor* CE = CurrentWeather->at(CurrentWeather->size() - 2);
-        IEnvDescriptor* CT = CurrentWeather->at(CurrentWeather->size() - 1);
+        CEnvDescriptor* C0 = CurrentWeather->at(0);
+        CEnvDescriptor* C1 = CurrentWeather->at(1);
+        CEnvDescriptor* CE = CurrentWeather->at(CurrentWeather->size() - 2);
+        CEnvDescriptor* CT = CurrentWeather->at(CurrentWeather->size() - 1);
         C0->copy(*Current[0]);
         C0->exec_time = NormalizeTime(fGameTime - ((rewind_tm / (Current[1]->exec_time - fGameTime)) * current_length - rewind_tm));
         C1->copy(*Current[1]);
@@ -310,15 +314,13 @@ bool CEnvironment::SetWeatherFX(shared_str name)
         Current[1] = C1;
 #ifdef WEATHER_LOGGING
         Msg("Starting WFX: '%s' - %3.2f sec", *name, wfx_time);
-//		for (EnvIt l_it=CurrentWeather->begin(); l_it!=CurrentWeather->end(); l_it++)
-//			Msg				(". Env: '%s' Tm: %3.2f",*(*l_it)->m_identifier.c_str(),(*l_it)->exec_time);
+        // for (EnvIt l_it=CurrentWeather->begin(); l_it!=CurrentWeather->end(); l_it++)
+        // Msg(". Env: '%s' Tm: %3.2f",*(*l_it)->m_identifier.c_str(),(*l_it)->exec_time);
 #endif
     }
     else
     {
-#ifndef _EDITOR
         FATAL("! Empty weather effect name");
-#endif
     }
     return true;
 }
@@ -347,12 +349,12 @@ void CEnvironment::StopWFX()
 #endif
 }
 
-IC bool lb_env_pred(const IEnvDescriptor* x, float val)
+IC bool lb_env_pred(const CEnvDescriptor* x, float val)
 {
     return x->exec_time < val;
 }
 
-void CEnvironment::SelectEnv(EnvVec* envs, IEnvDescriptor*& e, float gt)
+void CEnvironment::SelectEnv(EnvVec* envs, CEnvDescriptor*& e, float gt)
 {
     EnvIt env = std::lower_bound(envs->begin(), envs->end(), gt, lb_env_pred);
     if (env == envs->end())
@@ -365,7 +367,7 @@ void CEnvironment::SelectEnv(EnvVec* envs, IEnvDescriptor*& e, float gt)
     }
 }
 
-void CEnvironment::SelectEnvs(EnvVec* envs, IEnvDescriptor*& e0, IEnvDescriptor*& e1, float gt)
+void CEnvironment::SelectEnvs(EnvVec* envs, CEnvDescriptor*& e0, CEnvDescriptor*& e1, float gt)
 {
     EnvIt env = std::lower_bound(envs->begin(), envs->end(), gt, lb_env_pred);
     if (env == envs->end())
@@ -394,7 +396,7 @@ void CEnvironment::SelectEnvs(float gt)
     }
     else
     {
-        bool bSelect = false;
+        bool bSelect;
         if (Current[0]->exec_time > Current[1]->exec_time)
         {
             // terminator
@@ -413,17 +415,6 @@ void CEnvironment::SelectEnvs(float gt)
 #endif
         }
     }
-}
-
-int get_ref_count(IUnknown* ii)
-{
-    if (ii)
-    {
-        ii->AddRef();
-        return ii->Release();
-    }
-    else
-        return 0;
 }
 
 void CEnvironment::lerp(float& current_weight)
@@ -448,7 +439,7 @@ void CEnvironment::lerp(float& current_weight)
     Fvector view   = Device->vCameraPosition;
     float   mpower = 0;
     for (auto mit = Modifiers.begin(); mit != Modifiers.end(); mit++)
-        mpower += EM.sum(**mit, view);
+        mpower += EM.sum(*mit, view);
 
     // final lerp
     CurrentEnv->lerp(this, *Current[0], *Current[1], current_weight, EM, mpower);
@@ -456,14 +447,34 @@ void CEnvironment::lerp(float& current_weight)
 
 void CEnvironment::OnFrame()
 {
-    if (!g_pGameLevel && !Device->IsEditorMode())
+    if (!g_pGameLevel)
+    {
+        SetGameTime(fGameTime + Device->fTimeDelta * fTimeFactor, fTimeFactor);
+        if (fsimilar(ed_to_time, DAY_LENGTH) && fsimilar(ed_from_time, 0.f))
+        {
+            if (fGameTime > DAY_LENGTH)
+                fGameTime -= DAY_LENGTH;
+        }
+        else
+        {
+            if (fGameTime > ed_to_time || fGameTime < ed_from_time)
+            {
+                fGameTime  = ed_from_time;
+                Current[0] = Current[1] = 0;
+            }
+        }
+        // if (!psDeviceFlags.is(rsEnvironment))
+        //    return;
+    }
+    else if (!g_pGameLevel && !Device->IsEditorMode())
         return;
 
-    //	if (pInput->iGetAsyncKeyState(DIK_O))		SetWeatherFX("surge_day");
+    // if (pInput->iGetAsyncKeyState(DIK_O))
+    //    SetWeatherFX("surge_day");
     float current_weight;
     lerp(current_weight);
 
-    //	Igor. Dynamic sun position.
+    // Igor. Dynamic sun position.
     if (!::Render->is_sun_static())
         calculate_dynamic_sun_dir();
 
@@ -471,8 +482,8 @@ void CEnvironment::OnFrame()
     if (CurrentEnv->sun_dir.y > 0)
     {
         Log("CurrentEnv->sun_dir", CurrentEnv->sun_dir);
-        //		Log("current_weight", current_weight);
-        //		Log("mpower", mpower);
+        // Log("current_weight", current_weight);
+        // Log("mpower", mpower);
 
         Log("Current[0]->sun_dir", Current[0]->sun_dir);
         Log("Current[1]->sun_dir", Current[1]->sun_dir);
@@ -496,31 +507,27 @@ void CEnvironment::OnFrame()
 void CEnvironment::calculate_dynamic_sun_dir()
 {
     float g         = (360.0f / 365.25f) * (180.0f + fGameTime / DAY_LENGTH);
-
     g               = deg2rad(g);
 
-    //	Declination
+    // Declination
     float D         = 0.396372f - 22.91327f * _cos(g) + 4.02543f * _sin(g) - 0.387205f * _cos(2 * g) + 0.051967f * _sin(2 * g) - 0.154527f * _cos(3 * g) + 0.084798f * _sin(3 * g);
-
-    //	Now calculate the time correction for solar angle:
+    // Now calculate the time correction for solar angle:
     float TC        = 0.004297f + 0.107029f * _cos(g) - 1.837877f * _sin(g) - 0.837378f * _cos(2 * g) - 2.340475f * _sin(2 * g);
-
-    //	IN degrees
+    // IN degrees
     float Longitude = -30.4f;
-
     float SHA       = (fGameTime / (DAY_LENGTH / 24) - 12) * 15 + Longitude + TC;
 
-    //	Need this to correctly determine SHA sign
+    // Need this to correctly determine SHA sign
     if (SHA > 180)
         SHA -= 360;
     if (SHA < -180)
         SHA += 360;
 
-    //	IN degrees
+    // IN degrees
     float const Latitude  = 50.27f;
     float const LatitudeR = deg2rad(Latitude);
 
-    //	Now we can calculate the Sun Zenith Angle (SZA):
+    // Now we can calculate the Sun Zenith Angle (SZA):
     float       cosSZA    = _sin(LatitudeR) * _sin(deg2rad(D)) + _cos(LatitudeR) * _cos(deg2rad(D)) * _cos(deg2rad(SHA));
 
     clamp(cosSZA, -1.0f, 1.0f);
@@ -528,7 +535,7 @@ void CEnvironment::calculate_dynamic_sun_dir()
     float       SZA                    = acosf(cosSZA);
     float       SEA                    = PI / 2 - SZA;
 
-    //	To finish we will calculate the Azimuth Angle (AZ):
+    // To finish we will calculate the Azimuth Angle (AZ):
     float       cosAZ                  = 0.f;
     float const sin_SZA                = _sin(SZA);
     float const cos_Latitude           = _cos(LatitudeR);
@@ -595,17 +602,15 @@ SThunderboltCollection* CEnvironment::thunderbolt_collection(xr_vector<SThunderb
             return (*i);
 
     NODEFAULT;
-#ifdef DEBUG
     return (0);
-#endif   // #ifdef DEBUG
 }
 
 CLensFlareDescriptor* CEnvironment::add_flare(xr_vector<CLensFlareDescriptor*>& collection, shared_str const& id)
 {
     typedef xr_vector<CLensFlareDescriptor*> Flares;
 
-    Flares::const_iterator                   i = collection.begin();
-    Flares::const_iterator                   e = collection.end();
+    Flares::const_iterator i = collection.begin();
+    Flares::const_iterator e = collection.end();
     for (; i != e; ++i)
     {
         if ((*i)->section == id)

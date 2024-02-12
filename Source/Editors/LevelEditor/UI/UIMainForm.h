@@ -7,6 +7,7 @@ public:
     virtual ~UIMainForm();
     virtual void      Draw();
     bool              Frame();
+
     IC UILeftBarForm* GetLeftBarForm()
     {
         return m_LeftBar;

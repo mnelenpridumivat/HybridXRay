@@ -2,9 +2,7 @@
 #pragma hdrstop
 
 #include "IGame_Persistent.h"
-#include "..\XrAPI\xrGameManager.h"
-#ifndef _EDITOR
-#include "environment.h"
+#if 1
 #include "x_ray.h"
 #include "IGame_Level.h"
 #include "XR_IOConsole.h"
@@ -28,26 +26,14 @@ IGame_Persistent::IGame_Persistent(bool bIsEditor)
     m_pMainMenu = NULL;
 
 #ifndef INGAME_EDITOR
-#ifndef _EDITOR
     pEnvironment = xr_new<CEnvironment>();
-#endif
 #else   // #ifdef INGAME_EDITOR
     if (!bIsEditor)
     {
         if (Device->WeatherEditor())
             pEnvironment = xr_new<XrWeatherEditor::environment::manager>();
         else
-        {
-            switch (xrGameManager::GetGame())
-            {
-                case EGame::SHOC:
-                    pEnvironment = xr_new<CEnvironmentSOC>();
-                    break;
-                default:
-                    pEnvironment = xr_new<CEnvironment>();
-                    break;
-            }
-        }
+            pEnvironment = xr_new<CEnvironment>();
     }
 
 #endif   // #ifdef INGAME_EDITOR
@@ -60,9 +46,7 @@ IGame_Persistent::~IGame_Persistent()
     Device->seqAppEnd.Remove(this);
     Device->seqAppActivate.Remove(this);
     Device->seqAppDeactivate.Remove(this);
-#ifndef _EDITOR
     xr_delete(pEnvironment);
-#endif
 }
 
 void IGame_Persistent::OnAppActivate() {}
@@ -79,7 +63,7 @@ void IGame_Persistent::OnAppEnd()
     Environment().unload();
     OnGameEnd();
 
-#ifndef _EDITOR
+#if 1
     DEL_INSTANCE(g_hud);
 #endif
 }
@@ -97,6 +81,7 @@ void IGame_Persistent::PreStart(LPCSTR op)
         OnGameEnd();
     }
 }
+
 void IGame_Persistent::Start(LPCSTR op)
 {
     string256 prev_type;
@@ -107,7 +92,7 @@ void IGame_Persistent::Start(LPCSTR op)
     {
         if (*m_game_params.m_game_type)
             OnGameStart();
-#ifndef _EDITOR
+#if 1
         if (g_hud)
             DEL_INSTANCE(g_hud);
 #endif
@@ -120,20 +105,20 @@ void IGame_Persistent::Start(LPCSTR op)
 
 void IGame_Persistent::Disconnect()
 {
-#ifndef _EDITOR
+#if 1
     // clear "need to play" particles
     destroy_particles(true);
 
     if (g_hud)
         DEL_INSTANCE(g_hud);
-//.		g_hud->OnDisconnected			();
+    // g_hud->OnDisconnected();
 #endif
 }
 
 void IGame_Persistent::OnGameStart()
 {
-#ifndef _EDITOR
-    //	LoadTitle("st_prefetching_objects");
+#if 1
+    // LoadTitle("st_prefetching_objects");
     LoadTitle();
     if (strstr(Core.Params, "-noprefetch"))
         return;
@@ -146,7 +131,7 @@ void IGame_Persistent::OnGameStart()
     ObjectPool.prefetch();
     Log("Loading models...");
     Render->models_Prefetch();
-    // Device->Resources->DeferredUpload	();
+    // Device->Resources->DeferredUpload();
     Device->m_pRender->ResourcesDeferredUpload();
 
     p_time    = 1000.f * Device->GetTimerGlobal()->GetElapsed_sec() - p_time;
@@ -159,7 +144,7 @@ void IGame_Persistent::OnGameStart()
 
 void IGame_Persistent::OnGameEnd()
 {
-#ifndef _EDITOR
+#if 1
     ObjectPool.clear();
     Render->models_Clear(TRUE);
 #endif
@@ -167,11 +152,10 @@ void IGame_Persistent::OnGameEnd()
 
 void IGame_Persistent::OnFrame()
 {
-#ifndef _EDITOR
-
     if (!Device->Paused() || Device->dwPrecacheFrame)
         Environment().OnFrame();
 
+#if 1
     Device->Statistic->Particles_starting = ps_needtoplay.size();
     Device->Statistic->Particles_active   = ps_active.size();
     Device->Statistic->Particles_destroy  = ps_destroy.size();
@@ -186,7 +170,7 @@ void IGame_Persistent::OnFrame()
     // Destroy inactive particle systems
     while (ps_destroy.size())
     {
-        //		u32 cnt					= ps_destroy.size();
+        // u32 cnt = ps_destroy.size();
         CPS_Instance* psi = ps_destroy.back();
         VERIFY(psi);
         if (psi->Locked())
@@ -202,7 +186,7 @@ void IGame_Persistent::OnFrame()
 
 void IGame_Persistent::destroy_particles(const bool& all_particles)
 {
-#ifndef _EDITOR
+#if 1
     ps_needtoplay.clear();
 
     while (ps_destroy.size())
@@ -245,7 +229,7 @@ void IGame_Persistent::destroy_particles(const bool& all_particles)
 
 void IGame_Persistent::OnAssetsChanged()
 {
-#ifndef _EDITOR
+#if 1
     Device->m_pRender->OnAssetsChanged();   // Resources->m_textures_description.Load();
 #endif
 }

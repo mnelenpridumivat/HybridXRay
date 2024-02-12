@@ -10,6 +10,7 @@
 #include "../../../xrEngine/shader_xrlc.h"
 #include "../../../xrRender/Private/shader.h"
 #include "../../../xrRender/Private/R_Backend.h"
+#include "../../../XrEngine/_d3d_extensions.h"
 
 //---------------------------------------------------------------------------
 // refs

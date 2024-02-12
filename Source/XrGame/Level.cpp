@@ -735,19 +735,19 @@ void CLevel::OnFrame()
 #endif
     }
 #ifdef DEBUG
-    g_pGamePersistent->EnvironmentAsCOP()->m_paused = m_bEnvPaused;
+    g_pGamePersistent->Environment().m_paused = m_bEnvPaused;
 #endif
-    g_pGamePersistent->EnvironmentAsCOP()->SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
+    g_pGamePersistent->Environment().SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
 
-    // Device->Statistic->cripting.Begin	();
+    // Device->Statistic->cripting.Begin();
     if (!g_dedicated_server)
         ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->update();
-    // Device->Statistic->Scripting.End	();
+    // Device->Statistic->Scripting.End();
     m_ph_commander->update();
     m_ph_commander_scripts->update();
-    //	autosave_manager().update			();
+    // autosave_manager().update();
 
-    //
+    // Просчитать полёт пуль
     Device->Statistic->TEST0.Begin();
     BulletManager().CommitRenderSet();
     Device->Statistic->TEST0.End();
@@ -795,7 +795,7 @@ extern Flags32 dbg_net_Draw_Flags;
 
 extern void draw_wnds_rects();
 
-void        CLevel::OnRender()
+void CLevel::OnRender()
 {
     inherited::OnRender();
 
@@ -803,11 +803,11 @@ void        CLevel::OnRender()
         return;
 
     Game().OnRender();
-    //
+    // Отрисовать трассы пуль
     // Device->Statistic->TEST1.Begin();
     BulletManager().Render();
     // Device->Statistic->TEST1.End();
-    //  c
+    // Отрисовать интерфейс пользователя
     HUD().RenderUI();
 
 #ifdef DEBUG
@@ -1175,15 +1175,14 @@ ALife::_TIME_ID CLevel::GetGameTime()
     return (game->GetGameTime());
 }
 
-ALife::_TIME_ID CLevel::GetEnvironmentGameTime()
+ALife::_TIME_ID CLevel::GetEnvironmentGameTime() const
 {
     return (game->GetEnvironmentGameTime());
 }
 
 u8 CLevel::GetDayTime()
 {
-    u32 dummy32;
-    u32 hours;
+    u32 dummy32, hours;
     GetGameDateTime(dummy32, dummy32, dummy32, hours, dummy32, dummy32, dummy32);
     VERIFY(hours < 256);
     return u8(hours);
@@ -1199,7 +1198,7 @@ u32 CLevel::GetGameDayTimeMS()
     return (u32(s64(GetGameTime() % (24 * 60 * 60 * 1000))));
 }
 
-float CLevel::GetEnvironmentGameDayTimeSec()
+float CLevel::GetEnvironmentGameDayTimeSec() const
 {
     return (float(s64(GetEnvironmentGameTime() % (24 * 60 * 60 * 1000))) / 1000.f);
 }
@@ -1211,7 +1210,7 @@ void CLevel::GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& m
 
 float CLevel::GetGameTimeFactor()
 {
-    return (game->GetGameTimeFactor());
+    return game->GetGameTimeFactor();
 }
 
 void CLevel::SetGameTimeFactor(const float fTimeFactor)
@@ -1224,6 +1223,20 @@ void CLevel::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor
     game->SetGameTimeFactor(GameTime, fTimeFactor);
 }
 
+float CLevel::GetEnvironmentTimeFactor() const
+{
+    if (!game)
+        return 0.0f;
+    return game->GetEnvironmentGameTimeFactor();
+}
+
+void CLevel::SetEnvironmentTimeFactor(const float fTimeFactor)
+{
+    if (!game)
+        return;
+    game->SetEnvironmentGameTimeFactor(fTimeFactor);
+}
+
 void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor)
 {
     if (!game)
@@ -1231,11 +1244,11 @@ void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTim
 
     game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
 }
+
 bool CLevel::IsServer()
 {
     if (!Server || IsDemoPlayStarted())
         return false;
-    // return (Server->GetClientsCount() != 0);
     return true;
 }
 
@@ -1247,7 +1260,6 @@ bool CLevel::IsClient()
     if (Server)
         return false;
 
-    // return (Server->GetClientsCount() == 0);
     return true;
 }
 

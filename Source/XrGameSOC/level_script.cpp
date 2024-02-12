@@ -29,6 +29,9 @@
 #include "map_location.h"
 #include "phworld.h"
 
+#include "alife_simulator.h"
+#include "alife_time_manager.h"
+
 using namespace luabind;
 
 LPCSTR command_line()
@@ -102,9 +105,31 @@ bool set_weather_fx(LPCSTR weather_name)
     return (g_pGamePersistent->Environment().SetWeatherFX(weather_name));
 }
 
+bool start_weather_fx_from_time(LPCSTR weather_name, float time)
+{
+#ifdef INGAME_EDITOR
+    if (!Device->WeatherEditor())
+#endif   // #ifdef INGAME_EDITOR
+        return (g_pGamePersistent->Environment().StartWeatherFXFromTime(weather_name, time));
+
+#ifdef INGAME_EDITOR
+    return (false);
+#endif   // #ifdef INGAME_EDITOR
+}
+
 bool is_wfx_playing()
 {
     return (g_pGamePersistent->Environment().IsWFXPlaying());
+}
+
+float get_wfx_time()
+{
+    return (g_pGamePersistent->Environment().wfx_time);
+}
+
+void stop_weather_fx()
+{
+    g_pGamePersistent->Environment().StopWFX();
 }
 
 void set_time_factor(float time_factor)
@@ -135,21 +160,21 @@ ESingleGameDifficulty get_game_difficulty()
 u32 get_time_days()
 {
     u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-    split_time(Level().GetGameTime(), year, month, day, hours, mins, secs, milisecs);
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
     return day;
 }
 
 u32 get_time_hours()
 {
     u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-    split_time(Level().GetGameTime(), year, month, day, hours, mins, secs, milisecs);
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
     return hours;
 }
 
 u32 get_time_minutes()
 {
     u32 year = 0, month = 0, day = 0, hours = 0, mins = 0, secs = 0, milisecs = 0;
-    split_time(Level().GetGameTime(), year, month, day, hours, mins, secs, milisecs);
+    split_time((g_pGameLevel && Level().game) ? Level().GetGameTime() : ai().alife().time_manager().game_time(), year, month, day, hours, mins, secs, milisecs);
     return mins;
 }
 
@@ -338,17 +363,17 @@ CPHWorld* physics_world()
 {
     return ph_world;
 }
-IEnvironment* environment()
+CEnvironment* environment()
 {
-    return (g_pGamePersistent->pEnvironment);
+    return g_pGamePersistent->pEnvironment;
 }
 
-IEnvDescriptorMixer* current_environment(IEnvironment* self)
+CEnvDescriptor* current_environment(CEnvironment* self)
 {
-    return (self->CurrentEnv);
+    return self->CurrentEnv;
 }
 extern bool g_bDisableAllInput;
-void        disable_input()
+void disable_input()
 {
     g_bDisableAllInput = true;
 }
@@ -526,9 +551,9 @@ void g_change_community_goodwill(LPCSTR _community, int _entity_id, int val)
 #pragma optimize("s", on)
 void CLevel::script_register(lua_State* L)
 {
-    class_<IEnvDescriptorMixer>("CEnvDescriptor").def_readonly("fog_density", &IEnvDescriptorMixer::fog_density).def_readonly("far_plane", &IEnvDescriptorMixer::far_plane),
+    class_<CEnvDescriptor>("CEnvDescriptor").def_readonly("fog_density", &CEnvDescriptor::fog_density).def_readonly("far_plane", &CEnvDescriptor::far_plane),
 
-        class_<IEnvironment>("CEnvironment").def("current", current_environment);
+        class_<CEnvironment>("CEnvironment").def("current", current_environment);
 
     module(L, "level")[
         // obsolete\deprecated
@@ -537,7 +562,7 @@ void CLevel::script_register(lua_State* L)
         def("debug_object", get_object_by_name), def("debug_actor", tpfGetActor), def("check_object", check_object),
 #endif
 
-        def("get_weather", get_weather), def("set_weather", set_weather), def("set_weather_fx", set_weather_fx), def("is_wfx_playing", is_wfx_playing),
+        def("get_weather", get_weather), def("set_weather", set_weather), def("set_weather_fx", set_weather_fx), def("start_weather_fx_from_time", start_weather_fx_from_time), def("is_wfx_playing", is_wfx_playing), def("get_wfx_time", get_wfx_time), def("stop_weather_fx", stop_weather_fx),
 
         def("environment", environment),
 

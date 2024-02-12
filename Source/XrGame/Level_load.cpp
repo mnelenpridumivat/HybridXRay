@@ -136,6 +136,10 @@ BOOL CLevel::Load_GameSpecific_After()
             }
             FS.r_close(F);
         }
+
+        // Сбрасываем состояния дождя при загрузке уровня во избежание пропажи звука. Real Wolf.
+        if (g_pGamePersistent->pEnvironment)
+            g_pGamePersistent->pEnvironment->Invalidate();
     }
 
     if (!g_dedicated_server)
@@ -151,7 +155,7 @@ BOOL CLevel::Load_GameSpecific_After()
 
     BlockCheatLoad();
 
-    g_pGamePersistent->EnvironmentAsCOP()->SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
+    g_pGamePersistent->Environment().SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
 
     return TRUE;
 }

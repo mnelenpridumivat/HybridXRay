@@ -38,12 +38,12 @@ gamedata_soc/sounds/
 gamedata_soc/spawns/
 gamedata_soc/textures/
 Source/xrCore/.GitInfo.hpp
+rt_object_props.ltx
 *.aps
 *.vcxproj.user
 *.bat
 *.cmd
 *.lnk
 *.ini
-*.ltx
 *.bak
 *.log

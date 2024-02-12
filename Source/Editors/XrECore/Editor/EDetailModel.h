@@ -47,6 +47,7 @@ class ECORE_API EDetail: public CDetail
         void remapUV(const fvfVertexIn& src, const Fvector2& offs, const Fvector2& scale, bool bRotate);
     };
 
+    bool             m_bLoadFromLibrary;
     float            m_fDensityFactor;
 
     // references
@@ -56,7 +57,7 @@ class ECORE_API EDetail: public CDetail
     u16              _AddVert(const Fvector& p, float u, float v);
 
 public:
-    EDetail();
+    EDetail(bool lib = true);
     virtual ~EDetail();
 
     bool         Load(IReader&);

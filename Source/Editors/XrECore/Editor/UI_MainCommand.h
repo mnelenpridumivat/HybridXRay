@@ -12,6 +12,7 @@ enum
     COMMAND_LIGHTANIM_EDITOR,
     COMMAND_MINIMAP_EDITOR,
     COMMAND_ABOUT_EDITOR,
+    COMMAND_WEATHER_PROPERTIES,
     COMMAND_CHECK_TEXTURES,
     COMMAND_REFRESH_TEXTURES,
     COMMAND_RELOAD_TEXTURES,
@@ -114,7 +115,7 @@ public:
     {
         return type == tpInt;
     }
-    //	IC operator 	LPCSTR 			()							{VERIFY(type==tpStr);return s.c_str();}
+    // IC operator LPCSTR() {VERIFY(type == tpStr); return s.c_str();}
 };
 
 typedef fastdelegate::FastDelegate2<CCommandVar, CCommandVar, CCommandVar> TECommandEvent;

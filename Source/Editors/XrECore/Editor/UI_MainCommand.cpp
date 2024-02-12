@@ -10,6 +10,7 @@
 #include "UIImageEditorForm.h"
 #include "UIMinimapEditorForm.h"
 #include "UIAboutForm.h"
+#include "UIWeatherPropForm.h"
 #include "UISoundEditorForm.h"
 #include "UIMoveToForm.h"
 #include "d3dutils.h"
@@ -21,15 +22,17 @@
 #include "ImageManager.h"
 #include "SoundManager.h"
 #include "ResourceManager.h"
-#include "engine\XrGamePersistentEditors.h"
+#include "engine/XrGamePersistentEditors.h"
+#include "IGame_Level.h"
+#include "IGame_Persistent.h"
 
 ECommandVec ECommands;
 BOOL        bAllowReceiveCommand = FALSE;
 bool        bAllowLogCommands    = false;
-// TfrmText*			frmEditCommandList		= 0;
+// TfrmText* frmEditCommandList = 0;
 xr_string   sCommandListText;
 
-BOOL        AllowLogCommands()
+BOOL AllowLogCommands()
 {
     return bAllowLogCommands;
 }
@@ -130,11 +133,13 @@ CCommandVar ExecCommand(u32 cmd, CCommandVar p1, CCommandVar p2)
             sp1 = ((sp1.find("\n") == sp1.npos) && (sp1.find("\r") == sp1.npos)) ? sp1 : xr_string("...");
         if (p2.IsString())
             sp2 = ((sp2.find("\n") == sp2.npos) && (sp2.find("\r") == sp2.npos)) ? sp2 : xr_string("...");
-        /*    if (p1.IsString() && p2.IsString()) 		Msg("%s%s (\"%s\",\"%s\")", level, CMD->Name(), sp1.c_str(),
-           sp2.c_str()); else if (p1.IsInteger()&&p2.IsInteger())Msg("%s%s (%d,%d)",
-           level,CMD->Name(),u32(p1),u32(p2)); else if (p1.IsInteger()&&p2.IsString()) Msg("%s%s (%d,\"%s\")",
-           level,CMD->Name(),u32(p1),sp2.c_str()); else if (p1.IsString()&&p2.IsInteger()) Msg("%s%s (\"%s\",%d)",
-           level,CMD->Name(),sp1.c_str(),u32(p2));*/
+        /* if (p1.IsString() && p2.IsString())
+               Msg("%s%s (\"%s\",\"%s\")", level, CMD->Name(), sp1.c_str(),
+               sp2.c_str()); else if (p1.IsInteger()&&p2.IsInteger())Msg("%s%s (%d,%d)",
+               level,CMD->Name(),u32(p1),u32(p2)); else if (p1.IsInteger()&&p2.IsString()) Msg("%s%s (%d,\"%s\")",
+               level,CMD->Name(),u32(p1),sp2.c_str()); else if (p1.IsString()&&p2.IsInteger()) Msg("%s%s (\"%s\",%d)",
+               level,CMD->Name(),sp1.c_str(),u32(p2));
+        */
     }
     exec_level++;
     res = CMD->command(p1, p2);
@@ -254,22 +259,29 @@ CCommandVar TUI::CommandBreakLastOperation(CCommandVar p1, CCommandVar p2)
 
 CCommandVar TUI::CommandRenderResize(CCommandVar p1, CCommandVar p2)
 {
-    /*  if (psDeviceFlags.is(rsDrawSafeRect)){
-          int w=m_D3DPanel->Width,h=m_D3DPanel->Height,w_2=w/2,h_2=h/2;
-          Irect rect;
-          if ((0.75f*float(w))>float(h)) 	rect.set(w_2-1.33f*float(h_2),0,1.33f*h,h);
-          else                   			rect.set(0,h_2-0.75f*float(w_2),w,0.75f*w);
-          m_D3DWindow->Left  	= rect.x1;
-          m_D3DWindow->Top  	= rect.y1;
-          m_D3DWindow->Width 	= rect.x2;
-          m_D3DWindow->Height	= rect.y2;
-      }else{
-          m_D3DWindow->Left  	= 0;
-          m_D3DWindow->Top  	= 0;
-          m_D3DWindow->Width 	= m_D3DPanel->Width;
-          m_D3DWindow->Height	= m_D3DPanel->Height;
-      }
-      UI->RedrawScene		();*/
+    /*
+    if (psDeviceFlags.is(rsDrawSafeRect))
+    {
+        int   w = m_D3DPanel->Width, h = m_D3DPanel->Height, w_2 = w / 2, h_2 = h / 2;
+        Irect rect;
+        if ((0.75f * float(w)) > float(h))
+            rect.set(w_2 - 1.33f * float(h_2), 0, 1.33f * h, h);
+        else
+            rect.set(0, h_2 - 0.75f * float(w_2), w, 0.75f * w);
+        m_D3DWindow->Left   = rect.x1;
+        m_D3DWindow->Top    = rect.y1;
+        m_D3DWindow->Width  = rect.x2;
+        m_D3DWindow->Height = rect.y2;
+    }
+    else
+    {
+        m_D3DWindow->Left   = 0;
+        m_D3DWindow->Top    = 0;
+        m_D3DWindow->Width  = m_D3DPanel->Width;
+        m_D3DWindow->Height = m_D3DPanel->Height;
+    }
+    UI->RedrawScene();
+    */
     return 1;
 }
 
@@ -295,8 +307,7 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
     }
     // make interface
     //----------------
-    if (EPrefs)
-        EPrefs->OnCreate();
+    EPrefs->OnCreate();
     if (UI->OnCreate(/*(TD3DWindow*)(u32)p1,(TPanel*)(u32)p2)*/))
     {
         ExecCommand(COMMAND_CREATE_SOUND_LIB);
@@ -304,35 +315,35 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
         SndLib->OnCreate();
         LALib.OnCreate();
         Lib.OnCreate();
-        BOOL bWeather = psDeviceFlags.is(rsEnvironment);
+        bool bWeather = psDeviceFlags.is(rsEnvironment);
         psDeviceFlags.set(rsEnvironment, FALSE);
         g_pGamePersistent = xr_new<XrGamePersistentEditors>();
-        if (Tools)
+        if (Tools->OnCreate())
         {
-            if (Tools->OnCreate())
-            {
-                if (EPrefs)
-                    EPrefs->Load();
-                EDevice->seqAppStart.Process(rp_AppStart);
-                ExecCommand(COMMAND_RESTORE_UI_BAR);
-                ExecCommand(COMMAND_REFRESH_UI_BAR);
-                ExecCommand(COMMAND_CLEAR);
-                ExecCommand(COMMAND_RENDER_FOCUS);
-                ExecCommand(COMMAND_CHANGE_ACTION, etaSelect);
-                ExecCommand(COMMAND_RENDER_RESIZE);
-                /*
-                            if(bWeather && EPrefs->sWeather.size() )
-                            {
-                                psDeviceFlags.set(rsEnvironment, TRUE);
-                                g_pGamePersistent->Environment().SetWeather(EPrefs->sWeather, true);
+            EPrefs->Load();
+            EDevice->seqAppStart.Process(rp_AppStart);
+            ExecCommand(COMMAND_RESTORE_UI_BAR);
+            ExecCommand(COMMAND_REFRESH_UI_BAR);
+            ExecCommand(COMMAND_CLEAR);
+            ExecCommand(COMMAND_RENDER_FOCUS);
+            ExecCommand(COMMAND_CHANGE_ACTION, etaSelect);
+            ExecCommand(COMMAND_RENDER_RESIZE);
 
-                            }
-                */
-            }
-            else
+            bool selected = psDeviceFlags.test(rsStatistic);
+            psDeviceFlags.set(rsStatistic, selected);
+
+            if (bWeather && EPrefs->sWeather.size())
             {
-                res = FALSE;
+                psDeviceFlags.set(rsEnvironment, true);
+                g_pGamePersistent->Environment().SetWeather(EPrefs->sWeather, true);
             }
+            g_pGamePersistent->Environment().ed_from_time = EPrefs->env_from_time;
+            g_pGamePersistent->Environment().ed_to_time   = EPrefs->env_to_time;
+            g_pGamePersistent->Environment().fTimeFactor  = EPrefs->env_speed;
+        }
+        else
+        {
+            res = FALSE;
         }
     }
     else
@@ -344,6 +355,9 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
 
 CCommandVar CommandDestroy(CCommandVar p1, CCommandVar p2)
 {
+    EPrefs->env_from_time = g_pGamePersistent->Environment().ed_from_time;
+    EPrefs->env_to_time   = g_pGamePersistent->Environment().ed_to_time;
+    EPrefs->env_speed     = g_pGamePersistent->Environment().fTimeFactor;
     ExecCommand(COMMAND_SAVE_UI_BAR);
     EPrefs->OnDestroy();
     ExecCommand(COMMAND_CLEAR);
@@ -454,6 +468,12 @@ CCommandVar CommandMinimapEditor(CCommandVar p1, CCommandVar p2)
 CCommandVar CommandAboutEditor(CCommandVar p1, CCommandVar p2)
 {
     UIAboutForm::Show();
+    return TRUE;
+}
+
+CCommandVar CommandWeatherProperties(CCommandVar p1, CCommandVar p2)
+{
+    UIWeatherPropForm::Show();
     return TRUE;
 }
 
@@ -778,6 +798,8 @@ void TUI::RegisterCommands()
 
     REGISTER_CMD_SE(COMMAND_SIMULATE, "Simulate", xr_shortcut(), CommandSimulate, true);
     REGISTER_CMD_SE(COMMAND_USE_SIMULATE_POSITIONS, "Use Simulate Positions", xr_shortcut(), CommandUseSimulatePositions, true);
+
+    REGISTER_CMD_SE(COMMAND_WEATHER_PROPERTIES, "Weather Properties", xr_shortcut(), CommandWeatherProperties, true);
 
     REGISTER_SUB_CMD_SE(COMMAND_CHANGE_ACTION, "Change Action", CommandChangeAction, false);
     APPEND_SUB_CMD("Select", xr_shortcut('S', false, false, false), etaSelect, 0);

@@ -16,7 +16,7 @@ class ENGINE_API CTheoraStream
     theora_comment   t_comment;
     theora_state     t_state;
 
-#ifdef _EDITOR
+#if 0
     IReader* source;
 #else
     CStreamReader* source;

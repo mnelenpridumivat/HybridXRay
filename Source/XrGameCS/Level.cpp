@@ -181,36 +181,37 @@ CLevel::CLevel():
 
     hud_zones_list = NULL;
 
-    //	if ( !strstr( Core.Params, "-tdemo " ) && !strstr(Core.Params,"-tdemof "))
-    //	{
-    //		Demo_PrepareToStore();
-    //	};
+    // if ( !strstr(Core.Params, "-tdemo ") && !strstr(Core.Params, "-tdemof"))
+    // {
+    //     Demo_PrepareToStore();
+    // };
     //---------------------------------------------------------
-    //	m_bDemoPlayMode = FALSE;
-    //	m_aDemoData.clear();
-    //	m_bDemoStarted	= FALSE;
+    // m_bDemoPlayMode = FALSE;
+    // m_aDemoData.clear();
+    // m_bDemoStarted = FALSE;
 
     Msg("%s", Core.Params);
     /*
-	if (strstr(Core.Params,"-tdemo ") || strstr(Core.Params,"-tdemof ")) {		
-		string1024				f_name;
-		if (strstr(Core.Params,"-tdemo "))
-		{
-			sscanf					(strstr(Core.Params,"-tdemo ")+7,"%[^ ] ",f_name);
-			m_bDemoPlayByFrame = FALSE;
+    if (strstr(Core.Params, "-tdemo ") || strstr(Core.Params, "-tdemof "))
+    {
+        string1024 f_name;
+        if (strstr(Core.Params, "-tdemo "))
+        {
+            sscanf(strstr(Core.Params, "-tdemo ") + 7, "%[^ ] ", f_name);
+            m_bDemoPlayByFrame = FALSE;
 
-			Demo_Load	(f_name);	
-		}
-		else
-		{
-			sscanf					(strstr(Core.Params,"-tdemof ")+8,"%[^ ] ",f_name);
-			m_bDemoPlayByFrame = TRUE;
+            Demo_Load(f_name);
+        }
+        else
+        {
+            sscanf(strstr(Core.Params, "-tdemof ") + 8, "%[^ ] ", f_name);
+            m_bDemoPlayByFrame = TRUE;
 
-			m_lDemoOfs = 0;
-			Demo_Load_toFrame(f_name, 100, m_lDemoOfs);
-		};		
-	}
-	*/
+            m_lDemoOfs         = 0;
+            Demo_Load_toFrame(f_name, 100, m_lDemoOfs);
+        };
+    }
+    */
     //---------------------------------------------------------
     m_file_transfer = NULL;
 }
@@ -275,10 +276,10 @@ CLevel::~CLevel()
     xr_delete(game);
     xr_delete(game_events);
 
-    //by Dandy
-    //destroy fog of war
-    //	xr_delete					(m_pFogOfWar);
-    //destroy bullet manager
+    // by Dandy
+    // destroy fog of war
+    // xr_delete(m_pFogOfWar);
+    // destroy bullet manager
     xr_delete(m_pBulletManager);
     //-----------------------------------------------------------
     xr_delete(pStatGraphR);
@@ -299,7 +300,7 @@ CLevel::~CLevel()
     //-----------------------------------------------------------
     xr_delete(m_map_manager);
     delete_data(m_game_task_manager);
-    //	xr_delete					(m_pFogOfWarMngr);
+    // xr_delete(m_pFogOfWarMngr);
 
     // here we clean default trade params
     // because they should be new for each saved/loaded game
@@ -344,9 +345,9 @@ void CLevel::PrefetchSound(LPCSTR name)
     xr_strlwr(tmp);
     if (strext(tmp))
         *strext(tmp) = 0;
-    shared_str         snd_name = tmp;
+    shared_str snd_name = tmp;
     // find in registry
-    SoundRegistryMapIt it       = sound_registry.find(snd_name);
+    SoundRegistryMapIt it = sound_registry.find(snd_name);
     // if find failed - preload sound
     if (it == sound_registry.end())
         sound_registry[snd_name].create(snd_name.c_str(), st_Effect, sg_SourceType);
@@ -356,20 +357,23 @@ void CLevel::PrefetchSound(LPCSTR name)
 int CLevel::get_RPID(LPCSTR /**name/**/)
 {
     /*
-	// Gain access to string
-	LPCSTR	params = pLevel->r_string("respawn_point",name);
-	if (0==params)	return -1;
+    // Gain access to string
+    LPCSTR params = pLevel->r_string("respawn_point", name);
+    if (0 == params)
+        return -1;
 
-	// Read data
-	Fvector4	pos;
-	int			team;
-	sscanf		(params,"%f,%f,%f,%d,%f",&pos.x,&pos.y,&pos.z,&team,&pos.w); pos.y += 0.1f;
+    // Read data
+    Fvector4 pos;
+    int      team;
+    sscanf(params, "%f,%f,%f,%d,%f", &pos.x, &pos.y, &pos.z, &team, &pos.w);
+    pos.y += 0.1f;
 
-	// Search respawn point
-	svector<Fvector4,maxRP>	&rp = Level().get_team(team).RespawnPoints;
-	for (int i=0; i<(int)(rp.size()); ++i)
-		if (pos.similar(rp[i],EPS_L))	return i;
-	*/
+    // Search respawn point
+    svector<Fvector4, maxRP>& rp = Level().get_team(team).RespawnPoints;
+    for (int i = 0; i < (int)(rp.size()); ++i)
+        if (pos.similar(rp[i], EPS_L))
+            return i;
+    */
     return -1;
 }
 
@@ -377,7 +381,7 @@ BOOL g_bDebugEvents = FALSE;
 
 void CLevel::cl_Process_Event(u16 dest, u16 type, NET_Packet& P)
 {
-    //			Msg				("--- event[%d] for [%d]",type,dest);
+    // Msg("--- event[%d] for [%d]", type,dest);
     CObject* O = Objects.net_Find(dest);
     if (0 == O)
     {
@@ -399,13 +403,11 @@ void CLevel::cl_Process_Event(u16 dest, u16 type, NET_Packet& P)
         if (type == GE_DESTROY)
         {
             Game().OnDestroy(GO);
-            //			if ( GO->H_Parent() )
-            //			{
-            // = GameObject.cpp (210)
-            //				Msg( "! ERROR (Level): GE_DESTROY arrived to object[%d][%s], that has parent[%d][%s], frame[%d]",
-            //					GO->ID(), GO->cNameSect().c_str(),
-            //					GO->H_Parent()->ID(), GO->H_Parent()->cName().c_str(), Device->dwFrame );
-            //			}
+            // if ( GO->H_Parent() )
+            // {
+            //     = GameObject.cpp (210)
+            //     Msg( "! ERROR (Level): GE_DESTROY arrived to object[%d][%s], that has parent[%d][%s], frame[%d]", GO->ID(), GO->cNameSect().c_str(), GO->H_Parent()->ID(), GO->H_Parent()->cName().c_str(), Device->dwFrame );
+            // }
         }
         GO->OnEvent(P, type);
     }
@@ -452,9 +454,9 @@ void CLevel::ProcessGameEvents()
         u32        svT = timeServer() - NET_Latency;
 
         /*
-		if (!game_events->queue.empty())	
-			Msg("- d[%d],ts[%d] -- E[svT=%d],[evT=%d]",Device->dwTimeGlobal,timeServer(),svT,game_events->queue.begin()->timestamp);
-		*/
+        if (!game_events->queue.empty())
+            Msg("- d[%d], ts[%d] -- E[svT = %d], [evT = %d]", Device->dwTimeGlobal, timeServer(), svT, game_events->queue.begin()->timestamp);
+        */
 
         while (game_events->available(svT))
         {
@@ -504,7 +506,7 @@ void CLevel::ProcessGameEvents()
                 break;
                 case M_FILE_TRANSFER:
                 {
-                    if (m_file_transfer)   //in case of net_Stop
+                    if (m_file_transfer)   // in case of net_Stop
                         m_file_transfer->on_message(&P);
                 }
                 break;
@@ -539,7 +541,7 @@ struct debug_memory_guard
 
     inline ~debug_memory_guard()
     {
-        //		mem_alloc_gather_stats				(false);
+        // mem_alloc_gather_stats(false);
     }
 };
 #endif   // DEBUG_MEMORY_MANAGER
@@ -668,7 +670,7 @@ void CLevel::OnFrame()
                     {
                         m_server->UpdateClientStatistic(C);
                         F->OutNext("%10s: P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d)",
-                            //Server->game->get_option_s(*C->Name,"name",*C->Name),
+                            // Server->game->get_option_s(*C->Name, "name", *C->Name),
                             C->name.c_str(), C->stats.getPing(),
                             float(C->stats.getBPS()),   // /1024,
                             C->stats.getMPS_Receive(), C->stats.getMPS_Send(), C->stats.getRetriedCount(), C->stats.dwTimesBlocked);
@@ -691,8 +693,7 @@ void CLevel::OnFrame()
 
                 F->SetColor(color_xrgb(255, 255, 255));
                 F->OutNext("P(%d), BPS(%2.1fK), MRR(%2d), MSR(%2d), Retried(%2d), Blocked(%2d), Sended(%2d), SPS(%2d)",
-                    //Server->game->get_option_s(C->Name,"name",C->Name),
-                    //					C->Name,
+                    // Server->game->get_option_s(C->Name, "name", C->Name), C->Name,
                     net_Statistic.getPing(),
                     float(net_Statistic.getBPS()),   // /1024,
                     net_Statistic.getMPS_Receive(), net_Statistic.getMPS_Send(), net_Statistic.getRetriedCount(), net_Statistic.dwTimesBlocked, net_Statistic.dwBytesSended, net_Statistic.dwBytesReceivedPerSec);
@@ -701,7 +702,7 @@ void CLevel::OnFrame()
                 {
                     pStatGraphR = xr_new<CStatGraph>();
                     pStatGraphR->SetRect(50, 700, 300, 68, 0xff000000, 0xff000000);
-                    //m_stat_graph->SetGrid(0, 0.0f, 10, 1.0f, 0xff808080, 0xffffffff);
+                    // m_stat_graph->SetGrid(0, 0.0f, 10, 1.0f, 0xff808080, 0xffffffff);
                     pStatGraphR->SetMinMax(0.0f, 65536.0f, 1000);
                     pStatGraphR->SetStyle(CStatGraph::stBarLine);
                     pStatGraphR->AppendSubGraph(CStatGraph::stBarLine);
@@ -722,18 +723,18 @@ void CLevel::OnFrame()
 #endif
     }
 
-    //	g_pGamePersistent->Environment().SetGameTime	(GetGameDayTimeSec(),GetGameTimeFactor());
+    // g_pGamePersistent->Environment().SetGameTime(GetGameDayTimeSec(), GetGameTimeFactor());
     g_pGamePersistent->Environment().SetGameTime(GetEnvironmentGameDayTimeSec(), game->GetEnvironmentGameTimeFactor());
 
-    //Device->Statistic->cripting.Begin	();
+    // Device->Statistic->cripting.Begin();
     if (!g_dedicated_server)
         ai().script_engine().script_process(ScriptEngine::eScriptProcessorLevel)->update();
-    //Device->Statistic->Scripting.End	();
+    // Device->Statistic->Scripting.End();
     m_ph_commander->update();
     m_ph_commander_scripts->update();
-    //	autosave_manager().update			();
+    // autosave_manager().update();
 
-    //���������� ����� ����
+    // Просчитать полёт пуль
     Device->Statistic->TEST0.Begin();
     BulletManager().CommitRenderSet();
     Device->Statistic->TEST0.End();
@@ -781,7 +782,7 @@ extern Flags32 dbg_net_Draw_Flags;
 
 extern void draw_wnds_rects();
 
-void        CLevel::OnRender()
+void CLevel::OnRender()
 {
     inherited::OnRender();
 
@@ -789,11 +790,11 @@ void        CLevel::OnRender()
         return;
 
     Game().OnRender();
-    //���������� ������ ����
+    // Отрисовать трассы пуль
     //Device->Statistic->TEST1.Begin();
     BulletManager().Render();
     //Device->Statistic->TEST1.End();
-    //���������� ��������c ������������
+    // Отрисовать интерфейс пользователя
     HUD().RenderUI();
 
 #ifdef DEBUG
@@ -844,7 +845,7 @@ void        CLevel::OnRender()
                     pIItem->OnRender();
             }
 
-            if (dbg_net_Draw_Flags.test(dbg_draw_skeleton))   //draw skeleton
+            if (dbg_net_Draw_Flags.test(dbg_draw_skeleton))   // draw skeleton
             {
                 CGameObject* pGO = smart_cast<CGameObject*>(_O);
                 if (pGO && pGO != Level().CurrentViewEntity() && !pGO->H_Parent())
@@ -941,9 +942,9 @@ void CLevel::OnEvent(EVENT E, u64 P1, u64 /**P2/**/)
     }
     else if (E == eEnvironment)
     {
-        // int id=0; float s=1;
-        // sscanf((char*)P1,"%d,%f",&id,&s);
-        // Environment->set_EnvMode(id,s);
+        // int id = 0; float s = 1;
+        // sscanf((char*)P1, "%d, %f", &id, &s);
+        // Environment->set_EnvMode(id, s);
     }
     else
         return;
@@ -1006,7 +1007,7 @@ void CLevel::make_NetCorrectionPrediction()
     //////////////////////////////////////////////////////////////////////////////////
     ph_world->Freeze();
 
-    //setting UpdateData and determining number of PH steps from last received update
+    // setting UpdateData and determining number of PH steps from last received update
     for (OBJECTS_LIST_it OIt = pObjects4CrPr.begin(); OIt != pObjects4CrPr.end(); OIt++)
     {
         CGameObject* pObj = *OIt;
@@ -1015,8 +1016,8 @@ void CLevel::make_NetCorrectionPrediction()
         pObj->PH_B_CrPr();
     };
     //////////////////////////////////////////////////////////////////////////////////
-    //first prediction from "delivered" to "real current" position
-    //making enought PH steps to calculate current objects position based on their updated state
+    // first prediction from "delivered" to "real current" position
+    // making enought PH steps to calculate current objects position based on their updated state
 
     for (u32 i = 0; i < m_dwNumSteps; i++)
     {
@@ -1041,18 +1042,19 @@ void CLevel::make_NetCorrectionPrediction()
     //////////////////////////////////////////////////////////////////////////////////
     if (!InterpolationDisabled())
     {
-        for (u32 i = 0; i < lvInterpSteps; i++)   //second prediction "real current" to "future" position
+        for (u32 i = 0; i < lvInterpSteps; i++)   // second prediction "real current" to "future" position
         {
             ph_world->Step();
 #ifdef DEBUG
-/*
-			for	(OBJECTS_LIST_it OIt = pObjects4CrPr.begin(); OIt != pObjects4CrPr.end(); OIt++)
-			{
-				CGameObject* pObj = *OIt;
-				if (!pObj) continue;
-				pObj->PH_Ch_CrPr();
-			};
-*/
+            /*
+            for (OBJECTS_LIST_it OIt = pObjects4CrPr.begin(); OIt != pObjects4CrPr.end(); OIt++)
+            {
+                CGameObject* pObj = *OIt;
+                if (!pObj)
+                    continue;
+                pObj->PH_Ch_CrPr();
+            };
+            */
 #endif
         }
         //////////////////////////////////////////////////////////////////////////////////
@@ -1120,15 +1122,17 @@ void CLevel::PhisStepsCallback(u32 Time0, u32 Time1)
     //#pragma todo("Oles to all: highly inefficient and slow!!!")
     //fixed (Andy)
     /*
-	for (xr_vector<CObject*>::iterator O=Level().Objects.objects.begin(); O!=Level().Objects.objects.end(); ++O) 
-	{
-		if( smart_cast<CActor*>((*O)){
-			CActor* pActor = smart_cast<CActor*>(*O);
-			if (!pActor || pActor->Remote()) continue;
-				pActor->UpdatePosStack(Time0, Time1);
+    for (xr_vector<CObject*>::iterator O = Level().Objects.objects.begin(); O != Level().Objects.objects.end(); ++O)
+    {
+        if( smart_cast<CActor*>((*O))
+        {
+            CActor* pActor = smart_cast<CActor*>(*O);
+            if (!pActor || pActor->Remote())
+                continue;
+            pActor->UpdatePosStack(Time0, Time1);
 		}
-	};
-	*/
+    };
+    */
 };
 
 void CLevel::SetNumCrSteps(u32 NumSteps)
@@ -1151,19 +1155,17 @@ ALife::_TIME_ID CLevel::GetStartGameTime()
 ALife::_TIME_ID CLevel::GetGameTime()
 {
     return (game->GetGameTime());
-    //	return			(Server->game->GetGameTime());
+    // return(Server->game->GetGameTime());
 }
 
-ALife::_TIME_ID CLevel::GetEnvironmentGameTime()
+ALife::_TIME_ID CLevel::GetEnvironmentGameTime() const
 {
     return (game->GetEnvironmentGameTime());
-    //	return			(Server->game->GetGameTime());
 }
 
 u8 CLevel::GetDayTime()
 {
-    u32 dummy32;
-    u32 hours;
+    u32 dummy32, hours;
     GetGameDateTime(dummy32, dummy32, dummy32, hours, dummy32, dummy32, dummy32);
     VERIFY(hours < 256);
     return u8(hours);
@@ -1179,7 +1181,7 @@ u32 CLevel::GetGameDayTimeMS()
     return (u32(s64(GetGameTime() % (24 * 60 * 60 * 1000))));
 }
 
-float CLevel::GetEnvironmentGameDayTimeSec()
+float CLevel::GetEnvironmentGameDayTimeSec() const
 {
     return (float(s64(GetEnvironmentGameTime() % (24 * 60 * 60 * 1000))) / 1000.f);
 }
@@ -1191,20 +1193,31 @@ void CLevel::GetGameDateTime(u32& year, u32& month, u32& day, u32& hours, u32& m
 
 float CLevel::GetGameTimeFactor()
 {
-    return (game->GetGameTimeFactor());
-    //	return			(Server->game->GetGameTimeFactor());
+    return game->GetGameTimeFactor();
 }
 
 void CLevel::SetGameTimeFactor(const float fTimeFactor)
 {
     game->SetGameTimeFactor(fTimeFactor);
-    //	Server->game->SetGameTimeFactor(fTimeFactor);
 }
 
 void CLevel::SetGameTimeFactor(ALife::_TIME_ID GameTime, const float fTimeFactor)
 {
     game->SetGameTimeFactor(GameTime, fTimeFactor);
-    //	Server->game->SetGameTimeFactor(fTimeFactor);
+}
+
+float CLevel::GetEnvironmentTimeFactor() const
+{
+    if (!game)
+        return 0.0f;
+    return game->GetEnvironmentGameTimeFactor();
+}
+
+void CLevel::SetEnvironmentTimeFactor(const float fTimeFactor)
+{
+    if (!game)
+        return;
+    game->SetEnvironmentGameTimeFactor(fTimeFactor);
 }
 
 void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTimeFactor)
@@ -1213,33 +1226,29 @@ void CLevel::SetEnvironmentGameTimeFactor(u64 const& GameTime, float const& fTim
         return;
 
     game->SetEnvironmentGameTimeFactor(GameTime, fTimeFactor);
-    //	Server->game->SetGameTimeFactor(fTimeFactor);
-} /*
+}
+/*
 void CLevel::SetGameTime(ALife::_TIME_ID GameTime)
 {
-	game->SetGameTime(GameTime);
-//	Server->game->SetGameTime(GameTime);
+    game->SetGameTime(GameTime);
+    // Server->game->SetGameTime(GameTime);
 }
 */
 bool CLevel::IsServer()
 {
-    //	return (!!Server);
     if (!Server || IsDemoPlayStarted())
         return false;
-    //return (Server->GetClientsCount() != 0);
     return true;
 }
 
 bool CLevel::IsClient()
 {
-    //	return (!Server);
     if (IsDemoPlayStarted())
         return true;
 
     if (Server)
         return false;
 
-    //return (Server->GetClientsCount() == 0);
     return true;
 }
 

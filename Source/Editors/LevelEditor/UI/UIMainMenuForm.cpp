@@ -7,6 +7,8 @@ void UIMainMenuForm::Draw()
 {
     if (ImGui::BeginMainMenuBar())
     {
+        // --------------------------------------------------------------------------------------------
+        // Файл
         if (ImGui::BeginMenu("File"_RU >> u8"Файл"))
         {
             if (ImGui::MenuItem("Clear"_RU >> u8"Очистить", ""))
@@ -73,10 +75,13 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        // --------------------------------------------------------------------------------------------
         ImGui::SameLine();
         ImGui::Separator();
         ImGui::Separator();
         ImGui::SameLine();
+        // --------------------------------------------------------------------------------------------
+        // Сцена
         if (ImGui::BeginMenu("Scene"_RU >> u8"Сцена"))
         {
             if (ImGui::MenuItem("Validate"_RU >> u8"Проверить", ""))
@@ -124,10 +129,13 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        // --------------------------------------------------------------------------------------------
         ImGui::SameLine();
         ImGui::Separator();
         ImGui::Separator();
         ImGui::SameLine();
+        // --------------------------------------------------------------------------------------------
+        // Compile
         if (ImGui::BeginMenu("Compile"_RU >> u8"Сборка Локации"))
         {
             if (ImGui::BeginMenu("Make All"_RU >> u8"Обновление всего"))
@@ -277,6 +285,8 @@ void UIMainMenuForm::Draw()
         ImGui::Separator();
         ImGui::Separator();
         ImGui::SameLine();
+        // --------------------------------------------------------------------------------------------
+        // Эдиторы
         if (ImGui::BeginMenu("Editors"_RU >> u8"Эдиторы"))
         {
             if (ImGui::BeginMenu("Objects"_RU >> u8"Объекты"))
@@ -396,10 +406,13 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        // --------------------------------------------------------------------------------------------
         ImGui::SameLine();
         ImGui::Separator();
         ImGui::Separator();
         ImGui::SameLine();
+        // --------------------------------------------------------------------------------------------
+        // Опции
         if (ImGui::BeginMenu("Options"_RU >> u8"Опции"))
         {
             if (ImGui::BeginMenu("Render"_RU >> u8"Экран"))
@@ -570,13 +583,25 @@ void UIMainMenuForm::Draw()
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
+            // --------------------------------------------------------------------------------------------
+            // Погода
             {
                 if (ImGui::BeginMenu("Environment"_RU >> u8"Погода"))
                 {
+                    {
+                        if (ImGui::Button("Weather properties"_RU >> u8"Свойства погоды"))
+                        {
+                            ExecCommand(COMMAND_WEATHER_PROPERTIES);
+                        }
+                        if (ImGui::IsItemHovered())
+                            ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+                    }
+                    ImGui::Separator();
                     bool selected = !psDeviceFlags.test(rsEnvironment);
                     if (ImGui::MenuItem("None", "", &selected))
                     {
                         psDeviceFlags.set(rsEnvironment, false);
+                        g_pGamePersistent->Environment().Invalidate();
                         UI->RedrawScene();
                     }
                     if (ImGui::IsItemHovered())
@@ -584,25 +609,36 @@ void UIMainMenuForm::Draw()
                     ImGui::Separator();
                     for (auto& i: g_pGamePersistent->Environment().WeatherCycles)
                     {
-                        selected = psDeviceFlags.test(rsEnvironment) && i.first == g_pGamePersistent->Environment().CurrentCycleName;
+                        #pragma TODO("Romann: Если в UI_MainCommand.cpp исправится применение погодного цикла из ini файла - то тут надо заменить 'EPrefs->sWeather' на 'g_pGamePersistent->Environment().CurrentCycleName'")
+                        selected = psDeviceFlags.test(rsEnvironment) && i.first == EPrefs->sWeather;
                         if (ImGui::MenuItem(i.first.c_str(), "", &selected))
                         {
                             psDeviceFlags.set(rsEnvironment, true);
                             g_pGamePersistent->Environment().SetWeather(i.first.c_str(), true);
+                            EPrefs->sWeather = g_pGamePersistent->Environment().CurrentCycleName;
                             UI->RedrawScene();
                         }
                         if (ImGui::IsItemHovered())
                             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     }
+                    ImGui::Separator();
+                    if (ImGui::Button("Reload"_RU >> u8"Перезагрузить"))
+                    {
+                        Engine.ReloadSettings();
+                        g_pGamePersistent->Environment().ED_Reload();
+                        UI->RedrawScene();
+                    }
+                    if (ImGui::IsItemHovered())
+                        ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
                     ImGui::EndMenu();
                 }
                 if (ImGui::IsItemHovered())
                     ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             }
+            // --------------------------------------------------------------------------------------------
             ImGui::Separator();
             {
                 bool selected = psDeviceFlags.test(rsLighting);
-                ;
                 if (ImGui::MenuItem("Lighting"_RU >> u8"Выключить Свет", "", &selected))
                 {
                     psDeviceFlags.set(rsLighting, selected);
@@ -651,10 +687,13 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        // --------------------------------------------------------------------------------------------
         ImGui::SameLine();
         ImGui::Separator();
         ImGui::Separator();
         ImGui::SameLine();
+        // --------------------------------------------------------------------------------------------
+        // Окна
         if (ImGui::BeginMenu("Windows"_RU >> u8"Окна"))
         {
             {
@@ -731,6 +770,7 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        // --------------------------------------------------------------------------------------------
         ImGui::SameLine();
         ImGui::Separator();
         ImGui::SameLine(0, 5);
@@ -738,6 +778,8 @@ void UIMainMenuForm::Draw()
         ImGui::SameLine(0, 5);
         ImGui::Separator();
         ImGui::SameLine();
+        // --------------------------------------------------------------------------------------------
+        // Язык
         if (ImGui::BeginMenu("Language: EN/RU"_RU >> u8"Язык: EN/RU"))
         {
             if (ImGui::MenuItem("EN", "", EditorLocalization == ELocalization::EN))
@@ -758,6 +800,7 @@ void UIMainMenuForm::Draw()
         }
         if (ImGui::IsItemHovered())
             ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+        // --------------------------------------------------------------------------------------------
         ImGui::Separator();
         ImGui::EndMainMenuBar();
     }

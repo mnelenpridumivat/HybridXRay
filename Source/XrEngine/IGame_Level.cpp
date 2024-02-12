@@ -70,7 +70,7 @@ void IGame_Level::net_Stop()
 }
 
 //-------------------------------------------------------------------------------------------
-// extern CStatTimer				tscreate;
+// extern CStatTimer tscreate;
 void _sound_event(ref_sound_data_ptr S, float range)
 {
     if (g_pGameLevel && S && S->feedback)
@@ -93,7 +93,7 @@ BOOL IGame_Level::Load(u32 dwNum)
     pLevel = xr_new<CInifile>(temp);
 
     // Open
-    //	g_pGamePersistent->LoadTitle	("st_opening_stream");
+    // g_pGamePersistent->LoadTitle("st_opening_stream");
     g_pGamePersistent->LoadTitle();
     IReader* LL_Stream = FS.r_open("$level$", "level");
     IReader& fs        = *LL_Stream;
@@ -104,10 +104,10 @@ BOOL IGame_Level::Load(u32 dwNum)
     R_ASSERT2(XRCL_PRODUCTION_VERSION == H.XRLC_version, "Incompatible level version.");
 
     // CForms
-    //	g_pGamePersistent->LoadTitle	("st_loading_cform");
+    // g_pGamePersistent->LoadTitle("st_loading_cform");
     g_pGamePersistent->LoadTitle();
     ObjectSpace.Load(build_callback);
-    // Sound->set_geometry_occ		( &Static );
+    // Sound->set_geometry_occ( &Static );
     Sound->set_geometry_occ(ObjectSpace.GetStaticModel());
     Sound->set_handler(_sound_event);
 
@@ -119,8 +119,8 @@ BOOL IGame_Level::Load(u32 dwNum)
 
     // Render-level Load
     Render->level_Load(LL_Stream);
-    // tscreate.FrameEnd			();
-    // Msg						("* S-CREATE: %f ms, %d times",tscreate.result,tscreate.count);
+    // tscreate.FrameEnd();
+    // Msg("* S-CREATE: %f ms, %d times", tscreate.result, tscreate.count);
 
     // Objects
     g_pGamePersistent->Environment().mods_load();
@@ -151,7 +151,7 @@ int  psNET_DedicatedSleep = 5;
 void IGame_Level::OnRender()
 {
 #ifndef DEDICATED_SERVER
-    //	if (_abs(Device->fTimeDelta)<EPS_S) return;
+    // if (_abs(Device->fTimeDelta) < EPS_S) return;
 
     // Level render, only when no client output required
     if (!g_dedicated_server)
@@ -165,15 +165,15 @@ void IGame_Level::OnRender()
     }
 
     // Font
-//	pApp->pFontSystem->SetSizeI(0.023f);
-//	pApp->pFontSystem->OnRender	();
+    // pApp->pFontSystem->SetSizeI(0.023f);
+    // pApp->pFontSystem->OnRender();
 #endif
 }
 
 void IGame_Level::OnFrame()
 {
-    // Log				("- level:on-frame: ",u32(Device->dwFrame));
-    //	if (_abs(Device->fTimeDelta)<EPS_S) return;
+    // Log("- level:on-frame: ", u32(Device->dwFrame));
+    // if (_abs(Device->fTimeDelta)<EPS_S) return;
 
     // Update all objects
     VERIFY(bReady);

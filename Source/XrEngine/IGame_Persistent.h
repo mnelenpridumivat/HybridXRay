@@ -2,7 +2,6 @@
 
 #include "gametype_chooser.h"
 #include "Environment.h"
-#include "EnvironmentSOC.h"
 #include "IGame_ObjectPool.h"
 #include "EngineAPI.h"
 
@@ -59,22 +58,14 @@ public:
     void destroy_particles(const bool& all_particles);
 
 public:
-    virtual void         PreStart(LPCSTR op);
-    virtual void         Start(LPCSTR op);
-    virtual void         Disconnect();
-    IGame_ObjectPool     ObjectPool;
-    IEnvironment*        pEnvironment;
-    inline IEnvironment& Environment()
+    virtual void     PreStart(LPCSTR op);
+    virtual void     Start(LPCSTR op);
+    virtual void     Disconnect();
+    IGame_ObjectPool ObjectPool;
+    CEnvironment*    pEnvironment;
+    CEnvironment&    Environment()
     {
         return *pEnvironment;
-    };
-    inline CEnvironment* EnvironmentAsCOP()
-    {
-        return static_cast<CEnvironment*>(pEnvironment);
-    };
-    inline CEnvironmentSOC* EnvironmentAsSOC()
-    {
-        return static_cast<CEnvironmentSOC*>(pEnvironment);
     };
 
     IMainMenu*   m_pMainMenu;

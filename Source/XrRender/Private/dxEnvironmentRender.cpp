@@ -10,15 +10,20 @@
 
 //////////////////////////////////////////////////////////////////////////
 // half box def
-static Fvector3 hbox_verts[24] = {
+static Fvector3 hbox_verts[24] =
+{
     {-1.f, -1.f, -1.f}, {-1.f, -1.01f, -1.f},                                                                                                                                                // down
-    {1.f, -1.f, -1.f}, {1.f, -1.01f, -1.f},                                                                                                                                                  // down
-    {-1.f, -1.f, 1.f}, {-1.f, -1.01f, 1.f},                                                                                                                                                  // down
-    {1.f, -1.f, 1.f}, {1.f, -1.01f, 1.f},                                                                                                                                                    // down
-    {-1.f, 2.f, -1.f}, {-1.f, 1.f, -1.f}, {1.f, 2.f, -1.f}, {1.f, 1.f, -1.f}, {-1.f, 2.f, 1.f}, {-1.f, 1.f, 1.f}, {1.f, 2.f, 1.f}, {1.f, 1.f, 1.f}, {-1.f, 0.f, -1.f}, {-1.f, -1.f, -1.f},   // half
-    {1.f, 0.f, -1.f}, {1.f, -1.f, -1.f},                                                                                                                                                     // half
-    {1.f, 0.f, 1.f}, {1.f, -1.f, 1.f},                                                                                                                                                       // half
-    {-1.f, 0.f, 1.f}, {-1.f, -1.f, 1.f}                                                                                                                                                      // half
+    { 1.f, -1.f, -1.f}, { 1.f, -1.01f, -1.f},                                                                                                                                                  // down
+    {-1.f, -1.f,  1.f}, {-1.f, -1.01f,  1.f},                                                                                                                                                  // down
+    { 1.f, -1.f,  1.f}, { 1.f, -1.01f,  1.f},                                                                                                                                                    // down
+    {-1.f,  1.f, -1.f}, {-1.f,  1.f,   -1.f},
+    { 1.f,  1.f, -1.f}, { 1.f,  1.f,   -1.f},
+    {-1.f,  1.f,  1.f}, {-1.f,  1.f,    1.f},
+    { 1.f,  1.f,  1.f}, { 1.f,  1.f,    1.f},
+    {-1.f,  0.f, -1.f}, {-1.f, -1.f,   -1.f},   // half
+    { 1.f,  0.f, -1.f}, { 1.f, -1.f,   -1.f},                                                                                                                                                     // half
+    { 1.f,  0.f,  1.f}, { 1.f, -1.f,    1.f},                                                                                                                                                       // half
+    {-1.f,  0.f,  1.f}, {-1.f, -1.f,    1.f}                                                                                                                                                      // half
 };
 static u16 hbox_faces[20 * 3] = {0, 2, 3, 3, 1, 0, 4, 5, 7, 7, 6, 4, 0, 1, 9, 9, 8, 0, 8, 9, 5, 5, 4, 8, 1, 3, 10, 10, 9, 1, 9, 10, 7, 7, 5, 9, 3, 2, 11, 11, 10, 3, 10, 11, 6, 6, 7, 10, 2, 0, 8, 8, 11, 2, 11, 8, 4, 4, 6, 11};
 
@@ -118,7 +123,7 @@ void dxEnvDescriptorMixerRender::lerp(IEnvDescriptorRender* inA, IEnvDescriptorR
     clouds_r_textures.push_back(mk_pair(1, pB->clouds_texture));
 }
 
-void dxEnvDescriptorRender::OnDeviceCreate(IEnvDescriptor& owner)
+void dxEnvDescriptorRender::OnDeviceCreate(CEnvDescriptor& owner)
 {
     if (owner.sky_texture_name.size())
         sky_texture.create(owner.sky_texture_name.c_str());
@@ -143,7 +148,7 @@ dxEnvironmentRender::dxEnvironmentRender()
     tsky1 = DEV->_CreateTexture("$user$sky1");
 }
 
-void dxEnvironmentRender::OnFrame(IEnvironment& env)
+void dxEnvironmentRender::OnFrame(CEnvironment& env)
 {
     dxEnvDescriptorMixerRender& mixRen = *(dxEnvDescriptorMixerRender*)&*env.CurrentEnv->m_pDescriptorMixer;
 
@@ -203,15 +208,15 @@ void dxEnvironmentRender::OnUnload()
     tonemap = 0;
 }
 
-void dxEnvironmentRender::RenderSky(IEnvironment& env)
+void dxEnvironmentRender::RenderSky(CEnvironment& env)
 {
-    // clouds_sh.create		("clouds","null");
-    //. this is the bug-fix for the case when the sky is broken
-    //. for some unknown reason the geoms happen to be invalid sometimes
-    //. if vTune show this in profile, please add simple cache (move-to-forward last found)
-    //. to the following functions:
-    //.		CResourceManager::_CreateDecl
-    //.		CResourceManager::CreateGeom
+    // clouds_sh.create("clouds", "null");
+    // this is the bug-fix for the case when the sky is broken
+    // for some unknown reason the geoms happen to be invalid sometimes
+    // if vTune show this in profile, please add simple cache (move-to-forward last found)
+    // to the following functions:
+    // CResourceManager::_CreateDecl
+    // CResourceManager::CreateGeom
     if (env.bNeed_re_create_env)
     {
         sh_2sky.create(&m_b_skybox, "skybox_2t");
@@ -268,7 +273,7 @@ void dxEnvironmentRender::RenderSky(IEnvironment& env)
 #endif
 }
 
-void dxEnvironmentRender::RenderClouds(IEnvironment& env)
+void dxEnvironmentRender::RenderClouds(CEnvironment& env)
 {
     ::Render->rmFar();
 
