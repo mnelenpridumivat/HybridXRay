@@ -4,6 +4,7 @@
 #include "EStats.h"
 #include "hw.h"
 #include "gamefont.h"
+#include "UI_Main.h"
 
 ECORE_API extern bool bIsLevelEditor = true;
 //////////////////////////////////////////////////////////////////////
@@ -114,6 +115,7 @@ void CEStats::Show(CGameFont* font)
         // F.OutNext("Level summary:");
         // F.OutNext(" Sel Faces: %d", dwLevelSelFaceCount);
         // F.OutNext(" Sel Verts: %d", dwLevelSelVertexCount);
+        UI->OnStats(EDevice->pSystemFont);
     }
 
     {

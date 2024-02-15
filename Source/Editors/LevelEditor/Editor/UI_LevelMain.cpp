@@ -1474,7 +1474,7 @@ void CLevelMain::OnStats(CGameFont* font)
 {
     float Height = font->GetHeight();
     font->SetColor(color_rgba(255, 0, 0, 255));
-    font->SetHeight(14);
+    font->SetHeight(11);
     if (!Scene->m_RTFlags.is(EScene::flIsBuildedCForm))
     {
         font->OutNext("NEED REBUILD CFORM");

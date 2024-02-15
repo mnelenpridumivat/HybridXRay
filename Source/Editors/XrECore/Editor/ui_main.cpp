@@ -417,7 +417,7 @@ void TUI::PrepareRedraw()
     RCache.set_xform_world(Fidentity);
 }
 extern ENGINE_API BOOL g_bRendering;
-void                   TUI::Redraw()
+void TUI::Redraw()
 {
     PrepareRedraw();
     try
@@ -507,7 +507,6 @@ void                   TUI::Redraw()
 
                 EDevice->Statistic->RenderDUMP_RT.End();
                 EDevice->EStatistic->Show(EDevice->pSystemFont);
-                UI->OnStats(EDevice->pSystemFont);
                 EDevice->SetRS(D3DRS_FILLMODE, D3DFILL_SOLID);
                 EDevice->pSystemFont->OnRender();
                 EDevice->SetRS(D3DRS_FILLMODE, EDevice->dwFillMode);
