@@ -383,7 +383,7 @@ void        CPHSkeleton::RecursiveBonesCheck(u16 id)
     //////////////////////////////////////////
     BonesVisible         mask = K->LL_GetBonesVisible();
     ///////////////////////////////////////////
-    if (mask.is(1ui64 << (u64)id) && !(BD.shape.flags.is(SBoneShape::sfRemoveAfterBreak)))
+    if (mask.is(id) && !(BD.shape.flags.is(SBoneShape::sfRemoveAfterBreak)))
     {
         removable = false;
         return;

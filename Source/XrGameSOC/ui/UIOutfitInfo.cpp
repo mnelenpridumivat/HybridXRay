@@ -21,28 +21,30 @@ CUIOutfitInfo::~CUIOutfitInfo()
     }
 }
 
-LPCSTR _imm_names[] = {
+LPCSTR _imm_names[] =
+{
     "burn_immunity",
-    "strike_immunity",
     "shock_immunity",
-    "wound_immunity",
+    "chemical_burn_immunity",
     "radiation_immunity",
     "telepatic_immunity",
-    "chemical_burn_immunity",
-    "explosion_immunity",
+    "wound_immunity",
     "fire_wound_immunity",
+    "strike_immunity",
+    "explosion_immunity",
 };
 
-LPCSTR _imm_st_names[] = {
+LPCSTR _imm_st_names[] =
+{
     "ui_inv_outfit_burn_protection",
     "ui_inv_outfit_shock_protection",
-    "ui_inv_outfit_strike_protection",
-    "ui_inv_outfit_wound_protection",
+    "ui_inv_outfit_chemical_burn_protection",
     "ui_inv_outfit_radiation_protection",
     "ui_inv_outfit_telepatic_protection",
-    "ui_inv_outfit_chemical_burn_protection",
-    "ui_inv_outfit_explosion_protection",
+    "ui_inv_outfit_wound_protection",
     "ui_inv_outfit_fire_wound_protection",
+    "ui_inv_outfit_strike_protection",
+    "ui_inv_outfit_explosion_protection",
 };
 
 void CUIOutfitInfo::InitFromXml(CUIXml& xml_doc)
@@ -58,7 +60,7 @@ void CUIOutfitInfo::InitFromXml(CUIXml& xml_doc)
     strconcat(sizeof(_buff), _buff, _base, ":scroll_view");
     CUIXmlInit::InitScrollView(xml_doc, _buff, 0, m_listWnd);
 
-    for (u32 i = ALife::eHitTypeBurn; i <= ALife::eHitTypeFireWound; ++i)
+    for (u32 i = 0; i < _max_item_index; ++i)
     {
         m_items[i]    = xr_new<CUIStatic>();
         CUIStatic* _s = m_items[i];
@@ -99,15 +101,12 @@ void CUIOutfitInfo::SetItem(u32 hitType, bool force_add)
 
     if (fsimilar(_val_outfit, 0.0f) && fsimilar(_val_af, 0.0f) && !force_add)
     {
-        if (_s && _s != nullptr)
-        {
-            if (_s->GetParent() != NULL)
-                m_listWnd->RemoveWindow(_s);
-        }
+        if (_s->GetParent() != NULL)
+            m_listWnd->RemoveWindow(_s);
         return;
     }
 
-    //	LPCSTR			_clr_outfit, _clr_af;
+    // LPCSTR _clr_outfit, _clr_af;
     LPCSTR _imm_name = *CStringTable().translate(_imm_st_names[hitType]);
 
     int    _sz       = sprintf_s(_buff, sizeof(_buff), "%s ", _imm_name);
@@ -117,11 +116,8 @@ void CUIOutfitInfo::SetItem(u32 hitType, bool force_add)
     {
         _sz += sprintf_s(_buff + _sz, sizeof(_buff) - _sz, "%s %+3.0f%%", (_val_af > 0.0f) ? "%c[green]" : "%c[red]", _val_af * 100.0f);
     }
-    if (_s && _s != nullptr)
-    {
-        _s->SetText(_buff);
+    _s->SetText(_buff);
 
-        if (_s->GetParent() == NULL)
-            m_listWnd->AddWindow(_s, false);
-    }
+    if (_s->GetParent() == NULL)
+        m_listWnd->AddWindow(_s, false);
 }

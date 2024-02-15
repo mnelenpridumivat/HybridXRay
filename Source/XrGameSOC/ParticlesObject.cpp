@@ -29,10 +29,17 @@ void CParticlesObject::Init(LPCSTR p_name, IRender_Sector* S, BOOL bAutoRemove)
     {
         // create visual
         renderable.visual = Render->model_CreateParticles(p_name);
-        VERIFY(renderable.visual);
-        IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);
-        VERIFY(V);
-        time_limit = V->GetTimeLimit();
+        if (renderable.visual)
+        {
+            VERIFY(renderable.visual);
+            IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);
+            VERIFY(V);
+            time_limit = V->GetTimeLimit();
+        }
+        else
+        {
+            time_limit = 1.0f;
+        }
     }
     else
     {
@@ -74,16 +81,16 @@ CParticlesObject::~CParticlesObject()
 {
     VERIFY(0 == mt_dt);
 
-    //	we do not need this since CPS_Instance does it
-    //	shedule_unregister		();
+    // we do not need this since CPS_Instance does it shedule_unregister();
 }
 
 void CParticlesObject::UpdateSpatial()
 {
     if (g_dedicated_server)
         return;
-
-    // spatial	(+ workaround occasional bug inside particle-system)
+    if (!renderable.visual)
+        return;
+    // spatial(+ workaround occasional bug inside particle-system)
     if (_valid(renderable.visual->getVisData().sphere))
     {
         Fvector P;
@@ -117,7 +124,8 @@ const shared_str CParticlesObject::Name()
 {
     if (g_dedicated_server)
         return "";
-
+    if (!renderable.visual)
+        return "";
     IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);
     VERIFY(V);
     return (V) ? V->Name() : "";
@@ -127,6 +135,8 @@ const shared_str CParticlesObject::Name()
 void CParticlesObject::Play(bool)
 {
     if (g_dedicated_server)
+        return;
+    if (!renderable.visual)
         return;
 
     IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);
@@ -141,6 +151,8 @@ void CParticlesObject::Play(bool)
 void CParticlesObject::play_at_pos(const Fvector& pos, BOOL xform)
 {
     if (g_dedicated_server)
+        return;
+    if (!renderable.visual)
         return;
 
     IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);
@@ -159,6 +171,8 @@ void CParticlesObject::Stop(BOOL bDefferedStop)
 {
     if (g_dedicated_server)
         return;
+    if (!renderable.visual)
+        return;
 
     IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);
     VERIFY(V);
@@ -171,6 +185,8 @@ void CParticlesObject::shedule_Update(u32 _dt)
     inherited::shedule_Update(_dt);
 
     if (g_dedicated_server)
+        return;
+    if (!renderable.visual)
         return;
 
     // Update
@@ -201,6 +217,8 @@ void CParticlesObject::PerformAllTheWork(u32 _dt)
 {
     if (g_dedicated_server)
         return;
+    if (!renderable.visual)
+        return;
 
     // Update
     u32 dt = Device->dwTimeGlobal - dwLastTime;
@@ -218,6 +236,8 @@ void CParticlesObject::PerformAllTheWork_mt()
 {
     if (g_dedicated_server)
         return;
+    if (!renderable.visual)
+        return;
 
     if (0 == mt_dt)
         return;   //???
@@ -231,6 +251,8 @@ void CParticlesObject::SetXFORM(const Fmatrix& m)
 {
     if (g_dedicated_server)
         return;
+    if (!renderable.visual)
+        return;
 
     IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);
     VERIFY(V);
@@ -243,6 +265,8 @@ void CParticlesObject::UpdateParent(const Fmatrix& m, const Fvector& vel)
 {
     if (g_dedicated_server)
         return;
+    if (!renderable.visual)
+        return;
 
     IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);
     VERIFY(V);
@@ -252,7 +276,7 @@ void CParticlesObject::UpdateParent(const Fmatrix& m, const Fvector& vel)
 
 Fvector& CParticlesObject::Position()
 {
-    if (g_dedicated_server)
+    if (g_dedicated_server || !renderable.visual)
     {
         static Fvector _pos = Fvector().set(0, 0, 0);
         return _pos;
@@ -262,7 +286,7 @@ Fvector& CParticlesObject::Position()
 
 float CParticlesObject::shedule_Scale()
 {
-    if (g_dedicated_server)
+    if (g_dedicated_server || !renderable.visual)
         return 5.0f;
 
     return Device->vCameraPosition.distance_to(Position()) / 200.f;
@@ -299,7 +323,7 @@ void CParticlesObject::SetAutoRemove(bool auto_remove)
 //��������� Stop �������� ����� ��� ���������� �������� IsPlaying = true
 bool CParticlesObject::IsPlaying()
 {
-    if (g_dedicated_server)
+    if (g_dedicated_server || !renderable.visual)
         return false;
 
     IParticleCustom* V = smart_cast<IParticleCustom*>(renderable.visual);

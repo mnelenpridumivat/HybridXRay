@@ -156,7 +156,7 @@ void CLevel::Load_GameSpecific_CFORM(CDB::TRI* tris, u32 count)
         if (!(*I)->Flags.test(SGameMtl::flDynamic))
         {
             ++static_mtl_count;
-            if (Device->IsEditorMode())
+            if (Device->IsEditorMode() && EditorScene)
                 translator.push_back(translation_pair((*I)->GetID(), (*I)->GetID()));
             else
                 translator.push_back(translation_pair((*I)->GetID(), index));

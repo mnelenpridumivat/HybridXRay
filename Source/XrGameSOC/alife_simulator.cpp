@@ -55,7 +55,7 @@ CALifeSimulator::CALifeSimulator(xrServer* server, shared_str* command_line): CA
     luabind::functor<void> functor;
     R_ASSERT2(ai().script_engine().functor(start_game_callback, functor), "failed to get start game callback");
     functor();
-    if (Device->IsEditorMode())
+    if (Device->IsEditorMode() && EditorScene)
     {
         load_from_editor();
         return;

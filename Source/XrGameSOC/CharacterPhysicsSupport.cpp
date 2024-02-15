@@ -183,7 +183,7 @@ void CCharacterPhysicsSupport::in_NetSpawn(CSE_Abstract* e)
         return;
     }
 
-    CPHDestroyable::Init();   //this zerows colbacks !!;
+    CPHDestroyable::Init();   // this zerows colbacks !!;
     IKinematicsAnimated* ka = smart_cast<IKinematicsAnimated*>(m_EntityAlife.Visual());
     IKinematics*         k  = smart_cast<IKinematics*>(m_EntityAlife.Visual());
     if (!m_EntityAlife.g_Alive())
@@ -194,11 +194,9 @@ void CCharacterPhysicsSupport::in_NetSpawn(CSE_Abstract* e)
             ka->PlayCycle("death_init");
     }
     else if (!m_EntityAlife.animation_movement_controlled())
-    {
-        ka->PlayCycle("death_init");   ///��������� ����� ��� ������ ���� ���������
-                                       ///���� ��� �����, ������ ��� ��������� ��������
-                                       ///�������� ����� �����, ����� ���� ������ �� ���������
-    }
+        ka->PlayCycle("death_init");   /// непонятно зачем это вообще надо запускать
+                                       /// этот хак нужен, потому что некоторым монстрам
+                                       /// анимация после спона, может быть вообще не назначена
     k->CalculateBones_Invalidate();
     k->CalculateBones();
 
