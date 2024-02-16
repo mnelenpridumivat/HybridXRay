@@ -16,7 +16,7 @@
 #define XRSOUND_EDITOR_API XRSOUND_API
 class XRSOUND_EDITOR_API SoundEnvironment_LIB;
 
-#define SNDENV_FILENAME     "sEnvironment.xr"
+#define SNDENV_FILENAME     "senvironment.xr"
 #define OGG_COMMENT_VERSION 0x0003
 
 // refs
@@ -63,8 +63,8 @@ enum
 };
 enum
 {
-    sm_Looped     = (1ul << 0ul),   //!< Looped
-    sm_2D         = (1ul << 1ul),   //!< 2D mode
+    sm_Looped     = (1ul << 0ul),   // !< Looped
+    sm_2D         = (1ul << 1ul),   // !< 2D mode
     sm_forcedword = u32(-1),
 };
 enum esound_type
@@ -88,12 +88,12 @@ typedef resptr_core<CSound_UserData, resptr_base<CSound_UserData>> CSound_UserDa
 class ref_sound_data: public xr_resource
 {
 public:
-    //	shared_str						nm;
-    CSound_source*     handle;     //!< Pointer to wave-source interface
-    CSound_emitter*    feedback;   //!< Pointer to emitter, automaticaly clears on emitter-stop
+    // shared_str nm;
+    CSound_source*     handle;     // !< Pointer to wave-source interface
+    CSound_emitter*    feedback;   // !< Pointer to emitter, automaticaly clears on emitter-stop
     esound_type        s_type;
-    int                g_type;     //!< Sound type, usually for AI
-    CObject*           g_object;   //!< Game object that emitts ref_sound
+    int                g_type;     // !< Sound type, usually for AI
+    CObject*           g_object;   // !< Game object that emitts ref_sound
     CSound_UserDataPtr g_userdata;
     shared_str         fn_attached[2];
 
@@ -340,7 +340,7 @@ class CSound_manager_interface;
 extern XRSOUND_API CSound_manager_interface* Sound;
 
 /// ********* Sound ********* (utils, accessors, helpers)
-IC                                           ref_sound_data::ref_sound_data()
+IC ref_sound_data::ref_sound_data()
 {
     handle   = 0;
     feedback = 0;

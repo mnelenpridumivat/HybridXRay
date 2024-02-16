@@ -8,6 +8,9 @@
 #pragma warning(push)
 #pragma warning(disable:4995)
 #include "eax.h"
+#if 0
+#include "../Editors/xrETools/ETools.h"
+#endif
 #pragma warning(pop)
 
 int                       psSoundTargets        = 32;
@@ -50,7 +53,7 @@ CSoundRender_Core::CSoundRender_Core()
 
 CSoundRender_Core::~CSoundRender_Core()
 {
-#ifdef _EDITOR
+#if 0
     ETOOLS::destroy_model(geom_ENV);
     ETOOLS::destroy_model(geom_SOM);
 #else
@@ -78,7 +81,7 @@ void CSoundRender_Core::_initialize(int stage)
 }
 
 extern xr_vector<u8> g_target_temp_data;
-void                 CSoundRender_Core::_clear()
+void CSoundRender_Core::_clear()
 {
     bReady = FALSE;
     cache.destroy();
@@ -158,9 +161,9 @@ void CSoundRender_Core::set_geometry_occ(CDB::MODEL* M)
 
 void CSoundRender_Core::set_geometry_som(IReader* I)
 {
-#ifdef _EDITOR
+#if 0
     ETOOLS::destroy_model(geom_SOM);
-#else
+ #else
     xr_delete(geom_SOM);
 #endif
     if (0 == I)
@@ -183,7 +186,7 @@ void CSoundRender_Core::set_geometry_som(IReader* I)
         float    occ;
     };
     // Create AABB-tree
-#ifdef _EDITOR
+#if 0
     CDB::Collector* CL = ETOOLS::create_collector();
     while (!geom->eof())
     {
@@ -214,7 +217,7 @@ void CSoundRender_Core::set_geometry_som(IReader* I)
 
 void CSoundRender_Core::set_geometry_env(IReader* I)
 {
-#ifdef _EDITOR
+#if 0
     ETOOLS::destroy_model(geom_ENV);
 #else
     xr_delete(geom_ENV);
@@ -253,13 +256,13 @@ void CSoundRender_Core::set_geometry_env(IReader* I)
     for (u32 it = 0; it < H.facecount; it++)
     {
         CDB::TRI* T        = tris + it;
-        u16       id_front = (u16)((T->dummy & 0x0000ffff) >> 0);    //	front face
-        u16       id_back  = (u16)((T->dummy & 0xffff0000) >> 16);   //	back face
+        u16       id_front = (u16)((T->dummy & 0x0000ffff) >> 0);    // front face
+        u16       id_back  = (u16)((T->dummy & 0xffff0000) >> 16);   // back face
         R_ASSERT(id_front < (u16)ids.size());
         R_ASSERT(id_back < (u16)ids.size());
         T->dummy = u32(ids[id_back] << 16) | u32(ids[id_front]);
     }
-#ifdef _EDITOR
+#if 0
     geom_ENV = ETOOLS::create_model(verts, H.vertcount, tris, H.facecount);
     env_apply();
 #else
@@ -294,7 +297,7 @@ void CSoundRender_Core::attach_tail(ref_sound& S, const char* fName)
         return;
     }
 
-    u32 idx                = S._p->fn_attached[0].size() ? 1 : 0;
+    u32 idx = S._p->fn_attached[0].size() ? 1 : 0;
 
     S._p->fn_attached[idx] = fn;
 
@@ -431,7 +434,7 @@ CSoundRender_Environment* CSoundRender_Core::get_environment(const Fvector& P)
         if (geom_ENV)
         {
             Fvector dir = {0, -1, 0};
-#ifdef _EDITOR
+#if 0
             ETOOLS::ray_options(CDB::OPT_ONLYNEAREST);
             ETOOLS::ray_query(geom_ENV, P, dir, 1000.f);
             if (ETOOLS::r_count())
@@ -451,12 +454,12 @@ CSoundRender_Environment* CSoundRender_Core::get_environment(const Fvector& P)
                 float dot = dir.dotproduct(tri_norm);
                 if (dot < 0)
                 {
-                    u16 id_front = (u16)((T->dummy & 0x0000ffff) >> 0);   //	front face
+                    u16 id_front = (u16)((T->dummy & 0x0000ffff) >> 0);   // front face
                     return s_environment->Get(id_front);
                 }
                 else
                 {
-                    u16 id_back = (u16)((T->dummy & 0xffff0000) >> 16);   //	back face
+                    u16 id_back = (u16)((T->dummy & 0xffff0000) >> 16);   // back face
                     return s_environment->Get(id_back);
                 }
             }
@@ -477,13 +480,12 @@ CSoundRender_Environment* CSoundRender_Core::get_environment(const Fvector& P)
 void CSoundRender_Core::env_apply()
 {
     /*
-        // Force all sounds to change their environment
-        // (set their positions to signal changes in environment)
-        for (u32 it=0; it<s_emitters.size(); it++)
+        // Force all sounds to change their environment (set their positions to signal changes in environment)
+        for (u32 it = 0; it < s_emitters.size(); it++)
         {
-            CSoundRender_Emitter*	pEmitter	= s_emitters[it];
-            const CSound_params*	pParams		= pEmitter->get_params	();
-            pEmitter->set_position	(pParams->position);
+            CSoundRender_Emitter* pEmitter = s_emitters[it];
+            const CSound_params* pParams = pEmitter->get_params();
+            pEmitter->set_position(pParams->position);
         }
     */
     bListenerMoved = TRUE;
