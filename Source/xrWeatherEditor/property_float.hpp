@@ -12,11 +12,11 @@
 #include "property_holder_include.hpp"
 
 public
-ref class property_float: public property_value, public XrWeatherEditor::controls::property_incrementable
+ref class property_float: public property_value, public xrWeatherEditor::controls::property_incrementable
 {
 public:
-    typedef XrWeatherEditor::property_holder::float_getter_type float_getter_type;
-    typedef XrWeatherEditor::property_holder::float_setter_type float_setter_type;
+    typedef xrWeatherEditor::property_holder::float_getter_type float_getter_type;
+    typedef xrWeatherEditor::property_holder::float_setter_type float_setter_type;
 
 public:
     property_float(float_getter_type const& getter, float_setter_type const& setter, float const % increment_factor);

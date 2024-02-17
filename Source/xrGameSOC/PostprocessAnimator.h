@@ -3,9 +3,9 @@
 #pragma once
 
 #ifndef _PP_EDITOR_
-#include "../XrEngine/envelope.h"
-#include "../XrEngine/EffectorPP.h"
-#include "../XrEngine/cameramanager.h"
+#include "../xrEngine/envelope.h"
+#include "../xrEngine/EffectorPP.h"
+#include "../xrEngine/cameramanager.h"
 
 class CEffectorController;
 #else

@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "ShapeData.h"
-#include "XrISEALifeObject.h"
-#include "XrISEALifeGraphPoint.h"
+#include "xrISEALifeObject.h"
+#include "xrISEALifeGraphPoint.h"
 #include "gametype_chooser.h"
 class PropItem;
 DEFINE_VECTOR(PropItem*, PropItemVec, PropItemIt);

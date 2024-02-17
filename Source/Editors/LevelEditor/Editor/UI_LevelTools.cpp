@@ -508,7 +508,7 @@ bool CLevelTool::IsModified()
     return Scene->IsUnsaved();
 }
 
-#include "../XrECore/Editor/EditMesh.h"
+#include "../xrECore/Editor/EditMesh.h"
 bool CLevelTool::RayPick(const Fvector& start, const Fvector& dir, float& dist, Fvector* pt, Fvector* n)
 {
     if (Scene->ObjCount() && (UI->GetEState() == esEditScene))
@@ -654,7 +654,7 @@ void CLevelTool::RunXrLC()
     ZeroMemory(&m_CompilerProcess, sizeof(m_CompilerProcess));
 
     string_path CommandLine;
-    xr_sprintf(CommandLine, "XrLC.exe -f %s", Scene->m_LevelOp.m_FNLevelPath.c_str());
+    xr_sprintf(CommandLine, "xrLC.exe -f %s", Scene->m_LevelOp.m_FNLevelPath.c_str());
     Msg("~ Run %s.\n", CommandLine);
     // Start the child process.
     if (!CreateProcess(NULL,      // No module name (use command line)
@@ -669,7 +669,7 @@ void CLevelTool::RunXrLC()
             &m_CompilerProcess)   // Pointer to PROCESS_INFORMATION structure
     )
     {
-        Msg("! XrLC:CreateProcess failed (%d).\n", GetLastError());
+        Msg("! xrLC:CreateProcess failed (%d).\n", GetLastError());
         return;
     }
 }

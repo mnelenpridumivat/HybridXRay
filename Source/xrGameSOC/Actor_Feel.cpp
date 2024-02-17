@@ -8,7 +8,7 @@
 #include "xr_level_controller.h"
 #include "UsableScriptObject.h"
 #include "customzone.h"
-#include "../XrEngine/GameMtlLib.h"
+#include "../xrEngine/GameMtlLib.h"
 #include "ui/UIMainIngameWnd.h"
 #include "Grenade.h"
 #include "clsid_game.h"
@@ -145,7 +145,7 @@ void CActor::PickupModeUpdate()
             PickupInfoDraw(*it);
 }
 
-#include "../XrEngine/CameraBase.h"
+#include "../xrEngine/CameraBase.h"
 BOOL g_b_COD_PickUpMode = TRUE;
 void CActor::PickupModeUpdate_COD()
 {

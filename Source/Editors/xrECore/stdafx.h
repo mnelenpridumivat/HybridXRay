@@ -4,23 +4,23 @@
 #pragma once
 // DirectX headers
 #include <d3d9.h>
-#include "directx\d3dx9.h"
-#include "..\..\XrRender\Private\xrD3dDefs.h"
-#include "..\XrCore\Utils.hpp"
+#include "directx/d3dx9.h"
+#include "../../xrRender/Private/xrD3dDefs.h"
+#include "../xrCore/Utils.hpp"
 
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 // #include <dsound.h>
 
-#include "..\XrEngine\stdafx.h"
-#include "..\XrEngine\XrDeviceInterface.h"
-#include "..\XrEProps\stdafx.h"
-#include "..\..\xrCDB\xrCDB.h"
-#include "..\..\xrSound\Sound.h"
-#include "..\..\XrEngine\psystem.h"
+#include "../xrEngine/stdafx.h"
+#include "../xrEngine/xrDeviceInterface.h"
+#include "../xrEProps/stdafx.h"
+#include "../../xrCDB/xrCDB.h"
+#include "../../xrSound/Sound.h"
+#include "../../xrEngine/psystem.h"
 
-#include "..\..\XrEngine\fmesh.h"
-#include "..\..\XrEngine\_d3d_extensions.h"
+#include "../../xrEngine/fmesh.h"
+#include "../../xrEngine/_d3d_extensions.h"
 #define smart_cast dynamic_cast
 
 #ifndef O_SEQUENTIAL
@@ -55,13 +55,13 @@ DEFINE_VECTOR(ListItem*, ListItemsVec, ListItemsIt);
 DEFINE_VECTOR(xr_string, AStringVec, AStringIt);
 DEFINE_VECTOR(xr_string*, LPAStringVec, LPAStringIt);
 
-#include "..\Public\xrEProps.h"
-#include "..\..\xrCore\Log.h"
-#include "editor\ELog.h"
-#include "..\..\XrEngine\defines.h"
+#include "../Public/xrEProps.h"
+#include "../../xrCore/Log.h"
+#include "editor/ELog.h"
+#include "../../xrEngine/defines.h"
 
 #include "../../xrphysics/xrphysics.h"
-#include "..\..\XrRender\Private\FVF.h"
+#include "../../xrRender/Private/FVF.h"
 
 struct str_pred
 {
@@ -78,9 +78,9 @@ struct astr_pred
     }
 };
 
-#include "editor\device.h"
-#include "..\..\XrEngine\properties.h"
-#include "editor\render.h"
+#include "editor/device.h"
+#include "../../xrEngine/properties.h"
+#include "editor/render.h"
 DEFINE_VECTOR(FVF::L, FLvertexVec, FLvertexIt);
 DEFINE_VECTOR(FVF::TL, FTLvertexVec, FTLvertexIt);
 DEFINE_VECTOR(FVF::LIT, FLITvertexVec, FLITvertexIt);
@@ -126,8 +126,8 @@ DEFINE_VECTOR(shared_str, RStrVec, RStrVecIt);
 #define TEX_POINT_ATT       "internal\\internal_light_attpoint"
 #define TEX_SPOT_ATT        "internal\\internal_light_attclip"
 
-#include "..\..\XrRender\Private\ETextureParams.h"
-#include "..\..\XrRender\Private\ResourceManager.h"
+#include "../../xrRender/Private/ETextureParams.h"
+#include "../../xrRender/Private/ResourceManager.h"
 #include "Editor/ImageManager.h"
 
 inline xr_string ChangeFileExt(const char* name, const char* e)

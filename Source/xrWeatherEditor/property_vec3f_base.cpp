@@ -50,13 +50,13 @@ void vec3f_components::z_setter(float value)
     m_holder->z(value);
 }
 
-property_vec3f_base::property_vec3f_base(XrWeatherEditor::vec3f const % vec3f)
+property_vec3f_base::property_vec3f_base(xrWeatherEditor::vec3f const % vec3f)
 {
     m_container  = gcnew property_container(nullptr, this);
     m_components = new vec3f_components(this);
 
-    typedef XrWeatherEditor::property_holder::float_getter_type float_getter_type;
-    typedef XrWeatherEditor::property_holder::float_setter_type float_setter_type;
+    typedef xrWeatherEditor::property_holder::float_getter_type float_getter_type;
+    typedef xrWeatherEditor::property_holder::float_setter_type float_setter_type;
 
     float_getter_type                                           getter;
     float_setter_type                                           setter;
@@ -92,7 +92,7 @@ Object ^ property_vec3f_base::get_value()
 void property_vec3f_base::set_value(Object ^ object)
 {
     Vec3f                  vec3f = safe_cast<Vec3f>(object);
-    XrWeatherEditor::vec3f value;
+    xrWeatherEditor::vec3f value;
     value.x = vec3f.x;
     value.y = vec3f.y;
     value.z = vec3f.z;
@@ -101,21 +101,21 @@ void property_vec3f_base::set_value(Object ^ object)
 
 void property_vec3f_base::x(float value)
 {
-    XrWeatherEditor::vec3f current = get_value_raw();
+    xrWeatherEditor::vec3f current = get_value_raw();
     current.x                      = value;
     set_value_raw(current);
 }
 
 void property_vec3f_base::y(float value)
 {
-    XrWeatherEditor::vec3f current = get_value_raw();
+    xrWeatherEditor::vec3f current = get_value_raw();
     current.y                      = value;
     set_value_raw(current);
 }
 
 void property_vec3f_base::z(float value)
 {
-    XrWeatherEditor::vec3f current = get_value_raw();
+    xrWeatherEditor::vec3f current = get_value_raw();
     current.z                      = value;
     set_value_raw(current);
 }

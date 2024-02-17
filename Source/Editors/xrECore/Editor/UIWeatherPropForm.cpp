@@ -2,12 +2,12 @@
 
 #include "ui_main.h"
 #include "UIWeatherPropForm.h"
-#include "engine/XrGamePersistentEditors.h"
+#include "engine/xrGamePersistentEditors.h"
 #include "IGame_Level.h"
 #include "IGame_Persistent.h"
 #include "Environment.h"
 #include "UI_ToolsCustom.h"
-#include "XrEditorSceneInterface.h"
+#include "xrEditorSceneInterface.h"
 
 extern ENGINE_API BOOL bIsSndOnRoof;
 extern ENGINE_API BOOL bIsRaindropCollision;

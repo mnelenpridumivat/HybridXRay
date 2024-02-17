@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "CustomZone.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 #include "ZoneVisual.h"
 #include "PHObject.h"
 #include "PHMovementControl.h"
@@ -9,7 +9,7 @@
 #include "level.h"
 #include "entity_alive.h"
 #include "CharacterPhysicsSupport.h"
-#include "..\XrEngine\xr_collide_form.h"
+#include "../xrEngine/xr_collide_form.h"
 CAmebaZone::CAmebaZone()
 {
     m_fVelocityLimit = 1.f;

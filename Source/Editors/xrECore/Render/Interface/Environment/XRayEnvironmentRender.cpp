@@ -43,7 +43,7 @@ void XRayEnvDescriptorRender::OnDeviceDestroy()
 
 }
 
-#include "../../XrEngine/xr_efflensflare.h"
+#include "../../xrEngine/xr_efflensflare.h"
 XRayEnvironmentRender::XRayEnvironmentRender()
 {
 

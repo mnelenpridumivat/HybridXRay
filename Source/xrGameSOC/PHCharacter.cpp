@@ -4,8 +4,8 @@
 #include "PHDynamicData.h"
 #include "Physics.h"
 #include "ExtendedGeom.h"
-#include "../XrEngine/cl_intersect.h"
-#include "tri-colliderKNoOPC\__aabb_tri.h"
+#include "../xrEngine/cl_intersect.h"
+#include "tri-colliderKNoOPC/__aabb_tri.h"
 #include "ode/src/util.h"
 
 CPHCharacter::CPHCharacter(void): CPHDisablingTranslational()

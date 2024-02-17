@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class UIWeatherPropForm: public XrUI
+class UIWeatherPropForm: public xrUI
 {
 public:
     UIWeatherPropForm();

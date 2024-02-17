@@ -3,10 +3,10 @@
 #include "hudmanager.h"
 #ifdef DEBUG
 #include "ode_include.h"
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #endif   // DEBUG
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "Car.h"
@@ -26,7 +26,7 @@
 #include "game_cl_base_weapon_usage_statistic.h"
 
 // breakpoints
-#include "../XrEngine/xr_input.h"
+#include "../xrEngine/xr_input.h"
 
 //
 #include "Actor.h"
@@ -45,13 +45,13 @@
 #include "xrmessages.h"
 #include "string_table.h"
 #include "usablescriptobject.h"
-#include "../XrEngine/cl_intersect.h"
+#include "../xrEngine/cl_intersect.h"
 #include "ExtendedGeom.h"
 #include "alife_registry_wrappers.h"
 
-#include "../XrRender/Public/RenderVisual.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/RenderVisual.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "artifact.h"
 #include "CharacterPhysicsSupport.h"
 #include "material_manager.h"

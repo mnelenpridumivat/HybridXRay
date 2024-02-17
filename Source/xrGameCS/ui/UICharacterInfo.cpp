@@ -5,7 +5,7 @@
 #include "uicharacterinfo.h"
 #include "../actor.h"
 #include "../level.h"
-#include "../../XrServerEntitiesCS/character_info.h"
+#include "../../xrServerEntitiesCS/character_info.h"
 #include "../string_table.h"
 #include "../relation_registry.h"
 
@@ -19,7 +19,7 @@
 #include "../ai_space.h"
 #include "../alife_object_registry.h"
 #include "../xrServer.h"
-#include "../../XrServerEntitiesCS/xrServer_Objects_ALife_Monsters.h"
+#include "../../xrServerEntitiesCS/xrServer_Objects_ALife_Monsters.h"
 
 using namespace InventoryUtilities;
 

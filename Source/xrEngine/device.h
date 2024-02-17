@@ -10,12 +10,12 @@
 // #include "shader.h"
 // #include "R_Backend.h"
 
-#include "XrDeviceInterface.h"
+#include "xrDeviceInterface.h"
 
 class engine_impl;
 
 // refs
-class ENGINE_API CRenderDevice: public XrDeviceInterface
+class ENGINE_API CRenderDevice: public xrDeviceInterface
 {
 private:
     // Main objects used for creating and rendering the 3D scene
@@ -141,7 +141,7 @@ private:
 #ifdef INGAME_EDITOR
 
 public:
-    virtual XrWeatherEditor::ide* WeatherEditor() const
+    virtual xrWeatherEditor::ide* WeatherEditor() const
     {
         return m_editor;
     }
@@ -151,14 +151,14 @@ private:
     void message_loop_editor();
 
 private:
-    typedef XrWeatherEditor::initialize_function_ptr initialize_function_ptr;
-    typedef XrWeatherEditor::finalize_function_ptr   finalize_function_ptr;
+    typedef xrWeatherEditor::initialize_function_ptr initialize_function_ptr;
+    typedef xrWeatherEditor::finalize_function_ptr   finalize_function_ptr;
 
 private:
     HMODULE                 m_editor_module;
     initialize_function_ptr m_editor_initialize;
     finalize_function_ptr   m_editor_finalize;
-    XrWeatherEditor::ide*   m_editor;
+    xrWeatherEditor::ide*   m_editor;
     engine_impl*            m_engine;
 #endif   // #ifdef INGAME_EDITOR
 };

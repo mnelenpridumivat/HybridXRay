@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "..\xrEngine\alife_space.h"
-#include "../XrEngine/render.h"
+#include "../xrEngine/alife_space.h"
+#include "../xrEngine/render.h"
 
 class CCartridge;
 class CParticlesObject;

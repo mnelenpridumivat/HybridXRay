@@ -11,30 +11,30 @@
 #ifdef INGAME_EDITOR
 #include "editor_environment_suns_manager.hpp"
 #include "editor_environment_suns_sun.hpp"
-#include "../XrWeatherEditor/Public/ide.hpp"
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/ide.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "object_broker.h"
 #include "ide.hpp"
 #include "property_collection.hpp"
 #include "editor_environment_detail.hpp"
 
-using XrWeatherEditor::environment::detail::logical_string_predicate;
-using XrWeatherEditor::environment::suns::manager;
-using XrWeatherEditor::environment::suns::sun;
+using xrWeatherEditor::environment::detail::logical_string_predicate;
+using xrWeatherEditor::environment::suns::manager;
+using xrWeatherEditor::environment::suns::sun;
 
 template<> void property_collection<manager::container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<manager::container_type, manager>::create()
+template<> xrWeatherEditor::property_holder* property_collection<manager::container_type, manager>::create()
 {
     sun* object = xr_new<sun>(m_holder, generate_unique_id("sun_unique_id_").c_str());
     object->fill(this);
     return (object->object());
 }
 
-manager::manager(::XrWeatherEditor::environment::manager* environment): m_environment(*environment), m_collection(0), m_changed(true)
+manager::manager(::xrWeatherEditor::environment::manager* environment): m_environment(*environment), m_collection(0), m_changed(true)
 {
     m_collection = xr_new<collection_type>(&m_suns, this, &m_changed);
 }
@@ -98,7 +98,7 @@ void manager::add(CInifile& config, shared_str const& section)
     m_suns.push_back(object);
 }
 
-void manager::fill(XrWeatherEditor::property_holder* holder)
+void manager::fill(xrWeatherEditor::property_holder* holder)
 {
     VERIFY(holder);
     holder->add_property("suns", "suns", "this option is resposible for sound channels", m_collection);

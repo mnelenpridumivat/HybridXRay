@@ -129,7 +129,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Editors\XrETools\XrETools.vcxproj">
+    <ProjectReference Include="..\Editors\xrETools\xrETools.vcxproj">
       <Project>{fb040f9f-8344-43da-a4d6-1c8a9d5dbc59}</Project>
     </ProjectReference>
     <ProjectReference Include="..\External\Ogg\Ogg.vcxproj">

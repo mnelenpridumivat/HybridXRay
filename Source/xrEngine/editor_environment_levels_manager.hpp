@@ -14,7 +14,7 @@
 #include <boost/noncopyable.hpp>
 #include "associative_vector.h"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -33,7 +33,7 @@ namespace XrWeatherEditor
             class manager: private boost::noncopyable
             {
             public:
-                manager(::XrWeatherEditor::environment::weathers::manager* environment);
+                manager(::xrWeatherEditor::environment::weathers::manager* environment);
                 ~manager();
                 void load();
                 void save();
@@ -59,15 +59,15 @@ namespace XrWeatherEditor
 
             private:
                 levels_container_type                              m_levels;
-                ::XrWeatherEditor::environment::weathers::manager& m_weathers;
+                ::xrWeatherEditor::environment::weathers::manager& m_weathers;
                 CInifile*                                          m_config_single;
                 CInifile*                                          m_config_mp;
-                XrWeatherEditor::property_holder*                  m_property_holder;
+                xrWeatherEditor::property_holder*                  m_property_holder;
             };   // class levels_manager
 
         }   // namespace levels
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

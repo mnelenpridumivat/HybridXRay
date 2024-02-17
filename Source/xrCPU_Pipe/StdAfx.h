@@ -21,12 +21,12 @@
 #include "skeletoncustom.h"
 #else   // _EDITOR
 #include "../xrCore/xrCore.h"
-#include "../XrRender/Private/SkeletonXVertRender.h"
+#include "../xrRender/Private/SkeletonXVertRender.h"
 #include "../xrEngine/bone.h"
 #define RENDER 1
 #include "../xrEngine/Render.h"
 #include "../xrEngine/Device.h"
-#include "../XrRender/Private/light.h"
+#include "../xrRender/Private/light.h"
 #endif   // _EDITOR
 
 #include "xrCPU_Pipe.h"

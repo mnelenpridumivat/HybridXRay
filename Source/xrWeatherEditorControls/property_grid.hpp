@@ -12,7 +12,7 @@
 #include "property_value.hpp"
 #include "property_mouse_events.hpp"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     namespace controls
     {
@@ -46,6 +46,6 @@ namespace XrWeatherEditor
         };   // ref class property_grid
 
     }   // namespace controls
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #define PROPERTY_GRID_HPP_INCLUDED

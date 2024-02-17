@@ -14,7 +14,7 @@
 #include "../Private/dxRenderDeviceRender.h"
 #include "../Private/dxWallMarkArray.h"
 #include "../Private/dxUIShader.h"
-#include "../../XrAPI/xrGameManager.h"
+#include "../../xrAPI/xrGameManager.h"
 // #include "../../xrServerEntities/smart_cast.h"
 
 using namespace R_dsgraph;

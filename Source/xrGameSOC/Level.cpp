@@ -1,8 +1,8 @@
 ﻿#include "pch_script.h"
-#include "../XrEngine/fdemorecord.h"
-#include "../XrEngine/fdemoplay.h"
-#include "../XrEngine/environment.h"
-#include "../XrEngine/igame_persistent.h"
+#include "../xrEngine/fdemorecord.h"
+#include "../xrEngine/fdemoplay.h"
+#include "../xrEngine/environment.h"
+#include "../xrEngine/igame_persistent.h"
 #include "ParticlesObject.h"
 #include "Level.h"
 #include "xrServer.h"
@@ -34,14 +34,14 @@
 #include "mt_config.h"
 #include "phcommander.h"
 #include "map_manager.h"
-#include "../XrEngine/CameraManager.h"
+#include "../xrEngine/CameraManager.h"
 #include "level_sounds.h"
 #include "car.h"
 #include "trade_parameters.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 #include "clsid_game.h"
 #include "MainMenu.h"
-#include "../XrEngine/XR_IOConsole.h"
+#include "../xrEngine/xr_IOConsole.h"
 
 #ifdef DEBUG
 #include "level_debug.h"
@@ -1078,7 +1078,7 @@ u32 GameID()
     return Game().Type();
 }
 
-#include "../XrEngine/IGame_Persistent.h"
+#include "../xrEngine/IGame_Persistent.h"
 
 bool IsGameTypeSingle()
 {

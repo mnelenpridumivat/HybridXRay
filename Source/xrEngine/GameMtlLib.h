@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "XrGameMaterialLibraryInterface.h"
-class ENGINE_API CGameMtlLibrary: public XrGameMaterialLibraryInterface
+#include "xrGameMaterialLibraryInterface.h"
+class ENGINE_API CGameMtlLibrary: public xrGameMaterialLibraryInterface
 {
     int material_index;
     int material_pair_index;

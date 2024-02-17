@@ -9,7 +9,7 @@
 #include "pch_script.h"
 #include "game_graph.h"
 #include "ai_space.h"
-#include "..\XrEngine\graph_vertex.h"
+#include "../xrEngine/graph_vertex.h"
 using namespace luabind;
 
 const IGameGraph* get_game_graph()

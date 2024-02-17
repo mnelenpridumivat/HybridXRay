@@ -1,7 +1,7 @@
 ﻿#pragma once
 #include "UIWindow.h"
 #include "UIWndCallback.h"
-#include "../../XrEngine/associative_vector.h"
+#include "../../xrEngine/associative_vector.h"
 #include "../GameTaskDefs.h"
 #include "UICheckButton.h"
 

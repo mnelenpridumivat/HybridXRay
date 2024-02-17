@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "level_graph.h"
 #include "profiler.h"
-#include "..\XrEngine\XrEditorSceneInterface.h"
+#include "../xrEngine/xrEditorSceneInterface.h"
 LPCSTR LEVEL_GRAPH_NAME = "level.ai";
 CLevelGraph::CLevelGraph()
 {

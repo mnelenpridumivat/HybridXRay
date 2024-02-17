@@ -7,8 +7,8 @@
 #include "ui/UIPdaAux.h"
 #include "xr_level_controller.h"
 #include "actorcondition.h"
-#include "../XrEngine/xr_ioconsole.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/xr_ioconsole.h"
+#include "../xrEngine/object_broker.h"
 #include "GameTaskManager.h"
 #include "GameTask.h"
 

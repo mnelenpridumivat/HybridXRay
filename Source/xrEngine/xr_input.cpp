@@ -4,7 +4,7 @@
 #include "xr_input.h"
 #include "IInputReceiver.h"
 #ifdef INGAME_EDITOR
-#include "../XrWeatherEditor/Public/ide.hpp"
+#include "../xrWeatherEditor/Public/ide.hpp"
 #endif
 #ifndef _EDITOR
 #include "xr_input_xinput.h"

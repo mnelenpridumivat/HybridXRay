@@ -462,10 +462,10 @@
     <ClCompile Include="Editor\UIEditLightAnim.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\XrGamePersistentEditors.cpp">
+    <ClCompile Include="Engine\xrGamePersistentEditors.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="Engine\XrGameMaterialLibraryEditors.cpp">
+    <ClCompile Include="Engine\xrGameMaterialLibraryEditors.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="..\..\xrRender\Private\dxRenderFactory.cpp">
@@ -776,10 +776,10 @@
     <ClInclude Include="Editor\UIEditLightAnim.h">
       <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\XrGamePersistentEditors.h">
+    <ClInclude Include="Engine\xrGamePersistentEditors.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Engine\XrGameMaterialLibraryEditors.h">
+    <ClInclude Include="Engine\xrGameMaterialLibraryEditors.h">
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrRender\Private\dxRenderFactory.h">

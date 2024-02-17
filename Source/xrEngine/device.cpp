@@ -21,7 +21,7 @@
 #include "../xrCore/FS_impl.h"
 
 #ifdef INGAME_EDITOR
-#include "../XrWeatherEditor/Public/ide.hpp"
+#include "../xrWeatherEditor/Public/ide.hpp"
 #include "engine_impl.hpp"
 #endif   // #ifdef INGAME_EDITOR
 

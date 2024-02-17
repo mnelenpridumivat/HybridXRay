@@ -18,8 +18,8 @@
 #include "clsid_game.h"
 #include "map_manager.h"
 #include "map_location.h"
-#include "../XrEngine/IGame_Persistent.h"
-#include "../XrEngine/xr_collide_form.h"
+#include "../xrEngine/IGame_Persistent.h"
+#include "../xrEngine/xr_collide_form.h"
 #ifdef DEBUG
 #include "debug_renderer.h"
 #endif

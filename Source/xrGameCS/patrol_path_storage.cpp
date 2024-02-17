@@ -10,7 +10,7 @@
 #include "patrol_path_storage.h"
 #include "patrol_path.h"
 #include "patrol_point.h"
-#include "..\XrEngine\LevelGameDef.h"
+#include "../xrEngine/LevelGameDef.h"
 
 CPatrolPathStorage::~CPatrolPathStorage()
 {

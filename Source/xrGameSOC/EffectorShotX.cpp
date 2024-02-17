@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "EffectorShotX.h"
-#include "..\XrEngine\CameraBase.h"
+#include "..\xrEngine\CameraBase.h"
 
 CCameraShotEffectorX::CCameraShotEffectorX(float max_angle, float relax_speed, float max_angle_horz, float step_angle_horz, float angle_frac): CCameraShotEffector(max_angle, relax_speed, max_angle_horz, step_angle_horz, angle_frac) {}
 

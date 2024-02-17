@@ -1,5 +1,5 @@
 ﻿#pragma once
-class XREPROPS_API UITextForm: public XrUI
+class XREPROPS_API UITextForm: public xrUI
 {
 public:
     UITextForm(const char* str);

@@ -1,11 +1,11 @@
 ﻿#pragma once
 
 struct ISE_Abstract;
-class XrSEFactoryManager
+class xrSEFactoryManager
 {
 public:
-    XrSEFactoryManager();
-    ~XrSEFactoryManager();
+    xrSEFactoryManager();
+    ~xrSEFactoryManager();
     ISE_Abstract* create_entity(LPCSTR section);
     void          destroy_entity(ISE_Abstract*& abstract);
     void          reload();
@@ -19,4 +19,4 @@ private:
     ISE_Abstract*(__cdecl* m_pFCreateEntity)(LPCSTR);
     void(__cdecl* m_pFDestroyEntity)(ISE_Abstract*&);
 };
-extern XrSEFactoryManager* g_SEFactoryManager;
+extern xrSEFactoryManager* g_SEFactoryManager;

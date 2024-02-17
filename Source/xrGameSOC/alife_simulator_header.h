@@ -8,8 +8,8 @@
 
 #pragma once
 
-#include "../XrEngine/object_interfaces.h"
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/object_interfaces.h"
+#include "../xrEngine/alife_space.h"
 
 class CALifeSimulatorHeader
 {

@@ -18,19 +18,19 @@
 #include "editor_environment_sound_channels_channel.hpp"
 #include "editor_environment_effects_effect.hpp"
 
-using XrWeatherEditor::environment::ambients::ambient;
-using XrWeatherEditor::environment::ambients::effect_id;
-using XrWeatherEditor::environment::ambients::manager;
-using XrWeatherEditor::environment::ambients::sound_id;
-using XrWeatherEditor::environment::effects::effect;
-using XrWeatherEditor::environment::sound_channels::channel;
+using xrWeatherEditor::environment::ambients::ambient;
+using xrWeatherEditor::environment::ambients::effect_id;
+using xrWeatherEditor::environment::ambients::manager;
+using xrWeatherEditor::environment::ambients::sound_id;
+using xrWeatherEditor::environment::effects::effect;
+using xrWeatherEditor::environment::sound_channels::channel;
 
 template<> void property_collection<ambient::effect_container_type, ambient>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<ambient::effect_container_type, ambient>::create()
+template<> xrWeatherEditor::property_holder* property_collection<ambient::effect_container_type, ambient>::create()
 {
     effect_id* object = xr_new<effect_id>(m_holder.effects_manager(), "");
     object->fill(this);
@@ -42,7 +42,7 @@ template<> void property_collection<ambient::sound_container_type, ambient>::dis
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<ambient::sound_container_type, ambient>::create()
+template<> xrWeatherEditor::property_holder* property_collection<ambient::sound_container_type, ambient>::create()
 {
     sound_id* object = xr_new<sound_id>(m_holder.sounds_manager(), "");
     object->fill(this);
@@ -167,16 +167,16 @@ void ambient::id_setter(LPCSTR value_)
     m_load_section = m_manager.unique_id(value);
 }
 
-void ambient::fill(XrWeatherEditor::property_holder_collection* collection)
+void ambient::fill(xrWeatherEditor::property_holder_collection* collection)
 {
     VERIFY(!m_property_holder);
     m_property_holder = ::ide().create_property_holder(m_load_section.c_str(), collection, this);
 
-    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type string_getter_type;
     string_getter_type                                           string_getter;
     string_getter.bind(this, &ambient::id_getter);
 
-    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type string_setter_type;
     string_setter_type                                           string_setter;
     string_setter.bind(this, &ambient::id_setter);
 
@@ -192,12 +192,12 @@ ambient::property_holder_type* ambient::object()
     return (m_property_holder);
 }
 
-::XrWeatherEditor::environment::effects::manager const& ambient::effects_manager() const
+::xrWeatherEditor::environment::effects::manager const& ambient::effects_manager() const
 {
     return (m_manager.effects_manager());
 }
 
-::XrWeatherEditor::environment::sound_channels::manager const& ambient::sounds_manager() const
+::xrWeatherEditor::environment::sound_channels::manager const& ambient::sounds_manager() const
 {
     return (m_manager.sounds_manager());
 }

@@ -2,7 +2,7 @@
 #include "phmovementcontrol.h"
 
 #include "../xrEngine/cl_intersect.h"
-#include "../XrEngine/alife_space.h"
+#include "../xrEngine/alife_space.h"
 
 // #include "entity.h"
 // #include "PHDynamicData.h"

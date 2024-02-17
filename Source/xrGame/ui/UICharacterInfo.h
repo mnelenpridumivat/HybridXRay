@@ -4,7 +4,7 @@
 #pragma once
 
 #include "uiwindow.h"
-#include "../../XrEngine/alife_space.h"
+#include "../../xrEngine/alife_space.h"
 #include "character_info_defs.h"
 
 class CUIStatic;

@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 #ifdef XRSEFACTORY_EXPORTS
 #include "script_value.h"
 #endif

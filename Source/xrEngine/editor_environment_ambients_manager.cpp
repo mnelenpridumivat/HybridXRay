@@ -16,23 +16,23 @@
 #include "editor_environment_detail.hpp"
 #include "editor_environment_manager.hpp"
 
-using XrWeatherEditor::environment::ambients::ambient;
-using XrWeatherEditor::environment::ambients::manager;
-using XrWeatherEditor::environment::detail::logical_string_predicate;
+using xrWeatherEditor::environment::ambients::ambient;
+using xrWeatherEditor::environment::ambients::manager;
+using xrWeatherEditor::environment::detail::logical_string_predicate;
 
 template<> void property_collection<manager::ambient_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<manager::ambient_container_type, manager>::create()
+template<> xrWeatherEditor::property_holder* property_collection<manager::ambient_container_type, manager>::create()
 {
     ambient* object = xr_new<ambient>(m_holder, generate_unique_id("ambient_unique_id_").c_str());
     object->fill(this);
     return (object->object());
 }
 
-manager::manager(::XrWeatherEditor::environment::manager const& manager): m_manager(manager), m_property_holder(0), m_collection(0), m_changed(true)
+manager::manager(::xrWeatherEditor::environment::manager const& manager): m_manager(manager), m_property_holder(0), m_collection(0), m_changed(true)
 {
     m_collection = xr_new<collection_type>(&m_ambients, this, &m_changed);
 }
@@ -80,18 +80,18 @@ void manager::save()
     xr_delete(config);
 }
 
-void manager::fill(XrWeatherEditor::property_holder* holder)
+void manager::fill(xrWeatherEditor::property_holder* holder)
 {
     VERIFY(holder);
     holder->add_property("ambients", "ambients", "this option is resposible for ambients", m_collection);
 }
 
-::XrWeatherEditor::environment::effects::manager const& manager::effects_manager() const
+::xrWeatherEditor::environment::effects::manager const& manager::effects_manager() const
 {
     return (m_manager.effects());
 }
 
-::XrWeatherEditor::environment::sound_channels::manager const& manager::sounds_manager() const
+::xrWeatherEditor::environment::sound_channels::manager const& manager::sounds_manager() const
 {
     return (m_manager.sound_channels());
 }

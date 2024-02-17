@@ -16,24 +16,24 @@
 #include "editor_environment_weathers_time.hpp"
 #include "editor_environment_manager.hpp"
 
-using XrWeatherEditor::environment::weathers::manager;
-using XrWeatherEditor::environment::weathers::time;
-using XrWeatherEditor::environment::weathers::weather;
+using xrWeatherEditor::environment::weathers::manager;
+using xrWeatherEditor::environment::weathers::time;
+using xrWeatherEditor::environment::weathers::weather;
 
 template<> void property_collection<weather::container_type, weather>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id().c_str());
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<weather::container_type, weather>::create()
+template<> xrWeatherEditor::property_holder* property_collection<weather::container_type, weather>::create()
 {
-    using ::XrWeatherEditor::environment::weathers::time;
+    using ::xrWeatherEditor::environment::weathers::time;
     time* object = xr_new<time>(&m_holder.m_manager, &m_holder, m_holder.generate_unique_id().c_str());
     object->fill(this);
     return (object->object());
 }
 
-weather::weather(XrWeatherEditor::environment::manager* manager, shared_str const& id): m_manager(*manager), m_id(id), m_property_holder(0), m_collection(0)
+weather::weather(xrWeatherEditor::environment::manager* manager, shared_str const& id): m_manager(*manager), m_id(id), m_property_holder(0), m_collection(0)
 {
     m_collection = xr_new<collection_type>(&m_times, this);
 }
@@ -104,16 +104,16 @@ void weather::id_setter(LPCSTR value_)
     m_id = m_manager.weathers().unique_id(value);
 }
 
-void weather::fill(XrWeatherEditor::property_holder_collection* collection)
+void weather::fill(xrWeatherEditor::property_holder_collection* collection)
 {
     VERIFY(!m_property_holder);
     m_property_holder = ::ide().create_property_holder(m_id.c_str(), collection, this);
 
-    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type string_getter_type;
     string_getter_type                                           string_getter;
     string_getter.bind(this, &weather::id_getter);
 
-    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type string_setter_type;
     string_setter_type                                           string_setter;
     string_setter.bind(this, &weather::id_setter);
 

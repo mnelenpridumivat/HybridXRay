@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "BoneProtections.h"
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 
 float SBoneProtections::getBoneProtection(s16 bone_id)
 {

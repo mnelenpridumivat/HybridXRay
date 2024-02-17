@@ -2,28 +2,28 @@
 
 #ifdef INGAME_EDITOR
 #include "editor_environment_effects_manager.hpp"
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "property_collection.hpp"
 #include "editor_environment_effects_effect.hpp"
 #include "editor_environment_detail.hpp"
 
-using XrWeatherEditor::environment::detail::logical_string_predicate;
-using XrWeatherEditor::environment::effects::effect;
-using XrWeatherEditor::environment::effects::manager;
+using xrWeatherEditor::environment::detail::logical_string_predicate;
+using xrWeatherEditor::environment::effects::effect;
+using xrWeatherEditor::environment::effects::manager;
 
 template<> void property_collection<manager::effect_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<manager::effect_container_type, manager>::create()
+template<> xrWeatherEditor::property_holder* property_collection<manager::effect_container_type, manager>::create()
 {
     effect* object = xr_new<effect>(m_holder, generate_unique_id("effect_unique_id_").c_str());
     object->fill(this);
     return (object->object());
 }
 
-manager::manager(::XrWeatherEditor::environment::manager* environment): m_environment(*environment), m_collection(0), m_changed(true)
+manager::manager(::xrWeatherEditor::environment::manager* environment): m_environment(*environment), m_collection(0), m_changed(true)
 {
     m_collection = xr_new<collection_type>(&m_effects, this, &m_changed);
 }
@@ -70,7 +70,7 @@ void manager::save()
     xr_delete(config);
 }
 
-void manager::fill(XrWeatherEditor::property_holder* holder)
+void manager::fill(xrWeatherEditor::property_holder* holder)
 {
     VERIFY(holder);
     holder->add_property("effects", "ambients", "this option is resposible for effects", m_collection);

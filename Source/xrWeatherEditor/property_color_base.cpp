@@ -56,7 +56,7 @@ void color_components::blue_setter(float value)
     m_holder->blue(value);
 }
 
-property_color_base::property_color_base(XrWeatherEditor::color const % color, array<System::Attribute ^> ^ attributes)
+property_color_base::property_color_base(xrWeatherEditor::color const % color, array<System::Attribute ^> ^ attributes)
 {
     m_container            = gcnew property_container(nullptr, this);
     m_components           = new color_components(this);
@@ -68,8 +68,8 @@ property_color_base::property_color_base(XrWeatherEditor::color const % color, a
 
     m_attributes[n] = gcnew                                     System::ComponentModel::NotifyParentPropertyAttribute(true);
 
-    typedef XrWeatherEditor::property_holder::float_getter_type float_getter_type;
-    typedef XrWeatherEditor::property_holder::float_setter_type float_setter_type;
+    typedef xrWeatherEditor::property_holder::float_getter_type float_getter_type;
+    typedef xrWeatherEditor::property_holder::float_setter_type float_setter_type;
 
     float_getter_type                                           getter;
     float_setter_type                                           setter;
@@ -115,7 +115,7 @@ Object ^ property_color_base::get_value()
 void property_color_base::set_value(Object ^ object)
 {
     Color                  color = safe_cast<Color>(object);
-    XrWeatherEditor::color value;
+    xrWeatherEditor::color value;
     value.r = color.r;
     value.g = color.g;
     value.b = color.b;
@@ -124,31 +124,31 @@ void property_color_base::set_value(Object ^ object)
 
 void property_color_base::red(float value)
 {
-    XrWeatherEditor::color current = get_value_raw();
+    xrWeatherEditor::color current = get_value_raw();
     current.r                      = value;
     set_value_raw(current);
 }
 
 void property_color_base::green(float value)
 {
-    XrWeatherEditor::color current = get_value_raw();
+    xrWeatherEditor::color current = get_value_raw();
     current.g                      = value;
     set_value_raw(current);
 }
 
 void property_color_base::blue(float value)
 {
-    XrWeatherEditor::color current = get_value_raw();
+    xrWeatherEditor::color current = get_value_raw();
     current.b                      = value;
     set_value_raw(current);
 }
 
-void property_color_base::on_double_click(XrWeatherEditor::controls::property_grid ^ property_grid)
+void property_color_base::on_double_click(xrWeatherEditor::controls::property_grid ^ property_grid)
 {
 #if 0
 	ColorDialog					^dialog = gcnew ColorDialog();
 	dialog->FullOpen			= true;
-	XrWeatherEditor::color				color = get_value_raw();
+	xrWeatherEditor::color				color = get_value_raw();
 	dialog->Color				= System::Drawing::Color::FromArgb(255, int(255.f*color.r), int(255.f*color.g), int(255.f*color.b));
 	if (dialog->ShowDialog() == System::Windows::Forms::DialogResult::Cancel)
 		return;
@@ -174,7 +174,7 @@ static void increment_and_clamp(float& value, float const& increment)
 void property_color_base::increment(float const % increment)
 {
     float                  increment_value = increment * s_increment_factor;
-    XrWeatherEditor::color value           = get_value_raw();
+    xrWeatherEditor::color value           = get_value_raw();
     increment_and_clamp(value.r, increment_value);
     increment_and_clamp(value.g, increment_value);
     increment_and_clamp(value.b, increment_value);

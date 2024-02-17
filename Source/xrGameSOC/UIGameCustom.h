@@ -3,7 +3,7 @@
 #pragma once
 
 #include "script_export_space.h"
-#include "../XrEngine/object_interfaces.h"
+#include "../xrEngine/object_interfaces.h"
 // refs
 class CUI;
 class CTeamBaseZone;

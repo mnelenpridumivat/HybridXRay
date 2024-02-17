@@ -36,7 +36,7 @@ void property_collection_base::CopyTo(Array ^ items, int index)
     collection_type* collection = this->collection();
     for (int i = index, n = collection->size(); i < n; ++i)
     {
-        XrWeatherEditor::property_holder* holder_raw = collection->item(i);
+        xrWeatherEditor::property_holder* holder_raw = collection->item(i);
         ::property_holder*                holder     = dynamic_cast<::property_holder*>(holder_raw);
         VERIFY(holder);
         items->SetValue(holder->container(), i);
@@ -116,7 +116,7 @@ bool property_collection_base::IsReadOnly::get()
 
 Object ^ property_collection_base::default ::get(int index)
 {
-    XrWeatherEditor::property_holder* holder_raw = collection()->item(index);
+    xrWeatherEditor::property_holder* holder_raw = collection()->item(index);
     ::property_holder*                holder     = dynamic_cast<::property_holder*>(holder_raw);
     return (holder->container());
 }
@@ -129,7 +129,7 @@ void property_collection_base::default ::set(int index, Object ^ value)
 
 property_container ^ property_collection_base::create()
 {
-    XrWeatherEditor::property_holder* holder_raw = collection()->create();
+    xrWeatherEditor::property_holder* holder_raw = collection()->create();
     ::property_holder*                holder     = dynamic_cast<::property_holder*>(holder_raw);
     return (holder->container());
 }

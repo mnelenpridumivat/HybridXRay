@@ -1,7 +1,7 @@
 ﻿
 #include "stdafx.h"
-#include "..\..\XrCore\xrCore.h"
-#include "luabind\luabind.hpp"
+#include "../../xrCore/xrCore.h"
+#include "luabind/luabind.hpp"
 static void* __cdecl luabind_allocator(void* context, void const* pointer, size_t size)
 {
     if (!size)

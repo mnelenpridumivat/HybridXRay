@@ -12,9 +12,9 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder_collection;
@@ -26,19 +26,19 @@ namespace XrWeatherEditor
 
             class manager;
 
-            class thunderbolt_id: public XrWeatherEditor::property_holder_holder, private boost::noncopyable
+            class thunderbolt_id: public xrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             public:
                 thunderbolt_id(manager const& manager, shared_str const& thunderbolt);
                 virtual ~thunderbolt_id();
-                void          fill(XrWeatherEditor::property_holder_collection* collection);
+                void          fill(xrWeatherEditor::property_holder_collection* collection);
                 inline LPCSTR id() const
                 {
                     return m_id.c_str();
                 }
 
             private:
-                typedef XrWeatherEditor::property_holder property_holder_type;
+                typedef xrWeatherEditor::property_holder property_holder_type;
 
             public:
                 virtual property_holder_type* object();
@@ -54,7 +54,7 @@ namespace XrWeatherEditor
             };   // class thunderbolt_id
         }        // namespace thunderbolts
     }            // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

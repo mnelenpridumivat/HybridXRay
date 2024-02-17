@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "..\XrSound\SoundRender_Source.h"
+#include "../xrSound/SoundRender_Source.h"
 
 #define VIS_RADIUS                 0.25f
 #define SOUND_SEL0_COLOR           0x00A0A0F0

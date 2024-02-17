@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "../XrCore/net_utils.h"
+#include "../xrCore/net_utils.h"
 #include "xrServer_Objects_Abstract.h"
 #include "xrMessages.h"
 

@@ -7,7 +7,7 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "..\XrEngine\xr_collide_form.h"
+#include "../xrEngine/xr_collide_form.h"
 #include "level_changer.h"
 #include "hit.h"
 #include "actor.h"

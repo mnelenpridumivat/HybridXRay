@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 
 template<typename _action_type, typename _object_type, typename _action_id_type> class CSetupManager
 {

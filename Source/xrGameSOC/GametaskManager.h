@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "GameTaskDefs.h"
-#include "../XrEngine/object_interfaces.h"
+#include "../xrEngine/object_interfaces.h"
 
 class CGameTaskWrapper;
 class CGameTask;

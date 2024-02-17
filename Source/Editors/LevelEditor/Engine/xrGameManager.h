@@ -1,10 +1,10 @@
 ﻿#pragma once
 
-class XrGameManager
+class xrGameManagerLE
 {
 public:
-    XrGameManager();
-    ~XrGameManager();
+    xrGameManagerLE();
+    ~xrGameManagerLE();
     DLL_Pure*     Create(CLASS_ID clsid);
     ISE_Abstract* CreateFromSection(LPCSTR Name);
     void          Destroy(ISE_Abstract* p);
@@ -16,4 +16,4 @@ private:
     ISE_Abstract*(__cdecl* m_pCreateFromSection)(LPCSTR);
 };
 
-extern XrGameManager* g_XrGameManager;
+extern xrGameManagerLE* g_xrGameManager;

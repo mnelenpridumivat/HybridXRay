@@ -5,7 +5,7 @@
 #include "stdafx.h"
 #include "EngineAPI.h"
 #include "../xrcdb/xrXRC.h"
-#include "../XrAPI/xrGameManager.h"
+#include "../xrAPI/xrGameManager.h"
 #include "securom_api.h"
 #include "device.h"
 extern xr_token* vid_quality_token;
@@ -186,14 +186,14 @@ void CEngineAPI::Initialize(void)
     EngineDevice->ConnectToRender();
     // game
     {
-        LPCSTR g_name = "XrGame.dll";
+        LPCSTR g_name = "xrGame.dll";
         switch (xrGameManager::GetGame())
         {
             case EGame::CS:
-                g_name = "XrGameCS.dll";
+                g_name = "xrGameCS.dll";
                 break;
             case EGame::SHOC:
-                g_name = "XrGameSOC.dll";
+                g_name = "xrGameSOC.dll";
                 break;
         }
 

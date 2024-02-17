@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "Actor.h"
-#include "../XrEngine/CameraBase.h"
+#include "../xrEngine/CameraBase.h"
 #ifdef DEBUG
 #include "PHDebug.h"
 #endif
@@ -14,8 +14,8 @@
 #include "SleepEffector.h"
 #include "ActorEffector.h"
 #include "level.h"
-#include "../XrEngine/cl_intersect.h"
-#include "../XrEngine/gamemtllib.h"
+#include "../xrEngine/cl_intersect.h"
+#include "../xrEngine/gamemtllib.h"
 #include "elevatorstate.h"
 #include "CharacterPhysicsSupport.h"
 #include "EffectorShot.h"

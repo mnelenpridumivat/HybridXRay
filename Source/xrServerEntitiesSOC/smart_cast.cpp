@@ -10,7 +10,7 @@
 
 #ifndef PURE_DYNAMIC_CAST
 #ifdef XRGAME_EXPORTS
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "../xrEngine/alife_space.h"
 #include "hit.h"
 #include "actor.h"

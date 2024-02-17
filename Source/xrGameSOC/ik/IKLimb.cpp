@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "IKLimb.h"
-#include "../../XrEngine/bone.h"
+#include "../../xrEngine/bone.h"
 #include "../ode_include.h"
 #include "../MathUtils.h"
 #include "../GameObject.h"
@@ -8,8 +8,8 @@
 #include "../game_object_space.h"
 #include "../ik_anim_state.h"
 
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #ifdef DEBUG
 #include "../PHDebug.h"
 #endif

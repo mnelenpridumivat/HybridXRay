@@ -1,6 +1,6 @@
 ﻿#include "StdAfx.h"
 #ifndef SHIPPING
-#include "XrLevelEditor.h"
+#include "xrLevelEditor.h"
 #include "../xrphysics/iphworld.h"
 #include "phcommander.h"
 #include "physics_game.h"
@@ -8,7 +8,7 @@
 #include "NET_Queue.h"
 #include "file_transfer.h"
 #include "hudmanager.h"
-#include "..\XrEngine\XrEditorSceneInterface.h"
+#include "../xrEngine/xrEditorSceneInterface.h"
 #include "Level_Bullet_Manager.h"
 #include "UIGameCustom.h"
 #include "../xrEngine/xr_ioconsole.h"

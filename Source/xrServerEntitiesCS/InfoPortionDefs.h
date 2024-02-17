@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "../XrEngine/alife_space.h"
-#include "../XrEngine/object_interfaces.h"
+#include "../xrEngine/alife_space.h"
+#include "../xrEngine/object_interfaces.h"
 
 struct INFO_DATA: public IPureSerializeObject<IReader, IWriter>
 {

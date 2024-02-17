@@ -6,7 +6,7 @@
 #include <mmsystem.h>
 #include <objbase.h>
 #include "xrCore.h"
-#include "..\XrAPI\xrGameManager.h"
+#include "../xrAPI/xrGameManager.h"
 #pragma comment(lib, "winmm.lib")
 
 #ifdef DEBUG

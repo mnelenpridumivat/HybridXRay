@@ -11,7 +11,7 @@
 #include "blender_bloom_build.h"
 #include "blender_luminance.h"
 #include "blender_ssao.h"
-#include "../../XrAPI/xrGameManager.h"
+#include "../../xrAPI/xrGameManager.h"
 #include "../Private/dxRenderDeviceRender.h"
 
 void CRenderTarget::u_setrt(const ref_rt& _1, const ref_rt& _2, const ref_rt& _3, IDirect3DSurface9* zb)

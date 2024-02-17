@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../XrEngine/object_interfaces.h"
+#include "../xrEngine/object_interfaces.h"
 
 struct SArtefactOrder: public IPureSerializeObject<IReader, IWriter>, public IPureSerializeObject<NET_Packet, NET_Packet>
 {

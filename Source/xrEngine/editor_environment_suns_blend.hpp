@@ -13,7 +13,7 @@
 
 #include <boost/noncopyable.hpp>
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -32,7 +32,7 @@ namespace XrWeatherEditor
                 blend();
                 void load(CInifile& config, shared_str const& section);
                 void save(CInifile& config, shared_str const& section);
-                void fill(manager const& manager, XrWeatherEditor::property_holder* holder, XrWeatherEditor::property_holder_collection* collection);
+                void fill(manager const& manager, xrWeatherEditor::property_holder* holder, xrWeatherEditor::property_holder_collection* collection);
 
             private:
                 float m_down_time;
@@ -42,7 +42,7 @@ namespace XrWeatherEditor
 
         }   // namespace suns
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

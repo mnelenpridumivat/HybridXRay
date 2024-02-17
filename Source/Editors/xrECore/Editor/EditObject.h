@@ -6,10 +6,10 @@
 #if 1
 #include "../../../Editors/Public/PropertiesListTypes.h"
 //	#include "PropertiesListHelper.h"
-#include "..\Engine\XrGameMaterialLibraryEditors.h"
+#include "../Engine/xrGameMaterialLibraryEditors.h"
 #include "pick_defs.h"
 #endif
-#include "..\..\..\xrRender\Public\kinematics.h"
+#include "../../../xrRender/Public/kinematics.h"
 
 #include "physicsshellholdereditorbase.h"
 //----------------------------------------------------

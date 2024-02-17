@@ -58,7 +58,7 @@ Object ^ property_converter_color::ConvertTo(ITypeDescriptorContext ^ context, C
     if (destination_type == String::typeid)
     {
         property_container ^ container = safe_cast<property_container ^>(value);
-        XrWeatherEditor::color color   = safe_cast < property_color_base
+        xrWeatherEditor::color color   = safe_cast < property_color_base
     %>
     (container->container_holder()).get_value_raw();
     return ("" + property_converter_float().ConvertTo(context, culture, color.r, String::typeid) + " " + property_converter_float().ConvertTo(context, culture, color.g, String::typeid) + " " + property_converter_float().ConvertTo(context, culture, color.b, String::typeid) + "");
@@ -67,10 +67,8 @@ Object ^ property_converter_color::ConvertTo(ITypeDescriptorContext ^ context, C
 if (destination_type == Color::typeid)
 {
     property_container ^ container = safe_cast<property_container ^>(value);
-    XrWeatherEditor::color color   = safe_cast < property_color_base
-%>
-(container->container_holder()).get_value_raw();
-return (Color(color.r, color.g, color.b));
+    xrWeatherEditor::color color   = safe_cast < property_color_base%>(container->container_holder()).get_value_raw();
+    return (Color(color.r, color.g, color.b));
 }
 
 return (inherited::ConvertTo(context, culture, value, destination_type));

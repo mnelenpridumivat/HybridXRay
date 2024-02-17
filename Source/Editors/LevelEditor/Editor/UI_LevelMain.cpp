@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
-#include "..\..\XrAPI\xrGameManager.h"
-#include "Utils\Cursor3D.h"
-#include "..\xrengine\GameFont.h"
-#include "UI\UIEditLibrary.h"
-#include "..\resources\resource.h"
+#include "../../xrAPI/xrGameManager.h"
+#include "Utils/Cursor3D.h"
+#include "../xrengine/GameFont.h"
+#include "UI/UIEditLibrary.h"
+#include "../resources/resource.h"
 
 #ifdef _LEVEL_EDITOR
 //.    if (m_Cursor->GetVisible()) RedrawScene();

@@ -1,7 +1,7 @@
 ﻿#ifndef PH_GEOMETRY_OWNER_H
 #define PH_GEOMETRY_OWNER_H
 #include "Geometry.h"
-#include "../XrEngine/gamemtllib.h"
+#include "../xrEngine/gamemtllib.h"
 
 DEFINE_VECTOR(CODEGeom*, GEOM_STORAGE, GEOM_I)
 

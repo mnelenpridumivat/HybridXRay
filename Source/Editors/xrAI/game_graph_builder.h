@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../../XrGame/xrLevel.h"
+#include "../../xrGame/xrLevel.h"
 #include "../../xrEngine/alife_space.h"
 
 class CLevelGraph;

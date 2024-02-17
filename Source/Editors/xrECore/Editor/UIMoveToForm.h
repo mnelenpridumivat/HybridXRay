@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class UIMoveToForm: public XrUI
+class UIMoveToForm: public xrUI
 {
 public:
     UIMoveToForm();

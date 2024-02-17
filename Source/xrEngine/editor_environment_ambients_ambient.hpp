@@ -12,11 +12,11 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "property_collection_forward.hpp"
 #include "environment.h"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     namespace environment
     {
@@ -38,7 +38,7 @@ namespace XrWeatherEditor
             class effect_id;
             class sound_id;
 
-            class ambient: public CEnvAmbient, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
+            class ambient: public CEnvAmbient, public xrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             private:
                 typedef CEnvAmbient inherited;
@@ -48,7 +48,7 @@ namespace XrWeatherEditor
                 virtual ~ambient();
                 virtual void             load(CInifile& ambients_config, CInifile& sound_channels_config, CInifile& effects_config, const shared_str& section);
                 void                     save(CInifile& config);
-                void                     fill(XrWeatherEditor::property_holder_collection* collection);
+                void                     fill(xrWeatherEditor::property_holder_collection* collection);
                 inline shared_str const& id() const
                 {
                     return m_load_section;
@@ -75,7 +75,7 @@ namespace XrWeatherEditor
                 typedef property_collection<sound_container_type, ambient> sound_collection_type;
 
             private:
-                typedef XrWeatherEditor::property_holder property_holder_type;
+                typedef xrWeatherEditor::property_holder property_holder_type;
 
             public:
                 virtual property_holder_type* object();
@@ -93,7 +93,7 @@ namespace XrWeatherEditor
             };   // class ambient
         }        // namespace ambients
     }            // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

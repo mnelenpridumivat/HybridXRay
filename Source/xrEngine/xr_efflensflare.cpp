@@ -14,7 +14,7 @@
 #include "xr_object.h"
 #include "igame_level.h"
 #else
-#include "XrEditorSceneInterface.h"
+#include "xrEditorSceneInterface.h"
 #include "../Editors/xrECore/Editor/ui_main.h"
 #include "../Editors/xrECore/Editor/UI_ToolsCustom.h"
 #endif

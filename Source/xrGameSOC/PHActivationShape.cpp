@@ -7,7 +7,7 @@
 #include "Extendedgeom.h"
 #include "SpaceUtils.h"
 #include "MathUtils.h"
-#include "../XrEngine/gamemtllib.h"
+#include "../xrEngine/gamemtllib.h"
 #include "Level.h"
 #include "PHWorld.h"
 #include "ode/src/util.h"

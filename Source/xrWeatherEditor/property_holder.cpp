@@ -12,13 +12,13 @@
 
 using Flobbster::Windows::Forms::PropertySpec;
 using System::String;
-using XrWeatherEditor::engine;
-using XrWeatherEditor::property_holder_collection;
-using XrWeatherEditor::property_holder_holder;
+using xrWeatherEditor::engine;
+using xrWeatherEditor::property_holder_collection;
+using xrWeatherEditor::property_holder_holder;
 
 typedef property_holder::collection_type collection_type;
 
-property_holder::property_holder(XrWeatherEditor::engine* engine, LPCSTR display_name, property_holder_collection* collection, XrWeatherEditor::property_holder_holder* holder): m_engine(engine), m_display_name(to_string(display_name)), m_collection(collection), m_holder(holder), m_disposing(false)
+property_holder::property_holder(xrWeatherEditor::engine* engine, LPCSTR display_name, property_holder_collection* collection, xrWeatherEditor::property_holder_holder* holder): m_engine(engine), m_display_name(to_string(display_name)), m_collection(collection), m_holder(holder), m_disposing(false)
 {
     m_container = gcnew property_container(this, nullptr);
 }

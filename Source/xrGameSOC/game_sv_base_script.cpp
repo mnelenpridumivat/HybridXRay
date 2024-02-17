@@ -11,10 +11,10 @@
 #include "xrMessages.h"
 #include "ui/UIInventoryUtilities.h"
 #include "xr_time.h"
-#include "../XrCore/net_utils.h"
+#include "../xrCore/net_utils.h"
 #include "UI/UIGameTutorial.h"
 #include "string_table.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 
 using namespace luabind;
 

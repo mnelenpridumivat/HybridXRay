@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "string_table_defs.h"
-#include "../XrEngine/object_interfaces.h"
+#include "../xrEngine/object_interfaces.h"
 
 #define DEFAULT_NEWS_SHOW_TIME 5000
 

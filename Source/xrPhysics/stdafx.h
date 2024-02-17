@@ -3,7 +3,7 @@
 
 // #include "../xrEngine/stdafx.h"
 
-#include "../XrEngine/stdafx.h"
+#include "../xrEngine/stdafx.h"
 
 #include "../xrServerEntities/smart_cast.h"
 // #include "../xrEngine/pure.h"
@@ -25,8 +25,8 @@
 //	VERIFY( g_pGameLevel );
 //	return *g_pGameLevel;
 // }
-class XrGameMaterialLibraryInterface;
-IC XrGameMaterialLibraryInterface& GMLibrary()
+class xrGameMaterialLibraryInterface;
+IC xrGameMaterialLibraryInterface& GMLibrary()
 {
     VERIFY(GameMaterialLibrary);
     return *GameMaterialLibrary;

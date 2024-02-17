@@ -18,9 +18,9 @@
 #include "property_container.hpp"
 #include "property_holder_include.hpp"
 
-using XrWeatherEditor::window_ide;
+using xrWeatherEditor::window_ide;
 
-ide_impl::ide_impl(XrWeatherEditor::engine* engine): m_engine(engine), m_window(nullptr), m_paused(false), m_in_idle(false) {}
+ide_impl::ide_impl(xrWeatherEditor::engine* engine): m_engine(engine), m_window(nullptr), m_paused(false), m_in_idle(false) {}
 
 ide_impl::~ide_impl() {}
 
@@ -85,12 +85,12 @@ void ide_impl::pause()
     m_window->view().pause();
 }
 
-XrWeatherEditor::property_holder* ide_impl::create_property_holder(LPCSTR display_name, XrWeatherEditor::property_holder_collection* collection, XrWeatherEditor::property_holder_holder* holder)
+xrWeatherEditor::property_holder* ide_impl::create_property_holder(LPCSTR display_name, xrWeatherEditor::property_holder_collection* collection, xrWeatherEditor::property_holder_holder* holder)
 {
     return (new ::property_holder(m_engine, display_name, collection, holder));
 }
 
-void ide_impl::destroy(XrWeatherEditor::property_holder*& property_holder)
+void ide_impl::destroy(xrWeatherEditor::property_holder*& property_holder)
 {
     delete (property_holder);
     property_holder = 0;

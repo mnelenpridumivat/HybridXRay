@@ -3,15 +3,15 @@
 #include "PhysicsShell.h"
 #include "PhysicsShellHolder.h"
 #include "game_cl_base.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "inventory.h"
 #include "level.h"
 #include "ai_object_location.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 #include "phworld.h"
 #include "restriction_space.h"
-#include "../XrEngine/IGame_Persistent.h"
+#include "../xrEngine/IGame_Persistent.h"
 
 #define FASTMODE_DISTANCE (50.f)   //distance to camera from sphere, when zone switches to fast update sequence
 

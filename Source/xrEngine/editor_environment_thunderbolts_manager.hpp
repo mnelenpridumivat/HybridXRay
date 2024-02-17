@@ -17,7 +17,7 @@
 struct SThunderboltDesc;
 struct SThunderboltCollection;
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -37,11 +37,11 @@ namespace XrWeatherEditor
             class manager: private boost::noncopyable
             {
             public:
-                manager(::XrWeatherEditor::environment::manager* environment);
+                manager(::xrWeatherEditor::environment::manager* environment);
                 ~manager();
                 void                    load();
                 void                    save();
-                void                    fill(XrWeatherEditor::property_holder* holder);
+                void                    fill(xrWeatherEditor::property_holder* holder);
                 SThunderboltDesc*       description(CInifile& config, shared_str const& section) const;
                 SThunderboltCollection* get_collection(shared_str const& section);
 
@@ -58,7 +58,7 @@ namespace XrWeatherEditor
             public:
                 thunderbolts_ids_type const&             thunderbolts_ids() const;
                 collections_ids_type const&              collections_ids() const;
-                ::XrWeatherEditor::environment::manager& environment() const;
+                ::xrWeatherEditor::environment::manager& environment() const;
 
             private:
                 void load_thunderbolts();
@@ -67,7 +67,7 @@ namespace XrWeatherEditor
                 void save_collections();
 
             private:
-                typedef XrWeatherEditor::property_holder                         property_holder_type;
+                typedef xrWeatherEditor::property_holder                         property_holder_type;
                 typedef property_collection<thunderbolt_container_type, manager> thunderbolt_collection_type;
                 typedef property_collection<collection_container_type, manager>  collection_collection_type;
 
@@ -91,11 +91,11 @@ namespace XrWeatherEditor
                 mutable thunderbolts_ids_type            m_thunderbolts_ids;
                 mutable collections_ids_type             m_collections_ids;
                 property_holder_type*                    m_property_holder;
-                ::XrWeatherEditor::environment::manager& m_environment;
+                ::xrWeatherEditor::environment::manager& m_environment;
             };   // class manager
         }        // namespace thunderbolts
     }            // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

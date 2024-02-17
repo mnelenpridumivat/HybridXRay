@@ -2,7 +2,7 @@
 #define DEMO_INFO_LOADER
 
 #include "DemoInfo.h"
-#include "../XrEngine/associative_vector.h"
+#include "../xrEngine/associative_vector.h"
 
 class demo_info_loader
 {

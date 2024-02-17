@@ -5,7 +5,7 @@
 #include "../controlled_entity.h"
 #include "../controlled_actor.h"
 #include "../anim_triple.h"
-#include "../../../../XrServerEntitiesCS/script_export_space.h"
+#include "../../../../xrServerEntitiesCS/script_export_space.h"
 #include "bloodsucker_alien.h"
 
 class CAI_Bloodsucker: public CBaseMonster, public CControlledActor

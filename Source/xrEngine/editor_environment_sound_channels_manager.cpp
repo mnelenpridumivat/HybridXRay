@@ -14,16 +14,16 @@
 #include "editor_environment_sound_channels_channel.hpp"
 #include "editor_environment_detail.hpp"
 
-using XrWeatherEditor::environment::detail::logical_string_predicate;
-using XrWeatherEditor::environment::sound_channels::channel;
-using XrWeatherEditor::environment::sound_channels::manager;
+using xrWeatherEditor::environment::detail::logical_string_predicate;
+using xrWeatherEditor::environment::sound_channels::channel;
+using xrWeatherEditor::environment::sound_channels::manager;
 
 template<> void property_collection<manager::channel_container_type, manager>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<manager::channel_container_type, manager>::create()
+template<> xrWeatherEditor::property_holder* property_collection<manager::channel_container_type, manager>::create()
 {
     channel* object = xr_new<channel>(m_holder, generate_unique_id("sound_channel_unique_id_").c_str());
     object->fill(this);
@@ -78,7 +78,7 @@ void manager::save()
     xr_delete(config);
 }
 
-void manager::fill(XrWeatherEditor::property_holder* holder)
+void manager::fill(xrWeatherEditor::property_holder* holder)
 {
     VERIFY(holder);
     holder->add_property("sound channels", "ambients", "this option is resposible for sound channels", m_collection);

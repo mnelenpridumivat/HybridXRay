@@ -1,6 +1,6 @@
 ﻿#ifndef _ITTERATE_ADJACENTS_STATIC_H_
 #define _ITTERATE_ADJACENTS_STATIC_H_
-#include "../XrECore/Editor/face_smoth_flags.h"
+#include "../xrECore/Editor/face_smoth_flags.h"
 
 template<typename typeVertex> struct itterate_adjacents_params_static
 {

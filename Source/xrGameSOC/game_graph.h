@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "..\XrEngine\game_graph.h"
+#include "../xrEngine/game_graph.h"
 #include "script_export_space.h"
 
 #ifndef PRIQUEL

@@ -3,7 +3,7 @@
 
 #include "stdafx.h"
 #include "xrGameSpy.h"
-#include "../XrAPI/xrGameManager.h"
+#include "../xrAPI/xrGameManager.h"
 
 void FillSecretKey(char* SecretKey)
 {

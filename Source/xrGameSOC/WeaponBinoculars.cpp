@@ -4,9 +4,9 @@
 #include "xr_level_controller.h"
 
 #include "level.h"
-#include "ui\UIFrameWindow.h"
+#include "ui/UIFrameWindow.h"
 #include "WeaponBinocularsVision.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 #include "hudmanager.h"
 CWeaponBinoculars::CWeaponBinoculars(): CWeaponCustomPistol("BINOCULARS")
 {

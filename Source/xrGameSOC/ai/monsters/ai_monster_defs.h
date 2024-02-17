@@ -1,7 +1,7 @@
 ﻿#pragma once
 
-#include "../../../XrRender/Public/KinematicsAnimated.h"
-#include "../../../XrEngine/cameramanager.h"
+#include "../../../xrRender/Public/KinematicsAnimated.h"
+#include "../../../xrEngine/cameramanager.h"
 
 typedef u32 TTime;
 

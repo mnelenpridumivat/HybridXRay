@@ -14,7 +14,7 @@
 #include "ui/TeamInfo.h"
 #include <dinput.h>
 
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 
 #define MSGS_OFFS 510
 

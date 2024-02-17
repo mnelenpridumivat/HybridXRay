@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class XREPROPS_API UIPropertiesForm: public XrUI
+class XREPROPS_API UIPropertiesForm: public xrUI
 {
     friend class UIPropertiesItem;
 

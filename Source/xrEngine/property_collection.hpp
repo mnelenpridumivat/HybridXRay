@@ -9,14 +9,14 @@
 #ifndef PROPERTY_COLLECTION_HPP_INCLUDED
 #define PROPERTY_COLLECTION_HPP_INCLUDED
 
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include <boost/noncopyable.hpp>
 #include "object_broker.h"
 
-template<typename container_type, typename holder_type> class property_collection: public XrWeatherEditor::property_holder_collection, private boost::noncopyable
+template<typename container_type, typename holder_type> class property_collection: public xrWeatherEditor::property_holder_collection, private boost::noncopyable
 {
 public:
-    typedef XrWeatherEditor::property_holder property_holder;
+    typedef xrWeatherEditor::property_holder property_holder;
 
 public:
     inline property_collection(container_type* container, holder_type* holder, bool* changed = 0);

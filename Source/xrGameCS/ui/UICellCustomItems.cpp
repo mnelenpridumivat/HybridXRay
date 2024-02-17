@@ -191,7 +191,7 @@ CUIWeaponCellItem::CUIWeaponCellItem(CWeapon* itm): inherited(itm)
         m_addon_offset[eLauncher].set(object()->GetGrenadeLauncherX(), object()->GetGrenadeLauncherY());
 }
 
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 CUIWeaponCellItem::~CUIWeaponCellItem() {}
 
 bool CUIWeaponCellItem::is_scope()

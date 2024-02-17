@@ -18,8 +18,8 @@ ref class property_collection_converter;
 [System::ComponentModel::EditorAttribute(property_collection_editor::typeid, System::Drawing::Design::UITypeEditor::typeid)][System::ComponentModel::TypeConverter(property_collection_converter::typeid)] public ref class property_collection_base abstract: public property_value, public System::Collections::IList
 {
 public:
-    typedef XrWeatherEditor::property_holder_collection collection_type;
-    typedef XrWeatherEditor::property_holder            property_holder;
+    typedef xrWeatherEditor::property_holder_collection collection_type;
+    typedef xrWeatherEditor::property_holder            property_holder;
     typedef System::Collections::IEnumerator            IEnumerator;
     typedef System::Array                               Array;
     typedef System::Object                              Object;

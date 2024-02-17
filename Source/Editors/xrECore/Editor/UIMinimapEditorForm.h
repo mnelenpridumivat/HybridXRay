@@ -1,5 +1,5 @@
 ﻿//---------------------------------------------------------------------------
-class UIMinimapEditorForm: public XrUI
+class UIMinimapEditorForm: public xrUI
 {
 public:
     UIMinimapEditorForm();

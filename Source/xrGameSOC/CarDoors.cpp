@@ -1,16 +1,16 @@
 ﻿#include "stdafx.h"
 #ifdef DEBUG
 #include "ode_include.h"
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #endif
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "car.h"
-#include "../XrCore/net_utils.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrCore/net_utils.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "MathUtils.h"
 #include "game_object_space.h"
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

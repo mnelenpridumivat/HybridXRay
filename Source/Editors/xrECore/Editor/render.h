@@ -1,9 +1,9 @@
 ﻿//---------------------------------------------------------------------------
 #pragma once
 
-#include "..\..\..\xrCDB\frustum.h"
-#include "..\..\..\XrEngine\vis_common.h"
-#include "..\..\..\XrEngine\Render.h"
+#include "../../../xrCDB/frustum.h"
+#include "../../../xrEngine/vis_common.h"
+#include "../../../xrEngine/Render.h"
 
 #include "../../../xrRender/Private/blenders\blender.h"
 #include "../../../xrRender/Private/blenders\blender_clsid.h"

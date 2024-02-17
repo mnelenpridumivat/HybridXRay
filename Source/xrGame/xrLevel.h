@@ -1,6 +1,6 @@
 
 #pragma once
-#include "..\XrEngine\xrLevel.h"
+#include "../xrEngine/xrLevel.h"
 #pragma pack(push,1)
 
 #ifdef AI_COMPILER

@@ -6,7 +6,7 @@
 #include "PHCapture.h"
 #include "entity_alive.h"
 #include "phmovementcontrol.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 #include "characterphysicssupport.h"
 ///////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////

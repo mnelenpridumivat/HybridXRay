@@ -93,6 +93,20 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\ItemListTypes.h" />
+    <ClInclude Include="..\Public\PropertiesListTypes.h" />
+    <ClInclude Include="..\Public\WaveForm.h" />
+    <ClInclude Include="..\Public\xrEProps.h" />
+    <ClInclude Include="..\..\xrEngine\game_graph_space.h" />
+    <ClInclude Include="..\..\xrEngine\object_broker.h" />
+    <ClInclude Include="..\..\xrEngine\object_cloner.h" />
+    <ClInclude Include="..\..\xrEngine\object_comparer.h" />
+    <ClInclude Include="..\..\xrEngine\object_destroyer.h" />
+    <ClInclude Include="..\..\xrEngine\object_interfaces.h" />
+    <ClInclude Include="..\..\xrEngine\object_loader.h" />
+    <ClInclude Include="..\..\xrEngine\object_saver.h" />
+    <ClInclude Include="..\..\xrEngine\object_type_traits.h" />
+    <ClInclude Include="..\..\xrEngine\ShapeData.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\alife_human_brain.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\alife_human_brain_inline.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\alife_monster_brain.h" />
@@ -105,20 +119,13 @@
     <ClInclude Include="..\..\xrServerEntitiesSOC\character_info_defs.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\clsid_game.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\game_base_space.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\game_graph_space.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\InfoPortionDefs.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\inventory_space.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\ItemListTypes.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\mslotutils.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_broker.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_cloner.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_comparer.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_destroyer.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_factory.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_factory_impl.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_factory_inline.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_factory_space.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_interfaces.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_item_abstract.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_item_abstract_inline.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_item_client_server.h" />
@@ -127,14 +134,10 @@
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_item_script_inline.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_item_single.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\object_item_single_inline.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_loader.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_saver.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_type_traits.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\opt.lua.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\opt_inline.lua.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\PHNetState.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\PHSynchronize.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\PropertiesListTypes.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\script_callStack.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\script_debugger.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\script_debugger_messages.h" />
@@ -171,16 +174,13 @@
     <ClInclude Include="..\..\xrServerEntitiesSOC\script_token_list_inline.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\script_value_container.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\script_value_container_impl.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\ShapeData.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\shared_data.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\smart_cast.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\smart_cast_impl0.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\smart_cast_impl1.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\smart_cast_impl2.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\specific_character.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\WaveForm.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\xml_str_id_loader.h" />
-    <ClInclude Include="..\..\xrServerEntitiesSOC\xrEProps.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\xrMessages.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\xrServer_Objects.h" />
     <ClInclude Include="..\..\xrServerEntitiesSOC\xrServer_Objects_Abstract.h" />

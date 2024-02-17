@@ -2,20 +2,20 @@
 #pragma hdrstop
 
 #include "actor.h"
-#include "../XrEngine/CameraBase.h"
+#include "../xrEngine/CameraBase.h"
 
 #include "ActorEffector.h"
 #include "holder_custom.h"
 #ifdef DEBUG
 #include "PHDebug.h"
 #endif
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "Car.h"
-#include "../XrRender/Public/RenderVisual.h"
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/RenderVisual.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 #include "PHShellSplitter.h"
 
 #include "actor_anim_defs.h"

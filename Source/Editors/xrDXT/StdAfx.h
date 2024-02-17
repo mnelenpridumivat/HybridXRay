@@ -8,7 +8,7 @@
 #include "../../xrCore/xrCore.h"
 #include "RedImageTool/RedImage.hpp"
 #define ECORE_API
-#include "../../XrRender/Private/ETextureParams.h"
+#include "../../xrRender/Private/ETextureParams.h"
 #include <io.h>
 #include <fcntl.h>
 #include <sys\stat.h>

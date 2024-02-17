@@ -13,8 +13,8 @@ class ILevelGraph;
 class IGameLevelCrossTable;
 class IGameGraph;
 
-#include "../XrEngine/object_interfaces.h"
-#include "../XrEngine/associative_vector.h"
+#include "../xrEngine/object_interfaces.h"
+#include "../xrEngine/associative_vector.h"
 
 class CPatrolPathStorage: public IPureSerializeObject<IReader, IWriter>
 {

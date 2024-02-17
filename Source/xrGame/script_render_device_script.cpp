@@ -11,12 +11,12 @@
 
 using namespace luabind;
 
-bool is_device_paused(XrDeviceInterface* d)
+bool is_device_paused(xrDeviceInterface* d)
 {
     return !!Device->Paused();
 }
 
-void set_device_paused(XrDeviceInterface* d, bool b)
+void set_device_paused(xrDeviceInterface* d, bool b)
 {
     Device->Pause(b, TRUE, FALSE, "set_device_paused_script");
 }
@@ -27,7 +27,7 @@ bool                   is_app_ready()
     return !!g_appLoaded;
 }
 
-u32 time_global(const XrDeviceInterface* self)
+u32 time_global(const xrDeviceInterface* self)
 {
     THROW(self);
     return (self->dwTimeGlobal);
@@ -36,23 +36,23 @@ u32 time_global(const XrDeviceInterface* self)
 #pragma optimize("s", on)
 void CScriptRenderDevice::script_register(lua_State* L)
 {
-    module(L)[class_<XrDeviceInterface>("render_device")
-                  .def_readonly("width", &XrDeviceInterface::dwWidth)
-                  .def_readonly("height", &XrDeviceInterface::dwHeight)
-                  .def_readonly("time_delta", &XrDeviceInterface::dwTimeDelta)
-                  .def_readonly("f_time_delta", &XrDeviceInterface::fTimeDelta)
-                  .def_readonly("cam_pos", &XrDeviceInterface::vCameraPosition)
-                  .def_readonly("cam_dir", &XrDeviceInterface::vCameraDirection)
-                  .def_readonly("cam_top", &XrDeviceInterface::vCameraTop)
-                  .def_readonly("cam_right", &XrDeviceInterface::vCameraRight)
-                  //			.def_readonly("view",					&XrDeviceInterface::mView)
-                  //			.def_readonly("projection",				&XrDeviceInterface::mProject)
-                  //			.def_readonly("full_transform",			&XrDeviceInterface::mFullTransform)
-                  .def_readonly("fov", &XrDeviceInterface::fFOV)
-                  .def_readonly("aspect_ratio", &XrDeviceInterface::fASPECT)
+    module(L)[class_<xrDeviceInterface>("render_device")
+                  .def_readonly("width", &xrDeviceInterface::dwWidth)
+                  .def_readonly("height", &xrDeviceInterface::dwHeight)
+                  .def_readonly("time_delta", &xrDeviceInterface::dwTimeDelta)
+                  .def_readonly("f_time_delta", &xrDeviceInterface::fTimeDelta)
+                  .def_readonly("cam_pos", &xrDeviceInterface::vCameraPosition)
+                  .def_readonly("cam_dir", &xrDeviceInterface::vCameraDirection)
+                  .def_readonly("cam_top", &xrDeviceInterface::vCameraTop)
+                  .def_readonly("cam_right", &xrDeviceInterface::vCameraRight)
+                  //			.def_readonly("view",					&xrDeviceInterface::mView)
+                  //			.def_readonly("projection",				&xrDeviceInterface::mProject)
+                  //			.def_readonly("full_transform",			&xrDeviceInterface::mFullTransform)
+                  .def_readonly("fov", &xrDeviceInterface::fFOV)
+                  .def_readonly("aspect_ratio", &xrDeviceInterface::fASPECT)
                   .def("time_global", &time_global)
-                  .def_readonly("precache_frame", &XrDeviceInterface::dwPrecacheFrame)
-                  .def_readonly("frame", &XrDeviceInterface::dwFrame)
+                  .def_readonly("precache_frame", &xrDeviceInterface::dwPrecacheFrame)
+                  .def_readonly("frame", &xrDeviceInterface::dwFrame)
                   .def("is_paused", &is_device_paused)
                   .def("pause", &set_device_paused),
         def("app_ready", &is_app_ready)];

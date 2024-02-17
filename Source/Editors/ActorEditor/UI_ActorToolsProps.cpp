@@ -1,7 +1,7 @@
 ﻿//---------------------------------------------------------------------------
 #include "stdafx.h"
 #pragma hdrstop
-#include "..\..\XrRender\Private\KinematicAnimatedDefs.h"
+#include "../../xrRender/Private/KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
 #include "UI_ActorMain.h"
 //------------------------------------------------------------------------------

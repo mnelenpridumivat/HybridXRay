@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class UIAboutForm: public XrUI
+class UIAboutForm: public xrUI
 {
 public:
     UIAboutForm();

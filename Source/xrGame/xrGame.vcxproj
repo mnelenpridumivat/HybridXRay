@@ -89,6 +89,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\Editors\Public\ItemListTypes.h" />
+    <ClInclude Include="..\Editors\Public\PropertiesListTypes.h" />
+    <ClInclude Include="..\Editors\Public\WaveForm.h" />
+    <ClInclude Include="..\Editors\Public\xrEProps.h" />
+    <ClInclude Include="..\xrCore\FastDelegate.h" />
+    <ClInclude Include="..\xrEngine\object_broker.h" />
+    <ClInclude Include="..\xrEngine\object_cloner.h" />
+    <ClInclude Include="..\xrEngine\object_comparer.h" />
+    <ClInclude Include="..\xrEngine\object_destroyer.h" />
+    <ClInclude Include="..\xrEngine\object_interfaces.h" />
+    <ClInclude Include="..\xrEngine\object_loader.h" />
+    <ClInclude Include="..\xrEngine\object_saver.h" />
+    <ClInclude Include="..\xrEngine\object_type_traits.h" />
+    <ClInclude Include="..\xrEngine\ShapeData.h" />
+    <ClInclude Include="..\xrRender\Public\DrawUtils.h" />
     <ClInclude Include="..\xrGameSpy\gamespy\md5.h" />
     <ClInclude Include="..\xrServerEntities\ai_sounds.h" />
     <ClInclude Include="..\xrServerEntities\alife_human_brain.h" />
@@ -103,23 +118,15 @@
     <ClInclude Include="..\xrServerEntities\character_info.h" />
     <ClInclude Include="..\xrServerEntities\character_info_defs.h" />
     <ClInclude Include="..\xrServerEntities\clsid_game.h" />
-    <ClInclude Include="..\xrServerEntities\DrawUtils.h" />
-    <ClInclude Include="..\xrServerEntities\FastDelegate.h" />
     <ClInclude Include="..\xrServerEntities\game_base_space.h" />
     <ClInclude Include="..\xrServerEntities\InfoPortionDefs.h" />
     <ClInclude Include="..\xrServerEntities\inventory_space.h" />
-    <ClInclude Include="..\xrServerEntities\ItemListTypes.h" />
     <ClInclude Include="..\xrServerEntities\lua_studio.h" />
     <ClInclude Include="..\xrServerEntities\mslotutils.h" />
-    <ClInclude Include="..\xrServerEntities\object_broker.h" />
-    <ClInclude Include="..\xrServerEntities\object_cloner.h" />
-    <ClInclude Include="..\xrServerEntities\object_comparer.h" />
-    <ClInclude Include="..\xrServerEntities\object_destroyer.h" />
     <ClInclude Include="..\xrServerEntities\object_factory.h" />
     <ClInclude Include="..\xrServerEntities\object_factory_impl.h" />
     <ClInclude Include="..\xrServerEntities\object_factory_inline.h" />
     <ClInclude Include="..\xrServerEntities\object_factory_space.h" />
-    <ClInclude Include="..\xrServerEntities\object_interfaces.h" />
     <ClInclude Include="..\xrServerEntities\object_item_abstract.h" />
     <ClInclude Include="..\xrServerEntities\object_item_abstract_inline.h" />
     <ClInclude Include="..\xrServerEntities\object_item_client_server.h" />
@@ -127,12 +134,8 @@
     <ClInclude Include="..\xrServerEntities\object_item_script.h" />
     <ClInclude Include="..\xrServerEntities\object_item_single.h" />
     <ClInclude Include="..\xrServerEntities\object_item_single_inline.h" />
-    <ClInclude Include="..\xrServerEntities\object_loader.h" />
-    <ClInclude Include="..\xrServerEntities\object_saver.h" />
-    <ClInclude Include="..\xrServerEntities\object_type_traits.h" />
     <ClInclude Include="..\xrServerEntities\pch_script.h" />
     <ClInclude Include="..\xrServerEntities\PHNetState.h" />
-    <ClInclude Include="..\xrServerEntities\PropertiesListTypes.h" />
     <ClInclude Include="..\xrServerEntities\restriction_space.h" />
     <ClInclude Include="..\xrServerEntities\script_callStack.h" />
     <ClInclude Include="..\xrServerEntities\script_debugger.h" />
@@ -169,16 +172,13 @@
     <ClInclude Include="..\xrServerEntities\script_token_list_inline.h" />
     <ClInclude Include="..\xrServerEntities\script_value_container.h" />
     <ClInclude Include="..\xrServerEntities\script_value_container_impl.h" />
-    <ClInclude Include="..\xrServerEntities\ShapeData.h" />
     <ClInclude Include="..\xrServerEntities\shared_data.h" />
     <ClInclude Include="..\xrServerEntities\smart_cast.h" />
     <ClInclude Include="..\xrServerEntities\smart_cast_impl0.h" />
     <ClInclude Include="..\xrServerEntities\smart_cast_impl1.h" />
     <ClInclude Include="..\xrServerEntities\smart_cast_impl2.h" />
     <ClInclude Include="..\xrServerEntities\specific_character.h" />
-    <ClInclude Include="..\xrServerEntities\WaveForm.h" />
     <ClInclude Include="..\xrServerEntities\xml_str_id_loader.h" />
-    <ClInclude Include="..\xrServerEntities\xrEProps.h" />
     <ClInclude Include="..\xrServerEntities\xrMessages.h" />
     <ClInclude Include="..\xrServerEntities\xrServer_Objects.h" />
     <ClInclude Include="..\xrServerEntities\xrServer_Objects_Abstract.h" />
@@ -1699,10 +1699,10 @@
     <ClInclude Include="wrapper_abstract.h" />
     <ClInclude Include="wrapper_abstract_inline.h" />
     <ClInclude Include="xrClientsPool.h" />
-    <ClInclude Include="XrGameEditor.h" />
+    <ClInclude Include="xrGameEditor.h" />
     <ClInclude Include="xrGameSpyServer.h" />
     <ClInclude Include="xrGameSpyServer_callbacks.h" />
-    <ClInclude Include="XrLevelEditor.h" />
+    <ClInclude Include="xrLevelEditor.h" />
     <ClInclude Include="xrServer.h" />
     <ClInclude Include="xrServerMapSync.h" />
     <ClInclude Include="xrServer_info.h" />
@@ -4645,7 +4645,7 @@
     <ClCompile Include="Wound.cpp" />
     <ClCompile Include="xrClientsPool.cpp" />
     <ClCompile Include="xrGame.cpp" />
-    <ClCompile Include="XrGameEditor.cpp" />
+    <ClCompile Include="xrGameEditor.cpp" />
     <ClCompile Include="xrGameSpyServer.cpp" />
     <ClCompile Include="xrGameSpyServer_callbacks.cpp" />
     <ClCompile Include="xrGameSpy_GameSpyFuncs.cpp" />
@@ -4655,7 +4655,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>
     </ClCompile>
-    <ClCompile Include="XrLevelEditor.cpp" />
+    <ClCompile Include="xrLevelEditor.cpp" />
     <ClCompile Include="xrServer.cpp">
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch_script.h</PrecompiledHeaderFile>
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)$(ProjectName)_script.pch</PrecompiledHeaderOutputFile>

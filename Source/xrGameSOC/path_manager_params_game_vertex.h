@@ -9,7 +9,7 @@
 #pragma once
 
 #include "path_manager_params.h"
-#include "../XrEngine/game_graph_space.h"
+#include "../xrEngine/game_graph_space.h"
 
 template<typename _dist_type, typename _index_type, typename _iteration_type> struct SGameVertex: public SBaseParameters<_dist_type, _index_type, _iteration_type>
 {

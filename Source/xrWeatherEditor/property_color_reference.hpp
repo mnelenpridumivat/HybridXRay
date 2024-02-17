@@ -16,7 +16,7 @@ ref class property_color_reference: public property_color_base
 {
 public:
     typedef property_color_base    inherited;
-    typedef XrWeatherEditor::color color;
+    typedef xrWeatherEditor::color color;
 
 public:
     property_color_reference(color& value, array<System::Attribute ^> ^ attributes);

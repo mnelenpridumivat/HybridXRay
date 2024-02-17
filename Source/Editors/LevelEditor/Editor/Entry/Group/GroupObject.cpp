@@ -4,7 +4,7 @@
 #include "GroupObject.h"
 #include "../../Scene/scene.h"
 #include "../../Tools/Base/ESceneCustomOTools.h"
-#include "../XrECore/Editor/ui_main.h"
+#include "../xrECore/Editor/ui_main.h"
 #include "../../UI_LevelMain.h"
 
 //----------------------------------------------------

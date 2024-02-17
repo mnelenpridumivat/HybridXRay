@@ -13,8 +13,8 @@
 #include "ide.hpp"
 #include "editor_environment_sound_channels_manager.hpp"
 
-using XrWeatherEditor::environment::ambients::sound_id;
-using XrWeatherEditor::environment::sound_channels::manager;
+using xrWeatherEditor::environment::ambients::sound_id;
+using xrWeatherEditor::environment::sound_channels::manager;
 
 sound_id::sound_id(manager const& manager, shared_str const& id): m_manager(manager), m_id(id), m_property_holder(0) {}
 
@@ -36,20 +36,20 @@ u32 sound_id::collection_size()
     return (m_manager.channels_ids().size());
 }
 
-void sound_id::fill(XrWeatherEditor::property_holder_collection* collection)
+void sound_id::fill(xrWeatherEditor::property_holder_collection* collection)
 {
     VERIFY(!m_property_holder);
     m_property_holder = ::ide().create_property_holder(m_id.c_str(), collection, this);
 
-    typedef XrWeatherEditor::property_holder::string_collection_getter_type collection_getter_type;
+    typedef xrWeatherEditor::property_holder::string_collection_getter_type collection_getter_type;
     collection_getter_type                                                  collection_getter;
     collection_getter.bind(this, &sound_id::collection);
 
-    typedef XrWeatherEditor::property_holder::string_collection_size_getter_type collection_size_getter_type;
+    typedef xrWeatherEditor::property_holder::string_collection_size_getter_type collection_size_getter_type;
     collection_size_getter_type                                                  collection_size_getter;
     collection_size_getter.bind(this, &sound_id::collection_size);
 
-    m_property_holder->add_property("sound channel", "properties", "this option is resposible for sound", m_id.c_str(), m_id, collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
+    m_property_holder->add_property("sound channel", "properties", "this option is resposible for sound", m_id.c_str(), m_id, collection_getter, collection_size_getter, xrWeatherEditor::property_holder::value_editor_combo_box, xrWeatherEditor::property_holder::cannot_enter_text);
 }
 
 sound_id::property_holder_type* sound_id::object()

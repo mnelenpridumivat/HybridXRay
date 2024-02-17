@@ -13,7 +13,7 @@
 
 ref class property_container;
 
-using XrWeatherEditor::controls::property_grid;
+using xrWeatherEditor::controls::property_grid;
 
 using Microsoft::Win32::RegistryKey;
 using System::String;

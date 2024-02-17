@@ -1,4 +1,4 @@
-﻿#include "..\..\Editors\XrECore\Editor\render.h"
+﻿#include "../../Editors/xrECore/Editor/render.h"
 #include "stdafx.h"
 // #include "../../xrEngine/xr_effgamma.h"
 #include "xr_effgamma.h"

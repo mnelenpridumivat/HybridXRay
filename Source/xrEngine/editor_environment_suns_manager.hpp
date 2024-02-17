@@ -16,7 +16,7 @@
 
 class CLensFlareDescriptor;
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -38,7 +38,7 @@ namespace XrWeatherEditor
                 ~manager();
                 void                  load();
                 void                  save();
-                void                  fill(XrWeatherEditor::property_holder* holder);
+                void                  fill(xrWeatherEditor::property_holder* holder);
                 shared_str            unique_id(shared_str const& id) const;
                 CLensFlareDescriptor* get_flare(shared_str const& id) const;
 
@@ -67,7 +67,7 @@ namespace XrWeatherEditor
 
         }   // namespace suns
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

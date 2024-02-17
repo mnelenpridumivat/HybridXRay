@@ -16,11 +16,11 @@
 #include "AI/Stalker/ai_stalker.h"
 #include "character_info.h"
 #include "game_cl_base_weapon_usage_statistic.h"
-#include "../XrCDB/xr_collide_defs.h"
+#include "../xrCDB/xr_collide_defs.h"
 #include "weapon.h"
 #include "ik/math3d.h"
 #include "actor.h"
-#include "../XrEngine/xr_collide_form.h"
+#include "../xrEngine/xr_collide_form.h"
 
 //��������� ShootFactor, ������������
 //��������� ���� ��� ������������ � ��������

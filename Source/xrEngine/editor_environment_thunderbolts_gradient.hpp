@@ -12,10 +12,10 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "thunderbolt.h"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -35,7 +35,7 @@ namespace XrWeatherEditor
                 ~gradient();
                 void load(CInifile& config, shared_str const& section_id, LPCSTR prefix);
                 void save(CInifile& config, shared_str const& section_id, LPCSTR prefix);
-                void fill(::XrWeatherEditor::environment::manager& environment, LPCSTR name, LPCSTR description, XrWeatherEditor::property_holder& holder);
+                void fill(::xrWeatherEditor::environment::manager& environment, LPCSTR name, LPCSTR description, xrWeatherEditor::property_holder& holder);
 
             private:
                 LPCSTR xr_stdcall shader_getter() const;
@@ -50,7 +50,7 @@ namespace XrWeatherEditor
 
         }   // namespace thunderbolts
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

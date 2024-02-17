@@ -1,7 +1,7 @@
 ﻿#pragma once
 typedef fastdelegate::FastDelegate0<>               TOnRenderContextMenu;
 typedef fastdelegate::FastDelegate2<ImVec2, ImVec2> TOnRenderToolBar;
-class ECORE_API                                     UIRenderForm: public XrUI
+class ECORE_API                                     UIRenderForm: public xrUI
 {
 public:
     UIRenderForm();

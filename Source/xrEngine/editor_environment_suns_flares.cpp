@@ -10,15 +10,15 @@
 
 #ifdef INGAME_EDITOR
 #include "editor_environment_suns_flares.hpp"
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "property_collection.hpp"
 #include "editor_environment_suns_flare.hpp"
 #include "editor_environment_suns_manager.hpp"
 #include "editor_environment_manager.hpp"
 
-using XrWeatherEditor::environment::suns::flare;
-using XrWeatherEditor::environment::suns::flares;
-using XrWeatherEditor::environment::suns::manager;
+using xrWeatherEditor::environment::suns::flare;
+using xrWeatherEditor::environment::suns::flares;
+using xrWeatherEditor::environment::suns::manager;
 
 template<> void property_collection<flares::flares_type, flares>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
@@ -26,7 +26,7 @@ template<> void property_collection<flares::flares_type, flares>::display_name(u
     xr_sprintf(buffer, buffer_size, "flare [%f]", position);
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<flares::flares_type, flares>::create()
+template<> xrWeatherEditor::property_holder* property_collection<flares::flares_type, flares>::create()
 {
     flare* object = xr_new<flare>();
     object->fill(this);
@@ -84,13 +84,13 @@ void flares::load(CInifile& config, shared_str const& section)
     }
 }
 
-void flares::fill(manager const& manager, XrWeatherEditor::property_holder* holder, XrWeatherEditor::property_holder_collection* collection)
+void flares::fill(manager const& manager, xrWeatherEditor::property_holder* holder, xrWeatherEditor::property_holder_collection* collection)
 {
-    XrWeatherEditor::property_holder* properties = holder;
+    xrWeatherEditor::property_holder* properties = holder;
     VERIFY(properties);
 
     properties->add_property("use", "flares", "this option is resposible for the flares usage", m_use, m_use);
-    properties->add_property("shader", "flares", "this option is resposible for flares shader", m_shader.c_str(), m_shader, &*manager.m_environment.shader_ids().begin(), manager.m_environment.shader_ids().size(), XrWeatherEditor::property_holder::value_editor_tree_view, XrWeatherEditor::property_holder::cannot_enter_text);
+    properties->add_property("shader", "flares", "this option is resposible for flares shader", m_shader.c_str(), m_shader, &*manager.m_environment.shader_ids().begin(), manager.m_environment.shader_ids().size(), xrWeatherEditor::property_holder::value_editor_tree_view, xrWeatherEditor::property_holder::cannot_enter_text);
     properties->add_property("flares", "flares", "this option is resposible for flares", m_collection);
 }
 

@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../BaseMonster/base_monster.h"
-#include "../../../../XrServerEntitiesCS/script_export_space.h"
+#include "../../../../xrServerEntitiesCS/script_export_space.h"
 
 class CAI_PseudoDog: public CBaseMonster
 {

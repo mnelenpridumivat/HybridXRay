@@ -11,8 +11,8 @@
 #endif
 #endif
 
-class XrDeviceInterface;
-extern XRAPI_API XrDeviceInterface* Device;
+class xrDeviceInterface;
+extern XRAPI_API xrDeviceInterface* Device;
 
 class IRender_interface;
 extern XRAPI_API IRender_interface* Render;
@@ -33,14 +33,14 @@ extern XRAPI_API bool       g_dedicated_server;
 class IGame_Persistent;
 extern XRAPI_API IGame_Persistent* g_pGamePersistent;
 
-class XrGameMaterialLibraryInterface;
-extern XRAPI_API XrGameMaterialLibraryInterface* GameMaterialLibrary;
+class xrGameMaterialLibraryInterface;
+extern XRAPI_API xrGameMaterialLibraryInterface* GameMaterialLibrary;
 
 #ifndef SHIPPING
-class XrGameEditorInterface;
-extern XRAPI_API XrGameEditorInterface* GameEditor;
-class XrEditorSceneInterface;
-extern XRAPI_API XrEditorSceneInterface* EditorScene;
+class xrGameEditorInterface;
+extern XRAPI_API xrGameEditorInterface* GameEditor;
+class xrEditorSceneInterface;
+extern XRAPI_API xrEditorSceneInterface* EditorScene;
 #endif
 
 #ifdef DEBUG

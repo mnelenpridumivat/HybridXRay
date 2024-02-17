@@ -1,21 +1,21 @@
 ﻿#include "stdafx.h"
-#include "..\..\XrAPI\xrGameManager.h"
+#include "../../xrAPI/xrGameManager.h"
 
-XrSEFactoryManager* g_SEFactoryManager = nullptr;
+xrSEFactoryManager* g_SEFactoryManager = nullptr;
 
-XrSEFactoryManager::XrSEFactoryManager()
+xrSEFactoryManager::xrSEFactoryManager()
 {
     auto        a    = xrGameManager::GetGame();
-    const char* Name = "XrSE_Factory.dll";
+    const char* Name = "xrSE_Factory.dll";
     switch (a)
     {
         case EGame::COP:
             break;
         case EGame::CS:
-            Name = "XrSE_FactoryCS.dll";
+            Name = "xrSE_FactoryCS.dll";
             break;
         case EGame::SHOC:
-            Name = "XrSE_FactorySOC.dll";
+            Name = "xrSE_FactorySOC.dll";
             break;
         default:
             NODEFAULT;
@@ -36,23 +36,23 @@ XrSEFactoryManager::XrSEFactoryManager()
     m_pFInitialize();
 }
 
-XrSEFactoryManager::~XrSEFactoryManager()
+xrSEFactoryManager::~xrSEFactoryManager()
 {
     m_pFDestroy();
     FreeLibrary(m_Module);
 }
 
-ISE_Abstract* XrSEFactoryManager::create_entity(LPCSTR section)
+ISE_Abstract* xrSEFactoryManager::create_entity(LPCSTR section)
 {
     return m_pFCreateEntity(section);
 }
 
-void XrSEFactoryManager::destroy_entity(ISE_Abstract*& abstract)
+void xrSEFactoryManager::destroy_entity(ISE_Abstract*& abstract)
 {
     m_pFDestroyEntity(abstract);
 }
 
-void XrSEFactoryManager::reload()
+void xrSEFactoryManager::reload()
 {
     m_pFReload();
 }

@@ -20,7 +20,7 @@ private:
     typedef property_string_values_value_base::collection_type collection_type;
 
 public:
-    property_string_values_value_shared_str(XrWeatherEditor::engine* engine, shared_str& value, LPCSTR const* values, u32 const& value_count);
+    property_string_values_value_shared_str(xrWeatherEditor::engine* engine, shared_str& value, LPCSTR const* values, u32 const& value_count);
 
     virtual collection_type ^ values() { return m_collection; };
 

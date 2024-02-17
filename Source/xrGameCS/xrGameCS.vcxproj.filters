@@ -6138,28 +6138,28 @@
     <ClInclude Include="xr_dsa_verifyer.h">
       <Filter>Core\Common\NET Shared\SecureMessages</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\object_broker.h">
+    <ClInclude Include="..\xrEngine\object_broker.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\object_cloner.h">
+    <ClInclude Include="..\xrEngine\object_cloner.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\object_comparer.h">
+    <ClInclude Include="..\xrEngine\object_comparer.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\object_destroyer.h">
+    <ClInclude Include="..\xrEngine\object_destroyer.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\object_interfaces.h">
+    <ClInclude Include="..\xrEngine\object_interfaces.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\object_loader.h">
+    <ClInclude Include="..\xrEngine\object_loader.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\object_saver.h">
+    <ClInclude Include="..\xrEngine\object_saver.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\object_type_traits.h">
+    <ClInclude Include="..\xrEngine\object_type_traits.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
     <ClInclude Include="..\xrServerEntitiesCS\clsid_game.h">
@@ -6270,22 +6270,22 @@
     <ClInclude Include="xrServerMapSync.h">
       <Filter>Core\Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\DrawUtils.h">
+    <ClInclude Include="..\xrRender\Public\DrawUtils.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\FastDelegate.h">
+    <ClInclude Include="..\xrCore\FastDelegate.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\ItemListTypes.h">
+    <ClInclude Include="..\Editors\Public\ItemListTypes.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
     <ClInclude Include="PropertiesListHelper.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\WaveForm.h">
+    <ClInclude Include="..\Editors\Public\WaveForm.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\xrEProps.h">
+    <ClInclude Include="..\Editors\Public\xrEProps.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
     <ClInclude Include="game_base.h">
@@ -6459,10 +6459,10 @@
     <ClInclude Include="id_generator.h">
       <Filter>Core\Server\ID_Generator</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\PropertiesListTypes.h">
+    <ClInclude Include="..\Editors\Public\PropertiesListTypes.h">
       <Filter>Core\Server\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntitiesCS\ShapeData.h">
+    <ClInclude Include="..\xrEngine\ShapeData.h">
       <Filter>Core\Server\ServerEntities</Filter>
     </ClInclude>
     <ClInclude Include="..\xrServerEntitiesCS\xrServer_Objects_Abstract.h">

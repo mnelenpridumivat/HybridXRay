@@ -10,7 +10,7 @@
 
 #include "script_export_space.h"
 
-typedef class_exporter<XrDeviceInterface> CScriptRenderDevice;
+typedef class_exporter<xrDeviceInterface> CScriptRenderDevice;
 add_to_type_list(CScriptRenderDevice)
 #undef script_type_list
 #define script_type_list save_type_list(CScriptRenderDevice)

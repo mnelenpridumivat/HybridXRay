@@ -1,7 +1,7 @@
 ﻿#ifndef BONE_GROUP_INCLUDED
 #define BONE_GROUP_INCLUDED
 
-#include "../XrEngine/associative_vector.h"
+#include "../xrEngine/associative_vector.h"
 
 class CActor;
 

@@ -6,8 +6,8 @@
 #include "PhysicsShellHolder.h"
 #include "MathUtils.h"
 
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 
 interactive_motion::interactive_motion()
 {

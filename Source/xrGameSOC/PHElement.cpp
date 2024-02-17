@@ -7,9 +7,9 @@
 #include "MathUtils.h"
 #include "PhysicsShellHolder.h"
 #include "game_object_space.h"
-//#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+// #include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 #include "ode/src/util.h"
 #ifdef DEBUG
 #include "PHDebug.h"

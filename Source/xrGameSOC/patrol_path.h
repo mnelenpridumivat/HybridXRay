@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../XrEngine/graph_abstract.h"
+#include "../xrEngine/graph_abstract.h"
 #include "patrol_point.h"
 
 class CPatrolPath: public CGraphAbstractSerialize<CPatrolPoint, float, u32>

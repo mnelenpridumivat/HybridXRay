@@ -13,13 +13,13 @@
 ide_impl* g_ide = nullptr;
 namespace XRay
 {
-    namespace XrWeatherEditor
+    namespace xrWeatherEditor
     {
     private
-        ref class window_ide_final: public ::XrWeatherEditor::window_ide
+        ref class window_ide_final: public ::xrWeatherEditor::window_ide
         {
         public:
-            window_ide_final(::XrWeatherEditor::ide*& ide, ::XrWeatherEditor::engine* engine): ::XrWeatherEditor::window_ide(engine)
+            window_ide_final(::xrWeatherEditor::ide*& ide, ::xrWeatherEditor::engine* engine): ::xrWeatherEditor::window_ide(engine)
             {
                 m_ide = ide;
                 Application::Idle += gcnew System::EventHandler(this, &window_ide_final::on_idle);
@@ -39,7 +39,7 @@ namespace XRay
                 if (m_engine && m_engine->on_message((HWND)m.HWnd.ToInt32(), m.Msg, m.WParam.ToInt32(), m.LParam.ToInt32(), result))
                     return;
 
-                ::XrWeatherEditor::window_ide::WndProc(m);
+                ::xrWeatherEditor::window_ide::WndProc(m);
             }
 
         private:
@@ -60,14 +60,14 @@ namespace XRay
             }
         };
 
-        void initialize_impl(::XrWeatherEditor::ide*& ide, ::XrWeatherEditor::engine* engine)
+        void initialize_impl(::xrWeatherEditor::ide*& ide, ::xrWeatherEditor::engine* engine)
         {
             VERIFY(!g_ide);
             g_ide = new ide_impl(engine);
             ide   = g_ide;
             g_ide->window(gcnew window_ide_final(ide, engine));
         }
-    }   // namespace XrWeatherEditor
+    }   // namespace xrWeatherEditor
 }   // namespace XRay
 
 #pragma managed(push, off)
@@ -75,13 +75,13 @@ namespace XRay
 WINOLEAPI CoInitializeEx(IN LPVOID pvReserved, IN DWORD dwCoInit);
 #pragma comment(lib, "ole32.lib")
 
-extern "C" __declspec(dllexport) void initialize(XrWeatherEditor::ide*& ide, XrWeatherEditor::engine* engine)
+extern "C" __declspec(dllexport) void initialize(xrWeatherEditor::ide*& ide, xrWeatherEditor::engine* engine)
 {
     CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-    XRay::XrWeatherEditor::initialize_impl(ide, engine);
+    XRay::xrWeatherEditor::initialize_impl(ide, engine);
 }
 
-extern "C" __declspec(dllexport) void finalize(XrWeatherEditor::ide*& ide)
+extern "C" __declspec(dllexport) void finalize(xrWeatherEditor::ide*& ide)
 {
     delete (ide);
     ide   = nullptr;

@@ -5,8 +5,8 @@
 #include "../UIZoneMap.h"
 
 #include <dinput.h>
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 #include "../actor.h"
 #include "../HUDManager.h"
 #include "../PDA.h"
@@ -25,8 +25,8 @@
 #include "../seniority_hierarchy_holder.h"
 
 #include "../date_time.h"
-#include "XrServer_Objects_ALife_Monsters.h"
-#include "../../XrEngine/LightAnimLibrary.h"
+#include "xrServer_Objects_ALife_Monsters.h"
+#include "../../xrEngine/LightAnimLibrary.h"
 
 #include "UIInventoryUtilities.h"
 
@@ -41,7 +41,7 @@
 
 #ifdef DEBUG
 #include "../attachable_item.h"
-#include "../XrEngine/Xr_input.h"
+#include "../xrEngine/xr_input.h"
 #endif
 
 #include "UIScrollView.h"

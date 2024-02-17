@@ -10,7 +10,7 @@
 
 #include "random32.h"
 #include "ai_sounds.h"
-#include "../XrEngine/associative_vector.h"
+#include "../xrEngine/associative_vector.h"
 
 class CSoundPlayer: public CRandom32
 {

@@ -3,7 +3,7 @@
 #include "GamePersistent.h"
 #include "UICursor.h"
 #include "HUDManager.h"
-#include "../XrRender/Public/UIRender.h"
+#include "../xrRender/Public/UIRender.h"
 
 CUICursor* GetUICursor()
 {

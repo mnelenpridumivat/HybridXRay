@@ -2,9 +2,9 @@
 
 #include "ActorEffector.h"
 #include "PostprocessAnimator.h"
-#include "../XrEngine/effectorPP.h"
-#include "../XrEngine/ObjectAnimator.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/effectorPP.h"
+#include "../xrEngine/ObjectAnimator.h"
+#include "../xrEngine/object_broker.h"
 #include "actor.h"
 
 void AddEffector(CActor* A, int type, const shared_str& sect_name)

@@ -14,7 +14,7 @@
 #include "restriction_space.h"
 #include "ai_space.h"
 #include "CustomZone.h"
-#include "..\XrEngine\xr_collide_form.h"
+#include "../xrEngine/xr_collide_form.h"
 #ifdef DEBUG
 #include "debug_renderer.h"
 #endif

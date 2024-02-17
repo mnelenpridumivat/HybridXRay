@@ -14,8 +14,8 @@
 #include "squad_hierarchy_holder.h"
 #include "group_hierarchy_holder.h"
 #include "clsid_game.h"
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 #include "monster_community.h"
 #include "ai_space.h"
 

@@ -5,7 +5,7 @@
 
 #pragma once
 
-#include "../XrEngine/object_interfaces.h"
+#include "../xrEngine/object_interfaces.h"
 
 //���������, ����������� ��������� ������ ��������� � ������� ��� � �����������
 struct SRelation

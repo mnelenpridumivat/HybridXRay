@@ -13,7 +13,7 @@
 
 #include "environment.h"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     class property_holder;
 
@@ -82,14 +82,14 @@ namespace XrWeatherEditor
             light_animator_ids_type const&  light_animator_ids() const;
 
         public:
-            typedef XrWeatherEditor::property_holder                      property_holder_type;
-            typedef XrWeatherEditor::environment::suns::manager           suns_manager_type;
-            typedef XrWeatherEditor::environment::levels::manager         levels_manager_type;
-            typedef XrWeatherEditor::environment::effects::manager        effects_manager_type;
-            typedef XrWeatherEditor::environment::sound_channels::manager sound_channels_manager_type;
-            typedef XrWeatherEditor::environment::ambients::manager       ambients_manager_type;
-            typedef XrWeatherEditor::environment::thunderbolts::manager   thunderbolts_manager_type;
-            typedef XrWeatherEditor::environment::weathers::manager       weathers_manager_type;
+            typedef xrWeatherEditor::property_holder                      property_holder_type;
+            typedef xrWeatherEditor::environment::suns::manager           suns_manager_type;
+            typedef xrWeatherEditor::environment::levels::manager         levels_manager_type;
+            typedef xrWeatherEditor::environment::effects::manager        effects_manager_type;
+            typedef xrWeatherEditor::environment::sound_channels::manager sound_channels_manager_type;
+            typedef xrWeatherEditor::environment::ambients::manager       ambients_manager_type;
+            typedef xrWeatherEditor::environment::thunderbolts::manager   thunderbolts_manager_type;
+            typedef xrWeatherEditor::environment::weathers::manager       weathers_manager_type;
 
         public:
             inline suns_manager_type const& suns() const
@@ -151,7 +151,7 @@ namespace XrWeatherEditor
             weathers_manager_type*       m_weathers;
         };   // class manager
     }        // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

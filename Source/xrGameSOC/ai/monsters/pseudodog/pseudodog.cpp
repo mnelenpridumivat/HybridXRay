@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "pseudodog.h"
 #include "pseudodog_state_manager.h"
-#include "../../../../XrRender/Public/KinematicsAnimated.h"
+#include "../../../../xrRender/Public/KinematicsAnimated.h"
 #include "../../../sound_player.h"
 #include "../../../level.h"
 #include "../../../ai_monster_space.h"
@@ -16,8 +16,8 @@
 #include "../../../level_graph.h"
 #include "ai_space.h"
 #include "../../../alife_simulator.h"
-#include "XrServer_Object_Base.h"
-#include "../../../Xrserver.h"
+#include "xrServer_Object_Base.h"
+#include "../../../xrserver.h"
 #endif
 
 CAI_PseudoDog::CAI_PseudoDog()

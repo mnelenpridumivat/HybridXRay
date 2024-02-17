@@ -12,7 +12,7 @@
 #include "level_graph.h"
 #include "game_level_cross_table.h"
 #include "game_graph.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 
 #ifdef XRGAME_EXPORTS
 #include "ai_space.h"

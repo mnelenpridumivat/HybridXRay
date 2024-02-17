@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
-#include "..\XrAPI\xrGameManager.h"
+#include "../xrAPI/xrGameManager.h"
 #include "xrXMLParser.h"
 
 #pragma optimize("s", off)

@@ -9,7 +9,7 @@
 #include "stdafx.h"
 #include "profiler.h"
 #ifdef USE_PROFILER
-#include "../XrEngine/gamefont.h"
+#include "../xrEngine/gamefont.h"
 
 #ifdef PROFILE_CRITICAL_SECTIONS
 static volatile LONG critical_section_counter = 0;

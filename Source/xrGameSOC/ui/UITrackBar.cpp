@@ -1,11 +1,11 @@
 ﻿#include "StdAfx.h"
 
 #include "UITrackBar.h"
-//.#include "UITrackButton.h"
+// #include "UITrackButton.h"
 #include "UIFrameLineWnd.h"
 #include "UI3tButton.h"
 #include "UITextureMaster.h"
-#include "../xrEngine/Xr_input.h"
+#include "../xrEngine/xr_input.h"
 
 #define DEF_CONTROL_HEIGHT   21
 #define FRAME_LINE_TEXTURE   "ui_slider_e"

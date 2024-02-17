@@ -22,7 +22,7 @@
 #include "UIStalkersRankingWnd.h"
 #include "UIActorInfo.h"
 #include "UIEventsWnd.h"
-#include "../../XrEngine/object_broker.h"
+#include "../../xrEngine/object_broker.h"
 #include "UIMessagesWindow.h"
 #include "UIMainIngameWnd.h"
 #include "UITabButton.h"

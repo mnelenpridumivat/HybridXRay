@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-#include "..\XrAPI\xrGameManager.h"
+#include "../xrAPI/xrGameManager.h"
 #include "fs_internal.h"
 
 XRCORE_API CInifile* pSettings     = NULL;

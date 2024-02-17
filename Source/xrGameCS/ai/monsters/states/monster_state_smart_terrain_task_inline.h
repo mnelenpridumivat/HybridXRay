@@ -2,8 +2,8 @@
 
 #include "../../../alife_simulator.h"
 #include "../../../alife_object_registry.h"
-#include "../../../../XrServerEntitiesCS/xrserver_objects_alife_monsters.h"
-#include "../../../../XrServerEntitiesCS/alife_monster_brain.h"
+#include "../../../../xrServerEntitiesCS/xrserver_objects_alife_monsters.h"
+#include "../../../../xrServerEntitiesCS/alife_monster_brain.h"
 
 #include "state_move_to_point.h"
 #include "state_custom_action.h"

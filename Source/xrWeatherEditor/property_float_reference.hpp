@@ -12,7 +12,7 @@
 #include "property_holder_include.hpp"
 
 public
-ref class property_float_reference: public property_value, public XrWeatherEditor::controls::property_incrementable
+ref class property_float_reference: public property_value, public xrWeatherEditor::controls::property_incrementable
 {
 public:
     property_float_reference(float& value, float const % increment_factor);

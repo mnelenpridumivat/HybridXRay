@@ -11,7 +11,7 @@
 
 #ifdef INGAME_EDITOR
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     namespace environment
     {
@@ -28,7 +28,7 @@ namespace XrWeatherEditor
 
         }   // namespace detail
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

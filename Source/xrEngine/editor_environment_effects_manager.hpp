@@ -14,7 +14,7 @@
 #include <boost/noncopyable.hpp>
 #include "property_collection_forward.hpp"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -32,15 +32,15 @@ namespace XrWeatherEditor
             class manager: private boost::noncopyable
             {
             public:
-                manager(::XrWeatherEditor::environment::manager* environment);
+                manager(::xrWeatherEditor::environment::manager* environment);
                 ~manager();
                 void       load();
                 void       save();
-                void       fill(XrWeatherEditor::property_holder* holder);
+                void       fill(xrWeatherEditor::property_holder* holder);
                 shared_str unique_id(shared_str const& id) const;
 
             public:
-                inline ::XrWeatherEditor::environment::manager& environment() const
+                inline ::xrWeatherEditor::environment::manager& environment() const
                 {
                     return m_environment;
                 }
@@ -53,13 +53,13 @@ namespace XrWeatherEditor
                 effects_ids_type const& effects_ids() const;
 
             private:
-                typedef XrWeatherEditor::property_holder                    property_holder_type;
+                typedef xrWeatherEditor::property_holder                    property_holder_type;
                 typedef property_collection<effect_container_type, manager> collection_type;
 
             private:
                 effect_container_type                    m_effects;
                 mutable effects_ids_type                 m_effects_ids;
-                ::XrWeatherEditor::environment::manager& m_environment;
+                ::xrWeatherEditor::environment::manager& m_environment;
                 property_holder_type*                    m_property_holder;
                 collection_type*                         m_collection;
                 mutable bool                             m_changed;
@@ -67,7 +67,7 @@ namespace XrWeatherEditor
 
         }   // namespace effects
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

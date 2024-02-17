@@ -12,8 +12,8 @@
 #include "ai_sounds.h"
 #include "level.h"
 #include "xr_level_controller.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "game_object_space.h"
 
 //----------------------------------------------------------------------------------------

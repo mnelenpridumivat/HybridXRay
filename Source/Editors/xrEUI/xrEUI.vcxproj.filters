@@ -27,10 +27,10 @@
     <ClCompile Include="imgui.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="XrUI.cpp">
+    <ClCompile Include="xrUI.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="XrUIManager.cpp">
+    <ClCompile Include="xrUIManager.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="imgui_impl_dx9.cpp">
@@ -71,10 +71,10 @@
     <ClInclude Include="imstb_rectpack.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="XrUI.h">
+    <ClInclude Include="xrUI.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="XrUIManager.h">
+    <ClInclude Include="xrUIManager.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">

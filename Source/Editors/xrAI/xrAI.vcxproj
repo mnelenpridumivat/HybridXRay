@@ -152,7 +152,7 @@
     <ClCompile Include="verify_level_graph.cpp" />
     <ClCompile Include="xrAI.cpp" />
     <ClCompile Include="xrCrossTable.cpp" />
-    <ClCompile Include="XrSEFactoryManager.cpp" />
+    <ClCompile Include="xrSEFactoryManager.cpp" />
     <ClCompile Include="xrThread.cpp" />
     <ClCompile Include="xr_graph_merge.cpp" />
     <ClCompile Include="_buildnodes_view.cpp">
@@ -161,7 +161,24 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Public\ItemListTypes.h" />
+    <ClInclude Include="..\Public\PropertiesListTypes.h" />
+    <ClInclude Include="..\Public\WaveForm.h" />
+    <ClInclude Include="..\Public\xrEProps.h" />
+    <ClInclude Include="..\..\xrCore\FastDelegate.h" />
     <ClInclude Include="..\..\xrEngine\alife_space.h" />
+    <ClInclude Include="..\..\xrEngine\object_broker.h" />
+    <ClInclude Include="..\..\xrEngine\game_graph_space.h" />
+    <ClInclude Include="..\..\xrEngine\object_cloner.h" />
+    <ClInclude Include="..\..\xrEngine\object_comparer.h" />
+    <ClInclude Include="..\..\xrEngine\object_destroyer.h" />
+    <ClInclude Include="..\..\xrEngine\object_interfaces.h" />
+    <ClInclude Include="..\..\xrEngine\object_loader.h" />
+    <ClInclude Include="..\..\xrEngine\object_saver.h" />
+    <ClInclude Include="..\..\xrEngine\object_type_traits.h" />
+    <ClInclude Include="..\..\xrEngine\ShapeData.h" />
+    <ClInclude Include="..\..\xrEngine\xrLevel.h" />
+    <ClInclude Include="..\..\xrRender\Public\DrawUtils.h" />
     <ClInclude Include="..\..\xrServerEntities\alife_human_brain.h" />
     <ClInclude Include="..\..\xrServerEntities\alife_human_brain_inline.h" />
     <ClInclude Include="..\..\xrServerEntities\alife_monster_brain.h" />
@@ -172,35 +189,19 @@
     <ClInclude Include="..\..\xrServerEntities\associative_vector_inline.h" />
     <ClInclude Include="..\..\xrServerEntities\character_info_defs.h" />
     <ClInclude Include="..\..\xrServerEntities\clsid_game.h" />
-    <ClInclude Include="..\..\xrServerEntities\DrawUtils.h" />
-    <ClInclude Include="..\..\xrServerEntities\FastDelegate.h" />
     <ClInclude Include="..\..\xrServerEntities\game_base_space.h" />
-    <ClInclude Include="..\..\xrServerEntities\game_graph_space.h" />
     <ClInclude Include="..\..\xrServerEntities\InfoPortionDefs.h" />
     <ClInclude Include="..\..\xrServerEntities\inventory_space.h" />
-    <ClInclude Include="..\..\xrServerEntities\ItemListTypes.h" />
-    <ClInclude Include="..\..\xrServerEntities\object_broker.h" />
-    <ClInclude Include="..\..\xrServerEntities\object_cloner.h" />
-    <ClInclude Include="..\..\xrServerEntities\object_comparer.h" />
-    <ClInclude Include="..\..\xrServerEntities\object_destroyer.h" />
-    <ClInclude Include="..\..\xrServerEntities\object_interfaces.h" />
-    <ClInclude Include="..\..\xrServerEntities\object_loader.h" />
-    <ClInclude Include="..\..\xrServerEntities\object_saver.h" />
-    <ClInclude Include="..\..\xrServerEntities\object_type_traits.h" />
     <ClInclude Include="..\..\xrServerEntities\PHNetState.h" />
     <ClInclude Include="..\..\xrServerEntities\PHSynchronize.h" />
-    <ClInclude Include="..\..\xrServerEntities\PropertiesListTypes.h" />
     <ClInclude Include="..\..\xrServerEntities\restriction_space.h" />
     <ClInclude Include="..\..\xrServerEntities\script_export_space.h" />
     <ClInclude Include="..\..\xrServerEntities\script_value_container.h" />
     <ClInclude Include="..\..\xrServerEntities\script_value_container_impl.h" />
-    <ClInclude Include="..\..\xrServerEntities\ShapeData.h" />
     <ClInclude Include="..\..\xrServerEntities\smart_cast.h" />
     <ClInclude Include="..\..\xrServerEntities\smart_cast_impl0.h" />
     <ClInclude Include="..\..\xrServerEntities\smart_cast_impl1.h" />
     <ClInclude Include="..\..\xrServerEntities\smart_cast_impl2.h" />
-    <ClInclude Include="..\..\xrServerEntities\WaveForm.h" />
-    <ClInclude Include="..\..\xrServerEntities\xrEProps.h" />
     <ClInclude Include="..\..\xrServerEntities\xrMessages.h" />
     <ClInclude Include="..\..\xrServerEntities\xrServer_Objects.h" />
     <ClInclude Include="..\..\xrServerEntities\xrServer_Objects_Abstract.h" />
@@ -210,7 +211,6 @@
     <ClInclude Include="..\..\xrServerEntities\xrServer_Objects_ALife_Monsters.h" />
     <ClInclude Include="..\..\xrServerEntities\xrServer_Object_Base.h" />
     <ClInclude Include="..\..\xrServerEntities\xrServer_Space.h" />
-    <ClInclude Include="..\..\xr_3da\xrLevel.h" />
     <ClInclude Include="AIMapExport.h" />
     <ClInclude Include="alife_artefact_order.h" />
     <ClInclude Include="a_star.h" />
@@ -331,7 +331,7 @@
     <ClInclude Include="vertex_path_inline.h" />
     <ClInclude Include="xrAI.h" />
     <ClInclude Include="xrCrossTable.h" />
-    <ClInclude Include="XrSEFactoryManager.h" />
+    <ClInclude Include="xrSEFactoryManager.h" />
     <ClInclude Include="xrShaderTypes.h" />
     <ClInclude Include="xrThread.h" />
     <ClInclude Include="xr_graph_merge.h" />

@@ -1,15 +1,15 @@
 ﻿#pragma once
 #include "stdafx.h"
-class XREUI_API XrUI
+class XREUI_API xrUI
 {
 public:
-    XrUI(): bOpen(true) {}
+    xrUI(): bOpen(true) {}
     enum FUI
     {
         F_NoDelete = 1,
     };
     Flags32 Flags;
-    virtual ~XrUI();
+    virtual ~xrUI();
     /*УДАЛИТЬ ЕСЛИ НЕ ПРИГОДИТСЯ*/
     virtual void ResetBegin();
     virtual void ResetEnd();

@@ -5,10 +5,10 @@
 #include "game_cl_base.h"
 #include "xrmessages.h"
 #include "xrGameSpyServer.h"
-#include "../XrEngine/x_ray.h"
-#include "../XrEngine/device.h"
-#include "../XrEngine/IGame_Persistent.h"
-#include "../XrEngine/xr_ioconsole.h"
+#include "../xrEngine/x_ray.h"
+#include "../xrEngine/device.h"
+#include "../xrEngine/IGame_Persistent.h"
+#include "../xrEngine/xr_ioconsole.h"
 #include "MainMenu.h"
 
 BOOL CLevel::net_Start(LPCSTR op_server, LPCSTR op_client)

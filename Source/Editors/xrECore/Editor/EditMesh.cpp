@@ -13,7 +13,7 @@
 #include "itterate_adjacents.h"
 #include "itterate_adjacents_dynamic.h"
 #include "UI_ToolsCustom.h"
-#include "..\XrETools\ETools.h"
+#include "../xrETools/ETools.h"
 
 extern ECORE_API BOOL g_extendedLog;
 

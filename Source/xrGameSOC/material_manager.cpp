@@ -8,11 +8,11 @@
 
 #include "stdafx.h"
 #include "material_manager.h"
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "phmovementcontrol.h"
 #include "entity_alive.h"
 #include "CharacterPhysicsSupport.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 
 CMaterialManager::CMaterialManager(CObject* object, CPHMovementControl* movement_control)
 {

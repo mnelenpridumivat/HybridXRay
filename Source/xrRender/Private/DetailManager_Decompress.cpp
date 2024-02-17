@@ -5,7 +5,7 @@
 #include "cl_intersect.h"
 
 #ifdef REDITOR
-#include "../../Editors/XrETools/ETools.h"
+#include "../../Editors/xrETools/ETools.h"
 #endif
 
 //--------------------------------------------------- Decompression

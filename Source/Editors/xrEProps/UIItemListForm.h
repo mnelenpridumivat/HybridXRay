@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class XREPROPS_API UIItemListForm: public XrUI, private FolderHelper<ListItem, true>
+class XREPROPS_API UIItemListForm: public xrUI, private FolderHelper<ListItem, true>
 {
     TOnILItemsFocused OnItemsFocusedEvent;
     TOnILItemFocused  OnItemFocusedEvent;

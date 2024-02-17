@@ -22,7 +22,7 @@
 #include "ImageManager.h"
 #include "SoundManager.h"
 #include "ResourceManager.h"
-#include "engine/XrGamePersistentEditors.h"
+#include "engine/xrGamePersistentEditors.h"
 #include "IGame_Level.h"
 #include "IGame_Persistent.h"
 
@@ -317,7 +317,7 @@ CCommandVar CommandInitialize(CCommandVar p1, CCommandVar p2)
         Lib.OnCreate();
         bool bWeather = psDeviceFlags.is(rsEnvironment);
         psDeviceFlags.set(rsEnvironment, FALSE);
-        g_pGamePersistent = xr_new<XrGamePersistentEditors>();
+        g_pGamePersistent = xr_new<xrGamePersistentEditors>();
         if (Tools->OnCreate())
         {
             EPrefs->Load();

@@ -9,12 +9,12 @@
 #include "pch_script.h"
 #include "base_client_classes.h"
 #include "base_client_classes_wrappers.h"
-#include "../XrEngine/feel_vision.h"
-#include "../XrRender/Public/RenderVisual.h"
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrEngine/feel_vision.h"
+#include "../xrRender/Public/RenderVisual.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 #include "ai/stalker/ai_stalker.h"
-#include "../XrCore/net_utils.h"
+#include "../xrCore/net_utils.h"
 
 using namespace luabind;
 

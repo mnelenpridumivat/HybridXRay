@@ -3,8 +3,8 @@
 #include "Physics.h"
 #include "PHElement.h"
 #include "PHShell.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 
 #pragma warning(disable:4995)
 #pragma warning(disable:4267)

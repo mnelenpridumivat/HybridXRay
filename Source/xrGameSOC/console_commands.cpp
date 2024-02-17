@@ -1,9 +1,9 @@
 ﻿#include "pch_script.h"
-#include "../XrEngine/xr_ioconsole.h"
-#include "../XrEngine/xr_ioc_cmd.h"
-#include "../XrEngine/customhud.h"
-#include "../XrEngine/fdemorecord.h"
-#include "../XrEngine/fdemoplay.h"
+#include "../xrEngine/xr_ioconsole.h"
+#include "../xrEngine/xr_ioc_cmd.h"
+#include "../xrEngine/customhud.h"
+#include "../xrEngine/fdemorecord.h"
+#include "../xrEngine/fdemoplay.h"
 #include "xrMessages.h"
 #include "xrserver.h"
 #include "level.h"
@@ -42,7 +42,7 @@
 
 #include "GameSpy/GameSpy_Full.h"
 #include "GameSpy/GameSpy_Patching.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/Kinematics.h"
 #ifdef DEBUG
 #include "PHDebug.h"
 #include "ui/UIDebugFonts.h"

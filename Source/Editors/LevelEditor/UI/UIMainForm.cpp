@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
-#include "..\XrECore\Editor\EditorChooseEvents.h"
-#include "..\resources\splash.h"
-#include "..\XrEUI\ImGuizmo.h"
-#include "Editor\Utils\Gizmo\IM_Manipulator.h"
+#include "../xrECore/Editor/EditorChooseEvents.h"
+#include "../resources/splash.h"
+#include "../xrEUI/ImGuizmo.h"
+#include "Editor/Utils/Gizmo/IM_Manipulator.h"
 
 UIMainForm* MainForm = nullptr;
 UIMainForm::UIMainForm()

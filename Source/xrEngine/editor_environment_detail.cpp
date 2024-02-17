@@ -14,7 +14,7 @@
 
 #pragma comment(lib, "shlwapi.lib")
 
-using XrWeatherEditor::environment::detail::logical_string_predicate;
+using xrWeatherEditor::environment::detail::logical_string_predicate;
 
 static HRESULT AnsiToUnicode(LPCSTR pszA, LPVOID buffer, u32 const& buffer_size)
 {
@@ -57,7 +57,7 @@ bool logical_string_predicate::operator()(shared_str const& first, shared_str co
     return (StrCmpLogicalW(buffer0, buffer1) < 0);
 }
 
-shared_str XrWeatherEditor::environment::detail::real_path(LPCSTR folder, LPCSTR path)
+shared_str xrWeatherEditor::environment::detail::real_path(LPCSTR folder, LPCSTR path)
 {
     string_path result;
     FS.update_path(result, folder, path);

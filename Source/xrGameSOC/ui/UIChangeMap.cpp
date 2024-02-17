@@ -7,11 +7,11 @@
 #include "UIListBoxItem.h"
 #include "../level.h"
 #include "../game_cl_teamdeathmatch.h"
-#include "../../XrEngine/XR_IOConsole.h"
+#include "../../xrEngine/xr_IOConsole.h"
 #include "UIMapList.h"
 #include "CExtraContentFilter.h"
 
-#include "../../XrEngine/object_broker.h"
+#include "../../xrEngine/object_broker.h"
 #include "../UIGameCustom.h"
 
 xr_token game_types[];

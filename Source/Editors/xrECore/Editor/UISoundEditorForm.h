@@ -3,7 +3,7 @@
 #ifndef SoundLibH
 #define SoundLibH
 #endif
-class UISoundEditorForm: public XrUI
+class UISoundEditorForm: public xrUI
 {
 public:
     UISoundEditorForm();

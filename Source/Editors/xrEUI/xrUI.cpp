@@ -4,8 +4,8 @@ ELocalization EditorLocalization = ELocalization::EN;
 
 bool          bDemoImGui         = false;
 
-XrUI::~XrUI() {}
+xrUI::~xrUI() {}
 
-void XrUI::ResetBegin() {}
+void xrUI::ResetBegin() {}
 
-void XrUI::ResetEnd() {}
+void xrUI::ResetEnd() {}

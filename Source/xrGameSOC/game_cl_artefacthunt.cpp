@@ -6,7 +6,7 @@
 #include "UIGameAHunt.h"
 #include "clsid_game.h"
 #include "map_manager.h"
-#include "..\XrEngine\LevelGameDef.h"
+#include "../xrEngine/LevelGameDef.h"
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "actor.h"
@@ -32,7 +32,7 @@
 #define MESSAGE_MENUS "ahunt_messages_menu"
 
 #include "game_cl_artefacthunt_snd_msg.h"
-#include "../XrEngine/IGame_Persistent.h"
+#include "../xrEngine/IGame_Persistent.h"
 /*/old
 enum ERPGameType {		// [0..255]
 	rpgtGameAny = u8(0),

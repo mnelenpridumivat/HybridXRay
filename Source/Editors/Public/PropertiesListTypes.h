@@ -2,9 +2,9 @@
 #ifndef PropertiesListTypesH
 #define PropertiesListTypesH
 
-#include "..\..\XrEngine\gametype_chooser.h"
-#include "..\XrEUI\localization_types.h"
-#include "..\..\xrcore/ChooseTypes.H"
+#include "../../xrEngine/gametype_chooser.h"
+#include "../xrEUI/localization_types.h"
+#include "../../xrcore/ChooseTypes.H"
 #include "WaveForm.H"
 
 #pragma pack(push, 1)

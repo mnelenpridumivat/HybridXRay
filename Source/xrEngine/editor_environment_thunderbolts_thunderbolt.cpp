@@ -16,8 +16,8 @@
 #include "editor_environment_detail.hpp"
 #include "editor_environment_thunderbolts_manager.hpp"
 
-using XrWeatherEditor::environment::thunderbolts::manager;
-using XrWeatherEditor::environment::thunderbolts::thunderbolt;
+using xrWeatherEditor::environment::thunderbolts::manager;
+using xrWeatherEditor::environment::thunderbolts::thunderbolt;
 
 thunderbolt::thunderbolt(manager* manager, shared_str const& id): m_manager(*manager), m_id(id), m_property_holder(0) {}
 
@@ -76,23 +76,23 @@ void thunderbolt::id_setter(LPCSTR value_)
     m_id = m_manager.unique_thunderbolt_id(value);
 }
 
-void thunderbolt::fill(::XrWeatherEditor::environment::manager& environment, ::XrWeatherEditor::property_holder_collection* collection)
+void thunderbolt::fill(::xrWeatherEditor::environment::manager& environment, ::xrWeatherEditor::property_holder_collection* collection)
 {
     VERIFY(!m_property_holder);
     m_property_holder = ::ide().create_property_holder(m_id.c_str(), collection, this);
 
-    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type string_getter_type;
     string_getter_type                                           string_getter;
     string_getter.bind(this, &thunderbolt::id_getter);
 
-    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type string_setter_type;
     string_setter_type                                           string_setter;
     string_setter.bind(this, &thunderbolt::id_setter);
 
     m_property_holder->add_property("id", "properties", "this option is resposible for thunderbolt id", m_id.c_str(), string_getter, string_setter);
-    m_property_holder->add_property("color animator", "properties", "this option is resposible for thunderbolt color animator", m_color_animator.c_str(), m_color_animator, &*environment.light_animator_ids().begin(), environment.light_animator_ids().size(), XrWeatherEditor::property_holder::value_editor_tree_view, XrWeatherEditor::property_holder::cannot_enter_text);
-    m_property_holder->add_property("lighting model", "properties", "this option is resposible for thunderbolt lighting model", m_lighting_model.c_str(), m_lighting_model, ".dm", "Lighting model files (*.dm)|*.dm", detail::real_path("$game_meshes$", "").c_str(), "Select lighting model...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::keep_extension);
-    m_property_holder->add_property("sound", "properties", "this option is resposible for thunderbolt sound", m_sound.c_str(), m_sound, ".ogg", "Sound files (*.ogg)|*.ogg", detail::real_path("$game_sounds$", "").c_str(), "Select sound...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
+    m_property_holder->add_property("color animator", "properties", "this option is resposible for thunderbolt color animator", m_color_animator.c_str(), m_color_animator, &*environment.light_animator_ids().begin(), environment.light_animator_ids().size(), xrWeatherEditor::property_holder::value_editor_tree_view, xrWeatherEditor::property_holder::cannot_enter_text);
+    m_property_holder->add_property("lighting model", "properties", "this option is resposible for thunderbolt lighting model", m_lighting_model.c_str(), m_lighting_model, ".dm", "Lighting model files (*.dm)|*.dm", detail::real_path("$game_meshes$", "").c_str(), "Select lighting model...", xrWeatherEditor::property_holder::cannot_enter_text, xrWeatherEditor::property_holder::keep_extension);
+    m_property_holder->add_property("sound", "properties", "this option is resposible for thunderbolt sound", m_sound.c_str(), m_sound, ".ogg", "Sound files (*.ogg)|*.ogg", detail::real_path("$game_sounds$", "").c_str(), "Select sound...", xrWeatherEditor::property_holder::cannot_enter_text, xrWeatherEditor::property_holder::remove_extension);
 
     m_center->fill(environment, "center", "this option is resposible for thunderbolt gradient center", *m_property_holder);
     m_top->fill(environment, "top", "this option is resposible for thunderbolt gradient top", *m_property_holder);

@@ -20,13 +20,13 @@ private:
 
 public:
     typedef property_string_values_value_base::collection_type                   collection_type;
-    typedef XrWeatherEditor::property_holder::string_getter_type                 string_getter_type;
-    typedef XrWeatherEditor::property_holder::string_setter_type                 string_setter_type;
-    typedef XrWeatherEditor::property_holder::string_collection_getter_type      string_collection_getter_type;
-    typedef XrWeatherEditor::property_holder::string_collection_size_getter_type string_collection_size_getter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type                 string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type                 string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_collection_getter_type      string_collection_getter_type;
+    typedef xrWeatherEditor::property_holder::string_collection_size_getter_type string_collection_size_getter_type;
 
 public:
-    property_string_values_value_shared_str_getter(XrWeatherEditor::engine* engine, shared_str& value, string_collection_getter_type const& collection_getter, string_collection_size_getter_type const& collection_size_getter);
+    property_string_values_value_shared_str_getter(xrWeatherEditor::engine* engine, shared_str& value, string_collection_getter_type const& collection_getter, string_collection_size_getter_type const& collection_size_getter);
     virtual ~property_string_values_value_shared_str_getter();
     !property_string_values_value_shared_str_getter();
     virtual collection_type ^ values();

@@ -33,10 +33,10 @@
 #define GAMEMTL_NONE_IDX           u16(-1)
 #define GAMEMTL_FILENAME           "gamemtl.xr"
 
-class XrGameMaterialLibraryInterface;
+class xrGameMaterialLibraryInterface;
 class ENGINE_API SGameMtl
 {
-    friend class XrGameMaterialLibraryEditors;
+    friend class xrGameMaterialLibraryEditors;
     friend class CGameMtlLibrary;
 
 protected:
@@ -106,9 +106,9 @@ DEFINE_VECTOR(shared_str, PSVec, PSIt);
 
 class ENGINE_API SGameMtlPair
 {
-    friend class XrGameMaterialLibraryEditors;
+    friend class xrGameMaterialLibraryEditors;
     friend class CGameMtlLibrary;
-    XrGameMaterialLibraryInterface* m_Owner;
+    xrGameMaterialLibraryInterface* m_Owner;
 
 protected:
     int mtl0;
@@ -138,7 +138,7 @@ public:
     FactoryPtr<IWallMarkArray> m_pCollideMarks;
 
 public:
-    SGameMtlPair(XrGameMaterialLibraryInterface* owner);
+    SGameMtlPair(xrGameMaterialLibraryInterface* owner);
     virtual ~SGameMtlPair();
     IC int GetMtl0()
     {
@@ -173,11 +173,11 @@ public:
 };
 
 DEFINE_VECTOR(SGameMtlPair*, GameMtlPairVec, GameMtlPairIt);
-class ENGINE_API XrGameMaterialLibraryInterface
+class ENGINE_API xrGameMaterialLibraryInterface
 {
 public:
-    XrGameMaterialLibraryInterface();
-    virtual ~XrGameMaterialLibraryInterface();
+    xrGameMaterialLibraryInterface();
+    virtual ~xrGameMaterialLibraryInterface();
     virtual void          Unload()                            = 0;
     // material routine
     virtual GameMtlIt     GetMaterialIt(LPCSTR name)          = 0;

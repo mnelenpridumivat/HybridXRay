@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "../../xrcdb/xrCDB.h"
-#include "../XrGame/xrLevel.h"
+#include "../xrGame/xrLevel.h"
 #include "AIMapExport.h"
 #include "Shader_xrLC.h"
 #include "../../editors/LevelEditor/Engine/communicate.h"

@@ -12,11 +12,11 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "property_collection_forward.hpp"
 #include "environment.h"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder_collection;
@@ -29,7 +29,7 @@ namespace XrWeatherEditor
             class source;
             class manager;
 
-            class channel: public CEnvAmbient::SSndChannel, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
+            class channel: public CEnvAmbient::SSndChannel, public xrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             private:
                 typedef CEnvAmbient::SSndChannel inherited;
@@ -39,7 +39,7 @@ namespace XrWeatherEditor
                 virtual ~channel();
                 void          load(CInifile& config);
                 void          save(CInifile& config);
-                void          fill(XrWeatherEditor::property_holder_collection* collection);
+                void          fill(xrWeatherEditor::property_holder_collection* collection);
                 inline LPCSTR id() const
                 {
                     return m_load_section.c_str();
@@ -54,7 +54,7 @@ namespace XrWeatherEditor
                 typedef xr_vector<source*> sound_container_type;
 
             private:
-                typedef XrWeatherEditor::property_holder                   property_holder_type;
+                typedef xrWeatherEditor::property_holder                   property_holder_type;
                 typedef property_collection<sound_container_type, channel> collection_type;
 
             public:
@@ -68,7 +68,7 @@ namespace XrWeatherEditor
             };   // class channel
         }        // namespace sound_channels
     }            // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

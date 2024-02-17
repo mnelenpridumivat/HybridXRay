@@ -1,12 +1,12 @@
 ﻿#pragma once
-#include "..\XrEngine\IGame_Persistent.h"
+#include "../xrEngine/IGame_Persistent.h"
 
 //-----------------------------------------------------------------------------------------------------------
-class ECORE_API XrGamePersistentEditors: public IGame_Persistent
+class ECORE_API xrGamePersistentEditors: public IGame_Persistent
 {
 public:
-    XrGamePersistentEditors();
-    virtual ~XrGamePersistentEditors();
+    xrGamePersistentEditors();
+    virtual ~xrGamePersistentEditors();
     virtual void PreStart(LPCSTR op);
     virtual void Start(LPCSTR op);
     virtual void Disconnect();

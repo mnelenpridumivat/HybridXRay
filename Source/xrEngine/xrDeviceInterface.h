@@ -6,22 +6,22 @@
 #include "RenderDeviceRender.h"
 
 #ifdef INGAME_EDITOR
-#include "../XrWeatherEditor/Public/interfaces.hpp"
+#include "../xrWeatherEditor/Public/interfaces.hpp"
 #endif   // #ifdef INGAME_EDITOR
 
 #define VIEWPORT_NEAR                     0.2f
 
 #define DEVICE_RESET_PRECACHE_FRAME_COUNT 10
 
-class ENGINE_API XrDeviceInterface
+class ENGINE_API xrDeviceInterface
 {
 public:
-    XrDeviceInterface();
-    virtual ~XrDeviceInterface();
+    xrDeviceInterface();
+    virtual ~xrDeviceInterface();
 
 public:
 #ifdef INGAME_EDITOR
-    virtual XrWeatherEditor::ide* WeatherEditor() const
+    virtual xrWeatherEditor::ide* WeatherEditor() const
     {
         return nullptr;
     }

@@ -3,7 +3,7 @@
 #include "Physics.h"
 
 #ifdef DEBUG
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #endif   // DEBUG
 
@@ -19,13 +19,13 @@
 #include "script_entity_action.h"
 #include "inventory.h"
 #include "xrserver_objects_alife_items.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "level.h"
 #include "ui/UIMainIngameWnd.h"
 #include "CarWeapon.h"
 #include "game_object_space.h"
-#include "../XrEngine/gamemtllib.h"
+#include "../xrEngine/gamemtllib.h"
 #include "PHActivationShape.h"
 #include "CharacterPhysicsSupport.h"
 #include "car_memory.h"

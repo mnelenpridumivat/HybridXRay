@@ -12,16 +12,16 @@
 
 #include "editor_environment_levels_manager.hpp"
 #include "editor_environment_weathers_manager.hpp"
-#include "../XrWeatherEditor/Public/property_holder.hpp"
-#include "../XrWeatherEditor/Public/ide.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/ide.hpp"
 #include "ide.hpp"
 
-using XrWeatherEditor::environment::levels::manager;
+using xrWeatherEditor::environment::levels::manager;
 
 static LPCSTR s_default_weather_id = "[default]";
 static LPCSTR s_level_section_id   = "levels";
 
-manager::manager(::XrWeatherEditor::environment::weathers::manager* weathers): m_weathers(*weathers), m_property_holder(0) {}
+manager::manager(::xrWeatherEditor::environment::weathers::manager* weathers): m_weathers(*weathers), m_property_holder(0) {}
 
 manager::~manager()
 {
@@ -93,11 +93,11 @@ void manager::fill()
     VERIFY(!m_property_holder);
     m_property_holder = ::ide().create_property_holder("levels");
 
-    typedef XrWeatherEditor::property_holder::string_collection_getter_type collection_getter_type;
+    typedef xrWeatherEditor::property_holder::string_collection_getter_type collection_getter_type;
     collection_getter_type                                                  collection_getter;
     collection_getter.bind(this, &manager::collection);
 
-    typedef XrWeatherEditor::property_holder::string_collection_size_getter_type collection_size_getter_type;
+    typedef xrWeatherEditor::property_holder::string_collection_size_getter_type collection_size_getter_type;
     collection_size_getter_type                                                  collection_size_getter;
     collection_size_getter.bind(this, &manager::collection_size);
 
@@ -108,7 +108,7 @@ void manager::fill()
         string_path description;
         xr_strcpy(description, "weather for level ");
         xr_strcat(description, (*i).first.c_str());
-        m_property_holder->add_property((*i).first.c_str(), (*i).second.first, description, (*i).second.second.c_str(), (*i).second.second, collection_getter, collection_size_getter, XrWeatherEditor::property_holder::value_editor_combo_box, XrWeatherEditor::property_holder::cannot_enter_text);
+        m_property_holder->add_property((*i).first.c_str(), (*i).second.first, description, (*i).second.second.c_str(), (*i).second.second, collection_getter, collection_size_getter, xrWeatherEditor::property_holder::value_editor_combo_box, xrWeatherEditor::property_holder::cannot_enter_text);
     }
 
     ::ide().environment_levels(m_property_holder);

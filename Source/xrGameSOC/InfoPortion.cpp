@@ -8,8 +8,8 @@
 #include "alife_story_registry.h"
 #include "xrServer_Objects_ALife.h"
 #include "script_engine.h"
-#include "ui\uixmlinit.h"
-#include "../XrEngine/object_broker.h"
+#include "ui/uixmlinit.h"
+#include "../xrEngine/object_broker.h"
 
 void INFO_DATA::load(IReader& stream)
 {

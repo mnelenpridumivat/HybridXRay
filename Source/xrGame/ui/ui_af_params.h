@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "UIWindow.h"
-#include "..\..\XrEngine\alife_space.h"
+#include "../../xrEngine/alife_space.h"
 
 class CUIXml;
 class CUIStatic;

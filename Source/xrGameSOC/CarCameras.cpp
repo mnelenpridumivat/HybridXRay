@@ -2,11 +2,11 @@
 #pragma hdrstop
 #ifdef DEBUG
 #include "ode_include.h"
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #include "phworld.h"
 #endif
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "car.h"
@@ -14,7 +14,7 @@
 #include "cameralook.h"
 #include "camerafirsteye.h"
 #include "level.h"
-#include "../XrEngine/cameramanager.h"
+#include "../xrEngine/cameramanager.h"
 
 bool CCar::HUDView() const
 {

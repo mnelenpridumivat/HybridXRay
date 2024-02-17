@@ -49,9 +49,9 @@
 #include "../../object_handler_space.h"
 #include "../../debug_renderer.h"
 #include "../../CharacterPhysicsSupport.h"
-#include "../../../XrRender/Public/RenderVisual.h"
-#include "../../../XrRender/Public/Kinematics.h"
-#include "../../../XrRender/Public/KinematicsAnimated.h"
+#include "../../../xrRender/Public/RenderVisual.h"
+#include "../../../xrRender/Public/Kinematics.h"
+#include "../../../xrRender/Public/KinematicsAnimated.h"
 CActor* g_debug_actor = 0;
 
 void    try_change_current_entity()

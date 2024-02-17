@@ -4,11 +4,11 @@
 #include "xrserver_objects_alife_monsters.h"
 #include "xrserver.h"
 #include "Level.h"
-#include "..\XrEngine\LevelGameDef.h"
+#include "../xrEngine/LevelGameDef.h"
 #include "Actor.h"
 #include "game_cl_base.h"
 #include "clsid_game.h"
-#include "ui\UIBuyWndShared.h"
+#include "ui/UIBuyWndShared.h"
 #include "game_cl_base_weapon_usage_statistic.h"
 
 BOOL g_SV_Force_Artefact_Spawn = FALSE;

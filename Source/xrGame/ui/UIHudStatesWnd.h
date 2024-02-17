@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "UIWindow.h"
-#include "..\..\XrEngine\alife_space.h"
-#include "..\..\xrServerEntities\inventory_space.h"
-#include "..\actor_defs.h"
+#include "../../xrEngine/alife_space.h"
+#include "../../xrServerEntities/inventory_space.h"
+#include "../actor_defs.h"
 
 class CUIStatic;
 class CUITextWnd;

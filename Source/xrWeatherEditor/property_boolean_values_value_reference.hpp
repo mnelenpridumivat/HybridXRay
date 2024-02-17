@@ -15,8 +15,8 @@ public
 ref class property_boolean_values_value_reference: public property_boolean_reference
 {
 public:
-    typedef XrWeatherEditor::property_holder::boolean_getter_type boolean_getter_type;
-    typedef XrWeatherEditor::property_holder::boolean_setter_type boolean_setter_type;
+    typedef xrWeatherEditor::property_holder::boolean_getter_type boolean_getter_type;
+    typedef xrWeatherEditor::property_holder::boolean_setter_type boolean_setter_type;
 
 private:
     typedef property_boolean_reference     inherited;

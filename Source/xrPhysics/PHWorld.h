@@ -65,7 +65,7 @@ class CPHWorld:
     IPHWorldUpdateCallbck*   m_update_callback;
     CObjectSpace*            m_object_space;
     CObjectList*             m_level_objects;
-    XrDeviceInterface*       m_device;
+    xrDeviceInterface*       m_device;
     ;
 
 public:
@@ -100,7 +100,7 @@ public:
     {
         return b_exist;
     }
-    void     Create(bool mt, CObjectSpace* os, CObjectList* lo, XrDeviceInterface* dv);
+    void     Create(bool mt, CObjectSpace* os, CObjectList* lo, xrDeviceInterface* dv);
     void     SetGravity(float g);
     IC float Gravity()
     {
@@ -184,7 +184,7 @@ public:
         VERIFY(m_level_objects);
         return *m_level_objects;
     }
-    XrDeviceInterface& Device()
+    xrDeviceInterface& Device()
     {
         VERIFY(m_device);
         return *m_device;

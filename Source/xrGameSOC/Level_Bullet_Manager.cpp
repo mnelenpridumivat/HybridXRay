@@ -384,7 +384,7 @@ void CBulletManager::Render()
         /*
 		//---------------------------------------------
 		Fvector vT, v0, v1;
-		vT.mad(Device->vCameraPosition, Device->vCameraDirection, XrMath::sqrt(dist2segSqr));
+		vT.mad(Device->vCameraPosition, Device->vCameraDirection, xrMath::sqrt(dist2segSqr));
 		v0.mad(vT, Device->vCameraTop, width*.5f);
 		v1.mad(vT, Device->vCameraTop, -width*.5f);
 		Fvector v0r, v1r;
@@ -392,7 +392,7 @@ void CBulletManager::Render()
 		Device->mFullTransform.transform(v1r, v1);
 		float ViewWidth = v1r.distance_to(v0r);
 */
-        //		float dist = XrMath::sqrt(dist2segSqr);
+        //		float dist = xrMath::sqrt(dist2segSqr);
         //		Msg("dist - [%f]; ViewWidth - %f, [%f]", dist, ViewWidth, ViewWidth*float(Device->dwHeight));
         //		Msg("dist - [%f]", dist);
         //---------------------------------------------

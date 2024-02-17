@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "UIRenderForm.h"
 #include "ui_main.h"
-#include "../XrEUI/ImGuizmo.h"
+#include "../xrEUI/ImGuizmo.h"
 
 UIRenderForm::UIRenderForm()
 {

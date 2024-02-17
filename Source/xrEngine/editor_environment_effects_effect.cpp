@@ -11,14 +11,14 @@
 #ifdef INGAME_EDITOR
 
 #include "editor_environment_effects_effect.hpp"
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "editor_environment_manager.hpp"
 #include "ide.hpp"
 #include "editor_environment_effects_manager.hpp"
 #include "editor_environment_detail.hpp"
 
-using XrWeatherEditor::environment::effects::effect;
-using XrWeatherEditor::environment::effects::manager;
+using xrWeatherEditor::environment::effects::effect;
+using xrWeatherEditor::environment::effects::manager;
 
 effect::effect(manager const& manager, shared_str const& id): m_manager(manager), m_property_holder(0), m_id(id), m_sound("")
 {
@@ -93,36 +93,36 @@ void effect::wind_blast_longitude_setter(float value)
     wind_blast_direction.setHP(deg2rad(value), 0.f);
 }
 
-void effect::fill(XrWeatherEditor::property_holder_collection* collection)
+void effect::fill(xrWeatherEditor::property_holder_collection* collection)
 {
     VERIFY(!m_property_holder);
     m_property_holder = ::ide().create_property_holder(m_id.c_str(), collection, this);
 
-    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type string_getter_type;
     string_getter_type                                           string_getter;
     string_getter.bind(this, &effect::id_getter);
 
-    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type string_setter_type;
     string_setter_type                                           string_setter;
     string_setter.bind(this, &effect::id_setter);
 
     m_property_holder->add_property("id", "properties", "this option is resposible for effect identifier", m_id.c_str(), string_getter, string_setter);
     m_property_holder->add_property("life time", "properties", "this option is resposible for effect life time (in milliseconds)", (int const&)life_time, (int&)life_time);
     m_property_holder->add_property("offset", "properties", "this option is resposible for effect offset (3D vector)", (vec3f const&)offset, (vec3f&)offset);
-    m_property_holder->add_property("particles", "properties", "this option is resposible for effect particles", particles.c_str(), particles, &*m_manager.environment().particle_ids().begin(), m_manager.environment().particle_ids().size(), XrWeatherEditor::property_holder::value_editor_tree_view, XrWeatherEditor::property_holder::cannot_enter_text);
+    m_property_holder->add_property("particles", "properties", "this option is resposible for effect particles", particles.c_str(), particles, &*m_manager.environment().particle_ids().begin(), m_manager.environment().particle_ids().size(), xrWeatherEditor::property_holder::value_editor_tree_view, xrWeatherEditor::property_holder::cannot_enter_text);
 
     string_getter.bind(this, &effect::sound_getter);
     string_setter.bind(this, &effect::sound_setter);
-    m_property_holder->add_property("sound", "properties", "this option is resposible for effect sound", m_sound.c_str(), string_getter, string_setter, ".ogg", "Sound files (*.ogg)|*.ogg", detail::real_path("$game_sounds$", "").c_str(), "Select sound...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
+    m_property_holder->add_property("sound", "properties", "this option is resposible for effect sound", m_sound.c_str(), string_getter, string_setter, ".ogg", "Sound files (*.ogg)|*.ogg", detail::real_path("$game_sounds$", "").c_str(), "Select sound...", xrWeatherEditor::property_holder::cannot_enter_text, xrWeatherEditor::property_holder::remove_extension);
     m_property_holder->add_property("wind gust factor", "properties", "this option is resposible for effect wind gust factor", wind_gust_factor, wind_gust_factor);
     m_property_holder->add_property("wind blast strength", "properties", "this option is resposible for effect wind blast strength", wind_blast_strength, wind_blast_strength);
     m_property_holder->add_property("wind blast start time", "properties", "this option is resposible for effect wind blast start time", wind_blast_in_time, wind_blast_in_time, 0.f, 1000.f);
     m_property_holder->add_property("wind blast stop time", "properties", "this option is resposible for effect wind blast stop time", wind_blast_out_time, wind_blast_out_time, 0.f, 1000.f);
 
-    typedef ::XrWeatherEditor::property_holder::float_getter_type float_getter_type;
+    typedef ::xrWeatherEditor::property_holder::float_getter_type float_getter_type;
     float_getter_type                                             float_getter;
 
-    typedef ::XrWeatherEditor::property_holder::float_setter_type float_setter_type;
+    typedef ::xrWeatherEditor::property_holder::float_setter_type float_setter_type;
     float_setter_type                                             float_setter;
 
     float_getter.bind(this, &effect::wind_blast_longitude_getter);
@@ -130,7 +130,7 @@ void effect::fill(XrWeatherEditor::property_holder_collection* collection)
     m_property_holder->add_property("wind blast longitude", "properties", "this option is resposible for effect wind blast longitude", float_getter(), float_getter, float_setter, -360.f, 360.f);
 }
 
-XrWeatherEditor::property_holder* effect::object()
+xrWeatherEditor::property_holder* effect::object()
 {
     return (m_property_holder);
 }

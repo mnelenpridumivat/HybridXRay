@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 #include "build.h"
-#include "../XrQSlim/MxStdModel.h"
-#include "../XrQSlim/MxQSlim.h"
+#include "../xrQSlim/MxStdModel.h"
+#include "../xrQSlim/MxQSlim.h"
 #include "../../xrcdb/xrcdb.h"
-#include "../XrECore/Editor/face_smoth_flags.h"
+#include "../xrECore/Editor/face_smoth_flags.h"
 
 #define MAX_DECIMATE_ERROR 0.0005f
 #define COMPACTNESS_RATIO  0.001f

@@ -5,7 +5,7 @@
 #include "hudmanager.h"
 #include "ui/UIMultiTextStatic.h"
 #include "ui/UIXmlInit.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 #include "string_table.h"
 
 struct predicate_remove_stat

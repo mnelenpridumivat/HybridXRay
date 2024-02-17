@@ -12,24 +12,24 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     namespace environment
     {
         namespace suns
         {
 
-            class flare: public XrWeatherEditor::property_holder_holder, private boost::noncopyable
+            class flare: public xrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             public:
                 flare();
                 virtual ~flare();
-                void fill(XrWeatherEditor::property_holder_collection* collection);
+                void fill(xrWeatherEditor::property_holder_collection* collection);
 
             public:
-                typedef XrWeatherEditor::property_holder property_holder;
+                typedef xrWeatherEditor::property_holder property_holder;
 
             public:
                 virtual property_holder* object();
@@ -46,7 +46,7 @@ namespace XrWeatherEditor
 
         }   // namespace suns
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

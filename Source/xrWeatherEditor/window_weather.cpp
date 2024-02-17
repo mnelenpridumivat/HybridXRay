@@ -11,7 +11,7 @@
 #include "window_weather_editor.h"
 
 using System::Object;
-using XrWeatherEditor::window_weather;
+using xrWeatherEditor::window_weather;
 
 Void window_weather::window_weather_Leave(Object ^ sender, EventArgs ^ e)
 {

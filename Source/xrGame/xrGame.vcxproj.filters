@@ -6057,28 +6057,28 @@
     <ClInclude Include="xr_dsa_verifyer.h">
       <Filter>Core\Common\NET Shared\SecureMessages</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\object_broker.h">
+    <ClInclude Include="..\xrEngine\object_broker.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\object_cloner.h">
+    <ClInclude Include="..\xrEngine\object_cloner.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\object_comparer.h">
+    <ClInclude Include="..\xrEngine\object_comparer.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\object_destroyer.h">
+    <ClInclude Include="..\xrEngine\object_destroyer.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\object_interfaces.h">
+    <ClInclude Include="..\xrEngine\object_interfaces.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\object_loader.h">
+    <ClInclude Include="..\xrEngine\object_loader.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\object_saver.h">
+    <ClInclude Include="..\xrEngine\object_saver.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\object_type_traits.h">
+    <ClInclude Include="..\xrEngine\object_type_traits.h">
       <Filter>Core\Common\ObjectBroker</Filter>
     </ClInclude>
     <ClInclude Include="..\xrServerEntities\clsid_game.h">
@@ -6198,22 +6198,22 @@
     <ClInclude Include="xrServerMapSync.h">
       <Filter>Core\Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\DrawUtils.h">
+    <ClInclude Include="..\xrRender\Public\DrawUtils.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\FastDelegate.h">
+    <ClInclude Include="..\xrCore\FastDelegate.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\ItemListTypes.h">
+    <ClInclude Include="..\Editors\Public\ItemListTypes.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
     <ClInclude Include="PropertiesListHelper.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\WaveForm.h">
+    <ClInclude Include="..\Editors\Public\WaveForm.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\xrEProps.h">
+    <ClInclude Include="..\Editors\Public\xrEProps.h">
       <Filter>Core\Server\Editor</Filter>
     </ClInclude>
     <ClInclude Include="game_base.h">
@@ -6582,10 +6582,10 @@
     <ClInclude Include="id_generator.h">
       <Filter>Core\Server\ID_Generator</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\PropertiesListTypes.h">
+    <ClInclude Include="..\Editors\Public\PropertiesListTypes.h">
       <Filter>Core\Server\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\xrServerEntities\ShapeData.h">
+    <ClInclude Include="..\xrEngine\ShapeData.h">
       <Filter>Core\Server\ServerEntities</Filter>
     </ClInclude>
     <ClInclude Include="..\xrServerEntities\xrServer_Objects_Abstract.h">
@@ -7330,10 +7330,10 @@
       <Filter>Physics\scripts</Filter>
     </ClInclude>
     <ClInclude Include="script_render_device.h" />
-    <ClInclude Include="XrGameEditor.h">
+    <ClInclude Include="xrGameEditor.h">
       <Filter>Editor</Filter>
     </ClInclude>
-    <ClInclude Include="XrLevelEditor.h">
+    <ClInclude Include="xrLevelEditor.h">
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="PermanentBox.h">
@@ -10980,10 +10980,10 @@
     <ClCompile Include="..\External\Public\luabind\LuaMemoryController.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="XrGameEditor.cpp">
+    <ClCompile Include="xrGameEditor.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
-    <ClCompile Include="XrLevelEditor.cpp">
+    <ClCompile Include="xrLevelEditor.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="game_level_cross_table.cpp">

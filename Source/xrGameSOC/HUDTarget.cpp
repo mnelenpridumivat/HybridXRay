@@ -6,14 +6,14 @@
 #include "stdafx.h"
 #include "hudtarget.h"
 #include "hudmanager.h"
-#include "../XrEngine/gamemtllib.h"
+#include "../xrEngine/gamemtllib.h"
 
-#include "../XrEngine/Environment.h"
-#include "../XrEngine/CustomHUD.h"
+#include "../xrEngine/Environment.h"
+#include "../xrEngine/CustomHUD.h"
 #include "Entity.h"
 #include "level.h"
 #include "game_cl_base.h"
-#include "../XrEngine/igame_persistent.h"
+#include "../xrEngine/igame_persistent.h"
 
 #include "InventoryOwner.h"
 #include "relation_registry.h"

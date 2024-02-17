@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "../../XrEngine/xr_efflensflare.h"
+#include "../../xrEngine/xr_efflensflare.h"
 
 XRayLensFlareRender::XRayLensFlareRender()
 {

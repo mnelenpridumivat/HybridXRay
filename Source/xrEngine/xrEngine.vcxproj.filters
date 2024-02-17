@@ -576,7 +576,7 @@
     <ClInclude Include="cl_intersect.h">
       <Filter>Engine\Collision Core</Filter>
     </ClInclude>
-    <ClInclude Include="XR_IOConsole.h">
+    <ClInclude Include="xr_IOConsole.h">
       <Filter>Engine\Console</Filter>
     </ClInclude>
     <ClInclude Include="xr_ioc_cmd.h">
@@ -729,19 +729,19 @@
     <ClInclude Include="xrSASH.h">
       <Filter>OpenAutomate</Filter>
     </ClInclude>
-    <ClInclude Include="XrDeviceInterface.h">
+    <ClInclude Include="xrDeviceInterface.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="XrGameMaterialLibraryInterface.h">
+    <ClInclude Include="xrGameMaterialLibraryInterface.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="XrGameEditorInterface.h">
+    <ClInclude Include="xrGameEditorInterface.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="XrEditorSceneInterface.h">
+    <ClInclude Include="xrEditorSceneInterface.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="XrISEAbstract.h">
+    <ClInclude Include="xrISEAbstract.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
     <ClInclude Include="alife_space.h">
@@ -921,25 +921,25 @@
     <ClInclude Include="object_type_traits.h">
       <Filter>Game API\Alife\Shared\object_broker</Filter>
     </ClInclude>
-    <ClInclude Include="XrISEALifeObject.h">
+    <ClInclude Include="xrISEALifeObject.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
-    <ClInclude Include="XrISEALifeCreatureActor.h">
+    <ClInclude Include="xrISEALifeCreatureActor.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
-    <ClInclude Include="XrISEALifeDynamicObject.h">
+    <ClInclude Include="xrISEALifeDynamicObject.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
-    <ClInclude Include="XrISEALifeLevelChanger.h">
+    <ClInclude Include="xrISEALifeLevelChanger.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
-    <ClInclude Include="XrISEALifeSpaceRestrictor.h">
+    <ClInclude Include="xrISEALifeSpaceRestrictor.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
-    <ClInclude Include="XrISEALifeGraphPoint.h">
+    <ClInclude Include="xrISEALifeGraphPoint.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
-    <ClInclude Include="XrISEALifeAnomalousZone.h">
+    <ClInclude Include="xrISEALifeAnomalousZone.h">
       <Filter>Game API\Server</Filter>
     </ClInclude>
     <ClInclude Include="gametype_chooser.h">
@@ -963,7 +963,7 @@
     <ClCompile Include="IInputReceiver.cpp">
       <Filter>Interfaces\Input</Filter>
     </ClCompile>
-    <ClCompile Include="Xr_input.cpp">
+    <ClCompile Include="xr_input.cpp">
       <Filter>Interfaces\Input</Filter>
     </ClCompile>
     <ClCompile Include="xr_input_xinput.cpp">
@@ -1119,16 +1119,16 @@
     <ClCompile Include="pure.cpp">
       <Filter>Engine</Filter>
     </ClCompile>
-    <ClCompile Include="XR_IOConsole.cpp">
+    <ClCompile Include="xr_IOConsole.cpp">
       <Filter>Engine\Console</Filter>
     </ClCompile>
-    <ClCompile Include="XR_IOConsole_callback.cpp">
+    <ClCompile Include="xr_IOConsole_callback.cpp">
       <Filter>Engine\Console</Filter>
     </ClCompile>
-    <ClCompile Include="XR_IOConsole_control.cpp">
+    <ClCompile Include="xr_IOConsole_control.cpp">
       <Filter>Engine\Console</Filter>
     </ClCompile>
-    <ClCompile Include="XR_IOConsole_get.cpp">
+    <ClCompile Include="xr_IOConsole_get.cpp">
       <Filter>Engine\Console</Filter>
     </ClCompile>
     <ClCompile Include="xr_ioc_cmd.cpp">
@@ -1290,19 +1290,19 @@
     <ClCompile Include="xrSASH.cpp">
       <Filter>OpenAutomate</Filter>
     </ClCompile>
-    <ClCompile Include="XrDeviceInterface.cpp">
+    <ClCompile Include="xrDeviceInterface.cpp">
       <Filter>Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="XrGameMaterialLibraryInterface.cpp">
+    <ClCompile Include="xrGameMaterialLibraryInterface.cpp">
       <Filter>Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="BoneEditor.cpp">
       <Filter>Game API\Animator</Filter>
     </ClCompile>
-    <ClCompile Include="XrGameEditorInterface.cpp">
+    <ClCompile Include="xrGameEditorInterface.cpp">
       <Filter>Interfaces</Filter>
     </ClCompile>
-    <ClCompile Include="XrEditorSceneInterface.cpp">
+    <ClCompile Include="xrEditorSceneInterface.cpp">
       <Filter>Interfaces</Filter>
     </ClCompile>
     <ClCompile Include="alife_space.cpp">
@@ -1323,7 +1323,7 @@
     <ClCompile Include="LevelGameDef.cpp">
       <Filter>Game API</Filter>
     </ClCompile>
-    <ClCompile Include="XrISEAbstract.cpp">
+    <ClCompile Include="xrISEAbstract.cpp">
       <Filter>Game API\Server</Filter>
     </ClCompile>
     <ClCompile Include="gametype_chooser.cpp">

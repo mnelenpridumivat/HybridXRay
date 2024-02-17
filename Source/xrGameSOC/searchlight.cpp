@@ -1,10 +1,10 @@
 ﻿#include "stdafx.h"
 #include "searchlight.h"
-#include "../XrEngine/LightAnimLibrary.h"
+#include "../xrEngine/LightAnimLibrary.h"
 #include "script_entity_action.h"
 #include "xrServer_Objects_ALife.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "game_object_space.h"
 
 //////////////////////////////////////////////////////////////////////

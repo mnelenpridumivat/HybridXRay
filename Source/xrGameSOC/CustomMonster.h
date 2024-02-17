@@ -6,11 +6,11 @@
 
 #include "entity_alive.h"
 #include "script_entity.h"
-#include "../XrEngine/feel_vision.h"
-#include "../XrEngine/Feel_Sound.h"
-#include "../XrEngine/feel_touch.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrEngine/associative_vector.h"
+#include "../xrEngine/feel_vision.h"
+#include "../xrEngine/Feel_Sound.h"
+#include "../xrEngine/feel_touch.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrEngine/associative_vector.h"
 
 namespace MonsterSpace
 {

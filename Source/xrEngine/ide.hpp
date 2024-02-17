@@ -11,14 +11,14 @@
 
 #ifdef INGAME_EDITOR
 
-#include "../XrWeatherEditor/Public/ide.hpp"
+#include "../xrWeatherEditor/Public/ide.hpp"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     class ide;
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
-inline XrWeatherEditor::ide& ide()
+inline xrWeatherEditor::ide& ide()
 {
     VERIFY(Device->WeatherEditor());
     return (*Device->WeatherEditor());

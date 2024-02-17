@@ -1,8 +1,8 @@
 ﻿#include "stdafx.h"
 #include "ELog.h"
 #include "UILogForm.h"
-#include "..\XrCore\os_clipboard.h"
-#include "..\XrEngine\XR_IOConsole.h"
+#include "../xrCore/os_clipboard.h"
+#include "../xrEngine/XR_IOConsole.h"
 #define MSG_ERROR 0x00C4C4FF
 #define MSG_INFO  0x00E6FFE7
 #define MSG_CONF  0x00FFE6E7

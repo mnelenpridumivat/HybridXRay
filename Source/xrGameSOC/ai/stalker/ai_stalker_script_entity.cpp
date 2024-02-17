@@ -20,9 +20,9 @@
 #include "../../sight_manager.h"
 #include "../../stalker_movement_manager.h"
 #include "ai_space.h"
-#include "../../../XrRender/Public/RenderVisual.h"
-#include "../../../XrRender/Public/Kinematics.h"
-#include "../../../XrRender/Public/KinematicsAnimated.h"
+#include "../../../xrRender/Public/RenderVisual.h"
+#include "../../../xrRender/Public/Kinematics.h"
+#include "../../../xrRender/Public/KinematicsAnimated.h"
 
 CWeapon* CAI_Stalker::GetCurrentWeapon() const
 {

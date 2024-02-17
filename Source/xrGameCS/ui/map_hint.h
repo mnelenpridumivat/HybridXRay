@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "UIFrameWindow.h"
-#include "../XrEngine/associative_vector.h"
+#include "../xrEngine/associative_vector.h"
 
 class CUIStatic;
 class CUIXml;

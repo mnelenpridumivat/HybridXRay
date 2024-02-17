@@ -13,7 +13,7 @@
 #include "FS_internal.h"
 #include "stream_reader.h"
 #include "file_stream_reader.h"
-#include "..\XrAPI\xrGameManager.h"
+#include "../xrAPI/xrGameManager.h"
 const u32 BIG_FILE_READER_WINDOW_SIZE = 1024 * 1024;
 
 // typedef void DUMMY_STUFF (const void*,const u32&,void*);

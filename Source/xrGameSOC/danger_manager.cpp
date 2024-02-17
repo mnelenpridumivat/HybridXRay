@@ -14,7 +14,7 @@
 #include "memory_manager.h"
 #include "enemy_manager.h"
 #include "actor.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 
 struct CDangerPredicate
 {

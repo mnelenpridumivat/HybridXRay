@@ -9,7 +9,7 @@
 #pragma once
 
 #include "../xrcore/_type_traits.h"
-#include "../XrEngine/object_type_traits.h"
+#include "../xrEngine/object_type_traits.h"
 
 namespace SmartDynamicCast
 {

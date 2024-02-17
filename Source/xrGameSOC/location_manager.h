@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../XrEngine/game_graph_space.h"
+#include "../xrEngine/game_graph_space.h"
 
 class CGameObject;
 

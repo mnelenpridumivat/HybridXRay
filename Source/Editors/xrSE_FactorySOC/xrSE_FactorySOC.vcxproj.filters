@@ -180,28 +180,28 @@
     <ClInclude Include="defines.h">
       <Filter>Common</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_broker.h">
+    <ClInclude Include="..\..\xrEngine\object_broker.h">
       <Filter>Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_cloner.h">
+    <ClInclude Include="..\..\xrEngine\object_cloner.h">
       <Filter>Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_comparer.h">
+    <ClInclude Include="..\..\xrEngine\object_comparer.h">
       <Filter>Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_destroyer.h">
+    <ClInclude Include="..\..\xrEngine\object_destroyer.h">
       <Filter>Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_interfaces.h">
+    <ClInclude Include="..\..\xrEngine\object_interfaces.h">
       <Filter>Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_loader.h">
+    <ClInclude Include="..\..\xrEngine\object_loader.h">
       <Filter>Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_saver.h">
+    <ClInclude Include="..\..\xrEngine\object_saver.h">
       <Filter>Common\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\object_type_traits.h">
+    <ClInclude Include="..\..\xrEngine\object_type_traits.h">
       <Filter>Common\ObjectBroker</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntitiesSOC\clsid_game.h">
@@ -387,7 +387,7 @@
     <ClInclude Include="script_file.h">
       <Filter>Scripts\ScriptDebugger</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\game_graph_space.h">
+    <ClInclude Include="..\..\xrEngine\game_graph_space.h">
       <Filter>ServerStuff\Common\ALifeStuff</Filter>
     </ClInclude>
     <ClInclude Include="alife_artefact_order.h">
@@ -456,7 +456,7 @@
     <ClInclude Include="..\..\xrServerEntitiesSOC\InfoPortionDefs.h">
       <Filter>ServerStuff\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\ShapeData.h">
+    <ClInclude Include="..\..\xrEngine\ShapeData.h">
       <Filter>ServerStuff\ServerEntities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntitiesSOC\xrServer_Objects_Abstract.h">
@@ -483,16 +483,16 @@
     <ClInclude Include="..\..\xrServerEntitiesSOC\xrServer_Objects_ALife_Monsters.h">
       <Filter>ServerStuff\ServerEntities\objects_alife_monsters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\ItemListTypes.h">
+    <ClInclude Include="..\Public\ItemListTypes.h">
       <Filter>ServerStuff\ServerEntities\editor_properties</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\PropertiesListTypes.h">
+    <ClInclude Include="..\Public\PropertiesListTypes.h">
       <Filter>ServerStuff\ServerEntities\editor_properties</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\WaveForm.h">
+    <ClInclude Include="..\Public\WaveForm.h">
       <Filter>ServerStuff\ServerEntities\editor_properties</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesSOC\xrEProps.h">
+    <ClInclude Include="..\Public\xrEProps.h">
       <Filter>ServerStuff\ServerEntities\editor_properties</Filter>
     </ClInclude>
     <ClInclude Include="ChooseTypes.h">

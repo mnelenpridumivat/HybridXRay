@@ -15,16 +15,16 @@
 #include "editor_environment_sound_channels_source.hpp"
 #include "editor_environment_sound_channels_manager.hpp"
 
-using XrWeatherEditor::environment::sound_channels::channel;
-using XrWeatherEditor::environment::sound_channels::manager;
-using XrWeatherEditor::environment::sound_channels::source;
+using xrWeatherEditor::environment::sound_channels::channel;
+using xrWeatherEditor::environment::sound_channels::manager;
+using xrWeatherEditor::environment::sound_channels::source;
 
 template<> void property_collection<channel::sound_container_type, channel>::display_name(u32 const& item_index, LPSTR const& buffer, u32 const& buffer_size)
 {
     xr_strcpy(buffer, buffer_size, m_container[item_index]->id());
 }
 
-template<> XrWeatherEditor::property_holder* property_collection<channel::sound_container_type, channel>::create()
+template<> xrWeatherEditor::property_holder* property_collection<channel::sound_container_type, channel>::create()
 {
     source* object = xr_new<source>("");
     object->fill(this);
@@ -111,16 +111,16 @@ void channel::id_setter(LPCSTR value_)
     m_load_section = m_manager.unique_id(value);
 }
 
-void channel::fill(XrWeatherEditor::property_holder_collection* collection)
+void channel::fill(xrWeatherEditor::property_holder_collection* collection)
 {
     VERIFY(!m_property_holder);
     m_property_holder = ::ide().create_property_holder(m_load_section.c_str(), collection, this);
 
-    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type string_getter_type;
     string_getter_type                                           string_getter;
     string_getter.bind(this, &channel::id_getter);
 
-    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type string_setter_type;
     string_setter_type                                           string_setter;
     string_setter.bind(this, &channel::id_setter);
 

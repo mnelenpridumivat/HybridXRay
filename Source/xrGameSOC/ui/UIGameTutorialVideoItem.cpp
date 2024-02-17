@@ -3,8 +3,8 @@
 #include "UIWindow.h"
 #include "UIStatic.h"
 #include "UIXmlInit.h"
-#include "../../XrEngine/object_broker.h"
-#include "../XrEngine/Xr_input.h"
+#include "../../xrEngine/object_broker.h"
+#include "../xrEngine/xr_input.h"
 #include "../xr_level_controller.h"
 
 #include "UISequenceVideoItem.h"

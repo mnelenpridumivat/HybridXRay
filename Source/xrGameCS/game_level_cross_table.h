@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "..\XrEngine\game_level_cross_table.h"
+#include "../xrEngine/game_level_cross_table.h"
 class CGameLevelCrossTable: public IGameLevelCrossTable
 {
 public:

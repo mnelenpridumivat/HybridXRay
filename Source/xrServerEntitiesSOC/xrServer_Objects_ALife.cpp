@@ -7,11 +7,11 @@
 ////////////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "../XrCore/net_utils.h"
+#include "../xrCore/net_utils.h"
 #include "xrServer_Objects_ALife.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 #include "game_base_space.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 #include "restriction_space.h"
 
 #ifndef AI_COMPILER
@@ -23,7 +23,7 @@
 #include "defines.h"
 LPCSTR GAME_CONFIG = "game.ltx";
 #else
-#include "..\XrEngine\bone.h"
+#include "../xrEngine/bone.h"
 #endif
 
 bool SortStringsByAlphabetPred(const shared_str& s1, const shared_str& s2)

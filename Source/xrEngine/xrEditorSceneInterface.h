@@ -1,12 +1,12 @@
 ﻿#pragma once
-#include "..\XrCDB\xrCDB.h"
+#include "../xrCDB/xrCDB.h"
 #include "game_graph.h"
 class CObjectSpace;
-class ENGINE_API XrEditorSceneInterface
+class ENGINE_API xrEditorSceneInterface
 {
 public:
-    XrEditorSceneInterface();
-    virtual ~XrEditorSceneInterface();
+    xrEditorSceneInterface();
+    virtual ~xrEditorSceneInterface();
     virtual IReader*     LoadSpawn()                                                                                     = 0;
     virtual void         LoadCFrom(CObjectSpace* Space, CDB::build_callback)                                             = 0;
     virtual IGameGraph*  GetGameGraph()                                                                                  = 0;

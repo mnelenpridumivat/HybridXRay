@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "HUDmanager.h"
-#include "..\XrEngine\xrLevel.h"
+#include "../xrEngine/xrLevel.h"
 #include "Level.h"
 #include "xrserver.h"
 

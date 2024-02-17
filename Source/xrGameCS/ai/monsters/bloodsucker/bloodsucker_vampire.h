@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../state.h"
-#include "../../../../XrServerEntitiesCS/clsid_game.h"
+#include "../../../../xrServerEntitiesCS/clsid_game.h"
 
 template<typename _Object> class CStateBloodsuckerVampire: public CState<_Object>
 {

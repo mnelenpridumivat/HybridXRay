@@ -4,8 +4,8 @@
 
 #include "ui_main.h"
 #include "ui_toolscustom.h"
-#include "../XrEngine/Environment.h"
-#include "../XrEngine/IGame_Persistent.h"
+#include "../xrEngine/Environment.h"
+#include "../xrEngine/IGame_Persistent.h"
 //---------------------------------------------------------------------------
 CCustomPreferences* EPrefs = 0;
 //---------------------------------------------------------------------------

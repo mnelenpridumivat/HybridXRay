@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../../../xrengine/XrDeviceInterface.h"
+#include "../../../xrengine/xrDeviceInterface.h"
 #include "ui_camera.h"
 #include "../../../xrRender/Private/hwcaps.h"
 #include "../../../xrRender/Private/hw.h"
@@ -10,7 +10,7 @@
 #include "../../../xrEngine/shader_xrlc.h"
 #include "../../../xrRender/Private/shader.h"
 #include "../../../xrRender/Private/R_Backend.h"
-#include "../../../XrEngine/_d3d_extensions.h"
+#include "../../../xrEngine/_d3d_extensions.h"
 
 //---------------------------------------------------------------------------
 // refs
@@ -19,7 +19,7 @@ class CInifile;
 class CResourceManager;
 #undef CreateWindow
 //------------------------------------------------------------------------------
-class ECORE_API CEditorRenderDevice: public XrDeviceInterface
+class ECORE_API CEditorRenderDevice: public xrDeviceInterface
 {
     friend class CUI_Camera;
     friend class TUI;

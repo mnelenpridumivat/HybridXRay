@@ -1,11 +1,11 @@
 ﻿#include "stdafx.h"
 #include "phantom.h"
-#include "../../../XrCore/net_utils.h"
+#include "../../../xrCore/net_utils.h"
 #include "../../level.h"
-#include "XrServer_Objects_ALife_Monsters.h"
-#include "../../../XrEngine/motion.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/RenderVisual.h"
+#include "xrServer_Objects_ALife_Monsters.h"
+#include "../../../xrEngine/motion.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/RenderVisual.h"
 CPhantom::CPhantom()
 {
     fSpeed  = 4.f;

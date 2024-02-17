@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "hit.h"
 #include "ode_include.h"
-#include "..\XrEngine\bone.h"
-#include "../XrCore/net_utils.h"
+#include "../xrEngine/bone.h"
+#include "../xrCore/net_utils.h"
 #include "xrMessages.h"
 #include "Level.h"
 

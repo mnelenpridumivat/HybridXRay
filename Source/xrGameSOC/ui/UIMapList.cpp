@@ -9,11 +9,11 @@
 #include "UIMapInfo.h"
 #include "UIComboBox.h"
 #include "UIListBoxItem.h"
-#include "../XrEngine/Xr_ioconsole.h"
+#include "../xrEngine/xr_ioconsole.h"
 #include "../string_table.h"
 #include "CExtraContentFilter.h"
 
-#include "../../XrEngine/object_broker.h"
+#include "../../xrEngine/object_broker.h"
 
 extern ENGINE_API string512 g_sLaunchOnExit_app;
 extern ENGINE_API string512 g_sLaunchOnExit_params;

@@ -4,7 +4,7 @@
 #include "Thunderbolt.h"
 #include "igame_persistent.h"
 #include "LightAnimLibrary.h"
-#include "XrEditorSceneInterface.h"
+#include "xrEditorSceneInterface.h"
 
 #if 1
 // #include "render.h"

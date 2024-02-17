@@ -1,5 +1,5 @@
 ﻿#pragma once
-class XREPROPS_API UIKeyPressForm: public XrUI
+class XREPROPS_API UIKeyPressForm: public xrUI
 {
 public:
     UIKeyPressForm();

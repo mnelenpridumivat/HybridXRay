@@ -2,7 +2,7 @@
 #include "stdafx.h"
 #pragma hdrstop
 
-#include "../XrEngine/GameMtlLib.h"
+#include "../xrEngine/GameMtlLib.h"
 
 CGameMtlLibrary GMLib;
 

@@ -2,10 +2,10 @@
 #pragma hdrstop
 #ifdef DEBUG
 #include "ode_include.h"
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #endif
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "hit.h"
 #include "phdestroyable.h"
 #include "car.h"
@@ -14,8 +14,8 @@
 #include "camerafirsteye.h"
 #include "script_entity_action.h"
 #include "xr_level_controller.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "level.h"
 #include "CarWeapon.h"
 

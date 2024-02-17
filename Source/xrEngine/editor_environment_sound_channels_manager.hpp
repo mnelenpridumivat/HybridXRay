@@ -14,7 +14,7 @@
 #include <boost/noncopyable.hpp>
 #include "property_collection_forward.hpp"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -33,7 +33,7 @@ namespace XrWeatherEditor
                 ~manager();
                 void       load();
                 void       save();
-                void       fill(XrWeatherEditor::property_holder* holder);
+                void       fill(xrWeatherEditor::property_holder* holder);
                 shared_str unique_id(shared_str const& id) const;
 
             public:
@@ -44,7 +44,7 @@ namespace XrWeatherEditor
                 channels_ids_type const& channels_ids() const;
 
             private:
-                typedef XrWeatherEditor::property_holder                     property_holder_type;
+                typedef xrWeatherEditor::property_holder                     property_holder_type;
                 typedef property_collection<channel_container_type, manager> collection_type;
 
             private:
@@ -56,7 +56,7 @@ namespace XrWeatherEditor
             };   // class manager
         }        // namespace sound_channels
     }            // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

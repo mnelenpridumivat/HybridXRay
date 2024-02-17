@@ -2,7 +2,7 @@
 #include "uicustomitem.h"
 #include "hudmanager.h"
 
-#include "../XrRender/Public/UIRender.h"
+#include "../xrRender/Public/UIRender.h"
 CUICustomItem::CUICustomItem()
 {
     uAlign = alNone;

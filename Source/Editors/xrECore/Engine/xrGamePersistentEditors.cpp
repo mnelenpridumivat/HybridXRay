@@ -1,10 +1,10 @@
 ﻿#include "stdafx.h"
 
 #include "IGame_Persistent.h"
-#include "..\XrAPI\xrGameManager.h"
-#include "XrGamePersistentEditors.h"
+#include "../xrAPI/xrGameManager.h"
+#include "xrGamePersistentEditors.h"
 
-XrGamePersistentEditors::XrGamePersistentEditors(): IGame_Persistent(true)
+xrGamePersistentEditors::xrGamePersistentEditors(): IGame_Persistent(true)
 {
     g_dedicated_server = false;
     m_pMainMenu        = NULL;
@@ -12,20 +12,20 @@ XrGamePersistentEditors::XrGamePersistentEditors(): IGame_Persistent(true)
     pEnvironment       = xr_new<CEnvironment>();
 }
 
-XrGamePersistentEditors::~XrGamePersistentEditors() {}
+xrGamePersistentEditors::~xrGamePersistentEditors() {}
 
-void XrGamePersistentEditors::OnAppActivate() {}
+void xrGamePersistentEditors::OnAppActivate() {}
 
-void XrGamePersistentEditors::OnAppDeactivate() {}
+void xrGamePersistentEditors::OnAppDeactivate() {}
 
-void XrGamePersistentEditors::OnAppStart() {}
+void xrGamePersistentEditors::OnAppStart() {}
 
-void XrGamePersistentEditors::OnAppEnd()
+void xrGamePersistentEditors::OnAppEnd()
 {
     OnGameEnd();
 }
 
-void XrGamePersistentEditors::PreStart(LPCSTR op)
+void xrGamePersistentEditors::PreStart(LPCSTR op)
 {
     string256 prev_type;
     params    new_game_params;
@@ -38,7 +38,7 @@ void XrGamePersistentEditors::PreStart(LPCSTR op)
         OnGameEnd();
     }
 }
-void XrGamePersistentEditors::Start(LPCSTR op)
+void xrGamePersistentEditors::Start(LPCSTR op)
 {
     string256 prev_type;
     xr_strcpy(prev_type, m_game_params.m_game_type);
@@ -55,21 +55,21 @@ void XrGamePersistentEditors::Start(LPCSTR op)
     VERIFY(ps_destroy.empty());
 }
 
-void  XrGamePersistentEditors::Disconnect() {}
+void  xrGamePersistentEditors::Disconnect() {}
 
-void  XrGamePersistentEditors::OnGameStart() {}
+void  xrGamePersistentEditors::OnGameStart() {}
 
-void  XrGamePersistentEditors::OnGameEnd() {}
+void  xrGamePersistentEditors::OnGameEnd() {}
 
-void  XrGamePersistentEditors::OnFrame() {}
+void  xrGamePersistentEditors::OnFrame() {}
 
-void  XrGamePersistentEditors::OnAssetsChanged() {}
+void  xrGamePersistentEditors::OnAssetsChanged() {}
 
-void  XrGamePersistentEditors::RegisterModel(IRenderVisual* V) {}
+void  xrGamePersistentEditors::RegisterModel(IRenderVisual* V) {}
 
-float XrGamePersistentEditors::MtlTransparent(u32 mtl_idx)
+float xrGamePersistentEditors::MtlTransparent(u32 mtl_idx)
 {
     return 0.0f;
 }
 
-void XrGamePersistentEditors::Statistics(CGameFont* F) {}
+void xrGamePersistentEditors::Statistics(CGameFont* F) {}

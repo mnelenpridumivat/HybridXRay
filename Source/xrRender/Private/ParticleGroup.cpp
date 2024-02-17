@@ -4,7 +4,7 @@
 #include "../../xrEngine/psystem.h"
 
 #ifndef REDITOR
-#include "../../XrServerEntities/smart_cast.h"
+#include "../../xrServerEntities/smart_cast.h"
 #endif
 
 #include "ParticleGroup.h"

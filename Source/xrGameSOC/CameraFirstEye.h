@@ -1,7 +1,7 @@
 ﻿#ifndef __CAMERA_FE_H__
 #define __CAMERA_FE_H__
 
-#include "../XrEngine/CameraBase.h"
+#include "../xrEngine/CameraBase.h"
 
 class CCameraFirstEye: public CCameraBase
 {

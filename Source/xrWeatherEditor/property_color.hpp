@@ -15,16 +15,16 @@ public
 ref class property_color: public property_color_base
 {
 public:
-    typedef XrWeatherEditor::property_holder::color_getter_type color_getter_type;
-    typedef XrWeatherEditor::property_holder::color_setter_type color_setter_type;
+    typedef xrWeatherEditor::property_holder::color_getter_type color_getter_type;
+    typedef xrWeatherEditor::property_holder::color_setter_type color_setter_type;
     typedef property_color_base                                 inherited;
 
 public:
     property_color(color_getter_type const& getter, color_setter_type const& setter, array<System::Attribute ^> ^ attributes);
     virtual ~property_color();
     !property_color();
-    virtual XrWeatherEditor::color get_value_raw() override;
-    virtual void                   set_value_raw(XrWeatherEditor::color value) override;
+    virtual xrWeatherEditor::color get_value_raw() override;
+    virtual void                   set_value_raw(xrWeatherEditor::color value) override;
 
 private:
     color_getter_type* m_getter;

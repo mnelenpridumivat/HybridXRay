@@ -11,11 +11,11 @@
 
 #ifdef INGAME_EDITOR
 
-#include "../XrWeatherEditor/Public/engine.hpp"
+#include "../xrWeatherEditor/Public/engine.hpp"
 
 class IInputReceiver;
 
-class engine_impl: public XrWeatherEditor::engine
+class engine_impl: public xrWeatherEditor::engine
 {
 public:
     engine_impl();
@@ -44,9 +44,9 @@ private:
     virtual void                              track_weather(float const& time);
     virtual float                             track_weather();
 
-    virtual XrWeatherEditor::property_holder* current_frame_property_holder();
-    virtual XrWeatherEditor::property_holder* blend_frame_property_holder();
-    virtual XrWeatherEditor::property_holder* target_frame_property_holder();
+    virtual xrWeatherEditor::property_holder* current_frame_property_holder();
+    virtual xrWeatherEditor::property_holder* blend_frame_property_holder();
+    virtual xrWeatherEditor::property_holder* target_frame_property_holder();
 
     virtual void                              save_weathers();
 

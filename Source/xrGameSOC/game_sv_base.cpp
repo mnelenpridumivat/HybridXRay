@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "xrServer.h"
-#include "..\XrEngine\LevelGameDef.h"
+#include "../xrEngine/LevelGameDef.h"
 #include "script_process.h"
 #include "xrServer_Objects_ALife_Monsters.h"
 #include "script_engine.h"
@@ -9,8 +9,8 @@
 #include "xrserver.h"
 #include "ai_space.h"
 #include "game_sv_event_queue.h"
-#include "../XrEngine/XR_IOConsole.h"
-#include "../XrEngine/xr_ioc_cmd.h"
+#include "../xrEngine/XR_IOConsole.h"
+#include "../xrEngine/xr_ioc_cmd.h"
 #include "string_table.h"
 
 #include "debug_renderer.h"

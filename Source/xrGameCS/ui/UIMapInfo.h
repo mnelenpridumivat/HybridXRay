@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "UIWindow.h"
-#include "../../XrServerEntitiesCS/script_export_space.h"
+#include "../../xrServerEntitiesCS/script_export_space.h"
 
 class CUIScrollView;
 

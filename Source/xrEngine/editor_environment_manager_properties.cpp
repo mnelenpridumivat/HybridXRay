@@ -69,7 +69,7 @@ static test_property4 s_test_property5;
 
 struct test_property6
 {
-    XrWeatherEditor::color m_property;
+    xrWeatherEditor::color m_property;
 
     test_property6()
     {
@@ -77,11 +77,11 @@ struct test_property6
         m_property.g = 0.f;
         m_property.b = 1.f;
     }
-    XrWeatherEditor::color xr_stdcall getter()
+    xrWeatherEditor::color xr_stdcall getter()
     {
         return m_property;
     }
-    void xr_stdcall setter(XrWeatherEditor::color value)
+    void xr_stdcall setter(xrWeatherEditor::color value)
     {
         m_property = value;
     }
@@ -112,7 +112,7 @@ static test_property7    s_test_property7_values_enum;
 
 std::pair<float, LPCSTR> s_properties7_enum[] = {std::make_pair(10.1f, "float_property_0"), std::make_pair(20.1f, "float_property_1"), std::make_pair(30.1f, "float_property_2")};
 
-using XrWeatherEditor::environment::manager;
+using xrWeatherEditor::environment::manager;
 
 manager::manager()
 {
@@ -120,8 +120,8 @@ manager::manager()
     if (!Device->WeatherEditor())
         return;
 
-    XrWeatherEditor::ide&             ide    = *Device->WeatherEditor();
-    XrWeatherEditor::property_holder* holder = ide.create_property_holder();
+    xrWeatherEditor::ide&             ide    = *Device->WeatherEditor();
+    xrWeatherEditor::property_holder* holder = ide.create_property_holder();
     ide.active(holder);
 
     {
@@ -129,8 +129,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::integer_getter_type getter;
-        XrWeatherEditor::property_holder::integer_setter_type setter;
+        xrWeatherEditor::property_holder::integer_getter_type getter;
+        xrWeatherEditor::property_holder::integer_setter_type setter;
 
         getter.bind(&s_test_property, &test_property::getter);
         setter.bind(&s_test_property, &test_property::setter);
@@ -138,8 +138,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::integer_getter_type getter;
-        XrWeatherEditor::property_holder::integer_setter_type setter;
+        xrWeatherEditor::property_holder::integer_getter_type getter;
+        xrWeatherEditor::property_holder::integer_setter_type setter;
 
         getter.bind(&s_test_property_limited, &test_property::getter);
         setter.bind(&s_test_property_limited, &test_property::setter);
@@ -147,8 +147,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::integer_getter_type getter;
-        XrWeatherEditor::property_holder::integer_setter_type setter;
+        xrWeatherEditor::property_holder::integer_getter_type getter;
+        xrWeatherEditor::property_holder::integer_setter_type setter;
 
         getter.bind(&s_test_property_values, &test_property::getter);
         setter.bind(&s_test_property_values, &test_property::setter);
@@ -156,8 +156,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::integer_getter_type getter;
-        XrWeatherEditor::property_holder::integer_setter_type setter;
+        xrWeatherEditor::property_holder::integer_getter_type getter;
+        xrWeatherEditor::property_holder::integer_setter_type setter;
 
         getter.bind(&s_test_property_enum, &test_property::getter);
         setter.bind(&s_test_property_enum, &test_property::setter);
@@ -165,8 +165,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::string_getter_type getter;
-        XrWeatherEditor::property_holder::string_setter_type setter;
+        xrWeatherEditor::property_holder::string_getter_type getter;
+        xrWeatherEditor::property_holder::string_setter_type setter;
 
         getter.bind(&s_test_property2, &test_property2::getter);
         setter.bind(&s_test_property2, &test_property2::setter);
@@ -174,8 +174,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::string_getter_type getter;
-        XrWeatherEditor::property_holder::string_setter_type setter;
+        xrWeatherEditor::property_holder::string_getter_type getter;
+        xrWeatherEditor::property_holder::string_setter_type setter;
 
         getter.bind(&s_test_property3, &test_property2::getter);
         setter.bind(&s_test_property3, &test_property2::setter);
@@ -183,8 +183,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::boolean_getter_type getter;
-        XrWeatherEditor::property_holder::boolean_setter_type setter;
+        xrWeatherEditor::property_holder::boolean_getter_type getter;
+        xrWeatherEditor::property_holder::boolean_setter_type setter;
 
         getter.bind(&s_test_property4, &test_property4::getter);
         setter.bind(&s_test_property4, &test_property4::setter);
@@ -192,8 +192,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::boolean_getter_type getter;
-        XrWeatherEditor::property_holder::boolean_setter_type setter;
+        xrWeatherEditor::property_holder::boolean_getter_type getter;
+        xrWeatherEditor::property_holder::boolean_setter_type setter;
 
         getter.bind(&s_test_property5, &test_property4::getter);
         setter.bind(&s_test_property5, &test_property4::setter);
@@ -201,8 +201,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::color_getter_type getter;
-        XrWeatherEditor::property_holder::color_setter_type setter;
+        xrWeatherEditor::property_holder::color_getter_type getter;
+        xrWeatherEditor::property_holder::color_setter_type setter;
 
         getter.bind(&s_test_property6, &test_property6::getter);
         setter.bind(&s_test_property6, &test_property6::setter);
@@ -210,8 +210,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::float_getter_type getter;
-        XrWeatherEditor::property_holder::float_setter_type setter;
+        xrWeatherEditor::property_holder::float_getter_type getter;
+        xrWeatherEditor::property_holder::float_setter_type setter;
 
         getter.bind(&s_test_property7_limited, &test_property7::getter);
         setter.bind(&s_test_property7_limited, &test_property7::setter);
@@ -219,8 +219,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::float_getter_type getter;
-        XrWeatherEditor::property_holder::float_setter_type setter;
+        xrWeatherEditor::property_holder::float_getter_type getter;
+        xrWeatherEditor::property_holder::float_setter_type setter;
 
         getter.bind(&s_test_property7, &test_property7::getter);
         setter.bind(&s_test_property7, &test_property7::setter);
@@ -228,8 +228,8 @@ manager::manager()
     }
 
     {
-        XrWeatherEditor::property_holder::float_getter_type getter;
-        XrWeatherEditor::property_holder::float_setter_type setter;
+        xrWeatherEditor::property_holder::float_getter_type getter;
+        xrWeatherEditor::property_holder::float_setter_type setter;
 
         getter.bind(&s_test_property7_values_enum, &test_property7::getter);
         setter.bind(&s_test_property7_values_enum, &test_property7::setter);

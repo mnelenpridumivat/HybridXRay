@@ -1,11 +1,11 @@
 ﻿#pragma once
-#include "../XrEngine/xrISEAbstract.h"
+#include "../xrEngine/xrISEAbstract.h"
 
-class XrSEFactoryManager
+class xrSEFactoryManager
 {
 public:
-    XrSEFactoryManager();
-    ~XrSEFactoryManager();
+    xrSEFactoryManager();
+    ~xrSEFactoryManager();
     ISE_Abstract* create_entity(LPCSTR section);
     void          destroy_entity(ISE_Abstract*& abstract);
 
@@ -17,4 +17,4 @@ private:
     ISE_Abstract*(__cdecl* m_pFCreateEntity)(LPCSTR);
     void(__cdecl* m_pFDestroyEntity)(ISE_Abstract*&);
 };
-extern XrSEFactoryManager* g_SEFactoryManager;
+extern xrSEFactoryManager* g_SEFactoryManager;

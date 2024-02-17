@@ -5,14 +5,14 @@
 #if !defined(AFX_LEVEL_H__38F63863_DB0C_494B_AFAB_C495876EC671__INCLUDED_)
 #define AFX_LEVEL_H__38F63863_DB0C_494B_AFAB_C495876EC671__INCLUDED_
 #pragma once
-#include "../XrEngine/CustomHUD.h"
-#include "../XrEngine/igame_level.h"
-#include "../XrNetServer/net_client.h"
+#include "../xrEngine/CustomHUD.h"
+#include "../xrEngine/igame_level.h"
+#include "../xrNetServer/net_client.h"
 #include "script_export_space.h"
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "xrMessages.h"
-#include "..\xrEngine\alife_space.h"
-#include "../XrCore/xrDebug.h"
+#include "../xrEngine/alife_space.h"
+#include "../xrCore/xrDebug.h"
 #include "xrServer.h"
 #include "battleye_system.h"
 
@@ -45,7 +45,7 @@ class CFogOfWarMngr;
 class CBulletManager;
 class CMapManager;
 
-#include "../XrEngine/feel_touch.h"
+#include "../xrEngine/feel_touch.h"
 
 class GlobalFeelTouch: public Feel::Touch
 {

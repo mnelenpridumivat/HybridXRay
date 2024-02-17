@@ -14,8 +14,8 @@ using System::Windows::Forms::GridItem;
 using Flobbster::Windows::Forms::PropertyBag;
 typedef PropertyBag::PropertySpecDescriptor PropertySpecDescriptor;
 
-using XrWeatherEditor::engine;
-using XrWeatherEditor::window_weather_editor;
+using xrWeatherEditor::engine;
+using xrWeatherEditor::window_weather_editor;
 
 using Microsoft::Win32::Registry;
 using Microsoft::Win32::RegistryKey;

@@ -141,7 +141,7 @@ struct st_LevelOptions
     void Reset();
 };
 
-class EScene: public XrEditorSceneInterface
+class EScene: public xrEditorSceneInterface
 {
     CMemoryWriter m_SaveCache;
 

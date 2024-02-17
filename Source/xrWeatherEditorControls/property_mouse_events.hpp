@@ -9,7 +9,7 @@
 #ifndef PROPERTY_MOUSE_EVENTS_HPP_INCLUDED
 #define PROPERTY_MOUSE_EVENTS_HPP_INCLUDED
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     namespace controls
     {
@@ -24,6 +24,6 @@ namespace XrWeatherEditor
         };   // interface class property_mouse_events
 
     }   // namespace controls
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // ifndef PROPERTY_MOUSE_EVENTS_HPP_INCLUDED

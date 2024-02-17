@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
-#include "..\..\XrAPI\xrGameManager.h"
+#include "../../xrAPI/xrGameManager.h"
 #include "xrRender_console.h"
 #include "dxRenderDeviceRender.h"
 

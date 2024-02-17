@@ -6,11 +6,11 @@
 #include "PHStaticGeomShell.h"
 #include "PhysicsShell.h"
 #include "Physics.h"
-#include "../XrEngine/xr_collide_form.h"
-#include "../XrCore/net_utils.h"
+#include "../xrEngine/xr_collide_form.h"
+#include "../xrCore/net_utils.h"
 #include "clsid_game.h"
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

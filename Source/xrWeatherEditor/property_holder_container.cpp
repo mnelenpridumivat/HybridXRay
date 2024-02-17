@@ -13,7 +13,7 @@
 
 using Flobbster::Windows::Forms::PropertySpec;
 
-XrWeatherEditor::property_value* property_holder::add_property(LPCSTR identifier, LPCSTR category, LPCSTR description, XrWeatherEditor::property_holder* value, readonly_enum const& read_only, notify_parent_on_change_enum const& notify_parent, password_char_enum const& password, refresh_grid_on_change_enum const& refresh_grid)
+xrWeatherEditor::property_value* property_holder::add_property(LPCSTR identifier, LPCSTR category, LPCSTR description, xrWeatherEditor::property_holder* value, readonly_enum const& read_only, notify_parent_on_change_enum const& notify_parent, password_char_enum const& password, refresh_grid_on_change_enum const& refresh_grid)
 {
     property_holder* real_value = dynamic_cast<property_holder*>(value);
     VERIFY(real_value);

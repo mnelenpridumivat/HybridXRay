@@ -4,8 +4,8 @@
 #pragma hdrstop
 #define dSINGLE
 #include "animation_blend.h"
-#include "..\..\XrPhysics\Physics.h"
-#include "..\XrECore\Editor\EditMesh.h"
+#include "..\..\xrPhysics\Physics.h"
+#include "..\xrECore\Editor\EditMesh.h"
 #include "KinematicAnimatedDefs.h"
 #include "SkeletonAnimated.h"
 #if !defined(_DEBUG) && defined(_WIN64)

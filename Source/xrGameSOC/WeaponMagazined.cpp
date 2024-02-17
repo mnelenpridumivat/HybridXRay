@@ -14,7 +14,7 @@
 #include "EffectorZoomInertion.h"
 #include "xr_level_controller.h"
 #include "level.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 #include "string_table.h"
 
 CWeaponMagazined::CWeaponMagazined(LPCSTR name, ESoundTypes eSoundType): CWeapon(name)

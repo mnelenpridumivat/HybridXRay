@@ -45,7 +45,7 @@ IPHWorld* __stdcall physics_world()
 }
 
 void __stdcall create_physics_world(bool mt, CObjectSpace* os, CObjectList* lo,
-    XrDeviceInterface* dv)   // IPHWorldUpdateCallbck &commander,
+    xrDeviceInterface* dv)   // IPHWorldUpdateCallbck &commander,
 {
     ph_world = xr_new<CPHWorld>();   //&commander
     VERIFY(os);
@@ -159,7 +159,7 @@ void CPHWorld::SetStep(float s)
         ph_world->m_frame_time          = frame_time;
     }
 }
-void CPHWorld::Create(bool mt, CObjectSpace* os, CObjectList* lo, XrDeviceInterface* dv)
+void CPHWorld::Create(bool mt, CObjectSpace* os, CObjectList* lo, xrDeviceInterface* dv)
 {
     LoadParams();
     dWorldID phWorld = 0;

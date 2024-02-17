@@ -16,7 +16,7 @@ using System::String;
 using System::ComponentModel::ITypeDescriptorContext;
 using System::Drawing::Design::UITypeEditorEditStyle;
 using System::Windows::Forms::Design::IWindowsFormsEditorService;
-using XrWeatherEditor::window_tree_values;
+using xrWeatherEditor::window_tree_values;
 
 property_editor_tree_values::property_editor_tree_values(): m_dialog(gcnew window_tree_values()) {}
 

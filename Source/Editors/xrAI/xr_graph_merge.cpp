@@ -8,7 +8,7 @@
 
 #include "stdafx.h"
 #include "../../xrcore/xr_ini.h"
-#include "../../XrGame/xrLevel.h"
+#include "../../xrGame/xrLevel.h"
 #include "xrAI.h"
 #include "xrServer_Objects_ALife_All.h"
 #include "factory_api.h"

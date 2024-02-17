@@ -12,10 +12,10 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "xr_efflensflare.h"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -29,14 +29,14 @@ namespace XrWeatherEditor
             class flare;
             class manager;
 
-            class sun: public CLensFlare, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
+            class sun: public CLensFlare, public xrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             public:
                 sun(manager const& manager, shared_str const& section);
                 ~sun();
                 void load(CInifile& config);
                 void save(CInifile& config);
-                void fill(XrWeatherEditor::property_holder_collection* collection);
+                void fill(xrWeatherEditor::property_holder_collection* collection);
 
             private:
                 LPCSTR xr_stdcall id_getter() const;
@@ -54,7 +54,7 @@ namespace XrWeatherEditor
                 shared_str                        m_shader;
                 shared_str                        m_texture;
                 manager const&                    m_manager;
-                XrWeatherEditor::property_holder* m_property_holder;
+                xrWeatherEditor::property_holder* m_property_holder;
                 float                             m_radius;
                 bool                              m_use;
                 bool                              m_ignore_color;
@@ -62,7 +62,7 @@ namespace XrWeatherEditor
 
         }   // namespace suns
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

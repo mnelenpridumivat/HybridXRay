@@ -11,7 +11,7 @@
 
 #include "xrServer_Space.h"
 #ifdef XRGAME_EXPORTS
-#include "../XrCDB/xrCDB.h"
+#include "../xrCDB/xrCDB.h"
 #else   // XRGAME_EXPORTS
 #include "../xrCDB/xrCDB.h"
 #endif   // XRGAME_EXPORTS
@@ -22,13 +22,13 @@ class CDUInterface;
 
 #ifndef _EDITOR
 #ifndef XRGAME_EXPORTS
-#include "..\XrSound\Sound.h"
+#include "../xrSound/Sound.h"
 #endif
 #endif
 
-#include "..\Editors\Public\xrEProps.h"
+#include "../Editors/Public/xrEProps.h"
 #include "DrawUtils.h"
 
-#include "..\XrServerEntities\xrServer_Objects_Abstract_Base.h"
+#include "../xrServerEntities/xrServer_Objects_Abstract_Base.h"
 
 #endif   // xrServer_Objects_AbstractH

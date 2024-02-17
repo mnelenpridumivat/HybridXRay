@@ -11,7 +11,7 @@
 
 class shared_str;
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
 #pragma pack(push, 4)
@@ -306,6 +306,6 @@ namespace XrWeatherEditor
         virtual void attribute(property_holder::refresh_grid_on_change_enum const& refresh_grid)   = 0;
     };   // class property_value
 
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // ifndef EDITOR_PROPERTY_HOLDER_HPP_INCLUDED

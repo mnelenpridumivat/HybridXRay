@@ -9,7 +9,7 @@
 #ifndef EDITOR_IDE_HPP_INCLUDED
 #define EDITOR_IDE_HPP_INCLUDED
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -39,6 +39,6 @@ namespace XrWeatherEditor
         virtual void                                               weather_editor_setup(weathers_getter_type const& weathers_getter, weathers_size_getter_type const& weathers_size_getter, frames_getter_type const& frames_getter, frames_size_getter_type const& frames_size_getter) = 0;
     };   // class ide
 
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // ifndef EDITOR_IDE_HPP_INCLUDED

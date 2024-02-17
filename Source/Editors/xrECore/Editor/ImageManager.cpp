@@ -10,7 +10,7 @@
 #include "EditObject.h"
 #include "ResourceManager.h"
 #include "StbImage/stb_image.h"
-#include "../XrETools/ETools.h"
+#include "../xrETools/ETools.h"
 CImageManager ImageLib;
 //---------------------------------------------------------------------------
 /*

@@ -29,7 +29,7 @@
 #include "xrSash.h"
 
 #include "securom_api.h"
-#include "../XrAPI/xrGameManager.h"
+#include "../xrAPI/xrGameManager.h"
 #include "GameMtlLib.h"
 #include "device.h"
 //---------------------------------------------------------------------

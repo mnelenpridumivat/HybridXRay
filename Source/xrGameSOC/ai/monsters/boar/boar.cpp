@@ -1,14 +1,14 @@
 ﻿#include "stdafx.h"
 #include "boar.h"
 #include "boar_state_manager.h"
-#include "../../../../XrEngine/bone.h"
+#include "../../../../xrEngine/bone.h"
 #include "../monster_velocity_space.h"
 #include "../../../game_object_space.h"
 #include "../control_animation_base.h"
 #include "../control_movement_base.h"
 
-#include "../../../../XrRender/Public/Kinematics.h"
-#include "../../../../XrRender/Public/KinematicsAnimated.h"
+#include "../../../../xrRender/Public/Kinematics.h"
+#include "../../../../xrRender/Public/KinematicsAnimated.h"
 
 CAI_Boar::CAI_Boar()
 {

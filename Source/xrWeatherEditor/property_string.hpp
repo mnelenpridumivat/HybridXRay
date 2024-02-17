@@ -15,8 +15,8 @@ public
 ref class property_string: public property_value
 {
 public:
-    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
-    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type string_setter_type;
 
 public:
     property_string(string_getter_type const& getter, string_setter_type const& setter);

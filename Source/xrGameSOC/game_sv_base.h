@@ -1,9 +1,9 @@
 ﻿#pragma once
 
 #include "game_base.h"
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "script_export_space.h"
-#include "../XrCore/client_id.h"
+#include "../xrCore/client_id.h"
 #include "game_sv_base_console_vars.h"
 
 #ifndef DPNSEND_GUARANTEED

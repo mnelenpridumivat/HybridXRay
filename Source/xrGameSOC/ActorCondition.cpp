@@ -12,9 +12,9 @@
 #include "script_callback_ex.h"
 #include "script_game_object.h"
 #include "game_object_space.h"
-#include "ui\UIVideoPlayerWnd.h"
+#include "ui/UIVideoPlayerWnd.h"
 #include "script_callback_ex.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 #include "weapon.h"
 
 #define MAX_SATIETY   1.0f

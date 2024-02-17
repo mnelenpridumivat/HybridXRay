@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "XrSEFactoryManager.h"
+#include "xrSEFactoryManager.h"
 
 IC CSE_Abstract* F_entity_Create(LPCSTR section)
 {

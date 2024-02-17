@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 #include "actor_mp_server.h"
-#include "../XrCore/net_utils.h"
+#include "../xrCore/net_utils.h"
 
 void CSE_ActorMP::fill_state(actor_mp_state& state)
 {

@@ -1,23 +1,23 @@
 ﻿#include "stdafx.h"
-#include "XrGameManager.h"
-#include "..\..\XrAPI\xrGameManager.h"
+#include "xrGameManager.h"
+#include "../../xrAPI/xrGameManager.h"
 #include "../../xrServerEntities/xrServer_Objects_Abstract.h"
-#include "..\XrEngine\XrGameEditorInterface.h"
-XrGameManager* g_XrGameManager = nullptr;
+#include "../xrEngine/xrGameEditorInterface.h"
+xrGameManagerLE* g_xrGameManager = nullptr;
 extern "C"
 {
     typedef void xrGameInitialize();
 };
-XrGameManager::XrGameManager()
+xrGameManagerLE::xrGameManagerLE()
 {
-    LPCSTR g_name = "XrGame.dll";
+    LPCSTR g_name = "xrGame.dll";
     switch (xrGameManager::GetGame())
     {
         case EGame::CS:
-            g_name = "XrGameCS.dll";
+            g_name = "xrGameCS.dll";
             break;
         case EGame::SHOC:
-            g_name = "XrGameSOC.dll";
+            g_name = "xrGameSOC.dll";
             break;
     }
 
@@ -40,22 +40,22 @@ XrGameManager::XrGameManager()
     pxrGameInitialize();
 }
 
-XrGameManager::~XrGameManager()
+xrGameManagerLE::~xrGameManagerLE()
 {
     FreeLibrary(m_hGame);
 }
 
-DLL_Pure* XrGameManager::Create(CLASS_ID clsid)
+DLL_Pure* xrGameManagerLE::Create(CLASS_ID clsid)
 {
     return m_pCreate(clsid);
 }
 
-ISE_Abstract* XrGameManager::CreateFromSection(LPCSTR Name)
+ISE_Abstract* xrGameManagerLE::CreateFromSection(LPCSTR Name)
 {
     return m_pCreateFromSection(Name);
 }
 
-void XrGameManager::Destroy(ISE_Abstract* p)
+void xrGameManagerLE::Destroy(ISE_Abstract* p)
 {
     // m_pDestroy(static_cast<DLL_Pure*>(p));
 }

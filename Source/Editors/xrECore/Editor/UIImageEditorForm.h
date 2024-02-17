@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-class UIImageEditorForm: public XrUI
+class UIImageEditorForm: public xrUI
 {
 public:
     UIImageEditorForm();

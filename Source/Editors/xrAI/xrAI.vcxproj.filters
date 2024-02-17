@@ -394,7 +394,7 @@
     <ClCompile Include="guid_generator.cpp">
       <Filter>ALife\guid_generator</Filter>
     </ClCompile>
-    <ClCompile Include="XrSEFactoryManager.cpp" />
+    <ClCompile Include="xrSEFactoryManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIMapExport.h">
@@ -415,7 +415,7 @@
     <ClInclude Include="Shader_xrLC.h">
       <Filter>Compiler</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xr_3da\xrLevel.h">
+    <ClInclude Include="..\..\xrEngine\xrLevel.h">
       <Filter>Compiler</Filter>
     </ClInclude>
     <ClInclude Include="quadtree.h">
@@ -430,7 +430,7 @@
     <ClInclude Include="cover_point_inline.h">
       <Filter>Compiler\cover_point</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\FastDelegate.h">
+    <ClInclude Include="..\..\xrCore\FastDelegate.h">
       <Filter>Compiler\Kernel</Filter>
     </ClInclude>
     <ClInclude Include="communicate.h">
@@ -652,7 +652,7 @@
     <ClInclude Include="game_level_cross_table_inline.h">
       <Filter>ALife\search\graphs\cross_table</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\game_graph_space.h">
+    <ClInclude Include="..\..\xrEngine\game_graph_space.h">
       <Filter>ALife\search\graphs\game_graph</Filter>
     </ClInclude>
     <ClInclude Include="game_graph.h">
@@ -721,7 +721,7 @@
     <ClInclude Include="..\..\xrServerEntities\character_info_defs.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\DrawUtils.h">
+    <ClInclude Include="..\..\xrRender\Public\DrawUtils.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\InfoPortionDefs.h">
@@ -730,10 +730,10 @@
     <ClInclude Include="..\..\xrServerEntities\inventory_space.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\ItemListTypes.h">
+    <ClInclude Include="..\Public\ItemListTypes.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\PropertiesListTypes.h">
+    <ClInclude Include="..\Public\PropertiesListTypes.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\script_export_space.h">
@@ -745,13 +745,13 @@
     <ClInclude Include="..\..\xrServerEntities\script_value_container_impl.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\ShapeData.h">
+    <ClInclude Include="..\..\xrEngine\ShapeData.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\WaveForm.h">
+    <ClInclude Include="..\Public\WaveForm.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\xrEProps.h">
+    <ClInclude Include="..\Public\xrEProps.h">
       <Filter>ALife\Shared\ServerEntities</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\xrServer_Object_Base.h">
@@ -808,28 +808,28 @@
     <ClInclude Include="NET_utils.h">
       <Filter>ALife\Shared\Server</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\object_broker.h">
+    <ClInclude Include="..\..\xrEngine\object_broker.h">
       <Filter>ALife\Shared\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\object_cloner.h">
+    <ClInclude Include="..\..\xrEngine\object_cloner.h">
       <Filter>ALife\Shared\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\object_comparer.h">
+    <ClInclude Include="..\..\xrEngine\object_comparer.h">
       <Filter>ALife\Shared\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\object_destroyer.h">
+    <ClInclude Include="..\..\xrEngine\object_destroyer.h">
       <Filter>ALife\Shared\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\object_interfaces.h">
+    <ClInclude Include="..\..\xrEngine\object_interfaces.h">
       <Filter>ALife\Shared\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\object_loader.h">
+    <ClInclude Include="..\..\xrEngine\object_loader.h">
       <Filter>ALife\Shared\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\object_saver.h">
+    <ClInclude Include="..\..\xrEngine\object_saver.h">
       <Filter>ALife\Shared\ObjectBroker</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntities\object_type_traits.h">
+    <ClInclude Include="..\..\xrEngine\object_type_traits.h">
       <Filter>ALife\Shared\ObjectBroker</Filter>
     </ClInclude>
     <ClInclude Include="..\..\xrServerEntities\clsid_game.h">
@@ -919,7 +919,7 @@
     <ClInclude Include="guid_generator.h">
       <Filter>ALife\guid_generator</Filter>
     </ClInclude>
-    <ClInclude Include="XrSEFactoryManager.h" />
+    <ClInclude Include="xrSEFactoryManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc">

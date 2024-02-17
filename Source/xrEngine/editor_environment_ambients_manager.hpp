@@ -14,7 +14,7 @@
 #include <boost/noncopyable.hpp>
 #include "property_collection_forward.hpp"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder;
@@ -42,11 +42,11 @@ namespace XrWeatherEditor
             class manager: private boost::noncopyable
             {
             public:
-                manager(XrWeatherEditor::environment::manager const& manager);
+                manager(xrWeatherEditor::environment::manager const& manager);
                 ~manager();
                 void       load();
                 void       save();
-                void       fill(XrWeatherEditor::property_holder* holder);
+                void       fill(xrWeatherEditor::property_holder* holder);
                 shared_str unique_id(shared_str const& id) const;
                 ambient*   get_ambient(shared_str const& id) const;
 
@@ -62,20 +62,20 @@ namespace XrWeatherEditor
                 ambients_ids_type const& ambients_ids() const;
 
             private:
-                typedef XrWeatherEditor::property_holder                     property_holder_type;
+                typedef xrWeatherEditor::property_holder                     property_holder_type;
                 typedef property_collection<ambient_container_type, manager> collection_type;
 
             private:
                 ambient_container_type                       m_ambients;
                 mutable ambients_ids_type                    m_ambients_ids;
-                XrWeatherEditor::environment::manager const& m_manager;
+                xrWeatherEditor::environment::manager const& m_manager;
                 property_holder_type*                        m_property_holder;
                 collection_type*                             m_collection;
                 mutable bool                                 m_changed;
             };   // class manager
         }        // namespace ambients
     }            // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

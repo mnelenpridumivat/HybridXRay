@@ -15,8 +15,8 @@ public
 ref class property_float_enum_value_reference: public property_float_reference
 {
 public:
-    typedef XrWeatherEditor::property_holder::float_getter_type float_getter_type;
-    typedef XrWeatherEditor::property_holder::float_setter_type float_setter_type;
+    typedef xrWeatherEditor::property_holder::float_getter_type float_getter_type;
+    typedef xrWeatherEditor::property_holder::float_setter_type float_setter_type;
     typedef Pair<float, System::String ^>                       ValuePair;
 
 private:

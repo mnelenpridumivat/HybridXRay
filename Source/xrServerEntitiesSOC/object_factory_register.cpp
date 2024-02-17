@@ -17,7 +17,7 @@
 
 // client entities includes
 #ifndef NO_XR_GAME
-#include "../XrEngine/std_classes.h"
+#include "../xrEngine/std_classes.h"
 #include "level.h"
 #include "gamepersistent.h"
 #include "hudmanager.h"
@@ -49,7 +49,7 @@
 #include "ai/crow/ai_crow.h"
 
 #ifdef DEBUG
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #endif   // DEBUG
 
@@ -167,7 +167,7 @@
 
 #include "actor_mp_server.h"
 #include "actor_mp_client.h"
-#include "XrLevelEditor.h"
+#include "xrLevelEditor.h"
 #endif   // NO_XR_GAME
 
 #ifndef NO_XR_GAME

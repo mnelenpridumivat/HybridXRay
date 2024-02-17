@@ -13,8 +13,8 @@
     <ClCompile Include="imgui_user.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="spectrum.cpp" />
-    <ClCompile Include="XrUI.cpp" />
-    <ClCompile Include="XrUIManager.cpp" />
+    <ClCompile Include="xrUI.cpp" />
+    <ClCompile Include="xrUIManager.cpp" />
     <ClCompile Include="ImGuizmo.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -30,8 +30,8 @@
     <ClInclude Include="localization_types.h" />
     <ClInclude Include="spectrum.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="XrUI.h" />
-    <ClInclude Include="XrUIManager.h" />
+    <ClInclude Include="xrUI.h" />
+    <ClInclude Include="xrUIManager.h" />
     <ClInclude Include="ImGuizmo.h" />
   </ItemGroup>
   <ItemGroup>

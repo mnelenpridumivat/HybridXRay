@@ -3,8 +3,8 @@
 #include "SpaceUtils.h"
 #include "GameObject.h"
 #include "PhysicsShellHolder.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "PHCollideValidator.h"
 void CPHStaticGeomShell::get_spatial_params()
 {

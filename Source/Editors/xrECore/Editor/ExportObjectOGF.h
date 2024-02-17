@@ -3,7 +3,7 @@
 #ifndef ExportObjectOGFH
 #define ExportObjectOGFH
 
-#include "../../XrETools/PropSlimTools.h"
+#include "../../xrETools/PropSlimTools.h"
 //---------------------------------------------------------------------------
 const int              clpOGFMX = 48, clpOGFMY = 16, clpOGFMZ = 48;
 extern ECORE_API float g_EpsSkelPositionDelta;

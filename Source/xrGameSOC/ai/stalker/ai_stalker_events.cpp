@@ -11,7 +11,7 @@
 #include "../../pda.h"
 #include "../../inventory.h"
 #include "../../shootingobject.h"
-#include "../../../XrCore/net_utils.h"
+#include "../../../xrCore/net_utils.h"
 #include "../../level.h"
 #include "../../ai_monster_space.h"
 

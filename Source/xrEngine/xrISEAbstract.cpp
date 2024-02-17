@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "XrISEAbstract.h"
+#include "xrISEAbstract.h"
 
 void ISE_Abstract::FillProp(LPCSTR pref, PropItemVec& items)
 {

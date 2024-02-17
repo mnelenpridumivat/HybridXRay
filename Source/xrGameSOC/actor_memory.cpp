@@ -11,7 +11,7 @@
 #include "actor.h"
 #include "../xrengine/camerabase.h"
 #include "gamepersistent.h"
-#include "../XrEngine/IGame_Persistent.h"
+#include "../xrEngine/IGame_Persistent.h"
 
 CActorMemory::CActorMemory(CActor* actor): inherited(actor, 100), m_actor(actor)
 {

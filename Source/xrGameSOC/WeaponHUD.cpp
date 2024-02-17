@@ -5,9 +5,9 @@
 #include "stdafx.h"
 #include "WeaponHUD.h"
 #include "Weapon.h"
-#include "../XrEngine/Motion.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrEngine/Motion.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "level.h"
 #include "MathUtils.h"
 weapon_hud_container* g_pWeaponHUDContainer = 0;

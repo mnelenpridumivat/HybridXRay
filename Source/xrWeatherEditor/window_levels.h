@@ -8,7 +8,7 @@ using namespace System::Data;
 using namespace System::Drawing;
 
 
-namespace XrWeatherEditor {
+namespace xrWeatherEditor {
 
 	ref class window_ide;
 	/// <summary>
@@ -43,7 +43,7 @@ namespace XrWeatherEditor {
 				delete components;
 			}
 		}
-	private: XrWeatherEditor::controls::property_grid^  PropertyGrid;
+	private: xrWeatherEditor::controls::property_grid^  PropertyGrid;
 	protected: 
 
 	protected: 
@@ -63,7 +63,7 @@ namespace XrWeatherEditor {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->PropertyGrid = (gcnew XrWeatherEditor::controls::property_grid());
+			this->PropertyGrid = (gcnew xrWeatherEditor::controls::property_grid());
 			this->SuspendLayout();
 			// 
 			// PropertyGrid
@@ -104,4 +104,4 @@ private:
 			Void				window_levels_Leave	(System::Object^  sender, System::EventArgs^  e);
 }; // ref class window_levels
 
-} // namespace XrWeatherEditor
+} // namespace xrWeatherEditor

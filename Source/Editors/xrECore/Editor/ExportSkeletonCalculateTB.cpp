@@ -15,14 +15,14 @@
 #include "../../../xrRender/Private/hw.h"
 #include "../../../xrEngine/pure.h"
 class CGameFont;
-#include "../XrRender/public/drawutils.h"
-#include "../XrRender/Private/xrD3dDefs.h"
-#include "../XrRender/Private/shader.h"
-#include "../XrRender/Private/R_Backend.h"
+#include "../xrRender/public/drawutils.h"
+#include "../xrRender/Private/xrD3dDefs.h"
+#include "../xrRender/Private/shader.h"
+#include "../xrRender/Private/R_Backend.h"
 
-#include "..\..\xrEngine\fmesh.h"
-#include "..\..\xrEngine\_d3d_extensions.h"
-#include "..\..\xrEngine\properties.h"
+#include "../../xrEngine/fmesh.h"
+#include "../../xrEngine/_d3d_extensions.h"
+#include "../../xrEngine/properties.h"
 
 //
 

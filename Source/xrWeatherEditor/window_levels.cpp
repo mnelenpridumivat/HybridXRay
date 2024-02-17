@@ -3,7 +3,7 @@
 #include "window_ide.h"
 #include "window_view.h"
 
-using XrWeatherEditor::window_levels;
+using xrWeatherEditor::window_levels;
 
 Void window_levels::window_levels_Leave(System::Object ^ sender, System::EventArgs ^ e)
 {

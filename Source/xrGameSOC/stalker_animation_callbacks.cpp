@@ -13,9 +13,9 @@
 #include "stalker_movement_manager.h"
 #include "game_object_space.h"
 #include "effectorshot.h"
-#include "../XrRender/Public/RenderVisual.h"
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/RenderVisual.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 
 #define TEMPLATE_SPECIALIZATION template<int yaw_factor_non_fire, int pitch_factor_non_fire, int yaw_factor_fire, int pitch_factor_fire>
 

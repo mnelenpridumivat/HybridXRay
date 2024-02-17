@@ -39,7 +39,7 @@ public:
 typedef xr_vector<EEditorState> EStateList;
 typedef EStateList::iterator    EStateIt;
 
-class ECORE_API                 TUI: public IInputReceiver, public XrUIManager
+class ECORE_API                 TUI: public IInputReceiver, public xrUIManager
 {
     bool        m_AppClosed;
     inline void RealQuit()

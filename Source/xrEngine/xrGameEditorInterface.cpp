@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
-#include "XrGameEditorInterface.h"
+#include "xrGameEditorInterface.h"
 
-XrGameEditorInterface::XrGameEditorInterface() {}
+xrGameEditorInterface::xrGameEditorInterface() {}
 
-XrGameEditorInterface::~XrGameEditorInterface() {}
+xrGameEditorInterface::~xrGameEditorInterface() {}

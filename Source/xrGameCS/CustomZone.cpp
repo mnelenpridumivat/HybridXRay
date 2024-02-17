@@ -17,7 +17,7 @@
 #include "zone_effector.h"
 #include "breakableobject.h"
 #include "GamePersistent.h"
-#include "..\XrEngine\xr_collide_form.h"
+#include "../xrEngine/xr_collide_form.h"
 #define WIND_RADIUS       (4 * Radius())   //���������� �� ������, ����� ���������� �����
 #define FASTMODE_DISTANCE (50.f)           //distance to camera from sphere, when zone switches to fast update sequence
 

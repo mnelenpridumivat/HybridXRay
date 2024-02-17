@@ -17,7 +17,7 @@
 #include "../actor.h"
 
 #include "../ai_space.h"
-#include "../../XrServerEntitiesCS/script_engine.h"
+#include "../../xrServerEntitiesCS/script_engine.h"
 
 #include "../xrRender/Public/UIShader.h"
 

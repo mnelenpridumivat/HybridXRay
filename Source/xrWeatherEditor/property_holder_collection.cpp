@@ -13,16 +13,16 @@
 #include "property_collection_getter.hpp"
 
 using Flobbster::Windows::Forms::PropertySpec;
-using XrWeatherEditor::property_holder_collection;
+using xrWeatherEditor::property_holder_collection;
 
-XrWeatherEditor::property_value* property_holder::add_property(LPCSTR identifier, LPCSTR category, LPCSTR description, property_holder_collection* collection, readonly_enum const& read_only, notify_parent_on_change_enum const& notify_parent, password_char_enum const& password, refresh_grid_on_change_enum const& refresh_grid)
+xrWeatherEditor::property_value* property_holder::add_property(LPCSTR identifier, LPCSTR category, LPCSTR description, property_holder_collection* collection, readonly_enum const& read_only, notify_parent_on_change_enum const& notify_parent, password_char_enum const& password, refresh_grid_on_change_enum const& refresh_grid)
 {
     m_container->add_property(gcnew PropertySpec(to_string(identifier), property_collection::typeid, to_string(category), to_string(description)), gcnew property_collection(collection));
 
     return (nullptr);
 }
 
-XrWeatherEditor::property_value* property_holder::add_property(LPCSTR identifier, LPCSTR category, LPCSTR description, collection_getter_type const& collection_getter, readonly_enum const& read_only, notify_parent_on_change_enum const& notify_parent, password_char_enum const& password, refresh_grid_on_change_enum const& refresh_grid)
+xrWeatherEditor::property_value* property_holder::add_property(LPCSTR identifier, LPCSTR category, LPCSTR description, collection_getter_type const& collection_getter, readonly_enum const& read_only, notify_parent_on_change_enum const& notify_parent, password_char_enum const& password, refresh_grid_on_change_enum const& refresh_grid)
 {
     m_container->add_property(gcnew PropertySpec(to_string(identifier), property_collection::typeid, to_string(category), to_string(description)), gcnew property_collection_getter(collection_getter));
 

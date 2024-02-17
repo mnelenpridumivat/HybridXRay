@@ -17,10 +17,10 @@
 #include "UIMinimapEditorForm.h"
 #include "UIAboutForm.h"
 #include "UIWeatherPropForm.h"
-#include "../XrETools/ETools.h"
+#include "../xrETools/ETools.h"
 #include "UILogForm.h"
 #include "gamefont.h"
-#include "../XrEngine/XR_IOConsole.h"
+#include "../xrEngine/XR_IOConsole.h"
 TUI* UI = 0;
 
 TUI::TUI()

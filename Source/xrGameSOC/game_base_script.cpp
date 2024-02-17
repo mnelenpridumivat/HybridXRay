@@ -1,7 +1,7 @@
 ﻿#include "pch_script.h"
 #include "game_base.h"
 #include "xrServer_script_macroses.h"
-#include "../XrCore/client_id.h"
+#include "../xrCore/client_id.h"
 
 using namespace luabind;
 

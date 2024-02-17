@@ -4,7 +4,7 @@
 using System::String;
 using System::Void;
 using System::Windows::Forms::TreeNode;
-using XrWeatherEditor::window_tree_values;
+using xrWeatherEditor::window_tree_values;
 
 ref class NodeSorter: public IComparer
 {

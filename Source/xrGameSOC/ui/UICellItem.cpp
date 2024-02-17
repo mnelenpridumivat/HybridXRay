@@ -1,10 +1,10 @@
 ﻿#include "stdafx.h"
 #include "UICellItem.h"
 #include "../xr_level_controller.h"
-#include "../XrEngine/Xr_input.h"
+#include "../xrEngine/xr_input.h"
 #include "../HUDManager.h"
 #include "../level.h"
-#include "../../XrEngine/object_broker.h"
+#include "../../xrEngine/object_broker.h"
 
 CUICellItem::CUICellItem()
 {

@@ -20,13 +20,13 @@
 
 #include "xr_level_controller.h"
 #include "game_cl_base.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "ai_object_location.h"
 #include "clsid_game.h"
 #include "mathutils.h"
-#include "../XrEngine/object_broker.h"
-#include "../XrEngine/igame_persistent.h"
+#include "../xrEngine/object_broker.h"
+#include "../xrEngine/igame_persistent.h"
 
 #define WEAPON_REMOVE_TIME 60000
 #define ROTATION_TIME      0.25f

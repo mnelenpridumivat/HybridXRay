@@ -1,7 +1,7 @@
 ﻿#ifndef AMMUNITION_GROUPS_INCLUDED
 #define AMMUNITION_GROUPS_INCLUDED
 
-#include "../XrEngine/associative_vector.h"
+#include "../xrEngine/associative_vector.h"
 
 class CItemMgr;
 

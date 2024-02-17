@@ -1,7 +1,7 @@
 ﻿#ifndef ExportSkeletonH
 #define ExportSkeletonH
 
-#include "../../XrETools/PropSlimTools.h"
+#include "../../xrETools/PropSlimTools.h"
 // #include "../../../xrRender/Private/SkeletonCustom.h"
 #include "EditMesh.h"
 //---------------------------------------------------------------------------

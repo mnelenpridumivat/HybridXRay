@@ -5,7 +5,7 @@
 #include "progmesh.h"
 #include "xrSpherical.h"
 
-#include "../XrETools/PropSlimTools.h"
+#include "../xrETools/PropSlimTools.h"
 #include "vbm.h"
 
 #include "../xrLCLight/xruvpoint.h"

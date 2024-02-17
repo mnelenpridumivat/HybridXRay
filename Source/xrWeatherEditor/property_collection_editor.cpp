@@ -21,7 +21,7 @@ using System::String;
 using System::Type;
 using System::ComponentModel::PropertyDescriptor;
 using System::ComponentModel::Design::CollectionEditor;
-using XrWeatherEditor::property_holder_collection;
+using xrWeatherEditor::property_holder_collection;
 
 typedef PropertyBag::PropertySpecDescriptor PropertySpecDescriptor;
 

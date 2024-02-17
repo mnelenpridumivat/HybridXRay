@@ -31,7 +31,7 @@ IGame_Persistent::IGame_Persistent(bool bIsEditor)
     if (!bIsEditor)
     {
         if (Device->WeatherEditor())
-            pEnvironment = xr_new<XrWeatherEditor::environment::manager>();
+            pEnvironment = xr_new<xrWeatherEditor::environment::manager>();
         else
             pEnvironment = xr_new<CEnvironment>();
     }

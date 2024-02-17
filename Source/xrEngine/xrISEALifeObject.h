@@ -1,9 +1,9 @@
 ﻿#pragma once
-#include "XrISEALifeCreatureActor.h"
-#include "XrISEALifeDynamicObject.h"
-#include "XrISEALifeLevelChanger.h"
-#include "XrISEALifeSpaceRestrictor.h"
-#include "XrISEALifeAnomalousZone.h"
+#include "xrISEALifeCreatureActor.h"
+#include "xrISEALifeDynamicObject.h"
+#include "xrISEALifeLevelChanger.h"
+#include "xrISEALifeSpaceRestrictor.h"
+#include "xrISEALifeAnomalousZone.h"
 #include "alife_space.h"
 #include "game_graph_space.h"
 class ISE_ALifeObject

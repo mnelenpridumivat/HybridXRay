@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../../XrServerEntitiesCS/script_export_space.h"
+#include "../../xrServerEntitiesCS/script_export_space.h"
 #include "UIOptionsItem.h"
 #include "UIColorAnimatorWrapper.h"
 #include "UICustomEdit.h"

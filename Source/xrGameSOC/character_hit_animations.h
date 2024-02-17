@@ -1,7 +1,7 @@
 ﻿#pragma once
 class CEntityAlive;
 
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 class character_hit_animation_controller
 {
 public:

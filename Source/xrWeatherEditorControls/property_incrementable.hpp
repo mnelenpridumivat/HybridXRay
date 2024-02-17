@@ -9,7 +9,7 @@
 #ifndef PROPERTY_INCREMENTABLE_HPP_INCLUDED
 #define PROPERTY_INCREMENTABLE_HPP_INCLUDED
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     namespace controls
     {
@@ -22,6 +22,6 @@ namespace XrWeatherEditor
         };   // interface class property_value
 
     }   // namespace controls
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // ifndef PROPERTY_INCREMENTABLE_HPP_INCLUDED

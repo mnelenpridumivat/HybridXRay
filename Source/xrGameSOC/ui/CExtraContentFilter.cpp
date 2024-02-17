@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #include "CExtraContentFilter.h"
 #include "../RegistryFuncs.h"
-#include "../../XrEngine/object_broker.h"
+#include "../../xrEngine/object_broker.h"
 
 #define EXTRA_CONTENT_SECTION "extracontent_packs"
 

@@ -22,7 +22,7 @@ enum
     epoDeffLoadCF      = (1 << 10),
     epoSelectInGroup   = (1 << 11),
 };
-class ECORE_API CCustomPreferences: protected XrUI
+class ECORE_API CCustomPreferences: protected xrUI
 {
 private:   // User declarations
     UIPropertiesForm* m_ItemProps;

@@ -24,7 +24,7 @@
 #if 1
 #include "ui_main.h"
 #include "ui_toolscustom.h"
-#include "..\Engine\XrGameMaterialLibraryEditors.h"
+#include "../Engine/xrGameMaterialLibraryEditors.h"
 #endif
 // #include "../../../xrRender/Private/SkeletonAnimated.h"
 

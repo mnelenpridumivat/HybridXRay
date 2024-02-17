@@ -1,10 +1,10 @@
-﻿#include "..\XrEngine\XrGameEditorInterface.h"
+﻿#include "../xrEngine/xrGameEditorInterface.h"
 #ifndef SHIPPING
-class XrGameEditor: public XrGameEditorInterface
+class xrGameEditor: public xrGameEditorInterface
 {
 public:
-    XrGameEditor();
-    virtual ~XrGameEditor();
+    xrGameEditor();
+    virtual ~xrGameEditor();
     virtual void Create();
     virtual void Destroy();
 };

@@ -319,7 +319,7 @@ DEFINE_VECTOR(xr_rtoken, RTokenVec, RTokenVecIt);
 #include "intrusive_ptr.h"
 
 #include "net_utils.h"
-#include "..\XrAPI\xrGameManager.h"
+#include "../xrAPI/xrGameManager.h"
 // destructor
 template<class T> class destructor
 {

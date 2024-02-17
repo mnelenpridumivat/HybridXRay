@@ -32,7 +32,7 @@
 #endif   //	XRRENDER_R1_EXPORTS
 
 #ifndef ENGINE_BUILD
-#include "../../XrServerEntities/ai_space.h"
+#include "../../xrServerEntities/ai_space.h"
 #endif
 
 using namespace Script;

@@ -6,7 +6,7 @@
 #include "ImageManager.h"
 #include "ui_main.h"
 #include "render.h"
-#include "../Engine/XrGameMaterialLibraryEditors.h"
+#include "../Engine/xrGameMaterialLibraryEditors.h"
 #include "ResourceManager.h"
 #include "UI_ToolsCustom.h"
 #include "igame_persistent.h" // for environment bug-fix
@@ -67,7 +67,7 @@ CEditorRenderDevice::CEditorRenderDevice()
     fASPECT                    = 1.f;
     fFOV                       = 60.f;
     dwPrecacheFrame            = 0;
-    GameMaterialLibraryEditors = xr_new<XrGameMaterialLibraryEditors>();
+    GameMaterialLibraryEditors = xr_new<xrGameMaterialLibraryEditors>();
     GameMaterialLibrary        = GameMaterialLibraryEditors;
 }
 

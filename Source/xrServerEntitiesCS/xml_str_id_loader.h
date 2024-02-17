@@ -3,8 +3,8 @@
 #ifdef XRGAME_EXPORTS
 #include "ui/xrUIXmlParser.h"
 #else   // XRGAME_EXPORTS
-#include "../XrGameCS/ui/xrUIXmlParser.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrGameCS/ui/xrUIXmlParser.h"
+#include "../xrEngine/object_broker.h"
 #endif   // XRGAME_EXPORTS
 
 //T_ID    - уникальный текстовый идентификатор (аттрибут id в XML файле)

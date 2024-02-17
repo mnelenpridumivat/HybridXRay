@@ -13,8 +13,8 @@ class ILevelGraph;
 class IGameLevelCrossTable;
 class IGameGraph;
 
-#include "../XrEngine/object_interfaces.h"
-#include "../XrEngine/game_graph_space.h"
+#include "../xrEngine/object_interfaces.h"
+#include "../xrEngine/game_graph_space.h"
 
 class CPatrolPoint: public IPureSerializeObject<IReader, IWriter>
 {

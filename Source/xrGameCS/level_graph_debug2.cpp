@@ -43,7 +43,7 @@
 #include "debug_renderer.h"
 #include "smart_cover_object.h"
 #include "HUDManager.h"
-#include "..\XrEngine\level_graph_space.h"
+#include "../xrEngine/level_graph_space.h"
 void CLevelGraph::draw_nodes()
 {
     CGameObject* O        = smart_cast<CGameObject*>(Level().CurrentEntity());

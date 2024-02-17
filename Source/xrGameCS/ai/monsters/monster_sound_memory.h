@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "ai_monster_defs.h"
-#include "../../../XrServerEntitiesCS/ai_sounds.h"
+#include "../../../xrServerEntitiesCS/ai_sounds.h"
 
 class CBaseMonster;
 

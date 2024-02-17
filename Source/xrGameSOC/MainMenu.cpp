@@ -2,14 +2,14 @@
 #include "MainMenu.h"
 #include "UI/UIDialogWnd.h"
 #include "ui/UIMessageBoxEx.h"
-#include "../XrEngine/xr_IOConsole.h"
-#include "../XrEngine/IGame_Level.h"
-#include "../XrEngine/CameraManager.h"
+#include "../xrEngine/xr_IOConsole.h"
+#include "../xrEngine/IGame_Level.h"
+#include "../xrEngine/CameraManager.h"
 #include "xr_Level_controller.h"
-#include "ui\UITextureMaster.h"
-#include "ui\UIXmlInit.h"
+#include "ui/UITextureMaster.h"
+#include "ui/UIXmlInit.h"
 #include <dinput.h>
-#include "ui\UIBtnHint.h"
+#include "ui/UIBtnHint.h"
 #include "UICursor.h"
 #include "gamespy/GameSpy_Full.h"
 #include "gamespy/GameSpy_HTTP.h"
@@ -17,7 +17,7 @@
 #include "gamespy/CdkeyDecode/cdkeydecode.h"
 #include "string_table.h"
 
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 
 //#define DEMO_BUILD
 

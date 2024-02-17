@@ -11,12 +11,12 @@
 #include "script_engine.h"
 #include "ai/stalker/ai_stalker_space.h"
 #include "ai_space.h"
-#include "../XrEngine/xr_object.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
-#include "../XrRender/Public/Kinematics.h"
+#include "../xrEngine/xr_object.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
 #include "profiler.h"
 #include "sound_collection_storage.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 
 CSoundPlayer::CSoundPlayer(CObject* object)
 {

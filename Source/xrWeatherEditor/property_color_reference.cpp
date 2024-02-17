@@ -9,7 +9,7 @@
 #include "pch.hpp"
 #include "property_color_reference.hpp"
 
-using XrWeatherEditor::color;
+using xrWeatherEditor::color;
 
 property_color_reference::property_color_reference(color& value, array<System::Attribute ^> ^ attributes): m_value(new value_holder<color>(value)), inherited(value, attributes) {}
 

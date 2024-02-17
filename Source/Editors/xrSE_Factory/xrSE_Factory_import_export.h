@@ -7,12 +7,12 @@
 #define FACTORY_API __declspec(dllimport)
 #endif
 
-namespace XrSE_Factory
+namespace xrSE_Factory
 {
     FACTORY_API ISE_Abstract* create_entity(LPCSTR section);
     FACTORY_API void          destroy_entity(ISE_Abstract*&);
     FACTORY_API void          initialize();
     FACTORY_API void          destroy();
-}   // namespace XrSE_Factory
+}   // namespace xrSE_Factory
 
 #endif

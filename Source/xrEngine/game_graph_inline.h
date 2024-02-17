@@ -1,5 +1,5 @@
 ﻿#include "game_graph_space.h"
-#include "XrEditorSceneInterface.h"
+#include "xrEditorSceneInterface.h"
 #include "game_graph.h"
 ////////////////////////////////////////////////////////////////////////////
 //	Module 		: game_graph_inline.h

@@ -4,9 +4,9 @@
 #include "spectrum.h"
 #include "ImGuizmo.h"
 
-XrUIManager::XrUIManager() {}
+xrUIManager::xrUIManager() {}
 
-XrUIManager::~XrUIManager() {}
+xrUIManager::~xrUIManager() {}
 
 inline void Style()
 {
@@ -99,7 +99,7 @@ inline void Style()
     }
 #endif
 }
-void XrUIManager::Initialize(HWND hWnd, IDirect3DDevice9* device, const char* ini_path)
+void xrUIManager::Initialize(HWND hWnd, IDirect3DDevice9* device, const char* ini_path)
 {
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -125,26 +125,26 @@ void XrUIManager::Initialize(HWND hWnd, IDirect3DDevice9* device, const char* in
     ImGui_ImplDX9_Init(device);
 }
 
-void XrUIManager::Destroy()
+void xrUIManager::Destroy()
 {
     ImGui_ImplDX9_Shutdown();
     ImGui_ImplWin32_Shutdown();
     ImGui::DestroyContext();
 }
 
-void XrUIManager::ResetBegin()
+void xrUIManager::ResetBegin()
 {
     ImGui_ImplDX9_InvalidateDeviceObjects();
 }
 
-void XrUIManager::ResetEnd()
+void xrUIManager::ResetEnd()
 {
     ImGui_ImplDX9_CreateDeviceObjects();
 }
 
-void XrUIManager::OnDrawUI() {}
+void xrUIManager::OnDrawUI() {}
 
-void XrUIManager::ApplyShortCut(DWORD Key)
+void xrUIManager::ApplyShortCut(DWORD Key)
 {
     if ((ImGui::GetIO().WantTextInput))
         return;
@@ -230,13 +230,13 @@ void XrUIManager::ApplyShortCut(DWORD Key)
     ApplyShortCut(Key, ShiftState);
 }
 
-void XrUIManager::Push(XrUI* ui, bool need_deleted)
+void xrUIManager::Push(xrUI* ui, bool need_deleted)
 {
     m_UIArray.push_back(ui);
-    ui->Flags.set(!need_deleted, XrUI::F_NoDelete);
+    ui->Flags.set(!need_deleted, xrUI::F_NoDelete);
 }
 
-void XrUIManager::Draw()
+void xrUIManager::Draw()
 {
     ImGui_ImplDX9_NewFrame();
     ImGui_ImplWin32_NewFrame();
@@ -264,7 +264,7 @@ void XrUIManager::Draw()
         ImGui::End();
         ImGui::PopStyleVar(4);
     }
-    for (XrUI* ui: m_UIArray)
+    for (xrUI* ui: m_UIArray)
     {
         ui->Draw();
     }
@@ -277,7 +277,7 @@ void XrUIManager::Draw()
     {
         if (m_UIArray[i - 1]->IsClosed())
         {
-            if (!m_UIArray[i - 1]->Flags.test(XrUI::F_NoDelete))
+            if (!m_UIArray[i - 1]->Flags.test(xrUI::F_NoDelete))
             {
                 xr_delete(m_UIArray[i - 1]);
             }
@@ -354,7 +354,7 @@ static bool ImGui_ImplWin32_UpdateMouseCursor()
 #define DBT_DEVNODES_CHANGED 0x0007
 #endif
 IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
-LRESULT                XrUIManager::WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
+LRESULT                xrUIManager::WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
     {

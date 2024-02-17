@@ -1,5 +1,5 @@
 ﻿#include "stdafx.h"
-#include "XrGameMaterialLibraryInterface.h"
+#include "xrGameMaterialLibraryInterface.h"
 SGameMtl::SGameMtl()
 {
     ID     = -1;
@@ -203,9 +203,9 @@ void SGameMtl::Save(IWriter& fs)
     R_ASSERT(0);
 }
 
-XrGameMaterialLibraryInterface::XrGameMaterialLibraryInterface() {}
+xrGameMaterialLibraryInterface::xrGameMaterialLibraryInterface() {}
 
-XrGameMaterialLibraryInterface::~XrGameMaterialLibraryInterface() {}
+xrGameMaterialLibraryInterface::~xrGameMaterialLibraryInterface() {}
 #ifdef DEBUG
 LPCSTR SGameMtlPair::dbg_Name()
 {
@@ -217,7 +217,7 @@ LPCSTR SGameMtlPair::dbg_Name()
 }
 #endif
 
-SGameMtlPair::SGameMtlPair(XrGameMaterialLibraryInterface* owner)
+SGameMtlPair::SGameMtlPair(xrGameMaterialLibraryInterface* owner)
 {
 #ifdef _EDITOR
     m_EditParent  = false;

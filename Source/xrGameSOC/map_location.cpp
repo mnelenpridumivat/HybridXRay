@@ -4,7 +4,7 @@
 #include "map_manager.h"
 
 #include "level.h"
-#include "../XrEngine/xr_object.h"
+#include "../xrEngine/xr_object.h"
 #include "ai_space.h"
 #include "game_graph.h"
 #include "xrServer.h"
@@ -18,7 +18,7 @@
 #include "alife_object_registry.h"
 #include "relation_registry.h"
 #include "InventoryOwner.h"
-#include "../XrEngine/object_broker.h"
+#include "../xrEngine/object_broker.h"
 #include "string_table.h"
 #include "level_changer.h"
 #include "actor_memory.h"

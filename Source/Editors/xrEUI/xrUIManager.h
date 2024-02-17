@@ -10,16 +10,16 @@ enum TShiftState_
 };
 using TShiftState             = int;
 constexpr int   UIToolBarSize = 24;
-class XREUI_API XrUIManager
+class XREUI_API xrUIManager
 {
 public:
-    XrUIManager();
-    void                             Push(XrUI* ui, bool need_deleted = true);
+    xrUIManager();
+    void                             Push(xrUI* ui, bool need_deleted = true);
 
     template<typename T> inline bool IsPushedOfType() const
     {
         return std::any_of(m_UIArray.begin(), m_UIArray.end(),
-            [](XrUI* Form)
+            [](xrUI* Form)
             {
                 return dynamic_cast<T*>(Form);
             });
@@ -27,7 +27,7 @@ public:
 
     void Draw();
 
-    virtual ~XrUIManager();
+    virtual ~xrUIManager();
 
     LRESULT      WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
     void         Initialize(HWND hWnd, IDirect3DDevice9* device, const char* ini_path);
@@ -57,6 +57,6 @@ private:
     float            m_MenuBarHeight;
     void             ApplyShortCut(DWORD Key);
     TShiftState      m_ShiftState;
-    xr_vector<XrUI*> m_UIArray;
+    xr_vector<xrUI*> m_UIArray;
     string_path      m_name_ini;
 };

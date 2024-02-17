@@ -1,5 +1,5 @@
 ﻿#pragma once
-#include "../XrEngine/object_interfaces.h"
+#include "../xrEngine/object_interfaces.h"
 #include "map_location_defs.h"
 
 class CMapLocationWrapper;

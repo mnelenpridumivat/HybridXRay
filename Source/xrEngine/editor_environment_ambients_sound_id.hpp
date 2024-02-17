@@ -12,9 +12,9 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
 
     class property_holder_collection;
@@ -29,19 +29,19 @@ namespace XrWeatherEditor
         namespace ambients
         {
 
-            class sound_id: public XrWeatherEditor::property_holder_holder, private boost::noncopyable
+            class sound_id: public xrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             public:
                 sound_id(sound_channels::manager const& manager, shared_str const& sound);
                 virtual ~sound_id();
-                void                     fill(XrWeatherEditor::property_holder_collection* collection);
+                void                     fill(xrWeatherEditor::property_holder_collection* collection);
                 inline shared_str const& id() const
                 {
                     return m_id;
                 }
 
             private:
-                typedef XrWeatherEditor::property_holder property_holder_type;
+                typedef xrWeatherEditor::property_holder property_holder_type;
 
             public:
                 virtual property_holder_type* object();
@@ -57,7 +57,7 @@ namespace XrWeatherEditor
             };   // class sound_id
         }        // namespace ambients
     }            // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

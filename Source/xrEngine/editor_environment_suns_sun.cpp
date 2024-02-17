@@ -10,16 +10,16 @@
 
 #ifdef INGAME_EDITOR
 #include "editor_environment_suns_sun.hpp"
-#include "../XrWeatherEditor/Public/ide.hpp"
+#include "../xrWeatherEditor/Public/ide.hpp"
 #include "editor_environment_manager.hpp"
 #include "ide.hpp"
 #include "editor_environment_detail.hpp"
 #include "editor_environment_suns_manager.hpp"
 
-using XrWeatherEditor::property_holder;
-using XrWeatherEditor::environment::suns::flare;
-using XrWeatherEditor::environment::suns::manager;
-using XrWeatherEditor::environment::suns::sun;
+using xrWeatherEditor::property_holder;
+using xrWeatherEditor::environment::suns::flare;
+using xrWeatherEditor::environment::suns::manager;
+using xrWeatherEditor::environment::suns::sun;
 
 sun::sun(manager const& manager, shared_str const& id): m_manager(manager), m_id(id), m_use(false), m_ignore_color(false), m_radius(0.f), m_shader(""), m_texture(""), m_property_holder(0) {}
 
@@ -63,18 +63,18 @@ void sun::id_setter(LPCSTR value_)
     m_id = m_manager.unique_id(value);
 }
 
-void sun::fill(XrWeatherEditor::property_holder_collection* collection)
+void sun::fill(xrWeatherEditor::property_holder_collection* collection)
 {
     VERIFY(!m_property_holder);
     m_property_holder                            = ::ide().create_property_holder(m_id.c_str(), collection, this);
-    XrWeatherEditor::property_holder* properties = m_property_holder;
+    xrWeatherEditor::property_holder* properties = m_property_holder;
     VERIFY(properties);
 
-    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type string_getter_type;
     string_getter_type                                           string_getter;
     string_getter.bind(this, &sun::id_getter);
 
-    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type string_setter_type;
     string_setter_type                                           string_setter;
     string_setter.bind(this, &sun::id_setter);
 
@@ -82,8 +82,8 @@ void sun::fill(XrWeatherEditor::property_holder_collection* collection)
     properties->add_property("use", "sun", "this option is resposible for sun usage", m_use, m_use);
     properties->add_property("ignore color", "sun", "this option is resposible for sun ignore color", m_ignore_color, m_ignore_color);
     properties->add_property("radius", "sun", "this option is resposible for sun radius", m_radius, m_radius);
-    properties->add_property("shader", "sun", "this option is resposible for sun shader", m_shader.c_str(), m_shader, &*m_manager.m_environment.shader_ids().begin(), m_manager.m_environment.shader_ids().size(), XrWeatherEditor::property_holder::value_editor_tree_view, XrWeatherEditor::property_holder::cannot_enter_text);
-    properties->add_property("texture", "sun", "this option is resposible for sun texture", m_texture.c_str(), m_texture, ".dds", "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...", XrWeatherEditor::property_holder::cannot_enter_text, XrWeatherEditor::property_holder::remove_extension);
+    properties->add_property("shader", "sun", "this option is resposible for sun shader", m_shader.c_str(), m_shader, &*m_manager.m_environment.shader_ids().begin(), m_manager.m_environment.shader_ids().size(), xrWeatherEditor::property_holder::value_editor_tree_view, xrWeatherEditor::property_holder::cannot_enter_text);
+    properties->add_property("texture", "sun", "this option is resposible for sun texture", m_texture.c_str(), m_texture, ".dds", "Texture files (*.dds)|*.dds", detail::real_path("$game_textures$", "").c_str(), "Select texture...", xrWeatherEditor::property_holder::cannot_enter_text, xrWeatherEditor::property_holder::remove_extension);
 }
 
 property_holder* sun::object()

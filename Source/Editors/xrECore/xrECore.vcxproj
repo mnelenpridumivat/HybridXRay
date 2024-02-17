@@ -162,8 +162,8 @@
     <ClCompile Include="Engine\Image.cpp" />
     <ClCompile Include="Engine\NVMeshMender.cpp" />
     <ClCompile Include="Engine\nv_algebra.cpp" />
-    <ClCompile Include="Engine\XrGameMaterialLibraryEditors.cpp" />
-    <ClCompile Include="Engine\XrGamePersistentEditors.cpp" />
+    <ClCompile Include="Engine\xrGameMaterialLibraryEditors.cpp" />
+    <ClCompile Include="Engine\xrGamePersistentEditors.cpp" />
     <ClCompile Include="guid.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
@@ -281,8 +281,8 @@
     <ClInclude Include="Engine\nv_math.h" />
     <ClInclude Include="Engine\nv_mathdecl.h" />
     <ClInclude Include="Engine\Texture.h" />
-    <ClInclude Include="Engine\XrGameMaterialLibraryEditors.h" />
-    <ClInclude Include="Engine\XrGamePersistentEditors.h" />
+    <ClInclude Include="Engine\xrGameMaterialLibraryEditors.h" />
+    <ClInclude Include="Engine\xrGamePersistentEditors.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="WildMagic\WmlApprGaussPointsFit3.h" />
     <ClInclude Include="WildMagic\WmlBox3.h" />

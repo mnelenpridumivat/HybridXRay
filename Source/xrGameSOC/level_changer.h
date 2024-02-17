@@ -9,8 +9,8 @@
 #pragma once
 
 #include "GameObject.h"
-#include "../XrEngine/feel_touch.h"
-#include "../XrEngine/game_graph_space.h"
+#include "../xrEngine/feel_touch.h"
+#include "../xrEngine/game_graph_space.h"
 
 class CLevelChanger: public CGameObject, public Feel::Touch
 {

@@ -12,11 +12,11 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "editor_environment_thunderbolts_gradient.hpp"
 #include "thunderbolt.h"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     namespace environment
     {
@@ -28,7 +28,7 @@ namespace XrWeatherEditor
 
             class manager;
 
-            class thunderbolt: public SThunderboltDesc, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
+            class thunderbolt: public SThunderboltDesc, public xrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             private:
                 typedef SThunderboltDesc inherited;
@@ -38,7 +38,7 @@ namespace XrWeatherEditor
                 virtual ~thunderbolt();
                 void          load(CInifile& config);
                 void          save(CInifile& config);
-                void          fill(::XrWeatherEditor::environment::manager& environment, XrWeatherEditor::property_holder_collection* collection);
+                void          fill(::xrWeatherEditor::environment::manager& environment, xrWeatherEditor::property_holder_collection* collection);
                 inline LPCSTR id() const
                 {
                     return m_id.c_str();
@@ -51,7 +51,7 @@ namespace XrWeatherEditor
                 void xr_stdcall   id_setter(LPCSTR value);
 
             private:
-                typedef XrWeatherEditor::property_holder property_holder_type;
+                typedef xrWeatherEditor::property_holder property_holder_type;
 
             public:
                 virtual property_holder_type* object();
@@ -71,7 +71,7 @@ namespace XrWeatherEditor
 
         }   // namespace thunderbolts
     }       // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

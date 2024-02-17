@@ -1,6 +1,6 @@
 ﻿#pragma once
 #include "../control_combase.h"
-#include "../../../../XrRender/Public/KinematicsAnimated.h"
+#include "../../../../xrRender/Public/KinematicsAnimated.h"
 
 class CPsyHitEffectorCam;
 class CPsyHitEffectorPP;

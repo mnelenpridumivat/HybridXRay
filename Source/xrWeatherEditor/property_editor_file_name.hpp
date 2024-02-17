@@ -23,8 +23,8 @@ public
 ref class property_editor_file_name: public System::Drawing::Design::UITypeEditor
 {
 public:
-    typedef XrWeatherEditor::property_holder::string_getter_type string_getter_type;
-    typedef XrWeatherEditor::property_holder::string_setter_type string_setter_type;
+    typedef xrWeatherEditor::property_holder::string_getter_type string_getter_type;
+    typedef xrWeatherEditor::property_holder::string_setter_type string_setter_type;
 
 private:
     typedef System::Drawing::Design::UITypeEditor          inherited;

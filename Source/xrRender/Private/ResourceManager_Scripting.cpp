@@ -13,7 +13,7 @@
 #include "luabind/return_reference_to_policy.hpp"
 
 #include "dxRenderDeviceRender.h"
-#include "../../XrCore/doug_lea_allocator.h"
+#include "../../xrCore/doug_lea_allocator.h"
 using namespace luabind;
 
 #if REDITOR

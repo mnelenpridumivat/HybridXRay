@@ -19,10 +19,10 @@
 #include "level.h"
 #include "level_bullet_manager.h"
 #include "xrmessages.h"
-#include "../XrEngine/gamemtllib.h"
+#include "../xrEngine/gamemtllib.h"
 #include "clsid_game.h"
 #ifdef DEBUG
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
 #endif
 #include "Physics.h"
@@ -32,8 +32,8 @@
 #include "game_base_space.h"
 #include "profiler.h"
 
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 
 #define EFFECTOR_RADIUS 30.f
 const u16   TEST_RAYS_PER_OBJECT            = 5;

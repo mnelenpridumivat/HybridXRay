@@ -59,7 +59,7 @@ struct MyTri
 #include "../../xrcore/xrCore.h"
 
 #include "mesh.h"
-#include "..\XrQSlim\MxQMetric.h"
+#include "../xrQSlim/MxQMetric.h"
 
 struct GeneralTriInfo
 {

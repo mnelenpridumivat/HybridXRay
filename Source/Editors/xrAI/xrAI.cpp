@@ -176,7 +176,7 @@ void Startup(LPSTR lpCmdLine)
 #include "factory_api.h"
 
 #include "quadtree.h"
-#include "XrSEFactoryManager.h"
+#include "xrSEFactoryManager.h"
 
 void         buffer_vector_test();
 
@@ -184,7 +184,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 {
     Debug._initialize(false);
     Core._initialize("xrai", 0);
-    g_SEFactoryManager = xr_new<XrSEFactoryManager>();
+    g_SEFactoryManager = xr_new<xrSEFactoryManager>();
     buffer_vector_test();
 
     Startup(lpCmdLine);

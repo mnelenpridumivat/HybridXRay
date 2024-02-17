@@ -40,13 +40,13 @@
 #ifndef NO_XRLOG
 #include "../xrcore/log.h"
 #endif
-#include "XrDeviceInterface.h"
+#include "xrDeviceInterface.h"
 #include "../xrcore/fs.h"
 
 #include "../xrcdb/xrXRC.h"
 
 #include "../xrSound/sound.h"
-#include "XrISEAbstract.h"
+#include "xrISEAbstract.h"
 extern ENGINE_API CInifile* pGameIni;
 
 #include "lua/library_linkage.h"

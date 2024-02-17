@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 #include "limb.h"
-#include "../../XrRender/Public/KinematicsAnimated.h"
+#include "../../xrRender/Public/KinematicsAnimated.h"
 #include "../ik_anim_state.h"
 class IKinematics;
 class CDB::TRI;

@@ -1,9 +1,9 @@
 ﻿//---------------------------------------------------------------------------
 #pragma once
 
-#include "XrGameMaterialLibraryInterface.h"
+#include "xrGameMaterialLibraryInterface.h"
 
-class XrGameMaterialLibraryInterface;
+class xrGameMaterialLibraryInterface;
 class ECORE_API SGameMtlEditor: public SGameMtl
 {
 public:
@@ -37,7 +37,7 @@ public:
     void       OnCommandClick(ButtonValue* sender, bool& bModif, bool& bSafe);
     void       FillChooseMtl(ChooseItemVec& items, void* param);
     void       CopyFrom(SGameMtlPairEditor* parent);
-    SGameMtlPairEditor(XrGameMaterialLibraryInterface* owner);
+    SGameMtlPairEditor(xrGameMaterialLibraryInterface* owner);
     void FillProp(PropItemVec& values);
     void TransferFromParent(SGameMtlPairEditor* parent);
     void OnDrawUI();
@@ -47,7 +47,7 @@ public:
     virtual void Save(IWriter& fs);
 };
 
-class ECORE_API XrGameMaterialLibraryEditors: public XrGameMaterialLibraryInterface
+class ECORE_API xrGameMaterialLibraryEditors: public xrGameMaterialLibraryInterface
 {
     int            material_index;
     int            material_pair_index;
@@ -56,8 +56,8 @@ class ECORE_API XrGameMaterialLibraryEditors: public XrGameMaterialLibraryInterf
     GameMtlPairVec material_pairs;
 
 public:
-    XrGameMaterialLibraryEditors();
-    ~XrGameMaterialLibraryEditors();
+    xrGameMaterialLibraryEditors();
+    ~xrGameMaterialLibraryEditors();
     virtual void Unload()
     {
         for (GameMtlIt m_it = materials.begin(); materials.end() != m_it; ++m_it)
@@ -177,5 +177,5 @@ public:
         _res_.clone(GET_RANDOM(_mtl_pair_##->_a_vector_), st_Effect, sg_SourceType); \
     }
 
-extern ECORE_API XrGameMaterialLibraryEditors* GameMaterialLibraryEditors;
+extern ECORE_API xrGameMaterialLibraryEditors* GameMaterialLibraryEditors;
 #include "../xrapi/xrapi.h"

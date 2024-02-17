@@ -7,7 +7,7 @@
 #include "ExtendedGeom.h"
 #include "draymotions.h"
 #include "PHCollideValidator.h"
-#include "../XrEngine/gamemtllib.h"
+#include "../xrEngine/gamemtllib.h"
 #ifdef DEBUG
 #include "PHDebug.h"
 #endif

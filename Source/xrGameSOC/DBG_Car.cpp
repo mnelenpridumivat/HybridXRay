@@ -2,9 +2,9 @@
 #ifdef DEBUG
 
 #include "ode_include.h"
-#include "../XrEngine/StatGraph.h"
+#include "../xrEngine/StatGraph.h"
 #include "PHDebug.h"
-#include "..\xrEngine\alife_space.h"
+#include "../xrEngine/alife_space.h"
 #include "hit.h"
 #include "PHDestroyable.h"
 #include "Car.h"

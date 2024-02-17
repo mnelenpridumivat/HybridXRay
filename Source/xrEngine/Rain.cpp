@@ -4,7 +4,7 @@
 #include "Rain.h"
 #include "igame_persistent.h"
 #include "environment.h"
-#include "XrEditorSceneInterface.h"
+#include "xrEditorSceneInterface.h"
 
 #if 0
 #include "../Editors/xrECore/Editor/UI_ToolsCustom.h"

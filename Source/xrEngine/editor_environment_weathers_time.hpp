@@ -12,10 +12,10 @@
 #ifdef INGAME_EDITOR
 
 #include <boost/noncopyable.hpp>
-#include "../XrWeatherEditor/Public/property_holder.hpp"
+#include "../xrWeatherEditor/Public/property_holder.hpp"
 #include "environment.h"
 
-namespace XrWeatherEditor
+namespace xrWeatherEditor
 {
     namespace environment
     {
@@ -27,21 +27,21 @@ namespace XrWeatherEditor
 
             class weather;
 
-            class time: public CEnvDescriptorMixer, public XrWeatherEditor::property_holder_holder, private boost::noncopyable
+            class time: public CEnvDescriptorMixer, public xrWeatherEditor::property_holder_holder, private boost::noncopyable
             {
             private:
                 typedef CEnvDescriptorMixer inherited;
 
             public:
-                typedef XrWeatherEditor::property_holder property_holder_type;
+                typedef xrWeatherEditor::property_holder property_holder_type;
 
             public:
-                time(XrWeatherEditor::environment::manager* manager, weather const* weather, shared_str const& id);
+                time(xrWeatherEditor::environment::manager* manager, weather const* weather, shared_str const& id);
                 virtual ~time();
                 void                     load(CInifile& config);
                 void                     load_from(shared_str const& id, CInifile& config, shared_str const& new_id);
                 void                     save(CInifile& config);
-                void                     fill(::XrWeatherEditor::property_holder_collection* holder);
+                void                     fill(::xrWeatherEditor::property_holder_collection* holder);
                 inline shared_str const& id() const
                 {
                     return m_identifier;
@@ -88,13 +88,13 @@ namespace XrWeatherEditor
                 shared_str m_thunderbolt_collection;
 
             private:
-                XrWeatherEditor::environment::manager& m_manager;
+                xrWeatherEditor::environment::manager& m_manager;
                 weather const*                         m_weather;
                 property_holder_type*                  m_property_holder;
             };   // class time
         }        // namespace weathers
     }            // namespace environment
-}   // namespace XrWeatherEditor
+}   // namespace xrWeatherEditor
 
 #endif   // #ifdef INGAME_EDITOR
 

@@ -2,11 +2,11 @@
 #include "helicopter.h"
 #include "ExplosiveRocket.h"
 #include "xrMessages.h"
-#include "../XrCore/net_utils.h"
-#include "..\XrEngine\bone.h"
+#include "../xrCore/net_utils.h"
+#include "../xrEngine/bone.h"
 #include "Level.h"
-#include "../XrRender/Public/Kinematics.h"
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/Kinematics.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 
 void CHelicopter::BoneMGunCallbackX(CBoneInstance* B)
 {

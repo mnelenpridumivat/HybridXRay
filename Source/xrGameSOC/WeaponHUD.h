@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "../XrRender/Public/KinematicsAnimated.h"
+#include "../xrRender/Public/KinematicsAnimated.h"
 class CHudItem;
 
 struct weapon_hud_value: public shared_value

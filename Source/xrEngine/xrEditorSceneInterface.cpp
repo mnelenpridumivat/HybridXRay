@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
-#include "XrEditorSceneInterface.h"
+#include "xrEditorSceneInterface.h"
 
-XrEditorSceneInterface::XrEditorSceneInterface() {}
+xrEditorSceneInterface::xrEditorSceneInterface() {}
 
-XrEditorSceneInterface::~XrEditorSceneInterface() {}
+xrEditorSceneInterface::~xrEditorSceneInterface() {}

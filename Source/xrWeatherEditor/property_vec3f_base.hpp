@@ -53,7 +53,7 @@ public
 ref class property_vec3f_base abstract: public property_value, public property_container_holder
 {
 public:
-    property_vec3f_base(XrWeatherEditor::vec3f const % vec3f);
+    property_vec3f_base(xrWeatherEditor::vec3f const % vec3f);
     virtual ~property_vec3f_base();
     !property_vec3f_base();
     void x(float value);
@@ -65,8 +65,8 @@ public:
     virtual void set_value(System::Object ^ object);
 
 public:
-    virtual XrWeatherEditor::vec3f get_value_raw()                             = 0;
-    virtual void                   set_value_raw(XrWeatherEditor::vec3f vec3f) = 0;
+    virtual xrWeatherEditor::vec3f get_value_raw()                             = 0;
+    virtual void                   set_value_raw(xrWeatherEditor::vec3f vec3f) = 0;
 
 private:
     property_container ^ m_container;
