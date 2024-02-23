@@ -421,7 +421,7 @@ void CTorch::UpdateCL()
                 light_omni->set_active(false);
                 glow_render->set_active(false);
             }
-        }   //if (getVisible() && m_pPhysicsShell)
+        }   // if (getVisible() && m_pPhysicsShell)
     }
 
     if (!m_switched_on)
@@ -432,7 +432,7 @@ void CTorch::UpdateCL()
         return;
 
     int    frame;
-    // ���������� � ������� BGR
+    // возвращает в формате BGR
     u32    clr = lanim->CalculateBGR(Device->fTimeGlobal, frame);
 
     Fcolor fclr;

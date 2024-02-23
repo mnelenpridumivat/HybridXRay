@@ -148,7 +148,7 @@ void CProjector::UpdateCL()
         if (lanim)
         {
             int    frame;
-            // ���������� � ������� BGR
+            // возвращает в формате BGR
             u32    clr = lanim->CalculateBGR(Device->fTimeGlobal, frame);
 
             Fcolor fclr;
