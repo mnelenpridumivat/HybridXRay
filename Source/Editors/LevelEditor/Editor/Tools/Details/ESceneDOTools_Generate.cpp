@@ -1,6 +1,4 @@
 ﻿#include "stdafx.h"
-#include <algorithm>
-#include <random>
 
 static Fvector down_vec  = {0.f, -1.f, 0.f};
 static Fvector left_vec  = {-1.f, 0.f, 0.f};
@@ -438,11 +436,7 @@ bool EDetailManager::UpdateSlotObjects(int x, int z)
         for (U8It b_it = elem.begin(); b_it != elem.end(); b_it++)
             *b_it = u8(b_it - elem.begin());
         //        best_rand A(DetailRandom);
- 
-        std::random_device rd;
-        std::mt19937       g(rd());
-        std::shuffle(elem.begin(), elem.end(), g);
-        //std::random_shuffle(elem.begin(), elem.end());   //,A);
+        std::random_shuffle(elem.begin(), elem.end());   //,A);
         for (auto b_it = elem.begin(); b_it != elem.end(); b_it++)
         {
             bool bNotFound = true;
