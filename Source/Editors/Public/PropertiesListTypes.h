@@ -28,6 +28,7 @@ enum EPropType
     PROP_FCOLOR,
     PROP_VCOLOR,
     PROP_RTEXT,
+    PROP_RTEXTLOGIC,
     PROP_STEXT,
     PROP_WAVE,
     PROP_CANVAS,
@@ -61,6 +62,8 @@ protected:
     PropItem* m_Owner;
 public:
     size_t tag;
+    shared_str obj_id;
+
 public:
     // base events
     typedef fastdelegate::FastDelegate1<PropValue*> TOnChange;

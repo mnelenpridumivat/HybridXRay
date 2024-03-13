@@ -167,6 +167,8 @@ virtual void     spawn_supplies();
 CALifeSimulator& alife() const;
 virtual Fvector  draw_level_position() const;
 virtual bool     keep_saved_data_anyway() const;
+#else
+void OnCustomDataEditorOpened(ButtonValue* V, bool& bModif, bool& bSafe);
 #endif
 SERVER_ENTITY_DECLARE_END
 add_to_type_list(CSE_ALifeObject)

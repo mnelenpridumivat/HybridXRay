@@ -94,7 +94,8 @@ public:
     virtual U32Value*  				CreateColor		    (PropItemVec& items, shared_str key, u32* val)=0;
     virtual ColorValue*				CreateFColor	    (PropItemVec& items, shared_str key, Fcolor* val)=0;
     virtual VectorValue*			CreateVColor	    (PropItemVec& items, shared_str key, Fvector* val)=0;
-	virtual RTextValue* 			CreateRText		    (PropItemVec& items, shared_str key, shared_str* val)=0;
+    virtual RTextValue*             CreateRText         (PropItemVec& items, shared_str key, shared_str* val)=0;
+    virtual RTextValue*             CreateRTextLogic    (PropItemVec& items, shared_str key, shared_str* val, shared_str obj_id)=0;
 	virtual STextValue* 			CreateSText		    (PropItemVec& items, shared_str key, xr_string* val)=0;      
 	virtual WaveValue* 				CreateWave		    (PropItemVec& items, shared_str key, WaveForm* val)=0;
     virtual FloatValue* 			CreateTime		    (PropItemVec& items, shared_str key, float* val, float mn=0.f, float mx=86400.f)=0;

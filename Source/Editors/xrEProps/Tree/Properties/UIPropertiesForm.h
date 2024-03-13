@@ -40,6 +40,7 @@ public:
     };
 
     Flags32 m_Flags;
+    bool     m_EnableLogicEditorCall;
     void    SetFocusOnMe();
     bool    IsReadOnly() const
     {

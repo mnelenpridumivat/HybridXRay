@@ -510,7 +510,10 @@ void CSE_ALifeObject::FillProps(LPCSTR pref, PropItemVec& items)
 {
 #ifdef XRSEFACTORY_EXPORTS
     inherited::FillProps(pref, items);
-    PHelper().CreateRText(items, PrepareKey(pref, *s_name, "Custom data"), &m_ini_string);
+    PHelper().CreateRTextLogic(items, PrepareKey(pref, *s_name, "Custom data"), &m_ini_string, name_replace());
+    //PHelper().CreateRText(items, "Logic Editor", &m_ini_string);
+    //auto Button = PHelper().CreateButton(items, "Logic Editor", "Open logic editor", 0);
+    //Button->OnBtnClickEvent.bind(this, &CSE_ALifeObject::OnCustomDataEditorOpened);
     if (m_flags.is(flUseSwitches))
     {
         PHelper().CreateFlag32(items, PrepareKey(pref, *s_name, "ALife\\Can switch online"), &m_flags, flSwitchOnline);
@@ -521,6 +524,12 @@ void CSE_ALifeObject::FillProps(LPCSTR pref, PropItemVec& items)
     PHelper().CreateRToken32(items, PrepareKey(pref, *s_name, "ALife\\Story ID"), &m_story_id, &*fp_data.story_names.begin(), fp_data.story_names.size());
     PHelper().CreateRToken32(items, PrepareKey(pref, *s_name, "ALife\\Spawn Story ID"), &m_spawn_story_id, &*fp_data.spawn_story_names.begin(), fp_data.spawn_story_names.size());
 #endif   // #ifdef XRSEFACTORY_EXPORTS
+}
+
+void CSE_ALifeObject::OnCustomDataEditorOpened(ButtonValue* V, bool& bModif, bool& bSafe)
+{
+    //set_editor_flag(flVisualChange);
+    //load_draw_data();
 }
 #endif   // #ifndef XRGAME_EXPORTS
 

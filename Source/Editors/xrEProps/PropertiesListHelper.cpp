@@ -25,10 +25,11 @@ PropItem* CPropHelper::CreateItem(PropItemVec& items, const shared_str& key, EPr
     }
     return item;
 }
-PropValue* CPropHelper::AppendValue(PropItemVec& items, const shared_str& key, PropValue* val, EPropType type, u32 item_flags)
+PropValue* CPropHelper::AppendValue(PropItemVec& items, const shared_str& key, PropValue* val, EPropType type, u32 item_flags, shared_str obj_id)
 {
     PropItem* item = CreateItem(items, key, type, item_flags);
     val->m_Owner   = item;
+    val->obj_id    = obj_id;
     item->AppendValue(val);
     return val;
 }
@@ -161,6 +162,10 @@ VectorValue* CPropHelper::CreateVColor(PropItemVec& items, shared_str key, Fvect
 RTextValue* CPropHelper::CreateRText(PropItemVec& items, shared_str key, shared_str* val)
 {
     return (RTextValue*)AppendValue(items, key, xr_new<RTextValue>(val), PROP_RTEXT);
+}
+RTextValue* CPropHelper::CreateRTextLogic(PropItemVec& items, shared_str key, shared_str* val, shared_str obj_id)
+{
+    return (RTextValue*)AppendValue(items, key, xr_new<RTextValue>(val), PROP_RTEXTLOGIC);
 }
 STextValue* CPropHelper::CreateSText(PropItemVec& items, shared_str key, xr_string* val)
 {

@@ -165,8 +165,8 @@ void UIPropertiesItem::DrawProp()
             {
                 PropertiesFrom->Modified();
             }
+            break;
         }
-        break;
         case PROP_SHORTCUT:
         {
             ShortcutValue* V = dynamic_cast<ShortcutValue*>(PItem->GetFrontValue());
@@ -184,8 +184,8 @@ void UIPropertiesItem::DrawProp()
                 if (V->ApplyValue(val))
                     PropertiesFrom->Modified();
             }
+            break;
         }
-        break;
         case PROP_BOOLEAN:
         {
             BOOLValue* V = dynamic_cast<BOOLValue*>(PItem->GetFrontValue());
@@ -202,8 +202,8 @@ void UIPropertiesItem::DrawProp()
                         PropertiesFrom->Modified();
                 }
             }
+            break;
         }
-        break;
         case PROP_FLAG:
         {
             bool change = false;
@@ -212,9 +212,11 @@ void UIPropertiesItem::DrawProp()
                     if (!FlagOnEdit<u32>(PItem, change))
                         R_ASSERT(false);
             if (change)
+            {
                 PropertiesFrom->Modified();
+            }
+            break;
         }
-        break;
         case PROP_VECTOR:
         {
             VectorValue* V = dynamic_cast<VectorValue*>(PItem->GetFrontValue());
@@ -243,8 +245,8 @@ void UIPropertiesItem::DrawProp()
                         PropertiesFrom->Modified();
                 }
             }
+            break;
         }
-        break;
         case PROP_COLOR:
         {
             U32Value* V = dynamic_cast<U32Value*>(PItem->GetFrontValue());
@@ -264,8 +266,8 @@ void UIPropertiesItem::DrawProp()
                         PropertiesFrom->Modified();
                 }
             }
+            break;
         }
-        break;
 
         case PROP_FCOLOR:
         {
@@ -288,8 +290,8 @@ void UIPropertiesItem::DrawProp()
                         PropertiesFrom->Modified();
                 }
             }
+            break;
         }
-        break;
         case PROP_VCOLOR:
         {
             VectorValue* V = dynamic_cast<VectorValue*>(PItem->GetFrontValue());
@@ -309,8 +311,8 @@ void UIPropertiesItem::DrawProp()
                         PropertiesFrom->Modified();
                 }
             }
+            break;
         }
-        break;
         case PROP_CHOOSE:
         {
             xr_string text = PItem->GetDrawText().c_str();
@@ -349,8 +351,8 @@ void UIPropertiesItem::DrawProp()
             {
                 PropertiesFrom->Modified();
             }
+            break;
         }
-        break;
 
         case PROP_RTOKEN:
         {
@@ -363,8 +365,8 @@ void UIPropertiesItem::DrawProp()
             {
                 PropertiesFrom->Modified();
             }
+            break;
         }
-        break;
         case PROP_SH_TOKEN:
         {
             TokenValueSH* V = dynamic_cast<TokenValueSH*>(PItem->GetFrontValue());
@@ -385,8 +387,8 @@ void UIPropertiesItem::DrawProp()
                     if (PItem->ApplyValue<TokenValueSH, u32>(new_val))
                         PropertiesFrom->Modified();
             }
+            break;
         }
-        break;
         case PROP_TEXTURE2:
         {
             CTextValue* T = dynamic_cast<CTextValue*>(PItem->GetFrontValue());
@@ -436,8 +438,8 @@ void UIPropertiesItem::DrawProp()
                     }
                 }
             }
+            break;
         }
-        break;
         case PROP_CLIST:
         {
             CListValue* V = dynamic_cast<CListValue*>(PItem->GetFrontValue());
@@ -465,8 +467,8 @@ void UIPropertiesItem::DrawProp()
                     if (PItem->ApplyValue<CListValue, LPCSTR>(V->items[index].c_str()))
                         PropertiesFrom->Modified();
             }
+            break;
         }
-        break;
         case PROP_RLIST:
         {
             RListValue* V = dynamic_cast<RListValue*>(PItem->GetFrontValue());
@@ -494,8 +496,8 @@ void UIPropertiesItem::DrawProp()
                     if (PItem->ApplyValue<RListValue, shared_str>(V->items[index]))
                         PropertiesFrom->Modified();
             }
+            break;
         }
-        break;
 
         case PROP_CTEXT:
         {
@@ -527,9 +529,10 @@ void UIPropertiesItem::DrawProp()
             }
             PropertiesFrom->m_EditTextValue = PItem;
             PropertiesFrom->DrawEditText();
+            break;
         }
-        break;
         case PROP_RTEXT:
+        case PROP_RTEXTLOGIC:
         {
             RTextValue* V = dynamic_cast<RTextValue*>(PItem->GetFrontValue());
             R_ASSERT(V);
@@ -558,9 +561,10 @@ void UIPropertiesItem::DrawProp()
                 PropertiesFrom->m_EditTextValueDataSize = xr_strlen(PropertiesFrom->m_EditTextValueData) + 1;
             }
             PropertiesFrom->m_EditTextValue = PItem;
+            PropertiesFrom->m_EnableLogicEditorCall = type == PROP_RTEXTLOGIC;
             PropertiesFrom->DrawEditText();
+            break;
         }
-        break;
 
         case PROP_STEXT:
         {
@@ -592,8 +596,8 @@ void UIPropertiesItem::DrawProp()
             }
             PropertiesFrom->m_EditTextValue = PItem;
             PropertiesFrom->DrawEditText();
+            break;
         }
-        break;
 
         case PROP_TIME:
         {
@@ -638,8 +642,8 @@ void UIPropertiesItem::DrawProp()
                     }
                 }
             }
+            break;
         }
-        break;
 
         case PROP_GAMETYPE:
         {
@@ -654,8 +658,12 @@ void UIPropertiesItem::DrawProp()
                 PropertiesFrom->m_EditGameTypeValue = PItem;
             }
             PropertiesFrom->DrawEditGameType();
+            break;
         }
-        break;
+        //case PROP_BUTTON:
+        //{
+        //
+        //}
         default:
             ImGui::Text("");
             break;

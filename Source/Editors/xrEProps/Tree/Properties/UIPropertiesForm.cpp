@@ -1,4 +1,5 @@
 ﻿#include "stdafx.h"
+#include "Tree/LogicEditor/LogicEditor.h"
 
 UIPropertiesForm::UIPropertiesForm(): m_Root("", this, {})
 {
@@ -298,7 +299,20 @@ void UIPropertiesForm::DrawEditText()
         ImGui::SameLine(0);
 
         if (ImGui::Button("Clear"))
+        {
             m_EditTextValueData[0] = '\0';
+        }
+
+        if (m_EnableLogicEditorCall)
+        {
+            ImGui::SameLine(0);
+
+            if (ImGui::Button("LogicEditor"))
+            {
+                UILogicEditor::Instance().LoadCustomData(m_EditTextValue->GetFrontValue()->obj_id, m_EditTextValueData);
+            }
+        }
+
         ImGui::EndGroup();
 
         if (m_EditTextValueData)

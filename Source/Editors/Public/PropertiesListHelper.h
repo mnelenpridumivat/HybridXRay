@@ -9,7 +9,8 @@ class ListItem;
 class CPropHelper: public IPropHelper
 {
     PropItem*  CreateItem(PropItemVec& items, const shared_str& key, EPropType type, u32 item_flags = 0);
-    PropValue* AppendValue(PropItemVec& items, const shared_str& key, PropValue* val, EPropType type, u32 item_flags = 0);
+    PropValue* AppendValue(PropItemVec& items, const shared_str& key, PropValue* val, EPropType type, u32 item_flags = 0, shared_str obj_id = shared_str());
+
 public:
     virtual PropItem* FindItem(PropItemVec& items, shared_str key, EPropType type = PROP_UNDEF);
 public:
@@ -57,6 +58,7 @@ public:
     virtual ColorValue*    CreateFColor(PropItemVec& items, shared_str key, Fcolor* val);
     virtual VectorValue*   CreateVColor(PropItemVec& items, shared_str key, Fvector* val);
     virtual RTextValue*    CreateRText(PropItemVec& items, shared_str key, shared_str* val);
+    virtual RTextValue*    CreateRTextLogic(PropItemVec& items, shared_str key, shared_str* val, shared_str obj_id);
     virtual STextValue*    CreateSText(PropItemVec& items, shared_str key, xr_string* val);
     virtual WaveValue*     CreateWave(PropItemVec& items, shared_str key, WaveForm* val);
     virtual FloatValue*    CreateTime(PropItemVec& items, shared_str key, float* val, float mn = 0.f, float mx = 86400.f);

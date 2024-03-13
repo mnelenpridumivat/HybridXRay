@@ -26,6 +26,9 @@
     <ClCompile Include="Tree\Base\UITreeItem.cpp" />
     <ClCompile Include="Tree\Choose\UIChooseForm.cpp" />
     <ClCompile Include="Tree\Choose\UIChooseFormItem.cpp" />
+    <ClCompile Include="Tree\LogicEditor\CustomDataEditor.cpp" />
+    <ClCompile Include="Tree\LogicEditor\LogicEditor.cpp" />
+    <ClCompile Include="Tree\LogicEditor\LogicEditorGenerals.cpp" />
     <ClCompile Include="Tree\Properties\UIPropertiesForm.cpp" />
     <ClCompile Include="Tree\Properties\UIPropertiesItem_DrawProp.cpp" />
     <ClCompile Include="Tree\Properties\UIPropertiesItem_Mixed.cpp" />
@@ -41,6 +44,9 @@
     <ClInclude Include="Tree\Base\UITreeItem.h" />
     <ClInclude Include="Tree\Choose\UIChooseForm.h" />
     <ClInclude Include="Tree\Choose\UIChooseFormItem.h" />
+    <ClInclude Include="Tree\LogicEditor\CustomDataEditor.h" />
+    <ClInclude Include="Tree\LogicEditor\LogicEditor.h" />
+    <ClInclude Include="Tree\LogicEditor\LogicEditorGenerals.h" />
     <ClInclude Include="Tree\Properties\UIPropertiesForm.h" />
     <ClInclude Include="Tree\Properties\UIPropertiesItem.h" />
     <ClInclude Include="UIItemListForm.h" />
@@ -105,10 +111,10 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>NDEBUG;XREPROPS_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;XREPROPS_EXPORTS;_WINDOWS;_USRDLL;IMGUI_DEFINE_MATH_OPERATORS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
       <EnableEnhancedInstructionSet>AdvancedVectorExtensions</EnableEnhancedInstructionSet>
-      <AdditionalIncludeDirectories>.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.;$(SolutionDir)Editors\xrEProps\Tree\LogicEditor\imgui_node_editor;$(SolutionDir)Editors\xrEProps\Tree\LogicEditor\imgui_node_editor\examples\blueprints-example;$(SolutionDir)Editors\xrEProps\Tree\LogicEditor\imgui_node_editor\examples\application\include;$(SolutionDir)Editors\xrEUI;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <Optimization>Full</Optimization>
       <StringPooling>true</StringPooling>

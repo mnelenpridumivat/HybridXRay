@@ -1,5 +1,9 @@
 ﻿#pragma once
 #ifndef XREUI_EXPORTS
+#include "imgui_internal.h"
+#endif
+
+#if 0
 enum ImGuiItemFlags_
 {
     ImGuiItemFlags_None                     = 0,

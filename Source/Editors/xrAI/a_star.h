@@ -51,7 +51,8 @@ class CAStar: public CDijkstra<_dist_type, _priority_queue, _vertex_manager, _ve
 {
 protected:
     typedef CDijkstra<_dist_type, _priority_queue, _vertex_manager, _vertex_allocator, euclidian_heuristics, _data_storage_base, AStar::_Vertex<_dist_type, _vertex>::_vertex, _builder_allocator_constructor, _manager_builder_allocator_constructor, _data_storage_constructor, _iteration_type> inherited;
-    typedef typename CDataStorage::CGraphVertex                                                                                                                                                                                                                                                    CGraphVertex;
+    //typedef typename CDataStorage::CGraphVertex                                                                                                                                                                                                                                                    CGraphVertex;
+    typedef typename inherited::CGraphVertex                                                                                                                                                                                                                                                       CGraphVertex;
     typedef typename CGraphVertex::_dist_type                                                                                                                                                                                                                                                      _dist_type;
     typedef typename CGraphVertex::_index_type                                                                                                                                                                                                                                                     _index_type;
 
