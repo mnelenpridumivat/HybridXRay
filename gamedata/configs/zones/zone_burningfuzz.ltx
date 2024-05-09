@@ -15,7 +15,7 @@ shape_edge_color		= 32, 32, 32, 255
 
 
 ;----------- Anomaly settings -----------------------
-max_start_power		= 0.4
+max_start_power		= 1.4
 attenuation			= 1
 
 hit_type		= chemical_burn
@@ -59,15 +59,78 @@ blowout_wind		= off
 
 
 [zone_burning_fuzz_weak]:zone_burning_fuzz
-$spawn 			= "zones\!only_for_groups\burning_fuzz_weak"
+$spawn 			= "zones\burning_fuzz_weak"
 visual			= dynamics\anomaly\topolinypuh_small
 
 
 [zone_burning_fuzz_average]:zone_burning_fuzz
-$spawn 			= "zones\!only_for_groups\burning_fuzz_average"
+$spawn 			= "zones\burning_fuzz_average"
 visual			= dynamics\anomaly\topolinypuh_middle
 
 
 [zone_burning_fuzz_strong]:zone_burning_fuzz
-$spawn 			= "zones\!only_for_groups\burning_fuzz_strong"
+$spawn 			= "zones\\burning_fuzz_strong"
 visual			= dynamics\anomaly\topolinypuh_big
+
+[zone_burning_fuzz_dinamic]:zone_burning_fuzz
+
+;-----------------------------------------      ----------------------------------------
+;----------------------------------------- IGRA ----------------------------------------
+[zone_burn_fuzz]:zone_base
+GroupControlSection	= spawn_group_zone
+;$prefetch 		= 16
+class			= ZS_BFUZZ
+visual			= dynamics\anomaly\igra
+min_speed_to_react = 2.0
+ef_anomaly_type			= 6
+ef_weapon_type			= 18
+
+hit_impulse_scale	= 0.1
+postprocess		= postprocess_gas
+
+shape_transp_color		= 255, 0, 0, 60
+shape_edge_color		= 32, 32, 32, 255
+
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.4
+attenuation			= 1
+
+hit_type		= chemical_burn
+hit_effect		= static\effects\pioner_00
+
+idle_particles		= _samples_particles_\holo_lines
+blowout_particles	                = anomaly2\pg_igra
+
+hit_small_particles		= static\effects\pioner_00
+hit_big_particles			= static\effects\pioner_00
+idle_small_particles		= anomaly2\pg_igra
+idle_big_particles			= static\effects\pioner_00
+entrance_small_particles	                 = anomaly2\pg_igra
+entrance_big_particles		= anomaly2\pg_igra
+
+idle_sound			= anomaly\nu_pogodi
+blowout_sound		= ambient\random\rnd_the_horror1
+hit_sound			= anomaly\igra
+entrance_sound		= anomaly\nu_pogodi
+
+disable_time		= 500	;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small	        = 500		;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time	             = 1000	;время отключения idle партиклов
+
+awaking_time				= 10
+blowout_time				= 1000
+accamulate_time				= 5000
+
+attack_animation_start		= 10
+attack_animation_end		= 1000
+
+ignore_nonalive		= false
+ignore_small		= false
+ignore_artefacts	= true
+
+blowout_light		= off
+idle_light			= off
+
+blowout_wind		= off
+

@@ -1,10 +1,10 @@
 [build_params]
-        light_jitter_samples             = 1
-        light_pixel_per_meter            = 0.100000
-        light_quality                    = 0
+        light_jitter_samples             = 4
+        light_pixel_per_meter            = 1.000000
+        light_quality                    = 2
         light_quality_reserved           = 31868
-        light_rms                        = 1
-        light_rms_zero                   = 1
+        light_rms                        = 5
+        light_rms_zero                   = 5
         reserved_0                       = 21058815172677055454858346078431870976.000000
         reserved_1                       = 5264785556632978584510983056964714496.000000
         reserved_2                       = 5243934922647774610257814908466888704.000000
@@ -15,8 +15,8 @@
         weld_distance                    = 0.005000
  
 [camera]
-        hpb                              = 2.762312, -0.462955, 0.000000
-        pos                              = 10.784919, 12.499763, 23.406645
+        hpb                              = -3.852076, -0.702113, 0.000000
+        pos                              = 18.701918, 16.027683, 21.138535
  
 [guid]
         guid_g0                          = 5730902926000145350
@@ -27,8 +27,8 @@
         game_type                        = 1
         level_path                       = map_test
         level_prefix                     = test
-        light_hemi_quality               = 0
-        light_sun_quality                = 0
+        light_hemi_quality               = 1
+        light_sun_quality                = 1
         map_version                      = 1.0
         version                          = 12
         version_bp                       = 9
@@ -57,12 +57,9 @@
         statics\user\user_shaderbox      =
         statics\user\user_shaderbox_00   =
         statics\user\user_shaderbox_00_00 =
-        statics\user\user_shaderbox_kub  =
-        statics\user\user_shaderbox_kub_00 =
         statics\user\user_smallballs     =
         statics\user\user_smallballs_0000 =
         statics\user\user_smallballs_0001 =
-        statics\weapons\wpn_abakan\wpn_abakan_hud_static_shakal =
  
 [version]
         value                            = 5

@@ -8,10 +8,10 @@
         $sun                             = 2
  
 [main]
-        flags                            = -2147483648
+        flags                            = 0
         lcontrol_last_idx                = 3
         objects_count                    = 2
-        sun_shadow_dir                   = -1.308999, 1.745329
+        sun_shadow_dir                   = -0.557458, 1.745329
         version                          = 0
  
 [modif]

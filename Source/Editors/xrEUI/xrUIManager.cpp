@@ -3,6 +3,7 @@
 #include "imgui_impl_win32.h"
 #include "spectrum.h"
 #include "ImGuizmo.h"
+//#include "LogicEditor.h"
 
 xrUIManager::xrUIManager() {}
 
@@ -268,6 +269,11 @@ void xrUIManager::Draw()
     {
         ui->Draw();
     }
+
+    /*if(UILogicEditor::Instance().GetVisible())
+    {
+        UILogicEditor::Instance().Draw();
+    }*/
 
     OnDrawUI();
     ImGui::EndFrame();

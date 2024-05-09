@@ -482,3 +482,53 @@ void PATurbulence::Save(IWriter& F)
     F.w_float(epsilon);
     F.w_fvector3(offset);
 }
+void PABindVelocityValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_fvector3(BindValue);
+}
+void PABindVelocityValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_fvector3(BindValue);
+}
+void PABindRotationValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_fvector3(BindValue);
+}
+void PABindRotationValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_fvector3(BindValue);
+}
+void PABindSizeValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_fvector3(BindValue);
+}
+void PABindSizeValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_fvector3(BindValue);
+}
+void PABindColorValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_fvector3(BindValue);
+}
+void PABindColorValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_fvector3(BindValue);
+}
+void PABindColorAlpha::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    BindValue = F.r_float();
+}
+void PABindColorAlpha::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_float(BindValue);
+}

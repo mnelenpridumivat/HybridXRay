@@ -13,11 +13,11 @@ ef_weapon_type			= 13
 
 
 ;----------- Anomaly settings -----------------------
-max_start_power		= 1.00
+max_start_power		= 5.00
 attenuation			= 1
 
 idle_particles		= static\buble_distort
-blowout_particles	= static\zharka_static
+blowout_particles	= anomaly2\pg_heat
 
 hit_small_particles			= damage_fx\burn_creatures
 hit_big_particles			= damage_fx\burn_creatures00
@@ -43,8 +43,8 @@ ignore_artefacts	= true
 
 blowout_light		= on
 light_color		    = 1.9,1.6,1.3
-light_range		    = 9.0
-light_time 		    = 10
+light_range		    = 7.0
+light_time 		    = 13
 light_height		= 2
 
 
@@ -62,25 +62,92 @@ blowout_wind		= off
 shape_transp_color		= 255, 0, 0, 60
 shape_edge_color		= 32, 32, 32, 255
 
-
+;__________________ Костёр_______________________
 [zone_mine_thermal_weak]:zone_mine_thermal
 $spawn 			= "zones\mine_thermal_weak"
-max_start_power		= 0.2
-use_secondary_hit = true
-secondary_hit_power = 0.008
+hit_impulse_scale     = 0.0
+effective_radius      = 1.3
+
+ef_anomaly_type       = 1
+ef_weapon_type        = 13
+
+postprocess         = postprocess_flame
+
+;----------- Anomaly settings -----------------------
+max_start_power   = 0.40
+attenuation     = 1
+
+idle_particles        = explosions\campfire_02
+blowout_particles     = explosions\campfire_disabled
+
+hit_small_particles     = damage_fx\burn_creatures00
+hit_big_particles     = damage_fx\burn_creatures00
+idle_small_particles    = damage_fx\burn_creatures00
+idle_big_particles      = damage_fx\burn_creatures00
+
+idle_particles_dont_stop  = true
+
+idle_sound          = ambient\fire2
+blowout_sound       = ambient\fire2
+hit_sound         = ambient\fire2
+entrance_sound        = ambient\fire2
+
+hit_type          = light_burn
+
+disable_time        = 10000 ;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small      = -1  ;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time     = 50000 ;время отключения idle партиклов
+
+ignore_nonalive      = true
+ignore_small        	= true
+ignore_artefacts     = true
+
+blowout_light       = on
+light_color           = 1.8,1.7,1.4
+light_animation             = koster
+light_range           = 8
+light_time            = 5
+light_height        = 3      ;подъем источника света на высоту
+
+idle_light_r2			= false
+idle_light          = on
+idle_light_range      = 8.0
+idle_light_range_delta    = 1.25
+idle_light_anim       = koster_00
+idle_light_height     = 1.70      ;подъем источника света на высоту
+
+awaking_time        = 0
+blowout_time        = 1000
+accamulate_time       = 0
+
+blowout_wind        = off
+
+blowout_wind_time_start	= 0
+blowout_wind_time_peak	= 600
+blowout_wind_time_end	= 899
+blowout_wind_power		= 0.5     ;сила поднимаего ветра (от 0 до 1), в момент blowout_wind_time_peak
+
+shape_transp_color		= 255, 0, 0, 60
+shape_edge_color		= 32, 32, 32, 255
+
 
 [zone_mine_thermal_average]:zone_mine_thermal
 $spawn 			= "zones\mine_thermal_average"
-max_start_power		= 0.2
+max_start_power		= 5.2
 use_secondary_hit = true
 secondary_hit_power = 0.008
 
 [zone_mine_thermal_strong]:zone_mine_thermal
 $spawn 			= "zones\mine_thermal_strong"
-max_start_power		= 0.2
+max_start_power		= 5.2
 use_secondary_hit = true
 secondary_hit_power = 0.008
 
+[zone_mine_thermal_dinamic]:zone_mine_thermal
+$spawn 			= "zones\mine_thermal_dinamic"
+max_start_power		= 5.2
+use_secondary_hit = true
+secondary_hit_power = 0.008
 
 [zone_mine_steam]:zone_base
 postprocess		= postprocess_steam_mine
@@ -102,19 +169,19 @@ blowout_light		= off
 
 [zone_mine_steam_weak]:zone_mine_thermal_weak, zone_mine_steam
 $spawn 			= "zones\scenes\mine_steam_weak"
-max_start_power		= 0.17
+max_start_power		= 5.17
 use_secondary_hit = true
 secondary_hit_power = 0.01
 
 [zone_mine_steam_average]:zone_mine_thermal_average, zone_mine_steam
 $spawn 			= "zones\scenes\mine_steam_average"
-max_start_power		= 0.17
+max_start_power		= 5.17
 use_secondary_hit = true
 secondary_hit_power = 0.01
 
 [zone_mine_steam_strong]:zone_mine_thermal_strong, zone_mine_steam
 $spawn 			= "zones\scenes\mine_steam_strong"
-max_start_power		= 0.17
+max_start_power		= 5.17
 use_secondary_hit = true
 secondary_hit_power = 0.01
 
@@ -126,14 +193,14 @@ idle_sound			= ambient\fire2
 
 [zone_zharka_static_weak]:zone_zharka_static
 $spawn 			= "zones\mp\zharka_statik_weak"
-max_start_power		= 0.50
+max_start_power		= 5.50
 
 
 [zone_zharka_static_average]:zone_zharka_static
 $spawn 			= "zones\mp\zharka_statik_average"
-max_start_power		= 1.20
+max_start_power		= 5.20
 
 
 [zone_zharka_static_strong]:zone_zharka_static
 $spawn 			= "zones\mp\zharka_statik_strong"
-max_start_power		= 2.00
+max_start_power		= 5.00

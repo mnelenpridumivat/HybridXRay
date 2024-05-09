@@ -4,6 +4,8 @@
 
 #include "particle_actions.h"
 #include "particle_core.h"
+#include "particle_param_handle.h"
+
 namespace PAPI
 {
 #define _METHODS                                                                    \
@@ -298,6 +300,66 @@ namespace PAPI
         float   epsilon;     // Softening parameter
         pVector offset;      // Offset
         float   age;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PABindVelocityValue: public ParticleAction
+    {
+        Handle<pVector> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        pVector BindValue;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PABindRotationValue: public ParticleAction
+    {
+        Handle<pVector> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        pVector BindValue;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PABindSizeValue: public ParticleAction
+    {
+        Handle<pVector> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        pVector BindValue;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PABindColorValue: public ParticleAction
+    {
+        Handle<pVector> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        pVector BindValue;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PABindColorAlpha: public ParticleAction
+    {
+        Handle<float> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        float BindValue;
 
         _METHODS;
     };

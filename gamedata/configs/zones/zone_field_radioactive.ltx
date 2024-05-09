@@ -3,8 +3,8 @@ GroupControlSection	= spawn_group_zone
 $def_sphere = 15
 ;$prefetch 		= 16
 class			= ZS_RADIO
-hit_impulse_scale	= .01
-effective_radius	= 1.00 ;размер радиуса в процентах от оригинального, где действует зона
+hit_impulse_scale	= 0.01
+effective_radius	= 0.01 ;размер радиуса в процентах от оригинального, где действует зона
 postprocess		= postprocess_rad
 
 ef_anomaly_type			= 3
@@ -12,13 +12,138 @@ ef_weapon_type			= 15
 
 ;----------- Anomaly settings -----------------------
 max_start_power		= 0
-attenuation			= 0.5
+attenuation		= 0.5
 
 hit_type		= radiation
 
 disable_time		= -1	;время игнорирования неживого объекта в зоне (-1 если не нужно)
 disable_time_small	= -1		;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
-disable_idle_time	= -1	;время отключения idle партиклов
+disable_idle_time	                  = -1	;время отключения idle партиклов
+
+ignore_nonalive		= true;
+ignore_small		= false;
+ignore_artefacts	                  = true
+
+blowout_light		= off
+idle_light			= off
+
+awaking_time		= 100
+blowout_time		= 100
+accamulate_time		= 100
+
+blowout_wind		= off
+
+shape_transp_color		= 200, 200, 0, 60
+shape_edge_color		= 32, 32, 32, 255
+
+---------------------------Сверчки--------------------------------------
+---------------------------------------------------------------------------
+[zone_field_radioactive_weak]:zone_field_radioactive
+$spawn 			= "zones\field_radioactive_weak"
+$def_sphere = 1
+class			= Z_RADIO
+
+hit_impulse_scale	= 0.01
+effective_radius	= 0.01 ;размер радиуса в процентах от оригинального, где действует зона
+postprocess		= postprocess_electra_mine
+
+ef_anomaly_type			= 1
+ef_weapon_type			= 1
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.15
+idle_particles                                                          = _samples_particles_\sverch
+idle_particles_dont_stop	= true
+idle_sound		= anomaly\sverch
+
+[zone_field_radioactive_average]:zone_field_radioactive
+$spawn 			= "zones\field_radioactive_average"
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 2.2
+ef_anomaly_type			= 1
+ef_weapon_type			= 1
+
+idle_particles_dont_stop	= true
+idle_sound		= anomaly\kacheli
+
+[zone_field_radioactive_strong]:zone_field_radioactive
+$spawn 			= "zones\field_radioactive_strong"
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 3.3
+
+
+
+[zone_radioactive]:zone_field_radioactive
+GroupControlSection	= spawn_group_zone
+
+;---------------------------------------------------------------------------------
+;--------------------------------- Синие свечение---------------------------------
+;---------------------------------------------------------------------------------
+
+[zone_radioactive_weak]:zone_field_radioactive
+$spawn 			= "zones\mp\radioactive_weak"
+max_start_power		= 1.31
+
+effective_radius	= 0.01 ;размер радиуса в процентах от оригинального, где действует зона
+postprocess		= postprocess_rad
+
+ef_anomaly_type			= 3
+ef_weapon_type			= 15
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0
+attenuation		= 0.5
+
+hit_type		= radiation
+
+disable_time		= -1	;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small	= -1		;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time	                  = -1	;время отключения idle партиклов
+
+ignore_nonalive		= true;
+ignore_small		= false;
+ignore_artefacts	                  = true
+
+
+
+blowout_light		= on
+light_color		    = 1.4,1.6,1.8
+light_range		    = 30.0
+light_time 		    = 0.8;0.35
+light_height		= 1.5			;подъем источника света на высоту
+
+idle_light			= on
+idle_light_range			= 15.0
+idle_light_anim				= teleport_stancia_in_01
+idle_light_height			= 1.50			;подъем источника света на высоту
+
+awaking_time		= 100
+blowout_time		= 100
+accamulate_time		= 100
+
+blowout_wind		= off
+
+shape_transp_color		= 200, 200, 0, 60
+shape_edge_color		= 32, 32, 32, 255
+;------------------------------------------------      -----------------------------------
+;------------------------------------------------DOZDIK-----------------------------------
+[zone_radioactive_average]:zone_radioactive
+$spawn 			= "zones\mp\radioactive_average"
+hit_impulse_scale	= 10.001
+effective_radius	= 3.00 ;размер радиуса в процентах от оригинального, где действует зона
+postprocess		= postprocess_rad
+max_start_power		= 0.31
+
+hit_type		= strike
+
+idle_particles				= explosions\pg_dojdik  ; anomaly2\pg_serdce
+idle_particles_dont_stop	= true
+idle_sound		= anomaly\night_mist
+
+disable_time		= 100	;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small  	= 100		;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time	                = 100	;время отключения idle партиклов
 
 ignore_nonalive		= true;
 ignore_small		= false;
@@ -37,45 +162,20 @@ shape_transp_color		= 200, 200, 0, 60
 shape_edge_color		= 32, 32, 32, 255
 
 
-[zone_field_radioactive_weak]:zone_field_radioactive
-$spawn 			= "zones\field_radioactive_weak"
-
-;----------- Anomaly settings -----------------------
-max_start_power		= 0.015
-
-
-[zone_field_radioactive_average]:zone_field_radioactive
-$spawn 			= "zones\field_radioactive_average"
-
-;----------- Anomaly settings -----------------------
-max_start_power		= 0.02
-
-
-[zone_field_radioactive_strong]:zone_field_radioactive
-$spawn 			= "zones\field_radioactive_strong"
-
-;----------- Anomaly settings -----------------------
-max_start_power		= 0.03
-
-
-
-[zone_radioactive]:zone_field_radioactive
-GroupControlSection	= spawn_group_zone
-$def_sphere = 1
-class			= Z_RADIO
-attenuation			= 0.1
-
-
-[zone_radioactive_weak]:zone_radioactive
-$spawn 			= "zones\mp\radioactive_weak"
-max_start_power		= 0.011
-
-
-[zone_radioactive_average]:zone_radioactive
-$spawn 			= "zones\mp\radioactive_average"
-max_start_power		= 0.031
-
-
 [zone_radioactive_strong]:zone_radioactive
 $spawn 			= "zones\mp\radioactive_strong"
-max_start_power		= 0.061
+max_start_power		= 3.61
+
+
+
+idle_light			= on
+idle_light_range	= 55.0
+idle_light_anim		= light_green_02
+idle_light_height	= 0.5			;подъем источника света на высоту
+
+
+[zone_field_magnet]:zone_radioactive
+$spawn 			= "zones\zone_field_magnet"
+
+[zone_field_emi]:zone_radioactive
+$spawn 			= "zones\zone_field_emi"

@@ -1888,4 +1888,60 @@ void PATurbulence::Execute(ParticleEffect* effect, const float dt, float& tm_max
 #endif
 
 void PATurbulence::Transform(const Fmatrix& m) {}
+
+void PABindVelocityValue::Transform(const Fmatrix& m) {}
+void PABindVelocityValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+        m.vel       = BindValue;
+    }
+}
+void PABindRotationValue::Transform(const Fmatrix& m) {}
+void PABindRotationValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+        m.rot.x     = BindValue.x;
+    }
+}
+void PABindSizeValue::Transform(const Fmatrix& m) {}
+void PABindSizeValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+        m.size      = BindValue;
+    }
+}
+void PABindColorValue::Transform(const Fmatrix& m) {}
+void PABindColorValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    Fcolor c_p, c_t;
+
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+
+        c_p.set(m.color);
+        c_t.set(BindValue.x, BindValue.y, BindValue.z, c_p.a);
+        m.color = c_t.get();
+    }
+}
+void PABindColorAlpha::Transform(const Fmatrix& m) {}
+void PABindColorAlpha::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    Fcolor c_p, c_t;
+
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+
+        c_p.set(m.color);
+        c_t.set(c_p.r, c_p.g, c_p.b, BindValue);
+        m.color = c_t.get();
+    }
+}
 //-------------------------------------------------------------------------------------------------

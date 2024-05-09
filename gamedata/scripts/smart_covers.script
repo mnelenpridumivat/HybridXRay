@@ -562,6 +562,8 @@ descriptions = {
 	animpoint_sit_high 		= smart_covers_animpoint_sit_high.get_smart_cover(),
 	animpoint_sit_normal 	= smart_covers_animpoint_sit_normal.get_smart_cover(),
 	animpoint_sit_low 		= smart_covers_animpoint_sit_low.get_smart_cover(),
+	animpoint_sit_ass 		= smart_covers_animpoint_sit_ass.get_smart_cover(),
+	animpoint_sit_knee 		= smart_covers_animpoint_sit_knee.get_smart_cover(),
 
 	animpoint_pri_a15 		= smart_covers_animpoint_pri_a15.get_smart_cover(),
 	anim_pri_a22 			= smart_covers_anim_pri_a22.get_smart_cover()

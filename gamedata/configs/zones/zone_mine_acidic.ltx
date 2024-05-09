@@ -14,7 +14,7 @@ postprocess					= postprocess_acidic_mine
 
 
 ;----------- Anomaly settings -----------------------
-max_start_power		= 1.00
+max_start_power		= 1.50
 attenuation			= 1
 
 idle_particles				= zones_mine\zone_acidic_mine_idle
@@ -69,33 +69,118 @@ shape_transp_color		= 255, 0, 0, 60
 shape_edge_color		= 32, 32, 32, 255
 
 
+;--------------------------- РЖАВЫЕ ВОЛОСЫ--------------------------------------------------------------------------------
+
 [zone_mine_acidic_weak]:zone_mine_acidic
 $spawn 						= "zones\mine_acidic_weak"
-max_start_power		= 0.2
+max_start_power		= 1.2
 attenuation			= 1
 use_secondary_hit = true
 secondary_hit_power = 0.005
+
+idle_particles			= anomaly2\pux_idle
+blowout_particles			= anomaly2\pux_damage_attak
+
+hit_small_particles			= anomaly2\pux_damage_attak
+;hit_big_particles			= zones_mine\zone_acidic_mine_hit
+;idle_small_particles		= zones_mine\zone_acidic_mine_idle
+;idle_big_particles			= zones_mine\zone_acidic_mine_idle
+
+;idle_sound					= anomaly\ bfuzz_blowout		;постоянный звук
+blowout_sound				= anomaly\bfuzz_hit		;во время выброса(удара) в центре аномалии
+hit_sound					= anomaly\bfuzz_hit		;на персонаже, когда тот получает хит
+entrance_sound				= anomaly\bfuzz_hit		;при попадании объекта в аномалию
+
+blowout_light				= off
+
+;-----------------------------------------------------------------------------------------------------------
+;-------------------------------------- Желудок--------------------------------------------------------
+;-----------------------------------------------------------------------------------------------------------
 
 [zone_mine_acidic_average]:zone_mine_acidic
 $spawn 						= "zones\mine_acidic_average"
-max_start_power		= 0.2
+$def_sphere = 80
+hit_impulse_scale			= 0.01
+effective_radius			= 100.0 ;размер радиуса в процентах от оригинального, где действует зона
+
+ef_anomaly_type				= 1
+ef_weapon_type				= 13
+
+postprocess					= postprocess_acidic_mine
+
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.01
+attenuation			= 1
+
+idle_particles				= anomaly2\pg_holodecz_big
+blowout_particles			= zones_mine\zone_acidic_mine_hit
+
+;hit_small_particles			= zones_mine\zone_acidic_mine_hit
+;hit_big_particles				= zones_mine\zone_acidic_mine_hit
+;idle_small_particles			= zones_mine\zone_acidic_mine_idle
+;idle_big_particles			= zones_mine\zone_acidic_mine_idle
+
+idle_sound					= anomaly\buzz_idle; bfuzz_blowout		;постоянный звук
+blowout_sound				= anomaly\buzz_hit; bfuzz_hit		;во время выброса(удара) в центре аномалии
+hit_sound					= anomaly\buzz_hit; bfuzz_hit		;на персонаже, когда тот получает хит
+entrance_sound				= anomaly\buzz_hit; bfuzz_hit		;при попадании объекта в аномалию
+
+hit_type					= chemical_burn
+
+disable_time				= 1000000	;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small			= 1000000	;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time			= 5	;время отключения idle партиклов
+
+ignore_nonalive				= false
+ignore_small				= false
+ignore_artefacts			= false
+
+blowout_light				= on
+light_color		    		= 1.1,1.7,1.4
+light_animation             = light_green_02
+light_range		    		= 7
+light_time 		    		= 10.35
+light_height				= 10.75			;подъем источника света на высоту
+
+
+idle_light					= on
+idle_light_range			= 90.0
+idle_light_anim				= light_green_02
+idle_light_height			= 7.70			;подъем источника света на высоту
+
+awaking_time				= 10000
+blowout_time				= 14000
+accamulate_time				= 30000
+
+blowout_wind				= off
+
+blowout_wind_time_start 	= 0
+blowout_wind_time_peak  	= 600
+blowout_wind_time_end		= 899
+blowout_wind_power			= 0.5			;сила поднимаего ветра (от 0 до 1), в момент blowout_wind_time_peak
+
+
+shape_transp_color		= 255, 0, 0, 60
+shape_edge_color		= 32, 32, 32, 255
+
+
+
+[zone_mine_acidic_strong]:zone_mine_acidic
+$spawn 						= "zones\mine_acidic_strong"
+max_start_power		= 1.2
 attenuation			= 1
 use_secondary_hit = true
 secondary_hit_power = 0.005
 
-[zone_mine_acidic_strong]:zone_mine_acidic
-$spawn 						= "zones\mine_acidic_strong"
-max_start_power		= 0.2
-attenuation			= 1
-use_secondary_hit = true
-secondary_hit_power = 0.005
+
 
 [zone_mine_acidic_big]:zone_mine_acidic
 $spawn 						= "zones\scenes\mine_acidic_big"
 
 ;----------- Anomaly settings -----------------------
 $def_sphere = 7.5
-max_start_power		= 1
+max_start_power		= 1.5
 
 idle_particles		= 
 blowout_particles	= zones_mine\zone_acidic_mine_hit
@@ -127,22 +212,54 @@ idle_small_particles		= anomaly2\studen_idle_bottom_00
 idle_big_particles			= anomaly2\studen_idle_bottom_00
 
 
-[zone_mine_chemical_weak]:zone_mine_acidic_weak, zone_mine_chemical
+[zone_mine_chemical_weak]:zone_mine_acidic
 $spawn 						= "zones\scenes\mine_chemical_weak"
 
 
-[zone_mine_chemical_average]:zone_mine_acidic_average, zone_mine_chemical
+[zone_mine_chemical_average]:zone_mine_acidic
 $spawn 						= "zones\scenes\mine_chemical_average"
 
+idle_sound					= anomaly\buzz_idle; bfuzz_blowout		;постоянный звук
+blowout_sound				= anomaly\buzz_hit; bfuzz_hit		;во время выброса(удара) в центре аномалии
+hit_sound					= anomaly\buzz_hit; bfuzz_hit		;на персонаже, когда тот получает хит
+entrance_sound				= anomaly\buzz_hit; bfuzz_hit		;при попадании объекта в аномалию
 
-[zone_mine_chemical_strong]:zone_mine_acidic_strong, zone_mine_chemical
+hit_type					= chemical_burn
+
+disable_time				= 10000	;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small			= -1	;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time			= 50000	;время отключения idle партиклов
+
+ignore_nonalive				= false
+ignore_small				= false
+ignore_artefacts			= false
+
+blowout_light				= on
+light_color		    		= 1.1,1.7,1.4
+light_animation             = light_green_01
+light_range		    		= 7
+light_time 		    		= 0.35
+light_height				= 0.75			;подъем источника света на высоту
+
+
+idle_light					= off
+idle_light_range			= 3.0
+idle_light_anim				= light_green_02
+idle_light_height			= 0.70			;подъем источника света на высоту
+
+awaking_time				= 100
+blowout_time				= 1400
+accamulate_time				= 300
+
+
+[zone_mine_chemical_strong]:zone_mine_acidic
 $spawn 						= "zones\scenes\mine_chemical_strong"
 
 
 
 [zone_buzz]:zone_mine_acidic
 postprocess					= postprocess_flame
-max_start_power		= 1.00
+max_start_power		= 1.50
 
 idle_particles				= anomaly2\studen_idle_bottom
 blowout_particles			= anomaly2\studen_blowout
@@ -155,12 +272,110 @@ idle_big_particles			= anomaly2\studen_idle_bottom_00
 
 [zone_buzz_weak]:zone_buzz
 $spawn 						= "zones\mp\buzz_weak"
-max_start_power		= 0.15
+max_start_power		= 1.15
 
 [zone_buzz_average]:zone_buzz
 $spawn 						= "zones\mp\buzz_average"
-max_start_power		= 0.50
+max_start_power		= 1.50
 
 [zone_buzz_strong]:zone_buzz
 $spawn 						= "zones\mp\buzz_strong"
 max_start_power		= 1.00
+
+[zone_buzz_dinamic]:zone_buzz
+$spawn 						= "zones\mp\buzz_dinamic"
+max_start_power		= 1.00
+
+[zone_mine_fishe]:zone_mine_acidic
+$spawn 						= "zones\zone_mine_fishe"
+class			= ZS_GALAN ;--CMincer
+$def_sphere = 2
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 1
+
+postprocess					= mosquito_bald
+
+hit_type					= strike
+hit_impulse_scale			= 0.1							;соотношение физического импульса и силы хита
+effective_radius			= 1.0							;размер радиуса в процентах от оригинального, где действует зона
+
+disable_time				= -1							;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small			= -1							;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time			= 100							;время отключения idle партиклов
+
+ignore_nonalive				= false
+ignore_small				= true
+ignore_artefacts			= true
+
+blowout_light_time		= 2100
+blowout_explosion_time	= 2100
+
+;параметры телекинеза для зоны
+throw_in_impulse			= 		2000;3000;4000		;сила импульса втягивания (для тела 100кг)
+throw_out_impulse			=		4000;		;сила выбрасывания взрывом
+throw_in_impulse_alive		= 		1000;600 800	;сила импульса втягивания для живых
+throw_in_atten				= 		2;8			;коэфф. затягивания (чем меньше, тем плавнее затягивает)
+blowout_radius_percent		= 		0.8		;радиус (в процентах от всего радиуса) непосредственно выброса
+actor_blowout_radius_percent=		0.5
+
+tele_height				= 0.05;	3.5	;высота подъема телекинеза
+time_to_tele			= 5000		;время деражания объекта в воздухе
+tele_pause				= 5000		;пауза перед тем как снова поднять упавший объект
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ветер
+blowout_wind		= on
+
+blowout_wind_time_start     = 0
+blowout_wind_time_peak      = 1500
+blowout_wind_time_end		= 2501; 2499
+blowout_wind_power			= 0.5			;сила поднимаего ветра (от 0 до 1), в момент blowout_wind_time_peak
+
+
+shape_transp_color		= 255, 0, 0, 60
+shape_edge_color		= 32, 32, 32, 255
+
+blowout_light				= on
+light_color		    		= 1.1,1.7,1.4
+light_animation             = light_green_01
+light_range		    		= 7
+light_time 		    		= 0.35
+light_height				= 0.75			;подъем источника света на высоту
+
+
+idle_light					= off
+idle_light_range			= 3.0
+idle_light_anim				= light_green_02
+idle_light_height			= 0.70			;подъем источника света на высоту
+
+awaking_time		= 300;1000
+blowout_time		= 2500
+accamulate_time		= 1000
+
+
+
+tearing_particles	= anomaly2\body_tear_01					;Разрыв тела
+torn_particles		= anomaly2\body_tear_00					;Сгорание болта
+idle_particles		= genior\ficsh_igla_idle
+blowout_particles	= genior\ficsh_igla
+
+hit_small_particles			= 
+hit_big_particles			= 
+idle_small_particles		= 
+idle_big_particles			= 
+entrance_small_particles	= 
+entrance_big_particles		= 
+
+awaking_time				= 10
+blowout_time				= 10000
+accamulate_time				= 4000
+
+idle_sound					= anomaly\buzz_idle
+blowout_sound				= anomaly\buzz_hit;во время выброса(удара) в центре аномалии
+hit_sound					= anomaly\buzz_hit
+entrance_sound				= anomaly\buzz_hit
+body_tearing_sound			= anomaly\anomaly_body_tear_1								;звук разрывания трупа
+
+awake_sound					= anomaly\gravi_idle01
+accum_sound					= anomaly\gravi_idle01

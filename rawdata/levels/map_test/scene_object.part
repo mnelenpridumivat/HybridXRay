@@ -11,7 +11,7 @@
  
 [main]
         flags                            = 0
-        objects_count                    = 25
+        objects_count                    = 22
         version                          = 0
  
 [modif]
@@ -193,7 +193,7 @@
  
 [object_18]
         000001                           = 3
-        000002                           = "shaderBall"
+        000002                           = "shaderBall_metal"
         000003                           = "def_shaders\def_vertex"
         000004                           = "def_shaders\def_vertex"
         000005                           = "materials\metal"
@@ -223,11 +223,11 @@
  
 [object_19]
         000001                           = 1
-        000002                           = "balls"
+        000002                           = "balls_"
         000003                           = "def_shaders\def_vertex"
         000004                           = "def_shaders\def_vertex"
         000005                           = "materials\metal"
-        000006                           = "prop\prop_fake_dead"
+        000006                           = "user\user_shaderball_metal"
         000007                           = "Texture"
         clsid                            = 2
         co_flags                         = 0
@@ -259,7 +259,7 @@
  
 [object_20]
         000001                           = 1
-        000002                           = "balls"
+        000002                           = "balls_"
         000003                           = "def_shaders\def_vertex"
         000004                           = "def_shaders\def_vertex"
         000005                           = "materials\metal"
@@ -284,60 +284,6 @@
         reference_name                   = mp_test\mp_test_arena
         rotation                         = 0.000000, 0.000000, 0.000000
         scale                            = 1.000000, 1.000000, 1.000000
-        version                          = 18
- 
-[object_22]
-        000001                           = 1
-        000002                           = "balls_"
-        000003                           = "def_shaders\def_vertex"
-        000004                           = "def_shaders\def_vertex"
-        000005                           = "materials\metal"
-        000006                           = "mtl\mtl_bochka_01"
-        000007                           = "Texture"
-        clsid                            = 2
-        co_flags                         = 0
-        flags                            = 1
-        name                             = statics\user\user_shaderbox_kub
-        position                         = -12.000000, 1.000000, 12.000000
-        reference_name                   = statics\user\user_shaderbox_kub
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 3.000000, 3.000000, 3.000000
-        version                          = 18
- 
-[object_23]
-        000001                           = 1
-        000002                           = "balls_"
-        000003                           = "def_shaders\def_vertex"
-        000004                           = "def_shaders\def_vertex"
-        000005                           = "materials\metal"
-        000006                           = "mtl\mtl_bochka_01"
-        000007                           = "Texture"
-        clsid                            = 2
-        co_flags                         = 0
-        flags                            = 1
-        name                             = statics\user\user_shaderbox_kub_00
-        position                         = 0.602974, 1.000000, 1.515122
-        reference_name                   = statics\user\user_shaderbox_kub
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 1.000000, 1.000000, 1.000000
-        version                          = 18
- 
-[object_24]
-        000001                           = 1
-        000002                           = "wpn_abakan_full_static_mat"
-        000003                           = "def_shaders\def_vertex"
-        000004                           = "def_shaders\def_vertex"
-        000005                           = "materials\metal"
-        000006                           = "user\user_smallballs"
-        000007                           = "Texture"
-        clsid                            = 2
-        co_flags                         = 0
-        flags                            = 1
-        name                             = statics\weapons\wpn_abakan\wpn_abakan_hud_static_shakal
-        position                         = 0.320533, 2.827996, 0.289436
-        reference_name                   = statics\weapons\wpn_abakan\wpn_abakan_hud_static_shakal
-        rotation                         = 0.000000, 0.000000, 0.000000
-        scale                            = 2.227585, 2.227585, 2.227585
         version                          = 18
  
 [object_3]
@@ -378,11 +324,11 @@
  
 [object_5]
         000001                           = 1
-        000002                           = "balls"
+        000002                           = "balls_"
         000003                           = "def_shaders\def_vertex"
         000004                           = "def_shaders\def_vertex"
         000005                           = "materials\metal"
-        000006                           = "mtl\mtl_arm_2"
+        000006                           = "user\user_floor_dirty_gr"
         000007                           = "Texture"
         clsid                            = 2
         co_flags                         = 0

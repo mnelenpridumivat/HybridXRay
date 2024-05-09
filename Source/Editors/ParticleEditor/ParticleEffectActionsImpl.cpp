@@ -43,6 +43,11 @@ xr_token2 actions_token[] =
     {"Target Velocity", "Change velocity of all particles toward the specified velocity.", PATargetVelocityID},
     {"Vortex", "Swirl particles around a vortex.", PAVortexID},
     {"Turbulence", "A Turbulence.", PATurbulenceID},
+    {"Bind Velocity", "Bind particle Velocity variable for manual update from code.", PABindVelocityValueID},
+    {"Bind Rotation", "Bind particle Rotation variable for manual update from code.", PABindRotationValueID},
+    {"Bind Size", "Bind particle Size variable for manual update from code.", PABindSizeValueID},
+    {"Bind Color (RGB)", "Bind particle Color (RGB channels) variable for manual update from code.", PABindColorValueID},
+    {"Bind Color (alpha)", "Bind particle Color (alpha channel) variable for manual update from code.", PABindColorAlphaID},
     {0, 0}
 };
 
@@ -144,6 +149,31 @@ EParticleAction* pCreateEActionImpl(PAPI::PActionEnum type)
         case PAPI::PATurbulenceID:
             pa = xr_new<EPATurbulence>();
             break;
+        case PAPI::PABindVelocityValueID:
+        {
+            pa = xr_new<EPABindVelocityValue>();
+            break;
+        }
+        case PAPI::PABindRotationValueID:
+        {
+            pa = xr_new<EPABindRotateValue>();
+            break;
+        }
+        case PAPI::PABindSizeValueID:
+        {
+            pa = xr_new<EPABindSizeValue>();
+            break;
+        }
+        case PAPI::PABindColorValueID:
+        {
+            pa = xr_new<EPABindColorValue>();
+            break;
+        }
+        case PAPI::PABindColorAlphaID:
+        {
+            pa = xr_new<EPABindColorAlpha>();
+            break;
+        }
         default:
             NODEFAULT;
     }
@@ -788,6 +818,56 @@ void pTurbulence(IWriter& F, float freq, int octaves, float magnitude, float eps
     S.Save(F);
 }
 
+void pBindVelocityValue(IWriter& F, const Fvector& Value)
+{
+    PABindVelocityValue S;
+    S.type      = PABindVelocityValueID;
+    S.BindValue.set(Value);
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+void pBindRotationValue(IWriter& F, const Fvector& Value)
+{
+    PABindRotationValue S;
+    S.type = PABindRotationValueID;
+    S.BindValue.set(Value);
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+void pBindSizeValue(IWriter& F, const Fvector& Value)
+{
+    PABindSizeValue S;
+    S.type = PABindSizeValueID;
+    S.BindValue.set(Value);
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+void pBindColorValue(IWriter& F, const Fvector& Value)
+{
+    PABindColorValue S;
+    S.type = PABindColorValueID;
+    S.BindValue.set(Value);
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+void pBindColorAlpha(IWriter& F, float Value)
+{
+    PABindColorAlpha S;
+    S.type = PABindColorAlphaID;
+    S.BindValue = Value;
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
 //------------------------------------------------------------------------------
 #define EXPAND_DOMAIN(D) D.type, D.f[0], D.f[1], D.f[2], D.f[3], D.f[4], D.f[5], D.f[6], D.f[7], D.f[8]
 
@@ -1253,6 +1333,66 @@ void             EPATurbulence::Compile(IWriter& F)
         delete[] nval;
         nval = 0;
     }
+}
+
+EPABindColorValue::EPABindColorValue(): EParticleAction(PAPI::PABindColorValueID)
+{
+    actionType = "BindColorRGB";
+    actionName = actionType;
+    appendVector("InitialValue", PVector::vColor, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f);
+}
+
+void EPABindColorValue::Compile(IWriter& F)
+{
+    pBindColorValue(F, _vector("InitialValue").val);
+}
+
+EPABindColorAlpha::EPABindColorAlpha(): EParticleAction(PAPI::PABindColorAlphaID)
+{
+    actionType = "BindColorAlpha";
+    actionName = actionType;
+    appendFloat("InitialValue", 1.0f, 0.0f, 1.0f);
+}
+
+void EPABindColorAlpha::Compile(IWriter& F)
+{
+    pBindColorAlpha(F, _float("InitialValue").val);
+}
+
+EPABindSizeValue::EPABindSizeValue(): EParticleAction(PAPI::PABindSizeValueID)
+{
+    actionType = "BindSize";
+    actionName = actionType;
+    appendVector("InitialValue", PVector::vNum, 1.0f, 1.0f, 1.0f, 0.0f, FLT_MAX);
+}
+
+void EPABindSizeValue::Compile(IWriter& F)
+{
+    pBindSizeValue(F, _vector("InitialValue").val);
+}
+
+EPABindRotateValue::EPABindRotateValue(): EParticleAction(PAPI::PABindRotationValueID)
+{
+    actionType = "BindRotation";
+    actionName = actionType;
+    appendVector("InitialValue", PVector::vNum, 1.0f, 1.0f, 1.0f, 0.0f, FLT_MAX);
+}
+
+void EPABindRotateValue::Compile(IWriter& F)
+{
+    pBindRotationValue(F, _vector("InitialValue").val);
+}
+
+EPABindVelocityValue::EPABindVelocityValue(): EParticleAction(PAPI::PABindVelocityValueID)
+{
+    actionType = "BindVelocity";
+    actionName = actionType;
+    appendVector("InitialValue", PVector::vNum, 1.0f, 1.0f, 1.0f, 0.0f, FLT_MAX);
+}
+
+void EPABindVelocityValue::Compile(IWriter& F)
+{
+    pBindVelocityValue(F, _vector("InitialValue").val);
 }
 
 #include "noise.h"

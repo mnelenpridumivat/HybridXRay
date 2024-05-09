@@ -8,6 +8,7 @@ _appdata_soc_/
 _Build/
 /Bin/
 import/
+rawdata/
 rawdata/PUT/
 rawdata/backup/
 rawdata/levels/
@@ -23,9 +24,11 @@ rawdata_soc/objects/
 rawdata_soc/particles/
 rawdata_soc/sounds/
 rawdata_soc/textures/
+rawdata_mop/
 logs/
 temp/
 utils/
+gamedata/
 gamedata/levels/
 gamedata/meshes/
 gamedata/sounds/
@@ -37,6 +40,7 @@ gamedata_soc/meshes/
 gamedata_soc/sounds/
 gamedata_soc/spawns/
 gamedata_soc/textures/
+gamedata_mop/
 Source/xrCore/.GitInfo.hpp
 rt_object_props.ltx
 *.aps

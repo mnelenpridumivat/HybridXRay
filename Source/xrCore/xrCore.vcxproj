@@ -263,6 +263,7 @@ call .GitInfo.cmd</Command>
     <ClInclude Include="xr_ini.h" />
     <ClInclude Include="xr_resource.h" />
     <ClInclude Include="xr_shared.h" />
+    <ClInclude Include="xr_smart_pointers.h" />
     <ClInclude Include="xr_trims.h" />
     <ClInclude Include="_bitwise.h" />
     <ClInclude Include="_color.h" />

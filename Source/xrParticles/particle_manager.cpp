@@ -328,6 +328,31 @@ ParticleAction* CParticleManager::CreateAction(PActionEnum type)
         case PAScatterID:
             pa = xr_new<PAScatter>();
             break;
+        case PABindVelocityValueID:
+        {
+            pa = xr_new<PABindVelocityValue>();
+            break;
+        }
+        case PABindRotationValueID:
+        {
+            pa = xr_new<PABindRotationValue>();
+            break;
+        }
+        case PABindSizeValueID:
+        {
+            pa = xr_new<PABindSizeValue>();
+            break;
+        }
+        case PABindColorValueID:
+        {
+            pa = xr_new<PABindColorValue>();
+            break;
+        }
+        case PABindColorAlphaID:
+        {
+            pa = xr_new<PABindColorAlpha>();
+            break;
+        }
         default:
             NODEFAULT;
     }

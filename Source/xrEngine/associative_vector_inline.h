@@ -329,19 +329,19 @@ IC bool _associative_vector::operator<(const self_type& right) const
 TEMPLATE_SPECIALIZATION
 IC bool _associative_vector::operator<=(const self_type& right) const
 {
-    return !(right < left);
+    return !(right < ((const inherited&)(*this)));
 }
 
 TEMPLATE_SPECIALIZATION
 IC bool _associative_vector::operator>(const self_type& right) const
 {
-    return (right < left);
+    return (right < ((const inherited&)(*this)));
 }
 
 TEMPLATE_SPECIALIZATION
 IC bool _associative_vector::operator>=(const self_type& right) const
 {
-    return !(left < right);
+    return !(((const inherited&)(*this)) < right);
 }
 
 TEMPLATE_SPECIALIZATION
@@ -353,7 +353,7 @@ IC bool _associative_vector::operator==(const self_type& right) const
 TEMPLATE_SPECIALIZATION
 IC bool _associative_vector::operator!=(const self_type& right) const
 {
-    return !(left == right);
+    return !(((const inherited&)(*this)) == right);
 }
 
 #undef TEMPLATE_SPECIALIZATION

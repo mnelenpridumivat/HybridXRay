@@ -10,6 +10,7 @@
     <ClInclude Include="particle_core.h" />
     <ClInclude Include="particle_effect.h" />
     <ClInclude Include="particle_manager.h" />
+    <ClInclude Include="particle_param_handle.h" />
     <ClInclude Include="psystem.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

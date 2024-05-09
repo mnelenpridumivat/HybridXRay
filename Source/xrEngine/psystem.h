@@ -182,6 +182,26 @@ namespace PAPI
         PAVortexID,                     //
         PATurbulenceID,                 //
         PAScatterID,                    //
+        PABindTimeLimitID,
+        PABindMaxParticlesID,
+        PABindSourceDomainID,
+        PABindSourceVelocityID,
+        PABindSourceRotationID,
+        PABindSourceSizeID,
+        PABindSourceColorID,
+        PABindSourceAlphaID,
+        PABindVelocityValueID,
+        PABindVelocityScaleID,
+        PABindVelocityAllowRotateID,
+        PABindRotationValueID,
+        PABindRotationScaleID,
+        PABindSizeValueID,
+        PABindSizeScaleID,
+        PABindColorValueID,
+        PABindColorAlphaID,
+        PABindColorScaleID,
+        PABindColorTimeFromID,
+        PABindColorTimeToID,
         action_enum_force_dword = u32(-1)
     };
     struct ParticleAction;

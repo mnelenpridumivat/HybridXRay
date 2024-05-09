@@ -24,8 +24,8 @@ idle_particles		= ;zones\zone_electra_idle
 
 idle_particles_dont_stop	= true;
 
-;idle_sound			= ambient\fire2					;iinoiyiiue caoe
-;blowout_sound		= anomaly\zhar_blow			;ai a?aiy aua?ina(oaa?a) a oaio?a aiiiaeee
+idle_sound			= anomaly\psy_voices_1_l					;iinoiyiiue caoe
+;blowout_sound		= ambient\fx1			;ai a?aiy aua?ina(oaa?a) a oaio?a aiiiaeee
 ;hit_sound			= ambient\zhar								;ia ia?niia?a, eiaaa oio iieo?aao oeo
 ;entrance_sound		= ambient\zhar									;i?e iiiaaaiee iauaeoa a aiiiaee?
 
@@ -43,8 +43,8 @@ blowout_light		= off
 idle_light			= off
 
 awaking_time		= 100
-blowout_time		= 800
-accamulate_time		= 100
+blowout_time		= 100
+accamulate_time		= 1000
 
 blowout_wind		= off
 
@@ -58,18 +58,179 @@ $spawn 			= "zones\field_psychic_weak"
 ;----------- Anomaly settings -----------------------
 max_start_power		= 0.1
 
+;----------------------------------------------------------------------------------------------------------
+;-------------------------- НОВЫЙ ГОД ---------------------------------------------------------------
+;----------------------------------------------------------------------------------------------------------
+
 
 
 [zone_field_psychic_average]:zone_field_psychic
 $spawn 			= "zones\field_psychic_average"
 
-;----------- Anomaly settings -----------------------
 max_start_power		= 0.1
 
+postprocess =                                    postprocess_rad
 
+idle_particles		                        = anomaly2\pg_ng
+blowout_particles	                        = anomaly2\effects\gravi_zaxvat_goroff_02
+
+hit_small_particles			= nature\pg_sneg   
+hit_big_particles			        = anomaly2\effects\gravi_zaxvat_goroff_02
+idle_small_particles		= anomaly2\pg_sneg   
+idle_big_particles			= anomaly2\effects\gravi_zaxvat_goroff_02
+
+idle_sound			= anomaly\ng
+blowout_sound		= ambient\fx1	
+hit_sound		= ambient\fx2
+
+idle_light			= on
+idle_light_range	= 5.0
+idle_light_anim		= teleport_stancia_in_01
+idle_light_height	= 1.5			;подъем источника света на высоту
+
+
+disable_time		= 500	;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small	= 500		;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time	= 1000	;время отключения idle партиклов
+
+awaking_time		= 100
+blowout_time		= 100
+accamulate_time		= 1500
+
+ignore_nonalive		= false
+ignore_small		= false
+ignore_artefacts	= true
+
+
+;--------------------------------------------------------
+
+;----------- Anomaly KRUG ANGELA -----------------------
+
+;----------- Anomaly settings -----------------------
 
 [zone_field_psychic_strong]:zone_field_psychic
 $spawn 			= "zones\field_psychic_strong"
 
+max_start_power		= 0.1
+
+idle_particles		                        =          anomaly2\pg_shou_ots
+blowout_particles	                        = anomaly2\effects\gravi_zaxvat_goroff_02
+
+hit_small_particles			= anomaly2\artefact_bold_blast_finished_00
+hit_big_particles			        = anomaly2\effects\gravi_zaxvat_goroff_02
+idle_small_particles		= anomaly2\artefact_bold_blast_finished_00
+idle_big_particles			= anomaly2\effects\gravi_zaxvat_goroff_02
+
+idle_sound			= anomaly\teleport_idle
+blowout_sound		= ambient\fx1	
+hit_sound		= ambient\fx2
+
+disable_time		= 500	;время игнорирования неживого объекта в зоне (-1 если не нужно)
+disable_time_small	= 500		;время игнорирования маленького неживого объекта в зоне (-1 если не нужно)
+disable_idle_time	= 1000	;время отключения idle партиклов
+
+awaking_time		= 100
+blowout_time		= 100
+accamulate_time		= 1500
+
+ignore_nonalive		= false
+ignore_small		= false
+ignore_artefacts	= true
+
+[zone_psychic_temno_sinij]:zone_field_psychic
+$spawn 			= "zones\psychic_temno_sinij"
+
+postprocess		= postprocess_psi
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.2
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast
+
+
+[zone_psychic_svetlo_goluboj]:zone_field_psychic
+$spawn 			= "zones\psychic_svetlo_goluboj"
+
+postprocess		= postprocess_electra_mine
+
 ;----------- Anomaly settings -----------------------
 max_start_power		= 0.1
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast
+
+
+[zone_psychic_bleklo_zelenij]:zone_field_psychic
+$spawn 			= "zones\psychic_bleklo_zelenij"
+
+postprocess		= postprocess_acidic
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.1
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast
+
+
+[zone_psychic_jarko_zelenij]:zone_field_psychic
+$spawn 			= "zones\psychic_jarko_zelenij"
+
+postprocess		= postprocess_acidic_mine
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.2
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast
+
+
+[zone_psychic_bleklo_krasnij]:zone_field_psychic
+$spawn 			= "zones\psychic_bleklo_krasnij"
+
+postprocess		= postprocess_thermal
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.1
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast
+
+
+[zone_psychic_jarko_krasnij]:zone_field_psychic
+$spawn 			= "zones\psychic_jarko_krasnij"
+
+postprocess		= postprocess_thermal_mine
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.2
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast
+
+
+[zone_psychic_jarko_krasnij_puls]:zone_field_psychic
+$spawn 			= "zones\psychic_jarko_krasnij_puls"
+
+postprocess		= postprocess_gravi_mine
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.3
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast
+
+
+[zone_psychic_cherno_belij_rjabj]:zone_field_psychic
+$spawn 			= "zones\psychic_cherno_belij_rjabj"
+
+postprocess		= mosquito_bald
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.3
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast
+
+
+[zone_psychic_orange_rjabj]:zone_field_psychic
+$spawn 			= "zones\psychic_orange_rjabj"
+
+postprocess		= postprocess_rad
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 0.3
+idle_particles		= zones\zone_psychic_idle_
+blowout_particles	= genior\fanta_morgana_blast

@@ -71,12 +71,12 @@ public:
     {
         return BOOL(!!(flags & mask));
     }
-    IC SelfRef or (const T mask)
+    IC SelfRef Or (const T mask)
     {
         flags |= mask;
         return *this;
     }
-    IC SelfRef or (const Self& f, const T mask)
+    IC SelfRef Or (const Self& f, const T mask)
     {
         flags = f.flags | mask;
         return *this;

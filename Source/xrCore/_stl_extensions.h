@@ -1,5 +1,6 @@
 ﻿#ifndef _STL_EXT_internal
 #define _STL_EXT_internal
+#include <unordered_map>
 
 using std::swap;
 
@@ -267,17 +268,17 @@ public:
     }
     void clear_not_free()
     {
-        erase(begin(), end());
+        inherited::erase(inherited::begin(), inherited::end());
     }
     void clear_and_reserve()
     {
-        if (capacity() <= (size() + size() / 4))
+        if (inherited::capacity() <= (size() + size() / 4))
             clear_not_free();
         else
         {
             u32 old = size();
             clear_and_free();
-            reserve(old);
+            inherited::reserve(old);
         }
     }
 
@@ -328,7 +329,7 @@ public:
     }
     void clear()
     {
-        erase(begin(), end());
+        inherited::erase(inherited::begin(), inherited::end());
     }
 };
 
@@ -451,6 +452,8 @@ public:
         return (u32) __super::size();
     }
 };
+
+template<typename K, class V, class Hasher = std::hash<K>, class Traits = std::equal_to<K>, typename allocator = xalloc<std::pair<const K, V>>> using xr_unordered_map = std::unordered_map<K, V, Hasher, Traits, allocator>;
 
 #ifdef STLPORT
 template<typename V, class _HashFcn = std::hash<V>, class _EqualKey = std::equal_to<V>, typename allocator = xalloc<V>> class xr_hash_set: public std::hash_set<V, _HashFcn, _EqualKey, allocator>

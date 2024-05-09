@@ -75,6 +75,7 @@
     <ProjectGuid>{19DC7E82-12AF-4110-93CA-E7C30500A3F5}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ParticleEditor</RootNamespace>
+    <WindowsTargetPlatformVersion>$(WindowsTargetPlatformVersion)</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <ImportGroup Label="PropertySheets">

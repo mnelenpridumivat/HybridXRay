@@ -100,22 +100,22 @@ public:
     // construction
     resptr_core()
     {
-        p_ = 0;
+        self::p_ = 0;
     }
     resptr_core(T* p, bool add_ref = true)
     {
-        p_ = p;
+        self::p_ = p;
         if (add_ref)
-            _inc();
+            self::_inc();
     }
     resptr_core(const self& rhs)
     {
-        p_ = rhs.p_;
-        _inc();
+        self::p_ = rhs.p_;
+        self::_inc();
     }
     ~resptr_core()
     {
-        _dec();
+        self::_dec();
     }
 
     // assignment
@@ -128,29 +128,29 @@ public:
     // accessors
     T& operator*() const
     {
-        return *p_;
+        return *self::p_;
     }
     T* operator->() const
     {
-        return p_;
+        return self::p_;
     }
 
     // unspecified bool type
     typedef T* (resptr_core::*unspecified_bool_type)() const;
     operator unspecified_bool_type() const
     {
-        return p_ == 0 ? 0 : &resptr_core::_get;
+        return self::p_ == 0 ? 0 : &resptr_core::_get;
     }
     bool operator!() const
     {
-        return p_ == 0;
+        return self::p_ == 0;
     }
 
     // fast swapping
     void swap(self& rhs)
     {
-        T* tmp = p_;
-        p_     = rhs.p_;
+        T* tmp   = self::p_;
+        self::p_ = rhs.p_;
         rhs.p_ = tmp;
     }
 };

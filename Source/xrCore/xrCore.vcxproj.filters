@@ -564,6 +564,9 @@
       <Filter>Kernel</Filter>
     </ClInclude>
     <ClInclude Include="FileDialog.h" />
+    <ClInclude Include="xr_smart_pointers.h">
+      <Filter>Math\STLext</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="FileSystem.h">

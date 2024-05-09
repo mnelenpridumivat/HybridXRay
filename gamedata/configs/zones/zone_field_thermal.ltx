@@ -11,7 +11,7 @@ ef_anomaly_type			= 3
 ef_weapon_type			= 15
 
 ;----------- Anomaly settings -----------------------
-max_start_power		= 0
+max_start_power		= 1.2
 attenuation			= 0.5
 
 idle_particles		= ;zones\zone_thermal_idle
@@ -58,7 +58,7 @@ shape_edge_color		= 32, 32, 32, 255
 $spawn 			= "zones\field_thermal_weak"
 
 ;----------- Anomaly settings -----------------------
-max_start_power		= 0.1
+max_start_power		= 1.1
 
 
 
@@ -66,7 +66,7 @@ max_start_power		= 0.1
 $spawn 			= "zones\field_thermal_average"
 
 ;----------- Anomaly settings -----------------------
-max_start_power		= 0.1
+max_start_power		= 1.1
 
 
 
@@ -74,4 +74,10 @@ max_start_power		= 0.1
 $spawn 			= "zones\field_thermal_strong"
 
 ;----------- Anomaly settings -----------------------
-max_start_power		= 0.1
+max_start_power		= 1.1
+
+[zone_field_thermal_dinamic]:zone_field_thermal
+$spawn 			= "zones\field_thermal_dinamic"
+
+;----------- Anomaly settings -----------------------
+max_start_power		= 1.1

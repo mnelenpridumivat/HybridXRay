@@ -25,30 +25,6 @@
     <Filter Include="Tree\Choose">
       <UniqueIdentifier>{fbf56145-c3d8-4c6b-95fb-295cdefee3b8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Tree\LogicEditor">
-      <UniqueIdentifier>{9f62cdf4-b6b3-4717-8519-e4773422f952}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree\LogicEditor\imgui_node_editor">
-      <UniqueIdentifier>{f9bfd953-e385-487a-bc86-a1a623819c56}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree\LogicEditor\imgui_node_editor\examples">
-      <UniqueIdentifier>{98b0fa4e-f2dd-4417-b143-f57d7432a451}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree\LogicEditor\imgui_node_editor\external">
-      <UniqueIdentifier>{34c00af6-2625-4cfa-8c5e-16a9c9072524}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree\LogicEditor\imgui_node_editor\examples\application">
-      <UniqueIdentifier>{8c9c35c5-7544-4b4e-a443-a8a0f98e2787}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree\LogicEditor\imgui_node_editor\examples\application\include">
-      <UniqueIdentifier>{af65703e-3227-456e-b070-b8ba3545fb5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree\LogicEditor\imgui_node_editor\examples\application\source">
-      <UniqueIdentifier>{36b0e8fb-171d-41c0-8d4f-50b914244842}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Tree\LogicEditor\imgui_node_editor\external\stb_image">
-      <UniqueIdentifier>{82838e62-af69-4753-b5e7-746325f3ae9c}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -96,15 +72,6 @@
     <ClCompile Include="Tree\Choose\UIChooseFormItem.cpp">
       <Filter>Tree\Choose</Filter>
     </ClCompile>
-    <ClCompile Include="Tree\LogicEditor\LogicEditor.cpp">
-      <Filter>Tree\LogicEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Tree\LogicEditor\CustomDataEditor.cpp">
-      <Filter>Tree\LogicEditor</Filter>
-    </ClCompile>
-    <ClCompile Include="Tree\LogicEditor\LogicEditorGenerals.cpp">
-      <Filter>Tree\LogicEditor</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UITextForm.h">
@@ -139,15 +106,6 @@
     </ClInclude>
     <ClInclude Include="Tree\Choose\UIChooseFormItem.h">
       <Filter>Tree\Choose</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree\LogicEditor\LogicEditor.h">
-      <Filter>Tree\LogicEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree\LogicEditor\CustomDataEditor.h">
-      <Filter>Tree\LogicEditor</Filter>
-    </ClInclude>
-    <ClInclude Include="Tree\LogicEditor\LogicEditorGenerals.h">
-      <Filter>Tree\LogicEditor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
