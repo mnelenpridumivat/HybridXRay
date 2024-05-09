@@ -1,4 +1,14 @@
 ﻿#pragma once
+#include "../../xrCore/xr_smart_pointers.h"
+
+struct SSharedStrHash
+{
+    size_t operator()(const shared_str& value) const
+    {
+        return std::hash<str_value*>{}(const_cast<str_value*>(value._get()));
+    }
+};
+
 template<class C, bool FolderAsItem = false> class FolderHelper
 {
 public:
@@ -16,7 +26,8 @@ public:
         EFolderNodeType Type;
         shared_str      Name;
         shared_str      Path;
-        xr_vector<Node> Nodes;
+        xr_unordered_map<shared_str, xr_shared_ptr<Node>, SSharedStrHash> NodesHashed;
+        xr_vector<xr_shared_ptr<Node>>                                    NodesOrdered;
         mutable C*      Object;
         IC bool         IsObject()
         {
@@ -43,25 +54,42 @@ public:
             N->Selected = true;
             return SelectObject(N, strchr(path, '\\') + 1);
         }
-        for (Node& node: N->Nodes)
+        if constexpr (FolderAsItem)
         {
-            if (FolderAsItem)
+            auto It = N->NodesHashed.find(path);
+            if (It != N->NodesHashed.end() && It->second->Object)
             {
-                if (node.Name == path && node.Object)
+                It->second->Selected = true;
+                return It->second.get();
+            }
+        } else
+        {
+            auto It = N->NodesHashed.find(path);
+            if (It != N->NodesHashed.end() && It->second->IsObject())
+            {
+                It->second->Selected = true;
+                return It->second.get();
+            }
+        }
+        /*for (Node* node: N->NodesOrdered)
+        {
+            if constexpr (FolderAsItem)
+            {
+                if (node->Name == path && node->Object)
                 {
-                    node.Selected = true;
-                    return &node;
+                    node->Selected = true;
+                    return node;
                 }
             }
             else
             {
-                if (node.Name == path && node.IsObject())
+                if (node->Name == path && node->IsObject())
                 {
-                    node.Selected = true;
-                    return &node;
+                    node->Selected = true;
+                    return node;
                 }
             }
-        }
+        }*/
         VERIFY(false);
         return nullptr;
     }
@@ -81,11 +109,19 @@ public:
             if (N == nullptr)
                 return nullptr;
         }
-        for (Node& node: N->Nodes)
+
+        auto It = N->NodesHashed.find(path);
+
+        if (It != N->NodesHashed.end() && It->second->IsObject())
         {
-            if (node.Name == path && node.IsObject())
-                return &node;
+            return It->second.get();
         }
+
+        /*for (Node* node: N->NodesOrdered)
+        {
+            if (node->Name == path && node->IsObject())
+                return node;
+        }*/
         return nullptr;
     }
 
@@ -109,11 +145,18 @@ public:
                 return nullptr;
         }
 
-        for (Node& node: N->Nodes)
+        auto It = N->NodesHashed.find(path);
+
+        if (It != N->NodesHashed.end())
         {
-            if (node.Name == path)
-                return &node;
+            return It->second.get();
         }
+
+        /*for (auto node: N->NodesOrdered)
+        {
+            if (node->Name == path)
+                return node;
+        }*/
         return nullptr;
     }
 
@@ -133,12 +176,19 @@ public:
             return FindFolder(FindFolder(N, name), strchr(path, '\\') + 1);
         }
 
-        for (Node& node: N->Nodes)
+        auto It = N->NodesHashed.find(path);
+        if (It == N->NodesHashed.end() || !It->second->IsFolder())
         {
-            if (node.Name == path && node.IsFolder())
-                return &node;
+            return nullptr;
         }
-        return nullptr;
+        return It->second.get();
+
+        /*for (Node* node: N->NodesOrdered)
+        {
+            if (node->Name == path && node->IsFolder())
+                return node;
+        }
+        return nullptr;*/
     }
 
     inline Node* AppendFolder(Node* N, const char* path)
@@ -159,38 +209,63 @@ public:
             return AppendFolder(AppendFolder(N, name), strchr(path, '\\') + 1);
         }
 
-        for (Node& node: N->Nodes)
+        auto It = N->NodesHashed.find(path);
+        if (It != N->NodesHashed.end())
         {
-            if (node.Name == path)
+            if constexpr (FolderAsItem)
+            {
+                It->second->Type = FNT_Folder;
+                return It->second.get();
+            }
+            else
+            {
+                if ((*It)->IsFolder())
+                {
+                    return It->second.get();
+                }
+                // return nullptr;
+            }
+        }
+
+        /*for (Node* node: N->NodesOrdered)
+        {
+            if (node->Name == path)
             {
                 if constexpr (FolderAsItem)
                 {
-                    node.Type = FNT_Folder;
-                    return &node;
+                    node->Type = FNT_Folder;
+                    return node;
                 }
                 else
                 {
-                    if (node.IsFolder())
-                        return &node;
+                    if (node->IsFolder())
+                        return node;
                     // return nullptr;
                 }
             }
-        }
-        Node NewNode;
-        NewNode.Type = FNT_Folder;
-        NewNode.Name = path;
+        }*/
+        auto& Ptr = N->NodesHashed.insert({path, xr_make_shared<Node>()}).first->second;
+        //Node NewNode;
+        Ptr->Type      = FNT_Folder;
+        Ptr->Name = path;
         if (N->Path.size() == 0)
         {
             if (N->Name.size())
-                NewNode.Path = N->Name;
+            {
+                Ptr->Path = N->Name;
+            }
             else
-                NewNode.Path = "";
+            {
+                Ptr->Path = "";
+            }
         }
         else
-            NewNode.Path.printf("%s\\%s", N->Path.c_str(), N->Name.c_str());
+        {
+            Ptr->Path.printf("%s\\%s", N->Path.c_str(), N->Name.c_str());
+        }
 
-        N->Nodes.push_back(NewNode);
-        return &N->Nodes.back();
+        N->NodesOrdered.push_back(Ptr);
+        return N->NodesOrdered.back().get();
     }
 
     inline Node* AppendObject(Node* N, const char* path)
@@ -213,22 +288,60 @@ public:
             return AppendObject(AppendFolder(N, name), strchr(path, '\\') + 1);
         }
 
-        for (Node& node: N->Nodes)
+        auto It = N->NodesHashed.find(path);
+        if (It != N->NodesHashed.end())
         {
-            if (node.Name == path)
+            if constexpr (FolderAsItem)
             {
-                if constexpr (FolderAsItem)
+                if (It->second->IsObject())
                 {
-                    if (node.IsObject())
-                        return &node;
-                    return nullptr;
+                    return It->second.get();
                 }
-                else
-                    return &node;
+                return nullptr;
+            }
+            else
+            {
+                return It->second.get();
+                // return nullptr;
             }
         }
 
-        Node NewNode;
+        /*for (Node* node: N->NodesOrdered)
+        {
+            if (node->Name == path)
+            {
+                if constexpr (FolderAsItem)
+                {
+                    if (node->IsObject())
+                        return node;
+                    return nullptr;
+                }
+                else
+                    return node;
+            }
+        }*/
+
+        auto& Ptr = N->NodesHashed.insert({path, xr_make_shared<Node>()}).first->second;
+
+        Ptr->Type = FNT_Object;
+        Ptr->Name = path;
+        if (N->Path.size() == 0)
+        {
+            if (N->Name.size())
+            {
+                Ptr->Path = N->Name;
+            }
+            else
+            {
+                Ptr->Path = "";
+            }
+        }
+        else
+        {
+            Ptr->Path.printf("%s\\%s", N->Path.c_str(), N->Name.c_str());
+        }
+
+        /*Node NewNode;
         NewNode.Type = FNT_Object;
         NewNode.Name = path;
 
@@ -240,10 +353,10 @@ public:
                 NewNode.Path = "";
         }
         else
-            NewNode.Path.printf("%s\\%s", N->Path.c_str(), N->Name.c_str());
+            NewNode.Path.printf("%s\\%s", N->Path.c_str(), N->Name.c_str());*/
 
-        N->Nodes.push_back(NewNode);
-        return &N->Nodes.back();
+        N->NodesOrdered.push_back(Ptr);
+        return N->NodesOrdered.back().get();
     }
 
     inline void Remove(Node* N, Node* Object, bool use_event = false)
@@ -313,18 +426,18 @@ public:
     {
         if (N->Type == FNT_Root)
         {
-            for (Node& node: N->Nodes)
+            for (auto& node: N->NodesOrdered)
             {
-                if (node.IsFolder() && IsDrawFolder(&node))
+                if (node->IsFolder() && IsDrawFolder(node.get()))
                 {
-                    DrawNode(&node);
+                    DrawNode(node.get());
                 }
             }
-            for (Node& node: N->Nodes)
+            for (auto& node: N->NodesOrdered)
             {
-                if (!node.IsFolder())
+                if (!node->IsFolder())
                 {
-                    DrawNode(&node);
+                    DrawNode(node.get());
                 }
             }
         }
@@ -343,18 +456,18 @@ public:
                 DrawAfterFolderNode(true, N);
                 if (ImGui::IsItemClicked() && N->Object)
                     IsItemClicked(N);
-                for (Node& node: N->Nodes)
+                for (auto& node: N->NodesOrdered)
                 {
-                    if (node.IsFolder() && IsDrawFolder(&node))
+                    if (node->IsFolder() && IsDrawFolder(node.get()))
                     {
-                        DrawNode(&node);
+                        DrawNode(node.get());
                     }
                 }
-                for (Node& node: N->Nodes)
+                for (auto& node: N->NodesOrdered)
                 {
-                    if (!node.IsFolder())
+                    if (!node->IsFolder())
                     {
-                        DrawNode(&node);
+                        DrawNode(node.get());
                     }
                 }
                 ImGui::TreePop();
@@ -406,59 +519,65 @@ private:
     {
         std::swap(Dst->Type, Src->Type);
         std::swap(Dst->Object, Src->Object);
-        Dst->Nodes.swap(Src->Nodes);
+        Dst->NodesOrdered.swap(Src->NodesOrdered);
     }
     inline void RebuildPath(Node* N)
     {
-        for (Node& n: N->Nodes)
+        for (auto& n: N->NodesOrdered)
         {
             string_path old_path, new_path;
-            GetFullPath(&n, old_path);
+            GetFullPath(n.get(), old_path);
 
             if (N->Path.size() == 0)
             {
                 if (N->Name.size())
                 {
-                    n.Path = N->Name;
+                    n->Path = N->Name;
                 }
                 else
                 {
-                    n.Path = "";
+                    n->Path = "";
                 }
             }
             else
             {
-                n.Path.printf("%s\\%s", N->Path.c_str(), N->Name.c_str());
+                n->Path.printf("%s\\%s", N->Path.c_str(), N->Name.c_str());
             }
-            GetFullPath(&n, new_path);
+            GetFullPath(n.get(), new_path);
 
-            EventRenameNode(&n, old_path, new_path);
-            RebuildPath(&n);
+            EventRenameNode(n.get(), old_path, new_path);
+            RebuildPath(n.get());
         }
     }
 
     inline void RemoveNode(Node* Object)
     {
-        for (Node& n: Object->Nodes)
+        for (auto& n: Object->NodesOrdered)
         {
             string_path path;
-            RemoveNode(&n);
-            GetFullPath(&n, path);
-            EventRemoveNode(&n, path);
+            RemoveNode(n.get());
+            GetFullPath(n.get(), path);
+            EventRemoveNode(n.get(), path);
         }
-        Object->Nodes.clear();
+        Object->NodesOrdered.clear();
     }
 
     inline bool RemoveNodeFromN(Node* N, Node* Object)
     {
-        for (auto b = N->Nodes.begin(), e = N->Nodes.end(); b != e; b++)
+        auto It = N->NodesHashed.find(Object->Name);
+        if (It == N->NodesHashed.end())
         {
-            if (&(*b) == Object)
+            return false;
+        }
+        for (auto b = N->NodesOrdered.begin(), e = N->NodesOrdered.end(); b != e; b++)
+        {
+            if ((*b).get() == Object)
             {
-                N->Nodes.erase(b);
-                return true;
+                N->NodesOrdered.erase(b);
+                break;
             }
         }
-        return false;
+        N->NodesHashed.erase(It);
+        return true;
     }
 };

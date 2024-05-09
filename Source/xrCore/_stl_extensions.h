@@ -453,7 +453,8 @@ public:
     }
 };
 
-template<typename K, class V, class Hasher = std::hash<K>, class Traits = std::equal_to<K>, typename allocator = xalloc<std::pair<const K, V>>> using xr_unordered_map = std::unordered_map<K, V, Hasher, Traits, allocator>;
+template<typename K, class V, class Hasher = std::hash<K>, class Traits = std::equal_to<K>, typename allocator = xalloc<std::pair<const K, V>>>
+using xr_unordered_map = std::unordered_map<K, V, Hasher, Traits, allocator>;
 
 #ifdef STLPORT
 template<typename V, class _HashFcn = std::hash<V>, class _EqualKey = std::equal_to<V>, typename allocator = xalloc<V>> class xr_hash_set: public std::hash_set<V, _HashFcn, _EqualKey, allocator>

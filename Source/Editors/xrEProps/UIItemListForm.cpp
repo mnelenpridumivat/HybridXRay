@@ -481,9 +481,9 @@ bool UIItemListForm::IsDrawFolder(Node* node)
         return node->Object->Visible();
     bool result = m_Flags.test(fMenuEdit);
     ;
-    for (Node& N: node->Nodes)
+    for (auto& N: node->NodesOrdered)
     {
-        result = result | IsDrawFolder(&N);
+        result = result | IsDrawFolder(N.get());
     }
     return result;
 }
@@ -554,15 +554,15 @@ void UIItemListForm::ClearSelectedItems()
 
 void UIItemListForm::ClearObject(Node* N)
 {
-    for (int i = N->Nodes.size() - 1; i >= 0; i--)
+    for (int i = N->NodesOrdered.size() - 1; i >= 0; i--)
     {
-        if (N->Nodes[i].IsObject())
+        if (N->NodesOrdered[i]->IsObject())
         {
-            N->Nodes.erase(N->Nodes.begin() + i);
+            N->NodesOrdered.erase(N->NodesOrdered.begin() + i);
         }
         else
         {
-            ClearObject(&N->Nodes[i]);
+            ClearObject(N->NodesOrdered[i].get());
         }
     }
 }
