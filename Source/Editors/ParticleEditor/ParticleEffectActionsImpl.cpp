@@ -838,11 +838,12 @@ void pBindRotationValue(IWriter& F, const Fvector& Value)
     S.Save(F);
 }
 
-void pBindSizeValue(IWriter& F, const Fvector& Value)
+void pBindSizeValue(IWriter& F, const Fvector& Value, const Fvector& Pivot)
 {
     PABindSizeValue S;
     S.type = PABindSizeValueID;
     S.BindValue.set(Value);
+    S.Pivot.set(Pivot);
 
     F.w_u32(S.type);
     S.Save(F);
@@ -1364,11 +1365,12 @@ EPABindSizeValue::EPABindSizeValue(): EParticleAction(PAPI::PABindSizeValueID)
     actionType = "BindSize";
     actionName = actionType;
     appendVector("InitialValue", PVector::vNum, 1.0f, 1.0f, 1.0f, 0.0f, FLT_MAX);
+    appendVector("Pivot", PVector::vNum, 0.0f, 0.0f, 0.0f, FLT_MIN, FLT_MAX);
 }
 
 void EPABindSizeValue::Compile(IWriter& F)
 {
-    pBindSizeValue(F, _vector("InitialValue").val);
+    pBindSizeValue(F, _vector("InitialValue").val, _vector("Pivot").val);
 }
 
 EPABindRotateValue::EPABindRotateValue(): EParticleAction(PAPI::PABindRotationValueID)

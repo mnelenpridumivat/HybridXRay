@@ -336,6 +336,7 @@ namespace PAPI
         }
 
         pVector BindValue;
+        pVector Pivot;
 
         _METHODS;
     };

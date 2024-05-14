@@ -506,11 +506,13 @@ void PABindSizeValue::Load(IReader& F)
 {
     ParticleAction::Load(F);
     F.r_fvector3(BindValue);
+    F.r_fvector3(Pivot);
 }
 void PABindSizeValue::Save(IWriter& F)
 {
     ParticleAction::Save(F);
     F.w_fvector3(BindValue);
+    F.w_fvector3(Pivot);
 }
 void PABindColorValue::Load(IReader& F)
 {

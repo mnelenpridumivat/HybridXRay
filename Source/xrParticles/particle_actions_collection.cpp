@@ -1914,7 +1914,22 @@ void PABindSizeValue::Execute(ParticleEffect* effect, const float dt, float& tm_
     {
         Particle& m = effect->particles[i];
         m.size      = BindValue;
+        auto NegPivot = Pivot;
+        -NegPivot;
+        m.pos.x       = NegPivot.x * m.size.x;
+        m.pos.y       = NegPivot.y * m.size.y;
+        m.pos.z       = NegPivot.z * m.size.z;
     }
+    // Step particle positions forward by dt, and age the particles.
+    /*for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+        // move
+        m.age += dt;
+        m.posB = m.pos;
+        //        m.velB 	= m.vel;
+        m.pos += m.vel * dt;
+    }*/
 }
 void PABindColorValue::Transform(const Fmatrix& m) {}
 void PABindColorValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
