@@ -338,6 +338,9 @@ namespace PAPI
         pVector BindValue;
         pVector Pivot;
 
+        pVector Deviation;
+        bool    CalculateDeviation = false;
+
         _METHODS;
     };
 

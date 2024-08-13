@@ -149,6 +149,8 @@ public:
     typedef FixedMAP<float, CCustomObject*, render_allocator> mapObject_D;
     typedef mapObject_D::TNode                                mapObject_Node;
     mapObject_D                                               mapRenderObjects;
+    //xr_hash_map<>
+    //xr_hash_map<float, CCustomObject*, stdext::hash_compare<float, std::less<float>>> HashMapRenderObjects;
 
 public:
     st_LevelOptions m_LevelOp;
