@@ -4,6 +4,7 @@ UIAIMapTool::UIAIMapTool()
 {
     m_Mode                        = mdAppend;
     m_AutoLink                    = true;
+    m_IgnoreSceneObjects          = false;
     m_IgnoreConstraints           = false;
     m_IgnoreMaterialsListSelected = 0;
     m_ChooseIgnoreMaterials       = false;
@@ -64,6 +65,9 @@ void UIAIMapTool::Draw()
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
             ImGui::Checkbox("Auto Link"_RU >> u8"Авто привязка", &m_AutoLink);
+            if (ImGui::IsItemHovered())
+                ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
+            ImGui::Checkbox("Ignore Scene Objects on select"_RU >> u8"Игнорировать объекты при выделении", &m_IgnoreSceneObjects);
             if (ImGui::IsItemHovered())
                 ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
         }

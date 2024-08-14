@@ -24,7 +24,7 @@ int EScene::FrustumSelect(int flag, ObjClassID classfilter)
 {
     CFrustum frustum;
     int      count = 0;
-    if (!LUI->SelectionFrustum(frustum))
+    if (!LUI->SelectionFrustum(frustum, GetTool(OBJCLASS_AIMAP)->IsEnabled() ? static_cast<UIAIMapTool*>(GetTool(OBJCLASS_AIMAP)->pCurControl->parent_tool->pForm)->IsIgnoreSceneObjects() : false))
         return 0;
 
     if (classfilter == OBJCLASS_DUMMY)

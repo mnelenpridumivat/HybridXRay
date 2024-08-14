@@ -16,6 +16,10 @@ public:
     {
         return m_AutoLink;
     }
+    IC bool IsIgnoreSceneObjects() const
+    {
+        return m_IgnoreSceneObjects;
+    }
 
 private:
     enum EMode
@@ -27,6 +31,7 @@ private:
     EMode                m_Mode;
     bool                 m_IgnoreConstraints;
     bool                 m_AutoLink;
+    bool                 m_IgnoreSceneObjects;
     xr_vector<xr_string> m_IgnoreMaterialsList;
     int                  m_IgnoreMaterialsListSelected;
     bool                 m_ChooseIgnoreMaterials;

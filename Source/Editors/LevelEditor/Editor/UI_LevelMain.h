@@ -113,7 +113,7 @@ public:
     void             ShowContextMenu(int cls);
     bool             PickGround(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap = 1, Fvector* hitnormal = 0);
     bool             ScenePickObjectGeometry(Fvector& hitpoint, const Fvector& start, const Fvector& direction, int bSnap = 1, Fvector* hitnormal = 0);
-    bool             SelectionFrustum(CFrustum& frustum);
+    bool             SelectionFrustum(CFrustum& frustum, bool IgnoreSceneObjects = false);
 
     virtual bool     ApplyShortCut(DWORD Key, TShiftState Shift);
     virtual bool     ApplyGlobalShortCut(DWORD Key, TShiftState Shift);

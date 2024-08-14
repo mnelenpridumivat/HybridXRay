@@ -1293,7 +1293,7 @@ bool CLevelMain::PickGround(Fvector& hitpoint, const Fvector& start, const Fvect
     return PickGrid(hitpoint, start, direction, bSnap, hitnormal);
 }
 
-bool CLevelMain::SelectionFrustum(CFrustum& frustum)
+bool CLevelMain::SelectionFrustum(CFrustum& frustum, bool IgnoreSceneObjects)
 {
     VERIFY(m_bReady);
     Fvector  st, d, p[4];
@@ -1305,7 +1305,9 @@ bool CLevelMain::SelectionFrustum(CFrustum& frustum)
     float    y1 = m_StartCp.y, y2 = m_CurrentCp.y;
 
     if (!(x1 != x2 && y1 != y2))
+    {
         return false;
+    }
 
     pt[0].set(_min(x1, x2), _min(y1, y2));
     pt[1].set(_max(x1, x2), _min(y1, y2));
@@ -1319,15 +1321,23 @@ bool CLevelMain::SelectionFrustum(CFrustum& frustum)
         if (EPrefs->bp_lim_depth)
         {
             pinf.inf.range = EDevice->m_Camera._Zfar();   // max pick range
-            if (Scene->RayPickObject(pinf.inf.range, st, d, OBJCLASS_SCENEOBJECT, &pinf, 0))
+            if (!IgnoreSceneObjects && Scene->RayPickObject(pinf.inf.range, st, d, OBJCLASS_SCENEOBJECT, &pinf, 0))
+            {
                 if (pinf.inf.range > depth)
+                {
                     depth = pinf.inf.range;
+                }
+            }
         }
     }
     if (depth < EDevice->m_Camera._Znear())
+    {
         depth = EDevice->m_Camera._Zfar();
+    }
     else
+    {
         depth += EPrefs->bp_depth_tolerance;
+    }
 
     for (int i = 0; i < 4; i++)
     {
@@ -1341,7 +1351,9 @@ bool CLevelMain::SelectionFrustum(CFrustum& frustum)
     Fplane P;
     P.build(p[0], p[1], p[2]);
     if (P.classify(st) > 0)
+    {
         P.build(p[2], p[1], p[0]);
+    }
     frustum._add(P);
 
     return true;
