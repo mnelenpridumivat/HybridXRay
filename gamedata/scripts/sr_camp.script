@@ -77,6 +77,26 @@ function sr_camp_story_precondition(camp)
 	end
 	return false
 end
+function sr_camp_legend_precondition(camp)
+	if(#camp.legend_table>0) then
+		local n = 0
+		for k,v in pairs(camp.npc) do
+			n = n + 1
+		end
+		if(n>1) then
+			for k,v in pairs(camp.npc) do
+				local scheme = db.storage[k] and db.storage[k].active_scheme and db.storage[k][db.storage[k].active_scheme]
+				
+				local npc = db.storage[k] and db.storage[k].object
+				
+				if(v.legend==npc_role.director) and (scheme ~= nil and scheme.base_action == scheme.description) and npc ~= nil and not xr_meet.is_meet(npc) then
+					return true
+				end
+			end
+		end
+	end
+	return false
+end
 --------------------------------------------------------------------------------
 -- Класс CCampManager
 --------------------------------------------------------------------------------
@@ -92,6 +112,8 @@ function CCampManager:__init(object, ini)
 		self.guitar_table = parse_names(guitars)
 	local harmonicas = utils.cfg_get_string(ini, CAMP_SECTION, "harmonica_themes", nil, false, "", "test_harmonica")
 		self.harmonica_table = parse_names(harmonicas)
+	local legends = utils.cfg_get_string(ini, CAMP_SECTION, "legends_and_stories", nil, false, "", "legend001")
+		self.legend_table = parse_names(legends)
 	self.npc = {}
 	self.schemes = {}
 	-- Хранилище для режиссера лагеря. Режиссерем является сталкер, затеявший необычное поведение
@@ -109,7 +131,7 @@ function CCampManager:__init(object, ini)
 								min_time = 30000,
 								max_time = 40000,
 								timeout = 0,
-								transitions = {harmonica = 30, guitar = 30, story = 40},
+								transitions = {harmonica = 20, guitar = 20, story = 30, legend = 30},
 								precondition = sr_camp_idle_precondition
 							 },
 					harmonica = {
@@ -118,7 +140,7 @@ function CCampManager:__init(object, ini)
 								min_time = 10000,
 								max_time = 11000,
 								timeout = 3000,
-								transitions = {idle = 100, harmonica = 0, guitar = 0, story = 0},
+								transitions = {idle = 100, harmonica = 0, guitar = 0, story = 0, legend = 0},
 								precondition = sr_camp_harmonica_precondition
 								},
 					guitar = {
@@ -127,8 +149,17 @@ function CCampManager:__init(object, ini)
 								min_time = 10000,
 								max_time = 11000,
 								timeout = 4500,
-								transitions = {idle = 100, harmonica = 0, guitar = 0, story = 0},
+								transitions = {idle = 100, harmonica = 0, guitar = 0, story = 0, legend = 0},
 								precondition = sr_camp_guitar_precondition
+							 },
+					legend = {
+								director_state = "legend",
+								general_state = "listen",
+								min_time = 10000,
+								max_time = 22000,
+								timeout = 0,
+								transitions = {idle = 100, harmonica = 0, guitar = 0, story = 0, legend = 0},
+								precondition = sr_camp_legend_precondition
 							 },
 					story = {
 								director_state = "tell",
@@ -136,7 +167,7 @@ function CCampManager:__init(object, ini)
 								min_time = 10000,
 								max_time = 11000,
 								timeout = 0,
-								transitions = {idle = 100, harmonica = 0, guitar = 0, story = 0},
+								transitions = {idle = 100, harmonica = 0, guitar = 0, story = 0, legend = 0},
 								precondition = sr_camp_story_precondition
 							},
 					}
@@ -337,7 +368,7 @@ function CCampManager:get_npc_role(npc_id, state)
 
 	local npc_actions = scheme.approved_actions
 	local descr = scheme.description
-	if(state=="harmonica") or (state=="guitar") then
+	if(state=="harmonica") or (state=="guitar") or (state=="legend") then
 		descr = descr.."_"..state
 		--printf("finding music director [%s]", descr) 
 		for i = 1,#npc_actions do
@@ -350,7 +381,7 @@ function CCampManager:get_npc_role(npc_id, state)
 		return npc_role.listener
 	elseif(state=="story") then
 		for i = 1,#npc_actions do
-			if(npc_actions[i].name==descr) or (npc_actions[i].name==descr.."_weapon") then
+			if(npc_actions[i].name==descr) or (npc_actions[i].name==descr.."_weapon") or (npc_actions[i].name==descr.."_s") or (npc_actions[i].name==descr.."_sk") or (npc_actions[i].name==descr.."_sa") or (npc_actions[i].name==descr.."_sr") or (npc_actions[i].name==descr.."_so2") or (npc_actions[i].name==descr.."_so3") then
 				--printf("DIRECTOR FOUND story")
 				return npc_role.director
 			end
@@ -395,6 +426,19 @@ function start_harmonica(npc)
 
 	camp.sound_manager:set_storyteller(camp.director)
 	camp.sound_manager:set_story(camp.harmonica_table[math.random(#camp.harmonica_table)])
+	camp.sound_manager_started = true
+	camp.sound_manager:update()
+end
+
+function start_legend(npc)
+	local camp_id = db.storage[npc:id()].registred_camp
+	if camp_id == nil then
+		return	
+	end
+	local camp = bind_camp.camps[camp_id].camp
+
+	camp.sound_manager:set_storyteller(camp.director)
+	camp.sound_manager:set_story(camp.legend_table[math.random(#camp.legend_table)])
 	camp.sound_manager_started = true
 	camp.sound_manager:update()
 end

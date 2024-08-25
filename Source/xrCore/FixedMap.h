@@ -301,6 +301,88 @@ once_more:
             CB(cur);
     }
 
+private:
+
+    struct TreeIterInfo
+    {
+        TNode* node;
+        bool   left_processed = false;
+        bool   right_processed = false;
+
+        TreeIterInfo(TNode* node): node(node) {}
+
+    };
+
+public:
+    IC void traverseLR_iter(callback CB)
+    {
+        if (!pool)
+        {
+            return;
+        }
+        xr_stack<TreeIterInfo, xr_list<TreeIterInfo>> NodesStack;
+        NodesStack.push(nodes);
+        while (!NodesStack.empty())
+        {
+            auto& CurrentTop = NodesStack.top();
+            if (!CurrentTop.left_processed)
+            {
+                if (CurrentTop.node->left)
+                {
+                    NodesStack.push(CurrentTop.node->left);
+                }
+                CurrentTop.left_processed = true;
+            }
+            else if (!CurrentTop.right_processed)
+            {
+                CB(CurrentTop.node);
+                if (CurrentTop.node->right)
+                {
+                    NodesStack.push(CurrentTop.node->right);
+                }
+                CurrentTop.right_processed = true;
+            }
+            else
+            {
+                NodesStack.pop();
+            }
+        }
+    }
+    IC void traverseRL_iter(callback CB)
+    {
+        if (!pool)
+        {
+            return;
+        }
+        xr_stack<TreeIterInfo, xr_list<TreeIterInfo>> NodesStack;
+        NodesStack.push(nodes);
+        while (!NodesStack.empty())
+        {
+            auto& CurrentTop = NodesStack.top();
+            if (!CurrentTop.right_processed)
+            {
+                if (CurrentTop.node->right)
+                {
+                    NodesStack.push(CurrentTop.node->right);
+                }
+                CurrentTop.right_processed = true;
+            }
+            else if (!CurrentTop.left_processed)
+            {
+                CB(CurrentTop.node);
+                if (CurrentTop.node->left)
+                {
+                    NodesStack.push(CurrentTop.node->left);
+                }
+                CurrentTop.left_processed = true;
+            }
+            else
+            {
+                NodesStack.pop();
+            }
+        }
+    }
+
     IC void getLR(xr_vector<T, typename allocator::template helper<T>::result>& D)
     {
         if (pool)

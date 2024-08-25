@@ -722,7 +722,16 @@ states = {
 		bodystate = move.crouch,
 		direction = look.cur_dir,
 		animstate = nil,
-		animation = "wounded_heavy_1"}
+		animation = "wounded_heavy_1"},
+		
+	story = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_3",
+					animation = "story",
+					direction = CSightParams.eSightTypeAnimationDirection
+			}	
 }
 
 utils.copy_table(states, state_lib_animpoint.add_state_lib())

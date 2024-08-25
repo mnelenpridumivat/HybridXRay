@@ -230,6 +230,14 @@ attach_position_offset	= 0.081856, -0.035081, 0.011694
 attach_bone_name		= bip01_l_hand
 auto_attach				= false
 
+[sigaret_a]:harmonica_a
+$spawn					= "food and drugs\sigaret_a"
+visual                  = dynamics\devices\dev_sigaret\dev_sigaret.ogf
+inv_name				= sigareta
+attach_angle_offset		= 9.0, 0.0, 0.0
+attach_position_offset	= 0.035, -0.034, 0.021
+attach_bone_name		= bip01_r_finger12
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;	Scaner B6
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -741,3 +749,17 @@ anim_hide			= vodka_4
 anim_play			= vodka_5
 anim_prepare		= vodka_5
 anim_eat			= vodka_3
+
+;Невидимые дубликаты еды для анимпоинтов, чтобы не захламлять инвентарь, а если они и попадут к гг, то их можно скушац
+
+[bread_a]:bread
+$spawn 				= "food and drugs\bread_a"
+
+[kolbasa_a]:kolbasa
+$spawn 				= "food and drugs\kolbasa_a"
+
+[energy_drink_a]:energy_drink
+$spawn 				= "food and drugs\energy_drink_a"
+
+[vodka_a]:vodka
+$spawn 				= "food and drugs\vodka_a"

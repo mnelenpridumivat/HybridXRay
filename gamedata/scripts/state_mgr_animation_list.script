@@ -683,7 +683,14 @@ animations = {
 		search_corpse	 = {prop	= { maxidle = 1,
 									sumidle = 1,
 									rnd 	= 100 },
-						into 	= {	[0]	= {	"dinamit_1", {f=xr_corpse_detection.get_all_from_corpse} }},
+						into	= {	[0]	= {	"cr_torso_0_check_corps_0", {f=xr_corpse_detection.get_all_from_corpse} },
+									[1]	= {	"cr_torso_1_check_corps_0", {f=xr_corpse_detection.get_all_from_corpse} },
+									[2]	= {	"cr_torso_2_check_corps_0", {f=xr_corpse_detection.get_all_from_corpse} },
+									[3]	= {	"cr_torso_3_check_corps_0", {f=xr_corpse_detection.get_all_from_corpse} },
+									[4]	= {	"cr_torso_4_check_corps_0", {f=xr_corpse_detection.get_all_from_corpse} },
+									[8]	= {	"cr_torso_8_check_corps_0", {f=xr_corpse_detection.get_all_from_corpse} },
+									[9]	= {	"cr_torso_9_check_corps_0", {f=xr_corpse_detection.get_all_from_corpse} },
+									[10]= {	"cr_torso_10_check_corps_0", {f=xr_corpse_detection.get_all_from_corpse} } },
 						out		= nil,
 						rnd		= nil,
 						idle	= nil},
@@ -695,6 +702,19 @@ animations = {
 						out		= nil,
 						rnd		= nil,
 						idle	= nil},
+						
+		story		= {	prop	= { maxidle = 5,
+													sumidle = 3,
+													rnd = 80,
+													moving = true },
+										into	= { [0]	= {{f=sr_camp.start_story}},
+													[1]	= {{f=sr_camp.start_story}} },
+										out		= nil,
+										idle	= { [0]	= "sit_5_story_1",
+													[1]	= "sit_5_story_" },
+										rnd		= {	[0]	= {	"sit_5_story_2", "sit_5_story_3" },
+													[1]	= {	"sit_5_story_2", "sit_5_story_3" }
+												}},		
 	}
 
 utils.copy_table(animations, state_mgr_animation_list_animpoint.add_animation_list())

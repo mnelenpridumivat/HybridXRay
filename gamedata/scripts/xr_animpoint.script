@@ -5,10 +5,11 @@ local function angle_to_direction(oangle)
 end
 
 local assoc_tbl = 	{
-						idle = {director = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon"}},
-						harmonica = {director = {"_harmonica"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon"}},
-						guitar = {director = {"_guitar"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon"}},
-						story = {director = {"", "_weapon"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon"}},
+						idle = {director = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon", "_ruje", "_smoke", "_s", "_sa", "_sr", "_sk", "_so2", "_so3", "_sleep", "_sleep_2"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon", "_ruje", "_smoke", "_s", "_sa", "_sr", "_sk", "_so2", "_so3", "_sleep", "_sleep_2"}},
+						harmonica = {director = {"_harmonica"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon", "_ruje", "_smoke", "_s", "_sa", "_sr", "_sk", "_so2", "_so3", "_sleep", "_sleep_2"}},
+						guitar = {director = {"_guitar"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon", "_ruje", "_smoke", "_s", "_sa", "_sr", "_sk", "_so2", "_so3", "_sleep", "_sleep_2"}},
+						legend = {director = {"_legend"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon", "_ruje", "_smoke", "_s", "_sa", "_sr", "_sk", "_so2", "_so3", "_sleep", "_sleep_2"}},
+						story = {director = {"", "_weapon", "_s", "_sa", "_sr", "_sk", "_so2", "_so3"}, listener = {"", "_eat_bread", "_eat_kolbasa", "_drink_vodka", "_drink_energy", "_weapon", "_ruje", "_smoke", "_s", "_sa", "_sr", "_sk", "_so2", "_so3", "_sleep", "_sleep_2"}},
 					}
 --------------------------------------------------------------------------------
 -- Animated Point

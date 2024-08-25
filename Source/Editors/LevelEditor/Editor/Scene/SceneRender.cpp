@@ -194,7 +194,6 @@ void EScene::Render(const Fmatrix& camera)
                 {
                     float distSQ = EDevice->vCameraPosition.distance_to_sqr((*o_it)->FPosition);
                     mapRenderObjects.insertInAnyWay(distSQ, *o_it);
-                    //HashMapRenderObjects.insert(std::pair<float, CCustomObject*>(distSQ, *o_it));
                 }
             }
         }
@@ -203,64 +202,31 @@ void EScene::Render(const Fmatrix& camera)
     // priority #0
     // normal
     mapRenderObjects.traverseLR_iter(object_Normal_0);
-    //mapRenderObjects.traverseLR(object_Normal_0);
-    /*for (auto& elem : HashMapRenderObjects)
-    {
-        object_Normal_0(elem.second);
-    }*/
     RENDER_SCENE_TOOLS(0, false);
     // alpha
     mapRenderObjects.traverseRL_iter(object_StrictB2F_0);
-    /*for (auto& elem: HashMapRenderObjects)
-    {
-        object_StrictB2F_0(elem.second);
-    }*/
     RENDER_SCENE_TOOLS(0, true);
 
     // priority #1
     // normal
     mapRenderObjects.traverseLR_iter(object_Normal_1);
-    /*for (auto& elem: HashMapRenderObjects)
-    {
-        object_Normal_1(elem.second);
-    }*/
     RENDER_SCENE_TOOLS(1, false);
     // alpha
     mapRenderObjects.traverseRL_iter(object_StrictB2F_1);
-    /*for (auto& elem: HashMapRenderObjects)
-    {
-        object_StrictB2F_1(elem.second);
-    }*/
     RENDER_SCENE_TOOLS(1, true);
     // priority #2
     // normal
     mapRenderObjects.traverseLR_iter(object_Normal_2);
-    /*for (auto& elem: HashMapRenderObjects)
-    {
-        object_Normal_2(elem.second);
-    }*/
     RENDER_SCENE_TOOLS(2, false);
     // alpha
     mapRenderObjects.traverseRL_iter(object_StrictB2F_2);
-    /*for (auto& elem: HashMapRenderObjects)
-    {
-        object_StrictB2F_2(elem.second);
-    }*/
     RENDER_SCENE_TOOLS(2, true);
     // priority #3
     // normal
     mapRenderObjects.traverseLR_iter(object_Normal_3);
-    /*for (auto& elem: HashMapRenderObjects)
-    {
-        object_Normal_3(elem.second);
-    }*/
     RENDER_SCENE_TOOLS(3, false);
     // alpha
     mapRenderObjects.traverseRL_iter(object_StrictB2F_3);
-    /*for (auto& elem: HashMapRenderObjects)
-    {
-        object_StrictB2F_3(elem.second);
-    }*/
     RENDER_SCENE_TOOLS(3, true);
 
     // render snap
@@ -268,7 +234,6 @@ void EScene::Render(const Fmatrix& camera)
 
     // clear
     mapRenderObjects.clear();
-    //HashMapRenderObjects.clear();
 
     SceneMToolsIt s_it  = scene_tools.begin();
     SceneMToolsIt s_end = scene_tools.end();

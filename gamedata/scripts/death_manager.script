@@ -19,7 +19,7 @@ local death_ini = ini_file("misc\\death_generic.ltx")
 
 
 function init_drop_settings()
-	local community_list = { "stalker", "dolg", "freedom", "bandit", "army", "zombied", "ecolog", "killer", "monolith" }
+	local community_list = { "stalker", "dolg", "freedom", "bandit", "army", "zombied", "ecolog", "killer", "monolith", "csky" }
 
 		for k,v in pairs(community_list) do
 				--' Необходимо заполнить таблицу
@@ -164,6 +164,11 @@ function keep_item(npc, item)
 	if ini and ini:section_exist("keep_items")
 			and	section ~= "guitar_a"
 			and	section ~= "harmonica_a"
+			and	section ~= "sigaret_a"
+			and	section ~= "bread_a"
+			and	section ~= "kolbasa_a"
+			and	section ~= "energy_drink_a"
+			and	section ~= "vodka_a"
 			and section ~= "wpn_binoc"
 			and section ~= "device_torch"
 			and section ~= "device_pda" then

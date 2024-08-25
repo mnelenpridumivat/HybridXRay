@@ -1,3 +1,7 @@
 bread = 1, prob=0.5 \n
 kolbasa = 1, prob=0.5 \n
 vodka = 1, prob=0.5 \n
+bread_a = 1, prob=1 \n
+kolbasa_a = 1, prob=1 \n
+vodka_a = 1, prob=1 \n
+energy_drink_a = 1, prob=1 \n

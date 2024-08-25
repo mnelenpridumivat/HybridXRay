@@ -511,10 +511,10 @@ reset_distance	= 30
 		
 	else
 		def.close_distance 		= "{=is_wounded} 0, {!is_squad_commander} 0, 3"
-		def.close_anim 			= "{=is_wounded} nil, {!is_squad_commander} nil, {=actor_has_weapon} threat_na, talk_default"
+		def.close_anim 			= "{=is_wounded} nil, {!is_squad_commander} nil, {=actor_has_weapon} threat_na, wait_trade"
 		def.close_snd_distance 	= "{=is_wounded} 0, {!is_squad_commander} 0, 3"
 		def.close_snd_hello		= "{=is_wounded} nil, {!is_squad_commander} nil, {=actor_enemy} nil, {=actor_has_weapon} meet_hide_weapon, meet_hello"
-		def.close_snd_bye		= "{=is_wounded} nil, {!is_squad_commander} nil, {=actor_enemy} nil, {=actor_has_weapon} nil, meet_hello"
+		def.close_snd_bye		= "nil"
 		def.close_victim		= "{=is_wounded} nil, {!is_squad_commander} nil, actor"
 		def.far_distance		= "{=is_wounded} 0, {!is_squad_commander} 0, 5"
 		def.far_anim			= "nil"

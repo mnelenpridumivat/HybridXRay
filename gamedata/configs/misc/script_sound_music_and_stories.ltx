@@ -30,12 +30,17 @@ joke
 reac_joke
 reac_laugh
 
+legend001_part_0
+legend001_part_1
+legend001_part_2
+legend001_part_3
+
 ;***************************************************************
 ;**  —бор отр€да в атаку
 ;***************************************************************
 [attack_begin]
 type = npc
-avail_communities = stalker, bandit, dolg, freedom, army
+avail_communities = stalker, bandit, dolg, freedom, army, csky
 npc_prefix = true
 path = alife\attack\attack_begin_
 shuffle = rnd
@@ -43,7 +48,7 @@ idle = 0,0,100
 
 [attack_begin_reply]
 type = npc
-avail_communities = stalker, bandit, dolg, freedom, army
+avail_communities = stalker, bandit, dolg, freedom, army, csky
 npc_prefix = true
 path = alife\attack\begin_reply_
 shuffle = rnd
@@ -177,7 +182,7 @@ idle = 0,0,100
 ;************************************************************
 [intro_music]
 type = npc
-avail_communities = stalker, bandit, dolg, freedom
+avail_communities = stalker, bandit, dolg, freedom, csky, army
 npc_prefix = true
 path = talk\intros\intro_music_
 shuffle = rnd
@@ -185,15 +190,14 @@ idle = 1,1,100
 
 [play_guitar]
 type = 3d
-avail_communities = stalker, bandit, dolg, freedom
-npc_prefix = true
+npc_prefix = false
 path = music\guitar_
 shuffle = rnd
 idle = 1,1,100
 
 [reac_music]
 type = npc
-avail_communities = stalker, bandit, dolg, freedom
+avail_communities = stalker, bandit, dolg, freedom, csky, army
 npc_prefix = true
 path = reactions\music\reaction_music_
 shuffle = rnd
@@ -202,8 +206,8 @@ group_snd = true
 
 [play_harmonica]
 type = 3d
-avail_communities = stalker, bandit, dolg, freedom
-npc_prefix = true
+;avail_communities = stalker, bandit, dolg, freedom, csky, army
+npc_prefix = false
 path = music\harmonica_
 shuffle = rnd
 idle = 1,1,100
@@ -213,7 +217,7 @@ idle = 1,1,100
 ;***************************************************************
 [intro_joke]
 type = npc
-avail_communities = stalker, bandit, dolg, freedom, army, monolith
+avail_communities = stalker, bandit, dolg, freedom, army, monolith, csky
 npc_prefix = true
 path = talk\intros\intro_joke_
 shuffle = rnd
@@ -222,7 +226,7 @@ group_snd = true
 
 [joke]
 type = npc
-avail_communities = stalker, bandit, dolg, freedom, army, monolith
+avail_communities = stalker, bandit, dolg, freedom, army, monolith, csky
 npc_prefix = true
 path = talk\jokes\joke_
 shuffle = rnd
@@ -231,7 +235,7 @@ group_snd = true
 
 [reac_joke]
 type = npc
-avail_communities = stalker, bandit, dolg, freedom, army, monolith
+avail_communities = stalker, bandit, dolg, freedom, army, monolith, csky
 npc_prefix = true
 path = reactions\joke\reaction_joke_
 shuffle = rnd
@@ -240,7 +244,7 @@ group_snd = true
 
 [reac_laugh]
 type = npc
-avail_communities = stalker, bandit, dolg, freedom, army, monolith
+avail_communities = stalker, bandit, dolg, freedom, army, monolith, csky
 npc_prefix = true
 path = reactions\story\laughter_
 shuffle = rnd
@@ -248,7 +252,33 @@ idle = 0,0,100
 group_snd = true
 
 
+[legend001_part_0]
+type = npc
+path = legends\legend001_part_0
+shuffle = seq
+idle = 1,1,100
+group_snd = true
 
+[legend001_part_1]
+type = npc
+path = legends\legend001_part_1
+shuffle = seq
+idle = 1,1,100
+group_snd = true
+
+[legend001_part_2]
+type = npc
+path = legends\legend001_part_2
+shuffle = seq
+idle = 1,1,100
+group_snd = true
+
+[legend001_part_3]
+type = npc
+path = legends\legend001_part_3
+shuffle = seq
+idle = 1,1,100
+group_snd = true
 
 
 

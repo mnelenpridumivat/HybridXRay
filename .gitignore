@@ -42,6 +42,12 @@ gamedata_soc/spawns/
 gamedata_soc/textures/
 gamedata_mop/
 Source/xrCore/.GitInfo.hpp
+Source/External/RedImage/ispc_texcomp/kernel_astc_ispc.h
+Source/External/RedImage/ispc_texcomp/kernel_ispc.h
+Source/External/RedImage/ispc_texcomp/kernel_ispc_avx.h
+Source/External/RedImage/ispc_texcomp/kernel_ispc_avx2.h
+Source/External/RedImage/ispc_texcomp/kernel_ispc_sse2.h
+Source/External/RedImage/ispc_texcomp/kernel_ispc_sse4.h
 rt_object_props.ltx
 *.aps
 *.vcxproj.user

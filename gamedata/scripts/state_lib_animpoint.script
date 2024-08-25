@@ -26,6 +26,276 @@ function add_state_lib()
 					animation = "animpoint_stay_table",
 					direction = CSightParams.eSightTypeAnimationDirection
 			},
+			
+	animpoint_stay_lead_1 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_lead_1",
+					animation = "animpoint_stay_lead_1",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_lead_1_trader = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_lead_1_trader",
+					animation = "animpoint_stay_lead_1_trader",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_chest = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_chest",
+					animation = "animpoint_stay_chest",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_ward = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_ward",
+					animation = "animpoint_stay_ward",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_binocular = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_binocular",
+					animation = "animpoint_stay_binocular",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_trade = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_trade",
+					animation = "animpoint_stay_trade",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_komandir = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_komandir",
+					animation = "animpoint_stay_komandir",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_stand_0 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_stand_0",
+					animation = "animpoint_stay_stand_0",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_stalker_1 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_stalker_1",
+					animation = nil,
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_stalker_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_stalker_2",
+					animation = nil,
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_stalker_3 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_stalker_3",
+					animation = nil,
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_fold_arms = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = nil,
+					animation = "fold_arms",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_stand_1 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = nil,
+					animation = "animpoint_stay_stand_1",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_stand_1_s = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = nil,
+					animation = "animpoint_stay_stand_1_s",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_stand_1_guard = {	weapon = "unstrapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = nil,
+					animation = "animpoint_stay_stand_1",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_stand_1_guard_s = {	weapon = "unstrapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = nil,
+					animation = "animpoint_stay_stand_1_s",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_komandir_legend = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_komandir",
+					animation = "animpoint_stay_komandir_legend",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_smoke = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_smoke",
+					animation = "animpoint_stay_smoke",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_drunk = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_drunk",
+					animation = "animpoint_stay_drunk",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_bar_0 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_bar_0",
+					animation = "animpoint_stay_bar_0",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_bar_1 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_bar_1",
+					animation = "animpoint_stay_bar_1",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_bar_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_bar_2",
+					animation = "animpoint_stay_bar_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_bar_3 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_bar_3",
+					animation = "animpoint_stay_bar_3",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_bar_4 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_bar_4",
+					animation = "animpoint_stay_bar_4",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_drink_5 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_drink_5",
+					animation = "animpoint_stay_drink_5",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_drink_7 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_drink_7",
+					animation = "animpoint_stay_drink_7",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_drink_8 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_drink_8",
+					animation = "animpoint_stay_drink_8",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_drink_9 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_drink_9",
+					animation = "animpoint_stay_drink_9",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_drink_11 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_drink_11",
+					animation = "animpoint_stay_drink_11",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_stay_lead_1_bar = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_lead_1_bar",
+					animation = "animpoint_stay_lead_1_bar",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
 
 	animpoint_sit_high = {	weapon = "strapped",
 					movement = move.stand,
@@ -53,6 +323,169 @@ function add_state_lib()
 					animation = "animpoint_sit_low",
 					direction = CSightParams.eSightTypeAnimationDirection
 			},
+			
+	animpoint_sit_ass = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_knee = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_lead_0 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_lead_0",
+					animation = "animpoint_sit_lead_0",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_ruje = {	weapon = "unstrapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ruje",
+					animation = nil,
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_lead_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_lead_2",
+					animation = "animpoint_sit_lead_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},	
+
+	animpoint_sit_lead_3 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_lead_3",
+					animation = nil,
+					direction = CSightParams.eSightTypeAnimationDirection
+			},	
+
+	animpoint_sit_tech = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_tech",
+					animation = nil,
+					direction = CSightParams.eSightTypeAnimationDirection
+			},	
+			
+	animpoint_sit_old_1 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_1",
+					animation = "animpoint_sit_old_1",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_2",
+					animation = "animpoint_sit_old_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_3 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_3",
+					animation = "animpoint_sit_old_3",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_2_legend = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_2",
+					animation = "animpoint_sit_old_2_legend",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_3_legend = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_3",
+					animation = "animpoint_sit_old_3_legend",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_zulus = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_zulus",
+					animation = "animpoint_sit_zulus",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sleep_lead_0 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sleep_lead_0",
+					animation = "animpoint_sleep_lead_0",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sleep",
+					animation = "animpoint_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},			
+			
+	animpoint_sleep_sit = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sleep_sit",
+					animation = "animpoint_sleep_sit",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},			
+
 
 
 
@@ -143,6 +576,114 @@ function add_state_lib()
 					animation = "animpoint_sit_low_eat_kolbasa",
 					direction = CSightParams.eSightTypeAnimationDirection
 			},
+			
+	animpoint_sit_ass_eat_bread = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_ass",
+				    animation = "animpoint_sit_ass_eat_bread",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_ass_eat_kolbasa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_ass",
+				    animation = "animpoint_sit_ass_eat_kolbasa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_eat_bread = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_rest",
+				    animation = "animpoint_sit_rest_eat_bread",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_eat_kolbasa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_rest",
+				    animation = "animpoint_sit_rest_eat_kolbasa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_knee_eat_bread = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_knee",
+				    animation = "animpoint_sit_knee_eat_bread",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_knee_eat_kolbasa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_knee",
+				    animation = "animpoint_sit_knee_eat_kolbasa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},		
+
+	animpoint_sit_eat_bread = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit",
+				    animation = "animpoint_sit_eat_bread",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_eat_kolbasa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit",
+				    animation = "animpoint_sit_eat_kolbasa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},		
+
+	animpoint_sit_old_2_eat_bread = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_old_2",
+				    animation = "animpoint_sit_old_2_eat_bread",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_2_eat_kolbasa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_old_2",
+				    animation = "animpoint_sit_old_2_eat_kolbasa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},				
+			
+	animpoint_sit_old_3_eat_bread = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_old_3",
+				    animation = "animpoint_sit_old_3_eat_bread",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_3_eat_kolbasa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+				    animstate = "animpoint_sit_old_3",
+				    animation = "animpoint_sit_old_3_eat_kolbasa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},				
 
 
 	------------------------------------------------------------------------------
@@ -232,7 +773,125 @@ function add_state_lib()
 					animation = "animpoint_sit_low_drink_energy",
 					direction = CSightParams.eSightTypeAnimationDirection
 			},
-
+			
+	animpoint_sit_ass_drink_vodka = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_drink_vodka",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+	animpoint_sit_ass_drink_energy = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_drink_energy",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_drink_vodka = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_drink_vodka",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+	animpoint_sit_rest_drink_energy = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_drink_energy",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_knee_drink_vodka = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_drink_vodka",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+	animpoint_sit_knee_drink_energy = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_drink_energy",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_drink_vodka = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_drink_vodka",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+	animpoint_sit_drink_energy = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_drink_energy",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_2_drink_vodka = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_2",
+					animation = "animpoint_sit_old_2_drink_vodka",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+	animpoint_sit_old_2_drink_energy = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_2",
+					animation = "animpoint_sit_old_2_drink_energy",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_3_drink_vodka = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_3",
+					animation = "animpoint_sit_old_3_drink_vodka",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+	animpoint_sit_old_3_drink_energy = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_3",
+					animation = "animpoint_sit_old_3_drink_energy",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_zulus_drink_vodka = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_zulus",
+					animation = "animpoint_sit_zulus_drink_vodka",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+	animpoint_sit_zulus_drink_energy = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_zulus",
+					animation = "animpoint_sit_zulus_drink_energy",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
 
 	------------------------------------------------------------------------------
 	--   √итара
@@ -281,6 +940,49 @@ function add_state_lib()
 					animation = "animpoint_sit_low_guitar",
 					direction = CSightParams.eSightTypeAnimationDirection
 			},
+			
+	animpoint_sit_ass_guitar = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_guitar",
+---					animation = "play_guitar",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_guitar = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_guitar",
+---					animation = "play_guitar",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_knee_guitar = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_guitar",
+---					animation = "play_guitar",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},	
+
+			
+	animpoint_sit_guitar = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_guitar",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},	
+			
+			
+			
 
 
 	------------------------------------------------------------------------------
@@ -330,6 +1032,60 @@ function add_state_lib()
 					animation = "animpoint_sit_low_harmonica",
 					direction = CSightParams.eSightTypeAnimationDirection
 			},
+			
+	animpoint_sit_ass_harmonica = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_harmonica",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_harmonica = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_harmonica",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_knee_harmonica = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_harmonica",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_harmonica = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_harmonica",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},	
+
+	animpoint_sit_old_1_smoke = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_1",
+					animation = "animpoint_sit_old_1_smoke",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},			
+
+	animpoint_stay_stand_0_smoke = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_stay_stand_0",
+					animation = "animpoint_stay_stand_0_smoke",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},		
 
 
 
@@ -380,8 +1136,263 @@ function add_state_lib()
 					animation = nil,
 					direction = CSightParams.eSightTypeAnimationDirection
 			},
+	
+-- Фейк-переходы через анимки сидения, долой статичность! --
 
+	animpoint_sit_sa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_sa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_sr = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_sr",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_sk = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_sk",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_ass_s = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_s",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_ass_sr = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_sr",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_ass_sk = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_sk",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_knee_s = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_s",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_knee_sr = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_sr",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_knee_sa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_sa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_s = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_s",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_sk = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_sk",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_sa = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_sa",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_3_so2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_3",
+					animation = "animpoint_sit_old_3_so2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_old_2_so3 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_2",
+					animation = "animpoint_sit_old_2_so3",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+-- Спим --
+			
+	animpoint_sit_ass_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
 
+	animpoint_sit_knee_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_tech_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_tech",
+					animation = "animpoint_sit_tech_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_lead_0_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_lead_0",
+					animation = "animpoint_sit_lead_0_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_ass_sleep_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_ass",
+					animation = "animpoint_sit_ass_sleep_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
+	animpoint_sit_rest_sleep_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_rest",
+					animation = "animpoint_sit_rest_sleep_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_knee_sleep_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_knee",
+					animation = "animpoint_sit_knee_sleep_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_sleep_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit",
+					animation = "animpoint_sit_sleep_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_old_2_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_2",
+					animation = "animpoint_sit_old_2_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_old_3_sleep = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_3",
+					animation = "animpoint_sit_old_3_sleep",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_old_2_sleep_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_2",
+					animation = "animpoint_sit_old_2_sleep_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+
+	animpoint_sit_old_3_sleep_2 = {	weapon = "strapped",
+					movement = move.stand,
+					mental = anim.free,
+					bodystate = move.standing,
+					animstate = "animpoint_sit_old_3",
+					animation = "animpoint_sit_old_3_sleep_2",
+					direction = CSightParams.eSightTypeAnimationDirection
+			},
+			
 	------------------------------------------------------------------------------
 	--   јнимпойнты без random-анимаций (обеспечивают быстрый выход из анимпойнта)
 	------------------------------------------------------------------------------

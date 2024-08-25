@@ -355,7 +355,7 @@ script_binding					= bind_stalker.init
 ;---GROUP SECTIONS----------------------------------------------------
 GroupControlSection				= spawn_group
 SpaceRestrictionSection 		= space_restrictor,zone_mine_field
-attachable_items				= device_torch,attachable_item,hand_radio,hand_radio_r,bread, vodka, energy_drink, kolbasa, guitar_a, harmonica_a, wpn_binoc, detector_simple, pri_a15_wpn_svu, pri_a15_wpn_wincheaster1300, wpn_binoc1, pri_a15_wpn_ak74u, pri_a15_wpn_ak74, pri_a15_documents, af_quest_b14_twisted, detector_advanced, detector_elite, device_pda, anomaly_scaner
+attachable_items				= device_torch,attachable_item,hand_radio,hand_radio_r,bread, vodka, energy_drink, kolbasa, guitar_a, harmonica_a, sigaret_a, wpn_binoc, detector_simple, pri_a15_wpn_svu, pri_a15_wpn_wincheaster1300, wpn_binoc1, pri_a15_wpn_ak74u, pri_a15_wpn_ak74, pri_a15_documents, af_quest_b14_twisted, detector_advanced, detector_elite, device_pda, anomaly_scaner, bread_a, kolbasa_a, vodka_a, energy_drink_a
 
 ;---SECTIONS----------------------------------------------------------
 damage							= stalker_damage
@@ -512,7 +512,7 @@ ph_character_have_wounded_state = true; имеет ли персонаж состояние раненый
 ;--					АНИМАЦИИ ДЛЯ СМЕРТИ
 ;--------------------------------------------------------------------------------------------------------------------
 ;cлучайные
-;random_death_animations = ragdoll_burst_front_0,ragdoll_burst_front_1,ragdoll_burst_back_0,ragdoll_burst_left_0,ragdoll_burst_right_0 ;norm_2_reg_doll_0,norm_2_reg_doll_1,norm_2_reg_doll_2,norm_2_reg_doll_3,norm_2_reg_doll_4,norm_2_reg_doll_5
+random_death_animations = ragdoll_burst_front_0,ragdoll_burst_front_1,ragdoll_burst_back_0,ragdoll_burst_left_0,ragdoll_burst_right_0 ;norm_2_reg_doll_0,norm_2_reg_doll_1,norm_2_reg_doll_2,norm_2_reg_doll_3,norm_2_reg_doll_4,norm_2_reg_doll_5
 
 ;по типам от 0 до 7
 ;порядок по направлениям - front/back/left/right
@@ -520,7 +520,7 @@ ph_character_have_wounded_state = true; имеет ли персонаж состояние раненый
 kill_enertion           = ragdoll_inertion_front_0/ragdoll_inertion_front_3/ragdoll_inertion_front_2/ragdoll_inertion_front_1
 
 ; Смерть от автоматной очереди
-;kill_burst				= ragdoll_burst_front_0,ragdoll_burst_front_1/ragdoll_burst_back_0/ragdoll_burst_left_0/ragdoll_burst_right_0
+kill_burst				= ragdoll_burst_front_0,ragdoll_burst_front_1/ragdoll_burst_back_0/ragdoll_burst_left_0/ragdoll_burst_right_0
 
 ; Смерть от выстрела из дробовика
 kill_shortgun	        = ragdoll_shortgun_front_0,ragdoll_shortgun_front_1,ragdoll_shortgun_front_2,ragdoll_shortgun_front_3,ragdoll_shortgun_front_4,ragdoll_shortgun_front_5,ragdoll_shortgun_front_6,ragdoll_shortgun_front_7,ragdoll_shortgun_front_8/ragdoll_shortgun_back_0,ragdoll_shortgun_back_1,ragdoll_shortgun_back_2,ragdoll_shortgun_back_3,ragdoll_shortgun_back_4,ragdoll_shortgun_back_5,ragdoll_shortgun_back_6/ragdoll_shortgun_left_0,ragdoll_shortgun_left_1,ragdoll_shortgun_left_2/ragdoll_shortgun_right_0,ragdoll_shortgun_right_1
