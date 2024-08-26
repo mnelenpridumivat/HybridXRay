@@ -482,6 +482,9 @@ void PATurbulence::Save(IWriter& F)
     F.w_float(epsilon);
     F.w_fvector3(offset);
 }
+
+// binders old (deprecated)
+
 void PABindVelocityValue::Load(IReader& F)
 {
     ParticleAction::Load(F);
@@ -532,5 +535,70 @@ void PABindColorAlpha::Load(IReader& F)
 void PABindColorAlpha::Save(IWriter& F)
 {
     ParticleAction::Save(F);
+    F.w_float(BindValue);
+}
+
+// named binders
+
+void PANamedBindVelocityValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_stringZ(ValueName);
+    F.r_fvector3(BindValue);
+}
+void PANamedBindVelocityValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_stringZ(ValueName);
+    F.w_fvector3(BindValue);
+}
+void PANamedBindRotationValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_stringZ(ValueName);
+    F.r_fvector3(BindValue);
+}
+void PANamedBindRotationValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_stringZ(ValueName);
+    F.w_fvector3(BindValue);
+}
+void PANamedBindSizeValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_stringZ(ValueName);
+    F.r_fvector3(BindValue);
+    F.r_fvector3(Pivot);
+}
+void PANamedBindSizeValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_stringZ(ValueName);
+    F.w_fvector3(BindValue);
+    F.w_fvector3(Pivot);
+}
+void PANamedBindColorValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_stringZ(ValueName);
+    F.r_fvector3(BindValue);
+}
+void PANamedBindColorValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_stringZ(ValueName);
+    F.w_fvector3(BindValue);
+}
+void PANamedBindColorAlpha::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_stringZ(ValueName);
+    BindValue = F.r_float();
+}
+void PANamedBindColorAlpha::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_stringZ(ValueName);
     F.w_float(BindValue);
 }

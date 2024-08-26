@@ -304,6 +304,8 @@ namespace PAPI
         _METHODS;
     };
 
+    // Binders old (deprecated)
+
     struct PARTICLES_API PABindVelocityValue: public ParticleAction
     {
         Handle<pVector> GetHandle()
@@ -312,6 +314,7 @@ namespace PAPI
         }
 
         pVector BindValue;
+
 
         _METHODS;
     };
@@ -367,6 +370,83 @@ namespace PAPI
 
         _METHODS;
     };
+
+    // named binders
+
+    struct PARTICLES_API PANamedBindVelocityValue: public ParticleAction
+    {
+        Handle<pVector> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        xr_string ValueName;
+
+        pVector BindValue;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PANamedBindRotationValue: public ParticleAction
+    {
+        Handle<pVector> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        xr_string ValueName;
+
+        pVector BindValue;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PANamedBindSizeValue: public ParticleAction
+    {
+        Handle<pVector> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        xr_string ValueName;
+
+        pVector BindValue;
+        pVector Pivot;
+
+        pVector Deviation;
+        bool    CalculateDeviation = false;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PANamedBindColorValue: public ParticleAction
+    {
+        Handle<pVector> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        xr_string ValueName;
+
+        pVector BindValue;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PANamedBindColorAlpha: public ParticleAction
+    {
+        Handle<float> GetHandle()
+        {
+            return {&BindValue};
+        }
+
+        xr_string ValueName;
+
+        float BindValue;
+
+        _METHODS;
+    };
+
 };   // namespace PAPI
 
 //---------------------------------------------------------------------------

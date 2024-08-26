@@ -2,6 +2,16 @@
 #ifndef ParticleEffectActionsH
 #define ParticleEffectActionsH
 
+struct PString
+{
+    xr_string val;
+    PString(): val("") {}
+    PString(xr_string _val): val(_val) {}
+    void set(xr_string v)
+    {
+        val = v;
+    }
+};
 struct PBool
 {
     BOOL val;
@@ -130,6 +140,7 @@ struct EParticleAction
     DEFINE_MAP(xr_string, PFloat, PFloatMap, PFloatMapIt);
     DEFINE_MAP(xr_string, PInt, PIntMap, PIntMapIt);
     DEFINE_MAP(xr_string, PVector, PVectorMap, PVectorMapIt);
+    DEFINE_MAP(xr_string, PString, PStringMap, PStringMapIt);
 
     shared_str actionName;
     shared_str actionType;
@@ -147,6 +158,7 @@ struct EParticleAction
     PFloatMap         floats;
     PIntMap           ints;
     PVectorMap        vectors;
+    PStringMap        strings;
 
     enum EValType
     {
@@ -155,6 +167,7 @@ struct EParticleAction
         tpFloat,
         tpBool,
         tpInt,
+        tpString,
     };
     struct SOrder
     {
@@ -177,6 +190,7 @@ public:
     void    appendVector(LPCSTR name, PVector::EType type, float vx, float vy, float vz, float mn = -P_MAXFLOAT, float mx = P_MAXFLOAT);
     void    appendDomain(LPCSTR name, PDomain v);
     void    appendBool(LPCSTR name, BOOL b);
+    void    appendString(LPCSTR name, xr_string s);
     PFloat& _float(LPCSTR name)
     {
         PFloatMapIt it = floats.find(name);
@@ -211,6 +225,12 @@ public:
     {
         PBoolMapIt it = bools.find(name);
         return (it != bools.end()) ? &it->second : 0;
+    }
+    PString& _string(LPCSTR name)
+    {
+        PStringMapIt it = strings.find(name);
+        R_ASSERT2(it != strings.end(), name);
+        return it->second;
     }
 
 public:
@@ -409,6 +429,8 @@ public:
     virtual void Render(const Fmatrix& parent);
 };
 
+// binders old (deprecated)
+
 struct EPABindColorValue: public EParticleAction
 {
     EPABindColorValue();
@@ -436,6 +458,38 @@ struct EPABindRotateValue: public EParticleAction
 struct EPABindVelocityValue: public EParticleAction
 {
     EPABindVelocityValue();
+    virtual void Compile(IWriter& F);
+};
+
+// named binders
+
+struct EPANamedBindColorValue: public EParticleAction
+{
+    EPANamedBindColorValue();
+    virtual void Compile(IWriter& F);
+};
+
+struct EPANamedBindColorAlpha: public EParticleAction
+{
+    EPANamedBindColorAlpha();
+    virtual void Compile(IWriter& F);
+};
+
+struct EPANamedBindSizeValue: public EParticleAction
+{
+    EPANamedBindSizeValue();
+    virtual void Compile(IWriter& F);
+};
+
+struct EPANamedBindRotateValue: public EParticleAction
+{
+    EPANamedBindRotateValue();
+    virtual void Compile(IWriter& F);
+};
+
+struct EPANamedBindVelocityValue: public EParticleAction
+{
+    EPANamedBindVelocityValue();
     virtual void Compile(IWriter& F);
 };
 

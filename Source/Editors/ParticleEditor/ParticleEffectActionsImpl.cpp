@@ -43,11 +43,16 @@ xr_token2 actions_token[] =
     {"Target Velocity", "Change velocity of all particles toward the specified velocity.", PATargetVelocityID},
     {"Vortex", "Swirl particles around a vortex.", PAVortexID},
     {"Turbulence", "A Turbulence.", PATurbulenceID},
-    {"Bind Velocity", "Bind particle Velocity variable for manual update from code.", PABindVelocityValueID},
-    {"Bind Rotation", "Bind particle Rotation variable for manual update from code.", PABindRotationValueID},
-    {"Bind Size", "Bind particle Size variable for manual update from code.", PABindSizeValueID},
-    {"Bind Color (RGB)", "Bind particle Color (RGB channels) variable for manual update from code.", PABindColorValueID},
-    {"Bind Color (alpha)", "Bind particle Color (alpha channel) variable for manual update from code.", PABindColorAlphaID},
+    {"(Deprecated) Bind Velocity", "(Deprecated) Bind particle Velocity variable for manual update from code.", PABindVelocityValueID},
+    {"(Deprecated) Bind Rotation", "(Deprecated) Bind particle Rotation variable for manual update from code.", PABindRotationValueID},
+    {"(Deprecated) Bind Size", "(Deprecated) Bind particle Size variable for manual update from code.", PABindSizeValueID},
+    {"(Deprecated) Bind Color (RGB)", "(Deprecated) Bind particle Color (RGB channels) variable for manual update from code.", PABindColorValueID},
+    {"(Deprecated) Bind Color (alpha)", "(Deprecated) Bind particle Color (alpha channel) variable for manual update from code.", PABindColorAlphaID},
+    {"Named Bind Velocity", "Bind particle Velocity variable with bind name for manual update from code.", PANamedBindVelocityValueID},
+    {"Named Bind Rotation", "Bind particle Rotation variable with bind name  for manual update from code.", PANamedBindRotationValueID},
+    {"Named Bind Size", "Bind particle Size variable with bind name  for manual update from code.", PANamedBindSizeValueID},
+    {"Named Bind Color (RGB)", "Bind particle Color (RGB channels) variable with bind name  for manual update from code.", PANamedBindColorValueID},
+    {"Named Bind Color (alpha)", "Bind particle Color (alpha channel) variable with bind name  for manual update from code.", PANamedBindColorAlphaID},
     {0, 0}
 };
 
@@ -57,98 +62,160 @@ EParticleAction* pCreateEActionImpl(PAPI::PActionEnum type)
     switch (type)
     {
         case PAPI::PAAvoidID:
+        {
             pa = xr_new<EPAAvoid>();
             break;
+        }
         case PAPI::PABounceID:
+        {
             pa = xr_new<EPABounce>();
             break;
+        }
         case PAPI::PACopyVertexBID:
+        {
             pa = xr_new<EPACopyVertexB>();
             break;
+        }
         case PAPI::PADampingID:
+        {
             pa = xr_new<EPADamping>();
             break;
+        }
         case PAPI::PAExplosionID:
+        {
             pa = xr_new<EPAExplosion>();
             break;
+        }
         case PAPI::PAFollowID:
+        {
             pa = xr_new<EPAFollow>();
             break;
+        }
         case PAPI::PAGravitateID:
+        {
             pa = xr_new<EPAGravitate>();
             break;
+        }
         case PAPI::PAGravityID:
+        {
             pa = xr_new<EPAGravity>();
             break;
+        }
         case PAPI::PAJetID:
+        {
             pa = xr_new<EPAJet>();
             break;
+        }
         case PAPI::PAKillOldID:
+        {
             pa = xr_new<EPAKillOld>();
             break;
+        }
         case PAPI::PAMatchVelocityID:
+        {
             pa = xr_new<EPAMatchVelocity>();
             break;
+        }
         case PAPI::PAMoveID:
+        {
             pa = xr_new<EPAMove>();
             break;
+        }
         case PAPI::PAOrbitLineID:
+        {
             pa = xr_new<EPAOrbitLine>();
             break;
+        }
         case PAPI::PAOrbitPointID:
+        {
             pa = xr_new<EPAOrbitPoint>();
             break;
+        }
         case PAPI::PARandomAccelID:
+        {
             pa = xr_new<EPARandomAccel>();
             break;
+        }
         case PAPI::PARandomDisplaceID:
+        {
             pa = xr_new<EPARandomDisplace>();
             break;
+        }
         case PAPI::PARandomVelocityID:
+        {
             pa = xr_new<EPARandomVelocity>();
             break;
+        }
         case PAPI::PARestoreID:
+        {
             pa = xr_new<EPARestore>();
             break;
+        }
         case PAPI::PAScatterID:
+        {
             pa = xr_new<EPAScatter>();
             break;
+        }
         case PAPI::PASinkID:
+        {
             pa = xr_new<EPASink>();
             break;
+        }
         case PAPI::PASinkVelocityID:
+        {
             pa = xr_new<EPASinkVelocity>();
             break;
+        }
         case PAPI::PASourceID:
+        {
             pa = xr_new<EPASource>();
             break;
+        }
         case PAPI::PASpeedLimitID:
+        {
             pa = xr_new<EPASpeedLimit>();
             break;
+        }
         case PAPI::PATargetColorID:
+        {
             pa = xr_new<EPATargetColor>();
             break;
+        }
         case PAPI::PATargetSizeID:
+        {
             pa = xr_new<EPATargetSize>();
             break;
+        }
         case PAPI::PATargetRotateID:
+        {
             pa = xr_new<EPATargetRotate>();
             break;
+        }
         case PAPI::PATargetRotateDID:
+        {
             pa = xr_new<EPATargetRotate>();
             break;
+        }
         case PAPI::PATargetVelocityID:
+        {
             pa = xr_new<EPATargetVelocity>();
             break;
+        }
         case PAPI::PATargetVelocityDID:
+        {
             pa = xr_new<EPATargetVelocity>();
             break;
+        }
         case PAPI::PAVortexID:
+        {
             pa = xr_new<EPAVortex>();
             break;
+        }
         case PAPI::PATurbulenceID:
+        {
             pa = xr_new<EPATurbulence>();
             break;
+        }
         case PAPI::PABindVelocityValueID:
         {
             pa = xr_new<EPABindVelocityValue>();
@@ -172,6 +239,31 @@ EParticleAction* pCreateEActionImpl(PAPI::PActionEnum type)
         case PAPI::PABindColorAlphaID:
         {
             pa = xr_new<EPABindColorAlpha>();
+            break;
+        }
+        case PAPI::PANamedBindVelocityValueID:
+        {
+            pa = xr_new<EPANamedBindVelocityValue>();
+            break;
+        }
+        case PAPI::PANamedBindRotationValueID:
+        {
+            pa = xr_new<EPANamedBindRotateValue>();
+            break;
+        }
+        case PAPI::PANamedBindSizeValueID:
+        {
+            pa = xr_new<EPANamedBindSizeValue>();
+            break;
+        }
+        case PAPI::PANamedBindColorValueID:
+        {
+            pa = xr_new<EPANamedBindColorValue>();
+            break;
+        }
+        case PAPI::PANamedBindColorAlphaID:
+        {
+            pa = xr_new<EPANamedBindColorAlpha>();
             break;
         }
         default:
@@ -198,15 +290,29 @@ void EParticleAction::Load(IReader& F)
     F.r_stringZ(actionName);
     flags.assign(F.r_u32());
     for (PFloatMapIt f_it = floats.begin(); f_it != floats.end(); f_it++)
+    {
         f_it->second.val = F.r_float();
+    }
     for (PVectorMapIt v_it = vectors.begin(); v_it != vectors.end(); v_it++)
+    {
         F.r_fvector3(v_it->second.val);
+    }
     for (PDomainMapIt d_it = domains.begin(); d_it != domains.end(); d_it++)
+    {
         d_it->second.Load(F);
+    }
     for (PBoolMapIt b_it = bools.begin(); b_it != bools.end(); b_it++)
+    {
         b_it->second.val = F.r_u8();
+    }
     for (PIntMapIt i_it = ints.begin(); i_it != ints.end(); i_it++)
+    {
         i_it->second.val = F.r_s32();
+    }
+    for (PStringMapIt s_it = strings.begin(); s_it != strings.end(); s_it++)
+    {
+        F.r_string(s_it->second.val);
+    }
 }
 
 void EParticleAction::Load2(CInifile& ini, const shared_str& sect)
@@ -255,22 +361,43 @@ void EParticleAction::Load2(CInifile& ini, const shared_str& sect)
         xr_sprintf(buff, sizeof(buff), "int_%04d", counter);
         i_it->second.val = ini.r_s32(sect.c_str(), buff);
     }
+
+    counter = 0;
+    for (PStringMapIt s_it = strings.begin(); s_it != strings.end(); ++s_it, ++counter)
+    {
+        xr_sprintf(buff, sizeof(buff), "string_%04d", counter);
+        s_it->second.val = ini.r_string(sect.c_str(), buff);
+    }
 }
 void EParticleAction::Save(IWriter& F)
 {
     F.w_u32(PARTICLE_ACTION_VERSION);
     F.w_stringZ(actionName);
     F.w_u32(flags.get());
-    for (PFloatMapIt f_it = floats.begin(); f_it != floats.end(); f_it++)
+    for (PFloatMapIt f_it = floats.begin(); f_it != floats.end(); f_it++) 
+    {
         F.w_float(f_it->second.val);
+    }
     for (PVectorMapIt v_it = vectors.begin(); v_it != vectors.end(); v_it++)
+    {
         F.w_fvector3(v_it->second.val);
+    }
     for (PDomainMapIt d_it = domains.begin(); d_it != domains.end(); d_it++)
+    {
         d_it->second.Save(F);
+    }
     for (PBoolMapIt b_it = bools.begin(); b_it != bools.end(); b_it++)
+    {
         F.w_u8((u8)b_it->second.val);
+    }
     for (PIntMapIt i_it = ints.begin(); i_it != ints.end(); i_it++)
+    {
         F.w_s32(i_it->second.val);
+    }
+    for (PStringMapIt s_it = strings.begin(); s_it != strings.end(); s_it++)
+    {
+        F.w_stringZ(s_it->second.val);
+    }
 }
 
 void EParticleAction::Save2(CInifile& ini, const shared_str& sect)
@@ -313,6 +440,13 @@ void EParticleAction::Save2(CInifile& ini, const shared_str& sect)
         xr_sprintf(buff, sizeof(buff), "int_%04d", counter);
         ini.w_s32(sect.c_str(), buff, i_it->second.val);
     }
+
+    counter = 0;
+    for (PStringMapIt s_it = strings.begin(); s_it != strings.end(); ++s_it, ++counter)
+    {
+        xr_sprintf(buff, sizeof(buff), "string_%04d", counter);
+        ini.w_string(sect.c_str(), buff, s_it->second.val.c_str());
+    }
 }
 
 void EParticleAction::FillProp(PropItemVec& items, LPCSTR pref, u32 clr)
@@ -324,40 +458,55 @@ void EParticleAction::FillProp(PropItemVec& items, LPCSTR pref, u32 clr)
         switch (o_it->type)
         {
             case tpDomain:
+            {
                 domains[o_it->name].FillProp(items, PrepareKey(pref, name).c_str(), clr);
                 break;
+            }
             case tpVector:
             {
                 PVector& vect = vectors[o_it->name];
                 switch (vect.type)
                 {
                     case PVector::vNum:
+                    {
                         V = PHelper().CreateVector(items, PrepareKey(pref, name).c_str(), &vect.val, vect.mn, vect.mx, 0.001f, 3);
                         break;
+                    }
                     case PVector::vAngle:
+                    {
                         V = PHelper().CreateAngle3(items, PrepareKey(pref, name).c_str(), &vect.val, vect.mn, vect.mx, 0.001f, 3);
                         break;
+                    }
                     case PVector::vColor:
+                    {
                         V = PHelper().CreateVColor(items, PrepareKey(pref, name).c_str(), &vect.val);
                         break;
+                    }
                 }
+                break;
             }
-            break;
             case tpFloat:
             {
                 PFloat& flt = floats[o_it->name];
                 V           = PHelper().CreateFloat(items, PrepareKey(pref, name).c_str(), &flt.val, flt.mn, flt.mx, 0.001f, 3);
+                break;
             }
-            break;
             case tpInt:
             {
                 PInt& el = ints[o_it->name];
                 V        = PHelper().CreateS32(items, PrepareKey(pref, name).c_str(), &el.val, el.mn, el.mx);
+                break;
             }
-            break;
             case tpBool:
+            {
                 V = PHelper().CreateBOOL(items, PrepareKey(pref, name).c_str(), &bools[o_it->name].val);
                 break;
+            }
+            case tpString:
+            {
+                V = PHelper().CreateSText(items, PrepareKey(pref, name).c_str(), &strings[o_it->name].val);
+                break;
+            }
         }
         if (V)
             V->Owner()->prop_color = clr;
@@ -392,6 +541,12 @@ void EParticleAction::appendBool(LPCSTR name, BOOL v)
 {
     orders.push_back(SOrder(tpBool, name));
     bools[name] = PBool(v);
+}
+
+void EParticleAction::appendString(LPCSTR name, xr_string s)
+{
+    orders.push_back(SOrder(tpString, name));
+    strings[name] = PString(s);
 }
 
 //---------------------------------------------------------------------------
@@ -818,6 +973,8 @@ void pTurbulence(IWriter& F, float freq, int octaves, float magnitude, float eps
     S.Save(F);
 }
 
+// binders old (deprecated)
+
 void pBindVelocityValue(IWriter& F, const Fvector& Value)
 {
     PABindVelocityValue S;
@@ -863,6 +1020,64 @@ void pBindColorAlpha(IWriter& F, float Value)
 {
     PABindColorAlpha S;
     S.type = PABindColorAlphaID;
+    S.BindValue = Value;
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+// named binders
+
+void pNamedBindVelocityValue(IWriter& F, const xr_string& Name, const Fvector& Value)
+{
+    PANamedBindVelocityValue S;
+    S.type      = PANamedBindVelocityValueID;
+    S.ValueName = Name;
+    S.BindValue.set(Value);
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+void pNamedBindRotationValue(IWriter& F, const xr_string& Name, const Fvector& Value)
+{
+    PANamedBindRotationValue S;
+    S.type      = PANamedBindRotationValueID;
+    S.ValueName = Name;
+    S.BindValue.set(Value);
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+void pNamedBindSizeValue(IWriter& F, const xr_string& Name, const Fvector& Value, const Fvector& Pivot)
+{
+    PANamedBindSizeValue S;
+    S.type      = PANamedBindSizeValueID;
+    S.ValueName = Name;
+    S.BindValue.set(Value);
+    S.Pivot.set(Pivot);
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+void pNamedBindColorValue(IWriter& F, const xr_string& Name, const Fvector& Value)
+{
+    PANamedBindColorValue S;
+    S.type      = PANamedBindColorValueID;
+    S.ValueName = Name;
+    S.BindValue.set(Value);
+
+    F.w_u32(S.type);
+    S.Save(F);
+}
+
+void pNamedBindColorAlpha(IWriter& F, const xr_string& Name, float Value)
+{
+    PANamedBindColorAlpha S;
+    S.type      = PANamedBindColorAlphaID;
+    S.ValueName = Name;
     S.BindValue = Value;
 
     F.w_u32(S.type);
@@ -1395,6 +1610,72 @@ EPABindVelocityValue::EPABindVelocityValue(): EParticleAction(PAPI::PABindVeloci
 void EPABindVelocityValue::Compile(IWriter& F)
 {
     pBindVelocityValue(F, _vector("InitialValue").val);
+}
+
+EPANamedBindColorValue::EPANamedBindColorValue(): EParticleAction(PAPI::PANamedBindColorValueID)
+{
+    actionType = "NamedBindColorRGB";
+    actionName = actionType;
+    appendString("ParameterName", "ParamName");
+    appendVector("InitialValue", PVector::vColor, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f);
+}
+
+void EPANamedBindColorValue::Compile(IWriter& F)
+{
+    pNamedBindColorValue(F, _string("ParameterName").val, _vector("InitialValue").val);
+}
+
+EPANamedBindColorAlpha::EPANamedBindColorAlpha(): EParticleAction(PAPI::PANamedBindColorAlphaID)
+{
+    actionType = "NamedBindColorAlpha";
+    actionName = actionType;
+    appendString("ParameterName", "ParamName");
+    appendFloat("InitialValue", 1.0f, 0.0f, 1.0f);
+}
+
+void EPANamedBindColorAlpha::Compile(IWriter& F)
+{
+    pNamedBindColorAlpha(F, _string("ParameterName").val, _float("InitialValue").val);
+}
+
+EPANamedBindSizeValue::EPANamedBindSizeValue(): EParticleAction(PAPI::PANamedBindSizeValueID)
+{
+    actionType = "NamedBindSize";
+    actionName = actionType;
+    appendString("ParameterName", "ParamName");
+    appendVector("InitialValue", PVector::vNum, 1.0f, 1.0f, 1.0f, 0.0f, FLT_MAX);
+    appendVector("Pivot", PVector::vNum, 0.0f, 0.0f, 0.0f, FLT_MIN, FLT_MAX);
+}
+
+void EPANamedBindSizeValue::Compile(IWriter& F)
+{
+    pNamedBindSizeValue(F, _string("ParameterName").val, _vector("InitialValue").val, _vector("Pivot").val);
+}
+
+EPANamedBindRotateValue::EPANamedBindRotateValue(): EParticleAction(PAPI::PANamedBindRotationValueID)
+{
+    actionType = "NamedBindRotation";
+    actionName = actionType;
+    appendString("ParameterName", "ParamName");
+    appendVector("InitialValue", PVector::vNum, 1.0f, 1.0f, 1.0f, 0.0f, FLT_MAX);
+}
+
+void EPANamedBindRotateValue::Compile(IWriter& F)
+{
+    pNamedBindRotationValue(F, _string("ParameterName").val, _vector("InitialValue").val);
+}
+
+EPANamedBindVelocityValue::EPANamedBindVelocityValue(): EParticleAction(PAPI::PANamedBindVelocityValueID)
+{
+    actionType = "NamedBindVelocity";
+    actionName = actionType;
+    appendString("ParameterName", "ParamName");
+    appendVector("InitialValue", PVector::vNum, 1.0f, 1.0f, 1.0f, 0.0f, FLT_MAX);
+}
+
+void EPANamedBindVelocityValue::Compile(IWriter& F)
+{
+    pNamedBindVelocityValue(F, _string("ParameterName").val, _vector("InitialValue").val);
 }
 
 #include "noise.h"

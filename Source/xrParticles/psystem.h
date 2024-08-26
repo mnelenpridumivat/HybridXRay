@@ -204,6 +204,11 @@ namespace PAPI
         PABindColorScaleID,
         PABindColorTimeFromID,
         PABindColorTimeToID,
+        PANamedBindVelocityValueID,
+        PANamedBindRotationValueID,
+        PANamedBindSizeValueID,
+        PANamedBindColorValueID,
+        PANamedBindColorAlphaID,
         action_enum_force_dword = u32(-1)
     };
     struct ParticleAction;

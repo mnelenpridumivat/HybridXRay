@@ -1889,6 +1889,8 @@ void PATurbulence::Execute(ParticleEffect* effect, const float dt, float& tm_max
 
 void PATurbulence::Transform(const Fmatrix& m) {}
 
+// binders old (deprecated)
+
 void PABindVelocityValue::Transform(const Fmatrix& m) {}
 void PABindVelocityValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 {
@@ -1997,4 +1999,116 @@ void PABindColorAlpha::Execute(ParticleEffect* effect, const float dt, float& tm
         m.color = c_t.get();
     }
 }
+
+// named binders
+
+void PANamedBindVelocityValue::Transform(const Fmatrix& m) {}
+void PANamedBindVelocityValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+        m.vel       = BindValue;
+    }
+}
+void PANamedBindRotationValue::Transform(const Fmatrix& m) {}
+void PANamedBindRotationValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+        m.rot.x     = BindValue.x;
+    }
+}
+void PANamedBindSizeValue::Transform(const Fmatrix& m) {}
+void PANamedBindSizeValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+
+        pVector   Coeff;
+
+        Coeff.x           = Pivot.x / m.size.x;
+        Coeff.y           = Pivot.y / m.size.y;
+        Coeff.z           = Pivot.z / m.size.z;
+
+        pVector Deviation = m.pos - Pivot;
+
+        m.size            = BindValue;
+
+        m.pos.x           = Coeff.x * m.size.x;
+        m.pos.y           = Coeff.y * m.size.y;
+        m.pos.z           = Coeff.z * m.size.z;
+
+        m.pos += Deviation;
+
+        /*if (CalculateDeviation)
+        {
+            CalculateDeviation = false;
+            Deviation          = m.pos;
+        }
+        else
+        {
+            Deviation.x = m.pos.x + Pivot.x * m.size.x;
+            Deviation.y = m.pos.y + Pivot.y * m.size.y;
+            Deviation.z = m.pos.z + Pivot.z * m.size.z;
+        }
+
+        //Msg("Before = [%f, %f, %f]", m.size.x, m.size.y, m.size.z);
+        m.size  = BindValue;
+        //Msg("After = [%f, %f, %f]", m.size.x, m.size.y, m.size.z);
+        //auto NegPivot = Pivot;
+        //-NegPivot;
+        m.pos.x = Deviation.x - Pivot.x * m.size.x;
+        m.pos.y = Deviation.y - Pivot.y * m.size.y;
+        m.pos.z = Deviation.z - Pivot.z * m.size.z;*/
+
+        /*m.size      = BindValue;
+        auto NegPivot = Pivot;
+        -NegPivot;
+        m.pos.x       = NegPivot.x * m.size.x;
+        m.pos.y       = NegPivot.y * m.size.y;
+        m.pos.z       = NegPivot.z * m.size.z;*/
+    }
+    // Step particle positions forward by dt, and age the particles.
+    /*for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+        // move
+        m.age += dt;
+        m.posB = m.pos;
+        //        m.velB 	= m.vel;
+        m.pos += m.vel * dt;
+    }*/
+}
+void PANamedBindColorValue::Transform(const Fmatrix& m) {}
+void PANamedBindColorValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    Fcolor c_p, c_t;
+
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+
+        c_p.set(m.color);
+        c_t.set(BindValue.x, BindValue.y, BindValue.z, c_p.a);
+        m.color = c_t.get();
+    }
+}
+void PANamedBindColorAlpha::Transform(const Fmatrix& m) {}
+void PANamedBindColorAlpha::Execute(ParticleEffect* effect, const float dt, float& tm_max)
+{
+    Fcolor c_p, c_t;
+
+    for (u32 i = 0; i < effect->p_count; i++)
+    {
+        Particle& m = effect->particles[i];
+
+        c_p.set(m.color);
+        c_t.set(c_p.r, c_p.g, c_p.b, BindValue);
+        m.color = c_t.get();
+    }
+}
+
 //-------------------------------------------------------------------------------------------------

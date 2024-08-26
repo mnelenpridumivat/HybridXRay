@@ -57,3 +57,5 @@ rt_object_props.ltx
 *.ini
 *.bak
 *.log
+/.vs/ProjectSettings.json
+/.vs/slnx.sqlite
