@@ -1,3 +1,4 @@
+  ShutdownForm.resources - Embedded, ContainedInManifestFile, 
   Compiler.CompilerForm.resources - Embedded, ContainedInManifestFile, 
   Compiler.MenuForm.resources - Embedded, ContainedInManifestFile, 
   Compiler.SelectForm.resources - Embedded, ContainedInManifestFile, 
@@ -5,6 +6,8 @@ ImageRuntimeVersion: v4.0.30319
 Assembly xrCompiler, Version=0.0.*, Culture=Invariant Language (Invariant Country): 
 	hash=SHA1, flags=PublicKey
 Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly ComponentFactory.Krypton.Toolkit, Version=4.6.0.0, Culture=neutral, PublicKeyToken=a87e673e9ecb6e8e: 
 	hash=None, flags=None
 Assembly System.ComponentModel.DataAnnotations, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35: 
 	hash=None, flags=None
@@ -21,7 +24,7 @@ Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=
 Assembly System.Xml, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
 	hash=None, flags=None
 Class Compiler.MenuForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
+  :ComponentFactory.Krypton.Toolkit.KryptonForm
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
     WillClose(Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
@@ -30,10 +33,12 @@ Class Compiler.MenuForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
     OpenProject(String): PrivateScope, Public, HideBySig
     AddSpawnToList(String): PrivateScope, Public, HideBySig
 Class Compiler.CompilerForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
-  :System.Windows.Forms.Form
+  :ComponentFactory.Krypton.Toolkit.KryptonForm
     Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
   Methods:
-    AddLog(String): PrivateScope, Public, HideBySig
+    AddDefaultLog(String): PrivateScope, Public, HideBySig
+    AddParallelLog(String): PrivateScope, Public, HideBySig
+    AddInvalidsLog(String): PrivateScope, Public, HideBySig
     AddPhase(String): PrivateScope, Public, HideBySig
     SetStage(String): PrivateScope, Public, HideBySig
     SetInfo(String): PrivateScope, Public, HideBySig
@@ -50,6 +55,15 @@ Class Compiler.CompilerForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldIn
     ShowMessageBox(String, String, Boolean(HasFieldMarshal)): PrivateScope, Public, HideBySig
     tabControl_SelectedIndexChanged(Object, EventArgs): PrivateScope, Public, HideBySig
     toolStripSleepMenuItem_Click(Object, EventArgs): PrivateScope, Public, HideBySig
+    toolStripMaxMemoryMenuItem_Click(Object, EventArgs): PrivateScope, Public, HideBySig
+Class Compiler.ShutdownForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Windows.Forms.Form
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Fields:
+    Int32 m_secondsElapsed : Public
+  Methods:
+    UpdateMessageText(): PrivateScope, Public, HideBySig
+    CallShowdown(): PrivateScope, Public, HideBySig
 Class Compiler.SelectForm: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
   :System.Windows.Forms.Form
     Void .ctor(Compiler.MenuForm): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName

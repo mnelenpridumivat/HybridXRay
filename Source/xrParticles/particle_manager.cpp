@@ -269,6 +269,7 @@ ParticleAction* CParticleManager::CreateAction(PActionEnum type)
         {
             pa = xr_new<PAGravitate>();
             break;
+        }
         case PAGravityID:
         {
             pa = xr_new<PAGravity>();
@@ -380,10 +381,12 @@ ParticleAction* CParticleManager::CreateAction(PActionEnum type)
             break;
         }
         case PATurbulenceID:
+        {
             pa = xr_new<PATurbulence>();
             break;
         }
         case PAScatterID:
+        {
             pa = xr_new<PAScatter>();
             break;
         }

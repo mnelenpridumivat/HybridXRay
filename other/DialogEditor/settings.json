@@ -1,0 +1,102 @@
+{
+  "Localization": {
+    "CurrentLocalization": "Rus",
+    "SearchPattern": "st*_dialogs*.xml",
+    "FilesRelativePath": "gamedata/configs/text",
+    "FileFormat": "st_{0}",
+    "Locales": [
+      {
+        "Name": "Rus",
+        "RelativePath": "rus",
+        "LanguageCode": "ru-RU"
+      },
+      {
+        "Name": "Eng",
+        "RelativePath": "eng",
+        "LanguageCode": "en-US"
+      }
+    ]
+  },
+  "Application": {
+    "GameDirectory": null,
+    "SaveNodesPosition": false,
+    "NodesPositionFilePath": "",
+    "ShowChooseRootDirectoryDialogOnStartup": true
+  },
+  "Dialogues": {
+    "SearchPattern": "dialogs*.xml",
+    "FilesRelativePath": "gamedata/configs/gameplay",
+    "AvailableProperties": [
+	  {
+        "PropertyType": "Attribute",
+        "Name": "priority",
+        "MultipleUse": false
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "caption",
+        "MultipleUse": false
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "init_func",
+        "MultipleUse": false
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "precondition",
+        "MultipleUse": true
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "action",
+        "MultipleUse": true
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "has_info",
+        "MultipleUse": true
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "dont_has_info",
+        "MultipleUse": true
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "give_info",
+        "MultipleUse": true
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "disable_info",
+        "MultipleUse": true
+      },
+      {
+        "PropertyType": "Attribute",
+        "Name": "goodwill",
+        "MultipleUse": false
+      },
+      {
+        "PropertyType": "Attribute",
+        "Name": "is_final",
+        "MultipleUse": false
+      },
+      {
+        "PropertyType": "Property",
+        "Name": "script_text",
+        "MultipleUse": false
+      }
+    ]
+  },
+  "Tags": {
+    "DialogList": "game_dialogs",
+    "Dialog": "dialog",
+    "PhraseList": "phrase_list",
+    "Phrase": "phrase",
+    "Id": "id",
+    "Text": "text",
+    "String": "string",
+    "NextConnection": "next"
+  }
+}

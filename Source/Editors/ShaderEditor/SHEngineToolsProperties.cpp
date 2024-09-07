@@ -165,64 +165,70 @@ void CSHEngineTools::RealUpdateProperties()
             switch (type)
             {
                 case xrPID_MARKER:
+                {
                     marker_text = key;
                     break;
+                }
                 case xrPID_TOKEN:
                 {
                     xrP_TOKEN* V = (xrP_TOKEN*)data.pointer();
                     sz           = sizeof(xrP_TOKEN) + sizeof(xrP_TOKEN::Item) * V->Count;
                     PHelper().CreateTokenSH(items, PrepareKey(marker_text.c_str(), key), &V->IDselected, (TokenValueSH::Item*)(LPBYTE(data.pointer()) + sizeof(xrP_TOKEN)), V->Count);
+                    break;
                 }
-                break;
                 case xrPID_MATRIX:
                 {
                     sz = sizeof(string64);
-                    /*  LPSTR V			= (LPSTR)data.pointer();
-                      CListValue* P	=
-                      PHelper().CreateCList(items,PrepareKey(marker_text.c_str(),key),V,sz,&*MCString.begin(),MCString.size());
-                      xr_string pref = xr_string(PrepareKey(marker_text.c_str(),"Custom ").c_str())+key;
-                      if (V&&V[0]&&(*V!='$')) FillMatrixProps(items,pref.c_str(),V);
-                      P->OnAfterEditEvent.bind(this,&CSHEngineTools::MatrixOnAfterEdit);
-                      P->Owner()->OnDrawTextEvent.bind(this,&CSHEngineTools::MCOnDraw);*/
+                    LPSTR V			= (LPSTR)data.pointer();
+                    CListValue* P	=
+                    PHelper().CreateCList(items,PrepareKey(marker_text.c_str(),key),V,sz,&*MCString.begin(),MCString.size());
+                    xr_string pref = xr_string(PrepareKey(marker_text.c_str(),"Custom ").c_str())+key;
+                    if (V&&V[0]&&(*V!='$')) FillMatrixProps(items,pref.c_str(),V);
+                    P->OnAfterEditEvent.bind(this,&CSHEngineTools::MatrixOnAfterEdit);
+                    P->Owner()->OnDrawTextEvent.bind(this,&CSHEngineTools::MCOnDraw);
+
+                    break;
                 }
-                break;
                 case xrPID_CONSTANT:
                 {
                     sz = sizeof(string64);
-                    /*  LPSTR V			= (LPSTR)data.pointer();
-                      CListValue* P	=
-                      PHelper().CreateCList(items,PrepareKey(marker_text.c_str(),key),V,sz,&*MCString.begin(),MCString.size());
-                      xr_string pref = xr_string(PrepareKey(marker_text.c_str(),"Custom ").c_str())+key;
-                      if (V&&V[0]&&(*V!='$')) FillConstProps(items,pref.c_str(),V);
-                      P->OnAfterEditEvent.bind(this,&CSHEngineTools::ConstOnAfterEdit);
-                      P->Owner()->OnDrawTextEvent.bind(this,&CSHEngineTools::MCOnDraw);*/
+                    LPSTR V			= (LPSTR)data.pointer();
+                    CListValue* P	=
+                    PHelper().CreateCList(items,PrepareKey(marker_text.c_str(),key),V,sz,&*MCString.begin(),MCString.size());
+                    xr_string pref = xr_string(PrepareKey(marker_text.c_str(),"Custom ").c_str())+key;
+                    if (V&&V[0]&&(*V!='$')) FillConstProps(items,pref.c_str(),V);
+                    P->OnAfterEditEvent.bind(this,&CSHEngineTools::ConstOnAfterEdit);
+                    P->Owner()->OnDrawTextEvent.bind(this,&CSHEngineTools::MCOnDraw);
+
+                    break;
                 }
-                break;
                 case xrPID_TEXTURE:
+                {
                     sz = sizeof(string64);
                     PHelper().CreateTexture(items, PrepareKey(marker_text.c_str(), key), (LPSTR)data.pointer(), sz);
                     break;
+                }
                 case xrPID_INTEGER:
                 {
                     sz             = sizeof(xrP_Integer);
                     xrP_Integer* V = (xrP_Integer*)data.pointer();
                     PHelper().CreateS32(items, PrepareKey(marker_text.c_str(), key), &V->value, V->min, V->max, 1);
+                    break;
                 }
-                break;
                 case xrPID_FLOAT:
                 {
                     sz           = sizeof(xrP_Float);
                     xrP_Float* V = (xrP_Float*)data.pointer();
                     PHelper().CreateFloat(items, PrepareKey(marker_text.c_str(), key), &V->value, V->min, V->max, 0.01f, 2);
+                    break;
                 }
-                break;
                 case xrPID_BOOL:
                 {
                     sz          = sizeof(xrP_BOOL);
                     xrP_BOOL* V = (xrP_BOOL*)data.pointer();
                     PHelper().CreateBOOL(items, PrepareKey(marker_text.c_str(), key), &V->value);
+                    break;
                 }
-                break;
                 default:
                     THROW2("UNKNOWN xrPID_????");
             }

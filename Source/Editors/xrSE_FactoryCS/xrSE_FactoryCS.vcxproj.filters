@@ -507,9 +507,6 @@
     <ClInclude Include="..\..\xrServerEntitiesCS\xrServer_Objects_ALife_Monsters.h">
       <Filter>ServerStuff\ServerEntities\objects_alife_monsters</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\xrServerEntitiesCS\ItemListTypes.h">
-      <Filter>ServerStuff\ServerEntities\editor_properties</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\ItemListTypes.h">
       <Filter>ServerStuff\ServerEntities\editor_properties</Filter>
     </ClInclude>
@@ -555,6 +552,7 @@
     <ClInclude Include="..\..\xrServerEntitiesCS\alife_movement_manager_holder.h">
       <Filter>ServerStuff\ServerEntities\movement_manager_holder</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\PropertiesListTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\xrServerEntitiesCS\pch_script.cpp">
