@@ -59,3 +59,15 @@ rt_object_props.ltx
 *.log
 /.vs/ProjectSettings.json
 /.vs/slnx.sqlite
+/converter/orig_gamedata
+/blender_files
+/Source/External/RedImage/ispc_texcomp/kernel_astc_ispc.h
+/Source/External/RedImage/ispc_texcomp/kernel_astc_ispc_avx.h
+/Source/External/RedImage/ispc_texcomp/kernel_astc_ispc_avx2.h
+/Source/External/RedImage/ispc_texcomp/kernel_astc_ispc_sse2.h
+/Source/External/RedImage/ispc_texcomp/kernel_astc_ispc_sse4.h
+/gamedata/configs/misc/quest_items.ltx
+/gamedata/configs/game_maps_single.ltx
+/gamedata/configs/game_spawn_story_ids.ltx
+/gamedata/spawns/all.spawn
+/gamedata/shaders.xr
