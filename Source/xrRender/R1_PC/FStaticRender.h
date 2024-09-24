@@ -197,8 +197,8 @@ public:
     virtual IRenderVisual*       model_Duplicate(IRenderVisual* V);
     virtual void                 model_Delete(IRenderVisual*& V, BOOL bDiscard);
     virtual void                 model_Delete(IRender_DetailModel*& F);
-    inline void                  CRender::light_destroy(IRender_Light* p_) {}
-    inline void                  CRender::glow_destroy(IRender_Glow* p_) {}
+    inline void                  light_destroy(IRender_Light* p_) {}
+    inline void                  glow_destroy(IRender_Glow* p_) {}
     virtual void                 model_Logging(BOOL bEnable)
     {
         Models->Logging(bEnable);

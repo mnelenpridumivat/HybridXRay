@@ -16,11 +16,11 @@ struct BonesVisible
             visimask[i].assign(as);
         }
     }
-    inline void and (const BonesVisible& Right)
+    inline void And (const BonesVisible& Right)
     {
         for (int i = 0; i < BONE_COUNT_VISMASK; i++)
         {
-            visimask[i].and (Right.visimask[i].flags);
+            visimask[i].And (Right.visimask[i].flags);
         }
     }
     inline void zero()

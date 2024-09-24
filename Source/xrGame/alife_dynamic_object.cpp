@@ -206,7 +206,7 @@ void CSE_ALifeInventoryBox::add_online(const bool& update_registries)
         l_tpALifeDynamicObject->o_Position = object->o_Position;
         l_tpALifeDynamicObject->m_tNodeID  = object->m_tNodeID;
         object->alife().server().Process_spawn(tNetPacket, clientID, FALSE, l_tpALifeInventoryItem->base());
-        l_tpALifeDynamicObject->s_flags.and (u16(-1) ^ M_SPAWN_UPDATE);
+        l_tpALifeDynamicObject->s_flags.And (u16(-1) ^ M_SPAWN_UPDATE);
         l_tpALifeDynamicObject->m_bOnline = true;
     }
 

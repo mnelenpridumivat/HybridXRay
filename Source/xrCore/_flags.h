@@ -81,12 +81,12 @@ public:
         flags = f.flags | mask;
         return *this;
     }
-    IC SelfRef and (const T mask)
+    IC SelfRef And (const T mask)
     {
         flags &= mask;
         return *this;
     }
-    IC SelfRef and (const Self& f, const T mask)
+    IC SelfRef And (const Self& f, const T mask)
     {
         flags = f.flags & mask;
         return *this;

@@ -15,6 +15,7 @@ struct SIniFileStream: public IIniFileStream
         counter = 0;
     };
 
+    virtual void w_double(double a);
     virtual void w_float(float a);
     virtual void w_vec3(const Fvector& a);
     virtual void w_vec4(const Fvector4& a);
@@ -30,6 +31,7 @@ struct SIniFileStream: public IIniFileStream
 
     virtual void r_vec3(Fvector&);
     virtual void r_vec4(Fvector4&);
+    virtual void r_double(double&);
     virtual void r_float(float&);
     virtual void r_u8(u8&);
     virtual void r_u16(u16&);

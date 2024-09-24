@@ -230,7 +230,7 @@ IC typename _associative_vector::iterator _associative_vector::insert(iterator w
     if ((where != end()) && (operator()(*where, value)) && ((where - begin()) == size()) && (!operator()(value, *(where + 1))) && (operator()(*(where + 1), value)))
         return (inherited::insert(where, value));
 
-    return (insert(val).first);
+    return (insert(value).first);
 }
 
 TEMPLATE_SPECIALIZATION

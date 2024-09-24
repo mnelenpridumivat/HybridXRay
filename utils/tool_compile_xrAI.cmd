@@ -1,1 +1,2 @@
-..\Bin\x64\Release\XrAI.exe -f map_test -keep_temp_files
+..\Bin\x64\Debug\XrAI.exe -f lab_bio -keep_temp_files
+pause

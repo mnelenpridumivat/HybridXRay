@@ -7,6 +7,11 @@ LPCSTR SIniFileStream::gen_name()
     return tmp_buff;
 }
 
+void SIniFileStream::w_double(double a)
+{
+    ini->w_float(sect.c_str(), gen_name(), a); // don't see a need for double in SDK
+}
+
 void SIniFileStream::w_float(float a)
 {
     ini->w_float(sect.c_str(), gen_name(), a);
@@ -67,6 +72,10 @@ void SIniFileStream::r_vec3(Fvector& A)
 void SIniFileStream::r_vec4(Fvector4& A)
 {
     A = ini->r_fvector4(sect.c_str(), gen_name());
+}
+void SIniFileStream::r_double(double& A)
+{
+    A = ini->r_float(sect.c_str(), gen_name());
 }
 void SIniFileStream::r_float(float& A)
 {
