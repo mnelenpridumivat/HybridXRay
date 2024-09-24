@@ -59,3 +59,5 @@ rt_object_props.ltx
 *.log
 /.vs/ProjectSettings.json
 /.vs/slnx.sqlite
+/blender_files
+/converter/orig_gamedata
