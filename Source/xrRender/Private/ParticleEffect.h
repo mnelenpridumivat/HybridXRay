@@ -58,6 +58,17 @@ namespace PS
         CParticleEffect();
         virtual ~CParticleEffect();
 
+        virtual PAPI::Handle<float>         GetAlphaHandle(u32 EffectIndex) override;
+        virtual PAPI::Handle<PAPI::pVector> GetColorHandle(u32 EffectIndex) override;
+        virtual PAPI::Handle<PAPI::pVector> GetSizeHandle(u32 EffectIndex) override;
+        virtual PAPI::Handle<PAPI::pVector> GetVelocityHandle(u32 EffectIndex) override;
+        virtual PAPI::Handle<PAPI::pVector> GetRotationHandle(u32 EffectIndex) override;
+
+        virtual PAPI::Handle<float>         GetFloatHandle(xr_string Name) override;
+        virtual void                        GetAllFloatHandles(xr_vector<PAPI::ParticleAction*>& handles) override;
+        virtual PAPI::Handle<PAPI::pVector> GetVectorHandle(xr_string Name) override;
+        virtual void                        GetAllVectorHandles(xr_vector<PAPI::ParticleAction*>& handles) override;
+
         void         OnFrame(u32 dt);
 
         u32          RenderTO();

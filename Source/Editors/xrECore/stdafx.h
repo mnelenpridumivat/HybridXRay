@@ -17,7 +17,7 @@
 #include "../xrEProps/stdafx.h"
 #include "../../xrCDB/xrCDB.h"
 #include "../../xrSound/Sound.h"
-#include "../../xrEngine/psystem.h"
+#include "../../xrParticles/psystem.h"
 
 #include "../../xrEngine/fmesh.h"
 #include "../../xrEngine/_d3d_extensions.h"

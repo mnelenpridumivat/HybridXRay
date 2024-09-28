@@ -390,9 +390,6 @@
     <ClInclude Include="x_ray.h">
       <Filter>General</Filter>
     </ClInclude>
-    <ClInclude Include="psystem.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="IInputReceiver.h">
       <Filter>Interfaces\Input</Filter>
     </ClInclude>

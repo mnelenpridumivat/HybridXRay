@@ -88,7 +88,18 @@ namespace PS
 
         public:
             void   Set(dxRender_Visual* e);
-            void   Clear();
+            void                                Clear();
+
+            PAPI::Handle<float>         GetAlphaHandle(u32 EffectIndex);
+            PAPI::Handle<PAPI::pVector> GetColorHandle(u32 EffectIndex);
+            PAPI::Handle<PAPI::pVector> GetSizeHandle(u32 EffectIndex);
+            PAPI::Handle<PAPI::pVector> GetVelocityHandle(u32 EffectIndex);
+            PAPI::Handle<PAPI::pVector> GetRotationHandle(u32 EffectIndex);
+
+            PAPI::Handle<float>         GetFloatHandle(xr_string Name);
+            void                        GetAllFloatHandles(xr_vector<PAPI::ParticleAction*>& handles);
+            PAPI::Handle<PAPI::pVector> GetVectorHandle(xr_string Name);
+            void                        GetAllVectorHandles(xr_vector<PAPI::ParticleAction*>& handles);
 
             IC u32 GetVisuals(xr_vector<dxRender_Visual*>& visuals)
             {
@@ -129,6 +140,18 @@ namespace PS
     public:
         CParticleGroup();
         virtual ~CParticleGroup();
+
+        virtual PAPI::Handle<float>         GetAlphaHandle(u32 EffectIndex) override;
+        virtual PAPI::Handle<PAPI::pVector> GetColorHandle(u32 EffectIndex) override;
+        virtual PAPI::Handle<PAPI::pVector> GetSizeHandle(u32 EffectIndex) override;
+        virtual PAPI::Handle<PAPI::pVector> GetVelocityHandle(u32 EffectIndex) override;
+        virtual PAPI::Handle<PAPI::pVector> GetRotationHandle(u32 EffectIndex) override;
+
+        virtual PAPI::Handle<float>         GetFloatHandle(xr_string Name) override;
+        virtual void                        GetAllFloatHandles(xr_vector<PAPI::ParticleAction*>& handles) override;
+        virtual PAPI::Handle<PAPI::pVector> GetVectorHandle(xr_string Name) override;
+        virtual void                        GetAllVectorHandles(xr_vector<PAPI::ParticleAction*>& handles) override;
+
         virtual void OnFrame(u32 dt);
 
         virtual void Copy(dxRender_Visual* pFrom)

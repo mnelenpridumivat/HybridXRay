@@ -1,4 +1,5 @@
-﻿#ifndef PSystemH
+﻿#include "particle_param_handle.h"
+#ifndef PSystemH
 #define PSystemH
 #pragma once
 
@@ -23,94 +24,11 @@
 
 #define drand48() ::Random.randF()
 // #define drand48() (((float) rand())/((float) RAND_MAX))
+#include "PActionEnum.h"
+#include "pvector.h"
 
 namespace PAPI
 {
-    class pVector: public Fvector
-    {
-    public:
-        IC pVector(float ax, float ay, float az)
-        {
-            set(ax, ay, az);
-        }
-        IC       pVector() {}
-        IC float length() const
-        {
-            return _sqrt(x * x + y * y + z * z);
-        }
-        IC float length2() const
-        {
-            return (x * x + y * y + z * z);
-        }
-        IC float operator*(const pVector& a) const
-        {
-            return x * a.x + y * a.y + z * a.z;
-        }
-        IC pVector operator*(const float s) const
-        {
-            return pVector(x * s, y * s, z * s);
-        }
-        IC pVector operator/(const float s) const
-        {
-            float invs = 1.0f / s;
-            return pVector(x * invs, y * invs, z * invs);
-        }
-        IC pVector operator+(const pVector& a) const
-        {
-            return pVector(x + a.x, y + a.y, z + a.z);
-        }
-        IC pVector operator-(const pVector& a) const
-        {
-            return pVector(x - a.x, y - a.y, z - a.z);
-        }
-        IC pVector operator-()
-        {
-            x = -x;
-            y = -y;
-            z = -z;
-            return *this;
-        }
-        IC pVector& operator+=(const pVector& a)
-        {
-            x += a.x;
-            y += a.y;
-            z += a.z;
-            return *this;
-        }
-        IC pVector& operator-=(const pVector& a)
-        {
-            x -= a.x;
-            y -= a.y;
-            z -= a.z;
-            return *this;
-        }
-        IC pVector& operator*=(const float a)
-        {
-            x *= a;
-            y *= a;
-            z *= a;
-            return *this;
-        }
-        IC pVector& operator/=(const float a)
-        {
-            float b = 1.0f / a;
-            x *= b;
-            y *= b;
-            z *= b;
-            return *this;
-        }
-        IC pVector& operator=(const pVector& a)
-        {
-            x = a.x;
-            y = a.y;
-            z = a.z;
-            return *this;
-        }
-        IC pVector operator^(const pVector& b) const
-        {
-            return pVector(y * b.z - z * b.y, z * b.x - x * b.z, x * b.y - y * b.x);
-        }
-    };
     // A single particle
     struct Particle
     {
@@ -148,69 +66,6 @@ namespace PAPI
         PDRectangle             = 10,   // Rhombus-shaped planar region
         domain_enum_force_dword = u32(-1)
     };
-    //////////////////////////////////////////////////////////////////////
-    // Type codes for all actions
-    enum PActionEnum
-    {
-        PAAvoidID,                      // Avoid entering the domain of space.
-        PABounceID,                     // Bounce particles off a domain of space.
-        PACallActionListID_obsolette,   //
-        PACopyVertexBID,                // Set the secondary position from current position.
-        PADampingID,                    // Dampen particle velocities.
-        PAExplosionID,                  // An Explosion.
-        PAFollowID,                     // Accelerate toward the previous particle in the effect.
-        PAGravitateID,                  // Accelerate each particle toward each other particle.
-        PAGravityID,                    // Acceleration in the given direction.
-        PAJetID,                        //
-        PAKillOldID,                    //
-        PAMatchVelocityID,              //
-        PAMoveID,                       //
-        PAOrbitLineID,                  //
-        PAOrbitPointID,                 //
-        PARandomAccelID,                //
-        PARandomDisplaceID,             //
-        PARandomVelocityID,             //
-        PARestoreID,                    //
-        PASinkID,                       //
-        PASinkVelocityID,               //
-        PASourceID,                     //
-        PASpeedLimitID,                 //
-        PATargetColorID,                //
-        PATargetSizeID,                 //
-        PATargetRotateID,               //
-        PATargetRotateDID,              //
-        PATargetVelocityID,             //
-        PATargetVelocityDID,            //
-        PAVortexID,                     //
-        PATurbulenceID,                 //
-        PAScatterID,                    //
-        PABindTimeLimitID,
-        PABindMaxParticlesID,
-        PABindSourceDomainID,
-        PABindSourceVelocityID,
-        PABindSourceRotationID,
-        PABindSourceSizeID,
-        PABindSourceColorID,
-        PABindSourceAlphaID,
-        PABindVelocityValueID,
-        PABindVelocityScaleID,
-        PABindVelocityAllowRotateID,
-        PABindRotationValueID,
-        PABindRotationScaleID,
-        PABindSizeValueID,
-        PABindSizeScaleID,
-        PABindColorValueID,
-        PABindColorAlphaID,
-        PABindColorScaleID,
-        PABindColorTimeFromID,
-        PABindColorTimeToID,
-        PANamedBindVelocityValueID,
-        PANamedBindRotationValueID,
-        PANamedBindSizeValueID,
-        PANamedBindColorValueID,
-        PANamedBindColorAlphaID,
-        action_enum_force_dword = u32(-1)
-    };
     struct ParticleAction;
 
     class IParticleManager
@@ -224,6 +79,13 @@ namespace PAPI
         virtual void            DestroyEffect(int effect_id)                                                                = 0;
         virtual int             CreateActionList()                                                                          = 0;
         virtual void            DestroyActionList(int alist_id)                                                             = 0;
+
+        virtual ParticleAction* FindAction(int alist_id, PActionEnum Type) = 0;
+        virtual ParticleAction* FindAction(int alist_id, xr_string Name) = 0;
+
+        virtual void            FindAllFloatActions(int alist_id, xr_vector<ParticleAction*>& handles)                = 0;
+        virtual void            FindAllVectorActions(int alist_id, xr_vector<ParticleAction*>& handles)               = 0;
+        
 
         // control
         virtual void            PlayEffect(int effect_id, int alist_id)                                                     = 0;

@@ -1,5 +1,6 @@
 ﻿#include "stdafx.h"
 #include "..\..\xrRender\Private\PSLibrary.h"
+#include "../../xrParticles/particle_actions_collection.h"
 
 #define CPSOBJECT_VERSION         0x0013
 
@@ -154,6 +155,38 @@ bool EParticlesObject::LoadLTX(CInifile& ini, LPCSTR sect_name)
         ELog.DlgMsg(mtError, "& EParticlesObject: '%s' not found in library", *m_RefName);
         return false;
     }
+    {
+        xr_string buff = sect_name;
+        buff.append("_floats");
+        if (ini.section_exist(buff.c_str()))
+        {
+            auto line_count = ini.line_count(buff.c_str());
+            for (u32 i = 0; i < line_count; ++i)
+            {
+                LPCSTR Name, Value;
+                ini.r_line(buff.c_str(), i, &Name, &Value);
+                auto handle = m_Particles->GetFloatHandle(Name);
+                handle.Set(ini.r_float(buff.c_str(), Name));
+            }
+        }
+    }
+    {
+        xr_string buff = sect_name;
+        buff.append("_vectors");
+        if (ini.section_exist(buff.c_str()))
+        {
+            auto line_count = ini.line_count(buff.c_str());
+            for (u32 i = 0; i < line_count; ++i)
+            {
+                LPCSTR Name, Value;
+                ini.r_line(buff.c_str(), i, &Name, &Value);
+                auto handle = m_Particles->GetVectorHandle(Name);
+                auto Vector = ini.r_fvector3(buff.c_str(), Name);
+                PAPI::pVector CastedVector = {Vector.x, Vector.y, Vector.z};
+                handle.Set(CastedVector);
+            }
+        }
+    }
     return true;
 }
 
@@ -165,6 +198,31 @@ void EParticlesObject::SaveLTX(CInifile& ini, LPCSTR sect_name)
 
     ini.w_string(sect_name, "ref_name", m_RefName.c_str());
     m_GameType.SaveLTX(ini, sect_name);
+
+    if (!FloatHandles.empty())
+    {
+        xr_string buff = sect_name;
+        buff.append("_floats");
+        for (const auto& elem: FloatHandles)
+        {
+            LPCSTR Name  = elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str();
+            float* Value = elem->GetVariable<float>((u8)PAPI::PANamedBindValue::Variables::eBindValue);
+            ini.w_float(buff.c_str(), Name, *Value);
+        }
+    }
+
+    if (!VectorHandles.empty())
+    {
+        xr_string buff = sect_name;
+        buff.append("_vectors");
+        for (const auto& elem : VectorHandles)
+        {
+            LPCSTR         Name  = elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str();
+            PAPI::pVector* Value = elem->GetVariable<PAPI::pVector>((u8)PAPI::PANamedBindValue::Variables::eBindValue);
+            ini.w_fvector3(buff.c_str(), Name, *Value);
+        }
+    }
+
 }
 
 bool EParticlesObject::LoadStream(IReader& F)
@@ -243,6 +301,22 @@ bool EParticlesObject::ExportGame(SExportStreams* F)
         I.stream.w_u16(m_GameType.m_GameType.get());
         I.stream.w_stringZ(m_RefName);
         I.stream.w(&_Transform(), sizeof(Fmatrix));
+        I.stream.w_u32(FloatHandles.size());
+        for (const auto& elem: FloatHandles)
+        {
+            LPCSTR Name  = elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str();
+            float* Value = elem->GetVariable<float>((u8)PAPI::PANamedBindValue::Variables::eBindValue);
+            I.stream.w_stringZ(Name);
+            I.stream.w_float(*Value);
+        }
+        I.stream.w_u32(VectorHandles.size());
+        for (const auto& elem: VectorHandles)
+        {
+            LPCSTR         Name  = elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str();
+            PAPI::pVector* Value = elem->GetVariable<PAPI::pVector>((u8)PAPI::PANamedBindValue::Variables::eBindValue);
+            I.stream.w_stringZ(Name);
+            I.stream.w_fvector3(*Value);
+        }
         I.stream.close_chunk();
     }
     else
@@ -250,6 +324,22 @@ bool EParticlesObject::ExportGame(SExportStreams* F)
         I.stream.open_chunk(I.chunk++);
         I.stream.w_stringZ(m_RefName);
         I.stream.w(&_Transform(), sizeof(Fmatrix));
+        /*I.stream.w_u32(FloatHandles.size());
+        for (const auto& elem : FloatHandles)
+        {
+            LPCSTR Name  = elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str();
+            float* Value = elem->GetVariable<float>((u8)PAPI::PANamedBindValue::Variables::eBindValue);
+            I.stream.w_stringZ(Name);
+            I.stream.w_float(*Value);
+        }
+        I.stream.w_u32(VectorHandles.size());
+        for (const auto& elem : VectorHandles)
+        {
+            LPCSTR         Name  = elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str();
+            PAPI::pVector* Value = elem->GetVariable<PAPI::pVector>((u8)PAPI::PANamedBindValue::Variables::eBindValue);
+            I.stream.w_stringZ(Name);
+            I.stream.w_fvector3(*Value);
+        }*/
         I.stream.close_chunk();
     }
 
@@ -270,6 +360,8 @@ bool EParticlesObject::Compile(LPCSTR ref_name)
         {
             UpdateTransform();
             m_RefName = ref_name;
+            m_Particles->GetAllFloatHandles(FloatHandles);
+            m_Particles->GetAllVectorHandles(VectorHandles);
             return true;
         }
     }
@@ -309,12 +401,28 @@ void EParticlesObject::OnControlClick(ButtonValue* sender, bool& bModif, bool& b
 void EParticlesObject::FillProp(LPCSTR pref, PropItemVec& items)
 {
     inherited::FillProp(pref, items);
+
     PropValue* V;
     V = PHelper().CreateChoose(items, PrepareKey(pref, "Reference"), &m_RefName, smParticles);
     V->OnChangeEvent.bind(this, &EParticlesObject::OnRefChange);
+
     ButtonValue* B;
     B = PHelper().CreateButton(items, PrepareKey(pref, "Controls"), "Play,Stop", 0);
     B->OnBtnClickEvent.bind(this, &EParticlesObject::OnControlClick);
+
+    for (const auto& elem : FloatHandles)
+    {
+        LPCSTR Name = elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str();
+        float* Value = elem->GetVariable<float>((u8)PAPI::PANamedBindValue::Variables::eBindValue);
+        PHelper().CreateFloat(items, elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str(), Value);
+    }
+
+    for (const auto& elem: VectorHandles)
+    {
+        LPCSTR Name = elem->GetVariable<xr_string>((u8)PAPI::PANamedBindValue::Variables::eValueName)->c_str();
+        PAPI::pVector* Value = elem->GetVariable<PAPI::pVector>((u8)PAPI::PANamedBindValue::Variables::eBindValue);
+        PHelper().CreateVector(items, Name, Value);
+    }
 
     CreatePropsForGameTypeChooser(&m_GameType, pref, items);
 }

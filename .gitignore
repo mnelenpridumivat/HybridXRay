@@ -61,3 +61,7 @@ rt_object_props.ltx
 /.vs/slnx.sqlite
 /blender_files
 /converter/orig_gamedata
+/converter
+/gamedata/spawns/all.spawn
+/other/sue2.exe
+/gamedata/particles.xr

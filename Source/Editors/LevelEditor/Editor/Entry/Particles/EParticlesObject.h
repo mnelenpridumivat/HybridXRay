@@ -7,6 +7,9 @@ class EParticlesObject: public CCustomObject
     shared_str            m_RefName;
 
     IParticleCustom*      m_Particles;
+    xr_vector<PAPI::ParticleAction*> FloatHandles;
+    xr_vector<PAPI::ParticleAction*> VectorHandles;
+
     GameTypeChooser       m_GameType;
 
     void                  OnRefChange(PropValue* V);

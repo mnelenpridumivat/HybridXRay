@@ -28,7 +28,7 @@
 #define R_R4   4
 #define RENDER R_R4
 
-#include "../../xrEngine/psystem.h"
+#include "../../xrParticles/psystem.h"
 
 #include "../Private/HW.h"
 #include "../Private/Shader.h"

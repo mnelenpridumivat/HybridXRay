@@ -5,6 +5,7 @@
   </ImportGroup>
   <ItemGroup>
     <ClInclude Include="noise.h" />
+    <ClInclude Include="PActionEnum.h" />
     <ClInclude Include="particle_actions.h" />
     <ClInclude Include="particle_actions_collection.h" />
     <ClInclude Include="particle_core.h" />
@@ -12,6 +13,7 @@
     <ClInclude Include="particle_manager.h" />
     <ClInclude Include="particle_param_handle.h" />
     <ClInclude Include="psystem.h" />
+    <ClInclude Include="pvector.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>

@@ -2002,6 +2002,9 @@ void PABindColorAlpha::Execute(ParticleEffect* effect, const float dt, float& tm
 
 // named binders
 
+void PANamedBindValue::Transform(const Fmatrix& m) {}
+void PANamedBindValue::Execute(ParticleEffect* effect, const float dt, float& tm_max) {}
+
 void PANamedBindVelocityValue::Transform(const Fmatrix& m) {}
 void PANamedBindVelocityValue::Execute(ParticleEffect* effect, const float dt, float& tm_max)
 {

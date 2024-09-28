@@ -540,6 +540,17 @@ void PABindColorAlpha::Save(IWriter& F)
 
 // named binders
 
+void PANamedBindValue::Load(IReader& F)
+{
+    ParticleAction::Load(F);
+    F.r_stringZ(ValueName);
+}
+void PANamedBindValue::Save(IWriter& F)
+{
+    ParticleAction::Save(F);
+    F.w_stringZ(ValueName);
+}
+
 void PANamedBindVelocityValue::Load(IReader& F)
 {
     ParticleAction::Load(F);

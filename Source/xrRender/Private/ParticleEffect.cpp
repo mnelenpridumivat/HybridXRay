@@ -2,6 +2,7 @@
 #pragma hdrstop
 
 #include "ParticleEffect.h"
+#include "../../xrParticles/particle_actions_collection.h"
 
 #ifndef REDITOR
 #include <xmmintrin.h>
@@ -73,6 +74,121 @@ CParticleEffect::~CParticleEffect()
     OnDeviceDestroy();
     ParticleManager()->DestroyEffect(m_HandleEffect);
     ParticleManager()->DestroyActionList(m_HandleActionList);
+}
+
+PAPI::Handle<float> CParticleEffect::GetAlphaHandle(u32 EffectIndex)
+{
+    auto Action = ParticleManager()->FindAction(m_HandleActionList, PABindColorAlphaID);
+#ifdef DEBUG
+    if (!Action)
+    {
+        Msg("Unable to find action BindColorAlpha in particle effect %s", m_Def->m_Name.c_str());
+        return nullptr;
+    }
+#else
+    VERIFY3(Action, "Unable to find action BindColorAlpha in particle effect", m_Def->m_Name.c_str());
+#endif
+    return static_cast<PABindColorAlpha*>(Action)->GetHandle();
+}
+
+PAPI::Handle<PAPI::pVector> CParticleEffect::GetColorHandle(u32 EffectIndex)
+{
+    auto Action = ParticleManager()->FindAction(m_HandleActionList, PABindColorValueID);
+#ifdef DEBUG
+    if (!Action)
+    {
+        Msg("Unable to find action BindColorValue in particle effect %s", m_Def->m_Name.c_str());
+        return nullptr;
+    }
+#else
+    VERIFY3(Action, "Unable to find action BindColorValue in particle effect", m_Def->m_Name.c_str());
+#endif
+    return static_cast<PABindColorValue*>(Action)->GetHandle();
+}
+
+PAPI::Handle<PAPI::pVector> CParticleEffect::GetSizeHandle(u32 EffectIndex)
+{
+    auto Action = ParticleManager()->FindAction(m_HandleActionList, PABindSizeValueID);
+#ifdef DEBUG
+    if (!Action)
+    {
+        Msg("Unable to find action BindSizeValue in particle effect %s", m_Def->m_Name.c_str());
+        return nullptr;
+    }
+#else
+    VERIFY3(Action, "Unable to find action BindSizeValue in particle effect", m_Def->m_Name.c_str());
+#endif
+    return static_cast<PABindSizeValue*>(Action)->GetHandle();
+}
+
+PAPI::Handle<PAPI::pVector> CParticleEffect::GetVelocityHandle(u32 EffectIndex)
+{
+    auto Action = ParticleManager()->FindAction(m_HandleActionList, PABindVelocityValueID);
+#ifdef DEBUG
+    if (!Action)
+    {
+        Msg("Unable to find action BindVelocityValue in particle effect %s", m_Def->m_Name.c_str());
+        return nullptr;
+    }
+#else
+    VERIFY3(Action, "Unable to find action BindVelocityValue in particle effect", m_Def->m_Name.c_str());
+#endif
+    return static_cast<PABindVelocityValue*>(Action)->GetHandle();
+}
+
+PAPI::Handle<PAPI::pVector> CParticleEffect::GetRotationHandle(u32 EffectIndex)
+{
+    auto Action = ParticleManager()->FindAction(m_HandleActionList, PABindRotationValueID);
+#ifdef DEBUG
+    if (!Action)
+    {
+        Msg("Unable to find action BindRotationValue in particle effect %s", m_Def->m_Name.c_str());
+        return nullptr;
+    }
+#else
+    VERIFY3(Action, "Unable to find action BindRotationValue in particle effect", m_Def->m_Name.c_str());
+#endif
+    return static_cast<PABindRotationValue*>(Action)->GetHandle();
+}
+
+PAPI::Handle<float> PS::CParticleEffect::GetFloatHandle(xr_string Name)
+{
+    auto Action = ParticleManager()->FindAction(m_HandleActionList, Name);
+#ifdef DEBUG
+    if (!Action)
+    {
+        Msg("Unable to find action with binder [%s] in particle effect [%s]", Name.c_str(), m_Def->m_Name.c_str());
+        return nullptr;
+    }
+#else
+    VERIFY3(Action, "Unable to find action with binder [%s] in particle effect [%s]", Name.c_str(), m_Def->m_Name.c_str());
+#endif
+    return {Action->GetVariable<float>((u8)PANamedBindValue::Variables::eBindValue)};
+}
+
+void PS::CParticleEffect::GetAllFloatHandles(xr_vector<PAPI::ParticleAction*>& handles)
+{
+    ParticleManager()->FindAllFloatActions(m_HandleActionList, handles);
+}
+
+void PS::CParticleEffect::GetAllVectorHandles(xr_vector<PAPI::ParticleAction*>& handles)
+{
+    ParticleManager()->FindAllVectorActions(m_HandleActionList, handles);
+}
+
+PAPI::Handle<PAPI::pVector> PS::CParticleEffect::GetVectorHandle(xr_string Name)
+{
+    auto Action = ParticleManager()->FindAction(m_HandleActionList, Name);
+#ifdef DEBUG
+    if (!Action)
+    {
+        Msg("Unable to find action with binder [%s] in particle effect [%s]", Name.c_str(), m_Def->m_Name.c_str());
+        return nullptr;
+    }
+#else
+    VERIFY3(Action, "Unable to find action with binder [%s] in particle effect [%s]", Name.c_str(), m_Def->m_Name.c_str());
+#endif
+    return {Action->GetVariable<PAPI::pVector>((u8)PANamedBindValue::Variables::eBindValue)};
 }
 
 void CParticleEffect::Play()

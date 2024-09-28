@@ -2,6 +2,12 @@
 #define ParticleCustom_included
 #pragma once
 
+#include "../../xrParticles/particle_param_handle.h"
+//#include "../../xrParticles/psystem.h"
+
+#include "../../xrParticles/particle_actions.h"
+#include "../../xrParticles/pvector.h"
+
 class IParticleCustom
 {
 public:
@@ -9,6 +15,17 @@ public:
     {
         ;
     }
+
+    virtual PAPI::Handle<float>         GetAlphaHandle(u32 EffectIndex)                                      = 0;
+    virtual PAPI::Handle<PAPI::pVector> GetColorHandle(u32 EffectIndex)                                      = 0;
+    virtual PAPI::Handle<PAPI::pVector> GetSizeHandle(u32 EffectIndex)                                       = 0;
+    virtual PAPI::Handle<PAPI::pVector> GetVelocityHandle(u32 EffectIndex)                                   = 0;
+    virtual PAPI::Handle<PAPI::pVector> GetRotationHandle(u32 EffectIndex)                                   = 0;
+
+    virtual PAPI::Handle<float>         GetFloatHandle(xr_string Name)                                       = 0;
+    virtual void                        GetAllFloatHandles(xr_vector<PAPI::ParticleAction*>& handles)           = 0;
+    virtual PAPI::Handle<PAPI::pVector> GetVectorHandle(xr_string Name)                                      = 0;
+    virtual void                        GetAllVectorHandles(xr_vector<PAPI::ParticleAction*>& handles)          = 0;
 
     virtual void  OnDeviceCreate()                                                     = 0;
     virtual void  OnDeviceDestroy()                                                    = 0;

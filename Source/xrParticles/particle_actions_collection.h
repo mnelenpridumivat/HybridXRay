@@ -373,42 +373,159 @@ namespace PAPI
 
     // named binders
 
-    struct PARTICLES_API PANamedBindVelocityValue: public ParticleAction
+    struct PARTICLES_API PANamedBindValue: public ParticleAction
     {
+        enum class Variables : u8
+        {
+            eValueName = ParticleAction::Variables::eNextVariable,
+            eBindValue,
+            eNextVariable
+        };
+
+        virtual AnyTypePtr GetVariableProtected(u8 ID) override
+        {
+            auto Result = ParticleAction::GetVariableProtected(ID);
+#ifdef DEBUG
+            if (Result.ptr)
+#else
+            if (Result)
+#endif
+            {
+                return Result;
+            }
+            switch (ID)
+            {
+                case (u8)Variables::eValueName:
+                {
+                    return &ValueName;
+                }
+            }
+#ifdef DEBUG
+            return AnyTypePtr();
+#else
+            return nullptr;
+#endif
+        }
+
+        xr_string ValueName;
+
+        _METHODS;
+    };
+
+    struct PARTICLES_API PANamedBindVelocityValue: public PANamedBindValue
+    {
+        virtual AnyTypePtr GetVariableProtected(u8 ID) override
+        {
+            auto Result = PANamedBindValue::GetVariableProtected(ID);
+#ifdef DEBUG
+            if (Result.ptr)
+#else
+            if (Result)
+#endif
+            {
+                return Result;
+            }
+            switch (ID)
+            {
+                case (u8)Variables::eBindValue:
+                {
+                    return &BindValue;
+                }
+            }
+#ifdef DEBUG
+            return AnyTypePtr();
+#else
+            return nullptr;
+#endif
+        }
+
         Handle<pVector> GetHandle()
         {
             return {&BindValue};
         }
-
-        xr_string ValueName;
 
         pVector BindValue;
 
         _METHODS;
     };
 
-    struct PARTICLES_API PANamedBindRotationValue: public ParticleAction
+    struct PARTICLES_API PANamedBindRotationValue: public PANamedBindValue
     {
+        virtual AnyTypePtr GetVariableProtected(u8 ID) override
+        {
+            auto Result = PANamedBindValue::GetVariableProtected(ID);
+#ifdef DEBUG
+            if (Result.ptr)
+#else
+            if (Result)
+#endif
+            {
+                return Result;
+            }
+            switch (ID)
+            {
+                case (u8)Variables::eBindValue:
+                {
+                    return &BindValue;
+                }
+            }
+#ifdef DEBUG
+            return AnyTypePtr();
+#else
+            return nullptr;
+#endif
+        }
+
         Handle<pVector> GetHandle()
         {
             return {&BindValue};
         }
-
-        xr_string ValueName;
 
         pVector BindValue;
 
         _METHODS;
     };
 
-    struct PARTICLES_API PANamedBindSizeValue: public ParticleAction
+    struct PARTICLES_API PANamedBindSizeValue: public PANamedBindValue
     {
+        enum class Variables : u8
+        {
+            ePivot = PANamedBindValue::Variables::eNextVariable
+        };
+
+        virtual AnyTypePtr GetVariableProtected(u8 ID) override
+        {
+            auto Result = PANamedBindValue::GetVariableProtected(ID);
+#ifdef DEBUG
+            if (Result.ptr)
+#else
+            if (Result)
+#endif
+            {
+                return Result;
+            }
+            switch (ID)
+            {
+                case (u8)PANamedBindValue::Variables::eBindValue:
+                {
+                    return &BindValue;
+                }
+                case (u8)Variables::ePivot:
+                {
+                    return &Pivot;
+                }
+            }
+#ifdef DEBUG
+            return AnyTypePtr();
+#else
+            return nullptr;
+#endif
+        }
+
         Handle<pVector> GetHandle()
         {
             return {&BindValue};
         }
-
-        xr_string ValueName;
 
         pVector BindValue;
         pVector Pivot;
@@ -419,28 +536,74 @@ namespace PAPI
         _METHODS;
     };
 
-    struct PARTICLES_API PANamedBindColorValue: public ParticleAction
+    struct PARTICLES_API PANamedBindColorValue: public PANamedBindValue
     {
+        virtual AnyTypePtr GetVariableProtected(u8 ID) override
+        {
+            auto Result = PANamedBindValue::GetVariableProtected(ID);
+#ifdef DEBUG
+            if (Result.ptr)
+#else
+            if (Result)
+#endif
+            {
+                return Result;
+            }
+            switch (ID)
+            {
+                case (u8)Variables::eBindValue:
+                {
+                    return &BindValue;
+                }
+            }
+#ifdef DEBUG
+            return AnyTypePtr();
+#else
+            return nullptr;
+#endif
+        }
+
         Handle<pVector> GetHandle()
         {
             return {&BindValue};
         }
-
-        xr_string ValueName;
 
         pVector BindValue;
 
         _METHODS;
     };
 
-    struct PARTICLES_API PANamedBindColorAlpha: public ParticleAction
+    struct PARTICLES_API PANamedBindColorAlpha: public PANamedBindValue
     {
+        virtual AnyTypePtr GetVariableProtected(u8 ID) override
+        {
+            auto Result = PANamedBindValue::GetVariableProtected(ID);
+#ifdef DEBUG
+            if (Result.ptr)
+#else
+            if (Result)
+#endif
+            {
+                return Result;
+            }
+            switch (ID)
+            {
+                case (u8)Variables::eBindValue:
+                {
+                    return &BindValue;
+                }
+            }
+#ifdef DEBUG
+            return AnyTypePtr();
+#else
+            return nullptr;
+#endif
+        }
+
         Handle<float> GetHandle()
         {
             return {&BindValue};
         }
-
-        xr_string ValueName;
 
         float BindValue;
 

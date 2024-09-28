@@ -86,6 +86,77 @@ void CParticleManager::DestroyActionList(int alist_id)
     xr_delete(m_alist_vec[alist_id]);
 }
 
+ParticleAction* CParticleManager::FindAction(int alist_id, PActionEnum Type)
+{
+    auto List = GetActionListPtr(alist_id);
+    return List->find(Type);
+}
+
+ParticleAction* CParticleManager::FindAction(int alist_id, xr_string Name)
+{
+    auto List = GetActionListPtr(alist_id);
+    for (auto it = List->begin(); it != List->end(); ++it)
+    {
+        auto NameVar = (*it)->GetVariable<xr_string>((u8)PANamedBindValue::Variables::eValueName);
+        if (NameVar && (*NameVar) == Name)
+        {
+            return *it;
+        }
+    }
+    return nullptr;
+}
+
+void PAPI::CParticleManager::FindAllFloatActions(int alist_id, xr_vector<ParticleAction*>& handles)
+{
+    handles.clear();
+    auto List = GetActionListPtr(alist_id);
+    for (auto it = List->begin(); it != List->end(); ++it)
+    {
+        auto TypeVar = (*it)->GetVariable<PActionEnum>((u8)ParticleAction::Variables::eType);
+        switch (*TypeVar)
+        {
+            case PActionEnum::PANamedBindColorAlphaID:
+            {
+                handles.push_back(*it);
+                break;
+            }
+        }
+    }
+}
+
+void PAPI::CParticleManager::FindAllVectorActions(int alist_id, xr_vector<ParticleAction*>& handles)
+{
+    handles.clear();
+    auto List = GetActionListPtr(alist_id);
+    for (auto it = List->begin(); it != List->end(); ++it)
+    {
+        auto TypeVar = (*it)->GetVariable<PActionEnum>((u8)ParticleAction::Variables::eType);
+        switch (*TypeVar)
+        {
+            case PActionEnum::PANamedBindColorAlphaID:
+            {
+                handles.push_back(*it);
+                break;
+            }
+            case PActionEnum::PANamedBindRotationValueID:
+            {
+                handles.push_back(*it);
+                break;
+            }
+            case PActionEnum::PANamedBindSizeValueID:
+            {
+                handles.push_back(*it);
+                break;
+            }
+            case PActionEnum::PANamedBindVelocityValueID:
+            {
+                handles.push_back(*it);
+                break;
+            }
+        }
+    }
+}
+
 // control
 void CParticleManager::PlayEffect(int effect_id, int alist_id)
 {

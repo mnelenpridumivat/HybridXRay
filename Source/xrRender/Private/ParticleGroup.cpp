@@ -1,7 +1,7 @@
 ﻿#include "stdafx.h"
 #pragma hdrstop
 
-#include "../../xrEngine/psystem.h"
+#include "../../xrParticles/psystem.h"
 
 #ifndef REDITOR
 #include "../../xrServerEntities/smart_cast.h"
@@ -200,6 +200,95 @@ void CParticleGroup::SItem::Clear()
     _children_related.clear_not_free();
     _children_free.clear_not_free();
 }
+
+PAPI::Handle<float> CParticleGroup::SItem::GetAlphaHandle(u32 EffectIndex)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetAlphaHandle(EffectIndex);
+    }
+    return PAPI::Handle<float>();
+}
+
+PAPI::Handle<PAPI::pVector> CParticleGroup::SItem::GetColorHandle(u32 EffectIndex)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetColorHandle(EffectIndex);
+    }
+    return PAPI::Handle<PAPI::pVector>();
+}
+
+PAPI::Handle<PAPI::pVector> CParticleGroup::SItem::GetSizeHandle(u32 EffectIndex)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetSizeHandle(EffectIndex);
+    }
+    return PAPI::Handle<PAPI::pVector>();
+}
+
+PAPI::Handle<PAPI::pVector> CParticleGroup::SItem::GetVelocityHandle(u32 EffectIndex)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetVelocityHandle(EffectIndex);
+    }
+    return PAPI::Handle<PAPI::pVector>();
+}
+
+PAPI::Handle<PAPI::pVector> CParticleGroup::SItem::GetRotationHandle(u32 EffectIndex)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetRotationHandle(EffectIndex);
+    }
+    return PAPI::Handle<PAPI::pVector>();
+}
+
+PAPI::Handle<float> PS::CParticleGroup::SItem::GetFloatHandle(xr_string Name)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetFloatHandle(Name);
+    }
+    return PAPI::Handle<float>();
+}
+
+void PS::CParticleGroup::SItem::GetAllFloatHandles(xr_vector<PAPI::ParticleAction*>& handles)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetAllFloatHandles(handles);
+    }
+}
+
+PAPI::Handle<PAPI::pVector> PS::CParticleGroup::SItem::GetVectorHandle(xr_string Name)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetVectorHandle(Name);
+    }
+    return PAPI::Handle<PAPI::pVector>();
+}
+
+void PS::CParticleGroup::SItem::GetAllVectorHandles(xr_vector<PAPI::ParticleAction*>& handles)
+{
+    IParticleCustom* E = smart_cast<IParticleCustom*>(_effect);
+    if (E)
+    {
+        return E->GetAllVectorHandles(handles);
+    }
+}
+
 void CParticleGroup::SItem::StartRelatedChild(CParticleEffect* emitter, LPCSTR eff_name, PAPI::Particle& m)
 {
     CParticleEffect* C = static_cast<CParticleEffect*>(RImplementation.model_CreatePE(eff_name));
@@ -484,6 +573,113 @@ CParticleGroup::~CParticleGroup()
     for (u32 i = 0; i < items.size(); i++)
         items[i].Clear();
     items.clear();
+}
+
+PAPI::Handle<float> CParticleGroup::GetAlphaHandle(u32 EffectIndex)
+{
+    if (EffectIndex >= items.size())
+    {
+        xr_string ErrorMessage = "Cannot find effect with index ";
+        ErrorMessage.append(std::to_string(EffectIndex).c_str());
+        ErrorMessage.append(" in particle group ");
+        ErrorMessage.append(m_Def->m_Name.c_str());
+        VERIFY2(EffectIndex < items.size(), ErrorMessage.c_str());
+    }
+    return items[EffectIndex].GetAlphaHandle(0);
+}
+
+PAPI::Handle<PAPI::pVector> CParticleGroup::GetColorHandle(u32 EffectIndex)
+{
+    if (EffectIndex >= items.size())
+    {
+        xr_string ErrorMessage = "Cannot find effect with index ";
+        ErrorMessage.append(std::to_string(EffectIndex).c_str());
+        ErrorMessage.append(" in particle group ");
+        ErrorMessage.append(m_Def->m_Name.c_str());
+        VERIFY2(EffectIndex < items.size(), ErrorMessage.c_str());
+    }
+    return items[EffectIndex].GetColorHandle(0);
+}
+
+PAPI::Handle<PAPI::pVector> CParticleGroup::GetSizeHandle(u32 EffectIndex)
+{
+    if (EffectIndex >= items.size())
+    {
+        xr_string ErrorMessage = "Cannot find effect with index ";
+        ErrorMessage.append(std::to_string(EffectIndex).c_str());
+        ErrorMessage.append(" in particle group ");
+        ErrorMessage.append(m_Def->m_Name.c_str());
+        VERIFY2(EffectIndex < items.size(), ErrorMessage.c_str());
+    }
+    return items[EffectIndex].GetSizeHandle(0);
+}
+
+PAPI::Handle<PAPI::pVector> CParticleGroup::GetVelocityHandle(u32 EffectIndex)
+{
+    if (EffectIndex >= items.size())
+    {
+        xr_string ErrorMessage = "Cannot find effect with index ";
+        ErrorMessage.append(std::to_string(EffectIndex).c_str());
+        ErrorMessage.append(" in particle group ");
+        ErrorMessage.append(m_Def->m_Name.c_str());
+        VERIFY2(EffectIndex < items.size(), ErrorMessage.c_str());
+    }
+    return items[EffectIndex].GetVelocityHandle(0);
+}
+
+PAPI::Handle<PAPI::pVector> CParticleGroup::GetRotationHandle(u32 EffectIndex)
+{
+    if (EffectIndex >= items.size())
+    {
+        xr_string ErrorMessage = "Cannot find effect with index ";
+        ErrorMessage.append(std::to_string(EffectIndex).c_str());
+        ErrorMessage.append(" in particle group ");
+        ErrorMessage.append(m_Def->m_Name.c_str());
+        VERIFY2(EffectIndex < items.size(), ErrorMessage.c_str());
+    }
+    return items[EffectIndex].GetRotationHandle(0);
+}
+
+PAPI::Handle<float> PS::CParticleGroup::GetFloatHandle(xr_string Name)
+{
+    for (auto& item: items)
+    {
+        auto handle = item.GetFloatHandle(Name);
+        if (handle.IsValid())
+        {
+            return handle;
+        }
+    }
+    return PAPI::Handle<float>();
+}
+
+void PS::CParticleGroup::GetAllFloatHandles(xr_vector<PAPI::ParticleAction*>& handles)
+{
+    for (auto& item: items)
+    {
+        item.GetAllFloatHandles(handles);
+    }
+}
+
+PAPI::Handle<PAPI::pVector> PS::CParticleGroup::GetVectorHandle(xr_string Name)
+{
+    for (auto& item: items)
+    {
+        auto handle = item.GetVectorHandle(Name);
+        if (handle.IsValid())
+        {
+            return handle;
+        }
+    }
+    return PAPI::Handle<PAPI::pVector>();
+}
+
+void PS::CParticleGroup::GetAllVectorHandles(xr_vector<PAPI::ParticleAction*>& handles)
+{
+    for (auto& item: items)
+    {
+        item.GetAllVectorHandles(handles);
+    }
 }
 
 void CParticleGroup::OnFrame(u32 u_dt)
