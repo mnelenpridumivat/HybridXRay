@@ -38,6 +38,12 @@ SceneBuilder::~SceneBuilder() {}
         error_text.sprintf("ERROR: %s %s", c1, c2); \
         break;                                      \
     }
+#define VERIFY_COMPILE_NOBREAK(x, c1, c2)                   \
+    CHECK_BREAK                                     \
+    if (!x)                                         \
+    {                                               \
+        error_text.sprintf("ERROR: %s %s", c1, c2); \
+    }
 
 BOOL SceneBuilder::Compile(bool b_selected_only, bool show_message)
 {
@@ -90,7 +96,7 @@ BOOL SceneBuilder::Compile(bool b_selected_only, bool show_message)
                 {
                     if (_I->second->Valid())
                     {
-                        VERIFY_COMPILE(_I->second->Export(m_LevelPath), _I->second->ClassDesc(), "export failed.");
+                        VERIFY_COMPILE_NOBREAK(_I->second->Export(m_LevelPath), _I->second->ClassDesc(), "export failed.");
                         ELog.Msg(mtInformation, "+ Process %s - done.", _I->second->ClassDesc());
                     }
                     else

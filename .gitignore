@@ -65,3 +65,6 @@ rt_object_props.ltx
 /gamedata/spawns/all.spawn
 /other/sue2.exe
 /gamedata/particles.xr
+/gamedata/configs/misc/quest_items.ltx
+/gamedata/gamemtl.xr
+/gamedata/shaders.xr
