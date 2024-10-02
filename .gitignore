@@ -68,3 +68,6 @@ rt_object_props.ltx
 /gamedata/configs/misc/quest_items.ltx
 /gamedata/gamemtl.xr
 /gamedata/shaders.xr
+*.cfg
+*.rsp
+*.i

@@ -13,6 +13,7 @@
 #endif
 
 #include "PActionEnum.h"
+#include <typeindex>
 
 namespace PAPI
 {
